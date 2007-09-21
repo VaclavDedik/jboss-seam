@@ -18,32 +18,31 @@
 		</not>
 	</condition>
 
-	<property name="build.lib.dir" value="${build.dir}/lib" />
 	<property name="maven.dir" value="${build.dir}/maven" />
 
-	<path id="maven-ant-tasks.classpath" path="${build.lib.dir}/maven-ant-tasks.jar" />
-	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-
 	<artifact:remoteRepository id="local.repository" url="file://${build.dir}/repository" />
-
-	<!-- POMs -->
-	<echo>Setting up dependencies</echo>
-	<pomfile name="root.pom" value="${build.dir}/root.pom.xml" />
-	<install pom="${root.pom}" />
-	<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
-	<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
-	<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
-	<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
-	<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
-	<pomfile name="pdf.pom" value="${build.dir}/pdf.pom.xml" />
-	<pomfile name="remoting.pom" value="${build.dir}/remoting.pom.xml" />
-	<pomfile name="ui.pom" value="${build.dir}/ui.pom.xml" />
 
 	<target name="initcopy">
 		<mkdir dir="${lib.dir}" />
 	</target>
 	
-	<target name="copyseamdependencies" if="mavenized.property">
+	<target name="initpoms" unless="initpomsdone">
+		<!-- POMs -->
+			<echo>Setting up dependencies</echo>
+			<pomfile name="root.pom" value="${build.dir}/root.pom.xml" />
+			<install pom="${root.pom}" />
+			<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
+			<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
+			<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
+			<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
+			<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
+			<pomfile name="pdf.pom" value="${build.dir}/pdf.pom.xml" />
+			<pomfile name="remoting.pom" value="${build.dir}/remoting.pom.xml" />
+			<pomfile name="ui.pom" value="${build.dir}/ui.pom.xml" />
+		<property name="initpomsdone" value="true" />
+	</target>
+	
+	<target name="copyseamdependencies" if="mavenized.property" unless="copyseamdependenciesdone" depends="initcopy, initpoms">
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="compile" />
@@ -51,9 +50,10 @@
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="compile" />
+		<property name="copyseamdependenciesdone" value="true" />
 	</target>
 
-	<target name="copyseam" if="mavenized.property">
+	<target name="copyseam" if="mavenized.property" unless="copyseamdone" depends="initcopy, initpoms">
 		<artifact:dependencies filesetId="seam.fileset" versionsId="seam.versions">
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="${version}.${patchlevel}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="${version}.${patchlevel}" />
@@ -67,9 +67,10 @@
 			<fileset refid="seam.fileset" />
 			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${seam.versions}" to="flatten" />
 		</copy>
+		<property name="copyseamdone" value="true" />
 	</target>
 	
-	<target name="copyjbossembedded" if="mavenized.property">
+	<target name="copyjbossembedded" if="mavenized.property" unless="copyjbossembeddeddone" depends="initpoms, initcopy">
 		<artifact:dependencies filesetId="embeddedjboss.fileset" versionsId="embeddedjboss.versions">
 			<dependency groupId="org.jboss.embedded" artifactId="jboss-embedded-all" version="beta2" />
 			<dependency groupId="org.jboss.embedded" artifactId="thirdparty-all" version="beta2" />
@@ -80,5 +81,7 @@
 			<fileset refid="embeddedjboss.fileset" />
 			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${embeddedjboss.versions}" to="flatten" />
 		</copy>
+		<property name="copyjbossembeddeddone" value="true" />
 	</target>
+
 </project>

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Seam" default="build" basedir="."  xmlns:artifact="urn:maven-artifact-ant">
+<project name="Seam" default="build" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
 	<tstamp />
 
@@ -47,7 +47,7 @@
 
 
 	<!-- Targets -->
-	<property name="classes.dir" value="classes" />
+	<property name="classes.dir" value="${basedir}/classes" />
 	<property name="classes.core.dir" value="${classes.dir}/coreclasses" />
 	<property name="classes.pdf.dir" value="${classes.dir}/pdfclasses" />
 	<property name="classes.ioc.dir" value="${classes.dir}/iocclasses" />
@@ -78,9 +78,13 @@
 	<!-- Build resources -->
 	<property name="build.dir" value="${seam.dir}/build" />
 	<property name="tmp.dir" value="${classes.dir}" />
+	<property name="lib.dir" value="${basedir}/lib" />
+
+	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
+
 	<import file="${build.dir}/utilities.build.xml" />
 	<import file="${build.dir}/common.build.xml" />
-	<property name="lib.dir" value="${basedir}/lib" />
 
 	<!-- Documentation -->
 	<property name="doc.dir" value="doc" />
@@ -174,7 +178,7 @@
 
 	<!-- ########################## BUILD TARGETS ##########################-->
 
-	<target name="init" />
+	<target name="init" depends="initpoms" />
 
 	<target name="clean" description="Cleans up the build directory" depends="init">
 		<cdk target="clean" />
@@ -322,100 +326,61 @@
 	<!-- ########################## 'ALL' TARGETS ##########################-->
 
 	<target name="cleanall" depends="clean,cleandist" description="Cleans up everything">
-		<ant dir="examples/booking" target="clean" inheritall="false" />
-		<ant dir="examples/blog" target="clean" inheritall="false" />
-		<ant dir="examples/dvdstore" target="clean" inheritall="false" />
-		<ant dir="examples/contactlist" target="clean" inheritall="false" />
-		<ant dir="examples/seampay" target="clean" inheritall="false" />
-		<ant dir="examples/seamspace" target="clean" inheritall="false" />
-		<ant dir="examples/mail" target="clean" inheritall="false" />
-		<ant dir="examples/ui" target="clean" inheritall="false" />
-		<ant dir="examples/spring" target="clean" inheritall="false" />
-		<ant dir="examples/itext" target="clean" inheritall="false" />
-		<ant dir="examples/messages" target="clean" inheritall="false" />
-		<ant dir="examples/numberguess" target="clean" inheritall="false" />
-		<ant dir="examples/registration" target="clean" inheritall="false" />
-		<ant dir="examples/todo" target="clean" inheritall="false" />
-		<!--<ant dir="examples/portal" target="clean" inheritall="false" />-->
-		<ant dir="examples/drools" target="clean" inheritall="false" />
-		<ant dir="examples/remoting/helloworld" target="clean" inheritall="false" />
-		<ant dir="examples/remoting/chatroom" target="clean" inheritall="false" />
-		<ant dir="examples/remoting/progressbar" target="clean" inheritall="false" />
-		<ant dir="examples/remoting/gwt" target="clean" inheritall="false" />
-		<ant dir="examples/hibernate2" target="clean" inheritall="false" />
-		<ant dir="examples/jpa" target="clean" inheritall="false" />
-		<ant dir="examples/jee5/booking" target="clean" inheritall="false" />
-		<ant dir="examples/jee5/remoting" target="clean" inheritall="false" />
-		<ant dir="examples/groovybooking" target="clean" inheritall="false" />
-		<ant dir="examples/quartz" target="clean" inheritall="false" />
-		<ant dir="examples/wiki" target="clean" inheritall="false" />
-		<ant dir="examples/seamdiscs" target="clean" inheritall="false" />
+		<cleanexample name="booking" />
+		<cleanexample name="blog" />
+		<cleanexample name="dvdstore" />
+		<cleanexample name="contactlist" />
+		<cleanexample name="seampay" />
+		<cleanexample name="seamspace" />
+		<cleanexample name="mail" />
+		<cleanexample name="ui" />
+		<cleanexample name="spring" />
+		<cleanexample name="itext" />
+		<cleanexample name="messages" />
+		<cleanexample name="numberguess" />
+		<cleanexample name="registration" />
+		<cleanexample name="todo" />
+		<!--<cleanexample name="portal" />-->
+		<cleanexample name="drools" />
+		<cleanexample name="remoting/helloworld" />
+		<cleanexample name="remoting/chatroom" />
+		<cleanexample name="remoting/progressbar" />
+		<cleanexample name="remoting/gwt" />
+		<cleanexample name="hibernate2" />
+		<cleanexample name="jpa" />
+		<cleanexample name="jee5/booking" />
+		<cleanexample name="jee5/remoting" />
+		<cleanexample name="groovybooking" />
+		<cleanexample name="quartz" />
+		<cleanexample name="wiki" />
+		<cleanexample name="seamdiscs" />
 	</target>
 
 	<target name="undeployall" description="Undeploy all examples">
-
 		<!-- Undeploy from JBoss -->
-		<ant dir="examples/booking" target="undeploy" inheritall="false" />
-		<ant dir="examples/blog" target="undeploy" inheritall="false" />
-		<ant dir="examples/dvdstore" target="undeploy" inheritall="false" />
-		<ant dir="examples/contactlist" target="undeploy" inheritall="false" />
-		<ant dir="examples/seampay" target="undeploy" inheritall="false" />
-		<ant dir="examples/seamspace" target="undeploy" inheritall="false" />
-		<ant dir="examples/itext" target="undeploy" inheritall="false" />
-		<ant dir="examples/mail" target="undeploy" inheritall="false" />
-		<ant dir="examples/ui" target="undeploy" inheritall="false" />
-		<!--<ant dir="examples/spring" target="undeploy" inheritall="false" />-->
-		<ant dir="examples/messages" target="undeploy" inheritall="false" />
-		<ant dir="examples/numberguess" target="undeploy" inheritall="false" />
-		<ant dir="examples/registration" target="undeploy" inheritall="false" />
-		<ant dir="examples/todo" target="undeploy" inheritall="false" />
-		<ant dir="examples/drools" target="undeploy" inheritall="false" />
-		<ant dir="examples/remoting/helloworld" target="undeploy" inheritall="false" />
-		<ant dir="examples/remoting/chatroom" target="undeploy" inheritall="false" />
-		<ant dir="examples/remoting/progressbar" target="undeploy" inheritall="false" />
-		<ant dir="examples/remoting/gwt" target="undeploy" inheritall="false" />
-		<ant dir="examples/groovybooking" target="undeploy" inheritall="false" />
-		<ant dir="examples/quartz" target="undeploy" inheritall="false" />
-		<ant dir="examples/wiki" target="undeploy" inheritall="false" />
-		<ant dir="examples/seamdiscs" target="undeploy" inheritall="false" />
-
-		<!-- Unexplode from JBoss -->
-		<ant dir="examples/booking" target="unexplode" inheritall="false" />
-		<ant dir="examples/blog" target="unexplode" inheritall="false" />
-		<ant dir="examples/dvdstore" target="unexplode" inheritall="false" />
-		<ant dir="examples/contactlist" target="unexplode" inheritall="false" />
-		<ant dir="examples/seampay" target="unexplode" inheritall="false" />
-		<ant dir="examples/seamspace" target="unexplode" inheritall="false" />
-		<ant dir="examples/itext" target="unexplode" inheritall="false" />
-		<ant dir="examples/mail" target="unexplode" inheritall="false" />
-		<ant dir="examples/ui" target="unexplode" inheritall="false" />
-		<!--<ant dir="examples/spring" target="unexplode" inheritall="false" />-->
-		<ant dir="examples/messages" target="unexplode" inheritall="false" />
-		<ant dir="examples/numberguess" target="unexplode" inheritall="false" />
-		<ant dir="examples/registration" target="unexplode" inheritall="false" />
-		<ant dir="examples/todo" target="unexplode" inheritall="false" />
-		<ant dir="examples/drools" target="unexplode" inheritall="false" />
-		<ant dir="examples/remoting/helloworld" target="unexplode" inheritall="false" />
-		<ant dir="examples/remoting/chatroom" target="unexplode" inheritall="false" />
-		<ant dir="examples/remoting/progressbar" target="unexplode" inheritall="false" />
-		<ant dir="examples/remoting/gwt" target="unexplode" inheritall="false" />
-		<ant dir="examples/groovybooking" target="unexplode" inheritall="false" />
-		<ant dir="examples/quartz" target="unexplode" inheritall="false" />
-		<ant dir="examples/seamdiscs" target="unexplode" inheritall="false" />
-
-		<!-- Undeploy from Tomcat -->
-		<ant dir="examples/booking" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/dvdstore" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/itext" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/blog" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/contactlist" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/registration" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/messages" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/todo" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/drools" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/numberguess" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/quartz" target="tomcat.undeploy" inheritall="false" />
-		<ant dir="examples/remoting/gwt" target="tomcat.undeploy" inheritall="false" />
+		<undeployexample name="booking" />
+		<undeployexample name="blog" />
+		<undeployexample name="dvdstore" />
+		<undeployexample name="contactlist" />
+		<undeployexample name="seampay" />
+		<undeployexample name="seamspace" />
+		<undeployexample name="itext" />
+		<undeployexample name="mail" />
+		<undeployexample name="ui" />
+		<!--<undeployexample name="spring"" /> />-->
+		<undeployexample name="messages" />
+		<undeployexample name="numberguess" />
+		<undeployexample name="registration" />
+		<undeployexample name="todo" />
+		<undeployexample name="drools" />
+		<undeployexample name="remoting/helloworld" />
+		<undeployexample name="remoting/chatroom" />
+		<undeployexample name="remoting/progressbar" />
+		<undeployexample name="remoting/gwt" />
+		<undeployexampleNoTomcat name="groovybooking" />
+		<undeployexample name="quartz" />
+		<callExample path="examples/wiki" target="undeploy" />
+		<undeployexample name="seamdiscs" />
 	</target>
 
 	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
@@ -425,16 +390,16 @@
 		<replace file="${webroot.dir}/seam-examples.html" token="http://localhost:8080" value="" />
 	</target>
 
-	<target name="testall" depends="testcore,build,compiletest" description="Run the core unit tests and all example tests">
-		<ant dir="examples/booking" target="test" inheritall="false" />
-		<ant dir="examples/dvdstore" target="test" inheritall="false" />
-		<ant dir="examples/messages" target="test" inheritall="false" />
-		<ant dir="examples/numberguess" target="test" inheritall="false" />
-		<ant dir="examples/contactlist" target="test" inheritall="false" />
-		<ant dir="examples/registration" target="test" inheritall="false" />
-		<ant dir="examples/todo" target="test" inheritall="false" />
-		<ant dir="examples/blog" target="test" inheritall="false" />
-		<ant dir="examples/ui" target="test" inheritall="false" />
+	<target name="testall" depends="testcore,build,compiletest, copylib" description="Run the core unit tests and all example tests">
+		<testexample name="booking" />
+		<testexample name="dvdstore" />
+		<testexample name="messages" />
+		<testexample name="numberguess" />
+		<testexample name="contactlist" />
+		<testexample name="registration" />
+		<testexample name="todo" />
+		<testexample name="blog" />
+		<testexample name="ui" />
 		<!--<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>-->
@@ -508,9 +473,9 @@
 				<include name="**/*.*" />
 			</fileset>
 		</copy>
-		
-		
-		
+
+
+
 		<copy todir="${dist.lib.dir}">
 			<fileset dir="${lib.dir}">
 				<include name="**/*.jar" />
@@ -587,7 +552,7 @@
 		<copy file="changelog.txt" todir="${dist.dir}" />
 		<copy file="build.properties.sample" tofile="${dist.dir}/build.properties" />
 		<propertyfile file="${dist.dir}/build.properties">
-			<entry key="mavenized" value="false"/>
+			<entry key="mavenized" value="false" />
 		</propertyfile>
 		<copy file="build.xml" todir="${dist.dir}" />
 		<copy file="seam" todir="${dist.dir}" />
@@ -604,7 +569,7 @@
 			</replacevalue>
 		</replace>
 	</target>
-	
+
 
 	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,refdoc,extras" description="Build everything and package">
 		<zip zipfile="${dist.location}/${dist.name}.zip">
@@ -661,9 +626,9 @@
 	<target name="compiletest" depends="inittestcore,select-compiler,antlr">
 		<compile classesdir="${classes.test.dir}" srcdir="${src.test.dir}" classpath="test.compile.path" />
 	</target>
-	
+
 	<target name="inittestcore" depends="build">
-		<init classesdir="${classes.test.dir}" srcdir="${src.test.dir}" modulename="core" pom="${core.pom}" scope="test" message=""/>
+		<init classesdir="${classes.test.dir}" srcdir="${src.test.dir}" modulename="core" pom="${core.pom}" scope="test" message="" />
 		<copy todir="${classes.test.core.dir}">
 			<fileset dir="${classes.core.dir}" includes="**/*.*" />
 		</copy>
@@ -681,7 +646,7 @@
 	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
 		<property name="cp" refid="test.core.path" />
-		<echo >${cp}</echo>
+		<echo>${cp}</echo>
 		<testng>
 			<jvmarg value="-Djava.awt.headless=true" />
 			<classpath>
@@ -689,7 +654,7 @@
 				<path path="${classes.test.dir}" />
 				<path refid="classpath.emma" />
 				<path refid="test.core.path" />
-				<pathelement location="${lib.dir}/jboss-seam-remoting.jar"/>
+				<pathelement location="${lib.dir}/jboss-seam-remoting.jar" />
 			</classpath>
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
 		</testng>
@@ -773,7 +738,7 @@
 		<attribute name="classesdir" />
 		<attribute name="srcdir" />
 		<attribute name="classpath" />
-		<element name="compile.classpath" optional="true" implicit="true"/>
+		<element name="compile.classpath" optional="true" implicit="true" />
 		<sequential>
 			<javac source="1.5" target="1.5" destdir="@{classesdir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" srcdir="@{srcdir}">
 				<classpath>
@@ -822,7 +787,7 @@
 				<arg line="-Dseam.version=${version}.${patchlevel}" />
 				<arg line="@{target}" />
 			</java>
-			<delete file="${ui.dir}/pom.xml"/>
+			<delete file="${ui.dir}/pom.xml" />
 		</sequential>
 	</macrodef>
 
@@ -855,9 +820,72 @@
 			</copy>
 		</sequential>
 	</macrodef>
+
+	<macrodef name="cleanexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<sequential>
+			<echo>Cleaning @{name} example</echo>
+			<callExample path="@{path}" target="clean" />
+		</sequential>
+	</macrodef>
+
+	<macrodef name="undeployexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<sequential>
+			<echo>Undeploying @{name} example</echo>
+			<callExample path="@{path}" target="undeploy" />
+			<callExample path="@{path}" target="tomcat.undeploy" />
+			<callExample path="@{path}" target="unexplode" />
+		</sequential>
+	</macrodef>
 	
+	<macrodef name="undeployexampleNoTomcat">
+			<attribute name="name" />
+			<attribute name="path" default="examples/@{name}" />
+			<sequential>
+				<echo>Undeploying @{name} example</echo>
+				<callExample path="@{path}" target="undeploy" />
+				<callExample path="@{path}" target="unexplode" />
+			</sequential>
+		</macrodef>
+
+	<macrodef name="testexample">
+		<attribute name="name" />
+		<attribute name="path" default="examples/@{name}" />
+		<sequential>
+			<echo>Running tests on @{name} example</echo>
+			<callExample path="@{path}" target="test" />
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="callExample">
+		<attribute name="path" />
+		<attribute name="target" />
+		<sequential>
+			<ant dir="@{path}" target="@{target}" inheritall="false">
+				<propertyset>
+					<propertyref name="initpomsdone" />
+					<propertyref name="copyseamdone" />
+					<propertyref name="copyseamdependenciesdone" />
+					<propertyref name="copyjbossembeddeddone" />
+					<propertyref name="core.pom" />
+					<propertyref name="root.pom" />
+					<propertyref name="ui.pom" />
+					<propertyref name="remoting.pom" />
+					<propertyref name="gen.pom" />
+					<propertyref name="pdf.pom" />
+					<propertyref name="ioc.pom" />
+					<propertyref name="mail.pom" />
+					<propertyref name="debug.pom" />
+				</propertyset>
+			</ant>
+		</sequential>
+	</macrodef>
+
 	<target name="initallmodules" depends="initcore, initdebug, initgen, initioc, initmail, initpdf, initremoting, initui" />
-	
+
 	<target name="eclipseclasspath" depends="initallmodules" description="Update eclipse classpath">
 		<eclipseClasspath tofile=".classpath" file="${build.dir}/classpath.tmpl" filterProperty="automagic.classpath.entries">
 			<path refid="compile.core.path" />
@@ -870,5 +898,7 @@
 			<path refid="compile.ui.path" />
 		</eclipseClasspath>
 	</target>
+
+
 
 </project>
