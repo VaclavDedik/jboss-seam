@@ -65,22 +65,26 @@ public class EntityHome<E> extends Home<EntityManager, E>
       return "removed";
    }
    
-   @Transactional
-   @Override
-   public E find()
-   {
-      if ( getEntityManager().isOpen() )
-      {
-         E result = getEntityManager().find( getEntityClass(), getId() );
-         if (result==null) result = handleNotFound();
-         return result;
-      }
-      else
-      {
-         return null;
-      }
-   }
-   
+    @Transactional
+    @Override
+    public E find()
+    {
+        if (getEntityManager().isOpen())  {
+            E result = loadInstance();
+            if (result==null) {
+                result = handleNotFound();
+            }
+            return result;
+        } else {
+            return null;
+        }
+    }
+
+    protected E loadInstance() 
+    {
+        return getEntityManager().find(getEntityClass(), getId());
+    }
+
    @Override
    protected void joinTransaction()
    {

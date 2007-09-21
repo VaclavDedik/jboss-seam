@@ -63,23 +63,27 @@ public class HibernateEntityHome<E> extends Home<Session, E>
       raiseAfterTransactionSuccessEvent();
       return "removed";
    }
-   
-   @Transactional
-   @Override
-   public E find()
-   {
-      if ( getSession().isOpen() )
-      {
-         E result = (E) getSession().get( getEntityClass(), (Serializable) getId() );
-         if (result==null) result = handleNotFound();
-         return result;
-      }
-      else
-      {
-         return null;
-      }
-   }
-   
+    
+    @Transactional
+    @Override
+    public E find()
+    {
+        if (getSession().isOpen()) {
+            E result = loadInstance();
+            if (result==null) {
+                result = handleNotFound();
+            }
+            return result;
+        } else {
+            return null;
+        }
+    }
+
+    protected E loadInstance() 
+    {
+        return (E) getSession().get(getEntityClass(), (Serializable) getId());   
+    }
+
    @Override
    protected void joinTransaction()
    {
