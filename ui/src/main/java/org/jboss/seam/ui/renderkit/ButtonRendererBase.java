@@ -75,7 +75,7 @@ public class ButtonRendererBase extends RendererBase
       }
       if (button.getId() != null)
       {
-         writer.writeAttribute(HTML.ID_ATTR, button.getId(), HTML.ID_ATTR);
+         writer.writeAttribute(HTML.ID_ATTR, button.getClientId(context), HTML.ID_ATTR);
       }
       HTML.renderHTMLAttributes(writer, button, HTML.BUTTON_PASSTHROUGH_ATTRIBUTES_WITHOUT_DISABLED_AND_ONCLICK);
       if (button.getValue() != null)

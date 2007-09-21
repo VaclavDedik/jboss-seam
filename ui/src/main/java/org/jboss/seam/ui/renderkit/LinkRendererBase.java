@@ -31,7 +31,7 @@ public class LinkRendererBase extends RendererBase
       }
       if (link.getId() != null)
       {
-         writer.writeAttribute(HTML.ID_ATTR, link.getId(), HTML.ID_ATTR);
+         writer.writeAttribute(HTML.ID_ATTR, link.getClientId(context), HTML.ID_ATTR);
       }
       HTML.renderHTMLAttributes(writer, link, HTML.ANCHOR_PASSTHROUGH_ATTRIBUTES);
       if (link.getValue() != null)
