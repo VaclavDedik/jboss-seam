@@ -384,8 +384,6 @@
 	<path id="build.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
-			<!-- Horrible hack around jbossembedded -->
-			<exclude name="jboss-container.jar" />
 		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
@@ -772,8 +770,14 @@
 			<fileset dir="${lib.dir}/test">
 				<include name="*-all.jar" />
 			</fileset>
+			<fileset dir="${lib.dir}">
+				<!-- Horrible hack around jbossembedded -->
+				<exclude name="jboss-container.jar" />
+				<exclude name="hibernate.jar" />
+				<exclude name="hibernate-annotations.jar" />
+			</fileset>
 			<path path="${eejb.conf.dir}" />
-			<path refid="build.classpath" />
+			<path refid="build.classpath.extras" />
 			<path refid="emma.classpath" />
 		</path>
 		<property name="cp" refid="test.classpath" />
