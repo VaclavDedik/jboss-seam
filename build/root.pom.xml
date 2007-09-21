@@ -176,6 +176,24 @@
 				<artifactId>hibernate</artifactId>
 				<version>3.2.4.sp1</version>
 			</dependency>
+      
+            <dependency>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate-annotations</artifactId>
+              <version>3.3.0.ga</version>
+            </dependency>
+            
+            <dependency>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate-validator</artifactId>
+              <version>3.0.0.ga</version>
+            </dependency>
+            
+            <dependency>
+              <groupId>org.hibernate</groupId>
+              <artifactId>hibernate-search</artifactId>
+              <version>3.0.0.CR1.HSEARCH-116</version>
+             </dependency>
 
 			<dependency>
 				<groupId>com.sun.facelets</groupId>
@@ -199,12 +217,6 @@
 				<groupId>javax.persistence</groupId>
 				<artifactId>persistence-api</artifactId>
 				<version>1.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-annotations</artifactId>
-				<version>3.2.1.ga</version>
 			</dependency>
 
 			<dependency>
@@ -326,12 +338,6 @@
 				<groupId>org.drools</groupId>
 				<artifactId>drools-compiler</artifactId>
 				<version>4.0.0</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-search</artifactId>
-				<version>3.0.0.CR1.HSEARCH-116</version>
 			</dependency>
 
 			<dependency>

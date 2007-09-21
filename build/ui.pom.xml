@@ -199,10 +199,12 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-annotations</artifactId>
+			<artifactId>hibernate-validator</artifactId>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
+    
+    
 
 		<dependency>
 			<groupId>org.testng</groupId>
