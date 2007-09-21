@@ -41,9 +41,19 @@
 
 	<property name="schema.version" value="${version}" />
 
-	<!-- set global properties for this build -->
-
 	<property name="seam.dir" value="${basedir}" />
+	
+	<!-- Build resources -->
+	
+	<property name="build.dir" value="${seam.dir}/build" />
+	<property name="tmp.dir" value="${classes.dir}" />
+	<property name="lib.dir" value="${basedir}/lib" />
+
+	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
+	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpath="${build.dir}/lib/maven-ant-tasks.jar" />
+
+	<import file="${build.dir}/utilities.build.xml" />
+	<import file="${build.dir}/common.build.xml" />
 
 
 	<!-- Targets -->
@@ -74,17 +84,6 @@
 	<!-- Library directories -->
 	<property name="mail.dir" value="${basedir}/mail" />
 	<property name="eejb.conf.dir" value="${basedir}/bootstrap" />
-
-	<!-- Build resources -->
-	<property name="build.dir" value="${seam.dir}/build" />
-	<property name="tmp.dir" value="${classes.dir}" />
-	<property name="lib.dir" value="${basedir}/lib" />
-
-	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
-	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-
-	<import file="${build.dir}/utilities.build.xml" />
-	<import file="${build.dir}/common.build.xml" />
 
 	<!-- Documentation -->
 	<property name="doc.dir" value="doc" />
