@@ -83,4 +83,22 @@
 		</sequential>
 	</macrodef>
 	
+	<macrodef name="eclipseClasspath">
+		<attribute name="file" />
+		<attribute name="tofile" />
+		<attribute name="filterProperty" />
+		<element name="classpath.element" implicit="true" />
+		<sequential>
+			<pathconvert property="eclipse.entries" pathsep="&quot;/&gt;&#10;    &lt;classpathentry kind=&quot;lib&quot; path=&quot;">
+				<classpath.element />
+			</pathconvert>
+			<copy overwrite="true" tofile="@{tofile}">
+				<fileset file="@{file}" />
+				<filterset>
+					<filter token="@{filterProperty}" value="&lt;classpathentry kind=&quot;lib&quot; path=&quot;${eclipse.entries}&quot;/&gt;"/>
+				</filterset>
+			</copy>
+		</sequential>
+	</macrodef>
+	
 </project>

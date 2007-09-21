@@ -855,5 +855,20 @@
 			</copy>
 		</sequential>
 	</macrodef>
+	
+	<target name="initallmodules" depends="initcore, initdebug, initgen, initioc, initmail, initpdf, initremoting, initui" />
+	
+	<target name="eclipseclasspath" depends="initallmodules" description="Update eclipse classpath">
+		<eclipseClasspath tofile=".classpath" file="${build.dir}/classpath.tmpl" filterProperty="automagic.classpath.entries">
+			<path refid="compile.core.path" />
+			<path refid="compile.debug.path" />
+			<path refid="compile.gen.path" />
+			<path refid="compile.ioc.path" />
+			<path refid="compile.mail.path" />
+			<path refid="compile.pdf.path" />
+			<path refid="compile.remoting.path" />
+			<path refid="compile.ui.path" />
+		</eclipseClasspath>
+	</target>
 
 </project>
