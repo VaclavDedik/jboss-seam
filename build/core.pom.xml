@@ -154,8 +154,16 @@
 					<artifactId>xmlParserAPIs</artifactId>
 				</exclusion>
                 <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring</artifactId>
+                </exclusion>
+                <exclusion>
+                  <groupId>quartz</groupId>
+                  <artifactId>quartz</artifactId>
                 </exclusion>
 			</exclusions>
 		</dependency>
@@ -169,7 +177,7 @@
 
 		<dependency>
 			<groupId>javax.jms</groupId>
-			<artifactId>jms-api</artifactId>
+			<artifactId>jms</artifactId>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>

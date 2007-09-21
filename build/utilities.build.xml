@@ -51,7 +51,6 @@
 		<attribute name="jar" default="" />
 		<attribute name="repositoryId" default="" />
 		<sequential>
-			<echo>@{jar}</echo>
 			<artifact:deploy file="@{jar}">
 				<pom file="@{pom}" />
 				<remoteRepository refId="@{repositoryId}" />
@@ -98,6 +97,31 @@
 					<filter token="@{filterProperty}" value="&lt;classpathentry kind=&quot;lib&quot; path=&quot;${eclipse.entries}&quot;/&gt;"/>
 				</filterset>
 			</copy>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="maven">
+		<attribute name="target" />
+		<attribute name="basedir" />
+		<attribute name="pom" default="pom.xml" />
+		<element name="args" implicit="true" optional="true"/>
+		<sequential>
+			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="@{basedir}">
+				<classpath>
+					<fileset dir="${maven.dir}/core/boot">
+						<include name="*.jar" />
+					</fileset>
+					<fileset dir="${maven.dir}/bin">
+						<include name="*.*" />
+					</fileset>
+				</classpath>
+				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
+				<sysproperty key="maven.home" value="${maven.dir}" />
+				<arg line="-f @{pom}" />
+				<arg line="-Dseam.version=${version}.${patchlevel}" />
+				<args />
+				<arg line="@{target}" />
+			</java>
 		</sequential>
 	</macrodef>
 	

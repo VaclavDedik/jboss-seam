@@ -1,0 +1,24 @@
+<settings xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <profiles>
+    <profile>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>temporary</id>
+          <name>Temporary Local Repository</name>
+          <url>file://@tmp.dir@/tmp-repository</url>
+        </repository>
+        <repository>
+          <id>development</id>
+          <name>Development Repository</name>
+          <url>file://@build.dir@/repository</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+</settings>

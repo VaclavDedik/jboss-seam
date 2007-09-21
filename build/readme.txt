@@ -34,7 +34,7 @@ To add or upgrade a dependency of Seam:
   repository.jboss.org (no thirdparty repositories should be used for released
   versions) - so if you are adding a dependency which is stable, and you aren't
   planning to change the dependency before the next release you should consider
-  adding it to repository.jboss.org straight away.  The proceedure for this is
+  adding it to repository.jboss.org straight away.  The procedure for this is
   outlined at http://wiki.jboss.org/wiki/Wiki.jsp?page=MavenThirdPartyJars
   
 To add a dependency of Seam to the development repository stored in CVS:
@@ -63,7 +63,30 @@ To add a dependency of Seam to the development repository stored in CVS:
 Release Instructions
 --------------------
 
-TBD
+All dependencies for a released version of Seam should be available in 
+repository.jboss.org.  Only released versions of software should be present in
+repository.jboss.org.
+
+Release dependencies:
+
+* If you are adding a couple of dependencies its easier to follow the wiki page
+  http://wiki.jboss.org/wiki/Wiki.jsp?page=MavenThirdPartyJars option 2
+* If you need to add a lot of dependencies, you can use the offlineDependencies target in
+  the build/ directory, and set the offline.repository property to point at your 
+  svn checkout of repository.jboss.org/maven2.  This task downloads all
+  dependencies of Seam into your checked out repository.jboss.org - you can then
+  commit those that are necessary. (N.B. This will include some Seam jars, don't
+  include these in your commit!)
+* Edit the root.pom.xml to remove all references to other repositories if
+  possible
+* Delete the contents of the build/repository directory (the development
+  repository) as this should not have anything in for releases.
+  
+Add Seam to repository.jboss.org:
+
+* Run the offlineSeam target
+* Commit the release to repository.jboss.org
+
 
 Examples
 --------

@@ -645,8 +645,6 @@
 
 	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
-		<property name="cp" refid="test.core.path" />
-		<echo>${cp}</echo>
 		<testng>
 			<jvmarg value="-Djava.awt.headless=true" />
 			<classpath>
@@ -773,20 +771,7 @@
 		<attribute name="target" />
 		<sequential>
 			<pomfile name="ui.pom" value="${build.dir}/ui.pom.xml" tofile="${ui.dir}/pom.xml" />
-			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="${basedir}/ui">
-				<classpath>
-					<fileset dir="${maven.dir}/core/boot">
-						<include name="*.jar" />
-					</fileset>
-					<fileset dir="${maven.dir}/bin">
-						<include name="*.*" />
-					</fileset>
-				</classpath>
-				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
-				<sysproperty key="maven.home" value="${maven.dir}" />
-				<arg line="-Dseam.version=${version}.${patchlevel}" />
-				<arg line="@{target}" />
-			</java>
+			<maven target="install" basedir="${ui.dir}" />
 			<delete file="${ui.dir}/pom.xml" />
 		</sequential>
 	</macrodef>

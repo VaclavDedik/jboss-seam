@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project  name="Seam2 Build Utilities" basedir="." default="help" xmlns:artifact="urn:maven-artifact-ant">
+<project name="Seam2 Build Utilities" basedir="." default="help" xmlns:artifact="urn:maven-artifact-ant">
 
 	<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
@@ -8,6 +8,7 @@
 	<property name="tmp.dir" value="${seam.dir}/classes" />
 	<property name="build.dir" value="${basedir}" />
 	<property file="${seam.dir}/build.properties" />
+	<property file="build.properties" />
 
 	<import file="utilities.build.xml" />
 	<import file="common.build.xml" />
@@ -61,10 +62,65 @@
 	</target>
 
 	<macrodef name="installProfile">
-		<attribute name="pom"/>
+		<attribute name="pom" />
 		<sequential>
 			<pomfile name="pomfile" value="@{pom}" />
 			<install pom="${pomfile}" />
+		</sequential>
+	</macrodef>
+
+	<target name="offlineDependencies" description="Build an offline snapshot of all depndencies required by Seam" depends="initpoms">
+		<delete dir="${tmp.dir}/tmp-repository" />
+		
+		<copy tofile="${tmp.dir}/poms/settings.xml">
+			<fileset file="${build.dir}/settings.xml" />
+			<filterset>
+				<filter token="tmp.dir" value="${tmp.dir}" />
+				<filter token="build.dir" value="${build.dir}" />
+			</filterset>
+		</copy>
+
+		<artifact:remoteRepository id="tmp.repository" url="file://${tmp.dir}/tmp-repository" />
+		
+		<deploySeam repositoryId="tmp.repository" />
+
+		<offline pom="core.pom" repository="${offline.repository}" />
+		<offline pom="ui.pom" repository="${offline.repository}" />
+		<offline pom="remoting.pom" repository="${offline.repository}" />
+		<offline pom="pdf.pom" repository="${offline.repository}" />
+		<offline pom="mail.pom" repository="${offline.repository}" />
+		<offline pom="ioc.pom" repository="${offline.repository}" />
+		<offline pom="gen.pom" repository="${offline.repository}" />
+		<offline pom="debug.pom" repository="${offline.repository}" />
+	</target>
+
+	<target name="offlineSeam" depends="initpoms">
+		<artifact:remoteRepository id="offline.repository" url="file://${offline.repository}" />
+		<deploySeam repositoryId="offline.repository" url="${offline.repository}" />
+	</target>
+	
+	<macrodef name="offline">
+		<attribute name="pom" />
+		<attribute name="repository" />
+		<sequential>
+			<maven basedir="${tmp.dir}/poms" target="dependency:go-offline" pom="@{pom}">
+				<arg line="-s settings.xml" />
+				<arg line="-Dmaven.repo.local=@{repository}" />
+			</maven>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="deploySeam">
+		<sequential>
+			<deploy pom="${root.pom}" repositoryId="@{repositoryId}" />
+					<deploy pom="${core.pom}" jar="${seam.dir}/lib/jboss-seam.jar" repositoryId="@{repositoryId}" />
+					<deploy pom="${ui.pom}" jar="${seam.dir}/lib/jboss-seam-ui.jar" repositoryId="@{repositoryId}" />
+					<deploy pom="${remoting.pom}" jar="${seam.dir}/lib/jboss-seam-remoting.jar" repositoryId="@{repositoryId}" />
+					<deploy pom="${pdf.pom}" jar="${seam.dir}/lib/jboss-seam-pdf.jar" repositoryId="@{repositoryId}" />
+					<deploy pom="${mail.pom}" jar="${seam.dir}/lib/jboss-seam-mail.jar" repositoryId="@{repositoryId}" />
+					<deploy pom="${ioc.pom}" jar="${seam.dir}/lib/jboss-seam-ioc.jar" repositoryId="@{repositoryId}" />
+					<deploy pom="${gen.pom}" jar="${seam.dir}/lib/jboss-seam-gen.jar" repositoryId="@{repositoryId}" />
+					<deploy pom="${debug.pom}" jar="${seam.dir}/lib/jboss-seam-debug.jar" repositoryId="@{repositoryId}" />
 		</sequential>
 	</macrodef>
 	
