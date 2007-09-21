@@ -216,14 +216,14 @@
 
 	<!-- Dependencies for using Seam with Richfaces -->
 	<fileset id="richfaces-api.jar" dir="${lib.dir}">
-		<include name="richfaces-api.jar" if="richfaces.lib" />
+		<include name="richfaces-api-*.jar" if="richfaces.lib" />
 		<include name="commons-beanutils.jar" if="richfaces.lib" />
 		<include name="commons-digester.jar" if="richfaces.lib" />
 	</fileset>
 	
 	<fileset id="richfaces-impl.jar" dir="${lib.dir}">
-		<include name="richfaces-impl.jar" if="richfaces.lib" />
-		<include name="richfaces-ui.jar" if="richfaces.lib" />
+		<include name="richfaces-impl-*.jar" if="richfaces.lib" />
+		<include name="richfaces-ui-*.jar" if="richfaces.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with JBPM -->
@@ -384,6 +384,7 @@
 	<path id="build.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
+			<exclude name="jboss-seam-*.jar" />
 		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
@@ -414,8 +415,6 @@
 
 	<!-- Compile the source code, directly into the jar -->
 	<target name="compile" depends="init, select-compiler">
-		<property name="cp" refid="build.classpath" />
-				<echo file="output">${cp}</echo>
 		<javac classpathref="build.classpath" destdir="${jar.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
 			<src path="${src.java.dir}" />
 		</javac>
@@ -777,6 +776,8 @@
 				<exclude name="jboss-container.jar" />
 				<exclude name="hibernate.jar" />
 				<exclude name="hibernate-annotations.jar" />
+				<!-- Don't need all seam jars -->
+				<exclude name="jboss-seam-*.jar" />
 			</fileset>
 			<path path="${eejb.conf.dir}" />
 			<path refid="build.classpath.extras" />
