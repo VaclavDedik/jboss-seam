@@ -144,7 +144,7 @@
 	<!-- Seam ui, with required dependencies -->
 	<fileset id="seam.ui.jar" dir="${lib.dir}">
 		<include name="jboss-seam-ui.jar" if="seam.ui.lib" />
-		<include name="commons-beanutils.jar" if="seam.ui.lib" />
+		<include name="commons-beanutils.jar" if="seam.ui.lib" unless="richfaces.lib" />
 	</fileset>
 
 	<!-- Seam  pdf, with required dependencies -->
@@ -256,11 +256,11 @@
 	<!-- Dependencies for using Seam with Drools -->
 	<fileset id="drools.jar" dir="${lib.dir}">
 		<include name="antlr-runtime.jar" if="drools.lib" />
-		<include name="core-*.jar" if="drools.lib" />
-		<include name="janino-*.jar" if="drools.lib" />
-		<include name="mvel-*.jar" if="drools.lib" />
-		<include name="drools-core-*.jar" if="drools.lib" />
-		<include name="drools-compiler-*.jar" if="drools.lib" />
+		<include name="core.jar" if="drools.lib" />
+		<include name="janino.jar" if="drools.lib" />
+		<include name="mvel14.jar" if="drools.lib" />
+		<include name="drools-core.jar" if="drools.lib" />
+		<include name="drools-compiler.jar" if="drools.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with JCaptcha -->

@@ -80,7 +80,10 @@
 			<dependencies id="@{id}" scope="@{scope}" pom="@{pom}" />
 			<copy todir="@{todir}">
 				<fileset refid="@{scope}.@{id}.fileset" />
-				<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${@{scope}.@{id}.versions}" to="flatten" />
+				<chainedmapper>
+					<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${@{scope}.@{id}.versions}" to="flatten" />
+					<flattenmapper />
+				</chainedmapper>
 			</copy>
 		</sequential>
 	</macrodef>
