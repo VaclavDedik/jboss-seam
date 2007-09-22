@@ -21,6 +21,7 @@
 	<property name="maven.dir" value="${build.dir}/maven" />
 
 	<artifact:remoteRepository id="local.repository" url="file://${build.dir}/repository" />
+	<artifact:remoteRepository id="repository.jboss.org" url="http://repository.jboss.org/maven2" />
 
 	<target name="initcopy">
 		<mkdir dir="${lib.dir}" />
@@ -75,7 +76,7 @@
 			<dependency groupId="org.jboss.embedded" artifactId="jboss-embedded-all" version="beta2" />
 			<dependency groupId="org.jboss.embedded" artifactId="thirdparty-all" version="beta2" />
 			<dependency groupId="org.jboss.embedded" artifactId="hibernate-all" version="beta2" />
-			<remoteRepository refId="local.repository" />
+			<remoteRepository refId="repository.jboss.org" />
 		</artifact:dependencies>
 		<copy todir="${lib.dir}/test">
 			<fileset refid="embeddedjboss.fileset" />

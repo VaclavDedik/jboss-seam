@@ -50,10 +50,13 @@
 		<attribute name="pom" default="" />
 		<attribute name="jar" default="" />
 		<attribute name="repositoryId" default="" />
+		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
 			<artifact:deploy file="@{jar}">
 				<pom file="@{pom}" />
-				<remoteRepository refId="@{repositoryId}" />
+				<remoteRepository refId="@{repositoryId}">
+					<credentials />
+				</remoteRepository>
 			</artifact:deploy>
 		</sequential>
 	</macrodef>

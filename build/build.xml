@@ -13,20 +13,50 @@
 	<import file="utilities.build.xml" />
 	<import file="common.build.xml" />
 
-	<target name="deployLocal" description="Deploy a pom and jar to local (development) repository">
+	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
+	
+	<target name="initdav">
+		<artifact:install-provider artifactId="wagon-webdav" version="1.0-beta-2"/>
+	</target>
+	
+	<target name="deployLocal">
 		<pomfile name="pom.file" value="${pom}" />
 		<deployLocal pom="${pom.file}" jar="${jar}" />
 	</target>
+	
+	<target name="deploySnapshot" description="Deploy a pom and jar to snapshots.jboss.org" depends="initdav">
+        <input addproperty="username" 
+                   message="JBoss.org username:" />
+        <input addproperty="password" 
+                   message="JBoss.org password:" />
+		
+		<pomfile name="pom.file" value="${pom}" />
+		<deploy pom="${pom.file}" jar="${jar}" repositoryId="snapshots.jboss.org">
+			<authentication username="${username}" password="${password}" />
+		</deploy>
+	</target>
 
-	<target name="deployLocalPom" description="Deploy a pom to the (development) repository">
+	<target name="deploySnapshotJar" description="Deploy a jar (generating the pom) to snapshots.jboss.org" depends="initdav">
+        <input addproperty="username" 
+                   message="JBoss.org username:" />
+        <input addproperty="password" 
+                   message="JBoss.org password:" />
+		
+		<pomfile name="pom.file" value="${pom}" />
+		<deploy pom="${pom.file}" jar="${jar}" repositoryId="snapshots.jboss.org">
+			<authentication username="${username}" password="${password}" />
+		</deploy>
+	</target>
+	
+	<target name="deployLocalPom">
 		<deployLocal pom="${pom}" />
 	</target>
 
-	<target name="deployLocalJar" description="Deploy a jar (generating the pom) to local (development) repository">
+	<target name="deployLocalJar" >
 		<deployLocal jar="${jar}" />
 	</target>
 
-	<target name="installProfiles" description="Deploy all profiles to the local (development) repository">
+	<target name="installProfiles" >
 		<installProfile pom="profiles/seam-ajax.pom.xml" />
 		<installProfile pom="profiles/seam-async-timer-quartz.pom.xml" />
 		<installProfile pom="profiles/seam-cache.pom.xml" />
@@ -44,21 +74,18 @@
 		<installProfile pom="profiles/seam-urlrewrite.pom.xml" />
 	</target>
 
-	<target name="help">
+	<target name="help" description="Show help">
+		<echo>Run ant -p</echo>
+		<echo />
+		<echo>You can set the location of your checked out maven repositoy for the offline targets in build.properties</echo>
+		<echo />
 		<echo>Examples:</echo>
 		<echo>---------</echo>
 		<echo />
 		<echo>Deploy both a pom and the associated jar: </echo>
-		<echo>   ant deployLocal -Dpom=jboss-el.pom.xml -Djar=jboss-el.jar</echo>
-		<echo />
-		<echo>Deploy a pom only (useful if packaging is set to pom):</echo>
-		<echo>   ant deployLocalPomOnly -Dpom=jboss-el.pom.xml</echo>
-		<echo />
-		<echo>Deploy a jar and generate a basic pom:</echo>
-		<echo>   ant deployLocal -Dpom=jboss-el.pom.xml -Djar=jboss-el.jar</echo>
-		<echo />
-		<echo>installProfile all profiles to ~/.m2/repository:</echo>
-		<echo>   ant installProfileProfiles</echo>
+		<echo>   ant deploySnapshot -Dpom=jboss-el.pom.xml -Djar=jboss-el.jar</echo>
+		<echo>Deploy a snapshot jar and generate a basic pom:</echo>
+		<echo>   ant deploySnapshotJar -Djar=jboss-el.jar</echo>
 	</target>
 
 	<macrodef name="installProfile">
@@ -94,7 +121,7 @@
 		<offline pom="debug.pom" repository="${offline.repository}" />
 	</target>
 
-	<target name="offlineSeam" depends="initpoms">
+	<target name="offlineSeam" depends="initpoms" description="Build an offline snapshot of Seam jars">
 		<artifact:remoteRepository id="offline.repository" url="file://${offline.repository}" />
 		<deploySeam repositoryId="offline.repository" url="${offline.repository}" />
 	</target>
@@ -111,6 +138,7 @@
 	</macrodef>
 	
 	<macrodef name="deploySeam">
+		<attribute name="repositoryId" />
 		<sequential>
 			<deploy pom="${root.pom}" repositoryId="@{repositoryId}" />
 					<deploy pom="${core.pom}" jar="${seam.dir}/lib/jboss-seam.jar" repositoryId="@{repositoryId}" />

@@ -37,25 +37,26 @@ To add or upgrade a dependency of Seam:
   adding it to repository.jboss.org straight away.  The procedure for this is
   outlined at http://wiki.jboss.org/wiki/Wiki.jsp?page=MavenThirdPartyJars
   
-To add a dependency of Seam to the development repository stored in CVS:
+To add a non-released dependency of Seam:
 
 * If you need a dependency which isn't available in Maven, and don't want to add
   it straight to repository.jboss.org or want to depend on a CVS/snapshot of a 
-  project which you're planning to upgrade before the next Seam release you can
-  add a dependency to Seam's local (development) repository.  These dependencies
-  are (for now) just available when building Seam itself (or if a user adds the
-  local repository to their pom).
+  project which you're planning to upgrade before the next Seam release you
+  should add it to snapshots.jboss.org.
 * To add a jar to the local repository, you can, if you have a pom (that you
   copied from an earlier version or have written) run:
 
-  ant deployLocal -Dpom=foo.pom -Djar=foo.jar
+  ant deploySnapshot -Dpom=foo.pom -Djar=foo.jar
   
   If you want maven to create a basic pom for you:
   
-  ant deployLocalJar -Djar=foo.jar
+  ant deploySnapshotJar -Djar=foo.jar
   
-* If you need to alter the pom or jar in the local repository but don't change
-  the version number, you'll need to delete the old copy from maven's cache
+  You will be prompted for your jboss.org username and pasword (WARNING your
+  password is echoed back to you!)
+  
+* If you need to alter the pom or jar in a repository but don't change
+  the version number, you should delete the old copy from maven's cache
   
   rm -rf ~/.m2/repository/group/id/artifactId/version
   
