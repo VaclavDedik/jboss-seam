@@ -9,9 +9,39 @@
                must be present.
 -->
 <project basedir="." xmlns:artifact="urn:maven-artifact-ant">
-
-	<property file="${seam.dir}/build.properties" />
 	
+	<!-- If build.properties doesn't exist, create it by copying build.properties.sample -->
+	<condition property="copy.default.properties">
+		<and>
+			<available file="${seam.dir}/build.properties.sample" />
+			<not>
+				<available file="${seam.dir}/build.properties" />
+			</not>
+		</and>
+	</condition>
+
+	<copy todir="${seam.dir}">
+		<fileset dir="${seam.dir}">
+			<include name="build.properties.sample" if="copy.default.properties" />
+		</fileset>
+		<mapper type="glob" from="build.properties.sample" to="build.properties" />
+	</copy>
+
+	<!-- Give user a chance to override without editing this file or typing -D -->
+	<property file="${seam.dir}/build.properties" />
+
+	<!-- Set the version if not set in build.properties -->
+	<condition property="version" value="${DSTAMP}">
+		<not>
+			<isset property="version" />
+		</not>
+	</condition>
+	<condition property="patchlevel" value="${TSTAMP}">
+		<not>
+			<isset property="patchelevel" />
+		</not>
+	</condition>
+
 	<condition property="mavenized.property">
 		<not>
 			<equals arg1="${mavenized}" arg2="false" />
@@ -26,23 +56,23 @@
 	<target name="initcopy">
 		<mkdir dir="${lib.dir}" />
 	</target>
-	
+
 	<target name="initpoms" unless="initpomsdone">
 		<!-- POMs -->
-			<echo>Setting up dependencies</echo>
-			<pomfile name="root.pom" value="${build.dir}/root.pom.xml" />
-			<install pom="${root.pom}" />
-			<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
-			<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
-			<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
-			<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
-			<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
-			<pomfile name="pdf.pom" value="${build.dir}/pdf.pom.xml" />
-			<pomfile name="remoting.pom" value="${build.dir}/remoting.pom.xml" />
-			<pomfile name="ui.pom" value="${build.dir}/ui.pom.xml" />
+		<echo>Setting up dependencies</echo>
+		<pomfile name="root.pom" value="${build.dir}/root.pom.xml" />
+		<install pom="${root.pom}" />
+		<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
+		<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
+		<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
+		<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
+		<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
+		<pomfile name="pdf.pom" value="${build.dir}/pdf.pom.xml" />
+		<pomfile name="remoting.pom" value="${build.dir}/remoting.pom.xml" />
+		<pomfile name="ui.pom" value="${build.dir}/ui.pom.xml" />
 		<property name="initpomsdone" value="true" />
 	</target>
-	
+
 	<target name="copyseamdependencies" if="mavenized.property" unless="copyseamdependenciesdone" depends="initcopy, initpoms">
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
@@ -70,7 +100,7 @@
 		</copy>
 		<property name="copyseamdone" value="true" />
 	</target>
-	
+
 	<target name="copyjbossembedded" if="mavenized.property" unless="copyjbossembeddeddone" depends="initpoms, initcopy">
 		<artifact:dependencies filesetId="embeddedjboss.fileset" versionsId="embeddedjboss.versions">
 			<dependency groupId="org.jboss.embedded" artifactId="jboss-embedded-all" version="beta2" />

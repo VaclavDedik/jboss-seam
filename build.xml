@@ -3,51 +3,15 @@
 
 	<tstamp />
 
-	<!-- If build.properties doesn't exist, create it by copying build.properties.sample -->
-	<condition property="copy.default.properties">
-		<and>
-			<available file="${basedir}/build.properties.sample" />
-			<not>
-				<available file="${basedir}/build.properties" />
-			</not>
-		</and>
-	</condition>
-
-	<copy todir="${basedir}">
-		<fileset dir="${basedir}">
-			<include name="build.properties.sample" if="copy.default.properties" />
-		</fileset>
-		<mapper type="glob" from="build.properties.sample" to="build.properties" />
-	</copy>
-
-	<!-- Give user a chance to override without editing this file or typing -D -->
-	<property file="${basedir}/build.properties" />
-
-	<!-- Set the version if not set in build.properties -->
-	<condition property="version" value="${DSTAMP}">
-		<not>
-			<isset property="version" />
-		</not>
-	</condition>
-	<condition property="patchlevel" value="${TSTAMP}">
-		<not>
-			<isset property="patchelevel" />
-		</not>
-	</condition>
-
 	<!-- Name of project and version, used to create filenames -->
 	<property name="Name" value="JBoss Seam" />
 	<property name="name" value="jboss-seam" />
-
-	<property name="schema.version" value="${version}" />
-
-	<property name="seam.dir" value="${basedir}" />
 	
 	<!-- Build resources -->
-	
+	<property name="seam.dir" value="${basedir}" />
 	<property name="build.dir" value="${seam.dir}/build" />
-	<property name="tmp.dir" value="${classes.dir}" />
-	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="tmp.dir" value="${seam.dir}/classes" />
+	<property name="lib.dir" value="${seam.dir}/lib" />
 
 	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
@@ -55,9 +19,10 @@
 	<import file="${build.dir}/utilities.build.xml" />
 	<import file="${build.dir}/common.build.xml" />
 
+	<property name="schema.version" value="${version}" />
 
 	<!-- Targets -->
-	<property name="classes.dir" value="${basedir}/classes" />
+	<property name="classes.dir" value="${tmp.dir}" />
 	<property name="classes.core.dir" value="${classes.dir}/coreclasses" />
 	<property name="classes.pdf.dir" value="${classes.dir}/pdfclasses" />
 	<property name="classes.ioc.dir" value="${classes.dir}/iocclasses" />
