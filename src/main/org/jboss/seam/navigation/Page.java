@@ -10,7 +10,7 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.core.Locale;
+import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.security.Identity;
 
 /**
@@ -79,18 +79,7 @@ public final class Page
       }
       else
       {
-         try
-         {
-            return java.util.ResourceBundle.getBundle(
-                  resourceBundleName, 
-                  Locale.instance(), 
-                  Thread.currentThread().getContextClassLoader()
-               );
-         }
-         catch (MissingResourceException mre)
-         {
-            return null;
-         }
+          return ResourceLoader.instance().loadBundle(resourceBundleName);
       }
    }
    
