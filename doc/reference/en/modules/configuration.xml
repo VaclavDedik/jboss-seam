@@ -89,7 +89,7 @@
             <title>Seam servlet filters</title>
 
             <para> Seam doesn't need any servlet filters for basic operation. However, there are several features which
-                depend upon the use of filters. To make things easier for you guys, Seam lets you add and configure
+                depend upon the use of filters. To make things easier, Seam lets you add and configure
                 servlet filters just like you would configure other built-in Seam components. To take advantage of this
                 feature, we must first install a master filter in <literal>web.xml</literal>: </para>
 
@@ -268,6 +268,37 @@
 
             </sect3>
 
+             <sect3>
+                <title>Identity Logging</title>
+
+                <para> 
+                    This filter adds the authenticated user name to the log4j mapped diagnostic context so that it 
+                    can be included in formatted log output if desired, by adding %X{username} to the pattern.                       
+                </para>
+
+                 
+                 <para> By default, the exception handling filter will process all requests, however this behavior may be
+                     adjusted by adding a <literal>&lt;web:logging-filter&gt;</literal> entry to
+                     <literal>components.xml</literal>, as shown in this example: </para>
+                 
+                <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:web="http://jboss.com/products/seam/web">
+    <web:logging-filter url-pattern="*.seam"/>
+</components>]]></programlisting>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>
+                            <literal>url-pattern</literal> &#8212; Used to specify which requests the filter is active for. The
+                            default is all requests. </para>
+                    </listitem>
+                </itemizedlist>
+
+            </sect3>
+
+            
+            
+            
             <sect3>
                 <title>Context management for custom servlets</title>
                 <para> Requests sent direct to some servlet other than the JSF servlet are not processed through the JSF
