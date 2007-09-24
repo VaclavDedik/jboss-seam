@@ -112,6 +112,7 @@
             <filter token="password" value="${hibernate.connection.password}"/>
             <filter token="catalogProperty" value="${catalog.property}"/>
             <filter token="schemaProperty" value="${schema.property}"/>
+            <filter token="hibernate.dialect" value="${hibernate.dialect}"/> 
         </filterset>
     	
     	<echo message="${jboss.home}"/>
