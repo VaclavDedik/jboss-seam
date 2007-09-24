@@ -46,18 +46,24 @@
 	<!-- Load default build properties -->
 	<property file="${build.dir}/default.build.properties" />
 
+	<!-- Construct the version numbers -->
+	<property name="version" value="${major.version}${minor.version}" />
+	<property name="level" value="${patchlevel}${qualifier}" />
+	
 	<!-- Set the version if not set in build.properties -->
 	<condition property="version" value="${DSTAMP}">
 		<not>
 			<isset property="version" />
 		</not>
 	</condition>
-	<condition property="patchlevel" value="${TSTAMP}">
+	<condition property="level" value="${TSTAMP}">
 		<not>
-			<isset property="patchelevel" />
+			<isset property="level" />
 		</not>
 	</condition>
 
+	<property name="complete.version" value="${version}${level}" />
+	
 	<condition property="mavenized.property">
 		<not>
 			<equals arg1="${mavenized}" arg2="false" />
@@ -102,13 +108,13 @@
 
 	<target name="copyseam" if="mavenized.property" unless="copyseamdone" depends="initcopy, initpoms">
 		<artifact:dependencies filesetId="seam.fileset" versionsId="seam.versions">
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="${version}.${patchlevel}" />
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="${version}.${patchlevel}" />
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ioc" version="${version}.${patchlevel}" />
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-mail" version="${version}.${patchlevel}" />
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-pdf" version="${version}.${patchlevel}" />
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${version}.${patchlevel}" />
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="${version}.${patchlevel}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ioc" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-mail" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-pdf" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="${complete.version}" />
 		</artifact:dependencies>
 		<copy todir="${lib.dir}">
 			<fileset refid="seam.fileset" />

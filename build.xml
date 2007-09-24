@@ -47,7 +47,7 @@
 	<property name="javadoc.link" value="http://java.sun.com/j2se/5.0/docs/api" />
 
 	<!-- Distribution targets -->
-	<property name="dist.name" value="${name}-${version}.${patchlevel}" />
+	<property name="dist.name" value="${name}-${complete.version}" />
 
 	<property name="dist.location" value="${basedir}/../" />
 	<property name="dist.dir" value="${dist.location}/${dist.name}" />
@@ -514,7 +514,7 @@
 		<copy file="seam2migration.txt" todir="${dist.dir}" />
 		<replace file="${dist.dir}/build.xml">
 			<replacetoken>
-				<![CDATA[${name}-${version}.${patchlevel}]]>
+				<![CDATA[${name}-${complete.version}]]>
 			</replacetoken>
 			<replacevalue>
 				<![CDATA[${name}-${TODAY}]]>
@@ -564,7 +564,7 @@
 		<copy todir="${doc.ref.dir}/build">
 			<fileset dir="${doc.ref.dir}" />
 		</copy>
-		<replace dir="${doc.ref.dir}/build" token="@version@" value="${version}.${patchlevel}" />
+		<replace dir="${doc.ref.dir}/build" token="@version@" value="${complete.version}" />
 		<ant dir="${doc.ref.dir}/build" inheritall="false" target="all.doc" />
 		<copy todir="${dist.ref.dir}">
 			<fileset dir="${doc.ref.dir}/build/build" />
@@ -585,7 +585,7 @@
 			<fileset dir="${classes.core.dir}" includes="**/*.*" />
 		</copy>
 		<artifact:dependencies pathId="remoting.path">
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${version}.${patchlevel}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
 		</artifact:dependencies>
 		<path id="test.compile.path">
 			<path refid="test.core.path" />
@@ -710,8 +710,8 @@
 				<exclude name="**/test/*.class" />
 				<patternset refid="meta.files" />
 				<manifest>
-					<attribute name="Seam-Version" value="${version}.${patchlevel}" />
-					<attribute name="Implementation-Version" value="${version}.${patchlevel}" />
+					<attribute name="Seam-Version" value="${complete.version}" />
+					<attribute name="Implementation-Version" value="${complete.version}" />
 				</manifest>
 			</jar>
 			<install jar="${lib.dir}/@{module}.jar" pom="@{pom}" />

@@ -17,7 +17,7 @@
 			<mkdir dir="@{todir}" />
 			<copy file="@{value}" tofile="@{tofile}" overwrite="on" verbose="false">
 				<filterset>
-					<filter token="seam.version" value="${version}.${patchlevel}" />
+					<filter token="seam.version" value="${complete.version}" />
 				</filterset>
 			</copy>
 			<property name="@{name}" value="@{tofile}" />
@@ -124,7 +124,7 @@
 				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
 				<sysproperty key="maven.home" value="${maven.dir}" />
 				<arg line="-f @{pom}" />
-				<arg line="-Dseam.version=${version}.${patchlevel}" />
+				<arg line="-Dseam.version=${complete.version}" />
 				<args />
 				<arg line="@{target}" />
 			</java>

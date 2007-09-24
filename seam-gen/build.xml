@@ -12,7 +12,7 @@
 	
 	<target name="init">
 		<artifact:dependencies pathId="seam-gen.path">
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-gen" version="${version}.${patchlevel}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-gen" version="${complete.version}" />
 		</artifact:dependencies>
     	<!-- taskdefs -->
 	    <taskdef name="packageDirectory" 
