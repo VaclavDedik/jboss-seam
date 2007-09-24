@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.util;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.*;
 
@@ -88,6 +89,24 @@ public class WikiUtil {
     }
 
     // Rendering made easy
+    public static String renderPlainURL(Node node) {
+        if (isFile(node)) return renderFileLink((File)node);
+        WikiPreferences prefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        String url = "";
+        if (isDocument(node)) {
+            url = prefs.getBaseUrl() + "/docDisplayPlain.seam?documentId=" + node.getId();
+        } else if (isDirectory(node)) {
+            Directory dir = (Directory)node;
+            if (dir.getDefaultDocument() != null) {
+                url = prefs.getBaseUrl() + "/docDisplayPlain.seam?documentId=" + dir.getDefaultDocument().getId();
+            } else {
+                url = prefs.getBaseUrl() + "/dirDisplayPlain.seam?directoryId=" + node.getId();
+            }
+        }
+        if (url.length() > 0) url = url + "&amp;cid=" + Conversation.instance().getId();
+        return url;
+    }
+
     public static String renderURL(Node node) {
         if (isFile(node)) return renderFileLink((File)node);
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
@@ -101,9 +120,8 @@ public class WikiUtil {
     public static String renderPermLink(Node node) {
         if (node == null || node.getId() == null) return "";
         if (isFile(node)) return renderFileLink((File)node);
-        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
-        return prefs.getBaseUrl() + "/" + node.getId() + wikiPrefs.getPermlinkSuffix();
+        return prefs.getBaseUrl() + "/" + node.getId() + prefs.getPermlinkSuffix();
     }
 
     public  static String renderWikiLink(Node node) {
@@ -258,6 +276,14 @@ public class WikiUtil {
      */
     public static int length(String string) {
         return string == null ? 0 : string.length();
+    }
+
+    public static String repeatString(String s, Integer count) {
+        StringBuilder spaces = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            spaces.append(s);
+        }
+        return spaces.toString();
     }
 
     /**

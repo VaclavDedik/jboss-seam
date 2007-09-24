@@ -38,7 +38,6 @@ public class Converters {
     @org.jboss.seam.annotations.faces.Converter(forClass = Importer.class)
     public static class ImporterConverter implements Converter, Serializable {
 
-        @Transactional
         public Object getAsObject(FacesContext arg0,
                                   UIComponent arg1,
                                   String arg2) throws ConverterException {
@@ -60,7 +59,6 @@ public class Converters {
     @org.jboss.seam.annotations.faces.Converter(forClass = SearchableEntity.class)
     public static class SearchableEntityConverter implements Converter, Serializable {
 
-        @Transactional
         public Object getAsObject(FacesContext arg0,
                                   UIComponent arg1,
                                   String arg2) throws ConverterException {
@@ -82,7 +80,6 @@ public class Converters {
     @org.jboss.seam.annotations.faces.Converter(forClass = Role.AccessLevel.class)
     public static class AccessLevelConverter implements Converter, Serializable {
 
-        @Transactional
         public Object getAsObject(FacesContext arg0,
                                   UIComponent arg1,
                                   String arg2) throws ConverterException {

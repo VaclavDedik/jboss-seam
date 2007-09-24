@@ -105,7 +105,6 @@ public class AdminHome implements Serializable {
     LinkProtocol newLinkProtocol;
 
     @Factory("linkProtocols")
-    @Transactional
     public void loadLinkProtocols() {
         //noinspection unchecked
         Map<String, LinkProtocol> linkProtocolMap = (Map<String, LinkProtocol>)Component.getInstance("linkProtocolMap");
@@ -116,7 +115,6 @@ public class AdminHome implements Serializable {
         return linkProtocol;
     }
 
-    @Transactional
     public void addLinkProtocol() {
         entityManager.joinTransaction();
 
@@ -136,7 +134,6 @@ public class AdminHome implements Serializable {
         linkProtocol = new LinkProtocol();
     }
 
-    @Transactional
     public void removeLinkProtocol() {
         entityManager.joinTransaction();
         entityManager.remove(selectedLinkProtocol);
@@ -152,7 +149,6 @@ public class AdminHome implements Serializable {
     private SearchableEntity selectedIndexedEntity;
 
     @Factory("indexedEntities")
-    @Transactional
     public void loadIndexedEntities() throws Exception {
 
         SearchRegistry registry = (SearchRegistry)Component.getInstance("searchRegistry");

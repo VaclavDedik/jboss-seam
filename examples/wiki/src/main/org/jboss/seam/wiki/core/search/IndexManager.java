@@ -14,6 +14,7 @@ import org.jboss.seam.wiki.util.Progress;
 
 import javax.persistence.EntityManager;
 import javax.transaction.UserTransaction;
+import java.math.BigDecimal;
 
 /**
  * Management the Lucene index.
@@ -87,12 +88,14 @@ public class IndexManager {
                 while (true) {
                     i++;
                     Object o = cursor.get(0);
-                    log.debug("indexing: " + o);
+                    log.debug("indexing instance " + i + ": " + o);
                     ftSession.index(o);
-                    if (i % batchSize == 0) ftSession.clear(); // Clear persistence context for each batch
-
-                    progress.setPercentComplete( (100/count) * i);
-                    log.debug("percent of index update complete: " + progress);
+                    if (i % batchSize == 0) {
+                        log.debug("ending batch, beginning new batch");
+                        ftSession.clear(); // Clear persistence context for each batch
+                    }
+                    progress.setPercentComplete( new Double(100d/count*i).intValue() );
+                    log.debug(progress);
 
                     if (cursor.isLast())
                         break;

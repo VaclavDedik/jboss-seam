@@ -1,0 +1,22 @@
+<s:fragment
+        xmlns:s="http://jboss.com/products/seam/taglib"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<s:div id="#{textPreviewId}" styleClass="entry">
+    <s:div styleClass="textPreview input" rendered="#{not empty valueBinding}">
+        <wiki:formattedText value="#{valueBinding}"
+                            linkStyleClass="regularLink"
+                            brokenLinkStyleClass="brokenLink"
+                            attachmentLinkStyleClass="regularLink"
+                            thumbnailLinkStyleClass="regularLink"
+                            renderBaseDocument="#{baseDocument}"
+                            renderBaseDirectory="#{baseDirectory}"
+                            enablePlugins="false"/>
+    </s:div>
+</s:div>
+
+</s:fragment>

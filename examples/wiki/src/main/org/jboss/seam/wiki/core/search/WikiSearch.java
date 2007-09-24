@@ -95,7 +95,6 @@ public class WikiSearch implements Serializable {
         return searchResult;
     }
 
-    @Transactional
     public void search() {
         page = 0;
         searchEntities = new TreeSet<SearchableEntity>();

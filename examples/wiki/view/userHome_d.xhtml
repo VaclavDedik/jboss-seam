@@ -77,7 +77,7 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="email"/>
                         <ui:define name="label">E-Mail</ui:define>
-                        <h:inputText tabindex="3" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"
+                        <h:inputText tabindex="1" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"
                                      disabled="#{userHome.instance.username == guestUser.username}">
                             <a:support status="userHomeForm:status" event="onblur" reRender="emailDecorate"/>
                         </h:inputText>
@@ -87,7 +87,7 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="username"/>
                         <ui:define name="label">Username</ui:define>
-                        <h:inputText tabindex="4" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"
+                        <h:inputText tabindex="1" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"
                                      disabled="#{userHome.instance.username == adminUser.username
                                                  or userHome.instance.username == guestUser.username}">
                             <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
@@ -98,7 +98,7 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="password"/>
                         <ui:define name="label">Password</ui:define>
-                        <h:inputSecret tabindex="5" size="15" maxlength="15"
+                        <h:inputSecret tabindex="1" size="15" maxlength="15"
                                        redisplay="true" value="#{userHome.password}"
                                        disabled="#{userHome.instance.username == guestUser.username}">
                             <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
@@ -109,7 +109,7 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="passwordControl"/>
                         <ui:define name="label">Repeat password</ui:define>
-                        <h:inputSecret tabindex="6" size="15" maxlength="15"
+                        <h:inputSecret tabindex="1" size="15" maxlength="15"
                                        redisplay="true" value="#{userHome.passwordControl}"
                                        disabled="#{userHome.instance.username == guestUser.username}">
                             <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
@@ -123,7 +123,7 @@
                         <s:div styleClass="entry">
                             <div class="label">&#160;</div>
                             <div class="input">
-                                <h:selectBooleanCheckbox value="#{userHome.instance.activated}" tabindex="6"/>
+                                <h:selectBooleanCheckbox value="#{userHome.instance.activated}" tabindex="1"/>
                                 Account is active
                             </div>
                         </s:div>
@@ -133,7 +133,7 @@
                     <s:div styleClass="entry" rendered="#{userHome.instance.id != adminUser.id and userHome.instance.id != guestUser.id}">
                         <s:div styleClass="label">Roles:</s:div>
                         <div class="input">
-                            <h:selectManyListbox value="#{userHome.roles}" tabindex="8"
+                            <h:selectManyListbox value="#{userHome.roles}" tabindex="1"
                                     disabled="#{!s:hasPermission('User', 'editRoles', currentUser)}"
                                     converter="#{entityConverter}">
                                 <s:selectItems value="#{rolesList}"
@@ -171,13 +171,23 @@
                     <ui:include src="includes/wikiTextEditor.xhtml">
                         <ui:param name="tabId" value="userProfileTab"/>
                         <ui:param name="textEditorId" value="bio"/>
+                        <ui:param name="textPreviewId" value="bioPreview"/>
                         <ui:param name="namingContainer" value="userHomeForm"/>
                         <ui:param name="label" value="Bio"/>
                         <ui:param name="valueBinding" value="#{userHome.instance.profile.bio}"/>
                         <ui:param name="valueMaxLength" value="1000"/>
-                        <ui:param name="previewBaseDocument" value="#{wikiStart}"/>
-                        <ui:param name="previewBaseDirectory" value="#{wikiStart.parent}"/>
+                        <ui:param name="textEditorColumns" value="50"/>
+                        <ui:param name="textEditorRows" value="5"/>
                     </ui:include>
+
+                    <s:div styleClass="wideMarginLeft">
+                        <ui:include src="includes/wikiTextPreview.xhtml">
+                            <ui:param name="textPreviewId" value="bioPreview"/>
+                            <ui:param name="valueBinding" value="#{userHome.instance.profile.bio}"/>
+                            <ui:param name="baseDocument" value="#{wikiStart}"/>
+                            <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
+                        </ui:include>
+                    </s:div>
 
                     <s:decorate id="websiteDecorate" template="includes/formFieldDecorate.xhtml">
                         <ui:param name="tabId" value="userProfileTab"/>
@@ -209,13 +219,23 @@
                     <ui:include src="includes/wikiTextEditor.xhtml">
                         <ui:param name="tabId" value="userProfileTab"/>
                         <ui:param name="textEditorId" value="signature"/>
+                        <ui:param name="textPreviewId" value="signaturePreview"/>
                         <ui:param name="namingContainer" value="userHomeForm"/>
                         <ui:param name="label" value="Signature"/>
                         <ui:param name="valueBinding" value="#{userHome.instance.profile.signature}"/>
                         <ui:param name="valueMaxLength" value="1000"/>
-                        <ui:param name="previewBaseDocument" value="#{wikiStart}"/>
-                        <ui:param name="previewBaseDirectory" value="#{wikiStart.parent}"/>
+                        <ui:param name="textEditorColumns" value="50"/>
+                        <ui:param name="textEditorRows" value="5"/>
                     </ui:include>
+
+                    <s:div styleClass="wideMarginLeft">
+                        <ui:include src="includes/wikiTextPreview.xhtml">
+                            <ui:param name="textPreviewId" value="signaturePreview"/>
+                            <ui:param name="valueBinding" value="#{userHome.instance.profile.signature}"/>
+                            <ui:param name="baseDocument" value="#{wikiStart}"/>
+                            <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
+                        </ui:include>
+                    </s:div>
 
                 </s:validateAll>
             </div>
@@ -239,6 +259,7 @@
             <div class="input">
 
                 <h:commandLink id="createHomeDirectory" styleClass="buttonNonpersistent"
+                               tabindex="1"
                                rendered="#{empty userHome.instance.memberHome
                                            and userHome.instance.id != guestUser.id
                                            and userHome.instance.id != adminUser.id
@@ -247,9 +268,9 @@
 
                 <h:commandLink id="update" styleClass="button saveButton"
                                action="#{userHome.update}"
-                               tabindex="9" accesskey="S"><span class="buttonLabel"><u>S</u>ave Settings</span></h:commandLink>
+                               tabindex="1" accesskey="S"><span class="buttonLabel"><u>S</u>ave Settings</span></h:commandLink>
 
-                <h:outputLink id="delete" value="#" tabindex="9" accesskey="D" styleClass="button"
+                <h:outputLink id="delete" value="#" tabindex="1" accesskey="D" styleClass="button"
                               rendered="#{s:hasPermission('User', 'delete', userHome.instance)}"><j4j:idProxy
                         id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
 

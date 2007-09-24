@@ -76,6 +76,10 @@
                       value="org.jboss.seam.wiki.core.nestedset.NestedSetPostInsertEventListener"/>
             <property name="hibernate.ejb.event.post-delete"
                       value="org.jboss.seam.wiki.core.nestedset.NestedSetPostDeleteEventListener"/>
+            <!--
+            <property name="hibernate.ejb.event.flush-entity"
+                      value="org.jboss.seam.wiki.core.nestedset.NestedSetFlushEntityEventListener"/>
+              -->
 
         </properties>
 

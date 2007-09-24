@@ -44,7 +44,7 @@ public class Progress {
     }
 
     public String toString() {
-        return getOfOperation() + "(" + getStatus() + "): " + getPercentComplete() + "%";
+        return "Progress of operation: " + getOfOperation() + ", Status: " + getStatus() + ", Complete: " + getPercentComplete() + "%";
     }
 
 }

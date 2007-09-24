@@ -82,6 +82,11 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
 
     @Preference(description = "13. Show document creator/edit history in document footer", visibility = PreferenceVisibility.SYSTEM)
     private Boolean showDocumentCreatorHistory;
+    
+    @Preference(description = "14. Wiki area containing help texts", visibility = PreferenceVisibility.SYSTEM)
+    @Length(min = 3, max = 1000)
+    @NotNull
+    private String helpArea;
 
     public String getBaseUrl() {
         return baseUrl;
@@ -133,5 +138,9 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
 
     public Boolean getShowDocumentCreatorHistory() {
         return showDocumentCreatorHistory;
+    }
+
+    public String getHelpArea() {
+        return helpArea;
     }
 }

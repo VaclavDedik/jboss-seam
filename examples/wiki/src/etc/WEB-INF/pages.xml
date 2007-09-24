@@ -214,6 +214,7 @@
     </page>
 
     <page view-id="/confirmRegistration.xhtml" action="#{authenticator.activate}">
+        <param name="activationCode" value="#{authenticator.activationCode}"/>
         <navigation>
             <rule if-outcome="activated">
                 <redirect view-id="/wiki.xhtml">

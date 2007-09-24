@@ -36,6 +36,9 @@ public class UIWikiFormattedText extends UIOutput {
     public static final String ATTR_ATTACHMENT_LINK_STYLE_CLASS     = "attachmentLinkStyleClass";
     public static final String ATTR_THUMBNAIL_LINK_STYLE_CLASS      = "thumbnailLinkStyleClass";
     public static final String ATTR_UPDATE_RESOLVED_LINKS           = "updateResolvedLinks";
+    public static final String ATTR_PLAIN_VIEW                      = "plainView";
+    public static final String ATTR_INTERNAL_TARGET_FRAME           = "internalTargetFrame";
+    public static final String ATTR_EXTERNAL_TARGET_FRAME           = "externalTargetFrame";
     public static final String ATTR_RENDER_BASE_DOCUMENT            = "renderBaseDocument";
     public static final String ATTR_RENDER_BASE_DIRECTORY           = "renderBaseDirectory";
     public static final String ATTR_ENABLE_PLUGINS                  = "enablePlugins";
@@ -86,7 +89,15 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderInlineLink(WikiLink inlineLink) {
                 return "<a href=\""
-                        + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
+                        + (
+                            inlineLink.isBroken()
+                                ? inlineLink.getUrl()
+                                : "true".equals(getAttributes().get(ATTR_PLAIN_VIEW))
+                                  ? WikiUtil.renderPlainURL(inlineLink.getNode())
+                                  : WikiUtil.renderURL(inlineLink.getNode())
+                           )
+                        + "\" target=\""
+                        + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")
                         + "\" class=\""
                         + (inlineLink.isBroken() ? getAttributes().get(ATTR_BROKEN_LINK_STYLE_CLASS)
                         : getAttributes().get(ATTR_LINK_STYLE_CLASS)) + "\">"
@@ -96,6 +107,8 @@ public class UIWikiFormattedText extends UIOutput {
             public String renderExternalLink(WikiLink externalLink) {
                 return "<a href=\""
                         + WikiUtil.escapeEmailURL(externalLink.getUrl())
+                        + "\" target=\""
+                        + (getAttributes().get(ATTR_EXTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_EXTERNAL_TARGET_FRAME) : "")
                         + "\" class=\""
                         + (externalLink.isBroken() ? getAttributes().get(ATTR_BROKEN_LINK_STYLE_CLASS)
                         : getAttributes().get(ATTR_LINK_STYLE_CLASS)) + "\">"
@@ -104,8 +117,13 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
                 return "<a href=\""
-                        + WikiUtil.renderURL(baseDocument)
-                        + "#attachment" + attachmentNumber + "\" class=\""
+                        + ("true".equals(getAttributes().get(ATTR_PLAIN_VIEW))
+                          ? WikiUtil.renderPlainURL(baseDocument)
+                          : WikiUtil.renderURL(baseDocument))
+                        + "#attachment" + attachmentNumber
+                        + "\" target=\""
+                        + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")
+                        + "\" class=\""
                         + getAttributes().get(ATTR_ATTACHMENT_LINK_STYLE_CLASS) + "\">"
                         + attachmentLink.getDescription() + "[" + attachmentNumber + "]" + "</a>";
             }
@@ -129,8 +147,10 @@ public class UIWikiFormattedText extends UIOutput {
                     String thumbnailUrl = WikiUtil.renderURL(inlineLink.getNode()) + "&amp;thumbnail=true&amp;cid=" + Conversation.instance().getId();
 
                     return "<a href=\""
-                            + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink
-                            .getNode())) + "\" class=\""
+                            + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(inlineLink.getNode()))
+                            + "\" target=\""
+                            + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")
+                            + "\" class=\""
                             + getAttributes().get(ATTR_THUMBNAIL_LINK_STYLE_CLASS) + "\"><img src=\""
                             + thumbnailUrl + "\"/></a>";
 

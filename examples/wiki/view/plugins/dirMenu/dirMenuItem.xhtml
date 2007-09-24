@@ -30,7 +30,7 @@
                                     rendered="#{wiki:isFile(childWrapper.wrappedNode) and empty fileMetaMap[childWrapper.wrappedNode.contentType]}"/>
                 </s:span>
 
-                <h:outputLink styleClass="level#{childWrapper.level}Link"
+                <h:outputLink styleClass="level#{childWrapper.level}Link" target="_top"
                               value="#{wiki:renderURL(childWrapper.wrappedNode)}">#{wiki:truncateString(childWrapper.wrappedNode.name, 40, '...')}</h:outputLink>
 
             </h:panelGrid>

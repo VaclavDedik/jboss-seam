@@ -32,7 +32,6 @@ import java.util.*;
  */
 @Name("feedDAO")
 @AutoCreate
-@Transactional
 public class FeedDAO {
 
     @Logger static Log log;

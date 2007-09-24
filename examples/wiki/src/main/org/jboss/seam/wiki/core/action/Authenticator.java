@@ -33,10 +33,10 @@ public class Authenticator {
     @In
     private Identity identity;
 
-    @RequestParameter
     private String activationCode;
+    public String getActivationCode() { return activationCode; }
+    public void setActivationCode(String activationCode) { this.activationCode = activationCode; }
 
-    @Transactional
     public boolean authenticate() {
 
         if (org.jboss.seam.wiki.core.dao.UserRoleAccessFactory.GUEST_USERNAME.equals(identity.getUsername())) return false;
@@ -60,7 +60,6 @@ public class Authenticator {
         return true;
     }
 
-    @Transactional
     public String activate() {
         User user = userDAO.findUserWithActivationCode(activationCode);
         if (user != null) {
@@ -81,7 +80,6 @@ public class Authenticator {
         }
     }
 
-    @Transactional
     public void createHomeDirectory(User user) {
 
         NodeDAO nodeDAO = (NodeDAO)Component.getInstance("nodeDAO");

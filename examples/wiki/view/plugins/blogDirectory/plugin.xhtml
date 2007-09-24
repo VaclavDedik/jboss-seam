@@ -37,7 +37,7 @@
                             </h:outputText>
                             <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
                             <h:outputText value=",&#160;by&#160;"/>
-                            <h:outputLink value="#{wiki:renderHomeURL(blogEntry.entryDocument.createdBy)}"
+                            <h:outputLink value="#{wiki:renderHomeURL(blogEntry.entryDocument.createdBy)}" target="_top"
                                           rendered="#{!empty blogEntry.entryDocument.createdBy.memberHome}">
                                 <h:outputText styleClass="blogEntryCreatedByLink"
                                               value="#{blogEntry.entryDocument.createdBy.fullname}"/>
@@ -54,6 +54,8 @@
                                             attachmentLinkStyleClass="attachmentLink"
                                             thumbnailLinkStyleClass="regularLink"
                                             updateResolvedLinks="false"
+                                            internalTargetFrame="_top"
+                                            externalTargetFrame="_top"
                                             renderBaseDocument="#{blogEntry.entryDocument}"
                                             renderBaseDirectory="#{currentDirectory}"
                                             enablePlugins="true"/>
@@ -63,22 +65,22 @@
                         <h:panelGrid styleClass="blogEntryFooterTable" columns="5" cellpadding="0" cellspacing="0" border="0">
                             <s:div styleClass="blogEntryCommentCount"
                                    rendered="#{blogEntry.commentCount > 0 and blogEntry.entryDocument.enableComments}">
-                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#comments">
+                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#comments" target="_top">
                                     <span class="blogEntryCommentCountText">
                                         <h:outputText value="#{blogEntry.commentCount}&#160;"/>
                                         <h:outputText value="#{blogEntry.commentCount>1 ? 'comments' : 'comment'}"/>
                                     </span>
                                 </h:outputLink>
                             </s:div>
-                            <s:div styleClass="blogEntryCommentLink"
+                            <s:div styleClass="blogEntryCommentLink" target="_top"
                                    rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
-                                <h:outputLink value="#{wiki:renderURL(blogEntry.entryDocument)}?showCommentForm=true#commentForm">
+                                <h:outputLink target="_top" value="#{wiki:renderURL(blogEntry.entryDocument)}?showCommentForm=true#commentForm">
                                     <span class="blogEntryCommentLinkText">Post comment</span>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryAttachmentsLink"
                                     rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
-                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#attachments">
+                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#attachments" target="_top">
                                     <span class="blogEntryAttachmentsLinkText">
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)}&#160;"/>
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1 ? 'attachments' : 'attachment'}"/>
@@ -86,12 +88,12 @@
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryPermLink">
-                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}">
+                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}" target="_top">
                                     <span class="blogEntryPermLinkText">Permlink</span>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryWikiLink">
-                                <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}">
+                                <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}" target="_top">
                                     <span class="blogEntryWikiLinkText">WikiLink</span>
                                 </h:outputLink>
                             </s:div>
@@ -110,7 +112,7 @@
                      columnClasses="blogPagerColumn, blogPagerColumn, blogPagerTextColumn, blogPagerColumn, blogPagerColumn, "
                      cellpadding="0" cellspacing="0" border="0">
 
-            <h:outputLink rendered="#{blogDirectory.previousPageAvailable}"
+            <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" target="_top"
                           value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
@@ -119,7 +121,7 @@
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.previousPageAvailable}"/>
 
-            <h:outputLink rendered="#{blogDirectory.previousPageAvailable}"
+            <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" target="_top"
                           value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.previousPage}">
                 <div style="width:30px;">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
@@ -139,7 +141,7 @@
                 <h:outputText rendered="#{!empty param.year}" value="&#160;#{param.year}"/>
             </s:span>
 
-            <h:outputLink rendered="#{blogDirectory.nextPageAvailable}"
+            <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" target="_top"
                           value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.nextPage}">
                 <div style="width:30px;">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
@@ -148,7 +150,7 @@
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.nextPageAvailable}"/>
 
-            <h:outputLink rendered="#{blogDirectory.nextPageAvailable}"
+            <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" target="_top"
                           value="#{wiki:renderURL(currentDocument)}/#{blogDirectory.dateUrl}Page/#{blogDirectory.lastPage}">
                 <div style="width:30px;">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>

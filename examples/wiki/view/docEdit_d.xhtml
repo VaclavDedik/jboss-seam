@@ -78,7 +78,7 @@
                                 <div class="output">
                                     <s:span id="directoryNameDisplay">#{documentHome.parentDirectory.name}</s:span>
 
-                                    <h:outputLink id="selectDirectory" rendered="#{documentHome.managed}" 
+                                    <h:outputLink id="selectDirectory" rendered="#{documentHome.managed}"
                                                   value="#" tabindex="1"
                                                   styleClass="buttonNonpersistent"><j4j:idProxy
                                             id="openDialogDirectorySelection"/><span class="buttonLabel">...</span></h:outputLink>
@@ -89,7 +89,7 @@
                                 <ui:param name="tabId" value="docContentTab"/>
                                 <ui:param name="fieldId" value="name"/>
                                 <ui:define name="label">Name</ui:define>
-                                <h:inputText tabindex="2" size="70" maxlength="255" required="true" value="#{documentHome.instance.name}">
+                                <h:inputText tabindex="1" size="70" maxlength="255" required="true" value="#{documentHome.instance.name}">
                                     <a:support status="docEditForm:status" event="onblur" reRender="nameDecorate"/>
                                 </h:inputText>
                             </s:decorate>
@@ -97,7 +97,7 @@
                             <s:div styleClass="entry">
                                 <div class="label">&#160;</div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}" tabindex="2"/>
+                                    <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}" tabindex="1"/>
                                     Render name as document title
                                 </div>
                             </s:div>
@@ -105,7 +105,7 @@
                             <s:div styleClass="entry" rendered="#{documentHome.managed}">
                                 <div class="label">&#160;</div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="3"/>
+                                    <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="1"/>
                                     Minor change, don't create a new revision
                                 </div>
                             </s:div>
@@ -114,7 +114,7 @@
                                 <s:div styleClass="entry">
                                     <div class="label">&#160;</div>
                                     <div class="input">
-                                        <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3">
+                                        <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1">
                                             <a:support status="docEditForm:status" event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged"/>
                                         </h:selectBooleanCheckbox>
                                         Create entry on parent directory feeds
@@ -124,7 +124,7 @@
                                     <s:div styleClass="entry">
                                         <div class="label">&#160;</div>
                                         <div class="input">
-                                            <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
+                                            <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
                                             Create entry on global site feed
                                         </div>
                                     </s:div>
@@ -136,7 +136,7 @@
                                     <s:div styleClass="entry">
                                         <div class="label">&#160;</div>
                                         <div class="input">
-                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3"/>
+                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1"/>
                                             Push changes onto feeds
                                         </div>
                                     </s:div>
@@ -145,7 +145,7 @@
                                     <s:div styleClass="entry">
                                         <div class="label">&#160;</div>
                                         <div class="input">
-                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="3">
+                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1">
                                                 <a:support status="docEditForm:status" event="onchange" reRender="pushOnSiteFeedSwitch"/>
                                             </h:selectBooleanCheckbox>
                                             Push changes onto feeds of parent directories
@@ -155,7 +155,7 @@
                                         <s:div styleClass="entry">
                                             <div class="label">&#160;</div>
                                             <div class="input">
-                                                <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="3"/>
+                                                <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
                                                 Create entry on  global site feed
                                             </div>
                                         </s:div>
@@ -163,45 +163,29 @@
                                 </s:fragment>
                             </s:fragment>
 
-                            <s:decorate id="contentDecorate" template="includes/formFieldDecorate.xhtml">
+                            <ui:include src="includes/wikiTextEditor.xhtml">
                                 <ui:param name="tabId" value="docContentTab"/>
-                                <ui:param name="fieldId" value="contentTextArea"/>
-                                <ui:define name="label">Content</ui:define>
-                                <script type="text/javascript">if(!$.browser.safari &amp;&amp; !$.browser.msie){
-                                    jQuery(function() {
-                                        jQuery("#contentTextEdit").Resizable({
-                                            minHeight: 50,
-                                            handlers: {
-                                                s: '#contentTextEditResizeHandle'
-                                            },
-                                            onResize: function(size) {
-                                                jQuery("textarea", this).css({ height: size.height + "px" });
-                                            }
-                                        });
-                                        jQuery("#contentTextEditResizeHandle").show();
-                                    }
-                                )};</script>
-                                <div id="contentTextEdit" class="textEditResizable">
-                                    <h:inputTextarea tabindex="3"
-                                                     required="true"
-                                                     cols="#{docEditorPreferences.properties['regularEditAreaColumns']}"
-                                                     rows="#{docEditorPreferences.properties['regularEditAreaRows']}"
-                                                     id="contentTextArea"
-                                                     value="#{documentHome.formContent}">
-                                        <a:support status="docEditForm:status" rendered="#{documentHome.enabledPreview}" event="onkeyup" reRender="preview" requestDelay="3000" eventsQueue="editKeyPress"/>
-                                        <a:support status="docEditForm:status" event="onblur" reRender="contentDecorate"/>
-                                    </h:inputTextarea>
-                                    <div id="contentTextEditResizeHandle" class="textEditResizeHandle" style="display:none"/>
-                                </div>
-                            </s:decorate>
+                                <ui:param name="textEditorId" value="content"/>
+                                <ui:param name="textPreviewId" value="#{documentHome.enabledPreview ? 'contentPreview' : ''}"/>
+                                <ui:param name="namingContainer" value="docEditForm"/>
+                                <ui:param name="label" value="Content"/>
+                                <ui:param name="textEditorColumns" value="#{docEditorPreferences.properties['regularEditAreaColumns']}"/>
+                                <ui:param name="textEditorRows" value="#{docEditorPreferences.properties['regularEditAreaRows']}"/>
+                                <ui:param name="valueBinding" value="#{documentHome.formContent}"/>
+                                <ui:param name="valueMaxLength" value="32768"/>
+                                <ui:param name="valueRequired" value="true"/>
+                            </ui:include>
 
-                            <s:div styleClass="entry">
+                            <s:div styleClass="entry" id="previewSwitchDiv">
+                                <h:message for="previewSwitch"/>
                                 <div class="label">&#160;</div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.enabledPreview}" tabindex="3">
-                                        <a:support status="docEditForm:status" event="onchange" reRender="preview,contentDecorate,pluginSwitch"/>
+                                    <h:selectBooleanCheckbox value="#{documentHome.enabledPreview}" tabindex="1" id="previewSwitch">
+                                        <a:support status="docEditForm:status"
+                                                   event="onchange"
+                                                   reRender="contentPreview, docEditForm:contentTextEditor, pluginSwitch"/>
                                     </h:selectBooleanCheckbox>
-                                    Show interactive preview
+                                    Enable live preview
                                 </div>
                             </s:div>
 
@@ -209,8 +193,8 @@
                                 <s:div styleClass="entry" rendered="#{documentHome.enabledPreview}">
                                     <div class="label">&#160;</div>
                                     <div class="input">
-                                        <h:selectBooleanCheckbox value="#{documentHome.showPluginPrefs}" tabindex="3">
-                                            <a:support status="docEditForm:status" event="onchange" reRender="preview"/>
+                                        <h:selectBooleanCheckbox value="#{documentHome.showPluginPrefs}" tabindex="1">
+                                            <a:support status="docEditForm:status" event="onchange" reRender="contentPreview"/>
                                         </h:selectBooleanCheckbox>
                                         Show plugin settings in preview
                                     </div>
@@ -246,7 +230,7 @@
                             <s:div styleClass="entry">
                                 <div class="label">Options:</div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.instance.enableComments}" tabindex="3">
+                                    <h:selectBooleanCheckbox value="#{documentHome.instance.enableComments}" tabindex="1">
                                         <a:support status="docEditForm:status" event="onchange" reRender="commentFormSwitch"/>
                                     </h:selectBooleanCheckbox>
                                     Enable comments
@@ -257,7 +241,7 @@
                                 <s:div styleClass="entry">
                                     <div class="label">&#160;</div>
                                     <div class="input">
-                                        <h:selectBooleanCheckbox disabled="#{not documentHome.instance.enableComments}" value="#{documentHome.instance.enableCommentForm}" tabindex="3"/>
+                                        <h:selectBooleanCheckbox disabled="#{not documentHome.instance.enableComments}" value="#{documentHome.instance.enableCommentForm}" tabindex="1"/>
                                         Allow posting of new comments
                                     </div>
                                 </s:div>
@@ -277,13 +261,13 @@
 
                         <h:commandLink id="save" action="#{documentHome.persist}"
                                        rendered="#{!documentHome.managed}"
-                                       tabindex="4" accesskey="S" styleClass="button saveButton"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
+                                       tabindex="1" accesskey="S" styleClass="button saveButton"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
 
                         <h:commandLink id="update" action="#{documentHome.update}"
                                    rendered="#{documentHome.managed}"
-                                   tabindex="4" accesskey="U" styleClass="button saveButton"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                                   tabindex="1" accesskey="U" styleClass="button saveButton"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
 
-                        <h:outputLink id="delete" value="#" tabindex="4" accesskey="D" styleClass="button"
+                        <h:outputLink id="delete" value="#" tabindex="1" accesskey="D" styleClass="button"
                                       rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"><j4j:idProxy
                                 id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
 
@@ -298,7 +282,7 @@
 
     <br/>
 
-    <s:div id="preview">
+    <s:div id="contentPreview">
         <s:div id="documentDisplayContainer"
                rendered="#{documentHome.enabledPreview}"
                styleClass="box">

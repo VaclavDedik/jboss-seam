@@ -7,6 +7,12 @@
     <namespace>http://jboss.com/products/seam/wiki</namespace>
 
     <function>
+        <function-name>renderPlainURL</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String renderPlainURL(org.jboss.seam.wiki.core.model.Node)</function-signature>
+    </function>
+
+    <function>
         <function-name>renderURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderURL(org.jboss.seam.wiki.core.model.Node)</function-signature>
@@ -88,6 +94,12 @@
         <function-name>length</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>int length(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>repeatString</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String repeatString(java.lang.String,java.lang.Integer)</function-signature>
     </function>
 
     <function>

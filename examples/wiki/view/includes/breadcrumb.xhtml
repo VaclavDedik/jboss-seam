@@ -8,7 +8,7 @@
 
     <h:panelGroup styleClass="breadcrumbPanel">
 
-        <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemLink breadcrumbRoot">
+        <h:outputLink value="#{wiki:renderURL(wikiRoot)}" styleClass="itemLink breadcrumbRoot">
             <h:outputText value="#{wiki:truncateString(wikiRoot.name, 25, '...')}"/>
         </h:outputLink>
         <h:outputText styleClass="itemSeparator breadcrumbRoot" value="&#183;"/>

@@ -56,14 +56,25 @@
 
                 <ui:include src="wikiTextEditor.xhtml">
                     <ui:param name="textEditorId" value="comment"/>
+                    <ui:param name="textPreviewId" value="commentPreview"/>
                     <ui:param name="namingContainer" value="commentForm"/>
                     <ui:param name="label" value="Comment"/>
                     <ui:param name="valueBinding" value="#{commentHome.comment.text}"/>
                     <ui:param name="valueMaxLength" value="8000"/>
                     <ui:param name="valueRequired" value="true"/>
-                    <ui:param name="previewBaseDocument" value="#{documentHome.instance}"/>
-                    <ui:param name="previewBaseDirectory" value="#{documentHome.instance.parent}"/>
+                    <ui:param name="textEditorColumns" value="50"/>
+                    <ui:param name="textEditorRows" value="10"/>
                 </ui:include>
+
+                <s:div styleClass="wideMarginLeft">
+                    <ui:include src="wikiTextPreview.xhtml">
+                        <ui:param name="textPreviewId" value="commentPreview"/>
+                        <ui:param name="valueBinding" value="#{commentHome.comment.text}"/>
+                        <ui:param name="enablePlugins" value="false"/>
+                        <ui:param name="baseDocument" value="#{documentHome.instance}"/>
+                        <ui:param name="baseDirectory" value="#{documentHome.instance.parent}"/>
+                    </ui:include>
+                </s:div>
 
                 <s:div rendered="#{!identity.loggedIn}">
                     <s:div styleClass="entry">

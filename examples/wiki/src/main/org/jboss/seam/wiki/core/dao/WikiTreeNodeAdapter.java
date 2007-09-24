@@ -113,7 +113,8 @@ public class WikiTreeNodeAdapter extends NestedSetNodeWrapper<Node>
 
         NodeDAO nodeDAO = (NodeDAO) Component.getInstance("nodeDAO");
 
-        nodeDAO.appendNestedSetNodes(transformer, prefetchDepth, false, "n1.class = 'DIRECTORY'");
+        nodeDAO.appendNestedSetNodes(transformer, prefetchDepth, false);
+        //nodeDAO.appendNestedSetNodes(transformer, prefetchDepth, false, "n1.class = 'DIRECTORY'");
     }
 
 }

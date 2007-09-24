@@ -1,0 +1,33 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:wiki="http://jboss.com/products/seam/wiki"
+                template="themes/#{wikiPreferences.themeName}/templatePlain.xhtml">
+
+<ui:define name="screenname">#{documentHome.instance.name}</ui:define>
+
+<ui:define name="content">
+
+    <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
+
+    <wiki:formattedText value="#{documentHome.instance.content}"
+                        linkStyleClass="regularLink"
+                        brokenLinkStyleClass="brokenLink"
+                        attachmentLinkStyleClass="regularLink"
+                        thumbnailLinkStyleClass="regularLink"
+                        renderBaseDocument="#{documentHome.instance}"
+                        renderBaseDirectory="#{documentHome.parentDirectory}"
+                        internalTargetFrame="_self"
+                        externalTargetFrame="_top"
+                        plainView="true"
+                        enablePlugins="true"/>
+
+    <ui:include src="includes/attachmentDisplay.xhtml"/>
+
+</ui:define>
+
+</ui:composition>

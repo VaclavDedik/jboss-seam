@@ -34,10 +34,14 @@
                          styleClass="boxHeader fullWidth">
 
                 <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
-                    <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                    <h:outputLink
+                            target="_top"
+                            value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
                     </h:outputLink>
-                    <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                    <h:outputLink
+                            target="_top"
+                            value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
                         <h:outputText value="Subscribe"/>
                     </h:outputLink>
                 </h:panelGrid>
@@ -62,7 +66,7 @@
                                  columnClasses="blogRecentEntriesItem"
                                  cellpadding="0" cellspacing="0" border="0">
                         <h:column>
-                            <h:outputLink value="#{wiki:renderURL(be.entryDocument)}">
+                            <h:outputLink target="_top" value="#{wiki:renderURL(be.entryDocument)}">
                                 #{wiki:truncateString(be.entryDocument.name, blogRecentEntriesPreferences.truncateItemText, '...')}
                             </h:outputLink>
                         </h:column>

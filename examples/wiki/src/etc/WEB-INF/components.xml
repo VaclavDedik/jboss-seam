@@ -74,6 +74,11 @@
         <property name="entityManager">#{entityManager}</property>
     </component>
 
+    <component name="nestedSetNodeWrapperRestrictedEntityConverter" scope="CONVERSATION" precedence="20"
+               class="org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapperEntityConverter">
+        <property name="entityManager">#{restrictedEntityManager}</property>
+    </component>
+
     <!-- Login and security -->
 
     <!-- Rules is too broken

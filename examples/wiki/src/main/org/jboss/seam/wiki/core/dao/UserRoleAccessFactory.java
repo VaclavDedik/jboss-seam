@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.*;
 
 @Name("userRoleAccessFactory")
-@Transactional
 public class UserRoleAccessFactory implements Serializable {
 
     public static final String GUEST_USERNAME = "guest";
@@ -117,7 +116,6 @@ public class UserRoleAccessFactory implements Serializable {
 
         @Unwrap
         @SuppressWarnings({"unchecked"})
-        @Transactional
         public List<Role> getRoles() {
             if (roles == null) {
                 entityManager.joinTransaction();

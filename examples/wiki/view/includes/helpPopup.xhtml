@@ -1,0 +1,97 @@
+<ui:decorate template="popupDialog.xhtml"
+             xmlns:s="http://jboss.com/products/seam/taglib"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:h="http://java.sun.com/jsf/html"
+             xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+             xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+    <ui:param name="dialogId" value="dialogHelp"/>
+    <ui:param name="hideCancelButton" value="true"/>
+    <ui:param name="disableResize" value="true"/>
+
+    <ui:define name="dialogInit">
+        <script type="text/javascript">
+            function showHelpPopup(width, height, top, left) {
+                jsf('dialogHelpPopup')
+                    .css({
+                        width:      width + "px",
+                        minWidth:   width + "px",
+                        maxWidth:   width + "px",
+
+                        height:     height + "px",
+                        minHeight:  height + "px",
+                        maxHeight:  height + "px",
+
+                        top:        top + "px",
+                        left:       left + "px"
+                    })
+                    .jqm({
+                        closeClass: "closeDialog",
+                        overlay: 0
+                    });
+
+                    // Fix for Firefox iframe scrollbar rendering bug (wrong z-index, scrollbars are hidden)
+                    jQuery('#dialogHelp').css('position', 'fixed')
+                    jQuery(".closeDialog").attr("accesskey", "H");
+
+                    jsf('dialogHelpPopup').jqmShow();
+
+            };</script>
+    </ui:define>
+    <ui:define name="dialogTitle">Help</ui:define>
+    <ui:define name="dialogContent">
+
+        <s:div id="helpSelector">
+            <h:panelGrid columns="3" styleClass="fullWidth"
+                         columnClasses="alignLeft fivePercentColumn, alignLeft defaultColumn, alignRight tenPercentColumn">
+                <h:outputText value="Browse:"/>
+                <h:form id="helpSelectorForm">
+                    <h:selectOneMenu
+                            value="#{help.selectedNode}"
+                            converter="#{nestedSetNodeWrapperRestrictedEntityConverter}">
+                        <s:selectItems value="#{help.root.wrappedChildren}"
+                                       var="helpNode"
+                                       label="#{wiki:repeatString('&#160;',helpNode.level)}#{wiki:isDocument(helpNode.wrappedNode) ? '&#183;' : '' }#{wiki:truncateString(helpNode.wrappedNode.name, 40, '...')}"
+                                       noSelectionLabel="#{help.root.wrappedNode.name}"/>
+                        <a:support event="onchange" reRender="helpContent,helpSelector"/>
+                    </h:selectOneMenu>
+                </h:form>
+
+                <h:panelGroup>
+                    <h:outputLink value="#{wiki:renderURL(help.selectedNode.wrappedNode)}"
+                                  rendered="#{not empty help.selectedNode}"
+                                  styleClass="buttonNonpersistent"
+                                  tabindex="1"><span class="buttonLabel">Open Fullscreen</span></h:outputLink>
+
+                    <h:outputLink styleClass="buttonNonpersistent closeDialog"
+                                  tabindex="1"><span class="buttonLabel">Close <u>H</u>elp</span></h:outputLink>
+                </h:panelGroup>
+            </h:panelGrid>
+        </s:div>
+
+        <s:div id="helpContent">
+            <s:fragment rendered="#{empty help.selectedDocument and not empty help.selectedDirectory}">
+                <iframe id="helpContentFrame" src="#{wiki:renderPlainURL(help.selectedDirectory)}"
+                        frameborder="0">
+                </iframe>
+            </s:fragment>
+            <s:fragment rendered="#{not empty help.selectedDocument}">
+                <iframe id="helpContentFrame" src="#{wiki:renderPlainURL(help.selectedDocument)}"
+                        frameborder="0">
+                </iframe>
+            </s:fragment>
+            <s:fragment rendered="#{not empty help.selectedDocument or not empty help.selectedDirectory}">
+                <script type="text/javascript">
+                    jQuery(function() {
+                        jQuery("#helpContentFrame").width( jQuery("#dialogHelp").width()-10 );
+                        jQuery("#helpContentFrame").height( jQuery("#dialogHelp").height()-62 );
+                    });
+                </script>
+            </s:fragment>
+        </s:div>
+    </ui:define>
+    <ui:define name="dialogControls">
+    </ui:define>
+
+</ui:decorate>

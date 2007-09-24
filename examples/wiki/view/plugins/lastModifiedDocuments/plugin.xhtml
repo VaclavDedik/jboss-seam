@@ -42,7 +42,7 @@
                 </h:outputText>
             </h:column>
             <h:column>
-                <h:outputLink value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
+                <h:outputLink target="_top" value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
                     <h:outputText value="#{wiki:truncateString(doc.name, lastModifiedDocumentsPreferences.properties['documentTitleLength'],'...')}"/>
                 </h:outputLink>
             </h:column>

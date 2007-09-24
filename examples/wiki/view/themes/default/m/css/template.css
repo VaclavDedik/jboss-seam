@@ -61,7 +61,6 @@ h4 {
 .brokenLink {
     color: #ff0000;
     text-decoration: line-through;
-    font-style: italic;
 }
 
 .rowOdd {

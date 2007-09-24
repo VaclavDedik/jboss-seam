@@ -35,7 +35,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
     private Map<PreferenceComponent, Set<PreferenceValue>> currentValueMap = new HashMap<PreferenceComponent, Set<PreferenceValue>>();
     private Set<PreferenceValue> queuedNewValues = new HashSet<PreferenceValue>();
 
-    @Transactional
     public Set<PreferenceValue> load(PreferenceComponent component, Object user, Object instance, boolean includeSystemPreferences) {
         log.debug("Loading preference values for component '" + component.getName() + "' and user '" + user + "' and instance '" + instance + "'");
         entityManager.joinTransaction();
@@ -62,7 +61,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
         }
     }
 
-    @Transactional
     public Set<PreferenceValue> store(PreferenceComponent component, Set<PreferenceValue> valueHolders, Object user, Object instance) {
         log.debug("Storing preference values for component '" + component.getName() + "' and user '" + user + "' and instance '" + instance + "'");
         entityManager.joinTransaction();
@@ -112,7 +110,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
     }
 
 
-    @Transactional
     public void deleteUserPreferences(Object user) {
         log.debug("Deleting all preference values of user '" + user + "'");
         entityManager.joinTransaction();
@@ -121,7 +118,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
                 .executeUpdate();
     }
 
-    @Transactional
     public void deleteInstancePreferences(Object instance) {
         log.debug("Deleting all preference values of instance '" + instance + "'");
         entityManager.joinTransaction();
@@ -130,7 +126,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
                 .executeUpdate();
     }
 
-    @Transactional
     public void flush() {
         log.debug("Flushing queued preference values of this conversation to the database");
         entityManager.joinTransaction();

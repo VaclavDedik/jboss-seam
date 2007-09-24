@@ -23,4 +23,15 @@ public class CommentsPreferences extends PreferenceSupport implements Serializab
 
     @Preference(description = "01. List comments ascending by date (or descending)", visibility = PreferenceVisibility.USER)
     private Boolean listAscending;
+
+    @Preference(description = "02. Enable comments by default", visibility = PreferenceVisibility.USER)
+    private Boolean enableByDefault;
+
+    public Boolean getListAscending() {
+        return listAscending;
+    }
+
+    public Boolean getEnableByDefault() {
+        return enableByDefault;
+    }
 }

@@ -15,4 +15,9 @@
     	<component-class>org.jboss.seam.wiki.core.ui.UIWikiFormattedText</component-class>
     </component>
 
+    <validator>
+        <validator-id>seamTextValidator</validator-id>
+        <validator-class>org.jboss.seam.wiki.core.ui.SeamTextValidator</validator-class>
+    </validator>
+
 </faces-config>

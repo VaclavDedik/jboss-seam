@@ -48,7 +48,7 @@
 
             <div class="blogArchiveSelector boxContent">
                 <select id="blogArchiveCombo" class="blogArchiveCombo"
-                        onchange="location.href = jQuery('#blogArchiveCombo')[0].options[jQuery('#blogArchiveCombo')[0].selectedIndex].value;">
+                        onchange="top.location.href = jQuery('#blogArchiveCombo')[0].options[jQuery('#blogArchiveCombo')[0].selectedIndex].value;">
                     <option value="#{wiki:renderURL(currentDocument)}">All entries (#{blogDirectory.totalNumOfBlogEntries})</option>
                     <ui:repeat var="beCount" value="#{blogDirectory.blogEntryCountsByYearAndMonth}">
                         <s:fragment rendered="#{blogDirectory.dateUrl != beCount.asString}">

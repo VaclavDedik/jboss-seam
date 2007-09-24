@@ -35,6 +35,8 @@
                                     thumbnailLinkStyleClass="regularLink"
                                     renderBaseDocument="#{currentDocument}"
                                     renderBaseDirectory="#{currentDirectory}"
+                                    internalTargetFrame="_top"
+                                    externalTargetFrame="_top"
                                     enablePlugins="false"/>
             </s:div>
 
@@ -46,13 +48,15 @@
                                     thumbnailLinkStyleClass="regularLink"
                                     renderBaseDocument="#{currentDocument}"
                                     renderBaseDirectory="#{currentDirectory}"
+                                    internalTargetFrame="_top"
+                                    externalTargetFrame="_top"
                                     enablePlugins="false"/>
             </s:div>
 
             <s:div rendered="#{!empty currentDocument.createdBy.profile.website}" styleClass="userProfileEntry">
                 <span class="userProfileEntryLabel">Website:</span>
                 <span class="userProfileEntryLink">
-                    <h:outputLink value="#{currentDocument.createdBy.profile.website}">#{currentDocument.createdBy.profile.website}</h:outputLink>
+                    <h:outputLink target="_top" value="#{currentDocument.createdBy.profile.website}">#{currentDocument.createdBy.profile.website}</h:outputLink>
                 </span>
             </s:div>
             <s:div rendered="#{!empty currentDocument.createdBy.profile.location}" styleClass="userProfileEntry">

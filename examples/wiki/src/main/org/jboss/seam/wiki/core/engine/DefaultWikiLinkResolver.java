@@ -79,7 +79,6 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
         return replacedWikiText.toString();
     }
 
-    @Transactional
     public void resolveLinkText(Long currentAreaNumber, Map<String, WikiLink> links, String linkText) {
 
         // Don't resolve twice

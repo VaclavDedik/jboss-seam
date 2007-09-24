@@ -10,7 +10,6 @@ body, div, form, hr, fieldset {
 ----------------------------------------------- */
 html {
 	height: 100%;
-	background-color: #DBD4C6;
 	margin: 0;
 	padding: 0;
 }
@@ -23,6 +22,7 @@ body {
 	line-height: 1.25em;
 	margin: 0;
 	padding: 0;
+    background-color: #DBD4C6;
 }
 input, textarea, select {
 	border: 1px solid #C3BBB6;
@@ -73,6 +73,10 @@ h4 {
 
 q {
     font-style: italic;
+}
+
+blockquote {
+    background: #bbbbbb;
 }
 
 pre {
@@ -139,6 +143,14 @@ ul {
     padding-right: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+#bodyPlain {
+    background: white;
+    text-align: left;
+    margin-left: 0;
+    padding: 5px 10px 10px 10px ;
+    border: 0;
 }
 
 #control {
@@ -333,7 +345,6 @@ ul {
 .brokenLink {
     color: #ff0000;
     text-decoration: line-through;
-    font-style: italic;
 }
 
 .undecoratedLink a {
@@ -527,6 +538,14 @@ ul {
     width: 30%;
 }
 
+.marginLeft {
+    margin-left: 17%;
+}
+
+.wideMarginLeft {
+    margin-left: 32%;
+}
+
 .entry .label .buttonLabel {
     font-size: 100%;
 }
@@ -560,13 +579,13 @@ ul {
     background-color: #ffeeee;
 }
 
+
 .textEditResizable {
     margin-left: 17%;
-    margin-bottom: 15px;
-
+    margin-bottom:10px;
 }
 
-.textEditResizable.wideLabels {
+.wideLabels .textEditResizable {
     margin-left: 32%;
 }
 
@@ -576,8 +595,18 @@ ul {
     background: #bbb url(../img/icon.resize_s.gif) 0 0 no-repeat;
     cursor: s-resize;
     position: absolute;
+    margin-bottom: 10px;
 }
 
+.textPreview {
+    border: 1px dashed #666;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 90%;
+    text-align: justify;
+}
 
 /* Directory Browser
 ----------------------------------------------- */

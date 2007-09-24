@@ -32,7 +32,6 @@ import java.util.*;
  */
 @Name("nodeDAO")
 @AutoCreate
-@Transactional
 public class NodeDAO {
 
     @Logger

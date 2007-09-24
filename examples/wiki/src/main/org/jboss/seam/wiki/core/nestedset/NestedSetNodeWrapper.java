@@ -51,6 +51,17 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
     Map<String, Object> additionalProjections = new HashMap<String, Object>();
     public boolean childrenLoaded = false;
 
+    public NestedSetNodeWrapper(N wrappedNode) {
+        this(
+            wrappedNode,
+            new Comparator() {
+                public int compare(Object o, Object o1) {
+                    return 0;
+                }
+            }
+        );
+    }
+
     public NestedSetNodeWrapper(N wrappedNode, Comparator<NestedSetNodeWrapper<N>> comparator) {
         this(wrappedNode, comparator, 0l);
     }
@@ -60,6 +71,9 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
     }
 
     public NestedSetNodeWrapper(N wrappedNode, Comparator<NestedSetNodeWrapper<N>> comparator, Long level, Map<String,Object> additionalProjections) {
+        if (wrappedNode == null) {
+            throw new IllegalArgumentException("Can't wrap null node");
+        }
         this.wrappedNode = wrappedNode;
         this.comparator = comparator;
         this.level = level;
@@ -112,6 +126,23 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
         SortedSet<NestedSetNodeWrapper<N>> sortedSet = new TreeSet<NestedSetNodeWrapper<N>>(comparator);
         sortedSet.addAll(getWrappedChildren());
         return sortedSet;
+    }
+
+    // This is needed because JSF converters for selectitems need to return an equal() instance to
+    // the selected item of the selectitems collection. This sucks.
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NestedSetNodeWrapper that = (NestedSetNodeWrapper) o;
+
+        if (!wrappedNode.getId().equals(that.wrappedNode.getId())) return false;
+
+        return true;
+    }
+
+    public int hashCode() {
+        return wrappedNode.getId().hashCode();
     }
 
     public String toString() {

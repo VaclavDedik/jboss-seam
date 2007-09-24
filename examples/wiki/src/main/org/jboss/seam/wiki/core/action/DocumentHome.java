@@ -15,6 +15,7 @@ import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
+import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -83,6 +84,12 @@ public class DocumentHome extends NodeHome<Document> {
 
 
     /* -------------------------- Custom CUD ------------------------------ */
+
+    protected Document createInstance() {
+        Document newDoc = super.createInstance();
+        newDoc.setEnableComments( ((CommentsPreferences)Component.getInstance("commentsPreferences")).getEnableByDefault() );
+        return newDoc;
+    }
 
     protected boolean beforePersist() {
         // Sync document content
@@ -174,6 +181,7 @@ public class DocumentHome extends NodeHome<Document> {
     }
 
     private String findPluginsUsed() {
+        if (formContent == null) return null;
         final StringBuilder usedPlugins = new StringBuilder();
         WikiTextParser parser = new WikiTextParser(formContent, false, false);
         parser.setCurrentDocument(getInstance());
@@ -206,6 +214,7 @@ public class DocumentHome extends NodeHome<Document> {
 
     public void setFormContent(String formContent) {
         this.formContent = formContent;
+        if (formContent != null) syncFormToInstance(getParentDirectory());
     }
 
     public boolean isMinorRevision() { return minorRevision; }

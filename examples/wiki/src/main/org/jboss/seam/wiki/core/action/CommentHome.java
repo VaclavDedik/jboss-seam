@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Name("commentHome")
-@Scope(ScopeType.CONVERSATION)
+@Scope(ScopeType.PAGE)
 public class CommentHome implements Serializable {
 
     @In
@@ -53,7 +54,6 @@ public class CommentHome implements Serializable {
     }
 
     @Observer(value = {"org.jboss.seam.postAuthenticate", "PreferenceComponent.refresh.commentsPreferences"}, create = false)
-    @Transactional
     public void refreshComments() {
         entityManager.joinTransaction();
 
@@ -81,7 +81,6 @@ public class CommentHome implements Serializable {
         comment.setSubject(documentHome.getInstance().getName());
     }
 
-    @Transactional
     public void persist() {
 
         entityManager.joinTransaction();
@@ -108,7 +107,6 @@ public class CommentHome implements Serializable {
         refreshComments();
     }
 
-    @Transactional
     public void remove(Long commentId) {
         entityManager.joinTransaction();
 

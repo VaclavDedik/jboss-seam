@@ -37,15 +37,15 @@
                         <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
                     </s:span>
                     <s:span rendered="#{feedTeasersPreferences.properties['showAuthor']}">,&#160;by&#160;
-                        <h:outputLink value="#{wiki:renderHomeURL(fe.document.createdBy)}"
+                        <h:outputLink target="_top" value="#{wiki:renderHomeURL(fe.document.createdBy)}"
                                       rendered="#{!empty fe.document.createdBy.memberHome}">
                             <h:outputText styleClass="teaserAuthorLink" value="#{fe.document.createdBy.fullname}"/>
                         </h:outputLink>
                         <h:outputText styleClass="teaserAuthor" rendered="#{empty fe.document.createdBy.memberHome}" value="#{fe.author}"/>
                     </s:span>
                     <br/>
-                    <s:span rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}">
-                        <h:outputLink styleClass="feedTeaserComments" value="#{wiki:renderPermLink(fe.document)}#comments">
+                    <s:span rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}" styleClass="undecoratedLink">
+                        <h:outputLink target="_top" styleClass="feedTeaserComments" value="#{wiki:renderPermLink(fe.document)}#comments">
                             #{wiki:sizeOf(fe.document.comments)}&#160;
                             <h:outputText value="#{wiki:sizeOf(fe.document.comments)>1 ? 'comments' : 'comment'}"/>
                         </h:outputLink>
@@ -53,12 +53,12 @@
                 </div>
 
                 <div class="teaserTitle">
-                    <h:outputLink value="#{fe.link}">#{fe.title}</h:outputLink>
+                    <h:outputLink target="_top" value="#{fe.link}">#{fe.title}</h:outputLink>
                 </div>
 
                 <h:outputText styleClass="teaserBody"
                               value="#{wiki:truncateString(fe.descriptionValueStripped, feedTeasersPreferences.properties['truncateDescription'], '')}"/>
-                <h:outputLink styleClass="teaserBody"
+                <h:outputLink target="_top" styleClass="teaserBody"
                               value="#{fe.link}"
                               rendered="#{wiki:length(fe.descriptionValueStripped) > feedTeasersPreferences.properties['truncateDescription']}">
                     &#160;more...

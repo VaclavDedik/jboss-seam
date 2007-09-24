@@ -14,7 +14,6 @@ import java.util.List;
 
 @Name("blogDAO")
 @AutoCreate
-@Transactional
 public class BlogDAO {
 
     @In

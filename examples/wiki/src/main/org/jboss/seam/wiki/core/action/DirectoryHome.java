@@ -104,7 +104,6 @@ public class DirectoryHome extends NodeHome<Directory> {
         }
     }
 
-    @Transactional
     private void createOrRemoveFeed() {
         if (hasFeed && getInstance().getFeed() == null) {
             // Does not have a feed but user wants one, create it

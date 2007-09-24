@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.*;
 
 @Name("wikiNodeFactory")
-@Transactional
 public class WikiNodeFactory implements Serializable {
 
     @In

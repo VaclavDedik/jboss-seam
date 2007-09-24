@@ -10,6 +10,13 @@
 -->
 <urlrewrite>
 
+    <!-- Disable the Red Hat crawler -->
+    <rule>
+        <from>.*</from>
+        <condition name="remote-addr">66.187.233.202</condition>
+        <to last="true" type="temporary-redirect">/robots.txt</to>
+    </rule>
+
     <!-- Mobile browser -->
     <rule>
         <from>.*</from>

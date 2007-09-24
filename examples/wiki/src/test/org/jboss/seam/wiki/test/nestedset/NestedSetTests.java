@@ -13,6 +13,7 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.nestedset.NestedSetResultTransformer;
+import org.jboss.seam.wiki.core.nestedset.NestedSetTraverser;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
 import org.dbunit.operation.DatabaseOperation;
@@ -282,8 +283,6 @@ public class NestedSetTests extends DBUnitSeamTest {
 
                 c.addChild(d);
                 c.addChild(e);
-
-                c.addChild(d);
 
                 d.addChild(f);
                 d.addChild(g);

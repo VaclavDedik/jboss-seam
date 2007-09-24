@@ -101,7 +101,6 @@ public class WikiRequestResolver {
     protected Directory currentDirectory = null;
     public Directory getCurrentDirectory() { return currentDirectory; }
 
-    @Transactional
     public String resolve() {
 
         // Queue a message if requested (for message passing across session invalidations)

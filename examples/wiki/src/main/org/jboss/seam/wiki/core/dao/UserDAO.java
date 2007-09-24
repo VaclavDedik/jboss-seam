@@ -23,7 +23,6 @@ import java.util.List;
 
 @Name("userDAO")
 @AutoCreate
-@Transactional
 public class UserDAO {
 
     @In

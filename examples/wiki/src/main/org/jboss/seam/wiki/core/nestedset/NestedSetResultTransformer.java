@@ -177,7 +177,7 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
         if (flattenToLevel > 0) {
             List<NestedSetNodeWrapper<N>> flatChildren = new ArrayList<NestedSetNodeWrapper<N>>();
             for(NestedSetNodeWrapper<N> child: rootWrapper.getWrappedChildrenSorted()) {
-                flattenTree(flatChildren, 1l, child);
+                flattenTree(flatChildren, child);
             }
             rootWrapper.setWrappedChildren(flatChildren);
         }
@@ -185,19 +185,18 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
     }
 
     // Recursively flatten tree
-    public void flattenTree(List<NestedSetNodeWrapper<N>> flatChildren, long i, NestedSetNodeWrapper<N> wrapper) {
+    public void flattenTree(List<NestedSetNodeWrapper<N>> flatChildren, NestedSetNodeWrapper<N> wrapper) {
         NestedSetNodeWrapper<N> newWrapper =
-                createNestedSetNodeWrapper(wrapper.getWrappedNode(), comparator, i, wrapper.getAdditionalProjections());
+                createNestedSetNodeWrapper(wrapper.getWrappedNode(), comparator, wrapper.getLevel(), wrapper.getAdditionalProjections());
         flatChildren.add( newWrapper );
 
         if (wrapper.getWrappedChildren().size() > 0 && wrapper.getLevel() < flattenToLevel) {
-            i++;
             for (NestedSetNodeWrapper<N> child : wrapper.getWrappedChildrenSorted()) {
-                flattenTree(newWrapper.getWrappedChildren(), i, child);
+                flattenTree(newWrapper.getWrappedChildren(), child);
             }
         } else if (wrapper.getWrappedChildren().size() > 0) {
             for (NestedSetNodeWrapper<N> child : wrapper.getWrappedChildrenSorted()) {
-                flattenTree(flatChildren, i, child);
+                flattenTree(flatChildren, child);
             }
         }
     }
