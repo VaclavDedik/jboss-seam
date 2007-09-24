@@ -107,6 +107,7 @@
                            action="#{wikiTextEditor.validate(textEditorId, valueBinding)}"
                            reRender="#{textEditorId}MessageLabel, #{textPreviewId}"
                            status="#{namingContainer}:status"
+                           ignoreDupResponses="true"
                            requestDelay="5000"
                            ajaxSingle="true"
                            eventsQueue="textEditKeyPress"
