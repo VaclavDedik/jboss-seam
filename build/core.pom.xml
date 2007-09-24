@@ -327,6 +327,13 @@
       <artifactId>jboss-jmx</artifactId>
       <optional>true</optional>
     </dependency>
+    
+    <!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
+    <dependency>
+      <groupId>jgroups</groupId>
+      <artifactId>jgroups</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <dependency>
       <groupId>org.buni.meldware</groupId>
