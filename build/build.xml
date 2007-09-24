@@ -1,16 +1,10 @@
 <?xml version="1.0"?>
 <project name="Seam2 Build Utilities" basedir="." default="help" xmlns:artifact="urn:maven-artifact-ant">
 
-	<path id="maven-ant-tasks.classpath" path="lib/maven-ant-tasks.jar" />
-	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-
-	<property name="seam.dir" value="${basedir}/../" />
-	<property name="tmp.dir" value="${seam.dir}/classes" />
-	<property name="build.dir" value="${basedir}" />
-	<property file="${seam.dir}/build.properties" />
+	<property file="default.build.properties" />
 	<property file="build.properties" />
-
-	<import file="utilities.build.xml" />
+	
+	<property name="seam.dir" value="${basedir}/../" />
 	<import file="common.build.xml" />
 
 	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />

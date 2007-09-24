@@ -1,19 +1,14 @@
 <?xml version="1.0"?>
 
 <project name="seam-gen" default="help" basedir="."  xmlns:artifact="urn:maven-artifact-ant">
-
-	<property name="seam.dir" value="${ant.file.seam-gen}/../../" />
+	
+	<!-- Give user a chance to override without editing this file or typing -D -->
+	<!-- Order is important! -->
+	<property file="./build.properties" />
 	
 	<!-- Build resources -->
-	<property name="build.dir" value="${seam.dir}/build" />
-	<property name="tmp.dir" value="${seam.dir}/classes" />
-	<property name="lib.dir" value="${seam.dir}/lib" />
-	
-	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
-		<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-	
-	<import file="${build.dir}/utilities.build.xml" />
-	<import file="${build.dir}/common.build.xml" />
+	<property name="seam.dir" value="${ant.file.seam-gen}/../../" />
+	<import file="${seam.dir}/build/common.build.xml" />
 	
 	<target name="init">
 		<artifact:dependencies pathId="seam-gen.path">
@@ -46,11 +41,6 @@
 	</target>
     
     <target name="init-properties" depends="init">
-        <!-- Give user a chance to override without editing this file or typing -D -->
-        <property file="./build.properties" />
-    
-    	<!-- Import properties from seam itself -->
-    	<property file="../build.properties" />
     	
         <packageDirectory property="action.dir" package="action/${action.package}"/>
         <packageDirectory property="model.dir" package="model/${model.package}"/>

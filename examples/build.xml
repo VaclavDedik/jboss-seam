@@ -15,20 +15,9 @@
 
 	<!-- Location of Seam -->
 	<dirname property="seam.dir" file="${ant.file.SeamExample}/../" />
-
-	<!-- Import build.properties for Seam -->
-	<property file="${seam.dir}/build.properties" />
 	
 	<!-- Build resources -->
-	<property name="build.dir" value="${seam.dir}/build" />
-	<property name="tmp.dir" value="${seam.dir}/classes" />
-
-	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
-	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-	
-	<import file="${build.dir}/utilities.build.xml" />
-	<import file="${build.dir}/common.build.xml" />
-
+	<import file="${seam.dir}/build/common.build.xml" />
 
 	<!-- ###################### PROPERTY DEFINITIONS ###################### -->
 
@@ -740,7 +729,7 @@
 
 	<target name="validateConfiguration" description="Validate XML Configuration files">
 		<echo message="Validating configuaration files for ${Name}" />
-		<ant antfile="${seam.dir}/validate.xml" target="validateConfiguration">
+		<ant antfile="${build.dir}/validate.xml" target="validateConfiguration">
 			<reference refid="validate.resources" />
 		</ant>
 	</target>

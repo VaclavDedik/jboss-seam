@@ -1,23 +1,13 @@
 <?xml version="1.0"?>
 <project name="Seam" default="build" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
-	<tstamp />
-
 	<!-- Name of project and version, used to create filenames -->
 	<property name="Name" value="JBoss Seam" />
 	<property name="name" value="jboss-seam" />
 	
 	<!-- Build resources -->
 	<property name="seam.dir" value="${basedir}" />
-	<property name="build.dir" value="${seam.dir}/build" />
-	<property name="tmp.dir" value="${seam.dir}/classes" />
-	<property name="lib.dir" value="${seam.dir}/lib" />
-
-	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
-	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
-
-	<import file="${build.dir}/utilities.build.xml" />
-	<import file="${build.dir}/common.build.xml" />
+	<import file="${seam.dir}/build/common.build.xml" />
 
 	<property name="schema.version" value="${version}" />
 
@@ -514,7 +504,6 @@
 		<copy file="readme.txt" todir="${dist.dir}" />
 		<copy file="lgpl.txt" todir="${dist.dir}" />
 		<copy file="changelog.txt" todir="${dist.dir}" />
-		<copy file="build.properties.sample" tofile="${dist.dir}/build.properties" />
 		<propertyfile file="${dist.dir}/build.properties">
 			<entry key="mavenized" value="false" />
 		</propertyfile>
@@ -522,7 +511,6 @@
 		<copy file="seam" todir="${dist.dir}" />
 		<copy file="seam-text.g" todir="${dist.dir}" />
 		<copy file="seam.bat" todir="${dist.dir}" />
-		<copy file="validate.xml" todir="${dist.dir}" />
 		<copy file="seam2migration.txt" todir="${dist.dir}" />
 		<replace file="${dist.dir}/build.xml">
 			<replacetoken>
