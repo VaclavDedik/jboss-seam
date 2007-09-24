@@ -149,8 +149,22 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jboss</groupId>
-      <artifactId>jboss-cache-jdk50</artifactId>
+      <groupId>jboss</groupId>
+      <artifactId>jboss-cache</artifactId>
+      <optional>true</optional>
+    </dependency>
+    
+    <!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
+    <dependency>
+      <groupId>jboss</groupId>
+      <artifactId>jboss-system</artifactId>
+      <optional>true</optional>
+    </dependency>
+    
+    <!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
+    <dependency>
+      <groupId>jboss</groupId>
+      <artifactId>jboss-jmx</artifactId>
       <optional>true</optional>
     </dependency>
 

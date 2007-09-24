@@ -163,8 +163,8 @@
       </dependency>
 
       <dependency>
-        <groupId>org.jboss</groupId>
-        <artifactId>jboss-cache-jdk50</artifactId>
+        <groupId>jboss</groupId>
+        <artifactId>jboss-cache</artifactId>
         <version>1.4.1.GA</version>
       </dependency>
 
@@ -227,6 +227,7 @@
         <artifactId>jboss-system</artifactId>
         <version>4.2.0.GA</version>
       </dependency>
+      
       <dependency>
         <groupId>jboss</groupId>
         <artifactId>jbossxb</artifactId>
