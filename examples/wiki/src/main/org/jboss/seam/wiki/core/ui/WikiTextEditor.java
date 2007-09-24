@@ -4,9 +4,20 @@ import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.text.SeamTextParser;
+import org.jboss.seam.text.SeamTextLexer;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.io.Reader;
+import java.io.StringReader;
+
+import antlr.RecognitionException;
+import antlr.ANTLRException;
+
+import javax.faces.validator.ValidatorException;
+import javax.faces.application.FacesMessage;
 
 /**
  * Store UI status of wiki text editor.
@@ -31,5 +42,21 @@ public class WikiTextEditor {
 
     public String getTextAreaRows(String editorId) {
         return textAreaRows.get(editorId);
+    }
+
+    public void validate(String textEditorId, String value) {
+        if (value == null) return;
+        SeamTextValidator validator = new SeamTextValidator();
+        try {
+            validator.validate(null, null, value);
+        } catch (ValidatorException e) {
+            // TODO: Needs to use resource bundle, how?
+            FacesMessages.instance().addToControl(
+                textEditorId + "TextArea",
+                FacesMessage.SEVERITY_ERROR,
+                e.getFacesMessage().getSummary()
+            );
+        }
+
     }
 }

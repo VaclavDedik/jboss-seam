@@ -49,49 +49,44 @@
     };
     </script>
 
-    <s:span id="#{textEditorId}MessageLabel">
+    <s:span id="#{textEditorId}MessageLabel"
+            styleClass="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))?'label errorDiv':'label'}">
 
-        <s:div id="#{textEditorId}Message" styleClass="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))?'errorDiv':''}">
-            <h:panelGrid columns="2" rendered="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/attention.gif"
-                                width="18" height="18"
-                                styleClass="attentionImage"/>
-                <s:span styleClass="attentionMessage">&#160;<span id="#{textEditorId}MessageText"><h:message for="#{textEditorId}TextArea"/></span></s:span>
-            </h:panelGrid>
+        <s:div>
+            <ui:decorate template="helpPopupButton.xhtml">
+                <ui:param name="label"  value="?"/>
+                <ui:param name="width"  value="550"/>
+                <ui:param name="height" value="350"/>
+                <ui:param name="top"    value="100"/>
+                <ui:param name="left"   value="100"/>
+                <ui:param name="helpDocument" value="Wiki Text Markup"/>
+             </ui:decorate>
+            <h:outputText value="#{label}:"/>
+            <s:fragment rendered="#{not empty textPreviewId}">
+                <br/>
+                <h:outputText value="(#{valueMaxLength - wiki:length(valueBinding)} characters left)"/>
+            </s:fragment>
         </s:div>
 
-        <div class="label">
-            <s:div id="#{textEditorId}TabErrors">
-                <s:div rendered="#{!empty tabId}">
-                    <s:span rendered="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
-                        <script type="text/javascript">jQuery(function() {
-                            formTabRaiseError("#{tabId}", "#{textEditorId}TextArea", '#{label}:&#160;' + jQuery("##{textEditorId}MessageText").html());
-                        });</script>
-                    </s:span>
-                    <s:span rendered="#{!wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
-                        <script type="text/javascript">jQuery(function() {
-                            formTabClearError("#{tabId}", "#{textEditorId}TextArea");
-                        });</script>
-                    </s:span>
-                </s:div>
-            </s:div>
+        <h:panelGrid columns="2" rendered="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/attention.gif"
+                            width="18" height="18"
+                            styleClass="attentionImage"/>
+            <s:span styleClass="attentionMessage">&#160;<span id="#{textEditorId}MessageText"><h:message for="#{textEditorId}TextArea"/></span></s:span>
+        </h:panelGrid>
 
-            <s:div id="#{textEditorId}Label" styleClass="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))?'errorDiv':''}">
-                <ui:decorate template="helpPopupButton.xhtml">
-                    <ui:param name="label"  value="?"/>
-                    <ui:param name="width"  value="550"/>
-                    <ui:param name="height" value="350"/>
-                    <ui:param name="top"    value="100"/>
-                    <ui:param name="left"   value="100"/>
-                    <ui:param name="helpDocument" value="Wiki Text Markup"/>
-                 </ui:decorate>
-                <h:outputText value="#{label}:"/>
-                <s:fragment rendered="#{not empty textPreviewId}">
-                    <br/>
-                    <h:outputText value="(#{valueMaxLength - wiki:length(valueBinding)} characters left)"/>
-                </s:fragment>
-            </s:div>
-        </div>
+        <s:fragment rendered="#{!empty tabId}">
+            <s:span rendered="#{wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
+                <script type="text/javascript">jQuery(function() {
+                    formTabRaiseError("#{tabId}", "#{textEditorId}TextArea", '#{label}:&#160;' + jQuery("##{textEditorId}MessageText").html());
+                });</script>
+            </s:span>
+            <s:span rendered="#{!wiki:hasMessage(namingContainer, wiki:concat(textEditorId, 'TextArea'))}">
+                <script type="text/javascript">jQuery(function() {
+                    formTabClearError("#{tabId}", "#{textEditorId}TextArea");
+                });</script>
+            </s:span>
+        </s:fragment>
 
     </s:span>
 
@@ -102,7 +97,6 @@
             <h:inputTextarea id="#{textEditorId}TextArea"
                              style="line-height: 15px"
                              tabindex="1"
-                             validator="seamTextValidator"
                              cols="#{empty textEditorColumns ? '58' : textEditorColumns}"
                              rows="#{not empty wikiTextEditor.getTextAreaRows(textEditorId)
                                      ? wikiTextEditor.getTextAreaRows(textEditorId)
@@ -110,6 +104,7 @@
                              required="#{valueRequired}"
                              value="#{valueBinding}">
                 <a:support event="onkeyup"
+                           action="#{wikiTextEditor.validate(textEditorId, valueBinding)}"
                            reRender="#{textEditorId}MessageLabel, #{textPreviewId}"
                            status="#{namingContainer}:status"
                            requestDelay="5000"
