@@ -101,7 +101,7 @@
 
     <!-- ################## SETUP ####################### -->
 
-    <target name="init" description="Initialize the project build">
+    <target name="init" depends="copyseam,copyseamdependencies" description="Initialize the project build">
         <mkdir dir="${classes.dir}"/>
         <mkdir dir="${testclasses.dir}"/>
         <mkdir dir="${exploded.war.dir}"/>
@@ -247,6 +247,7 @@
                 <exclude name="hibernate-entitymanager*"/>
                 <exclude name="hibernate-validator*"/>
                 <exclude name="mysql-connector*"/>
+            	<exclude name="jboss-archive-browsing.jar" />
             </fileset>
         </copy>
 
