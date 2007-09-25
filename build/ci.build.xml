@@ -56,7 +56,6 @@
 				<property name="dist.location" value="dist" />
 				<property name="qualifier" value="-SNAPSHOT" />
 				<property name="quietclean" value="true" />
-				<property name="coverage.ec" value="${build.dir}/coverage.ec" />
 			</ant>
 		</sequential>
 	</macrodef>
