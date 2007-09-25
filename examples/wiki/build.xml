@@ -6,7 +6,9 @@
 
     <!-- Give user a chance to override without editing this file or typing -D -->
     <property file="${basedir}/build.properties" />
-
+	
+	<property name="tmp.dir"          value="build"/>
+	
 	<property name="seam.dir" value="${ant.file.wiki}/../../../"/>
 	<import file="${seam.dir}/build/common.build.xml" />
 	
@@ -20,7 +22,6 @@
     <property name="src.etc.dir"  value="src/etc"/>
     <property name="view.dir"     value="view"/>
 
-    <property name="tmp.dir"          value="build"/>
     <property name="classes.dir"        value="${tmp.dir}/classes"/>
     <property name="testclasses.dir"    value="${tmp.dir}/testclasses"/>
     <!-- TODO: Don't change this, IntelliJ TestNG plugin bug! http://jira.opensymphony.com/browse/TESTNG-146 -->
@@ -60,9 +61,20 @@
         <pathelement path="${testclasses.dir}"/>
         <pathelement path="${embedded-jboss.dir}"/>
 
+    	<!-- JBoss Embedded, without hibernate -->
+    	<fileset dir="${global.lib.dir}/test">
+    		<include name="jboss-embedded-all.jar" />
+    		<include name="thirdparty-all.jar" />
+    	</fileset>
+    	
         <fileset dir="${global.lib.dir}">
             <include name="*.jar" />
+        	<!-- Horrible hack around jbossembedded -->
+        	<exclude name="jboss-container.jar" />
+        	<!-- Use local hibernate -->
             <exclude name="hibernate*.jar"/>
+			<!-- Don't need all seam jars -->
+			<exclude name="jboss-seam.jar" />
         </fileset>
         <fileset dir="${local.lib.dir}">
             <include name="*.jar" />
@@ -72,7 +84,7 @@
              OTHERWISE THE EMBEDDABLE CONTAINER WON'T SCAN IT FOR EJBs (EjbTransaction, TimserServiceDispatcher, etc.)
              IN THE jboss-seam.jar.
         -->
-        <fileset dir="${seam.dir}">
+        <fileset dir="${global.lib.dir}">
             <include name="jboss-seam.jar" />
         </fileset>
 
@@ -420,10 +432,10 @@
 
     <!-- ######################## TESTS ################## -->
 
-    <target name="compiletests" depends="clean, compileclasses"
+    <target name="compiletests" depends="clean, compileclasses, copyjbossembedded"
             description="Compile the test Java source code">
 
-        <javac classpathref="build.classpath"
+        <javac classpathref="test.classpath"
                     destdir="${testclasses.dir}"
                       debug="${javac.debug}"
                 deprecation="${javac.deprecation}"
