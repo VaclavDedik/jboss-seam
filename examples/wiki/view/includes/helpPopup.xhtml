@@ -54,17 +54,19 @@
                                        var="helpNode"
                                        label="#{wiki:repeatString('&#160;',helpNode.level)}#{wiki:isDocument(helpNode.wrappedNode) ? '&#183;' : '' }#{wiki:truncateString(helpNode.wrappedNode.name, 40, '...')}"
                                        noSelectionLabel="#{help.root.wrappedNode.name}"/>
-                        <a:support event="onchange" reRender="helpContent,helpSelector"/>
+                        <a:support event="onchange" reRender="helpSelectorFullscreenLink, helpContent"/>
                     </h:selectOneMenu>
                 </h:form>
 
                 <h:panelGroup>
-                    <h:outputLink value="#{wiki:renderURL(help.selectedNode.wrappedNode)}"
-                                  rendered="#{not empty help.selectedNode}"
-                                  styleClass="buttonNonpersistent"
-                                  tabindex="1"><span class="buttonLabel">Open Fullscreen</span></h:outputLink>
+                    <s:span id="helpSelectorFullscreenLink">
+                        <h:outputLink value="#{wiki:renderURL(help.selectedNode.wrappedNode)}"
+                                      rendered="#{not empty help.selectedNode}"
+                                      styleClass="buttonNonpersistent"
+                                      tabindex="1"><span class="buttonLabel">Open Fullscreen</span></h:outputLink>
+                    </s:span>
 
-                    <h:outputLink styleClass="buttonNonpersistent closeDialog"
+                    <h:outputLink value="#" styleClass="buttonNonpersistent closeDialog"
                                   tabindex="1"><span class="buttonLabel">Close <u>H</u>elp</span></h:outputLink>
                 </h:panelGroup>
             </h:panelGrid>
@@ -91,7 +93,6 @@
             </s:fragment>
         </s:div>
     </ui:define>
-    <ui:define name="dialogControls">
-    </ui:define>
+    <ui:define name="dialogControls"></ui:define>
 
 </ui:decorate>

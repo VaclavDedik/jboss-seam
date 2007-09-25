@@ -90,14 +90,16 @@
                                 <ui:param name="fieldId" value="name"/>
                                 <ui:define name="label">Name</ui:define>
                                 <h:inputText tabindex="1" size="70" maxlength="255" required="true" value="#{documentHome.instance.name}">
-                                    <a:support status="docEditForm:status" event="onblur" reRender="nameDecorate"/>
+                                    <a:support status="docEditForm:status" event="onblur" reRender="nameDecorate, contentPreview"/>
                                 </h:inputText>
                             </s:decorate>
 
                             <s:div styleClass="entry">
                                 <div class="label">&#160;</div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}" tabindex="1"/>
+                                    <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}" tabindex="1">
+                                        <a:support status="docEditForm:status" event="onchange" reRender="contentPreview"/>
+                                    </h:selectBooleanCheckbox>
                                     Render name as document title
                                 </div>
                             </s:div>
