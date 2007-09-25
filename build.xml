@@ -135,14 +135,14 @@
 
 	<target name="init" depends="initpoms" />
 
-	<target name="clean" description="Cleans up the build directory" depends="init">
-		<cdk target="clean" />
+	<target name="clean" description="Cleans up the build directory">
 		<delete dir="${classes.dir}" quiet="${quietclean}" />
 		<delete dir="${test.dir}" quiet="${quietclean}" />
 		<delete dir="${report.dir}" quiet="${quietclean}" />
 		<delete dir="${lib.dir}" quiet="${quietclean}" />
 		<delete dir="${coverage.dir}" quiet="${quietclean}" />
 		<delete file="coverage.ec" failonerror="false" quiet="${quietclean}" />
+		<delete dir="${ui.dir}/target" quiet="${quietclean}"/>
 	</target>
 
 	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui" description="Build all four distribution .jar files" />
