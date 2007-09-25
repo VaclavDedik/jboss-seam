@@ -57,6 +57,12 @@
       <artifactId>hibernate-validator</artifactId>
       <optional>true</optional>
     </dependency>
+    
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-search</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <dependency>
       <groupId>javassist</groupId>
@@ -403,12 +409,6 @@
     <dependency>
       <groupId>org.jbpm</groupId>
       <artifactId>jbpm-jpdl</artifactId>
-      <optional>true</optional>
-    </dependency>
-
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-search</artifactId>
       <optional>true</optional>
     </dependency>
 
