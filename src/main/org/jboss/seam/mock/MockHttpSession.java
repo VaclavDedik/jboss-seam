@@ -95,7 +95,7 @@ public class MockHttpSession implements HttpSession
    {
       if (value==null)
       {
-         attributes.remove(value);
+         attributes.remove(att);
       }
       else
       {
