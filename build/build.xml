@@ -125,24 +125,10 @@
 		<attribute name="repository" />
 		<sequential>
 			<maven basedir="${tmp.dir}/poms" target="dependency:go-offline" pom="@{pom}">
+                <arg line="-f @{pom}" />
 				<arg line="-s settings.xml" />
 				<arg line="-Dmaven.repo.local=@{repository}" />
 			</maven>
-		</sequential>
-	</macrodef>
-	
-	<macrodef name="deploySeam">
-		<attribute name="repositoryId" />
-		<sequential>
-			<deploy pom="${root.pom}" repositoryId="@{repositoryId}" />
-					<deploy pom="${core.pom}" jar="${seam.dir}/lib/jboss-seam.jar" repositoryId="@{repositoryId}" />
-					<deploy pom="${ui.pom}" jar="${seam.dir}/lib/jboss-seam-ui.jar" repositoryId="@{repositoryId}" />
-					<deploy pom="${remoting.pom}" jar="${seam.dir}/lib/jboss-seam-remoting.jar" repositoryId="@{repositoryId}" />
-					<deploy pom="${pdf.pom}" jar="${seam.dir}/lib/jboss-seam-pdf.jar" repositoryId="@{repositoryId}" />
-					<deploy pom="${mail.pom}" jar="${seam.dir}/lib/jboss-seam-mail.jar" repositoryId="@{repositoryId}" />
-					<deploy pom="${ioc.pom}" jar="${seam.dir}/lib/jboss-seam-ioc.jar" repositoryId="@{repositoryId}" />
-					<deploy pom="${gen.pom}" jar="${seam.dir}/lib/jboss-seam-gen.jar" repositoryId="@{repositoryId}" />
-					<deploy pom="${debug.pom}" jar="${seam.dir}/lib/jboss-seam-debug.jar" repositoryId="@{repositoryId}" />
 		</sequential>
 	</macrodef>
 	

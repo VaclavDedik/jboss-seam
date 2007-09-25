@@ -109,7 +109,6 @@
 	<macrodef name="maven">
 		<attribute name="target" />
 		<attribute name="basedir" />
-		<attribute name="pom" default="pom.xml" />
 		<element name="args" implicit="true" optional="true"/>
 		<sequential>
 			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="@{basedir}">
@@ -123,7 +122,6 @@
 				</classpath>
 				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
 				<sysproperty key="maven.home" value="${maven.dir}" />
-				<arg line="-f @{pom}" />
 				<arg line="-Dseam.version=${complete.version}" />
 				<args />
 				<arg line="@{target}" />

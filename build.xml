@@ -86,6 +86,7 @@
 	<property name="coverage.dir" value="${basedir}/coverage-output" />
 
 	<property name="bootstrap.dir" value="${basedir}/bootstrap" />
+	<property name="coverage.ec" value="${seam.dir}/coverage.ec" />
 
 	<!-- CI -->
 
@@ -354,9 +355,9 @@
 		<testexample name="todo" />
 		<testexample name="blog" />
 		<testexample name="ui" />
-		<!--<ant dir="examples/wiki" target="test" inheritall="false">
+		<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
-		</ant>-->
+		</ant>
 		<!--<ant dir="examples/portal" target="test" inheritall="false" />-->
 	</target>
 	<target name="validateall" description="Validate all example XML Configuration Files">
@@ -649,7 +650,7 @@
 	</target>
 
 	<target name="coveragecore" depends="instrumentcore, testall" description="Run the core unit tests and all example tests with code coverage">
-		<move file="${basedir}/coverage.ec" tofile="${coverage.dir}/coveragecore.ec" />
+		<move file="${coverage.ec}" tofile="${coverage.dir}/coveragecore.ec" />
 		<emma>
 			<report sourcepath="${src.core.dir}" depth="method">
 				<infileset dir="${coverage.dir}" includes="coveragecore.em,coveragecore.ec" />
@@ -809,6 +810,7 @@
 					<propertyref name="copyjbossembeddeddone" />
 					<propertyref name="core.pom" />
 					<propertyref name="root.pom" />
+					<propertyref name="parent.pom" />
 					<propertyref name="ui.pom" />
 					<propertyref name="remoting.pom" />
 					<propertyref name="gen.pom" />

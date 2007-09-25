@@ -24,7 +24,7 @@ To add or upgrade a dependency of Seam:
 * Find the dependency in a maven repository - check repository.jboss.org/maven2
   first and then try mvnsearch.com.
 * Add or update the entry in root.pom.xml including version information
-* If it's a new dependency, add an entry to the correct modul.  If it's an
+* If it's a new dependency, add an entry to the correct module.  If it's an
   optional dependency (most are), mark it <optional>true</optional>.  If it's
   provided by JBoss AS (current targeted version), mark it <scope>provided</scope>
 * Bear in mind that a released Seam shouldn't depend on a SNAPSHOT version, so

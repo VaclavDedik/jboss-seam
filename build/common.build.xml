@@ -84,6 +84,8 @@
 		<echo>Setting up dependencies</echo>
 		<pomfile name="root.pom" value="${build.dir}/root.pom.xml" />
 		<install pom="${root.pom}" />
+		<pomfile name="parent.pom" value="${build.dir}/parent.pom.xml" />
+		<install pom="${parent.pom}" />
 		<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
 		<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
 		<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
@@ -137,4 +139,20 @@
 		<property name="copyjbossembeddeddone" value="true" />
 	</target>
 
+	<macrodef name="deploySeam">
+		<attribute name="repositoryId" />
+		<sequential>
+			<deploy pom="${root.pom}" repositoryId="@{repositoryId}" />
+			<deploy pom="${parent.pom}" repositoryId="@{repositoryId}" />
+			<deploy pom="${core.pom}" jar="${seam.dir}/lib/jboss-seam.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${ui.pom}" jar="${seam.dir}/lib/jboss-seam-ui.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${remoting.pom}" jar="${seam.dir}/lib/jboss-seam-remoting.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${pdf.pom}" jar="${seam.dir}/lib/jboss-seam-pdf.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${mail.pom}" jar="${seam.dir}/lib/jboss-seam-mail.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${ioc.pom}" jar="${seam.dir}/lib/jboss-seam-ioc.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${gen.pom}" jar="${seam.dir}/lib/jboss-seam-gen.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${debug.pom}" jar="${seam.dir}/lib/jboss-seam-debug.jar" repositoryId="@{repositoryId}" />
+		</sequential>
+	</macrodef>
+	
 </project>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jboss.seam</groupId>
+  <artifactId>parent</artifactId>
+  <url>http://jboss.com/products/seam</url>
+  <version>@seam.version@</version>
+  <name>JBoss Seam</name>
+  <packaging>pom</packaging>
+  <parent>
+    <groupId>org.jboss.seam</groupId>
+    <artifactId>root</artifactId>
+    <version>@seam.version@</version>
+  </parent>
+  <pluginRepositories>
+    <!--  <pluginRepository>
+      <snapshots />
+      <id>m2-snapshot</id>
+      <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
+    </pluginRepository>-->
+  </pluginRepositories>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>snapshots.jboss.org</id>
+      <url>dav:https://snapshots.jboss.org/maven2</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <!-- Uncomment to enable newer version of dependency plugin which has the
+  dependency:tree command useful for analyzing the dependency tree of a module
+  You'll also need the m2-snapshot repository enabled -->
+  <!-- <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.0-alpha-5-SNAPSHOT</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>-->
+
+</project>

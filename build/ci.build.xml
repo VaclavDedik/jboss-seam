@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!-- Continuous integration related targets -->
+<project name="Seam2 Continuous Integration Support" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+
+	<property file="default.build.properties" />
+	<property file="build.properties" />
+
+	<property name="seam.dir" value="${basedir}/../" />
+	<import file="common.build.xml" />
+
+	<property name="snapshots.jboss.org" value="dav:https://snapshots.jboss.org/maven2" />
+
+	<target name="initdav">
+		<artifact:install-provider artifactId="wagon-webdav" version="1.0-beta-2" />
+	</target>
+
+	<target name="deploySeamSnapshot" description="Deploy a Seam snapshot to snapshots.jboss.org" depends="initdav, initpoms">
+		<pomfile name="wagon.pom" value="wagon.pom.xml" />
+		<maven target="deploy:deploy-file" basedir=".">
+			<arg line="-f ${wagon.pom}" />
+			<arg line="-DpomFile=${root.pom}" />
+			<arg line="-Dfile=${root.pom}" />
+			<arg line="-Durl=${snapshots.jboss.org}" />
+			<arg line="-DrepositoryId=snapshots.jboss.org" />
+		</maven>
+		<deploySnapshot pom="${parent.pom}" />
+		<deploySnapshot pom="${core.pom}" file="${lib.dir}/jboss-seam.jar" />
+		<deploySnapshot pom="${debug.pom}" file="${lib.dir}/jboss-seam-debug.jar" />
+		<deploySnapshot pom="${gen.pom}" file="${lib.dir}/jboss-seam-gen.jar" />
+		<deploySnapshot pom="${ioc.pom}" file="${lib.dir}/jboss-seam-ioc.jar" />
+		<deploySnapshot pom="${mail.pom}" file="${lib.dir}/jboss-seam-mail.jar" />
+		<deploySnapshot pom="${pdf.pom}" file="${lib.dir}/jboss-seam-pdf.jar" />
+		<deploySnapshot pom="${remoting.pom}" file="${lib.dir}/jboss-seam-remoting.jar" />
+		<deploySnapshot pom="${ui.pom}" file="${lib.dir}/jboss-seam-ui.jar" />
+	</target>
+
+	<target name="tests">
+		<build target="cleanall" />
+		<build target="coverageall" />
+		<build target="copytestoutput" />
+		<build target="testreport" />
+		<build target="validateall" />
+	</target>
+
+	<target name="snapshot">
+		<build target="cleanall" />
+		<build target="build" />
+		<antcall target="deploySeamSnapshot" />
+		<antcall target="tests" />
+	</target>
+
+	<macrodef name="build">
+		<attribute name="target" />
+		<sequential>
+			<ant antfile="${seam.dir}/build.xml" target="@{target}" inheritall="false" inheritrefs="false" dir="../">
+				<property name="dist.location" value="dist" />
+				<property name="qualifier" value="-SNAPSHOT" />
+				<property name="quietclean" value="true" />
+				<property name="coverage.ec" value="${build.dir}/coverage.ec" />
+			</ant>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="deploySnapshot">
+		<attribute name="pom" />
+		<attribute name="file" default="" />
+		<sequential>
+			<artifact:deploy file="@{file}">
+				<pom file="@{pom}" />
+			</artifact:deploy>
+		</sequential>
+	</macrodef>
+
+</project>
