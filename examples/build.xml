@@ -632,6 +632,7 @@
 			<fileset refid="jboss-el.jar" />
 			<fileset refid="jsf.jar" />
 			<fileset refid="search.jar" />
+			<fileset refid="richfaces-api.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<!-- Copy in resources, with filtering -->
