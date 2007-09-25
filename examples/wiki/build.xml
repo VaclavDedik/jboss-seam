@@ -7,6 +7,9 @@
     <!-- Give user a chance to override without editing this file or typing -D -->
     <property file="${basedir}/build.properties" />
 
+	<property name="seam.dir" value="${ant.file.wiki}/../../../"/>
+	<import file="${seam.dir}/build/common.build.xml" />
+	
     <property name="profile" value="dev"/>
 
     <!-- set global properties for this build -->
@@ -17,12 +20,12 @@
     <property name="src.etc.dir"  value="src/etc"/>
     <property name="view.dir"     value="view"/>
 
-    <property name="build.dir"          value="build"/>
-    <property name="classes.dir"        value="${build.dir}/classes"/>
-    <property name="testclasses.dir"    value="${build.dir}/testclasses"/>
+    <property name="tmp.dir"          value="build"/>
+    <property name="classes.dir"        value="${tmp.dir}/classes"/>
+    <property name="testclasses.dir"    value="${tmp.dir}/testclasses"/>
     <!-- TODO: Don't change this, IntelliJ TestNG plugin bug! http://jira.opensymphony.com/browse/TESTNG-146 -->
-    <property name="test.output.dir"    value="${build.dir}/test-output"/>
-    <property name="exploded.dir"       value="${build.dir}/exploded"/>
+    <property name="test.output.dir"    value="${tmp.dir}/test-output"/>
+    <property name="exploded.dir"       value="${tmp.dir}/exploded"/>
     <property name="exploded.war.dir"   value="${exploded.dir}/${project.name}.war"/>
 
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
@@ -30,12 +33,11 @@
 
     <property name="dist.dir" value="dist" />
 
-    <property name="seam.home" value="../../"/>
-    <property name="global.lib.dir" value="${seam.home}/lib" />
-    <property name="seamlibs.dir"   value="${seam.home}"/>
+    <property name="global.lib.dir" value="${lib.dir}" />
+    <property name="seamlibs.dir"   value="${seam.dir}"/>
     <property name="local.lib.dir"  value="lib" />
-    <property name="drools.lib.dir" value="${seam.home}/drools/lib"/>
-    <property name="embedded-jboss.dir" value="${seam.home}/bootstrap"/>
+    <property name="drools.lib.dir" value="${seam.dir}/drools/lib"/>
+    <property name="embedded-jboss.dir" value="${seam.dir}/bootstrap"/>
 
     <!-- ################## ALIASES ####################### -->
 
@@ -44,23 +46,11 @@
         <!-- The Seam bundled Hibernate is too old to even compile this application! -->
         <exclude name="hibernate*"/>
         <exclude name="ejb3-persistence*"/>
+    	<exclude name="jboss-seam-gen.jar" />
     </fileset>
-
-    <fileset id="seamlibs" dir="${seamlibs.dir}">
-        <include name="jboss-seam*.jar"/>
-        <exclude name="jboss-seam-gen.jar"/>
-    </fileset>
-
-    <zipfileset id="droolslibs" dir="${drools.lib.dir}">
-        <include name="*.jar"/>
-        <exclude name="commons-lang*.jar"/>
-        <exclude name="commons-logging*.jar"/>
-    </zipfileset>
 
     <path id="build.classpath">
         <fileset refid="globallibs" />
-        <fileset refid="seamlibs"/>
-        <fileset refid="droolslibs"/>
         <fileset dir="${local.lib.dir}"/>
     </path>
 
@@ -82,16 +72,13 @@
              OTHERWISE THE EMBEDDABLE CONTAINER WON'T SCAN IT FOR EJBs (EjbTransaction, TimserServiceDispatcher, etc.)
              IN THE jboss-seam.jar.
         -->
-        <fileset dir="${seam.home}">
+        <fileset dir="${seam.dir}">
             <include name="jboss-seam.jar" />
         </fileset>
 
-        <!-- YES, THIS LOADS jboss-seam.jar AGAIN... -->
-        <fileset refid="seamlibs"/>
-
     	<!-- Add EMMA to the classpath for coverage support -->
-    	<pathelement location="${seam.home}/extras/emma/emma.jar" />
-    	<pathelement location="${seam.home}/extras/emma/emma_ant.jar" />
+    	<pathelement location="${seam.dir}/extras/emma/emma.jar" />
+    	<pathelement location="${seam.dir}/extras/emma/emma_ant.jar" />
     </path>
 
     <path id="tools.classpath">
@@ -124,7 +111,7 @@
     </target>
 
     <target name="clean" description="Cleans up all build artifacts">
-        <delete dir="${build.dir}"/>
+        <delete dir="${tmp.dir}"/>
     </target>
 
     <target name="upgradehibernate"
@@ -224,20 +211,30 @@
 
         <!-- ########## Libs ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
-            <fileset refid="droolslibs"/>
-            <fileset refid="seamlibs"/>
             <fileset dir="${global.lib.dir}">
+            	<!-- Still need the * on richfaces due to bug in version mapper -->
                 <include name="richfaces*.jar" />
-                <include name="oscache*.jar" />
                 <include name="jsf-facelets.jar" />
-                <include name="commons-jci-*.jar"/>
-                <include name="commons-digester-*.jar"/>
-                <include name="commons-beanutils-*.jar"/>
-                <include name="jbpm*.jar" />
+                <include name="commons-digester.jar"/>
+                <include name="commons-beanutils.jar"/>
+                <include name="jbpm-jpdl.jar" />
                 <include name="jboss-el.jar" />
-                <include name="urlrewrite*.jar" />
-                <include name="itext*.jar" />
-                <include name="lucene*.jar" />
+                <include name="urlrewritefilter.jar" />
+                <include name="itext.jar" />
+                <include name="lucene-core.jar" />
+            	<include name="antlr-runtime.jar" />
+            	<include name="core.jar" />
+            	<include name="janino.jar" />
+            	<include name="mvel14.jar" />
+            	<include name="drools-core.jar" />
+            	<include name="drools-compiler.jar" />
+            	<include name="jboss-seam.jar" />
+            	<include name="jboss-seam-debug.jar" />
+            	<include name="jboss-seam-ioc.jar" />
+            	<include name="jboss-seam-mail.jar" />
+            	<include name="jboss-seam-pdf.jar" />
+            	<include name="jboss-seam-remoting.jar" />
+            	<include name="jboss-seam-ui.jar" />
             </fileset>
         </copy>
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
@@ -501,7 +498,7 @@
         </delete>
         <java classname="org.hsqldb.Server"
               fork="yes"
-              classpath="${seam.home}/seam-gen/lib/hsqldb.jar"
+              classpath="${seam.dir}/seam-gen/lib/hsqldb.jar"
               failonerror="true">
             <arg value="-database.0"/>
             <arg value="file:${database.dir}/db"/>

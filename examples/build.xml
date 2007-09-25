@@ -118,6 +118,11 @@
 	<fileset id="noejb.war.extras" dir=".">
 		<exclude name="**/*" />
 	</fileset>
+	
+	<!-- Extra stuff to delete on clean -->
+	<fileset id="clean.extras" dir=".">
+		<exclude name="**/*"/>
+	</fileset>
 
 	<!-- ############## SEAM JARS AND REQUIRED DEPENDENCIES ############### -->
 	<!-- 
@@ -230,7 +235,7 @@
 
 	<!-- Dependencies for using Seam with JBoss Cache (s:cache) -->
 	<fileset id="cache.jar" dir="${lib.dir}">
-		<include name="jboss-cache-jdk50.jar" if="cache.lib" />
+		<include name="jboss-cache.jar" if="cache.lib" />
 		<include name="jboss-aop.jar" if="cache.lib" />
 		<include name="jgroups.jar" if="cache.lib" />
 	</fileset>
@@ -265,6 +270,11 @@
 	<!-- Dependencies for using with antlr (if not shipped with server) -->
 	<fileset id="antlr.jar" dir="${lib.dir}">
 		<include name="antlr-*.jar" if="antlr.lib" />
+	</fileset>
+
+	<!-- Dependencies for using with antlr (if not shipped with server) -->
+	<fileset id="groovy.jar" dir="${lib.dir}">
+		<include name="groovy-all.jar" if="groovy.lib" />
 	</fileset>
 
 
@@ -342,6 +352,7 @@
 		<include name="*.jpdl.xml" />
 		<include name="jbpm.cfg.xml" />
 		<include name="hibernate.cfg.xml" />
+		<include name="*.drl" />
 	</fileset>
 
 	<!-- Resources to go in the ear -->
@@ -407,7 +418,7 @@
 
 	<!-- Compile the source code, directly into the jar -->
 	<target name="compile" depends="init, select-compiler">
-		<javac classpathref="build.classpath" destdir="${jar.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+		<javac classpathref="build.classpath" destdir="${jar.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" >
 			<src path="${src.java.dir}" />
 		</javac>
 	</target>
@@ -419,9 +430,11 @@
 			<fileset refid="jar.extras" />
 		</copy>
 	</target>
+	
+	<target name="init.war" />
 
 	<!-- Build the exploded war -->
-	<target name="war" depends="compile">
+	<target name="war" depends="compile, init.war">
 		<copy todir="${war.dir}">
 			<fileset refid="war.view" />
 			<fileset refid="war.extras" />
@@ -451,6 +464,7 @@
 		<delete dir="${war.dir}" />
 		<delete dir="${jar.dir}" />
 		<delete dir="${test.dir}" />
+		<delete dir="${clean.extra}" />
 	</target>
 
 
@@ -679,6 +693,7 @@
 			<fileset refid="jboss-el.jar" />
 			<fileset refid="search.jar" />
 			<fileset refid="richfaces-api.jar" />
+			<fileset refid="groovy.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<copy todir="${war.dir}">
@@ -706,7 +721,7 @@
 
 	<!-- #################### BUILD TARGETS (JBOSS AS WAR) #################### -->
 
-	<target name="jbosswar.deploy" depends="noejb.archive" description="Deploy the example to JBoss AS">
+	<target name="jbosswar.deploy" depends="noejb.archive, datasource" description="Deploy the example to JBoss AS">
 		<fail unless="jboss.home">
 			jboss.home not set, update build.properties
 		</fail>
@@ -715,6 +730,26 @@
 
 	<target name="jbosswar.undeploy" description="Undeploy the example from JBoss">
 		<delete file="${deploy.dir}/${example.name}.war" />
+	</target>
+	
+	<target name="jbosswar.explode" depends="noejb.jar, noejb.war, datasource" description="Deploy the example (exploded) to JBoss AS">
+		<fail unless="jboss.home">
+			jboss.home not set, update build.properties
+		</fail>
+		<copy todir="${deploy.dir}/${example.name}.war">
+			<fileset dir="${exploded-archives.dir}/${example.name}.war" />
+		</copy>
+		<copy todir="${deploy.dir}/${example.name}.war/WEB-INF/classes">
+			<fileset dir="${exploded-archives.dir}/${example.name}.jar" />
+		</copy>
+	</target>
+
+	<target name="jboswar.restart" depends="jbosswar.explode" description="Restart the exploded archive">
+		<touch file="${deploy.dir}/${example.name}.war/WEB-INF/web.xml" />
+	</target>
+	
+	<target name="jbosswar.unexplode" description="Undeploy the example from JBoss">
+		<delete dir="${deploy.dir}/${example.name}.war" />
 	</target>
 
 	<!-- #################### TEST TARGETS (JBOSS AS) ##################### -->

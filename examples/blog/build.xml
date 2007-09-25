@@ -16,6 +16,8 @@
 	<!-- Datasource -->
 	<property name="example.ds"              value="blog-ds.xml"/>
 
+	<property name="clean.extra" value="${basedir}/blogindexes" />
+	
     <import file="../build.xml"/>
     
 </project>

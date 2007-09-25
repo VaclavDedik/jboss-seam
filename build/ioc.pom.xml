@@ -37,38 +37,32 @@
     <dependency>
       <groupId>javax.el</groupId>
       <artifactId>el-api</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>jta</artifactId>
       <optional>true</optional>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-jmx</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-system</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-kernel</artifactId>
-      <scope>provided</scope>
       <exclusions>
         <exclusion>
           <groupId>apache-httpclient</groupId>
@@ -100,21 +94,18 @@
     <dependency>
       <groupId>jboss.jboss-aop</groupId>
       <artifactId>jboss-aop</artifactId>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>persistence-api</artifactId>
       <optional>true</optional>
-      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate</artifactId>
       <optional>true</optional>
-      <scope>provided</scope>
       <exclusions>
         <exclusion>
           <groupId>commons-collections</groupId>
@@ -138,7 +129,6 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
       <optional>true</optional>
     </dependency>
 

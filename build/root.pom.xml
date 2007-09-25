@@ -185,6 +185,12 @@
         <artifactId>hibernate-annotations</artifactId>
         <version>3.3.0.ga</version>
       </dependency>
+      
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>3.3.1.ga</version>
+      </dependency>
 
       <dependency>
         <groupId>org.hibernate</groupId>
@@ -282,6 +288,12 @@
         <groupId>javax.ejb</groupId>
         <artifactId>ejb-api</artifactId>
         <version>3.0</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>javax.jws</groupId>
+        <artifactId>jsr181-api</artifactId>
+        <version>1.0-MR1</version>
       </dependency>
 
       <dependency>
