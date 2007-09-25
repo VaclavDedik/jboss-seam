@@ -175,7 +175,7 @@ public class Init
    {
       if ( factories.containsKey(variable) || factoryMethodExpressions.containsKey(variable) || factoryValueExpressions.containsKey(variable) )
       {
-         //throw new IllegalStateException("duplicate factory for: " + variable);
+         throw new IllegalStateException("duplicate factory for: " + variable);
       }
    }
    
