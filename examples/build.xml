@@ -9,7 +9,7 @@
   USING SEAM sections you can see what jars are required (for use on JBoss AS)
   for Seam, and if you want to use the integration with other projects
 -->
-<project name="SeamExample" default="deploy" basedir=".">
+<project name="SeamExample" default="example-info" basedir=".">
 
 	<tstamp />
 
@@ -418,6 +418,7 @@
 
 	<!-- Compile the source code, directly into the jar -->
 	<target name="compile" depends="init, select-compiler">
+            <echo>lib is ${lib.dir}</echo>
 		<javac classpathref="build.classpath" destdir="${jar.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" >
 			<src path="${src.java.dir}" />
 		</javac>
@@ -818,4 +819,11 @@
 			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
 		</testng>
 	</target>
+
+        <target name="example-info">
+            <echo>
+This is the Seam examples directory.  The example projects can be run 
+using the individual build files in the each example subdirectory.
+            </echo>
+        </target>
 </project>
