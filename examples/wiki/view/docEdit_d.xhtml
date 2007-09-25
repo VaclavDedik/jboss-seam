@@ -290,6 +290,11 @@
             <script type="text/javascript">jQuery(function() {
                 wrapBoxes();
             });</script>
+            <s:fragment rendered="#{documentHome.instance.pluginsUsed.contains('clearBackground')}">
+                <script type="text/javascript">jQuery(function() {
+                    clearDocumentBackground();
+                });</script>
+            </s:fragment>
             <s:div id="documentDisplay" styleClass="documentDisplay">
                 <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
                 <wiki:formattedText value="#{documentHome.instance.content}"

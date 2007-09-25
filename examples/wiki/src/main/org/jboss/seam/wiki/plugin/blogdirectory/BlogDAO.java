@@ -146,7 +146,6 @@ public class BlogDAO {
     }
 
     private Session getSession() {
-        restrictedEntityManager.joinTransaction();
         return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
     }
 

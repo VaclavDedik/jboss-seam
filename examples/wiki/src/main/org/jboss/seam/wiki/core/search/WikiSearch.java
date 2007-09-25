@@ -205,7 +205,6 @@ public class WikiSearch implements Serializable {
     }
 
     private FullTextSession getFullTextSession() {
-        restrictedEntityManager.joinTransaction();
         return (FullTextSession) restrictedEntityManager.getDelegate();
     }
 

@@ -26,7 +26,6 @@ public class UserRoleAccessFactory implements Serializable {
     @Factory(value = "guestUser", scope = ScopeType.SESSION)
     public User getGuestUser() {
         try {
-            entityManager.joinTransaction();
             User guestUser =
                     (User) entityManager
                             .createQuery("select u from User u left join fetch u.roles where u.username = '"+GUEST_USERNAME+"'")
@@ -47,7 +46,6 @@ public class UserRoleAccessFactory implements Serializable {
     @Factory(value = "adminUser", scope = ScopeType.SESSION)
     public User getAdminUser() {
         try {
-            entityManager.joinTransaction();
             User adminUser =
                     (User) entityManager
                             .createQuery("select u from User u left join fetch u.roles where u.username = '"+ADMIN_USERNAME+"'")
@@ -67,7 +65,6 @@ public class UserRoleAccessFactory implements Serializable {
     @Factory(value = "guestRole", scope = ScopeType.SESSION)
     public Role getGuestRole() {
         try {
-            entityManager.joinTransaction();
             return (Role) entityManager
                     .createQuery("select r from Role r where r.accessLevel = '"+GUESTROLE_ACCESSLEVEL+"'")
                             .getSingleResult();
@@ -79,7 +76,6 @@ public class UserRoleAccessFactory implements Serializable {
     @Factory(value = "adminRole", scope = ScopeType.SESSION)
     public Role getAdminRole() {
         try {
-            entityManager.joinTransaction();
             return (Role) entityManager
                     .createQuery("select r from Role r where r.accessLevel = '"+ADMINROLE_ACCESSLEVEL+"'")
                             .getSingleResult();
@@ -92,7 +88,6 @@ public class UserRoleAccessFactory implements Serializable {
     public Role getDefaultRole() {
         UserManagementPreferences userPrefs = (UserManagementPreferences) Component.getInstance("userManagementPreferences");
         try {
-            entityManager.joinTransaction();
             return (Role) entityManager
                     .createQuery("select r from Role r where r.name = '"+userPrefs.getNewUserInRole()+"'")
                             .getSingleResult();
@@ -118,7 +113,6 @@ public class UserRoleAccessFactory implements Serializable {
         @SuppressWarnings({"unchecked"})
         public List<Role> getRoles() {
             if (roles == null) {
-                entityManager.joinTransaction();
                 roles = (List<Role>) entityManager
                         .createQuery("select r from Role r order by r.accessLevel desc, r.displayName asc")
                             .getResultList();

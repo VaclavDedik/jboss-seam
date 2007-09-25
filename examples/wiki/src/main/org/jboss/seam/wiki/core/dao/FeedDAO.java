@@ -39,7 +39,6 @@ public class FeedDAO {
     @In protected EntityManager restrictedEntityManager;
 
     public List<FeedEntry> findLastFeedEntries(Long feedId, int maxResults) {
-        restrictedEntityManager.joinTransaction();
         return (List<FeedEntry>) restrictedEntityManager
                 .createQuery("select fe from Feed f join f.feedEntries fe where f.id = :feedId order by fe.publishedDate desc")
                 .setParameter("feedId", feedId)
@@ -69,7 +68,6 @@ public class FeedDAO {
     }
 
     public Feed findFeed(Long feedId) {
-        restrictedEntityManager.joinTransaction();
         try {
             return (Feed) restrictedEntityManager
                 .createQuery("select f from Feed f where f.id = :id")
@@ -82,7 +80,6 @@ public class FeedDAO {
     }
 
     public FeedEntry findSiteFeedEntry(Document document) {
-        restrictedEntityManager.joinTransaction();
         try {
             return (FeedEntry) restrictedEntityManager
                     .createQuery("select fe from Feed f join f.feedEntries fe where f = :feed and fe.document = :document")
@@ -96,8 +93,6 @@ public class FeedDAO {
     }
 
     public void createFeedEntry(Document document, boolean pushOnSiteFeed) {
-        restrictedEntityManager.joinTransaction();
-
         Set<Feed> feeds = getAvailableFeeds(document, pushOnSiteFeed);
 
         // Now create a feedentry and link it to all the feeds
@@ -122,8 +117,6 @@ public class FeedDAO {
     }
 
     public void updateFeedEntry(Document document, boolean pushOnSiteFeed) {
-        restrictedEntityManager.joinTransaction();
-
         try {
             FeedEntry fe = (FeedEntry)restrictedEntityManager.createQuery("select fe from FeedEntry fe where fe.document = :doc")
                     .setParameter("doc", document).getSingleResult();
@@ -152,8 +145,6 @@ public class FeedDAO {
 
     // TODO: Maybe the wiki needs a real maintenance thread at some point... @Observer("Feeds.purgeFeedEntries")
     public void purgeOldFeedEntries() {
-        restrictedEntityManager.joinTransaction();
-
         // Clean up _all_ feed entries that are older than N days
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         Calendar oldestDate = GregorianCalendar.getInstance();

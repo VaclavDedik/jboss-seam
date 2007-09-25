@@ -41,8 +41,9 @@
 
     <fileset id="globallibs" dir="${global.lib.dir}">
         <include name="*.jar"/>
-        <!-- TODO: Don't use the Hibernate in Seam, need newer local version for SequenceStyleGenerator  -->
-        <exclude name="hibernate*" />
+        <!-- The Seam bundled Hibernate is too old to even compile this application! -->
+        <exclude name="hibernate*"/>
+        <exclude name="ejb3-persistence*"/>
     </fileset>
 
     <fileset id="seamlibs" dir="${seamlibs.dir}">
@@ -71,7 +72,7 @@
 
         <fileset dir="${global.lib.dir}">
             <include name="*.jar" />
-            <exclude name="hibernate-*"/>
+            <exclude name="hibernate*.jar"/>
         </fileset>
         <fileset dir="${local.lib.dir}">
             <include name="*.jar" />
@@ -126,6 +127,26 @@
         <delete dir="${build.dir}"/>
     </target>
 
+    <target name="upgradehibernate"
+            description="Copy updated Hibernate libraries into JBoss AS default/lib/ directory">
+
+        <delete>
+            <fileset dir="${jboss.home}/server/default/lib">
+                <include name="hibernate*"/>
+            </fileset>
+        </delete>
+        <copy todir="${jboss.home}/server/default/lib">
+            <fileset dir="${local.lib.dir}">
+                <include name="hibernate*"/>
+                <!-- We put this in WEB-INF/lib -->
+                <exclude name="hibernate-search*"/>
+                <!-- We don't need that at runtime -->
+                <exclude name="hibernate-tools*"/>
+            </fileset>
+        </copy>
+
+    </target>
+
     <!-- ################## COMPILE ####################### -->
 
     <target name="compileclasses" depends="init"
@@ -136,7 +157,7 @@
                       debug="${javac.debug}"
                 deprecation="${javac.deprecation}"
                      nowarn="${javac.nowarn}">
-            <src path="${src.java.dir}" />
+            <src path="${src.java.dir}"/>
         </javac>
 
         <!-- Copy resources (mapping files, properties, etc.) to classes -->
@@ -221,7 +242,14 @@
         </copy>
         <copy todir="${exploded.war.dir}/WEB-INF/lib">
             <fileset dir="${local.lib.dir}">
+                <exclude name="ejb3-persistence*"/>
+                <exclude name="hibernate3*"/>
                 <exclude name="hibernate-tools*"/>
+                <exclude name="hibernate-commons*"/>
+                <exclude name="hibernate-annotations*"/>
+                <exclude name="hibernate-entitymanager*"/>
+                <exclude name="hibernate-validator*"/>
+                <exclude name="mysql-connector*"/>
             </fileset>
         </copy>
 
@@ -243,9 +271,8 @@
             <fileset dir="${src.etc.dir}">
                 <include name="security.drl" />
                 <include name="messages*.properties"/>
-                <include name="*jpdl.xml" />
-                <include name="hibernate.cfg.xml" />
-                <include name="jbpm.cfg.xml" />
+                <include name="*jpdl.xml"/>
+                <include name="jbpm.cfg.xml"/>
                 <include name="*.skin.properties"/>
                 <include name="ehcache.xml"/>
             </fileset>

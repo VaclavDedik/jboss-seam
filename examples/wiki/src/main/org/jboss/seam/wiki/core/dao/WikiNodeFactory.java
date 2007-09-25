@@ -33,7 +33,6 @@ public class WikiNodeFactory implements Serializable {
 
     @Factory(value = "wikiRoot", scope = ScopeType.PAGE, autoCreate = true)
     public Directory loadWikiRoot() {
-        entityManager.joinTransaction();
         try {
             return (Directory) entityManager
                     .createQuery("select d from Directory d where d.parent is null")
@@ -46,7 +45,6 @@ public class WikiNodeFactory implements Serializable {
 
     @Factory(value = "wikiStart", scope = ScopeType.PAGE, autoCreate = true)
     public Document loadWikiStart() {
-        restrictedEntityManager.joinTransaction();
         WikiPreferences wikiPreferences = (WikiPreferences) Component.getInstance("wikiPreferences");
         try {
             return (Document) restrictedEntityManager
@@ -67,7 +65,6 @@ public class WikiNodeFactory implements Serializable {
     public Directory loadWikiRootRestricted() {
         Directory wikiroot = (Directory) Component.getInstance("wikiRoot");
 
-        restrictedEntityManager.joinTransaction();
         try {
             return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.id = :id")
@@ -82,7 +79,6 @@ public class WikiNodeFactory implements Serializable {
     @Factory(value = "memberArea", scope = ScopeType.PAGE, autoCreate = true)
     public Directory loadMemberArea() {
         Long memberAreaId = ((WikiPreferences)Component.getInstance("wikiPreferences")).getMemberAreaId();
-        entityManager.joinTransaction();
         try {
             return (Directory) entityManager
                     .createQuery("select d from Directory d where d.id = :dirId and d.parent.parent is null")
@@ -100,7 +96,6 @@ public class WikiNodeFactory implements Serializable {
 
     @Factory(value = "linkProtocolMap", scope = ScopeType.CONVERSATION, autoCreate = true)
     public Map<String, LinkProtocol> loadLinkProtocols() {
-        entityManager.joinTransaction();
         Map<String, LinkProtocol> linkProtocols = new TreeMap<String, LinkProtocol>();
         //noinspection unchecked
         List<Object[]> result = entityManager

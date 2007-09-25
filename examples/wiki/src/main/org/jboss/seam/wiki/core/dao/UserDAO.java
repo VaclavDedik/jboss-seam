@@ -29,13 +29,10 @@ public class UserDAO {
     protected EntityManager entityManager;
 
     public User findUser(Long userId) {
-        entityManager.joinTransaction();
         return entityManager.find(User.class, userId);
     }
 
     public User findUser(String username, boolean onlyActivated, boolean caseSensitive) {
-        entityManager.joinTransaction();
-
         StringBuilder query = new StringBuilder("select u from User u where");
         if (caseSensitive)
             query.append(" u.username = :username");
@@ -55,8 +52,6 @@ public class UserDAO {
     }
 
     public User findUserWithActivationCode(String activationCode) {
-        entityManager.joinTransaction();
-
         StringBuilder query = new StringBuilder("select u from User u where u.activationCode = :activationCode");
         try {
             return (User) entityManager
@@ -73,7 +68,6 @@ public class UserDAO {
 
         User adminUser = (User) Component.getInstance("adminUser");
 
-        entityManager.joinTransaction();
         entityManager.createQuery("update Node n set n.createdBy = :admin where n.createdBy = :user")
                     .setParameter("admin", entityManager.merge(adminUser))
                     .setParameter("user", user)
@@ -100,8 +94,6 @@ public class UserDAO {
     }
 
     private Criteria prepareExampleCriteria(User exampleUser, String orderByProperty, boolean orderDescending, String... ignoreProperty) {
-        entityManager.joinTransaction();
-
         Example example =  Example.create(exampleUser).enableLike(MatchMode.ANYWHERE).ignoreCase();
 
         for (String s : ignoreProperty) example.excludeProperty(s);

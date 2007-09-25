@@ -7,12 +7,6 @@
         <driver-class>org.hsqldb.jdbcDriver</driver-class>
         <user-name>sa</user-name>
         <password></password>
-
-        <!-- This means it will be bound under "wikiDatasource", not "java:/wikiDatasource".
-             Apparently this enables remote datasources, which I don't need. However, my
-             local Hibernate in the WAR won't find the datasource if this setting is not present. -->
-        <use-java-context>false</use-java-context>
-
     </local-tx-datasource>
 
 </datasources>

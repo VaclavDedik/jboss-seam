@@ -8,15 +8,19 @@
         <user-name>test</user-name>
         <password></password>
 
-        <!-- This means it will be bound under "wikiDatasource", not "java:/wikiDatasource".
-             Apparently this enables remote datasources, which I don't need. However, my
-             local Hibernate in the WAR won't find the datasource if this setting is not present. -->
-        <use-java-context>false</use-java-context>
-
         <min-pool-size>20</min-pool-size>
-        <max-pool-size>50</max-pool-size>
+
+        <!-- Make sure your MySQL config has that man max_connections!
+             This is the max_threads in default Tomcat server.xml on JBoss AS. -->
+        <max-pool-size>250</max-pool-size>
+
         <blocking-timeout-millis>5000</blocking-timeout-millis>
-        <idle-timeout-minutes>10</idle-timeout-minutes>
+        
+        <!-- Needs to be smaller than wait_timeout (which is in seconds) in /etc/my.cnf! -->
+        <idle-timeout-minutes>2</idle-timeout-minutes>
+
+        <!-- Safety in case all these timeouts still conflict -->
+        <check-valid-connection-sql>select 1</check-valid-connection-sql>
 
     </local-tx-datasource>
 

@@ -121,7 +121,6 @@ public class DirectoryHome extends NodeHome<Directory> {
 
         } else if (!hasFeed && getInstance().getFeed() != null) {
             // Does have feed but user doesn't want it anymore... delete it
-            getEntityManager().joinTransaction();
             getEntityManager().remove(getInstance().getFeed());
             getInstance().setFeed(null);
 

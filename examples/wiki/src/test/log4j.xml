@@ -40,12 +40,6 @@
     <category name="org.hibernate.type">
         <priority value="TRACE"/>
     </category>
-    <category name="org.hibernate.SQL">
-        <priority value="TRACE"/>
-    </category>
-    <category name="org.hibernate.type">
-        <priority value="TRACE"/>
-    </category>
     <category name="org.hibernate.loader">
         <priority value="TRACE"/>
     </category>

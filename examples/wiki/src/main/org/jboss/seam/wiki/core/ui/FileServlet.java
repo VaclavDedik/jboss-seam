@@ -60,7 +60,6 @@ public class FileServlet extends HttpServlet {
                 }
 
                 EntityManager em = ((EntityManager)org.jboss.seam.Component.getInstance("restrictedEntityManager"));
-                em.joinTransaction();
 
                 if (!"".equals(id)) {
                     try {

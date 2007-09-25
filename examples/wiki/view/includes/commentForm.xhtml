@@ -101,7 +101,7 @@
 
                         <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="comments, commentForm" accesskey="S"
                                        status="commentForm:status" 
-                                       oncomplete="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:userNameDecorate\\:userName').focus();"
+                                       oncomplete="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:userNameDecorate\\:userName').focus(); wrapBoxes();"
                                        styleClass="button"><span class="buttonLabel">Po<u>s</u>t Comment</span></a:commandLink>
 
                     </div>

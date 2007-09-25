@@ -116,7 +116,6 @@ public class AdminHome implements Serializable {
     }
 
     public void addLinkProtocol() {
-        entityManager.joinTransaction();
 
         // TODO: http://jira.jboss.com/jira/browse/JBSEAM-1297
         ClassValidator<LinkProtocol> validator = Validators.instance().getValidator(LinkProtocol.class);
@@ -135,7 +134,6 @@ public class AdminHome implements Serializable {
     }
 
     public void removeLinkProtocol() {
-        entityManager.joinTransaction();
         entityManager.remove(selectedLinkProtocol);
         linkProtocols.remove(selectedLinkProtocol);
     }

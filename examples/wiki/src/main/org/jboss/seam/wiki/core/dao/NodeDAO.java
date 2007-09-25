@@ -45,12 +45,10 @@ public class NodeDAO {
     @In protected EntityManager entityManager;
 
     public void makePersistent(Node node) {
-        entityManager.joinTransaction();
         entityManager.persist(node);
     }
 
     public Node findNode(Long nodeId) {
-        restrictedEntityManager.joinTransaction();
         try {
             return (Node) restrictedEntityManager
                     .createQuery("select n from Node n where n.id = :nodeId")
@@ -68,7 +66,6 @@ public class NodeDAO {
     }
 
     private Node findNodeInArea(Long areaNumber, String wikiname, EntityManager em) {
-        em.joinTransaction();
 
         try {
             return (Node) em
@@ -85,8 +82,6 @@ public class NodeDAO {
     }
 
     public Document findDocumentInArea(Long areaNumber, String wikiname) {
-        restrictedEntityManager.joinTransaction();
-
         try {
             return (Document) restrictedEntityManager
                     .createQuery("select d from Document d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
@@ -102,8 +97,6 @@ public class NodeDAO {
     }
 
     public Directory findDirectoryInArea(Long areaNumber, String wikiname) {
-        restrictedEntityManager.joinTransaction();
-
         try {
             return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
@@ -119,8 +112,6 @@ public class NodeDAO {
     }
 
     public Directory findArea(String wikiname) {
-        restrictedEntityManager.joinTransaction();
-
         try {
             return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.parent = :root and d.wikiname = :wikiname")
@@ -136,8 +127,6 @@ public class NodeDAO {
     }
 
     public Directory findArea(Long areaNumber) {
-        restrictedEntityManager.joinTransaction();
-
         try {
             return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.parent = :root and d.areaNumber = :areaNumber")
@@ -214,8 +203,6 @@ public class NodeDAO {
     }
 
     public Document findDocument(Long documentId) {
-        restrictedEntityManager.joinTransaction();
-
         try {
             return (Document) restrictedEntityManager
                     .createQuery("select d from Document d where d.id = :id")
@@ -230,8 +217,6 @@ public class NodeDAO {
     }
 
     public Directory findDirectory(Long directoryId) {
-        restrictedEntityManager.joinTransaction();
-
         try {
             return (Directory) restrictedEntityManager
                     .createQuery("select d from Directory d where d.id = :id")
@@ -246,8 +231,6 @@ public class NodeDAO {
     }
 
     public File findFile(Long fileId) {
-        restrictedEntityManager.joinTransaction();
-
         try {
             return (File) restrictedEntityManager
                     .createQuery("select f from File f where f.id = :id")
@@ -263,7 +246,6 @@ public class NodeDAO {
 
     public Document findDefaultDocument(Node directory) {
         if (directory == null) return null;
-        restrictedEntityManager.joinTransaction();
         try {
             return (Document) restrictedEntityManager
                     .createQuery("select doc from Document doc, Directory dir" +
@@ -397,10 +379,8 @@ public class NodeDAO {
 
     private Session getSession(boolean restricted) {
         if (restricted) {
-            restrictedEntityManager.joinTransaction();
             return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
         } else {
-            entityManager.joinTransaction();
             return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) entityManager).getDelegate());
         }
     }

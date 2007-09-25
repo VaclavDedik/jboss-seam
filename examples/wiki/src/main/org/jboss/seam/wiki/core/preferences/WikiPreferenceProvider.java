@@ -37,7 +37,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
 
     public Set<PreferenceValue> load(PreferenceComponent component, Object user, Object instance, boolean includeSystemPreferences) {
         log.debug("Loading preference values for component '" + component.getName() + "' and user '" + user + "' and instance '" + instance + "'");
-        entityManager.joinTransaction();
 
         if (currentValueMap.get(component) != null) {
             log.debug("Returning cached preference values of current conversation");
@@ -63,7 +62,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
 
     public Set<PreferenceValue> store(PreferenceComponent component, Set<PreferenceValue> valueHolders, Object user, Object instance) {
         log.debug("Storing preference values for component '" + component.getName() + "' and user '" + user + "' and instance '" + instance + "'");
-        entityManager.joinTransaction();
 
         currentValueMap.put(component, new TreeSet<PreferenceValue>());
 
@@ -112,7 +110,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
 
     public void deleteUserPreferences(Object user) {
         log.debug("Deleting all preference values of user '" + user + "'");
-        entityManager.joinTransaction();
         entityManager.createQuery("delete from WikiPreferenceValue wp where wp.user = :user and wp.node is null")
                 .setParameter("user", user)
                 .executeUpdate();
@@ -120,7 +117,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
 
     public void deleteInstancePreferences(Object instance) {
         log.debug("Deleting all preference values of instance '" + instance + "'");
-        entityManager.joinTransaction();
         entityManager.createQuery("delete from WikiPreferenceValue wp where wp.user is null and wp.node = :node")
                 .setParameter("node", instance)
                 .executeUpdate();
@@ -128,7 +124,6 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
 
     public void flush() {
         log.debug("Flushing queued preference values of this conversation to the database");
-        entityManager.joinTransaction();
 
         // Persist new values (we need to do this during final flush because otherwise we have the persist()/identity generator problem
         for (PreferenceValue queuedNewValue : queuedNewValues) {

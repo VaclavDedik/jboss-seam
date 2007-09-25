@@ -55,7 +55,6 @@ public class CommentHome implements Serializable {
 
     @Observer(value = {"org.jboss.seam.postAuthenticate", "PreferenceComponent.refresh.commentsPreferences"}, create = false)
     public void refreshComments() {
-        entityManager.joinTransaction();
 
         comments = new ArrayList<Comment>();
         
@@ -83,7 +82,6 @@ public class CommentHome implements Serializable {
 
     public void persist() {
 
-        entityManager.joinTransaction();
         Document currentDocument = entityManager.merge(documentHome.getInstance());
         comment.setDocument(currentDocument);
         currentDocument.getComments().add(comment);
@@ -108,7 +106,6 @@ public class CommentHome implements Serializable {
     }
 
     public void remove(Long commentId) {
-        entityManager.joinTransaction();
 
         Comment foundCommment = entityManager.find(Comment.class, commentId);
         if (foundCommment != null) {
