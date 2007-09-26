@@ -21,11 +21,13 @@ public class AsynchronousInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = 9194177339867853303L;
    
+   private static final String REENTRANT = "org.jboss.seam.async.AsynchronousIntercepter.REENTRANT";
+   
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       boolean scheduleAsync = invocation.getMethod().isAnnotationPresent(Asynchronous.class) && 
-            !Contexts.getEventContext().isSet(AbstractDispatcher.EXECUTING_ASYNCHRONOUS_CALL);
+            (!isExecutingAsynchronousCall() || Contexts.getEventContext().isSet(REENTRANT));
       if (scheduleAsync)
       {
          Dispatcher dispatcher = AbstractDispatcher.instance();
@@ -39,7 +41,26 @@ public class AsynchronousInterceptor extends AbstractInterceptor
       }
       else
       {
-         return invocation.proceed();
+         if (isExecutingAsynchronousCall())
+         {
+            Contexts.getEventContext().set(REENTRANT, true);
+         }
+         try
+         {
+             return invocation.proceed();
+         }
+         finally
+         {
+             if (isExecutingAsynchronousCall())
+             {
+                 Contexts.getEventContext().remove(REENTRANT);
+             }
+         }
       }
+   }
+   
+   private boolean isExecutingAsynchronousCall()
+   {
+       return Contexts.getEventContext().isSet(AbstractDispatcher.EXECUTING_ASYNCHRONOUS_CALL);
    }
 }
