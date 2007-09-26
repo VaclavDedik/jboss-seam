@@ -17,16 +17,10 @@
     </pluginRepository>
     <pluginRepository>
       <snapshots />
-      <id>maven.exadel.com</id>
-      <name>Exadel Repository</name>
-      <url>http://maven.exadel.com</url>
-    </pluginRepository>
-    <!-- <pluginRepository>
-      <snapshots />
       <id>snapshots.jboss.org</id>
       <name>JBoss Snapshot Repository</name>
       <url>http://snapshots.jboss.org/maven2</url>
-      </pluginRepository>-->
+      </pluginRepository>
   </pluginRepositories>
   <repositories>
     <repository>
@@ -39,12 +33,6 @@
       <id>snapshots.jboss.org</id>
       <name>JBoss Snapshot Repository</name>
       <url>http://snapshots.jboss.org/maven2</url>
-    </repository>
-    <repository>
-      <snapshots />
-      <id>maven.exadel.com</id>
-      <name>Exadel Repository</name>
-      <url>http://maven.exadel.com</url>
     </repository>
   </repositories>
 
