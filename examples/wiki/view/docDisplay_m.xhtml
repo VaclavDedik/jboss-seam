@@ -80,7 +80,14 @@
                 </div>
 
                 <s:div styleClass="commentText" rendered="#{c.useWikiText}">
-                    <s:formattedText value="#{c.text}"/>
+                    <wiki:formattedText value="#{c.text}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        thumbnailLinkStyleClass="regularLink"
+                                        renderBaseDocument="#{documentHome.instance}"
+                                        renderBaseDirectory="#{documentHome.parentDirectory}"
+                                        enablePlugins="false"/>
                 </s:div>
                 <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name != c.subject}" style="margin-top:15px;">
                     <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
