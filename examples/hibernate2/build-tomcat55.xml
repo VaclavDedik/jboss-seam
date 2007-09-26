@@ -20,16 +20,24 @@
     <import file="../build.xml"/>
 
     <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
-        <include name="lib/common*.jar"/>
-        <include name="lib/jsf-*.jar"/>
-        <include name="lib/jstl-*.jar"/>
-        <include name="hibernate/lib/*.jar"/>
-        <include name="lib/thirdparty-all.jar"/>
+        <include name="lib/commons-*.jar"/>
+        <include name="lib/jsf-api.jar"/>
+    	<include name="lib/jsf-impl.jar"/>
+        <include name="lib/jstl.jar"/>
+    	<include name="lib/dom4j.jar" />
+        <include name="lib/hibernate.jar"/>
+    	<include name="lib/hibernate-commons-annotations.jar"/>
+        <include name="lib/hibernate-annotations.jar"/>
+    	<include name="lib/hibernate-entitymanager.jar"/>
+    	<include name="lib/hibernate-validator.jar"/>
+        <include name="lib/javassist.jar"/>
+    	<include name="lib/persistence-api.jar" />
         <!-- Needed since Tomcat 5.5 does not support JSP 2.0 -->
-        <include name="examples/hibernate2/lib/el-*.jar"/>
+        <include name="examples/hibernate2/lib/el-ri.jar"/>
+    	<include name="lib/el-api.jar" />
         <!-- Addition libs needed for Tomcat -->
         <include name="examples/hibernate2/lib/cglib.jar"/>
-        <include name="examples/hibernate2/lib/jta.jar"/>
+        <include name="lib/jta.jar"/>
         <!--
         <include name="examples/hibernate2/lib/mc/*.jar"/>
         -->
