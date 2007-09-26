@@ -16,6 +16,7 @@ import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
+import org.jboss.seam.wiki.core.ui.SeamTextValidator;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -24,6 +25,9 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 
 import java.util.List;
+
+import antlr.RecognitionException;
+import antlr.ANTLRException;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -187,20 +191,32 @@ public class DocumentHome extends NodeHome<Document> {
         parser.setCurrentDocument(getInstance());
         parser.setCurrentDirectory(getParentDirectory());
         parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
-        parser.setRenderer(
-            new WikiTextRenderer() {
-                public String renderInlineLink(WikiLink inlineLink) { return null; }
-                public String renderExternalLink(WikiLink externalLink) { return null; }
-                public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) { return null; }
-                public String renderThumbnailImageInlineLink(WikiLink inlineLink) { return null; }
-                public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
-                public void setExternalLinks(List<WikiLink> externalLinks) {}
-                public String renderMacro(String macroName) {
-                    usedPlugins.append(macroName).append(" ");
-                    return null;
+
+        try {
+
+            parser.setRenderer(
+                new WikiTextRenderer() {
+                    public String renderInlineLink(WikiLink inlineLink) { return null; }
+                    public String renderExternalLink(WikiLink externalLink) { return null; }
+                    public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) { return null; }
+                    public String renderThumbnailImageInlineLink(WikiLink inlineLink) { return null; }
+                    public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
+                    public void setExternalLinks(List<WikiLink> externalLinks) {}
+                    public String renderMacro(String macroName) {
+                        usedPlugins.append(macroName).append(" ");
+                        return null;
+                    }
                 }
-            }
-        ).parse(false);
+            ).parse(false);
+
+        } catch (RecognitionException rex) {
+            // Swallow and log and low debug level
+            getLog().debug( "Ignored parse error finding plugins in text: " + SeamTextValidator.getErrorMessage(formContent, rex) );
+        } catch (ANTLRException ex) {
+            // All other errors are fatal;
+            throw new RuntimeException(ex);
+        }
+
         return usedPlugins.toString();
     }
 

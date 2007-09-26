@@ -100,40 +100,33 @@ public class WikiTextParser extends SeamTextParser {
      * resolution that needs to be updated. You should flush this modification to the data store.
      *
      * @param updateResolvedLinks Set updated content on <tt>currentDocument</tt>
+     * @throws ANTLRException if lexer or parser errors occur, see
      */
-    public void parse(boolean updateResolvedLinks) {
+    public void parse(boolean updateResolvedLinks) throws ANTLRException {
         if (resolver == null) throw new IllegalStateException("WikiTextParser requires setResolver() call");
         if (renderer == null) throw new IllegalStateException("WikiTextParser requires setRenderer() call");
         if (currentDocument == null) throw new IllegalStateException("WikiTextParser requires setCurrentDocument() call");
         if (currentDirectory == null) throw new IllegalStateException("WikiTextParser requires setCurrentDirectory() call");
 
-        try {
-            startRule();
+        startRule();
 
-            if (updateResolvedLinks) {
-                for (Map.Entry<String, WikiLink> entry: resolvedLinks.entrySet()) {
-                    if(entry.getValue().isRequiresUpdating()) {
-                        // One of the links we parsed and resolved requires updating of the current document, run
-                        // the protocol converter - which is usally only called when storing a document.
-                        currentDocument.setContent(
-                            resolver.convertToWikiProtocol(currentDirectory.getAreaNumber(), currentDocument.getContent())
-                        );
-                        // Yes, this might happen during rendering, you should lush() and UPDATE the document!
+        if (updateResolvedLinks) {
+            for (Map.Entry<String, WikiLink> entry: resolvedLinks.entrySet()) {
+                if(entry.getValue().isRequiresUpdating()) {
+                    // One of the links we parsed and resolved requires updating of the current document, run
+                    // the protocol converter - which is usally only called when storing a document.
+                    currentDocument.setContent(
+                        resolver.convertToWikiProtocol(currentDirectory.getAreaNumber(), currentDocument.getContent())
+                    );
+                    // Yes, this might happen during rendering, you should lush() and UPDATE the document!
 
-                        break; // One is enough
-                    }
+                    break; // One is enough
                 }
             }
-
-            renderer.setAttachmentLinks(attachments);
-            renderer.setExternalLinks(externalLinks);
-
         }
-        catch (ANTLRException re) {
-            // TODO: Do we ever get this exception?
-            System.out.println("########################## FIXME: EXCEPTION IN PARSER ################################");
-            throw new RuntimeException(re);
-        }
+
+        renderer.setAttachmentLinks(attachments);
+        renderer.setExternalLinks(externalLinks);
     }
 
     protected String linkTag(String descriptionText, String linkText) {

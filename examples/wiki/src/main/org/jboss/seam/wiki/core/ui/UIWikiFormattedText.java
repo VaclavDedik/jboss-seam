@@ -17,6 +17,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
@@ -28,8 +30,20 @@ import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.util.WikiUtil;
+import antlr.RecognitionException;
+import antlr.ANTLRException;
 
+/**
+ * Uses WikiTextParser and WikiLinkResolver to render Seam Text markup with wiki links.
+ *
+ * Any lexer/parser error results in WARN level log message, you can disable this in your logging
+ * configuration by raising the log level for this class to ERROR.
+ *
+ * @author Christian Bauer
+ */
 public class UIWikiFormattedText extends UIOutput {
+
+    Log log = Logging.getLog(UIWikiFormattedText.class);
 
     public static final String ATTR_LINK_STYLE_CLASS                = "linkStyleClass";
     public static final String ATTR_BROKEN_LINK_STYLE_CLASS         = "brokenLinkStyleClass";
@@ -200,7 +214,17 @@ public class UIWikiFormattedText extends UIOutput {
         Boolean updateResolvedLinks =
                 getAttributes().get(ATTR_UPDATE_RESOLVED_LINKS) == null
                 || Boolean.valueOf((String) getAttributes().get(ATTR_UPDATE_RESOLVED_LINKS));
-        parser.parse(updateResolvedLinks);
+        try {
+
+            parser.parse(updateResolvedLinks);
+
+        } catch (RecognitionException rex) {
+            // Log a nice message for any lexer/parser errors, users can disable this if they want to
+            log.warn( SeamTextValidator.getErrorMessage((String) getValue(), rex) );
+        } catch (ANTLRException ex) {
+            // All other errors are fatal;
+            throw new RuntimeException(ex);
+        }
 
         facesContext.getResponseWriter().write(parser.toString());
 

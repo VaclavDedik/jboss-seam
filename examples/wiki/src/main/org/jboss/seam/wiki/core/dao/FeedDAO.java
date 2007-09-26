@@ -13,6 +13,7 @@ import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.ui.SeamTextValidator;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
@@ -21,6 +22,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
 import java.util.*;
+
+import antlr.RecognitionException;
+import antlr.ANTLRException;
 
 /**
  * DAO for feeds.
@@ -224,7 +228,16 @@ public class FeedDAO {
         );
 
         // Run the parser
-        parser.parse(true);
+        try {
+            parser.parse(true);
+
+        } catch (RecognitionException rex) {
+            // Swallow and log and low debug level
+            log.debug( "Ignored parse error generating feed entry text: " + SeamTextValidator.getErrorMessage(wikiText, rex) );
+        } catch (ANTLRException ex) {
+            // All other errors are fatal;
+            throw new RuntimeException(ex);
+        }
         return parser.toString();
     }
 
