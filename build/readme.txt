@@ -20,29 +20,40 @@ Seam directly uses the 'compile' dependencies to build the various modules,
 and the test scope (for core) to run core tests.
 
 To add or upgrade a dependency of Seam:
+---------------------------------------
 
 * Find the dependency in a maven repository - check repository.jboss.org/maven2
   first and then try mvnsearch.com.
+
 * Add or update the entry in root.pom.xml including version information
+
 * If it's a new dependency, add an entry to the correct module.  If it's an
   optional dependency (most are), mark it <optional>true</optional>.  If it's
   provided by JBoss AS (current targeted version), mark it <scope>provided</scope>
-* Bear in mind that a released Seam shouldn't depend on a SNAPSHOT version, so
-  it might be better to take a snapshot, and add it to Seam's local repository
-  as a custom version
+
+* Bear in mind that a released Seam shouldn't depend on a SNAPSHOT version
+
 * When we release Seam we have to add all it's dependencies to 
   repository.jboss.org (no thirdparty repositories should be used for released
   versions) - so if you are adding a dependency which is stable, and you aren't
-  planning to change the dependency before the next release you should consider
-  adding it to repository.jboss.org straight away.  The procedure for this is
-  outlined at http://wiki.jboss.org/wiki/Wiki.jsp?page=MavenThirdPartyJars
+  planning to change the dependency before the next release you should add it
+  straight to repository.jboss.org.  To do this:
+  1) Checkout repository.jboss.org/maven2 from svn (https://svn.jboss.org/repos/repository.jboss.org)
+  2) Set the offline.repository.jboss.org property in build/build.properties to
+     the directory you checked out to.
+  3) Run ant -Dpom=foo.pom -Djar=foo.jar deployRelease
+  4) Check in the changed files to SVN (they'll be under a path of 
+     artifactId/groupId/version)
+
   
-To add a non-released dependency of Seam:
+To add a unreleased dependency of Seam:
+-----------------------------------------
 
 * If you need a dependency which isn't available in Maven, and don't want to add
   it straight to repository.jboss.org or want to depend on a CVS/snapshot of a 
   project which you're planning to upgrade before the next Seam release you
-  should add it to snapshots.jboss.org.
+  can add it to snapshots.jboss.org.
+  
 * To add a jar to the local repository, you can, if you have a pom (that you
   copied from an earlier version or have written) run:
 
@@ -50,7 +61,7 @@ To add a non-released dependency of Seam:
   
   If you want maven to create a basic pom for you:
   
-  ant deploySnapshotJar -Djar=foo.jar
+  ant deploySnapshot -Djar=foo.jar
   
   You will be prompted for your jboss.org username and pasword (WARNING your
   password is echoed back to you!)
@@ -70,22 +81,17 @@ repository.jboss.org.
 
 Release dependencies:
 
-* If you are adding a couple of dependencies its easier to follow the wiki page
-  http://wiki.jboss.org/wiki/Wiki.jsp?page=MavenThirdPartyJars option 2
-* If you need to add a lot of dependencies, you can use the offlineDependencies target in
-  the build/ directory, and set the offline.repository property to point at your 
-  svn checkout of repository.jboss.org/maven2.  This task downloads all
-  dependencies of Seam into your checked out repository.jboss.org - you can then
-  commit those that are necessary. (N.B. This will include some Seam jars, don't
-  include these in your commit!)
-* Edit the root.pom.xml to remove all references to other repositories if
-  possible
-* Delete the contents of the build/repository directory (the development
-  repository) as this should not have anything in for releases.
+* Check that all dependencies of Seam are present in repository.jboss.org
+  - Check that snapshots.jboss.org is not active
+  - Check that no other maven repositorys are enabled
+* Follow the proceedure outlined above to add jars to repository.jboss.org
   
 Add Seam to repository.jboss.org:
 
-* Run the offlineSeam target
+* Checkout repository.jboss.org/maven2 from svn (https://svn.jboss.org/repos/repository.jboss.org)
+* Set the offline.repository.jboss.org property in build/build.properties to the
+  directory you checked out to.
+* Run ant releaseSeam
 * Commit the release to repository.jboss.org
 
 

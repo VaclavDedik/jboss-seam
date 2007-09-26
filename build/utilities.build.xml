@@ -39,11 +39,11 @@
 	<macrodef name="install">
 		<attribute name="pom" default="" />
 		<attribute name="jar" default="" />
-        <element name="args" implicit="true" optional="true" />
+		<element name="args" implicit="true" optional="true" />
 		<sequential>
 			<artifact:install file="@{jar}">
 				<pom file="@{pom}" />
-                <args />
+				<args />
 			</artifact:install>
 		</sequential>
 	</macrodef>
@@ -59,6 +59,23 @@
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
 				</remoteRepository>
+			</artifact:deploy>
+		</sequential>
+	</macrodef>
+
+	<macrodef name="deployWithSources">
+		<attribute name="pom" default="" />
+		<attribute name="jar" default="" />
+		<attribute name="srcjar" />
+		<attribute name="repositoryId" default="" />
+		<element name="credentials" implicit="true" optional="true" />
+		<sequential>
+			<artifact:deploy file="@{jar}">
+				<pom file="@{pom}" />
+				<remoteRepository refId="@{repositoryId}">
+					<credentials />
+				</remoteRepository>
+				<attach file="@{srcjar}" classifier="-sources" />
 			</artifact:deploy>
 		</sequential>
 	</macrodef>
@@ -89,7 +106,7 @@
 			</copy>
 		</sequential>
 	</macrodef>
-	
+
 	<macrodef name="eclipseClasspath">
 		<attribute name="file" />
 		<attribute name="tofile" />
@@ -102,16 +119,16 @@
 			<copy overwrite="true" tofile="@{tofile}">
 				<fileset file="@{file}" />
 				<filterset>
-					<filter token="@{filterProperty}" value="&lt;classpathentry kind=&quot;lib&quot; path=&quot;${eclipse.entries}&quot;/&gt;"/>
+					<filter token="@{filterProperty}" value="&lt;classpathentry kind=&quot;lib&quot; path=&quot;${eclipse.entries}&quot;/&gt;" />
 				</filterset>
 			</copy>
 		</sequential>
 	</macrodef>
-	
+
 	<macrodef name="maven">
 		<attribute name="target" />
 		<attribute name="basedir" />
-		<element name="args" implicit="true" optional="true"/>
+		<element name="args" implicit="true" optional="true" />
 		<sequential>
 			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="@{basedir}">
 				<classpath>
@@ -130,5 +147,5 @@
 			</java>
 		</sequential>
 	</macrodef>
-	
+
 </project>

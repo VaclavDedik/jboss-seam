@@ -147,6 +147,7 @@ wiki
 
 * upload .zip and .tar.gz to upload.sf.net
 * do the sf.net file release stuff
+* Do the release proceedure for maven as described in build/readme.txt
 * upload the doc directory of the dist to docs.jboss.org
   - remember to update the latest/ dir
 * update the documentation and download pages on jboss.org

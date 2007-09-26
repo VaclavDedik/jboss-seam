@@ -8,6 +8,7 @@
 	<import file="common.build.xml" />
 
 	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
+	<artifact:remoteRepository id="offline.repository.jboss.org" url="file:///${offline.repository.jboss.org}" />
 	
 	<target name="initdav">
 		<artifact:install-provider artifactId="wagon-webdav" version="1.0-beta-2"/>
@@ -30,16 +31,23 @@
 		</deploy>
 	</target>
 
-	<target name="deploySnapshotJar" description="Deploy a jar (generating the pom) to snapshots.jboss.org" depends="initdav">
-        <input addproperty="username" 
-                   message="JBoss.org username:" />
-        <input addproperty="password" 
-                   message="JBoss.org password:" />
-		
+	<target name="deployRelease" description="Deploy a jar (generating the pom) to snapshots.jboss.org" depends="initdav">
 		<pomfile name="pom.file" value="${pom}" />
-		<deploy pom="${pom.file}" jar="${jar}" repositoryId="snapshots.jboss.org">
-			<authentication username="${username}" password="${password}" />
-		</deploy>
+		<deploy pom="${pom.file}" jar="${jar}" repositoryId="offline.repository.jboss.org" />
+	</target>
+	
+	<target name="releaseSeam" description="Deploy Seam and JBoss EL to your local copy of repository.jboss.org" depends="initpoms">
+		<fail unless="offline.repository.jboss.org" message="Please set the offline.repository.jboss.org property"/>
+		<deploy pom="${root.pom}" repositoryId="offline.repository.jboss.org"/>
+		<deploy pom="${parent.pom}" repositoryId="offline.repository.jboss.org" />
+		<deployWithSources pom="${core.pom}" jar="${lib.dir}/jboss-seam.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-sources.jar" />
+		<deployWithSources pom="${debug.pom}" jar="${lib.dir}/jboss-seam-debug.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-debug-sources.jar"/>
+		<deployWithSources pom="${gen.pom}" jar="${lib.dir}/jboss-seam-gen.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-gen-sources.jar"/>
+		<deployWithSources pom="${ioc.pom}" jar="${lib.dir}/jboss-seam-ioc.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-ioc-sources.jar"/>
+		<deployWithSources pom="${mail.pom}" jar="${lib.dir}/jboss-seam-mail.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-mail-sources.jar"/>
+		<deployWithSources pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
+		<deployWithSources pom="${remoting.pom}" jar="${lib.dir}/jboss-seam-remoting.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-remoting-sources.jar"/>
+		<deployWithSources pom="${ui.pom}" jar="${lib.dir}/jboss-seam-ui.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-ui-sources.jar"/>
 	</target>
 	
 	<target name="deployLocalPom">
@@ -50,7 +58,7 @@
 		<deployLocal jar="${jar}" />
 	</target>
 
-	<target name="installProfiles" >
+	<!--<target name="installProfiles" >
 		<installProfile pom="profiles/seam-ajax.pom.xml" />
 		<installProfile pom="profiles/seam-async-timer-quartz.pom.xml" />
 		<installProfile pom="profiles/seam-cache.pom.xml" />
@@ -66,7 +74,7 @@
 		<installProfile pom="profiles/seam-search.pom.xml" />
 		<installProfile pom="profiles/seam-spring.pom.xml" />
 		<installProfile pom="profiles/seam-urlrewrite.pom.xml" />
-	</target>
+	</target>-->
 
 	<target name="help" description="Show help">
 		<echo>Run ant -p</echo>
@@ -105,19 +113,14 @@
 		
 		<deploySeam repositoryId="tmp.repository" />
 
-		<offline pom="core.pom" repository="${offline.repository}" />
-		<offline pom="ui.pom" repository="${offline.repository}" />
-		<offline pom="remoting.pom" repository="${offline.repository}" />
-		<offline pom="pdf.pom" repository="${offline.repository}" />
-		<offline pom="mail.pom" repository="${offline.repository}" />
-		<offline pom="ioc.pom" repository="${offline.repository}" />
-		<offline pom="gen.pom" repository="${offline.repository}" />
-		<offline pom="debug.pom" repository="${offline.repository}" />
-	</target>
-
-	<target name="offlineSeam" depends="initpoms" description="Build an offline snapshot of Seam jars">
-		<artifact:remoteRepository id="offline.repository" url="file://${offline.repository}" />
-		<deploySeam repositoryId="offline.repository" url="${offline.repository}" />
+		<offline pom="core.pom" repository="${offline.repository.jboss.org}" />
+		<offline pom="ui.pom" repository="${offline.repository.jboss.org}" />
+		<offline pom="remoting.pom" repository="${offline.repository.jboss.org}" />
+		<offline pom="pdf.pom" repository="${offline.repository.jboss.org}" />
+		<offline pom="mail.pom" repository="${offline.repository.jboss.org}" />
+		<offline pom="ioc.pom" repository="${offline.repository.jboss.org}" />
+		<offline pom="gen.pom" repository="${offline.repository.jboss.org}" />
+		<offline pom="debug.pom" repository="${offline.repository.jboss.org}" />
 	</target>
 	
 	<macrodef name="offline">
