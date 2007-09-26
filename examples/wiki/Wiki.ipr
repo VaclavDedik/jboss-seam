@@ -11,11 +11,11 @@
         <property name="profile" value="dev" />
       </properties>
       <executeOn event="afterCompilation" target="deploy" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="LoginTest" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="Unnamed" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
     </buildFile>
   </component>
   <component name="BuildJarProjectSettings">
