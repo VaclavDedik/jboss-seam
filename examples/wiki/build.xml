@@ -6,12 +6,12 @@
 
     <!-- Give user a chance to override without editing this file or typing -D -->
     <property file="${basedir}/build.properties" />
-	
+
 	<property name="tmp.dir"          value="build"/>
-	
+
 	<property name="seam.dir" value="${ant.file.wiki}/../../../"/>
 	<import file="${seam.dir}/build/common.build.xml" />
-	
+
     <property name="profile" value="dev"/>
 
     <!-- set global properties for this build -->
@@ -66,7 +66,7 @@
     		<include name="jboss-embedded-all.jar" />
     		<include name="thirdparty-all.jar" />
     	</fileset>
-    	
+
         <fileset dir="${global.lib.dir}">
             <include name="*.jar" />
         	<!-- Horrible hack around jbossembedded -->
@@ -95,7 +95,10 @@
 
     <path id="tools.classpath">
         <fileset dir="${global.lib.dir}">
-            <include name="thirdparty*.jar"/>
+            <include name="commons-collections*.jar"/>
+            <include name="commons-logging*.jar"/>
+            <include name="dom4j*.jar"/>
+            <include name="javassist*.jar"/>
         </fileset>
         <fileset dir="${local.lib.dir}"/>
     </path>
@@ -107,9 +110,6 @@
         <include name="**/*.drl"/>
         <include name="**/*.MF"/>
     </patternset>
-
-    <!-- ################## CUSTOM TASKS ####################### -->
-
 
     <!-- ################## SETUP ####################### -->
 
@@ -141,6 +141,8 @@
                 <exclude name="hibernate-search*"/>
                 <!-- We don't need that at runtime -->
                 <exclude name="hibernate-tools*"/>
+                <!-- We also need EHCache there -->
+                <include name="ehcache*"/>
             </fileset>
         </copy>
 
@@ -258,8 +260,8 @@
                 <exclude name="hibernate-annotations*"/>
                 <exclude name="hibernate-entitymanager*"/>
                 <exclude name="hibernate-validator*"/>
-                <exclude name="mysql-connector*"/>
             	<exclude name="jboss-archive-browsing.jar" />
+                <exclude name="ehcache*"/>
             </fileset>
         </copy>
 
