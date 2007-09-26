@@ -10,7 +10,7 @@
 
         <min-pool-size>20</min-pool-size>
 
-        <!-- Make sure your MySQL config has that man max_connections!
+        <!-- Make sure your MySQL config has that many max_connections!
              This is the max_threads in default Tomcat server.xml on JBoss AS. -->
         <max-pool-size>250</max-pool-size>
 
@@ -19,8 +19,9 @@
         <!-- Needs to be smaller than wait_timeout (which is in seconds) in /etc/my.cnf! -->
         <idle-timeout-minutes>2</idle-timeout-minutes>
 
-        <!-- Safety in case all these timeouts still conflict -->
-        <check-valid-connection-sql>select 1</check-valid-connection-sql>
+        <!-- These are the secret ingredients that make it stable! A simple check-valid-connection-sql won't be enough! -->
+        <exception-sorter-class-name>com.mysql.jdbc.integration.jboss.ExtendedMysqlExceptionSorter</exception-sorter-class-name>
+        <valid-connection-checker-class-name>com.mysql.jdbc.integration.jboss.MysqlValidConnectionChecker</valid-connection-checker-class-name>
 
     </local-tx-datasource>
 
