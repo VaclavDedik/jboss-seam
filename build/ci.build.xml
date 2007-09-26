@@ -23,15 +23,15 @@
 			<arg line="-Durl=${snapshots.jboss.org}" />
 			<arg line="-DrepositoryId=snapshots.jboss.org" />
 		</maven>
-		<deploySnapshot pom="${parent.pom}" />
-		<deploySnapshot pom="${core.pom}" file="${lib.dir}/jboss-seam.jar" />
-		<deploySnapshot pom="${debug.pom}" file="${lib.dir}/jboss-seam-debug.jar" />
-		<deploySnapshot pom="${gen.pom}" file="${lib.dir}/jboss-seam-gen.jar" />
-		<deploySnapshot pom="${ioc.pom}" file="${lib.dir}/jboss-seam-ioc.jar" />
-		<deploySnapshot pom="${mail.pom}" file="${lib.dir}/jboss-seam-mail.jar" />
-		<deploySnapshot pom="${pdf.pom}" file="${lib.dir}/jboss-seam-pdf.jar" />
-		<deploySnapshot pom="${remoting.pom}" file="${lib.dir}/jboss-seam-remoting.jar" />
-		<deploySnapshot pom="${ui.pom}" file="${lib.dir}/jboss-seam-ui.jar" />
+		<deploySnapshotPom pom="${parent.pom}" />
+		<deploySnapshot pom="${core.pom}" jar="${lib.dir}/jboss-seam.jar" srcjar="${lib.dir}/src/jboss-seam-sources.jar" />
+		<deploySnapshot pom="${debug.pom}" jar="${lib.dir}/jboss-seam-debug.jar" srcjar="${lib.dir}/src/jboss-seam-debug-sources.jar"/>
+		<deploySnapshot pom="${gen.pom}" jar="${lib.dir}/jboss-seam-gen.jar" srcjar="${lib.dir}/src/jboss-seam-gen-sources.jar"/>
+		<deploySnapshot pom="${ioc.pom}" jar="${lib.dir}/jboss-seam-ioc.jar" srcjar="${lib.dir}/src/jboss-seam-ioc-sources.jar"/>
+		<deploySnapshot pom="${mail.pom}" jar="${lib.dir}/jboss-seam-mail.jar" srcjar="${lib.dir}/src/jboss-seam-mail-sources.jar"/>
+		<deploySnapshot pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
+		<deploySnapshot pom="${remoting.pom}" jar="${lib.dir}/jboss-seam-remoting.jar" srcjar="${lib.dir}/src/jboss-seam-remoting-sources.jar"/>
+		<deploySnapshot pom="${ui.pom}" jar="${lib.dir}/jboss-seam-ui.jar" srcjar="${lib.dir}/src/jboss-seam-ui-sources.jar"/>
 	</target>
 
 	<target name="tests">
@@ -60,12 +60,24 @@
 		</sequential>
 	</macrodef>
 
+    <macrodef name="deploySnapshotPom">
+      <attribute name="pom" />
+      <sequential>
+        <artifact:deploy>
+          <pom file="@{pom}" />
+        </artifact:deploy>
+      </sequential>
+    </macrodef>
+    
+
 	<macrodef name="deploySnapshot">
 		<attribute name="pom" />
-		<attribute name="file" default="" />
+		<attribute name="jar" />
+        <attribute name="srcjar" />
 		<sequential>
-			<artifact:deploy file="@{file}">
+			<artifact:deploy file="@{jar}">
 				<pom file="@{pom}" />
+                <attach file="@{srcjar}" classifier="sources" />
 			</artifact:deploy>
 		</sequential>
 	</macrodef>

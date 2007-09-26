@@ -176,7 +176,7 @@
 	</target>
 
 	<target name="jarcore" depends="compilecore" description="Build the distribution .jar file using M2 dependency management">
-		<archive classesdir="${classes.core.dir}" module="jboss-seam" pom="${core.pom}" />
+		<archive classesdir="${classes.core.dir}" module="jboss-seam" pom="${core.pom}" srcdir="${src.core.dir}" />
 	</target>
 
 	<!-- ########################### PDF TARGETS ###########################-->
@@ -190,7 +190,7 @@
 	</target>
 
 	<target name="jarpdf" depends="compilepdf" description="Build the distribution .jar file for the PDF package">
-		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" pom="${pdf.pom}" />
+		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" pom="${pdf.pom}" srcdir="${src.pdf.dir}" />
 	</target>
 
 
@@ -205,7 +205,7 @@
 	</target>
 
 	<target name="jarioc" depends="compileioc" description="Build the distribution .jar file for the IOC package">
-		<archive classesdir="${classes.ioc.dir}" module="jboss-seam-ioc" pom="${ioc.pom}" />
+		<archive classesdir="${classes.ioc.dir}" module="jboss-seam-ioc" pom="${ioc.pom}"  srcdir="${src.ioc.dir}"/>
 	</target>
 
 
@@ -219,8 +219,8 @@
 		<compile classesdir="${classes.mail.dir}" srcdir="${src.mail.dir}" classpath="compile.mail.path" />
 	</target>
 
-	<target name="jarmail" depends="compilemail" description="Build the distribution .jar file for the IOC package">
-		<archive classesdir="${classes.mail.dir}" module="jboss-seam-mail" pom="${mail.pom}" />
+	<target name="jarmail" depends="compilemail" description="Build the distribution .jar file for the Mail package">
+		<archive classesdir="${classes.mail.dir}" module="jboss-seam-mail" pom="${mail.pom}"  srcdir="${src.mail.dir}"/>
 	</target>
 
 
@@ -234,8 +234,8 @@
 		<compile classesdir="${classes.debug.dir}" srcdir="${src.debug.dir}" classpath="compile.debug.path" />
 	</target>
 
-	<target name="jardebug" depends="compiledebug" description="Build the distribution .jar file for the IOC package">
-		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" pom="${debug.pom}" />
+	<target name="jardebug" depends="compiledebug" description="Build the distribution .jar file for the Debug package">
+		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" pom="${debug.pom}"  srcdir="${src.debug.dir}"/>
 	</target>
 
 
@@ -250,7 +250,7 @@
 	</target>
 
 	<target name="jargen" depends="compilegen" description="Build the distribution .jar file for the gen package">
-		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" pom="${gen.pom}" />
+		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" pom="${gen.pom}"  srcdir="${src.gen.dir}"/>
 	</target>
 
 
@@ -265,7 +265,7 @@
 	</target>
 
 	<target name="jarremoting" depends="compileremoting" description="Build the distribution .jar file for the Remoting package">
-		<archive classesdir="${classes.remoting.dir}" module="jboss-seam-remoting" pom="${remoting.pom}" />
+		<archive classesdir="${classes.remoting.dir}" module="jboss-seam-remoting" pom="${remoting.pom}"  srcdir="${src.remoting.dir}"/>
 	</target>
 
 	<!-- ########################### UI TARGETS ###########################-->
@@ -278,6 +278,7 @@
 		<mkdir dir="${dist.dir}" />
 		<cdk target="install" />
 		<copy file="${ui.dir}/target/jboss-seam-ui.jar" tofile="${basedir}/lib/${name}-ui.jar" />
+		<copy file="${ui.dir}/target/jboss-seam-ui-sources.jar" tofile="${basedir}/lib/src/${name}-ui-sources.jar" />
 	</target>
 
 
@@ -707,8 +708,10 @@
 		<attribute name="module" />
 		<attribute name="classesdir" />
 		<attribute name="pom" />
+		<attribute name="srcdir" />
 		<sequential>
 			<mkdir dir="${lib.dir}" />
+			<mkdir dir="${lib.dir}/src" />
 			<jar jarfile="${lib.dir}/@{module}.jar" basedir="@{classesdir}">
 				<include name="**/*.class" />
 				<exclude name="**/test/*.class" />
@@ -718,7 +721,18 @@
 					<attribute name="Implementation-Version" value="${complete.version}" />
 				</manifest>
 			</jar>
-			<install jar="${lib.dir}/@{module}.jar" pom="@{pom}" />
+			<jar jarfile="${lib.dir}/src/@{module}-sources.jar" basedir="@{srcdir}">
+				<include name="**/*.java" />
+				<exclude name="**/test/*.java" />
+				<patternset refid="meta.files" />
+				<manifest>
+					<attribute name="Seam-Version" value="${complete.version}" />
+					<attribute name="Implementation-Version" value="${complete.version}" />
+				</manifest>
+			</jar>
+			<install jar="${lib.dir}/@{module}.jar" pom="@{pom}">
+				<attach file="${lib.dir}/src/@{module}-sources.jar" classifier="sources" />
+			</install>
 		</sequential>
 	</macrodef>
 

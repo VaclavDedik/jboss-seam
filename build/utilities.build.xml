@@ -39,9 +39,11 @@
 	<macrodef name="install">
 		<attribute name="pom" default="" />
 		<attribute name="jar" default="" />
+        <element name="args" implicit="true" optional="true" />
 		<sequential>
 			<artifact:install file="@{jar}">
 				<pom file="@{pom}" />
+                <args />
 			</artifact:install>
 		</sequential>
 	</macrodef>
