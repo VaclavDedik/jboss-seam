@@ -135,14 +135,17 @@
 
 	<target name="init" depends="initpoms" />
 
-	<target name="clean" description="Cleans up the build directory">
+	<target name="clean" description="Cleans up the build directory" depends="clean.lib">
 		<delete dir="${classes.dir}" quiet="${quietclean}" />
 		<delete dir="${test.dir}" quiet="${quietclean}" />
 		<delete dir="${report.dir}" quiet="${quietclean}" />
-		<delete dir="${lib.dir}" quiet="${quietclean}" />
 		<delete dir="${coverage.dir}" quiet="${quietclean}" />
 		<delete file="coverage.ec" failonerror="false" quiet="${quietclean}" />
 		<delete dir="${ui.dir}/target" quiet="${quietclean}"/>
+	</target>
+	
+	<target name="clean.lib" if="mavenized.property">
+		<delete dir="${lib.dir}" quiet="${quietclean}" />
 	</target>
 
 	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui" description="Build all four distribution .jar files" />
@@ -414,7 +417,7 @@
 		</copy>
 	</target>
 
-	<target name="copylib" depends="copyseam, copyseamdependencies">
+	<target name="copylib" depends="copyseam, copyseamdependencies,copyjbossembedded">
 
 		<copy todir="${dist.eejb.conf.dir}">
 			<fileset dir="${eejb.conf.dir}">
@@ -524,7 +527,7 @@
 	</target>
 
 
-	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copyexamples,copyseamgen,refdoc,extras" description="Build everything and package">
+	<target name="dist" depends="cleandist,build,javadoc,copysource,copylib,copybuild,copyexamples,copyseamgen,refdoc,extras" description="Build everything and package">
 		<zip zipfile="${dist.location}/${dist.name}.zip">
 			<zipfileset prefix="${dist.name}" dir="${dist.dir}" />
 		</zip>

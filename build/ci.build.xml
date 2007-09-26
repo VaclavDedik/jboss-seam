@@ -44,7 +44,7 @@
 
 	<target name="snapshot">
 		<build target="cleanall" />
-		<build target="build" />
+		<build target="dist" />
 		<antcall target="deploySeamSnapshot" />
 		<antcall target="tests" />
 	</target>
