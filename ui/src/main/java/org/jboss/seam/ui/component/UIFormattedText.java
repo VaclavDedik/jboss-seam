@@ -28,8 +28,11 @@ import javax.faces.component.UIOutput;
 
 import org.jboss.seam.text.SeamTextLexer;
 import org.jboss.seam.text.SeamTextParser;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.log.Log;
 
 import antlr.ANTLRException;
+import antlr.RecognitionException;
 
 /**
  * JSF component class
@@ -37,6 +40,8 @@ import antlr.ANTLRException;
  */
 public abstract class UIFormattedText extends UIOutput {
 	
+   Log log = Logging.getLog(UIFormattedText.class);
+
 	@SuppressWarnings("unused")
    private static final String COMPONENT_TYPE = "org.jboss.seam.ui.FormattedText";
 	
@@ -53,9 +58,12 @@ public abstract class UIFormattedText extends UIOutput {
       {
          parser.startRule();
       }
-      catch (ANTLRException re)
-      {
-         throw new RuntimeException(re);
+      catch (RecognitionException rex) {
+          // Log a nice message for any lexer/parser errors, users can disable this if they want to
+          log.warn( "Seam Text parse error: " + rex.getMessage() );
+      } catch (ANTLRException ex) {
+          // All other errors are fatal;
+          throw new RuntimeException(ex);
       }
       return parser.toString();
    }
