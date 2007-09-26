@@ -378,21 +378,6 @@
 	</target>
 
 
-	<!-- ################## CONTINUOUS INTEGRATION TARGETS #################-->
-
-	<!-- Continuous integration wrapper target -->
-	<!-- N.B. validateall must run last as it actually causes the build to fail rather than acting as a test (TODO Fix this) -->
-	<target name="ci">
-		<antcall target="cleanall" />
-		<antcall target="dist" />
-		<antcall target="cleanall" />
-		<antcall target="coverageall" />
-		<antcall target="copytestoutput" />
-		<antcall target="testreport" />
-		<antcall target="validateall" />
-	</target>
-
-
 	<!-- ########################## DIST TARGETS ###########################-->
 
 	<target name="cleandist" description="Cleans up the dist directory">
@@ -447,6 +432,7 @@
 		<copy todir="${dist.build.dir}">
 			<fileset dir="${build.dir}">
 				<include name="**/*.*" />
+				<exclude name="profiles/**/*" />
 			</fileset>
 		</copy>
 	</target>
