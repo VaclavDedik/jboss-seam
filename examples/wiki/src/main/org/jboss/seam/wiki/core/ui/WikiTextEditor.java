@@ -5,16 +5,10 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.faces.FacesMessages;
-import org.jboss.seam.text.SeamTextParser;
-import org.jboss.seam.text.SeamTextLexer;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.io.Reader;
-import java.io.StringReader;
-
-import antlr.RecognitionException;
-import antlr.ANTLRException;
+import java.io.Serializable;
 
 import javax.faces.validator.ValidatorException;
 import javax.faces.application.FacesMessage;
@@ -31,7 +25,7 @@ import javax.faces.application.FacesMessage;
  */
 @Name("wikiTextEditor")
 @Scope(ScopeType.CONVERSATION) // TODO: Should be PAGE but doesn't work with Seam remoting!
-public class WikiTextEditor {
+public class WikiTextEditor implements Serializable {
 
     private Map<String, String> textAreaRows = new HashMap<String, String>();
 

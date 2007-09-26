@@ -14,9 +14,11 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.util.WikiUtil;
 
+import java.io.Serializable;
+
 @Name("help")
 @Scope(ScopeType.PAGE)
-public class Help {
+public class Help implements Serializable {
 
     @In
     NodeDAO nodeDAO;
