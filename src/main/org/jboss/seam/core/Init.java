@@ -173,15 +173,40 @@ public class Init
    
    private void checkDuplicateFactory(String variable)
    {
-      if ( factories.containsKey(variable) || factoryMethodExpressions.containsKey(variable) || factoryValueExpressions.containsKey(variable) )
+      if ( factories.containsKey(variable) )
       {
-         throw new IllegalStateException("duplicate factory for: " + variable);
+          throw new IllegalStateException("duplicate factory for: " + variable + " (duplicate is specified in a component)");
       }
+      checkDuplicateFactoryExpressions(variable);
+   }
+   
+   private void checkDuplicateFactoryExpressions(String variable)
+   {
+       if ( factoryMethodExpressions.containsKey(variable) || factoryValueExpressions.containsKey(variable) )
+       {
+           throw new IllegalStateException("duplicate factory for: " + variable + " (duplicate is specified in components.xml)");
+       }
+   }
+   
+   private void checkDuplicateFactory(String variable, Component component)
+   {
+       if (factories.containsKey(variable))
+       {
+           String otherComponentName = factories.get(variable).getComponent().getName();
+           Class otherComponentClass = factories.get(variable).getComponent().getBeanClass();
+           String componentName = component.getName();
+           Class componentClass = component.getBeanClass();
+           if (componentName != null && !componentName.equals(otherComponentName))
+           {
+               throw new IllegalStateException("duplicate factory for: " + variable + " (duplicates are specified in " + componentName + " and " + otherComponentName + ")");
+           }
+       }
+       checkDuplicateFactoryExpressions(variable);
    }
    
    public void addFactoryMethod(String variable, Method method, Component component)
    {
-      checkDuplicateFactory(variable);
+      checkDuplicateFactory(variable, component);
 	   factories.put( variable, new FactoryMethod(method, component) );
    }
 
