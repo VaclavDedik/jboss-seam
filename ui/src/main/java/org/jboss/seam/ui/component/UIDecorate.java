@@ -49,7 +49,13 @@ public abstract class UIDecorate extends UIComponentBase implements NamingContai
       }
       else
       {
-         UIComponent component = findComponent(id);
+         // As UIDecorate implements NamingContainer it alters the search 
+         // algorithm used by JSF
+         UIComponent component = null;
+         if (getParent() != null)
+         {
+             component = getParent().findComponent(id);
+         }
          return component==null ? null : component.getClientId( getFacesContext() );
       }
    }
