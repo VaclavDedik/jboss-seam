@@ -32,7 +32,7 @@ public class EntityManagerFactory
    private javax.persistence.EntityManagerFactory entityManagerFactory;
 
    private String persistenceUnitName;
-   private Map persistenceUnitProperties;
+   private Map<String, String> persistenceUnitProperties;
    
    @Unwrap
    public javax.persistence.EntityManagerFactory getEntityManagerFactory()
@@ -102,12 +102,12 @@ public class EntityManagerFactory
    /**
     * Properties to pass to Persistence.createEntityManagerFactory()
     */
-   public Map getPersistenceUnitProperties()
+   public Map<String, String> getPersistenceUnitProperties()
    {
       return persistenceUnitProperties;
    }
 
-   public void setPersistenceUnitProperties(Map persistenceUnitProperties)
+   public void setPersistenceUnitProperties(Map<String, String> persistenceUnitProperties)
    {
       this.persistenceUnitProperties = persistenceUnitProperties;
    }
