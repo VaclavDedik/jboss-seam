@@ -210,12 +210,12 @@
                 <include name="jboss-seam.jar" />
                 <include name="jbpm*.jar" />
                 <include name="jboss-el.jar" />
-                <include name="commons-digester-*.jar" />
-                <include name="commons-beanutils-*.jar" />
-				<include name="icefaces*.jar" />
-				<include name="backport-util-concurrent.jar" />
-				<include name="commons-fileupload.jar"/> 	
-			</fileset>
+                <include name="commons-digester.jar" />
+                <include name="commons-beanutils.jar" />
+                <include name="icefaces*.jar" />
+                <include name="backport-util-concurrent.jar" />
+                <include name="commons-fileupload.jar"/> 	
+            </fileset>
         </copy>
         
     </target>
@@ -348,9 +348,9 @@
 	<copy todir="${lib.dir}">
 	    <fileset dir="${icefaces.home}/lib">
 		   <include name="icefaces*.jar" />
-		   <include name="backport-util-concurrent.jar" />	
-		   <include name="commons-fileupload.jar"/> 	
-           <include name="commons-digester.jar"/>		
+                   <include name="backport-util-concurrent.jar" />	
+                   <include name="commons-fileupload.jar"/> 	
+                   <include name="commons-digester.jar"/>		
   	    </fileset>
 	</copy>
 	</target>

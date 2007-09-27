@@ -123,7 +123,7 @@
             <fileset dir="${lib.dir}">
 				<include name="oscache*.jar" />
 				<include name="jboss-seam-*.jar" />
-				<include name="commons-beanutils-*.jar" />
+				<include name="commons-beanutils.jar" />
 				<exclude name="jboss-seam-gen.jar" />
 			</fileset>
 		</copy>

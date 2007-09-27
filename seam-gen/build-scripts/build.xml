@@ -124,8 +124,8 @@
                                 <include name="richfaces-impl*.jar" />
                         		<include name="richfaces-ui*.jar" />
                                 <include name="oscache*.jar" />
-                                <include name="commons-digester-*.jar" />
-                                <include name="commons-beanutils-*.jar" />
+                                <include name="commons-digester.jar" />
+                                <include name="commons-beanutils.jar" />
                                 <include name="jsf-facelets.jar" />
                                 <include name="jboss-seam-*.jar" />
                                 <exclude name="jboss-seam-gen.jar" />
