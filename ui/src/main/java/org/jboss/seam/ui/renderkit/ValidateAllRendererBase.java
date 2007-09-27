@@ -45,10 +45,7 @@ public class ValidateAllRendererBase extends RendererBase
                evh.addValidator( new ModelValidator() );
             }
          }
-         else if (child instanceof UIComponent)
-         {
-            addValidators( ( (UIComponent) child ).getChildren() );
-         }
+         addValidators( ( (UIComponent) child ).getChildren() );
       }
    }
    
