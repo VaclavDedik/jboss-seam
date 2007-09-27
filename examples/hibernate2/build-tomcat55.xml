@@ -32,12 +32,11 @@
     	<include name="lib/hibernate-validator.jar"/>
         <include name="lib/javassist.jar"/>
     	<include name="lib/persistence-api.jar" />
-        <!-- Needed since Tomcat 5.5 does not support JSP 2.0 -->
         <include name="examples/hibernate2/lib/el-ri.jar"/>
     	<include name="lib/el-api.jar" />
-        <!-- Addition libs needed for Tomcat -->
         <include name="examples/hibernate2/lib/cglib.jar"/>
         <include name="lib/jta.jar"/>
+    	<include name="lib/antlr.jar" />
         <!--
         <include name="examples/hibernate2/lib/mc/*.jar"/>
         -->
