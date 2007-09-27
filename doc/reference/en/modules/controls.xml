@@ -556,6 +556,24 @@
             </mediaobject>
           </entry>
         </row>
+    
+        <row>
+          <entry valign="top">
+            <para>
+              <literal>&lt;s:validateFormattedText&gt;</literal>
+            </para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              Checks that the submitted value is valid Seam Text
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+          </entry>
+        </row>
 
         <row>
           <entry valign="top">

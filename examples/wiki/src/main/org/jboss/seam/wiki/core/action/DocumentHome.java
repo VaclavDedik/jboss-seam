@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
@@ -16,7 +17,6 @@ import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
-import org.jboss.seam.wiki.core.ui.SeamTextValidator;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -211,7 +211,7 @@ public class DocumentHome extends NodeHome<Document> {
 
         } catch (RecognitionException rex) {
             // Swallow and log and low debug level
-            getLog().debug( "Ignored parse error finding plugins in text: " + SeamTextValidator.getErrorMessage(formContent, rex) );
+            getLog().debug( "Ignored parse error finding plugins in text: " + FormattedTextValidator.getErrorMessage(formContent, rex) );
         } catch (ANTLRException ex) {
             // All other errors are fatal;
             throw new RuntimeException(ex);

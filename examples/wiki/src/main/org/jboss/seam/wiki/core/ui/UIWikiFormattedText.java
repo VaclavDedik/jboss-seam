@@ -20,6 +20,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.util.JSF;
+import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.engine.WikiLink;
@@ -220,7 +221,7 @@ public class UIWikiFormattedText extends UIOutput {
 
         } catch (RecognitionException rex) {
             // Log a nice message for any lexer/parser errors, users can disable this if they want to
-            log.warn( SeamTextValidator.getErrorMessage((String) getValue(), rex) );
+            log.warn( FormattedTextValidator.getErrorMessage((String) getValue(), rex) );
         } catch (ANTLRException ex) {
             // All other errors are fatal;
             throw new RuntimeException(ex);

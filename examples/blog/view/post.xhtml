@@ -37,7 +37,9 @@
             </div>
             <div class="hilite">
                <s:decorate>
-                  <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true" id="title"/>
+                  <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true" id="title">
+                  	 <s:validateFormattedText />
+                  </h:inputText>
                </s:decorate>
             </div>
             <div>
@@ -45,7 +47,9 @@
             </div>
             <div class="hilite">
                <s:decorate>
-                  <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3" id="excerpt"/>
+                  <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3" id="excerpt">
+               	     <s:validateFormattedText />
+                  </h:inputTextarea>
                </s:decorate>
             </div>
             <div>

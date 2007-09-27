@@ -13,7 +13,7 @@ import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.core.ui.SeamTextValidator;
+import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
@@ -233,7 +233,7 @@ public class FeedDAO {
 
         } catch (RecognitionException rex) {
             // Swallow and log and low debug level
-            log.debug( "Ignored parse error generating feed entry text: " + SeamTextValidator.getErrorMessage(wikiText, rex) );
+            log.debug( "Ignored parse error generating feed entry text: " + FormattedTextValidator.getErrorMessage(wikiText, rex) );
         } catch (ANTLRException ex) {
             // All other errors are fatal;
             throw new RuntimeException(ex);
