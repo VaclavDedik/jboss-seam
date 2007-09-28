@@ -51,7 +51,7 @@ public class HibernateSessionProxyInterceptor extends AbstractInterceptor
          Object object = ba.get(bean);
          if ( ! ( object instanceof HibernateSessionProxy) && object instanceof Session)
          {
-            ba.set( bean, new HibernateSessionProxy( (Session) object ) );
+            ba.set( bean, HibernatePersistenceProvider.proxySession( (Session) object ) );
          }
       }
    }

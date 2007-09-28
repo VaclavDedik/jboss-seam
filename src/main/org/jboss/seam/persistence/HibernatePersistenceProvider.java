@@ -2,6 +2,7 @@ package org.jboss.seam.persistence;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.transaction.Synchronization;
@@ -50,17 +51,29 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       try
       {
-         Class searchClass = Class.forName("org.hibernate.search.Search");
-         FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
-         Class fullTextSessionProxyClass = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
-         Class fullTextSessionClass = Class.forName("org.hibernate.search.FullTextSession");
-         FULL_TEXT_SESSION_PROXY_CONSTRUCTOR = fullTextSessionProxyClass.getDeclaredConstructor(fullTextSessionClass);
-         Class jpaSearchClass = Class.forName("org.hibernate.search.jpa.Search");
-         FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("createFullTextEntityManager", EntityManager.class);
-         Class fullTextEntityManagerProxyClass = Class.forName("org.jboss.seam.persistence.FullTextEntityManagerProxy");
-         Class fullTextEntityManagerClass = Class.forName("org.hibernate.search.jpa.FullTextEntityManager");
-         FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR = fullTextEntityManagerProxyClass.getDeclaredConstructor(fullTextEntityManagerClass);
-         log.debug("Hibernate Search is available :-)");
+         String version = null;
+         try {
+            Class searchVersionClass = Class.forName("org.hibernate.search.Version");
+            Field versionField = searchVersionClass.getDeclaredField("VERSION");
+            version = (String) versionField.get(null);
+         }
+         catch (Exception e)
+         {
+            log.debug("no Hibernate Search, sorry :-(", e);
+         }
+         if (version != null) {
+            Class searchClass = Class.forName("org.hibernate.search.Search");
+            FULL_TEXT_SESSION_CONSTRUCTOR = searchClass.getDeclaredMethod("createFullTextSession", Session.class);
+            Class fullTextSessionProxyClass = Class.forName("org.jboss.seam.persistence.FullTextHibernateSessionProxy");
+            Class fullTextSessionClass = Class.forName("org.hibernate.search.FullTextSession");
+            FULL_TEXT_SESSION_PROXY_CONSTRUCTOR = fullTextSessionProxyClass.getDeclaredConstructor(fullTextSessionClass);
+            Class jpaSearchClass = Class.forName("org.hibernate.search.jpa.Search");
+            FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR = jpaSearchClass.getDeclaredMethod("createFullTextEntityManager", EntityManager.class);
+            Class fullTextEntityManagerProxyClass = Class.forName("org.jboss.seam.persistence.FullTextEntityManagerProxy");
+            Class fullTextEntityManagerClass = Class.forName("org.hibernate.search.jpa.FullTextEntityManager");
+            FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR = fullTextEntityManagerProxyClass.getDeclaredConstructor(fullTextEntityManagerClass);
+            log.debug("Hibernate Search is available :-)");
+         }
       }
       catch (Exception e)
       {
@@ -73,7 +86,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
     * EL interpolation and implements FullTextSession if Hibernate
     * Search is available in the classpath.
     */
-   static Session proxySession(Session session) throws Exception
+   static Session proxySession(Session session)
    {
       if (FULL_TEXT_SESSION_PROXY_CONSTRUCTOR==null)
       {
@@ -81,7 +94,13 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       }
       else
       {
-         return (Session) FULL_TEXT_SESSION_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) );
+         try {
+            return (Session) FULL_TEXT_SESSION_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_SESSION_CONSTRUCTOR.invoke(null, session) );
+         }
+         catch(Exception e) {
+            log.warn("Unable to wrap into a FullTextSessionProxy, regular SessionProxy returned", e);
+            return new HibernateSessionProxy(session);
+         }
       }
    }
    

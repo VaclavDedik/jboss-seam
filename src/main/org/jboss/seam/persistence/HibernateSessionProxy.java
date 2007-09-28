@@ -50,6 +50,9 @@ public class HibernateSessionProxy implements Session, SessionImplementor
 {
    private Session delegate;
 
+   /**
+    * Don't use that constructor directly, use HibernatePersistenceProvider.proxySession()
+    */
    public HibernateSessionProxy(Session session)
    {
       delegate = session;
