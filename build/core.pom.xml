@@ -452,12 +452,12 @@
       </exclusions>
     </dependency>
     
-    <dependency>
+    <!--  <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>1.7.0.seam</version>
       <optional>true</optional>
-    </dependency>
+    </dependency>-->
 
     <dependency>
       <groupId>org.tuckey</groupId>

@@ -108,19 +108,19 @@
       <dependency>
         <groupId>org.richfaces.framework</groupId>
         <artifactId>richfaces-api</artifactId>
-        <version>3.1.1-SNAPSHOT</version>
+        <version>3.1.1-CR1</version>
       </dependency>
 
       <dependency>
         <groupId>org.richfaces.framework</groupId>
         <artifactId>richfaces-impl</artifactId>
-        <version>3.1.1-SNAPSHOT</version>
+        <version>3.1.1-CR1</version>
       </dependency>
 
       <dependency>
         <groupId>org.richfaces.ui</groupId>
         <artifactId>richfaces-ui</artifactId>
-        <version>3.1.1-SNAPSHOT</version>
+        <version>3.1.1-CR1</version>
       </dependency>
 
       <dependency>
@@ -198,7 +198,7 @@
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
-        <version>1.7.0.seam</version>
+        <version>1.7.0</version>
       </dependency>
       
       <dependency>
