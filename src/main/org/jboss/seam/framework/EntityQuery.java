@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NonUniqueResultException;
 import javax.transaction.SystemException;
 
 import org.jboss.seam.annotations.Transactional;
@@ -24,6 +25,11 @@ public class EntityQuery extends Query<EntityManager>
    private Long resultCount;
    private Map<String, String> hints;
 
+   /**
+    * Validate the query
+    * 
+    * @throws IllegalStateException if the query is not valid
+    */
    @Override
    public void validate()
    {
@@ -33,7 +39,7 @@ public class EntityQuery extends Query<EntityManager>
          throw new IllegalStateException("entityManager is null");
       }
    }
-   
+
    @Override
    @Transactional
    public boolean isNextExists()
@@ -43,6 +49,11 @@ public class EntityQuery extends Query<EntityManager>
    }
 
 
+   /**
+    * Get the list of results this query returns
+    * 
+    * Any changed restriction values will be applied
+    */
    @Transactional
    @Override
    public List getResultList()
@@ -64,6 +75,13 @@ public class EntityQuery extends Query<EntityManager>
       }
    }
    
+   /**
+    * Get a single result from the query
+    * 
+    * Any changed restriction values will be applied
+    * 
+    * @throws NonUniqueResultException if there is more than one result
+    */
    @Transactional
    @Override
    public Object getSingleResult()
@@ -86,6 +104,11 @@ public class EntityQuery extends Query<EntityManager>
       }
    }
 
+   /**
+    * Get the number of results this query returns
+    * 
+    * Any changed restriction values will be applied
+    */
    @Transactional
    @Override
    public Long getResultCount()
@@ -108,6 +131,14 @@ public class EntityQuery extends Query<EntityManager>
       }
    }
 
+   /**
+    * The refresh method will cause the result to be cleared.  The next access
+    * to the result set will cause the query to be executed.
+    * 
+    * This method <b>does not</b> cause the ejbql or restrictions to reread.
+    * If you want to update the ejbql or restrictions you must call 
+    * {@link #setEjbql(String)} or {@link #setRestrictions(List)}
+    */
    @Override
    public void refresh()
    {

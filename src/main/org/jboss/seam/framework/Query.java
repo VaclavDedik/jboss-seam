@@ -59,6 +59,12 @@ public abstract class Query<T>
       }
    }
    
+   /**
+    * Wrap the result set in a JSF {@link DataModel}
+    * 
+    * Delegates to {@link DataModels#getDataModel(Query)}
+    * 
+    */
    @Transactional
    public DataModel getDataModel()
    {
@@ -69,37 +75,62 @@ public abstract class Query<T>
       return dataModel;
    }
    
+   /**
+    * Get the selected row of the JSF {@link DataModel}
+    * 
+    */
    public Object getDataModelSelection()
    {
       return getDataModel().getRowData();
    }
    
+   /**
+    * Get the index of the selected row of the JSF {@link DataModel}
+    * 
+    */
    public int getDataModelSelectionIndex()
    {
       return getDataModel().getRowIndex();
    }
+   
    
    public void refresh()
    {
       clearDataModel();
    }
    
+   /**
+    * Move the result set cursor to the beginning of the last page
+    * 
+    */
    @Transactional
    public void last()
    {
       setFirstResult( getLastFirstResult().intValue() );
    }
    
+   /**
+    * Move the result set cursor to the beginning of the next page
+    * 
+    */
    public void next()
    {
       setFirstResult( getNextFirstResult() );
    }
 
+   /**
+    * Move the result set cursor to the beginning of the previous page
+    * 
+    */
    public void previous()
    {
       setFirstResult( getPreviousFirstResult() );
    }
    
+   /**
+    * Move the result set cursor to the beginning of the first page
+    * 
+    */
    public void first()
    {
       setFirstResult(0);
@@ -110,6 +141,10 @@ public abstract class Query<T>
       dataModel = null;
    }
 
+   /**
+    * Get the index of the first result of the last page
+    * 
+    */
    @Transactional
    public Long getLastFirstResult()
    {
@@ -117,12 +152,20 @@ public abstract class Query<T>
       return pc==null ? null : ( pc.longValue()-1 ) * getMaxResults();
    }
    
+   /**
+    * Get the index of the first result of the next page
+    * 
+    */
    public int getNextFirstResult()
    {
       Integer fr = getFirstResult();
       return ( fr==null ? 0 : fr ) + getMaxResults();
    }
 
+   /**
+    * Get the index of the first result of the previous page
+    * 
+    */
    public int getPreviousFirstResult()
    {
       Integer fr = getFirstResult();
@@ -131,6 +174,10 @@ public abstract class Query<T>
                0 : fr - mr;
    }
    
+   /**
+    * Get the total number of pages
+    * 
+    */
    @Transactional
    public Integer getPageCount()
    {
@@ -226,6 +273,10 @@ public abstract class Query<T>
       return ejbql;
    }
 
+   /**
+    * Set the ejbql to use.  Calling this causes the ejbql to be reparsed and
+    * the query to be refreshed
+    */
    public void setEjbql(String ejbql)
    {
       this.ejbql = ejbql;
@@ -233,27 +284,42 @@ public abstract class Query<T>
       refresh();
    }
 
+   /**
+    * Returns the index of the first result of the current page
+    */
    public Integer getFirstResult()
    {
       return firstResult;
    }
    
+   /**
+    * Returns true if the previous page exists
+    */
    public boolean isPreviousExists()
    {
       return getFirstResult()!=null && getFirstResult()!=0;
    }
 
+   /**
+    * Returns true if next page exists
+    */
    public abstract boolean isNextExists();
 
+   /**
+    * Set the index at which the page to display should start
+    */
    public void setFirstResult(Integer firstResult)
    {
       this.firstResult = firstResult;
       refresh();
    }
 
+   /**
+    * The page size
+    */
    public Integer getMaxResults()
    {
-      return maxResults;
+       return maxResults;
    }
 
    public void setMaxResults(Integer maxResults)
@@ -262,11 +328,21 @@ public abstract class Query<T>
       refresh();
    }
 
+   /**
+    * List of restrictions to apply to the query.
+    * 
+    * For a query such as 'from Foo f' a restriction could be 
+    * 'f.bar = #{foo.bar}'
+    */
    public List<String> getRestrictions()
    {
       return restrictions;
    }
 
+   /**
+    * Calling setRestrictions causes the restrictions to be reparsed and the 
+    * query refreshed
+    */
    public void setRestrictions(List<String> restrictions)
    {
       this.restrictions = restrictions;
@@ -274,6 +350,9 @@ public abstract class Query<T>
       refresh();
    }
 
+   /**
+    * The order of the query
+    */
    public String getOrder()
    {
       return order;

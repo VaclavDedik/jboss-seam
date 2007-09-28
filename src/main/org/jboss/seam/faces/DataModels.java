@@ -22,10 +22,11 @@ import org.jboss.seam.jsf.MapDataModel;
 import org.jboss.seam.jsf.SetDataModel;
 
 /**
- * Wraps collections as DataModels. May be overridden
+ * Wraps a collection as a JSF {@link DataModel}. May be overridden
  * and extended if you don't like the built in collections
  * which are supported: list, map, set, array.
  *
+ * @author pmuir
  */
 @Name("org.jboss.seam.faces.dataModels")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
@@ -34,6 +35,12 @@ import org.jboss.seam.jsf.SetDataModel;
 public class DataModels
 {
    
+   /**
+    * Wrap the value in a DataModel
+    * 
+    * This implementation supports {@link List}, {@link Map}, {@link Set} and
+    * arrays
+    */
    public DataModel getDataModel(Object value)
    {
       if (value instanceof List)
@@ -58,6 +65,9 @@ public class DataModels
       }
    }
    
+   /**
+    * Wrap the the Seam Framework {@link Query} in a JSF DataModel
+    */
    public DataModel getDataModel(Query query)
    {
       return getDataModel( query.getResultList() );
