@@ -23,7 +23,7 @@
     <property name="bootstrap.dir" value="${basedir}/bootstrap" />
     <property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
     <property name="war.deploy.dir" value="${deploy.dir}/${project.name}.war" />
-    <property name="testng.jar" value="${basedir}/lib/testng-5.6-jdk15.jar" />
+    <property name="testng.jar" value="${basedir}/lib/testng.jar" />
     <property name="javac.debug" value="true" />
     <property name="javac.deprecation" value="false" />
     <property name="debug" value="false" />
@@ -335,10 +335,16 @@
     
     <target name="test" depends="buildtest" description="Run the tests">            
         <taskdef resource="testngtasks" classpath="${testng.jar}" />
-        <testng outputdir="${basedir}/test-report">
-            <classpath path="${test.dir}" />
-            <classpath path="${bootstrap.dir}" />
-            <classpath refid="build.classpath" />
+    	<path id="test.path">
+			<path path="${test.dir}" />
+			<fileset dir="${lib.dir}/test">
+				<include name="*.jar"/>
+			</fileset>
+			<path path="${bootstrap.dir}" />
+			<path refid="build.classpath" />
+		</path>
+    	<testng outputdir="${basedir}/test-report">
+            <classpath refid="test.path" />
             <xmlfileset dir="${test.dir}" includes="*Test.xml" />
         </testng>
     </target>

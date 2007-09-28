@@ -11,10 +11,7 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
    setup
       Set various seam-gen properties in build.properties. This task
       sets the various source code packages, target directories
-      and jboss home. You can hand edit build.properties. There is support
-      for generating eclipse WTP compliant EAR, JAR, WAR projects.
-      If you select 'Y' for WTP, then some build tasks, like "compile",
-      "build", "deploy" will not work.
+      and jboss home. You can hand edit build.properties.
 	   
       Example: seam setup
 	     
@@ -35,34 +32,29 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
       Example: seam delete-project
          
    deploy
-      Deploy the project EAR and datasource to JBoss. This command
-      will not work if you created a WTP project.
+      Deploy the project EAR and datasource to JBoss.
 	     
       Example: seam deploy
 
    undeploy
-      Undeploy the project EAR and datasource. This command
-      will not work if you created a WTP project.
+      Undeploy the project EAR and datasource.
 	     
       Example: seam undeploy
 
    explode
       Deploy the project and datasource to JBoss as an exploded
-      directory structure. This command will not work if you created 
-      a WTP project.
+      directory structure. 
 	     
       Example: seam explode
 
    restart
       Restart the project that was deployed as an exploded directory 
-      structure. This command will not work if you created a WTP 
-      project.
+      structure. 
 	     
       Example: seam restart
 
    unexplode
-      Undeploy the exploded directory and datasource. This command
-      will not work if you created a WTP project.
+      Undeploy the exploded directory and datasource.
 	     
       Example: seam unexplode
 
@@ -75,16 +67,16 @@ SEAM CODE GENERATION COMMANDS
 	     
    new-form
       Create a new Java interface and SFSB with key Seam/EJB3 
-      annotations.
+      annotations, and associated xhtml view. Also, create a new
+      TestNG test case that can be used to simulate a JSF
+      request/response and standard JUnit type tests.
 	     
       Example: seam new-form
 	     
    new-conversation
       Create a new Java interface and SFSB with key Seam/EJB3 
       annotations. Adds annotations and stub methods for 
-      @Begin and @End. Also, Create a new TestNG test case that 
-      can be used to simulate a JSF request/response and standard 
-      JUnit type tests.
+      @Begin and @End. 
 	     
       Example: seam new-conversation
 	
