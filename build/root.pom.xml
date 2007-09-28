@@ -48,33 +48,44 @@
       <dependency>
         <groupId>org.jboss.seam</groupId>
         <artifactId>jboss-seam</artifactId>
-        <version>${project.version}</version>
+        <version>@seam.version@</version>
       </dependency>
 
       <dependency>
         <groupId>org.jboss.seam</groupId>
-        <artifactId>jboss-seam-ui</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jboss.seam</groupId>
-        <artifactId>jboss-seam-pdf</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.jboss.seam</groupId>
-        <artifactId>jboss-seam-remoting</artifactId>
-        <version>${project.version}</version>
+        <artifactId>jboss-seam-gen</artifactId>
+        <version>@seam.version@</version>
       </dependency>
 
       <dependency>
         <groupId>org.jboss.seam</groupId>
         <artifactId>jboss-seam-ioc</artifactId>
-        <version>${project.version}</version>
+        <version>@seam.version@</version>
       </dependency>
 
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-mail</artifactId>
+        <version>@seam.version@</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-pdf</artifactId>
+        <version>@seam.version@</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-remoting</artifactId>
+        <version>@seam.version@</version>
+      </dependency>
+      
+       <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-ui</artifactId>
+        <version>@seam.version@</version>
+      </dependency>
 
       <dependency>
         <groupId>javax.servlet</groupId>
