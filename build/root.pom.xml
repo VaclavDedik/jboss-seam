@@ -583,7 +583,7 @@
       <dependency>
         <groupId>org.drools</groupId>
         <artifactId>drools-core</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1</version>
         <exclusions>
           <exclusion>
             <groupId>junit</groupId>
@@ -603,7 +603,7 @@
       <dependency>
         <groupId>org.drools</groupId>
         <artifactId>drools-compiler</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.1</version>
         <exclusions>
           <exclusion>
             <groupId>junit</groupId>
@@ -771,4 +771,29 @@
 
     </dependencies>
   </dependencyManagement>
+  
+  <profiles>
+    <profile>
+      <id>richfaces-ear</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.richfaces</groupId>
+          <artifactId>richfaces-api</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <id>richfaces-war</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.richfaces</groupId>
+          <artifactId>richfaces-ui</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.richfaces</groupId>
+          <artifactId>richfaces-impl</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 </project>
