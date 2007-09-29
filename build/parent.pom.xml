@@ -15,24 +15,25 @@
     <version>@seam.version@</version>
   </parent>
   <pluginRepositories>
-    <!--  <pluginRepository>
+    <pluginRepository>
       <snapshots />
       <id>m2-snapshot</id>
       <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
-    </pluginRepository>-->
+    </pluginRepository>
   </pluginRepositories>
 
   <distributionManagement>
     <snapshotRepository>
       <id>snapshots.jboss.org</id>
       <url>dav:https://snapshots.jboss.org/maven2</url>
+      <uniqueVersion>true</uniqueVersion>
     </snapshotRepository>
   </distributionManagement>
 
   <!-- Uncomment to enable newer version of dependency plugin which has the
   dependency:tree command useful for analyzing the dependency tree of a module
   You'll also need the m2-snapshot repository enabled -->
-  <!-- <build>
+  <build>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -42,6 +43,6 @@
         </plugin>
       </plugins>
     </pluginManagement>
-  </build>-->
+  </build>
 
 </project>
