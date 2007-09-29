@@ -14,13 +14,13 @@
     <artifactId>root</artifactId>
     <version>@seam.version@</version>
   </parent>
-  <pluginRepositories>
+  <!--  <pluginRepositories>
     <pluginRepository>
       <snapshots />
       <id>m2-snapshot</id>
       <url>http://people.apache.org/repo/m2-snapshot-repository/</url>
     </pluginRepository>
-  </pluginRepositories>
+  </pluginRepositories>-->
 
   <distributionManagement>
     <snapshotRepository>
@@ -34,7 +34,7 @@
   dependency:tree command useful for analyzing the dependency tree of a module
   You'll also need the m2-snapshot repository enabled -->
   <build>
-    <pluginManagement>
+    <!--  <pluginManagement>
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -42,7 +42,7 @@
           <version>2.0-alpha-5-SNAPSHOT</version>
         </plugin>
       </plugins>
-    </pluginManagement>
+    </pluginManagement>-->
   </build>
 
 </project>
