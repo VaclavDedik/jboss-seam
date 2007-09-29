@@ -213,14 +213,14 @@
 
 	<!-- Dependencies for using Seam with Richfaces -->
 	<fileset id="richfaces-api.jar" dir="${lib.dir}">
-		<include name="richfaces-api-*.jar" if="richfaces.lib" />
+		<include name="richfaces-api.jar" if="richfaces.lib" />
 		<include name="commons-beanutils.jar" if="richfaces.lib" />
 		<include name="commons-digester.jar" if="richfaces.lib" />
 	</fileset>
 	
 	<fileset id="richfaces-impl.jar" dir="${lib.dir}">
-		<include name="richfaces-impl-*.jar" if="richfaces.lib" />
-		<include name="richfaces-ui-*.jar" if="richfaces.lib" />
+		<include name="richfaces-impl.jar" if="richfaces.lib" />
+		<include name="richfaces-ui.jar" if="richfaces.lib" />
 	</fileset>
 
 	<!-- Dependencies for using Seam with JBPM -->
