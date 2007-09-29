@@ -145,3 +145,10 @@ Packaging changes
 You should place all the dependencies which you previously declared as modules
 in application.xml in the lib/ directory of your ear *except* jboss-seam.jar
 which should be declared as an ejb module in application.xml
+
+Changes to Seam UI
+------------------
+
+* s:decorate has become a naming container.  Therefore client ids have changed 
+  from fooForm:fooInput to fooForm:foo:fooInput (assuming your s:decorate has
+  foo as an id.
