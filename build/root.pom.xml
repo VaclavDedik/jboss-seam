@@ -169,6 +169,12 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
         <version>3.3.1.ga</version>
+        <exclusions>
+          <exclusion>
+            <groupId>jboss</groupId>
+            <artifactId>javassist</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
