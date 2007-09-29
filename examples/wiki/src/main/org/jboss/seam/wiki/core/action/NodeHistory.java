@@ -104,6 +104,13 @@ public class NodeHistory implements Serializable {
 
         if (historicalNodeId == null) return;
         selectedHistoricalNode = (Document)nodeDAO.findHistoricalNode(historicalNodeId);
+        if (selectedHistoricalNode == null) {
+            facesMessages.addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_ERROR,
+                "historicalNodeNotFound",
+                "Couldn't find historical node: " + historicalNodeId);
+            return;
+        }
 
         String[] a = selectedHistoricalNode.getContent().split("\n");
         String[] b = currentNode.getContent().split("\n");
