@@ -36,6 +36,7 @@
 
 	<!-- Library directories -->
 	<property name="lib.dir" value="${seam.dir}/lib" />
+	<property name="example.tmp.lib.dir" value="${tmp.dir}/${example.name}/lib" />
 	<property name="mail.dir" value="${seam.dir}/mail" />
 	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
 
@@ -81,6 +82,11 @@
 
 	<!-- Added to the war root on build -->
 	<fileset id="war.extras" dir=".">
+		<exclude name="**/*" />
+	</fileset>
+	
+	<!-- Added to the WEB-INF/lib on build -->
+	<fileset id="war.lib.extras" dir=".">
 		<exclude name="**/*" />
 	</fileset>
 
@@ -399,17 +405,19 @@
 
 	<!-- ##################### BUILD TARGETS (COMMON) ##################### -->
 	<!-- 
-	  The build targets which are used for both JBoss AS and  Tomcat
+	  The build targets which are used for all builds
 	-->
 
 	<!-- Initialize the build -->
-	<target name="init" depends="copyseam,copyseamdependencies,initpoms">
+	<target name="init" depends="copyseam,copyseamdependencies,initpoms,copyextradependencies">
 		<echo message="Building ${Name} ${version}" />
 		<mkdir dir="${jar.dir}" />
 		<mkdir dir="${ear.dir}" />
 		<mkdir dir="${war.dir}" />
 		<mkdir dir="${dist.dir}" />
 	</target>
+	
+	<target name="copyextradependencies" />
 
 	<!-- Use the Eclipse compiler, if it is available -->
 	<target name="select-compiler">
@@ -450,6 +458,7 @@
 			<fileset refid="facelets.jar" />
 			<fileset refid="urlrewrite.jar" />
 			<fileset refid="richfaces-impl.jar" />
+			<fileset refid="war.lib.extras" />
 			<mapper type="flatten" />
 		</copy>
 		<!-- Put properties into the classpath -->
