@@ -22,6 +22,7 @@
 			<arg line="-Dfile=${root.pom}" />
 			<arg line="-Durl=${snapshots.jboss.org}" />
 			<arg line="-DrepositoryId=snapshots.jboss.org" />
+			<arg line="-DuniqueVersion=false" />
 		</maven>
 		<deploySnapshotPom pom="${parent.pom}" />
 		<deploySnapshot pom="${core.pom}" jar="${lib.dir}/jboss-seam.jar" srcjar="${lib.dir}/src/jboss-seam-sources.jar" />
