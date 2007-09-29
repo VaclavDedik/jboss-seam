@@ -16,17 +16,6 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring</artifactId>
-      <exclusions>
-        <!-- Prevent the insanity which is commons-logging pom introducing dependencies on weird stuff -->
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
@@ -63,32 +52,6 @@
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-kernel</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>apache-httpclient</groupId>
-          <artifactId>commons-httpclient</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>apache-slide</groupId>
-          <artifactId>webdavlib</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>apache-xerces</groupId>
-          <artifactId>xml-apis</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>oswego-concurrent</groupId>
-          <artifactId>concurrent</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>concurrent</groupId>
-          <artifactId>concurrent</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
@@ -106,24 +69,6 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate</artifactId>
       <optional>true</optional>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-collections</groupId>
-          <artifactId>commons-collections</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>net.sf.ehcache</groupId>
-          <artifactId>ehcache</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
@@ -135,44 +80,6 @@
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jbossxb</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>jboss</groupId>
-          <artifactId>jboss-logging-spi</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>jboss</groupId>
-          <artifactId>jboss-common-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>apache-xerces</groupId>
-          <artifactId>xml-apis</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>apache-httpclient</groupId>
-          <artifactId>commons-httpclient</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>apache-slide</groupId>
-          <artifactId>webdavlib</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>oswego-concurrent</groupId>
-          <artifactId>concurrent</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>wutka-dtdparser</groupId>
-          <artifactId>dtdparser121</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>apache-xerces</groupId>
-          <artifactId>xercesImpl</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.activation</groupId>
-          <artifactId>activation</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
   </dependencies>
