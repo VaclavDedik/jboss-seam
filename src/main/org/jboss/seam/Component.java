@@ -2167,7 +2167,7 @@ public class Component extends Model
       if ( result==null && enforceRequired && in.required() )
       {
          throw new RequiredException(
-               "In attribute requires non-null value: " +
+               "@In attribute requires non-null value: " +
                getAttributeMessage(name)
             );
       }
