@@ -67,6 +67,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.PerNestedConversation;
 import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
@@ -188,6 +189,8 @@ public class Component extends Model
    
    private Collection<Namespace> imports = new ArrayList<Namespace>();
    private Namespace namespace;
+   
+   private boolean perNestedConversation;
 
    private Class<ProxyObject> factory;
 
@@ -223,6 +226,7 @@ public class Component extends Model
       this.startup = startup;
       type = Seam.getComponentType( getBeanClass() );
       interceptionEnabled = Seam.isInterceptionEnabled( getBeanClass() );
+      perNestedConversation = hasAnnotation(getBeanClass(), PerNestedConversation.class);
       
       checkName();  
       checkNonabstract();
@@ -2646,4 +2650,8 @@ public class Component extends Model
       return namespace;
    }
    
+   public boolean isPerNestedConversation()
+   {
+      return perNestedConversation;
+   }
 }

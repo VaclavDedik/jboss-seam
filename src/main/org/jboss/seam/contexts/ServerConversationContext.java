@@ -129,7 +129,7 @@ public class ServerConversationContext implements Context
     private boolean isPerNestedConversation(String name) 
     {
         Component component = Component.forName(name);
-        return (component != null) && component.beanClassHasAnnotation(PerNestedConversation.class);
+        return (component != null) && component.isPerNestedConversation();
     }
 
    private Object unwrapEntityBean(Object result)
