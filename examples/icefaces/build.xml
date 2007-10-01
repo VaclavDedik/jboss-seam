@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<project name="Booking" default="deploy" basedir=".">
+
+    <!-- Naming -->
+    <property name="Name"                   value="Seam on JBoss ICEfaces Booking Example"/>
+    <property name="example.name"           value="icefaces-booking"/>
+	
+    <!-- Overrides -->
+    <property name="seam.ui.lib"            value="yes"/>
+    <property name="seam.debug.lib"         value="yes"/>
+
+    <fileset id="war.lib.extras" dir="lib">
+      <include name="icefaces*.jar" />
+      <include name="commons-digester*.jar" />
+      <include name="backport-util*.jar" />
+      <include name="commons-fileupload*.jar" />
+    </fileset>
+
+    
+    <!-- Datasource -->
+    <property name="example.ds"             value="icefaces-booking-ds.xml"/>
+    
+    <import file="../build.xml"/>
+</project>

@@ -9,7 +9,7 @@
   USING SEAM sections you can see what jars are required (for use on JBoss AS)
   for Seam, and if you want to use the integration with other projects
 -->
-<project name="SeamExample" default="example-info" basedir=".">
+<project name="SeamExample" default="example-info" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
 	<tstamp />
 
@@ -417,7 +417,22 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 	
-	<target name="copyextradependencies" />
+	<target name="copyextradependencies">
+        <!--
+		<artifact:dependencies filesetId="icefaces.fileset"
+versionsId="icefaces.versions">
+			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.6.1" />
+			<dependency groupId="org.icefaces" artifactId="icefaces-comps"
+version="1.6.1" />
+			<dependency groupId="org.icefaces" artifactId="icefaces-facelets"
+version="1.6.1" />
+		</artifact:dependencies>
+		<copy todir="${example.tmp.lib.dir}">
+			<fileset refid="icefaces.fileset" />
+			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${icefaces.versions}" to="flatten" />
+		</copy>
+        -->
+        </target>
 
 	<!-- Use the Eclipse compiler, if it is available -->
 	<target name="select-compiler">
