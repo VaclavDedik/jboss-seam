@@ -4,7 +4,7 @@
     "http://www.jboss.org/j2ee/dtd/jboss-app_4_2.dtd">
 
 <jboss-app>
-   <loader-repository> 
-      seam.jboss.org:loader=icefaces-booking
-   </loader-repository> 
+   <loader-repository>
+      seam.jboss.org:loader=seam-icefaces
+   </loader-repository>
 </jboss-app> 

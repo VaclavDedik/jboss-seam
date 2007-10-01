@@ -8,13 +8,13 @@
 
     <module>
         <web>
-            <web-uri>icefaces-booking.war</web-uri>
-            <context-root>/icefaces-booking</context-root>
+            <web-uri>seam-icefaces.war</web-uri>
+            <context-root>/seam-icefaces</context-root>
         </web>
     </module>
     
     <module>
-        <ejb>icefaces-booking.jar</ejb>
+        <ejb>seam-icefaces.jar</ejb>
     </module>
     
     <module>
