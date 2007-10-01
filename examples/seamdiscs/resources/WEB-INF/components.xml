@@ -27,11 +27,11 @@
 		authenticate-method="#{authenticator.authenticate}" />
 
     <event type="org.jboss.seam.notLoggedIn">
-        <action expression="#{redirect.captureCurrentView}"/>
+        <action execute="#{redirect.captureCurrentView}"/>
     </event>
     
     <event type="org.jboss.seam.postAuthenticate">
-        <action expression="#{redirect.returnToCapturedView}"/>
+        <action execute="#{redirect.returnToCapturedView}"/>
     </event>   
     
     <!-- Work around a bug in Ajax4jsf-Trinidad integration -->

@@ -102,7 +102,14 @@ Finally, some declarations must be removed completely:
 Note: Seam transaction management is now enabled by default. If you want
       to disable use of Seam-managed transactions, use the following:
       
-      <core:init transaction-management-enabled="false"/>	
+      <core:init transaction-management-enabled="false"/>
+      
+Note: The expression attribute on event action's has been deprecated in favor of
+      execute e.g.:
+
+      <event type="org.jboss.seam.notLoggedIn">
+          <action execute="#{redirect.captureCurrentView}"/>
+      </event>
 
 Migration to JBoss Embedded
 ---------------------------

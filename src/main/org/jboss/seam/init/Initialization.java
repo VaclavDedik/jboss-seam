@@ -276,12 +276,21 @@ public class Initialization
       List<Element> actions = event.elements("action");
       for (Element action: actions)
       {
-         String actionExpression = action.attributeValue("expression");
-         if (actionExpression==null)
+         String execute = action.attributeValue("execute");
+         if (execute==null)
          {
-            throw new IllegalArgumentException("must specify expression for <action/> declaration");
+            String actionExpression = action.attributeValue("expression");
+            if (actionExpression!=null)
+            {
+                log.warn("<action expression=\"" + actionExpression + "\" /> has been deprecated, use <action execute=\"" + actionExpression + "\" /> instead");
+                execute = actionExpression;
+            }
+            else
+            {    
+                throw new IllegalArgumentException("must specify execute for <action/> declaration");
+            }
          }
-         eventListener.getListenerMethodBindings().add(actionExpression);
+         eventListener.getListenerMethodBindings().add(execute);
       }
    }
 

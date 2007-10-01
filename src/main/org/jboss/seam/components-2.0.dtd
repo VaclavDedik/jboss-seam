@@ -39,4 +39,4 @@
 <!ATTLIST event type CDATA #REQUIRED>
 
 <!ELEMENT action EMPTY>
-<!ATTLIST action expression CDATA #REQUIRED>
+<!ATTLIST action execute CDATA #REQUIRED>

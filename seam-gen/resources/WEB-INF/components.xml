@@ -36,10 +36,10 @@
                            security-rules="#{securityRules}"/>
    
    <event type="org.jboss.seam.notLoggedIn">
-       <action expression="#{redirect.captureCurrentView}"/>
+       <action execute="#{redirect.captureCurrentView}"/>
    </event>
    <event type="org.jboss.seam.postAuthenticate">
-       <action expression="#{redirect.returnToCapturedView}"/>
+       <action execute="#{redirect.returnToCapturedView}"/>
    </event>
    
    <mail:mail-session host="localhost" port="2525" username="test" password="test" />

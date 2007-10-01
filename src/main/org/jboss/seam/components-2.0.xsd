@@ -156,7 +156,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.action">
-        <xs:attribute name="expression" use="required"/>
+        <xs:attribute name="execute" use="required"/>
     </xs:attributeGroup>
 
 </xs:schema>
