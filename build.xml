@@ -373,7 +373,7 @@
 		<ant dir="examples/registration" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/todo" target="validateConfiguration" inheritall="false" />
 		<ant dir="examples/blog" target="validateConfiguration" inheritall="false" />
-		<ant dir="examples/seamdiscs" target="validateConfiguration" inheritall="false" />
+		<!--<ant dir="examples/seamdiscs" target="validateConfiguration" inheritall="false" />-->
 		<!--<ant dir="examples/portal" target="validateConfiguration" inheritall="false" />-->
 	</target>
 
