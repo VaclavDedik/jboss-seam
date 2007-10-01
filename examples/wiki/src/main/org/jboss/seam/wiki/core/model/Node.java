@@ -141,6 +141,9 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
     @OneToMany(mappedBy="node")
     private Set<WikiPreferenceValue> preferences = new HashSet<WikiPreferenceValue>();
 
+    @Column(name = "TAGS", length = 4000, nullable = true)
+    private String tags;
+
     public Node() {}
 
     public Node(String name) {
@@ -282,6 +285,14 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
         this.preferences = preferences;
     }
 
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     public boolean vetoNestedSetUpdate() {
         return historicalNodeId != null; // Historical nodes do not cause updates of the nested set tree!
     }
@@ -300,7 +311,7 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
             "id", "class", "version",
             "nsLeft", "nsRight", "nsThread", "parent",
             "areaNumber", "createdBy", "createdOn", "lastModifiedBy", "lastModifiedOn", "menuItem", "name", "displayPosition", 
-            "readAccessLevel", "revision", "wikiname", "writeAccessLevel",
+            "readAccessLevel", "revision", "wikiname", "writeAccessLevel", "tags",
             "contentType", "filename", "filesize", "imageMetaInfo.sizeX", "imageMetaInfo.sizeY", "imageMetaInfo.thumbnail", "imageMetaInfo.thumbnailData",
             "defaultDocument", "description", "enableComments", "enableCommentForm", "nameAsTitle", "pluginsUsed"
         };
@@ -354,4 +365,16 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
         this.name = revision.name;
         this.wikiname = revision.wikiname;
     }
+
+    public List<String> getTagsSplit() {
+        List<String> tags = new ArrayList<String>();
+        if (getTags() != null && getTags().length()>0) {
+            String[] splitTags = getTags().split(",");
+            for (String splitTag : splitTags) {
+                tags.add(splitTag.trim());
+            }
+        }
+        return tags;
+    }
+    
 }

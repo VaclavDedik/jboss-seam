@@ -61,6 +61,21 @@
                                             enablePlugins="true"/>
                     </div>
 
+                    <s:div rendered="#{blogEntry.entryDocument.pluginsUsed.contains('showTags') and not blogEntry.entryDocument.tags}"
+                           styleClass="documentTags undecoratedLink">
+                        <s:div>
+                            Tags:&#160;
+                            <ui:repeat var="tag" value="#{blogEntry.entryDocument.tagsSplit}">
+                                <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}">
+                                    <f:param value="#{tag}" name="tag"/>
+                                </s:link>
+
+                                <h:outputText rendered="#{blogEntry.entryDocument.tagsSplit.indexOf(tag) &lt; blogEntry.entryDocument.tagsSplit.size()-1}"
+                                              value="&#160;|&#160;"/>
+                            </ui:repeat>
+                        </s:div>
+                    </s:div>
+
                     <div class="boxFooter">
                         <h:panelGrid styleClass="blogEntryFooterTable" columns="5" cellpadding="0" cellspacing="0" border="0">
                             <s:div styleClass="blogEntryCommentCount"
@@ -113,7 +128,7 @@
                      cellpadding="0" cellspacing="0" border="0">
 
             <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" target="_top"
-                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}">
+                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
                 </div>
@@ -122,7 +137,7 @@
                             rendered="#{!blogDirectory.previousPageAvailable}"/>
 
             <h:outputLink rendered="#{blogDirectory.previousPageAvailable}" target="_top"
-                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.previousPage}">
+                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.previousPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
                 </div>
@@ -139,10 +154,11 @@
                 <h:outputText rendered="#{!empty param.day}" value="&#160;#{param.day}."/>
                 <h:outputText rendered="#{!empty param.month}" value="&#160;#{converters.monthNames[param.month]}"/>
                 <h:outputText rendered="#{!empty param.year}" value="&#160;#{param.year}"/>
+                <h:outputText rendered="#{!empty param.tag}" value="&#160;tagged '#{param.tag}'"/>
             </s:span>
 
             <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" target="_top"
-                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.nextPage}">
+                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.nextPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
                 </div>
@@ -151,7 +167,7 @@
                             rendered="#{!blogDirectory.nextPageAvailable}"/>
 
             <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" target="_top"
-                          value="#{wiki:renderURL(currentDocument)}/#{blogDirectory.dateUrl}Page/#{blogDirectory.lastPage}">
+                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.lastPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
                 </div>

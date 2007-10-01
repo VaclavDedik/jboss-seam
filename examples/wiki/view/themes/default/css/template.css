@@ -322,6 +322,16 @@ ul {
     margin-top: 10px;
 }
 
+.documentTags {
+    border-top: 1px solid #C3BBB6;
+    white-space: nowrap;
+    font-size: 70%;
+    font-weight: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 125%;
+}
+
 .documentCreatorHistory {
     border-top: 1px solid #C3BBB6;
     white-space: nowrap;

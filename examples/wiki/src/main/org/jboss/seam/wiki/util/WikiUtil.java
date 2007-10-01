@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.net.URLEncoder;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -156,6 +157,14 @@ public class WikiUtil {
             return new BigDecimal(fileSizeInBytes / 1024) + " KiB";
         } else {
             return new BigDecimal(fileSizeInBytes) + " Bytes";
+        }
+    }
+
+    public static String encodeURL(String string) {
+        try {
+            return URLEncoder.encode(string, "UTF-8");
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
         }
     }
 

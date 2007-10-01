@@ -27,7 +27,8 @@ public class BlogDAO {
                                                            long maxResults,
                                                            Integer year,
                                                            Integer month,
-                                                           Integer day) {
+                                                           Integer day,
+                                                           String tag) {
 
         StringBuilder queryString = new StringBuilder();
 
@@ -51,6 +52,7 @@ public class BlogDAO {
         if (year != null) queryString.append("and year(n1.createdOn) = :limitYear").append(" ");
         if (month != null) queryString.append("and month(n1.createdOn) = :limitMonth").append(" ");
         if (day != null) queryString.append("and day(n1.createdOn) = :limitDay").append(" ");
+        if (tag != null && tag.length()>0) queryString.append("and n1.tags like :tag").append(" ");
 
         queryString.append("group by").append(" ");
         for (int i = 0; i < startNode.getTreeSuperclassPropertiesForGrouping().length; i++) {
@@ -73,6 +75,7 @@ public class BlogDAO {
         if (year != null) nestedSetQuery.setParameter("limitYear", year);
         if (month != null) nestedSetQuery.setParameter("limitMonth", month);
         if (day != null) nestedSetQuery.setParameter("limitDay", day);
+        if (tag != null && tag.length()>0) nestedSetQuery.setParameter("tag", "%" + tag + "%");
 
         nestedSetQuery.setFirstResult( new Long(firstResult).intValue() );
         nestedSetQuery.setMaxResults( new Long(maxResults).intValue() );
@@ -81,17 +84,18 @@ public class BlogDAO {
         return (List<BlogEntry>)nestedSetQuery.list();
     }
 
-    public Long countBlogEntries(Node startNode, Node ignoreNode, Integer year, Integer month, Integer day ) {
-        return countBlogEntries(startNode, ignoreNode, false, false, false, year, month, day).get(0).getNumOfEntries();
+    public Long countBlogEntries(Node startNode, Node ignoreNode, Integer year, Integer month, Integer day, String tag) {
+        return countBlogEntries(startNode, ignoreNode, false, false, false, year, month, day, tag).get(0).getNumOfEntries();
     }
 
-    public List<BlogEntryCount> countAllBlogEntriesGroupByYearMonth(Node startNode, Node ignoreNode) {
-        return countBlogEntries(startNode, ignoreNode, true, true, false, null, null, null);
+    public List<BlogEntryCount> countAllBlogEntriesGroupByYearMonth(Node startNode, Node ignoreNode, String tag) {
+        return countBlogEntries(startNode, ignoreNode, true, true, false, null, null, null, tag);
     }
 
     private List<BlogEntryCount> countBlogEntries(Node startNode, Node ignoreNode,
                                                  boolean projectYear, boolean projectMonth, boolean projectDay,
-                                                 Integer limitYear, Integer limitMonth, Integer limitDay) {
+                                                 Integer limitYear, Integer limitMonth, Integer limitDay,
+                                                 String tag) {
 
         StringBuilder queryString = new StringBuilder();
 
@@ -117,6 +121,8 @@ public class BlogDAO {
         if (limitMonth!= null) queryString.append("and month(n1.createdOn) = :limitMonth").append(" ");
         if (limitDay != null) queryString.append("and day(n1.createdOn) = :limitDay").append(" ");
 
+        if (tag != null && tag.length()>0) queryString.append("and n1.tags like :tag").append(" ");
+
         if (projectYear || projectMonth || projectDay)  queryString.append("group by").append(" ");
         if (projectYear)    queryString.append("year(n1.createdOn)");
         if (projectMonth)   queryString.append(", month(n1.createdOn)");
@@ -139,6 +145,7 @@ public class BlogDAO {
         if (limitYear != null) nestedSetQuery.setParameter("limitYear", limitYear);
         if (limitMonth!= null) nestedSetQuery.setParameter("limitMonth", limitMonth);
         if (limitDay != null) nestedSetQuery.setParameter("limitDay", limitDay);
+        if (tag != null && tag.length()>0) nestedSetQuery.setParameter("tag", "%" + tag + "%");
 
         nestedSetQuery.setResultTransformer(Transformers.aliasToBean(BlogEntryCount.class));
 

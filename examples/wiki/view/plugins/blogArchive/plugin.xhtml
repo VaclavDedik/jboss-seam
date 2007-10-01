@@ -26,7 +26,8 @@
         <s:div styleClass="blogArchive">
 
             <s:div styleClass="boxHeader" rendered="#{not blogArchivePreferences.showSubscribeIcon}">
-                <h:outputText value="Archive"/>
+                <h:outputText rendered="#{empty param.tag}" value="Archive"/>
+                <h:outputText rendered="#{not empty param.tag}" value="Archive '#{param.tag}'"/>
             </s:div>
 
             <h:panelGrid rendered="#{blogArchivePreferences.showSubscribeIcon}"
@@ -42,22 +43,23 @@
                     </h:outputLink>
                 </h:panelGrid>
 
-                <h:outputText value="Archive"/>
+                <h:outputText rendered="#{empty param.tag}" value="Archive"/>
+                <h:outputText rendered="#{not empty param.tag}" value="Archive '#{blogDirectory.tag}'"/>
 
             </h:panelGrid>
 
             <div class="blogArchiveSelector boxContent">
                 <select id="blogArchiveCombo" class="blogArchiveCombo"
                         onchange="top.location.href = jQuery('#blogArchiveCombo')[0].options[jQuery('#blogArchiveCombo')[0].selectedIndex].value;">
-                    <option value="#{wiki:renderURL(currentDocument)}">All entries (#{blogDirectory.totalNumOfBlogEntries})</option>
+                    <option value="#{wiki:renderURL(currentDocument)}#{blogDirectory.tagUrl}">All entries (#{blogDirectory.totalNumOfBlogEntries})</option>
                     <ui:repeat var="beCount" value="#{blogDirectory.blogEntryCountsByYearAndMonth}">
                         <s:fragment rendered="#{blogDirectory.dateUrl != beCount.asString}">
-                            <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}">
+                            <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}">
                                 #{converters.monthNames[beCount.month]}&#160;#{beCount.year}&#160;(#{beCount.numOfEntries})
                             </option>
                         </s:fragment>
                         <s:fragment rendered="#{blogDirectory.dateUrl == beCount.asString}">
-                            <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}" selected="true">
+                            <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}" selected="true">
                                 #{converters.monthNames[beCount.month]}&#160;#{beCount.year}&#160;(#{beCount.numOfEntries})
                             </option>
                         </s:fragment>

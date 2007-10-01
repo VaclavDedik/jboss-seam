@@ -64,7 +64,7 @@
 
                 <div align="right">
                     <h:form rendered="#{s:hasPermission('Comment', 'delete', documentHome.instance)}">
-                        <a:commandLink action="#{commentHome.remove(c.id)}" reRender="content"
+                        <a:commandLink action="#{commentHome.remove(c.id)}" reRender="comments" oncomplete="wrapBoxes();"
                                        styleClass="button"><span class="buttonLabel">Remove Comment</span></a:commandLink>
                     </h:form>
                 </div>

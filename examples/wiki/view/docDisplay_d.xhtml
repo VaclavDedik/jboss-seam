@@ -55,6 +55,22 @@
                                 renderBaseDirectory="#{documentHome.parentDirectory}"
                                 enablePlugins="true"/>
         </s:div>
+
+        <s:div rendered="#{documentHome.instance.pluginsUsed.contains('showTags') and not empty documentHome.instance.tags}"
+               styleClass="documentTags undecoratedLink">
+            <s:div>
+                Tags:&#160;
+                <ui:repeat var="tag" value="#{documentHome.instance.tagsSplit}">
+                    <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}">
+                        <f:param value="#{tag}" name="tag"/>
+                    </s:link>
+
+                    <h:outputText rendered="#{documentHome.instance.tagsSplit.indexOf(tag) &lt; documentHome.instance.tagsSplit.size()-1}"
+                                  value="&#160;|&#160;"/>
+                </ui:repeat>
+            </s:div>
+        </s:div>
+
         <s:div rendered="#{wikiPreferences.showDocumentCreatorHistory and not documentHome.instance.pluginsUsed.contains('hideCreatorHistory')}"
                styleClass="documentCreatorHistory undecoratedLink">
             <s:div>
@@ -111,9 +127,11 @@
 
     <ui:include src="includes/attachmentDisplay.xhtml"/>
 
-    <ui:include src="includes/commentsDisplay.xhtml"/>
+    <s:span id="commentDisplayForm">
+        <ui:include src="includes/commentsDisplay.xhtml"/>
 
-    <ui:include src="includes/commentForm.xhtml"/>
+        <ui:include src="includes/commentForm.xhtml"/>
+    </s:span>
 
 </ui:define>
 

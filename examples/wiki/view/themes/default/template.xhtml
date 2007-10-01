@@ -54,6 +54,14 @@
             }
         }
 
+        function trimString(s) {
+            return s.replace(/(^\s+|\s+$)/g, "");
+        }
+
+        function stringEndsWith(s, suffix) {
+            return s.substring(s.length - suffix.length) == suffix;
+        }
+
         // ###################### Popups #################################
 
         var fadeInPopupDialog = function(hash) {

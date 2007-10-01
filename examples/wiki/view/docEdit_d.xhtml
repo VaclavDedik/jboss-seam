@@ -248,6 +248,50 @@
                                 </s:div>
                             </s:div>
 
+                            <s:div styleClass="entry">
+                                <div class="label">Tags:</div>
+                                <div class="input">
+                                    <h:inputText id="tagsInput" tabindex="1" size="70" maxlength="1024" required="false" value="#{documentHome.instance.tags}">
+                                        <a:support event="onblur" reRender="popularTagsList"/>
+                                    </h:inputText>
+                                </div>
+                            </s:div>
+
+                            <script type="text/javascript">
+                                function appendTag(tag) {
+                                    oldValue = jQuery('#docEditForm\\:tagsInput').val();
+                                    if (oldValue != null &amp;&amp; oldValue.length > 0) {
+                                        jQuery('#docEditForm\\:tagsInput').val(
+                                            trimString(oldValue) + (stringEndsWith(trimString(oldValue), ",") ? " " : ", ") + tag
+                                        );
+                                    } else {
+                                        jQuery('#docEditForm\\:tagsInput').val(tag);
+                                    }
+                                    refreshPopularTagsList();
+                                }
+                            </script>
+                            <a:jsFunction name="refreshPopularTagsList"
+                                          reRender="popularTagsList"/>
+
+                            <s:div styleClass="entry" id="popularTagsList">
+                                <div class="label">Popular Tags:</div>
+                                <div class="input">
+                                    <h:panelGroup>
+                                        <ui:repeat var="tagCount" value="#{documentHome.popularTags}">
+                                            <s:span styleClass="undecoratedLink">
+                                                <s:fragment rendered="#{not documentHome.instance.tags.contains(tagCount.tag)}">
+                                                    <h:outputLink value="#"
+                                                                  onclick="appendTag('#{tagCount.tag}')" >#{tagCount.tag}</h:outputLink>
+                                                    &#160;
+                                                </s:fragment>
+                                            </s:span>
+                                        </ui:repeat>
+                                    </h:panelGroup>
+                                    
+                                </div>
+                            </s:div>
+                            
+
                         </div>
                     </a:region>
 

@@ -15,6 +15,7 @@ import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
+import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.preferences.PreferenceSupport;
@@ -25,6 +26,7 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import antlr.RecognitionException;
 import antlr.ANTLRException;
@@ -38,10 +40,14 @@ public class DocumentHome extends NodeHome<Document> {
 
     /* -------------------------- Context Wiring ------------------------------ */
 
+    @In
+    private Directory wikiRoot;
     @In(required = false)
     private Node selectedHistoricalNode;
     @In
     private FeedDAO feedDAO;
+    @In
+    private TagDAO tagDAO;
 
     /* -------------------------- Request Wiring ------------------------------ */
 
@@ -283,6 +289,13 @@ public class DocumentHome extends NodeHome<Document> {
         if (historicalNodes == null)
             historicalNodes = getNodeDAO().findHistoricalNodes(getInstance());
         return historicalNodes;
+    }
+
+    public List<TagDAO.TagCount> getPopularTags() {
+        System.out.println("#################################################################################################");
+        List list = tagDAO.findTagsAggregatedSorted(wikiRoot, null, 0);
+        System.out.println("################## LIST: " + list.size());
+        return list;
     }
 
 }

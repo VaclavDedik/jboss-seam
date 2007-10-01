@@ -141,7 +141,7 @@
         </div>
 
         <div id="linkProtocols">
-            <div class="formFields" style="padding: 20px;">
+            <s:div id="linkProtocolsRegion" styleClass="formFields" style="padding: 20px;">
             <a:region>
 
             <p>
@@ -175,7 +175,7 @@
                     #{lp.link}
                 </h:column>
                 <h:column>
-                    <a:commandLink status="adminForm:status" id="removeLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolTable"
+                    <a:commandLink status="adminForm:status" id="removeLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolsRegion"
                                    action="#{adminHome.removeLinkProtocol()}"><span class="buttonLabel">Remove</span></a:commandLink>
                 </h:column>
             </h:dataTable>
@@ -197,14 +197,14 @@
                 <div class="entry">
                     <div class="label">&#160;</div>
                     <div class="input">
-                        <a:commandLink status="adminForm:status" id="addLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolTable, linkProtocolForm"
+                        <a:commandLink status="adminForm:status" id="addLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolsRegion"
                                        action="#{adminHome.addLinkProtocol}"><span class="buttonLabel">Add</span></a:commandLink>
                     </div>
                 </div>
             </s:div>
 
             </a:region>
-            </div>
+            </s:div>
         </div>
 
         <div id="systemPrefs">

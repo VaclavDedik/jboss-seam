@@ -16,13 +16,15 @@
             <div class="formHead bottomBorder">
 
                 <h:outputLink tabindex="102" rendered="#{empty param.showCommentForm}" accesskey="T"
-                              value="#{wiki:renderURL(currentDocument)}?showCommentForm=true#commentForm">Pos<u>t</u> Comment</h:outputLink>
+                              styleClass="buttonNonpersistent"
+                              value="#{wiki:renderURL(currentDocument)}?showCommentForm=true#commentForm"><span class="buttonLabel">Pos<u>t</u> Comment</span></h:outputLink>
 
                 <s:fragment rendered="#{not empty param.showCommentForm}">Post Comment</s:fragment>
 
             </div>
 
-            <div style="#{empty param.showCommentForm ? 'display:none;' : ''}" class="hiddenCommentForm formFields formBorder wideLabels">
+            <s:div style="#{empty param.showCommentForm ? 'display:none;' : ''}"
+                   styleClass="hiddenCommentForm formFields formBorder wideLabels">
 
                 <s:decorate id="userNameDecorate" template="formFieldDecorate.xhtml">
                     <ui:define name="label">Name</ui:define>
@@ -92,14 +94,14 @@
                     </s:decorate>
                 </s:div>
 
-            </div>
+            </s:div>
 
             <div style="#{empty param.showCommentForm? 'display:none;' : ''}" class="hiddenCommentForm formControls wideLabels">
                 <div class="entry">
                     <div class="label">&#160;</div>
                     <div class="input">
 
-                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="comments, commentForm" accesskey="S"
+                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="commentDisplayForm" accesskey="S"
                                        status="commentForm:status" 
                                        oncomplete="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:userNameDecorate\\:userName').focus(); wrapBoxes();"
                                        styleClass="button"><span class="buttonLabel">Po<u>s</u>t Comment</span></a:commandLink>

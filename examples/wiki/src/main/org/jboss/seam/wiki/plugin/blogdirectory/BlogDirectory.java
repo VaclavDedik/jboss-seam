@@ -16,6 +16,7 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.io.Serializable;
 import java.util.*;
@@ -39,13 +40,11 @@ public class BlogDirectory implements Serializable {
     @In
     Document currentDocument;
 
-    @RequestParameter
-    Boolean allEntries;
-
     private Integer page = 0;
     private Integer year;
     private Integer month;
     private Integer day;
+    private String tag;
 
     @RequestParameter
     public void setPage(Integer page) {
@@ -64,6 +63,10 @@ public class BlogDirectory implements Serializable {
     @RequestParameter
     public void setDay(Integer day) {
         this.day = day;
+    }
+    @RequestParameter
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     private long numOfBlogEntries;
@@ -92,7 +95,9 @@ public class BlogDirectory implements Serializable {
     }
 
     private void queryNumOfBlogEntries() {
-        numOfBlogEntries = blogDAO.countBlogEntries(currentDirectory, currentDocument, year, month, day);
+        System.out.println("########## TAG: " + tag);
+        numOfBlogEntries = blogDAO.countBlogEntries(currentDirectory, currentDocument, year, month, day, tag);
+        System.out.println("####################### NUMBER OF BLOG ENTRIES: " + numOfBlogEntries);
     }
 
     private void queryBlogEntries() {
@@ -104,12 +109,13 @@ public class BlogDirectory implements Serializable {
                     true,
                     page * pageSize,
                     pageSize,
-                    year, month, day
+                    year, month, day,
+                    tag
             );
     }
 
     private void queryBlogEntryCountsByYearAndMonth() {
-        blogEntryCountsByYearAndMonth = blogDAO.countAllBlogEntriesGroupByYearMonth(currentDirectory, currentDocument);
+        blogEntryCountsByYearAndMonth = blogDAO.countAllBlogEntriesGroupByYearMonth(currentDirectory, currentDocument, tag);
         for (BlogEntryCount blogEntryCount : blogEntryCountsByYearAndMonth) {
             totalNumOfBlogEntries = totalNumOfBlogEntries + blogEntryCount.getNumOfEntries();
         }
@@ -127,7 +133,8 @@ public class BlogDirectory implements Serializable {
                     true,
                     0,
                     recentBlogEntriesCount,
-                    null, null, null
+                    null, null, null,
+                    null
             );
 
         // Now aggregate by day
@@ -223,6 +230,10 @@ public class BlogDirectory implements Serializable {
 
     public String getDateUrl() {
         return dateAsString(year, month, day);
+    }
+
+    public String getTagUrl() {
+        return tag != null && tag.length()>0 ? "/Tag/" + WikiUtil.encodeURL(tag) : "";
     }
 
     // Utilities
