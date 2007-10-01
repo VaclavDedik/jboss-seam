@@ -36,7 +36,6 @@
 
 	<!-- Library directories -->
 	<property name="lib.dir" value="${seam.dir}/lib" />
-	<property name="example.tmp.lib.dir" value="${tmp.dir}/${example.name}/lib" />
 	<property name="mail.dir" value="${seam.dir}/mail" />
 	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
 
@@ -417,23 +416,8 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 	
-	<target name="copyextradependencies">
-        <!--
-		<artifact:dependencies filesetId="icefaces.fileset"
-versionsId="icefaces.versions">
-			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.6.1" />
-			<dependency groupId="org.icefaces" artifactId="icefaces-comps"
-version="1.6.1" />
-			<dependency groupId="org.icefaces" artifactId="icefaces-facelets"
-version="1.6.1" />
-		</artifact:dependencies>
-		<copy todir="${example.tmp.lib.dir}">
-			<fileset refid="icefaces.fileset" />
-			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${icefaces.versions}" to="flatten" />
-		</copy>
-        -->
-        </target>
-
+	<target name="copyextradependencies" />
+     
 	<!-- Use the Eclipse compiler, if it is available -->
 	<target name="select-compiler">
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />

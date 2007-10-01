@@ -1,25 +1,38 @@
 <?xml version="1.0"?>
 
-<project name="Booking" default="deploy" basedir=".">
+<project name="Icefaces Booking" default="deploy" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
-    <!-- Naming -->
-    <property name="Name"                   value="Seam on JBoss ICEfaces Booking Example"/>
-    <property name="example.name"           value="icefaces-booking"/>
+	<!-- Naming -->
+	<property name="Name" value="Seam on JBoss ICEfaces Booking Example" />
+	<property name="example.name" value="icefaces-booking" />
+
+	<!-- Overrides -->
+	<property name="seam.ui.lib" value="yes" />
+	<property name="seam.debug.lib" value="yes" />
+
+	<!-- Add icefaces -->
+
+	<property name="example.tmp.lib.dir" value="${basedir}/lib" />
+
+	<!-- Datasource -->
+	<property name="example.ds" value="icefaces-booking-ds.xml" />
+
+	<import file="../build.xml" />
 	
-    <!-- Overrides -->
-    <property name="seam.ui.lib"            value="yes"/>
-    <property name="seam.debug.lib"         value="yes"/>
+	<fileset id="war.lib.extras" dir="${example.tmp.lib.dir}">
+		<include name="*.jar" />
+	</fileset>
 
-    <fileset id="war.lib.extras" dir="lib">
-      <include name="icefaces*.jar" />
-      <include name="commons-digester*.jar" />
-      <include name="backport-util*.jar" />
-      <include name="commons-fileupload*.jar" />
-    </fileset>
-
-    
-    <!-- Datasource -->
-    <property name="example.ds"             value="icefaces-booking-ds.xml"/>
-    
-    <import file="../build.xml"/>
+	<target name="copyextradependencies">
+		<artifact:dependencies filesetId="icefaces.fileset" versionsId="icefaces.versions">
+			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.6.1" />
+			<dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.6.1" />
+			<dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.6.1" />
+			<remoteRepository refId="repository.jboss.org" />
+		</artifact:dependencies>
+		<copy todir="${example.tmp.lib.dir}">
+			<fileset refid="icefaces.fileset" />
+			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${icefaces.versions}" to="flatten" />
+		</copy>
+	</target>
 </project>
