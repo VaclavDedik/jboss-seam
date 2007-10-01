@@ -23,11 +23,19 @@
 		<include name="*.jar" />
 	</fileset>
 
+        <property name="clean.extra" value="${example.tmp.lib.dir}"/>
+
 	<target name="copyextradependencies">
 		<artifact:dependencies filesetId="icefaces.fileset" versionsId="icefaces.versions">
-			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.6.1" />
-			<dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.6.1" />
-			<dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.6.1" />
+			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.6.1">
+				<exclusion groupId="javax.el" artifactId="el-api" />
+			</dependency>
+			<dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.6.1">
+				<exclusion groupId="javax.el" artifactId="el-api" />
+			</dependency>
+			<dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.6.1">
+				<exclusion groupId="javax.el" artifactId="el-api" />
+			</dependency>
 			<remoteRepository refId="repository.jboss.org" />
 		</artifact:dependencies>
 		<copy todir="${example.tmp.lib.dir}">
