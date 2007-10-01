@@ -142,6 +142,7 @@
 				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
 				<sysproperty key="maven.home" value="${maven.dir}" />
 				<arg line="-Dseam.version=${complete.version}" />
+                <arg line="-q" />
 				<args />
 				<arg line="@{target}" />
 			</java>
