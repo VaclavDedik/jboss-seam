@@ -34,7 +34,7 @@
     </exception>
     
     <exception class="org.jboss.seam.security.AuthorizationException">
-        <redirect>
+        <redirect view-id="/error.xhtml">
             <message>You don't have permission to do this</message>
         </redirect>
     </exception>
