@@ -14,6 +14,7 @@
           This example project is an imitation of a popular social networking site, and has
           been put together to demonstrate the various features of the Seam Security API.
         </p>
+        
       </div>
 
       <div id="contentDivider">
@@ -69,7 +70,7 @@
           <ui:repeat value="#{newMembers}" var="newMember">
             <div class="newMember">
 
-              <s:link view="/profile.seam">
+              <s:link view="/profile.seam" propagation="none">
                 <f:param name="name" value="#{newMember.memberName}"/>
                 #{newMember.memberName}<br/>
                 <h:graphicImage value="/content/images?id=#{newMember.picture.imageId}&amp;width=90"/>

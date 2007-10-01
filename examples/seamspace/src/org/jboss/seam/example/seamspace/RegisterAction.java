@@ -44,7 +44,7 @@ public class RegisterAction implements Register
    
    private boolean verified;
 
-   @Factory("newMember") @Begin
+   @Factory("newMember") @Begin(join = true)
    public void start()
    {
       newMember = new Member();
