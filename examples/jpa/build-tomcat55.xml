@@ -20,23 +20,30 @@
     <import file="../build.xml"/>
 
     <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
+    	<!-- Seam deps -->
+    	<include name="lib/dom4j.jar" />
+    	<include name="lib/javassist.jar"/>
+    	
+    	<!-- Misc -->
     	<include name="lib/commons-*.jar"/>
+    	<include name="lib/jta.jar"/>
+    	
+    	<!-- JSF (and related) implementation -->
     	<include name="lib/jsf-api.jar"/>
     	<include name="lib/jsf-impl.jar"/>
         <include name="lib/jstl.jar"/>
-    	<include name="lib/dom4j.jar" />
+    	<include name="examples/hibernate2/lib/el-ri.jar"/>
+    	<include name="lib/el-api.jar" />
+    	
+    	<!-- Hibernate and deps -->
         <include name="lib/hibernate.jar"/>
     	<include name="lib/hibernate-commons-annotations.jar"/>
         <include name="lib/hibernate-annotations.jar"/>
     	<include name="lib/hibernate-entitymanager.jar"/>
     	<include name="lib/hibernate-validator.jar"/>
-        <include name="lib/javassist.jar"/>
     	<include name="examples/jpa/lib/jboss-archive-browsing.jar" />
     	<include name="lib/persistence-api.jar" />
-        <include name="examples/hibernate2/lib/el-ri.jar"/>
-    	<include name="lib/el-api.jar" />
-        <include name="examples/hibernate2/lib/cglib.jar"/>
-        <include name="lib/jta.jar"/>
+    	<include name="examples/hibernate2/lib/cglib.jar"/>
     	<include name="lib/antlr.jar" />
     </fileset>
 
