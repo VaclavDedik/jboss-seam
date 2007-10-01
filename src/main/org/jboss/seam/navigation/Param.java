@@ -266,7 +266,7 @@ public final class Param
       throw new ValidatorException( new FacesMessage(
                FacesMessage.SEVERITY_ERROR, 
                resourceBundle.getString("javax.faces.component.UIInput.REQUIRED"), 
-               resourceBundle.getString("javax.faces.component.UIInput.REQUIRED_detail")
+               null
             ) );
    }
 
