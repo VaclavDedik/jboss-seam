@@ -4,7 +4,7 @@
 
 	<!-- Naming -->
 	<property name="Name" value="Seam on JBoss ICEfaces Booking Example" />
-	<property name="example.name" value="icefaces-booking" />
+	<property name="example.name" value="seam-icefaces" />
 
 	<!-- Overrides -->
 	<property name="seam.ui.lib" value="yes" />
@@ -15,7 +15,7 @@
 	<property name="example.tmp.lib.dir" value="${basedir}/lib" />
 
 	<!-- Datasource -->
-	<property name="example.ds" value="icefaces-booking-ds.xml" />
+	<property name="example.ds" value="seam-icefaces-ds.xml" />
 
 	<import file="../build.xml" />
 	
