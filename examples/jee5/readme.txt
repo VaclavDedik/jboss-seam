@@ -12,8 +12,7 @@ Glassfish v2
 1.  Build the demo app by running ANT. The build target is 
     "dist/jboss-seam-jee5.ear"
 
-2.  Download Glassfish v2 -b52 or above (b52 is one of the promoted builds 
-    which have based basic QA)
+2.  Download Glassfish V2 Final Build
 
 3.  Install it: java -Xmx256m -jar glassfish-installer-xxx.jar
 
