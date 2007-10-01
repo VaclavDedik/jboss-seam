@@ -14,7 +14,11 @@
 		<artifact:dependencies pathId="seam-gen.path">
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-gen" version="${complete.version}" />
 		</artifact:dependencies>
-    	<!-- taskdefs -->
+	    <!-- taskdefs -->
+	    <taskdef name="normalizeProjectName" 
+	        classname="org.jboss.seam.tool.NormalizeProjectNameTask" 
+	        classpathref="seam-gen.path"/>
+	     
 	    <taskdef name="packageDirectory" 
 	        classname="org.jboss.seam.tool.PackageDirectoryTask" 
 	        classpathref="seam-gen.path"/>
@@ -41,6 +45,8 @@
 	</target>
     
     <target name="init-properties" depends="init">
+        
+        <normalizeProjectName property="project.name" />
     	
         <packageDirectory property="action.dir" package="action/${action.package}"/>
         <packageDirectory property="model.dir" package="model/${model.package}"/>
@@ -171,6 +177,8 @@
         <input addproperty="project.name.new" 
                    message="Enter the project name [${old.project.name}]" 
               defaultvalue="${old.project.name}"/>
+        <normalizeProjectName property="project.name.new" />
+        <echo message="Accepted project name as: ${project.name.new}" />
         
         <property name="old.project.type" value="ear"/>
         <input addproperty="project.type.new" 
