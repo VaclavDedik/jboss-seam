@@ -96,7 +96,7 @@ public abstract class Selector extends AbstractMutable implements Serializable
       {
          HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();         
          cookie.setValue(null);
-         cookie.setPath("/");
+         cookie.setPath(cookiePath);
          cookie.setMaxAge(0);
          response.addCookie(cookie);
       }
