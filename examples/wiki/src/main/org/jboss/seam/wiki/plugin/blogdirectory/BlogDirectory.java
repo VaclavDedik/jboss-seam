@@ -95,9 +95,7 @@ public class BlogDirectory implements Serializable {
     }
 
     private void queryNumOfBlogEntries() {
-        System.out.println("########## TAG: " + tag);
         numOfBlogEntries = blogDAO.countBlogEntries(currentDirectory, currentDocument, year, month, day, tag);
-        System.out.println("####################### NUMBER OF BLOG ENTRIES: " + numOfBlogEntries);
     }
 
     private void queryBlogEntries() {
