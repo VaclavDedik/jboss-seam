@@ -16,6 +16,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -26,6 +27,7 @@
     <dependency>
       <groupId>javax.el</groupId>
       <artifactId>el-api</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -42,21 +44,25 @@
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-jmx</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-system</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-kernel</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>jboss.jboss-aop</groupId>
       <artifactId>jboss-aop</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -74,12 +80,12 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <optional>true</optional>
     </dependency>
 
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jbossxb</artifactId>
+      <optional>true</optional>
     </dependency>
 
   </dependencies>
