@@ -22,6 +22,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.remoting.gwt.GWTToSeamAdapter.ReturnedObject;
+import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.web.AbstractResource;
 
 import com.google.gwt.user.client.rpc.SerializableException;
@@ -159,39 +160,68 @@ public class GWTRemoteService extends AbstractResource {
    * This is called internally.
    */
   @Override
-  public final void getResource(HttpServletRequest request,
-      HttpServletResponse response) {
-    Throwable caught;
-    try {
-      // Store the request & response objects in thread-local storage.
-      //
-      perThreadRequest.set(request);
-      perThreadResponse.set(response);
-
-      // Read the request fully.
-      //
-      String requestPayload = readPayloadAsUtf8(request);
-
-      // Invoke the core dispatching logic, which returns the serialized
-      // result.
-      //
-      String responsePayload = processCall(requestPayload);
-
-      // Write the response.
-      //
-      writeResponse(request, response, responsePayload);
-      return;
-    } catch (IOException e) {
-      caught = e;
-    } catch (ServletException e) {
-      caught = e;
-    } catch (SerializationException e) {
-      caught = e;
-    } catch (Throwable e) {
-      caught = e;
-    }
-
-    respondWithFailure(response, caught);
+  public final void getResource(final HttpServletRequest request,
+      final HttpServletResponse response)  throws ServletException, IOException
+  {
+     // We have to call getSession() before the response is written, as per the
+     // servlet API docs.
+     request.getSession(true);
+     
+     try
+     {
+        // Store the request & response objects in thread-local storage.
+        perThreadRequest.set(request);
+        perThreadResponse.set(response);
+        
+        new ContextualHttpServletRequest(request)
+        {
+           @Override
+           public void process() throws Exception
+           {     
+              
+             Throwable caught;
+             try {
+               // Read the request fully.
+               //
+               String requestPayload = readPayloadAsUtf8(request);
+         
+               // Invoke the core dispatching logic, which returns the serialized
+               // result.
+               //
+               String responsePayload = processCall(requestPayload);
+         
+               // Write the response.
+               //
+               writeResponse(request, response, responsePayload);
+               return;
+             } catch (IOException e) {
+               caught = e;
+             } catch (ServletException e) {
+               caught = e;
+             } catch (SerializationException e) {
+               caught = e;
+             } catch (Throwable e) {
+               caught = e;
+             }
+         
+             respondWithFailure(response, caught);
+           }
+           
+           @Override
+           protected void restoreConversationId()
+           {
+              // no conversation support for gwt requests
+           }
+           
+           @Override
+           protected void handleConversationPropagation() {}        
+        }.run();
+     }
+     finally
+     {
+        perThreadRequest.remove();
+        perThreadResponse.remove();        
+     }
   }
 
   /**
