@@ -32,7 +32,7 @@
     <property name="deploy.dir"         value="${jboss.home}/server/default/deploy"/>
     <property name="deploy.war.dir"     value="${deploy.dir}/${project.name}.war"/>
 
-    <property name="dist.dir" value="dist" />
+    <property name="wiki.dist.dir"      value="dist" />
 
     <property name="global.lib.dir" value="${lib.dir}" />
     <property name="seamlibs.dir"   value="${seam.dir}"/>
@@ -260,7 +260,7 @@
                 <exclude name="hibernate-annotations*"/>
                 <exclude name="hibernate-entitymanager*"/>
                 <exclude name="hibernate-validator*"/>
-            	<exclude name="jboss-archive-browsing.jar" />
+            	<exclude name="jboss-archive-browsing*"/>
                 <exclude name="ehcache*"/>
             </fileset>
         </copy>
@@ -369,25 +369,25 @@
     <target name="dist" depends="clean, exploderegular, exploderesources"
             description="Package a (non-hotdeploy) WAR archive">
 
-        <delete dir="${dist.dir}"/>
-        <mkdir dir="${dist.dir}"/>
+        <delete dir="${wiki.dist.dir}"/>
+        <mkdir dir="${wiki.dist.dir}"/>
 
-        <jar jarfile="${dist.dir}/${project.name}.war" basedir="${exploded.war.dir}"/>
+        <jar jarfile="${wiki.dist.dir}/${project.name}.war" basedir="${exploded.war.dir}"/>
 
-        <copy tofile="${dist.dir}/${project.name}-ds.xml"
+        <copy tofile="${wiki.dist.dir}/${project.name}-ds.xml"
                 file="${src.etc.dir}/${project.name}-${profile}-ds.xml"/>
 
-        <copy tofile="${dist.dir}/${project.name}-data.sql"
+        <copy tofile="${wiki.dist.dir}/${project.name}-data.sql"
                 file="${src.etc.dir}/import-prod.sql"
            overwrite="true"/>
         <!-- Now mess with the import.sql file because Hibernate doesn't use semicolons -->
-        <replaceregexp file="${dist.dir}/${project.name}-data.sql"
+        <replaceregexp file="${wiki.dist.dir}/${project.name}-data.sql"
                        match="(.+)"
                        replace="\1;"
                        byline="true"/>
 
         <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
-        <replace file="${dist.dir}/${project.name}-data.sql" token="@@LF@@" value="'||char(10)||'"/>
+        <replace file="${wiki.dist.dir}/${project.name}-data.sql" token="@@LF@@" value="'||char(10)||'"/>
 
         <!-- Schema -->
         <hibernatetool destdir="${basedir}">
@@ -397,7 +397,7 @@
                 drop="false"
                 create="true"
                 export="false"
-                outputfilename="${dist.dir}/${project.name}-ddl.sql"
+                outputfilename="${wiki.dist.dir}/${project.name}-ddl.sql"
                 delimiter=";"
                 format="true"/>
         </hibernatetool>
@@ -412,7 +412,7 @@
     <target name="schemaexport" depends="clean, exploderegular, exploderesources"
         description="Exports a generated schema to a file">
 
-        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${wiki.dist.dir}"/>
 
         <hibernatetool destdir="${basedir}">
             <classpath path="${exploded.war.dir}/WEB-INF/classes"/>
@@ -421,7 +421,7 @@
                 drop="false"
                 create="true"
                 export="false"
-                outputfilename="${dist.dir}/${project.name}-ddl.sql"
+                outputfilename="${wiki.dist.dir}/${project.name}-ddl.sql"
                 delimiter=";"
                 format="true"/>
         </hibernatetool>
@@ -429,7 +429,7 @@
         <!-- Clean up afterwards for the next deploy run -->
         <antcall target="clean"/>
 
-        <echo message="Exported DDL to file: ${dist.dir}/${project-name}-ddl.sql"/>
+        <echo message="Exported DDL to file: ${wiki.dist.dir}/${project-name}-ddl.sql"/>
     </target>
 
     <!-- ######################## TESTS ################## -->
