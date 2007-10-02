@@ -18,6 +18,12 @@
       <artifactId>spring</artifactId>
       <optional>true</optional>
     </dependency>
+    
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib-nodep</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <dependency>
       <groupId>org.jboss.seam</groupId>
