@@ -13,7 +13,7 @@ public class InterpolatorTest
     
     static final String CHOICE_EXPR = "There {0,choice,0#are no files|1#is one file|1<are {0,number,integer} files}.";
     @Test
-    public void testFail() 
+    public void testInterpolation() 
     {
         Interpolator interpolator = Interpolator.instance();
 
@@ -35,6 +35,12 @@ public class InterpolatorTest
         
         // test that a messageformat error doesn't blow up
         Assert.assertEquals("{nosuchmessage}", interpolator.interpolate("{nosuchmessage}"));
+        
+        try {
+            interpolator.interpolate("hello #{", null);
+        } catch (Throwable t) {
+            Assert.fail("interpolator raised an exception");
+        }
     }
 
 }
