@@ -279,7 +279,7 @@
                                     <h:panelGroup>
                                         <ui:repeat var="tagCount" value="#{documentHome.popularTags}">
                                             <s:span styleClass="undecoratedLink">
-                                                <s:fragment rendered="#{not documentHome.instance.tags.contains(tagCount.tag)}">
+                                                <s:fragment rendered="#{not empty tagCount.tag and not documentHome.instance.tags.contains(tagCount.tag)}">
                                                     <h:outputLink value="#"
                                                                   onclick="appendTag('#{tagCount.tag}')" >#{tagCount.tag}</h:outputLink>
                                                     &#160;
