@@ -5,6 +5,6 @@
 
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-helloworld
+      seam.jboss.org:loader=seam-gwt
       </loader-repository> 
 </jboss-app> 
