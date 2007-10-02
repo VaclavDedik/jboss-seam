@@ -292,9 +292,7 @@ public class DocumentHome extends NodeHome<Document> {
     }
 
     public List<TagDAO.TagCount> getPopularTags() {
-        System.out.println("#################################################################################################");
         List list = tagDAO.findTagsAggregatedSorted(wikiRoot, null, 0);
-        System.out.println("################## LIST: " + list.size());
         return list;
     }
 
