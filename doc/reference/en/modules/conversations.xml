@@ -717,6 +717,11 @@ public String approveDocument() { ... }]]></programlisting>
                 conversation, together with two additional items that let the
                 user begin a new conversation.
             </para>
+            
+            <para>
+                Only conversations with a description will be included in the
+                drop-down menu.
+            </para>
        
         <mediaobject>
           <imageobject role="fo">
@@ -775,9 +780,8 @@ public String approveDocument() { ... }]]></programlisting>
         </mediaobject>
         
             <para>
-                The conversation list is nice, but it takes up a lot of space on 
-                the page, so you probably don't want to put it on <emphasis>every</emphasis>
-                page.
+                Only conversations with a description will be included in the
+                list.
             </para>
             
             <para>
