@@ -243,10 +243,6 @@
         <version>3.3.1.ga</version>
         <exclusions>
           <exclusion>
-            <groupId>jboss</groupId>
-            <artifactId>javassist</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
           </exclusion>
@@ -363,9 +359,9 @@
 
       <!-- Should be 3.3.GA to be in sync with AS, but this doesn't seem to exist -->
       <dependency>
-        <groupId>javassist</groupId>
+        <groupId>jboss</groupId>
         <artifactId>javassist</artifactId>
-        <version>3.4.GA</version>
+        <version>3.3.ga</version>
       </dependency>
 
       <!-- Should be 1.0.5.GA-jboss, to be in sync with AS but doesn't exist in Maven -->
