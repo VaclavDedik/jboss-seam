@@ -187,8 +187,7 @@
     		<para>
     			Seam provides a transaction management abstraction for beginning, committing, rolling back, and
     			synchronizing with a transaction. By default Seam uses a JTA transaction component that integrates with
-    			Container Managed and programmatic EJB transactions. If JTA is not available then Seam will disable
-    			Seam-managed transactions unless an alternative transaction component is configured.
+    			Container Managed and programmatic EJB transactions.
     		</para>
     		<para>
     			Out of the box Seam provides transaction components for the following additional transaction APIs:
@@ -209,6 +208,9 @@
     				<literal>org.springframework.transaction.PlatformTransactionManager</literal>
     				interface.
     			</listitem>
+                <listitem>
+                    Explicitly disable Seam managed transactions
+                </listitem>
     		</itemizedlist>
     		<para>
     			Configure JPA RESOURCE_LOCAL transaction management by adding the following to your components.xml where
@@ -230,6 +232,10 @@
     			)
     		</para>
     		<programlisting><![CDATA[<transaction:hibernate-transaction session="#{hiberanteSession}"/>]]></programlisting>
+            <para>
+                To explicitly disable Seam managed transactions declare the following in your components.xml:
+              </para>
+              <programlisting><![CDATA[<transaction:no-transaction />]]></programlisting>
     		<para>
     			For configuring Spring managed transactions see
     			<link linkend="spring-transactions">using Spring PlatformTransactionManagement</link>

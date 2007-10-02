@@ -1,5 +1,7 @@
 package org.jboss.seam.transaction;
 
+import static org.jboss.seam.annotations.Install.FRAMEWORK;
+
 import javax.persistence.EntityManager;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -9,6 +11,12 @@ import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.SystemException;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
+
 /**
  * When no kind of transaction management exists.
  * 
@@ -16,6 +24,10 @@ import javax.transaction.SystemException;
  * @author Gavin King
  * 
  */
+@Name("org.jboss.seam.transaction.transaction")
+@Scope(ScopeType.EVENT)
+@Install(value = false, precedence = FRAMEWORK)
+@BypassInterceptors
 public class NoTransaction extends AbstractUserTransaction
 {
    
