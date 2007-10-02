@@ -734,6 +734,22 @@
                 </or>
             </condition>
         </fail>
+        <fail message="Invalid package combination. If the default package is used, then all classes (action, model, and test) must be in the default package">
+            <condition>
+                <and>
+                    <or>
+                        <equals arg1="${action.package}" arg2="" />
+                        <equals arg1="${model.package}" arg2="" />
+                        <equals arg1="${test.package}" arg2="" />
+                    </or>
+                    <or>
+                        <not><equals arg1="${action.package}" arg2="" /></not>
+                        <not><equals arg1="${model.package}" arg2="" /></not>
+                        <not><equals arg1="${test.package}" arg2="" /></not>
+                    </or>
+                </and> 
+            </condition>
+        </fail>
     </target>
 
     <target name="validate-workspace">
