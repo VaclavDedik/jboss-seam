@@ -45,16 +45,15 @@ public class RemoteRendererBase extends RendererBase
       ResponseWriter response = context.getResponseWriter();
       
       Map request = context.getExternalContext().getRequestMap();
-      if (request.get("REMOTE_SCRIPT") == null)
+      if (!request.containsKey("REMOTE_SCRIPT"))
       {
          response.startElement("script", null);
          response.writeAttribute("type", "text/javascript", null);
          response.writeAttribute("src", context.getExternalContext().getRequestContextPath()
                   + "/seam/resource/remoting/resource/remote.js", null);
          response.endElement("script");
+         request.put("REMOTE_SCRIPT", true);
       }
-
-      request.put("REMOTE_SCRIPT", null);
 
       response.startElement("script", null);
       response.writeAttribute("type", "text/javascript", null);
