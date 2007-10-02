@@ -140,6 +140,12 @@ public class Call
 
      // Create an instance of the component
      Object instance = Component.getInstance(componentName, true);
+     
+     if (instance == null)
+     {
+        throw new RuntimeException(String.format(
+              "Could not create instance of component %s", componentName));
+     }
 
      Class type = null;
 
