@@ -753,7 +753,7 @@
     </target>
 
     <target name="validate-workspace">
-        <fail message="No eclipse workspace specified (run 'seam setup' first)">
+        <fail message="No project workspace specified (run 'seam setup' first)">
             <condition>
                 <or>
                     <not><isset property="workspace.home"/></not>
@@ -958,18 +958,22 @@
         	                template="view/edit.page.xml.ftl" 
         		             destdir="${project.home}/view"
                              foreach="entity"/>
-        	<hbmtemplate filepattern="{package-name}/{class-name}List.java"
+        	<hbmtemplate filepattern="${action.dir}/{class-name}List.java"
         	                template="src/EntityList.java.ftl" 
-        		             destdir="${project.home}/src/action"
-                             foreach="entity"/>
+        		             destdir="${project.home}/src"
+                             foreach="entity">
+				<property key="actionPackage" value="${action.package}" />	
+			</hbmtemplate>
         	<hbmtemplate filepattern="{class-name}List.page.xml"
         	                template="view/list.page.xml.ftl" 
         		             destdir="${project.home}/view"
                              foreach="entity"/>
-        	<hbmtemplate filepattern="{package-name}/{class-name}Home.java"
+        	<hbmtemplate filepattern="${action.dir}/{class-name}Home.java"
         	                template="src/EntityHome.java.ftl" 
-        		             destdir="${project.home}/src/action"
-                             foreach="entity"/>
+        		             destdir="${project.home}/src"
+                             foreach="entity">
+				<property key="actionPackage" value="${action.package}" />	
+			</hbmtemplate>
         	<hbmtemplate filepattern="menu.xhtml"
         	                template="view/layout/menu.xhtml.ftl" 
         		             destdir="${project.home}/view/layout"

@@ -1,4 +1,4 @@
-${pojo.packageDeclaration}
+package ${actionPackage};
 <#assign classbody>
 <#assign entityName = pojo.shortName>
 <#assign componentName = util.lower(entityName)>
@@ -111,5 +111,8 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 }
 </#assign>
 
+<#if pojo.packageName != "">
+import ${pojo.packageName}.*;
+</#if>
 ${pojo.generateImports()}
 ${classbody}

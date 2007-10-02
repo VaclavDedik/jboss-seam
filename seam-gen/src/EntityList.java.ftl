@@ -1,8 +1,11 @@
 <#assign entityName = pojo.shortName>
 <#assign componentName = util.lower(entityName)>
 <#assign listName = componentName + "List">
-${pojo.packageDeclaration}
+package ${actionPackage};
 
+<#if pojo.packageName != "">
+import ${pojo.packageName}.*;
+</#if>
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 import java.util.List;
