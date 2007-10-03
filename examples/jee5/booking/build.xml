@@ -16,10 +16,12 @@
     <property name="seam.debug.lib" value="true"/>
     <property name="facelets.lib"   value="true"/>
     <property name="richfaces.lib"   value="true"/>
-    <!-- add drools and jbpm for oc4j (broken classloading) -->
+    <!-- add libs for oc4j (broken classloading) -->
     <!--<property name="jbpm.lib" value="true"/>
-	<property name="drools.lib" value="true"/>--> 
-	
+	<property name="drools.lib" value="true"/>
+	<property name="quartz.lib" value="true" />
+    <property name="search.lib" value="true" />-->
+  
     <import file="../../build.xml"/>
 
     <fileset id="ear.lib.extras" dir="${seam.dir}">
@@ -41,8 +43,6 @@
     	<include name="lib/commons-collections.jar" />
 
     	<include name="lib/log4j.jar" />
-        <!-- add this for oc4j -->
-        <!--<include name="lib/antlr-*.jar"/>-->
     </fileset>
        
 </project>
