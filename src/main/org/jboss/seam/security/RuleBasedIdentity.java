@@ -151,6 +151,25 @@ public class RuleBasedIdentity extends Identity
       return check.isGranted();
    }
    
+   /**
+    * Overridden version of hasRole() that checks for the existence of the role
+    * in the security context first.  If it is not found there, then the super
+    * method is invoked instead.
+    */
+   @Override
+   public boolean hasRole(String role)
+   {
+      Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class));
+      
+      while (iter.hasNext())
+      {
+         Role r = iter.next();
+         if (r.getName().equals(role)) return true;
+      }
+      
+      return super.hasRole(role);
+   }
+   
    @SuppressWarnings("unchecked")
    @Override   
    protected void unAuthenticate()
