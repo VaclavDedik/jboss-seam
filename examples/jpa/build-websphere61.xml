@@ -26,8 +26,9 @@
         
         <!-- Misc -->
         <include name="lib/jta.jar"/>
-        <include name="lib/commons-*.jar"/>  
-        
+        <include name="lib/commons-beanutils.jar"/>
+    	<include name="lib/commons-digester.jar"/>
+    	<include name="lib/commons-collections.jar"/>        
         <!-- JSF (and related) implementation -->
         <include name="lib/jsf-api.jar"/>
         <include name="lib/jsf-impl.jar"/>
