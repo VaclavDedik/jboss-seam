@@ -21,14 +21,14 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
 
       Example: seam setup
 
-   new-project
+   create-project
       Create a new Seam project workspace that includes all the
       required dependencies, a build script, and two configuration
       profiles (dev and prod). Uses the project attributes defined in
       seam-gen/build.properties. Also generates Eclipse and NetBeans
       project files, allowing the project to be easily imported.
 
-      Example: seam new-project
+      Example: seam create-project
 
    update-project
       Update the project workspace with the latest library
