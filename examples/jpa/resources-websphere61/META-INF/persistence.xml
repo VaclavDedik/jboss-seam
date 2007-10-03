@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence>
-   <persistence-unit name="bookingDatabase" transaction-type="RESOURCE_LOCAL">
+   <persistence-unit name="bookingDatabase" transaction-type="JTA">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <jta-data-source>DefaultDatasource</jta-data-source>
       <properties>

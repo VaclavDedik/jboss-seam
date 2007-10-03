@@ -25,7 +25,6 @@
         <include name="lib/javassist.jar"/>
         
         <!-- Misc -->
-        <include name="lib/jta.jar"/>
         <include name="lib/commons-beanutils.jar"/>
     	<include name="lib/commons-digester.jar"/>
     	<include name="lib/commons-collections.jar"/>        
