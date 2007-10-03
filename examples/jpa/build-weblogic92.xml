@@ -20,7 +20,6 @@
 
   <import file="../build.xml" />
 
-  <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
     <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
       <!-- Seam deps -->
       <include name="lib/dom4j.jar" />
@@ -31,6 +30,7 @@
       <include name="lib/commons-beanutils.jar" />
       <include name="lib/commons-digester.jar" />
       <include name="lib/commons-collections.jar" />
+      <include name="lib/commons-logging.jar" />
       <!-- JSF (and related) implementation -->
       <include name="lib/jsf-api.jar" />
       <include name="lib/jsf-impl.jar" />
@@ -49,7 +49,6 @@
       <include name="examples/hibernate2/lib/cglib.jar" />
       <include name="lib/antlr.jar" />
     </fileset>
-  </fileset>
 
   <fileset id="noejb.war.extras" dir="${resources.dir}">
     <include name="WEB-INF/classes/**/*" />

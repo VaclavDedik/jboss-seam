@@ -15,8 +15,6 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
                   
-    <transaction:entity-transaction entity-manager="#{em}"/>
-                  
     <persistence:entity-manager-factory name="bookingDatabase"/>
     
     <persistence:managed-persistence-context name="em"
