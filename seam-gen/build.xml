@@ -445,7 +445,7 @@
     	<echo message="Installing JDBC driver jar to JBoss server"/>
         <copy file="${driver.jar.new}" todir="${jboss.home.new}/server/default/lib"/>
 
-        <echo message="Type 'seam new-project' to create the new project"/>
+        <echo message="Type 'seam create-project' to create the new project"/>
     </target>
 
     <target name="icefaces-staging-copy" if="icefaces.property">
@@ -767,7 +767,7 @@
     </target>
     
     <target name="validate-project" depends="init-properties, validate-workspace">
-        <fail message="No project name specified (run 'seam new-project' first)">
+        <fail message="No project name specified (run 'seam create-project' first)">
             <condition>
                 <or>
                     <not><isset property="project.name"/></not>
@@ -804,7 +804,8 @@
         </fail>
     </target>
 
-    <target name="new-project" depends="validate-project,icefaces-staging-copy,copy-lib,file-copy"
+	<target name="new-project" depends="create-project" />
+    <target name="create-project" depends="validate-project,icefaces-staging-copy,copy-lib,file-copy"
             description="Create a new project">
         <echo message="A new Seam project named '${project.name}' was created in the ${workspace.home} directory"/>
     	<echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}"/>
