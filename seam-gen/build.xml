@@ -262,12 +262,9 @@
         <condition property="hibernatetool.metadatadialect.new" value="org.hibernate.cfg.reveng.dialect.H2MetaDataDialect">
             <equals arg1="${database.type.new}" arg2="h2"/>
         </condition>
-        <!-- waiting on upgrade to next version if hibernate-tools for MySQL support -->
-        <!--
         <condition property="hibernatetool.metadatadialect.new" value="org.hibernate.cfg.reveng.dialect.MySQLMetaDataDialect">
             <equals arg1="${database.type.new}" arg2="mysql"/>
         </condition>
-        -->
         <condition property="hibernatetool.metadatadialect.new" value="org.hibernate.cfg.reveng.dialect.OracleMetaDataDialect">
             <equals arg1="${database.type.new}" arg2="oracle"/>
         </condition>
@@ -277,6 +274,7 @@
         <condition property="hibernatetool.metadatadialect.new" value="">
             <and>
                 <not><equals arg1="${database.type.new}" arg2="h2" /></not>
+                <not><equals arg1="${database.type.new}" arg2="mysql" /></not>
                 <not><equals arg1="${database.type.new}" arg2="oracle" /></not>
                 <not><equals arg1="${database.type.new}" arg2="postgres" /></not>
             </and>
