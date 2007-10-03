@@ -16,6 +16,7 @@
 						id="${entity.shortName}Id"
 	 					propagation="none"/>
 </#foreach>         
+                    <!-- @newMenuItem@ -->
  		 </ice:panelGroup>
                  <ice:panelGroup id="rightMenuId">
                                 <h:outputText id="menuWelcomeId" value="Welcome,${'#'}{identity.username}" rendered="${'#'}{identity.loggedIn}"/>

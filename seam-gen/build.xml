@@ -955,6 +955,15 @@
         <copy file="${base.dir}/view/list.xhtml" tofile="${masterPage.file}">
             <filterset refid="filters"/>
         </copy>
+        <replace file="${project.home}/view/layout/menu.xhtml">
+            <replacetoken><![CDATA[<!-- @newMenuItem@ -->]]></replacetoken>
+            <replacevalue><![CDATA[<s:link view="/@masterPageName@.xhtml" value="@entityName@ List" propagation="none"/>
+    <!-- @newMenuItem@ -->]]></replacevalue>
+        </replace>
+        <replace file="${project.home}/view/layout/menu.xhtml">
+            <replacefilter token="@masterPageName@" value="${masterPage.name}" />
+            <replacefilter token="@entityName@" value="${entity.name}" />
+        </replace>
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${masterPage.name}.seam"/>
     </target>
 
