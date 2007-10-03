@@ -46,8 +46,6 @@
     
     <target name="init-properties" depends="init">
         
-        <normalizeProjectName property="project.name" />
-    	
         <packageDirectory property="action.dir" package="action/${action.package}"/>
         <packageDirectory property="model.dir" package="model/${model.package}"/>
         <packageDirectory property="test.dir" package="test/${test.package}"/>
