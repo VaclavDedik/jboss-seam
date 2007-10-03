@@ -230,9 +230,14 @@
                   the RichFaces Ajax filter in <literal>web.xml</literal>
                   yourself.
                 </para>
+                
+                <para>
+                  The RichFaces Ajax filter is only installed if the RichFaces
+                  jars are present in your project.
+                </para>
 
                 <para> To override the default settings, add the following entry to <literal>components.xml</literal>.
-                    The options are the same as those specified in the Ajax4jsf Developer Guide: </para>
+                    The options are the same as those specified in the RichFaces Developer Guide: </para>
 
                 <programlisting><![CDATA[<web:ajax4jsf-filter force-parser="true" 
                      enable-cache="true" 
