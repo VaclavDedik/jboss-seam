@@ -14,7 +14,6 @@
        <class name="org.jboss.seam.test.SecurityTest"/>
        <class name="org.jboss.seam.test.InterpolatorTest"/>
        <class name="org.jboss.seam.test.DependencyTest"/>
-       <class name="org.jboss.seam.test.DependencyTest"/>
        <class name="org.jboss.seam.test.SeamTestTest"/>
        <class name="org.jboss.seam.test.MailTest"/>
        <class name="org.jboss.seam.test.ELTest"/>
@@ -23,6 +22,7 @@
        <class name="org.jboss.seam.test.LocaleTest"/>
        <class name="org.jboss.seam.test.PageflowTest"/>
        <class name="org.jboss.seam.test.SeamMockELResolverTest" />
+       <class name="org.jboss.seam.test.HomeTest" />
      </classes>
    </test>
 </suite>

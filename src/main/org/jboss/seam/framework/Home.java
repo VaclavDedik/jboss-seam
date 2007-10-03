@@ -37,19 +37,19 @@ public abstract class Home<T, E> extends MutableController<T>
    
    protected void updatedMessage()
    {
-      debug("updated entity #0 #1", entityClass.getName(), getId());
+      debug("updated entity #0 #1", getEntityClass().getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getUpdatedMessageKey(), getUpdatedMessage() );
    }
    
    protected void deletedMessage()
    {
-      debug("deleted entity #0 #1", entityClass.getName(), getId());
+      debug("deleted entity #0 #1", getEntityClass().getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getDeletedMessageKey(), getDeletedMessage() );
    }
    
    protected void createdMessage()
    {
-      debug("created entity #0 #1", entityClass.getName(), getId());
+      debug("created entity #0 #1", getEntityClass().getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getCreatedMessageKey(), getCreatedMessage() );
    }
 
@@ -115,11 +115,11 @@ public abstract class Home<T, E> extends MutableController<T>
       {
          return (E) newInstance.getValue();
       }
-      else if (entityClass!=null)
+      else if (getEntityClass()!=null)
       {
          try
          {
-            return entityClass.newInstance();
+            return getEntityClass().newInstance();
          }
          catch (Exception e)
          {
