@@ -316,8 +316,6 @@ public class Pages
    /**
     * Look for a DataModel row selection in the request parameters,
     * and apply it to the DataModel.
-    * 
-    * @param parameters the request parameters
     */
    private void selectDataModelRow(FacesContext facesContext)
    {
