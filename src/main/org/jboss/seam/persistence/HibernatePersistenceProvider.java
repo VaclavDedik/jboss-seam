@@ -1,14 +1,14 @@
 package org.jboss.seam.persistence;
-
+import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.transaction.Synchronization;
-
 import org.hibernate.EntityMode;
 import org.hibernate.FlushMode;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.TransientObjectException;
@@ -18,14 +18,12 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
-import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
-
 /**
  * Support for non-standardized features of Hibernate, when
  * used as the JPA persistence provider.
@@ -42,7 +40,6 @@ public class HibernatePersistenceProvider extends PersistenceProvider
 {
    
    private static Log log = Logging.getLog(HibernatePersistenceProvider.class);
-
    private static Constructor FULL_TEXT_SESSION_PROXY_CONSTRUCTOR;
    private static Method FULL_TEXT_SESSION_CONSTRUCTOR;
    private static Constructor FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR;
@@ -127,13 +124,11 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       getSession(entityManager).setFlushMode(FlushMode.MANUAL);
    }
-
    @Override
    public boolean isDirty(EntityManager entityManager)
    {
       return getSession(entityManager).isDirty();
    }
-
    @Override
    public Object getId(Object bean, EntityManager entityManager) 
    {
@@ -146,7 +141,6 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          return super.getId(bean, entityManager);
       }
    }
-
    @Override
    public Object getVersion(Object bean, EntityManager entityManager) 
    {
@@ -158,7 +152,6 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       checkVersion(bean, getSession(entityManager), oldVersion, version);
    }
-
    @Override
    public void enableFilter(Filter f, EntityManager entityManager)
    {
@@ -189,7 +182,6 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       return (Session) entityManager.getDelegate();
    }
-
    public static void checkVersion(Object value, Session session, Object oldVersion, Object version)
    {
       ClassMetadata classMetadata = getClassMetadata(value, session);
@@ -199,14 +191,12 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          throw new StaleStateException("current database version number does not match passivated version number");
       }
    }
-
    public static Object getVersion(Object value, Session session)
    {
       ClassMetadata classMetadata = getClassMetadata(value, session);
       return classMetadata!=null && classMetadata.isVersioned() ? 
                classMetadata.getVersion(value, EntityMode.POJO) : null;
    }
-
    private static ClassMetadata getClassMetadata(Object value, Session session)
    {
       Class entityClass = Seam.getEntityClass( value.getClass() );
@@ -237,7 +227,6 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          return super.getName(bean, entityManager);
       }
    }
-
    @Override
    public EntityManager proxyEntityManager(EntityManager entityManager)
    {
@@ -254,8 +243,39 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          catch (Exception e)
          {
             throw new RuntimeException("could not proxy FullTextEntityManager", e);
-
          }
       }
    }
+   
+   /**
+    * Returns the class of the specified hibernate bean
+    */
+   @Override
+   public Class getBeanClass(Object bean)
+   {
+      return Hibernate.getClass(bean);
+   }
+   
+   @Override
+   public Method getPostLoadMethod(Class beanClass)
+   {
+      return null;      
+   }
+   
+   @Override
+   public Method getPrePersistMethod(Class beanClass)
+   {
+      return null;
+   }
+   @Override
+   public Method getPreUpdateMethod(Class beanClass)
+   {
+      return null;
+   }
+   
+   @Override
+   public Method getPreRemoveMethod(Class beanClass)
+   {
+      return null;
+   }   
 }

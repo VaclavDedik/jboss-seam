@@ -42,6 +42,7 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Selector;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Session;
 
@@ -169,7 +170,7 @@ public class Identity extends Selector
    
    public boolean isLoggedIn()
    {           
-      return isLoggedIn(false);
+      return isLoggedIn(true);
    }
    
    public boolean isLoggedIn(boolean attemptLogin)
@@ -662,27 +663,28 @@ public class Identity extends Selector
    {      
       isLoggedIn(true);
       
-      Entity e = Entity.forClass(entity.getClass());
+      PersistenceProvider provider = PersistenceProvider.instance(); 
+      Class beanClass = provider.getBeanClass(entity);
       
-      if (e != null)
+      if (beanClass != null)
       {
          String name = Seam.getComponentName(entity.getClass());
-         if (name == null) name = e.getBeanClass().getName();  
+         if (name == null) name = beanClass.getName();  
          
          Method m = null;
          switch (action)
          {
             case READ:
-               m = e.getPostLoadMethod();
+               m = provider.getPostLoadMethod(beanClass);
                break;
             case INSERT:
-               m = e.getPrePersistMethod();
+               m = provider.getPrePersistMethod(beanClass);
                break;
             case UPDATE:
-               m = e.getPreUpdateMethod();
+               m = provider.getPreUpdateMethod(beanClass);
                break;
             case DELETE:
-               m = e.getPreRemoveMethod();
+               m = provider.getPreRemoveMethod(beanClass);
          }
          
          Restrict restrict = null;

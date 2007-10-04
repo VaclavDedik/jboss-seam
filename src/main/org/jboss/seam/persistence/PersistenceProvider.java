@@ -1,13 +1,10 @@
 package org.jboss.seam.persistence;
-
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-
+import java.lang.reflect.Method;
 import java.util.Date;
-
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Synchronization;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
@@ -16,7 +13,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-
 /**
  * Abstraction layer for persistence providers (JPA implementations).
  * This class provides a working base implementation that can be
@@ -36,7 +32,6 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @Install(precedence=BUILT_IN, classDependencies="javax.persistence.EntityManager")
 public class PersistenceProvider
 {
-
    /**
     *  Set the flush mode to manual-only flushing. Called when
     *  an atomic persistence context is required.
@@ -45,7 +40,6 @@ public class PersistenceProvider
    {
       throw new UnsupportedOperationException("For use of FlushMode.MANUAL, please use Hibernate as the persistence provider or use a custom PersistenceProvider");
    }
-
    /**
     * Does the persistence context have unflushed changes? If
     * it does not, persistence context replication can be
@@ -105,7 +99,6 @@ public class PersistenceProvider
          throw new OptimisticLockException("current database version number does not match passivated version number");
       }
    }
-
    /**
     * Enable a Filter. This is here just especially for Hibernate,
     * since we well know that other products don't have such cool
@@ -128,7 +121,6 @@ public class PersistenceProvider
    {
       return (PersistenceProvider) Component.getInstance(PersistenceProvider.class, ScopeType.STATELESS);
    }
-
    /**
     * What flush policy should we use during the render response phase?
     * We should not be changing data during the render, so we can 
@@ -148,12 +140,40 @@ public class PersistenceProvider
    {
       return delegate;
    }
-
    /**
     * Wrap the entityManager before returning it to the application
     */
    public EntityManager proxyEntityManager(EntityManager entityManager) {
       return new EntityManagerProxy(entityManager);
    }
-
+   
+   /**
+    * Returns the class of an entity bean instance
+    * 
+    * @param bean The entity bean instance
+    * @return The class of the entity bean
+    */
+   public Class getBeanClass(Object bean)
+   {
+      return Entity.forClass(bean.getClass()).getBeanClass();
+   }
+   
+   public Method getPostLoadMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPostLoadMethod();      
+   }
+   
+   public Method getPrePersistMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPrePersistMethod();
+   }
+   public Method getPreUpdateMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPreUpdateMethod();
+   }
+   
+   public Method getPreRemoveMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPreRemoveMethod();
+   }
 }
