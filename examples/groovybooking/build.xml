@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="groovybooking" default="deploy" basedir=".">
+<project name="groovybooking" default="jbosswar.restart" basedir=".">
 
 	<!-- Example name -->
 	<property name="Name" value="Seam Groovy Example" />
