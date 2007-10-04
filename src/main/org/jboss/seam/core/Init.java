@@ -193,9 +193,7 @@ public class Init
        if (factories.containsKey(variable))
        {
            String otherComponentName = factories.get(variable).getComponent().getName();
-           Class otherComponentClass = factories.get(variable).getComponent().getBeanClass();
            String componentName = component.getName();
-           Class componentClass = component.getBeanClass();
            if (componentName != null && !componentName.equals(otherComponentName))
            {
                throw new IllegalStateException("duplicate factory for: " + variable + " (duplicates are specified in " + componentName + " and " + otherComponentName + ")");

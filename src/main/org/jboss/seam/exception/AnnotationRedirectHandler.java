@@ -5,7 +5,6 @@ import javax.faces.application.FacesMessage.Severity;
 
 import org.jboss.seam.annotations.exception.Redirect;
 import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
  * Implements @Redirect

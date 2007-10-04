@@ -16,7 +16,6 @@ import java.util.Set;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.PerNestedConversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
 

@@ -2,9 +2,9 @@ package org.jboss.seam.async;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.InputStream;
 import java.rmi.server.UID;
 import java.util.Date;
-import java.io.InputStream;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -24,12 +24,11 @@ import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.quartz.NthIncludedDayTrigger;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.SimpleTrigger;
-import org.quartz.NthIncludedDayTrigger;
+import org.quartz.impl.StdSchedulerFactory;
 
 /**
  * Dispatcher implementation that uses the Quartz library.

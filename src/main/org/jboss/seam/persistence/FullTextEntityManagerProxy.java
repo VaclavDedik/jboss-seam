@@ -2,12 +2,11 @@
 package org.jboss.seam.persistence;
 
 import java.io.Serializable;
-import javax.persistence.EntityManager;
 
+import org.apache.lucene.search.Query;
+import org.hibernate.search.SearchFactory;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
-import org.hibernate.search.SearchFactory;
-import org.apache.lucene.search.Query;
 
 /**
  * Wrap a FullTextEntityManager

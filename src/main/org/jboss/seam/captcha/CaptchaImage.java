@@ -19,7 +19,6 @@ import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.web.AbstractResource;
 
 import com.octo.captcha.service.CaptchaServiceException;

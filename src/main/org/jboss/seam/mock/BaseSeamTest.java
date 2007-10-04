@@ -53,7 +53,6 @@ import org.jboss.seam.servlet.ServletSessionMap;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
-import org.jboss.seam.web.Session;
 
 /**
  * Base class for integration tests for JSF/Seam applications.  This class can be

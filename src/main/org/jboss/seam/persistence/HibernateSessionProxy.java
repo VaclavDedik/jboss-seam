@@ -78,6 +78,7 @@ public class HibernateSessionProxy implements Session, SessionImplementor
       return delegate.close();
    }
 
+   @SuppressWarnings("deprecation")
    public Connection connection() throws HibernateException
    {
       return delegate.connection();
