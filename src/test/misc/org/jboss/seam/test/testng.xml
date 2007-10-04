@@ -22,6 +22,7 @@
        <class name="org.jboss.seam.test.LocaleTest"/>
        <class name="org.jboss.seam.test.PageflowTest"/>
        <class name="org.jboss.seam.test.SeamMockELResolverTest" />
+       <class name="org.jboss.seam.test.PageActionsTest" />
        <class name="org.jboss.seam.test.HomeTest" />
      </classes>
    </test>
