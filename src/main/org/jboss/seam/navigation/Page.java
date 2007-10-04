@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.MissingResourceException;
 
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Events;
@@ -262,11 +262,19 @@ public final class Page
                fromAction = action.getMethodExpression().getExpressionString();
                result = true;
                outcome = Pages.toString( action.getMethodExpression().invoke() );
+               UIViewRoot oldViewRoot = facesContext.getViewRoot();
                Pages.handleOutcome(facesContext, outcome, fromAction);
+               if (facesContext.getResponseComplete() || oldViewRoot != facesContext.getViewRoot()) {
+                  break;
+               }
             }
             else
             {
+               UIViewRoot oldViewRoot = facesContext.getViewRoot();
                Pages.handleOutcome(facesContext, outcome, fromAction);
+               if (facesContext.getResponseComplete() || oldViewRoot != facesContext.getViewRoot()) {
+                  break;
+               }
             }
          }
       }
