@@ -251,7 +251,7 @@ public abstract class UIChart
                 image = new ImgTemplate(tp);
             } else {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                ChartUtilities.writeChartAsJPEG(stream, chart, (int)getWidth(), (int)getHeight());
+                ChartUtilities.writeChartAsJPEG(stream, chart, getWidth(), getHeight());
 
                 imageData = stream.toByteArray();
                 stream.close();

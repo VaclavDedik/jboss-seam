@@ -23,7 +23,7 @@ public class UIChartData
     private String sectionOutlineStroke;
     
     public Object getValue() {
-        return (Object) valueBinding("value", value);
+        return valueBinding("value", value);
     }
 
     public void setValue(Object value) {
@@ -112,7 +112,7 @@ public class UIChartData
        key                  = (String) values[1];
        //columnKey            = (String) values[2];
        series               = (String) values[3];
-       value                = (Number) values[4];
+       value                = values[4];
        explodedPercent      = (Float)  values[5];
        sectionPaint         = (String) values[6];
        sectionOutlinePaint  = (String) values[7];

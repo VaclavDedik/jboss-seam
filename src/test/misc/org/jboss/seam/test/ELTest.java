@@ -1,7 +1,6 @@
 package org.jboss.seam.test;
 
 import javax.el.ELException;
-import javax.faces.component.UINamingContainer;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 

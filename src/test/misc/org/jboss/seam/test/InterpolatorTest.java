@@ -37,7 +37,7 @@ public class InterpolatorTest
         Assert.assertEquals("{nosuchmessage}", interpolator.interpolate("{nosuchmessage}"));
         
         try {
-            interpolator.interpolate("hello #{", null);
+            interpolator.interpolate("hello #{", (Object) null);
         } catch (Throwable t) {
             Assert.fail("interpolator raised an exception");
         }

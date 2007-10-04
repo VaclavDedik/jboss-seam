@@ -4,9 +4,7 @@ package actions;
 import java.util.List;
 
 import javax.ejb.Remove;
-import javax.persistence.EntityManager;
 
-import org.hibernate.search.FullTextSession;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;

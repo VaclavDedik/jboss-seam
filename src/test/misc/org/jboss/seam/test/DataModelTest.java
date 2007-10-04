@@ -16,7 +16,6 @@ import java.util.Set;
 
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
-import javax.servlet.ServletException;
 
 import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.seam.faces.DataModels;
