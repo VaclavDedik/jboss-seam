@@ -1,6 +1,96 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.0.CR2
+
+** Bug
+    * [JBSEAM-1726] - seam-gen corrupts image files
+    * [JBSEAM-1762] - MockHttpSession can't remove attributes
+    * [JBSEAM-1827] - factory name collisions ignored?
+    * [JBSEAM-1883] - Deleting a tree of wiki nodes does not update the Lucene index
+    * [JBSEAM-1884] - ui:include in PDF doesn't work in IE
+    * [JBSEAM-1900] - org.jboss.seam.contexts.Contexts logs "could not discover transaction status" even though transaction management is disabled
+    * [JBSEAM-1915] - EntityQuery generates exception when reading getResultCount() with restrictions applied.
+    * [JBSEAM-1916] - EntityQuery: Refresh method doesn't refresh changes made in getEjbql()
+    * [JBSEAM-1918] - Asyncronous methods called from an asyncronously executing methoed will not be invoke asyncronously
+    * [JBSEAM-1923] - seam-gen does not generate "hibernate.dialect" in persistence.xml
+    * [JBSEAM-1926] - Ajax4jsf is required if you use verifyObjects with jboss-seam-ui.jar
+    * [JBSEAM-1927] - wrong XSD schema URI in web.xml for seam-gen
+    * [JBSEAM-1932] - cannot update contact on contactlist app
+    * [JBSEAM-1935] - Pages.getResourceBunlde should use ResourceLoader.loadBundle instead of java.util.ResourceBundle.getBundle directly
+    * [JBSEAM-1937] - Some EL Expressions in JPDL files now cause EL exceptions
+    * [JBSEAM-1938] - s:validateAll doesn't work correctly
+    * [JBSEAM-1947] - incorrect id rendered from s:commandButton and s:commandLink components.
+    * [JBSEAM-1950] - ClassCastException when using Hibernates DetachedCriteria
+    * [JBSEAM-1952] - persistenceUnitProperties on EntityManagerFactory must be parameterized
+    * [JBSEAM-1963] - Seam gen .classpath is incorrect for new jar names
+    * [JBSEAM-1968] - JPA (tomcat) example - requires Embedded Jboss?
+    * [JBSEAM-1969] - updatedMessage, deletedMessage and createdMessage in framework.Home cause NPE if getEntityClass is overridden
+    * [JBSEAM-1973] - Serialization error on FullTextEntityManagerImpl
+    * [JBSEAM-1975] - Validation Messages not showing up when using the "for" attribute in <s:decorate>
+    * [JBSEAM-1987] - <restrict> in pages.xml has no effect
+    * [JBSEAM-1988] - AuthorizationException not redirected properly
+    * [JBSEAM-1998] - javassist 3.3 and 3.4 are both imported by maven when I declare hibernate dependency
+    * [JBSEAM-2007] - new-entity and generate-entities don't use same package name
+    * [JBSEAM-2009] - message "In attribute requires non-null value" missing @
+    * [JBSEAM-2016] - jpa/glassfish example has transaction handling problem
+    * [JBSEAM-2019] - Param uses an invalid message key when throwing validation error
+    * [JBSEAM-2020] - OC4J example: login error
+    * [JBSEAM-2024] - log interpolation not failsafe
+    * [JBSEAM-2030] - RichFaces js libraries not available on WAS
+    * [JBSEAM-2040] -  blog demo renderring error
+    * [JBSEAM-2041] - groovybooking demo fails to deploy
+
+** Feature Request
+    * [JBSEAM-865] - Allow customisation of Captcha images
+    * [JBSEAM-1524] - new-project should be renamed (or aliased) to create-project
+    * [JBSEAM-1704] - Allow customizable loading of instances in EntityHome and HibernateEntityHome
+    * [JBSEAM-1928] - Seam Text Validator
+    * [JBSEAM-1934] - French message bundle for seam-gen
+    * [JBSEAM-1966] - Code optimization in Component class
+    * [JBSEAM-1984] - Please add icefaces dependency jars to the jboss maven repo
+    * [JBSEAM-2021] - validate package combination
+    * [JBSEAM-2023] - short-circuit page actions on first navigation event
+    * [JBSEAM-2032] - make page resources configurable for Pages (i.e. WEB-INF/pages.xml)
+    * [JBSEAM-2034] - new-entity does not add item to menu bar
+
+** Patch
+    * [JBSEAM-1514] - seam-gen should normalize project name
+    * [JBSEAM-1515] - Use = sign consistently in hibernate-console.properties
+    * [JBSEAM-1518] - support for H2 in seam-gen
+    * [JBSEAM-1527] - bash completion for seam script (seam-gen)
+    * [JBSEAM-1535] - Netbeans project file is not configured properly by seam-gen
+    * [JBSEAM-1537] - set hibernate.dialect explicitly in persistence-*.xml
+    * [JBSEAM-1562] - add RichFaces/Ajax4jsf skin to seam-gen setup
+    * [JBSEAM-1629] - update seam-gen README file, removing mention of Eclipse and WTP
+    * [JBSEAM-1929] - Turkish message bundle for seam-gen
+    * [JBSEAM-1933] - WebRemoting in non-EJB environment anyway requires JMS library, even if JMS is not used.
+    * [JBSEAM-1945] - Bulgarian message bundle for seam-gen
+    * [JBSEAM-1995] - MultipartFilter maxRequestSize exceeded throws NullPointerException from ExceptionFilter
+
+** Task
+    * [JBSEAM-983] - Add Seam to maven repository
+    * [JBSEAM-1464] - Do we still need the hibernate/ dir?
+    * [JBSEAM-1569] - Improve dependency management
+    * [JBSEAM-1851] - Implement tags/topics for documents and topic plugin for blog view
+    * [JBSEAM-1854] - Context sensitive help system
+    * [JBSEAM-1905] - LoggingFilter - please add documentation and an entry in web-2.0.xsd
+    * [JBSEAM-1958] - Documentation for dependency management
+    * [JBSEAM-1964] - Check Hibernate, JPA and JEE5 examples on all servers
+    * [JBSEAM-1965] - Fix GWT example
+    * [JBSEAM-1970] - Add source JARs to Maven repository
+    * [JBSEAM-1992] - Upgrade MVEL library to 1.2.final
+    * [JBSEAM-1993] - Consider upgrade to Drools 4.0.1
+    * [JBSEAM-1996] - Upgrade to Hibernate Search 3.0.0.GA
+    * [JBSEAM-1999] - Improve documentation of when the ConversationList component is populated
+    * [JBSEAM-2002] - Upgrade to Facelets 1.1.14
+    * [JBSEAM-2003] - Review use of exclusions and move to root pom where possible
+    * [JBSEAM-2005] - facelets comment out of place in icefaces web.xml
+    * [JBSEAM-2013] - Deprecate expression attribute on event's in components.xml in favour of execute
+    * [JBSEAM-2018] - Update feature list on seam-gen home.xhtml page
+    * [JBSEAM-2031] - Update hibernatetools to b10
+
+
 Release Notes - JBoss Seam - Version 2.0.0.CR1
 
 ** Bug
