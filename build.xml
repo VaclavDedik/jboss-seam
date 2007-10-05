@@ -418,8 +418,6 @@
 			</fileset>
 		</copy>
 
-
-
 		<copy todir="${dist.lib.dir}">
 			<fileset dir="${lib.dir}">
 				<include name="**/*.jar" />
@@ -432,7 +430,6 @@
 		<copy todir="${dist.build.dir}">
 			<fileset dir="${build.dir}">
 				<include name="**/*.*" />
-				<exclude name="profiles/**/*" />
 			</fileset>
 		</copy>
 	</target>
@@ -497,8 +494,9 @@
 		<copy file="readme.txt" todir="${dist.dir}" />
 		<copy file="lgpl.txt" todir="${dist.dir}" />
 		<copy file="changelog.txt" todir="${dist.dir}" />
-		<propertyfile file="${dist.dir}/build.properties">
+		<propertyfile file="${dist.dir}/build.properties" comment="See build/sample.build.properties for properties you might want to set">
 			<entry key="mavenized" value="false" />
+			<entry key="qualifier" value="${qualifier}" />
 		</propertyfile>
 		<copy file="build.xml" todir="${dist.dir}" />
 		<copy file="seam" todir="${dist.dir}" />
