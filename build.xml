@@ -445,6 +445,7 @@
 				<exclude name="booking/alter.config/**/*" />
 				<exclude name="booking/build.alter.xml" />
 				<include name="hibernate2/**/*" />
+				<include name="icefaces/**/*" />
 				<include name="jpa/**/*" />
 				<include name="jee5/**/*" />
 				<include name="blog/**/*" />
@@ -452,6 +453,7 @@
 				<include name="registration/**/*" />
 				<include name="dvdstore/**/*" />
 				<include name="itext/**/*" />
+				<include name="seambay/**/*" />
 				<include name="seampay/**/*" />
 				<include name="seamspace/**/*" />
 				<include name="mail/**/*" />
