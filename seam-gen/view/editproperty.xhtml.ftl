@@ -16,7 +16,7 @@
 <#if !column.nullable>
                        required="true"
 </#if>
-                          value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}" pattern="MM/dd/yyyy" event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
+                          value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}" datePattern="MM/dd/yyyy" event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
 <#elseif propertyType == "time">
                 <h:inputText id="${componentProperty.name}" 
                            size="5"
@@ -131,7 +131,7 @@
 <#if !column.nullable>
                        required="true"
 </#if>
-                          value="${'#'}{${homeName}.instance.${property.name}}" pattern="MM/dd/yyyy" event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
+                          value="${'#'}{${homeName}.instance.${property.name}}" datePattern="MM/dd/yyyy" event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
 <#elseif propertyType == "time">
                 <h:inputText id="${property.name}" 
                            size="5"
