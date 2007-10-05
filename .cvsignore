@@ -17,3 +17,4 @@ output
 classes
 lib
 .classpath
+build.properties
