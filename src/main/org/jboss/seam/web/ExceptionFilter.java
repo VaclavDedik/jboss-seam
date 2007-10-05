@@ -97,8 +97,15 @@ public class ExceptionFilter extends AbstractFilter
       
       //If there is an existing long-running conversation on
       //the failed request, propagate it
-      ConversationPropagation.instance().setConversationId(conversationId);
-      Manager.instance().restoreConversation();
+      if (conversationId==null)
+      {
+          Manager.instance().initializeTemporaryConversation();
+      }
+      else
+      {
+          ConversationPropagation.instance().setConversationId(conversationId);
+          Manager.instance().restoreConversation();
+      }
       
       //Now do the exception handling
       try
