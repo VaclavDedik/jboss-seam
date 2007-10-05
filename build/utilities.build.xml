@@ -75,7 +75,7 @@
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
 				</remoteRepository>
-				<attach file="@{srcjar}" classifier="-sources" />
+				<attach file="@{srcjar}" classifier="sources" />
 			</artifact:deploy>
 		</sequential>
 	</macrodef>
