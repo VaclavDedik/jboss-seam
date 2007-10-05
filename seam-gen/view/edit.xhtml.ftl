@@ -22,7 +22,7 @@
     <h:form id="${componentName}" styleClass="edit">
     
         <rich:panel>
-            <f:facet name="header">Edit ${entityName}</f:facet>
+            <f:facet name="header">${'#'}{${homeName}.managed ? 'Edit' : 'Add'} ${entityName}</f:facet>
 <#foreach property in pojo.allPropertiesIterator>
 <#include "editproperty.xhtml.ftl">
 </#foreach>

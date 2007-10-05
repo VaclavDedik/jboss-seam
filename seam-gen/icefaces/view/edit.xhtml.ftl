@@ -23,7 +23,7 @@
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                   <td class="iceDatTblColHdr2">
-			    <ice:outputText id="editTextBoxId" value="Edit ${componentName}"/>
+			    <ice:outputText id="editTextBoxId" value="${'#'}{${homeName}.managed ? 'Edit' : 'Add'} ${componentName}"/>
                   </td>
               </tr>
           </table>
