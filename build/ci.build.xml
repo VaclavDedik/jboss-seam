@@ -7,23 +7,15 @@
 
 	<property name="seam.dir" value="${basedir}/../" />
 	<import file="common.build.xml" />
-
-	<property name="snapshots.jboss.org" value="dav:https://snapshots.jboss.org/maven2" />
+	
+	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
 
 	<target name="initdav">
 		<artifact:install-provider artifactId="wagon-webdav" version="1.0-beta-2" />
 	</target>
 
-	<target name="deploySeamSnapshot" description="Deploy a Seam snapshot to snapshots.jboss.org" depends="initdav, initpoms">
-		<pomfile name="wagon.pom" value="wagon.pom.xml" />
-		<maven target="deploy:deploy-file" basedir=".">
-			<arg line="-f ${wagon.pom}" />
-			<arg line="-DpomFile=${root.pom}" />
-			<arg line="-Dfile=${root.pom}" />
-			<arg line="-Durl=${snapshots.jboss.org}" />
-			<arg line="-DrepositoryId=snapshots.jboss.org" />
-			<arg line="-DuniqueVersion=false" />
-		</maven>
+	<target name="deploySeamSnapshot" description="Deploy a Seam snapshot to snapshots.jboss.org" depends="initdav, initpoms">		
+		<deploySnapshotPom pom="${root.pom}" />
 		<deploySnapshotPom pom="${parent.pom}" />
 		<deploySnapshot pom="${core.pom}" jar="${lib.dir}/jboss-seam.jar" srcjar="${lib.dir}/src/jboss-seam-sources.jar" />
 		<deploySnapshot pom="${debug.pom}" jar="${lib.dir}/jboss-seam-debug.jar" srcjar="${lib.dir}/src/jboss-seam-debug-sources.jar"/>
@@ -46,8 +38,12 @@
 	<target name="snapshot">
 		<build target="cleanall" />
 		<build target="dist" />
-		<antcall target="deploySeamSnapshot" />
-		<antcall target="tests" />
+		<ant target="deploySeamSnapshot" antfile="${ant.file}">
+			<property name="qualifier" value="-SNAPSHOT"/>
+		</ant>
+		<antcall target="tests" antfile="${ant.file}">
+			<property name="qualifier" value="-SNAPSHOT"/>
+		</antcall>
 	</target>
 
 	<macrodef name="build">
@@ -64,8 +60,9 @@
     <macrodef name="deploySnapshotPom">
       <attribute name="pom" />
       <sequential>
-        <artifact:deploy>
+        <artifact:deploy uniqueVersion="true">
           <pom file="@{pom}" />
+          <remoteRepository refid="snapshots.jboss.org" />
         </artifact:deploy>
       </sequential>
     </macrodef>
@@ -76,9 +73,10 @@
 		<attribute name="jar" />
         <attribute name="srcjar" />
 		<sequential>
-			<artifact:deploy file="@{jar}">
+			<artifact:deploy file="@{jar}" uniqueVersion="true">
 				<pom file="@{pom}" />
                 <attach file="@{srcjar}" classifier="sources" />
+				<remoteRepository refid="snapshots.jboss.org" />
 			</artifact:deploy>
 		</sequential>
 	</macrodef>

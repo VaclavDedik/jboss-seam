@@ -22,14 +22,6 @@
     </pluginRepository>
   </pluginRepositories>-->
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>snapshots.jboss.org</id>
-      <url>dav:https://snapshots.jboss.org/maven2</url>
-      <uniqueVersion>true</uniqueVersion>
-    </snapshotRepository>
-  </distributionManagement>
-
   <!-- Uncomment to enable newer version of dependency plugin which has the
   dependency:tree command useful for analyzing the dependency tree of a module
   You'll also need the m2-snapshot repository enabled -->
