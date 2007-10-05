@@ -85,28 +85,20 @@ public class ExceptionFilter extends AbstractFilter
       facesContext.setCurrent();
       
       //if the event context was cleaned up, fish the conversation id 
-      //directly out of the ServletRequest attributes
-      String conversationId = null;
-      if ( !Contexts.isEventContextActive() )
-      {
-         Manager oldManager =  (Manager) request.getAttribute( Seam.getComponentName(Manager.class) );
-         if (oldManager != null) conversationId = oldManager.getCurrentConversationId(); 
-      }
+      //directly out of the ServletRequest attributes, else get it from
+      //the event context
+      Manager manager = Contexts.isEventContextActive() ?
+              (Manager) Contexts.getEventContext().get(Manager.class) :
+              (Manager) request.getAttribute( Seam.getComponentName(Manager.class) );
+      String conversationId = manager==null ? null : manager.getCurrentConversationId();
       
       //Initialize the temporary context objects
       FacesLifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
       
       //If there is an existing long-running conversation on
-      //the failed request, propagate it, otherwise initialize a temporary conversation      
-      if (conversationId != null)
-      {
-         ConversationPropagation.instance().setConversationId(conversationId);
-         Manager.instance().restoreConversation();         
-      }
-      else
-      {
-         Manager.instance().initializeTemporaryConversation();
-      }
+      //the failed request, propagate it
+      ConversationPropagation.instance().setConversationId(conversationId);
+      Manager.instance().restoreConversation();
       
       //Now do the exception handling
       try
