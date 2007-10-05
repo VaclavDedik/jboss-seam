@@ -16,7 +16,7 @@
 			<arguments>
 				<dictionary>
 					<key>LaunchConfigHandle</key>
-					<value>&lt;project&gt;/.exploded.launch</value>
+					<value>&lt;project&gt;/explode.launch</value>
 				</dictionary>
 			</arguments>
 		</buildCommand>
@@ -24,5 +24,6 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
+		<nature>org.jboss.tools.seam.core.seamnature</nature>
 	</natures>
 </projectDescription>
