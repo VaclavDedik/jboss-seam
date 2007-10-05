@@ -120,7 +120,7 @@
       <dependency>
         <groupId>org.richfaces.framework</groupId>
         <artifactId>richfaces-api</artifactId>
-        <version>3.1.1-CR2</version>
+        <version>3.1.1-GA</version>
         <exclusions>
           <exclusion>
             <groupId>commons-logging</groupId>
@@ -136,7 +136,7 @@
       <dependency>
         <groupId>org.richfaces.framework</groupId>
         <artifactId>richfaces-impl</artifactId>
-        <version>3.1.1-CR2</version>
+        <version>3.1.1-GA</version>
         <exclusions>
           <exclusion>
             <groupId>commons-logging</groupId>
@@ -152,7 +152,7 @@
       <dependency>
         <groupId>org.richfaces.ui</groupId>
         <artifactId>richfaces-ui</artifactId>
-        <version>3.1.1-CR2</version>
+        <version>3.1.1-GA</version>
         <exclusions>
           <exclusion>
             <groupId>commons-logging</groupId>
