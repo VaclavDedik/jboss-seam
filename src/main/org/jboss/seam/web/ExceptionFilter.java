@@ -90,16 +90,23 @@ public class ExceptionFilter extends AbstractFilter
       if ( !Contexts.isEventContextActive() )
       {
          Manager oldManager =  (Manager) request.getAttribute( Seam.getComponentName(Manager.class) );
-         conversationId = oldManager.getCurrentConversationId(); 
+         if (oldManager != null) conversationId = oldManager.getCurrentConversationId(); 
       }
       
       //Initialize the temporary context objects
       FacesLifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
       
       //If there is an existing long-running conversation on
-      //the failed request, propagate it
-      ConversationPropagation.instance().setConversationId(conversationId);
-      Manager.instance().restoreConversation();
+      //the failed request, propagate it, otherwise initialize a temporary conversation      
+      if (conversationId != null)
+      {
+         ConversationPropagation.instance().setConversationId(conversationId);
+         Manager.instance().restoreConversation();         
+      }
+      else
+      {
+         Manager.instance().initializeTemporaryConversation();
+      }
       
       //Now do the exception handling
       try
