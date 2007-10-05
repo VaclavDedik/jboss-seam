@@ -7,7 +7,7 @@ Updating version numbers
   - readme.txt
   - changelog.txt
   - build/default.build.properties
-  - DO NOT commit changes to the qualifier to CVS
+  - Make sure to alter the qualifier back to -SNAPSHOT asap after tagging the release
 
 * Finally, update changelog.txt by copy/pasting
   the JIRA text release notes.
