@@ -1,11 +1,14 @@
 package org.jboss.seam.persistence;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Synchronization;
+
 import org.hibernate.EntityMode;
 import org.hibernate.FlushMode;
 import org.hibernate.Hibernate;
@@ -16,7 +19,6 @@ import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.type.VersionType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
-import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -113,6 +115,10 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       {
          return proxySession( (Session) delegate );
       }
+      catch (NotHibernateException nhe)
+      {
+         return super.proxyDelegate(delegate);
+      }
       catch (Exception e)
       {
          throw new RuntimeException("could not proxy delegate", e);
@@ -122,66 +128,146 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public void setFlushModeManual(EntityManager entityManager)
    {
-      getSession(entityManager).setFlushMode(FlushMode.MANUAL);
+       try
+       {
+          getSession(entityManager).setFlushMode(FlushMode.MANUAL);
+       }
+       catch (NotHibernateException nhe)
+       {
+          super.setFlushModeManual(entityManager);
+       }
    }
+   
    @Override
    public boolean isDirty(EntityManager entityManager)
    {
-      return getSession(entityManager).isDirty();
+       try
+       {
+          return getSession(entityManager).isDirty();
+       }
+       catch (NotHibernateException nhe)
+       {
+          return super.isDirty(entityManager);
+       }
    }
+   
    @Override
    public Object getId(Object bean, EntityManager entityManager) 
    {
-      try
-      {
-         return getSession(entityManager).getIdentifier(bean);
-      }
-      catch (TransientObjectException e) 
-      {
-         return super.getId(bean, entityManager);
-      }
+       try
+       {
+          return getSession(entityManager).getIdentifier(bean);
+       }
+       catch (NotHibernateException nhe)
+       {
+          return super.getId(bean, entityManager);
+       }
+       catch (TransientObjectException e) 
+       {
+          return super.getId(bean, entityManager);
+       }
    }
+   
    @Override
    public Object getVersion(Object bean, EntityManager entityManager) 
    {
-      return getVersion( bean, getSession(entityManager) );
+       try
+       {
+          return getVersion( bean, getSession(entityManager) );
+       }
+       catch (NotHibernateException nhe)
+       {
+          return super.getVersion(bean, entityManager);
+       }
    }
    
    @Override
    public void checkVersion(Object bean, EntityManager entityManager, Object oldVersion, Object version)
    {
-      checkVersion(bean, getSession(entityManager), oldVersion, version);
+       try
+       {
+          checkVersion(bean, getSession(entityManager), oldVersion, version);
+       }
+       catch (NotHibernateException nhe)
+       {
+          super.checkVersion(bean, entityManager, oldVersion, version);
+       }
    }
+   
    @Override
    public void enableFilter(Filter f, EntityManager entityManager)
    {
-      org.hibernate.Filter filter = getSession(entityManager).enableFilter( f.getName() );
-      for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
+      try
       {
-         filter.setParameter( me.getKey(), me.getValue().getValue() );
+         org.hibernate.Filter filter = getSession(entityManager).enableFilter( f.getName() );
+         for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
+         {
+            filter.setParameter( me.getKey(), me.getValue().getValue() );
+         }
+         filter.validate();
       }
-      filter.validate();
+      catch (NotHibernateException nhe)
+      {
+         super.enableFilter(f, entityManager);
+      }
+
    }
    
    @Override
    public boolean registerSynchronization(Synchronization sync, EntityManager entityManager)
    {
-      //TODO: just make sure that a Hibernate JPA EntityTransaction
-      //      delegates to the Hibernate Session transaction
-      getSession(entityManager).getTransaction().registerSynchronization(sync);
-      return true;
+      try
+      {
+         //TODO: just make sure that a Hibernate JPA EntityTransaction
+         //      delegates to the Hibernate Session transaction
+         getSession(entityManager).getTransaction().registerSynchronization(sync);
+         return true;
+      }
+      catch (NotHibernateException nhe)
+      {
+         return super.registerSynchronization(sync, entityManager);
+      }
+
+   }
+
+   @Override
+   public String getName(Object bean, EntityManager entityManager)
+   {
+      try 
+      {
+         return getSession(entityManager).getEntityName(bean);
+      } 
+      catch (NotHibernateException nhe)
+      {
+         return super.getName(bean, entityManager);
+      }
+      catch (TransientObjectException e) 
+      {
+         return super.getName(bean, entityManager);
+      }
    }
    
    @Override
-   public FlushModeType getRenderFlushMode()
+   public EntityManager proxyEntityManager(EntityManager entityManager)
    {
-      return FlushModeType.MANUAL;
+      if (FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR==null)
+      {
+         return super.proxyEntityManager(entityManager);
+      }
+      else
+      {
+         try
+         {
+            return (EntityManager) FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR.invoke(null, entityManager) );
+         }
+         catch (Exception e)
+         {
+            //throw new RuntimeException("could not proxy FullTextEntityManager", e);
+            return super.proxyEntityManager(entityManager);
+         }
+      }
    }
    
-   private Session getSession(EntityManager entityManager)
-   {
-      return (Session) entityManager.getDelegate();
-   }
    public static void checkVersion(Object value, Session session, Object oldVersion, Object version)
    {
       ClassMetadata classMetadata = getClassMetadata(value, session);
@@ -191,12 +277,14 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          throw new StaleStateException("current database version number does not match passivated version number");
       }
    }
+   
    public static Object getVersion(Object value, Session session)
    {
       ClassMetadata classMetadata = getClassMetadata(value, session);
       return classMetadata!=null && classMetadata.isVersioned() ? 
                classMetadata.getVersion(value, EntityMode.POJO) : null;
    }
+   
    private static ClassMetadata getClassMetadata(Object value, Session session)
    {
       Class entityClass = Seam.getEntityClass( value.getClass() );
@@ -215,48 +303,23 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       return classMetadata;
    }
    
-   @Override
-   public String getName(Object bean, EntityManager entityManager)
-   {
-      try 
-      {
-         return getSession(entityManager).getEntityName(bean);
-      } 
-      catch (TransientObjectException e) 
-      {
-         return super.getName(bean, entityManager);
-      }
-   }
-   @Override
-   public EntityManager proxyEntityManager(EntityManager entityManager)
-   {
-      if (FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR==null)
-      {
-         return super.proxyEntityManager(entityManager);
-      }
-      else
-      {
-         try
-         {
-            return (EntityManager) FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR.invoke(null, entityManager) );
-         }
-         catch (Exception e)
-         {
-            throw new RuntimeException("could not proxy FullTextEntityManager", e);
-         }
-      }
-   }
-   
    /**
-    * Returns the class of the specified hibernate bean
+    * Returns the class of the specified Hibernate entity
     */
    @Override
    public Class getBeanClass(Object bean)
    {
-      return Hibernate.getClass(bean);
+      try
+      {
+         return super.getBeanClass(bean);
+      }
+      catch (IllegalArgumentException iae)
+      {
+         return Hibernate.getClass(bean);
+      }
    }
    
-   @Override
+   /*@Override
    public Method getPostLoadMethod(Class beanClass)
    {
       return null;      
@@ -267,6 +330,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       return null;
    }
+   
    @Override
    public Method getPreUpdateMethod(Class beanClass)
    {
@@ -277,5 +341,27 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    public Method getPreRemoveMethod(Class beanClass)
    {
       return null;
-   }   
+   }*/
+   
+   private Session getSession(EntityManager entityManager)
+   {
+      Object delegate = entityManager.getDelegate();
+      if ( delegate instanceof Session )
+      {
+         return (Session) delegate;
+      }
+      else
+      {
+         throw new NotHibernateException();
+      }
+   }
+   
+   /**
+    * Occurs when Hibernate is in the classpath, but this particular
+    * EntityManager is not from Hibernate
+    * 
+    * @author Gavin King
+    *
+    */
+   static class NotHibernateException extends IllegalArgumentException {}
 }

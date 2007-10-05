@@ -1,14 +1,16 @@
 package org.jboss.seam.persistence;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.lang.reflect.Method;
 import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
 import javax.transaction.Synchronization;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -121,18 +123,7 @@ public class PersistenceProvider
    {
       return (PersistenceProvider) Component.getInstance(PersistenceProvider.class, ScopeType.STATELESS);
    }
-   /**
-    * What flush policy should we use during the render response phase?
-    * We should not be changing data during the render, so we can 
-    * optimize performance by choosing not to flush.
-    * 
-    * @return COMMIT or MANUAL
-    */
-   public FlushModeType getRenderFlushMode()
-   {
-      return FlushModeType.COMMIT;
-   }
-   
+
    /**
     * Wrap the delegate before returning it to the application
     */
@@ -167,6 +158,7 @@ public class PersistenceProvider
    {
       return Entity.forClass(beanClass).getPrePersistMethod();
    }
+   
    public Method getPreUpdateMethod(Class beanClass)
    {
       return Entity.forClass(beanClass).getPreUpdateMethod();
@@ -176,4 +168,5 @@ public class PersistenceProvider
    {
       return Entity.forClass(beanClass).getPreRemoveMethod();
    }
+   
 }

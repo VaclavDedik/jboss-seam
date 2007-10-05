@@ -81,15 +81,20 @@ public class PersistenceContexts extends AbstractMutable implements Serializable
          PersistenceContextManager pcm = (PersistenceContextManager) Contexts.getConversationContext().get(name);
          if (pcm!=null)
          {
-            pcm.changeFlushMode(flushMode);
+            try
+            {
+               pcm.changeFlushMode(flushMode);
+            }
+            catch (UnsupportedOperationException uoe) { 
+               //swallow 
+            }
          }
       }
    }
    
    public void beforeRender()
    {
-      PersistenceProvider pp = PersistenceProvider.instance();
-      flushMode = pp==null ? FlushModeType.MANUAL : pp.getRenderFlushMode();
+      flushMode = FlushModeType.MANUAL;
       changeFlushModes();
    }
    
