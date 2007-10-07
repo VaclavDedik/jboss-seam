@@ -387,6 +387,11 @@
 		<include name="**/*.component.xml" />
 		<include name="**/components.xml" />
 	</patternset>
+	
+	<!-- files to use as test resources -->
+	<patternset id="test.resources.files">
+		<include name="**/*" />
+	</patternset>
 
 	<!-- Build classpath -->
 	<path id="build.classpath">
@@ -611,6 +616,7 @@
 		<touch file="${ear.deploy.dir}/META-INF/application.xml" />
 	</target>
 
+	<target name="restartclean" depends="clean, unexplode, restart" description="Clean the example and restart it" />
 
 	<!-- #################### BUILD TARGETS (TOMCAT) #################### -->
 
@@ -792,14 +798,19 @@
 	<target name="buildtest" depends="compiletest">
 		<copy todir="${test.dir}">
 			<fileset dir="${resources.dir}">
-				<exclude name="${example.ds}.xml" />
+				<patternset refid="test.resources.files" />
 			</fileset>
 		</copy>
-		<copy todir="${test.dir}" flatten="true">
+		<copy todir="${test.dir}">
 			<fileset dir="${src.test.dir}">
 				<include name="**/*.xml" />
 			</fileset>
 		</copy>
+        <copy todir="${test.dir}">
+            <fileset dir="${view.dir}">
+            	<include name="**/*.page.xml"/>
+        	</fileset>
+        </copy>
 	</target>
 
 	<target name="test" depends="buildtest, copyjbossembedded" description="Run the tests">
@@ -825,7 +836,7 @@
                     <jvmarg value="-Xmx800M" />
                     <jvmarg value="-Djava.awt.headless=true" />
 			<classpath refid="test.classpath" />
-			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
+			<xmlfileset dir="${src.test.dir}" includes="**/testng.xml" />
 		</testng>
 	</target>
 
