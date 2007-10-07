@@ -359,6 +359,10 @@
 		<testexample name="todo" />
 		<testexample name="blog" />
 		<testexample name="ui" />
+		<!--<testexample name="seamdiscs" />-->
+		<testexample name="seambay" />
+		<testexample name="seamspace" />
+		<testexample name="drools" />
 		<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>
@@ -589,7 +593,7 @@
 	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
 		<testng>
-			<jvmarg value="-Djava.awt.headless=true" />
+			<jvmarg line="-Djava.awt.headless=true" />
 			<classpath>
 				<path path="${classes.test.core.dir}" />
 				<path path="${classes.test.dir}" />
@@ -597,7 +601,7 @@
 				<path refid="test.core.path" />
 				<pathelement location="${lib.dir}/jboss-seam-remoting.jar" />
 			</classpath>
-			<xmlfileset dir="${src.test.dir}" includes="**/*.xml" />
+			<xmlfileset dir="${classes.test.dir}" includes="**/testng.xml" />
 		</testng>
 	</target>
 
