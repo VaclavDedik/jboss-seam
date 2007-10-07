@@ -11,9 +11,7 @@
 	<import file="${seam.dir}/build/common.build.xml" />
 	
 	<target name="init">
-		<artifact:dependencies pathId="seam-gen.path">
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-gen" version="${complete.version}" />
-		</artifact:dependencies>
+		<path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
 	    <!-- taskdefs -->
 	    <taskdef name="normalizeProjectName" 
 	        classname="org.jboss.seam.tool.NormalizeProjectNameTask" 
