@@ -337,6 +337,67 @@ public class MockPaymentProcessor extends PaymentProcessor {
           </imageobject>
         </mediaobject>
         
+        <section>
+          <title>Integration Testing with Mock Data</title>
+          
+          <para>
+            If you need to insert or clean data in your database before each 
+            test you can use Seam's integration with DBUnit.  To do this, extend 
+            DBUnitSeamTest rather than SeamTest.
+         </para>
+         
+         <para>
+            You need to provide a dataset for DBUnit:
+         </para>
+          
+          <programlisting><![CDATA[<dataset>
+   
+   <ARTIST 
+      id="1"
+      dtype="Band"
+      name="Pink Floyd" />
+      
+   <DISC
+      id="1"
+      name="Dark Side of the Moon"
+      artist_id="1" />
+      
+</dataset>]]></programlisting>
+
+         <para>
+            and tell Seam about it by overriding <literal>prepareDBUnitOperations()</literal>:
+         </para>
+      
+         <programlisting><![CDATA[protected void prepareDBUnitOperations() {
+    beforeTestOperations.add(
+       new DataSetOperation("my/datasets/BaseData.xml")
+    );
+ }]]></programlisting>
+ 
+         <para>
+           <literal>DataSetOperation</literal> defaults to <literal>DatabaseOperation.CLEAN_INSERT</literal>
+           if no other operation is specified as a constructor argument. The 
+           above example cleans all tables defined <literal>BaseData.xml</literal>, 
+           then inserts all rows declared in <literal>BaseData.xml</literal> 
+           before each <literal>@Test</literal> method is invoked.
+         </para>
+         
+         <para>
+           If you require extra cleanup after a test method executes, add 
+           operations to <literal>afterTestOperations</literal> list.
+         </para>
+         
+         <para>
+           You need to tell DBUnit about the datasource you are using by 
+           setting a TestNG test parameter named <literal>datasourceJndiName</literal>:
+         </para>
+         
+         <programlisting>
+   <![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]>
+         </programlisting> 
+          
+        </section>
+        
     </section>
 	
 </chapter>
