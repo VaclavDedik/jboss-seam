@@ -1,12 +1,18 @@
 package test;
 
 import java.util.List;
+import java.util.Map;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.theme.Theme;
+import org.jboss.seam.theme.ThemeSelector;
 import org.testng.annotations.Test;
 
 import actions.BlogService;
@@ -176,6 +182,102 @@ public class BlogTest extends SeamTest
          }
          
       }.run();
+   }
+   
+   @Test
+   public void testSelectTheme() throws Exception
+   {
+       String id = new NonFacesRequest("/index.xhtml")
+       {
+           
+           @Override
+           protected void renderResponse() throws Exception 
+           {
+               List<SelectItem> themes = (List<SelectItem>) getValue("#{themeSelector.themes}");
+               assert themes.size() == 3;
+               assert themes.get(0).getLabel().equals("default");
+               assert themes.get(0).getLabel().equals("default");
+               assert "default".equals(getValue("#{themeSelector.theme}"));
+               assert "../screen.css".equals(getValue("#{theme.css}"));
+               assert "template.xhtml".equals(getValue("#{theme.template}"));
+               assert "foo".equals(getValue("#{theme.foo}"));
+           }
+           
+       }.run();
+       
+       new FacesRequest("/index.xhtml", id)
+       {
+           @Override
+           protected void updateModelValues() throws Exception {
+               setValue("#{themeSelector.theme}", "accessible");
+           }
+           
+           @Override
+           protected void invokeApplication() throws Exception {
+               invokeAction("#{themeSelector.select}");
+           }
+           
+           @Override
+           protected void renderResponse() throws Exception 
+           {
+               assert "accessible".equals(getValue("#{themeSelector.theme}"));
+               assert "../accessible.css".equals(getValue("#{theme.css}"));
+               assert "template.xhtml".equals(getValue("#{theme.template}"));
+           }
+       }.run();
+       
+       new FacesRequest("/index.xhtml", id)
+       {
+           
+           @Override
+           protected void invokeApplication() throws Exception {
+               invokeAction("#{themeSelector.selectTheme('printable')}");
+           }
+           
+           @Override
+           protected void renderResponse() throws Exception 
+           {
+               assert "printable".equals(getValue("#{themeSelector.theme}"));
+               assert "../printable.css".equals(getValue("#{theme.css}"));
+               assert "print.xhtml".equals(getValue("#{theme.template}"));
+               Map<String, String> theme = Theme.instance();
+               assert theme.entrySet().size() == 2;
+           }
+       }.run();
+       
+       new FacesRequest("/index.xhtml", id)
+       {
+           @Override
+           protected void updateModelValues() throws Exception {
+               setValue("#{themeSelector.theme}", "foo");
+           }
+           
+           @Override
+           protected void invokeApplication() throws Exception {
+               invokeAction("#{themeSelector.select}");
+           }
+           
+           @Override
+           protected void renderResponse() throws Exception 
+           {
+               assert "foo".equals(getValue("#{themeSelector.theme}"));
+               Map<String, String> theme = Theme.instance();
+               ResourceBundle themeResources = ThemeSelector.instance().getThemeResourceBundle();
+               assert !themeResources.getKeys().hasMoreElements();
+               assert theme.entrySet().size() == 0;
+               boolean exception = false;
+               try
+               {
+                   themeResources.getObject("bar");
+               }
+               catch (MissingResourceException e) 
+               {
+                  exception = true; 
+               }
+               assert exception;
+               assert theme.get("bar").equals("bar");
+           }
+       }.run();
    }
 
 }
