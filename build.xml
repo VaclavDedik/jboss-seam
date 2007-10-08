@@ -34,7 +34,8 @@
 	<property name="src.debug.dir" value="src/debug" />
 	<property name="src.gen.dir" value="src/gen" />
 	<property name="src.remoting.dir" value="src/remoting" />
-	<property name="src.test.dir" value="src/test/misc" />
+	<property name="src.test.dir" value="src/test" />
+	<property name="src.unit.test.dir" value="${src.test.dir}/unit" />
 
 	<!-- Library directories -->
 	<property name="mail.dir" value="${basedir}/mail" />
@@ -63,7 +64,7 @@
 	<property name="dist.src.debug.dir" value="${dist.dir}/src/debug" />
 	<property name="dist.src.gen.dir" value="${dist.dir}/src/gen" />
 	<property name="dist.src.remoting.dir" value="${dist.dir}/src/remoting" />
-	<property name="dist.src.test.dir" value="${dist.dir}/src/test/misc" />
+	<property name="dist.src.test.dir" value="${dist.dir}/src/test" />
 	<property name="dist.lib.dir" value="${dist.dir}/lib" />
 	<property name="dist.eejb.conf.dir" value="${dist.dir}/bootstrap" />
 	<property name="dist.drools.dir" value="${dist.dir}/drools" />
@@ -142,6 +143,7 @@
 		<delete dir="${coverage.dir}" quiet="${quietclean}" />
 		<delete file="coverage.ec" failonerror="false" quiet="${quietclean}" />
 		<delete dir="${ui.dir}/target" quiet="${quietclean}"/>
+		<cleanexample name="integration" path="${seam.dir}/src/test/integration" message="" />
 	</target>
 	
 	<target name="clean.lib" if="mavenized.property">
@@ -358,7 +360,6 @@
 		<testexample name="registration" />
 		<testexample name="todo" />
 		<testexample name="blog" />
-		<testexample name="ui" />
 		<testexample name="seamdiscs" />
 		<testexample name="seambay" />
 		<testexample name="seamspace" />
@@ -571,11 +572,11 @@
 	<!-- ########################### TEST TARGETS ###########################-->
 
 	<target name="compiletest" depends="inittestcore,select-compiler,antlr">
-		<compile classesdir="${classes.test.dir}" srcdir="${src.test.dir}" classpath="test.compile.path" />
+		<compile classesdir="${classes.test.dir}" srcdir="${src.unit.test.dir}" classpath="test.compile.path" />
 	</target>
 
 	<target name="inittestcore" depends="build">
-		<init classesdir="${classes.test.dir}" srcdir="${src.test.dir}" modulename="core" pom="${core.pom}" scope="test" message="" />
+		<init classesdir="${classes.test.dir}" srcdir="${src.unit.test.dir}" modulename="core" pom="${core.pom}" scope="test" message="" />
 		<copy todir="${classes.test.core.dir}">
 			<fileset dir="${classes.core.dir}" includes="**/*.*" />
 		</copy>
@@ -603,6 +604,7 @@
 			</classpath>
 			<xmlfileset dir="${classes.test.dir}" includes="**/testng.xml" />
 		</testng>
+		<testexample name="integration" path="${seam.dir}/src/test/integration" message=""/>
 	</target>
 
 	<target name="testreport" description="Create a pretty report">
@@ -769,8 +771,9 @@
 	<macrodef name="cleanexample">
 		<attribute name="name" />
 		<attribute name="path" default="examples/@{name}" />
+		<attribute name="message" default="Running tests on @{name} example" />
 		<sequential>
-			<echo>Cleaning @{name} example</echo>
+			<echo>@{message}</echo>
 			<callExample path="@{path}" target="clean" />
 		</sequential>
 	</macrodef>
@@ -799,8 +802,9 @@
 	<macrodef name="testexample">
 		<attribute name="name" />
 		<attribute name="path" default="examples/@{name}" />
+		<attribute name="message" default="Running tests on @{name} example" />
 		<sequential>
-			<echo>Running tests on @{name} example</echo>
+			<echo>@{message}</echo>
 			<callExample path="@{path}" target="test" />
 		</sequential>
 	</macrodef>

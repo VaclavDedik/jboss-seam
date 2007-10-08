@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+
+<suite name="Seam Core Tests" verbose="2" parallel="false">
+
+   <test name="Integration">
+     <classes>
+       <class name="org.jboss.seam.test.integration.PageContextTest"/>
+       <class name="org.jboss.seam.test.integration.MiscTests"/>
+     </classes>
+   </test>
+	
+</suite>
