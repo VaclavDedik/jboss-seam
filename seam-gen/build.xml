@@ -180,7 +180,7 @@
         <property name="old.richfaces.skin" value="blueSky"/>
         <input addproperty="richfaces.skin.new" 
                    message="Select a RichFaces skin (not applicable if using ICEFaces) [${old.richfaces.skin}]" 
-                 validargs="blueSky,classic,ruby,wine,deepMarine,emeraldTown,sakura,default"
+                 validargs="blueSky,classic,ruby,wine,deepMarine,emeraldTown,sakura,DEFAULT"
               defaultvalue="${old.richfaces.skin}"/>
         
         <property name="old.project.type" value="ear"/>
