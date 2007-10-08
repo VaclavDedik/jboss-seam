@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="SeamDiscs" verbose="2" parallel="false">
+    <test name="SeamDiscs: Functional Tests">
+      
+        <parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>
+    
+        <classes>
+            <class name="org.jboss.seam.example.seamdiscs.test.DisplayTest" />
+            <class name="org.jboss.seam.example.seamdiscs.test.EditTest" />
+        </classes>
+    </test>
+</suite>

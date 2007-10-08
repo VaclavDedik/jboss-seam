@@ -359,7 +359,7 @@
 		<testexample name="todo" />
 		<testexample name="blog" />
 		<testexample name="ui" />
-		<!--<testexample name="seamdiscs" />-->
+		<testexample name="seamdiscs" />
 		<testexample name="seambay" />
 		<testexample name="seamspace" />
 		<testexample name="drools" />

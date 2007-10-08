@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Seamdiscs" default="deploy" basedir=".">
+<project name="Seamdiscs" default="restart" basedir=".">
 
     <!-- Example name -->
     <property name="Name"                   value="Seamdiscs"/>
@@ -28,7 +28,9 @@
 		</fileset>	
 	</path>
 	
-	
+	<patternset id="test.resources.files">
+      <exclude name="import.sql" />
+    </patternset>
 	
 </project>
 
