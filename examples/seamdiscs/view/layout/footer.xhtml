@@ -117,21 +117,31 @@
 &lt;/module&gt;</code></pre>
     </rich:modalPanel>
     
-    <rich:modalPanel id="ajax" width="450" height="230">
+    <rich:modalPanel id="ajax" width="450" height="370">
 		<f:facet name="header">
-			RichFaces Ajax and Trinidad: Different partial page models
+			RichFaces Ajax and Trinidad
 		</f:facet>
 		<f:facet name="controls">
 	        <a href="javascript:Richfaces.hideModalPanel('ajax')">X</a>
 	    </f:facet>
     	<p>Trinidad and RichFaces Ajax both provide partial page refresh and submit.  For Trinidad PPR to work, it needs to be surrounded by a component
     	which enables PPR.  The example uses <code>&lt;tr:panelPartialRoot /&gt;</code> to achieve this:</p>
-    	<pre class="source-code"><code>
-&lt;tr:panelPartialRoot&gt;
+    	<pre class="source-code"><code>&lt;tr:panelPartialRoot&gt;
    &lt;tr:form&gt;
       &lt;tr:table value=&quot;#<span>{artists.dataModel}</span>&quot; var=&quot;artist&quot;&gt;
          &lt;tr:column&gt;
             ...</code></pre>
+        <p>
+          If you want to use RichFaces' partial page refresh with Trinidad
+          components then you'll need to disable Trinidad's compressed style 
+          keys:
+        </p>
+        <pre class="source-code"><code>&lt;context-param&gt;
+   &lt;param-name&gt;
+      org.apache.myfaces.trinidadinternal.DISABLE_CONTENT_COMPRESSION
+   &lt;/param-name&gt;
+   &lt;param-value&gt;true&lt;/param-value&gt;
+&lt;/context-param&gt;</code></pre>
     </rich:modalPanel>
     
     <rich:modalPanel id="inplace" width="450" height="300">
