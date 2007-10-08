@@ -159,12 +159,15 @@ public class RuleBasedIdentity extends Identity
    @Override
    public boolean hasRole(String role)
    {
-      Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class));
-      
-      while (iter.hasNext())
+      if (securityContext != null)
       {
-         Role r = iter.next();
-         if (r.getName().equals(role)) return true;
+         Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class));
+         
+         while (iter.hasNext())
+         {
+            Role r = iter.next();
+            if (r.getName().equals(role)) return true;
+         }
       }
       
       return super.hasRole(role);
