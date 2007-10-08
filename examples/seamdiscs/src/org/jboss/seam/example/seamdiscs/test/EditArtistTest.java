@@ -5,8 +5,6 @@ package org.jboss.seam.example.seamdiscs.test;
 
 import javax.el.PropertyNotFoundException;
 
-import org.jboss.seam.framework.EntityHome;
-import org.jboss.seam.framework.Home;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
@@ -14,7 +12,7 @@ import org.testng.annotations.Test;
  * @author Pete Muir
  *
  */
-public class EditTest extends DBUnitSeamTest{
+public class EditArtistTest extends DBUnitSeamTest{
     
     private static final String NEW_DESCRIPTION_1 = "A great band";
 

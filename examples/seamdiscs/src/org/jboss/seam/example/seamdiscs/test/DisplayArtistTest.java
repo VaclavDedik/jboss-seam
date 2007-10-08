@@ -12,7 +12,7 @@ import org.jboss.seam.example.seamdiscs.model.Band;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
-public class DisplayTest extends DBUnitSeamTest
+public class DisplayArtistTest extends DBUnitSeamTest
 {
     
     @Override
