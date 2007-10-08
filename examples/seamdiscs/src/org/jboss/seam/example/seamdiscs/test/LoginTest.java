@@ -1,9 +1,9 @@
-/**
- * 
- */
 package org.jboss.seam.example.seamdiscs.test;
 
-import static org.jboss.seam.example.seamdiscs.test.TestStrings.*;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.PASSWORD;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.USERNAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.WRONG_PASSWORD;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.WRONG_USERNAME;
 
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;

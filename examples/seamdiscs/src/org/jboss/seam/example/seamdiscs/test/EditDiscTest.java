@@ -3,11 +3,17 @@
  */
 package org.jboss.seam.example.seamdiscs.test;
 
-import javax.el.PropertyNotFoundException;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.ARTIST6_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC4_ARTIST;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC4_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC4_NEW_DESCRIPTION;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.NEW_DISC_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.PASSWORD;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.USERNAME;
+
 import javax.faces.model.DataModel;
 
-import static org.jboss.seam.example.seamdiscs.test.TestStrings.*;
-
+import org.jboss.seam.example.seamdiscs.model.Artist;
 import org.jboss.seam.example.seamdiscs.model.Disc;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
@@ -69,6 +75,10 @@ public class EditDiscTest extends DBUnitSeamTest{
             protected void updateModelValues() throws Exception 
             {
                 setValue("#{disc.description}", DISC4_NEW_DESCRIPTION);
+                // Simulate the entity converter
+                setValue("#{exampleArtist.name}", ARTIST6_NAME);
+                Artist artist = (Artist) getValue("#{artists.singleResult}");
+                setValue("#{disc.artist}", artist);
                 assert isLongRunningConversation();
                 assert cid.equals(getConversationId());
             }
@@ -83,6 +93,7 @@ public class EditDiscTest extends DBUnitSeamTest{
             protected void renderResponse() throws Exception 
             {
                 assert DISC4_NEW_DESCRIPTION.equals(getValue("#{disc.description"));
+                assert DISC4_ARTIST.equals(getValue("#{disc.artist.name}"));
                 assert isLongRunningConversation();
             }
             

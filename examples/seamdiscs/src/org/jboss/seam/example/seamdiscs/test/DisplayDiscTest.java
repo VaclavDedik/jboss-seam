@@ -1,10 +1,24 @@
 package org.jboss.seam.example.seamdiscs.test;
 
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC1_ARTIST;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC1_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC2_ARTIST;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC2_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC3_ARTIST;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC3_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC4_ARTIST;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC4_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC5_ARTIST;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC5_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC6_ARTIST;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.DISC6_NAME;
+
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.example.seamdiscs.model.Disc;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
+
 
 public class DisplayDiscTest extends DBUnitSeamTest
 {
@@ -33,12 +47,12 @@ public class DisplayDiscTest extends DBUnitSeamTest
                 assert dataModel.getRowCount() == 6;
                 
                 // Check for correct ordering
-                assertDisc(dataModel, 0, "Blood on the Tracks", "Bob Dylan");
-                assertDisc(dataModel, 1, "Chavez Ravine", "Ry Cooder");
-                assertDisc(dataModel, 2, "Dark Side of the Moon", "Pink Floyd");
-                assertDisc(dataModel, 3, "Liege and Lief", "Fairport Convention");
-                assertDisc(dataModel, 4, "The Freewheelin' Bob Dylan", "Bob Dylan");
-                assertDisc(dataModel, 5, "The Wall", "Pink Floyd");
+                assertDisc(dataModel, 0, DISC5_NAME, DISC5_ARTIST);
+                assertDisc(dataModel, 1, DISC6_NAME, DISC6_ARTIST);
+                assertDisc(dataModel, 2, DISC1_NAME, DISC1_ARTIST);
+                assertDisc(dataModel, 3, DISC2_NAME, DISC2_ARTIST);
+                assertDisc(dataModel, 4, DISC4_NAME, DISC4_ARTIST);
+                assertDisc(dataModel, 5, DISC3_NAME, DISC3_ARTIST);
             }
             
         }.run();
@@ -65,7 +79,7 @@ public class DisplayDiscTest extends DBUnitSeamTest
                 object = getValue("#{disc}");
                 assert object instanceof Disc;
                 Disc disc1 = (Disc) object;
-                assert "The Wall".equals(disc1.getName());
+                assert DISC3_NAME.equals(disc1.getName());
             }
         }.run();
     }

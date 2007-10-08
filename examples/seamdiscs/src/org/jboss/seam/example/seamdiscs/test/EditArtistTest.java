@@ -3,8 +3,23 @@
  */
 package org.jboss.seam.example.seamdiscs.test;
 
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.ARTIST1_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.ARTIST4_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.ARTIST_NEW_DESCRIPTION;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.BANDMEMBER3_VALUE;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.NEW_ARTIST_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.NEW_BANDMEMBER_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.NEW_BAND_NAME;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.PASSWORD;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.PERSISTED;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.UPDATED;
+import static org.jboss.seam.example.seamdiscs.test.TestStrings.USERNAME;
+
+import java.util.List;
+
 import javax.el.PropertyNotFoundException;
 
+import org.jboss.seam.example.seamdiscs.model.BandMember;
 import org.jboss.seam.mock.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
@@ -12,12 +27,14 @@ import org.testng.annotations.Test;
  * @author Pete Muir
  *
  */
-public class EditArtistTest extends DBUnitSeamTest{
+public class EditArtistTest extends DBUnitSeamTest
+{
     
-    private static final String NEW_DESCRIPTION_1 = "A great band";
+    
 
     @Override
-    protected void prepareDBUnitOperations() {
+    protected void prepareDBUnitOperations() 
+    {
         beforeTestOperations.add(
                 new DataSetOperation("org/jboss/seam/example/seamdiscs/test/BaseData.xml")
         );
@@ -37,8 +54,8 @@ public class EditArtistTest extends DBUnitSeamTest{
             
             @Override
             protected void updateModelValues() throws Exception {
-                setValue("#{identity.username}", "administrator");
-                setValue("#{identity.password}", "administrator");
+                setValue("#{identity.username}", USERNAME);
+                setValue("#{identity.password}", PASSWORD);
             }
             
             @Override
@@ -52,7 +69,7 @@ public class EditArtistTest extends DBUnitSeamTest{
             {
                 assert (Boolean) getValue("#{identity.loggedIn}");
                 assert ((Integer) 1).equals(getValue("#{artistHome.id}"));
-                assert "Pink Floyd".equals(getValue("#{artist.name}"));
+                assert ARTIST1_NAME.equals(getValue("#{artist.name}"));
                 assert getValue("#{artist.description}") == null;
                 assert isLongRunningConversation();
                 assert (Boolean) getValue("#{artistHome.managed}");
@@ -66,7 +83,7 @@ public class EditArtistTest extends DBUnitSeamTest{
             @Override
             protected void updateModelValues() throws Exception 
             {
-                setValue("#{artist.description}", NEW_DESCRIPTION_1);
+                setValue("#{artist.description}", ARTIST_NEW_DESCRIPTION);
                 assert isLongRunningConversation();
                 assert cid.equals(getConversationId());
             }
@@ -74,13 +91,13 @@ public class EditArtistTest extends DBUnitSeamTest{
             @Override
             protected void invokeApplication() throws Exception 
             {
-                assert "updated".equals(invokeAction("#{artistHome.update}"));
+                assert UPDATED.equals(invokeAction("#{artistHome.update}"));
             }
             
             @Override
             protected void renderResponse() throws Exception 
             {
-                assert NEW_DESCRIPTION_1.equals(getValue("#{artist.description"));
+                assert ARTIST_NEW_DESCRIPTION.equals(getValue("#{artist.description"));
                 assert isLongRunningConversation();
             }
             
@@ -100,8 +117,8 @@ public class EditArtistTest extends DBUnitSeamTest{
             
             @Override
             protected void updateModelValues() throws Exception {
-                setValue("#{identity.username}", "administrator");
-                setValue("#{identity.password}", "administrator");
+                setValue("#{identity.username}", USERNAME);
+                setValue("#{identity.password}", PASSWORD);
             }
             
             @Override
@@ -127,20 +144,20 @@ public class EditArtistTest extends DBUnitSeamTest{
             @Override
             protected void updateModelValues() throws Exception 
             {
-                setValue("#{artist.name}", "Pete Muir");
+                setValue("#{artist.name}", NEW_ARTIST_NAME);
                 assert isLongRunningConversation();
             }
             
             @Override
             protected void invokeApplication() throws Exception 
             {
-                assert "persisted".equals(invokeAction("#{artistHome.persist}"));
+                assert PERSISTED.equals(invokeAction("#{artistHome.persist}"));
             }
             
             @Override
             protected void renderResponse() throws Exception 
             {
-                assert "Pete Muir".equals(getValue("#{artist.name}"));
+                assert NEW_ARTIST_NAME.equals(getValue("#{artist.name}"));
             }
             
         }.run();
@@ -152,8 +169,8 @@ public class EditArtistTest extends DBUnitSeamTest{
             protected void renderResponse() throws Exception 
             {
                 assert new Long("7").equals(getValue("#{artists.resultCount}"));
-                assert "Pete Muir".equals(getValue("#{artists.resultList[3].name}"));
-                assert "Led Zepplin".equals(getValue("#{artists.resultList[4].name}"));
+                assert NEW_ARTIST_NAME.equals(getValue("#{artists.resultList[3].name}"));
+                assert ARTIST4_NAME.equals(getValue("#{artists.resultList[4].name}"));
             }
             
         }.run();        
@@ -173,8 +190,8 @@ public class EditArtistTest extends DBUnitSeamTest{
             
             @Override
             protected void updateModelValues() throws Exception {
-                setValue("#{identity.username}", "administrator");
-                setValue("#{identity.password}", "administrator");
+                setValue("#{identity.username}", USERNAME);
+                setValue("#{identity.password}", PASSWORD);
                 setValue("#{artistHome.type}", "band");
             }
             
@@ -209,20 +226,20 @@ public class EditArtistTest extends DBUnitSeamTest{
             @Override
             protected void updateModelValues() throws Exception 
             {
-                setValue("#{artist.name}", "Pete Muir's Band");
+                setValue("#{artist.name}", NEW_BAND_NAME);
                 assert isLongRunningConversation();
             }
             
             @Override
             protected void invokeApplication() throws Exception 
             {
-                assert "persisted".equals(invokeAction("#{artistHome.persist}"));
+                assert PERSISTED.equals(invokeAction("#{artistHome.persist}"));
             }
             
             @Override
             protected void renderResponse() throws Exception 
             {
-                assert "Pete Muir's Band".equals(getValue("#{artist.name}"));
+                assert NEW_BAND_NAME.equals(getValue("#{artist.name}"));
                 assert ((Integer) 0).equals("#{artist.bandMembers.size}");
             }
             
@@ -235,8 +252,8 @@ public class EditArtistTest extends DBUnitSeamTest{
             protected void renderResponse() throws Exception 
             {
                 assert new Long("7").equals(getValue("#{artists.resultCount}"));
-                assert "Pete Muir's Band".equals(getValue("#{artists.resultList[3].name}"));
-                assert "Led Zepplin".equals(getValue("#{artists.resultList[4].name}"));
+                assert NEW_BAND_NAME.equals(getValue("#{artists.resultList[3].name}"));
+                assert ARTIST4_NAME.equals(getValue("#{artists.resultList[4].name}"));
             }
             
         }.run();
@@ -256,8 +273,8 @@ public class EditArtistTest extends DBUnitSeamTest{
             
             @Override
             protected void updateModelValues() throws Exception {
-                setValue("#{identity.username}", "administrator");
-                setValue("#{identity.password}", "administrator");
+                setValue("#{identity.username}", USERNAME);
+                setValue("#{identity.password}", PASSWORD);
             }
             
             @Override
@@ -269,7 +286,7 @@ public class EditArtistTest extends DBUnitSeamTest{
             @Override
             protected void renderResponse() throws Exception 
             {
-                assert "Pink Floyd".equals(getValue("#{artist.name}"));
+                assert ARTIST1_NAME.equals(getValue("#{artist.name}"));
                 assert ((Integer) 3).equals(getValue("#{artist.bandMembers.size}"));
             }
         }.run();
@@ -297,7 +314,7 @@ public class EditArtistTest extends DBUnitSeamTest{
             @Override
             protected void updateModelValues() throws Exception 
             {
-                setValue("#{artist.bandMembers[3].name}", "Pete Muir");
+                setValue("#{artist.bandMembers[3].name}", NEW_BANDMEMBER_NAME);
             }
             
             @Override
@@ -310,11 +327,27 @@ public class EditArtistTest extends DBUnitSeamTest{
             protected void renderResponse() throws Exception 
             {
                 assert ((Integer) 4).equals(getValue("#{artist.size}"));
-                assert "Pete Muir".equals(getValue("#{artist.bandMembers[3].name}"));
+                assert NEW_BANDMEMBER_NAME.equals(getValue("#{artist.bandMembers[3].name}"));
             }
             
         }.run();
 
     }
     
+    @Test
+    public void testBandMemberFinder() throws Exception
+    {
+        new NonFacesRequest("/artist.xhtml")
+        {
+            
+            @Override
+            protected void renderResponse() throws Exception 
+            {
+                List<BandMember> bandMembers = (List<BandMember>) invokeMethod("#{bandMemberFinder.getBandMembers('R')}");
+                assert bandMembers.size() == 1;
+                assert BANDMEMBER3_VALUE.equals(bandMembers.get(0).getName());
+            }
+            
+        }.run();
+    }
 }
