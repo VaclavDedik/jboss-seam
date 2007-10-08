@@ -33,7 +33,7 @@ import javax.faces.convert.Converter;
 
 import javax.faces.model.DataModel;
 
-import org.jboss.seam.framework.EntityQuery;
+import org.jboss.seam.framework.Query;
 import org.jboss.seam.ui.converter.ConverterChain;
 import org.jboss.seam.ui.converter.NoSelectionConverter;
 
@@ -123,9 +123,9 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
          {
             value = asSelectItems((Iterable) ((DataModel) originalValue).getWrappedData()); 
          }
-         else if (originalValue instanceof EntityQuery)
+         else if (originalValue instanceof Query)
          {
-            value = asSelectItems(((EntityQuery) originalValue).getResultList());
+            value = asSelectItems(((Query) originalValue).getResultList());
          }
          else if (originalValue != null && originalValue.getClass().isArray())
          {
