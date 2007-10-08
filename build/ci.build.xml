@@ -41,9 +41,9 @@
 		<ant target="deploySeamSnapshot" antfile="${ant.file}">
 			<property name="qualifier" value="-SNAPSHOT"/>
 		</ant>
-		<antcall target="tests" antfile="${ant.file}">
+		<ant target="tests" antfile="${ant.file}">
 			<property name="qualifier" value="-SNAPSHOT"/>
-		</antcall>
+		</ant>
 	</target>
 
 	<macrodef name="build">
