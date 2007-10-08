@@ -131,7 +131,7 @@ svc.setConversational(true);
 svc = new ServiceMetadata("getNewAuctionDetails", "Create Auction");
 svc.setDescription("Get the auction details");
 svc.setRequest("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" " +
-               "\n    xmlns:sbm=\"http://seambay.example.seam.jboss.org/\">" +
+               "\n    xmlns:sb=\"http://seambay.example.seam.jboss.org/\">" +
                "\n  <soapenv:Header>" +
                "\n    <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>#{conversationId}</seam:conversationId>" +
                "\n  </soapenv:Header>" +
