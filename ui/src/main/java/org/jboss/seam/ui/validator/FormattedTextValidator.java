@@ -100,7 +100,6 @@ public class FormattedTextValidator implements javax.faces.validator.Validator,
         String msg = re.getMessage() + " at '" + (beginIndex == 0 ? "" : "...")
                 + originalText.substring(beginIndex, endIndex)
                 + (endIndex == originalText.length() ? "" : "...") + "'";
-        return msg.replace("\n", " ").replace("\r", " ").replace("\uFFFF",
-                "[END OF TEXT]");
+        return msg.replace("\n", " ").replace("\r", " ").replace("\uFFFF","[END OF TEXT]").replace("#{", "# {");
     }
 }
