@@ -9,6 +9,8 @@ import javax.faces.context.ResponseWriter;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ui.component.UIDecorate;
 import org.jboss.seam.ui.util.Decoration;
+import org.jboss.seam.ui.util.HTML;
+import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 
 public class DecorateRendererBase extends RendererBase
@@ -31,6 +33,14 @@ public class DecorateRendererBase extends RendererBase
       boolean hasMessage = decorate.hasMessage();
       
       writer.startElement("div", decorate);
+      if (decorate.getStyleClass() != null)
+      {
+          writer.writeAttribute(HTML.STYLE_CLASS_ATTR, decorate.getStyleClass(), HTML.STYLE_CLASS_ATTR);
+      }
+      if (decorate.getStyle() != null)
+      {
+          writer.writeAttribute(HTML.STYLE_ATTR, decorate.getStyle(), HTML.STYLE_ATTR);
+      }
       writer.writeAttribute("id", decorate.getClientId(context), "id");
       
       UIComponent aroundDecoration = decorate.getDecoration("aroundField");

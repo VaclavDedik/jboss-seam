@@ -65,6 +65,14 @@ public abstract class UIDecorate extends UIComponentBase implements NamingContai
 
    public abstract void setFor(String forId);
    
+   public abstract String getStyleClass();
+   
+   public abstract void setStyleClass(String styleClass);
+   
+   public abstract String getStyle();
+   
+   public abstract void setStyle(String style);
+   
 
    public UIComponent getDecoration(String name)
    {

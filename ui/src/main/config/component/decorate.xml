@@ -28,6 +28,7 @@
 		</taghandler>
 		
 		&ui_component_attributes;
+        &html_style_attributes;
 		<property attachedstate="true">
 			<name>for</name>
 			<classname>java.lang.String</classname>
