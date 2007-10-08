@@ -159,3 +159,29 @@ Changes to Seam UI
 * s:decorate has become a naming container.  Therefore client ids have changed 
   from fooForm:fooInput to fooForm:foo:fooInput (assuming your s:decorate has
   foo as an id.
+
+Changes to seam-gen
+-------------------
+
+There was a change in seam-gen starting with Seam 2.0.0.CR2 regarding
+how the generated classes are organized when generate-entities is
+executed.
+
+Old way:
+
+  src/model/com/domain/projectname/model/EntityName.java
+  src/action/com/domain/projectname/model/EntityNameHome.java
+  src/action/com/domain/projectname/model/EntityNameList.java
+
+New way:
+
+  src/model/com/domain/projectname/model/EntityName.java
+  src/action/com/domain/projectname/action/EntityNameHome.java
+  src/action/com/domain/projectname/action/EntityNameList.java
+
+Home and Query objects are "action" components, not "model" components
+and are therefore placed in the action package. This change makes the
+convensions followed by generate-entities consistent with the convensions
+used in the new-entity command.
+
+Remember, model classes are kept separate because they cannot be hot reloaded.
