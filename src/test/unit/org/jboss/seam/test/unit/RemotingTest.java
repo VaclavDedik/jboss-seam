@@ -828,7 +828,7 @@ public class RemotingTest
 
          // Now constrain all secrets
          constraints = Arrays
-               .asList(new String[] { "[org.jboss.seam.test.Widget].secret" });
+               .asList(new String[] { "[" + Widget.class.getName() + "].secret" });
          MarshalUtils.marshalResult(null, new CallContext(), out, result,
                constraints);
 
