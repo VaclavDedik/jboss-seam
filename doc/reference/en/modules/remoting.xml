@@ -85,12 +85,10 @@ public interface HelloLocal {
   public String sayHello(String name);
 }]]></programlisting>
 
-      <para> That's all the server-side code we need to write. Now for our web page - create a new page and import the
-        following scripts: </para>
+      <para> That's all the server-side code we need to write. Now for our web page - create a new page and import the 
+          <literal>helloAction</literal> component: </para>
 
-      <programlisting><![CDATA[<script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>
-<script type="text/javascript" 
-        src="seam/resource/remoting/interface.js?helloAction"></script>]]></programlisting>
+      <programlisting><![CDATA[<s:remote include="helloAction"/>]]></programlisting>
 
       <para> To make this a fully interactive user experience, let's add a button to our page: </para>
 
@@ -282,18 +280,26 @@ else if (Seam.Component.getComponentName(instance) == "staff")
     
     <para>
       In this example, the expression <literal>#{customers}</literal> is evaluated by Seam, and the value of the expression
-      (in this case a list of Customer objects) is returned to the <literal>customersCallback()</literal> method.
+      (in this case a list of Customer objects) is returned to the <literal>customersCallback()</literal> method.  It is 
+      important to remember that the objects returned this way must have their types imported (via <literal>s:remote</literal>)
+      to be able to work with them in Javascript.  So to work with a list of <literal>customer</literal> objects,
+      it is required to import the <literal>customer</literal> type:
     </para>
+    
+    <programlisting><![CDATA[<s:remote include="customer"/>]]></programlisting>
   </sect1>
 
   <sect1>
     <title>Client Interfaces</title>
 
-    <para> In the configuration section above, the interface, or "stub" for our component is imported into our page via
-        <literal>seam/resource/remoting/interface.js</literal>: </para>
+    <para> In the configuration section above, the interface, or "stub" for our component is imported into our page 
+        either via <literal>seam/resource/remoting/interface.js</literal>: </para> or using the <literal>s:remote</literal>
+        tag:
 
     <programlisting><![CDATA[<script type="text/javascript" 
         src="seam/resource/remoting/interface.js?customerAction"></script>]]></programlisting>
+        
+    <programlisting><![CDATA[<s:remote include="customerAction"/>]]></programlisting>
 
     <para> By including this script in our page, the interface definitions for our component, plus any other components
       or types that are required to execute the methods of our component are generated and made available for the
@@ -423,8 +429,7 @@ public class MyAction implements MyActionLocal {
         referenced by any of its methods. To get around this, <literal>MyWidget</literal> needs to be explicitly
         imported: </para>
 
-      <programlisting><![CDATA[<script type="text/javascript" 
-                                       src="seam/resource/remoting/interface.js?myAction&myWidget"></script>]]></programlisting>
+      <programlisting><![CDATA[<s:remote include="myAction,myWidget"/>]]></programlisting>
 
       <para> This will then allow a <literal>myWidget</literal> object to be created with
           <literal>Seam.Component.newInstance("myWidget")</literal>, which can then be passed to
