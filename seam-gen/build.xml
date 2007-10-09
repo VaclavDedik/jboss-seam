@@ -255,27 +255,25 @@
         	<equals arg1="${database.type.new}" arg2="enterprisedb"/>
         </condition>
 
+        <!-- hibernate tools now correct detects the three available dialects; this detection may no longer be needed -->
+        <!--
         <condition property="hibernatetool.metadatadialect.new" value="org.hibernate.cfg.reveng.dialect.H2MetaDataDialect">
             <equals arg1="${database.type.new}" arg2="h2"/>
         </condition>
         <condition property="hibernatetool.metadatadialect.new" value="org.hibernate.cfg.reveng.dialect.MySQLMetaDataDialect">
             <equals arg1="${database.type.new}" arg2="mysql"/>
         </condition>
-        <!-- The Oracle dialect is available, but needs to be tested/verified -->
-        <!--
         <condition property="hibernatetool.metadatadialect.new" value="org.hibernate.cfg.reveng.dialect.OracleMetaDataDialect">
             <equals arg1="${database.type.new}" arg2="oracle"/>
         </condition>
-        -->
         <condition property="hibernatetool.metadatadialect.new" value="">
             <and>
                 <not><equals arg1="${database.type.new}" arg2="h2" /></not>
                 <not><equals arg1="${database.type.new}" arg2="mysql" /></not>
-                <!--
                 <not><equals arg1="${database.type.new}" arg2="oracle" /></not>
-                -->
             </and>
         </condition>
+        -->
 
     	<condition property="hibernate.connection.driver_class.default" value="org.h2.Driver">
     		<equals arg1="${database.type.new}" arg2="h2"/>
@@ -405,12 +403,14 @@
     	    <equals arg1="${hibernate.default_catalog.new}" arg2=""/>
     	</condition>
 
-    	<condition property="hibernatetool.metadatadialect.key" value="hibernatetool.metadatadialect">
-    	    <not><equals arg1="${hibernatetool.metadatadialect.new}" arg2=""/></not>
-    	</condition>
-    	<condition property="hibernatetool.metadatadialect.key" value="hibernatetool.metadatadialect.null">
-    	    <equals arg1="${hibernatetool.metadatadialect.new}" arg2=""/>
-    	</condition>
+        <!--
+        <condition property="hibernatetool.metadatadialect.key" value="hibernatetool.metadatadialect">
+            <not><equals arg1="${hibernatetool.metadatadialect.new}" arg2=""/></not>
+        </condition>
+        <condition property="hibernatetool.metadatadialect.key" value="hibernatetool.metadatadialect.null">
+            <equals arg1="${hibernatetool.metadatadialect.new}" arg2=""/>
+        </condition>
+        -->
         
         <property name="old.icefaces.home" value=""/>
         <input addproperty="icefaces.home.new"
@@ -434,7 +434,7 @@
             <entry key="database.drop" value="${database.drop.new}"/>
             <entry key="driver.jar" value="${driver.jar.new}"/>
             <entry key="hibernate.dialect" value="${hibernate.dialect.new}"/>
-            <entry key="${hibernatetool.metadatadialect.key}" value="${hibernatetool.metadatadialect.new}" />
+            <!--<entry key="${hibernatetool.metadatadialect.key}" value="${hibernatetool.metadatadialect.new}" />-->
             <entry key="hibernate.connection.driver_class" value="${hibernate.connection.driver_class.new}"/>
             <entry key="hibernate.connection.url" value="${hibernate.connection.url.new}"/>
             <entry key="hibernate.connection.username" value="${hibernate.connection.username.new}"/>
