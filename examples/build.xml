@@ -834,7 +834,7 @@
 				<exclude name="jboss-seam-ui.jar" />
 			</fileset>
 			<path path="${eejb.conf.dir}" />
-			
+			<path refid="test.classpath.extras" />
 			<path refid="build.classpath.extras" />
 			<path refid="emma.classpath" />
 		<path location="${seam.dir}/src/test/resources/log4j.xml" />
