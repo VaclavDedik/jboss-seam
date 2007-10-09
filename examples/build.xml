@@ -395,7 +395,7 @@
 	
 	<!-- files from the view/ directory to copy to the test environment, by default *.xml -->
 	<patternset id="test.view.files">
-		<include name="**/*.xml" />
+		<include name="**/*.page.xml" />
 	</patternset>
 
 	<!-- Build classpath -->
@@ -830,6 +830,8 @@
 				<exclude name="jboss-container.jar" />
 				<exclude name="hibernate.jar" />
 				<exclude name="hibernate-annotations.jar" />
+				<!-- Don't include seam-ui -->
+				<exclude name="jboss-seam-ui.jar" />
 			</fileset>
 			<path path="${eejb.conf.dir}" />
 			
