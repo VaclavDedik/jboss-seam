@@ -316,6 +316,7 @@
 		<cleanexample name="quartz" />
 		<cleanexample name="wiki" />
 		<cleanexample name="seamdiscs" />
+		<cleanexample name="icefaces" />
 	</target>
 
 	<target name="undeployall" description="Undeploy all examples">
@@ -343,6 +344,7 @@
 		<undeployexample name="quartz" />
 		<callExample path="examples/wiki" target="undeploy" />
 		<undeployexample name="seamdiscs" />
+		<undeployexample name="icefaces" />
 	</target>
 
 	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
