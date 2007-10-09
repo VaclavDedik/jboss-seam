@@ -17,6 +17,7 @@ import javax.faces.application.NavigationHandler;
 import javax.faces.application.StateManager;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIOutput;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.BigDecimalConverter;
 import javax.faces.convert.BigIntegerConverter;
@@ -51,7 +52,7 @@ import org.jboss.seam.util.Reflections;
 public class MockApplication extends Application
 {
    
-   private javax.el.CompositeELResolver elResolver; 
+   private javax.el.CompositeELResolver elResolver;
    
    public MockApplication()
    {
@@ -244,7 +245,23 @@ public class MockApplication extends Application
    @Override
    public UIComponent createComponent(String name) throws FacesException
    {
-      throw new UnsupportedOperationException();
+      // Best guess component creation with a dummy component if it can't be found
+      if (name.startsWith("org.jboss.seam.mail.ui"))
+      {
+        try
+        {
+           return (UIComponent) Class.forName(name).newInstance();
+        } 
+        catch (Exception e)
+        {
+           throw new UnsupportedOperationException("Unable to create component " + name);
+        }
+      }
+      else
+      {
+         // Oh well, can't simply create the component so put a dummy one in its place
+         return new UIOutput();
+      }
    }
 
    @Override

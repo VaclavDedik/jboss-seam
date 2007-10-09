@@ -113,6 +113,7 @@
 		<include name="**/*.tld" />
 		<include name="**/*.xslt" />
 		<include name="**/*.properties" />
+		<include name="**/*.providers" />
 		<include name="**/*.js" />
 		<include name="**/*.html" />
 		<include name="**/*.xhtml" />
@@ -364,6 +365,7 @@
 		<testexample name="seambay" />
 		<testexample name="seamspace" />
 		<testexample name="drools" />
+		<testexample name="mail" />
 		<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>
@@ -771,7 +773,7 @@
 	<macrodef name="cleanexample">
 		<attribute name="name" />
 		<attribute name="path" default="examples/@{name}" />
-		<attribute name="message" default="Running tests on @{name} example" />
+		<attribute name="message" default="Cleaning on @{name} example" />
 		<sequential>
 			<echo>@{message}</echo>
 			<callExample path="@{path}" target="clean" />

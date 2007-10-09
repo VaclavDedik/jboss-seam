@@ -14,6 +14,11 @@
 	<property name="facelets.lib" value="yes" />
 
 	<import file="../build.xml" />
+  
+    <patternset id="test.view.files">
+      <include name="**/*.xml" />
+      <include name="**/*.xhtml" />
+    </patternset>
 
 </project>
 

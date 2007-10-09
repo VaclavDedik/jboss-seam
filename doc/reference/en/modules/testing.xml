@@ -398,6 +398,56 @@ public class MockPaymentProcessor extends PaymentProcessor {
           
         </section>
         
+        <section id="testing.mail">
+          <title>Integration Testing Seam Mail</title>
+          
+          <para>
+            Warning! This feature is still under development.
+          </para>
+          
+          <para>
+            It's very easy to integration test your Seam Mail:
+          </para>
+          
+          <programlisting><![CDATA[public class MailTest extends SeamTest {
+    
+   @Test
+   public void testSimpleMessage() throws Exception {
+        
+      new MailTest("/simple.xhtml") {
+
+         @Override
+         protected void updateModelValues() throws Exception {
+            setValue("#{person.firstname}", "Pete");
+            setValue("#{person.lastname}", "Muir");
+            setValue("#{person.address}", "test@example.com");
+         }
+            
+         @Override
+         protected void testMessage(MimeMessage renderedMessage) throws Exception {
+            assert renderedMessage.getAllRecipients().length == 1;
+            InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
+            assert to.getAddress().equals("test@example.com");
+         }
+            
+      }.run();       
+   }
+}]]></programlisting>
+
+          <para>
+            We create a new <literal>MailTest</literal>, providing the 
+            <literal>viewId</literal> of the mail template to render as an
+            argument.  Do your assertions in the <literal>testMessage()</literal>
+            method - the sent message is passed in as an argument.  You can of
+            course also use any of the standard JSF lifecycle methods.
+          </para>
+          
+          <para>
+            There is no support for rendering standard JSF components so you 
+            can't test the body of the mail message easily.
+          </para>
+        </section> 
+        
     </section>
 	
 </chapter>

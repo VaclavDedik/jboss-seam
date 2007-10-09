@@ -17,13 +17,13 @@ public class MockRenderKit extends RenderKit
    @Override
    public void addRenderer(String x, String y, Renderer renderer) 
    {
-      throw new UnsupportedOperationException();
+       // Do nothing
    }
 
    @Override
    public Renderer getRenderer(String x, String y) 
    {
-      throw new UnsupportedOperationException();
+      return null;
    }
 
    @Override

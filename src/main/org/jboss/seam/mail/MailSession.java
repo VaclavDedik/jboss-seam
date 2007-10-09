@@ -36,7 +36,6 @@ public class MailSession extends AbstractMutable implements Serializable
             .getLogProvider(MailSession.class);
 
     private Session session;
-
     private String host = "localhost";
     private Integer port;
     private String username;
@@ -45,6 +44,15 @@ public class MailSession extends AbstractMutable implements Serializable
     private String sessionJndiName;
     private boolean ssl;
     private boolean tls = true;
+    private String transport;
+    
+    public MailSession() {}
+    
+    // Only used for tests
+    public MailSession(String transport)
+    {
+        this.transport = transport;
+    }
 
     @Unwrap
     public Session getSession() throws NamingException
@@ -68,12 +76,13 @@ public class MailSession extends AbstractMutable implements Serializable
      * components.xml
      */
     @Create
-    public void create()
+    public MailSession create()
     {
         if (getSessionJndiName() == null)
         {
             createSession();
         }
+        return this;
     }
 
     private void createSession()
@@ -128,14 +137,7 @@ public class MailSession extends AbstractMutable implements Serializable
             }
         }
 
-        if (isSsl())
-        {
-            properties.put("mail.transport.protocol", "smtps");
-        } 
-        else
-        {
-            properties.put("mail.transport.protocol", "smtp");
-        }
+        properties.put("mail.transport.protocol", getTransport());
 
         // Authentication if required
         Authenticator authenticator = null;
@@ -267,6 +269,34 @@ public class MailSession extends AbstractMutable implements Serializable
     public void setTls(boolean tls)
     {
         this.tls = tls;
+    }
+    
+    /**
+     * Get the transport to used. If the not explicitly specified smtp or smtps
+     * is used
+     */
+    public String getTransport()
+    {
+        if (transport != null)
+        {
+            return transport;
+        }
+        if (isSsl())
+        {
+            return "smtps";
+        } 
+        else
+        {
+            return "smtp";
+        }
+    }
+    
+    /**
+     * Explicitly set the transport to use
+     */
+    public void setTransport(String transport)
+    {
+        this.transport = transport;
     }
 
     public static Session instance()

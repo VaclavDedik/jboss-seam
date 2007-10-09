@@ -18,6 +18,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
+import javax.mail.internet.MimeMessage;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.Filter;
@@ -44,9 +45,12 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.mail.MailSession;
+import org.jboss.seam.mail.MockTransport;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.servlet.SeamFilter;
 import org.jboss.seam.servlet.ServletSessionMap;
@@ -873,6 +877,34 @@ public class BaseSeamTest
          return false;
       }
 
+   }
+   
+   public abstract class MailTest extends Request
+   {
+
+       private String viewId;
+
+       public MailTest (String viewId)
+       {
+          this.viewId = viewId;
+       }
+       
+       public MailTest (String viewId, String conversationId)
+       {
+          super(conversationId);
+          this.viewId = viewId;
+       }
+
+       protected abstract void testMessage(MimeMessage renderedMessage) throws Exception;
+       
+       @Override
+       protected final void invokeApplication() throws Exception
+       {
+           Contexts.getApplicationContext().set(Seam.getComponentName(MailSession.class), new MailSession("mock").create());
+           Renderer.instance().render(viewId);
+           testMessage(MockTransport.getMailMessage());
+       }
+       
    }
 
    public void begin()

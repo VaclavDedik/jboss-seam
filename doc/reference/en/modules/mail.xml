@@ -15,6 +15,11 @@
     action. It demonstrates proper packaging, and it contains a number of 
     example that demonstrate the key features currently supported. 
   </para>
+  
+  <para>
+    You can also test your mail's using Seam's integration testing environment.
+    See <xref linkend="testing.mail" />.
+  </para>
     
   <section>
     <title>Creating a message</title>
