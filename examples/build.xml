@@ -388,9 +388,14 @@
 		<include name="**/components.xml" />
 	</patternset>
 	
-	<!-- files to use as test resources -->
+	<!-- files to use as test resources, by default everything -->
 	<patternset id="test.resources.files">
 		<include name="**/*" />
+	</patternset>
+	
+	<!-- files from the view/ directory to copy to the test environment, by default *.xml -->
+	<patternset id="test.view.files">
+		<include name="**/*.xml" />
 	</patternset>
 
 	<!-- Build classpath -->
@@ -808,7 +813,7 @@
 		</copy>
         <copy todir="${test.dir}">
             <fileset dir="${view.dir}">
-            	<include name="**/*.page.xml"/>
+            	<patternset refid="test.view.files" />
         	</fileset>
         </copy>
 	</target>
@@ -825,7 +830,7 @@
 				<exclude name="hibernate.jar" />
 				<exclude name="hibernate-annotations.jar" />
 				<!-- Don't need all seam jars -->
-				<exclude name="jboss-seam-*.jar" />
+				
 			</fileset>
 			<path path="${eejb.conf.dir}" />
 			<path refid="build.classpath.extras" />
