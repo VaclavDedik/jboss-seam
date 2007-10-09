@@ -646,20 +646,34 @@
 			</instr>
 		</emma>
 	</target>
+	
+	<target name="instrumentmail" depends="compilemail">
+		<taskdef resource="emma_ant.properties" classpathref="classpath.emma" />
+		<mkdir dir="${coverage.dir}/mail" />
+		<emma>
+			<instr instrpath="${classes.mail.dir}" mode="overwrite" metadatafile="${coverage.dir}/coveragemail.em">
+				<filter excludes="*.package-info.java" />
+			</instr>
+		</emma>
+	</target>
 
-	<target name="coveragecore" depends="instrumentcore, testall" description="Run the core unit tests and all example tests with code coverage">
+	<target name="coverage" depends="instrumentcore, instrumentmail, testall" description="Run the core unit tests and all example tests with code coverage">
 		<move file="${coverage.ec}" tofile="${coverage.dir}/coveragecore.ec" />
 		<emma>
-			<report sourcepath="${src.core.dir}" depth="method">
-				<infileset dir="${coverage.dir}" includes="coveragecore.em,coveragecore.ec" />
+			<report depth="method">
+				<sourcepath>
+					<path location="${src.core.dir}" />
+					<path location="${src.mail.dir}" />
+				</sourcepath>
+				<infileset dir="${coverage.dir}" includes="coveragecore.em,coveragecore.ec,coveragemail.em,coveragemail.ec" />
 				<html outfile="${report.dir}/coverage.html" />
 				<xml outfile="${report.dir}/coverage.xml" />
 			</report>
 		</emma>
 		<echo>Code coverage report for core classes available at ${report.dir}/coverage.html</echo>
 	</target>
-
-	<target name="coverageall" depends="coveragecore" description="Run all unit tests with coverage" />
+	
+	<target name="coverageall" depends="coverage" description="Run all unit tests with coverage" />
 
 
 	<!-- ########################## MACRO DEFS ##########################-->
