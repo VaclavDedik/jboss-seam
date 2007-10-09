@@ -32,7 +32,6 @@
 		<build target="coverageall" />
 		<build target="copytestoutput" />
 		<build target="testreport" />
-		<build target="validateall" />
 	</target>
 
 	<target name="snapshot">
