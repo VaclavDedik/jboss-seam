@@ -820,6 +820,7 @@
 
 	<target name="test" depends="buildtest, copyjbossembedded" description="Run the tests">
 		<path id="test.classpath">
+			
 			<path path="${test.dir}" />
 			<fileset dir="${lib.dir}/test">
 				<include name="*-all.jar" />
@@ -829,20 +830,22 @@
 				<exclude name="jboss-container.jar" />
 				<exclude name="hibernate.jar" />
 				<exclude name="hibernate-annotations.jar" />
-				<!-- Don't need all seam jars -->
-				
 			</fileset>
 			<path path="${eejb.conf.dir}" />
+			
 			<path refid="build.classpath.extras" />
 			<path refid="emma.classpath" />
+		<path location="${seam.dir}/src/test/resources/log4j.xml" />
 		</path>
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
+		<property name="cp" refid="test.classpath" />
 		<testng outputdir="${test-report.dir}">
                     <jvmarg value="-Xmx800M" />
                     <jvmarg value="-Djava.awt.headless=true" />
 			<classpath refid="test.classpath" />
 			<xmlfileset dir="${src.test.dir}" includes="**/testng.xml" />
 		</testng>
+		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	</target>
 
         <target name="example-info">

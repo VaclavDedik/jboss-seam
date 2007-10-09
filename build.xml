@@ -607,6 +607,7 @@
 			<xmlfileset dir="${classes.test.dir}" includes="**/testng.xml" />
 		</testng>
 		<testexample name="integration" path="${seam.dir}/src/test/integration" message=""/>
+		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	</target>
 
 	<target name="testreport" description="Create a pretty report">
