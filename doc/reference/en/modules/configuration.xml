@@ -282,7 +282,7 @@
                 </para>
 
                  
-                 <para> By default, the exception handling filter will process all requests, however this behavior may be
+                 <para> By default, the logging filter will process all requests, however this behavior may be
                      adjusted by adding a <literal>&lt;web:logging-filter&gt;</literal> entry to
                      <literal>components.xml</literal>, as shown in this example: </para>
                  
