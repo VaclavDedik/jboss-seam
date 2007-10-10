@@ -129,7 +129,7 @@ How to Build and Deploy the Example on Tomcat
 
 4. (Optional) Build Seam by running "ant" the Seam root directory
 
-5. Build and deploy the example by running "ant deploy.tomcat" 
+5. Build and deploy the example by running "ant tomcat.deploy" 
    in the Seam "examples/${example.name}" directory
 
 6. Start Tomcat
@@ -150,16 +150,17 @@ Running the TestNG Tests in Eclipse
 
 1. Install the TestNG Eclipse plugin from http://beust.com/eclipse
 
-2. Create the jboss-seam Eclipse project with the following directories
-   in your source path:
+2. Create the TestNG runner with the following directories added to the
+   classpath:
    
-   src/main/
    examples/${example.name}/src/
    examples/${example.name}/resources/
    bootstrap/
    
    And all jar files from the following directories in your classpath:
    
-   lib/
+   lib/test
+   
+   Make sure all these come before the referenced libraries
    
 3. Locate and run the testng.xml file using the TestNG plugin
