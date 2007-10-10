@@ -104,10 +104,13 @@ public class SOAPRequestHandler implements SOAPHandler
          {
             SOAPMessageContext smc = (SOAPMessageContext) messageContext;
             
-            SOAPElement element = smc.getMessage().getSOAPHeader().addChildElement(CIDQN);
-            element.addTextNode(conversationId);
-            
-            smc.getMessage().saveChanges();            
+            SOAPHeader header = smc.getMessage().getSOAPHeader();
+            if (header != null)
+            {
+               SOAPElement element = header.addChildElement(CIDQN);
+               element.addTextNode(conversationId);
+               smc.getMessage().saveChanges();               
+            }            
          }
          
          Manager.instance().endRequest( new ServletRequestSessionMap(request) );
