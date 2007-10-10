@@ -788,7 +788,8 @@ public class BaseSeamTest
       
       protected MimeMessage getRenderedMailMessage(String viewId)
       {
-          Contexts.getApplicationContext().set(Seam.getComponentName(MailSession.class), new MailSession("mock").create());
+          installMockTransport();
+          MockTransport.clearMailMessage(); 
           Renderer.instance().render(viewId);
           return MockTransport.getMailMessage();
       }
@@ -994,6 +995,12 @@ public class BaseSeamTest
    protected ELResolver[] getELResolvers() 
    {
       return new ELResolver[0];
+   }
+   
+   protected void installMockTransport()
+   {
+       Contexts.getApplicationContext().set(Seam.getComponentName(MailSession.class), new MailSession("mock").create());
+
    }
 
 }

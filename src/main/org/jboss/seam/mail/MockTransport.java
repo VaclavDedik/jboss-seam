@@ -37,7 +37,15 @@ public class MockTransport extends Transport
     public void sendMessage(Message message, Address[] recipients)
             throws MessagingException 
     {
-        Contexts.getEventContext().set(VAR_NAME, message);
+        Contexts.getApplicationContext().set(VAR_NAME, message);
+    }
+    
+    /**
+     * Get the most recently rendered message sent using the MockTransport.
+     */
+    public static void clearMailMessage()
+    {
+        Contexts.getApplicationContext().remove(VAR_NAME);
     }
     
     /**
@@ -45,7 +53,7 @@ public class MockTransport extends Transport
      */
     public static MimeMessage getMailMessage()
     {
-        return (MimeMessage) Contexts.getEventContext().get(VAR_NAME);
+        return (MimeMessage) Contexts.getApplicationContext().get(VAR_NAME);
     }
     
     @Override
