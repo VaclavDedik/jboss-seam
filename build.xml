@@ -370,6 +370,7 @@
 		<testexample name="seamspace" />
 		<testexample name="drools" />
 		<testexample name="mail" />
+		<testexample name="seampay" />
 		<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>
