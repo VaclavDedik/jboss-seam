@@ -21,6 +21,14 @@
 
             <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemText" rendered="#{!wiki:isDirectory(node)}">
                 <h:outputText value="#{wiki:truncateString(node.name, 30, '...')}"/>
+
+                <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year || !empty param.tag}" value="&#160;(showing"/>
+                <h:outputText rendered="#{!empty param.day}" value="&#160;#{param.day}."/>
+                <h:outputText rendered="#{!empty param.month}" value="&#160;#{converters.monthNames[param.month]}"/>
+                <h:outputText rendered="#{!empty param.year}" value="&#160;#{param.year}"/>
+                <h:outputText rendered="#{!empty param.tag}" value="&#160;tagged '#{param.tag}'"/>
+                <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year || !empty param.tag}" value=")"/>
+
             </h:outputLink>
 
             <h:outputText rendered="#{breadcrumb.indexOf(node) &lt; breadcrumb.size()-1}"
