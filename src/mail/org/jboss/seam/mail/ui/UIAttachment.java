@@ -144,6 +144,22 @@ public class UIAttachment extends MailComponent implements ValueHolder
          }
          if (ds != null)
          {
+             // Check the DataSource is available
+             try
+             {
+                 ds.getInputStream();
+             }
+             catch (Exception e) 
+             {
+                 if (value != null)
+                 {
+                     throw new NullPointerException("Error accessing " + value);
+                 }
+                 else
+                 {
+                     throw new NullPointerException("Error accessing " + getValueExpression("value").getExpressionString());
+                 }
+            }
             MimeBodyPart attachment = new MimeBodyPart();
             // Need to manually set the contentid
             String contentId = RandomStringUtils.randomAlphabetic(20).toLowerCase();
