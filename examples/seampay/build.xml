@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 
 <project name="Payments" default="deploy" basedir=".">
-
     <!-- Example name -->
     <property name="Name"                   value="Seam Payment Example"/>
     <property name="example.name"           value="jboss-seam-pay"/>
-
+    
     <!-- Libraries -->
     <property name="seam.ui.lib"     value="yes"/>
     <property name="seam.debug.lib"  value="yes"/>
     <property name="facelets.lib"    value="yes"/>
-	<property name="richfaces.lib"   value="yes"/>
+    <property name="richfaces.lib"   value="yes"/>
     
     <import file="../build.xml"/>
 </project>

@@ -18,11 +18,13 @@ import org.hibernate.validator.NotNull;
 public class Payment
     implements Serializable
 {
+    private static final long serialVersionUID = 3467815268074102080L;
+
     @Id @GeneratedValue 
     private Long id;
 
     @NotNull
-    @Digits(integerDigits=8,fractionalDigits=2)
+    @Digits(integerDigits=8, fractionalDigits=2)
     private BigDecimal amount;
 
     @NotNull @Length(min=1)
@@ -70,7 +72,7 @@ public class Payment
     
     public void setAccount(Account account) {
         this.account = account;
-        account.getPayments().add(this);
+        account.addPayment(this);
     }
 
     public Date getPaymentDate() {

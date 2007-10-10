@@ -1,6 +1,5 @@
 package org.jboss.seam.example.seampay;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.ejb.Timer;
@@ -16,7 +15,6 @@ import org.jboss.seam.annotations.async.Expiration;
 import org.jboss.seam.annotations.async.IntervalDuration;
 import org.jboss.seam.example.seampay.Payment;
 import org.jboss.seam.log.Log;
-
 
 @Name("processor")
 @AutoCreate
@@ -34,19 +32,22 @@ public class PaymentProcessor {
                                  Payment payment) 
     { 
         payment = entityManager.merge(payment);
-        
+
         log.info("[#0] Processing payment #1", System.currentTimeMillis(), payment.getId());
+        processPayment(payment);
 
+        return null;
+    }
+
+    public void processPayment(Payment payment) {
         if (payment.getActive()) {
-            BigDecimal balance = payment.getAccount().adjustBalance(payment.getAmount().negate());
-            log.info(":: balance is now #0", balance);
+            payment.getAccount().adjustBalance(payment.getAmount().negate());
+            
             payment.setLastPaid(new Date());
-
+            
             if (payment.getPaymentFrequency().equals(Payment.Frequency.ONCE)) {
                 payment.setActive(false);
             }
         }
-
-        return null;
     }
 }

@@ -17,6 +17,8 @@ import org.jboss.seam.log.Log;
 public class PaymentController 
     extends EntityHome<Payment>
 {
+    private static final long serialVersionUID = -1994187524284737182L;
+    
     @RequestParameter Long paymentId;
     @In PaymentProcessor processor;
     
@@ -32,9 +34,9 @@ public class PaymentController
         Timer timer = processor.schedulePayment(payment.getPaymentDate(), 
                                                 payment.getPaymentFrequency().getInterval(), 
                                                 payment);
-        
-        payment.setTimerHandle( timer.getHandle() );
-
+        if (timer != null) {
+            payment.setTimerHandle(timer.getHandle());
+        }
         return result;
     }
 
@@ -51,13 +53,12 @@ public class PaymentController
         payment.setTimerHandle(null);
         payment.setActive(false);
         
-        try
-        {
-            handle.getTimer().cancel();
-        }
-        catch (NoSuchObjectLocalException nsole)
-        {
-            FacesMessages.instance().add("Payment already processed");
+        if (handle != null) {
+            try {
+                handle.getTimer().cancel();
+            } catch (NoSuchObjectLocalException e) {
+                FacesMessages.instance().add("Payment already processed");
+            }
         }
     }
     

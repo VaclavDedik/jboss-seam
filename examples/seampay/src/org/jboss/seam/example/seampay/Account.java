@@ -2,6 +2,7 @@ package org.jboss.seam.example.seampay;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,11 +17,13 @@ import org.hibernate.validator.NotNull;
 public class Account
     implements Serializable
 {
+    private static final long serialVersionUID = -2246235767373372214L;
+
     @Id @GeneratedValue 
     private Long id;
 
     @NotNull
-    BigDecimal balance;
+    BigDecimal balance = BigDecimal.ZERO;
 
     @NotNull
     String accountNumber;
@@ -61,7 +64,16 @@ public class Account
     }
 
     public List<Payment> getPayments() 
-    {
+    {   
         return payments;
     }
+
+    public void addPayment(Payment payment) {
+        if (payments == null) {
+            payments = new ArrayList<Payment>();
+        }
+        
+        payments.add(payment);
+    }
+    
 }
