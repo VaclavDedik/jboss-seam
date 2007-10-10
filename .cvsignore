@@ -11,6 +11,7 @@ jboss-seam-remoting.jar
 jboss-seam-ioc.jar
 jboss-seam-trinidad.jar
 test-output
+test-report
 testng-failures.xml
 report
 output
@@ -18,3 +19,7 @@ classes
 lib
 .classpath
 build.properties
+coverage.ec
+dvdindexes
+coverage-output
+blogindexes
