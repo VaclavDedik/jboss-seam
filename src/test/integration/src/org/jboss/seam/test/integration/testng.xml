@@ -4,6 +4,7 @@
 
    <test name="Integration">
      <classes>
+       <class name="org.jboss.seam.test.integration.EntityTest"/>
        <class name="org.jboss.seam.test.integration.PageContextTest"/>
        <class name="org.jboss.seam.test.integration.MiscTests"/>
      </classes>
