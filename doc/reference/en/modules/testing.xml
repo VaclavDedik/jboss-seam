@@ -436,16 +436,17 @@ public class MockPaymentProcessor extends PaymentProcessor {
 }]]></programlisting>
 
           <para>
-            We create a new <literal>MailTest</literal>, providing the 
-            <literal>viewId</literal> of the mail template to render as an
-            argument.  Do your assertions in the <literal>testMessage()</literal>
-            method - the sent message is passed in as an argument.  You can of
-            course also use any of the standard JSF lifecycle methods.
+            We create a new <literal>FacesRequest</literal> as normal.  Inside 
+            the invokeApplication hook we render the message using 
+            <literal>getRenderedMailMessage(viewId);</literal>, passing the 
+            viewId of the message to render.  The method returns the rendered
+            message on which you can do your tests. You can of course also use
+            any of the standard JSF lifecycle methods.
           </para>
           
           <para>
             There is no support for rendering standard JSF components so you 
-            can't test the body of the mail message easily.
+            can't test the content body of the mail message easily.
           </para>
         </section> 
         
