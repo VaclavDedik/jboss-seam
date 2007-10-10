@@ -414,7 +414,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
    @Test
    public void testSimpleMessage() throws Exception {
         
-      new MailTest("/simple.xhtml") {
+      new FacesRequest() {
 
          @Override
          protected void updateModelValues() throws Exception {
@@ -424,7 +424,8 @@ public class MockPaymentProcessor extends PaymentProcessor {
          }
             
          @Override
-         protected void testMessage(MimeMessage renderedMessage) throws Exception {
+         protected void invokeApplication() throws Exception {
+            MimeMessage renderedMessage = getRenderedMailMessage("/simple.xhtml");
             assert renderedMessage.getAllRecipients().length == 1;
             InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
             assert to.getAddress().equals("test@example.com");

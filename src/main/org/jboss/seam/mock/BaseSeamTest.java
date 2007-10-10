@@ -785,6 +785,13 @@ public class BaseSeamTest
       {
          return renderResponseComplete;
       }
+      
+      protected MimeMessage getRenderedMailMessage(String viewId)
+      {
+          Contexts.getApplicationContext().set(Seam.getComponentName(MailSession.class), new MailSession("mock").create());
+          Renderer.instance().render(viewId);
+          return MockTransport.getMailMessage();
+      }
 
    }
 
@@ -877,34 +884,6 @@ public class BaseSeamTest
          return false;
       }
 
-   }
-   
-   public abstract class MailTest extends Request
-   {
-
-       private String viewId;
-
-       public MailTest (String viewId)
-       {
-          this.viewId = viewId;
-       }
-       
-       public MailTest (String viewId, String conversationId)
-       {
-          super(conversationId);
-          this.viewId = viewId;
-       }
-
-       protected abstract void testMessage(MimeMessage renderedMessage) throws Exception;
-       
-       @Override
-       protected final void invokeApplication() throws Exception
-       {
-           Contexts.getApplicationContext().set(Seam.getComponentName(MailSession.class), new MailSession("mock").create());
-           Renderer.instance().render(viewId);
-           testMessage(MockTransport.getMailMessage());
-       }
-       
    }
 
    public void begin()

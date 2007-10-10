@@ -2,7 +2,9 @@ package org.jboss.seam.example.mail.test;
 
 
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.mail.MockTransport;
@@ -20,7 +22,7 @@ public class MailTest extends SeamTest
     public void testSimpleMessage() throws Exception
     {
         
-        new MailTest("/simple.xhtml")
+        new FacesRequest()
         {
 
             @Override
@@ -32,10 +34,12 @@ public class MailTest extends SeamTest
             }
             
             @Override
-            protected void testMessage(MimeMessage renderedMessage)
-                    throws Exception
+            protected void invokeApplication() throws Exception
             {
+                MimeMessage renderedMessage = getRenderedMailMessage("/simple.xhtml");
+             
                 assert MailSession.instance().getTransport() instanceof MockTransport;
+                
                 assert renderedMessage != null;
                 assert renderedMessage.getAllRecipients().length == 1;
                 assert renderedMessage.getAllRecipients()[0] instanceof InternetAddress;
@@ -49,8 +53,18 @@ public class MailTest extends SeamTest
                 assert from.getPersonal().equals("Peter");
                 assert "Try out Seam!".equals(renderedMessage.getSubject());
                 assert renderedMessage.getContent() != null;
-            }
-            
+                assert renderedMessage.getContent() instanceof MimeMultipart;
+                MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
+                assert body.getCount() == 1;
+                assert body.getBodyPart(0) != null;
+                assert body.getBodyPart(0) instanceof MimeBodyPart;
+                MimeBodyPart bodyPart = (MimeBodyPart) body.getBodyPart(0);
+                assert bodyPart.getContent() != null;
+                assert "text/html; charset=us-ascii".equals(bodyPart.getContentType());
+                assert "inline".equals(bodyPart.getDisposition());
+                assert bodyPart.isMimeType("text/html");
+
+            }            
         }.run();
        
     }
