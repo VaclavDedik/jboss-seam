@@ -598,7 +598,6 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
         lib/
             jboss-seam.jar
             jboss-seam-ui.jar
-            jboss-el-api.jar
             jboss-el.jar
             jsf-facelets.jar
             hibernate3.jar
@@ -742,7 +741,6 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
         lib/
             jboss-seam.jar
             jboss-seam-ui.jar
-            jboss-el-api.jar
             jboss-el.jar
             jsf-facelets.jar
             jsf-api.jar
