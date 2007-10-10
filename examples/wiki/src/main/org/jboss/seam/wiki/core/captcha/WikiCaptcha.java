@@ -8,12 +8,14 @@ package org.jboss.seam.wiki.core.captcha;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
+import javax.faces.application.FacesMessage;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Random;
@@ -55,6 +57,13 @@ public class WikiCaptcha implements Serializable {
     }
 
     public boolean validateResponse(String response) {
+        try {
+            new Integer(response);
+        } catch (NumberFormatException ex) {
+            this.response = null;
+            return false;
+        }
+
         if (new Integer(one + two).equals(new Integer(response))) {
             // TODO: Fuck that, doesn't clean out the old value.... no idea why
             this.response = null;
