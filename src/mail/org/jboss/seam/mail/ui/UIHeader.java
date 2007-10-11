@@ -34,7 +34,7 @@ public class UIHeader extends MailComponent
    {
       if (name == null)
       {
-         return getString("header");
+         return getString("name");
       }
       else 
       {
