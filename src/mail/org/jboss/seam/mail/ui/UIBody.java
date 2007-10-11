@@ -33,12 +33,12 @@ public class UIBody extends MailComponent
       try
       { 
          BodyPart bodyPart = null;
-         if (PLAIN.equalsIgnoreCase(type))
+         if (PLAIN.equalsIgnoreCase(getType()))
          {
             String body = encode(facesContext, MailResponseWriter.TEXT_PLAIN_CONTENT_TYPE);
             bodyPart = getTextBody(facesContext, body);
          }
-         else if (HTML.equals(type))
+         else if (HTML.equals(getType()))
          {
             UIComponent alternative = getFacet("alternative");
             String body = encode(facesContext, MailResponseWriter.HTML_PLAIN_CONTENT_TYPE);
