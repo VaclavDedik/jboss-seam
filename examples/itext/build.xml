@@ -20,5 +20,14 @@
         <include name="*.keystore"/>
     </fileset>
 
+    <path id="test.classpath.extras">
+        <fileset refid="seam.pdf.jar" />
+    </path>
+
+    <path id="build.classpath.extras">
+        <fileset refid="seam.pdf.jar" />
+    </path>
+                 
+
 </project>
 
