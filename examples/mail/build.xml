@@ -18,6 +18,11 @@
     <patternset id="test.view.files">
       <include name="*.*" />
     </patternset>
+	
+	<patternset id="test.src.files">
+		<include name="**/*.xml" />
+		<include name="**/*.xhtml" />
+	</patternset>
     
     <path id="test.classpath.extras">
       <path location="${lib.dir}/jboss-seam-ui.jar" />

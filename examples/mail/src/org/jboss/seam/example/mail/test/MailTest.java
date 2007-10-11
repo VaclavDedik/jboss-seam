@@ -4,11 +4,16 @@ import static javax.mail.Message.RecipientType.CC;
 import static javax.mail.Message.RecipientType.BCC;
 
 import java.io.InputStream;
+
+import javax.faces.FacesException;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.example.mail.Person;
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.mail.MockTransport;
 import org.jboss.seam.mock.SeamTest;
@@ -299,8 +304,8 @@ public class MailTest extends SeamTest
                 InternetAddress bcc = (InternetAddress) renderedMessage.getRecipients(CC)[0];
                 assert "test@example.com".equals(bcc.getAddress());
                 assert "Pete Muir".equals(bcc.getPersonal());
-                assert "bulk".equals(renderedMessage.getHeader("Precedence"));
-             // Importance
+                assert "bulk".equals(renderedMessage.getHeader("Precedence")[0]);
+                // Importance
                 assert renderedMessage.getHeader("X-Priority") != null;
                 assert renderedMessage.getHeader("Priority") != null;
                 assert renderedMessage.getHeader("Importance") != null;
@@ -321,6 +326,164 @@ public class MailTest extends SeamTest
                 assert bodyPart.getContent() != null;
                 assert "inline".equals(bodyPart.getDisposition());
                 assert bodyPart.isMimeType("text/plain");
+            }
+        }.run();
+    }
+    
+    @Test
+    public void testAttachmentErrors() throws Exception
+    {
+        
+        new FacesRequest()
+        {
+
+            @Override
+            protected void updateModelValues() throws Exception
+            {
+                
+            }
+            
+            @Override
+            protected void invokeApplication() throws Exception
+            {   
+                Person person = (Person) getValue("#{person}");
+                
+                person.setFirstname("Pete");
+                person.setLastname("Muir");
+                person.setAddress("test@example.com");
+                
+                // Test for an unavailable attachment
+                
+                Contexts.getEventContext().set("attachment", "/foo.pdf");
+                
+                boolean exceptionThrown = false;
+             
+            }
+        }.run();
+    }
+    
+    @Test
+    public void testAddressValidation() throws Exception
+    {
+        
+        new FacesRequest()
+        {
+
+            @Override
+            protected void updateModelValues() throws Exception
+            {
+                
+            }
+            
+            @Override
+            protected void invokeApplication() throws Exception
+            {   
+                Person person = (Person) getValue("#{person}");
+                
+                person.setFirstname("Pete");
+                person.setLastname("Muir");                
+                boolean exceptionThrown = false;
+                          
+                person.setAddress("testexample.com");
+                
+                try
+                {
+                    getRenderedMailMessage("/org/jboss/seam/example/mail/test/errors2.xhtml");
+                }
+                catch (FacesException e)
+                {
+                    assert e.getCause() instanceof AddressException;
+                    AddressException ae = (AddressException) e.getCause();
+                    assert ae.getMessage().startsWith("Missing final '@domain'");
+                    exceptionThrown = true;
+                }
+                assert exceptionThrown;
+             
+            }
+        }.run();
+    }
+    
+    @Test
+    public void testReplyToErrors() throws Exception
+    {
+        
+        new FacesRequest()
+        {
+
+            @Override
+            protected void updateModelValues() throws Exception
+            {
+                
+            }
+            
+            @Override
+            protected void invokeApplication() throws Exception
+            {   
+                Person person = (Person) getValue("#{person}");
+                
+                person.setFirstname("Pete");
+                person.setLastname("Muir");
+                person.setAddress("test@example.com");
+                
+                boolean exceptionThrown = false;
+                
+                
+                
+                try
+                {
+                    getRenderedMailMessage("/org/jboss/seam/example/mail/test/errors3.xhtml");
+                }
+                catch (Exception e)
+                {
+                    assert e.getCause() instanceof AddressException;
+                    AddressException ae = (AddressException) e.getCause();
+                    System.out.println(ae.getMessage());
+                    assert ae.getMessage().startsWith("Email cannot have more than one Reply-to address");
+                    exceptionThrown = true;
+                }
+                assert exceptionThrown;
+             
+            }
+        }.run();
+    }
+    
+    @Test
+    public void testFromErrors() throws Exception
+    {
+        
+        new FacesRequest()
+        {
+
+            @Override
+            protected void updateModelValues() throws Exception
+            {
+                
+            }
+            
+            @Override
+            protected void invokeApplication() throws Exception
+            {   
+                Person person = (Person) getValue("#{person}");
+                
+                person.setFirstname("Pete");
+                person.setLastname("Muir");
+                person.setAddress("test@example.com");
+                
+                boolean exceptionThrown = false;
+                
+                try
+                {
+                    getRenderedMailMessage("/org/jboss/seam/example/mail/test/errors4.xhtml");
+                }
+                catch (FacesException e)
+                {
+                    assert e.getCause() instanceof AddressException;
+                    AddressException ae = (AddressException) e.getCause();
+                    assert ae.getMessage().startsWith("Email cannot have more than one from address");
+                    exceptionThrown = true;
+                }
+                assert exceptionThrown;
+             
             }
         }.run();
     }

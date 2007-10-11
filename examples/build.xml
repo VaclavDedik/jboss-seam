@@ -397,6 +397,10 @@
 	<patternset id="test.view.files">
 		<include name="**/*.page.xml" />
 	</patternset>
+	
+	<patternset id="test.src.files">
+		<include name="**/*.xml" />
+	</patternset>
 
 	<!-- Build classpath -->
 	<path id="build.classpath">
@@ -808,7 +812,7 @@
 		</copy>
 		<copy todir="${test.dir}">
 			<fileset dir="${src.test.dir}">
-				<include name="**/*.xml" />
+				<patternset refid="test.src.files" />
 			</fileset>
 		</copy>
         <copy todir="${test.dir}">
