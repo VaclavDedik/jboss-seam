@@ -108,16 +108,12 @@ public class EntityTest
 
         try {
             new FacesRequest("/page.xhtml", conversation1) {
-                EntityExceptionObserver observer;
-                
                 @Override
                 protected void invokeApplication() throws Exception {
                     Thing thing = (Thing) Contexts.getConversationContext().get("thing");
                     thing.setName("bar");
-                    
-                    observer = (EntityExceptionObserver) getValue("#{entityExceptionObserver}");
-                    		
-                }
+                   
+                }cvs
                 
                 @Override
                 protected void renderResponse() throws Exception {
