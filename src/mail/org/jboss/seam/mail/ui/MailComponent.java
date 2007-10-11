@@ -44,6 +44,11 @@ public abstract class MailComponent extends UIComponentBase
       return encode(facesContext, this, null, false);
    }
 
+  
+   /**
+    * Deprecated, use {@link MailComponent#encode(FacesContext, UIComponent, String)}
+    */
+   @Deprecated
    protected String encode(FacesContext facesContext, UIComponent cmp) throws IOException
    {
       return encode(facesContext, cmp, null, true);
@@ -115,6 +120,10 @@ public abstract class MailComponent extends UIComponentBase
       return (MimeMultipart) findMimeMessage().getContent();
    }
 
+   /**
+    * Deprecated, use {@link MailComponent#findParent(UIComponent, Class)}
+    */
+   @Deprecated
    public MailComponent findParent(UIComponent parent)
    {
       return findParent(parent, null);
