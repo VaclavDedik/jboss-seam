@@ -96,7 +96,7 @@ public class UIMessage extends MailComponent
                // Various mail client's use different headers for indicating
                // importance
                // This is a common set, more may need to be added.
-               getMimeMessage().addHeader("X-Prioity", "1");
+               getMimeMessage().addHeader("X-Priority", "1");
                getMimeMessage().addHeader("Priority", "Urgent");
                getMimeMessage().addHeader("Importance", "high");
             }
