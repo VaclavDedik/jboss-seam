@@ -12,7 +12,7 @@
   	<title>Tags</title>
 
   <para>
-    To use these tagsd, define the "<literal>s</literal>" namespace in your page 
+    To use these tags, define the "<literal>s</literal>" namespace in your page 
     as follows (facelets only):
   </para>
 
@@ -159,7 +159,6 @@
             <para><emphasis>Description</emphasis></para>
             <para>
               Add the conversation id to an output link (or similar JSF control).
-              <emphasis>Facelets only.</emphasis>
             </para>
             <para><emphasis>Attributes</emphasis></para>
             <para>
@@ -179,7 +178,6 @@
               <para>
                 Customize the conversation propagation for a command link or button
                 (or similar JSF control).
-                <emphasis>Facelets only.</emphasis>
               </para>
               <para><emphasis>Attributes</emphasis></para>
               <itemizedlist>
@@ -623,7 +621,7 @@
             <para><emphasis>Description</emphasis></para>
             <para>
               An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image to be created in a Seam Component; further transforms
-              can be applied to the image. <emphasis>Facelets only.</emphasis>
+              can be applied to the image.
             </para>
             <para>
               All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, as well as:
@@ -1148,7 +1146,6 @@
               <para>
                 Add the task id to an output link (or similar JSF control), when the
                 task is available via <literal>#{task}</literal>.
-                <emphasis>Facelets only.</emphasis>
               </para>
             <para><emphasis>Attributes</emphasis></para>
             <para>
