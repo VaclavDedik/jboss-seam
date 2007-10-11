@@ -4,6 +4,11 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
+/**
+ * 
+ * @author Pete Muir
+ *
+ */
 public class PageContextTest extends SeamTest
 {
 

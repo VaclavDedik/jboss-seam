@@ -5,10 +5,16 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
-public class MiscTests extends SeamTest {
+
+/**
+ * 
+ * @author Pete Muir
+ *
+ */
+public class EventTest extends SeamTest {
 
     @Test
-    public void eventChain() throws Exception {
+    public void testEventChain() throws Exception {
 
         new FacesRequest("/index.xhtml") {
 
@@ -16,9 +22,6 @@ public class MiscTests extends SeamTest {
             protected void invokeApplication() throws Exception {
                 BeanA beanA = (BeanA) Component.getInstance("beanA");
                 BeanB beanB = (BeanB) Component.getInstance("beanB");
-                
-                System.out.println("beanA: " + beanA.hashCode());
-                System.out.println("beanB: " + beanB.hashCode());
 
                 assert "Foo".equals(beanA.getMyValue());
                 assert beanB.getMyValue() == null;

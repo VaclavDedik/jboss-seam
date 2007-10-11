@@ -2,11 +2,27 @@
 
 <suite name="Seam Core Tests" verbose="2" parallel="false">
 
-   <test name="Integration">
+   <test name="Seam Core - Integration: Contexts">
+     <classes>
+       <class name="org.jboss.seam.test.integration.PageContextTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Core - Integration: Persistence">
      <classes>
        <class name="org.jboss.seam.test.integration.EntityTest"/>
-       <class name="org.jboss.seam.test.integration.PageContextTest"/>
-       <class name="org.jboss.seam.test.integration.MiscTests"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Core - Integration: Events">
+     <classes>
+       <class name="org.jboss.seam.test.integration.EventTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Core - Integration: Framework">
+     <classes>
+       <class name="org.jboss.seam.test.integration.IdentifierTest"/>
      </classes>
    </test>
 	
