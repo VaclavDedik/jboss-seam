@@ -878,7 +878,7 @@ public class Customer {
       <para>
         And here's an example of an entity permission rule that checks if the authenticated user is allowed to insert
         a new <literal>MemberBlog</literal> record (from the seamspace example).  The entity for which the security
-        check is being made is automatically asserted into the working memory (in this case <literal>MemberBlog</literal>):
+        check is being made is automatically inserted into the working memory (in this case <literal>MemberBlog</literal>):
       </para>
       
       <programlisting><![CDATA[rule InsertMemberBlog
@@ -1067,19 +1067,19 @@ end;]]></programlisting>
         to "delete" within the working memory.  What is the working memory?  It is a session-scoped object that contains 
         the contextual information that is required by the rules engine to make a decision about a permission check.
         Each time the <literal>hasPermission()</literal> method is called, a temporary <literal>PermissionCheck</literal>
-        object, or <emphasis>Fact</emphasis>, is asserted into the working memory.  This <literal>PermissionCheck</literal>
+        object, or <emphasis>Fact</emphasis>, is inserted into the working memory.  This <literal>PermissionCheck</literal>
         corresponds exactly to the permission that is being checked, so for example if you call 
         <literal>hasPermission("account", "create", null)</literal> then a <literal>PermissionCheck</literal>
         object with a <literal>name</literal> equal to "account" and <literal>action</literal> equal to "create" will be
-        asserted into the working memory for the duration of the permission check.
+        inserted into the working memory for the duration of the permission check.
       </para>
       
       <para>
-        So what else is in the working memory?  Besides the short-lived temporary facts asserted during a permission
+        So what else is in the working memory?  Besides the short-lived temporary facts inserted during a permission
         check, there are some longer-lived objects in the working memory that stay there for the entire duration of
         a user being authenticated.  These include any <literal>java.security.Principal</literal> objects that
         are created as part of the authentication process, plus a <literal>org.jboss.seam.security.Role</literal>
-        object for each of the roles that the user is a member of.  It is also possible to assert additional 
+        object for each of the roles that the user is a member of.  It is also possible to insert additional 
         long-lived facts into the working memory by calling <literal>((RuleBasedIdentity) RuleBasedIdentity.instance()).getSecurityContext().insert()</literal>,
         passing the object as a parameter.
       </para>
@@ -1094,7 +1094,7 @@ end;]]></programlisting>
       
       <para>
         This condition simply states that there must be a <literal>Role</literal> object with
-        a <literal>name</literal> of "admin" within the working memory.  As mentioned, user roles are asserted 
+        a <literal>name</literal> of "admin" within the working memory.  As mentioned, user roles are inserted 
         into the working memory as long-lived facts.  So, putting both conditions together, this rule is essentially 
         saying "I will fire if you are checking for the <literal>customer:delete</literal> permission and the user
         is a member of the <literal>admin</literal> role".
