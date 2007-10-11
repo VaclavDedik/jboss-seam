@@ -37,10 +37,10 @@
 	<target name="snapshot">
 		<build target="cleanall" />
 		<build target="dist" />
-		<ant target="deploySeamSnapshot" antfile="${ant.file}">
+		<ant target="deploySeamSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
 			<property name="qualifier" value="-SNAPSHOT"/>
 		</ant>
-		<ant target="tests" antfile="${ant.file}">
+		<ant target="tests" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
 			<property name="qualifier" value="-SNAPSHOT"/>
 		</ant>
 	</target>
