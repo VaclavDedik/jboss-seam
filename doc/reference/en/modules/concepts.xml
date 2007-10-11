@@ -715,6 +715,11 @@ public class LoginAction implements Login {
     ... 
 }]]></programlisting>
 
+        <para>
+            Injected values are disinjected (i.e, set to <literal>null</literal>) immediately after method 
+            completion and outjection.
+        </para>
+        
         <para> 
             (There is much more information about component lifecycle and injection in the next chapter.) 
         </para>
