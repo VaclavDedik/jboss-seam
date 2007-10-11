@@ -8,7 +8,7 @@
     We do not recommend the use of the Tomahawk tag library.
   </para>
 
-  <section>
+  <section id="controls.tags">
   	<title>Tags</title>
 
   <para>
@@ -260,6 +260,22 @@
             <programlisting><![CDATA[<component name="org.jboss.seam.ui.EntityConverter">
   <property name="entityManager">#{em}</property>
 </component>]]></programlisting>
+
+            <para>
+              If you want to use more than one entity manager with the entity 
+              converter, you can create a copy of the entity converter for each
+              entity manager; in components.xml:
+            </para>
+            
+            <programlisting><![CDATA[<component name="myEntityConverter" class="org.jboss.seam.ui.converter.EntityConverter">
+  <property name="entityManager">#{em}</property>
+</component>]]></programlisting>
+
+            <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}">
+  <s:selectItems value="#{continents.resultList}" var="continent" 
+                 label="#{continent.name}" />
+    <f:converter converterId="myEntityConverter" />
+</h:selectOneMenu>]]></programlisting>
 
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}" required="true">
@@ -1208,7 +1224,7 @@
     </tgroup>
   </table>
 </section>
-<section>
+<section id="controls.annotations">
   <title>Annotations</title>
   
   <para>
