@@ -6,9 +6,9 @@
           <m:from name="Peter" address="peter@email.tld" />
           <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
           <m:subject>Try out Seam!</m:subject>
-          <m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar" /> 
+          <m:attachment value="/jboss.jpg" /> 
           <m:attachment value="#{numbers}" />
-          <m:attachment value="#{person.photo}" contentType="image/png" fileName="#{person.firstname}_#{person.lastname}.jpg" status="personPhoto" />
+          <m:attachment value="#{person.photo}" contentType="image/png" fileName="#{person.firstname}_#{person.lastname}.jpg" status="personPhoto" disposition="inline" />
           <m:attachment fileName="whyseam.pdf">
            		<ui:include src="/whyseam.xhtml" />
           </m:attachment>

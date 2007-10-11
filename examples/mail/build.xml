@@ -16,8 +16,7 @@
 	<import file="../build.xml" />
   
     <patternset id="test.view.files">
-      <include name="**/*.xml" />
-      <include name="**/*.xhtml" />
+      <include name="*.*" />
     </patternset>
     
     <path id="test.classpath.extras">
