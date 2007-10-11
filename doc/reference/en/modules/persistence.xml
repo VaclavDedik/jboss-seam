@@ -177,7 +177,9 @@
                 in <literal>components.xml</literal>:
     		</para>
 
-    		<programlisting><![CDATA[<core:init transaction-management-enabled="false"/>]]></programlisting>
+    		<programlisting><![CDATA[<core:init transaction-management-enabled="false"/>
+        
+<transaction:no-transaction />]]></programlisting>
 
     	</section>
 
