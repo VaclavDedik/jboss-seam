@@ -304,13 +304,13 @@
 
             <programlisting><![CDATA[org.jboss.seam.bpm.jbpm.processDefinitions order.jpdl.xml, return.jpdl.xml, inventory.jpdl.xml]]></programlisting>
 
-            <programlisting><![CDATA[<core:jbpm>
-    <core:process-definitions>
+            <programlisting><![CDATA[<bpm:jbpm>
+    <bpm:process-definitions>
         <value>order.jpdl.xml</value>
         <value>return.jpdl.xml</value>
         <value>inventory.jpdl.xml</value>
-    </core:process-definitions>
-</core:jbpm>]]></programlisting>
+    </bpm:process-definitions>
+</bpm:jbpm>]]></programlisting>
 
             <programlisting><![CDATA[<component name="org.jboss.seam.bpm.jbpm">
     <property name="processDefinitions">
