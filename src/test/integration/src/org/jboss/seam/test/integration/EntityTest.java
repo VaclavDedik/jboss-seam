@@ -113,7 +113,7 @@ public class EntityTest
                     Thing thing = (Thing) Contexts.getConversationContext().get("thing");
                     thing.setName("bar");
                    
-                }cvs
+                }
                 
                 @Override
                 protected void renderResponse() throws Exception {
