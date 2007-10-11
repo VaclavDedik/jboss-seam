@@ -486,7 +486,8 @@ public class Authenticator {
     <para>
       The security API produces a number of default faces messages for various security-related events.  
       The following table lists the message keys that can be used to override these messages by specifying 
-      them in a <literal>message.properties</literal> resource file.
+      them in a <literal>message.properties</literal> resource file.  To suppress the message, just put the
+      key with an empty value in the resource file.
     </para>
     
     <table>
