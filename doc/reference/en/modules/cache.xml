@@ -127,9 +127,16 @@
         </para>
         
         <para>
+            You can find a sample <literal>treecache.xml</literal> in
+            <literal>examples/blog/resources/treecache.xml</literal>.
+        </para>
+             
+        
+        <para>
             For an EAR depoyment of Seam, we recommend that the JBossCache jars and
-            configuration go directly into the EAR. Make sure you declare the jars  
-            in <literal>application.xml</literal>.
+            configuration go directly into the EAR. Make sure you place both
+            <literal>jboss-cache.jar</literal> and <literal>jgroups.jar</literal>
+            in your EAR's lib folder.
         </para>
         
         <para>
