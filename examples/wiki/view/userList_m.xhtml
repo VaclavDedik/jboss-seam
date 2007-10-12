@@ -8,10 +8,12 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
-<ui:define name="screenname">User List</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.userList.MemberList']}"/>
+</ui:define>
 
 <ui:define name="content">
-    User search is not available with this skin.
+    <h:outputText value="#{messages['lacewiki.label.userList.NotAvailableForSkin']}"/>
 </ui:define>
 
 </ui:composition>

@@ -4,20 +4,17 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
 
-    <!-- Why do I have to define this here again? It's already in wiki.taglib.xml! -->
+    <application>
+        <locale-config>
+            <default-locale>en</default-locale>
+            <supported-locale>de</supported-locale>
+        </locale-config>
+    </application>
+
+    <!-- Needed because WikiFormattedTextHandler instantiates these, asking the JSF infrastructure -->
     <component>
     	<component-type>org.jboss.seam.wiki.core.ui.UIPlugin</component-type>
     	<component-class>org.jboss.seam.wiki.core.ui.UIPlugin</component-class>
     </component>
-    
-    <component>
-    	<component-type>org.jboss.seam.wiki.core.ui.UIWikiFormattedText</component-type>
-    	<component-class>org.jboss.seam.wiki.core.ui.UIWikiFormattedText</component-class>
-    </component>
-
-    <validator>
-        <validator-id>seamTextValidator</validator-id>
-        <validator-class>org.jboss.seam.wiki.core.ui.SeamTextValidator</validator-class>
-    </validator>
 
 </faces-config>

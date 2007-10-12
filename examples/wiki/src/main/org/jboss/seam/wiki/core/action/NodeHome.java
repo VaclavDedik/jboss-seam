@@ -217,8 +217,8 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
             getFacesMessages().addToControlFromResourceBundleOrDefault(
                 "name",
                 SEVERITY_ERROR,
-                getMessageKeyPrefix() + "duplicateName",
-                "This name is already used, please change it."
+                "lacewiki.entity.DuplicateName",
+                "This name is already used, please change it"
             );
             return false;
         }

@@ -9,45 +9,51 @@
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
 <ui:define name="screenname">
-    <h:outputText value="Create document" rendered="#{!documentHome.managed}"/>
-    <h:outputText value="Edit document" rendered="#{documentHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.docEdit.CreateDocument']}" rendered="#{!documentHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.docEdit.EditDocument']}" rendered="#{documentHome.managed}"/>
 </ui:define>
 
 <ui:define name="control">
 
-    <s:link id="exitManaged" styleClass="linkNavigation" rendered="#{documentHome.managed}" action="exitManaged">Exit Editor</s:link>
+    <s:link id="exitManaged" styleClass="linkNavigation" rendered="#{documentHome.managed}" action="exitManaged"
+            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+    </s:link>
 
-    <s:link id="exitUnmanaged" styleClass="linkNavigation" rendered="#{!documentHome.managed}" action="exitUnmanaged">Exit Editor</s:link>
-    
+    <s:link id="exitUnmanaged" styleClass="linkNavigation" rendered="#{!documentHome.managed}" action="exitUnmanaged"
+            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+    </s:link>
+
 </ui:define>
 
 <ui:define name="content">
 
     <h:form><s:validateAll>
 
-        <div>Directory:&#160;#{documentHome.parentDirectory.name}</div>
+        <div>#{messages['lacewiki.label.docEdit.Directory']}:&#160;#{documentHome.parentDirectory.name}</div>
         <div class="errorMessage"><h:message for="name"/></div>
-        <div>Name:&#160;
+        <div>#{messages['lacewiki.label.docEdit.Name']}:&#160;
             <h:inputText id="name" size="30" maxlength="255" required="true" value="#{documentHome.instance.name}"/>
         </div>
         <div>
             <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}"/>
-            &#160;Render name as document title
+            &#160;#{messages['lacewiki.label.docEdit.RenderNameAsTitle']}
         </div>
         <div>
             <h:selectBooleanCheckbox value="#{documentHome.minorRevision}"/>
-            &#160;Minor change, don't create a new revision
+            &#160;#{messages['lacewiki.label.docEdit.MinorChange']}
         </div>
 
         <s:fragment rendered="#{not documentHome.managed}">
             <div>
                 <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}">
                 </h:selectBooleanCheckbox>
-                &#160;Create entry on parent directory feeds
+                &#160;#{messages['lacewiki.label.docEdit.CreateOnParentFeeds']}
             </div>
             <div>
                 <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}"/>
-                &#160;Create entry on global site feed (requires entry on parent feeds)
+                &#160;#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}
             </div>
         </s:fragment>
 
@@ -55,20 +61,20 @@
             <s:fragment rendered="#{documentHome.siteFeedEntryPresent}">
                 <div>
                     <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}"/>
-                    &#160;Push changes onto feeds
+                    &#160;#{messages['lacewiki.label.docEdit.PushOnFeeds']}
                 </div>
             </s:fragment>
             <s:fragment rendered="#{not documentHome.siteFeedEntryPresent}">
                 <s:div styleClass="entry">
                     <div>
                         <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}"/>
-                        Push changes onto feeds of parent directories
+                        #{messages['lacewiki.label.docEdit.PushOnParentFeeds']}
                     </div>
                 </s:div>
                 <s:div id="pushOnSiteFeedSwitch">
                     <div>
                         <h:selectBooleanCheckbox value="#{documentHome.pushOnSiteFeed}"/>
-                        &#160;Create entry on  global site feed (requires changes on parent feeds)
+                        &#160;#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}
                     </div>
                 </s:div>
             </s:fragment>
@@ -84,9 +90,12 @@
         </div>
 
         <s:div styleClass="formControls">
-            <h:commandButton action="#{documentHome.persist}" rendered="#{!documentHome.managed}" value="Save"/>
-            <h:commandButton action="#{documentHome.update}" rendered="#{documentHome.managed}" value="Update"/>
-            <h:commandButton action="#{documentHome.remove}" rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}" value="Delete"/>
+            <h:commandButton action="#{documentHome.persist}" rendered="#{!documentHome.managed}"
+                             value="#{messages['lacewiki.button.Save']}"/>
+            <h:commandButton action="#{documentHome.update}" rendered="#{documentHome.managed}"
+                             value="#{messages['lacewiki.button.Update']}"/>
+            <h:commandButton action="#{documentHome.remove}" rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"
+                             value="#{messages['lacewiki.button.Delete']}"/>
         </s:div>
 
     </s:validateAll></h:form>

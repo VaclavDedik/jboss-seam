@@ -8,29 +8,42 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
-<ui:define name="screenname">Directory: #{directoryHome.instance.name}</ui:define>
+<ui:define name="screenname">#{directoryHome.instance.name}</ui:define>
 
 <ui:define name="control">
 
     <s:fragment rendered="#{!empty directoryHome.parentDirectory}">
 
-        <s:link id="createDir"  styleClass="linkNavigation" accesskey="S" view="/dirEdit_#{skin}.xhtml"
-                rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}">New <u>S</u>ubdirectory
+        <s:link id="createDir" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.CreateSubdirectory.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml"
+                rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.CreateSubdirectory']}"/>
             <f:param name="directoryId"/>
             <f:param name="parentDirectoryId" value="#{directoryHome.instance.id}"/>
         </s:link>
 
-        <s:link id="editDir"    styleClass="linkNavigation" accesskey="E" view="/dirEdit_#{skin}.xhtml"
-                rendered="#{s:hasPermission('Node', 'edit', directoryHome.instance)}"><u>E</u>dit Directory</s:link>
+        <s:link id="editDir" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.EditDirectory.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml"
+                rendered="#{s:hasPermission('Node', 'edit', directoryHome.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.EditDirectory']}"/>
+        </s:link>
 
-        <s:link id="createDoc" styleClass="linkNavigation" accesskey="N" view="/docEdit_#{skin}.xhtml"
-                rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}"><u>N</u>ew Document
+        <s:link id="createDoc" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.NewDocument.accesskey']}"
+                view="/docEdit_#{skin}.xhtml"
+                rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.NewDocument']}"/>
             <f:param name="documentId"/>
             <f:param name="parentDirectoryId" value="#{directoryHome.instance.id}"/>
         </s:link>
 
-        <s:link id="uploadFile" styleClass="linkNavigation" accesskey="U" view="/fileEdit_#{skin}.xhtml"
-                rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}"><u>U</u>pload File
+        <s:link id="uploadFile" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.UploadFile.accesskey']}"
+                view="/fileEdit_#{skin}.xhtml"
+                rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.UploadFile']}"/>
             <f:param name="fileId"/>
             <f:param name="parentDirectoryId" value="#{directoryHome.instance.id}"/>
         </s:link>
@@ -38,21 +51,29 @@
     </s:fragment>
 
     <s:fragment rendered="#{empty directoryHome.parentDirectory}">
-        <s:link id="createArea" styleClass="linkNavigation" accesskey="N" view="/dirEdit_#{skin}.xhtml"
-                rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}"><u>N</u>ew Area
+        <s:link id="createArea" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.NewArea.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml"
+                rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.NewArea']}"/>
             <f:param name="directoryId"/>
             <f:param name="parentDirectoryId" value="#{directoryHome.instance.id}"/>
         </s:link>
 
-        <s:link id="editRoot" styleClass="linkNavigation" accesskey="E" view="/dirEdit_#{skin}.xhtml"
-                rendered="#{s:hasPermission('Node', 'edit', directoryHome.instance)}"><u>E</u>dit Wiki Root
+        <s:link id="editRoot" styleClass="linkNavigation"
+                accesskey="#{messages['lacewiki.button.EditWikiRoot.accesskey']}"
+                view="/dirEdit_#{skin}.xhtml"
+                rendered="#{s:hasPermission('Node', 'edit', directoryHome.instance)}">
+            <h:outputText escape="false" value="#{messages['lacewiki.button.EditWikiRoot']}"/>
             <f:param name="parentDirectoryId"/>
         </s:link>
 
     </s:fragment>
 
     <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{directoryHome.instance.feed.id}"
-                  styleClass="linkNavigation" rendered="#{not empty directoryHome.instance.feed}">Subscribe</h:outputLink>
+                  styleClass="linkNavigation" rendered="#{not empty directoryHome.instance.feed}">
+        <h:outputText value="#{messages['lacewiki.button.DirectoryFeed']}"/>
+    </h:outputLink>
 
 </ui:define>
 
@@ -84,8 +105,8 @@
                 <h:outputText value=".."/>
             </h:panelGrid>
         </s:link>
-        <h:outputText rendered="#{empty directoryHome.parentDirectory or !s:hasPermission('Node','read',directoryHome.parentDirectory)}"
-                      value="This directory is empty."/>
+    <h:outputText rendered="#{empty directoryHome.parentDirectory or !s:hasPermission('Node','read',directoryHome.parentDirectory)}"
+                  value="#{messages['lacewiki.label.dirDisplay.DirectoryIsEmpty']}"/>
 
 </s:div>
 

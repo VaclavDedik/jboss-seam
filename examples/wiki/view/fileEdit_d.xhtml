@@ -11,13 +11,16 @@
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="screenname">
-    <h:outputText value="Upload File" rendered="#{!fileHome.managed}"/>
-    <h:outputText value="Edit File" rendered="#{fileHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.fileEdit.UploadFile']}" rendered="#{!fileHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.fileEdit.EditFile']}" rendered="#{fileHome.managed}"/>
 </ui:define>
 
 <ui:define name="controlTwo">
 
-    <s:link id="exit" styleClass="linkNavigation" action="exit" accesskey="E"><u>E</u>xit Editor</s:link>
+    <s:link id="exit" styleClass="linkNavigation" action="exit"
+            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+    </s:link>
 
 </ui:define>
 
@@ -47,14 +50,14 @@
             <ui:include src="includes/statusIndicator.xhtml"/>
 
             <div class="formHead">
-                <h:outputText value="Create file" rendered="#{!fileHome.managed}"/>
-                <h:outputText value="Edit file" rendered="#{fileHome.managed}"/>
+                <h:outputText value="#{messages['lacewiki.label.fileEdit.UploadFile']}" rendered="#{!fileHome.managed}"/>
+                <h:outputText value="#{messages['lacewiki.label.fileEdit.EditFile']}" rendered="#{fileHome.managed}"/>
             </div>
 
             <div class="formFields formBorder wideLabels">
 
                 <s:div styleClass="entry">
-                    <div class="label">Directory:</div>
+                    <div class="label">#{messages['lacewiki.label.fileEdit.Directory']}:</div>
                     <div class="output">
                         <s:span id="directoryNameDisplay">#{fileHome.parentDirectory.name}</s:span>
 
@@ -65,7 +68,7 @@
                 </s:div>
 
                 <s:div styleClass="entry" rendered="#{fileHome.managed}">
-                    <div class="label">Created On:</div>
+                    <div class="label">#{messages['lacewiki.label.fileEdit.CreatedOn']}:</div>
                     <div class="output">
                         <h:outputText value="#{fileHome.instance.createdOn}">
                             <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
@@ -78,7 +81,7 @@
                 </s:div>
 
                 <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
-                    <ui:define name="label">Name</ui:define>
+                    <ui:define name="label">#{messages['lacewiki.label.fileEdit.Name']}</ui:define>
                     <h:inputText size="50" maxlength="255" required="true" tabindex="1" value="#{fileHome.instance.name}">
                         <a:support status="fileEditForm:status" event="onblur" reRender="nameDecorate"/>
                     </h:inputText>
@@ -89,7 +92,7 @@
                 <s:div id="details" rendered="#{fileHome.managed}">
 
                     <div class="entry">
-                        <div class="label">File Details:</div>
+                        <div class="label">#{messages['lacewiki.label.fileEdit.FileDetails']}:</div>
                         <div class="output">
                             <h:panelGroup>
                                 <h:outputLink value="#{wiki:renderURL(fileHome.instance)}">
@@ -103,7 +106,7 @@
 
                 <s:div rendered="#{fileHome.managed and empty fileHome.instance.imageMetaInfo and not empty fileHome.availableImporters}">
                     <div class="entry">
-                        <div class="label">Converters:</div>
+                        <div class="label">#{messages['lacewiki.label.fileEdit.Converters']}:</div>
                         <div class="input">
                             <h:selectOneMenu value="#{fileHome.selectedImporter}" tabindex="1">
                                 <s:selectItems value="#{fileHome.availableImporters}"
@@ -119,12 +122,12 @@
                 <s:div rendered="#{fileHome.managed and not empty fileHome.instance.imageMetaInfo}">
 
                     <div class="entry">
-                        <div class="label">Original Image Size:</div>
+                        <div class="label">#{messages['lacewiki.label.fileEdit.OriginalImageSize']}:</div>
                         <div class="output">#{fileHome.instance.imageMetaInfo.sizeX} x #{fileHome.instance.imageMetaInfo.sizeY} pixel</div>
                     </div>
 
                     <s:div styleClass="entry" id="imagePreview">
-                        <div class="label">Image Preview:</div>
+                        <div class="label">#{messages['lacewiki.label.fileEdit.ImagePreview']}:</div>
                         <div class="output">
                             <h:panelGrid columns="1">
                                 <h:panelGroup>
@@ -150,14 +153,14 @@
                     </s:div>
 
                     <div class="entry">
-                        <div class="label">Show in documents:</div>
+                        <div class="label">#{messages['lacewiki.label.fileEdit.ShowInDocuments']}:</div>
                         <div class="input">
                             <h:selectOneMenu value="#{fileHome.instance.imageMetaInfo.thumbnail}" styleClass="" tabindex="4">
-                                <f:selectItem itemLabel="Small thumbnail" itemValue="S"/>
-                                <f:selectItem itemLabel="Medium thumbnail" itemValue="M"/>
-                                <f:selectItem itemLabel="Large thumbnail" itemValue="L"/>
-                                <f:selectItem itemLabel="Full size " itemValue="F"/>
-                                <f:selectItem itemLabel="As attachment" itemValue="A"/>
+                                <f:selectItem itemLabel="#{messages['lacewiki.label.fileEdit.SmallThumbnail']}" itemValue="S"/>
+                                <f:selectItem itemLabel="#{messages['lacewiki.label.fileEdit.MediumThumbnail']}" itemValue="M"/>
+                                <f:selectItem itemLabel="#{messages['lacewiki.label.fileEdit.LargeThumbnail']}" itemValue="L"/>
+                                <f:selectItem itemLabel="#{messages['lacewiki.label.fileEdit.FullSize']}" itemValue="F"/>
+                                <f:selectItem itemLabel="#{messages['lacewiki.label.fileEdit.AsAttachment']}" itemValue="A"/>
                             </h:selectOneMenu>
                         </div>
                     </div>
@@ -166,7 +169,7 @@
 
                 <s:div id="uploadControl">
                     <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml" rendered="#{empty fileHome.selectedImporter}">
-                        <ui:define name="label">Upload (max. #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})</ui:define>
+                        <ui:define name="label">#{messages['lacewiki.label.fileEdit.Upload']} (#{messages['lacewiki.label.fileEdit.UploadMax']} #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})</ui:define>
                         <s:fileUpload id="upload" data="#{fileHome.filedata}" contentType="#{fileHome.contentType}" fileName="#{fileHome.filename}"/>
                     </s:decorate>
                 </s:div>
@@ -180,15 +183,24 @@
 
                         <h:commandLink id="save" action="#{fileHome.persist}"
                                        rendered="#{!fileHome.managed}"
-                                       tabindex="5" accesskey="S" styleClass="button"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
+                                       tabindex="5" accesskey="#{messages['lacewiki.button.fileEdit.Save.accesskey']}"
+                                       styleClass="button">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.fileEdit.Save']}"/>
+                        </h:commandLink>
 
                         <h:commandLink id="update" action="#{fileHome.update}"
                                    rendered="#{fileHome.managed}"
-                                   tabindex="6" accesskey="U" styleClass="button"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                                   tabindex="6" accesskey="#{messages['lacewiki.button.fileEdit.Update.accesskey']}"
+                                   styleClass="button">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.fileEdit.Update']}"/>
+                        </h:commandLink>
 
-                        <h:outputLink id="delete" value="#" tabindex="7" accesskey="D" styleClass="button"
-                                      rendered="#{fileHome.managed}"><j4j:idProxy
-                                id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+                        <h:outputLink id="delete" value="#" tabindex="7"
+                                      accesskey="#{messages['lacewiki.button.fileEdit.Delete.accesskey']}"
+                                      styleClass="button"
+                                      rendered="#{fileHome.managed}"><j4j:idProxy id="openDialogDelete"/>
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.fileEdit.Delete']}"/>
+                        </h:outputLink>
 
                     </div>
                 </div>

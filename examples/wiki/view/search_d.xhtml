@@ -10,11 +10,16 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
-<ui:define name="screenname">Search: #{wikiSearch.simpleQuery}</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.search.Search']}: #{wikiSearch.simpleQuery}"/>
+</ui:define>
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
 
 </ui:define>
 
@@ -36,7 +41,7 @@
                          cellpadding="0" cellspacing="0" border="0">
 
                 <f:facet name="header">
-                    <h:outputText value="Search"/>
+                    <h:outputText value="#{messages['lacewiki.label.search.Search']}"/>
                 </f:facet>
 
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
@@ -45,25 +50,25 @@
                         <s:selectItems value="#{searchRegistry.searchableEntities}"
                                        var="se"
                                        label="#{se.description}"
-                                       noSelectionLabel="All"/>
+                                       noSelectionLabel="#{messages['lacewiki.label.search.All']}"/>
                         <a:support status="searchForm:status" event="onchange" reRender="searchControl, searchPager, searchResult" action="#{wikiSearch.search}"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
 
                 <h:panelGrid columns="2" rendered="#{empty wikiSearch.selectedSearchableEntity}" cellpadding="0" cellspacing="0" border="0">
-                    <h:outputText styleClass="label" value="Terms:&#160;"/>
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.search.Terms']}:&#160;"/>
                     <h:inputText value="#{wikiSearch.simpleQuery}" size="28" maxlength="1000" tabindex="1"/>
                 </h:panelGrid>
                 <s:span rendered="#{not empty wikiSearch.selectedSearchableEntity}">&#160;</s:span>
 
                 <h:panelGrid columns="2" rendered="#{empty wikiSearch.selectedSearchableEntity}" cellpadding="0" cellspacing="0" border="0">
                     <h:selectBooleanCheckbox value="#{wikiSearch.simpleQueryMatchExactPhrase}" tabindex="1"/>
-                    <h:outputText styleClass="label" style="white-space:nowrap;" value="&#160;Exact phrase"/>
+                    <h:outputText styleClass="label" style="white-space:nowrap;" value="&#160;#{messages['lacewiki.label.search.ExactPhrase']}"/>
                 </h:panelGrid>
                 <s:span rendered="#{not empty wikiSearch.selectedSearchableEntity}">&#160;</s:span>
 
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
-                    <h:outputText styleClass="label" value="Results:&#160;"/>
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.search.Results']}:&#160;"/>
                     <h:selectOneMenu value="#{wikiSearch.pageSize}" id="pageSize" tabindex="1">
                         <f:selectItem itemLabel="5" itemValue="5"/>
                         <f:selectItem itemLabel="15" itemValue="15"/>
@@ -75,7 +80,10 @@
                 <a:commandLink id="find" styleClass="buttonNonpersistent" reRender="workspaceSwitcher, searchControl, searchPager, searchResult"
                                status="searchForm:status"
                                action="#{wikiSearch.search()}"
-                               tabindex="1" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></a:commandLink>
+                               tabindex="1" accesskey="#{messages['lacewiki.button.search.Find.accesskey']}">
+                    <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.search.Find']}"/>
+
+                </a:commandLink>
 
             </h:panelGrid>
 
@@ -92,25 +100,25 @@
                                  cellpadding="0" cellspacing="0" border="0">
 
                         <h:column>
-                            <h:outputText styleClass="label" value="#{search.property.description}"/>
+                            <h:outputText styleClass="label" value="#{search.property.description}:"/>
                         </h:column>
 
                         <h:column>
 
                             <h:panelGrid columns="5" rendered="#{search.property.type == 'PHRASE'}">
                                 <h:inputText value="#{search.terms['include']}" size="32" tabindex="1"/>
-                                <h:outputText styleClass="label" value="&#160;Exclude:&#160;"/>
+                                <h:outputText styleClass="label" value="&#160;#{messages['lacewiki.label.search.Exclude']}:&#160;"/>
                                 <h:inputText value="#{search.terms['exclude']}" size="32" tabindex="1"/>
                                 <h:selectBooleanCheckbox value="#{search.terms['matchExactPhrase']}" tabindex="1"/>
-                                <h:outputText styleClass="label" value="&#160;Match exact phrase"/>
+                                <h:outputText styleClass="label" value="&#160;#{messages['lacewiki.label.search.ExactPhrase']}"/>
                             </h:panelGrid>
 
                             <s:div rendered="#{search.property.type == 'PASTDATE'}">
                                 <h:selectOneMenu value="#{search.terms['numOfDays']}" tabindex="1">
-                                    <f:selectItem itemLabel="at any time" itemValue=""/>
-                                    <f:selectItem itemLabel="last 7 days" itemValue="7"/>
-                                    <f:selectItem itemLabel="last 30 days" itemValue="30"/>
-                                    <f:selectItem itemLabel="last 6 months" itemValue="180"/>
+                                    <f:selectItem itemLabel="#{messages['lacewiki.label.search.AtAnyTime']}" itemValue=""/>
+                                    <f:selectItem itemLabel="#{messages['lacewiki.label.search.Last7Days']}" itemValue="7"/>
+                                    <f:selectItem itemLabel="#{messages['lacewiki.label.search.Last30Days']}" itemValue="30"/>
+                                    <f:selectItem itemLabel="#{messages['lacewiki.label.search.Last6Months']}" itemValue="180"/>
                                 </h:selectOneMenu>
                             </s:div>
 
@@ -142,9 +150,9 @@
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                                 rendered="#{!wikiSearch.previousPageAvailable}"/>
 
-                <h:outputText value="#{wikiSearch.firstRow} to
-                                     #{wikiSearch.lastRow} of
-                                     #{wikiSearch.totalCount} hit(s)"/>
+                <h:outputText value="#{wikiSearch.firstRow} #{messages['lacewiki.label.search.To']}
+                                     #{wikiSearch.lastRow} #{messages['lacewiki.label.search.Of']}
+                                     #{wikiSearch.totalCount} #{messages['lacewiki.label.search.Hits']}"/>
 
                 <h:commandLink action="#{wikiSearch.nextPage()}" rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
@@ -183,7 +191,7 @@
             </h:dataTable>
 
             <s:div styleClass="formFields minorPadding" rendered="#{wikiSearch.totalCount == 0}">
-                <h:outputText value="No hits, please try again."/>
+                <h:outputText value="#{messages['lacewiki.label.search.NoHits']}"/>
             </s:div>
 
         </s:div>

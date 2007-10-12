@@ -31,27 +31,36 @@ public class User implements Serializable {
     @Column(name = "FIRSTNAME", length = 63, nullable = false)
     @NotNull
     @Length(min = 3, max = 63)
-    @Pattern(regex="[a-zA-Z]+", message="First name must only contain letters")
+    @Pattern(
+        regex="[a-zA-Z]+",
+        message="#{messages['lacewiki.entity.FirstNameMustOnlyContainLetters']}"
+    )
     private String firstname;
 
     @Column(name = "LASTNAME", length = 63, nullable = false)
     @NotNull
     @Length(min = 3, max = 63)
-    @Pattern(regex="[a-zA-Z]+", message="Last name must only contain letters")
+    @Pattern(
+        regex="[a-zA-Z]+",
+        message="#{messages['lacewiki.entity.LastNameMustOnlyContainLetters']}"
+    )
     private String lastname;
 
     @Column(name = "USERNAME", length = 16, nullable = false, unique = true)
     @NotNull
     @Length(min = 3, max = 16)
-    @Pattern(regex="[a-zA-Z]?[a-zA-Z0-9]+",
-          message="Member name must start with a letter, and only contain letters and numbers")
+    @Pattern(
+        regex="[a-zA-Z]?[a-zA-Z0-9]+",
+        message="#{messages['lacewiki.entity.UsernameMustStartWithALetterAndOnlyContainLetters']}"
+    )
     private String username; // Unique and immutable
 
     @Column(name = "PASSWORDHASH", length = 255, nullable = false)
     private String passwordHash;
 
     @Column(name = "EMAIL", length = 255, nullable = false)
-    @NotNull @Email
+    @NotNull
+    @Email
     private String email;
 
     @Column(name = "ACTIVATED", nullable = false)

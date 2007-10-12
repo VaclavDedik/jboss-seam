@@ -8,14 +8,12 @@ package org.jboss.seam.wiki.core.captcha;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 
-import javax.faces.application.FacesMessage;
 import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Random;

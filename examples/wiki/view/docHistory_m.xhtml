@@ -8,31 +8,36 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
-<ui:define name="screenname">Document History: #{nodeHistory.currentNode.name}</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{nodeHistory.currentNode.name}"/>
+</ui:define>
 
 <ui:define name="control">
-    <s:link id="close" styleClass="linkNavigation" action="exit">Close</s:link>
+    <s:link id="close" styleClass="linkNavigation" action="exit"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
 </ui:define>
 
 <ui:define name="content">
 
 <h:form rendered="#{historicalNodeList.rowCount >0}" styleClass="box">
 
-    <div>Current revision:&#160;<h:outputText value="#{nodeHistory.currentNode.revision}"/></div>
-    <div>Parent:&#160;<h:outputText value="#{nodeHistory.currentNode.parent.name}"/></div>
-    <div>Created On:&#160;
+    <div>#{messages['lacewiki.label.docHistory.CurrentRevision']}:&#160;<h:outputText value="#{nodeHistory.currentNode.revision}"/></div>
+    <div>#{messages['lacewiki.label.docHistory.Parent']}:&#160;<h:outputText value="#{nodeHistory.currentNode.parent.name}"/></div>
+    <div>#{messages['lacewiki.label.docHistory.CreatedOn']}:&#160;
         <h:outputText value="#{nodeHistory.currentNode.createdOn}">
             <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
         </h:outputText>
         (#{nodeHistory.currentNode.createdBy.username})
     </div>
-    <div>Last Modified On:&#160;
+    <div>#{messages['lacewiki.label.docHistory.LastModifiedOn']}:&#160;
         <h:outputText value="#{nodeHistory.currentNode.lastModifiedOn}">
             <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
         </h:outputText>
         (#{nodeHistory.currentNode.lastModifiedBy.username})
     </div>
-    <div>Historical revisions:</div>
+    <div>#{messages['lacewiki.label.docHistory.HistoricalRevisions']}:</div>
 
     <h:dataTable id="historyTable" var="hnode"
                  value="#{historicalNodeList}"
@@ -52,20 +57,20 @@
         </h:column>
 
         <h:column>
-            <h:commandButton action="#{nodeHistory.displayHistoricalRevision}" value="Show"/>
+            <h:commandButton action="#{nodeHistory.displayHistoricalRevision}"
+                             value="#{messages['lacewiki.button.Show']}"/>
         </h:column>
         <h:column>
-            <h:commandButton action="#{nodeHistory.diff}" value="Diff"/>
-        </h:column>
-        <h:column>
-            <h:commandButton action="#{nodeHistory.rollback}" value="Rollback"
+            <h:commandButton action="#{nodeHistory.rollback}"
+                             value="#{messages['lacewiki.button.Rollback']}"
                              rendered="#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}"/>
         </h:column>
 
     </h:dataTable>
 
     <s:div rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" styleClass="formControls">
-        <h:commandButton id="purge" action="#{nodeHistory.purgeHistory}" value="Purge History"/>
+        <h:commandButton id="purge" action="#{nodeHistory.purgeHistory}"
+                         value="#{messages['lacewiki.button.PurgeHistory']}"/>
     </s:div>
 
 </h:form>

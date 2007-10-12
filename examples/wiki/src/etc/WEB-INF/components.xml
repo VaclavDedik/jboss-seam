@@ -20,7 +20,7 @@
 
     <!-- ##### WIKI USER CONFIGURATION ##### -->
 
-    <mail:mail-session host="localhost" port="25"/>
+    <mail:mail-session host="mail.bluewin.ch" port="25"/>
 
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
 
@@ -81,19 +81,26 @@
 
     <!-- Login and security -->
 
-    <!-- Rules is too broken
-    <drools:rule-base name="securityRules">
-        <drools:rule-files>
-            <value>/security.drl</value>
-        </drools:rule-files>
-    </drools:rule-base>
+    <security:identity authenticate-method="#{authenticator.authenticate}"
+                       remember-me="false"/>
 
-    <security:identity authenticate-method="#{authenticator.authenticate}"
-                       security-rules="#{securityRules}"
-                       remember-me="false"/>
-   -->
-    <security:identity authenticate-method="#{authenticator.authenticate}"
-                       remember-me="false"/>
+    <!-- Plugin i18n resources
+        TODO: This could be made dynamic with a custom ResourceLoader?
+    -->
+
+    <core:resource-loader>
+        <core:bundle-names>
+            <value>messages</value>
+            <value>messages_blogDirectory</value>
+            <value>messages_blogArchive</value>
+            <value>messages_blogRecentEntries</value>
+            <value>messages_dirMenu</value>
+            <value>messages_feedTeasers</value>
+            <value>messages_lastModifiedDocuments</value>
+            <value>messages_tags</value>
+            <value>messages_userProfile</value>
+        </core:bundle-names>
+    </core:resource-loader>
 
     <!-- Misc Settings -->
 

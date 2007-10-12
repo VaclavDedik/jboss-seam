@@ -88,8 +88,10 @@ public class WikiNodeFactory implements Serializable {
         } catch (RuntimeException ex) {
             FacesMessages.instance().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_ERROR,
-                "memberHomeDirectoryNotFound",
-                "Could not find member area with id " + memberAreaId + " - your configuration is broken, please change it");
+                "lacewiki.msg.MemberHomedirectoryNotFound",
+                "Could not find member area with id {0}  - your configuration is broken, please change it.",
+                memberAreaId
+            );
             return null;
         }
     }

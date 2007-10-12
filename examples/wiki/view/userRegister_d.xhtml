@@ -9,11 +9,16 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
-<ui:define name="screenname">Registration</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.userRegister.Registration']}"/>
+</ui:define>
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
 
 </ui:define>
 
@@ -25,71 +30,87 @@
         <ui:include src="includes/statusIndicator.xhtml"/>
 
         <div class="formHead">
-            <h:outputText rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}" value="Register new account"/>
-            <h:outputText rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" value="Create new account"/>
+            <h:outputText rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}"
+                          value="#{messages['lacewiki.label.userRegister.RegisterNewAccount']}"/>
+            <h:outputText rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"
+                          value="#{messages['lacewiki.label.userRegister.CreateNewAccount']}"/>
         </div>
 
         <div class="formFields formBorder wideLabels">
 
+            <a:region>
             <s:decorate id="firstnameDecorate" template="includes/formFieldDecorate.xhtml">
-                <ui:define name="label">First name</ui:define>
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.FirstName']}</ui:define>
                 <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
                     <a:support status="userRegisterForm:status" event="onblur" reRender="firstnameDecorate"/>
                 </h:inputText>
             </s:decorate>
+            </a:region>
 
+            <a:region>
             <s:decorate id="lastnameDecorate" template="includes/formFieldDecorate.xhtml">
-                <ui:define name="label">Last name</ui:define>
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.LastName']}</ui:define>
                 <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
                     <a:support status="userRegisterForm:status" event="onblur" reRender="lastnameDecorate"/>
                 </h:inputText>
             </s:decorate>
+            </a:region>
 
+            <a:region>
             <s:decorate id="emailDecorate" template="includes/formFieldDecorate.xhtml">
-                <ui:define name="label">E-Mail</ui:define>
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.Email']}</ui:define>
                 <h:inputText tabindex="3" size="40" maxlength="255" required="true" value="#{userHome.instance.email}">
                     <a:support status="userRegisterForm:status" event="onblur" reRender="emailDecorate"/>
                 </h:inputText>
             </s:decorate>
+            </a:region>
 
+            <a:region>
             <s:decorate id="usernameDecorate" template="includes/formFieldDecorate.xhtml">
-                <ui:define name="label">Username</ui:define>
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.Username']}</ui:define>
                 <h:inputText tabindex="4" size="16" maxlength="16" required="true" id="username" value="#{userHome.instance.username}">
                     <a:support status="userRegisterForm:status" event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
                 </h:inputText>
             </s:decorate>
+            </a:region>
 
+            <a:region>
             <s:decorate id="passwordDecorate" template="includes/formFieldDecorate.xhtml">
-                <ui:define name="label">Password</ui:define>
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.Password']}</ui:define>
                 <h:inputSecret tabindex="5" size="15" maxlength="15"
                                redisplay="true" value="#{userHome.password}">
                     <a:support status="userRegisterForm:status" event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
                 </h:inputSecret>
             </s:decorate>
+            </a:region>
 
+            <a:region>
             <s:decorate id="passwordControlDecorate" template="includes/formFieldDecorate.xhtml">
-                <ui:define name="label">Repeat password</ui:define>
+                <ui:define name="label">#{messages['lacewiki.label.userRegister.RepeatPassword']}</ui:define>
                 <h:inputSecret tabindex="6" size="15" maxlength="15"
                                redisplay="true" value="#{userHome.passwordControl}">
                     <a:support status="userRegisterForm:status" event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
                 </h:inputSecret>
             </s:decorate>
+            </a:region>
 
+            <a:region>
             <s:div rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}">
                 <s:div styleClass="entry">
-                    <div class="label">Verification question:</div>
+                    <div class="label">#{messages['lacewiki.label.VerificationQuestion']}:</div>
                     <div class="output">
-                        What is the result of&#160;<h:outputText value="#{captcha.question}"/>?
+                        #{messages['lacewiki.label.VerificationQuestionQuestion']}&#160;<h:outputText value="#{captcha.question}"/>?
                     </div>
                 </s:div>
 
                 <s:decorate id="verifyCaptchaDecorate" template="includes/formFieldDecorate.xhtml">
-                    <ui:define name="label">Enter response</ui:define>
+                    <ui:define name="label">#{messages['lacewiki.label.VerificationEnterResponse']}</ui:define>
                     <h:inputSecret tabindex="7" size="5" maxlength="5" required="true"
                                    redisplay="true" id="verifyCaptcha" value="#{captcha.response}">
                     </h:inputSecret>
                 </s:decorate>
             </s:div>
+            </a:region>
 
         </div>
 
@@ -101,11 +122,15 @@
 
                     <h:commandLink id="register" styleClass="button" rendered="#{not s:hasPermission('User', 'isAdmin', currentUser)}"
                                    action="#{userHome.persist}"
-                                   tabindex="8" accesskey="G"><span class="buttonLabel">Re<u>g</u>ister</span></h:commandLink>
+                                   tabindex="8" accesskey="#{messages['lacewiki.button.userRegister.Register.accesskey']}">
+                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userRegister.Register']}"/>
+                    </h:commandLink>
 
                     <h:commandLink id="create" styleClass="button" rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"
                                    action="#{userHome.persist}"
-                                   tabindex="8" accesskey="C"><span class="buttonLabel"><u>C</u>reate Account</span></h:commandLink>
+                                   tabindex="8" accesskey="#{messages['lacewiki.button.userRegister.Create.accesskey']}">
+                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userRegister.Create']}"/>
+                    </h:commandLink>
                 </div>
             </div>
 

@@ -8,10 +8,12 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
-<ui:define name="screenname">Registration</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.userRegister.Registration']}"/>
+</ui:define>
 
 <ui:define name="content">
-    Registration is not available with this skin.
+    <h:outputText value="#{messages['lacewiki.label.userRegister.NotAvailableForSkin']}"/>
 </ui:define>
 
 </ui:composition>

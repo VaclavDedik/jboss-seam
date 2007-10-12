@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.util;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.international.Messages;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.*;

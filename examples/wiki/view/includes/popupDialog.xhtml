@@ -21,17 +21,19 @@
         });
     });</script>
 
-    <div class="popupDialogHead" id="#{dialogId}Head"><ui:insert name="dialogTitle">Confirmation</ui:insert></div>
+    <div class="popupDialogHead" id="#{dialogId}Head"><ui:insert name="dialogTitle">#{messages['lacewiki.label.Confirmation']}</ui:insert></div>
 
     <s:div styleClass="popupDialogContent" id="#{dialogId}Content">
-        <ui:insert name="dialogContent"><p>Are you sure you want to execute this operation?</p></ui:insert>
+        <ui:insert name="dialogContent"><p>#{messages['lacewiki.label.AreYouSureYouWantToExecute']}</p></ui:insert>
     </s:div>
 
     <s:div styleClass="popupDialogControls" id="#{dialogId}Controls">
         <h:panelGroup>
             <ui:insert name="dialogControls"/>
             <h:outputLink value="#" rendered="#{!hideCancelButton}"
-                          styleClass="buttonNonpersistent closeDialog"><span class="buttonLabel"><u>C</u>ancel</span></h:outputLink>
+                          styleClass="buttonNonpersistent closeDialog">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Cancel']}"/>
+            </h:outputLink>
         </h:panelGroup>
     </s:div>
 

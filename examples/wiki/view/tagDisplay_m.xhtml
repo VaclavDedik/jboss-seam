@@ -8,10 +8,12 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
-<ui:define name="screenname">Tag Display</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.tagDisplay.Tag']}"/>
+</ui:define>
 
 <ui:define name="content">
-    Tag Display is not available with this skin.
+    <h:outputText value="#{messages['lacewiki.label.tagDisplay.NotAvailableForSkin']}"/>
 </ui:define>
 
 </ui:composition>

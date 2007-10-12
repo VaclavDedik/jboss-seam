@@ -4,6 +4,8 @@ import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 
 import javax.swing.ImageIcon;
 
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
@@ -18,7 +20,6 @@ import org.jboss.seam.wiki.util.WikiUtil;
 import java.util.*;
 
 import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicMatchNotFoundException;
 
 @Name("fileHome")
 @Scope(ScopeType.CONVERSATION)
@@ -148,6 +149,35 @@ public class FileHome extends NodeHome<File> {
                 WikiUtil.resizeImage(getInstance().getData(), getInstance().getContentType(), thumbnailWidth)
             );
         }
+    }
+
+    /* -------------------------- Messages ------------------------------ */
+
+    protected void createdMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.File.Persist",
+                "File '{0}' has been saved.",
+                getInstance().getName()
+        );
+    }
+
+    protected void updatedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.File.Update",
+                "File '{0}' has been updated.",
+                getInstance().getName()
+        );
+    }
+
+    protected void deletedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.File.Delete",
+                "File '{0}' has been deleted.",
+                getInstance().getName()
+        );
     }
 
     /* -------------------------- Public Features ------------------------------ */

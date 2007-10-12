@@ -3,6 +3,7 @@ package org.jboss.seam.wiki.preferences;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.Component;
+import org.jboss.seam.international.Messages;
 import org.hibernate.validator.InvalidValue;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidStateException;

@@ -114,8 +114,9 @@ public class ZipImporter extends AbstractImporter {
         log.debug("skipping directory: " + zipEntry.getName());
         getFacesMessages().addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_ERROR,
-            "notImportingDirectory",
-            "Skipping directory '" + zipEntry.getName() + "', importing not supported..."
+            "lacewiki.msg.ImportSkippingDirectory",
+            "Skipping directory '{0}', importing not supported...",
+            zipEntry.getName()
         );
         return false; // Not supported
     }
@@ -133,8 +134,9 @@ public class ZipImporter extends AbstractImporter {
             log.debug("new name is not unique and invalid");
             getFacesMessages().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_ERROR,
-                "duplicateImportedName",
-                "Skipping file '" + newWikiname + "', name is already used in this area..."
+                "lacewiki.msg.ImportDuplicateName",
+                "Skipping file '{0}', name is already used in this area...",
+                newWikiname
             );
             return false;
         }
@@ -204,8 +206,11 @@ public class ZipImporter extends AbstractImporter {
                 for (InvalidValue invalidValue : invalidValues) {
                     getFacesMessages().addFromResourceBundleOrDefault(
                         FacesMessage.SEVERITY_ERROR,
-                        "invalidImportedDocumentName",
-                        "Skipping entry '" + newNode.getName() + "', invalid: " + invalidValue.getMessage()
+                        "lacewiki.msg.ImportInvalidNode",
+                        "Skipping entry '{0}', invalid: {1}",
+                        newNode.getName(),
+                        invalidValue.getMessage()
+
                     );
                 }
                 continue;
@@ -216,8 +221,9 @@ public class ZipImporter extends AbstractImporter {
             em.persist(newNode);
             getFacesMessages().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_INFO,
-                "importedFile",
-                "Created file '" + newNode.getName() + "' in current directory"
+                "lacewiki.msg.ImportOk",
+                "Created file '{0}' in current directory.",
+                newNode.getName()
             );
 
             // Batch the work (we can't clear because of nested set updates, unfortunately)

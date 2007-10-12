@@ -8,10 +8,12 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
-<ui:define name="screenname">Member Account</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.userHome.MemberAccount']}"/>
+</ui:define>
 
 <ui:define name="content">
-    Account management is not available with this skin.
+    <h:outputText value="#{messages['lacewiki.label.userHome.NotAvailableForSkin']}"/>
 </ui:define>
 
 </ui:composition>

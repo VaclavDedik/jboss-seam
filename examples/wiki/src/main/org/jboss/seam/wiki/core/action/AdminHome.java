@@ -73,7 +73,7 @@ public class AdminHome implements Serializable {
 
         facesMessages.addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_INFO,
-            "systemSettingsUpdated",
+            "lacewiki.msg.SystemSettingsUpdated",
             "System settings updated"
         );
 

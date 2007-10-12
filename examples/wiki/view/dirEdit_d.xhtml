@@ -11,17 +11,21 @@
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="screenname">
-    <h:outputText value="Create directory" rendered="#{!directoryHome.managed}"/>
-    <h:outputText value="Edit directory" rendered="#{directoryHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.dirEdit.CreateDirectory']}" rendered="#{!directoryHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.dirEdit.EditDirectory']}" rendered="#{directoryHome.managed}"/>
 </ui:define>
 
 <ui:define name="controlTwo">
 
     <s:link id="exitManaged" styleClass="linkNavigation" rendered="#{directoryHome.managed}" action="exitManaged"
-            accesskey="E"><u>E</u>xit Editor</s:link>
+            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+    </s:link>
 
     <s:link id="exitUnmanaged" styleClass="linkNavigation" rendered="#{!directoryHome.managed}" action="exitUnmanaged"
-            accesskey="E"><u>E</u>xit Editor</s:link>
+            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+    </s:link>
 
 </ui:define>
 
@@ -46,8 +50,8 @@
 <ui:include src="includes/statusIndicator.xhtml"/>
 
 <div class="formHead">
-    <h:outputText value="New directory" rendered="#{!directoryHome.managed}"/>
-    <h:outputText value="Edit directory" rendered="#{directoryHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.dirEdit.CreateDirectory']}" rendered="#{!directoryHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.dirEdit.EditDirectory']}" rendered="#{directoryHome.managed}"/>
 </div>
 
 <div class="formFields formBorder">
@@ -55,14 +59,18 @@
     <s:validateAll>
 
         <s:div styleClass="entry" rendered="#{!empty directoryHome.parentDirectory}">
-            <div class="label">Parent:</div>
+            <div class="label">
+                <h:outputText value="#{messages['lacewiki.label.dirEdit.Parent']}:"/>
+            </div>
             <div class="output">
                 <h:outputText value="#{directoryHome.parentDirectory.name}"/>
             </div>
         </s:div>
 
         <s:div styleClass="entry" rendered="#{directoryHome.managed}">
-            <div class="label">Created On:</div>
+            <div class="label">
+                <h:outputText value="#{messages['lacewiki.label.dirEdit.CreatedOn']}:"/>
+            </div>
             <div class="output">
                 <h:outputText value="#{directoryHome.instance.createdOn}">
                     <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
@@ -75,14 +83,14 @@
         </s:div>
 
         <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
-            <ui:define name="label">Name</ui:define>
+            <ui:define name="label">#{messages['lacewiki.label.dirEdit.Name']}</ui:define>
             <h:inputText size="25" maxlength="255" required="true" tabindex="1" value="#{directoryHome.instance.name}">
                 <a:support status="directoryEditForm:status" event="onblur" reRender="nameDecorate"/>
             </h:inputText>
         </s:decorate>
 
         <s:decorate id="descriptionDecorate" template="includes/formFieldDecorate.xhtml">
-            <ui:define name="label">Description</ui:define>
+            <ui:define name="label">#{messages['lacewiki.label.dirEdit.Description']}</ui:define>
             <h:inputText size="50" maxlength="512" required="false" tabindex="1" value="#{directoryHome.instance.description}">
                 <a:support status="directoryEditForm:status" event="onblur" reRender="descriptionDecorate"/>
             </h:inputText>
@@ -96,7 +104,9 @@
 
     <s:span id="defaultDocumentSelector">
         <s:div styleClass="entry" rendered="#{directoryHome.managed and !empty directoryHome.parentDirectory and !empty directoryHome.childDocuments}">
-            <div class="label">Default document:</div>
+            <div class="label">
+                <h:outputText value="#{messages['lacewiki.label.dirEdit.DefaultDocument']}:"/>
+            </div>
             <div class="input">
                 <h:selectOneMenu value="#{directoryHome.instance.defaultDocument}" converter="#{restrictedEntityConverter}" tabindex="2">
                     <s:selectItems value="#{directoryHome.childDocuments}"
@@ -110,7 +120,9 @@
 
     <s:div styleClass="entry"
            rendered="#{!empty directoryHome.instance.children and s:hasPermission('Node', 'editMenu', directoryHome.instance)}">
-        <div class="label">Menu items:</div>
+        <div class="label">
+            <h:outputText value="#{messages['lacewiki.label.dirEdit.MenuItems']}:"/>
+        </div>
         <div class="input">
 
             <h:dataTable id="menuItemTable" var="node" style="width:50%"
@@ -174,7 +186,7 @@
         <div class="input">
             <h:selectBooleanCheckbox value="#{directoryHome.hasFeed}" tabindex="2"
                                      disabled="#{empty directoryHome.parentDirectory}"/>
-            Enable syndication feed (disabling invalidates subcriber link)
+            <h:outputText value="#{messages['lacewiki.label.dirEdit.EnableFeed']}"/>
             <a:commandLink id="resetFeed" reRender="messageBoxContainer"
                            action="#{directoryHome.resetFeed}"
                            rendered="#{!empty directoryHome.instance.feed}"
@@ -192,16 +204,24 @@
             <h:commandLink id="save" styleClass="button"
                            action="#{directoryHome.persist}"
                            rendered="#{!directoryHome.managed}"
-                           tabindex="6" accesskey="S"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
+                           tabindex="6" accesskey="#{messages['lacewiki.button.dirEdit.Save.accesskey']}">
+                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.Save']}"/>
+            </h:commandLink>
 
             <h:commandLink id="update" styleClass="button"
                            action="#{directoryHome.update}"
                            rendered="#{directoryHome.managed}"
-                           tabindex="7" accesskey="U"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                           tabindex="7" accesskey="#{messages['lacewiki.button.dirEdit.Update.accesskey']}">
+                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.Update']}"/>
+            </h:commandLink>
 
-            <h:outputLink id="delete" value="#" tabindex="8" accesskey="D" styleClass="button"
+            <h:outputLink id="delete" value="#" tabindex="8"
+                          accesskey="#{messages['lacewiki.button.dirEdit.Delete.accesskey']}" 
+                          styleClass="button"
                           rendered="#{directoryHome.managed and !empty directoryHome.parentDirectory and directoryHome.instance.id != wikiPreferences.memberAreaId}"><j4j:idProxy
-                    id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+                          id="openDialogDelete"/>
+                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.Delete']}"/>
+            </h:outputLink>
 
         </div>
     </div>

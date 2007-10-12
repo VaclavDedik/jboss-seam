@@ -48,7 +48,7 @@
         <h:form>
             <h:panelGroup styleClass="searchControlTable">
                 <h:inputText value="#{wikiSearch.simpleQuery}" size="15" maxlength="1000"/>
-                <h:commandButton action="search" value="Find">
+                <h:commandButton action="search" value="#{messages['lacewiki.button.Find']}">
                     <!-- TODO: This is broken, http://jira.jboss.com/jira/browse/JBSEAM-1899 -->
                     <s:conversationPropagation type="none"/>
                 </h:commandButton>
@@ -59,11 +59,12 @@
 
             <h:form>
             <h:panelGrid columns="7" styleClass="userControl" columnClasses="userControlPanel">
-                <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="Username:"/>
+                <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="#{messages['lacewiki.label.userControl.Username']}:"/>
                 <h:inputText styleClass="userControlInput" id="loginUsername" value="#{identity.username}" size="10"/>
-                <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="Password:"/>
+                <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="#{messages['lacewiki.label.userControl.Password']}:"/>
                 <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="10" />
-                <h:commandButton styleClass="userControlButton" action="#{identity.login}" value="Login"/>
+                <h:commandButton styleClass="userControlButton" action="#{identity.login}"
+                                 value="#{messages['lacewiki.button.Login']}"/>
             </h:panelGrid>
             </h:form>
 
@@ -71,16 +72,18 @@
 
         <s:div rendered="#{identity.loggedIn}">
 
+            <h:form>
             <h:panelGrid columns="6" styleClass="userControl" columnClasses="userControlPanel">
 
                 <h:outputText styleClass="userControlLabel" value="(#{currentUser.fullname})"/>
 
-                <s:link styleClass="userControlLink" action="#{authenticator.logout}">Logout</s:link>
+                <h:commandButton action="#{authenticator.logout}" value="#{messages['lacewiki.button.Logout']}"/>
 
                 <h:outputLink styleClass="userControlLink" value="#{wiki:renderHomeURL(currentUser)}"
-                        rendered="#{!empty currentUser.memberHome}">Home</h:outputLink>
+                        rendered="#{!empty currentUser.memberHome}">#{messages['lacewiki.button.Home']}</h:outputLink>
 
             </h:panelGrid>
+            </h:form>
 
         </s:div>
 

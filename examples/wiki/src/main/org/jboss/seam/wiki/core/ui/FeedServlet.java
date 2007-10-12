@@ -58,11 +58,13 @@ public class FeedServlet extends HttpServlet {
 
             // Create feed
             SyndFeed syndFeed = new SyndFeedImpl();
+            syndFeed.setUri(request.getRequestURL().toString() + "?feedId=" + feedId);
             syndFeed.setFeedType(feedType);
             syndFeed.setTitle(feed.getTitle());
             syndFeed.setLink(request.getRequestURL().toString() + "?feedId=" + feedId);
             syndFeed.setAuthor(feed.getAuthor());
-            syndFeed.setDescription(feed.getDescription());
+            if (feed.getDescription() != null && feed.getDescription().length() >0)
+                syndFeed.setDescription(feed.getDescription());
             syndFeed.setPublishedDate(feed.getPublishedDate());
 
             // Create feed entries
@@ -74,6 +76,7 @@ public class FeedServlet extends HttpServlet {
                 syndEntry = new SyndEntryImpl();
                 syndEntry.setTitle(entry.getTitle());
                 syndEntry.setLink(entry.getLink());
+                syndEntry.setUri(entry.getLink());
                 syndEntry.setAuthor(entry.getAuthor());
                 syndEntry.setPublishedDate(entry.getPublishedDate());
                 syndEntry.setUpdatedDate(entry.getUpdatedDate());
@@ -87,6 +90,7 @@ public class FeedServlet extends HttpServlet {
 
             // Write feed to output
             response.setContentType("application/atom+xml"); // TODO: Make this more flexible
+            response.setCharacterEncoding("UTF-8");
             SyndFeedOutput output = new SyndFeedOutput();
             output.output(syndFeed, response.getWriter());
             response.getWriter().flush();

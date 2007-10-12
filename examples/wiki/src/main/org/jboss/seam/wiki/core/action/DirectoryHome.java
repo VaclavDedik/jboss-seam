@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.wiki.core.action;
 
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.security.Restrict;
@@ -93,6 +95,35 @@ public class DirectoryHome extends NodeHome<Directory> {
         getNodeDAO().removeChildren(getInstance());
 
         return true;
+    }
+
+    /* -------------------------- Messages ------------------------------ */
+
+    protected void createdMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.Directory.Persist",
+                "Directory '{0}' has been saved.",
+                getInstance().getName()
+        );
+    }
+
+    protected void updatedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.Directory.Update",
+                "Directory '{0}' has been updated.",
+                getInstance().getName()
+        );
+    }
+
+    protected void deletedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.Directory.Delete",
+                "Directory '{0}' has been deleted.",
+                getInstance().getName()
+        );
     }
 
     /* -------------------------- Internal Methods ------------------------------ */

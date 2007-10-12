@@ -9,11 +9,16 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
-<ui:define name="screenname">Document History</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{nodeHistory.currentNode.name}"/>
+</ui:define>
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" action="exit" accesskey="E">Clos<u>e</u></s:link>
+    <s:link id="close" styleClass="linkNavigation" action="exit"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
 
 </ui:define>
 
@@ -22,25 +27,25 @@
 <h:form rendered="#{historicalNodeList.rowCount >0}" styleClass="box">
 
 <div class="form">
-    <div class="formHead">Document History: #{nodeHistory.currentNode.name}</div>
+    <div class="formHead">#{messages['lacewiki.label.docHistory.DocumentHistory']}: #{nodeHistory.currentNode.name}</div>
     <div class="formFields formBorder">
 
         <s:div styleClass="entry">
-            <div class="label">Current revision:</div>
+            <div class="label">#{messages['lacewiki.label.docHistory.CurrentRevision']}:</div>
             <div class="output">
                 <h:outputText value="#{nodeHistory.currentNode.revision}"/>
             </div>
         </s:div>
 
         <s:div styleClass="entry">
-            <div class="label">Parent:</div>
+            <div class="label">#{messages['lacewiki.label.docHistory.Parent']}:</div>
             <div class="output">
                 <h:outputText value="#{nodeHistory.currentNode.parent.name}"/>
             </div>
         </s:div>
 
         <s:div styleClass="entry">
-            <div class="label">Created On:</div>
+            <div class="label">#{messages['lacewiki.label.docHistory.CreatedOn']}:</div>
             <div class="output">
                 <h:outputText value="#{nodeHistory.currentNode.createdOn}">
                     <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
@@ -50,7 +55,7 @@
         </s:div>
 
         <s:div styleClass="entry" rendered="#{!empty nodeHistory.currentNode.lastModifiedBy}">
-            <div class="label">Last Modified On:</div>
+            <div class="label">#{messages['lacewiki.label.docHistory.LastModifiedOn']}:</div>
             <div class="output">
                 <h:outputText value="#{nodeHistory.currentNode.lastModifiedOn}">
                     <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
@@ -60,7 +65,7 @@
         </s:div>
 
         <s:div styleClass="entry">
-            <div class="label">Historical revisions:</div>
+            <div class="label">#{messages['lacewiki.label.docHistory.HistoricalRevisions']}:</div>
             <div class="input">
 
                 <h:dataTable id="historyTable" var="hnode" style="width:50%"
@@ -88,14 +93,19 @@
                         <a:commandLink id="show"
                                        action="#{nodeHistory.displayHistoricalRevision}"
                                        reRender="messageBoxContainer, diffResult, historicalPreview"
-                                       tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Show</span></a:commandLink>
-                        <s:link id="diff" action="#{nodeHistory.diff}" tabindex="3" styleClass="buttonNonpersistent"><span class="buttonLabel">Diff</span>
+                                       tabindex="3" styleClass="buttonNonpersistent">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Show']}"/>
+                        </a:commandLink>
+                        <s:link id="diff" action="#{nodeHistory.diff}" tabindex="3" styleClass="buttonNonpersistent">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Diff']}"/>
                             <f:param name="historicalNodeId" value="#{hnode.historyId}"/>
                         </s:link>
                         <h:commandLink id="rollback"
                                        action="#{nodeHistory.rollback}"
                                        tabindex="4" styleClass="buttonNonpersistent"
-                                       rendered="#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}"><span class="buttonLabel">Rollback</span></h:commandLink>
+                                       rendered="#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Rollback']}"/>
+                        </h:commandLink>
                     </h:column>
 
                 </h:dataTable>
@@ -112,7 +122,10 @@
                 <div class="input">
 
                     <h:commandLink id="purge" action="#{nodeHistory.purgeHistory}"
-                               tabindex="4" accesskey="U" styleClass="button"><span class="buttonLabel">P<u>u</u>rge History</span></h:commandLink>
+                               tabindex="4" accesskey="#{messages['lacewiki.button.docHistory.PurgeHistory.accesskey']}" 
+                               styleClass="button">
+                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.PurgeHistory']}"/>
+                    </h:commandLink>
     
                 </div>
             </div>

@@ -6,6 +6,8 @@
  */
 package org.jboss.seam.wiki.core.action;
 
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.model.*;
@@ -172,6 +174,35 @@ public class DocumentHome extends NodeHome<Document> {
         syncFormToInstance(oldParent); // Resolve existing links in old directory
         syncInstanceToForm(newParent); // Now update the form, effectively re-rendering the links
         Contexts.getConversationContext().set("currentDirectory", newParent);
+    }
+
+    /* -------------------------- Messages ------------------------------ */
+
+    protected void createdMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.Document.Persist",
+                "Document '{0}' has been saved.",
+                getInstance().getName()
+        );
+    }
+
+    protected void updatedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.Document.Update",
+                "Document '{0}' has been updated.",
+                getInstance().getName()
+        );
+    }
+
+    protected void deletedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.Document.Delete",
+                "Document '{0}' has been deleted.",
+                getInstance().getName()
+        );
     }
 
     /* -------------------------- Internal Methods ------------------------------ */

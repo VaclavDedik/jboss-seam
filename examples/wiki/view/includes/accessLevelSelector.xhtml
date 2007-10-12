@@ -8,7 +8,7 @@
      rendered="#{currentUser != guestUser}">
 
     <s:div styleClass="entry">
-        <div class="label">Readable by:</div>
+        <div class="label">#{messages['lacewiki.label.ReadableBy']}:</div>
         <div class="input">
             <h:selectOneMenu value="#{nodePermissions.readAccessLevel}" tabindex="1">
                 <s:selectItems value="#{assignableAccessLevelsList}"
@@ -23,7 +23,7 @@
     </s:div>
 
     <s:div styleClass="entry">
-        <div class="label">Writable by:</div>
+        <div class="label">#{messages['lacewiki.label.WritableBy']}:</div>
         <div class="input">
             <h:selectOneMenu value="#{nodePermissions.writeAccessLevel}" tabindex="1">
                 <s:selectItems value="#{assignableAccessLevelsList}"

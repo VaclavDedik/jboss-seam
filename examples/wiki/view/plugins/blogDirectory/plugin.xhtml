@@ -64,7 +64,7 @@
                     <s:div rendered="#{blogEntry.entryDocument.pluginsUsed.contains('showTags') and not blogEntry.entryDocument.tags}"
                            styleClass="documentTags undecoratedLink">
                         <s:div>
-                            Tags:&#160;
+                            #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
                             <ui:repeat var="tag" value="#{blogEntry.entryDocument.tagsSplit}">
                                 <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}">
                                     <f:param value="#{tag}" name="tag"/>
@@ -83,14 +83,16 @@
                                 <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#comments" target="_top">
                                     <span class="blogEntryCommentCountText">
                                         <h:outputText value="#{blogEntry.commentCount}&#160;"/>
-                                        <h:outputText value="#{blogEntry.commentCount>1 ? 'comments' : 'comment'}"/>
+                                        <h:outputText value="#{blogEntry.commentCount>1
+                                                             ? messages['lacewiki.label.commentsDisplay.Comments']
+                                                             : messages['lacewiki.label.commentsDisplay.Comment']}"/>
                                     </span>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryCommentLink" target="_top"
                                    rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
                                 <h:outputLink target="_top" value="#{wiki:renderURL(blogEntry.entryDocument)}?showCommentForm=true#commentForm">
-                                    <span class="blogEntryCommentLinkText">Post comment</span>
+                                    <h:outputText styleClass="blogEntryCommentLinkText" value="#{messages['lacewiki.label.commentForm.PostComment']}"/>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryAttachmentsLink"
@@ -98,18 +100,20 @@
                                 <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#attachments" target="_top">
                                     <span class="blogEntryAttachmentsLinkText">
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)}&#160;"/>
-                                        <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1 ? 'attachments' : 'attachment'}"/>
+                                        <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1
+                                                             ? messages['blogDirectory.label.Attachments']
+                                                             : messages['blogDirectory.label.Attachment']}"/>
                                     </span>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryPermLink">
                                 <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}" target="_top">
-                                    <span class="blogEntryPermLinkText">Permlink</span>
+                                    <h:outputText styleClass="blogEntryPermLinkText" value="#{messages['lacewiki.label.PermLink']}"/>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryWikiLink">
                                 <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}" target="_top">
-                                    <span class="blogEntryWikiLinkText">WikiLink</span>
+                                    <h:outputText styleClass="blogEntryWikiLinkText" value="#{messages['lacewiki.label.WikiLink']}"/>
                                 </h:outputLink>
                             </s:div>
                         </h:panelGrid>
@@ -146,15 +150,17 @@
                             rendered="#{!blogDirectory.previousPageAvailable}"/>
 
             <s:span>
-                <h:outputText value="Showing #{blogDirectory.firstRow} to
-                                             #{blogDirectory.lastRow} of
-                                             #{blogDirectory.numOfBlogEntries} blog entries"/>
+                <h:outputText value="#{messages['blogDirectory.label.Showing']}
+                                        #{blogDirectory.firstRow} #{messages['blogDirectory.label.To']}
+                                        #{blogDirectory.lastRow} #{messages['blogDirectory.label.Of']}
+                                        #{blogDirectory.numOfBlogEntries} #{messages['blogDirectory.label.BlogEntries']}"/>
 
-                <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year}" value="&#160;in"/>
+                <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year}"
+                              value="&#160;#{messages['blogDirectory.label.In']}"/>
                 <h:outputText rendered="#{!empty param.day}" value="&#160;#{param.day}."/>
-                <h:outputText rendered="#{!empty param.month}" value="&#160;#{converters.monthNames[param.month]}"/>
+                <h:outputText rendered="#{!empty param.month}" value="&#160;#{messages[wiki:concat('lacewiki.label.', converters.monthNames[param.month])]}"/>
                 <h:outputText rendered="#{!empty param.year}" value="&#160;#{param.year}"/>
-                <h:outputText rendered="#{!empty param.tag}" value="&#160;tagged '#{param.tag}'"/>
+                <h:outputText rendered="#{!empty param.tag}" value="&#160;#{messages['blogDirectory.label.Tagged']} '#{param.tag}'"/>
             </s:span>
 
             <h:outputLink rendered="#{blogDirectory.nextPageAvailable}" target="_top"
@@ -180,7 +186,7 @@
         </s:div>
 
         <s:div id="noBlogEntriesContainer" rendered="#{empty blogDirectory.blogEntries}">
-            No blog entries found.
+            <h:outputText value="#{messages['blogDirectory.label.NoBlogEntriesFound']}"/>
         </s:div>
 
     </s:div>

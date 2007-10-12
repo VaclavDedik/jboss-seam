@@ -11,12 +11,15 @@
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="screenname">
-    <h:outputText value="System Administration"/>
+    <h:outputText value="#{messages['lacewiki.label.adminHome.Administration']}"/>
 </ui:define>
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end" accesskey="E">Clos<u>e</u></s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
 
 </ui:define>
 
@@ -64,12 +67,24 @@
 
         <ul>
             <li class="formTabsTitle">
-                <h:outputText value="Administration"/>
+                <h:outputText value="#{messages['lacewiki.label.adminHome.Administration']}"/>
             </li>
-            <li id="systemStatsTab"><a href="#systemStats" accesskey="Y">S<u>y</u>stem Statistics</a></li>
-            <li id="rolesPermissionsTab"><a href="#rolesPermissions" accesskey="O">R<u>o</u>les &amp; Permissions</a></li>
-            <li id="linkProtocolsTab"><a href="#linkProtocols" accesskey="L"><u>L</u>ink Protocols</a></li>
-            <li id="systemPrefsTab"><a href="#systemPrefs" accesskey="R">P<u>r</u>eferences</a></li>
+            <li id="systemStatsTab"><a href="#systemStats"
+                                       accesskey="#{messages['lacewiki.button.adminHome.SystemStatistics.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.SystemStatistics']}"/>
+            </a></li>
+            <li id="rolesPermissionsTab"><a href="#rolesPermissions"
+                                            accesskey="#{messages['lacewiki.button.adminHome.RolesPermissions.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.RolesPermissions']}"/>
+            </a></li>
+            <li id="linkProtocolsTab"><a href="#linkProtocols"
+                                         accesskey="#{messages['lacewiki.button.adminHome.LinkProtocols.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.LinkProtocols']}"/>
+            </a></li>
+            <li id="systemPrefsTab"><a href="#systemPrefs"
+                                       accesskey="#{messages['lacewiki.button.adminHome.Preferences.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.Preferences']}"/>
+            </a></li>
         </ul>
 
         <div id="formTabsTitle"/>
@@ -101,25 +116,25 @@
 
                     <h:column>
                         <f:facet name="header">
-                            Search index
+                            #{messages['lacewiki.label.adminHome.SearchIndex']}
                         </f:facet>
                         #{ie.description}
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            # of indexed documents
+                            #{messages['lacewiki.label.adminHome.NumOfIndexedDocuments']}
                         </f:facet>
                         #{ie.numOfIndexedDocuments}
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            # of indexed terms
+                            #{messages['lacewiki.label.adminHome.NumOfIndexedTerms']}
                         </f:facet>
                         #{ie.numOfIndexedTerms}
                     </h:column>
                     <h:column>
                         <f:facet name="header">
-                            Index size
+                            #{messages['lacewiki.label.adminHome.IndexSize']}
                         </f:facet>
                         #{wiki:displayFilesize(ie.indexSizeInBytes)}
                     </h:column>
@@ -128,7 +143,9 @@
                             jQuery(function(){ getIndexingProgress("#{ie.clazz.name}") });
                         </script>
                         <a:commandLink status="adminForm:status" id="resetSearchIndex" styleClass="button resetIndexButton" reRender="indexStatistics"
-                                       action="#{adminHome.resetSearchIndex()}"><span class="buttonLabel">Rebuild Index</span></a:commandLink>
+                                       action="#{adminHome.resetSearchIndex()}">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.RebuildIndex']}"/>
+                        </a:commandLink>
                     </h:column>
                 </h:dataTable>
 
@@ -144,13 +161,6 @@
             <s:div id="linkProtocolsRegion" styleClass="formFields" style="padding: 20px;">
             <a:region>
 
-            <p>
-                Link protocols enable custom prefixes in wiki text links, e.g. you can write
-                [=>jbseam://123] and have it rendered as a link to http://my.jbseam.site/123.
-                If you remove an existing link protocol that is in use, all links will be
-                rendered broken.
-            </p>
-
             <h:dataTable id="linkProtocolTable" var="lp"
                          value="#{linkProtocols}"
                          rendered="#{linkProtocols.rowCount >0}"
@@ -164,19 +174,21 @@
 
                 <h:column>
                     <f:facet name="header">
-                            Prefix
+                        #{messages['lacewiki.label.adminHome.Prefix']}
                     </f:facet>
                     #{lp.prefix}
                 </h:column>
                 <h:column>
                     <f:facet name="header">
-                            Target Link
+                        #{messages['lacewiki.label.adminHome.TargetLink']}
                     </f:facet>
                     #{lp.link}
                 </h:column>
                 <h:column>
                     <a:commandLink status="adminForm:status" id="removeLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolsRegion"
-                                   action="#{adminHome.removeLinkProtocol()}"><span class="buttonLabel">Remove</span></a:commandLink>
+                                   action="#{adminHome.removeLinkProtocol()}">
+                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.Remove']}"/>
+                    </a:commandLink>
                 </h:column>
             </h:dataTable>
             </a:region>
@@ -185,12 +197,12 @@
             <s:div id="linkProtocolForm" styleClass="formFields wideLabels">
 
                 <s:decorate id="prefixDecorate" template="includes/formFieldDecorate.xhtml">
-                    <ui:define name="label">Prefix</ui:define>
+                    <ui:define name="label">#{messages['lacewiki.label.adminHome.Prefix']}</ui:define>
                     <h:inputText id="prefix" value="#{adminHome.linkProtocol.prefix}" maxlength="10" size="10" tabindex="1"/>
                 </s:decorate>
 
                 <s:decorate id="linkDecorate" template="includes/formFieldDecorate.xhtml">
-                    <ui:define name="label">Target with [[link]] placeholder</ui:define>
+                    <ui:define name="label">#{messages['lacewiki.label.adminHome.TargetWithPlaceHolder']}</ui:define>
                     <h:inputText id="link" value="#{adminHome.linkProtocol.link}" maxlength="1000" size="40" tabindex="1"/>
                 </s:decorate>
 
@@ -198,7 +210,9 @@
                     <div class="label">&#160;</div>
                     <div class="input">
                         <a:commandLink status="adminForm:status" id="addLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolsRegion"
-                                       action="#{adminHome.addLinkProtocol}"><span class="buttonLabel">Add</span></a:commandLink>
+                                       action="#{adminHome.addLinkProtocol}">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.Add']}"/>
+                        </a:commandLink>
                     </div>
                 </div>
             </s:div>
@@ -226,7 +240,10 @@
 
                 <a:commandLink status="adminForm:status" id="update" styleClass="button saveButton" reRender="body" oncomplete="wrapBoxes();"
                                action="#{adminHome.update}"
-                               tabindex="9" accesskey="S"><span class="buttonLabel"><u>S</u>ave Settings</span></a:commandLink>
+                               tabindex="9"
+                               accesskey="#{messages['lacewiki.button.adminHome.SaveSettings.accesskey']}">
+                    <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.SaveSettings']}"/>
+                </a:commandLink>
 
             </div>
         </div>

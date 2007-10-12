@@ -15,21 +15,34 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="createDoc" styleClass="linkNavigation" accesskey="C" view="/docEdit_#{skin}.xhtml"
-            rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}"><u>C</u>reate
+    <s:link id="createDoc" styleClass="linkNavigation"
+            accesskey="#{messages['lacewiki.button.CreateDocument.accesskey']}"
+            view="/docEdit_#{skin}.xhtml"
+            rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.CreateDocument']}"/>
         <f:param name="documentId" value=""/>
         <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
     </s:link>
 
-    <s:link id="editDoc" styleClass="linkNavigation" accesskey="E" view="/docEdit_#{skin}.xhtml"
-            rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}"><u>E</u>dit</s:link>
+    <s:link id="editDoc" styleClass="linkNavigation"
+            accesskey="#{messages['lacewiki.button.EditDocument.accesskey']}"
+            view="/docEdit_#{skin}.xhtml"
+            rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.EditDocument']}"/>
+    </s:link>
 
-    <s:link id="showHistory" styleClass="linkNavigation" accesskey="I" view="/docHistory_#{skin}.xhtml"
-            rendered="#{documentHome.historicalNodesPresent}">H<u>i</u>story
+    <s:link id="showHistory" styleClass="linkNavigation"
+            accesskey="#{messages['lacewiki.button.HistoryDocument.accesskey']}"
+            view="/docHistory_#{skin}.xhtml"
+            rendered="#{documentHome.historicalNodesPresent}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.HistoryDocument']}"/>
         <f:param name="nodeId" value="#{documentHome.nodeId}"/>
     </s:link>
 
-    <s:link id="browseDir" styleClass="linkNavigation" accesskey="B" view="/dirDisplay_#{skin}.xhtml"><u>B</u>rowse
+    <s:link id="browseDir" styleClass="linkNavigation"
+            accesskey="#{messages['lacewiki.button.BrowseDirectory.accesskey']}"
+            view="/dirDisplay_#{skin}.xhtml">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.BrowseDirectory']}"/>
         <f:param name="directoryId" value="#{documentHome.parentDirectory.id}"/>
     </s:link>
 
@@ -59,7 +72,7 @@
         <s:div rendered="#{documentHome.instance.pluginsUsed.contains('showTags') and not empty documentHome.instance.tags}"
                styleClass="documentTags undecoratedLink">
             <s:div>
-                Tags:&#160;
+                #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
                 <ui:repeat var="tag" value="#{documentHome.instance.tagsSplit}">
                     <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}">
                         <f:param value="#{tag}" name="tag"/>
@@ -74,7 +87,7 @@
         <s:div rendered="#{wikiPreferences.showDocumentCreatorHistory and not documentHome.instance.pluginsUsed.contains('hideCreatorHistory')}"
                styleClass="documentCreatorHistory undecoratedLink">
             <s:div>
-                Created:&#160;
+                #{messages['lacewiki.label.docDisplay.Created']}:&#160;
                 <h:outputText value="#{documentHome.instance.createdOn}">
                     <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
@@ -88,7 +101,7 @@
                 <h:outputText value=")"/>
             </s:div>
             <s:div rendered="#{not empty documentHome.instance.lastModifiedBy}">
-                Last Modified:&#160;
+                #{messages['lacewiki.label.docDisplay.LastModified']}:&#160;
                 <h:outputText value="#{documentHome.instance.lastModifiedOn}">
                     <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
@@ -102,7 +115,7 @@
                 <h:outputText value=")"/>
             </s:div>
             <s:div rendered="#{documentHome.historicalNodesPresent}">
-                Revisions:&#160;
+                #{messages['lacewiki.label.docDisplay.Revisions']}:&#160;
                 <ui:repeat var="hnode" value="#{documentHome.historicalNodes}">
 
                     <h:outputText value="#{hnode.lastModifiedOn}">
@@ -111,7 +124,8 @@
                     <h:outputText value="&#160;#{wikiPreferences.timeZone}&#160;(#{hnode.lastModifiedByUsername})"/>
 
                     &#160;
-                    <s:link view="/docHistory_#{skin}.xhtml" action="#{nodeHistory.diff}">Diff
+                    <s:link view="/docHistory_#{skin}.xhtml" action="#{nodeHistory.diff}">
+                        <h:outputText value="#{messages['lacewiki.label.docDisplay.Diff']}"/>
                         <f:param name="nodeId" value="#{documentHome.instance.id}"/>
                         <f:param name="historicalNodeId" value="#{hnode.historyId}"/>
                     </s:link>

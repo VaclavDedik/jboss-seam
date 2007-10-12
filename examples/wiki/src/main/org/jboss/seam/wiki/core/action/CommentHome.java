@@ -7,18 +7,13 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthorizationException;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.persistence.EntityManager;
-import javax.faces.application.FacesMessage;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
@@ -29,9 +24,6 @@ public class CommentHome implements Serializable {
 
     @In
     EntityManager entityManager;
-
-    @In
-    FacesMessages facesMessages;
 
     @In
     DocumentHome documentHome;
@@ -96,12 +88,6 @@ public class CommentHome implements Serializable {
 
         entityManager.persist(comment);
 
-
-        facesMessages.addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
-            "comment.persist",
-            "Your comment has been saved."
-        );
         refreshComments();
     }
 
@@ -114,11 +100,6 @@ public class CommentHome implements Serializable {
             }
 
             entityManager.remove(foundCommment);
-            facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
-                "comment.remove",
-                "Comment with subject '" + foundCommment.getSubject() + "' has been removed."
-            );
         }
 
         refreshComments();

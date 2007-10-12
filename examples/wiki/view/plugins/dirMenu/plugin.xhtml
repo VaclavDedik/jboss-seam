@@ -25,7 +25,7 @@
         <s:div styleClass="dirMenu">
 
             <s:div styleClass="boxHeader" rendered="#{not dirMenuPreferences.showSubscribeIcon}">
-                <h:outputText value="Menu"/>
+                <h:outputText value="#{messages['dirMenu.label.Menu']}"/>
             </s:div>
 
             <h:panelGrid rendered="#{dirMenuPreferences.showSubscribeIcon}"
@@ -39,11 +39,11 @@
                     </h:outputLink>
                     <h:outputLink  target="_top"
                                    value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                        <h:outputText value="Subscribe"/>
+                        <h:outputText value="#{messages['dirMenu.label.Subscribe']}"/>
                     </h:outputLink>
                 </h:panelGrid>
 
-                <h:outputText value="Menu"/>
+                <h:outputText value="#{messages['dirMenu.label.Menu']}"/>
 
             </h:panelGrid>
 

@@ -17,8 +17,10 @@
                  cellpadding="0" cellspacing="0" border="0">
         <f:facet name="header">
             <s:div styleClass="regularHeader alignLeft">
-                <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;comment:" rendered="#{wiki:sizeOf(commentHome.comments) == 1}"/>
-                <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;comments:" rendered="#{wiki:sizeOf(commentHome.comments) > 1}"/>
+                <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;#{messages['lacewiki.label.commentsDisplay.Comment']}:"
+                              rendered="#{wiki:sizeOf(commentHome.comments) == 1}"/>
+                <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;#{messages['lacewiki.label.commentsDisplay.Comments']}:"
+                              rendered="#{wiki:sizeOf(commentHome.comments) > 1}"/>
             </s:div>
         </f:facet>
         <c:forEach var="c" items="#{commentHome.comments}">
@@ -65,7 +67,7 @@
                 <div align="right">
                     <h:form rendered="#{s:hasPermission('Comment', 'delete', documentHome.instance)}">
                         <a:commandLink action="#{commentHome.remove(c.id)}" reRender="comments" oncomplete="wrapBoxes();"
-                                       styleClass="button"><span class="buttonLabel">Remove Comment</span></a:commandLink>
+                                       styleClass="button"><span class="buttonLabel">#{messages['lacewiki.button.commentsDisplay.RemoveComment']}</span></a:commandLink>
                     </h:form>
                 </div>
 

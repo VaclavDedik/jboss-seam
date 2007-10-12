@@ -27,7 +27,10 @@ public class LinkProtocol {
 
     @Column(name = "PREFIX", nullable = false)
     @Length(min = 2, max = 10)
-    @org.hibernate.validator.Pattern(regex="[a-zA-Z]+", message="Prefix must only contain letters")
+    @org.hibernate.validator.Pattern(
+        regex="[a-zA-Z]+",
+        message="#{messages['lacewiki.entity.LinkProtokol.PrefixMustOnlyContainLetters']}"
+    )
     private String prefix;
 
     @Column(name = "LINK", nullable = false)

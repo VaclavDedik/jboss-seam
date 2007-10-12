@@ -7,7 +7,9 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
-<ui:define name="screenname">Tag: #{tagHome.tag}</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.tagDisplay.Tag']}: #{tagHome.tag}"/>
+</ui:define>
 
 <ui:define name="content">
 
@@ -29,19 +31,19 @@
         </h:column>
         <h:column>
             <f:facet name="header">
-                Tag: #{tagHome.tag}
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.Tag']}: #{tagHome.tag}"/>
             </f:facet>
             <h:outputLink value="#{wiki:renderURL(node)}">#{node.name}</h:outputLink>
         </h:column>
         <h:column>
             <f:facet name="header">
-                Owner
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.Owner']}"/>
             </f:facet>
             #{node.createdBy.fullname}
         </h:column>
         <h:column>
             <f:facet name="header">
-                Created On
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.CreatedOn']}"/>
             </f:facet>
             <h:outputText value="#{node.createdOn}">
                 <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
@@ -49,7 +51,7 @@
         </h:column>
         <h:column rendered="#{!empty node.lastModifiedOn and !empty node.lastModifiedBy}">
             <f:facet name="header">
-                Last Modified On
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.LastModifiedOn']}"/>
             </f:facet>
             <h:outputText value="#{node.lastModifiedOn}">
                 <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
@@ -58,7 +60,7 @@
         </h:column>
         <h:column rendered="#{empty node.lastModifiedOn or empty node.lastModifiedBy}">
             <f:facet name="header">
-                Last Modified On
+                <h:outputText value="#{messages['lacewiki.label.tagDisplay.LastModifiedOn']}"/>
             </f:facet>
             -
         </h:column>

@@ -14,20 +14,29 @@
 <ui:define name="control">
 
     <s:link id="createDoc" styleClass="linkNavigation" view="/docEdit_#{skin}.xhtml"
-            rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}">Create
+            accesskey="#{messages['lacewiki.button.CreateDocument.accesskey']}"
+            rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.CreateDocument']}"/>
         <f:param name="documentId" value=""/>
         <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
     </s:link>
 
     <s:link id="editDoc" styleClass="linkNavigation" view="/docEdit_#{skin}.xhtml"
-            rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}">Edit</s:link>
+            accesskey="#{messages['lacewiki.button.EditDocument.accesskey']}"
+            rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.EditDocument']}"/>
+    </s:link>
 
     <s:link id="showHistory" styleClass="linkNavigation" view="/docHistory_#{skin}.xhtml"
-            rendered="#{documentHome.historicalNodesPresent}">History
+            accesskey="#{messages['lacewiki.button.HistoryDocument.accesskey']}"
+            rendered="#{documentHome.historicalNodesPresent}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.HistoryDocument']}"/>
         <f:param name="nodeId" value="#{documentHome.nodeId}"/>
     </s:link>
 
-    <s:link id="browseDir" styleClass="linkNavigation" view="/dirDisplay_#{skin}.xhtml">Browse
+    <s:link id="browseDir" styleClass="linkNavigation" view="/dirDisplay_#{skin}.xhtml"
+            accesskey="#{messages['lacewiki.button.BrowseDirectory.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.BrowseDirectory']}"/>
         <f:param name="directoryId" value="#{documentHome.parentDirectory.id}"/>
     </s:link>
 
@@ -52,7 +61,10 @@
     <s:fragment rendered="#{not empty commentHome.comments and documentHome.instance.enableComments}">
         <br/>
         <div class="boxHeader">
-            #{wiki:sizeOf(commentHome.comments)} comment(s):
+            <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;#{messages['lacewiki.label.commentsDisplay.Comment']}:"
+                          rendered="#{wiki:sizeOf(commentHome.comments) == 1}"/>
+            <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;#{messages['lacewiki.label.commentsDisplay.Comments']}:"
+                          rendered="#{wiki:sizeOf(commentHome.comments) > 1}"/>
         </div>
 
         <h:panelGrid columns="1" rowClasses="rowEven, rowOdd">
@@ -114,20 +126,20 @@
 
     <s:fragment rendered="#{documentHome.instance.enableComments and documentHome.instance.enableCommentForm}">
         <br/>
-        <div class="boxHeader">Post Comment:</div>
+        <div class="boxHeader">#{messages['lacewiki.label.commentForm.PostComment']}:</div>
         <h:form id="commentForm"><s:validateAll>
 
             <div class="errorMessage"><h:message for="userName"/></div>
-            <div>Name:&#160;<br/><h:inputText size="30" maxlength="100" required="true" id="userName" value="#{commentHome.comment.fromUserName}"/></div>
+            <div>#{messages['lacewiki.label.commentForm.Name']}:&#160;<br/><h:inputText size="30" maxlength="100" required="true" id="userName" value="#{commentHome.comment.fromUserName}"/></div>
 
             <div class="errorMessage"><h:message for="userEmail"/></div>
-            <div>E-mail address (optional):&#160;<br/><h:inputText size="30" maxlength="255" required="false" id="userEmail" value="#{commentHome.comment.fromUserEmail}"/></div>
+            <div>#{messages['lacewiki.label.commentForm.Email']}:&#160;<br/><h:inputText size="30" maxlength="255" required="false" id="userEmail" value="#{commentHome.comment.fromUserEmail}"/></div>
 
             <div class="errorMessage"><h:message for="userHomepage"/></div>
-            <div>Homepage URL (optional):&#160;<br/><h:inputText size="30" maxlength="1000" required="false" id="userHomepage" value="#{commentHome.comment.fromUserHomepage}"/></div>
+            <div>#{messages['lacewiki.label.commentForm.Homepage']}:&#160;<br/><h:inputText size="30" maxlength="1000" required="false" id="userHomepage" value="#{commentHome.comment.fromUserHomepage}"/></div>
 
             <div class="errorMessage"><h:message for="subject"/></div>
-            <div>Subject:&#160;<br/><h:inputText size="30" maxlength="255" required="true" id="subject" value="#{commentHome.comment.subject}"/></div>
+            <div>#{messages['lacewiki.label.commentForm.Subject']}:&#160;<br/><h:inputText size="30" maxlength="255" required="true" id="subject" value="#{commentHome.comment.subject}"/></div>
 
             <div class="errorMessage"><h:message for="comment"/></div>
             <div>
@@ -139,14 +151,14 @@
             </div>
 
             <s:div rendered="#{!identity.loggedIn}">
-                <div>Verification question:&#160;What is the result of&#160;<h:outputText value="#{captcha.question}"/>?</div>
+                <div>#{messages['lacewiki.label.VerificationQuestion']}:&#160;#{messages['lacewiki.label.VerificationQuestionQuestion']}&#160;<h:outputText value="#{captcha.question}"/>?</div>
                 <div class="errorMessage"><h:message for="verifyCaptcha"/></div>
-                <div>Enter response:&#160;</div>
+                <div>#{messages['lacewiki.label.VerificationEnterResponse']}:&#160;</div>
                 <h:inputText size="5" maxlength="5" required="true" id="verifyCaptcha" value="#{captcha.response}"/>
             </s:div>
 
             <div class="formControls">
-                <h:commandButton action="#{commentHome.persist}" value="Post Comment"/>
+                <h:commandButton action="#{commentHome.persist}" value="#{messages['lacewiki.label.commentForm.PostComment']}"/>
             </div>
     
         </s:validateAll></h:form>

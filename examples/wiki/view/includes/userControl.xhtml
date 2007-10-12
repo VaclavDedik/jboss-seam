@@ -10,18 +10,28 @@
 
         <h:panelGroup styleClass="userControlPanel">
 
-            <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="Username:"/>
+            <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="#{messages['lacewiki.label.userControl.Username']}:"/>
             <h:inputText styleClass="userControlInput" id="loginUsername" value="#{identity.username}" size="8" tabindex="50"/>
-            <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="Password:"/>
+            <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="#{messages['lacewiki.label.userControl.Password']}:"/>
             <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="8" tabindex="50"/>
-            <h:commandLink styleClass="userControlLink" action="#{identity.login}" tabindex="50" accesskey="L"><u>L</u>ogin</h:commandLink>
+            <h:commandLink styleClass="userControlLink" action="#{identity.login}" tabindex="50"
+                           accesskey="#{messages['lacewiki.button.userControl.Login.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Login']}"/>
+            </h:commandLink>
 
-            <s:link styleClass="userControlLink" tabindex="50" accesskey="R" view="/userRegister_#{skin}.xhtml" propagation="none"
-                    rendered="#{userManagementPreferences.properties['enableRegistration']}"><u>R</u>egister
+            <s:link styleClass="userControlLink" tabindex="50"
+                    accesskey="#{messages['lacewiki.button.userControl.Register.accesskey']}"
+                    view="/userRegister_#{skin}.xhtml" propagation="none"
+                    rendered="#{userManagementPreferences.properties['enableRegistration']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Register']}"/>
             </s:link>
 
 
-            <s:link styleClass="userControlLink" tabindex="50" accesskey="M" view="/userList_#{skin}.xhtml" propagation="none"><u>M</u>embers</s:link>
+            <s:link styleClass="userControlLink" tabindex="50"
+                    accesskey="#{messages['lacewiki.button.userControl.Members.accesskey']}" 
+                    view="/userList_#{skin}.xhtml" propagation="none">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Members']}"/>
+            </s:link>
 
         </h:panelGroup>
 
@@ -32,19 +42,36 @@
         <h:panelGroup styleClass="userControlPanel">
             <h:outputText styleClass="userControlLabel" value="(#{currentUser.fullname})"/>
 
-            <s:link styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70" accesskey="L"><u>L</u>ogout</s:link>
+            <s:link styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70"
+                    accesskey="#{messages['lacewiki.button.userControl.Logout.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Logout']}"/>
+            </s:link>
 
-            <h:outputLink styleClass="userControlLink" tabindex="70" accesskey="H" value="#{wiki:renderHomeURL(currentUser)}"
-                    rendered="#{!empty currentUser.memberHome}"><u>H</u>ome</h:outputLink>
+            <h:outputLink styleClass="userControlLink" tabindex="70"
+                          accesskey="#{messages['lacewiki.button.userControl.Home.accesskey']}" 
+                          value="#{wiki:renderHomeURL(currentUser)}"
+                    rendered="#{!empty currentUser.memberHome}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Home']}"/>
+            </h:outputLink>
 
-            <s:link styleClass="userControlLink" tabindex="70" accesskey="P" view="/userHome_#{skin}.xhtml" propagation="none"><u>P</u>rofile
+            <s:link styleClass="userControlLink" tabindex="70"
+                    accesskey="#{messages['lacewiki.button.userControl.Profile.accesskey']}"
+                    view="/userHome_#{skin}.xhtml" propagation="none">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Profile']}"/>
                 <f:param name="userId" value="#{currentUser.id}"/>
             </s:link>
 
-            <s:link styleClass="userControlLink" tabindex="70" accesskey="M" view="/userList_#{skin}.xhtml" propagation="none"><u>M</u>embers</s:link>
+            <s:link styleClass="userControlLink" tabindex="70"
+                    accesskey="#{messages['lacewiki.button.userControl.Members.accesskey']}"
+                    view="/userList_#{skin}.xhtml" propagation="none">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Members']}"/>
+            </s:link>
 
-            <s:link styleClass="userControlLink" tabindex="70" accesskey="A" view="/adminHome_#{skin}.xhtml" propagation="none"
-                    rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}"><u>A</u>dmin
+            <s:link styleClass="userControlLink" tabindex="70"
+                    accesskey="#{messages['lacewiki.button.userControl.Admin.accesskey']}"
+                    view="/adminHome_#{skin}.xhtml" propagation="none"
+                    rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Admin']}"/>
             </s:link>
 
         </h:panelGroup>

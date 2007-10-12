@@ -12,7 +12,6 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Document;
@@ -30,9 +29,6 @@ public class BlogDirectory implements Serializable {
 
     @In
     BlogDAO blogDAO;
-
-    @In
-    FacesMessages facesMessages;
 
     @In
     Directory currentDirectory;

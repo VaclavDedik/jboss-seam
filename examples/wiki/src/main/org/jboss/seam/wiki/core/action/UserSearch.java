@@ -75,7 +75,7 @@ public class UserSearch implements Serializable {
         if (rowCount == 0) {
             facesMessages.addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_INFO,
-                "noUserFound",
+                "lacewiki.msg.NoUserFound",
                 "No user with given attributes was found, please try again."
             );
         }

@@ -8,10 +8,12 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
-<ui:define name="screenname">Administration</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.adminHome.Administration']}"/>
+</ui:define>
 
 <ui:define name="content">
-    Administration is not available with this skin.
+    <h:outputText value="#{messages['lacewiki.label.adminHome.NotAvailableForSkin']}"/>
 </ui:define>
 
 </ui:composition>

@@ -11,17 +11,21 @@
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="screenname">
-    <h:outputText value="Create document" rendered="#{!documentHome.managed}"/>
-    <h:outputText value="Edit document" rendered="#{documentHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.docEdit.CreateDocument']}" rendered="#{!documentHome.managed}"/>
+    <h:outputText value="#{messages['lacewiki.label.docEdit.EditDocument']}" rendered="#{documentHome.managed}"/>
 </ui:define>
 
 <ui:define name="controlTwo">
 
     <s:link id="exitManaged" styleClass="linkNavigation" rendered="#{documentHome.managed}" action="exitManaged"
-            accesskey="E"><u>E</u>xit Editor</s:link>
+            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+    </s:link>
 
     <s:link id="exitUnmanaged" styleClass="linkNavigation" rendered="#{!documentHome.managed}" action="exitUnmanaged"
-            accesskey="E"><u>E</u>xit Editor</s:link>
+            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+    </s:link>
 
 </ui:define>
 
@@ -59,8 +63,8 @@
 
                 <ul>
                     <li class="formTabsTitle">
-                        <h:outputText value="Create document" rendered="#{!documentHome.managed}"/>
-                        <h:outputText value="Edit document" rendered="#{documentHome.managed}"/>
+                        <h:outputText value="#{messages['lacewiki.label.docEdit.CreateDocument']}" rendered="#{!documentHome.managed}"/>
+                        <h:outputText value="#{messages['lacewiki.label.docEdit.EditDocument']}" rendered="#{documentHome.managed}"/>
                     </li>
                     <li id="docContentTab"><a href="#docContent" accesskey="C"><u>C</u>ontent</a></li>
                     <li id="docPropertiesTab"><a href="#docProperties" accesskey="T">Proper<u>t</u>ies</a></li>
@@ -74,7 +78,7 @@
                         <div class="formFields">
 
                             <s:div styleClass="entry">
-                                <div class="label">Directory:</div>
+                                <div class="label">#{messages['lacewiki.label.docEdit.Directory']}:</div>
                                 <div class="output">
                                     <s:span id="directoryNameDisplay">#{documentHome.parentDirectory.name}</s:span>
 
@@ -88,7 +92,7 @@
                             <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
                                 <ui:param name="tabId" value="docContentTab"/>
                                 <ui:param name="fieldId" value="name"/>
-                                <ui:define name="label">Name</ui:define>
+                                <ui:define name="label">#{messages['lacewiki.label.docEdit.Name']}</ui:define>
                                 <h:inputText tabindex="1" size="70" maxlength="255" required="true" value="#{documentHome.instance.name}">
                                     <a:support status="docEditForm:status" event="onblur" reRender="nameDecorate, contentPreview"/>
                                 </h:inputText>
@@ -100,7 +104,7 @@
                                     <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}" tabindex="1">
                                         <a:support status="docEditForm:status" event="onchange" reRender="contentPreview"/>
                                     </h:selectBooleanCheckbox>
-                                    Render name as document title
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.RenderNameAsTitle']}"/>
                                 </div>
                             </s:div>
 
@@ -108,7 +112,7 @@
                                 <div class="label">&#160;</div>
                                 <div class="input">
                                     <h:selectBooleanCheckbox value="#{documentHome.minorRevision}" tabindex="1"/>
-                                    Minor change, don't create a new revision
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.MinorChange']}"/>
                                 </div>
                             </s:div>
 
@@ -119,7 +123,7 @@
                                         <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1">
                                             <a:support status="docEditForm:status" event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged"/>
                                         </h:selectBooleanCheckbox>
-                                        Create entry on parent directory feeds
+                                        <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnParentFeeds']}"/>
                                     </div>
                                 </s:div>
                                 <s:div id="pushOnSiteFeedSwitchUnmanaged">
@@ -127,7 +131,7 @@
                                         <div class="label">&#160;</div>
                                         <div class="input">
                                             <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
-                                            Create entry on global site feed
+                                            <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}"/>
                                         </div>
                                     </s:div>
                                 </s:div>
@@ -139,7 +143,7 @@
                                         <div class="label">&#160;</div>
                                         <div class="input">
                                             <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1"/>
-                                            Push changes onto feeds
+                                            <h:outputText value="#{messages['lacewiki.label.docEdit.PushOnFeeds']}"/>
                                         </div>
                                     </s:div>
                                 </s:fragment>
@@ -150,7 +154,7 @@
                                             <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1">
                                                 <a:support status="docEditForm:status" event="onchange" reRender="pushOnSiteFeedSwitch"/>
                                             </h:selectBooleanCheckbox>
-                                            Push changes onto feeds of parent directories
+                                            <h:outputText value="#{messages['lacewiki.label.docEdit.PushOnParentFeeds']}"/>
                                         </div>
                                     </s:div>
                                     <s:div id="pushOnSiteFeedSwitch">
@@ -158,7 +162,7 @@
                                             <div class="label">&#160;</div>
                                             <div class="input">
                                                 <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
-                                                Create entry on  global site feed
+                                                <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}"/>
                                             </div>
                                         </s:div>
                                     </s:div>
@@ -169,7 +173,7 @@
                                 <ui:param name="textEditorId" value="content"/>
                                 <ui:param name="textPreviewId" value="#{documentHome.enabledPreview ? 'contentPreview' : ''}"/>
                                 <ui:param name="namingContainer" value="docEditForm"/>
-                                <ui:param name="label" value="Content"/>
+                                <ui:param name="label" value="#{messages['lacewiki.label.docEdit.Content']}"/>
                                 <ui:param name="textEditorColumns" value="#{docEditorPreferences.properties['regularEditAreaColumns']}"/>
                                 <ui:param name="textEditorRows" value="#{docEditorPreferences.properties['regularEditAreaRows']}"/>
                                 <ui:param name="valueBinding" value="#{documentHome.formContent}"/>
@@ -186,7 +190,7 @@
                                                    event="onchange"
                                                    reRender="contentPreview, docEditForm:contentTextEditor, pluginSwitch"/>
                                     </h:selectBooleanCheckbox>
-                                    Enable live preview
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.EnableLivePreview']}"/>
                                 </div>
                             </s:div>
 
@@ -197,7 +201,7 @@
                                         <h:selectBooleanCheckbox value="#{documentHome.showPluginPrefs}" tabindex="1">
                                             <a:support status="docEditForm:status" event="onchange" reRender="contentPreview"/>
                                         </h:selectBooleanCheckbox>
-                                        Show plugin settings in preview
+                                        <h:outputText value="#{messages['lacewiki.label.docEdit.ShowPluginSettings']}"/>
                                     </div>
                                 </s:div>
                             </s:div>
@@ -213,7 +217,9 @@
                         <div class="formFields">
 
                             <s:div styleClass="entry" rendered="#{documentHome.managed}">
-                                <div class="label">Created On:</div>
+                                <div class="label">
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.CreatedOn']}:"/>
+                                </div>
                                 <div class="output">
                                     <h:outputText value="#{documentHome.instance.createdOn}">
                                         <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
@@ -229,12 +235,14 @@
 
 
                             <s:div styleClass="entry">
-                                <div class="label">Options:</div>
+                                <div class="label">
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.Options']}:"/>
+                                </div>
                                 <div class="input">
                                     <h:selectBooleanCheckbox value="#{documentHome.instance.enableComments}" tabindex="1">
                                         <a:support status="docEditForm:status" event="onchange" reRender="commentFormSwitch"/>
                                     </h:selectBooleanCheckbox>
-                                    Enable comments
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.EnableComments']}"/>
                                 </div>
                             </s:div>
 
@@ -243,13 +251,15 @@
                                     <div class="label">&#160;</div>
                                     <div class="input">
                                         <h:selectBooleanCheckbox disabled="#{not documentHome.instance.enableComments}" value="#{documentHome.instance.enableCommentForm}" tabindex="1"/>
-                                        Allow posting of new comments
+                                        <h:outputText value="#{messages['lacewiki.label.docEdit.AllowCommentPosting']}"/>
                                     </div>
                                 </s:div>
                             </s:div>
 
                             <s:div styleClass="entry">
-                                <div class="label">Tags:</div>
+                                <div class="label">
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.Tags']}:"/>
+                                </div>
                                 <div class="input">
                                     <h:inputText id="tagsInput" tabindex="1" size="70" maxlength="1024" required="false" value="#{documentHome.instance.tags}">
                                         <a:support event="onblur" reRender="popularTagsList"/>
@@ -274,7 +284,9 @@
                                           reRender="popularTagsList"/>
 
                             <s:div styleClass="entry" id="popularTagsList">
-                                <div class="label">Popular Tags:</div>
+                                <div class="label">
+                                    <h:outputText value="#{messages['lacewiki.label.docEdit.PopularTags']}:"/>
+                                </div>
                                 <div class="input">
                                     <h:panelGroup>
                                         <ui:repeat var="tagCount" value="#{documentHome.popularTags}">
@@ -306,15 +318,24 @@
 
                         <h:commandLink id="save" action="#{documentHome.persist}"
                                        rendered="#{!documentHome.managed}"
-                                       tabindex="1" accesskey="S" styleClass="button saveButton"><span class="buttonLabel"><u>S</u>ave</span></h:commandLink>
+                                       tabindex="1" accesskey="#{messages['lacewiki.button.docEdit.Save.accesskey']}"
+                                       styleClass="button saveButton">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Save']}"/>
+                        </h:commandLink>
 
                         <h:commandLink id="update" action="#{documentHome.update}"
                                    rendered="#{documentHome.managed}"
-                                   tabindex="1" accesskey="U" styleClass="button saveButton"><span class="buttonLabel"><u>U</u>pdate</span></h:commandLink>
+                                   tabindex="1" accesskey="#{messages['lacewiki.button.docEdit.Update.accesskey']}"
+                                   styleClass="button saveButton">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Update']}"/>
+                        </h:commandLink>
 
-                        <h:outputLink id="delete" value="#" tabindex="1" accesskey="D" styleClass="button"
-                                      rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"><j4j:idProxy
-                                id="openDialogDelete"/><span class="buttonLabel"><u>D</u>elete</span></h:outputLink>
+                        <h:outputLink id="delete" value="#" tabindex="1"
+                                      accesskey="#{messages['lacewiki.button.docEdit.Delete.accesskey']}"
+                                      styleClass="button"
+                                      rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"><j4j:idProxy id="openDialogDelete"/>
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Delete']}"/>
+                        </h:outputLink>
 
                     </div>
                 </div>

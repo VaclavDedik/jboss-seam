@@ -103,7 +103,7 @@ public class WikiRequestResolver {
 
     public String resolve() {
 
-        // Queue a message if requested (for message passing across session invalidations)
+        // Queue a message if requested (for message passing across session invalidations and conversations)
         if (message != null) {
             facesMessages.addFromResourceBundle(
                 FacesMessage.SEVERITY_INFO,

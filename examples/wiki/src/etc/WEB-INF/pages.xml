@@ -48,7 +48,7 @@
                 <end-conversation before-redirect="true"/>
                 <redirect view-id="/wiki.xhtml">
                     <param name="nodeId"    value="#{nodeHistory.currentNode.id}"/>
-                    <param name="message"       value="purgedHistory"/>
+                    <param name="message"   value="purgedHistory"/>
                 </redirect>
             </rule>
 
@@ -190,7 +190,9 @@
             </rule>
             <rule if-outcome="persisted">
                 <end-conversation before-redirect="true"/>
-                <redirect view-id="/wiki.xhtml"/>
+                <redirect view-id="/wiki.xhtml">
+                    <param name="message" value="lacewiki.msg.AccountCreatedConfirmationSent"/>
+                </redirect>
             </rule>
         </navigation>
     </page>
@@ -203,7 +205,7 @@
             <rule if-outcome="updatedCurrentCredentials">
                 <end-conversation before-redirect="true"/>
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="updatedCurrentCredentials"/>
+                    <param name="message" value="lacewiki.msg.UpdatedCurrentCredentials"/>
                 </redirect>
             </rule>
             <rule if-outcome="removed">
@@ -222,12 +224,12 @@
         <navigation>
             <rule if-outcome="activated">
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="accountActivatedPleaseLogin"/>
+                    <param name="message" value="lacewiki.msg.AccountActivatedPleaseLogin"/>
                 </redirect>
             </rule>
             <rule if-outcome="notFound">
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="invalidActivationCode"/>
+                    <param name="message" value="lacewiki.msg.InvalidActivationCode"/>
                 </redirect>
             </rule>
         </navigation>
@@ -250,7 +252,7 @@
 
             <rule if-outcome="error">
                 <redirect view-id="/message.xhtml">
-                    <message severity="ERROR">An unrecoverable error occured!</message>
+                    <message severity="ERROR">#{messages['lacewiki.msg.FatalError']}</message>
                 </redirect>
             </rule>
         </navigation>
@@ -259,59 +261,76 @@
 
     <!-- Page descriptions don't support wildcards -->
     <page view-id="/docHistory_d.xhtml">
-        <description>Document History</description>
+        <description>#{messages['lacewiki.label.docHistory.DocumentHistory']}</description>
     </page>
     <page view-id="/docEdit_d.xhtml">
-        <description>#{documentHome.idDefined ? 'Edit Document' : 'Create Document'}</description>
+        <description>#{documentHome.idDefined
+                        ? messages['lacewiki.label.docEdit.EditDocument']
+                        : messages['lacewiki.label.docEdit.CreateDocument']}</description>
     </page>
     <page view-id="/dirEdit_d.xhtml">
-        <description>#{directoryHome.idDefined ? 'Edit Directory' : 'Create Directory'}</description>
+        <description>#{directoryHome.idDefined
+                        ? messages['lacewiki.label.dirEdit.EditDirectory']
+                        : messages['lacewiki.label.dirEdit.CreateDirectory']}</description>
     </page>
     <page view-id="/fileEdit_d.xhtml">
-        <description>#{fileHome.idDefined ? 'Edit File' : 'Create File'}</description>
+        <description>#{fileHome.idDefined
+                        ? messages['lacewiki.label.fileEdit.EditFile']
+                        : messages['lacewiki.label.fileEdit.UploadFile']}</description>
     </page>
     <page view-id="/search_d.xhtml">
-        <description>Search (Results: #{wikiSearch.searchResult.size})</description>
+        <description>#{messages['lacewiki.label.search.Search']} (#{messages['lacewiki.label.search.Results']}: #{wikiSearch.searchResult.size})</description>
     </page>
     <page view-id="/adminHome_d.xhtml">
-        <description>System Administration</description>
+        <description>#{messages['lacewiki.label.adminHome.Administration']}</description>
     </page>
     <page view-id="/userRegister_d.xhtml">
-        <description>#{identity.loggedIn ? 'Create Account' : 'Registration'}</description>
+        <description>#{identity.loggedIn
+                        ? messages['lacewiki.label.userRegister.CreateNewAccount']
+                        : messages['lacewiki.label.userRegister.RegisterNewAccount']}</description>
     </page>
     <page view-id="/userHome_d.xhtml">
-        <description>Managing Account: #{userHome.instance.username}</description>
+        <description>#{messages['lacewiki.label.userHome.EditUser']}: #{userHome.instance.username}</description>
     </page>
     <page view-id="/userList_d.xhtml">
-        <description>Member Search (Results: #{userSearch.rowCount})</description>
+        <description>#{messages['lacewiki.label.userList.MemberList']} (#{messages['lacewiki.label.userList.Results']}: #{userSearch.rowCount})</description>
     </page>
 
+
     <page view-id="/docHistory_m.xhtml">
-        <description>Document History</description>
+        <description>#{messages['lacewiki.label.docHistory.DocumentHistory']}</description>
     </page>
     <page view-id="/docEdit_m.xhtml">
-        <description>#{documentHome.idDefined ? 'Edit Document' : 'Create Document'}</description>
+        <description>#{documentHome.idDefined
+                        ? messages['lacewiki.label.docEdit.EditDocument']
+                        : messages['lacewiki.label.docEdit.CreateDocument']}</description>
     </page>
     <page view-id="/dirEdit_m.xhtml">
-        <description>#{directoryHome.idDefined ? 'Edit Directory' : 'Create Directory'}</description>
+        <description>#{directoryHome.idDefined
+                        ? messages['lacewiki.label.dirEdit.EditDirectory']
+                        : messages['lacewiki.label.dirEdit.CreateDirectory']}</description>
     </page>
     <page view-id="/fileEdit_m.xhtml">
-        <description>#{fileHome.idDefined ? 'Edit File' : 'Create File'}</description>
+        <description>#{fileHome.idDefined
+                        ? messages['lacewiki.label.fileEdit.EditFile']
+                        : messages['lacewiki.label.fileEdit.UploadFile']}</description>
     </page>
     <page view-id="/search_m.xhtml">
-        <description>Search (Results: #{wikiSearch.searchResult.size})</description>
+        <description>#{messages['lacewiki.label.search.Search']} (#{messages['lacewiki.label.search.Results']}: #{wikiSearch.searchResult.size})</description>
     </page>
     <page view-id="/adminHome_m.xhtml">
-        <description>System Administration</description>
+        <description>#{messages['lacewiki.label.adminHome.Administration']}</description>
     </page>
     <page view-id="/userRegister_m.xhtml">
-        <description>#{identity.loggedIn ? 'Create Account' : 'Registration'}</description>
+        <description>#{identity.loggedIn
+                        ? messages['lacewiki.label.userRegister.CreateNewAccount']
+                        : messages['lacewiki.label.userRegister.RegisterNewAccount']}</description>
     </page>
     <page view-id="/userHome_m.xhtml">
-        <description>Managing Account: #{userHome.instance.username}</description>
+        <description>#{messages['lacewiki.label.userHome.EditUser']}: #{userHome.instance.username}</description>
     </page>
     <page view-id="/userList_m.xhtml">
-        <description>Member Search (Results: #{userSearch.rowCount})</description>
+        <description>#{messages['lacewiki.label.userList.MemberList']} (#{messages['lacewiki.label.userList.Results']}: #{userSearch.rowCount})</description>
     </page>
 
 
@@ -323,14 +342,14 @@
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
         <redirect view-id="/message.xhtml">
-            <message severity="WARN">Access Denied: #{org.jboss.seam.handledException.message}</message>
+            <message severity="WARN">#{messages['lacewiki.msg.AccessDenied']}: #{org.jboss.seam.handledException.message}</message>
         </redirect>
     </exception>
 
     <exception class="javax.persistence.OptimisticLockException">
         <end-conversation/>
         <redirect view-id="/message.xhtml">
-            <message severity="ERROR">Someone modified the same record while you were editing it. Please restart your workspace.</message>
+            <message severity="ERROR">#{messages['lacewiki.msg.OptimisticLockError']}</message>
         </redirect>
     </exception>
 

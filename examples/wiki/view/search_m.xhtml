@@ -8,11 +8,16 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
-<ui:define name="screenname">Search: #{wikiSearch.simpleQuery}</ui:define>
+<ui:define name="screenname">
+    <h:outputText value="#{messages['lacewiki.label.search.Search']}: #{wikiSearch.simpleQuery}"/>
+</ui:define>
 
 <ui:define name="control">
 
-    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end">Close</s:link>
+    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
+    </s:link>
 
 </ui:define>
 
@@ -21,7 +26,7 @@
     <h:form id="searchForm">
 
         <h:inputText value="#{wikiSearch.simpleQuery}" size="28" maxlength="1000"/>
-        <h:commandButton action="#{wikiSearch.search()}" value="Find"/>
+        <h:commandButton action="#{wikiSearch.search()}" value="#{messages['lacewiki.button.Find']}"/>
 
     </h:form>
 
@@ -30,11 +35,19 @@
             <h:panelGrid columns="5"
                          cellpadding="0" cellspacing="0" border="0"
                          rendered="#{wikiSearch.totalCount > 0}">
-                <h:commandButton  action="#{wikiSearch.firstPage()}" rendered="#{wikiSearch.previousPageAvailable}" value="First Page"/>
-                <h:commandButton  action="#{wikiSearch.previousPage()}" rendered="#{wikiSearch.previousPageAvailable}" value="Previous Page"/>
-                <h:outputText value="#{wikiSearch.firstRow} to #{wikiSearch.lastRow} of #{wikiSearch.totalCount} hit(s)"/>
-                <h:commandButton action="#{wikiSearch.nextPage()}" rendered="#{wikiSearch.nextPageAvailable}" value="Next Page"/>
-                <h:commandButton action="#{wikiSearch.lastPage()}" rendered="#{wikiSearch.nextPageAvailable}" value="Last Page"/>
+                <h:commandButton  action="#{wikiSearch.firstPage()}" rendered="#{wikiSearch.previousPageAvailable}"
+                                  value="#{messages['lacewiki.button.FirstPage']}"/>
+                <h:commandButton  action="#{wikiSearch.previousPage()}" rendered="#{wikiSearch.previousPageAvailable}"
+                                  value="#{messages['lacewiki.button.PreviousPage']}"/>
+
+                <h:outputText value="#{wikiSearch.firstRow} #{messages['lacewiki.label.search.To']}
+                                     #{wikiSearch.lastRow} #{messages['lacewiki.label.search.Of']}
+                                     #{wikiSearch.totalCount} #{messages['lacewiki.label.search.Hits']}"/>
+
+                <h:commandButton action="#{wikiSearch.nextPage()}" rendered="#{wikiSearch.nextPageAvailable}"
+                                 value="#{messages['lacewiki.button.NextPage']}"/>
+                <h:commandButton action="#{wikiSearch.lastPage()}" rendered="#{wikiSearch.nextPageAvailable}"
+                                 value="#{messages['lacewiki.button.LastPage']}"/>
             </h:panelGrid>
         </h:form>
     </s:div>
@@ -58,7 +71,7 @@
         </h:dataTable>
 
         <s:div styleClass="formFields minorPadding" rendered="#{wikiSearch.totalCount == 0}">
-            <h:outputText value="No hits, please try again."/>
+            <h:outputText value="#{messages['lacewiki.label.search.NoHits']}"/>
         </s:div>
 
     </s:div>

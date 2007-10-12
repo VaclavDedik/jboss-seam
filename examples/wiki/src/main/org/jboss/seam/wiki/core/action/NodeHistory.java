@@ -5,18 +5,12 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.model.Node;
 import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.util.Diff;
 import org.jboss.seam.wiki.util.WikiUtil;
 
@@ -94,8 +88,10 @@ public class NodeHistory implements Serializable {
 
         facesMessages.addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_INFO,
-            "diffOldVersionDisplayed",
-            "Showing historical revision " + selectedHistoricalNode.getRevision());
+            "lacewiki.msg.DiffOldVersionDisplayed",
+            "Showing historical revision {0}",
+            selectedHistoricalNode.getRevision()
+        );
     }
 
     public void diff() {
@@ -107,8 +103,10 @@ public class NodeHistory implements Serializable {
         if (selectedHistoricalNode == null) {
             facesMessages.addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_ERROR,
-                "historicalNodeNotFound",
-                "Couldn't find historical node: " + historicalNodeId);
+                "lacewiki.msg.HistoricalNodeNotFound",
+                "Couldn't find historical node: {0}",
+                historicalNodeId
+            );
             return;
         }
 
@@ -167,16 +165,20 @@ public class NodeHistory implements Serializable {
 
         facesMessages.addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_INFO,
-            "diffCreated",
-            "Comparing current revision with historical revision " + selectedHistoricalNode.getRevision());
+            "lacewiki.msg.DiffCreated",
+            "Comparing current revision with historical revision {0}",
+            selectedHistoricalNode.getRevision()
+        );
     }
 
     @Restrict("#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}")
     public String rollback() {
         facesMessages.addFromResourceBundleOrDefault(
             FacesMessage.SEVERITY_INFO,
-            "rollingBackDocument",
-            "Rolling back to revision " + selectedHistoricalNode.getRevision());
+            "lacewiki.msg.RollingBackDocument",
+            "Rolling document back to revision {0}",
+            selectedHistoricalNode.getRevision()
+        );
         return "rollback";
     }
 

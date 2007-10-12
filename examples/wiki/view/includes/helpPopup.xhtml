@@ -39,13 +39,13 @@
 
             };</script>
     </ui:define>
-    <ui:define name="dialogTitle">Help</ui:define>
+    <ui:define name="dialogTitle">#{messages['lacewiki.label.help.DialogTitle']}</ui:define>
     <ui:define name="dialogContent">
 
         <s:div id="helpSelector">
             <h:panelGrid columns="3" styleClass="fullWidth"
                          columnClasses="alignLeft fivePercentColumn, alignLeft defaultColumn, alignRight tenPercentColumn">
-                <h:outputText value="Browse:"/>
+                <h:outputText value="#{messages['lacewiki.label.help.Browse']}:"/>
                 <h:form id="helpSelectorForm">
                     <h:selectOneMenu
                             value="#{help.selectedNode}"
@@ -63,11 +63,15 @@
                         <h:outputLink value="#{wiki:renderURL(help.selectedNode.wrappedNode)}"
                                       rendered="#{not empty help.selectedNode}"
                                       styleClass="buttonNonpersistent"
-                                      tabindex="1"><span class="buttonLabel">Open Fullscreen</span></h:outputLink>
+                                      tabindex="1">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.help.OpenFullscreen']}"/>
+
+                        </h:outputLink>
                     </s:span>
 
-                    <h:outputLink value="#" styleClass="buttonNonpersistent closeDialog"
-                                  tabindex="1"><span class="buttonLabel">Close <u>H</u>elp</span></h:outputLink>
+                    <h:outputLink value="#" styleClass="buttonNonpersistent closeDialog" tabindex="1">
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.help.CloseHelp']}"/>
+                    </h:outputLink>
                 </h:panelGroup>
             </h:panelGrid>
         </s:div>

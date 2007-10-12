@@ -20,7 +20,7 @@
                 });
         });</script>
     </ui:define>
-    <ui:define name="dialogTitle">Select owner...</ui:define>
+    <ui:define name="dialogTitle">#{messages['lacewiki.label.ownerSelector.SelectOwner']}</ui:define>
     <ui:define name="dialogContent">
 
         <h:form>
@@ -36,29 +36,32 @@
                          cellpadding="0" cellspacing="0" border="0">
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="Username:"/>&#160;
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.Username']}:"/>&#160;
                     <h:inputText id="username" value="#{userSearch.exampleUser.username}" maxlength="35" size="10" tabindex="20"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="First name:"/>&#160;
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.FirstName']}:"/>&#160;
                     <h:inputText id="firstname" value="#{userSearch.exampleUser.firstname}" maxlength="35" size="10" tabindex="20"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="Last name:"/>&#160;
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.LastName']}:"/>&#160;
                     <h:inputText id="lastname" value="#{userSearch.exampleUser.lastname}" maxlength="35" size="10" tabindex="20"/>
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="E-mail:"/>&#160;
+                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.Email']}:"/>&#160;
                     <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="10" tabindex="20"/>
                 </h:panelGroup>
 
                 <a:commandLink id="find" styleClass="buttonNonpersistent" reRender="dialogOwnerSelectionContent"
                                oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
                                action="#{userSearch.find()}"
-                               tabindex="20" accesskey="F"><span class="buttonLabel"><u>F</u>ind</span></a:commandLink>
+                               tabindex="20"
+                               accesskey="#{messages['lacewiki.button.userList.Find.accesskey']}">
+                    <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userList.Find']}"/>
+                </a:commandLink>
 
             </h:panelGrid>
         </div>
@@ -85,7 +88,7 @@
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.previousPageAvailable}"/>
 
-                <h:outputText value="Found: #{userSearch.rowCount} member(s)"/>
+                <h:outputText value="#{messages['lacewiki.label.userList.Found']} #{userSearch.rowCount} #{messages['lacewiki.label.userList.Members']}"/>
 
                 <a:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="20"
                                oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog')"
@@ -128,11 +131,11 @@
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                             rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
-                            Username
+                            <h:outputText value="#{messages['lacewiki.label.userList.Username']}"/>
                         </a:commandLink>
                     </f:facet>
                     #{u.username}
-                    <h:outputText rendered="#{!empty u.activationCode}">&#160;(Not Activated)</h:outputText>
+                    <h:outputText rendered="#{!u.activated}" value="&#160;(#{messages['lacewiki.label.userList.NotActivated']})"/>
                 </h:column>
 
                 <h:column>
@@ -143,7 +146,7 @@
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                             rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
-                            First name
+                            <h:outputText value="#{messages['lacewiki.label.userList.FirstName']}"/>
                         </a:commandLink>
                     </f:facet>
                     #{u.firstname}
@@ -157,7 +160,7 @@
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                             rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
-                            Last name
+                            <h:outputText value="#{messages['lacewiki.label.userList.LastName']}"/>
                         </a:commandLink>
                     </f:facet>
                     #{u.lastname}
@@ -171,7 +174,7 @@
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
                             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
                                             rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
-                            E-mail address
+                            <h:outputText value="#{messages['lacewiki.label.userList.Email']}"/>
                         </a:commandLink>
                     </f:facet>
                     #{u.email}
@@ -180,7 +183,9 @@
                 <h:column>
                     <a:commandLink action="#{home.selectOwner(u.id)}"
                                    reRender="ownerDisplay" styleClass="buttonNonpersistent closeDialog"
-                                   tabindex="20"><span class="buttonLabel">Select</span></a:commandLink>
+                                   tabindex="20">
+                        <h:outputText value="#{messages['lacewiki.button.ownerSelector.Select']}"/>
+                    </a:commandLink>
                 </h:column>
 
             </h:dataTable>

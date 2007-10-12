@@ -8,9 +8,13 @@
     <h:form id="searchControlForm">
         <h:panelGroup styleClass="searchControlTable">
             <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="#{wikiSearch.simpleQuery}"
-                         onclick="clickClear(this, 'Search...')" onblur="clickRecall(this, 'Search...')"
+                         onclick="clickClear(this, '#{messages['lacewiki.label.searchControl.Search']}')"
+                         onblur="clickRecall(this, '#{messages['lacewiki.label.searchControl.Search']}')"
                          size="15" maxlength="1000" tabindex="60"/>
-            <h:commandLink styleClass="searchControlLink" tabindex="61" accesskey="F" action="search"><u>F</u>ind
+            <h:commandLink styleClass="searchControlLink" tabindex="61"
+                           accesskey="#{messages['lacewiki.button.searchControl.Find.accesskey']}"
+                           action="search">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.searchControl.Find']}"/>
                 <f:param name="conversationPropagation" value="none"/>
             </h:commandLink>
         </h:panelGroup>

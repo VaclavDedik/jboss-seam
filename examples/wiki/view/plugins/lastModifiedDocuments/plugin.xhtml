@@ -30,7 +30,9 @@
                      cellpadding="0" cellspacing="0" border="0">
             <h:column>
                 <f:facet name="header">
-                    Last #{lastModifiedDocumentsPreferences.properties['numberOfItems']} modified documents:
+                    #{messages['lastModifiedDocuments.label.Last']}
+                    #{lastModifiedDocumentsPreferences.properties['numberOfItems']}
+                    #{messages['lastModifiedDocuments.label.ModifiedDocuments']}:
                 </f:facet>
                 <h:outputText value="#{doc.lastModifiedOn}"
                               rendered="#{!empty doc.lastModifiedOn}">

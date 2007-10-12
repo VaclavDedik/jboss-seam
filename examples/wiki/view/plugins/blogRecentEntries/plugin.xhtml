@@ -26,7 +26,7 @@
         <s:div styleClass="blogRecentEntries">
 
             <s:div styleClass="boxHeader" rendered="#{not blogRecentEntriesPreferences.showSubscribeIcon}">
-                <h:outputText value="Recent Entries"/>
+                <h:outputText value="#{messages['blogRecentEntries.label.RecentEntries']}"/>
             </s:div>
 
             <h:panelGrid rendered="#{blogRecentEntriesPreferences.showSubscribeIcon}"
@@ -42,11 +42,11 @@
                     <h:outputLink
                             target="_top"
                             value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                        <h:outputText value="Subscribe"/>
+                        <h:outputText value="#{messages['blogRecentEntries.label.Subscribe']}"/>
                     </h:outputLink>
                 </h:panelGrid>
 
-                <h:outputText value="Recent Entries"/>
+                <h:outputText value="#{messages['blogRecentEntries.label.RecentEntries']}"/>
 
             </h:panelGrid>
 

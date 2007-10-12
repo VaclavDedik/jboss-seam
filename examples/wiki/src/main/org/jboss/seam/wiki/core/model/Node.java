@@ -62,13 +62,19 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
 
     @Column(name = "NAME", length = 255, nullable = false)
     @Length(min = 3, max = 255)
-    @Pattern(regex="^[a-zA-Z0-9]+.*", message="Name must start with a letter or number")
+    @Pattern(
+        regex="^[a-zA-Z0-9]+.*",
+        message="#{messages['lacewiki.entity.NameMustStartWithLetterOrNumber']}"
+    )
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     @Searchable(description = "Name")
     protected String name;
 
     @Column(name = "WIKINAME", length = 255, nullable = false)
-    @Pattern(regex="^[A-Z0-9]+.*", message="Name must start with an uppercase letter or number")
+    @Pattern(
+        regex="^[A-Z0-9]+.*",
+        message="#{messages['lacewiki.entity.NameMustStartWithUppercaseLetterOrNumber']}"
+    )
     protected String wikiname;
 
     @Column(name = "MENU_ITEM", nullable = false)
