@@ -371,6 +371,7 @@
 		<testexample name="drools" />
 		<testexample name="mail" />
 		<testexample name="seampay" />
+		<testexample name="itext" />
 		<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>
