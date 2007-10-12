@@ -318,6 +318,12 @@
                 Stateless session beans always live in the stateless context. 
             </para>
             <para> 
+                Stateless session beans can be accessed concurrently as a new instance is used for each request. 
+                Assigning the instance to the request is the responsibility of the EJB3 container (normally instances
+                will be allocated from a reusable pool meaning that you may find any instance variables contain data
+                from previous uses of the bean). 
+            </para>
+            <para> 
                 Stateless session beans are the least interesting kind of Seam component. 
             </para> 
             <para>
