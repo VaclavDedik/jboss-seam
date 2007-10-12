@@ -417,6 +417,7 @@ public class Identity extends Selector
    {
       principal = null;
       Session.instance().invalidate();
+      Events.instance().raiseEvent("org.jboss.seam.loggedOut");
    }
 
    /**
