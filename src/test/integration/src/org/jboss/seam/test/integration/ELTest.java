@@ -1,4 +1,4 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.integration;
 
 import javax.el.ELException;
 import javax.faces.el.MethodBinding;
@@ -9,6 +9,11 @@ import org.jboss.seam.jsf.UnifiedELValueBinding;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
+/**
+ * 
+ * @author Pete Muir
+ *
+ */
 public class ELTest extends SeamTest
 {
    
@@ -21,7 +26,8 @@ public class ELTest extends SeamTest
    {
       new FacesRequest() 
       {
-         @Override
+         @SuppressWarnings("deprecation")
+        @Override
          protected void invokeApplication() throws Exception
          {
             MethodBinding methodBinding = new UnifiedELMethodBinding("#{action.go}", new Class[0]);
@@ -43,6 +49,7 @@ public class ELTest extends SeamTest
    {
       new FacesRequest() 
       {
+         @SuppressWarnings("deprecation")
          @Override
          protected void invokeApplication() throws Exception
          {
@@ -64,7 +71,8 @@ public class ELTest extends SeamTest
    {
       new FacesRequest() 
       {
-         @Override
+         @SuppressWarnings("deprecation")
+        @Override
          protected void invokeApplication() throws Exception
          {
 
@@ -72,7 +80,7 @@ public class ELTest extends SeamTest
             boolean failed = false;
             try
             {
-               Object result = methodBinding.invoke(getFacesContext(), null);
+               methodBinding.invoke(getFacesContext(), null);
             }
             catch (ELException e) {
                failed = true;
@@ -87,6 +95,7 @@ public class ELTest extends SeamTest
    {
       new FacesRequest()
       {
+         @SuppressWarnings("deprecation")
          @Override
          protected void invokeApplication() throws Exception
          {
@@ -110,6 +119,7 @@ public class ELTest extends SeamTest
    {
       new FacesRequest() 
       {
+         @SuppressWarnings("deprecation")
          @Override
          protected void invokeApplication() throws Exception
          {

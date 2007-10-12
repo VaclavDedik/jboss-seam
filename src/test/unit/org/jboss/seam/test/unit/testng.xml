@@ -16,10 +16,7 @@
        <class name="org.jboss.seam.test.unit.DependencyTest"/>
        <class name="org.jboss.seam.test.unit.SeamTestTest"/>
        <class name="org.jboss.seam.test.unit.MailTest"/>
-       <class name="org.jboss.seam.test.unit.ELTest"/>
        <class name="org.jboss.seam.test.unit.DataModelTest"/>
-       <class name="org.jboss.seam.test.unit.TimeZoneTest"/>
-       <class name="org.jboss.seam.test.unit.LocaleTest"/>
        <class name="org.jboss.seam.test.unit.PageflowTest"/>
        <class name="org.jboss.seam.test.unit.SeamMockELResolverTest" />
        <class name="org.jboss.seam.test.unit.PageActionsTest" />

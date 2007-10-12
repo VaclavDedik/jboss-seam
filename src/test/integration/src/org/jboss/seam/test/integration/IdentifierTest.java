@@ -2,7 +2,6 @@ package org.jboss.seam.test.integration;
 
 import javax.persistence.EntityManager;
 
-import org.drools.lang.DRLParser.identifier_return;
 import org.hibernate.Session;
 import org.jboss.seam.framework.EntityIdentifier;
 import org.jboss.seam.framework.HibernateEntityIdentifier;

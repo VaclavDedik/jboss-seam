@@ -1,21 +1,21 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.integration.i8ln;
 
-import java.io.IOException;
 import java.util.TimeZone;
 
 import javax.faces.component.UIOutput;
 import javax.faces.event.ValueChangeEvent;
 
-import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.seam.international.TimeZoneSelector;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
+/**
+ * 
+ * @author Pete Muir
+ *
+ */
 public class TimeZoneTest extends SeamTest
 {
-
-   @Override
-   protected void startJbossEmbeddedIfNecessary() throws DeploymentException, IOException {}
    
    @Test
    public void timeZoneTest() throws Exception

@@ -20,9 +20,22 @@
      </classes>
    </test>
    
+   <test name="Seam Core - Integration: EL">
+     <classes>
+       <class name="org.jboss.seam.test.integration.ELTest"/>
+     </classes>
+   </test>
+   
    <test name="Seam Core - Integration: Framework">
      <classes>
        <class name="org.jboss.seam.test.integration.IdentifierTest"/>
+     </classes>
+   </test>
+   
+   <test name="Seam Core - Integration: i8ln">
+     <classes>
+       <class name="org.jboss.seam.test.integration.i8ln.TimeZoneTest"/>
+       <class name="org.jboss.seam.test.integration.i8ln.LocaleTest"/>
      </classes>
    </test>
 	

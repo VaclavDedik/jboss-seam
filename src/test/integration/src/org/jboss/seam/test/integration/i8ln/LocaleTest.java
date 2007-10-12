@@ -1,21 +1,16 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.integration.i8ln;
 
-import java.io.IOException;
 import java.util.Locale;
 
 import javax.faces.component.UIOutput;
 import javax.faces.event.ValueChangeEvent;
 
-import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.seam.international.LocaleSelector;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
 public class LocaleTest extends SeamTest
 {
-
-   @Override
-   protected void startJbossEmbeddedIfNecessary() throws DeploymentException, IOException {}
    
    @Test
    public void localeTest() throws Exception
