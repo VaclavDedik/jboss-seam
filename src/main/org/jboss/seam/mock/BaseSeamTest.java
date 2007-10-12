@@ -587,7 +587,7 @@ public class BaseSeamTest
                {
                   updateModelValuesPhase();
                   if ( !skipToRender() )
-                  {
+                  {                     
                      invokeApplicationPhase();
                   }
                }
@@ -636,115 +636,135 @@ public class BaseSeamTest
       {
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
                   MockLifecycle.INSTANCE));
-  
-         updateConversationId();
-         
-         invokeApplicationBegun = true;
-  
-         invokeApplication();
-  
-         invokeApplicationComplete = true;
-  
-         String outcome = getInvokeApplicationOutcome();
-         facesContext.getApplication().getNavigationHandler()
-                  .handleNavigation(facesContext, action, outcome);
-  
-         viewId = getRenderedViewId();
-  
-         updateConversationId();
-  
-         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
+         try
+         {
+            updateConversationId();
+            
+            invokeApplicationBegun = true;
+     
+            invokeApplication();
+     
+            invokeApplicationComplete = true;
+     
+            String outcome = getInvokeApplicationOutcome();
+            facesContext.getApplication().getNavigationHandler()
+                     .handleNavigation(facesContext, action, outcome);
+     
+            viewId = getRenderedViewId();
+     
+            updateConversationId();
+         }
+         finally
+         {     
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
                   MockLifecycle.INSTANCE));
+         }
       }
 
       private void updateModelValuesPhase() throws Exception
       {
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
                   MockLifecycle.INSTANCE));
-  
-         updateConversationId();
-         
-         updateModelValues();
-  
-         updateConversationId();
-  
-         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
+         try
+         {  
+            updateConversationId();
+            
+            updateModelValues();
+     
+            updateConversationId();
+         }
+         finally
+         {  
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
                   MockLifecycle.INSTANCE));
+         }
       }
 
       private void processValidationsPhase() throws Exception
       {
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
                   MockLifecycle.INSTANCE));
-  
-         updateConversationId();
-         
-         processValidations();
-  
-         updateConversationId();
-         
-         if ( isValidationFailure() )
-         {
-            facesContext.renderResponse();
+         try
+         {  
+            updateConversationId();
+            
+            processValidations();
+     
+            updateConversationId();
+            
+            if ( isValidationFailure() )
+            {
+               facesContext.renderResponse();
+            }
          }
-  
-         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
+         finally
+         {
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
                   MockLifecycle.INSTANCE));
+         }
       }
 
       private void applyRequestValuesPhase() throws Exception
       {
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
                   MockLifecycle.INSTANCE));
-  
-         updateConversationId();
-         
-         applyRequestValues();
-  
-         updateConversationId();
-  
-         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
+         try
+         {  
+            updateConversationId();
+            
+            applyRequestValues();
+     
+            updateConversationId();
+         }
+         finally
+         {            
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
                   MockLifecycle.INSTANCE));
+         }
       }
 
       private void restoreViewPhase()
       {
          phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW,
                   MockLifecycle.INSTANCE));
-  
-         UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(
-                  facesContext, getViewId());
-         facesContext.setViewRoot(viewRoot);
-         Map restoredViewRootAttributes = facesContext.getViewRoot().getAttributes();
-         if (conversationId != null)
-         {
+         try
+         {  
+            UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(
+                     facesContext, getViewId());
+            facesContext.setViewRoot(viewRoot);
+            Map restoredViewRootAttributes = facesContext.getViewRoot().getAttributes();
+            if (conversationId != null)
+            {
+               if ( isGetRequest() )
+               {
+                  setParameter(Manager.instance().getConversationIdParameter(), conversationId);
+                  // TODO: what about conversationIsLongRunning????
+               }
+               else
+               {
+                  if (conversationViewRootAttributes.containsKey(conversationId))
+                  {
+                     // should really only do this if the view id matches (not
+                     // really possible to implement)
+                     Map state = conversationViewRootAttributes.get(conversationId);
+                     restoredViewRootAttributes.putAll(state);
+                  }
+               }
+            }
             if ( isGetRequest() )
             {
-               setParameter(Manager.instance().getConversationIdParameter(), conversationId);
-               // TODO: what about conversationIsLongRunning????
+               facesContext.renderResponse();
             }
             else
             {
-               if (conversationViewRootAttributes.containsKey(conversationId))
-               {
-                  // should really only do this if the view id matches (not
-                  // really possible to implement)
-                  Map state = conversationViewRootAttributes.get(conversationId);
-                  restoredViewRootAttributes.putAll(state);
-               }
+               restoredViewRootAttributes.putAll(pageParameters);
             }
          }
-         if ( isGetRequest() )
-         {
-            facesContext.renderResponse();
-         }
-         else
-         {
-            restoredViewRootAttributes.putAll(pageParameters);
-         }
-  
-         phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW,
+         finally
+         {  
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW,
                   MockLifecycle.INSTANCE));
+         }
       }
 
       private void updateConversationId()
