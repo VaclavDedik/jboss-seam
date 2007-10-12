@@ -2,20 +2,10 @@
 
 <suite name="Hotel Booking" verbose="2" parallel="false">
 
-   <test name="Hotel Booking: Login">
+   <test name="Hotel Booking">
      <classes>
        <class name="org.jboss.seam.example.booking.test.LoginTest"/>
-     </classes>
-   </test>
-	
-   <test name="Hotel Booking: Book Hotel">
-     <classes>
        <class name="org.jboss.seam.example.booking.test.BookingTest"/>
-     </classes>
-   </test>
-	
-   <test name="Hotel Booking: Change Password">
-     <classes>
        <class name="org.jboss.seam.example.booking.test.ChangePasswordTest"/>
      </classes>
    </test>
