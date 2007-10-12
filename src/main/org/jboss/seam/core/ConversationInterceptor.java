@@ -44,7 +44,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       
             if ( isMissingJoin(method) )
             {
-               throw new IllegalStateException("begin method invoked from a long running conversation, try using @Begin(join=true) on method: " + method.getName());
+               throw new IllegalStateException("begin method invoked from a long-running conversation, try using @Begin(join=true) on method: " + method.getName());
             }
             
             if ( redirectToExistingConversation(method) ) 
