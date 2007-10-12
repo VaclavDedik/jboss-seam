@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.example.hibernate;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -13,7 +14,7 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
-public class HotelSearchingAction
+public class HotelSearchingAction implements Serializable
 {
    
    @In
