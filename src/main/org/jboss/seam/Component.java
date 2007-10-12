@@ -45,7 +45,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
@@ -343,23 +342,11 @@ public class Component extends Model
    }
 
    private void initNamespace(String componentName, Context applicationContext)
-   {
-      if (applicationContext!=null) //for unit tests!
-      {
-         Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) );
-         if (init!=null)
-         {
-            Namespace namespace = init.getRootNamespace();
-            StringTokenizer tokens = new StringTokenizer(componentName, ".");
-            while ( tokens.hasMoreTokens() )
-            {
-               String token = tokens.nextToken();
-               if ( tokens.hasMoreTokens() ) //we don't want to create a namespace for the name
-               {
-                  namespace = namespace.getOrCreateChild(token);
-               }
-            }
-            this.namespace = namespace;
+   {  
+      if (applicationContext!=null) { //for unit tests!
+         Init init = (Init) applicationContext.get(Seam.getComponentName(Init.class));
+         if (init!=null) {
+            this.namespace = init.initNamespaceForName(componentName, true);
          }
       }
    }
@@ -387,16 +374,9 @@ public class Component extends Model
 
    private void addImport(Init init, Import imp)
    {
-      for ( String ns: imp.value() )
-      {
-         Namespace namespace = init.getRootNamespace();
-         StringTokenizer tokens = new StringTokenizer(ns, ".");
-         while ( tokens.hasMoreTokens() )
-         {
-            namespace = namespace.getOrCreateChild( tokens.nextToken() );
-         }
-         imports.add(namespace);
-      }
+       for (String ns: imp.value()) {
+           imports.add(init.initNamespaceForName(ns, false));
+       }
    }
 
    private void checkScopeForComponentType()
@@ -691,6 +671,10 @@ public class Component extends Model
          Out out = method.getAnnotation(Out.class);
          String name = toName( out.value(), method );
          outAttributes.add( new BijectedMethod(name, method, out) );
+         
+         //can't use Init.instance() here because of unit tests
+         Init init = (Init) applicationContext.get(Seam.getComponentName(Init.class));
+         init.initNamespaceForName(name, true);
       }
       
       if ( method.isAnnotationPresent(Unwrap.class) )
@@ -712,7 +696,8 @@ public class Component extends Model
       
       if ( method.isAnnotationPresent(org.jboss.seam.annotations.Factory.class) )
       {
-         Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
+         //can't use Init.instance() here because of unit tests
+         Init init = (Init) applicationContext.get(Seam.getComponentName(Init.class));
          String contextVariable = toName( method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), method );
          init.addFactoryMethod(contextVariable, method, this);
          if ( method.getAnnotation(org.jboss.seam.annotations.Factory.class).autoCreate() )
@@ -723,7 +708,9 @@ public class Component extends Model
       
       if ( method.isAnnotationPresent(Observer.class) )
       {
-         Init init = (Init) applicationContext.get( Seam.getComponentName(Init.class) ); //can't use Init.instance() here 'cos of unit tests
+         //can't use Init.instance() here because of unit tests
+         Init init = (Init) applicationContext.get(Seam.getComponentName(Init.class));
+          
          Observer observer = method.getAnnotation(Observer.class);
          for ( String eventType : observer.value() )
          {

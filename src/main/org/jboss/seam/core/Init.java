@@ -94,15 +94,15 @@ public class Init
    }*/
    
    public static class FactoryMethod {
-	   private Method method;
-	   private Component component;
-      private ScopeType scope;
+       private Method method;
+       private Component component;
+       private ScopeType scope;
       
 	   FactoryMethod(Method method, Component component)
 	   {
-		   this.method = method;
-		   this.component = component;
-         scope = method.getAnnotation(org.jboss.seam.annotations.Factory.class).scope();
+	       this.method = method;
+           this.component = component;
+           scope = method.getAnnotation(org.jboss.seam.annotations.Factory.class).scope();
 	   }
       
       public ScopeType getScope()
@@ -202,22 +202,46 @@ public class Init
        checkDuplicateFactoryExpressions(variable);
    }
    
+   
+   /** 
+    * makes sure appropriate namespaces exist for a name.  isComponent indicates the
+    * name is for a component type, in which case we don't create a namespace for the 
+    * last part
+    */
+   public Namespace initNamespaceForName(String name, boolean isComponent) {
+       Namespace namespace = getRootNamespace();
+       
+       StringTokenizer tokens = new StringTokenizer(name, ".");
+       while (tokens.hasMoreTokens()) {
+           String token = tokens.nextToken();
+           if (tokens.hasMoreTokens() && isComponent) {
+               //we don't want to create a namespace for a componentName
+               namespace = namespace.getOrCreateChild(token);               
+           }
+       }
+       return namespace;
+   }
+   
    public void addFactoryMethod(String variable, Method method, Component component)
    {
-      checkDuplicateFactory(variable, component);
-	   factories.put( variable, new FactoryMethod(method, component) );
+       checkDuplicateFactory(variable, component);
+	   factories.put(variable, new FactoryMethod(method, component));
+	   initNamespaceForName(variable, true);
    }
 
    public void addFactoryMethodExpression(String variable, String methodBindingExpression, ScopeType scope)
    {
       checkDuplicateFactory(variable);
-      factoryMethodExpressions.put( variable, new FactoryExpression(methodBindingExpression, scope) );
+      factoryMethodExpressions.put(variable, new FactoryExpression(methodBindingExpression, scope));
+      initNamespaceForName(variable, true);
    }
    
    public void addFactoryValueExpression(String variable, String valueBindingExpression, ScopeType scope)
    {
       checkDuplicateFactory(variable);
-      factoryValueExpressions.put( variable, new FactoryExpression(valueBindingExpression, scope) );
+      factoryValueExpressions.put(variable, new FactoryExpression(valueBindingExpression, scope));
+      initNamespaceForName(variable, true);
+
    }
    
    public static class ObserverMethod 
