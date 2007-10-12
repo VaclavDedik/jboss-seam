@@ -373,6 +373,7 @@
 		<testexample name="seampay" />
 		<testexample name="itext" />
 		<testexample name="hibernate2" />
+		<testexample name="jpa" />
 		<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>

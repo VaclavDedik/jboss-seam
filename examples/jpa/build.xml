@@ -46,5 +46,9 @@
 
    <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat55, tomcat6"/>
 
+   <target name="test">
+      <ant antfile="build-jboss.xml" target="test" />
+   </target>
+
 </project>
 

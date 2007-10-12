@@ -45,6 +45,10 @@
    </target>
 
    <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat55, tomcat6" description="Build Hibernate Booking example, for deployment to all supported application servers"/>
+   
+   <target name="test">
+      <ant antfile="build-jboss.xml" target="test" />
+   </target>
 
 </project>
 
