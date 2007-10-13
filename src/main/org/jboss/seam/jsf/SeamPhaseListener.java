@@ -447,9 +447,9 @@ public class SeamPhaseListener implements PhaseListener
          //attribute map is being discarder
          pageContext.flush();
          //force refresh of the conversation lists (they are kept in PAGE context)
-         pageContext.remove( Seam.getComponentName(ConversationList.class) );
-         pageContext.remove( Seam.getComponentName(Switcher.class) );
-         pageContext.remove( Seam.getComponentName(ConversationStack.class) );
+         pageContext.remove(Seam.getComponentName(Switcher.class));
+         pageContext.remove("org.jboss.seam.core.conversationList");
+         pageContext.remove("org.jboss.seam.core.conversationStack");
       }
       
       preRenderPage(facesContext);
