@@ -5,6 +5,14 @@
        no-conversation-view-id="/home.xhtml"
        login-view-id="/login.xhtml">
 
+    <page view-id="/pageWithDescription.xhtml">
+    	<description>page description</description>
+    </page>
+
+    <page view-id="/pageWithAnotherDescription.xhtml">
+    	<description>another page description</description>
+    </page>
+
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
             <message>Not found</message>
@@ -41,5 +49,4 @@
             <message>Unexpected error, please try again</message>
         </redirect>
     </exception>
-    
 </pages>
