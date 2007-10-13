@@ -846,8 +846,9 @@
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
 		<property name="cp" refid="test.classpath" />
 		<testng outputdir="${test-report.dir}">
-                    <jvmarg value="-Xmx800M" />
-                    <jvmarg value="-Djava.awt.headless=true" />
+            <jvmarg value="-Xmx800M" />
+            <jvmarg value="-Djava.awt.headless=true" />
+			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
 			<classpath refid="test.classpath" />
 			<xmlfileset dir="${src.test.dir}" includes="**/testng.xml" />
 		</testng>

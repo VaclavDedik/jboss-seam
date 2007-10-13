@@ -84,10 +84,9 @@
 
 	<property name="test.dir" value="${basedir}/test-output" />
 	<property name="report.dir" value="${basedir}/test-report" />
-	<property name="coverage.dir" value="${basedir}/coverage-output" />
+	
 
 	<property name="bootstrap.dir" value="${basedir}/bootstrap" />
-	<property name="coverage.ec" value="${seam.dir}/coverage.ec" />
 
 	<!-- CI -->
 
@@ -142,7 +141,6 @@
 		<delete dir="${test.dir}" quiet="${quietclean}" />
 		<delete dir="${report.dir}" quiet="${quietclean}" />
 		<delete dir="${coverage.dir}" quiet="${quietclean}" />
-		<delete file="coverage.ec" failonerror="false" quiet="${quietclean}" />
 		<delete dir="${ui.dir}/target" quiet="${quietclean}"/>
 		<cleanexample name="integration" path="${seam.dir}/src/test/integration" message="" />
 	</target>
@@ -604,6 +602,7 @@
 	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
 		<testng>
+			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
 			<jvmarg line="-Djava.awt.headless=true" />
 			<classpath>
 				<path path="${classes.test.core.dir}" />
@@ -651,7 +650,7 @@
 				<filter excludes="org.jboss.seam.annotations.*" />
 				<filter excludes="org.jboss.seam.test.*" />
 				<filter excludes="*.package-info.java" />
-				<filter excludes="org.jboss.seam.text.*" />
+				<filter excludes="org.jboss.seam.text.*" />	
 			</instr>
 		</emma>
 	</target>
@@ -666,15 +665,18 @@
 		</emma>
 	</target>
 
-	<target name="coverage" depends="instrumentcore, instrumentmail, testall" description="Run the core unit tests and all example tests with code coverage">
-		<move file="${coverage.ec}" tofile="${coverage.dir}/coveragecore.ec" />
+	<!-- Deprecated -->
+	<target name="coverage" depends="instrumentcore, instrumentmail, testall, coveragereport" />
+	
+	<target name="coveragereport" description="Create the coverage report">
+		<taskdef resource="emma_ant.properties" classpathref="classpath.emma" />
 		<emma>
 			<report depth="method">
 				<sourcepath>
 					<path location="${src.core.dir}" />
 					<path location="${src.mail.dir}" />
 				</sourcepath>
-				<infileset dir="${coverage.dir}" includes="coveragecore.em,coveragecore.ec,coveragemail.em,coveragemail.ec" />
+				<infileset dir="${coverage.dir}" includes="coveragecore.em,coverage.ec,coveragemail.em" />
 				<html outfile="${report.dir}/coverage.html" />
 				<xml outfile="${report.dir}/coverage.xml" />
 			</report>
@@ -682,7 +684,7 @@
 		<echo>Code coverage report for core classes available at ${report.dir}/coverage.html</echo>
 	</target>
 	
-	<target name="coverageall" depends="coverage" description="Run all unit tests with coverage" />
+	<target name="coverageall" depends="instrumentcore, instrumentmail, testall, coveragereport" description="Run all unit tests with coverage" />
 
 
 	<!-- ########################## MACRO DEFS ##########################-->

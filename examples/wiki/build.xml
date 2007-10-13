@@ -9,7 +9,7 @@
 
 	<property name="tmp.dir"          value="build"/>
 
-	<property name="seam.dir" value="${ant.file.wiki}/../../../"/>
+	<property name="seam.dir" value="${basedir}/../../"/>
 	<import file="${seam.dir}/build/common.build.xml" />
 
     <property name="profile" value="dev"/>
@@ -497,6 +497,7 @@
             <classpath refid="test.classpath"/>
             <xmlfileset dir="${src.test.dir}" includes="*.tng.xml" />
             <jvmarg line="${testng.jvmargs}"/>
+			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
         </testng>
         <echo message="Please read the test output in directory: ${test.output.dir}"/>
     </target>

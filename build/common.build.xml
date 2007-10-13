@@ -71,6 +71,9 @@
 	</condition>
 
 	<property name="maven.dir" value="${build.dir}/maven" />
+  
+    <property name="coverage.dir" value="${seam.dir}/coverage-output" />
+    <property name="coverage.ec" value="${coverage.dir}/coverage.ec" />
 
 	<artifact:remoteRepository id="local.repository" url="file://${build.dir}/repository" />
 	<artifact:remoteRepository id="repository.jboss.org" url="http://repository.jboss.org/maven2" />
