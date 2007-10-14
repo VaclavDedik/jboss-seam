@@ -58,13 +58,24 @@
                     <h:outputLink target="_top" value="#{fe.link}">#{fe.title}</h:outputLink>
                 </div>
 
-                <h:outputText styleClass="teaserBody"
-                              value="#{wiki:truncateString(fe.descriptionValueStripped, feedTeasersPreferences.properties['truncateDescription'], '')}"/>
-                <h:outputLink target="_top" styleClass="teaserBody"
-                              value="#{fe.link}"
-                              rendered="#{wiki:length(fe.descriptionValueStripped) > feedTeasersPreferences.properties['truncateDescription']}">
-                    &#160;#{messages['feedTeasers.label.More']}
-                </h:outputLink>
+                <s:fragment rendered="#{fe.teaserMarkerPresent}">
+                    <h:outputText styleClass="teaserBody" value="#{fe.teaserStripped}"/>
+                    <h:outputLink target="_top" styleClass="teaserBody" value="#{fe.link}">
+                         &#160;#{messages['feedTeasers.label.More']}
+                     </h:outputLink>
+                </s:fragment>
+
+                <s:fragment rendered="#{not fe.teaserMarkerPresent}">
+                    <h:outputText styleClass="teaserBody"
+                                  value="#{wiki:truncateString(fe.descriptionValueStripped, feedTeasersPreferences.properties['truncateDescription'], '')}"/>
+
+                    <h:outputLink target="_top" styleClass="teaserBody"
+                                  value="#{fe.link}"
+                                  rendered="#{wiki:length(fe.descriptionValueStripped) > feedTeasersPreferences.properties['truncateDescription']}">
+                        &#160;#{messages['feedTeasers.label.More']}
+                    </h:outputLink>
+                </s:fragment>
+
 
             </h:column>
         </h:dataTable>

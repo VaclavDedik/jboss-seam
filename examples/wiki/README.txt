@@ -45,13 +45,16 @@ INSTALLATION WITH MYSQL (production profile)
 
 - Deploy the SQL schema generated in dist/wiki-ddl.sql on your MySQL database
 
+- Customize the SQL default data in dist/wiki-data.sql before you apply it (especially the baseUrl setting)
+
 - Deploy the SQL data generated in dist/wiki-data.sql on your MySQL database
 
 - Copy the file dist/wiki-ds.xml to server/default/deploy/ directory and edit your MySQL connection settings
 
 - Deploy the dist/wiki.war file by copying it into the server/default/deploy/ directory
 
-- Start (if you haven't done so already) JBoss AS and access http://localhost:8080/wiki/
+- Start (if you haven't done so already) JBoss AS and access http://localhost:8080/wiki (or the
+  baseUrl you specified on data import)
 
 
 NOTE: The lucene index directory is named "lacewikiIndex" and located in the current directory. This

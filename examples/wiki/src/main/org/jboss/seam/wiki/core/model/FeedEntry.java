@@ -16,6 +16,8 @@ import java.io.Serializable;
 @Table(name = "FEEDENTRY")
 public class FeedEntry implements Serializable, Comparable {
 
+    public static final String END_TEASER_MARKER = "[<=endTeaser]";
+
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "FEEDENTRY_ID")
@@ -122,7 +124,16 @@ public class FeedEntry implements Serializable, Comparable {
     }
 
     public String getDescriptionValueStripped() {
-        return getDescriptionValue().replaceAll("\\<.*?\\>","");
+        return stripHTMLTags(getDescriptionValue());
+    }
+
+    public boolean isTeaserMarkerPresent() {
+        return getDescriptionValueStripped().contains(END_TEASER_MARKER);
+    }
+
+    public String getTeaserStripped() {
+        String stripped = getDescriptionValueStripped();
+        return isTeaserMarkerPresent() ? stripped.substring(0, stripped.indexOf(END_TEASER_MARKER)) : stripped;
     }
 
     public Document getDocument() {
@@ -142,5 +153,9 @@ public class FeedEntry implements Serializable, Comparable {
 
     public String toString() {
         return "FeedEntry: " + getId();
+    }
+
+    private String stripHTMLTags(String original) {
+        return original.replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
     }
 }
