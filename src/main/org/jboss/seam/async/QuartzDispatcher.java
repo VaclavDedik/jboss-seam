@@ -58,17 +58,17 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("/seam.quartz.properties");
        if (is != null) {
          schedulerFactory.initialize(is);
-         log.info("Found seam.quartz.properties file. Use it for Quartz config.");
+         log.debug("Found seam.quartz.properties file. Using it for Quartz config.");
        // } else if () {
-       //  log.info("Delpoy in JBoss AS, use HSQL for default job store");
+       //  log.trace("Delpoy in JBoss AS, use HSQL for default job store");
        } else {
          schedulerFactory.initialize();
-         log.info("No seam.quartz.properties file. Use in-memory job store.");
+         log.debug("No seam.quartz.properties file. Using in-memory job store.");
        }
 
        scheduler = schedulerFactory.getScheduler();
        scheduler.start();
-       log.info("The QuartzDispatcher has started");
+       log.info("The Quartz Dispatcher has started");
      } 
      catch (SchedulerException se) {
        log.error("Cannot get or start a Quartz Scheduler");
@@ -86,7 +86,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
        
       SimpleTrigger trigger = new SimpleTrigger(triggerName, null);
       
-      log.info("In the scheduleAsynchronousEvent()");
+      log.trace("In the scheduleAsynchronousEvent()");
 
       try 
       {
@@ -103,7 +103,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
     
    public QuartzTriggerHandle scheduleTimedEvent(String type, Schedule schedule, Object... parameters)
    {
-      log.info("In the scheduleTimedEvent()");
+      log.trace("In the scheduleTimedEvent()");
       try 
       {
         return scheduleWithQuartzService( schedule, new AsynchronousEvent(type, parameters) );
@@ -118,7 +118,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    
    public QuartzTriggerHandle scheduleInvocation(InvocationContext invocation, Component component)
    {
-      log.info("In the scheduleInvocation()");
+      log.trace("In the scheduleInvocation()");
       try 
       {
         return scheduleWithQuartzService( 
@@ -142,7 +142,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
 
    private QuartzTriggerHandle scheduleWithQuartzService(Schedule schedule, Asynchronous async) throws SchedulerException
    {
-      log.info("In the scheduleWithQuartzService()");
+      log.trace("In the scheduleWithQuartzService()");
       
       String jobName = nextUniqueName();
       String triggerName = nextUniqueName();
@@ -279,7 +279,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    @Destroy
    public void destroy()
    {
-      log.info("The QuartzDispatcher is shut down");
+      log.trace("The QuartzDispatcher is shut down");
       try {
         scheduler.shutdown();
       } catch (SchedulerException se) {
@@ -298,11 +298,11 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       public void execute(JobExecutionContext context)
           throws JobExecutionException
       {
-         log.info("Start executing Quartz job");
+         log.trace("Start executing Quartz job" );
          JobDataMap dataMap = context.getJobDetail().getJobDataMap();
          async = (Asynchronous)dataMap.get("async");
          async.execute(null);
-         log.info("End executing Quartz job");
+         log.trace("End executing Quartz job" );
       }
    }
 
