@@ -249,8 +249,9 @@ public class Initialization
             if (name == null)
             {
                String prefix = nsInfo.getNamespace().prefix();
+               String componentName = toCamelCase(elem.getName(), false);
                name = Strings.isEmpty(prefix) ? 
-                     elemName : prefix + '.' + elemName;
+                     componentName : prefix + '.' + componentName;
             }
 
             installComponentFromXmlElement(elem, name, className, replacements);

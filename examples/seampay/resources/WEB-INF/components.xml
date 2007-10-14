@@ -10,7 +10,7 @@
                  http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.0.xsd
                  http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.0.xsd" >
 
-    <pay:payment-home name="paymentHome" 
+    <pay:payment-home 
                       new-instance="#{newPayment}" 
                       created-message="Created a new payment to #{newPayment.payee}" />
 
