@@ -26,9 +26,8 @@ public class PaymentController
         String result = persist();
         
         Payment payment = getInstance();
-        payment.setPaymentDate (new Date ());
+        
         log.info("scheduling instance #0", payment);
-
         QuartzTriggerHandle handle = processor.schedulePayment(payment.getPaymentDate(), 
                                                 payment.getPaymentFrequency().getInterval(), 
                                                 payment.getPaymentEndDate(), 
