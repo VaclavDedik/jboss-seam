@@ -102,24 +102,23 @@ public class BusinessProcessContext implements Context
 
    private Set<String> getNamesFromContext() 
    {
-      //TODO: note that this is called from Contexts.destroy(), 
-      //      after the Seam-managed txn was committed, but 
-      //      this implementation requires a hit to the database!
-      HashSet<String> results = new HashSet<String>();
-      org.jbpm.taskmgmt.exe.TaskInstance taskInstance = getTaskInstance();
-      if (taskInstance==null)
-      {
-         ContextInstance context = getContextInstance();
-         if ( context!=null ) 
-         {
-            results.addAll( context.getVariables().keySet() );
-         }
-      }
-      else
-      {
-         results.addAll( taskInstance.getVariables().keySet() );
-      }
-      return results;
+       //TODO: note that this is called from Contexts.destroy(), 
+       //      after the Seam-managed txn was committed, but 
+       //      this implementation requires a hit to the database!
+       HashSet<String> results = new HashSet<String>();
+       org.jbpm.taskmgmt.exe.TaskInstance taskInstance = getTaskInstance();
+       if (taskInstance==null) {
+           ContextInstance context = getContextInstance();
+           if (context!=null) {
+               Map variables = context.getVariables();
+               if (variables != null) {
+                   results.addAll(variables.keySet());
+               }
+           }
+       } else {
+           results.addAll( taskInstance.getVariables().keySet() );
+       }
+       return results;
    }
 
    public Object get(Class clazz)

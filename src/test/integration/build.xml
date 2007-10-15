@@ -10,8 +10,8 @@
     
     <import file="../../../examples/build.xml"/>
 	
-	<patternset id="test.resources.files">
-      <exclude name="import.sql" />
+    <patternset id="test.resources.files">
+        <exclude name="import.sql" />
     </patternset>
 	
 </project>

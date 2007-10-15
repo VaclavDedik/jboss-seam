@@ -43,4 +43,10 @@
            <class name="org.jboss.seam.test.integration.ConversationTest" />
        </classes>
    </test>
+
+   <test name="Seam Core - Integration: BPM">
+   	<classes>
+   		<class name="org.jboss.seam.test.integration.BusinessProcessTest" />
+   	</classes>
+   </test>
 </suite>
