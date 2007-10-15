@@ -362,8 +362,8 @@ public abstract class Query<T>
    }
 
    public void setOrder(String order)
-   {
-       if (!ORDER_CLAUSE_PATTERN.matcher(order).find()) {
+   {      
+       if (order!= null && !ORDER_CLAUSE_PATTERN.matcher(order).find()) {
            throw new IllegalArgumentException("invalid order clause");
        }
        this.order = order;
