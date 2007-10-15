@@ -63,7 +63,7 @@
             </para>
 
             <para> 
-                Now, build and deploy the example by typing <literal>ant deploy.tomcat</literal> in the
+                Now, build and deploy the example by typing <literal>ant tomcat.deploy</literal> in the
                 <filename>examples/<replaceable>registration</replaceable></filename> directory.
             </para>
 
