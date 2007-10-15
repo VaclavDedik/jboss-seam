@@ -11,7 +11,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.async.AbstractDispatcher;
+import org.jboss.seam.async.CronSchedule;
 import org.jboss.seam.async.Dispatcher;
+import org.jboss.seam.async.NthBusinessDaySchedule;
 import org.jboss.seam.async.TimerSchedule;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
@@ -100,7 +102,9 @@ public class Events
    /**
     * Raise an event that is to be processed according to a "schedule"
     * 
-    * @see TimerSchedule for use of the EJB timer service
+    * @see TimerSchedule (EJB, quartz or JDK timer service)
+    * @see NthBusinessDaySchedule (quartz timer service only)
+    * @see CronSchedule (quartz timer service only)
     * 
     * @param type the event type
     * @param schedule the schedule object, specific to the dispatcher strategy

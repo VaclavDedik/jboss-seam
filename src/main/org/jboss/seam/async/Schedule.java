@@ -7,7 +7,7 @@ import java.util.Date;
  * A "schedule" for a timed event executed by
  * a timer service which supports delayed
  * timed events. It is the base class for the more
- * useful TimerSchedule and CronSchedule classes.
+ * useful TimerSchedule, NthBusinessDay and CronSchedule classes.
  * 
  * @author Michael Yuan
  *
