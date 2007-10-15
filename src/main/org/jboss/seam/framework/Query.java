@@ -30,6 +30,9 @@ public abstract class Query<T>
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
    private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s", Pattern.CASE_INSENSITIVE);
 
+   private static final Pattern ORDER_CLAUSE_PATTERN = Pattern.compile("^[\\w\\.,\\s]*$");
+
+   
    private String ejbql;
    private Integer firstResult;
    private Integer maxResults;
@@ -360,8 +363,11 @@ public abstract class Query<T>
 
    public void setOrder(String order)
    {
-      this.order = order;
-      refresh();
+       if (!ORDER_CLAUSE_PATTERN.matcher(order).find()) {
+           throw new IllegalArgumentException("invalid order clause");
+       }
+       this.order = order;
+       refresh();
    }
    
    protected List<ValueExpression> getQueryParameters()
