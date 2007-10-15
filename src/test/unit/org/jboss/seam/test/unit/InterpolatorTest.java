@@ -1,5 +1,6 @@
 package org.jboss.seam.test.unit;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,8 +31,7 @@ public class InterpolatorTest
         
         Date date = new Date(0);
                 
-        Assert.assertEquals(new SimpleDateFormat("M/d/y").format(date), interpolator.interpolate("{0,date,short}", date));
- 
+        Assert.assertEquals(DateFormat.getDateInstance(DateFormat.SHORT).format(date), interpolator.interpolate("{0,date,short}", date)); 
         
         // test that a messageformat error doesn't blow up
         Assert.assertEquals("{nosuchmessage}", interpolator.interpolate("{nosuchmessage}"));
