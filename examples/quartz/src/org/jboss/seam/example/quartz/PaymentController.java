@@ -10,8 +10,6 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.async.QuartzTriggerHandle;
 
-import java.util.Date;
-
 @Name("paymentHome")
 public class PaymentController 
     extends EntityHome<Payment>
@@ -43,7 +41,6 @@ public class PaymentController
         String result = persist();
         
         Payment payment = getInstance();
-        payment.setPaymentDate (new Date ());
         log.info("scheduling instance #0", payment);
 
         QuartzTriggerHandle handle = processor.schedulePayment(payment.getPaymentDate(), 
@@ -61,7 +58,6 @@ public class PaymentController
         String result = persist();
         
         Payment payment = getInstance();
-        payment.setPaymentDate (new Date ());
         log.info("scheduling instance #0", payment);
 
         QuartzTriggerHandle handle = processor.schedulePayment(payment.getPaymentDate(), 
