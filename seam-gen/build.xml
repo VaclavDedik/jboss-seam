@@ -806,7 +806,8 @@
             </condition>
         </fail>
     </target>
-
+	
+	<!-- Do not remove new-project, netbeans depends on it -->
 	<target name="new-project" depends="create-project" />
     <target name="create-project" depends="validate-project,icefaces-staging-copy,copy-lib,file-copy"
             description="Create a new project">
