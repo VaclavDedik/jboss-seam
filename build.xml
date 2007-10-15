@@ -372,6 +372,7 @@
 		<testexample name="itext" />
 		<testexample name="hibernate2" />
 		<testexample name="jpa" />
+		<testexample name="quartz" />
 		<ant dir="examples/wiki" target="test" inheritall="false">
 			<property name="test.output.dir" value="${test.dir}/wiki" />
 		</ant>

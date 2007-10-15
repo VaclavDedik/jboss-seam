@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.Transient;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.Length;
@@ -147,7 +146,8 @@ public class Payment
 
 
     public enum Frequency {
-        ONCE(null), 
+        ONCE(null),
+        EVERY_SECOND(1000l), // Just for testing
         EVERY_MINUTE(60*1000l),
         HOURLY(60*60*1000l), 
         DAILY(24*60*60*1000l), 
