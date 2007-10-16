@@ -35,6 +35,11 @@
       <url>http://snapshots.jboss.org/maven2</url>
       </repository>-->
   </repositories>
+  
+  <!-- Externalize some version numbers here -->
+  <properties>
+    <version.richfaces>3.1.2.CR2</version.richfaces>
+  </properties>
 
   <dependencyManagement>
     <!-- 
@@ -120,7 +125,7 @@
       <dependency>
         <groupId>org.richfaces.framework</groupId>
         <artifactId>richfaces-api</artifactId>
-        <version>3.1.2.CR1</version>
+        <version>${version.richfaces}</version>
         <exclusions>
           <exclusion>
             <groupId>commons-logging</groupId>
@@ -136,7 +141,7 @@
       <dependency>
         <groupId>org.richfaces.framework</groupId>
         <artifactId>richfaces-impl</artifactId>
-        <version>3.1.2.CR1</version>
+        <version>${version.richfaces}</version>
         <exclusions>
           <exclusion>
             <groupId>commons-logging</groupId>
@@ -152,7 +157,7 @@
       <dependency>
         <groupId>org.richfaces.ui</groupId>
         <artifactId>richfaces-ui</artifactId>
-        <version>3.1.2.CR1</version>
+        <version>${version.richfaces}</version>
         <exclusions>
           <exclusion>
             <groupId>commons-logging</groupId>
@@ -853,7 +858,7 @@
         <plugin>
           <groupId>org.richfaces.cdk</groupId>
           <artifactId>maven-cdk-plugin</artifactId>
-          <version>3.1.2.CR1</version>
+          <version>${version.richfaces}</version>
         </plugin>
 
         <!-- Packaging -->
