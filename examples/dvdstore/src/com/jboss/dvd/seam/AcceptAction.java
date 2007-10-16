@@ -26,6 +26,8 @@ public class AcceptAction
     implements Accept,
                Serializable
 {
+    private static final long serialVersionUID = -4439813828608177846L;
+
     @In(value="currentUser")
     Admin admin;
 

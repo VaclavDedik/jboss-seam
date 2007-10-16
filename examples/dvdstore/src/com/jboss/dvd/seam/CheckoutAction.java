@@ -35,6 +35,8 @@ public class CheckoutAction
     implements Checkout,
                Serializable
 {
+    private static final long serialVersionUID = -4651884454184474207L;
+
     @PersistenceContext(type=PersistenceContextType.EXTENDED)
     EntityManager em;
 

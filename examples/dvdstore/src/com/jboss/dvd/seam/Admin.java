@@ -18,10 +18,13 @@ public class Admin
     extends User
     implements Serializable
 {
-   @Transient
-   @Override
-   public boolean isAdmin() {
-      return true;
-   }
-   
+
+    private static final long serialVersionUID = 2548491885863399995L;
+
+    @Transient
+    @Override
+    public boolean isAdmin() {
+        return true;
+    }
+
 }

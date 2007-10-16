@@ -35,6 +35,8 @@ import org.hibernate.search.annotations.IndexedEmbedded;
 public class Product
     implements Serializable
 {
+    private static final long serialVersionUID = -5378546367347755065L;
+ 
     long productId;
     String asin;
     String title;

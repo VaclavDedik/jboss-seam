@@ -22,6 +22,8 @@ public class StoreManagerBean
     implements StoreManager,
                Serializable
 {  
+    private static final long serialVersionUID = 7011610947757223263L;
+
     @PersistenceContext
     EntityManager em;
 

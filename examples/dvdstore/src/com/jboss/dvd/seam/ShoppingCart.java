@@ -16,6 +16,7 @@ public interface ShoppingCart
 
     public void addProduct(Product product, int quantity);
     public List<OrderLine> getCart();
+    @SuppressWarnings("unchecked")
     public Map getCartSelection();
 
     public BigDecimal getSubtotal();

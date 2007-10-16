@@ -14,6 +14,8 @@ import javax.ejb.*;
 public class InsufficientQuantityException
     extends Exception
 {
+    private static final long serialVersionUID = 7772258944523315127L;
+    
     List<Product> products = null;
 
     public InsufficientQuantityException(List<Product> products) {

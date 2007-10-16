@@ -35,6 +35,8 @@ public class ShowOrdersAction
     implements ShowOrders,
                Serializable
 {
+    private static final long serialVersionUID = -5377038496721657104L;
+
     @In(value="currentUser",required=false)
     Customer customer;
 
@@ -49,6 +51,7 @@ public class ShowOrdersAction
     Order order;
 
     @Begin @Factory("orders")
+    @SuppressWarnings("unchecked")
     public String findOrders() {
         orders = em.createQuery("select o from Order o where o.customer = :customer")
             .setParameter("customer", customer)

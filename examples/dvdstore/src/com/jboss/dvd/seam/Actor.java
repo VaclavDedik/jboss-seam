@@ -25,6 +25,8 @@ import org.hibernate.search.annotations.Indexed;
 public class Actor
     implements Serializable
 {
+    private static final long serialVersionUID = 8176964737283403683L;
+
     long id;
     String name;
 

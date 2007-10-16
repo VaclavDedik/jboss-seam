@@ -28,6 +28,7 @@ import org.hibernate.search.annotations.Indexed;
 public class Category
     implements Serializable
 {
+    private static final long serialVersionUID = 5544598397835376242L;
     int    id;
     String name;
 

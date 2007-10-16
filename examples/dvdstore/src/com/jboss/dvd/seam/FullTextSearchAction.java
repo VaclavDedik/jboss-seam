@@ -121,6 +121,7 @@ public class FullTextSearchAction
         return ( searchResults != null ) && ( currentPage == 0 );
     }
 
+    @SuppressWarnings("unchecked")
     private void updateResults() {
         FullTextQuery query;
         try {

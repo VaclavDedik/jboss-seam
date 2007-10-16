@@ -46,10 +46,11 @@ public class IndexerAction implements Indexer
       lastIndexingTime = new Date();
    }
 
+   @SuppressWarnings("unchecked")
    private void indexProducts()
    {
-      FullTextSession fullTextSession = getFullTextSession();
-      List results = fullTextSession.createCriteria(Product.class)
+       FullTextSession fullTextSession = getFullTextSession();
+       List results = fullTextSession.createCriteria(Product.class)
             .setFetchMode("actors", FetchMode.JOIN)
             .setFetchMode("categories", FetchMode.JOIN)
             .list();
@@ -64,6 +65,7 @@ public class IndexerAction implements Indexer
       return (FullTextSession) em.getDelegate();
    }
 
+   @SuppressWarnings("unchecked")
    private void indexAllClasses(Class... entityTypes)
    {
       FullTextSession fullTextSession = getFullTextSession();

@@ -20,6 +20,8 @@ public class Customer
     extends User
     implements Serializable
 {
+    private static final long serialVersionUID = 5699525147178760355L;
+
     public static String[] cctypes = {"MasterCard", "Visa", "Discover", "Amex", "Dell Preferred"}; 
 
     String  address1;

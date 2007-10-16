@@ -22,6 +22,8 @@ import javax.persistence.Table;
 public class OrderLine
     implements Serializable
 {
+    private static final long serialVersionUID = 207236100660985541L;
+
     long    lineId;
     int     position;
     Product product;

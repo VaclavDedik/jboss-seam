@@ -51,6 +51,7 @@ public class ShoppingCartBean
         cartOrder.calculateTotals();
     }
 
+    @SuppressWarnings("unchecked")
     public Map getCartSelection() {
         return cartSelection;
     }

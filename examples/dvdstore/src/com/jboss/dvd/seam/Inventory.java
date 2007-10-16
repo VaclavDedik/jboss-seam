@@ -15,6 +15,8 @@ import javax.persistence.*;
 public class Inventory 
     implements Serializable
 {
+    private static final long serialVersionUID = 6114190195644971985L;
+
     int     quantity;
     int     sales;
     long    inventoryId;
