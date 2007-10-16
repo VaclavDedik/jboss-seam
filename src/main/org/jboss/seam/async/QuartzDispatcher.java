@@ -55,7 +55,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
 
      try 
      {
-       InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("/seam.quartz.properties");
+       InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("seam.quartz.properties");
        if (is != null) {
          schedulerFactory.initialize(is);
          log.debug("Found seam.quartz.properties file. Using it for Quartz config.");
