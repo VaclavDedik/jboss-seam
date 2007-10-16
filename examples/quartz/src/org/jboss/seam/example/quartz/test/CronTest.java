@@ -293,7 +293,7 @@ public class CronTest  extends DBUnitSeamTest
             // Start the triggerHandle, wait a lot shorter than the job takes
             // At this point the job should have executed once exactly
             quartzTriggerHandle.resume();
-            pause((long) (REPEATING.getInterval() * 0.1));
+            pause((long) (REPEATING.getInterval() * 0.5));
             quartzTriggerHandle.pause();
             
             new FacesRequest("/search.xhtml", id)
