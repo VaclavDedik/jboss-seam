@@ -1011,8 +1011,13 @@
 	                </term>
 	                <listitem>
 	                    <programlisting><![CDATA[@DataModelSelection]]></programlisting>
-	                    <para> Injects the selected value from the JSF <literal>DataModel</literal> (this is the element of
-	                        the underlying collection, or the map value). </para>
+	                    <para> 
+                          Injects the selected value from the JSF <literal>DataModel</literal> (this is the element of
+	                      the underlying collection, or the map value). If only one <literal>@DataModel</literal> attribute
+                          is defined for a component, the selected value from that <literal>DataModel</literal> will be 
+                          injected. Otherwise, the component name of each <literal>@DataModel</literal> must be specified 
+                          in the value attribute for each <literal>@DataModelSelection</literal>.
+                        </para>
                         <para> If <literal>PAGE</literal> scope is specified on the associated <literal>@DataModel</literal>,
                             then, in addition to the DataModel Selection being injected, the associated DataModel will
                             also be injected.  In this case, if the property annotated with <literal>@DataModel</literal> is
@@ -1033,8 +1038,14 @@
 	                </term>
 	                <listitem>
 	                    <programlisting><![CDATA[@DataModelSelectionIndex]]></programlisting>
-	                    <para> Exposes the selection index of the JSF <literal>DataModel</literal> as an attribute of the
-	                        component (this is the row number of the underlying collection, or the map key). </para>
+	                    <para>
+                          Exposes the selection index of the JSF <literal>DataModel</literal> as an attribute of the
+	                      component (this is the row number of the underlying collection, or the map key). If only one 
+                          <literal>@DataModel</literal> attribute is defined for a component, the selected value from 
+                          that <literal>DataModel</literal> will be injected. Otherwise, the component name of each 
+                          <literal>@DataModel</literal> must be specified in the value attribute for each 
+                          <literal>@DataModelSelectionIndex</literal>.
+                        </para>
 	                    <itemizedlist>
 	                        <listitem>
 	                            <para>
