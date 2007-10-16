@@ -25,6 +25,7 @@ import com.google.gwt.user.server.rpc.impl.ServerSerializationStreamWriter;
 @Name("org.jboss.seam.remoting.gwt.gwtRemoteService")
 @Install(value = false, precedence = BUILT_IN, classDependencies = {"com.google.gwt.user.client.rpc.RemoteService"})
 @BypassInterceptors
+@Deprecated
 public class GWT13Service extends GWTService
 {
    private static final String SERIALIZABLE_TYPE_CLASS = "com.google.gwt.user.server.rpc.impl.ServerSerializableTypeOracleImpl";
