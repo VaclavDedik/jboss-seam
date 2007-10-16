@@ -442,24 +442,9 @@
 </page>]]></programlisting>
 
             <para>
-                But ending the conversation loses any state associated with the conversation,
-                including the document we are currently interested in! One solution would be
-                to use an immediate render instead of a redirect:
-            </para>
-
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
-    
-    <navigation from-action="#{documentEditor.update}">
-        <rule if="#{documentEditor.errors.empty}">
-            <end-conversation/>
-            <render view-id="/viewDocument.xhtml"/>
-        </rule>
-    </navigation>
-    
-</page>]]></programlisting>
-
-            <para>
-                But the correct solution is to pass the document id as a request parameter:
+                As we've ended conversation any subsequent requests won't know
+                which document we are interested in.  We can pass the document 
+                id as a request parameter which also makes the view bookmarkable:
             </para>
 
             <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
