@@ -42,35 +42,30 @@ public class GWT14Service extends GWTService
    @Create
    public void startup() throws Exception
    {
-      Class policyProviderClass = Class.forName(SERIALIZATION_POLICY_PROVIDER_CLASS);
-      Class serializationPolicyClass = Class.forName(SERIALIZATION_POLICY_CLASS);
-      
-      streamReaderConstructor = getConstructor(ServerSerializationStreamReader.class.getName(), 
-            new Class[] { ClassLoader.class, policyProviderClass } );
-      streamWriterConstructor = getConstructor(ServerSerializationStreamWriter.class.getName(), 
-            new Class[] { serializationPolicyClass } );
-
-      Class legacySerializationPolicyClass = Class.forName(LEGACY_SERIALIZATION_POLICY_CLASS);
-      Method m = legacySerializationPolicyClass.getDeclaredMethod("getInstance");
-      legacySerializationPolicy = m.invoke(null);
-   } 
-   
-   private Constructor getConstructor(String className, Class[] paramTypes)
-   {
       try
       {
-         Class cls = Class.forName(className);
-         return cls.getConstructor(paramTypes);
+         log.trace("GWT14Service starting up");
+         
+         Class policyProviderClass = Class.forName(SERIALIZATION_POLICY_PROVIDER_CLASS);
+         Class serializationPolicyClass = Class.forName(SERIALIZATION_POLICY_CLASS);
+         
+         streamReaderConstructor = ServerSerializationStreamReader.class.getConstructor(
+               new Class[] { ClassLoader.class, policyProviderClass } );
+         streamWriterConstructor = ServerSerializationStreamWriter.class.getConstructor(
+               new Class[] { serializationPolicyClass } );
+   
+         Class legacySerializationPolicyClass = Class.forName(LEGACY_SERIALIZATION_POLICY_CLASS);
+         Method m = legacySerializationPolicyClass.getDeclaredMethod("getInstance");
+         legacySerializationPolicy = m.invoke(null);
       }
       catch (Exception ex)
       {
-         log.error(String.format("Error initializing GWT14Service - class %s " +
-               "not found. Please ensure the GWT 1.4 libraries are in the classpath.",
-               className));
-         throw new RuntimeException("Unable to create GWT14Service", ex);
+         log.error("Error initializing GWT14Service.  Please ensure " +
+               "the GWT 1.4 libraries are in the classpath.");
+         throw ex;
       }
-   }   
-   
+   } 
+
    @Override
    protected String createResponse(ServerSerializationStreamWriter stream,
          Class responseType, Object responseObj, boolean isException)

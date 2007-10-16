@@ -38,14 +38,27 @@ public class GWT13Service extends GWTService
    @Create
    public void startup() throws Exception
    {
-      Class serializableType = Class.forName(SERIALIZABLE_TYPE_CLASS);
-      String[] packagePaths = getPackagePaths();
-      Constructor typeConstructor = serializableType.getConstructor(new Class[] { packagePaths.getClass() });
-      
-      serializableTypeOracle = typeConstructor.newInstance((Object[]) packagePaths);
-      
-      streamReaderConstructor = getConstructor(ServerSerializationStreamReader.class.getName(), new Class[] { serializableType } );
-      streamWriterConstructor = getConstructor(ServerSerializationStreamWriter.class.getName(), new Class[] { serializableType } );
+      try
+      {      
+         log.trace("GWT13Service starting up");
+         
+         Class serializableType = Class.forName(SERIALIZABLE_TYPE_CLASS);
+         String[] packagePaths = getPackagePaths();
+         Constructor typeConstructor = serializableType.getConstructor(new Class[] { packagePaths.getClass() });
+         
+         serializableTypeOracle = typeConstructor.newInstance((Object[]) packagePaths);
+         
+         streamReaderConstructor = ServerSerializationStreamReader.class.getConstructor(
+               new Class[] { serializableType } );
+         streamWriterConstructor = ServerSerializationStreamWriter.class.getConstructor(
+               new Class[] { serializableType } );
+      }
+      catch (Exception ex)
+      {
+         log.error("Error initializing GWT13Service.  Please ensure " +
+               "the GWT 1.3 libraries are in the classpath.");
+         throw ex;
+      }         
    }
 
    @Override
@@ -67,22 +80,6 @@ public class GWT13Service extends GWTService
 
       return (isException ? "{EX}" : "{OK}") + stream.toString();     
    }   
-
-   private Constructor getConstructor(String className, Class[] paramTypes)
-   {
-      try
-      {
-         Class cls = Class.forName(className);
-         return cls.getConstructor(paramTypes);
-      }
-      catch (Exception ex)
-      {
-         log.error(String.format("Error initializing GWT13Service - class %s " +
-               "not found. Please ensure the GWT 1.3 libraries are in the classpath.",
-               className));
-         throw new RuntimeException("Unable to create GWT13Service", ex);
-      }
-   }
    
    @Override
    public ServerSerializationStreamReader getStreamReader()
