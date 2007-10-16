@@ -2,8 +2,8 @@ Seam Example Applications
 =========================
 This directory contains the Seam example applications, which have 
 all been tested in JBoss 4.2 GA. Most examples have also been
-tested on Tomcat, and some have been tested with other application
-servers.
+tested on Tomcat (running JDK 1.5), and some have been tested with other 
+application servers.
 
 registration/         A trivial example for the tutorial
 
