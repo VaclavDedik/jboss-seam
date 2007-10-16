@@ -75,7 +75,7 @@ public class OnceTest extends DBUnitSeamTest
             }.run();
             
             // Wait, let quartz execute the job (async but straight away)
-            pause(50);
+            pause(500);
             
             new FacesRequest("/search.xhtml", id)
             {

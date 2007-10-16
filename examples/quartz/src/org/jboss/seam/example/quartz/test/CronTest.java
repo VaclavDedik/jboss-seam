@@ -354,7 +354,6 @@ public class CronTest  extends DBUnitSeamTest
                     assert new BigDecimal("110.00").equals(payment.getAmount());
                     assert payment.getActive();
                     assert "*/2 * * * * ?".equals(payment.getPaymentCron());
-                    assert payment.getLastPaid() != null;
                     assert new BigDecimal("891.46").equals(account.getBalance());
                     paymentId = payment.getId();
                 }
