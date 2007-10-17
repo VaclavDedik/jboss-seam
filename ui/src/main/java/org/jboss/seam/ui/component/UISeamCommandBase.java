@@ -161,17 +161,21 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
 
    public void removeActionListener(ActionListener listener)
    {
-      throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
+      // Silently fail, RF requires this
+      //throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
    }
 
    public ActionListener[] getActionListeners()
    {
-      throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
+      // Silently fail, RF requires this
+      //throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
+      return null;
    }
 
    public void addActionListener(ActionListener listener)
    {
-      throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
+      // Silently fail, RF requires this
+      //throw new UnsupportedOperationException("Action listeners not supported by s:link/s:button");
    }
  
    @Deprecated
