@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.FacesLifecycle;
+import org.jboss.seam.contexts.PageContext;
+import org.jboss.seam.contexts.RemotingLifecycle;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.LogProvider;
@@ -55,6 +59,9 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
       Document doc = xmlReader.read( request.getInputStream() );
       final Element env = doc.getRootElement();
       final RequestContext ctx = unmarshalContext(env);
+
+      // TODO - we really want to extract the page context from our request
+      RemotingLifecycle.restorePageContext();
 
       new ContextualHttpServletRequest(request)
       {
