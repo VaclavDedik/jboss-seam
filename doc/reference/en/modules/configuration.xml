@@ -680,7 +680,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
             <para>
               Embedded JBoss must by installed into Tomcat for Seam applications
-              to run correctly on it. Embedded JBoss only runs on JDK 1.5. 
+              to run correctly on it. Embedded JBoss only runs on JDK 1.5 (not JDK 1.6). 
               Embedded JBoss can be downloaded 
               <ulink url="http://sourceforge.net/project/showfiles.php?group_id=22866&amp;package_id=228977">here</ulink>.
               The process for installing Embedded JBoss into Tomcat 6 is quite 
