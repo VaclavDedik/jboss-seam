@@ -829,14 +829,25 @@ public class Initialization
       InputStream stream = Resources.getResourceAsStream(resource, servletContext);
       if (stream != null)
       {
-         log.info("reading properties from: " + resource);
          try
          {
-            props.load(stream);
+            log.info("reading properties from: " + resource);
+            try
+            {
+               props.load(stream);
+            }
+            catch (IOException ioe)
+            {
+               log.error("could not read " + resource, ioe);
+            }
          }
-         catch (IOException ioe)
+         finally
          {
-            log.error("could not read " + resource, ioe);
+            try
+            {
+               stream.close();
+            }
+            catch (IOException ex) { } // swallow
          }
       }
       else
