@@ -660,11 +660,11 @@ public void begin() { ... }]]></programlisting>
             business process definitions:
         </para>
         
-        <programlisting><![CDATA[<core:jbpm>
-    <core:process-definitions>
+        <programlisting><![CDATA[<bpm:jbpm>
+    <bpm:process-definitions>
         <value>todo.jpdl.xml</value>
-    </core:process-definitions>
-</core:jbpm>]]></programlisting>
+    </bpm:process-definitions>
+</bpm:jbpm>]]></programlisting>
 
         </section>
         
