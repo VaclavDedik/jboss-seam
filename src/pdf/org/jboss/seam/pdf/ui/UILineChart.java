@@ -13,20 +13,22 @@ public class UILineChart
     extends UICategoryChartBase 
 {
     CategoryDataset dataset;
-
   
     @Override
     public void restoreState(FacesContext context, Object state)
     {
-       Object[] values = (Object[]) state;
-       super.restoreState(context, values[0]);            
+        Object[] values = (Object[]) state;
+        super.restoreState(context, values[0]);           
     }
 
     @Override
     public Object saveState(FacesContext context)
     {
-       Object[] values = new Object[6];
-       return values;
+        Object[] values = new Object[1];
+
+        values[0] = super.saveState(context);
+
+        return values;
     }
     
     @Override

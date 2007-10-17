@@ -26,7 +26,6 @@ public class UIBarChart
     public Object saveState(FacesContext context)
     {
         Object[] values = new Object[1];
-
         values[0] = super.saveState(context);
 
         return values;
