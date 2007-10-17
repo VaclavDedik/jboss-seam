@@ -12,8 +12,8 @@
 </h3>
 
 <p>
-    The nested set approach allows extremely scalably and fast querying of data represented in a hierarchy, a directed
-    acyclic graph. On the other hand, a nested set approach has extra costs when the tree is modified, so it's only
+    The nested set approach allows extremely scalabe and fast querying of data represented in a hierarchy, a directed
+    acyclic graph. On the other hand, a nested set approach has extra cost when the tree is modified, so it's only
     appropriate for read-mostly trees. Consider the following representation of hierarchical data:
 </p>
 <pre>
@@ -84,7 +84,7 @@
     <li>
         <p>
         <b>Materialized Path:</b> An additional column named <tt>PATH</tt> is added to the table and the values
-        are concatenated strings such as <tt>/A/C/D</tt> for the tuple <tt>F</tt>. This path value has to be manipulated
+        are concatenated strings such as <tt>/A/C/D</tt> for the tuple <tt>(F, D)</tt>. This path value has to be manipulated
         whenever a node is added, deleted, or moved in the tree. You can query for a subtree by using string operations
         such as <tt>where NODES.PATH like "/A/C/%"</tt>, which would return all children of <tt>C</tt>. The performance
         depends on the query optimizer and index usage for such an operation. The cost of each tree modification is
@@ -298,7 +298,17 @@
 
     // Now bind the thread, left, and right values of the startNode as query arguments to the parameters
 
-    NestedSetNodeWrapper&lt;Item> startNodeWrapper = new NestedSetNodeWrapper&lt;Item>(startNode, comparator);
+
+    // This comparator sorts the Items by name!
+    Comparator&lt;NestedSetNodeWrapper&lt;Item>> comp =
+        new Comparator&lt;NestedSetNodeWrapper&lt;Item>>() {
+            public int compare(NestedSetNodeWrapper&lt;Item> o, NestedSetNodeWrapper&lt;Item> o2) {
+                // Sort nodes at the same level by name?
+                // return o.getWrappedNode().getName().compareTo(o2.getWrappedNode().getName());
+            }
+        };
+
+    NestedSetNodeWrapper&lt;Item> startNodeWrapper = new NestedSetNodeWrapper&lt;Item>(startNode, comp);
     nestedSetQuery.setResultTransformer( new NestedSetResultTransformer&lt;Item>(startNodeWrapper) );
     nestedSetQuery.list();
 </pre>
@@ -307,7 +317,8 @@
     You can now traverse the tree by accessing <tt>startNodeWrapper.getWrappedParent()</tt>,
     <tt>startNodeWrapper.getWrappedChildren()</tt>, <tt>startNodeWrapper.getLevel()</tt>, and
     <tt>startNodeWrapper.getWrappedNode()</tt>. All sub-children are initialized with this single query,
-    and the <tt>wrappedChildren</tt> collection of the wrapper is sorted with the supplied <tt>Comparator</tt>.
+    and the <tt>startNodeWrapper.getWrappedChildrenSorted()</tt> collection is sorted with the
+    supplied <tt>Comparator</tt>. Use this comparator for "in-level" sorting of nodes.
 </p>
 
 <p>
