@@ -5,6 +5,21 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
                              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
         
+    <!-- WAS requires the filter to be mapped to a suffix, so can't use built in Seam filter -->
+    <filter> 
+        <display-name>RichFaces Filter</display-name>
+        <filter-name>richfaces</filter-name> 
+        <filter-class>org.ajax4jsf.Filter</filter-class> 
+    </filter> 
+
+    <filter-mapping> 
+        <filter-name>richfaces</filter-name> 
+        <servlet-name>Faces Servlet</servlet-name>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>    
+    
     <context-param>
       <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>  
       <param-value>com.sun.facelets.FaceletViewHandler</param-value>
