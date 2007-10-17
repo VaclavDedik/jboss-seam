@@ -112,9 +112,17 @@ public class SeamFilter implements Filter
       for (String filterName : Init.instance().getInstalledFilters())
       {
          Filter filter = (Filter) Component.getInstance(filterName, ScopeType.APPLICATION);
-         SortItem<Filter> si = new SortItem<Filter>(filter);         
-         sortItemsMap.put(filterName, si);
-         sortItems.add(si);
+         boolean disabled = false;
+         if (filter instanceof AbstractFilter)
+         {
+             disabled = ((AbstractFilter) filter).isDisabled();
+         }
+         if (!disabled)
+         {
+             SortItem<Filter> si = new SortItem<Filter>(filter);         
+             sortItemsMap.put(filterName, si);
+             sortItems.add(si);
+         }
       }
 
       //create sort items

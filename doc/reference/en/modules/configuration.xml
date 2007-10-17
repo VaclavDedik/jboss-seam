@@ -106,6 +106,9 @@
             <para>The Seam master filter <emphasis>must</emphasis> be the first filter specified in
                 <literal>web.xml</literal>. This ensures it is run first. </para>
 
+            <para>To disable a built in filter, you can set <literal>disabled="false"</literal> on
+            a particular filter.</para>
+
             <para> Adding the master filter enables the following built-in filters. </para>
 
             <sect3>

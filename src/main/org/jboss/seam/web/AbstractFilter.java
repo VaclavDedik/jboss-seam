@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.cache.util.setCache;
+
 /**
  * Abstract superclass for Seam components that act
  * as servlet filters. Note that since a filter is
@@ -26,6 +28,8 @@ public abstract class AbstractFilter implements Filter
    private ServletContext servletContext;
 
    private String urlPattern;
+   
+   private boolean disabled;
 
    public void init(FilterConfig filterConfig) throws ServletException
    {
@@ -45,6 +49,16 @@ public abstract class AbstractFilter implements Filter
    public void setUrlPattern(String urlPattern)
    {
       this.urlPattern = urlPattern;
+   }
+   
+   public boolean isDisabled() 
+   {
+      return disabled;
+   }
+   
+   public void setDisabled(boolean disabled) 
+   {
+      this.disabled = disabled;
    }
    
    /**
