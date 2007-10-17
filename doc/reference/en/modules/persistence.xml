@@ -325,6 +325,17 @@
         </para>
 
         <programlisting><![CDATA[@In EntityManager bookingDatabase;]]></programlisting>
+        
+        <para>
+            If you are using EJB3 and mark your class or method 
+            <literal>@TransactionAttribute(REQUIRES_NEW)</literal> then the 
+            transaction and persistence context shouldn't be propagated to method
+            calls on this object.  However as the Seam-managed persistence
+            context is propagated to any component within the conversation, it
+            will be propagated to methods marked <literal>REQUIRES_NEW</literal>.
+            Therefore, if you mark a method <literal>REQUIRES_NEW</literal> then
+            you should access the entity manager using @PersistenceContext.
+        </para>
                 
     </section>
 
