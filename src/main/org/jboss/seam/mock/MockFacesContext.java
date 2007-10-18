@@ -199,6 +199,7 @@ public class MockFacesContext extends FacesContext
    @Override
    public void release()
    {
+      setCurrentInstance(null);      
    }
 
    @Override
@@ -235,6 +236,6 @@ public class MockFacesContext extends FacesContext
          elContext.putContext(FacesContext.class, this);
       }
       return elContext;
-   }
+   }   
 
 }
