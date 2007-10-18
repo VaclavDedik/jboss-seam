@@ -162,7 +162,7 @@
 		<init classesdir="${classes.core.dir}" srcdir="${src.core.dir}" modulename="core" pom="${core.pom}" />
 	</target>
 
-	<target name="antlr" description="Generate ANTLR parser">
+	<target name="antlr" depends="initcore" description="Generate ANTLR parser">
 		<mkdir dir="${src.core.dir}/org/jboss/seam/text" />
 		<taskdef name="antlrtask" classname="org.apache.tools.ant.taskdefs.optional.ANTLR">
 			<classpath refid="compile.core.path" />
