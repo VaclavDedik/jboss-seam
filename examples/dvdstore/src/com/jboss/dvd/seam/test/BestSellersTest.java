@@ -18,39 +18,33 @@ public class BestSellersTest
     @Test
     public void testTopProducts() 
         throws Exception
-    {
-        
-         new NonFacesRequest() {
-             
-             @SuppressWarnings("unchecked")
-             @Override
-             protected void renderResponse()
-             {
-                 List<Product> products = (List<Product>) getInstance("topProducts");
-                
-                 assertNotNull("topProducts", products);
-                 assertEquals("topProducts size",  8, products.size());               
+    {        
+        new NonFacesRequest() {         
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void renderResponse()
+            {
+                List<Product> products = (List<Product>) getValue("#{topProducts}");
 
-                 Product prev = null;
-                 for (Product p: products) {
-                     if (prev != null) {
-                         assertTrue("descending order", 
-                                    p.getInventory().getSales() <= prev.getInventory().getSales());
-                     }
+                assertNotNull("topProducts", products);
+                assertEquals("topProducts size",  8, products.size());               
 
-                     prev = p;
-                 }
+                Product prev = null;
+                for (Product p: products) {
+                    if (prev != null) {
+                        assertTrue("descending order", 
+                                p.getInventory().getSales() <= prev.getInventory().getSales());
+                    }
 
-                 // 14.98/29.99/39.95
+                    prev = p;
+                }
 
-                 assertEquals("price 1", new BigDecimal("14.98"), products.get(0).getPrice());
-                 assertEquals("price 2", new BigDecimal("29.99"), products.get(1).getPrice());
-                 assertEquals("price 3", new BigDecimal("39.95"), products.get(2).getPrice());
-             }               
-         }.run();
+                // 14.98/29.99/39.95
+
+                assertEquals("price 1", new BigDecimal("14.98"), products.get(0).getPrice());
+                assertEquals("price 2", new BigDecimal("29.99"), products.get(1).getPrice());
+                assertEquals("price 3", new BigDecimal("39.95"), products.get(2).getPrice());
+            }               
+        }.run();
     }
-
-
- 
-
 }

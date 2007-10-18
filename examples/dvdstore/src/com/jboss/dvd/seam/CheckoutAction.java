@@ -21,13 +21,13 @@ import javax.persistence.PersistenceContextType;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.bpm.CreateProcess;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesMessages;
-
 
 @Stateful
 @Name("checkout")
@@ -56,9 +56,10 @@ public class CheckoutAction
     @Out(scope=ScopeType.BUSINESS_PROCESS, required=false)
     BigDecimal amount = BigDecimal.ZERO;
     @Out(value="customer",scope=ScopeType.BUSINESS_PROCESS, required=false)
-    String customerName;
+    String customerName;    
 
-    @Begin(nested=true, pageflow="checkout") 
+    
+    @Begin(nested=true, pageflow="checkout")
     public void createOrder() {
         currentOrder = new Order();
 
@@ -68,11 +69,12 @@ public class CheckoutAction
         }
 
         currentOrder.calculateTotals();
-        cart.resetCart();
+        cart.resetCart();       
     }
 
     @End
     @CreateProcess(definition="OrderManagement", processKey="#{completedOrder.orderId}")
+    @Restrict("#{identity.loggedIn}")
     public void submitOrder() {
         try {
             completedOrder = purchase(customer, currentOrder);
@@ -88,7 +90,6 @@ public class CheckoutAction
             }
         }
     }
-
 
     private Order purchase(Customer customer, Order order) 
         throws InsufficientQuantityException

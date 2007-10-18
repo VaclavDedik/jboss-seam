@@ -164,7 +164,6 @@ public class Order
         }
         
         setNetAmount(total);
-
         
         setTax(round(getNetAmount().multiply(TAX_RATE)));
         setTotalAmount(getNetAmount().add(getTax()));

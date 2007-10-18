@@ -42,7 +42,6 @@ public class AuthenticatorAction implements Authenticator
             identity.addRole("admin");
         }
       
-        System.out.println("CURRENT USER IS " + currentUser);
         return true;
     }
 }

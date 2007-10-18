@@ -31,11 +31,7 @@ public interface FullTextSearch
    public int getPageSize();
 
    public void setPageSize(int pageSize);
-   
-   /*public void setCategory(Category category) ;
-   
-   public Category getCategory();*/
-
+  
    public void reset();
 
    public void destroy();

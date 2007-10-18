@@ -18,4 +18,10 @@
             <class name="com.jboss.dvd.seam.test.StoreManagerTest"/>
         </classes>
     </test>
+
+    <test name="DVD Store: Order">
+    	<classes>
+    		<class name="com.jboss.dvd.seam.test.OrderTest" />
+    	</classes>
+    </test>
 </suite>
