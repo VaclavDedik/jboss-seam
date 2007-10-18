@@ -1,52 +1,59 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 
 <suite name="Seam Core Tests" verbose="2" parallel="false">
-   <test name="Seam Core - Integration: Contexts">
-     <classes>
-       <class name="org.jboss.seam.test.integration.PageContextTest"/>
-     </classes>
-   </test>
-   
-   <test name="Seam Core - Integration: Persistence">
-     <classes>
-       <class name="org.jboss.seam.test.integration.EntityTest"/>
-     </classes>
-   </test>
-   
-   <test name="Seam Core - Integration: Events">
-     <classes>
-       <class name="org.jboss.seam.test.integration.EventTest"/>
-     </classes>
-   </test>
-   
-   <test name="Seam Core - Integration: EL">
-     <classes>
-       <class name="org.jboss.seam.test.integration.ELTest"/>
-     </classes>
-   </test>
-   
-   <test name="Seam Core - Integration: Framework">
-     <classes>
-       <class name="org.jboss.seam.test.integration.IdentifierTest"/>
-     </classes>
-   </test>
 
-   <test name="Seam Core - Integration: i8ln">
-     <classes>
-       <class name="org.jboss.seam.test.integration.i8ln.TimeZoneTest"/>
-       <class name="org.jboss.seam.test.integration.i8ln.LocaleTest"/>
-     </classes>
-   </test>
+    <test name="Seam Core - Integration: Contexts">
+        <classes>
+            <class name="org.jboss.seam.test.integration.PageContextTest"/>
+        </classes>
+    </test>
+   
+    <test name="Seam Core - Integration: Persistence">
+        <classes>
+            <class name="org.jboss.seam.test.integration.EntityTest"/>
+        </classes>
+    </test>
+   
+    <test name="Seam Core - Integration: Events">
+        <classes>
+            <class name="org.jboss.seam.test.integration.EventTest"/>
+        </classes>
+    </test>
+   
+    <test name="Seam Core - Integration: EL">
+        <classes>
+            <class name="org.jboss.seam.test.integration.ELTest"/>
+        </classes>
+    </test>
+   
+    <test name="Seam Core - Integration: Framework">
+        <classes>
+            <class name="org.jboss.seam.test.integration.IdentifierTest"/>
+        </classes>
+    </test>
 
-   <test name="Seam Core - Integration: Conversation Components">
-       <classes>
-           <class name="org.jboss.seam.test.integration.ConversationTest" />
-       </classes>
-   </test>
+    <test name="Seam Core - Integration: i8ln">
+        <classes>
+            <class name="org.jboss.seam.test.integration.i8ln.TimeZoneTest"/>
+            <class name="org.jboss.seam.test.integration.i8ln.LocaleTest"/>
+        </classes>
+    </test>
 
-   <test name="Seam Core - Integration: BPM">
-   	<classes>
-   		<class name="org.jboss.seam.test.integration.BusinessProcessTest" />
-   	</classes>
-   </test>
+    <test name="Seam Core - Integration: Conversation Components">
+        <classes>
+            <class name="org.jboss.seam.test.integration.ConversationTest" />
+        </classes>
+    </test>
+
+    <test name="Seam Core - Integration: BPM">
+        <classes>
+   	        <class name="org.jboss.seam.test.integration.BusinessProcessTest" />
+        </classes>
+    </test>
+
+    <test name="Seam Core - Integration: JMS">
+   	    <classes>
+   		    <class name="org.jboss.seam.test.integration.MessagingTest" />
+        </classes>
+    </test>
 </suite>
