@@ -412,7 +412,7 @@ private TopicSession topicSession;
 public void publish(StockPrice price) {
       try
       {
-         topicPublisher.publish( topicSession.createObjectMessage(price) );
+         stockTickerPublisher.publish( topicSession.createObjectMessage(price) );
       } 
       catch (Exception ex)
       {
