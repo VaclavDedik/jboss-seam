@@ -41,6 +41,13 @@ public abstract class ContextualHttpServletRequest
       Manager.instance().restoreConversation();
       ServletLifecycle.resumeConversation(request);
       handleConversationPropagation();
+      
+      // Force creation of the session
+      if (request.getSession(false) == null)
+      {
+         request.getSession(true);
+      }
+      
       try
       {
          process();

@@ -121,10 +121,6 @@ public abstract class GWTService extends AbstractResource
          final HttpServletResponse response) throws ServletException,
          IOException
    {
-      // We have to call getSession() before the response is written, as per the
-      // servlet API docs.
-      request.getSession(true);
-
       try
       {
          // Store the request & response objects in thread-local storage.
