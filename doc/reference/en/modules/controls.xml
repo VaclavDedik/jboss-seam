@@ -177,7 +177,7 @@
               <para><emphasis>Description</emphasis></para>
               <para>
                 Customize the conversation propagation for a command link or button
-                (or similar JSF control).
+                (or similar JSF control). <emphasis>Facelets only.</emphasis>
               </para>
               <para><emphasis>Attributes</emphasis></para>
               <itemizedlist>
