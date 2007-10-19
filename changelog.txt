@@ -1,6 +1,70 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.0.GA
+
+** Bug
+    * [JBSEAM-1748] - Seam remoting stops working with GWT 1.4.10
+    * [JBSEAM-1812] - date format specified doesn't always match short type
+    * [JBSEAM-1822] - BaseSeamTest does not properly emulateJsfLifecycle does not handle phase listeners per the jsf 1.2 spec.
+    * [JBSEAM-1940] - Documentation in Navigation section (5.1.1.2) is wrong about when a conversation ends
+    * [JBSEAM-1989] - No pages context exists during a remoting request
+    * [JBSEAM-2030] - RichFaces js libraries not available on WAS
+    * [JBSEAM-2038] - Documentation of xml namespace component configuration not consistent with example
+    * [JBSEAM-2047] - NullPointerException in org.jboss.seam.contexts.BusinessProcessContext.getNamesFromContext()
+    * [JBSEAM-2049] - errant attributes on rich:calendar
+    * [JBSEAM-2053] - Random "session was null" exception while rendering pages
+    * [JBSEAM-2058] - Docu Bug on referencing jboss-el-api.jar in EAR
+    * [JBSEAM-2061] - UISelectItems should reference Query instead of EntityQuery
+    * [JBSEAM-2073] - typo in Identity Logging section
+    * [JBSEAM-2074] - Postgres Dialect Bug--PostgressMetaDialect.java
+    * [JBSEAM-2077] - 'seam setup' crashes, asking for maven dependencies
+    * [JBSEAM-2084] - (security) EJB-QL injection in org.jboss.seam.framework.Query
+    * [JBSEAM-2096] - conversationStack and conversationList don't get refreshed
+    * [JBSEAM-2107] - Seam example "seampay", asynchronous scheduler don't work on Tomcat with JBoss Embedded
+    * [JBSEAM-2108] - Incorrect jsf core xml schema path in ./seam new-conversation view
+    * [JBSEAM-2113] - UILineChart missing parent saveState call method
+    * [JBSEAM-2116] - Query.isAnyParameterDirty is true for query without parameters
+    * [JBSEAM-2118] - Initialization.loadFromResource() never closes the InputStream
+
+** Feature Request
+    * [JBSEAM-1644] - DBUnit integration for SeamTest
+    * [JBSEAM-1833] - Integration testing for Seam Mail
+    * [JBSEAM-1985] - Incoporate the icefaces booking example
+    * [JBSEAM-2036] - A way to disable core components
+    * [JBSEAM-2052] - use "Add Entity" if instance is not managed
+    * [JBSEAM-2063] - raise an event on logout
+    * [JBSEAM-2065] - Allow user to set style of s:decorate div
+    * [JBSEAM-2076] - let EL access qualified @Factory and @Out names
+    * [JBSEAM-2080] - Security documentation should use "insert" instead of "assert" terminology
+    * [JBSEAM-2102] - Optional manual cut point for feed teasers
+    * [JBSEAM-2119] - seam-gen should produce a datasource for testing
+
+** Patch
+    * [JBSEAM-2099] - Support protection against SQL injection in Query order parameter
+
+** Task
+    * [JBSEAM-1647] - Document concept of disinjection
+    * [JBSEAM-1816] - Testing and test environment improvments
+    * [JBSEAM-1930] - Improve documentation for @DataModelSelection and @DataModelSelectionIndex
+    * [JBSEAM-2011] - Document Seam-managed persistence contexts and REQUIRES_NEW
+    * [JBSEAM-2028] - improve test class organization
+    * [JBSEAM-2037] - Incorrect namespace for jbpm in documentation
+    * [JBSEAM-2044] - Upgrade to Richfaces 3.1.1
+    * [JBSEAM-2048] - Update documentation to specify that s:conversationPropagation works for JSPs
+    * [JBSEAM-2059] - Tests for Drools example
+    * [JBSEAM-2067] - seampay tests
+    * [JBSEAM-2068] - dvdstore tests
+    * [JBSEAM-2070] - Tests for seamdiscs example
+    * [JBSEAM-2078] - Tests for mail example
+    * [JBSEAM-2081] - Update using rules with seam doc
+    * [JBSEAM-2087] - Tests for JPA example
+    * [JBSEAM-2088] - Tests for Hibernate example
+    * [JBSEAM-2103] - Tests for quartz example
+    * [JBSEAM-2110] - Upgrade to Richfaces 3.1.2
+    * [JBSEAM-2120] - Document that embeddable jboss only works with jdk 1.5.0
+
+
 Release Notes - JBoss Seam - Version 2.0.0.CR2
 
 ** Bug
