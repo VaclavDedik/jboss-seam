@@ -1240,11 +1240,10 @@
 @BypassInterceptors 
 @Converter
 public class FooConverter implements Converter {
-
-  @In EntityManager entityManager;
    
   @Transactional
   public Object getAsObject(FacesContext context, UIComponent cmp, String value) {
+    EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
     entityManager.joinTransaction();
     // Do the conversion
   }
@@ -1272,11 +1271,10 @@ public class FooConverter implements Converter {
 @BypassInterceptors 
 @Validator
 public class BarValidator implements Validator {
-
-  @In FooController fooController;
    
   public void validate(FacesContext context, UIComponent cmp, Object value)
     throws ValidatorException {
+    FooController fooController = (FooController) Component.getInstance("fooController");
     return fooController.validate(value);
   }
   
