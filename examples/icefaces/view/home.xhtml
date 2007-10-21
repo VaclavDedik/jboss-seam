@@ -21,15 +21,16 @@
 			<fieldset>
 				<div>
 					<h:outputLabel for="username">Login Name</h:outputLabel>
-					<h:inputText id="username" value="#{identity.username}" style="width: 175px;"/>
+					<h:inputText id="username" value="#{identity.username}" style="width: 165px;"/>
 					<div class="errors"><h:message for="username"/></div>
 				</div>
 				<div>
 					<h:outputLabel for="password">Password</h:outputLabel>
-					<h:inputSecret id="password" value="#{identity.password}" style="width: 175px;"/>
+					<h:inputSecret id="password" value="#{identity.password}" style="width: 165px;"/>
 				</div>
 				<div class="errors"><h:messages globalOnly="true"/></div>
-				<div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Account Login"/></div>
+				<div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Account Login"
+				    styleClass="button"/></div>
 				<div class="notes"><s:link id="register" view="/register.xhtml" value="Register New User"/></div>
 			</fieldset>
             </h:form>
@@ -41,8 +42,8 @@
 			    
 			    <p>
 			       This sample application demonstrates how easy it is to develop stateful web 
-			       applications using JBoss Seam. Just register, login, and book a room to see 
-			       Seam in action. Throughout the application you'll see popup links like 
+			       applications using JBoss Seam and <a href="http://icefaces.org">ICEfaces</a>. Just register, login, and book a room to  
+			       see Seam in action. Throughout the application you'll see popup links like 
 			       the ones at the bottom of this page. Click them to see how the application 
 			       works under the hood.
                 </p>
@@ -54,7 +55,7 @@
 			    
 			    <p>
 			       <a href="#" onclick="window.open('exp/introExp.html','exp','width=752,height=500,scrollbars=yes');">
-			          What is JBoss Seam?
+			          What is JBoss Seam with ICEfaces?
 			       </a>
                 </p>
 			    
@@ -67,7 +68,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="footer">Created with JBoss EJB 3.0, Seam, MyFaces, and Facelets</div>
+	<div id="footer">Created with JBoss EJB 3.0, Seam, ICEFaces, and Facelets</div>
 </div>
 </f:view>
 </body>

@@ -25,17 +25,20 @@
 	<fieldset>
 			
 		<s:decorate id="checkinDateDecorate" template="edit.xhtml">
-			<ui:define name="label">Check In Date:</ui:define>
-                   <ice:selectInputDate id="checkinDate" value="#{booking.checkinDate}" 
+		   <ui:define name="label">Check In Date:</ui:define>
+	           <span class="calendar">
+                      <ice:selectInputDate id="checkinDate" value="#{booking.checkinDate}" 
                              renderAsPopup="true" partialSubmit="true"/>
-
+                   </span>
 		</s:decorate>		
                 
 		<br/>
 		<s:decorate id="checkoutDateDecorate" template="edit.xhtml">
-			<ui:define name="label">Check Out Date:</ui:define>
-                         <ice:selectInputDate id="checkoutDate" value="#{booking.checkoutDate}" 
-                                   renderAsPopup="true" partialSubmit="true"/>                  
+		   <ui:define name="label">Check Out Date:</ui:define>
+		   <span class="calendar">
+                       <ice:selectInputDate id="checkoutDate" value="#{booking.checkoutDate}" 
+                                   renderAsPopup="true" partialSubmit="true"/>
+		   </span>
 		</s:decorate>
 				<br/>	
 		<s:decorate id="bedsDecorate" template="edit.xhtml">

@@ -275,8 +275,27 @@ input[type="submit"], input[type="button"] {
 #pgHome #content {
 	margin-top: 183px;
 }
+#content
 /* ice date selector css */
 .iceSelInpDate {
     width: 90px;
     background-color: #ffffff;
+}
+.calendar .iceSelInpDateInput {
+	padding: 4px;
+	border: 1px solid #C3BBB6;
+	margin: 0;
+}
+.calendar input{
+	padding: 0;
+	border:0;
+	margin: 0 0 2px 0;
+}
+.button{
+	font-weight: bold;
+	color: #fff;
+	border: 1px solid #5D1414;
+	height: 26px;
+	background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
+	border-style: none;
 }

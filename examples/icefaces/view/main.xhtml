@@ -44,7 +44,7 @@
 </div>
 <ice:form>
     <ice:panelGroup id="searchResults">
-  <div class="section">
+  <div class="section" style="overflow:auto">
 	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
             <ice:outputText value="Search Results"/>
             <ice:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
