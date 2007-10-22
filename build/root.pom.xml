@@ -116,10 +116,17 @@
         <version>2.7.6</version>
       </dependency>
       
+      
       <dependency>
         <groupId>ant</groupId>
         <artifactId>ant</artifactId>
         <version>1.6.5</version>
+      </dependency>
+      
+      <dependency>
+        <groupId>org.apache.ant</groupId>
+        <artifactId>ant-antlr</artifactId>
+        <version>1.7.0</version>
       </dependency>
 
       <dependency>

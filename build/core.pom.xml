@@ -164,6 +164,12 @@
       <artifactId>antlr</artifactId>
       <optional>true</optional>
     </dependency>
+    
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant-antlr</artifactId>
+      <optional>true</optional>
+    </dependency>
 
     <dependency>
       <groupId>jboss</groupId>
