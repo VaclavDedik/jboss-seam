@@ -117,6 +117,7 @@
 		<include name="**/*.html" />
 		<include name="**/*.xhtml" />
 		<include name="**/spring.*" />
+		<include name="**/*.txt" />
 	</patternset>
 
 	<patternset id="src.files">
