@@ -31,6 +31,9 @@ import antlr.ANTLRException;
  * <p>
  * Uses the <tt>restrictedEntityManager</tt> because it is used in the context of directory editing (same PC).
  * </p>
+ * <p>
+ * TODO: Needs to use Hibernate security filter! Anybody can access a feed if they know the id!
+ * 
  * @author Christian Bauer
  *
  */
