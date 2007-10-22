@@ -25,9 +25,12 @@
         </f:facet>
         <c:forEach var="c" items="#{commentHome.comments}">
             <s:span>
+                <a id="comment#{c.id}"/>
 
-                <div class="commentSubject">
-                    <h:outputText value="#{c.subject}" rendered="#{documentHome.instance.name != c.subject}"/>
+                <div class="commentSubject undecoratedLink">
+                    <h:outputLink value="#{wiki:renderURL(currentDocument)}#comment#{c.id}">
+                        <h:outputText value="#{c.subject}" rendered="#{documentHome.instance.name != c.subject}"/>
+                    </h:outputLink>
                 </div>
 
                 <div class="commentAuthorDate">
