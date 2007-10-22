@@ -49,6 +49,8 @@ import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.mail.MockTransport;
 import org.jboss.seam.pageflow.Pageflow;
@@ -368,7 +370,7 @@ public class BaseSeamTest
        * Make some assertions, after the end of the request.
        */
       protected void afterRequest() {}
-
+      
       /**
        * Do anything you like, after the start of the request. Especially, set
        * up any request parameters for the request.
@@ -468,6 +470,10 @@ public class BaseSeamTest
             return true;
          }
       }
+            
+      protected void onException(Exception e) {
+          throw new AssertionError(e);
+      }
 
       /**
        * Call a method binding
@@ -517,6 +523,7 @@ public class BaseSeamTest
                   }
                   catch (Exception e)
                   {
+                     onException(e);
                      throw new ServletException(e);
                   }
                }
@@ -1009,7 +1016,7 @@ public class BaseSeamTest
          return true;
       } catch (ClassNotFoundException e) {
          return false;
-      }      
+      } 
    }
    
    protected ELResolver[] getELResolvers() 
