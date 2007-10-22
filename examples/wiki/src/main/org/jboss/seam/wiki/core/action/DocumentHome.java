@@ -20,15 +20,13 @@ import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
-import org.jboss.seam.wiki.preferences.PreferenceSupport;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.contexts.Contexts;
 
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Date;
 
 import antlr.RecognitionException;
 import antlr.ANTLRException;
@@ -106,6 +104,9 @@ public class DocumentHome extends NodeHome<Document> {
     protected boolean beforePersist() {
         // Sync document content
         syncFormToInstance(getParentDirectory());
+
+        // Set createdOn date _now_
+        getInstance().setCreatedOn(new Date());
 
         // Make a copy
         historicalCopy = new Document(getInstance());
@@ -306,6 +307,7 @@ public class DocumentHome extends NodeHome<Document> {
         Contexts.getPageContext().set("showPluginPreferences", showPluginPrefs);
     }
 
+    // TODO: Move this into WikiTextEditor.java
     public boolean isShowPluginPrefs() {
         Boolean showPluginPrefs = (Boolean)Contexts.getPageContext().get("showPluginPreferences");
         return showPluginPrefs != null ? showPluginPrefs : false;
