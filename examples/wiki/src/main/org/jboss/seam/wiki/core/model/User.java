@@ -30,7 +30,7 @@ public class User implements Serializable {
 
     @Column(name = "FIRSTNAME", length = 63, nullable = false)
     @NotNull
-    @Length(min = 3, max = 63)
+    @Length(min = 1, max = 63)
     @Pattern(
         regex="[a-zA-Z]+",
         message="#{messages['lacewiki.entity.FirstNameMustOnlyContainLetters']}"
@@ -39,7 +39,7 @@ public class User implements Serializable {
 
     @Column(name = "LASTNAME", length = 63, nullable = false)
     @NotNull
-    @Length(min = 3, max = 63)
+    @Length(min = 1, max = 63)
     @Pattern(
         regex="[a-zA-Z]+",
         message="#{messages['lacewiki.entity.LastNameMustOnlyContainLetters']}"
@@ -48,7 +48,7 @@ public class User implements Serializable {
 
     @Column(name = "USERNAME", length = 16, nullable = false, unique = true)
     @NotNull
-    @Length(min = 3, max = 16)
+    @Length(min = 1, max = 16)
     @Pattern(
         regex="[a-zA-Z]?[a-zA-Z0-9]+",
         message="#{messages['lacewiki.entity.UsernameMustStartWithALetterAndOnlyContainLetters']}"
