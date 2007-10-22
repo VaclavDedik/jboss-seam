@@ -5,6 +5,9 @@
     <para>The Spring integration module allows easy migration of Spring-based projects to Seam and allows Spring
         applications to take advantage of key Seam features like conversations and Seam's more sophisticated persistence
         context management.</para>
+        
+    <para>Note! The Spring integration code is included in the jboss-seam-ioc library.  This dependency is required for
+    all seam-spring integration techniques covered in this chapter.</para>
 
     <para>Seam's support for Spring provides the ability to: </para>
 
