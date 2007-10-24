@@ -13,7 +13,7 @@ import org.jboss.seam.annotations.Name;
  * 
  * @author Shane Bryzak
  */
-@Name("mockSecureEntity")
+@Name("org.jboss.seam.mock.mockSecureEntity")
 @Install(false)
 @Entity
 public class MockSecureEntity implements Serializable
