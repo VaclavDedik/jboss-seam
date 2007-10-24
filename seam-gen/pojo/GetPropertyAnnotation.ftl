@@ -1,5 +1,5 @@
 <#include "Ejb3PropertyGetAnnotation.ftl"/>
-<#if !property.optional>
+<#if !property.optional && ( !pojo.identifierProperty.equals(property)! || property.value.identifierGeneratorStrategy == "assigned" )>
     @${pojo.importType("org.hibernate.validator.NotNull")}
 </#if>
 <#if property.columnSpan==1>
