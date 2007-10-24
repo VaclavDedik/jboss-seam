@@ -6,7 +6,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
-@Name("pdfKeyStore")
+@Name("org.jboss.seam.pdf.pdfKeyStore")
 @Install(false)
 @Scope(ScopeType.APPLICATION)
 public class KeyStoreConfig {
