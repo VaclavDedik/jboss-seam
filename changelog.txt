@@ -1,7 +1,7 @@
 JBoss Seam Changelog
 ====================
 
-Release Notes - JBoss Seam - Version 2.0.0.GA
+Release Notes - JBoss Seam - Version 2.0.0.CR3
 
 ** Bug
     * [JBSEAM-1748] - Seam remoting stops working with GWT 1.4.10
@@ -26,6 +26,10 @@ Release Notes - JBoss Seam - Version 2.0.0.GA
     * [JBSEAM-2113] - UILineChart missing parent saveState call method
     * [JBSEAM-2116] - Query.isAnyParameterDirty is true for query without parameters
     * [JBSEAM-2118] - Initialization.loadFromResource() never closes the InputStream
+    * [JBSEAM-2137] - duplicate jars in \lib \lib\test
+    * [JBSEAM-2138] - SeamTest has changed it's exception handling behavior
+    * [JBSEAM-2142] - mockSecureEntity and pdfKeyStore do not have qualified names
+    * [JBSEAM-2147] - seam-gen: maven artifacts required with "mavenized=false" 
 
 ** Feature Request
     * [JBSEAM-1644] - DBUnit integration for SeamTest
@@ -63,7 +67,7 @@ Release Notes - JBoss Seam - Version 2.0.0.GA
     * [JBSEAM-2103] - Tests for quartz example
     * [JBSEAM-2110] - Upgrade to Richfaces 3.1.2
     * [JBSEAM-2120] - Document that embeddable jboss only works with jdk 1.5.0
-
+    * [JBSEAM-2131] - change Embeddable EJB references to JBoss Embedded in images
 
 Release Notes - JBoss Seam - Version 2.0.0.CR2
 
