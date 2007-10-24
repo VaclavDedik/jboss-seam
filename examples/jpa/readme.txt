@@ -46,6 +46,7 @@ Tomcat with JBoss Embedded(the build is the same as JBoss 4.2.0 GA WAR):
   
 Tomcat (5.5 or 6) without JBoss Embedded:
   * Install Tomcat
+  * Copy the lib/hsqldb.jar into $TOMCAT_HOME/common/lib (Tomcat 5.5) or $TOMCAT_HOME/lib (Tomcat 6)
   * ant tomcat55 or ant tomcat6
   * Deploy dist-jboss/jboss-seam-jpa.war
   * Start Tomcat
