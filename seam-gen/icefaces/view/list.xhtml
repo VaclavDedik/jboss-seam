@@ -23,9 +23,9 @@
         
         <div class="results">
         
-    		<h:outputText id="list@componentNameExistsId" value="No @componentName@ exists" 
+    		<h:outputText id="list@componentName@ExistsId" value="No @componentName@ exists" 
             	rendered="#{empty @listName@.resultList}"/>
-    		<ice:dataTable id="listName@TableId" var="@componentName@"
+    		<ice:dataTable id="@listName@TableId" var="@componentName@"
            			 value="#{@listName@.resultList}" 
 				columnClasses="allCols"
            			rendered="#{not empty @listName@.resultList}">
