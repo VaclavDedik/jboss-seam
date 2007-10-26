@@ -833,6 +833,8 @@
         description="Create a new action"/>
 	<target name="new-form" depends="new-form-ear,new-form-war"
         description="Create a new form action"/>
+	<target name="new-conversation" depends="new-conversation-ear,new-conversation-war"
+        description="Create a new conversation controller"/>
 
     <target name="new-action-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
         <echo message="Creating a new stateless session bean component with an action method" />
@@ -921,12 +923,23 @@
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
-    <target name="new-conversation" depends="validate-project,action-input,setup-filters">
+    <target name="new-conversation-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
         <echo message="Creating a new stateful session bean component with @Begin and @End methods" />
         <copy file="${base.dir}/src/ConversationBean.java" tofile="${bean.file}">
             <filterset refid="filters"/>
         </copy>
         <copy file="${base.dir}/src/Conversation.java" tofile="${interface.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <copy file="${base.dir}/view/conversation.xhtml" tofile="${page.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
+    </target>
+
+    <target name="new-conversation-war" depends="validate-project,action-input,setup-filters" if="project.war">
+        <echo message="Creating a new JavaBean component with @Begin and @End methods" />
+        <copy file="${base.dir}/src/ConversationJavaBean.java" tofile="${bean.file}">
             <filterset refid="filters"/>
         </copy>
         <copy file="${base.dir}/view/conversation.xhtml" tofile="${page.file}">
