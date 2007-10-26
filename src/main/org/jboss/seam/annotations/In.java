@@ -45,6 +45,8 @@ public @interface In
    /**
     * Explicitly specify the scope to search, instead of
     * searching all scopes.
+    * 
+    * More efficient as it avoids scanning all contexts
     */
    ScopeType scope() default ScopeType.UNSPECIFIED;
 }
