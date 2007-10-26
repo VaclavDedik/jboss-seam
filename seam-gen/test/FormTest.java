@@ -11,7 +11,7 @@ public class @interfaceName@Test extends SeamTest {
 			@Override
 			protected void updateModelValues() throws Exception {				
 				//set form input to model attributes
-            setValue("#{@componentName@.value}", "seam");
+				setValue("#{@componentName@.value}", "seam");
 			}
 			@Override
 			protected void invokeApplication() {
@@ -21,8 +21,8 @@ public class @interfaceName@Test extends SeamTest {
 			@Override
 			protected void renderResponse() {
 				//check model attributes if needed
-            assert getValue("#{@componentName@.value}").equals("seam");
+				assert getValue("#{@componentName@.value}").equals("seam");
 			}
 		}.run();
-	}	
+	}
 }

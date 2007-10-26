@@ -14,5 +14,5 @@ public class @interfaceName@Test extends SeamTest {
 				invokeMethod("#{@componentName@.@methodName@}");
 			}
 		}.run();
-	}	
+	}
 }
