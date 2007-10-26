@@ -72,7 +72,7 @@ public class EntityConverterStore extends MutableEntityController
       {
          throw new IllegalArgumentException("Page scope not active");
       }
-      return (EntityConverterStore) Component.getInstance(EntityConverterStore.class);
+      return (EntityConverterStore) Component.getInstance(EntityConverterStore.class, PAGE);
    }
    
    @Override
