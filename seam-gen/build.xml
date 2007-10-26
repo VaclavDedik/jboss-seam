@@ -870,7 +870,7 @@
         <copy file="${base.dir}/view/action.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
-        <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
+        <echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
     <target name="new-form-war" depends="validate-project,action-input,setup-filters" if="project.war">
@@ -887,7 +887,7 @@
         <copy file="${base.dir}/test/testng.xml" tofile="${testng.file}">
             <filterset refid="filters"/>
         </copy>
-        <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
+        <echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
     <target name="new-form-ear" depends="validate-project,action-input,setup-filters" unless="project.war">
@@ -945,7 +945,7 @@
         <copy file="${base.dir}/view/conversation.xhtml" tofile="${page.file}">
             <filterset refid="filters"/>
         </copy>
-        <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
+        <echo message="Type 'seam explode' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
     </target>
 
     <target name="new-entity" depends="validate-project,entity-input,setup-filters"
