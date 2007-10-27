@@ -10,6 +10,7 @@ import org.apache.myfaces.trinidad.model.TreeModel;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.example.seamdiscs.model.Artist;
 import org.jboss.seam.example.seamdiscs.model.Band;
 import org.jboss.seam.example.seamdiscs.model.BandMember;
@@ -85,7 +86,10 @@ public class ArtistHomeImpl extends EntityHome<Artist> implements ArtistHome
       };
    }
    
+   // Utility method for EJB3 to cleanup, don't do anything here, so no need
+   // for Seam to intercept.
    @Remove
+   @BypassInterceptors
    public void ejbRemove()
    {
       
