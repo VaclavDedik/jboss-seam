@@ -120,21 +120,24 @@ How to Build and Deploy the Example on Tomcat
    path with no spaces. The example does not work in a default
    install of Tomcat.
    
-2. Make sure you have an up to date version of Seam: 
+2. Install Embedded JBoss as described in the "Configuration" chapter of the
+   Seam reerence documentation. 
+   
+3. Make sure you have an up to date version of Seam: 
 
    http://labs.jboss.com/jbossseam/download
 
-3. Edit the "build.properties" file and change tomcat.home to your 
+4. Edit the "build.properties" file and change tomcat.home to your 
    Tomcat directory
 
-4. (Optional) Build Seam by running "ant" the Seam root directory
+5. (Optional) Build Seam by running "ant" the Seam root directory
 
-5. Build and deploy the example by running "ant tomcat.deploy" 
+6. Build and deploy the example by running "ant tomcat.deploy" 
    in the Seam "examples/${example.name}" directory
 
-6. Start Tomcat
+7. Start Tomcat
 
-7. Point your web browser to:
+8. Point your web browser to:
 
    http://localhost:8080/jboss-seam-${example.name}
    
