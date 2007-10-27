@@ -1,13 +1,15 @@
 Seam Release Process
 ====================
 
+
 Updating version numbers
 ------------------------
 * Update the version number embedded in:
   - readme.txt
   - changelog.txt (insert JIRA release notes)
-  - build/default.build.properties
-  - Make sure to alter the qualifier back to -SNAPSHOT asap after tagging the release
+  - build/default.build.properties (you're probably building locally with 
+    -SNAPSHOT as the qualifer in build.properties, comment it out when building
+    for a release)
 
 Tests
 -----
