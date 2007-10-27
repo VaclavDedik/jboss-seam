@@ -182,6 +182,13 @@
     	<a href="javascript:Richfaces.showModalPanel('componentsxml')"><code>EntityQuery</code></a> 
     	for clickable lists.</p>
     	
+    	<p>If you extend <code>EntityHome</code> you can make the component an
+    	EJB3 stateful session bean by adding <code>@Stateful</code> and a local
+    	interface. You'll need to declare methods like <code>persist()</code>
+    	and <code>isManaged()</code> from <code>EntityHome</code> on the
+    	interface.  The <code>ArtistHome</code> is a stateful session bean in
+    	this example.</p>
+    	
     	<p>Each item in the list can be clicked - an <code>&lt;s:link /&gt;</code> and an
     	<code>&lt;f:param /&gt;</code> is used to <a href="javascript:Richfaces.showModalPanel('clickablelist')">link</a> 
     	to the detail view.  It's wired using <a href="javascript:Richfaces.showModalPanel('clickablelist')"><code>pages.xml</code></a>.

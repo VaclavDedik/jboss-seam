@@ -1,8 +1,8 @@
 SeamDiscs Example
 =================================
 
-This example runs on both JBoss AS and Tomcat.  Visit 
-http://localhost:8080/seam-discs (on JBoss AS) or 
+This example runs on JBoss AS 4.2.2.GA or later and Tomcat with Embedded JBoss.
+Visit http://localhost:8080/seam-discs (on JBoss AS) or 
 http://localhost:8080/jboss-seam-discs (on Tomcat).
 
 The seamdiscs example is a simple example built using the Seam Application 
