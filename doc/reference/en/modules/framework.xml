@@ -71,8 +71,9 @@ public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
         
         <para>
             A second advantage is that your classes may be EJB stateful
-            sessin beans, if you like. (They do not have to be, they 
-            can be plain JavaBean components if you prefer.)
+            session beans, if you like. (They do not have to be, they 
+            can be plain JavaBean components if you prefer.)  If you are using
+            JBoss AS, you'll need 4.2.2.GA or later.
         </para>
         
         <para>
