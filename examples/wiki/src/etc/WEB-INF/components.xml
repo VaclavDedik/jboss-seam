@@ -23,6 +23,7 @@
     <mail:mail-session host="mail.bluewin.ch" port="25"/>
 
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
+    <web:redirect-filter disabled="true"/> <!-- Messes up into-conversation-redirect and is not needed -->
 
     <!-- ##### END OF WIKI USER CONFIGURATION ##### -->
 
@@ -99,6 +100,7 @@
             <value>messages_lastModifiedDocuments</value>
             <value>messages_tags</value>
             <value>messages_userProfile</value>
+            <value>messages_forum</value>
         </core:bundle-names>
     </core:resource-loader>
 
