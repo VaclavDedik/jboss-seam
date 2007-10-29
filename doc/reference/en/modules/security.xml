@@ -1183,7 +1183,7 @@ end;
       default <literal>scheme</literal>, add this line to <literal>pages.xml</literal>:
     </para>
     
-    <programlisting><![CDATA[<page view-id="*" scheme="http">]]></programlisting>
+    <programlisting><![CDATA[<page view-id="*" scheme="http" />]]></programlisting>
     
     <para>
       Of course, if <emphasis>none</emphasis> of the pages in your application use HTTPS then it is not 
