@@ -11,7 +11,6 @@
       <properties>
          <property name="hibernate.dialect" value="@hibernate.dialect@"/>
          <property name="hibernate.hbm2ddl.auto" value="validate"/>
-         <property name="hibernate.cache.use_query_cache" value="true"/>
          <property name="hibernate.jdbc.batch_size" value="20"/>
          <property name="jboss.entity.manager.factory.jndi.name" value="java:/@projectName@EntityManagerFactory"/>@catalogProperty@@schemaProperty@
       </properties>
