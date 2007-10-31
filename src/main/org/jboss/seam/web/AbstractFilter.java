@@ -17,9 +17,8 @@ import org.jboss.cache.util.setCache;
  * However, we are able to reuse the functionality
  * for component scanning, installation and 
  * configuration for filters. All filters must
- * specify a @Filter annotation.
+ * extend this abstract class.
  * 
- * @see org.jboss.seam.annotations.web.Filter
  * @author Shane Bryzak
  *
  */
