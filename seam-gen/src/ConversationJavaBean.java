@@ -2,12 +2,9 @@ package @actionPackage@;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.log.Log;
