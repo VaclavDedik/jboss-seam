@@ -769,7 +769,7 @@
 		</copy>
 	</target>
 
-	<target name="jboswar.restart" depends="jbosswar.explode" description="Restart the exploded archive">
+	<target name="jbosswar.restart" depends="jbosswar.explode" description="Restart the exploded archive">
 		<touch file="${deploy.dir}/${example.name}.war/WEB-INF/web.xml" />
 	</target>
 	
