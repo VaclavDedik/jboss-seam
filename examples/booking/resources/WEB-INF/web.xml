@@ -6,13 +6,6 @@
     
     <display-name>Seam Booking Example</display-name>
     
-    <!-- Ajax4jsf filter not needed, Seam Filter installs it for us -->
-    
-    <context-param>
-        <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>
-        <param-value>com.sun.facelets.FaceletViewHandler</param-value>
-    </context-param>
-    
     <!-- Seam -->
     
     <listener>

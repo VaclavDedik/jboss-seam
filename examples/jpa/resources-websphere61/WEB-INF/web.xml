@@ -20,12 +20,6 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
-
-    
-    <context-param>     
-      <param-name>org.ajax4jsf.VIEW_HANDLERS</param-name>     
-      <param-value>com.sun.facelets.FaceletViewHandler</param-value>   
-    </context-param>    
     
     <!-- Seam -->
     
