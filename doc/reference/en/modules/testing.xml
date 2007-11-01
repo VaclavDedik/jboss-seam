@@ -112,6 +112,14 @@ public class RegisterAction implements Register
 ]]></programlisting>
 
         <para>
+            The Java Persistence API can be used with both Java SE and Java EE &#8212; 
+            when the above component is used inside an Application Server (Java 
+            EE) the container is responsible for transaction management, however 
+            in the unit test (Java SE) the transaction must be managed 
+            explicitly using a resource local entity manager. This requires
+            configuration in <literal>persistence.xml</literal>.
+       </para>
+       <para>    
             Seam components don't usually depend directly upon container infrastructure,
             so most unit testing as as easy as that!
         </para>
