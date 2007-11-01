@@ -97,6 +97,12 @@
           </exclusion>
         </exclusions>
       </dependency>
+      
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-debug</artifactId>
+        <version>@seam.version@</version>
+      </dependency>
 
       <dependency>
         <groupId>javax.servlet</groupId>
