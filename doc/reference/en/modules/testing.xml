@@ -96,13 +96,13 @@ public class RegisterAction implements Register
         return emf;
     }
     
-    @Configuration(beforeTestClass=true)
+    @BeforeClass
     public void init() 
     {
         emf = Persistence.createEntityManagerFactory("myResourceLocalEntityManager");
     }
     
-    @Configuration(afterTestClass=true)
+    @AfterClass
     public void destroy()
     {
         emf.close();
