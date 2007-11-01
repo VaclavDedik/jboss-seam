@@ -1,6 +1,18 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.0.GA
+
+** Bug
+    * [JBSEAM-2140] - Workspace switcher overwrites state in document edit conversation
+    * [JBSEAM-2157] - seam-gen failure: Error reading 'managed' on type ...
+    * [JBSEAM-2161] - new-conversation does not work for war deployment
+    * [JBSEAM-2176] - Typo in Chapter 13.8. : ending slash in empty tag missing
+** Feature Request
+    * [JBSEAM-474] - Extending the framework using EJB3 components
+** Task
+    * [JBSEAM-2196] - Declare FaceletsViewHandler in faces-config.xml in RichFaces projects
+
 Release Notes - JBoss Seam - Version 2.0.0.CR3
 
 ** Bug
