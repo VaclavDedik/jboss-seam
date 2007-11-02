@@ -17,7 +17,10 @@
             </s:validateAll>
         </span>
         
-        <s:message styleClass="error errors"/>        
+        <span class="#{invalid?'error':''}">
+            <h:graphicImage value="img/error.gif" rendered="#{invalid}" styleClass="errors"/>
+            <s:message styleClass="errors"/>
+        </span>        
 
     </div>
     
