@@ -939,7 +939,7 @@
 
     <target name="new-conversation-war" depends="validate-project,action-input,setup-filters" if="project.war">
         <echo message="Creating a new JavaBean component with @Begin and @End methods" />
-        <copy file="${base.dir}/src/ConversationJavaBean.java" tofile="${bean.file}">
+        <copy file="${base.dir}/src/ConversationJavaBean.java" tofile="${interface.file}">
             <filterset refid="filters"/>
         </copy>
         <copy file="${base.dir}/view/conversation.xhtml" tofile="${page.file}">

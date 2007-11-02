@@ -11,7 +11,7 @@ import org.jboss.seam.log.Log;
 
 @Scope(CONVERSATION)
 @Name("@componentName@")
-public class @beanName@ {
+public class @interfaceName@ {
 	
    @Logger private Log log;
     
