@@ -49,8 +49,6 @@ import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.mail.MockTransport;
 import org.jboss.seam.pageflow.Pageflow;
@@ -471,7 +469,8 @@ public class BaseSeamTest
          }
       }
             
-      protected void onException(Exception e) {
+      protected void onException(Exception e) 
+      {
           throw new AssertionError(e);
       }
 
@@ -1002,8 +1001,9 @@ public class BaseSeamTest
    protected void startJbossEmbeddedIfNecessary()
        throws Exception
    {
-      if (!started && embeddedJBossAvailable()) {         
-          (new EmbeddedBootstrap()).startAndDeployResources();         
+      if (!started && embeddedJBossAvailable()) 
+      {
+          new EmbeddedBootstrap().startAndDeployResources();         
       }
       
       started = true;
@@ -1011,10 +1011,13 @@ public class BaseSeamTest
 
    private boolean embeddedJBossAvailable()
    {       
-      try {
+      try 
+      {
          Class.forName("org.jboss.embedded.Bootstrap");
          return true;
-      } catch (ClassNotFoundException e) {
+      } 
+      catch (ClassNotFoundException e) 
+      {
          return false;
       } 
    }
