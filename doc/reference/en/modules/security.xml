@@ -1155,7 +1155,7 @@ end;
       HTTPS:
     </para>
     
-    <programlisting><![CDATA[<page view-id="/login.xhtml" scheme="https">]]></programlisting>
+    <programlisting><![CDATA[<page view-id="/login.xhtml" scheme="https"/>]]></programlisting>
     
     <para>
       This configuration is automatically extended to both <literal>s:link</literal> and 
