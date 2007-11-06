@@ -8,7 +8,6 @@ import java.io.Serializable;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
-import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
@@ -18,11 +17,15 @@ import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.faces.Converter;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.ui.converter.entityConverter.EntityLoader;
+import org.jboss.seam.ui.converter.entityConverter.HibernateEntityLoader;
+import org.jboss.seam.ui.converter.entityConverter.AbstractEntityLoader;
 
 /**
  * Allows conversion of an entity to/from a key which can be written to a page.
  * 
- * Any annotated Entity will work, or any entity if a PersistenceProvider for your ORM exists
+ * Support is provided for JPA (by default) and Hibernate (with the session 
+ * specified in components.xml)
  */
 @Name("org.jboss.seam.ui.EntityConverter")
 @Scope(CONVERSATION)
@@ -33,21 +36,28 @@ public class EntityConverter implements
          javax.faces.convert.Converter, Serializable
 {
    
-   private ValueExpression<EntityManager> entityManager;
-   private EntityConverterStore entityIdentifierStore;
+   private ValueExpression entityManager;
+   private ValueExpression session;
+   private AbstractEntityLoader store;
 
    @Create
    public void create()
    {
-      entityIdentifierStore = EntityConverterStore.instance();
-      
+      if (getEntityManager() == null && getSession() != null)
+      {
+         store = HibernateEntityLoader.instance();
+      }
+      else
+      {
+         store = EntityLoader.instance();
+      }
    }
    
    private void init()
    {
-      if (getEntityManager() != null)
+      if (getPersistenceContext() != null)
       {
-         entityIdentifierStore.setEntityManager(getEntityManager());
+         store.setPersistenceContext(getPersistenceContext().getValue());
       }
    }
    
@@ -64,7 +74,7 @@ public class EntityConverter implements
       {
          return (String) value;
       }
-      return entityIdentifierStore.put(value).toString();
+      return store.put(value).toString();
    }
    
 
@@ -76,17 +86,39 @@ public class EntityConverter implements
       {
          return null;
       }
-      return entityIdentifierStore.get(new Integer(value));
+      return store.get(new Integer(value));
    }
    
-   public void setEntityManager(ValueExpression<EntityManager> entityManager)
+   public ValueExpression getEntityManager()
+   {
+      return entityManager; 
+   }
+   
+   public void setEntityManager(ValueExpression entityManager)
    {
       this.entityManager = entityManager;
    }
    
-   private EntityManager getEntityManager() 
+   public ValueExpression getSession()
    {
-      return entityManager == null ? 
-            null : entityManager.getValue();
+      return session;
    }
+   
+   public void setSession(ValueExpression session)
+   {
+      this.session = session;
+   }
+   
+   private ValueExpression getPersistenceContext() 
+   {
+      if (getEntityManager() != null)
+      {
+         return getEntityManager();
+      }
+      else
+      {
+         return getSession();
+      }
+   }
+   
 }
