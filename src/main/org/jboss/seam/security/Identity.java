@@ -4,6 +4,7 @@ import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.security.Principal;
 import java.security.acl.Group;
@@ -11,9 +12,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
-import javax.faces.context.FacesContext;
 import javax.security.auth.Subject;
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
@@ -37,8 +35,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.MethodExpression;
-import org.jboss.seam.faces.FacesMessages;
-import org.jboss.seam.faces.Selector;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.persistence.PersistenceProvider;
@@ -60,7 +56,7 @@ import org.jboss.seam.web.Session;
 @Install(precedence = BUILT_IN)
 @BypassInterceptors
 @Startup
-public class Identity extends Selector
+public class Identity implements Serializable
 {  
    private static boolean securityEnabled = true;
    
@@ -80,6 +76,8 @@ public class Identity extends Selector
    private Principal principal;   
    private Subject subject;
    
+   private boolean rememberMe;
+   
    private String jaasConfigName = null;
    
    private List<String> preAuthenticationRoles = new ArrayList<String>();
@@ -90,18 +88,12 @@ public class Identity extends Selector
     * Flag that indicates we are in the process of authenticating
     */
    private boolean authenticating = false;
-   
-   @Override
-   protected String getCookieName()
-   {
-      return "org.jboss.seam.security.username";
-   }
       
    @Create
    public void create()
    {     
       subject = new Subject();
-      initCredentialsFromCookie();
+      Events.instance().raiseEvent("org.jboss.seam.security.initIdentity");
    }
    
    public static boolean isSecurityEnabled()
@@ -124,31 +116,9 @@ public class Identity extends Selector
       this.authenticateEveryRequest = authenticateEveryRequest;
    }
 
-   protected void initCredentialsFromCookie()
-   {
-      FacesContext ctx = FacesContext.getCurrentInstance();
-      if (ctx != null)
-      {
-         setCookiePath(ctx.getExternalContext().getRequestContextPath());
-      }
-      
-      username = getCookieValue();
-      if (username!=null)
-      {
-         setCookieEnabled(true);
-         postRememberMe();
-      }
-      setDirty();
-   }
-   
    public void beginRequest() {}
    
    public void endRequest() {}
-
-   protected void postRememberMe()
-   {
-      Events.instance().raiseEvent("org.jboss.seam.rememberMe");
-   }
 
    public static Identity instance()
    {
@@ -239,7 +209,7 @@ public class Identity extends Selector
          {
             log.debug("Login successful for: " + getUsername());
          }
-         addLoginSuccessfulMessage();
+         Events.instance().raiseEvent("org.jboss.seam.security.loginSuccessful");
          return "loggedIn";
       }
       catch (LoginException ex)
@@ -248,7 +218,7 @@ public class Identity extends Selector
          {
              log.debug("Login failed for: " + getUsername(), ex);
          }
-         addLoginFailedMessage(ex);
+         Events.instance().raiseEvent("org.jboss.seam.security.loginFailed", ex);
          return null;
       }
    }
@@ -265,54 +235,6 @@ public class Identity extends Selector
          if (isCredentialsSet()) authenticate();
       }
       catch (LoginException ex) { }
-   }
-
-   protected void addLoginFailedMessage(LoginException ex)
-   {
-      FacesMessages.instance().addFromResourceBundleOrDefault(
-               getLoginFailedMessageSeverity(), 
-               getLoginFailedMessageKey(), 
-               getLoginFailedMessage(), 
-               ex);
-   }
-
-   protected String getLoginFailedMessage()
-   {
-      return "Login failed";
-   }
-
-   protected Severity getLoginFailedMessageSeverity()
-   {
-      return FacesMessage.SEVERITY_INFO;
-   }
-
-   protected String getLoginFailedMessageKey()
-   {
-      return "org.jboss.seam.loginFailed";
-   }
-
-   protected void addLoginSuccessfulMessage()
-   {
-      FacesMessages.instance().addFromResourceBundleOrDefault(
-               getLoginSuccessfulMessageSeverity(), 
-               getLoginSuccessfulMessageKey(), 
-               getLoginSuccessfulMessage(), 
-               getUsername());
-   }
-
-   protected Severity getLoginSuccessfulMessageSeverity()
-   {
-      return FacesMessage.SEVERITY_INFO;
-   }
-
-   protected String getLoginSuccessfulMessage()
-   {
-      return "Welcome, #0";
-   }
-
-   protected String getLoginSuccessfulMessageKey()
-   {
-      return "org.jboss.seam.loginSuccessful";
    }
    
    public void authenticate() 
@@ -358,7 +280,6 @@ public class Identity extends Selector
             if (principal == null) 
             {
                principal = p;
-               setDirty();
                break;
             }            
          }         
@@ -373,11 +294,7 @@ public class Identity extends Selector
          preAuthenticationRoles.clear();
       }
       
-      if ( !isRememberMe() ) clearCookieValue();
-      setCookieValueIfEnabled( getUsername() );
-      
       password = null;
-      setDirty();
 
       Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
    }
@@ -613,9 +530,12 @@ public class Identity extends Selector
    }
    
    public void setUsername(String username)
-   {
-      setDirty(this.username, username);
-      this.username = username;
+   {  
+      if (this.username != username && (this.username == null || !this.username.equals(username)))
+      {
+         this.username = username;
+         Events.instance().raiseEvent("org.jboss.seam.security.credentialsUpdated");
+      }
    }
    
    public String getPassword()
@@ -625,8 +545,11 @@ public class Identity extends Selector
    
    public void setPassword(String password)
    {
-      setDirty(this.password, password);
-      this.password = password;
+      if (this.password != password && (this.password == null || !this.password.equals(password)))
+      {
+         this.password = password;
+         Events.instance().raiseEvent("org.jboss.seam.security.credentialsUpdated");
+      }      
    }
    
    public MethodExpression getAuthenticateMethod()
@@ -641,12 +564,13 @@ public class Identity extends Selector
    
    public boolean isRememberMe()
    {
-      return isCookieEnabled();
+      return rememberMe;
    }
    
    public void setRememberMe(boolean remember)
    {
-      setCookieEnabled(remember);
+      this.rememberMe = remember;
+      Events.instance().raiseEvent("org.jboss.seam.security.rememberMe");
    }
    
    public String getJaasConfigName()
