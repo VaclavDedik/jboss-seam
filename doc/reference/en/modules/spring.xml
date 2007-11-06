@@ -5,7 +5,7 @@
     <para>The Spring integration module allows easy migration of Spring-based projects to Seam and allows Spring
         applications to take advantage of key Seam features like conversations and Seam's more sophisticated persistence
         context management.</para>
-        
+
     <para>Note! The Spring integration code is included in the jboss-seam-ioc library.  This dependency is required for
     all seam-spring integration techniques covered in this chapter.</para>
 
@@ -48,9 +48,9 @@
         <programlisting><![CDATA[<beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:seam="http://jboss.com/products/seam/spring-seam"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                        http://jboss.com/products/seam/spring-seam 
+                        http://jboss.com/products/seam/spring-seam
                         http://jboss.com/products/seam/spring-seam-2.0.xsd">]]></programlisting>
 
         <para> Now any Seam component may be injected into any Spring bean: </para>
@@ -93,14 +93,14 @@
         <para>The <literal>&lt;seam:instance/&gt;</literal> tag lets us automatically proxy the Seam component.</para>
 
         <programlisting><![CDATA[<seam:instance id="seamManagedEM" name="someManagedEMComponent" proxy="true"/>
-        
+
 <bean id="someSpringBean" class="SomeSpringBeanClass">
     <property name="entityManager" ref="seamManagedEM">
 </bean>]]></programlisting>
 
         <para> This example shows one way to use a Seam-managed persistence context from a Spring bean. (For a more robust
             way to use Seam-managed persistence contexts as a replacement for the Spring
-                <literal>OpenEntityManagerInView</literal> filter see section on 
+                <literal>OpenEntityManagerInView</literal> filter see section on
                 <link linkend="spring-persistence">Using a Seam Managed Persistence Context in Spring</link>)</para>
     </section>
 
@@ -227,7 +227,7 @@ private BookingService bookingService;]]></programlisting>
         <programlisting>
 			<![CDATA[<spring:spring-transaction platform-transaction-manager="#{transactionManager}"/>]]>
 		</programlisting>
-		
+
 		<para>
 			The <literal>spring:spring-transaction</literal> component will utilize Springs transaction synchronization
 			capabilities for synchronization callbacks.
@@ -245,13 +245,13 @@ private BookingService bookingService;]]></programlisting>
         could have access to a Seam managed persistence context using all of the same tools Spring provides
         for integration with JPA(e.g. <literal>PersistenceAnnotationBeanPostProcessor</literal>,
         <literal>JpaTemplate</literal>, etc.)</para>
-        
+
         <para>Seam provides a way for Spring to access a Seam managed persistence context with
         Spring's provided JPA tools bringing conversation scoped persistence context capabilities to
         Spring applications.</para>
-        
+
         <para>This integration work provides the following functionality:</para>
-        	
+
         <itemizedlist>
             <listitem>
                 <para>transparent access to a Seam managed persistence context using Spring provided tools</para>
@@ -269,22 +269,22 @@ private BookingService bookingService;]]></programlisting>
         <para>Spring's persistence context propagation model allows only one open EntityManager per EntityManagerFactory
         so the Seam integration works by wrapping an EntityManagerFactory around a Seam managed persistence
         context.</para>
-        	
+
         <programlisting><![CDATA[<bean id="seamEntityManagerFactory" class="org.jboss.seam.ioc.spring.SeamManagedEntityManagerFactoryBean">
    	<property name="persistenceContextName" value="entityManager"/>
 </bean>]]></programlisting>
 
 		<para>Where 'persistenceContextName' is the name of the Seam managed persistence context component.  By default
-		this EntityManagerFactory has a unitName equal to  the Seam component name or in this case 'entityManager'.  
+		this EntityManagerFactory has a unitName equal to  the Seam component name or in this case 'entityManager'.
 		If you wish to provide a different unitName you can do so by providing a persistenceUnitName like so:
 		</para>
-		
+
         <programlisting><![CDATA[<bean id="seamEntityManagerFactory" class="org.jboss.seam.ioc.spring.SeamManagedEntityManagerFactoryBean">
    	<property name="persistenceContextName" value="entityManager"/>
 	<property name="persistenceUnitName" value="bookingDatabase:extended"/>
 </bean>]]></programlisting>
 
-		<para>This EntityManagerFactory can then be used in any Spring provided tools.  For example, 
+		<para>This EntityManagerFactory can then be used in any Spring provided tools.  For example,
 		 using Spring's <literal>PersistenceAnnotationBeanPostProcessor</literal> is the exact same as before.</para>
 
         <programlisting><![CDATA[<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>]]></programlisting>
@@ -293,7 +293,7 @@ private BookingService bookingService;]]></programlisting>
 		you can tell the <literal>PersistenceAnnotationBeanPostProcessor</literal> which persistenctUnitName you wish
 		to use by default by specifying the <literal>defaultPersistenceUnitName</literal> property.
 		</para>
-		
+
 		<para>The <literal>applicationContext.xml</literal> might look like:</para>
         <programlisting><![CDATA[<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 	<property name="persistenceUnitName" value="bookingDatabase"/>
@@ -321,14 +321,14 @@ private BookingService bookingService;]]></programlisting>
     <section id="spring-hibernate">
         <title>Using a Seam Managed Hibernate Session in Spring</title>
 
-        <para>The Seam Spring integration also provides support for complete access to a Seam managed Hibernate session 
+        <para>The Seam Spring integration also provides support for complete access to a Seam managed Hibernate session
         using spring's tools.  This integration is very similar to the <link linkend="spring-persistence">JPA integration</link>.</para>
 
         <para>Like Spring's JPA integration spring's propagation model allows only one open EntityManager per
         EntityManagerFactory per transaction??? to be available to spring tools.  So, the Seam Session integration works
         by wrapping a proxy SessionFactory around a Seam managed Hibernate session
         context.</para>
-        	
+
         <programlisting><![CDATA[<bean id="seamSessionFactory" class="org.jboss.seam.ioc.spring.SeamManagedSessionFactoryBean">
 	<property name="sessionName" value="hibernateSession"/>
 </bean>]]></programlisting>
@@ -341,12 +341,12 @@ private BookingService bookingService;]]></programlisting>
     <section>
         <title>Spring Application Context as a Seam Component</title>
 
-        <para> Although it is possible to use the Spring <literal>ContextLoaderListener</literal> to start your 
+        <para> Although it is possible to use the Spring <literal>ContextLoaderListener</literal> to start your
         	application's Spring ApplicationContext there are a couple of limitations.</para>
-        	
+
         <itemizedlist>
             <listitem>
-                <para> the Spring ApplicationContext must be started <emphasis>after</emphasis> the 
+                <para> the Spring ApplicationContext must be started <emphasis>after</emphasis> the
                 	<literal>SeamListener</literal> </para>
             </listitem>
             <listitem>
@@ -362,16 +362,16 @@ private BookingService bookingService;]]></programlisting>
         	than one config file is needed you can place them in the nested
         	<literal>&lt;spring:config-locations/&gt;</literal> element following standard
         	<literal>components.xml</literal> multi value practices. </para>
-        	
-        <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+
+        <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:spring="http://jboss.com/products/seam/spring"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://jboss.com/products/seam/components 
+            xsi:schemaLocation="http://jboss.com/products/seam/components
                                 http://jboss.com/products/seam/components-2.0.xsd
-                                http://jboss.com/products/seam/spring 
+                                http://jboss.com/products/seam/spring
                                 http://jboss.com/products/seam/spring-2.0.xsd">
 
-	<spring:context-loader context-locations="/WEB-INF/applicationContext.xml"/>
+	<spring:context-loader config-locations="/WEB-INF/applicationContext.xml"/>
 
 </components>]]></programlisting>
     </section>
@@ -393,7 +393,7 @@ private BookingService bookingService;]]></programlisting>
         <programlisting>
 			<![CDATA[<!-- Install a ThreadPoolDispatcher to handle scheduled asynchronous event -->
 <core:thread-pool-dispatcher name="threadPoolDispatcher"/>
-    
+
 <!-- Install the SpringDispatcher as default -->
 <spring:task-executor-dispatcher task-executor="#{springThreadPoolTaskExecutor}" schedule-dispatcher="#{threadPoolDispatcher}"/>]]>
 		</programlisting>
