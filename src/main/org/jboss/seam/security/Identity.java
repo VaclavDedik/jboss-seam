@@ -364,6 +364,8 @@ public class Identity implements Serializable
     */
    public boolean addRole(String role)
    {
+      if (role == null || "".equals(role)) return false;
+      
       if (!isLoggedIn())
       {
          preAuthenticationRoles.add(role);
