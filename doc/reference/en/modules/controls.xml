@@ -260,6 +260,14 @@
 </component>]]></programlisting>
 
             <para>
+              If you are using a <emphasis>Managed Hibernate Session</emphasis> 
+              then you need to set it in components.xml:
+            </para>
+            <programlisting><![CDATA[<component name="org.jboss.seam.ui.EntityConverter">
+  <property name="session">#{hibernateSession}</property>
+</component>]]></programlisting>
+
+            <para>
               If you want to use more than one entity manager with the entity 
               converter, you can create a copy of the entity converter for each
               entity manager; in components.xml:
