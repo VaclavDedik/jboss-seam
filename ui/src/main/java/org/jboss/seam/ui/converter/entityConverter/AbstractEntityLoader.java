@@ -18,7 +18,7 @@ public abstract class AbstractEntityLoader<T> extends PersistenceController<T>
     * @return The entity or null if no entity is available at that key
     */
    @Transactional
-   public Object get(Integer key)
+   public Object get(String key)
    {
       Identifier identifier = EntityIdentifierStore.instance().get(key);
       if (identifier != null)
@@ -37,9 +37,9 @@ public abstract class AbstractEntityLoader<T> extends PersistenceController<T>
     * @return The key under which the clazz/id are stored
     */
    @Transactional
-   public Integer put(Object entity)
+   public String put(Object entity)
    {      
-      return EntityIdentifierStore.instance().put(createIdentifier(entity));
+      return EntityIdentifierStore.instance().put(createIdentifier(entity), entity);
    }
    
    protected abstract Identifier createIdentifier(Object entity);

@@ -74,7 +74,7 @@ public class EntityConverter implements
       {
          return (String) value;
       }
-      return store.put(value).toString();
+      return store.put(value);
    }
    
 
@@ -86,7 +86,7 @@ public class EntityConverter implements
       {
          return null;
       }
-      return store.get(new Integer(value));
+      return store.get(value);
    }
    
    public ValueExpression getEntityManager()

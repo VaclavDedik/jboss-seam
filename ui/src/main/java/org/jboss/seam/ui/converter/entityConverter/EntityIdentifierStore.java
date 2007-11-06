@@ -39,26 +39,26 @@ public class EntityIdentifierStore extends AbstractMutable
       store = new ArrayList<Identifier>();
    }
    
-   public Identifier get(Integer key)
+   public Identifier get(String key)
    {
       try
       {
-         return store.get(key);
+         return store.get(new Integer(key));
       }
       catch (IndexOutOfBoundsException e)
       {
          return null;
       }   
    }
-   
-   public Integer put(Identifier identifier)
+      
+   public String put(Identifier identifier, Object entity)
    {      
       if (!store.contains(identifier))
       {
          store.add(identifier);
          setDirty();
       }
-      return store.indexOf(identifier);
+      return ((Integer) store.indexOf(identifier)).toString();
    }
 
    public static EntityIdentifierStore instance()
