@@ -495,6 +495,17 @@ public class Authenticator {
       <tgroup cols="2">
         <colspec colnum="1" colwidth="1*" />
         <colspec colnum="2" colwidth="3*" />
+        
+        <thead>
+          <row>
+            <entry align="center">
+              <para>Message Key</para>
+            </entry>
+            <entry align="center">
+              <para>Description</para>
+            </entry>
+          </row>
+        </thead>          
   
         <tbody>
   
@@ -1312,6 +1323,160 @@ public class CustomCaptcha
 }]]></programlisting>
 
     </sect2>
+    
+  </sect1>
+  
+  <sect1>
+    <title>Security Events</title>
+    
+    <para>
+      The following table describes a number of events (see <xref linkend="events"/>) raised by Seam Security.
+    </para>
+    
+    <table>
+      <title>Security Events</title>
+  
+      <tgroup cols="2">
+        <colspec colnum="1" colwidth="1*" />
+        <colspec colnum="2" colwidth="3*" />
+        
+        <thead>
+          <row>
+            <entry align="center">
+              <para>Event Key</para>
+            </entry>
+            <entry align="center">
+              <para>Description</para>
+            </entry>
+          </row>
+        </thead>        
+  
+        <tbody>
+  
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.initIdentity</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised when the Identity component is created.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.loginSuccessful</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised when a login attempt is successful.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.loginFailed</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised when a login attempt fails.
+              </para>
+            </entry>
+          </row>
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.notLoggedIn</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised when a security check fails when the user is not logged in.
+              </para>
+            </entry>
+          </row>     
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.notAuthorized</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised when a security check fails when the user is logged in however doesn't have sufficient privileges.
+              </para>
+            </entry>
+          </row>                
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.preAuthenticate</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised just prior to user authentication.
+              </para>
+            </entry>
+          </row>            
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.postAuthenticate</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised just after user authentication.
+              </para>
+            </entry>
+          </row>             
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.loggedOut</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised after the user has logged out.
+              </para>
+            </entry>
+          </row>            
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.credentialsUpdated</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised when the user's credentials have been changed.
+              </para>
+            </entry>
+          </row>        
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.rememberMe</literal>
+              </para>
+            </entry>    
+            <entry>
+              <para>
+                Raised when the Identity's rememberMe property is changed.
+              </para>
+            </entry>
+          </row>               
+         
+        </tbody>
+      </tgroup>
+    </table>    
     
   </sect1>
 
