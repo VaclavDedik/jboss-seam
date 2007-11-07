@@ -58,6 +58,17 @@ import org.jboss.seam.web.Session;
 @Startup
 public class Identity implements Serializable
 {  
+   public static final String EVENT_INIT_IDENTITY = "org.jboss.seam.security.initIdentity";
+   public static final String EVENT_LOGIN_SUCCESSFUL = "org.jboss.seam.security.loginSuccessful";
+   public static final String EVENT_LOGIN_FAILED = "org.jboss.seam.security.loginFailed";
+   public static final String EVENT_NOT_LOGGED_IN = "org.jboss.seam.security.notLoggedIn";
+   public static final String EVENT_NOT_AUTHORIZED = "org.jboss.seam.security.notAuthorized";
+   public static final String EVENT_PRE_AUTHENTICATE = "org.jboss.seam.security.preAuthenticate";
+   public static final String EVENT_POST_AUTHENTICATE = "org.jboss.seam.security.postAuthenticate";
+   public static final String EVENT_LOGGED_OUT = "org.jboss.seam.security.loggedOut";
+   public static final String EVENT_CREDENTIALS_UPDATED = "org.jboss.seam.security.credentialsUpdated";
+   public static final String EVENT_REMEMBER_ME = "org.jboss.seam.security.rememberMe";
+   
    private static boolean securityEnabled = true;
    
    public static final String ROLES_GROUP = "Roles";
@@ -93,7 +104,7 @@ public class Identity implements Serializable
    public void create()
    {     
       subject = new Subject();
-      Events.instance().raiseEvent("org.jboss.seam.security.initIdentity");
+      Events.instance().raiseEvent(EVENT_INIT_IDENTITY);
    }
    
    public static boolean isSecurityEnabled()
@@ -186,14 +197,14 @@ public class Identity implements Serializable
       {
          if ( !isLoggedIn() )
          {
-            Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
+            Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             log.debug(String.format(
                "Error evaluating expression [%s] - User not logged in", expr));
             throw new NotLoggedInException();
          }
          else
          {
-            Events.instance().raiseEvent("org.jboss.seam.notAuthorized");
+            Events.instance().raiseEvent(EVENT_NOT_AUTHORIZED);
             throw new AuthorizationException(String.format(
                "Authorization check failed for expression [%s]", expr));
          }
@@ -209,7 +220,7 @@ public class Identity implements Serializable
          {
             log.debug("Login successful for: " + getUsername());
          }
-         Events.instance().raiseEvent("org.jboss.seam.security.loginSuccessful");
+         Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
          return "loggedIn";
       }
       catch (LoginException ex)
@@ -218,7 +229,7 @@ public class Identity implements Serializable
          {
              log.debug("Login failed for: " + getUsername(), ex);
          }
-         Events.instance().raiseEvent("org.jboss.seam.security.loginFailed", ex);
+         Events.instance().raiseEvent(EVENT_LOGIN_FAILED, ex);
          return null;
       }
    }
@@ -267,7 +278,7 @@ public class Identity implements Serializable
    {
       unAuthenticate();
       preAuthenticationRoles.clear();
-      Events.instance().raiseEvent("org.jboss.seam.preAuthenticate");
+      Events.instance().raiseEvent(EVENT_PRE_AUTHENTICATE);
    }   
    
    protected void postAuthenticate()
@@ -296,7 +307,7 @@ public class Identity implements Serializable
       
       password = null;
 
-      Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
+      Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE);
    }
    
    /**
@@ -334,7 +345,7 @@ public class Identity implements Serializable
    {
       principal = null;
       Session.instance().invalidate();
-      Events.instance().raiseEvent("org.jboss.seam.loggedOut");
+      Events.instance().raiseEvent(EVENT_LOGGED_OUT);
    }
 
    /**
@@ -429,7 +440,7 @@ public class Identity implements Serializable
       {
          if ( !isLoggedIn() )
          {
-            Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
+            Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             throw new NotLoggedInException();
          }
          else
@@ -457,7 +468,7 @@ public class Identity implements Serializable
       {
          if ( !isLoggedIn() )
          {
-            Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
+            Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             throw new NotLoggedInException();
          }
          else
@@ -536,7 +547,7 @@ public class Identity implements Serializable
       if (this.username != username && (this.username == null || !this.username.equals(username)))
       {
          this.username = username;
-         Events.instance().raiseEvent("org.jboss.seam.security.credentialsUpdated");
+         Events.instance().raiseEvent(EVENT_CREDENTIALS_UPDATED);
       }
    }
    
@@ -550,7 +561,7 @@ public class Identity implements Serializable
       if (this.password != password && (this.password == null || !this.password.equals(password)))
       {
          this.password = password;
-         Events.instance().raiseEvent("org.jboss.seam.security.credentialsUpdated");
+         Events.instance().raiseEvent(EVENT_CREDENTIALS_UPDATED);
       }      
    }
    
@@ -571,8 +582,11 @@ public class Identity implements Serializable
    
    public void setRememberMe(boolean remember)
    {
-      this.rememberMe = remember;
-      Events.instance().raiseEvent("org.jboss.seam.security.rememberMe");
+      if (this.rememberMe != remember)
+      {
+         this.rememberMe = remember;
+         Events.instance().raiseEvent(EVENT_REMEMBER_ME);
+      }
    }
    
    public String getJaasConfigName()

@@ -36,7 +36,7 @@ public class FacesSecurityEvents extends Selector
       return "org.jboss.seam.security.username";
    }   
    
-   @Observer("org.jboss.seam.security.initIdentity")
+   @Observer(Identity.EVENT_INIT_IDENTITY)
    public void initCredentialsFromCookie()
    {       
       FacesContext ctx = FacesContext.getCurrentInstance();
@@ -58,13 +58,13 @@ public class FacesSecurityEvents extends Selector
       setDirty();
    }
    
-   @Observer("org.jboss.seam.security.credentialsUpdated")
+   @Observer(Identity.EVENT_CREDENTIALS_UPDATED)
    public void credentialsUpdated()
    {
       setDirty();
    }
    
-   @Observer("org.jboss.seam.postAuthenticate")
+   @Observer(Identity.EVENT_POST_AUTHENTICATE)
    public void postAuthenticate()
    {
       // Password is set to null during authentication, so we set dirty
@@ -74,13 +74,13 @@ public class FacesSecurityEvents extends Selector
       setCookieValueIfEnabled( Identity.instance().getUsername() );      
    }
    
-   @Observer("org.jboss.seam.security.rememberMe")
+   @Observer(Identity.EVENT_REMEMBER_ME)
    public void postRememberMe()
    {
       setCookieEnabled(Identity.instance().isRememberMe());
    }     
    
-   @Observer("org.jboss.seam.security.loginFailed")
+   @Observer(Identity.EVENT_LOGIN_FAILED)
    public void addLoginFailedMessage(LoginException ex)
    {
       FacesMessages.instance().addFromResourceBundleOrDefault(
@@ -105,7 +105,7 @@ public class FacesSecurityEvents extends Selector
       return "org.jboss.seam.loginFailed";
    }
 
-   @Observer("org.jboss.seam.security.loginSuccessful")
+   @Observer(Identity.EVENT_LOGIN_SUCCESSFUL)
    public void addLoginSuccessfulMessage()
    {
       FacesMessages.instance().addFromResourceBundleOrDefault(
