@@ -27,6 +27,10 @@ input[type='submit'], input[type='button'] {
 	width: 100%;
 }
 
+.tableControl a {
+	padding-left: 10px;
+}
+
 .tableControl {
 	text-align: right;
 }
@@ -84,6 +88,7 @@ body {
 	float: left;
 	padding: 5px;
 }
+
 .error {
 	float: left;
 	padding: 5px;
@@ -101,6 +106,7 @@ img.errors {
 .errors textarea {
 	border: 1px solid red;
 }
+
 .required {
 	color: red;
 	padding-left: 2px;
