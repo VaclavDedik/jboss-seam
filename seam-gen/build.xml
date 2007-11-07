@@ -1,17 +1,13 @@
 <?xml version="1.0"?>
 
-<project name="seam-gen" default="help" basedir="."  xmlns:artifact="urn:maven-artifact-ant">
-	
-	<!-- Give user a chance to override without editing this file or typing -D -->
-	<!-- Order is important! -->
-	<property file="./build.properties" />
-	
+<project name="seam-gen" default="help" basedir="."  xmlns:artifact="urn:maven-artifact-ant">	
 	<!-- Build resources -->
 	<property name="seam.dir" value="${ant.file.seam-gen}/../../" />
 	<import file="${seam.dir}/build/common.build.xml" />
 	
 	<target name="init">
-		<path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
+            <path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
+
 	    <!-- taskdefs -->
 	    <taskdef name="normalizeProjectName" 
 	        classname="org.jboss.seam.tool.NormalizeProjectNameTask" 
@@ -43,6 +39,7 @@
 	</target>
     
     <target name="init-properties" depends="init">
+	<property file="./build.properties" />
         
         <packageDirectory property="action.dir" package="action/${action.package}"/>
         <packageDirectory property="model.dir" package="model/${model.package}"/>
