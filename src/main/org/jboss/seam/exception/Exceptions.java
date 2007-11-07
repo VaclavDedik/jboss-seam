@@ -133,7 +133,13 @@ public class Exceptions
             }
             else
             {
-               ExceptionHandler handler = createHandler( exception, Reflections.classForName(className) );
+                ExceptionHandler handler = null;
+
+                try { 
+                    handler = createHandler(exception, Reflections.classForName(className));       
+                } catch (ClassNotFoundException e) {
+                    log.error("Can't find exception class for exception handler", e);
+                }
                if (handler!=null) exceptionHandlers.add(handler);
             }
          }
