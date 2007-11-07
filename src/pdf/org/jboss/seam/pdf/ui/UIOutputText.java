@@ -2,6 +2,7 @@ package org.jboss.seam.pdf.ui;
 
 import java.io.IOException;
 
+import javax.faces.FacesException;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -24,22 +25,37 @@ public class UIOutputText
     @Override
     public void encodeEnd(FacesContext context) 
         throws IOException
-    {
-        String stringValue = "";
-        
-        Object myValue = getValue();
-        
-        if (converter != null) {
-            stringValue = converter.getAsString(context, this, myValue);
-        } else {
-            if (myValue != null) {
-                stringValue = myValue.toString();
-            } 
-        }
-        
-        chunk.append(stringValue);        
+    {   
+        chunk.append(convert(context, getValue()));        
                 
         super.encodeEnd(context);
+    }
+    
+    protected String convert(FacesContext context, Object value) {
+        Converter myConverter = converterForValue(context, value);
+        if (myConverter != null) {                
+            return myConverter.getAsString(context, this, value);
+        } else if (value != null) {
+            return value.toString();
+        } else {
+            return "";
+        }
+    }
+    
+    protected Converter converterForValue(FacesContext ctx, Object value) {
+        if (converter != null) {
+            return converter;
+        }
+        
+        if (value != null) {
+            try {
+                return ctx.getApplication().createConverter(value.getClass());
+            } catch (FacesException e) {
+                // no converter defined - no problem
+            } 
+        }
+
+        return null;
     }
     
     @Override
