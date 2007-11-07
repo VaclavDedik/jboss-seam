@@ -78,7 +78,7 @@ public class QueueConnection
    @Override
    public String toString()
    {
-      return "TopicConnection(" + queueConnectionFactoryJndiName + ")";
+      return "QueueConnection(" + queueConnectionFactoryJndiName + ")";
    }
 
 }

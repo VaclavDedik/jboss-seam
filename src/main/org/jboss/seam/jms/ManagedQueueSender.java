@@ -66,7 +66,7 @@ public class ManagedQueueSender
    @Override
    public String toString()
    {
-      return "TopicConnection(" + queueJndiName + ")";
+      return "ManagedQueueSender(" + queueJndiName + ")";
    }
 
 }
