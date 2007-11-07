@@ -149,7 +149,7 @@
                                 <include name="lib/jbpm*.jar" />
                                 <include name="lib/jboss-el.jar" />
                                 <include name="lib/drools-*.jar"/>
-                                <include name="lib/janino-*.jar"/>
+                                <include name="lib/janino*.jar"/>
                                 <include name="lib/antlr-*.jar"/>
                                 <include name="lib/mvel*.jar"/>
 				<include name="lib/icefaces*.jar" />
