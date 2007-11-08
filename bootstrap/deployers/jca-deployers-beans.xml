@@ -8,24 +8,12 @@
    <!-- RAR Deployment -->
    <bean name="RARParserDeployer" class="org.jboss.resource.deployers.RARParserDeployer">
       <property name="metaDataRepository"><inject bean="JCAMetaDataRepository"/></property>
-      <install bean="MainDeployer" method="addDeployer">
-         <parameter><this/></parameter>
-      </install>
-      <uninstall bean="MainDeployer" method="removeDeployer">
-         <parameter><this/></parameter>
-      </uninstall>
       <property name="type">rar</property>
    </bean>
 
    <bean name="RARDeployer" class="org.jboss.resource.deployers.RARDeployer">
       <property name="workManagerName">jboss.jca:service=WorkManager</property>
       <property name="XATerminatorName">jboss:service=TransactionManager</property>
-      <install bean="MainDeployer" method="addDeployer">
-         <parameter><this/></parameter>
-      </install>
-      <uninstall bean="MainDeployer" method="removeDeployer">
-         <parameter><this/></parameter>
-      </uninstall>
       <property name="type">rar</property>
    </bean>
 
@@ -36,12 +24,6 @@
    <bean name="ConnectionFactoryDeployer" class="org.jboss.system.deployers.ServiceXSLDeployer">
       <property name="suffix">-ds.xml</property>
       <property name="XSLPath">stylesheets/NoJRMPConnectionFactoryTemplate.xsl</property>
-      <install bean="MainDeployer" method="addDeployer">
-         <parameter><this/></parameter>
-      </install>
-      <uninstall bean="MainDeployer" method="removeDeployer">
-         <parameter><this/></parameter>
-      </uninstall>
       <property name="type">jca-ds</property>
    </bean>
 

@@ -8,16 +8,6 @@
    <bean name="DefaultPersistenceProperties" class="org.jboss.ejb3.DefaultPersistenceProperties"/>
 
    <bean name="EJBRegistrationDeployer" class="org.jboss.ejb3.deployers.EJBRegistrationDeployer">
-      <install bean="MainDeployer" method="addDeployer">
-         <parameter>
-            <this/>
-         </parameter>
-      </install>
-      <uninstall bean="MainDeployer" method="removeDeployer">
-         <parameter>
-            <this/>
-         </parameter>
-      </uninstall>
       <property name="kernel"><inject bean="jboss.kernel:service=Kernel"/></property>
       <property name="mbeanServer"><inject bean="JMXKernel" property="mbeanServer"/></property>
       <property name="defaultPersistenceProperties"><inject bean="DefaultPersistenceProperties" property="properties"/></property>
@@ -106,16 +96,6 @@
       <depends>AspectDeployer</depends>
    </bean>
    <bean name="EJBStage2Deployer" class="org.jboss.ejb3.deployers.EJBStage2Deployer">
-      <install bean="MainDeployer" method="addDeployer">
-         <parameter>
-            <this/>
-         </parameter>
-      </install>
-      <uninstall bean="MainDeployer" method="removeDeployer">
-         <parameter>
-            <this/>
-         </parameter>
-      </uninstall>
       <depends>AspectDeployer</depends>
    </bean>
    
