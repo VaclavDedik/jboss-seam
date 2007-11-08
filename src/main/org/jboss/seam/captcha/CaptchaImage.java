@@ -39,7 +39,7 @@ import com.octo.captcha.service.image.ImageCaptchaService;
 public class CaptchaImage extends AbstractResource
 {   
    private ImageCaptchaService service;
-   private String captchaEngine;
+   private String engineName;
    
    public static CaptchaImage instance()
    {
@@ -74,7 +74,7 @@ public class CaptchaImage extends AbstractResource
    protected ImageCaptchaService createService() 
    {
       DefaultManageableImageCaptchaService result = new DefaultManageableImageCaptchaService();
-      result.setCaptchaEngineClass(captchaEngine);
+      result.setCaptchaEngineClass(engineName);
       return result;
    }
    
@@ -133,13 +133,13 @@ public class CaptchaImage extends AbstractResource
       this.service = service;
    }
 
-   public String getCaptchaEngine() 
+   public String getEngineName() 
    {
-      return captchaEngine;
+      return engineName;
    }
 
-   public void setCaptchaEngine(String captchaEngine) 
+   public void setEngineName(String engineName) 
    {
-      this.captchaEngine = captchaEngine;
+      this.engineName = engineName;
    }
 }
