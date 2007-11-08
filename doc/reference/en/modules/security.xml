@@ -1287,7 +1287,7 @@ end;
         The engine used to generate the captcha image may be customized in <literal>components.xml</literal>:
       </para>
 
-      <programlisting><![CDATA[<captcha:captcha-image" engine-name="com.octo.captcha.engine.image.gimpy.BasicListGimpyEngine"/>]]></programlisting>
+      <programlisting><![CDATA[<captcha:captcha-image" engine-name="com.octo.captcha.engine.image.gimpy.SimpleListImageCaptchaEngine"/>]]></programlisting>
       
       <para>
         Alternatively, a customized <literal>ImageCaptchaService</literal> instance may be created programmatically:
