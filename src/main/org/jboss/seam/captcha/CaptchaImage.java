@@ -3,6 +3,8 @@ package org.jboss.seam.captcha;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,7 +13,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -22,8 +23,6 @@ import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.web.AbstractResource;
 
 import com.octo.captcha.service.CaptchaServiceException;
-import com.octo.captcha.service.image.DefaultManageableImageCaptchaService;
-import com.octo.captcha.service.image.ImageCaptchaService;
 
 /**
  * Provides Captcha image resources
@@ -34,13 +33,9 @@ import com.octo.captcha.service.image.ImageCaptchaService;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.captcha.captchaImage")
 @BypassInterceptors
-@Install(precedence = BUILT_IN,  
-         classDependencies="com.octo.captcha.service.image.ImageCaptchaService")
+@Install(precedence = BUILT_IN)
 public class CaptchaImage extends AbstractResource
 {   
-   private ImageCaptchaService service;
-   private String engineName;
-   
    public static CaptchaImage instance()
    {
       if ( !Contexts.isApplicationContextActive() )
@@ -49,35 +44,7 @@ public class CaptchaImage extends AbstractResource
       }
       return (CaptchaImage) Contexts.getApplicationContext().get(CaptchaImage.class);
    }
-   
-   public boolean validateResponse(String id, String response)
-   {
-      try
-      {
-         return service.validateResponseForID(id, response);
-      }
-      catch (CaptchaServiceException cse)
-      {
-         return false;
-      }
-   }
-   
-   @Create
-   public void create()
-   {
-      if (service == null)
-      {
-         service = createService();
-      }
-   }
 
-   protected ImageCaptchaService createService() 
-   {
-      DefaultManageableImageCaptchaService result = new DefaultManageableImageCaptchaService();
-      result.setCaptchaEngineClass(engineName);
-      return result;
-   }
-   
    @Override
    public String getResourcePath()
    {
@@ -93,8 +60,12 @@ public class CaptchaImage extends AbstractResource
       ServletLifecycle.beginRequest(request);         
       try
       {
-         String captchaId = request.getQueryString();
-         BufferedImage challenge = service.getImageChallengeForID( captchaId, request.getLocale() );
+         BufferedImage challenge = new BufferedImage(70, 20, BufferedImage.TYPE_BYTE_GRAY);
+         Graphics graphics = challenge.getGraphics();
+         graphics.setColor(Color.WHITE);
+         graphics.fillRect(0, 0, 70, 20);
+         graphics.setColor(Color.BLACK);
+         graphics.drawString( Captcha.instance().getChallenge() , 5, 15 );
          ImageIO.write(challenge, "jpeg", out);
       }
       catch (IllegalArgumentException e)
@@ -121,25 +92,4 @@ public class CaptchaImage extends AbstractResource
       response.getOutputStream().close();
    }
    
-   @Deprecated
-   public ImageCaptchaService getService()
-   {
-      return service;
-   }
-   
-   @Deprecated
-   public void setService(ImageCaptchaService service)
-   {
-      this.service = service;
-   }
-
-   public String getEngineName() 
-   {
-      return engineName;
-   }
-
-   public void setEngineName(String engineName) 
-   {
-      this.engineName = engineName;
-   }
 }
