@@ -56,19 +56,19 @@
     
     <itemizedlist>
       <listitem>
-        <para>drools-compiler-4.0.0.MR2.jar</para>
+        <para>drools-compiler.jar</para>
       </listitem>
       <listitem>
-        <para>drools-core-4.0.0.MR2.jar</para>
+        <para>drools-core.jar</para>
       </listitem>
       <listitem>
-        <para>janino-2.5.7.jar</para>
+        <para>janino.jar</para>
       </listitem>
       <listitem>
-        <para>antlr-runtime-3.0.jar</para>
+        <para>antlr-runtime.jar</para>
       </listitem>
       <listitem>
-        <para>mvel14-1.2beta16.jar</para>
+        <para>mvel14.jar</para>
       </listitem>                    
     </itemizedlist>     
     
