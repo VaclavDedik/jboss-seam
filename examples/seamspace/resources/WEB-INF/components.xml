@@ -12,7 +12,8 @@
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.0.xsd
-                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd">
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd
+                 http://jboss.com/products/seam/captcha http://jboss.com/products/seam/captcha-2.0.xsd">
 
     <core:init jndi-pattern="@jndiPattern@" debug="false"/>
  
@@ -37,8 +38,8 @@
 
     <persistence:managed-persistence-context name="entityManager" auto-create="true"
                 persistence-unit-jndi-name="java:/seamspaceEntityManagerFactory"/>
-                
-    <component name="org.jboss.seam.captcha.captchaImage" service="#{customCaptcha.service}"/>
+    
+    <captcha:captcha-image engine-name="com.octo.captcha.engine.image.gimpy.BasicListGimpyEngine"/>
     
     <event type="org.jboss.seam.notLoggedIn">
         <action execute="#{redirect.captureCurrentView}"/>
