@@ -455,10 +455,6 @@
             <artifactId>hsqldb</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>xerces</groupId>
             <artifactId>xmlParserAPIs</artifactId>
           </exclusion>
