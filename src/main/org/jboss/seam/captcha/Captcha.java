@@ -1,5 +1,8 @@
 package org.jboss.seam.captcha;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Random;
 
@@ -21,7 +24,7 @@ import org.jboss.seam.contexts.Contexts;
  */
 @Name("org.jboss.seam.captcha.captcha")
 @Scope(ScopeType.SESSION)
-@Install(dependencies="org.jboss.seam.captcha.captchaImage", precedence=Install.BUILT_IN)
+@Install(precedence=Install.BUILT_IN)
 @BypassInterceptors
 public class Captcha implements Serializable
 {
@@ -29,7 +32,7 @@ public class Captcha implements Serializable
    
    private String correctResponse;
    private String challenge;
-   private transient String response;
+   private String response;
    
    /**
     * Initialize the challenge and correct response.
@@ -72,7 +75,7 @@ public class Captcha implements Serializable
     * Validate that the entered response is the correct
     * response
     */
-   protected boolean validateResponse(String response)
+   public boolean validateResponse(String response)
    {
       boolean valid = response!=null && 
                       correctResponse!=null && 
@@ -93,6 +96,40 @@ public class Captcha implements Serializable
    public void setResponse(String input)
    {
       this.response = input;
+   }
+   
+   /**
+    * Render the challenge question as an image.
+    * May be overridden by subclasses to achieve
+    * a stronger CAPTCHA.
+    */
+   public BufferedImage renderChallenge() 
+   {
+      BufferedImage challenge = new BufferedImage(70, 20, BufferedImage.TYPE_BYTE_GRAY);
+      Graphics graphics = challenge.getGraphics();
+      graphics.setColor( getChallengeBackgroundColor() );
+      graphics.fillRect(0, 0, 70, 20);
+      graphics.setColor( getChallengeTextColor() );
+      graphics.drawString( getChallenge() , 5, 15 );
+      return challenge;
+   }
+   
+   /**
+    * May be overridden by subclasses
+    * @return the background color of the challenge image
+    */
+   protected Color getChallengeBackgroundColor()
+   {
+      return Color.WHITE;
+   }
+
+   /**
+    * May be overridden by subclasses
+    * @return @return the foreground color of the challenge image
+    */
+   protected Color getChallengeTextColor() 
+   {
+      return Color.BLACK;
    }
    
    public static Captcha instance()

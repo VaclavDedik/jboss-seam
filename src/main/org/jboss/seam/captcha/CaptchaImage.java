@@ -3,9 +3,6 @@ package org.jboss.seam.captcha;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -25,7 +22,7 @@ import org.jboss.seam.web.AbstractResource;
 import com.octo.captcha.service.CaptchaServiceException;
 
 /**
- * Provides Captcha image resources
+ * Serves CAPTCHA images
  * 
  * @author Shane Bryzak
  */
@@ -60,13 +57,7 @@ public class CaptchaImage extends AbstractResource
       ServletLifecycle.beginRequest(request);         
       try
       {
-         BufferedImage challenge = new BufferedImage(70, 20, BufferedImage.TYPE_BYTE_GRAY);
-         Graphics graphics = challenge.getGraphics();
-         graphics.setColor(Color.WHITE);
-         graphics.fillRect(0, 0, 70, 20);
-         graphics.setColor(Color.BLACK);
-         graphics.drawString( Captcha.instance().getChallenge() , 5, 15 );
-         ImageIO.write(challenge, "jpeg", out);
+         ImageIO.write( Captcha.instance().renderChallenge(), "jpeg", out );
       }
       catch (IllegalArgumentException e)
       {
