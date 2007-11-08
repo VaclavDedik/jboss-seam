@@ -108,10 +108,18 @@ public class Captcha implements Serializable
       BufferedImage challenge = new BufferedImage(70, 20, BufferedImage.TYPE_BYTE_GRAY);
       Graphics graphics = challenge.getGraphics();
       graphics.setColor( getChallengeBackgroundColor() );
-      graphics.fillRect(0, 0, 70, 20);
+      graphics.fillRect(0, 0, getChallengeImageWidth(), 20);
       graphics.setColor( getChallengeTextColor() );
-      graphics.drawString( getChallenge() , 5, 15 );
+      graphics.drawString( getChallenge(), 5, 15 );
       return challenge;
+   }
+
+   /**
+    * May be overridden by subclasses
+    * @return the width, in pixels, of the challenge question
+    */
+   protected int getChallengeImageWidth() {
+      return 70;
    }
    
    /**

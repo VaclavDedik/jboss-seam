@@ -14,5 +14,5 @@ import org.hibernate.validator.ValidatorClass;
 @ValidatorClass(CaptchaResponseValidator.class)
 public @interface CaptchaResponse 
 {
-   String message() default "input characters did not match";
+   String message() default "incorrect response";
 }

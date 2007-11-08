@@ -59,7 +59,7 @@ public class CaptchaImage extends AbstractResource
       }
       finally
       {
-         ServletLifecycle.endRequest(request);         
+         ServletLifecycle.endRequest(request);
       }
 
       response.setHeader("Cache-Control", "no-store");
