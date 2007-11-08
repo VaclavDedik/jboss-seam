@@ -1284,24 +1284,21 @@ end;
       <title>Customising the Captcha image</title>
       
       <para>
-        The captcha image itself may be customised by providing an alternative <literal>ImageCaptchaService</literal>
-        to the default (<literal>DefaultManageableImageCaptchaService</literal>). To configure a different
-        <literal>ImageCaptchaService</literal>, add the following entry to <literal>components.xml</literal>:
+        The engine used to generate the captcha image may be customized in <literal>components.xml</literal>:
       </para>
-      
-      <programlisting><![CDATA[  <component name="org.jboss.seam.captcha.captchaImage" service="#{customCaptcha.service}"/>]]></programlisting>
+
+      <programlisting><![CDATA[<captcha:captcha-image" engine-name="com.octo.captcha.engine.image.gimpy.BasicListGimpyEngine"/>]]></programlisting>
       
       <para>
-        The <literal>service</literal> attribute specifies the <literal>ImageCaptchaService</literal> instance to
-        use to generate captcha images.  For more information on configuring an <literal>ImageCaptchaService</literal> please
-        refer to the JCaptcha documentation.  Here is an example of a custom image generator (which can be found in the 
-        seamspace example):
+        Alternatively, a customized <literal>ImageCaptchaService</literal> instance may be created programmatically:
       </para>
       
-      <programlisting><![CDATA[@Name("customCaptcha")
-public class CustomCaptcha
+      <programlisting><![CDATA[@Name("org.jboss.seam.captcha.captchaImage")
+@Scope(APPLICATION)
+public class CustomCaptcha extends CaptchaImage
 {
-   public ImageCaptchaService getService()
+   @Override
+   protected ImageCaptchaService createService()
    {
       BasicGimpyEngine customCaptcha = new BasicGimpyEngine();
       GimpyFactory factory = new GimpyFactory(
