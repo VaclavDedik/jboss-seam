@@ -1215,21 +1215,17 @@ end;
   </sect1>
     
   <sect1>
-    <title>Implementing a Captcha Test</title>
+    <title>CAPTCHA</title>
     
     <para>
-      Though strictly not part of the security API, it might be useful in certain circumstances (such as new
-      user registrations, posting to a public blog or forum) to implement a Captcha (<emphasis>C</emphasis>ompletely 
+      Though strictly not part of the security API, Seam provides a built-in CAPTCHA (<emphasis>C</emphasis>ompletely 
       <emphasis>A</emphasis>utomated <emphasis>P</emphasis>ublic <emphasis>T</emphasis>uring test to tell 
-      <emphasis>C</emphasis>omputers and <emphasis>H</emphasis>umans <emphasis>A</emphasis>part) to 
-      prevent automated bots from interacting with your application.  Seam provides seamless integration with
-      JCaptcha, an excellent library for generating Captcha challenges.  If you wish to use the captcha
-      feature in your application you need to include the jcaptcha-* jar file from the Seam lib directory in 
-      your project, and register it in <literal>application.xml</literal> as a java module.
+      <emphasis>C</emphasis>omputers and <emphasis>H</emphasis>umans <emphasis>A</emphasis>part) algorithm to 
+      prevent automated processes from interacting with your application.
     </para>
     
     <sect2>
-      <title>Configuring the Captcha Servlet</title>
+      <title>Configuring the CAPTCHA Servlet</title>
       <para>
         To get up and running, it is necessary to configure the Seam Resource Servlet, which will provide the Captcha 
         challenge images to your pages.  This requires the following entry in <literal>web.xml</literal>:
@@ -1248,74 +1244,50 @@ end;
     </sect2>
     
     <sect2>
-      <title>Adding a Captcha to a page</title>
+      <title>Adding a CAPTCHA to a form</title>
       
       <para>
-        Adding a captcha challenge to a page is extremely easy.  Seam provides a page-scoped component,
-        <literal>captcha</literal>, which provides everything that is required, including built-in captcha
-        validation.  Here's an example:
+        Adding a CAPTCHA challenge to a form is extremely easy. Here's an example:
       </para>
       
-      <programlisting><![CDATA[<div>
-    <h:graphicImage value="/seam/resource/captcha?#{captcha.id}"/>
-</div>
-  
-<div>
-    <h:outputLabel for="verifyCaptcha">Enter the above letters</h:outputLabel>
-    <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true">
-      <s:validate />
-    </h:inputText>
-    <div class="validationError"><h:message for="verifyCaptcha"/></div>
-</div>
-
-<div>
-    <h:commandButton action="#{register.next}" value="Register"/>
-</div>]]></programlisting>
+      <programlisting><![CDATA[<h:graphicImage value="/seam/resource/captcha"/>
+<h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true">
+   <s:validate />
+</h:inputText>
+<h:message for="verifyCaptcha"/>]]></programlisting>
       
       <para>
-        That's all there is to it.  The <literal>graphicImage</literal> control displays the Captcha challenge,
-        and the <literal>inputText</literal> receives the user's response.  The response is automatically 
-        validated against the Captcha when the form is submitted.
+        That's all there is to it.  The <literal>graphicImage</literal> control displays the CAPTCHA challenge,
+        and the <literal>inputText</literal> receives the user's response. The response is automatically 
+        validated against the CAPTCHA when the form is submitted.
       </para>
       
     </sect2>
     
     <sect2>
-      <title>Customising the Captcha image</title>
+      <title>Customising the CAPTCHA algorithm</title>
       
       <para>
-        The engine used to generate the captcha image may be customized in <literal>components.xml</literal>:
-      </para>
-
-      <programlisting><![CDATA[<captcha:captcha-image" engine-name="com.octo.captcha.engine.image.gimpy.SimpleListImageCaptchaEngine"/>]]></programlisting>
-      
-      <para>
-        Alternatively, a customized <literal>ImageCaptchaService</literal> instance may be created programmatically:
+        You may customize the CAPTCHA algorithm by overriding the built-in component:
       </para>
       
-      <programlisting><![CDATA[@Name("org.jboss.seam.captcha.captchaImage")
-@Scope(APPLICATION)
-public class CustomCaptcha extends CaptchaImage
+      <programlisting><![CDATA[@Name("org.jboss.seam.captcha")
+@Scope(SESSION)
+public class HitchhikersCaptcha extends Captcha
 {
-   @Override
-   protected ImageCaptchaService createService()
+   @Override @Create
+   public void init() 
    {
-      BasicGimpyEngine customCaptcha = new BasicGimpyEngine();
-      GimpyFactory factory = new GimpyFactory(
-            new RandomWordGenerator("ABCDEFGHIJKLMNOPQRSTUVWXYZ23456789"), 
-            new ComposedWordToImage(new RandomFontGenerator(new Integer(15), 
-                  new Integer(15)), new UniColorBackgroundGenerator(new Integer(150), 
-                        new Integer(30)), new RandomTextPaster(new Integer(4), 
-                              new Integer(7), Color.BLACK)));
-      GimpyFactory[] factories = {factory};
-      customCaptcha.setFactories(factories);
-      
-      return new DefaultManageableImageCaptchaService(
-                   new FastHashMapCaptchaStore(),
-                   customCaptcha,
-                   180,
-                   120000,
-                   75000);      
+      setChallenge("What is the answer to life, the universe and everything?");
+      setCorrectResponse("42");
+   }
+   
+   @Override
+   public BufferedImage renderChallenge()
+   {
+       BufferedImage img = super.renderChallenge();       
+       img.getGraphics().drawOval(5, 3, 60, 14); //add an obscuring decoration
+       return img;
    }
 }]]></programlisting>
 
