@@ -1,4 +1,4 @@
-package org.jboss.seam.mail;
+package org.jboss.seam.mock;
 
 import javax.mail.Address;
 import javax.mail.Message;

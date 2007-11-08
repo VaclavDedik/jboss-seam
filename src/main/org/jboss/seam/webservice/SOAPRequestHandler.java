@@ -23,7 +23,7 @@ import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.web.ServletContexts;
 
 /**
- * A SOAP request handler for controling Seam's lifecycle and managing
+ * A SOAP request handler for controlling Seam's lifecycle and managing
  * conversation propagation.
  * 
  * @author Shane Bryzak

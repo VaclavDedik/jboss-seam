@@ -50,7 +50,6 @@ import org.jboss.seam.init.Initialization;
 import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mail.MailSession;
-import org.jboss.seam.mail.MockTransport;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.servlet.SeamFilter;
 import org.jboss.seam.servlet.ServletSessionMap;

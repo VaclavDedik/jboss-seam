@@ -1,4 +1,4 @@
-package org.jboss.seam.faces;
+package org.jboss.seam.debug.jsf;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,10 +23,12 @@ import com.sun.faces.spi.SerializationProvider;
  *  classloader.  It is only needed when using client side state saving with hotdeployable classes 
  *  in the view.  To enable, add the following to web.xml:
  *  
+ *  <pre>
  *  <context-param>
  *      <param-name>com.sun.faces.serializationProvider</param-name>
  *      <param-value>org.jboss.seam.faces.SeamDebugSerializationProvider</param-value>
  *  </context-param>
+ *  </pre>
  */
 public class SeamDebugSerializationProvider 
     implements SerializationProvider 
