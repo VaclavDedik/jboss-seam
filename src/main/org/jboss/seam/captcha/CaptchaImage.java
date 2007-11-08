@@ -19,8 +19,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.web.AbstractResource;
 
-import com.octo.captcha.service.CaptchaServiceException;
-
 /**
  * Serves CAPTCHA images
  * 
@@ -58,16 +56,6 @@ public class CaptchaImage extends AbstractResource
       try
       {
          ImageIO.write( Captcha.instance().renderChallenge(), "jpeg", out );
-      }
-      catch (IllegalArgumentException e)
-      {
-         response.sendError(HttpServletResponse.SC_NOT_FOUND);
-         return;
-      }
-      catch (CaptchaServiceException e)
-      {
-         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-         return;
       }
       finally
       {
