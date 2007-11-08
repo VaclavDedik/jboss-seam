@@ -40,8 +40,6 @@
     <persistence:managed-persistence-context name="entityManager" auto-create="true"
                 persistence-unit-jndi-name="java:/seamspaceEntityManagerFactory"/>
     
-    <captcha:captcha-image engine-name="com.octo.captcha.engine.image.gimpy.SimpleListImageCaptchaEngine"/>
-    
     <event type="org.jboss.seam.notLoggedIn">
         <action execute="#{redirect.captureCurrentView}"/>
     </event>

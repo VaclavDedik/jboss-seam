@@ -82,11 +82,7 @@
               </div>           
               
               <div class="formRow">
-                <h:graphicImage value="/seam/resource/captcha?#{captcha.id}"/>
-              </div>
-              
-              <div class="formRow">
-                <h:outputLabel for="verifyCaptcha">Enter the above letters<em>*</em></h:outputLabel>
+                <h:outputLabel for="verifyCaptcha"><h:graphicImage value="/seam/resource/captcha"/><em>*</em></h:outputLabel>
                 <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true"/>
                 <div class="validationError"><h:message for="verifyCaptcha"/></div>
               </div>
