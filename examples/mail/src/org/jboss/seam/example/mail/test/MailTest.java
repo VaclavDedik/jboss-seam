@@ -1,7 +1,7 @@
 package org.jboss.seam.example.mail.test;
 
-import static javax.mail.Message.RecipientType.CC;
 import static javax.mail.Message.RecipientType.BCC;
+import static javax.mail.Message.RecipientType.CC;
 
 import java.io.InputStream;
 
@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMultipart;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.mail.Person;
 import org.jboss.seam.mail.MailSession;
-import org.jboss.seam.mail.MockTransport;
+import org.jboss.seam.mock.MockTransport;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
@@ -356,8 +356,6 @@ public class MailTest extends SeamTest
                 
                 Contexts.getEventContext().set("attachment", "/foo.pdf");
                 
-                boolean exceptionThrown = false;
-             
             }
         }.run();
     }
