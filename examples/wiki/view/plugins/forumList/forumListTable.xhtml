@@ -1,0 +1,156 @@
+<s:div id="forumListTableContainer"
+       styleClass="forumListTableContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<div class="box">
+<h:form id="forumListTableForm" rendered="#{not empty forumQuery.forums}">
+
+<h:dataTable id="forumListTable"
+             var="f"
+             value="#{forumQuery.forums}"
+             styleClass="datatable topLeftBottomBorder"
+             headerClass="regularHeader rightBorder"
+             columnClasses="onePercentColumn rightBorder alignCenter,
+                            defaultColumn rightBorder alignLeft,
+                            fivePercentColumn rightBorder alignCenter,
+                            fivePercentColumn rightBorder alignCenter,
+                            tenPercentColumn rightBorder alignCenter,
+                            tenPercentColumn rightBorder alignCenter"
+             rowClasses="rowOdd,rowEven"
+             cellpadding="0" cellspacing="0" border="0">
+
+    <h:column>
+        <h:panelGroup>
+
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.posting_unread.gif" width="22" height="26"
+                            rendered="#{forumQuery.forumInfo[f.id].unreadPostings}"/>
+
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.posting.gif" width="22" height="26"
+                            rendered="#{not forumQuery.forumInfo[f.id].unreadPostings}"/>
+
+            <s:span styleClass="forumFeedLink undecoratedLink" rendered="#{not empty f.feed}">
+                <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{f.feed.id}"
+                              tabindex="1">
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
+                </h:outputLink>
+            </s:span>
+
+            <s:span styleClass="forumFeedLink" rendered="#{empty f.feed}">
+                <h:graphicImage rendered="#{empty f.feed}"
+                                value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="18" height="18"/>
+            </s:span>
+
+        </h:panelGroup>
+    </h:column>
+
+    <h:column>
+        <f:facet name="header">#{messages['forum.label.Forum']}</f:facet>
+        <s:div styleClass="undecoratedLink forumTitle">
+            <h:outputLink styleClass="undecoratedLink" value="#{wiki:renderURL(f)}" tabindex="1">
+                <h:outputText value="#{f.name}"/>
+            </h:outputLink>
+        </s:div>
+        <h:outputText styleClass="forumDescription" value="#{f.description}"/>
+    </h:column>
+
+    <h:column rendered="#{not forumListHome.managed}">
+        <f:facet name="header">#{messages['forum.label.TopicCount']}</f:facet>
+        <h:outputText value="#{forumQuery.forumInfo[f.id].totalNumOfTopics}"
+                      rendered="#{not empty forumQuery.forumInfo[f.id]}"/>
+        <h:outputText value="-" rendered="#{empty forumQuery.forumInfo[f.id]}"/>
+    </h:column>
+
+    <h:column rendered="#{not forumListHome.managed}">
+        <f:facet name="header">#{messages['forum.label.PostCount']}</f:facet>
+        <h:outputText value="#{forumQuery.forumInfo[f.id].totalNumOfPosts}"
+                      rendered="#{not empty forumQuery.forumInfo[f.id]}"/>
+        <h:outputText value="-" rendered="#{empty forumQuery.forumInfo[f.id]}"/>
+    </h:column>
+
+    <h:column rendered="#{not forumListHome.managed}">
+        <f:facet name="header">#{messages['forum.label.NewestTopic']}</f:facet>
+        <s:fragment rendered="#{not empty forumQuery.forumInfo[f.id].lastTopic}">
+            <ui:include src="lastTopicPost.xhtml">
+                <ui:param name="link"        value="#{wiki:renderURL(forumQuery.forumInfo[f.id].lastTopic)}"/>
+                <ui:param name="name"        value="#{forumQuery.forumInfo[f.id].lastTopic.name}"/>
+                <ui:param name="createdOn"   value="#{forumQuery.forumInfo[f.id].lastTopic.createdOn}"/>
+                <ui:param name="createdBy"   value="#{forumQuery.forumInfo[f.id].lastTopic.createdBy}"/>
+                <ui:param name="popupId"     value="lastTopic#{forumQuery.forumInfo[f.id].lastTopic.id}"/>
+                <ui:param name="rightOffset" value="12%"/>
+            </ui:include>
+        </s:fragment>
+        <s:fragment rendered="#{empty forumQuery.forumInfo[f.id].lastTopic}">
+            -
+        </s:fragment>
+    </h:column>
+
+    <h:column rendered="#{not forumListHome.managed}">
+        <f:facet name="header">#{messages['forum.label.LatestPost']}</f:facet>
+        <s:fragment rendered="#{forumQuery.forumInfo[f.id].lastPostLastTopic}">
+            <ui:include src="lastTopicPost.xhtml">
+                <ui:param name="link"        value="#{wiki:renderURL(forumQuery.forumInfo[f.id].lastTopic)}"/>
+                <ui:param name="name"        value="#{forumQuery.forumInfo[f.id].lastTopic.name}"/>
+                <ui:param name="createdOn"   value="#{forumQuery.forumInfo[f.id].lastTopic.createdOn}"/>
+                <ui:param name="createdBy"   value="#{forumQuery.forumInfo[f.id].lastTopic.createdBy}"/>
+                <ui:param name="popupId"     value="latestPost#{forumQuery.forumInfo[f.id].lastTopic.id}"/>
+                <ui:param name="rightOffset" value="1%"/>
+            </ui:include>
+        </s:fragment>
+        <s:fragment rendered="#{not empty forumQuery.forumInfo[f.id].lastComment and not forumQuery.forumInfo[f.id].lastPostLastTopic}">
+            <ui:include src="lastTopicPost.xhtml">
+                <ui:param name="link"        value="#{wiki:renderCommentURL(forumQuery.forumInfo[f.id].lastComment.document, forumQuery.forumInfo[f.id].lastComment)}"/>
+                <ui:param name="name"        value="#{forumQuery.forumInfo[f.id].lastComment.subject}"/>
+                <ui:param name="createdOn"   value="#{forumQuery.forumInfo[f.id].lastComment.createdOn}"/>
+                <ui:param name="createdBy"   value="#{forumQuery.forumInfo[f.id].lastComment.fromUser}"/>
+                <ui:param name="popupId"     value="latestPost#{forumQuery.forumInfo[f.id].lastComment.id}"/>
+                <ui:param name="rightOffset" value="1%"/>
+            </ui:include>
+        </s:fragment>
+        <s:fragment rendered="#{empty forumQuery.forumInfo[f.id].lastComment and not forumQuery.forumInfo[f.id].lastPostLastTopic}">
+            -
+        </s:fragment>
+    </h:column>
+
+    <h:column rendered="#{forumListHome.managed and not forumHome.showForm}">
+        <a:commandLink rendered="#{uiComponent['forumListPlugin:forumListTableForm:forumListTable'].rowIndex != 0}"
+                       action="#{forumListHome.moveNode(f.displayPosition, f.displayPosition-1)}"
+                       reRender="forumListTable, messageBoxContainer"
+                       tabindex="1" styleClass="button">
+            <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.MoveUp']}"/>
+        </a:commandLink>
+    </h:column>
+
+    <h:column rendered="#{forumListHome.managed and not forumHome.showForm}">
+        <a:commandLink rendered="#{uiComponent['forumListPlugin:forumListTableForm:forumListTable'].rowIndex != uiComponent['forumListPlugin:forumListTableForm:forumListTable'].rowCount-1}"
+                       action="#{forumListHome.moveNode(f.displayPosition, f.displayPosition+1)}"
+                       reRender="forumListTable, messageBoxContainer"
+                       tabindex="1" styleClass="button">
+            <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.MoveDown']}"/>
+        </a:commandLink>
+    </h:column>
+
+    <h:column rendered="#{forumListHome.managed and not forumHome.showForm}">
+
+        <a:commandLink action="#{forumHome.edit(f.id)}"
+                       reRender="forumListControlsContainer, forumListTable, forumFormContainer, messageBoxContainer"
+                       tabindex="1" styleClass="buttonNonpersistent">
+            <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.Edit']}"/>
+        </a:commandLink>
+
+    </h:column>
+
+</h:dataTable>
+</h:form>
+</div>
+
+<s:div rendered="#{empty forumQuery.forums}" styleClass="box">
+    <h:outputText value="#{messages['forum.msg.NoForumsFound']}"/>
+</s:div>
+
+</s:div>

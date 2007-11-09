@@ -1,0 +1,115 @@
+<wiki:plugin id="forumPostingPlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:span id="forumPostingsPluginContainer">
+
+        <script type="text/javascript">jQuery(function() {
+            jQuery(".userInfoPopupContainer")
+                    .jqm({trigger: false, overlay: 0});
+        });</script>
+
+        <h:panelGrid columns="2"
+                     styleClass="postingHeaderGrid"
+                     columnClasses="postingHeaderInfo, postingHeaderControls"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <s:span>
+                <s:span styleClass="item">
+                    <h:outputText value="#{currentDocument.createdOn}">
+                        <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                    </h:outputText>
+                </s:span>
+
+                <s:fragment rendered="#{wiki:isRegularUser(currentDocument.createdBy)}">
+                    <s:span styleClass="item">
+                        <s:span styleClass="undecoratedLink">
+                            <h:outputLink value="#" onclick="jQuery('#userInfoPopup#{currentDocument.id}').jqmShow();">
+                                <h:outputText value="#{currentDocument.createdBy.fullname}"/>
+                            </h:outputLink>
+                            <s:span rendered="#{currentDocument.createdBy.id != guestUser.id}">
+                                <h:outputText value=",&#160;"/>
+                                <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', currentDocument.createdBy.email))}">
+                                    <h:outputText value="#{wiki:escapeAtSymbol(currentDocument.createdBy.email)}"/>
+                                </h:outputLink>
+                            </s:span>
+                        </s:span>
+                    </s:span>
+
+                    <ui:include src="userInfoPopup.xhtml">
+                        <ui:param name="user" value="#{currentDocument.createdBy}"/>
+                        <ui:param name="userInfoPopupId" value="#{currentDocument.id}"/>
+                    </ui:include>
+                </s:fragment>
+
+                <s:span styleClass="item" rendered="#{not wiki:isRegularUser(currentDocument.createdBy)}">
+                    <h:outputText value="#{currentDocument.createdBy.fullname}"/>
+                </s:span>
+
+                <s:span styleClass="item undecoratedLink">
+                    <h:outputLink value="#{wiki:renderPermLink(currentDocument)}" target="_top">
+                        <h:outputText value="#{messages['lacewiki.label.PermLink']}"/>
+                    </h:outputLink>
+                </s:span>
+
+                <s:span styleClass="item undecoratedLink">
+                    <h:outputLink value="#{wiki:renderWikiLink(currentDocument)}" target="_top">
+                        <h:outputText value="#{messages['lacewiki.label.WikiLink']}"/>
+                    </h:outputLink>
+                </s:span>
+
+            </s:span>
+
+            <h:form id="forumPostingHeaderControls">
+                <h:panelGroup>
+
+                    <h:outputLink value="#{wiki:renderURL(currentDirectory.parent)}"
+                                  accesskey="#{messages['forum.button.ForumList.accesskey']}"
+                                  tabindex="1" styleClass="buttonNonpersistent">
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
+                    </h:outputLink>
+
+                    <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultDocument)}"
+                                  accesskey="#{messages['forum.button.TopicList.accesskey']}"
+                                  tabindex="1" styleClass="buttonNonpersistent">
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
+                    </h:outputLink>
+
+                    <a:commandLink rendered="#{s:hasPermission('Node', 'create', currentDirectory)
+                                               and not replyHome.showForm
+                                               and currentDocument.enableCommentForm}"
+                                   action="#{replyHome.newReplyToTopic(currentDocument.id, false)}"
+                                   reRender="forumPostingsPluginContainer, forumRepliesPluginContainer, messageBoxContainer"
+                                   focus="forumRepliesPlugin:replyForm:replyTextArea"
+                                   tabindex="1" styleClass="buttonNonpersistent"
+                                   accesskey="#{messages['forum.button.Reply.accesskey']}">
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Reply']}"/>
+                    </a:commandLink>
+
+                    <a:commandLink rendered="#{s:hasPermission('Node', 'create', currentDirectory)
+                                               and not replyHome.showForm
+                                               and currentDocument.enableCommentForm}"
+                                   action="#{replyHome.newReplyToTopic(currentDocument.id, true)}"
+                                   reRender="forumPostingsPluginContainer, forumRepliesPluginContainer, messageBoxContainer"
+                                   focus="forumRepliesPlugin:replyForm:replyTextArea"
+                                   tabindex="1" styleClass="buttonNonpersistent"
+                                   accesskey="#{messages['forum.button.Quote.accesskey']}">
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Quote']}"/>
+                    </a:commandLink>
+
+                </h:panelGroup>
+            </h:form>
+
+        </h:panelGrid>
+
+    </s:span>
+
+    <s:div styleClass="postingSubject"><h1 class="documentTitle">#{currentDocument.name}</h1></s:div>
+
+</wiki:plugin>

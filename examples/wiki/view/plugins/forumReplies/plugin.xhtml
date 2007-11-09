@@ -1,0 +1,147 @@
+<wiki:plugin id="forumRepliesPlugin"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:span id="forumRepliesPluginContainer">
+
+    <script type="text/javascript">jQuery(function() {
+        jQuery(".userInfoPopupContainer")
+                .jqm({trigger: false, overlay: 0});
+    });</script>
+    <script type="text/javascript">jQuery(function() {
+        wrapBoxes();
+    });</script>
+
+    <s:div styleClass="box" style="margin-top:25px" rendered="#{not empty replyHome.comments}">
+
+        <h:panelGrid columns="1" width="100%"
+                     cellpadding="0" cellspacing="0" border="0">
+
+            <c:forEach var="c" items="#{replyHome.comments}">
+                <s:div styleClass="replyContainer">
+                    <a id="comment#{c.id}"/>
+
+                    <h:panelGrid columns="2"
+                                 styleClass="replyHeaderGrid"
+                                 columnClasses="replyHeaderInfo, replyHeaderControls"
+                                 cellpadding="0" cellspacing="0" border="0">
+
+                        <s:span>
+                            <s:span styleClass="item">
+                                <h:outputText value="#{c.createdOn}">
+                                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                                </h:outputText>
+                            </s:span>
+
+                            <s:fragment rendered="#{wiki:isRegularUser(c.fromUser)}">
+                                <s:span styleClass="item">
+                                    <s:span styleClass="undecoratedLink">
+                                        <h:outputLink value="#" onclick="jQuery('#userInfoPopup#{c.id}').jqmShow();">
+                                            <h:outputText value="#{c.fromUser.fullname}"/>
+                                        </h:outputLink>
+                                        <s:span rendered="#{c.fromUser.id != guestUser.id}">
+                                            <h:outputText value=",&#160;"/>
+                                            <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUser.email))}">
+                                                <h:outputText value="#{wiki:escapeAtSymbol(c.fromUser.email)}"/>
+                                            </h:outputLink>
+                                        </s:span>
+                                    </s:span>
+                                </s:span>
+
+                                <ui:include src="../forumPosting/userInfoPopup.xhtml">
+                                    <ui:param name="user" value="#{c.fromUser}"/>
+                                    <ui:param name="userInfoPopupId" value="#{c.id}"/>
+                                </ui:include>
+                            </s:fragment>
+
+                            <s:span styleClass="item" rendered="#{not wiki:isRegularUser(c.fromUser)}">
+                                <h:outputText value="#{c.fromUser.fullname}"/>
+                            </s:span>
+
+                            <s:span styleClass="item undecoratedLink">
+                                <h:outputLink value="#{wiki:renderCommentPermLink(currentDocument, c)}" target="_top">
+                                    <h:outputText value="#{messages['lacewiki.label.PermLink']}"/>
+                                </h:outputLink>
+                            </s:span>
+
+                            <s:span styleClass="item undecoratedLink">
+                                <h:outputLink value="#{wiki:renderCommentWikiLink(currentDocument, c)}" target="_top">
+                                    <h:outputText value="#{messages['lacewiki.label.WikiLink']}"/>
+                                </h:outputLink>
+                            </s:span>
+
+                        </s:span>
+
+                        <h:form>
+                        <h:panelGroup>
+
+                            <a:commandLink rendered="#{s:hasPermission('Node', 'create', currentDirectory)
+                                                       and not replyHome.showForm and currentDocument.enableCommentForm}"
+                                           action="#{replyHome.newReplyToComment(c.id, false)}"
+                                           reRender="forumPostingHeaderControls, forumRepliesPluginContainer, messageBoxContainer"
+                                           focus="forumRepliesPlugin:replyForm:replyTextArea"
+                                           tabindex="1" styleClass="buttonNonpersistent">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.Reply.nokey']}"/>
+                            </a:commandLink>
+
+                            <a:commandLink rendered="#{s:hasPermission('Node', 'create', currentDirectory)
+                                                       and not replyHome.showForm and currentDocument.enableCommentForm}"
+                                           action="#{replyHome.newReplyToComment(c.id, true)}"
+                                           reRender="forumPostingHeaderControls, forumRepliesPluginContainer, messageBoxContainer"
+                                           focus="forumRepliesPlugin:replyForm:replyTextArea"
+                                           tabindex="1" styleClass="buttonNonpersistent">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.Quote.nokey']}"/>
+                            </a:commandLink>
+
+                            <a:commandLink rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and not replyHome.showForm}"
+                                           action="#{replyHome.remove(c.id)}"
+                                           reRender="forumRepliesPluginContainer, messageBoxContainer"
+                                           oncomplete="wrapBoxes();"
+                                           styleClass="button">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.RemoveReply']}"/>
+                            </a:commandLink>
+
+                            </h:panelGroup>
+                        </h:form>
+
+                    </h:panelGrid>
+
+                    <s:div styleClass="replyContent">
+
+
+                        <s:div styleClass="replySubject undecoratedLink" rendered="#{currentDocument.name != c.subject}">
+                            <h:outputLink value="#{wiki:renderCommentURL(currentDocument, c)}">
+                                <h:outputText value="#{c.subject}"/>
+                            </h:outputLink>
+                        </s:div>
+
+                        <s:div styleClass="replyText">
+                            <wiki:formattedText value="#{c.text}"
+                                                linkStyleClass="regularLink"
+                                                brokenLinkStyleClass="brokenLink"
+                                                attachmentLinkStyleClass="regularLink"
+                                                thumbnailLinkStyleClass="regularLink"
+                                                renderBaseDocument="#{currentDocument}"
+                                                renderBaseDirectory="#{currentDirectory}"
+                                                enablePlugins="false"/>
+                        </s:div>
+
+                    </s:div>
+
+                </s:div>
+            </c:forEach>
+        </h:panelGrid>
+
+    </s:div>
+
+    <ui:include src="replyForm.xhtml"/>
+
+</s:span>
+
+</wiki:plugin>

@@ -1,0 +1,89 @@
+<s:div id="replyFormContainer"
+       styleClass="replyFormContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory) and replyHome.showForm}">
+
+    <div class="box">
+
+    <h:form id="replyForm">
+
+        <div class="form">
+
+            <div class="formHead">
+                <h:outputText value="New Reply"/>
+            </div>
+
+            <a:region>
+                <s:div styleClass="formFields formBorder">
+
+                    <s:decorate id="subjectDecorate" template="../../includes/formFieldDecorate.xhtml">
+                        <ui:define name="label">Subject</ui:define>
+                        <h:inputText id="replySubject" tabindex="1" size="90" maxlength="255" required="true" value="#{replyHome.comment.subject}">
+                            <a:support event="onblur" reRender="subjectDecorate"/>
+                        </h:inputText>
+                    </s:decorate>
+
+                    <ui:include src="../../includes/wikiTextEditor.xhtml">
+                        <ui:param name="textEditorId" value="reply"/>
+                        <ui:param name="textPreviewId" value="replyPreview"/>
+                        <ui:param name="namingContainer" value="forumRepliesPlugin\\\\:replyForm"/>
+                        <ui:param name="label" value="Message"/>
+                        <ui:param name="valueBinding" value="#{replyHome.comment.text}"/>
+                        <ui:param name="valueMaxLength" value="32768"/>
+                        <ui:param name="valueRequired" value="true"/>
+                        <ui:param name="textEditorColumns" value="88"/>
+                        <ui:param name="textEditorRows" value="20"/>
+                    </ui:include>
+
+                    <s:div styleClass="marginLeft">
+                        <ui:include src="../../includes/wikiTextPreview.xhtml">
+                            <ui:param name="textPreviewId" value="replyPreview"/>
+                            <ui:param name="valueBinding" value="#{replyHome.comment.text}"/>
+                            <ui:param name="enablePlugins" value="false"/>
+                            <ui:param name="baseDocument" value="#{currentDocument}"/>
+                            <ui:param name="baseDirectory" value="#{currentDirectory}"/>
+                        </ui:include>
+                    </s:div>
+
+                </s:div>
+
+                <div class="formControls">
+                    <div class="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+
+                            <a:commandLink id="save" action="#{replyHome.persist}"
+                                           reRender="forumPostingHeaderControls, forumRepliesPluginContainer, messageBoxContainer"
+                                           tabindex="1" accesskey="#{messages['forum.button.Save.accesskey']}"
+                                           styleClass="button saveButton">
+                                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Save']}"/>
+                            </a:commandLink>
+
+                            <a:commandLink action="#{replyHome.cancel}"
+                                           immediate="true"
+                                           reRender="forumPostingHeaderControls, forumRepliesPluginContainer, messageBoxContainer"
+                                           tabindex="1" styleClass="buttonNonpersistent"
+                                           accesskey="#{messages['forum.button.Cancel.accesskey']}">
+                                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Cancel']}"/>
+                            </a:commandLink>
+
+                        </div>
+                    </div>
+                </div>
+
+            </a:region>
+
+        </div>
+    </h:form>
+
+    </div>
+
+</s:fragment>
+</s:div>

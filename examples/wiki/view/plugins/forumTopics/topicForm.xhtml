@@ -1,0 +1,107 @@
+<s:div id="topicFormContainer"
+       styleClass="topicFormContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:s="http://jboss.com/products/seam/taglib"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:wiki="http://jboss.com/products/seam/wiki">
+
+<s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory) and topicHome.showForm}">
+
+    <div class="box">
+
+    <h:form id="topicForm">
+        <div class="form">
+
+            <div class="formHead">
+                <h:outputText value="New Topic"/>
+            </div>
+
+            <a:region>
+                <s:div styleClass="formFields formBorder">
+
+                    <s:decorate id="nameDecorate" template="../../includes/formFieldDecorate.xhtml">
+                        <ui:define name="label">Subject</ui:define>
+                        <h:inputText id="topicName" tabindex="1" size="90" maxlength="255" required="true" value="#{topicHome.instance.name}">
+                            <a:support event="onblur" reRender="nameDecorate"/>
+                        </h:inputText>
+                    </s:decorate>
+
+                    <ui:include src="../../includes/wikiTextEditor.xhtml">
+                        <ui:param name="textEditorId" value="topic"/>
+                        <ui:param name="textPreviewId" value="topicPreview"/>
+                        <ui:param name="namingContainer" value="forumTopicsPlugin\\\\:topicForm"/>
+                        <ui:param name="label" value="Message"/>
+                        <ui:param name="valueBinding" value="#{topicHome.formContent}"/>
+                        <ui:param name="valueMaxLength" value="32768"/>
+                        <ui:param name="valueRequired" value="true"/>
+                        <ui:param name="textEditorColumns" value="88"/>
+                        <ui:param name="textEditorRows" value="20"/>
+                    </ui:include>
+
+                    <s:div styleClass="marginLeft">
+                        <ui:include src="../../includes/wikiTextPreview.xhtml">
+                            <ui:param name="textPreviewId" value="topicPreview"/>
+                            <ui:param name="valueBinding" value="#{topicHome.instance.content}"/>
+                            <ui:param name="enablePlugins" value="false"/>
+                            <ui:param name="baseDocument" value="#{topicHome.instance}"/>
+                            <ui:param name="baseDirectory" value="#{topicHome.parentDirectory}"/>
+                        </ui:include>
+                    </s:div>
+
+                    <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                        <s:div styleClass="entry">
+                            <div class="label">
+                                <h:outputText value="Options:"/>
+                            </div>
+                            <div class="input">
+                                <h:selectBooleanCheckbox value="#{topicHome.instance.sticky}" tabindex="1"/>
+                                <h:outputText value="Sticky posting"/>
+                            </div>
+                        </s:div>
+
+                        <s:div styleClass="entry">
+                            <div class="label">&#160;</div>
+                            <div class="input">
+                                <h:selectBooleanCheckbox value="#{topicHome.instance.enableCommentForm}" tabindex="1"/>
+                                <h:outputText value="Open topic, allow replies"/>
+                            </div>
+                        </s:div>
+                    </s:fragment>
+
+                </s:div>
+
+                <div class="formControls">
+                    <div class="entry">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+
+                            <a:commandLink id="save" action="#{topicHome.persist}"
+                                           reRender="forumTopicsPluginContainer, messageBoxContainer"
+                                           tabindex="1" accesskey="#{messages['forum.button.Save.accesskey']}"
+                                           styleClass="button saveButton">
+                                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Save']}"/>
+                            </a:commandLink>
+
+                            <a:commandLink action="#{topicHome.cancel}"
+                                           reRender="forumTopicsPluginContainer, messageBoxContainer"
+                                           tabindex="1" styleClass="buttonNonpersistent"
+                                           accesskey="#{messages['forum.button.Cancel.accesskey']}">
+                                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Cancel']}"/>
+                            </a:commandLink>
+
+                        </div>
+                    </div>
+                </div>
+
+            </a:region>
+
+        </div>
+    </h:form>
+
+    </div>
+
+</s:fragment>
+</s:div>

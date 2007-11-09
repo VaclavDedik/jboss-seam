@@ -1,0 +1,43 @@
+<s:div id="topicControlsContainer"
+       styleClass="topicControlsContainer"
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+<s:fragment rendered="#{not topicHome.showForm}">
+
+    <s:div styleClass="forumsFeedLink undecoratedLink" rendered="#{not empty currentDirectory.feed}">
+        <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}"
+                      tabindex="1">
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
+            <h:outputText value="#{currentDocument.name}&#160;#{messages['forum.label.Feed']}"/>
+        </h:outputLink>
+    </s:div>
+
+    <h:form>
+    <h:panelGroup>
+
+        <h:outputLink value="#{wiki:renderURL(currentDirectory.parent)}"
+                      accesskey="#{messages['forum.button.ForumList.accesskey']}"
+                      tabindex="1" styleClass="buttonNonpersistent">
+            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
+        </h:outputLink>
+
+        <a:commandLink rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"
+                       action="#{topicHome.newTopic}"
+                       reRender="forumTopicsPluginContainer, messageBoxContainer"
+                       accesskey="#{messages['forum.button.NewTopic.accesskey']}"
+                       tabindex="1" styleClass="buttonNonpersistent">
+            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewTopic']}"/>
+        </a:commandLink>
+
+    </h:panelGroup>
+    </h:form>
+
+</s:fragment>
+
+</s:div>
