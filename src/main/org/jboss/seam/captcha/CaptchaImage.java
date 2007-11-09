@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
@@ -24,7 +23,6 @@ import org.jboss.seam.web.AbstractResource;
  * 
  * @author Shane Bryzak
  */
-@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.captcha.captchaImage")
 @BypassInterceptors

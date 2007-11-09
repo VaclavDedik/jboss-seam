@@ -10,7 +10,6 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
 import com.google.gwt.user.client.rpc.SerializationException;
@@ -21,7 +20,6 @@ import com.google.gwt.user.server.rpc.impl.ServerSerializationStreamWriter;
  * 
  * @author Shane Bryzak
  */
-@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.remoting.gwt.gwtRemoteService")
 @Install(precedence = BUILT_IN, classDependencies = {"com.google.gwt.user.client.rpc.RemoteService"})

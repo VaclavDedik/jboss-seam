@@ -11,8 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.contexts.ApplicationContext;
-import org.jboss.seam.contexts.Context;
+import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.web.AbstractResource;
 
@@ -22,7 +22,7 @@ import org.jboss.seam.web.AbstractResource;
  * @author Shane Bryzak
  */
 public class SeamResourceServlet extends HttpServlet
-{
+{  
    private ServletContext context;
 
    private Map<String, AbstractResource> providers = new HashMap<String, AbstractResource>();
@@ -37,17 +37,23 @@ public class SeamResourceServlet extends HttpServlet
 
    protected void loadResourceProviders()
    {
-      Context tempApplicationContext = new ApplicationContext( new ServletApplicationMap(context) );
-
-      Init init = (Init) tempApplicationContext.get(Init.class);
-      for (String name : init.getResourceProviders())
+      try
       {
-         AbstractResource provider = (AbstractResource) tempApplicationContext.get(name);
-         if (provider != null)
-         {
-            provider.setServletContext(context);
-            providers.put( provider.getResourcePath(), provider );
+         Lifecycle.mockApplication();
+
+         for (String name : Init.instance().getResourceProviders())
+         {         
+            AbstractResource provider = (AbstractResource) Component.getInstance(name, true);
+            if (provider != null)
+            {
+               provider.setServletContext(context);
+               providers.put( provider.getResourcePath(), provider );
+            }
          }
+      }
+      finally
+      {
+         Lifecycle.unmockApplication();
       }
    }
 

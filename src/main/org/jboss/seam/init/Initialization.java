@@ -914,7 +914,12 @@ public class Initialization
 
               if ( componentDescriptor.isResourceProvider() ) 
               {
-                  init.addResourceProvider( componentDescriptor.getName() );
+                 if (!componentDescriptor.getScope().equals(ScopeType.APPLICATION))
+                 {
+                    throw new RuntimeException("Resource providers must be application-scoped components");
+                 }
+                 
+                 init.addResourceProvider( componentDescriptor.getName() );
               }
           }
       }
