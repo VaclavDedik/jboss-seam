@@ -138,8 +138,9 @@
         NAME_AS_TITLE  = "true"
         ENABLE_COMMENT_FORM  = "true"
         ENABLE_COMMENTS  = "true"
+        ENABLE_COMMENTS_ON_FEEDS  = "false"
         CONTENT  = "This is a *start* document."
-        PLUGINS_USED = ""
+        MACROS = ""
     />
 
     <FEED

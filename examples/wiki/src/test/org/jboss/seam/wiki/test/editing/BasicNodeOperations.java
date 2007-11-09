@@ -171,6 +171,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 docHome.getInstance().setName("Testname");
                 docHome.getInstance().setReadAccessLevel(0);
                 docHome.getInstance().setWriteAccessLevel(0);
+                docHome.getInstance().setEnableComments(false);
                 docHome.setFormContent("Testcontent");
 
                 assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 23);
@@ -233,6 +234,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 docHome.getInstance().setName("Testname");
                 docHome.getInstance().setReadAccessLevel(0);
                 docHome.getInstance().setWriteAccessLevel(0);
+                docHome.getInstance().setEnableComments(false);
                 docHome.setFormContent("Testcontent");
 
                 assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 23);

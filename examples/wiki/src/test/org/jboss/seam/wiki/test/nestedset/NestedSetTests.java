@@ -400,7 +400,7 @@ public class NestedSetTests extends DBUnitSeamTest {
                     }
                 };
 
-            NestedSetNodeWrapper<Item> startNodeWrapper = new NestedSetNodeWrapper<Item>(startNode, comp, 0l);
+            NestedSetNodeWrapper<Item> startNodeWrapper = new NestedSetNodeWrapper<Item>(startNode, comp);
             nestedSetQuery.setResultTransformer( new NestedSetResultTransformer<Item>(startNodeWrapper) );
 
             nestedSetQuery.list(); // Append all children hierarchically to the startNodeWrapper
