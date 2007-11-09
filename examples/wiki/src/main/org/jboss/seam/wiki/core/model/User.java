@@ -17,6 +17,7 @@ import java.util.*;
 
 @Entity
 @Table(name = "USERS")
+@org.hibernate.annotations.BatchSize(size = 20)
 public class User implements Serializable {
 
     @Id
@@ -71,6 +72,12 @@ public class User implements Serializable {
 
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
     private Date createdOn = new Date();
+
+    @Column(name = "LAST_LOGIN_ON", nullable = true)
+    private Date lastLoginOn = new Date();
+
+    @Transient
+    private Date previousLastLoginOn = new Date();
 
     @ManyToMany(fetch = FetchType.LAZY) // Lazy so our @OrderBy works
     @JoinTable(
@@ -134,6 +141,12 @@ public class User implements Serializable {
 
     public boolean isActivated() { return activated; }
     public void setActivated(boolean activated) { this.activated = activated; }
+
+    public Date getLastLoginOn() { return lastLoginOn; }
+    public void setLastLoginOn(Date lastLoginOn) { this.lastLoginOn = lastLoginOn; }
+
+    public Date getPreviousLastLoginOn() { return previousLastLoginOn; }
+    public void setPreviousLastLoginOn(Date previousLastLoginOn) { this.previousLastLoginOn = previousLastLoginOn; }
 
     public String getActivationCode() { return activationCode; }
     public void setActivationCode(String activationCode) { this.activationCode = activationCode; }

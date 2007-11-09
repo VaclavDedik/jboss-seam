@@ -20,6 +20,10 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
 import org.jboss.seam.core.Events;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.faces.context.FacesContext;
+
 /**
  * Need this until Drools fixes bugs and becomes usable/debuggable.
  *

@@ -87,7 +87,9 @@
                     </h:inputText>
                 </s:decorate>
 
-                <ui:include src="includes/accessLevelSelector.xhtml"/>
+                <ui:include src="includes/accessLevelSelector.xhtml">
+                    <ui:param name="nodeHome" value="#{fileHome}"/>
+                </ui:include>
 
                 <s:div id="details" rendered="#{fileHome.managed}">
 

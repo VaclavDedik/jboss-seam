@@ -14,7 +14,11 @@
     <h:messages/>
 </div>
 
-    <s:div id="stackTraceHandled" rendered="#{init.debug and not empty org.jboss.seam.handledException}">
+<s:fragment rendered="#{init.debug}">
+    Exception Details:
+    <hr/>
+
+    <s:div id="stackTraceHandled">
         Handled exception:
         <pre style="font-size:75%;">
 
@@ -32,8 +36,8 @@ Root cause exception: #{wiki:unwrap(org.jboss.seam.handledException).class.name}
         <hr/>
     </s:div>
 
-    <s:div id="stackTrace" rendered="#{init.debug and not empty org.jboss.seam.exception}">
-        Unhandled exception:
+    <s:div id="stackTrace">
+        Unhandled or wrapper exception:
         <pre style="font-size:75%;">
 
 Top level exception : #{org.jboss.seam.exception.class.name}: #{org.jboss.seam.exception.message}
@@ -50,7 +54,7 @@ Root cause exception: #{wiki:unwrap(org.jboss.seam.exception).class.name}: #{wik
         <hr/>
     </s:div>
 
-
+</s:fragment>
 
 </body>
 </html>

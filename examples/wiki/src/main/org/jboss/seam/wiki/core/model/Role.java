@@ -33,6 +33,7 @@ public class Role implements Serializable, Comparable {
     private String displayName;
 
     @Column(name = "ACCESS_LEVEL", nullable = false)
+    // TODO: This is of course completely ignored by MySQL, see http://dev.mysql.com/doc/refman/5.1/de/create-table.html
     @org.hibernate.annotations.Check(
         constraints = "ACCESS_LEVEL <= 1000"
     )

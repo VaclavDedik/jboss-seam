@@ -20,6 +20,7 @@ import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.log.Log;
@@ -27,6 +28,8 @@ import org.jboss.seam.contexts.Contexts;
 
 import java.util.List;
 import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import antlr.RecognitionException;
 import antlr.ANTLRException;
@@ -56,10 +59,6 @@ public class DocumentHome extends NodeHome<Document> {
         String result = super.init();
         if (result != null) return result;
 
-        // Preferences
-        minorRevision = (Boolean)((DocumentEditorPreferences)Component
-                .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
-
         // Rollback to historical revision?
         if (selectedHistoricalNode != null) {
             getLog().debug("rolling back to revision: " + selectedHistoricalNode.getRevision());
@@ -68,7 +67,7 @@ public class DocumentHome extends NodeHome<Document> {
 
         // Make a copy
         if (historicalCopy == null) {
-            historicalCopy = new Document(getInstance());
+            historicalCopy = new Document(getInstance(), true);
         }
 
         // Wiki text parser and plugins need this
@@ -83,12 +82,13 @@ public class DocumentHome extends NodeHome<Document> {
     /* -------------------------- Internal State ------------------------------ */
 
     private Document historicalCopy;
-    private boolean minorRevision;
+    private Boolean minorRevision;
     private String formContent;
     private boolean enabledPreview = false;
     private boolean pushOnFeeds = false;
     private boolean pushOnSiteFeed = false;
     private List<Node> historicalNodes;
+    private Long numOfHistoricalNodes;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -109,7 +109,7 @@ public class DocumentHome extends NodeHome<Document> {
         getInstance().setCreatedOn(new Date());
 
         // Make a copy
-        historicalCopy = new Document(getInstance());
+        historicalCopy = new Document(getInstance(), true);
 
         return true;
     }
@@ -118,7 +118,7 @@ public class DocumentHome extends NodeHome<Document> {
         String outcome = super.persist();
 
         // Create feed entries (needs identifiers assigned, so we run after persist())
-        if (outcome != null && getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL && isPushOnFeeds()) {
+        if (outcome != null && isPushOnFeeds()) {
             feedDAO.createFeedEntry(getInstance(), isPushOnSiteFeed());
             getEntityManager().flush();
             pushOnFeeds = false;
@@ -139,9 +139,13 @@ public class DocumentHome extends NodeHome<Document> {
             pushOnFeeds = false;
             pushOnSiteFeed = false;
         }
+
         // Feeds should not be removed by a maintenance thread: If there
         // is no activity on the site, feeds shouldn't be empty but show the last updates.
-        feedDAO.purgeOldFeedEntries();
+        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        Calendar oldestDate = GregorianCalendar.getInstance();
+        oldestDate.roll(Calendar.DAY_OF_YEAR, -wikiPrefs.getPurgeFeedEntriesAfterDays().intValue());
+        feedDAO.purgeOldFeedEntries(oldestDate.getTime());
 
         // Write history log and prepare a new copy for further modification
         if (!isMinorRevision()) {
@@ -150,7 +154,7 @@ public class DocumentHome extends NodeHome<Document> {
             getNodeDAO().persistHistoricalNode(historicalCopy);
             getInstance().incrementRevision();
             // New historical copy in conversation
-            historicalCopy = new Document(getInstance());
+            historicalCopy = new Document(getInstance(), true);
 
             // Reset form
             setMinorRevision(
@@ -165,7 +169,7 @@ public class DocumentHome extends NodeHome<Document> {
     protected boolean prepareRemove() {
 
         // Remove feed entry before removing document
-        feedDAO.removeFeedEntry(getInstance());
+        feedDAO.removeFeedEntries(getInstance());
 
         return super.prepareRemove();
     }
@@ -214,7 +218,7 @@ public class DocumentHome extends NodeHome<Document> {
         getInstance().setContent(
             wikiLinkResolver.convertToWikiProtocol(dir.getAreaNumber(), formContent)
         );
-        getInstance().setPluginsUsed( findPluginsUsed() );
+        getInstance().setMacros( findMacros() );
     }
 
     private void syncInstanceToForm(Directory dir) {
@@ -222,9 +226,9 @@ public class DocumentHome extends NodeHome<Document> {
         formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContent());
     }
 
-    private String findPluginsUsed() {
+    private String findMacros() {
         if (formContent == null) return null;
-        final StringBuilder usedPlugins = new StringBuilder();
+        final StringBuilder usedMacros = new StringBuilder();
         WikiTextParser parser = new WikiTextParser(formContent, false, false);
         parser.setCurrentDocument(getInstance());
         parser.setCurrentDirectory(getParentDirectory());
@@ -241,7 +245,7 @@ public class DocumentHome extends NodeHome<Document> {
                     public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
                     public void setExternalLinks(List<WikiLink> externalLinks) {}
                     public String renderMacro(String macroName) {
-                        usedPlugins.append(macroName).append(" ");
+                        usedMacros.append(macroName).append(" ");
                         return null;
                     }
                 }
@@ -249,13 +253,13 @@ public class DocumentHome extends NodeHome<Document> {
 
         } catch (RecognitionException rex) {
             // Swallow and log and low debug level
-            getLog().debug( "Ignored parse error finding plugins in text: " + FormattedTextValidator.getErrorMessage(formContent, rex) );
+            getLog().debug( "Ignored parse error finding marcos in text: " + FormattedTextValidator.getErrorMessage(formContent, rex) );
         } catch (ANTLRException ex) {
             // All other errors are fatal;
             throw new RuntimeException(ex);
         }
 
-        return usedPlugins.toString();
+        return usedMacros.toString();
     }
 
     /* -------------------------- Public Features ------------------------------ */
@@ -271,7 +275,13 @@ public class DocumentHome extends NodeHome<Document> {
         if (formContent != null) syncFormToInstance(getParentDirectory());
     }
 
-    public boolean isMinorRevision() { return minorRevision; }
+    public boolean isMinorRevision() {
+        // Lazily initalize preferences
+        if (minorRevision == null)
+            minorRevision = (Boolean)((DocumentEditorPreferences)Component
+                    .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
+        return minorRevision;
+    }
     public void setMinorRevision(boolean minorRevision) { this.minorRevision = minorRevision; }
 
     public boolean isEnabledPreview() {
@@ -284,7 +294,7 @@ public class DocumentHome extends NodeHome<Document> {
     }
 
     public boolean isSiteFeedEntryPresent() {
-        return feedDAO.findSiteFeedEntry(getInstance()) != null;
+        return feedDAO.isOnSiteFeed(getInstance());
     }
 
     public boolean isPushOnFeeds() {
@@ -314,8 +324,11 @@ public class DocumentHome extends NodeHome<Document> {
     }
 
     public boolean isHistoricalNodesPresent() {
-        Long numOfNodes = getNodeDAO().findNumberOfHistoricalNodes(getInstance());
-        return numOfNodes != null && numOfNodes > 0;
+        if (numOfHistoricalNodes == null) {
+            getLog().debug("Finding number of historical nodes for: " + getInstance());
+            numOfHistoricalNodes = getNodeDAO().findNumberOfHistoricalNodes(getInstance());
+        }
+        return numOfHistoricalNodes != null && numOfHistoricalNodes > 0;
     }
 
     public List<Node> getHistoricalNodes() {

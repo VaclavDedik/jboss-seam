@@ -19,15 +19,33 @@
     </function>
 
     <function>
+        <function-name>renderCommentURL</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String renderURL(org.jboss.seam.wiki.core.model.Node,org.jboss.seam.wiki.core.model.Comment)</function-signature>
+    </function>
+
+    <function>
         <function-name>renderPermLink</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderPermLink(org.jboss.seam.wiki.core.model.Node)</function-signature>
     </function>
 
     <function>
+        <function-name>renderCommentPermLink</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String renderPermLink(org.jboss.seam.wiki.core.model.Node,org.jboss.seam.wiki.core.model.Comment)</function-signature>
+    </function>
+
+    <function>
         <function-name>renderWikiLink</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderWikiLink(org.jboss.seam.wiki.core.model.Node)</function-signature>
+    </function>
+
+    <function>
+        <function-name>renderCommentWikiLink</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String renderWikiLink(org.jboss.seam.wiki.core.model.Node,org.jboss.seam.wiki.core.model.Comment)</function-signature>
     </function>
 
     <function>
@@ -154,6 +172,12 @@
         <function-name>disableFloats</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String disableFloats(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <function-name>isRegularUser</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean isRegularUser(org.jboss.seam.wiki.core.model.User)</function-signature>
     </function>
 
     <tag>

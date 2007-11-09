@@ -8,6 +8,7 @@ package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
+import org.jboss.seam.wiki.core.search.annotations.SearchableType;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("DOCUMENT")
 @org.hibernate.search.annotations.Indexed
 @Searchable(description = "Documents")
@@ -36,14 +38,17 @@ public class Document extends Node {
     @Searchable(description = "Content")
     private String content;
 
-    @Column(table = "NODE_DOCUMENT", name = "NAME_AS_TITLE")
+    @Column(table = "NODE_DOCUMENT", name = "NAME_AS_TITLE", nullable = false)
     private Boolean nameAsTitle = true;
 
-    @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENTS")
+    @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENTS", nullable = false)
     private Boolean enableComments = false;
 
-    @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENT_FORM")
+    @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENT_FORM", nullable = false)
     private Boolean enableCommentForm = true;
+
+    @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENTS_ON_FEEDS", nullable = false)
+    private Boolean enableCommentsOnFeeds = false;
 
     @OneToMany(mappedBy = "document", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
@@ -51,8 +56,11 @@ public class Document extends Node {
     @org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.EXTRA)
     private List<Comment> comments = new ArrayList<Comment>();
 
-    @Column(table = "NODE_DOCUMENT", name = "PLUGINS_USED", nullable = false)
-    private String pluginsUsed = "";
+    @Column(table = "NODE_DOCUMENT", name = "MACROS", nullable = false)
+    //@org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.UN_TOKENIZED)
+    //@Searchable(description = "Macro", type = SearchableType.PHRASE)
+    @org.hibernate.annotations.Index(name = "IDX_DOCUMENT_MACROS")
+    private String macros = "";
 
     public Document() {
         super("New Document");
@@ -63,9 +71,15 @@ public class Document extends Node {
         super(name);
     }
 
-    public Document(Document original) {
+    public Document(Document original, boolean copyLazyProperties) {
         super(original);
-        this.content = original.content;
+        if (copyLazyProperties) {
+            this.content = original.content;
+        }
+        this.nameAsTitle = original.nameAsTitle;
+        this.enableComments = original.enableComments;
+        this.enableCommentForm = original.enableCommentForm;
+        this.macros = original.macros;
     }
 
     // Mutable properties
@@ -101,16 +115,24 @@ public class Document extends Node {
         this.enableCommentForm = enableCommentForm;
     }
 
+    public Boolean getEnableCommentsOnFeeds() {
+        return enableCommentsOnFeeds;
+    }
+
+    public void setEnableCommentsOnFeeds(Boolean enableCommentsOnFeeds) {
+        this.enableCommentsOnFeeds = enableCommentsOnFeeds;
+    }
+
     public List<Comment> getComments() {
         return comments;
     }
 
-    public String getPluginsUsed() {
-        return pluginsUsed;
+    public String getMacros() {
+        return macros;
     }
 
-    public void setPluginsUsed(String pluginsUsed) {
-        this.pluginsUsed = pluginsUsed;
+    public void setMacros(String macros) {
+        this.macros = macros;
     }
 
     public void addChild(Node child) {
@@ -124,5 +146,9 @@ public class Document extends Node {
     public void rollback(Node revision) {
         super.rollback(revision);
         this.content = ((Document)revision).content;
+    }
+
+    public boolean macroPresent(String macro) {
+        return getMacros().contains(macro);
     }
 }

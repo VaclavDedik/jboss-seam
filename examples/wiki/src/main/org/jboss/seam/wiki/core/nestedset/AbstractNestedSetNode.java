@@ -39,7 +39,7 @@ public abstract class AbstractNestedSetNode<N extends NestedSetNode> implements 
     @Column(name = "NS_RIGHT", nullable = false,  updatable = false)
     private Long nsRight = 0l;
 
-    protected AbstractNestedSetNode() {};
+    protected AbstractNestedSetNode() {}
 
     protected AbstractNestedSetNode(N original) {
         if (original == null) return;

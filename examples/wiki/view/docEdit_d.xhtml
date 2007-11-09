@@ -231,8 +231,9 @@
                                 </div>
                             </s:div>
 
-                            <ui:include src="includes/accessLevelSelector.xhtml"/>
-
+                            <ui:include src="includes/accessLevelSelector.xhtml">
+                                <ui:param name="nodeHome" value="#{documentHome}"/>
+                            </ui:include>
 
                             <s:div styleClass="entry">
                                 <div class="label">
@@ -247,13 +248,25 @@
                             </s:div>
 
                             <s:div id="commentFormSwitch">
+
                                 <s:div styleClass="entry">
                                     <div class="label">&#160;</div>
                                     <div class="input">
-                                        <h:selectBooleanCheckbox disabled="#{not documentHome.instance.enableComments}" value="#{documentHome.instance.enableCommentForm}" tabindex="1"/>
+                                        <h:selectBooleanCheckbox disabled="#{not documentHome.instance.enableComments}"
+                                                                 value="#{documentHome.instance.enableCommentForm}" tabindex="1"/>
                                         <h:outputText value="#{messages['lacewiki.label.docEdit.AllowCommentPosting']}"/>
                                     </div>
                                 </s:div>
+
+                                <s:div styleClass="entry">
+                                    <div class="label">&#160;</div>
+                                    <div class="input">
+                                        <h:selectBooleanCheckbox disabled="#{not documentHome.instance.enableComments}"
+                                                                 value="#{documentHome.instance.enableCommentsOnFeeds}" tabindex="1"/>
+                                        <h:outputText value="#{messages['lacewiki.label.docEdit.PushCommentsOnFeeds']}"/>
+                                    </div>
+                                </s:div>
+
                             </s:div>
 
                             <s:div styleClass="entry">
@@ -355,7 +368,7 @@
             <script type="text/javascript">jQuery(function() {
                 wrapBoxes();
             });</script>
-            <s:fragment rendered="#{documentHome.instance.pluginsUsed.contains('clearBackground')}">
+            <s:fragment rendered="#{documentHome.instance.macroPresent('clearBackground')}">
                 <script type="text/javascript">jQuery(function() {
                     clearDocumentBackground();
                 });</script>

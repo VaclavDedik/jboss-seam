@@ -36,7 +36,7 @@
     <ui:define name="dialogContent"><p align="center">#{messages['lacewiki.label.AreYouSureYouWantToDelete']} <br/>'#{home.instance}'?</p></ui:define>
     <ui:define name="dialogControls">
         <h:form style="display:inline" id="deleteDialog">
-            <a:commandLink id="delete" action="#{home.remove}" styleClass="button" reRender="#{reRender}">
+            <a:commandLink id="delete" action="#{home.remove}" styleClass="button closeDialog" reRender="#{reRender}">
                 <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.OK']}"/>
             </a:commandLink>
         </h:form>

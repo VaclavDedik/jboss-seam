@@ -44,7 +44,7 @@ public class IndexManager {
 
         try {
             progress.setStatus("Purging index");
-            log.debug("deleting indexed documents");
+            log.debug("deleting indexed documents of entity: " + entityClass.getName());
             userTx = (UserTransaction)org.jboss.seam.Component.getInstance("org.jboss.seam.transaction.transaction");
             userTx.begin();
 

@@ -3,8 +3,9 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.framework.EntityNotFoundException;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.Directory;
@@ -20,6 +21,9 @@ import java.io.Serializable;
 @Scope(ScopeType.PAGE)
 public class Help implements Serializable {
 
+    @Logger
+    Log log;
+
     @In
     NodeDAO nodeDAO;
 
@@ -33,6 +37,7 @@ public class Help implements Serializable {
         if (root == null || !root.getWrappedNode().getName().equals(wikiPreferences.getHelpArea()) ) {
             Directory helpAreaRoot = nodeDAO.findArea(WikiUtil.convertToWikiName(wikiPreferences.getHelpArea()));
             if (helpAreaRoot != null) {
+                log.debug("Loading help documents tree");
                 root = nodeDAO.findMenuItems(helpAreaRoot, 99l, 1l, false);
             } else {
                 throw new EntityNotFoundException("Help Area: '" + wikiPreferences.getHelpArea() + "'", Directory.class);

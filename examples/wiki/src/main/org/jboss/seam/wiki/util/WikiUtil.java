@@ -24,7 +24,10 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Date;
+import java.util.regex.Pattern;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -110,28 +113,53 @@ public class WikiUtil {
     }
 
     public static String renderURL(Node node) {
+        return renderURL(node, null);
+    }
+
+    public static String renderURL(Node node, Comment comment) {
         if (isFile(node)) return renderFileLink((File)node);
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         if (wikiPrefs.isRenderPermlinks()) {
-            return renderPermLink(node);
+            return renderPermLink(node, comment);
         } else {
-            return renderWikiLink(node);
+            return renderWikiLink(node, comment);
         }
     }
 
     public static String renderPermLink(Node node) {
+        return renderPermLink(node, null);
+    }
+
+    public static String renderPermLink(Node node, Comment comment) {
         if (node == null || node.getId() == null) return "";
         if (isFile(node)) return renderFileLink((File)node);
         WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
-        return prefs.getBaseUrl() + "/" + node.getId() + prefs.getPermlinkSuffix();
+        StringBuilder url = new StringBuilder();
+        url.append(prefs.getBaseUrl());
+        if (!prefs.getBaseUrl().endsWith("/")) url.append("/");
+        url.append(node.getId());
+        url.append(prefs.getPermlinkSuffix());
+        if (comment != null) url.append("#comment").append(comment.getId());
+        return url.toString();
     }
 
     public  static String renderWikiLink(Node node) {
+        return renderWikiLink(node, null);
+    }
+
+    public  static String renderWikiLink(Node node, Comment comment) {
         if (node == null || node.getId() == null) return "";
         WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
-        if (node.getArea().getWikiname().equals(node.getWikiname()))
-            return prefs.getBaseUrl() + "/" + node.getArea().getWikiname();
-        return prefs.getBaseUrl() + "/" + node.getArea().getWikiname()  + "/" + node.getWikiname();
+        StringBuilder url = new StringBuilder();
+        url.append(prefs.getBaseUrl());
+        if (!prefs.getBaseUrl().endsWith("/")) url.append("/");
+        if (node.getArea().getWikiname().equals(node.getWikiname())) {
+            url.append(node.getArea().getWikiname());
+        } else {
+            url.append(node.getArea().getWikiname()).append("/").append(node.getWikiname());
+        }
+        if (comment != null) url.append("#comment").append(comment.getId());
+        return url.toString();
     }
 
     private static String renderFileLink(File file) {
@@ -205,6 +233,12 @@ public class WikiUtil {
             return sb.toString().replaceAll("\n", "<br/>");
         }
         return sb.toString();
+    }
+
+    public static String removeMacros(String string) {
+        String REGEX_MACRO = Pattern.quote("[") + "<=[a-z]{1}?[a-zA-Z0-9]+?" + Pattern.quote("]");
+        return string.replaceAll(REGEX_MACRO, "");
+
     }
 
     // TODO: This would be the job of a more flexible seam text parser...
@@ -296,12 +330,30 @@ public class WikiUtil {
         return spaces.toString();
     }
 
+    public static String formatDate(Date date) {
+        SimpleDateFormat fmt = new SimpleDateFormat("MMM dd, yyyy hh:mm aaa");
+        return fmt.format(date);
+    }
+
+    public static String attachSignature(String wikiText, String sig) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(wikiText).append("\n\n-- ").append(sig);
+        return builder.toString();
+    }
+
+    public static boolean isRegularUser(User user) {
+        User guestUser = (User)Component.getInstance("guestUser");
+        User adminUser = (User)Component.getInstance("adminUser");
+        if (user.getId().equals(guestUser.getId()) || user.getId().equals(adminUser.getId())) return false;
+        return true;
+    }
+
     /**
      * Used for conditional rendering of JSF messages, again, inflexible EL can't take value bindings with arguments
      * or support simple String concat...
      */
     public static boolean hasMessage(String namingContainer, String componentId) {
-        return FacesContext.getCurrentInstance().getMessages(namingContainer + ":" + componentId).hasNext();
+        return FacesContext.getCurrentInstance().getMessages(namingContainer.replaceAll("\\\\", "") + ":" + componentId).hasNext();
     }
 
 }

@@ -61,8 +61,15 @@ public class File extends Node {
         super(name);
     }
 
-    public File(File original) {
+    public File(File original, boolean copyLazyProperties) {
         super(original);
+        if (copyLazyProperties) {
+            this.data = original.getData();
+        }
+        this.filename = original.getFilename();
+        this.filesize = original.getFilesize();
+        this.contentType = original.getContentType();
+        this.imageMetaInfo = original.getImageMetaInfo();
     }
 
     // Mutable properties
@@ -129,5 +136,4 @@ public class File extends Node {
             return null;
         }
     }
-
 }

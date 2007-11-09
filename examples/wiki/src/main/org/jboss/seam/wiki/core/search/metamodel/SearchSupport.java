@@ -85,22 +85,26 @@ public abstract class SearchSupport {
             String unescapedFragements =
                     highlighter.getBestFragments(tokenStream, indexedText, numOfFragments, getFragmentSeparator());
 
-            String escapedFragments = WikiUtil.escapeHtml(unescapedFragements, false);
+            String escapedFragments = WikiUtil.escapeHtml(WikiUtil.removeMacros(unescapedFragements), false);
 
             // .. and then replace the internal placeholders with real tags after HTML has been escaped
             escapedFragments = escapedFragments.replaceAll(INTERNAL_BEGIN_HIT, getBeginHitTag());
             escapedFragments = escapedFragments.replaceAll(INTERNAL_END_HIT, getEndHitTag());
 
+            // Strip out macros
+
             // If no fragments were produced (no hits), return the original text as an alternative
             if (escapedFragments.length() == 0 && alternativeLength != 0) {
                 return WikiUtil.escapeHtml(
-                    indexedText.substring(
-                        0,
-                        indexedText.length()>alternativeLength ? alternativeLength : indexedText.length()
-                    ), false
-                );
+                        WikiUtil.removeMacros(
+                            indexedText.substring(
+                                0,
+                                indexedText.length()>alternativeLength ? alternativeLength : indexedText.length()
+                            )
+                        ), false
+                       );
             } else if (escapedFragments.length() == 0 && alternativeLength == 0){
-                return WikiUtil.escapeHtml(indexedText, false);
+                return WikiUtil.escapeHtml(WikiUtil.removeMacros(indexedText), false);
             }
 
             return escapedFragments;

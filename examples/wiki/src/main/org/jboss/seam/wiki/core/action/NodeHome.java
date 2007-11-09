@@ -11,9 +11,11 @@ import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.wiki.core.dao.NodeDAO;
 import org.jboss.seam.wiki.core.dao.UserDAO;
+import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Directory;
 import org.jboss.seam.wiki.core.model.Node;
+import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
@@ -25,6 +27,7 @@ import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Superclass for all creating and editing documents, directories, files, etc.
@@ -41,9 +44,13 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     private UserDAO userDAO;
     @In
     private User currentUser;
+    @In
+    List<Role.AccessLevel> accessLevelsList;
+
     protected NodeDAO getNodeDAO() { return nodeDAO; }
     protected UserDAO getUserDAO() { return userDAO; }
     protected User getCurrentUser() { return currentUser; }
+    public List<Role.AccessLevel> getAccessLevelsList() { return accessLevelsList; }
 
     /* -------------------------- Request Wiring ------------------------------ */
 
@@ -82,7 +89,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
         if (!isIdDefined()) {
             getLog().debug("no instance identifier, getting parent directory with id: " + parentDirectoryId);
-            parentDirectory = nodeDAO.findDirectory(parentDirectoryId);
+            parentDirectory = loadParentDirectory(parentDirectoryId);
         } else {
             getLog().debug("using parent of instance: " + getInstance());
             parentDirectory = getInstance().getParent();
@@ -92,10 +99,8 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
         getLog().debug("initalized with parent directory: " + parentDirectory);
 
-        // Outject current node (required for polymorphic UI, e.g. access level dropdown boxes)
-        Contexts.getPageContext().set("currentNode", getInstance());
-
         // Outjects current node or parent directory, e.g. for breadcrumb rendering
+        // TODO: This clashes if several subclasses of NodeHome run on the same page, e.g. DocumentHome + ForumHome
         Contexts.getPageContext().set("currentLocation", !isManaged() ? getParentDirectory() : getInstance());
 
         return null;
@@ -114,7 +119,20 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     public N find() {
         //noinspection unchecked
         N result = (N)nodeDAO.findNode((Long)getId());
-        if (result==null) handleNotFound();
+        if (result==null) {
+            handleNotFound();
+        } else {
+            writeAccessLevel = getAccessLevelsList().get(
+                accessLevelsList.indexOf(
+                    new Role.AccessLevel(result.getWriteAccessLevel())
+                )
+            );
+            readAccessLevel = getAccessLevelsList().get(
+                accessLevelsList.indexOf(
+                    new Role.AccessLevel(result.getReadAccessLevel())
+                )
+            );
+        }
         return result;
     }
 
@@ -127,6 +145,16 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         // Set default permissions for new nodes - default to same access as parent directory
         node.setWriteAccessLevel(parentDirectory.getWriteAccessLevel());
         node.setReadAccessLevel(parentDirectory.getReadAccessLevel());
+        writeAccessLevel = getAccessLevelsList().get(
+            accessLevelsList.indexOf(
+                new Role.AccessLevel(parentDirectory.getWriteAccessLevel())
+            )
+        );
+        readAccessLevel = getAccessLevelsList().get(
+            accessLevelsList.indexOf(
+                new Role.AccessLevel(parentDirectory.getReadAccessLevel())
+            )
+        );
 
         return node;
     }
@@ -260,6 +288,10 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
             throw new AuthorizationException("You don't have permission for this operation");
     }
 
+    protected Directory loadParentDirectory(Long parentDirectoryId) {
+        return nodeDAO.findDirectory(parentDirectoryId);        
+    }
+
     /* -------------------------- Subclass Callbacks ------------------------------ */
 
     /**
@@ -336,6 +368,37 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     public void selectOwner(Long creatorId) {
         User newCreator = userDAO.findUser(creatorId);
         getInstance().setCreatedBy(newCreator);
+    }
+
+    private Role.AccessLevel writeAccessLevel;
+    private Role.AccessLevel readAccessLevel;
+
+    public Role.AccessLevel getWriteAccessLevel() {
+        return writeAccessLevel;
+    }
+
+    public void setWriteAccessLevel(Role.AccessLevel writeAccessLevel) {
+        if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()) ) {
+            throw new AuthorizationException("You don't have permission for this operation");
+        }
+        this.writeAccessLevel = writeAccessLevel;
+        getInstance().setWriteAccessLevel(
+            writeAccessLevel != null ? writeAccessLevel.getAccessLevel() : UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL
+        );
+    }
+
+    public Role.AccessLevel getReadAccessLevel() {
+        return readAccessLevel;
+    }
+
+    public void setReadAccessLevel(Role.AccessLevel readAccessLevel) {
+        if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()) ) {
+            throw new AuthorizationException("You don't have permission for this operation");
+        }
+        this.readAccessLevel = readAccessLevel;
+        getInstance().setReadAccessLevel(
+            readAccessLevel != null ? readAccessLevel.getAccessLevel() : UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL
+        );
     }
 
 }

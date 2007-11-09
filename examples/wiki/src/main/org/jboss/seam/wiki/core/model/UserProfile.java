@@ -13,6 +13,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "USER_PROFILE")
+@org.hibernate.annotations.BatchSize(size = 20)
 public class UserProfile {
 
     @Id

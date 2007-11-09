@@ -46,8 +46,8 @@ public class BlogDAO {
         if (ignoreNode.getId() != null)
             queryString.append("and not n1 = :ignoreNode").append(" ");
 
-        queryString.append("and not n1.pluginsUsed like '%blogDirectory%'").append(" ");
-        queryString.append("and not n1.pluginsUsed like '%feedTeasers%'").append(" ");
+        queryString.append("and not n1.macros like '%blogDirectory%'").append(" ");
+        queryString.append("and not n1.macros like '%feedTeasers%'").append(" ");
 
         if (year != null) queryString.append("and year(n1.createdOn) = :limitYear").append(" ");
         if (month != null) queryString.append("and month(n1.createdOn) = :limitMonth").append(" ");
@@ -112,7 +112,7 @@ public class BlogDAO {
         queryString.append("and n1.nsLeft between n2.nsLeft and n2.nsRight").append(" ");
         queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
         queryString.append("and n2.class = :clazz").append(" ");
-        queryString.append("and not n1.pluginsUsed like '%blogDirectory%'").append(" ");
+        queryString.append("and not n1.macros like '%blogDirectory%'").append(" ");
 
         if (ignoreNode.getId() != null)
             queryString.append("and not n1 = :ignoreNode").append(" ");

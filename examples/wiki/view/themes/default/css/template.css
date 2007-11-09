@@ -76,7 +76,23 @@ q {
 }
 
 blockquote {
-    background: #bbbbbb;
+    background: #eee;
+    border-left: 4px double #aaaaaa;
+    padding: 5px;
+    padding-right: 10px;
+    margin: 10px;
+}
+
+blockquote blockquote {
+    background: #ddd;
+}
+
+blockquote blockquote blockquote {
+    background: #ccc;
+}
+
+blockquote blockquote blockquote blockquote {
+    background: #bbb;
 }
 
 pre {
@@ -85,6 +101,7 @@ pre {
     padding: 5px;
     font-family: Andale Mono, Courier New, monospace;
     font-size: 90%;
+    overflow-x: auto;
 }
 
 hr {
@@ -530,7 +547,7 @@ ul {
     padding-top: 1px;
     padding-right: 2%;
     font-size: 85%;
-    width: 15%;
+    width: 18%;
 	text-align: right;
 }
 
@@ -549,7 +566,7 @@ ul {
 }
 
 .marginLeft {
-    margin-left: 17%;
+    margin-left: 20%;
 }
 
 .wideMarginLeft {
@@ -591,7 +608,7 @@ ul {
 
 
 .textEditResizable {
-    margin-left: 17%;
+    margin-left: 20%;
     margin-bottom:10px;
 }
 
@@ -616,6 +633,7 @@ ul {
     padding-right: 10px;
     width: 90%;
     text-align: justify;
+    background-color: white;
 }
 
 /* Directory Browser
@@ -781,6 +799,10 @@ ul {
     padding-left: 10px;
     padding-right: 10px;
     white-space: nowrap;
+}
+
+.wrapWhitespace {
+    white-space: normal;
 }
 
 .pager {

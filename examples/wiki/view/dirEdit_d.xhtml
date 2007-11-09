@@ -97,7 +97,9 @@
         </s:decorate>
 
         <s:span rendered="#{directoryHome.instance.id != wikiPreferences.memberAreaId}">
-            <ui:include src="includes/accessLevelSelector.xhtml"/>
+            <ui:include src="includes/accessLevelSelector.xhtml">
+                <ui:param name="nodeHome" value="#{directoryHome}"/>
+            </ui:include>
         </s:span>
 
     </s:validateAll>
@@ -190,7 +192,9 @@
             <a:commandLink id="resetFeed" reRender="messageBoxContainer"
                            action="#{directoryHome.resetFeed}"
                            rendered="#{!empty directoryHome.instance.feed}"
-                           styleClass="buttonNonpersistent"><span class="buttonLabel">Reset Feed</span></a:commandLink>
+                           styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.ResetFeed']}"/>
+            </a:commandLink>
         </div>
     </s:div>
 

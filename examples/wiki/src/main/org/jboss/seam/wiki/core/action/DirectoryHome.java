@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.dao.WikiTreeNodeAdapter;
+import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.richfaces.model.TreeNode;
 
@@ -26,6 +27,8 @@ public class DirectoryHome extends NodeHome<Directory> {
 
     /* -------------------------- Context Wiring ------------------------------ */
 
+    @In
+    FeedDAO feedDAO;
 
     /* -------------------------- Request Wiring ------------------------------ */
 
@@ -135,35 +138,28 @@ public class DirectoryHome extends NodeHome<Directory> {
         }
     }
 
-    private void createOrRemoveFeed() {
+    public void createOrRemoveFeed() {
         if (hasFeed && getInstance().getFeed() == null) {
             // Does not have a feed but user wants one, create it
-            Feed feed = new Feed();
-            feed.setDirectory(getInstance());
-            feed.setAuthor(getInstance().getCreatedBy().getFullname());
-            feed.setTitle(getInstance().getName());
-            feed.setDescription(getInstance().getDescription());
-            getInstance().setFeed(feed);
+            feedDAO.createFeed(getInstance());
 
             getFacesMessages().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_INFO,
-                "feedCreated",
+                "lacewiki.msg.Feed.Create",
                 "Created syndication feed for this directory");
 
         } else if (!hasFeed && getInstance().getFeed() != null) {
             // Does have feed but user doesn't want it anymore... delete it
-            getEntityManager().remove(getInstance().getFeed());
-            getInstance().setFeed(null);
+            feedDAO.removeFeed(getInstance());
 
             getFacesMessages().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_INFO,
-                "feedRemoved",
+                "lacewiki.msg.Feed.Remove",
                 "Removed syndication feed of this directory");
+
         } else if (getInstance().getFeed() != null) {
             // Does have a feed and user still wants it, update the feed
-            getInstance().getFeed().setTitle(getInstance().getName());
-            getInstance().getFeed().setAuthor(getInstance().getCreatedBy().getFullname());
-            getInstance().getFeed().setDescription(getInstance().getDescription());
+            feedDAO.updateFeed(getInstance());
         }
     }
 
@@ -212,7 +208,7 @@ public class DirectoryHome extends NodeHome<Directory> {
             getInstance().getFeed().setPublishedDate(new Date());
             getFacesMessages().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_INFO,
-                "feedReset",
+                "lacewiki.msg.Feed.Reset",
                 "Queued removal of all feed entries from the syndication feed of this directory, please update to finalize");
         }
     }

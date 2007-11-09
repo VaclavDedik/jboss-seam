@@ -319,7 +319,8 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
             "areaNumber", "createdBy", "createdOn", "lastModifiedBy", "lastModifiedOn", "menuItem", "name", "displayPosition", 
             "readAccessLevel", "revision", "wikiname", "writeAccessLevel", "tags",
             "contentType", "filename", "filesize", "imageMetaInfo.sizeX", "imageMetaInfo.sizeY", "imageMetaInfo.thumbnail", "imageMetaInfo.thumbnailData",
-            "defaultDocument", "description", "enableComments", "enableCommentForm", "nameAsTitle", "pluginsUsed"
+            "defaultDocument", "description",
+            "enableComments", "enableCommentForm", "enableCommentsOnFeeds", "nameAsTitle", "macros"
         };
     }
 
@@ -382,5 +383,8 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
         }
         return tags;
     }
-    
+
+    public boolean isInstance(Class clazz) {
+        return clazz.isAssignableFrom(this.getClass());
+    }
 }

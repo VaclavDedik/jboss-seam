@@ -9,6 +9,13 @@ import org.jboss.seam.Component;
 
 import java.util.*;
 
+/**
+ * Adapts the node hierarchy of the wiki to the richfaces tree model.
+ * <p>
+ * TODO: Incomplete and not in use at the moment!
+ *
+ * @author Christian Bauer
+ */
 public class WikiTreeNodeAdapter extends NestedSetNodeWrapper<Node>
         implements org.richfaces.model.TreeNode {
 
@@ -35,15 +42,12 @@ public class WikiTreeNodeAdapter extends NestedSetNodeWrapper<Node>
     public boolean isLeaf() {
         //return !WikiUtil.isDirectory(this.getWrappedNode());
         if (!childrenLoaded && getWrappedNode().getTotalChildCount() != 0) {
-            System.out.println("###### LOADING CHILDREN OF: " + this);
             loadChildren();
             childrenLoaded = true;
         }
         if (childrenLoaded) {
-            System.out.println("###### CHILDREN ARE LOADED OF: " + this);
             return getWrappedChildren().size() == 0;
         }
-        System.out.println("###### HUH?: " + this);
         return true;
     }
 

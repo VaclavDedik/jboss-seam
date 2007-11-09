@@ -152,6 +152,15 @@
 
     <database-object>
         <create>
+            alter table COMMENTS drop constraint FK_COMMENT_FROM_USER_ID;
+            alter table COMMENTS add constraint FK_COMMENT_FROM_USER_ID foreign key (FROM_USER_ID) references USERS on delete cascade;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
             create index IDX_COMPONENT_NAME on PREFERENCE (COMPONENT_NAME);
         </create>
         <drop>
@@ -390,6 +399,21 @@
     <database-object>
         <create>
             alter table USERS add constraint FK_USER_USER_PROFILE_ID foreign key (USER_PROFILE_ID) references USER_PROFILE (USER_PROFILE_ID) on delete cascade;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table COMMENTS drop foreign key FK_COMMENT_FROM_USER_ID;
+        </create>
+        <drop></drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table COMMENTS add constraint FK_COMMENT_FROM_USER_ID foreign key (FROM_USER_ID) references USERS (USER_ID) on delete cascade;
         </create>
         <drop></drop>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>

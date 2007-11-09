@@ -28,7 +28,7 @@
                 <a id="comment#{c.id}"/>
 
                 <div class="commentSubject undecoratedLink">
-                    <h:outputLink value="#{wiki:renderURL(currentDocument)}#comment#{c.id}">
+                    <h:outputLink value="#{wiki:renderCommentURL(currentDocument, c)}">
                         <h:outputText value="#{c.subject}" rendered="#{documentHome.instance.name != c.subject}"/>
                     </h:outputLink>
                 </div>
@@ -43,7 +43,7 @@
                     <s:span>&#160;(
                         <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>
                         <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserHomepage}"><a
-                                href="http://#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
+                                href="#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
                         <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">,&#160;
                             <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">#{wiki:escapeAtSymbol(c.fromUserEmail)}</h:outputLink>
                         </s:span>)

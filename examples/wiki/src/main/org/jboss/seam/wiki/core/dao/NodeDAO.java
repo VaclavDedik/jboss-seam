@@ -306,11 +306,11 @@ public class NodeDAO {
                 public Node duplicate(Node nestedSetNode) {
                     Node copy = null;
                     if (nestedSetNode instanceof Document) {
-                        copy = new Document((Document)nestedSetNode);
+                        copy = new Document((Document)nestedSetNode, false); // Do not copy the content!
                     } else if (nestedSetNode instanceof Directory) {
                         copy = new Directory((Directory)nestedSetNode);
                     } else if (nestedSetNode instanceof File) {
-                        copy = new File((File)nestedSetNode);
+                        copy = new File((File)nestedSetNode, false);
                     }
                     if (copy != null) {
                         copy.setId(nestedSetNode.getId());

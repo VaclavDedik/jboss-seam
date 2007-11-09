@@ -27,6 +27,8 @@ import java.io.Serializable;
         properties = {"subject", "text"}
     )
 )
+// TODO: We should have a CHECK constraint here that fails if (FROM_USER_ID is null and FROM_USER_NAME is null)
+// However, MySQL doesn't support constraints properly...
 public class Comment implements Serializable {
 
     @Id
@@ -49,7 +51,12 @@ public class Comment implements Serializable {
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     private String subject;
 
-    @Column(name = "FROM_USER_NAME", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "FROM_USER_ID", nullable = true)
+    @org.hibernate.annotations.ForeignKey(name = "FK_COMMENT_FROM_USER_ID")
+    private User fromUser;
+
+    @Column(name = "FROM_USER_NAME", nullable = true)
     @Length(min = 3, max = 100)
     private String fromUserName;
 
@@ -63,7 +70,7 @@ public class Comment implements Serializable {
     private String fromUserHomepage;
 
     @Column(name = "COMMENT_TEXT", nullable = false)
-    @Length(min = 1, max = 8192)
+    @Length(min = 1, max = 32768)
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     private String text;
 
@@ -110,6 +117,14 @@ public class Comment implements Serializable {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public User getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(User fromUser) {
+        this.fromUser = fromUser;
     }
 
     public String getFromUserName() {

@@ -175,7 +175,10 @@
 
         <instrument verbose="false">
             <fileset dir="${classes.dir}/org/jboss/seam/wiki/core/model">
-                <include name="*.class"/>
+                <include name="**/*.class"/>
+            </fileset>
+            <fileset dir="${classes.dir}/org/jboss/seam/wiki/plugin/forum">
+                <include name="ForumTopic.class"/>
             </fileset>
         </instrument>
 
