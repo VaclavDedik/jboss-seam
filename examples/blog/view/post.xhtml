@@ -9,61 +9,36 @@
 
 <ui:define name="content">
    <div class="blogEntry">
-      <h:form>
+      <h:form id="newBlogEntry">
       
          <h:messages globalOnly="true" styleClass="errors"/>
          
-         <f:facet name="afterInvalidField">
-            <s:span>
-               &#160;Error:&#160;
-               <s:message/>
-            </s:span>
-         </f:facet>
-         <f:facet name="aroundInvalidField">
-            <s:span styleClass="errors"/>
-         </f:facet>
-         
-         <s:validateAll>
-            <div>
-               <h:outputLabel for="id">Id: </h:outputLabel>
-            </div>
-            <div class="hilite">
-               <s:decorate>
-                  <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true" id="id"/>
-               </s:decorate>
-            </div>
-            <div>
-               <h:outputLabel for="title">Title: </h:outputLabel>
-            </div>
-            <div class="hilite">
-               <s:decorate>
-                  <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true" id="title">
-                  	 <s:validateFormattedText />
-                  </h:inputText>
-               </s:decorate>
-            </div>
-            <div>
-               <h:outputLabel for="excerpt">Excerpt (optional): </h:outputLabel>
-            </div>
-            <div class="hilite">
-               <s:decorate>
-                  <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3" id="excerpt">
-               	     <s:validateFormattedText />
-                  </h:inputTextarea>
-               </s:decorate>
-            </div>
-            <div>
-               <h:outputLabel for="body">Body text: </h:outputLabel>
-            </div>
-            <div class="hilite">
-               <s:decorate>
-                  <h:inputTextarea value="#{blogEntry.body}" cols="68" rows="20" required="true" id="body"/>
-               </s:decorate>
-            </div>
-         </s:validateAll>
+         <s:decorate template="edit.xhtml" id="id">
+            <ui:define name="label">Id</ui:define>
+            <h:inputText value="#{blogEntry.id}" size="20" maxlength="20" required="true" id="idInput"/>
+         </s:decorate>
+      
+         <s:decorate template="edit.xhtml" id="title">
+            <ui:define name="label">Title</ui:define>
+            <h:inputText value="#{blogEntry.title}" size="70" maxlength="70" required="true" id="titleInput">
+            	 <s:validateFormattedText />
+            </h:inputText>
+         </s:decorate>
+      
+         <s:decorate template="edit.xhtml" id="excerpt">
+            <ui:define name="label">Excerpt (optional)</ui:define>
+            <h:inputTextarea value="#{blogEntry.excerpt}" cols="68" rows="3" id="excerptInput">
+         	     <s:validateFormattedText />
+            </h:inputTextarea>
+         </s:decorate>
+      
+         <s:decorate template="edit.xhtml" id="body">
+            <ui:define name="label">Body text</ui:define>
+            <h:inputTextarea value="#{blogEntry.body}" cols="68" rows="20" required="true" id="bodyInput"/>
+         </s:decorate>
          
          <div>
-            <h:commandButton value="Post"/>
+            <h:commandButton value="Post" id="post"/>
          </div>
 
       </h:form>
