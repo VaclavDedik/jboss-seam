@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.ui.graphicImage.GraphicImageStore.ImageWrapper;
@@ -22,7 +21,6 @@ import org.jboss.seam.web.AbstractResource;
 /**
  * Serves images from the image store
  */
-@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.ui.graphicImage.graphicImageResource")
 @Install(precedence = BUILT_IN)
