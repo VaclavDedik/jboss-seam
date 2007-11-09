@@ -20,7 +20,7 @@
 
     <!-- ##### WIKI USER CONFIGURATION ##### -->
 
-    <mail:mail-session host="mail.bluewin.ch" port="25"/>
+    <mail:mail-session host="localhost" port="25"/>
 
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
     <web:redirect-filter disabled="true"/> <!-- Messes up into-conversation-redirect and is not needed -->
@@ -52,12 +52,22 @@
                                         name="wikiEntityManagerFactory"
                                         persistence-unit-name="wiki"/>
 
+    <component name="restrictedEntityManager" auto-create="true" scope="CONVERSATION"
+               class="org.jboss.seam.wiki.core.dao.WikiManagedPersistenceContext">
+        <property name="entityManagerFactory">#{wikiEntityManagerFactory}</property>
+        <property name="persistenceUnitJndiName">java:/entityManagerFactories/wiki</property>
+        <property name="filters">
+            <value>#{accessLevelFilter}</value>
+        </property>
+    </component>
+<!--
     <persistence:managed-persistence-context name="restrictedEntityManager"
                                       auto-create="true"
                                       entity-manager-factory="#{wikiEntityManagerFactory}"
                                       persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
         <persistence:filters><value>#{accessLevelFilter}</value></persistence:filters>
     </persistence:managed-persistence-context>
+    -->
 
     <persistence:managed-persistence-context name="entityManager"
                                       auto-create="true"
