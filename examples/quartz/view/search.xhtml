@@ -164,19 +164,6 @@
                                  action="#{paymentHome.saveAndSchedule}" />
                 </p>
                 
-                <p>Nth business day:
-                Run on the <h:inputText id="paymentNth" value="#{newPayment.paymentNthBusinessDay.n}"/>th business day (excludes weekends and US federal holidays) at <h:inputText id="paymentNthFireTime" value="#{newPayment.paymentNthBusinessDay.fireAtTime}"/><br/>
-                <h:selectOneRadio id="radioList2" 
-                                  layout="lineDirection"
-                                  value="#{newPayment.paymentNthBusinessDay.interval}">
-                  <s:convertEnum />
-                  <s:enumItem enumValue="WEEKLY"       label="Every Week" />
-                  <s:enumItem enumValue="MONTHLY"       label="Every Month" />
-                  <s:enumItem enumValue="YEARLY"       label="Every Year" />
-                </h:selectOneRadio><br/>
-                <h:commandButton value="Schedule at Nth Business Day" 
-                                 action="#{paymentHome.saveAndScheduleNthBusinessDay}" />
-                </p>
             </h:form>
         </f:subview>
 

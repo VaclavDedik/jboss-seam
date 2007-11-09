@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.jboss.seam.async.QuartzTriggerHandle;
-import org.jboss.seam.async.NthBusinessDay;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.jboss.seam.async.QuartzTriggerHandle;
 
 @Entity
 public class Payment
@@ -48,9 +47,6 @@ public class Payment
     @Lob
     private QuartzTriggerHandle quartzTriggerHandle;
     
-    @Lob
-    private NthBusinessDay paymentNthBusinessDay = new NthBusinessDay ();
-
     public Long getId() {
         return id;
     }
@@ -136,14 +132,6 @@ public class Payment
     public void setQuartzTriggerHandle(QuartzTriggerHandle quartzTriggerHandle) {
         this.quartzTriggerHandle = quartzTriggerHandle;
     }
-    
-    public NthBusinessDay getPaymentNthBusinessDay() {
-        return paymentNthBusinessDay;
-    }
-    public void setPaymentNthBusinessDay(NthBusinessDay nthBusinessDay) {
-        this.paymentNthBusinessDay = nthBusinessDay;
-    }
-
 
     public enum Frequency {
         ONCE(null),
