@@ -9,7 +9,6 @@ import org.jboss.seam.annotations.async.Expiration;
 import org.jboss.seam.annotations.async.FinalExpiration;
 import org.jboss.seam.annotations.async.IntervalCron;
 import org.jboss.seam.annotations.async.IntervalDuration;
-import org.jboss.seam.annotations.async.IntervalBusinessDay;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.transaction.Transaction;
@@ -52,7 +51,6 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
 
       Long intervalDuration = null;
       String cron = null;
-      NthBusinessDay intervalBusinessDay = null;
       
       int intervalParamCount = 0;
 
@@ -84,11 +82,6 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
                cron = (String) invocation.getParameters()[i];
                intervalParamCount++;
             }
-            else if ( annotation.annotationType().equals(IntervalBusinessDay.class) )
-            {
-               intervalBusinessDay = (NthBusinessDay) invocation.getParameters()[i];
-               intervalParamCount++;
-            }
          }
       }
       
@@ -100,10 +93,6 @@ public abstract class AbstractDispatcher<T, S> implements Dispatcher<T, S>
       {
         return new CronSchedule(duration, expiration, cron, finalExpiration);
       } 
-      else if (intervalBusinessDay != null)
-      {
-        return new NthBusinessDaySchedule(duration, expiration, intervalBusinessDay, finalExpiration);
-      }
       else 
       {
         return new TimerSchedule(duration, expiration, intervalDuration, finalExpiration);

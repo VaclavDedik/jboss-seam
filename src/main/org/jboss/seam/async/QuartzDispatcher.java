@@ -4,6 +4,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
 import java.rmi.server.UID;
+import java.text.ParseException;
 import java.util.Date;
 
 import org.jboss.seam.Component;
@@ -24,7 +25,6 @@ import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.NthIncludedDayTrigger;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SimpleTrigger;
@@ -49,31 +49,25 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    private Scheduler scheduler;
 
    @Create
-   public void initScheduler() 
+   public void initScheduler() throws SchedulerException
    {
-     StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
+       StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
-     try 
-     {
+       //TODO: magical properties files are *not* the way to config Seam apps!
        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("seam.quartz.properties");
-       if (is != null) {
+       if (is != null)
+       {
          schedulerFactory.initialize(is);
          log.debug("Found seam.quartz.properties file. Using it for Quartz config.");
-       // } else if () {
-       //  log.trace("Delpoy in JBoss AS, use HSQL for default job store");
-       } else {
+       } 
+       else 
+       {
          schedulerFactory.initialize();
          log.debug("No seam.quartz.properties file. Using in-memory job store.");
        }
-
+    
        scheduler = schedulerFactory.getScheduler();
        scheduler.start();
-       log.info("The Quartz Dispatcher has started");
-     } 
-     catch (SchedulerException se) {
-       log.error("Cannot get or start a Quartz Scheduler");
-       se.printStackTrace ();
-     }
    }
 
    public QuartzTriggerHandle scheduleAsynchronousEvent(String type, Object... parameters)
@@ -84,66 +78,54 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       JobDetail jobDetail = new JobDetail(jobName, null, QuartzJob.class);
       jobDetail.getJobDataMap().put("async", new AsynchronousEvent(type, parameters));
        
-      SimpleTrigger trigger = new SimpleTrigger(triggerName, null);
-      
-      log.trace("In the scheduleAsynchronousEvent()");
-
+      SimpleTrigger trigger = new SimpleTrigger(triggerName, null);      
       try 
       {
         scheduler.scheduleJob(jobDetail, trigger);
         return new QuartzTriggerHandle(triggerName);
       } 
-      catch (SchedulerException se) 
+      catch (Exception se) 
       {
-        log.error("Cannot Schedule a Quartz Job");
-        se.printStackTrace ();
-        return null;
+        log.error("Cannot Schedule a Quartz Job", se);
+        throw new RuntimeException(se);
       }
    }
     
    public QuartzTriggerHandle scheduleTimedEvent(String type, Schedule schedule, Object... parameters)
    {
-      log.trace("In the scheduleTimedEvent()");
-      try 
-      {
-        return scheduleWithQuartzService( schedule, new AsynchronousEvent(type, parameters) );
-      } 
-      catch (SchedulerException se) 
-      {
-        log.error("Cannot Schedule a Quartz Job");
-        se.printStackTrace ();
-        return null;
-      }
+      return scheduleWithQuartzServiceAndWrapExceptions( schedule, new AsynchronousEvent(type, parameters) );
    }
    
    public QuartzTriggerHandle scheduleInvocation(InvocationContext invocation, Component component)
    {
-      log.trace("In the scheduleInvocation()");
-      try 
-      {
-        return scheduleWithQuartzService( 
-               createSchedule(invocation), 
-               new AsynchronousInvocation(invocation, component)
-            );
-      } 
-      catch (SchedulerException se) {
-        log.error("Cannot Schedule a Quartz Job");
-        se.printStackTrace ();
-        return null;
-      }
+      return scheduleWithQuartzServiceAndWrapExceptions( createSchedule(invocation), new AsynchronousInvocation(invocation, component) );
    }
       
    private static Date calculateDelayedDate (long delay)
    {
-     Date now = new Date ();
-     now.setTime(now.getTime() + delay);
-     return now;
+      Date now = new Date ();
+      now.setTime(now.getTime() + delay);
+      return now;
+   }
+   
+   private QuartzTriggerHandle scheduleWithQuartzServiceAndWrapExceptions(Schedule schedule, Asynchronous async)
+   {
+       try
+       {
+           return scheduleWithQuartzService(schedule, async);
+       }
+       catch (ParseException pe)
+       {
+           throw new RuntimeException(pe);
+       }
+       catch (SchedulerException se)
+       {
+           throw new RuntimeException(se);
+       }
    }
 
-   private QuartzTriggerHandle scheduleWithQuartzService(Schedule schedule, Asynchronous async) throws SchedulerException
+   private QuartzTriggerHandle scheduleWithQuartzService(Schedule schedule, Asynchronous async) throws SchedulerException, ParseException
    {
-      log.trace("In the scheduleWithQuartzService()");
-      
       String jobName = nextUniqueName();
       String triggerName = nextUniqueName();
       
@@ -152,13 +134,11 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
 
       if (schedule instanceof CronSchedule) 
       {
-        CronSchedule cronSchedule = (CronSchedule) schedule; 
-        try 
-        {
+          CronSchedule cronSchedule = (CronSchedule) schedule; 
           CronTrigger trigger = new CronTrigger (triggerName, null);
           trigger.setCronExpression(cronSchedule.getCron());
           trigger.setEndTime(cronSchedule.getFinalExpiration());
-
+        
           if ( cronSchedule.getExpiration()!=null )
           {
             trigger.setStartTime (cronSchedule.getExpiration());
@@ -167,108 +147,72 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
           {
             trigger.setStartTime (calculateDelayedDate(cronSchedule.getDuration()));
           }
-
+        
           scheduler.scheduleJob( jobDetail, trigger );
-
-        } 
-        catch (Exception e) 
-        {
-          log.error ("Cannot submit cron job");
-          e.printStackTrace ();
-          return null;
-        }
-      } 
-      else if (schedule instanceof NthBusinessDaySchedule) 
+      }
+      else if (schedule instanceof TimerSchedule)
       {
-        NthBusinessDaySchedule nthBusinessDaySchedule = (NthBusinessDaySchedule) schedule; 
-        try 
-        {
-          String calendarName = nextUniqueName();
-          scheduler.addCalendar(calendarName, nthBusinessDaySchedule.getNthBusinessDay().getHolidayCalendar(), false, false);
-          
-          NthIncludedDayTrigger trigger = new NthIncludedDayTrigger (triggerName, null);
-          trigger.setN(nthBusinessDaySchedule.getNthBusinessDay().getN());
-          trigger.setFireAtTime(nthBusinessDaySchedule.getNthBusinessDay().getFireAtTime());
-          trigger.setEndTime(nthBusinessDaySchedule.getFinalExpiration());
-          trigger.setCalendarName(calendarName);
-
-
-          switch(nthBusinessDaySchedule.getNthBusinessDay().getInterval()) {
-            case WEEKLY:   
-              trigger.setIntervalType(NthIncludedDayTrigger.INTERVAL_TYPE_WEEKLY); 
-              break;
-            case MONTHLY:
-              trigger.setIntervalType(NthIncludedDayTrigger.INTERVAL_TYPE_MONTHLY); 
-              break;
-            case YEARLY:
-              trigger.setIntervalType(NthIncludedDayTrigger.INTERVAL_TYPE_YEARLY); 
-              break;
-          }
-
-          if ( nthBusinessDaySchedule.getExpiration()!=null )
+          TimerSchedule timerSchedule = (TimerSchedule) schedule;
+          if (timerSchedule.getIntervalDuration() != null) 
           {
-            trigger.setStartTime (nthBusinessDaySchedule.getExpiration());
-          }
-          else if ( nthBusinessDaySchedule.getDuration()!=null )
+             if ( timerSchedule.getExpiration()!=null )
+             {
+                SimpleTrigger trigger = new SimpleTrigger(triggerName, null, 
+                        timerSchedule.getExpiration(), 
+                        timerSchedule.getFinalExpiration(), 
+                        SimpleTrigger.REPEAT_INDEFINITELY, 
+                        timerSchedule.getIntervalDuration());
+                scheduler.scheduleJob( jobDetail, trigger );
+    
+             }
+             else if ( timerSchedule.getDuration()!=null )
+             {
+                 SimpleTrigger trigger = new SimpleTrigger(triggerName, null, 
+                         calculateDelayedDate(timerSchedule.getDuration()), 
+                         timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, 
+                         timerSchedule.getIntervalDuration());
+                 scheduler.scheduleJob( jobDetail, trigger );
+    
+             }
+             else
+             {
+                SimpleTrigger trigger = new SimpleTrigger(triggerName, null, null, 
+                        timerSchedule.getFinalExpiration(), 
+                        SimpleTrigger.REPEAT_INDEFINITELY, 
+                        timerSchedule.getIntervalDuration());
+                scheduler.scheduleJob( jobDetail, trigger );
+    
+             }
+          } 
+          else 
           {
-            trigger.setStartTime (calculateDelayedDate(nthBusinessDaySchedule.getDuration()));
+            if ( schedule.getExpiration()!=null )
+            {
+                SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration());
+                scheduler.scheduleJob(jobDetail, trigger);
+    
+            }
+            else if ( schedule.getDuration()!=null )
+            {
+                SimpleTrigger trigger = new SimpleTrigger (triggerName, null, 
+                        calculateDelayedDate(schedule.getDuration()));
+                scheduler.scheduleJob(jobDetail, trigger);
+    
+            }
+            else
+            {
+               SimpleTrigger trigger = new SimpleTrigger(triggerName, null);
+               scheduler.scheduleJob(jobDetail, trigger);
+    
+            }
           }
-
-          scheduler.scheduleJob( jobDetail, trigger );
-
-        } 
-        catch (Exception e) 
-        {
-          log.error ("Cannot submit nth business day job");
-          e.printStackTrace ();
-          return null;
-        }
-      } 
-      else if (schedule instanceof TimerSchedule && ((TimerSchedule) schedule).getIntervalDuration() != null) 
+      }
+      else
       {
-         TimerSchedule timerSchedule = (TimerSchedule) schedule;
-         if ( timerSchedule.getExpiration()!=null )
-         {
-            SimpleTrigger trigger = new SimpleTrigger(triggerName, null, timerSchedule.getExpiration(), timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
-            scheduler.scheduleJob( jobDetail, trigger );
-
-         }
-         else if ( timerSchedule.getDuration()!=null )
-         {
-             SimpleTrigger trigger = new SimpleTrigger(triggerName, null, calculateDelayedDate(timerSchedule.getDuration()), timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
-             scheduler.scheduleJob( jobDetail, trigger );
-
-         }
-         else
-         {
-            SimpleTrigger trigger = new SimpleTrigger(triggerName, null, null, timerSchedule.getFinalExpiration(), SimpleTrigger.REPEAT_INDEFINITELY, timerSchedule.getIntervalDuration());
-            scheduler.scheduleJob( jobDetail, trigger );
-
-         }
-      } 
-      else 
-      {
-        if ( schedule.getExpiration()!=null )
-        {
-            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, schedule.getExpiration());
-            scheduler.scheduleJob(jobDetail, trigger);
-
-        }
-        else if ( schedule.getDuration()!=null )
-        {
-            SimpleTrigger trigger = new SimpleTrigger (triggerName, null, calculateDelayedDate(schedule.getDuration()));
-            scheduler.scheduleJob(jobDetail, trigger);
-
-        }
-        else
-        {
-           SimpleTrigger trigger = new SimpleTrigger(triggerName, null);
-           scheduler.scheduleJob(jobDetail, trigger);
-
-        }
+          throw new IllegalArgumentException("unrecognized schedule type");
       }
 
-      return new QuartzTriggerHandle (triggerName);
+      return new QuartzTriggerHandle(triggerName);
    }
    
    private String nextUniqueName ()
@@ -277,16 +221,9 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    }
    
    @Destroy
-   public void destroy()
+   public void destroy() throws SchedulerException
    {
-      log.trace("The QuartzDispatcher is shut down");
-      try {
-        scheduler.shutdown();
-      } catch (SchedulerException se) {
-        log.error("Cannot shutdown the Quartz Scheduler");
-        se.printStackTrace ();
-      }
-      
+      scheduler.shutdown();
    }
    
    public static class QuartzJob implements Job
@@ -298,11 +235,9 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       public void execute(JobExecutionContext context)
           throws JobExecutionException
       {
-         log.trace("Start executing Quartz job" );
          JobDataMap dataMap = context.getJobDetail().getJobDataMap();
          async = (Asynchronous)dataMap.get("async");
          async.execute(null);
-         log.trace("End executing Quartz job" );
       }
    }
 

@@ -61,24 +61,36 @@ public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedu
       {
          if ( schedule.getExpiration()!=null )
          {
-            return executor.scheduleAtFixedRate( runnable, toDuration( schedule.getExpiration() ), schedule.getIntervalDuration(), TimeUnit.MILLISECONDS );
+            return executor.scheduleAtFixedRate( runnable, 
+                    toDuration( schedule.getExpiration() ), 
+                    schedule.getIntervalDuration(), 
+                    TimeUnit.MILLISECONDS );
          }
          else if ( schedule.getDuration()!=null )
          {
-             return executor.scheduleAtFixedRate( runnable, schedule.getDuration(), schedule.getIntervalDuration(), TimeUnit.MILLISECONDS );
+             return executor.scheduleAtFixedRate( runnable, 
+                     schedule.getDuration(), 
+                     schedule.getIntervalDuration(), 
+                     TimeUnit.MILLISECONDS );
          }
          else
          {
-            return executor.scheduleAtFixedRate( runnable, 0l, schedule.getIntervalDuration(), TimeUnit.MILLISECONDS );
+            return executor.scheduleAtFixedRate( runnable, 0l, 
+                    schedule.getIntervalDuration(), 
+                    TimeUnit.MILLISECONDS );
          }
       }
       else if ( schedule.getExpiration()!=null )
       {
-          return executor.schedule( runnable, toDuration( schedule.getExpiration() ), TimeUnit.MILLISECONDS );
+          return executor.schedule( runnable, 
+                  toDuration( schedule.getExpiration() ), 
+                  TimeUnit.MILLISECONDS );
       }
       else if ( schedule.getDuration()!=null )
       {
-          return executor.schedule( runnable, schedule.getDuration(), TimeUnit.MILLISECONDS );
+          return executor.schedule( runnable, 
+                  schedule.getDuration(), 
+                  TimeUnit.MILLISECONDS );
       }
       else
       {
