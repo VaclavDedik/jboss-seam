@@ -13,7 +13,15 @@ import java.util.Date;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "FEEDENTRY")
+@Table(
+    name = "FEEDENTRY",
+    uniqueConstraints = {
+        // An entry can either be for a document (DOCUMENT_ID 123, COMMENT_IDENTIFIER null)
+        // or a comment (DOCUMENT_ID 123, COMMENT_IDENTIFIER 456). Duplicate comment identifiers
+        // for the same document are not allowed.
+        @UniqueConstraint(columnNames = {"DOCUMENT_ID", "COMMENT_IDENTIFIER"})
+    }
+)
 public class FeedEntry implements Serializable, Comparable {
 
     public static final String END_TEASER_MARKER = "[<=endTeaser]";
@@ -32,7 +40,7 @@ public class FeedEntry implements Serializable, Comparable {
     private String link;
 
     @Column(name = "TITLE", nullable = false)
-    @Length(min = 3, max = 255)
+    @Length(min = 3, max = 1024)
     private String title;
 
     @Column(name = "AUTHOR", nullable = false)
@@ -54,9 +62,12 @@ public class FeedEntry implements Serializable, Comparable {
     private String descriptionValue;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DOCUMENT_ID")
+    @JoinColumn(name = "DOCUMENT_ID", nullable = false)
     @org.hibernate.annotations.ForeignKey(name = "FK_FEEDENTRY_DOCUMENT_ID")
     private Document document;
+
+    @Column(name = "COMMENT_IDENTIFIER", nullable = true)
+    private Long commentIdentifier;
 
     public FeedEntry() {}
 
@@ -142,6 +153,14 @@ public class FeedEntry implements Serializable, Comparable {
 
     public void setDocument(Document document) {
         this.document = document;
+    }
+
+    public Long getCommentIdentifier() {
+        return commentIdentifier;
+    }
+
+    public void setCommentIdentifier(Long commentIdentifier) {
+        this.commentIdentifier = commentIdentifier;
     }
 
     // Sort by date

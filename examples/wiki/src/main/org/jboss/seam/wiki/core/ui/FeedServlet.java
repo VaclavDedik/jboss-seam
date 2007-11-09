@@ -10,8 +10,11 @@ import com.sun.syndication.feed.synd.*;
 import com.sun.syndication.io.SyndFeedOutput;
 import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
+import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.core.model.FeedEntry;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.action.Authenticator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -51,10 +54,26 @@ public class FeedServlet extends HttpServlet {
                 userTx.begin();
             }
 
-
             FeedDAO feedDAO = (FeedDAO)Component.getInstance("feedDAO");
             Feed feed = feedDAO.findFeed(Long.valueOf(feedId));
-            if (feed == null) return;
+            if (feed == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                if (startedTx) userTx.commit();
+                return;
+            }
+
+            // Authenticate and authorize, first with current user (session) then with basic HTTP authentication
+            Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
+            if (feed.getDirectory().getReadAccessLevel() > currentAccessLevel) {
+                boolean loggedIn = ((Authenticator)Component.getInstance("authenticator")).authenticateBasicHttp(request);
+                currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
+                if (!loggedIn || feed.getDirectory().getReadAccessLevel() > currentAccessLevel) {
+                    response.setHeader("WWW-Authenticate", "Basic realm=\"" + feed.getTitle().replace("\"", "'") + "\"");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    if (startedTx) userTx.commit();
+                    return;
+                }
+            }
 
             // Create feed
             SyndFeed syndFeed = new SyndFeedImpl();
@@ -84,7 +103,13 @@ public class FeedServlet extends HttpServlet {
                 description.setType(entry.getDescriptionType());
                 description.setValue(entry.getDescriptionValue());
                 syndEntry.setDescription(description);
-                syndEntries.add(syndEntry);
+                if (entry.getDocument() != null && entry.getDocument().getReadAccessLevel() <= currentAccessLevel) {
+                    // Only add entry if the associated document has the right access level
+                    syndEntries.add(syndEntry);
+                } else if (entry.getDocument() == null) {
+                    // or if there is no document associated with it, then everyone can read it who can read the feed
+                    syndEntries.add(syndEntry);
+                }
             }
             syndFeed.setEntries(syndEntries);
 

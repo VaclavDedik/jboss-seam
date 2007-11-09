@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "FEED")
+@org.hibernate.annotations.BatchSize(size = 10)
 public class Feed implements Serializable {
 
     @Id
