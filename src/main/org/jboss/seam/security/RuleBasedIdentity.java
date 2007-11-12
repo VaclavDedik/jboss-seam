@@ -21,8 +21,10 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.web.Session;
 
 /**
  * Identity implementation that supports permission
@@ -252,5 +254,18 @@ public class RuleBasedIdentity extends Identity
    public void setSecurityRules(RuleBase securityRules)
    {
       this.securityRules = securityRules;
+   }   
+   
+   @Override
+   public void logout()
+   {
+      // Explicitly destroy the security context
+      if (securityContext != null)
+      {
+         securityContext.dispose();
+         securityContext = null;
+      }
+      
+      super.logout();
    }   
 }

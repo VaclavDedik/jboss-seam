@@ -344,6 +344,7 @@ public class Identity implements Serializable
    public void logout()
    {
       principal = null;
+      unAuthenticate();
       Session.instance().invalidate();
       Events.instance().raiseEvent(EVENT_LOGGED_OUT);
    }
