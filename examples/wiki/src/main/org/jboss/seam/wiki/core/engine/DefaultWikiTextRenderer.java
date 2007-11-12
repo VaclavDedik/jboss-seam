@@ -60,15 +60,15 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     }
 
     public String renderHeadline2OpenTag() {
-        return "<h1 class=\"wikiHeadline2\">";
+        return "<h2 class=\"wikiHeadline2\">";
     }
 
     public String renderHeadline3OpenTag() {
-        return "<h1 class=\"wikiHeadline3\">";
+        return "<h3 class=\"wikiHeadline3\">";
     }
 
     public String renderHeadline4OpenTag() {
-        return "<h1 class=\"wikiHeadline4\">";
+        return "<h4 class=\"wikiHeadline4\">";
     }
 
     public String renderOrderedListOpenTag() {
