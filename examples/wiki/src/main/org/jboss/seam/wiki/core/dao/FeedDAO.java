@@ -8,10 +8,7 @@ package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
-import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
@@ -320,43 +317,17 @@ public class FeedDAO {
         parser.setCurrentDirectory((Directory)Component.getInstance("currentDirectory"));
         parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
 
-        // Set a customized renderer for parser macro callbacks
-        parser.setRenderer(
-            new WikiTextRenderer() {
-
-                public String renderInlineLink(WikiLink inlineLink) {
-                    return !inlineLink.isBroken() ?
-                            "<a href=\""
-                            + renderFeedURL(inlineLink.getNode(), null)
-                            + "\">"
-                            + inlineLink.getDescription()
-                            + "</a>" : "[Broken Link]";
-                }
-
-                public String renderExternalLink(WikiLink externalLink) {
-                    return "<a href=\""
-                            + externalLink.getUrl()
-                            + "\">"
-                            + externalLink.getDescription()
-                            + "</a>";
-                }
-
-                public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
-                    return "[Attachment]";
-                }
-
-                public String renderThumbnailImageInlineLink(WikiLink inlineLink) {
-                    return "[Embedded Image]";
-                }
-
-                public String renderMacro(String macroName) {
-                    return "";
-                }
-
-                public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
-                public void setExternalLinks(List<WikiLink> externalLinks) {}
+        class FeedRenderer extends DefaultWikiTextRenderer {
+            public String renderInlineLink(WikiLink inlineLink) {
+                return !inlineLink.isBroken() ?
+                        "<a href=\""
+                        + renderFeedURL(inlineLink.getNode(), null)
+                        + "\">"
+                        + inlineLink.getDescription()
+                        + "</a>" : "[Broken Link]";
             }
-        );
+        }
+        parser.setRenderer( new FeedRenderer() );
 
         // Run the parser
         try {

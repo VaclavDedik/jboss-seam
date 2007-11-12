@@ -52,6 +52,7 @@ public class WikiTextParser extends SeamTextParser {
         this.renderDuplicateMacros = renderDuplicateMacros;
         this.resolveLinks = resolveLinks;
     }
+
     /**
      * Mandatory, you need to set a renderer before starting the parer.
      *
@@ -182,5 +183,47 @@ public class WikiTextParser extends SeamTextParser {
         }
     }
 
+    protected String paragraphOpenTag() {
+        return renderer.renderParagraphOpenTag();
+    }
 
+    protected String preformattedOpenTag() {
+        return renderer.renderPreformattedOpenTag();
+    }
+
+    protected String blockquoteOpenTag() {
+        return renderer.renderBlockquoteOpenTag();
+    }
+
+    protected String headline1OpenTag() {
+        return renderer.renderHeadline1Opentag();
+    }
+
+    protected String headline2OpenTag() {
+        return renderer.renderHeadline2OpenTag();
+    }
+
+    protected String headline3OpenTag() {
+        return renderer.renderHeadline3OpenTag();
+    }
+
+    protected String headline4OpenTag() {
+        return renderer.renderHeadline4OpenTag();
+    }
+
+    protected String orderedListOpenTag() {
+        return renderer.renderOrderedListOpenTag();
+    }
+
+    protected String orderedListItemOpenTag() {
+        return renderer.renderOrderedListItemOpenTag();
+    }
+
+    protected String unorderedListOpenTag() {
+        return renderer.renderUnorderedListOpenTag();
+    }
+
+    protected String unorderedListItemOpenTag() {
+        return renderer.renderUnorderedListItemOpenTag();
+    }
 }

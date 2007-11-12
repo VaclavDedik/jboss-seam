@@ -23,10 +23,7 @@ import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
-import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.wiki.core.model.File;
 import org.jboss.seam.wiki.core.model.Document;
 import org.jboss.seam.wiki.core.model.Node;
@@ -100,7 +97,7 @@ public class UIWikiFormattedText extends UIOutput {
         parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
 
         // Set a customized renderer for parser macro callbacks
-        parser.setRenderer(new WikiTextRenderer() {
+        class WikiFormattedTextRenderer extends DefaultWikiTextRenderer {
 
             public String renderInlineLink(WikiLink inlineLink) {
                 return "<a href=\""
@@ -209,7 +206,9 @@ public class UIWikiFormattedText extends UIOutput {
                 // Put external links (to targets not on this wiki) into the event context for later rendering
                 Contexts.getEventContext().set("wikiTextExternalLinks", externalLinks);
             }
-        });
+        }
+
+        parser.setRenderer(new WikiFormattedTextRenderer());
 
         // Run the parser (default to true for updating resolved links)
         Boolean updateResolvedLinks =

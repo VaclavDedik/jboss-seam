@@ -11,10 +11,7 @@ import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
-import org.jboss.seam.wiki.core.engine.WikiLink;
+import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
 import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.dao.TagDAO;
@@ -235,21 +232,13 @@ public class DocumentHome extends NodeHome<Document> {
         parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
 
         try {
-
-            parser.setRenderer(
-                new WikiTextRenderer() {
-                    public String renderInlineLink(WikiLink inlineLink) { return null; }
-                    public String renderExternalLink(WikiLink externalLink) { return null; }
-                    public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) { return null; }
-                    public String renderThumbnailImageInlineLink(WikiLink inlineLink) { return null; }
-                    public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
-                    public void setExternalLinks(List<WikiLink> externalLinks) {}
-                    public String renderMacro(String macroName) {
-                        usedMacros.append(macroName).append(" ");
-                        return null;
-                    }
+            class MacroRenderer extends NullWikiTextRenderer {
+                public String renderMacro(String macroName) {
+                    usedMacros.append(macroName).append(" ");
+                    return null;
                 }
-            ).parse(false);
+            }
+            parser.setRenderer( new MacroRenderer() ).parse(false);
 
         } catch (RecognitionException rex) {
             // Swallow and log and low debug level
