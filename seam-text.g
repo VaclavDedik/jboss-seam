@@ -10,7 +10,7 @@ options
 	defaultErrorHandler=false;
 }
 {   
-	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "q", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img" , "object", "param", "embed"} ) );
+	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "q", "blockquote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img"} ) );
 	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id", "style", "width", "height", "name", "value", "type", "wmode" } ) );
 	
     private StringBuilder mainBuilder = new StringBuilder();
@@ -51,11 +51,55 @@ options
     }
 
     protected String linkTag(String description, String url) {
-        return "<a href=\"" + url + "\" styleClass=\"seamTextLink\">" + description + "</a>";
+        return "<a href=\"" + url + "\" class=\"seamTextLink\">" + description + "</a>";
     }
 
     protected String macroInclude(String macroName) {
         return "";
+    }
+
+    protected String paragraphOpenTag() {
+        return "<p class=\"seamTextPara\">\n";
+    }
+
+    protected String preformattedOpenTag() {
+        return "<pre class=\"seamTextPreformatted\">\n";
+    }
+
+    protected String blockquoteOpenTag() {
+        return "<blockquote class=\"seamTextBlockquote\">\n";
+    }
+
+    protected String headline1OpenTag() {
+        return "<h1 class=\"seamTextHeadline1\">";
+    }
+
+    protected String headline2OpenTag() {
+        return "<h2 class=\"seamTextHeadline2\">";
+    }
+
+    protected String headline3OpenTag() {
+        return "<h3 class=\"seamTextHeadline3\">";
+    }
+
+    protected String headline4OpenTag() {
+        return "<h4 class=\"seamTextHeadline4\">";
+    }
+
+    protected String orderedListOpenTag() {
+        return "<ol class=\"seamTextOrderedList\">\n";
+    }
+
+    protected String orderedListItemOpenTag() {
+        return "<li class=\"seamTextOrderedListItem\">";
+    }
+
+    protected String unorderedListOpenTag() {
+        return "<ul class=\"seamTextUnorderedList\">\n";
+    }
+
+    protected String unorderedListItemOpenTag() {
+        return "<li class=\"seamTextUnorderedListItem\">";
     }
 }
 
@@ -65,18 +109,18 @@ startRule: (newline)* ( (heading (newline)* )? text (heading (newline)* text)* )
 text: ( (paragraph|preformatted|blockquote|list|html) (newline)* )+
     ;
         
-paragraph: { append("<p>\n"); } (line newlineOrEof)+ { append("</p>\n"); } newlineOrEof
+paragraph: { append( paragraphOpenTag() ); } (line newlineOrEof)+ { append("</p>\n"); } newlineOrEof
     ;
     
 line: (plain|formatted) (plain|formatted|preformatted|quoted|html)*
     ;
     
-blockquote: DOUBLEQUOTE { append("<blockquote>\n"); }
+blockquote: DOUBLEQUOTE { append( blockquoteOpenTag() ); }
             (plain|formatted|preformatted|newline|html|list)*
             DOUBLEQUOTE newlineOrEof { append("</blockquote>\n"); }
     ;
     
-preformatted: BACKTICK { append("<pre>"); }
+preformatted: BACKTICK { append( preformattedOpenTag() ); }
               (word|punctuation|specialChars|moreSpecialChars|htmlSpecialChars|space|newline)*
               BACKTICK { append("</pre>"); }
     ;
@@ -87,10 +131,10 @@ plain: word|punctuation|escape|space|link|macro
 formatted: bold|underline|italic|monospace|superscript|deleted
     ;
 
-word: w:WORD { append( w.getText() ); }
+word: an:ALPHANUMERICWORD { append( an.getText() ); } | uc:UNICODEWORD { append( uc.getText() ); }
     ;
 
-punctuation: p:PUNCTUATION { append( p.getText() ); }
+punctuation: p:PUNCTUATION { append( p.getText() ); } | sq:SINGLEQUOTE { append( sq.getText() ); }
     ;
     
 escape: ESCAPE ( specialChars | moreSpecialChars | evenMoreSpecialChars | htmlSpecialChars )
@@ -194,31 +238,31 @@ quoted: DOUBLEQUOTE { append("<q>"); }
 heading: ( h1 | h2 | h3 | h4 ) newlineOrEof
     ;
   
-h1: PLUS { append("<h1>"); } line { append("</h1>"); }
+h1: PLUS { append( headline1OpenTag() ); } line { append("</h1>"); }
     ;
  
-h2: PLUS PLUS { append("<h2>"); } line { append("</h2>"); }
+h2: PLUS PLUS { append( headline2OpenTag() ); } line { append("</h2>"); }
     ;
  
-h3: PLUS PLUS PLUS { append("<h3>"); } line { append("</h3>"); }
+h3: PLUS PLUS PLUS { append( headline3OpenTag() ); } line { append("</h3>"); }
     ;
  
-h4: PLUS PLUS PLUS PLUS { append("<h4>"); } line { append("</h4>"); }
+h4: PLUS PLUS PLUS PLUS { append( headline4OpenTag() ); } line { append("</h4>"); }
     ;
  
 list: ( olist | ulist ) newlineOrEof
     ;
     
-olist: { append("<ol>\n"); } (olistLine newlineOrEof)+ { append("</ol>\n"); }
+olist: { append( orderedListOpenTag() ); } (olistLine newlineOrEof)+ { append("</ol>\n"); }
     ;
     
-olistLine: HASH { append("<li>"); } line { append("</li>"); }
+olistLine: HASH { append( orderedListItemOpenTag() ); } line { append("</li>"); }
     ;
     
-ulist: { append("<ul>\n"); } (ulistLine newlineOrEof)+ { append("</ul>\n"); }
+ulist: { append( unorderedListOpenTag() ); } (ulistLine newlineOrEof)+ { append("</ul>\n"); }
     ;
     
-ulistLine: EQ { append("<li>"); } line { append("</li>"); }
+ulistLine: EQ { append( unorderedListItemOpenTag() ); } line { append("</li>"); }
     ;
 
 space: s:SPACE { append( s.getText() ); }
@@ -236,25 +280,28 @@ html: openTag ( space | space attribute )* ( ( beforeBody body closeTagWithBody 
 body: (plain|formatted|preformatted|quoted|html|list|newline)*
     ;
 
-openTag: LT name:WORD { validateElement(name); append("<"); append(name.getText()); }
+openTag: LT name:ALPHANUMERICWORD { validateElement(name); append("<"); append(name.getText()); }
     ;
     
 beforeBody: GT { append(">"); }
     ;
     
-closeTagWithBody: LT SLASH name:WORD GT { append("</"); append(name.getText()); append(">"); }
+closeTagWithBody: LT SLASH name:ALPHANUMERICWORD GT { append("</"); append(name.getText()); append(">"); }
     ;
     
 closeTagWithNoBody: SLASH GT { append("/>"); } 
     ;
     
-attribute: att:WORD (space)* EQ (space)*
+attribute: att:ALPHANUMERICWORD (space)* EQ (space)*
            DOUBLEQUOTE {  validateAttribute(att); append(att.getText()); append("=\""); } 
            attributeValue 
            DOUBLEQUOTE { append("\""); } 
     ;
         
-attributeValue: ( AMPERSAND { append("&amp;"); } | word | punctuation | space | specialChars )*
+attributeValue: ( AMPERSAND { append("&amp;"); } |
+                an:ALPHANUMERICWORD { append( an.getText() ); } |
+                p:PUNCTUATION { append( p.getText() ); } |
+                space | specialChars )*
     ;
     
 class SeamTextLexer extends Lexer;
@@ -273,15 +320,19 @@ options
 // '\u0250'..'\ufaff'  Various other languages, punctuation etc. (excluding "presentation forms")
 // '\uff00'..'\uffef'  Halfwidth and Fullwidth forms (including CJK punctuation)
 
-WORD: ('a'..'z'|'A'..'Z'|'0'..'9'|
-      '\u00a0'..'\u00ff' |
-      '\u0100'..'\u017f' |
-      '\u0180'..'\u024f' |
-      '\u0250'..'\ufaff' |
-      '\uff00'..'\uffef')+
+ALPHANUMERICWORD: ('a'..'z'|'A'..'Z'|'0'..'9')+
     ;
-    
-PUNCTUATION: '-' | ';' | ':' | '(' | ')' | '{' | '}' | '?' | '!' | '@' | '%' | '.' | ',' | '\'' | '$'
+
+UNICODEWORD: (
+         '\u00a0'..'\u00ff' |
+         '\u0100'..'\u017f' |
+         '\u0180'..'\u024f' |
+         '\u0250'..'\ufaff' |
+         '\uff00'..'\uffef'
+      )+
+    ;
+
+PUNCTUATION: '-' | ';' | ':' | '(' | ')' | '{' | '}' | '?' | '!' | '@' | '%' | '.' | ',' | '$'
     ;
     
 EQ: '='
@@ -313,7 +364,10 @@ TWIDDLE: '~'
 
 DOUBLEQUOTE: '"'
     ;
-    
+
+SINGLEQUOTE: '\''
+    ;
+
 OPEN: '['
     ;
     
