@@ -12,15 +12,6 @@
       name="jboss.messaging:service=ServerPeer"
       xmbean-dd="xmdesc/ServerPeer-xmbean.xml">
 
-      <constructor>
-         <!-- ServerPeerID -->
-         <arg type="int" value="0"/>
-         <!-- DefaultQueueJNDIContext -->
-         <arg type="java.lang.String" value="/queue"/>
-         <!-- DefaultTopicJNDIContext -->
-         <arg type="java.lang.String" value="/topic"/>
-      </constructor>
-
 	   <attribute name="PostOffice">jboss.messaging:service=PostOffice</attribute>
       <attribute name="SecurityDomain">java:/jaas/messaging</attribute>
       <attribute name="DefaultSecurityConfig">
@@ -28,11 +19,14 @@
             <role name="guest" read="true" write="true" create="true"/>
         </security>
       </attribute>
+      <attribute name="ServerPeerID">0</attribute>
+      <attribute name="DefaultQueueJNDIContext">/queue</attribute>
+      <attribute name="DefaultTopicJNDIContext">/topic</attribute>
       <attribute name="DefaultDLQ">jboss.messaging.destination:service=Queue,name=DLQ</attribute>
       <attribute name="DefaultMaxDeliveryAttempts">10</attribute>
       <attribute name="DefaultExpiryQueue">jboss.messaging.destination:service=Queue,name=ExpiryQueue</attribute>
       <attribute name="DefaultRedeliveryDelay">0</attribute>
-      <attribute name="QueueStatsSamplePeriod">5000</attribute>
+      <!--<attribute name="QueueStatsSamplePeriod">5000</attribute>-->
       <attribute name="FailoverStartTimeout">3000</attribute>
       <attribute name="FailoverCompleteTimeout">12000</attribute>
       <attribute name="DefaultMessageCounterHistoryDayLimit">-1</attribute>

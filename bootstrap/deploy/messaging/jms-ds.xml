@@ -20,12 +20,14 @@
       <attribute name="TopicFactoryRef">java:/XAConnectionFactory</attribute>
    </mbean>
 
+<!--
    <mbean code="org.jboss.jms.asf.ServerSessionPoolLoader"
           name="jboss.messaging:service=ServerSessionPoolMBean,name=StdJMSPool">
       <depends optional-attribute-name="XidFactory">jboss:service=XidFactory</depends>
       <attribute name="PoolName">StdJMSPool</attribute>
       <attribute name="PoolFactoryClass">org.jboss.jms.asf.StdServerSessionPoolFactory</attribute>
    </mbean>
+-->
 
    <!-- JMS XA Resource adapter, use this to get transacted JMS in beans -->
    <tx-connection-factory>

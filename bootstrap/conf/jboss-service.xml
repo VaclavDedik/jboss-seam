@@ -49,7 +49,7 @@
       -->
       <attribute name="ServerMode">true</attribute>
       <attribute name="SecurityManagerClassName">org.jboss.security.plugins.JaasSecurityManager</attribute>
-      <attribute name="DefaultUnauthenticatedPrincipal">anonymous</attribute> 
+      <attribute name="DefaultUnauthenticatedPrincipal">anonymous</attribute>
       <!-- DefaultCacheTimeout: Specifies the default timed cache policy timeout
       in seconds.
       If you want to disable caching of security credentials, set this to 0 to
@@ -73,38 +73,18 @@
       threads.
       -->
       <attribute name="DeepCopySubjectMode">false</attribute>
-   </mbean> 
+   </mbean>
 
    <!-- Authorization manager-->
    <mbean code="org.jboss.security.plugins.AuthorizationManagerService"
-      name="jboss.security:service=AuthorizationManager"> 
+      name="jboss.security:service=AuthorizationManager">
       <attribute name="AuthorizationManagerClassName">org.jboss.security.plugins.JBossAuthorizationManager</attribute>
    </mbean>
 
    <!-- ==================================================================== -->
    <!-- Transactions                                                         -->
    <!-- ==================================================================== -->
-   <!-- The configurable Xid factory.  For use with Oracle, set pad to true -->
-   <mbean code="org.jboss.tm.XidFactory"
-      name="jboss:service=XidFactory">
-      <!--attribute name="Pad">true</attribute-->
-   </mbean>
 
-   <!--
-      | The fast in-memory transaction manager.
-      | Deprecated in 5.0.  Use JBossTS JTA instead.
-      <mbean code="org.jboss.tm.TransactionManagerService"
-      name="jboss:service=TransactionManager"
-      xmbean-dd="resource:xmdesc/TransactionManagerService-xmbean.xml">
-      <attribute name="TransactionTimeout">300</attribute>
-      <attribute name="XARetryTimeout">60</attribute>
-      <attribute name="PreparedTimeout">60</attribute>
-      <attribute name="GlobalIdsEnabled">true</attribute>
-      <depends optional-attribute-name="XidFactory">jboss:service=XidFactory</depends>
-      </mbean>
-   -->
-   
-   
    <!-- JBossTS JTA -->
    <mbean code="com.arjuna.ats.jbossatx.jta.TransactionManagerService"
       name="jboss:service=TransactionManager">
@@ -130,7 +110,7 @@
    </mbean>
 
    <!--
-      | The CachedConnectionManager is used partly to relay started UserTransactions to 
+      | The CachedConnectionManager is used partly to relay started UserTransactions to
       | open connections so they may be enrolled in the new tx.
     -->
    <mbean code="org.jboss.resource.connectionmanager.CachedConnectionManager"
