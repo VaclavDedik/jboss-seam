@@ -123,6 +123,7 @@ import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.Sorter;
 import org.jboss.seam.util.Conversions.PropertyValue;
 import org.jboss.seam.web.Parameters;
+import org.jboss.seam.webservice.WSSecurityInterceptor;
 
 /**
  * Metamodel class for component classes.
@@ -1044,8 +1045,15 @@ public class Component extends Model
       }
       if ( beanClassHasAnnotation(Restrict.class) )
       {
-        addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );
-      }
+         if (beanClassHasAnnotation("javax.jws.WebService"))
+         {
+            addInterceptor( new Interceptor( new WSSecurityInterceptor(), this ) );
+         }
+         else
+         {
+            addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );            
+         }
+      }      
    }
 
    private static boolean hasAnnotation(Class clazz, Class annotationType)
