@@ -214,11 +214,13 @@ public class Init
        StringTokenizer tokens = new StringTokenizer(name, ".");
        while (tokens.hasMoreTokens()) {
            String token = tokens.nextToken();
-           if (tokens.hasMoreTokens() && isComponent) {
+
+           if (tokens.hasMoreTokens() || !isComponent) {
                //we don't want to create a namespace for a componentName
                namespace = namespace.getOrCreateChild(token);               
            }
        }
+
        return namespace;
    }
    

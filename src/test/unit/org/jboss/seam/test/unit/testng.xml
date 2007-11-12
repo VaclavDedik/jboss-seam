@@ -22,6 +22,7 @@
        <class name="org.jboss.seam.test.unit.PageActionsTest" />
        <class name="org.jboss.seam.test.unit.HomeTest" />
        <class name="org.jboss.seam.test.unit.NamespaceTest" />
+       <class name="org.jboss.seam.test.unit.ImportTest"/>
        <class name="org.jboss.seam.test.unit.web.MultipartRequestTest" />
      </classes>
    </test>

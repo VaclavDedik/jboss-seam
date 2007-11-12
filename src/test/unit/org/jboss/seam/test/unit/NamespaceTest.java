@@ -27,7 +27,7 @@ public class NamespaceTest
         new ComponentTest() {
             @Override
             protected void testComponents() throws Exception {
-                assert getValue("#{elTest.fooFactory}") != null;
+                assert getValue("#{namespaceTest.fooFactory}") != null;
             }
         }.run();
     }
@@ -39,7 +39,7 @@ public class NamespaceTest
         new ComponentTest() {
             @Override
             protected void testComponents() throws Exception {
-                assert getValue("#{elTest.ns1.factory}") != null;
+                assert getValue("#{namespaceTest.ns1.factory}") != null;
             }
         }.run();
     }
@@ -52,9 +52,9 @@ public class NamespaceTest
         new ComponentTest() {
             @Override
             protected void testComponents() throws Exception {
-                FooFactory factory = (FooFactory) getValue("#{elTest.fooFactory}");
+                FooFactory factory = (FooFactory) getValue("#{namespaceTest.fooFactory}");
                 factory.someMethod();
-                assert getValue("#{elTest.ns2.outject}") != null;
+                assert getValue("#{namespaceTest.ns2.outject}") != null;
             }
         }.run();
     }
@@ -68,9 +68,9 @@ public class NamespaceTest
             @Override
             protected void testComponents() throws Exception {
                 Init init = Init.instance();
-                init.addFactoryMethodExpression("elTest.ns3.factory", "#{elTest.fooFactory.createFoo}", ScopeType.SESSION);
+                init.addFactoryMethodExpression("namespaceTest.ns3.factory", "#{namespaceTest.fooFactory.createFoo}", ScopeType.SESSION);
                 
-                assert getValue("#{elTest.ns3.factory}") != null;
+                assert getValue("#{namespaceTest.ns3.factory}") != null;
             }
         }.run();
     }
@@ -83,24 +83,24 @@ public class NamespaceTest
             @Override
             protected void testComponents() throws Exception {
                 Init init = Init.instance();
-                init.addFactoryValueExpression("elTest.ns4.factory", "#{elTest.fooFactory.createFoo()}", ScopeType.SESSION);
+                init.addFactoryValueExpression("namespaceTest.ns4.factory", "#{namespaceTest.fooFactory.createFoo()}", ScopeType.SESSION);
                 
-                assert getValue("#{elTest.ns4.factory}") != null;
+                assert getValue("#{namespaceTest.ns4.factory}") != null;
             }
         }.run();
     }
 
 
-    @Name("elTest.fooFactory")
+    @Name("namespaceTest.fooFactory")
     static public class FooFactory {
         public class Foo {}
         
-        @Factory("elTest.ns1.factory")
+        @Factory("namespaceTest.ns1.factory")
         public Foo createFoo() {
             return new Foo();
         }        
 
-        @Out("elTest.ns2.outject")
+        @Out("namespaceTest.ns2.outject")
         public Foo outjectFoo() {
             return new Foo();
         }
@@ -108,5 +108,7 @@ public class NamespaceTest
         public void someMethod() {
         }
     }
-   
+    
+
+
 }
