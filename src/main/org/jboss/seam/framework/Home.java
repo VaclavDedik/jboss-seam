@@ -247,13 +247,24 @@ public abstract class Home<T, E> extends MutableController<T>
    protected void raiseAfterTransactionSuccessEvent()
    {
       raiseTransactionSuccessEvent("org.jboss.seam.afterTransactionSuccess");
-      raiseTransactionSuccessEvent("org.jboss.seam.afterTransactionSuccess." + getSimpleEntityName());
+      String simpleEntityName = getSimpleEntityName();
+      if (simpleEntityName != null)
+      {
+         raiseTransactionSuccessEvent("org.jboss.seam.afterTransactionSuccess." + simpleEntityName);
+      }
    }
    
    protected String getSimpleEntityName()
    {
       String name = getEntityName();
-      return name.lastIndexOf(".") > 0 && name.lastIndexOf(".") < name.length()  ? name.substring(name.lastIndexOf(".") + 1, name.length()) : name;
+      if (name != null)
+      {
+         return name.lastIndexOf(".") > 0 && name.lastIndexOf(".") < name.length()  ? name.substring(name.lastIndexOf(".") + 1, name.length()) : name;
+      }
+      else
+      {
+         return null;
+      }
    }
    
    protected abstract String getEntityName();

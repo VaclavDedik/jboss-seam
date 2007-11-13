@@ -120,7 +120,15 @@ public class EntityHome<E> extends Home<EntityManager, E>
    @Override
    protected String getEntityName()
    {
-      return PersistenceProvider.instance().getName(getInstance(), getEntityManager());
+      try
+      {
+         return PersistenceProvider.instance().getName(getInstance(), getEntityManager());
+      }
+      catch (IllegalArgumentException e) 
+      {
+         // Handle that the passed object may not be an entity
+         return null;
+      }
    }
    
 }
