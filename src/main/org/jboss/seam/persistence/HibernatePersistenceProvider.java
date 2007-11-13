@@ -231,7 +231,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    }
 
    @Override
-   public String getName(Object bean, EntityManager entityManager)
+   public String getName(Object bean, EntityManager entityManager) throws IllegalArgumentException
    {
       try 
       {

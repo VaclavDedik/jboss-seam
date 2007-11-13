@@ -69,8 +69,10 @@ public class PersistenceProvider
     * 
     * @param bean
     * @param entityManager
+    * 
+    * @throws IllegalArgumentException if the passed object is not an entity
     */
-   public String getName(Object bean, EntityManager entityManager)
+   public String getName(Object bean, EntityManager entityManager) throws IllegalArgumentException
    {
       return Entity.forClass(bean.getClass()).getName();
    }
