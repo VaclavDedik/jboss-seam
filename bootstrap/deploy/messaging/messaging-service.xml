@@ -30,6 +30,7 @@
       <attribute name="FailoverStartTimeout">3000</attribute>
       <attribute name="FailoverCompleteTimeout">12000</attribute>
       <attribute name="DefaultMessageCounterHistoryDayLimit">-1</attribute>
+      <attribute name="ClusterPullConnectionFactoryName">jboss.messaging.connectionfactory:service=ClusterPullConnectionFactory</attribute>
 
       <depends optional-attribute-name="PersistenceManager">jboss.messaging:service=PersistenceManager</depends>
       <depends optional-attribute-name="JMSUserManager">jboss.messaging:service=JMSUserManager</depends>
