@@ -11,9 +11,7 @@
     <version>@seam.version@</version>
   </parent>
 
-  <!-- 
-    * Dependencies marked optional are provide optional features of Seam, not necessarily included in JBoss AS
-  -->
+  <!-- See parent pom for notes on how to declare dependencies -->
 
   <dependencies>
     <dependency>

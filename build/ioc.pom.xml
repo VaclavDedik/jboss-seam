@@ -11,6 +11,8 @@
     <version>@seam.version@</version>
   </parent>
 
+  <!-- See parent pom for notes on how to declare dependencies -->
+
   <dependencies>
 
     <dependency>

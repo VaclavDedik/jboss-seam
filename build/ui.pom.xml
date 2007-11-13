@@ -55,6 +55,8 @@
     </plugins>
   </build>
 
+  <!-- See parent pom for notes on how to declare dependencies -->
+
   <!-- TODO This is exporting commons logging.  Why? -->
 
   <dependencies>
