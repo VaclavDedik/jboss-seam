@@ -172,7 +172,9 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       for (Object o : iterable)
       {
          initVar(o);
-         selectItems.add(new javax.faces.model.SelectItem(o, getLabel() == null ? null : getLabel(), "", getDisabled() == null ? false : getDisabled()));
+         String label = getLabel();
+         Boolean disabled = getDisabled();
+         selectItems.add(new javax.faces.model.SelectItem(o, label == null ? null : label, "", disabled == null ? false : disabled));
          destroyVar();
       }
       return selectItems;
@@ -190,7 +192,10 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
        * that if the result of the EL expression is an empty String, then the label will be hidden.
        */
       ValueExpression vb = getValueExpression("noSelectionLabel");
-      if (getNoSelectionLabel() != null && vb == null && !(getHideNoSelectionLabel()  && getParentValue() != null))
+      String noSelectionLabel = getNoSelectionLabel();
+      Object parentValue = getParentValue();
+      Boolean hideNoSelectionLabel = getHideNoSelectionLabel();
+      if (noSelectionLabel != null && vb == null && !(hideNoSelectionLabel  && parentValue != null))
       {
          /* 
           * Here, the user has specfied a noSelectionLabel (may be an empty string), and, if hideNoSelectionLabel
@@ -198,7 +203,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
           */ 
          show = true;
       } 
-      else if (getNoSelectionLabel() != null && !"".equals(getNoSelectionLabel()) && !(getHideNoSelectionLabel() && getParentValue() != null))
+      else if (noSelectionLabel != null && !"".equals(noSelectionLabel) && !(hideNoSelectionLabel && parentValue != null))
       {
          /*
           * Here, the user has used an EL expression as the noSelectionLabel.  In this case, an empty string is
@@ -209,7 +214,7 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       
       if (show)
       {
-         NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, getNoSelectionLabel());
+         NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, noSelectionLabel);
          ConverterChain converterChain = new ConverterChain(this.getParent());
          Converter noSelectionConverter = new NoSelectionConverter();
          // Make sure that the converter is only added once
