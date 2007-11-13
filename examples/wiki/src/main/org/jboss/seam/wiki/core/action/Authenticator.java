@@ -166,6 +166,7 @@ public class Authenticator {
         homePage.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
         homePage.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
         homePage.setMenuItem(true);
+        homePage.setMacros(WikiUtil.findMacros(homePage, homeDirectory, homePage.getContent()));
         homeDirectory.addChild(homePage);
         homeDirectory.setDefaultDocument(homePage);
 

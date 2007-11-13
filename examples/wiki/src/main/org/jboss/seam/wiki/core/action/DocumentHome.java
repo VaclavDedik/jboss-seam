@@ -9,7 +9,6 @@ package org.jboss.seam.wiki.core.action;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
@@ -18,6 +17,7 @@ import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.log.Log;
@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import antlr.RecognitionException;
-import antlr.ANTLRException;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
@@ -215,40 +212,12 @@ public class DocumentHome extends NodeHome<Document> {
         getInstance().setContent(
             wikiLinkResolver.convertToWikiProtocol(dir.getAreaNumber(), formContent)
         );
-        getInstance().setMacros( findMacros() );
+        getInstance().setMacros( WikiUtil.findMacros(getInstance(), getParentDirectory(), formContent) );
     }
 
     private void syncInstanceToForm(Directory dir) {
         WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
         formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContent());
-    }
-
-    private String findMacros() {
-        if (formContent == null) return null;
-        final StringBuilder usedMacros = new StringBuilder();
-        WikiTextParser parser = new WikiTextParser(formContent, false, false);
-        parser.setCurrentDocument(getInstance());
-        parser.setCurrentDirectory(getParentDirectory());
-        parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
-
-        try {
-            class MacroRenderer extends NullWikiTextRenderer {
-                public String renderMacro(String macroName) {
-                    usedMacros.append(macroName).append(" ");
-                    return null;
-                }
-            }
-            parser.setRenderer( new MacroRenderer() ).parse(false);
-
-        } catch (RecognitionException rex) {
-            // Swallow and log and low debug level
-            getLog().debug( "Ignored parse error finding marcos in text: " + FormattedTextValidator.getErrorMessage(formContent, rex) );
-        } catch (ANTLRException ex) {
-            // All other errors are fatal;
-            throw new RuntimeException(ex);
-        }
-
-        return usedMacros.toString();
     }
 
     /* -------------------------- Public Features ------------------------------ */

@@ -7,10 +7,14 @@
 package org.jboss.seam.wiki.util;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.NullWikiTextRenderer;
 
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
@@ -28,6 +32,9 @@ import java.util.Date;
 import java.util.regex.Pattern;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+
+import antlr.RecognitionException;
+import antlr.ANTLRException;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -239,6 +246,33 @@ public class WikiUtil {
         String REGEX_MACRO = Pattern.quote("[") + "<=[a-z]{1}?[a-zA-Z0-9]+?" + Pattern.quote("]");
         return string.replaceAll(REGEX_MACRO, "");
 
+    }
+
+    public static String findMacros(Document currentDocument, Directory currentDirectory, String wikitext) {
+        if (wikitext == null) return null;
+        final StringBuilder usedMacros = new StringBuilder();
+        WikiTextParser parser = new WikiTextParser(wikitext, false, false);
+        parser.setCurrentDocument(currentDocument);
+        parser.setCurrentDirectory(currentDirectory);
+        parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
+
+        try {
+            class MacroRenderer extends NullWikiTextRenderer {
+                public String renderMacro(String macroName) {
+                    usedMacros.append(macroName).append(" ");
+                    return null;
+                }
+            }
+            parser.setRenderer( new MacroRenderer() ).parse(false);
+
+        } catch (RecognitionException rex) {
+            // Swallowing, we don't really care if there was a parse error
+        } catch (ANTLRException ex) {
+            // All other errors are fatal;
+            throw new RuntimeException(ex);
+        }
+
+        return usedMacros.toString();
     }
 
     // TODO: This would be the job of a more flexible seam text parser...
