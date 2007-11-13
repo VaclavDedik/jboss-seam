@@ -130,12 +130,12 @@
 
 	<target name="copyjbossembedded" if="mavenized.property" unless="copyjbossembeddeddone" depends="initpoms, initcopy">
 		<artifact:dependencies filesetId="embeddedjboss.fileset" versionsId="embeddedjboss.versions">
-			<dependency groupId="org.jboss.embedded" artifactId="jboss-embedded-all" version="beta2-seam1">
+			<dependency groupId="org.jboss.embedded" artifactId="jboss-embedded-all" version="beta2">
               <!-- Exclude the embedded api, its a dep of Seam core -->
               <exclusion groupId="org.jboss.embedded" artifactId="jboss-embedded-api" />
             </dependency>
-			<dependency groupId="org.jboss.embedded" artifactId="thirdparty-all" version="beta2-seam1" />
-			<dependency groupId="org.jboss.embedded" artifactId="hibernate-all" version="beta2-seam1" />
+			<dependency groupId="org.jboss.embedded" artifactId="thirdparty-all" version="beta2" />
+			<dependency groupId="org.jboss.embedded" artifactId="hibernate-all" version="beta2" />
 			<remoteRepository refId="repository.jboss.org" />
 		</artifact:dependencies>
 		<copy todir="${lib.dir}/test">
