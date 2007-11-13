@@ -34,9 +34,9 @@
     <!-- Enabled in embeddable JBoss container -->
     <transaction:ejb-transaction installed="@ejbTransaction@"/>
 
-    <!-- Conversation timeout: 30 minutes -->
+    <!-- Conversation timeout: 20 minutes -->
     <core:manager concurrent-request-timeout="2000"
-                  conversation-timeout="180000"
+                  conversation-timeout="120000"
                   conversation-id-parameter="cid"/>
 
     <persistence:filter name="accessLevelFilter">

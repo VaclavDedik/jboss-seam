@@ -102,9 +102,9 @@
 
     <!-- Misc Settings -->
 
-    <!-- Session timeout: 3 hours -->
+    <!-- Session timeout: half hour (careful, large and long sessions need heap size>-->
     <session-config>
-        <session-timeout>180</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
 
 </web-app>

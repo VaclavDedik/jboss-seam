@@ -12,7 +12,7 @@ RUNNING THE UNIT TESTS
 INSTALLATION WITH HSQL DB (development profile)
 ==========================================================================================
 
-- Install JBoss Application Server 4.2.1 GA
+- Install JBoss Application Server 4.2.2 GA
 
 - Edit build.properties
 
@@ -31,7 +31,7 @@ INSTALLATION WITH HSQL DB (development profile)
 INSTALLATION WITH MYSQL (production profile)
 ==========================================================================================
 
-- Install JBoss Application Server 4.2.1 GA
+- Install JBoss Application Server 4.2.2 GA
 
 - Upgrade/downgrade the Hibernate libraries bundled with JBoss 4.2.1 to the libraries bundled
   with this application. Follow the steps outlined above (edit build.properties, call
