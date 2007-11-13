@@ -24,9 +24,8 @@ public class ViewUrlBuilder extends UrlBuilder
       FacesContext facesContext = FacesContext.getCurrentInstance();
       String url = facesContext.getApplication().getViewHandler().getActionURL(facesContext,
                viewId);
-      String encodedUrl = facesContext.getExternalContext().encodeActionURL(url);
-      encodedUrl = Pages.instance().encodeScheme(viewId, facesContext, encodedUrl);
-      setUrl(encodedUrl);
+      url = Pages.instance().encodeScheme(viewId, facesContext, url);
+      setUrl(url);
       
       page = Pages.instance().getPage(viewId);
    }
@@ -42,5 +41,8 @@ public class ViewUrlBuilder extends UrlBuilder
       }
    }
 
-   
+    @Override
+    public String getEncodedUrl() {
+        return FacesContext.getCurrentInstance().getExternalContext().encodeActionURL(super.getEncodedUrl());
+    }
 }
