@@ -139,7 +139,7 @@ public class Page extends Node implements Parsable
    
    public String getViewId() 
    {
-      return viewId;
+      return Interpolator.instance().interpolate(viewId);
    }
    
    public boolean isRedirect()
