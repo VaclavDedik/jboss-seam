@@ -63,12 +63,14 @@
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>javax.servlet.jsp</groupId>
       <artifactId>jsp-api</artifactId>
       <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -97,6 +99,7 @@
     <dependency>
       <groupId>javax.faces</groupId>
       <artifactId>jsf-api</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -146,6 +149,7 @@
     <dependency>
       <groupId>javax.el</groupId>
       <artifactId>el-api</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
@@ -157,6 +161,7 @@
       <groupId>javax.persistence</groupId>
       <artifactId>persistence-api</artifactId>
       <optional>true</optional>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
