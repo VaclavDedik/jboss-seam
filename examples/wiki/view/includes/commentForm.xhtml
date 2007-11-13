@@ -33,7 +33,7 @@
 
                 <s:decorate id="userNameDecorate" template="formFieldDecorate.xhtml">
                     <ui:define name="label">#{messages['lacewiki.label.commentForm.Name']}</ui:define>
-                    <h:inputText tabindex="102" size="40" maxlength="100" required="true"
+                    <h:inputText tabindex="1" size="40" maxlength="100" required="true"
                                  id="userName" value="#{commentHome.comment.fromUserName}">
                         <a:support status="commentForm:status" event="onblur" reRender="userNameDecorate"/>
                     </h:inputText>
@@ -41,21 +41,21 @@
 
                 <s:decorate id="userEmailDecorate" template="formFieldDecorate.xhtml">
                     <ui:define name="label">#{messages['lacewiki.label.commentForm.Email']}</ui:define>
-                    <h:inputText tabindex="102" size="40" maxlength="255" required="false"
+                    <h:inputText tabindex="1" size="40" maxlength="255" required="false"
                                  id="userEmail" value="#{commentHome.comment.fromUserEmail}">
                     </h:inputText>
                 </s:decorate>
 
                 <s:decorate id="userHomepageDecorate" template="formFieldDecorate.xhtml">
                     <ui:define name="label">#{messages['lacewiki.label.commentForm.Homepage']}</ui:define>
-                    <h:inputText tabindex="102" size="40" maxlength="1000" required="false"
+                    <h:inputText tabindex="1" size="40" maxlength="1000" required="false"
                                  id="userHomepage" value="#{commentHome.comment.fromUserHomepage}">
                     </h:inputText>
                 </s:decorate>
 
                 <s:decorate id="subjectDecorate" template="formFieldDecorate.xhtml">
                     <ui:define name="label">#{messages['lacewiki.label.commentForm.Subject']}</ui:define>
-                    <h:inputText tabindex="102" size="40" maxlength="255" required="true"
+                    <h:inputText tabindex="1" size="40" maxlength="255" required="true"
                                  id="subject" value="#{commentHome.comment.subject}">
                         <a:support status="commentForm:status" event="onblur" reRender="subjectDecorate"/>
                     </h:inputText>
@@ -93,7 +93,7 @@
 
                     <s:decorate id="verifyCaptchaDecorate" template="formFieldDecorate.xhtml">
                         <ui:define name="label">#{messages['lacewiki.label.VerificationEnterResponse']}</ui:define>
-                        <h:inputSecret tabindex="102" size="5" maxlength="5" required="true"
+                        <h:inputSecret tabindex="1" size="5" maxlength="5" required="true"
                                        redisplay="true" id="verifyCaptcha" value="#{captcha.response}">
                         </h:inputSecret>
                     </s:decorate>
@@ -106,7 +106,7 @@
                     <div class="label">&#160;</div>
                     <div class="input">
 
-                        <a:commandLink action="#{commentHome.persist}" tabindex="102" reRender="commentDisplayForm"
+                        <a:commandLink action="#{commentHome.persist}" tabindex="1" reRender="commentDisplayForm"
                                        accesskey="#{messages['lacewiki.button.commentForm.Post.accesskey']}"
                                        status="commentForm:status"
                                        oncomplete="jQuery('.hiddenCommentForm').show();jQuery('#commentForm\\:userNameDecorate\\:userName').focus(); wrapBoxes();"
