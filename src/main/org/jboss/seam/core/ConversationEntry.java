@@ -138,7 +138,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    
    public boolean isDisplayable() 
    {
-      return !isEnded() && getDescription()!=null;
+      return !isEnded() && !isRemoveAfterRedirect() && getDescription()!=null;
    }
 
    public boolean isCurrent()
