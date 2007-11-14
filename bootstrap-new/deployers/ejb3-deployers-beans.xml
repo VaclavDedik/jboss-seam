@@ -1,16 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    JCA Deployers
+    EJB3 Deployers
 -->
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
 
+   <bean name="java:comp/Initializer" class="org.jboss.ejb3.embedded.JavaCompInitializer"/>
    <bean name="DefaultPersistenceProperties" class="org.jboss.ejb3.DefaultPersistenceProperties"/>
 
-   <bean name="EJBRegistrationDeployer" class="org.jboss.ejb3.deployers.EJBRegistrationDeployer">
+   <bean name="Ejb3Deployer" class="org.jboss.ejb3.deployers.Ejb3Deployer">
+      <property name="type">ejb3x</property>
       <property name="kernel"><inject bean="jboss.kernel:service=Kernel"/></property>
       <property name="mbeanServer"><inject bean="JMXKernel" property="mbeanServer"/></property>
       <property name="defaultPersistenceProperties"><inject bean="DefaultPersistenceProperties" property="properties"/></property>
+      <property name="cacheFactoryRegistry"><inject bean="EJB3CacheFactoryRegistry" /></property>
+      <property name="poolFactoryRegistry"><inject bean="EJB3PoolFactoryRegistry" /></property>
+
+      <!--
+
+      Configure the deployer to optionally require a deployment
+      descriptor for deployable units.  By turning this switch to "true",
+      "META-INF/jboss.xml" or the EJB3 Deployment Descriptor "META-INF/ejb-jar.xml"
+      will be required for deployment, enabling a performance increace in deployment by
+      not scanning for annotations in non-deployable EJB3 JARs.
+
+      Default for this value is "false".
+
+      -->
+      <property name="deploymentDescriptorRequired">false</property>
+
       <property name="ignoredJarsSet">
          <set elementClass="java.lang.String">
             <value>snmp-adaptor.jar</value>
@@ -93,10 +111,80 @@
             <value>servlets-webdav.jar</value>
          </set>
       </property>
-      <depends>AspectDeployer</depends>
+      <depends>AspectLibrary</depends>
    </bean>
    <bean name="EJBStage2Deployer" class="org.jboss.ejb3.deployers.EJBStage2Deployer">
-      <depends>AspectDeployer</depends>
+      <depends>AspectLibrary</depends>
    </bean>
-   
+
+   <bean name="AppClientParsingDeployer" class="org.jboss.ejb3.deployers.AppClientParsingDeployer">
+      <property name="type">car</property>
+      <!-- TODO: check depends -->
+      <depends>AspectLibrary</depends>
+   </bean>
+
+   <bean name="JBossClientParsingDeployer" class="org.jboss.ejb3.deployers.JBossClientParsingDeployer">
+      <property name="type">car</property>
+      <depends>AppClientParsingDeployer</depends>
+   </bean>
+
+   <bean name="AppClientScanningDeployer" class="org.jboss.ejb3.deployers.AppClientScanningDeployer">
+      <depends>JBossClientParsingDeployer</depends>
+   </bean>
+
+   <bean name="Ejb3ClientDeployer" class="org.jboss.ejb3.deployers.Ejb3ClientDeployer">
+      <property name="type">car</property>
+      <property name="kernel"><inject bean="jboss.kernel:service=Kernel"/></property>
+      <property name="mbeanServer"><inject bean="JMXKernel" property="mbeanServer"/></property>
+      <!-- TODO: check depends -->
+      <depends>AspectLibrary</depends>
+      <depends>AppClientScanningDeployer</depends>
+   </bean>
+
+   <!-- EJB3 Cache Factory Registry -->
+   <bean name="EJB3CacheFactoryRegistry" class="org.jboss.ejb3.cache.CacheFactoryRegistry">
+      <property name="factories">
+         <!-- Define each of the registered factories -->
+         <map class="java.util.HashMap" keyClass="java.lang.String"
+            valueClass="java.lang.Class">
+            <!-- NoPassivationCache -->
+            <entry>
+               <key>NoPassivationCache</key>
+               <value>org.jboss.ejb3.cache.NoPassivationCacheFactory</value>
+            </entry>
+            <!-- SimpleStatefulCache -->
+            <entry>
+               <key>SimpleStatefulCache</key>
+               <value>org.jboss.ejb3.cache.simple.SimpleStatefulCacheFactory</value>
+            </entry>
+            <!-- StatefulTreeCache -->
+            <entry>
+               <key>StatefulTreeCache</key>
+               <value>org.jboss.ejb3.cache.tree.StatefulTreeCacheFactory</value>
+            </entry>
+         </map>
+      </property>
+   </bean>
+
+   <!-- EJB3 Pool Factory Registry -->
+   <bean name="EJB3PoolFactoryRegistry" class="org.jboss.ejb3.pool.PoolFactoryRegistry">
+      <property name="factories">
+         <!-- Define each of the registered factories -->
+         <map class="java.util.HashMap" keyClass="java.lang.String"
+            valueClass="java.lang.Class">
+            <!-- ThreadlocalPool -->
+            <entry>
+               <key>ThreadlocalPool</key>
+               <value>org.jboss.ejb3.pool.ThreadlocalPoolFactory</value>
+            </entry>
+            <!-- StrictMaxPool -->
+            <entry>
+               <key>StrictMaxPool</key>
+               <value>org.jboss.ejb3.pool.StrictMaxPoolFactory</value>
+            </entry>
+         </map>
+      </property>
+   </bean>
+
+   <bean name="JNDIKernelRegistryPlugin" class="org.jboss.ejb3.kernel.JNDIKernelRegistryPlugin"/>
 </deployment>

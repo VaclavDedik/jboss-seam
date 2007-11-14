@@ -4,7 +4,9 @@
     JCA Deployers
 -->
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
+
    <bean name="JCAMetaDataRepository" class="org.jboss.resource.metadata.repository.DefaultJCAMetaDataRepository"/>
+
    <!-- RAR Deployment -->
    <bean name="RARParserDeployer" class="org.jboss.resource.deployers.RARParserDeployer">
       <property name="metaDataRepository"><inject bean="JCAMetaDataRepository"/></property>
@@ -16,8 +18,6 @@
       <property name="XATerminatorName">jboss:service=TransactionManager</property>
       <property name="type">rar</property>
    </bean>
-
-
 
    <!-- ConnectionFactory Deployment   -->
 
