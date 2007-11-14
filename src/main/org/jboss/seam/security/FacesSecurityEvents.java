@@ -36,7 +36,7 @@ public class FacesSecurityEvents extends Selector
       return "org.jboss.seam.security.username";
    }   
    
-   @Observer(Identity.EVENT_INIT_IDENTITY)
+   @Observer("org.jboss.seam.postCreate.org.jboss.seam.security.identity")
    public void initCredentialsFromCookie(Identity identity)
    {       
       FacesContext ctx = FacesContext.getCurrentInstance();

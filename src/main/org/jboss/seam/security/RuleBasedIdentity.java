@@ -21,10 +21,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.web.Session;
 
 /**
  * Identity implementation that supports permission
@@ -114,6 +112,8 @@ public class RuleBasedIdentity extends Identity
    @Override
    public boolean hasPermission(String name, String action, Object...arg)
    {      
+      if (!securityEnabled) return true;
+      
       StatefulSession securityContext = getSecurityContext();
       
       if (securityContext == null) return false;      

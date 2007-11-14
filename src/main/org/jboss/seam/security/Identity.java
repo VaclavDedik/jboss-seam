@@ -58,7 +58,6 @@ import org.jboss.seam.web.Session;
 @Startup
 public class Identity implements Serializable
 {  
-   public static final String EVENT_INIT_IDENTITY = "org.jboss.seam.security.initIdentity";
    public static final String EVENT_LOGIN_SUCCESSFUL = "org.jboss.seam.security.loginSuccessful";
    public static final String EVENT_LOGIN_FAILED = "org.jboss.seam.security.loginFailed";
    public static final String EVENT_NOT_LOGGED_IN = "org.jboss.seam.security.notLoggedIn";
@@ -69,7 +68,7 @@ public class Identity implements Serializable
    public static final String EVENT_CREDENTIALS_UPDATED = "org.jboss.seam.security.credentialsUpdated";
    public static final String EVENT_REMEMBER_ME = "org.jboss.seam.security.rememberMe";
    
-   private static boolean securityEnabled = true;
+   protected static boolean securityEnabled = true;
    
    public static final String ROLES_GROUP = "Roles";
    
@@ -99,12 +98,11 @@ public class Identity implements Serializable
     * Flag that indicates we are in the process of authenticating
     */
    private boolean authenticating = false;
-      
+         
    @Create
    public void create()
    {     
       subject = new Subject();
-      Events.instance().raiseEvent(EVENT_INIT_IDENTITY, this);
    }
    
    public static boolean isSecurityEnabled()
@@ -193,6 +191,8 @@ public class Identity implements Serializable
     */
    public void checkRestriction(String expr)
    {      
+      if (!securityEnabled) return;
+      
       if ( !evaluateExpression(expr) )
       {
          if ( !isLoggedIn() )
@@ -357,6 +357,8 @@ public class Identity implements Serializable
     */
    public boolean hasRole(String role)
    {
+      if (!securityEnabled) return true;
+      
       isLoggedIn(true);
       
       for ( Group sg : getSubject().getPrincipals(Group.class) )      
@@ -490,7 +492,7 @@ public class Identity implements Serializable
     */
    public boolean hasPermission(String name, String action, Object...arg)
    {      
-      return false;
+      return !securityEnabled;
    }   
    
    /**
