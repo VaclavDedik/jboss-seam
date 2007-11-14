@@ -198,6 +198,6 @@ public class WikiPreferenceValue implements PreferenceValue, Serializable, Compa
     }
 
     public String toString() {
-        return "Value for: " + getComponentName() + "." + getPropertyName();
+        return "WikiPreferenceValue for '" + getComponentName() + "." + getPropertyName() + "'";
     }
 }

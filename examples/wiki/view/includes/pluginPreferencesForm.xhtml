@@ -33,10 +33,10 @@
                          rowClasses="rowEven,rowOdd"
                          cellpadding="0" cellspacing="0" border="0">
 
-                <h:column>
+                <h:column rendered="#{v.preferenceProperty.allowsInstanceOverride()}">
                         <h:outputText value="#{v.preferenceProperty.description}"/>
                 </h:column>
-                <h:column>
+                <h:column rendered="#{v.preferenceProperty.allowsInstanceOverride()}">
 
                     <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Boolean'}">
                         <h:selectBooleanCheckbox value="#{v.value}" tabindex="1"/>

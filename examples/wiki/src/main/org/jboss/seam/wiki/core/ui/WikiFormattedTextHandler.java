@@ -20,6 +20,8 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.faces.ResourceLoader;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ui.component.UILoadStyle;
@@ -42,6 +44,8 @@ import com.sun.facelets.tag.jsf.ComponentSupport;
  * @author Christian Bauer
  */
 public class WikiFormattedTextHandler extends MetaTagHandler {
+
+    Log log = Logging.getLog(WikiFormattedTextHandler.class);
 
     private static final String MARK = "org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler";
 
@@ -230,17 +234,20 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         String pluginPreferenceName = macroName + "Preferences";
         Boolean showPluginPreferences = (Boolean) Contexts.getPageContext().get("showPluginPreferences");
         Object existingEditor = Contexts.getConversationContext().get(pluginPreferenceName + "Editor");
+
         if (showPluginPreferences != null && showPluginPreferences && existingEditor == null) {
-            PluginPreferenceEditor pluginPreferenceEditor = new PluginPreferenceEditor(
-                    pluginPreferenceName);
-            PluginPreferenceEditor.FlushObserver observer = (PluginPreferenceEditor.FlushObserver) Component
-                    .getInstance("pluginPreferenceEditorFlushObserver");
+
+            PluginPreferenceEditor pluginPreferenceEditor = new PluginPreferenceEditor(pluginPreferenceName);
+            PluginPreferenceEditor.FlushObserver observer =
+                    (PluginPreferenceEditor.FlushObserver) Component.getInstance("pluginPreferenceEditorFlushObserver");
+
             if (pluginPreferenceEditor.getPreferenceValues().size() > 0) {
-                Contexts.getConversationContext().set(pluginPreferenceName + "Editor",
-                        pluginPreferenceEditor);
+                log.debug("Creating plugin preference editor for: " + pluginPreferenceName);
+                Contexts.getConversationContext().set(pluginPreferenceName + "Editor", pluginPreferenceEditor);
                 observer.addPluginPreferenceEditor(pluginPreferenceEditor);
             }
         } else if (showPluginPreferences == null || !showPluginPreferences) {
+            log.debug("Disabling plugin preference editor for: " + pluginPreferenceName);
             Contexts.getConversationContext().set(pluginPreferenceName + "Editor", null);
         }
 

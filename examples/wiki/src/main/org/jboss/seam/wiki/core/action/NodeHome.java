@@ -19,9 +19,9 @@ import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -162,7 +162,6 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     /* -------------------------- Custom CUD ------------------------------ */
 
     @Override
-    @RaiseEvent("PreferenceEditor.flushAll")
     public String persist() {
         checkPersistPermissions();
 
@@ -191,11 +190,14 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
         if (!beforePersist()) return null;
 
-        return super.persist();
+        String outcome = super.persist();
+        if (outcome != null) {
+            Events.instance().raiseEvent("PreferenceEditor.flushAll");
+        }
+        return outcome;
     }
 
     @Override
-    @RaiseEvent({"PreferenceEditor.flushAll", "Nodes.menuStructureModified"})
     public String update() {
         checkUpdatePermissions();
 
@@ -212,11 +214,15 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
         if (!beforeUpdate()) return null;
 
-        return super.update();
+        String outcome = super.update();
+        if (outcome != null) {
+            Events.instance().raiseEvent("PreferenceEditor.flushAll");
+            Events.instance().raiseEvent("Nodes.menuStructureModified");
+        }
+        return outcome;
     }
 
     @Override
-    @RaiseEvent("Nodes.menuStructureModified")
     public String remove() {
         checkRemovePermissions();
 
@@ -231,7 +237,11 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
         provider.deleteInstancePreferences(getInstance());
 
-        return super.remove();
+        String outcome = super.remove();
+        if (outcome != null) {
+            Events.instance().raiseEvent("Nodes.menuStructureModified");
+        }
+        return outcome;
     }
 
     protected boolean isValidModel() {

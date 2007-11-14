@@ -66,7 +66,7 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
         currentValueMap.put(component, new TreeSet<PreferenceValue>());
 
         for (PreferenceValue valueHolder : valueHolders) {
-            log.trace("Storing preference value: " + valueHolder.getPreferenceProperty().getName());
+            log.trace("Storing preference value: " + valueHolder.getPreferenceProperty().getName() + " value: " + valueHolder.getValue());
 
             if (instance != null &&
                     valueHolder.getPreferenceProperty().allowsInstanceOverride() &&
