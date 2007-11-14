@@ -61,7 +61,7 @@
                                             enablePlugins="true"/>
                     </div>
 
-                    <s:div rendered="#{blogEntry.entryDocument.macroPresent('showTags') and not blogEntry.entryDocument.tags}"
+                    <s:div rendered="#{wikiPreferences.showTags and not blogEntry.entryDocument.macroPresent('hideTags') and not empty blogEntry.entryDocument.tags}"
                            styleClass="documentTags undecoratedLink">
                         <s:div>
                             #{messages['lacewiki.label.docDisplay.Tags']}:&#160;

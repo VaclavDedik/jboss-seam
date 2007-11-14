@@ -96,3 +96,8 @@
 .blogPagerTextColumn {
     width: 60%;
 }
+
+.documentTags {
+    margin-left: 10px;
+    margin-right: 10px;
+}
