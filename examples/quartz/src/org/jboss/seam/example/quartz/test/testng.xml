@@ -8,7 +8,6 @@
 		<classes>
 			<class name="org.jboss.seam.example.quartz.test.AccountTest" />
             <class name="org.jboss.seam.example.quartz.test.CronTest" />
-            <class name="org.jboss.seam.example.quartz.test.NthBusinessDayTest" />
             <class name="org.jboss.seam.example.quartz.test.OnceTest" />
             <class name="org.jboss.seam.example.quartz.test.RepeatingTest" />
             <class name="org.jboss.seam.example.quartz.test.AsynchronousTest" />
