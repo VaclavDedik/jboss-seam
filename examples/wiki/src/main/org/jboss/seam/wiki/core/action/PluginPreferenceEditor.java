@@ -55,7 +55,7 @@ public class PluginPreferenceEditor implements Serializable {
             Object instance = Component.getInstance("currentDocument");
             PreferenceProvider provider = (PreferenceProvider)Component.getInstance("preferenceProvider");
 
-            preferenceValues = new ArrayList<PreferenceValue>(provider.load(preferenceComponent, user, instance, false));
+            preferenceValues = new ArrayList<PreferenceValue>(provider.load(preferenceComponent, user, instance, true));
         }
 
     }

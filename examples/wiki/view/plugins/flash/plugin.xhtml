@@ -20,25 +20,27 @@
         </div>
     </s:div>
 
-    (The flash plugin is currently disabled as it opens up XSS injection attack vectors. To be replaced
-    with a future version that parses the flash URL and/or only allows certain sites, see:
-    http://drupal.org/project/embedfilter)
+    <s:div rendered="#{not empty flashPreferences.flashURL and flash.URLAllowed}">
+        <object width="#{flashPreferencesobjectWidth}"
+                height="#{flashPreferences.objectHeight}">
+            <param name="movie" value="#{flashPreferences.flashURL}"></param>
+            <param name="wmode" value="transparent"></param>
+            <embed src="#{flashPreferences.flashURL}"
+                   type="application/x-shockwave-flash"
+                   wmode="transparent"
+                   width="#{flashPreferences.objectWidth}"
+                   height="#{flashPreferences.objectHeight}">
+           </embed>
+        </object>
+    </s:div>
 
-    <s:fragment rendered="#{false}">
-        <s:div rendered="#{!empty flashPreferences.properties['flashURL']}">
-            <object width="#{flashPreferences.properties['objectWidth']}"
-                    height="#{flashPreferences.properties['objectHeight']}">
-                <param name="movie" value="#{flashPreferences.properties['flashURL']}"></param>
-                <param name="wmode" value="transparent"></param>
-                <embed src="#{flashPreferences.properties['flashURL']}"
-                       type="application/x-shockwave-flash"
-                       wmode="transparent"
-                       width="#{flashPreferences.properties['objectWidth']}"
-                       height="#{flashPreferences.properties['objectHeight']}">
-               </embed>
-            </object>
-        </s:div>
-    </s:fragment>
+    <s:div rendered="#{empty flashPreferences.flashURL}" styleClass="flashURLNotSupplied">
+        <h:outputText value="#{messages['flash.msg.URLNotSupplied']}"/>
+    </s:div>
+
+    <s:div rendered="#{not empty flashPreferences.flashURL and not flash.URLAllowed}" styleClass="flashURLNotAllowed">
+        <h:outputText value="#{messages['flash.msg.URLNotAllowed']}"/>
+    </s:div>
 
 </s:div>
 
