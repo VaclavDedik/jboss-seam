@@ -204,7 +204,7 @@
       <dependency>
         <groupId>org.jbpm</groupId>
         <artifactId>jbpm-jpdl</artifactId>
-        <version>3.2.1</version>
+        <version>3.2.2</version>
       </dependency>
 
       <dependency>
@@ -657,7 +657,7 @@
       <dependency>
         <groupId>org.jboss.embedded</groupId>
         <artifactId>jboss-embedded-api</artifactId>
-        <version>beta2</version>
+        <version>beta2-seam1</version>
       </dependency>
 
       <dependency>
