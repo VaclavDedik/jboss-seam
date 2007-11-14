@@ -37,7 +37,7 @@ public class FacesSecurityEvents extends Selector
    }   
    
    @Observer(Identity.EVENT_INIT_IDENTITY)
-   public void initCredentialsFromCookie()
+   public void initCredentialsFromCookie(Identity identity)
    {       
       FacesContext ctx = FacesContext.getCurrentInstance();
       if (ctx != null)
@@ -45,14 +45,14 @@ public class FacesSecurityEvents extends Selector
          setCookiePath(ctx.getExternalContext().getRequestContextPath());
       }
       
-      Identity.instance().setRememberMe(isCookieEnabled());      
+      identity.setRememberMe(isCookieEnabled());      
       
       String username = getCookieValue();
       if (username!=null)
       {
          setCookieEnabled(true);
-         Identity.instance().setUsername(username);
-         postRememberMe();
+         identity.setUsername(username);
+         postRememberMe(identity);
       }
             
       setDirty();
@@ -65,19 +65,19 @@ public class FacesSecurityEvents extends Selector
    }
    
    @Observer(Identity.EVENT_POST_AUTHENTICATE)
-   public void postAuthenticate()
+   public void postAuthenticate(Identity identity)
    {
       // Password is set to null during authentication, so we set dirty
       setDirty();
             
-      if ( !Identity.instance().isRememberMe() ) clearCookieValue();
-      setCookieValueIfEnabled( Identity.instance().getUsername() );      
+      if ( !identity.isRememberMe() ) clearCookieValue();
+      setCookieValueIfEnabled( identity.getUsername() );      
    }
    
    @Observer(Identity.EVENT_REMEMBER_ME)
-   public void postRememberMe()
+   public void postRememberMe(Identity identity)
    {
-      setCookieEnabled(Identity.instance().isRememberMe());
+      setCookieEnabled(identity.isRememberMe());
    }     
    
    @Observer(Identity.EVENT_LOGIN_FAILED)

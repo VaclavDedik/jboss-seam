@@ -104,7 +104,7 @@ public class Identity implements Serializable
    public void create()
    {     
       subject = new Subject();
-      Events.instance().raiseEvent(EVENT_INIT_IDENTITY);
+      Events.instance().raiseEvent(EVENT_INIT_IDENTITY, this);
    }
    
    public static boolean isSecurityEnabled()
@@ -307,7 +307,7 @@ public class Identity implements Serializable
       
       password = null;
 
-      Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE);
+      Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE, this);
    }
    
    /**
@@ -586,7 +586,7 @@ public class Identity implements Serializable
       if (this.rememberMe != remember)
       {
          this.rememberMe = remember;
-         Events.instance().raiseEvent(EVENT_REMEMBER_ME);
+         Events.instance().raiseEvent(EVENT_REMEMBER_ME, this);
       }
    }
    
