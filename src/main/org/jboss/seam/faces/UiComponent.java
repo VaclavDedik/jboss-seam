@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.annotations.Install;
@@ -52,8 +53,15 @@ public class UiComponent
                 if (context == null) {
                     return null;
                 }
+                
+                UIViewRoot viewRoot = context.getViewRoot();
+                
+                if (viewRoot == null)
+                {
+                   return null;
+                }
 
-                return context.getViewRoot().findComponent( (String) key );
+                return viewRoot.findComponent( (String) key );
             }
             catch (IllegalArgumentException iae)
             {
