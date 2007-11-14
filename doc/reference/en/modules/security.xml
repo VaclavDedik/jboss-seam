@@ -1325,18 +1325,6 @@ public class HitchhikersCaptcha extends Captcha
           <row>
             <entry>
               <para>
-                <literal>org.jboss.seam.security.initIdentity</literal>
-              </para>
-            </entry>    
-            <entry>
-              <para>
-                Raised when the Identity component is created.
-              </para>
-            </entry>
-          </row>
-          <row>
-            <entry>
-              <para>
                 <literal>org.jboss.seam.security.loginSuccessful</literal>
               </para>
             </entry>    
