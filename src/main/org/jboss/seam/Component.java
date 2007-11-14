@@ -1974,7 +1974,7 @@ public class Component extends Model
       {
          getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
          callCreateMethod(instance);
-         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postCreate." + name);
+         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postCreate." + name, instance);
       }
 
       return instance;
