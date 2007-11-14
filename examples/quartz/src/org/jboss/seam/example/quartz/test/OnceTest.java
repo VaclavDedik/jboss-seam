@@ -28,7 +28,7 @@ public class OnceTest extends DBUnitSeamTest
     
    
     
-    @Test
+    //@Test
     public void scheduleOnce() throws Exception
     {
         try
