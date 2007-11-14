@@ -103,6 +103,13 @@
 	</target>
 
 	<target name="copyseamdependencies" if="mavenized.property" unless="copyseamdependenciesdone" depends="initcopy, initpoms">
+		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="compile" />
