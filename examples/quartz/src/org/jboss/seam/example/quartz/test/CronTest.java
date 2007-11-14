@@ -35,7 +35,7 @@ public class CronTest  extends DBUnitSeamTest
     
     
   
-    @Test
+    //@Test
     public void scheduleCron() throws Exception
     {
                         
