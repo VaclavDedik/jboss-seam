@@ -6,10 +6,9 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.plugin.tags.TagsAggregator;
 import org.hibernate.Session;
 import org.hibernate.Query;
+import org.hibernate.transform.ResultTransformer;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -51,13 +50,11 @@ public class TagDAO {
             return tagsSortedByCount;
     }
 
-    public List<Node> findNodes(Node startNode, Node ignoreNode, String tag) {
+    public List<Node> findNodes(Node startNode, Node ignoreNode, final String tag) {
 
         StringBuilder queryString = new StringBuilder();
 
-        queryString.append("select n1");
-
-        queryString.append(" ");
+        queryString.append("select distinct n1").append(" ");
         queryString.append("from ").append(startNode.getTreeSuperclassEntityName()).append(" n1, ");
         queryString.append(startNode.getTreeSuperclassEntityName()).append(" n2 ");
         queryString.append("where n1.nsThread = :thread and n2.nsThread = :thread").append(" ");
@@ -87,9 +84,26 @@ public class TagDAO {
 
         if (tag != null && tag.length()>0) {
             nestedSetQuery.setParameter("tag", "%" + tag + "%");
+            // These nodes have the tag _as a substring_ in their comma-separated tags list, we need to find
+            // the real tags, narrowing down the list of nodes by checking each node again.
+            nestedSetQuery.setResultTransformer(
+                new ResultTransformer() {
+                    public Object transformTuple(Object[] result, String[] aliases) {
+                        Node node = (Node)result[0];
+                        if (node.isTagged(tag)) return node;
+                        return null;
+                    }
+                    public List transformList(List list) {
+                        List listWithoutNulls = new ArrayList();
+                        for (Object o : list) if (o != null) listWithoutNulls.add(o);
+                        return listWithoutNulls;
+                    }
+                }
+            );
         }
 
         return nestedSetQuery.list();
+
     }
 
     private Session getSession() {
@@ -123,9 +137,8 @@ public class TagDAO {
 
             TagCount tagCount = (TagCount) o;
 
-            if (!tag.equals(tagCount.tag)) return false;
+            return tag.equals(tagCount.tag);
 
-            return true;
         }
 
         public int hashCode() {
