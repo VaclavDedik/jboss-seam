@@ -326,6 +326,15 @@ public class FeedDAO {
                         + inlineLink.getDescription()
                         + "</a>" : "[Broken Link]";
             }
+
+            // Preserve the macro that marks the end of the teaser
+            public String renderMacro(String macroName) {
+                if (macroName.equals(FeedEntry.END_TEASER_MACRO)) {
+                    return FeedEntry.END_TEASER_MARKER;
+                } else {
+                    return "[Macro]";
+                }
+            }
         }
         parser.setRenderer( new FeedRenderer() );
 

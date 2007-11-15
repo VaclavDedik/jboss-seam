@@ -24,6 +24,7 @@ import java.io.Serializable;
 )
 public class FeedEntry implements Serializable, Comparable {
 
+    public static final String END_TEASER_MACRO = "endTeaser";
     public static final String END_TEASER_MARKER = "[<=endTeaser]";
 
     @Id
