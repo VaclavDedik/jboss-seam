@@ -10,6 +10,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.util.EnumerationEnumeration;
 
@@ -94,6 +95,10 @@ public class SeamResourceBundle extends java.util.ResourceBundle
    @Override
    protected Object handleGetObject(String key)
    {
+      if (!Contexts.isApplicationContextActive())
+      {
+         return null;
+      }
       List<java.util.ResourceBundle> pageBundles = getPageResourceBundles();
       for (java.util.ResourceBundle pageBundle : pageBundles)
       {
