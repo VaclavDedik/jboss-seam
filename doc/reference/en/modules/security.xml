@@ -376,11 +376,11 @@ public class Authenticator {
         request.
       </para>
       
-      <programlisting><![CDATA[<event type="org.jboss.seam.notLoggedIn">
+      <programlisting><![CDATA[<event type="org.jboss.seam.security.notLoggedIn">
     <action execute="#{redirect.captureCurrentView}"/>
 </event>
     
-<event type="org.jboss.seam.postAuthenticate">
+<event type="org.jboss.seam.security.postAuthenticate">
     <action execute="#{redirect.returnToCapturedView}"/>
 </event>]]></programlisting>
       
@@ -512,7 +512,7 @@ public class Authenticator {
           <row>
             <entry>
               <para>
-                <literal>org.jboss.seam.loginSuccessful</literal>
+                <literal>org.jboss.seam.security.loginSuccessful</literal>
               </para>
             </entry>    
             <entry>
@@ -524,7 +524,7 @@ public class Authenticator {
           <row>
             <entry>
               <para>
-                <literal>org.jboss.seam.loginFailed</literal>
+                <literal>org.jboss.seam.security.loginFailed</literal>
               </para>
             </entry>    
             <entry>
@@ -537,7 +537,7 @@ public class Authenticator {
           <row>
             <entry>
               <para>
-                <literal>org.jboss.seam.NotLoggedIn</literal>
+                <literal>org.jboss.seam.security.NotLoggedIn</literal>
               </para>
             </entry>    
             <entry>
