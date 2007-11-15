@@ -27,26 +27,33 @@
             <s:span>
                 <a id="comment#{c.id}"/>
 
-                <div class="commentSubject undecoratedLink">
+                <s:div styleClass="commentSubject undecoratedLink" rendered="#{documentHome.instance.name != c.subject}">
                     <h:outputLink value="#{wiki:renderCommentURL(currentDocument, c)}">
-                        <h:outputText value="#{c.subject}" rendered="#{documentHome.instance.name != c.subject}"/>
+                        <h:outputText value="#{c.subject}"/>
                     </h:outputLink>
-                </div>
+                </s:div>
 
                 <div class="commentAuthorDate">
-                <span class="commentDate">
-                    <h:outputText value="#{c.createdOn}">
-                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
-                    </h:outputText>
-                    <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
-                </span>
-                    <s:span>&#160;(
+                    <span class="commentLink undecoratedLink">
+                        <h:outputLink value="#{wiki:renderCommentURL(currentDocument, c)}">
+                            <h:outputText value="#{messages['lacewiki.label.Link']}"/>
+                        </h:outputLink>
+                    </span>
+                    <h:outputText value="&#160;|&#160;"/>
+                    <span class="commentDate">
+                        <h:outputText value="#{c.createdOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                        </h:outputText>
+                        <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                    </span>
+                    <h:outputText value="&#160;|&#160;"/>
+                    <s:span>
                         <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>
                         <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserHomepage}"><a
                                 href="#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
                         <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">,&#160;
                             <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">#{wiki:escapeAtSymbol(c.fromUserEmail)}</h:outputLink>
-                        </s:span>)
+                        </s:span>
                     </s:span>
                 </div>
 
