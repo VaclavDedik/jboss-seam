@@ -384,6 +384,13 @@ public abstract class Node extends AbstractNestedSetNode<Node> implements Serial
         return tags;
     }
 
+    public boolean isTagged(String tag) {
+        if (getTags() != null && getTags().length()>0) {
+            for (String s : getTagsSplit()) if (s.equals(tag)) return true;
+        }
+        return false;
+    }
+
     public boolean isInstance(Class clazz) {
         return clazz.isAssignableFrom(this.getClass());
     }
