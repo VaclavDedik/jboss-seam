@@ -15,7 +15,7 @@ import java.util.List;
 class EntityBeanList extends AbstractEntityBeanCollection
 {
    private static final long serialVersionUID = -2884601453783925804L;
-   
+ 
    private List list;
    private List<PassivatedEntity> passivatedEntityList;
    
@@ -59,33 +59,40 @@ class EntityBeanList extends AbstractEntityBeanCollection
             list.set( i, passivatedEntity.toEntityReference(true) );
          }
       }
+      passivatedEntityList=null;
    }
 
    @Override
    protected void passivateAll()
-   {
-      passivatedEntityList = new ArrayList<PassivatedEntity>( list.size() );
-      boolean found = false;
-      for (int i=0; i<list.size(); i++ )
-      {
-         Object value = list.get(i);
-         PassivatedEntity passivatedEntity = null;
-         if (value!=null)
-         {
-            passivatedEntity = PassivatedEntity.passivateEntity(value);
-            if (passivatedEntity!=null)
-            {
-               if (!found) list = new ArrayList(list);
-               found=true;
-               //this would be dangerous, except that we 
-               //are doing it to a copy of the original 
-               //list:
-               list.set(i, null); 
-            }
-         }
-         passivatedEntityList.add(passivatedEntity);
-      }
-      if (!found) passivatedEntityList=null;
+   {       
+       List<PassivatedEntity> newPassivatedList = new ArrayList<PassivatedEntity>(list.size());               
+
+       boolean found = false;
+       for (int i=0; i<list.size(); i++) {
+           PassivatedEntity passivatedEntity = null;
+           Object value = list.get(i);
+           if (value != null) {
+               passivatedEntity = PassivatedEntity.passivateEntity(value);
+               
+               if (passivatedEntity!=null) {
+                   if (!found) {
+                       list = new ArrayList(list);
+                       found=true;
+                   }
+
+                   //this would be dangerous, except that we 
+                   //are doing it to a copy of the original 
+                   //list:
+                   list.set(i, null); 
+               }                               
+           }          
+           newPassivatedList.add(passivatedEntity);
+       }
+       
+       // if the original list was nulled out, we don't want to overwrite the passivatedEntity list
+       if (found) {
+           passivatedEntityList = newPassivatedList;
+       }
    }
    
 }
