@@ -220,7 +220,7 @@ public class Identity implements Serializable
          {
             log.debug("Login successful for: " + getUsername());
          }
-         Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
          return "loggedIn";
       }
       catch (LoginException ex)
@@ -229,7 +229,7 @@ public class Identity implements Serializable
          {
              log.debug("Login failed for: " + getUsername(), ex);
          }
-         Events.instance().raiseEvent(EVENT_LOGIN_FAILED, ex);
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_FAILED, ex);
          return null;
       }
    }
@@ -278,7 +278,7 @@ public class Identity implements Serializable
    {
       unAuthenticate();
       preAuthenticationRoles.clear();
-      Events.instance().raiseEvent(EVENT_PRE_AUTHENTICATE);
+      if (Events.exists()) Events.instance().raiseEvent(EVENT_PRE_AUTHENTICATE);
    }   
    
    protected void postAuthenticate()
@@ -307,7 +307,7 @@ public class Identity implements Serializable
       
       password = null;
 
-      Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE, this);
+      if (Events.exists()) Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE, this);
    }
    
    /**
@@ -346,7 +346,7 @@ public class Identity implements Serializable
       principal = null;
       unAuthenticate();
       Session.instance().invalidate();
-      Events.instance().raiseEvent(EVENT_LOGGED_OUT);
+      if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGGED_OUT);
    }
 
    /**
@@ -550,7 +550,7 @@ public class Identity implements Serializable
       if (this.username != username && (this.username == null || !this.username.equals(username)))
       {
          this.username = username;
-         Events.instance().raiseEvent(EVENT_CREDENTIALS_UPDATED);
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_CREDENTIALS_UPDATED);
       }
    }
    
@@ -564,7 +564,7 @@ public class Identity implements Serializable
       if (this.password != password && (this.password == null || !this.password.equals(password)))
       {
          this.password = password;
-         Events.instance().raiseEvent(EVENT_CREDENTIALS_UPDATED);
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_CREDENTIALS_UPDATED);
       }      
    }
    
@@ -588,7 +588,7 @@ public class Identity implements Serializable
       if (this.rememberMe != remember)
       {
          this.rememberMe = remember;
-         Events.instance().raiseEvent(EVENT_REMEMBER_ME, this);
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_REMEMBER_ME, this);
       }
    }
    
