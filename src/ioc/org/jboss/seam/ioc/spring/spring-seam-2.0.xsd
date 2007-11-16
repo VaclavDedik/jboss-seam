@@ -26,6 +26,16 @@
                     </xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
+            <xsd:attribute name="default-auto-create" type="xsd:boolean" use="optional" default="false">
+            	<xsd:annotation>
+            		<xsd:documentation>
+            			<![CDATA[
+							Should instances of this component be auto-created.  Defaults to false since custom Seam
+							scopes are typically used to create stateful components that go on to be created multiple times.
+                        ]]>
+            		</xsd:documentation>
+            	</xsd:annotation>
+            </xsd:attribute>
         </xsd:complexType>
     </xsd:element>
     <xsd:element name="instance">

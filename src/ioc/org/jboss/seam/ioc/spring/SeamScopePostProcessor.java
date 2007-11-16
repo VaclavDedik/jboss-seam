@@ -3,6 +3,7 @@ package org.jboss.seam.ioc.spring;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.springframework.beans.BeansException;
@@ -32,6 +33,8 @@ public class SeamScopePostProcessor
     public static final String DEFAULT_SCOPE_PREFIX = "seam.";
 
     private String prefix;
+    
+    private boolean defaultAutoCreate = false;
 
     /**
      * Null is not a valid prefix so make it the default is used if null or empty.
@@ -111,6 +114,10 @@ public class SeamScopePostProcessor
                     continue;
                 }
                 SpringComponent.addSpringComponent(beanName, beanName, definition.getBeanClassName(), scope, beanFactory, null);
+                if (defaultAutoCreate)
+                {
+                    Init.instance().addAutocreateVariable(beanName);
+                }
             }
         }
         finally
@@ -128,5 +135,12 @@ public class SeamScopePostProcessor
     public void setPrefix(String prefix)
     {
         this.prefix = prefix;
+    }
+    
+    /**
+     * @param defaultAutoCreate whether or not context variables should be set to auto-create. Default is false.
+     */
+    public void setDefaultAutoCreate(boolean defaultAutoCreate) {
+        this.defaultAutoCreate = defaultAutoCreate;   
     }
 }

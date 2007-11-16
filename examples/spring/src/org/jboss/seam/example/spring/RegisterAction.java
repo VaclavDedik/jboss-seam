@@ -17,9 +17,12 @@ public class RegisterAction
 
     @In("#{userService}")
     private UserService userService;
-    
+
     @In("#{hibernateTestService}")
     private HibernateTestService hibernateTestService;
+
+    @In("hotelSearch")
+    private HotelSearchingAction hotelSearchingAction;
 
     @In
     private FacesMessages facesMessages;
@@ -47,7 +50,7 @@ public class RegisterAction
             verify=null;
         }
     }
-    
+
     public void invalid()
     {
         facesMessages.add("Please try again");

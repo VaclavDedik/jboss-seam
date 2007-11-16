@@ -19,12 +19,12 @@ import org.jboss.seam.log.Log;
 
 @Scope(SESSION)
 @Name("bookingList")
-public class BookingListAction 
+public class BookingListAction
     implements Serializable
 {
     private static final long serialVersionUID = 8037511081807516466L;
 
-    @In("#{bookingService}")
+    @In
     private BookingService bookingService;
 
     @In
@@ -41,7 +41,7 @@ public class BookingListAction
     @Factory("bookings")
     @Observer("bookingConfirmed")
     public void getBookings()
-    {        
+    {
         bookings = bookingService.findBookingsByUsername(user.getUsername());
     }
 

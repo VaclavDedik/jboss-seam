@@ -17,7 +17,7 @@
         <property name="username" value="sa"/>
         <property name="password" value=""/>
     </bean>
-    
+
 	<!-- Here we are using a spring configured EMF you can just as easily use a Seam configured EMF using
 	<persistence:entity-manager-factory/> unless your project depends upon some functionality spring
 	provides an EMF such as the ability to inject a dataSource.
@@ -26,7 +26,7 @@
 		<property name="dataSource" ref="dataSource"/>
 		<property name="persistenceUnitName" value="bookingDatabase"/>
 	</bean>
-	
+
 	<!-- This example uses resource local JpaTransactionManager.  You could just as easily use a JtaTransactionManager -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<!-- Be sure to specify the SeamManagedEntityManagerFactory since that will manage the EM that will be
@@ -51,7 +51,7 @@
 		<property name="pageSize" value="10" />
 	</bean>
 
-	<seam:configure-scopes />
+	<seam:configure-scopes default-auto-create="true" />
 
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor">
 		<!-- Because we have multiple EntityManagerFactories in this applicaitonContext identify the
@@ -72,7 +72,7 @@
 
 
 	<!-- Sample Hibernate Configuration -->
-	
+
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
 		<property name="annotatedClasses">
@@ -83,20 +83,20 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="seamSessionFactory" class="org.jboss.seam.ioc.spring.SeamManagedSessionFactoryBean">
 		<property name="sessionName" value="hibernateSession"/>
 	</bean>
-	
+
 	<bean id="hibernateTestService" class="org.jboss.seam.example.spring.HibernateTestService">
 		<property name="sessionFactory" ref="seamSessionFactory"/>
 		<property name="transactionTemplate" ref="hibernateTransactionTemplate"/>
 	</bean>
-	
+
 	<bean id="hibernateTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
 		<property name="transactionManager" ref="hibernateTransactionManager"/>
 	</bean>
-	
+
 	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
 	   	<property name="sessionFactory" ref="seamSessionFactory"/>
 	</bean>
