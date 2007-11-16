@@ -48,7 +48,7 @@ public class Document extends Node {
     private Boolean enableCommentForm = true;
 
     @Column(table = "NODE_DOCUMENT", name = "ENABLE_COMMENTS_ON_FEEDS", nullable = false)
-    private Boolean enableCommentsOnFeeds = false;
+    private Boolean enableCommentsOnFeeds = true;
 
     @OneToMany(mappedBy = "document", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)

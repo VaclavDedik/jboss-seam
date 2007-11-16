@@ -44,6 +44,13 @@ public class FeedDAO {
 
     /* ############################# FINDERS ################################ */
 
+    public List<Feed> findFeeds() {
+        return restrictedEntityManager
+                .createQuery("select f from Feed f join fetch f.directory d order by d.createdOn asc")
+                .getResultList();
+
+    }
+
     public Feed findFeed(Long feedId) {
         try {
             return (Feed) restrictedEntityManager
@@ -332,7 +339,7 @@ public class FeedDAO {
                 if (macroName.equals(FeedEntry.END_TEASER_MACRO)) {
                     return FeedEntry.END_TEASER_MARKER;
                 } else {
-                    return "[Macro]";
+                    return "";
                 }
             }
         }

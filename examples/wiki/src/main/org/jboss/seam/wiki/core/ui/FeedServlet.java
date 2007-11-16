@@ -15,6 +15,7 @@ import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.core.model.FeedEntry;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.action.Authenticator;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -101,7 +102,7 @@ public class FeedServlet extends HttpServlet {
                 syndEntry.setUpdatedDate(entry.getUpdatedDate());
                 description = new SyndContentImpl();
                 description.setType(entry.getDescriptionType());
-                description.setValue(entry.getDescriptionValue());
+                description.setValue(WikiUtil.removeMacros(entry.getDescriptionValue()));
                 syndEntry.setDescription(description);
                 if (entry.getDocument() != null && entry.getDocument().getReadAccessLevel() <= currentAccessLevel) {
                     // Only add entry if the associated document has the right access level
