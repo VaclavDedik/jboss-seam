@@ -22,21 +22,27 @@
 			<classname>java.lang.Object</classname>
 			<defaultvalue>an EL expression specifying the data that backs the List&lt;SelectItem&gt;</defaultvalue>
 		</property>
-		<!-- Should be el="false" -->
-		<property required="true">
+		<property required="true" el="false">
 			<name>var</name>
 			<classname>java.lang.String</classname>
 			<description>defines the name of the local variable that holds the current object during iteration</description>
 		</property>
-		<property >
+        <property>
+            <name>itemValue</name>
+            <classname>java.lang.Object</classname>
+            <description>Value to return to the server if this option is selected. Optional, by default the var object is used. Can reference the var variable</description> 
+        </property>
+		<property exist="true">
 			<name>label</name>
 			<classname>java.lang.String</classname>
 			<description>the label to be used when rendering the SelectItem. Can reference the var variable</description>
+            <alias>itemLabel</alias>
 		</property>
 		<property>
 			<name>disabled</name>
 			<classname>java.lang.Boolean</classname>
 			<description>if true the SelectItem will be rendered disabled. Can reference the var variable</description>
+            <alias>itemDisabled</alias>
 		</property>
 		<property>
 			<name>noSelectionLabel</name>

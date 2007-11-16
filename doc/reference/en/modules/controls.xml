@@ -1096,6 +1096,12 @@
                      the <literal>var</literal> variable
                  </para>
                </listitem>
+               <listitem>
+                 <para>
+                     <literal>itemValue</literal> &#8212; Value to return to the server if this option is selected. Optional, by default the <literal>var</literal> object is used. Can reference the <literal>var</literal> variable                     
+                 </para>
+               </listitem>
+               
                 <listitem>
                  <para>
                      <literal>disabled</literal> &#8212; if true the <literal>SelectItem</literal> will be rendered disabled.  Can reference

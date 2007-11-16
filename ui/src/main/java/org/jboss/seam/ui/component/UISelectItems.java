@@ -21,6 +21,8 @@
 
 package org.jboss.seam.ui.component;
 
+import static org.jboss.seam.util.Strings.emptyIfNull;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,6 +109,10 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    public abstract Boolean getDisabled();
    
    public abstract void setDisabled(Boolean disabled);
+   
+   public abstract Object getItemValue();
+   
+   public abstract void setItemValue(Object itemValue);
 
    @Override
    public Object getValue()
@@ -172,9 +178,12 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       for (Object o : iterable)
       {
          initVar(o);
-         String label = getLabel();
+         String itemLabel = emptyIfNull(getLabel());
+         Object value = getItemValue();
+         Object itemValue = value == null ? o : value;
          Boolean disabled = getDisabled();
-         selectItems.add(new javax.faces.model.SelectItem(o, label == null ? null : label, "", disabled == null ? false : disabled));
+         boolean itemDisabled = disabled == null ? false : disabled;
+         selectItems.add( new javax.faces.model.SelectItem(itemValue, itemLabel, "", itemDisabled) );
          destroyVar();
       }
       return selectItems;
