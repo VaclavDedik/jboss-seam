@@ -202,7 +202,7 @@
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
                 <include name="*jpdl.xml" />
-                <include name="hibernate.cfg.xml" />
+                <include name="*hibernate.cfg.xml" />
                 <include name="jbpm.cfg.xml" />
             </fileset>
         </copy>
