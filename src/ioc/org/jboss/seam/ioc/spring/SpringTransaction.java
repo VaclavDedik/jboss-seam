@@ -82,29 +82,6 @@ public class SpringTransaction extends AbstractUserTransaction
       {
          platformTransactionManager.getValue().commit(currentTransaction);
       }
-      catch (HeuristicCompletionException e)
-      {
-
-         switch (e.getOutcomeState())
-         {
-            case HeuristicCompletionException.STATE_ROLLED_BACK:
-               log.error("Exception cause:", e);
-               throw new HeuristicRollbackException(e.getMessage());
-            default:
-               log.error("Exception cause:", e);
-               throw new HeuristicMixedException(e.getMessage());
-         }
-      }
-      catch (TransactionSystemException e)
-      {
-         log.error("Exception cause:", e);
-         throw new SystemException(e.getMessage());
-      }
-      catch (UnexpectedRollbackException e)
-      {
-         log.error("Exception cause:", e);
-         throw new RollbackException(e.getMessage());
-      }
       finally
       {
          currentTransaction = null;
@@ -168,11 +145,6 @@ public class SpringTransaction extends AbstractUserTransaction
       {
          platformTransactionManager.getValue().rollback(currentTransaction);
       }
-      catch (TransactionException e)
-      {
-         log.error("Exception cause:", e);
-         throw new SystemException(e.getMessage());
-      }
       finally
       {
          currentTransaction = null;
@@ -180,7 +152,7 @@ public class SpringTransaction extends AbstractUserTransaction
    }
 
    /**
-    * 
+    *
     */
    private void assertActive()
    {
@@ -210,11 +182,6 @@ public class SpringTransaction extends AbstractUserTransaction
             transaction = currentTransaction;
          }
          transaction.setRollbackOnly();
-      }
-      catch (TransactionException e)
-      {
-         log.error("Exception cause:", e);
-         throw new SystemException(e.getMessage());
       }
       finally
       {
@@ -251,7 +218,7 @@ public class SpringTransaction extends AbstractUserTransaction
          super.enlist(entityManager);
       }
    }
-   
+
    @Destroy
    public void cleanupCurrentTransaction() {
       if(currentTransaction != null) {
@@ -285,7 +252,7 @@ public class SpringTransaction extends AbstractUserTransaction
    {
       this.joinTransaction = joinTransaction;
    }
-   
+
    public class JtaSpringSynchronizationAdapter extends TransactionSynchronizationAdapter
    {
       @Override
