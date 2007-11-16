@@ -2,6 +2,7 @@ package org.jboss.seam.web;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+import static org.jboss.seam.core.Manager.REDIRECT_FROM_MANAGER;
 
 import java.io.IOException;
 
@@ -51,7 +52,7 @@ public class RedirectFilter extends AbstractFilter
          @Override
          public void sendRedirect(String url) throws IOException
          {
-            if ( Contexts.isEventContextActive() )
+            if ( Contexts.isEventContextActive() && !Contexts.getEventContext().isSet(REDIRECT_FROM_MANAGER) )
             {
                if ( !url.startsWith("http:") && !url.startsWith("https:") ) //yew!
                {

@@ -44,6 +44,8 @@ import org.jboss.seam.web.Session;
 public class Manager
 {
    private static final LogProvider log = Logging.getLogProvider(Manager.class);
+   
+   public static final String REDIRECT_FROM_MANAGER = "org.jboss.seam.core.Manager";
 
    //The id of the current conversation
    private String currentConversationId;

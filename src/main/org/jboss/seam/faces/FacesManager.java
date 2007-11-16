@@ -23,6 +23,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Init;
@@ -47,6 +48,8 @@ import org.jboss.seam.pageflow.Pageflow;
 public class FacesManager extends Manager
 {
    private static final LogProvider log = Logging.getLogProvider(FacesManager.class);
+   
+   
 
    private boolean controllingRedirect; 
    
@@ -193,7 +196,8 @@ public class FacesManager extends Manager
       ExternalContext externalContext = context.getExternalContext();
       controllingRedirect = true;
       try
-      {         
+      {  
+         Contexts.getEventContext().set(REDIRECT_FROM_MANAGER, "");
          externalContext.redirect( externalContext.encodeActionURL(url) );
       }
       catch (IOException ioe)
@@ -202,6 +206,7 @@ public class FacesManager extends Manager
       }
       finally
       {
+         Contexts.getEventContext().remove(REDIRECT_FROM_MANAGER);
          controllingRedirect = false;
       }
       context.responseComplete();
