@@ -192,6 +192,11 @@ private BookingService bookingService;]]></programlisting>
         <para> The prefix of the scope name may be changed by specifying the <literal>prefix</literal> attribute in the
                 <literal>configure-scopes</literal> definition. (The default prefix is <literal>seam.</literal>) </para>
 
+        <para> By default an instance of a Spring Component registered in this way is not automatically created when
+		        referenced using <literal>@In</literal>.  To have an instance auto-created you must either specify <literal>@In(create=true)</literal>
+		        at the injection point to identify a specific bean to be auto created or you can use the <literal>default-auto-create</literal>
+		        attribute of <literal>configure-scopes</literal> to make all spring beans who use a seam scope auto created.</para>
+
         <para> Seam-scoped Spring beans defined this way can be injected into other Spring beans without the use of
                 <literal>&lt;seam:instance/&gt;</literal>. However, care must be taken to ensure scope impedance
             is maintained. The normal approach used in Spring is to specify
