@@ -37,6 +37,11 @@ public class Strings
    {
       return isEmpty(string) ? null : string;
    }
+   
+   public static String emptyIfNull(String string)
+   {
+      return string == null ? "" : string;
+   }
 
    public static String toString(Object component)
    {
