@@ -63,26 +63,28 @@ class EntityBeanSet extends AbstractEntityBeanCollection
    @Override
    protected void passivateAll()
    {
-      passivatedEntityList = new ArrayList<PassivatedEntity>( set.size() );
-      boolean found = false;
-      for ( Object value: set )
-      {
-         if (value!=null)
-         {
-            PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
-            if (passivatedEntity!=null)
-            {
-               if (!found) set = new HashSet(set);
-               found=true;
-               //this would be dangerous, except that we 
-               //are doing it to a copy of the original 
-               //list:
-               set.remove(value);
-               passivatedEntityList.add(passivatedEntity);
-            }
-         }
-      }
-      if (!found) passivatedEntityList=null;
+       ArrayList<PassivatedEntity> newPassivatedList = new ArrayList<PassivatedEntity>( set.size() );
+       boolean found = false;
+       for (Object value: set){
+           if (value!=null) {
+               PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
+               if (passivatedEntity!=null) {
+                   if (!found) {
+                       set = new HashSet(set);
+                       found=true;
+                   }
+                   //this would be dangerous, except that we 
+                   //are doing it to a copy of the original 
+                   //list:
+                   set.remove(value);                   
+                   newPassivatedList.add(passivatedEntity);
+               }
+           }
+       }     
+       // if the original list was nulled out, we don't want to overwrite the passivatedEntity list
+       if (found) {
+           passivatedEntityList = newPassivatedList;
+       }
    }
    
 }

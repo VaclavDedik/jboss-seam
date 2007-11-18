@@ -1,6 +1,10 @@
 package org.jboss.seam.test.integration;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 
@@ -36,9 +40,21 @@ public class EntityPassivationTest
             protected void renderResponse()
                 throws Exception 
             {
-                List things = (List) getValue("#{entitytest.someComponent.things}");
-                assert things!=null && things.size() > 0;                
-                assert things.get(0) != null;             
+                Object thing = getValue("#{entitytest.someComponent.thing}");
+                assert thing!=null;      
+                
+                List thingList = (List) getValue("#{entitytest.someComponent.thingsAsList}");
+                assert thingList!=null && !thingList.isEmpty();            
+                assert thingList.get(0) != null;       
+            
+                
+                Set thingSet = (Set) getValue("#{entitytest.someComponent.thingsAsSet}");
+                assert thingSet!=null && thingSet.size() > 0;                
+                assert thingSet.iterator().next() != null;    
+                
+                Map thingMap = (Map) getValue("#{entitytest.someComponent.thingsAsMap}");
+                assert thingMap!=null && thingMap.size() > 0;
+                System.out.println("MAP: " + thingMap);
             }
         }.run();
 
@@ -55,13 +71,20 @@ public class EntityPassivationTest
             protected void renderResponse()
                 throws Exception 
             {
-                List things = (List) getValue("#{entitytest.someComponent.things}");
-                assert things!=null && things.size() > 0;                
-                assert things.get(0) != null;       
-                                
                 Object thing = getValue("#{entitytest.someComponent.thing}");
-                System.out.println("thing=" + thing);
-                assert thing!=null;            
+                assert thing!=null;      
+                
+                List thingList = (List) getValue("#{entitytest.someComponent.thingsAsList}");
+                assert thingList!=null && !thingList.isEmpty();            
+                assert thingList.get(0) != null;       
+            
+                
+                Set thingSet = (Set) getValue("#{entitytest.someComponent.thingsAsSet}");
+                assert thingSet!=null && thingSet.size() > 0;                
+                assert thingSet.iterator().next() != null;
+                
+                Map thingMap = (Map) getValue("#{entitytest.someComponent.thingsAsMap}");
+                assert thingMap!=null && thingMap.size() > 0;
             }
             
             
@@ -76,16 +99,34 @@ public class EntityPassivationTest
     public static class SomeComponent {
         @In EntityManager entityManager;
         
-        List<UnversionedThing> things;
+        
+        Set<UnversionedThing> thingSet;
+        List<UnversionedThing> thingList;
+        Map<Long,UnversionedThing> thingMap;
         UnversionedThing thing;
         
         public void loadThings() {
-            things = entityManager.createQuery("select t from UnversionedThing t").getResultList();
-            thing = things.get(0);
+            thingList = entityManager.createQuery("select t from UnversionedThing t").getResultList();
+            thingSet = new HashSet<UnversionedThing>(thingList);
+            
+            thingMap = new HashMap<Long,UnversionedThing>();
+            for (UnversionedThing thing: thingList) {
+                thingMap.put(thing.getId(),thing);
+            }
+            
+            thing = thingList.get(0);
         }
         
-        public List<UnversionedThing> getThings() {
-            return things;
+        public List<UnversionedThing> getThingsAsList() {
+            return thingList;
+        }
+        
+        public Set<UnversionedThing> getThingsAsSet() {
+            return thingSet;
+        }
+        
+        public Map<Long,UnversionedThing> getThingsAsMap() {
+            return thingMap;
         }
         
         public UnversionedThing getThing() {

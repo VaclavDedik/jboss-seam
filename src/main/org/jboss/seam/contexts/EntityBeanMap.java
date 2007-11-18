@@ -62,27 +62,30 @@ class EntityBeanMap extends AbstractEntityBeanCollection
    @Override
    protected void passivateAll()
    {
-      passivatedEntityMap = new HashMap<Object, PassivatedEntity>( map.size() );
+      HashMap<Object, PassivatedEntity> newPassivatedMap = 
+          new HashMap<Object, PassivatedEntity>(map.size());
       boolean found = false;
-      for ( Map.Entry me: (Set<Map.Entry>) map.entrySet() )
-      {
+      for (Map.Entry me: (Set<Map.Entry>) map.entrySet()) {
          Object value = me.getValue();
-         if (value!=null)
-         {
+         if (value!=null) {
             PassivatedEntity passivatedEntity = PassivatedEntity.passivateEntity(value);
-            if (passivatedEntity!=null)
-            {
-               if (!found) map = new HashMap(map);
-               found=true;
+            if (passivatedEntity!=null) {
+               if (!found) {
+                   map = new HashMap(map);
+                   found=true;
+               }
+
                //this would be dangerous, except that we 
                //are doing it to a copy of the original 
                //list:
-               map.remove( me.getKey() ); 
-               passivatedEntityMap.put( me.getKey(), passivatedEntity );
+               map.remove(me.getKey()); 
+               newPassivatedMap.put(me.getKey(), passivatedEntity);
             }
          }
       }
-      if (!found) clearPassivatedEntities();
+      if (found) {
+          passivatedEntityMap = newPassivatedMap;
+      }
    }
    
 }
