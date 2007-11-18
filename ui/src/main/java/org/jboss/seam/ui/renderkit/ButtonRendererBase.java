@@ -58,12 +58,6 @@ public class ButtonRendererBase extends RendererBase
    }
    
    @Override
-   public boolean getRendersChildren()
-   {
-      return true;
-   }
-   
-   @Override
    protected void doEncodeBegin(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
    {
       UIButton button = (UIButton) component;

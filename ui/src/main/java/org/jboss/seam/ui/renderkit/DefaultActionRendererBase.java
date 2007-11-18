@@ -38,7 +38,11 @@ public class DefaultActionRendererBase extends RendererBase
       UIComponent actionComponent = component.getParent();
       String actionComponentId = actionComponent.getClientId(context); 
       UIForm form = getForm(actionComponent);
-      if (form != null) 
+      if (form == null)
+      {
+         log.warn("Must embed default action inside a form");
+      }
+      else 
       { 
          String formId = form.getClientId(context);
          writer.startElement(SCRIPT_ELEM, component);

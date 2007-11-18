@@ -391,6 +391,12 @@
               the enter key.
             </para>
             <para>
+              Currently you can only nest it inside buttons (e.g. 
+              <literal>&lt;h:commandButton /&gt;</literal>,
+              <literal>&lt;a:commandButton /&gt;</literal> or
+              <literal>&lt;tr:commandButton /&gt;</literal>).
+            </para>
+            <para>
               You must specify an id on the action source. You can only have one
               default action per form.
             </para>
