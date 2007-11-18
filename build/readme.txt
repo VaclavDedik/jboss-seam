@@ -6,6 +6,15 @@ Seam, it's examples, and seam-gen.  If you are looking for information on
 building or configuring dependencies for a project which uses Seam, you should
 look at the chapter on dependencies and building in the reference manual.
 
+Eclipse Classpath
+-----------------
+
+If you want to generate an eclipse classpath based on the maven repository, run
+ant eclipseclasspath in the root folder. To download sources for Seam's 
+dependencies to your local m2 repository, run ant downloadDependenciesSources;
+the eclipseclasspath task automatically picks these up if they are available and
+attaches them to library in eclipse.
+
 Dependency Management
 ---------------------
 
