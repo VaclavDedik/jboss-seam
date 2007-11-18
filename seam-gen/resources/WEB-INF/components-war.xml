@@ -37,10 +37,10 @@
                            security-rules="#{securityRules}"
                               remember-me="true"/>
                               
-   <event type="org.jboss.seam.notLoggedIn">
+   <event type="org.jboss.seam.security.notLoggedIn">
        <action execute="#{redirect.captureCurrentView}"/>
    </event>
-   <event type="org.jboss.seam.postAuthenticate">
+   <event type="org.jboss.seam.security.loginSuccessful">
        <action execute="#{redirect.returnToCapturedView}"/>
    </event>
    
