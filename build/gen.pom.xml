@@ -14,11 +14,6 @@
     <!-- See parent pom for notes on how to declare dependencies -->
 
 	<dependencies>
-
-		<dependency>
-			<groupId>org.jboss.seam</groupId>
-			<artifactId>jboss-seam</artifactId>
-		</dependency>
     
         <dependency>
             <groupId>ant</groupId>
