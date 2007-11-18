@@ -243,7 +243,7 @@
 
 	<!-- ########################### GEN TARGETS ###########################-->
 
-	<target name="initgen" depends="init, jarcore">
+	<target name="initgen" depends="init">
 		<init classesdir="${classes.gen.dir}" srcdir="${src.gen.dir}" modulename="gen" pom="${gen.pom}" />
 	</target>
 
@@ -863,9 +863,42 @@
 		</sequential>
 	</macrodef>
 
-	<target name="initallmodules" depends="initcore, initdebug, initgen, initioc, initmail, initpdf, initremoting, initui" />
+	<target name="downloadDependenciesSources" description="Download source jars for all dependencies" depends="init">
+		<dependenciesWithSources id="core" scope="compile" pom="${core.pom}" />
+		<dependenciesWithSources id="debug" scope="compile" pom="${debug.pom}" />
+		<dependenciesWithSources id="gen" scope="compile" pom="${gen.pom}" />
+		<dependenciesWithSources id="ioc" scope="compile" pom="${ioc.pom}" />
+		<dependenciesWithSources id="mail" scope="compile" pom="${mail.pom}" />
+		<dependenciesWithSources id="pdf" scope="compile" pom="${pdf.pom}" />
+		<dependenciesWithSources id="remoting" scope="compile" pom="${remoting.pom}" />
+		<dependenciesWithSources id="ui" scope="compile" pom="${ui.pom}" />
+	</target>
+	
+	<!--<target name="downloadDependenciesJavadoc" depends="init">
+		<dependenciesWithJavadoc id="core" scope="compile" pom="${core.pom}" />
+		<dependenciesWithJavadoc id="debug" scope="compile" pom="${debug.pom}" />
+		<dependenciesWithJavadoc id="gen" scope="compile" pom="${gen.pom}" />
+		<dependenciesWithJavadoc id="ioc" scope="compile" pom="${ioc.pom}" />
+		<dependenciesWithJavadoc id="mail" scope="compile" pom="${mail.pom}" />
+		<dependenciesWithJavadoc id="pdf" scope="compile" pom="${pdf.pom}" />
+		<dependenciesWithJavadoc id="remoting" scope="compile" pom="${remoting.pom}" />
+		<dependenciesWithjavadoc id="ui" scope="compile" pom="${ui.pom}" />
+	</target>-->
+	
+	<target name="eclipseclasspath" depends="init, jargen" description="Update eclipse classpath">
+		<path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
 
-	<target name="eclipseclasspath" depends="initallmodules" description="Update eclipse classpath">
+	    <taskdef name="eclipseClasspath" 
+	        classname="org.jboss.seam.tool.EclipseClasspathTask" 
+	        classpathref="seam-gen.path"/>
+		<dependencies id="core" scope="compile" pom="${core.pom}" />
+		<dependencies id="debug" scope="compile" pom="${debug.pom}" />
+		<dependencies id="gen" scope="compile" pom="${gen.pom}" />
+		<dependencies id="ioc" scope="compile" pom="${ioc.pom}" />
+		<dependencies id="mail" scope="compile" pom="${mail.pom}" />
+		<dependencies id="pdf" scope="compile" pom="${pdf.pom}" />
+		<dependencies id="remoting" scope="compile" pom="${remoting.pom}" />
+		<dependencies id="ui" scope="compile" pom="${ui.pom}" />
 		<eclipseClasspath tofile=".classpath" file="${build.dir}/classpath.tmpl" filterProperty="automagic.classpath.entries">
 			<path refid="compile.core.path" />
 			<path refid="compile.debug.path" />
