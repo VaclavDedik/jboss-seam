@@ -17,6 +17,13 @@ public class EntityHome<E> extends Home<EntityManager, E>
 {
    private static final long serialVersionUID = -3140094990727574632L;
    
+   /**
+    * Run on {@link EntityHome} instantiation.
+    * <br />
+    * Validates that an {@link EntityManager} is available.
+    * 
+    * @see Home#create()
+    */
    @Override
    public void create()
    {
@@ -27,6 +34,9 @@ public class EntityHome<E> extends Home<EntityManager, E>
       }
    }
    
+   /**
+    * Returns true if the entity instance is managed
+    */
    @Transactional
    public boolean isManaged()
    {
@@ -34,6 +44,19 @@ public class EntityHome<E> extends Home<EntityManager, E>
             getEntityManager().contains( getInstance() );
    }
 
+   /**
+    * Flush any changes made to the managed entity instance to the underlying
+    * database. 
+    * <br />
+    * If the update is successful, a log message is printed, a 
+    * {@link javax.faces.application.FacesMessage} is added and a transaction 
+    * success event raised.
+    * 
+    * @see Home#updatedMessage()
+    * @see Home#raiseAfterTransactionSuccessEvent()
+    * 
+    * @return "updated" if the update is successful
+    */
    @Transactional
    public String update()
    {
@@ -44,6 +67,17 @@ public class EntityHome<E> extends Home<EntityManager, E>
       return "updated";
    }
    
+   /**
+    * Persist unmanaged entity instance to the underlying database. 
+    * If the persist is successful, a log message is printed, a 
+    * {@link javax.faces.application.FacesMessage } is added and a transaction 
+    * success event raised.
+    * 
+    * @see Home#createdMessage()
+    * @see Home#raiseAfterTransactionSuccessEvent()
+    * 
+    * @return "persisted" if the persist is successful
+    */
    @Transactional
    public String persist()
    {
@@ -55,6 +89,18 @@ public class EntityHome<E> extends Home<EntityManager, E>
       return "persisted";
    }
    
+   /**
+    * Remove managed entity instance from the Persistence Context and the 
+    * underlying database.
+    * If the remove is successful, a log message is printed, a 
+    * {@link javax.faces.application.FacesMessage} is added and a transaction 
+    * success event raised.
+    * 
+    * @see Home#deletedMessage()
+    * @see Home#raiseAfterTransactionSuccessEvent()
+    * 
+    * @return "removed" if the remove is successful
+    */
    @Transactional
    public String remove()
    {
@@ -65,26 +111,48 @@ public class EntityHome<E> extends Home<EntityManager, E>
       return "removed";
    }
    
-    @Transactional
-    @Override
-    public E find()
-    {
-        if (getEntityManager().isOpen())  {
-            E result = loadInstance();
-            if (result==null) {
-                result = handleNotFound();
-            }
-            return result;
-        } else {
-            return null;
-        }
-    }
+   /**
+    * Implementation of {@link Home#find() find()} for JPA
+    * 
+    * @see Home#find()
+    */
+   @Transactional
+   @Override
+   public E find()
+   {
+      if (getEntityManager().isOpen())  
+      {
+         E result = loadInstance();
+         if (result==null) 
+         {
+            result = handleNotFound();
+         }
+         return result;
+      }
+      else 
+      {
+         return null;
+      }
+   }
 
-    protected E loadInstance() 
-    {
-        return getEntityManager().find(getEntityClass(), getId());
-    }
+   /**
+    * Utility method to load entity instance from the {@link EntityManager}. 
+    * Called by {@link #find()}.
+    * <br />
+    * Can be overridden to support eager fetching of associations.
+    * 
+    * @return The entity identified by {@link Home#getEntityClass() getEntityClass()}, 
+    * {@link Home#getId() getId()}
+    */
+   protected E loadInstance() 
+   {
+      return getEntityManager().find(getEntityClass(), getId());
+   }
 
+   /**
+    * Implementation of {@link Home#joinTransaction() joinTransaction()} for
+    * JPA.
+    */
    @Override
    protected void joinTransaction()
    {
@@ -100,23 +168,40 @@ public class EntityHome<E> extends Home<EntityManager, E>
          }
       }
    }
-   
+
+   /**
+    * The Seam Managed Persistence Context used by this Home component
+    */
    public EntityManager getEntityManager()
    {
       return getPersistenceContext();
    }
    
+   /**
+    * The Seam Managed Persistence Context used by this Home component.
+    */
    public void setEntityManager(EntityManager entityManager)
    {
       setPersistenceContext(entityManager);
    }
    
+   /**
+    * The name the Seam component managing the Persistence Context.
+    * <br />
+    * Override this or {@link #getEntityManager()} if your persistence context
+    * is not named <code>entityManager</code>.
+    */
    @Override
    protected String getPersistenceContextName()
    {
       return "entityManager";
    }
    
+   /**
+    * Implementation of {@link Home#getEntityName() getEntityName()} for JPA
+    * 
+    * @see Home#getEntityName()
+    */
    @Override
    protected String getEntityName()
    {

@@ -35,24 +35,66 @@ public abstract class Home<T, E> extends MutableController<T>
    private String createdMessage = "Successfully created";
    private String updatedMessage = "Successfully updated";
    
+   /**
+    * Add a {@link javax.faces.application.FacesMessage} and log a message when 
+    * the entity instance is updated.
+    * 
+    * Utility method to add a {@link javax.faces.application.FacesMessage} from
+    * the Seam managed resource bundle or, if not specified in the resource 
+    * bundle, from {@link #getUpdatedMessage()} and log the entity when the 
+    * managed entity is updated.
+    * 
+    * @see #getUpdatedMessage()
+    * @see #getUpdatedMessageKey()
+    */
    protected void updatedMessage()
    {
       debug("updated entity #0 #1", getEntityClass().getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getUpdatedMessageKey(), getUpdatedMessage() );
    }
-   
+
+   /**
+    * Add a {@link javax.faces.application.FacesMessage} and log a message when
+    * the entity instance is deleted.
+    * 
+    * Utility method to add a {@link javax.faces.application.FacesMessage} from
+    * the Seam managed resource bundle or, if not specified in the resource
+    * bundle, from {@link #getDeletedMessage()} and log the entity when the 
+    * managed entity is deleted.
+    * 
+    * @see #getDeletedMessage()
+    * @see #getDeletedMessageKey()
+    */
    protected void deletedMessage()
    {
       debug("deleted entity #0 #1", getEntityClass().getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getDeletedMessageKey(), getDeletedMessage() );
    }
    
+   /**
+    * Add a {@link javax.faces.application.FacesMessage} and log a message when
+    * the entity instance is created.
+    * 
+    * Utility method to add a {@link javax.faces.application.FacesMessage} from
+    * the Seam managed resource bundle or, if not specified in the resource 
+    * bundle, from {@link #getUpdatedMessage()} and log the entity when the 
+    * managed entity is updated.
+    * 
+    * @see #getCreatedMessage()
+    * @see #getCreatedMessageKey()
+    */
    protected void createdMessage()
    {
       debug("created entity #0 #1", getEntityClass().getName(), getId());
       getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getCreatedMessageKey(), getCreatedMessage() );
    }
 
+   /**
+    * Run on {@link Home} instantiation to check the Home component is in a 
+    * valid state.
+    * <br />
+    * Validates that the class of the entity to be managed has been specified.
+    */
    @Create
    public void create()
    {
@@ -62,6 +104,13 @@ public abstract class Home<T, E> extends MutableController<T>
       }
    }
 
+   /**
+    * Get the managed entity, using the id from {@link #getId()} to load it from
+    * the Persistence Context or creating a new instance if the id is not 
+    * defined.
+    * 
+    * @see #getId()
+    */
    @Transactional
    public E getInstance()
    {
@@ -73,12 +122,26 @@ public abstract class Home<T, E> extends MutableController<T>
       return instance;
    }
    
+   /**
+    * Clear the managed entity (and id), allowing the {@link EntityHome} to be
+    * reused.
+    */
    public void clearInstance()
    {
       setInstance(null);
       setId(null);
    }
 
+   /**
+    * Load the instance if the id is defined otherwise create a new instance
+    * <br />
+    * Utility method called by {@link #getInstance()} to load the instance from 
+    * the Persistence Context if the id is defined. Otherwise a new instance is 
+    * created.
+    * 
+    * @see #find()
+    * @see #createInstance()
+    */
    protected void initInstance()
    {
       if ( isIdDefined() )
@@ -97,18 +160,36 @@ public abstract class Home<T, E> extends MutableController<T>
       }
    }
    
+   /**
+    * Hook method called to allow the implementation to join the current 
+    * transaction when necessary.
+    */
    protected void joinTransaction() {}
    
+   /**
+    * Hook method called by {@link #initInstance()} to allow the implementation 
+    * to load the entity from the Persistence Context.
+    */
    protected E find()
    {
       return null;
    }
 
+   /**
+    * Utility method called by the framework when no entity is found in the
+    * Persistence Context.
+    */
    protected E handleNotFound()
    {
       throw new EntityNotFoundException( getId(), getEntityClass() );
    }
 
+   /**
+    * Create a new instance of the entity.
+    * <br />
+    * Utility method called by {@link #initInstance()} to create a new instance 
+    * of the entity.
+    */
    protected E createInstance()
    {
       if (newInstance!=null)
@@ -132,6 +213,11 @@ public abstract class Home<T, E> extends MutableController<T>
       }
    }
 
+   /**
+    * Get the class of the entity being managed.
+    * <br />
+    * If not explicitly specified, the generic type of implementation is used.
+    */
    public Class<E> getEntityClass()
    {
       if (entityClass==null)
@@ -150,100 +236,190 @@ public abstract class Home<T, E> extends MutableController<T>
       return entityClass;
    }
 
+   /**
+    * Set the class of the entity being managed. 
+    * <br />
+    * Useful for configuring {@link Home} components from 
+    * <code>components.xml</code>.
+    */
    public void setEntityClass(Class<E> entityClass)
    {
       this.entityClass = entityClass;
    }
    
+   /**
+    * Get the id of the object being managed.
+    */
    public Object getId()
    {
       return id;
    }
 
+   /**
+    * Set/change the entity being managed by id.
+    * 
+    * @see #assignId(Object)
+    */
    public void setId(Object id)
    {
       if ( setDirty(this.id, id) ) setInstance(null);
       this.id = id;
    }
    
+   /**
+    * Set the id of entity being managed.
+    * <br />
+    * Does not alter the instance so used if the id of the managed object is 
+    * changed.
+    * 
+    * @see #setId(Object)
+    */
    protected void assignId(Object id)
    {
       setDirty(this.id, id);
       this.id = id;
    }
    
+   /**
+    * Returns true if the id of the object managed is known.
+    */
    public boolean isIdDefined()
    {
       return getId()!=null && !"".equals( getId() );
    }
 
+   /**
+    * Set/change the entity being managed.
+    */
    public void setInstance(E instance)
    {
       setDirty(this.instance, instance);
       this.instance = instance;
    }
 
+   /**
+    * {@link javax.el.ValueExpression} to execute to load a new instance.
+    * <br />
+    * Mainly used when configuring the {@link Home} components in 
+    * <code>components.xml</code>.
+    */
    public ValueExpression getNewInstance()
    {
       return newInstance;
    }
 
+   /**
+    * {@link javax.el.ValueExpression} to execute to load a new instance.
+    * <br />
+    * Mainly used when configuring the {@link Home} components in 
+    * <code>components.xml</code>.
+    */
    public void setNewInstance(ValueExpression newInstance)
    {
       this.newInstance = newInstance;
    }
 
+   /**
+    * Message displayed to user when the managed entity is created.
+    */
    public String getCreatedMessage()
    {
       return createdMessage;
    }
 
+   /**
+    * Message displayed to user when the managed entity is created.
+    */
    public void setCreatedMessage(String createdMessage)
    {
       this.createdMessage = createdMessage;
    }
 
+   /**
+    * Message displayed to user when the managed entity is deleted.
+    */
    public String getDeletedMessage()
    {
       return deletedMessage;
    }
 
+   /**
+    * Message displayed to user when the managed entity is deleted.
+    */
    public void setDeletedMessage(String deletedMessage)
    {
       this.deletedMessage = deletedMessage;
    }
 
+   /**
+    * Message displayed to user when the managed entity is updated.
+    */
    public String getUpdatedMessage()
    {
       return updatedMessage;
    }
 
+   /**
+    * Message displayed to user when the managed entity is updated.
+    */
    public void setUpdatedMessage(String updatedMessage)
    {
       this.updatedMessage = updatedMessage;
    }
    
+   /**
+    * The prefix of the key to look up messages in the Seam managed resource 
+    * bundle.
+    * <br />
+    * By default the simple name of the class suffixed with an underscore.
+    */
    protected String getMessageKeyPrefix()
    {
       String className = getEntityClass().getName();
       return className.substring( className.lastIndexOf('.') + 1 ) + '_';
    }
    
+   /**
+    * The key to look up in the Seam managed resource bundle the message
+    * displayed when the managed entity is created. 
+    * <br />
+    * By default the {@link #getMessageKeyPrefix()} suffixed with created.
+    */
    protected String getCreatedMessageKey()
    {
       return getMessageKeyPrefix() + "created";
    }
    
+   /**
+    * The key to look up in the Seam managed resource bundle the message
+    * displayed when the managed entity is updated. 
+    * <br />
+    * By default the {@link #getMessageKeyPrefix()} suffixed with updated.
+    */
    protected String getUpdatedMessageKey()
    {
       return getMessageKeyPrefix() + "updated";
    }
    
+   /**
+    * The key to look up in the Seam managed resource bundle the message
+    * displayed when the managed entity is deleted. 
+    * <br />
+    * By default the {@link #getMessageKeyPrefix()} suffixed with deleted.
+    */
    protected String getDeletedMessageKey()
    {
       return getMessageKeyPrefix() + "deleted";
    }
    
+   /**
+    * Raise events when a CRUD operation succeeds.
+    * <br />
+    * Utility method to raise two events: an event of type 
+    * <code>org.jboss.seam.afterTransactionSuccess</code> is raised, along with 
+    * an event of type 
+    * <code>org.jboss.seam.afterTransactionSuccess.&lt;entityName&gt;</code>.
+    */
    protected void raiseAfterTransactionSuccessEvent()
    {
       raiseTransactionSuccessEvent("org.jboss.seam.afterTransactionSuccess");
@@ -254,6 +430,9 @@ public abstract class Home<T, E> extends MutableController<T>
       }
    }
    
+   /**
+    * The simple name of the managed entity
+    */
    protected String getSimpleEntityName()
    {
       String name = getEntityName();
@@ -267,6 +446,9 @@ public abstract class Home<T, E> extends MutableController<T>
       }
    }
    
+   /**
+    * Hook method to get the name of the managed entity
+    */
    protected abstract String getEntityName();
    
 }
