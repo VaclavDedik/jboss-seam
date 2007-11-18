@@ -377,6 +377,33 @@
 </ui:composition>]]></programlisting>
           </entry>
         </row>
+        
+        <row>
+          <entry valign="top">
+            <para>
+              <literal>&lt;s:defaultAction&gt;</literal>
+            </para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              Specify the default action to run when the form is submitted using
+              the enter key.
+            </para>
+            <para>
+              You must specify an id on the action source. You can only have one
+              default action per form.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:commandButton id="foo" value="Foo" action="#{manager.foo}">
+   <s:defaultAction />
+</h:commandButton>]]></programlisting>
+          </entry>
+        </row>
 
         <row>
           <entry valign="top">
