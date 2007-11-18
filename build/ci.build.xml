@@ -74,7 +74,7 @@
 		<sequential>
 			<artifact:deploy file="@{jar}" uniqueVersion="true">
 				<pom file="@{pom}" />
-                <!--<attach file="@{srcjar}" classifier="sources" />-->
+                <attach file="@{srcjar}" classifier="sources" />
 				<remoteRepository refid="snapshots.jboss.org" />
 			</artifact:deploy>
 		</sequential>
