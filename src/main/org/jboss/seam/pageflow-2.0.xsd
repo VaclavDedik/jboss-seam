@@ -321,7 +321,7 @@
 	</xs:group>
 
 	<xs:attributeGroup name="page-attributes">
-		<xs:attribute name="redirect" type="booleanType" />
+		<xs:attribute name="redirect" type="xs:boolean" />
 		<xs:attribute name="switch" type="enabledType" />
 		<xs:attribute name="no-conversation-view-id" type="xs:string" />
 		<xs:attribute name="timeout" type="xs:int" />
