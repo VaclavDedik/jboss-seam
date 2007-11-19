@@ -197,14 +197,17 @@ public class Identity implements Serializable
       {
          if ( !isLoggedIn() )
          {
-            Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
+//          TODO - Deprecated, remove for next major release
+            if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");            
+            
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             log.debug(String.format(
                "Error evaluating expression [%s] - User not logged in", expr));
             throw new NotLoggedInException();
          }
          else
          {
-            Events.instance().raiseEvent(EVENT_NOT_AUTHORIZED);
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_AUTHORIZED);
             throw new AuthorizationException(String.format(
                "Authorization check failed for expression [%s]", expr));
          }
@@ -220,6 +223,10 @@ public class Identity implements Serializable
          {
             log.debug("Login successful for: " + getUsername());
          }
+
+//       TODO - Deprecated, remove for next major release
+         if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.loginSuccessful");
+         
          if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
          return "loggedIn";
       }
@@ -443,7 +450,10 @@ public class Identity implements Serializable
       {
          if ( !isLoggedIn() )
          {
-            Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
+            // TODO - Deprecated, remove for next major release
+            if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
+            
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             throw new NotLoggedInException();
          }
          else
@@ -471,7 +481,10 @@ public class Identity implements Serializable
       {
          if ( !isLoggedIn() )
          {
-            Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
+//          TODO - Deprecated, remove for next major release
+            if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");            
+            
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             throw new NotLoggedInException();
          }
          else
