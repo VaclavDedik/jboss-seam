@@ -476,8 +476,8 @@ public class MailListenerMDB implements MailListener {
 		
     <para>
       The version of Meldware distributed with Seam (in the <literal>mail/buni-meldware</literal>
-      folder is specially tailored for development - mailboxes, users and 
-      aliases (email addresses) are created everytime the the application 
+      folder) is specially tailored for development - mailboxes, users and 
+      aliases (email addresses) are created every time the application 
       deploys.  If you want to use Meldware in production you should install
       the latest release from <ulink url="http://buni.org">buni.org</ulink>. 
     </para>
