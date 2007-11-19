@@ -40,7 +40,7 @@ public class UserSearch implements Serializable {
         exampleUser = new User();
         orderByProperty = "username";
         orderDescending = false;
-        ignoreProperties = new String[]{"passwordHash", "activated", "createdOn"};
+        ignoreProperties = new String[]{"passwordHash", "activated", "createdOn", "lastLoginOn" };
     }
 
     public void find() {
