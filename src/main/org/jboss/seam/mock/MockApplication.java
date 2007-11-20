@@ -53,10 +53,13 @@ public class MockApplication extends Application
 {
    
    private javax.el.CompositeELResolver elResolver;
+   private javax.el.CompositeELResolver additionalResolvers;
    
    public MockApplication()
    {
      elResolver = new CompositeELResolver();
+     additionalResolvers = new CompositeELResolver();
+     elResolver.add(additionalResolvers);
      elResolver.add(EL.EL_RESOLVER); 
    }
    
@@ -75,7 +78,7 @@ public class MockApplication extends Application
    @Override
    public void addELResolver(javax.el.ELResolver r) 
    {
-      elResolver.add(r);
+      additionalResolvers.add(r);
    }
    
    @Override

@@ -18,7 +18,6 @@
        <class name="org.jboss.seam.test.unit.MailTest"/>
        <class name="org.jboss.seam.test.unit.DataModelTest"/>
        <class name="org.jboss.seam.test.unit.PageflowTest"/>
-       <class name="org.jboss.seam.test.unit.SeamMockELResolverTest" />
        <class name="org.jboss.seam.test.unit.PageActionsTest" />
        <class name="org.jboss.seam.test.unit.HomeTest" />
        <class name="org.jboss.seam.test.unit.NamespaceTest" />

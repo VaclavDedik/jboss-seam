@@ -57,4 +57,10 @@
    		    <class name="org.jboss.seam.test.integration.MessagingTest" />
         </classes>
     </test>
+    
+    <test name="Seam Core - Integration: Mocks">
+        <classes>
+          <class name="org.jboss.seam.test.integration.SeamMockELResolverTest" />
+        </classes>
+    </test>
 </suite>
