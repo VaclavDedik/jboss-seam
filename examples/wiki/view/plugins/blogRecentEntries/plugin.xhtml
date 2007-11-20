@@ -66,8 +66,8 @@
                                  columnClasses="blogRecentEntriesItem"
                                  cellpadding="0" cellspacing="0" border="0">
                         <h:column>
-                            <h:outputLink target="_top" value="#{wiki:renderURL(be.entryDocument)}">
-                                #{wiki:truncateString(be.entryDocument.name, blogRecentEntriesPreferences.truncateItemText, '...')}
+                            <h:outputLink styleClass="blogRecentEntriesItemLink" target="_top" value="#{wiki:renderURL(be.entryDocument)}">
+                                <h:outputText styleClass="blogRecentEntriesItemLinkText" value="#{wiki:truncateString(be.entryDocument.name, blogRecentEntriesPreferences.truncateItemText, '...')}"/>
                             </h:outputLink>
                         </h:column>
                     </h:dataTable>

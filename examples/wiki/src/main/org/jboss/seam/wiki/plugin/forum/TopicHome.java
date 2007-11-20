@@ -6,6 +6,7 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.action.NodeHome;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.dao.FeedDAO;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
@@ -23,6 +24,7 @@ public class TopicHome extends NodeHome<ForumTopic> {
 
     private boolean showForm = false;
     private String formContent;
+    private User user;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -57,6 +59,10 @@ public class TopicHome extends NodeHome<ForumTopic> {
     private void syncInstanceToForm(Directory dir) {
         WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
         formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContentWithoutMacros());
+    }
+
+    protected User getCurrentUser() {
+        return user; // Return user from this persistence context
     }
 
     /* -------------------------- Messages ------------------------------ */
@@ -100,6 +106,10 @@ public class TopicHome extends NodeHome<ForumTopic> {
 
         // Get a fresh parent directory instance into the current persistence context
         setParentDirectory(loadParentDirectory(getParentDirectory().getId()));
+
+        // Get a fresh user instance into the current persistence context
+        user = getUserDAO().findUser(currentUser.getId());
+
     }
 
     @End

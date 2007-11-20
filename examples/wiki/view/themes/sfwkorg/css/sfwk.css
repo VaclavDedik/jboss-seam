@@ -1,0 +1,1115 @@
+/* --- CSS styles for common elements ----- */
+
+body {
+	font-family:  'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+	font-size: 12px;
+	background-color:#e9e8e7;
+	margin: 0;
+}
+
+img {
+	border: 0;
+}
+
+a {
+	color:#576c74;
+    text-decoration: none;
+}
+
+a:hover {
+	color:#000;
+}
+
+a:visited {
+	color:#576c74;
+    text-decoration: none;
+}
+
+h1 {
+	color:#576c74;
+	font-size:1.5em;
+}
+
+h2 {
+	color:#576c74;
+	font-size:1.2em;
+}
+
+h3 {
+    color:#576c74;
+	font-size:1em;
+}
+
+h4 {
+	color:#696969;
+	font-size:1em;
+}
+
+hr {
+    width: 100%;
+    border-width: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 1px;
+    color:#576c74;
+    background-color: #576c74;
+}
+
+input, textarea, select {
+	border: 1px solid #d3d2d1;
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+    font-size: 85%;
+    padding: 2px;
+    font-family: Andale Mono, Courier New, monospace;
+}
+
+/* ----- Wiki text ---- */
+
+.wikiHeadline3 {
+    color:#576c74;
+    border-top: 1px solid #576c74;
+    background-color:#b9d5e0;
+    padding: 2px;
+}
+
+.wikiPara {
+    line-height: 1.5em;
+}
+
+.wikiOrderedList {
+    list-style-type: decimal;
+    line-height: 1.5em;
+}
+
+.wikiUnorderedList {
+    list-style: square;
+    line-height: 1.5em;
+}
+
+.wikiBlockquote, blockquote {
+    background: #f5f5f5;
+    border-left: 4px solid #b9d5e0;
+    padding: 5px;
+    padding-right: 10px;
+    margin: 10px;
+}
+
+.wikiBlockquote .wikiBlockquote, blockquote blockquote {
+    background: #e5e5e5;
+}
+
+.wikiBlockquote .wikiBlockquote .wikiBlockquote, blockquote blockquote blockquote {
+    background: #c5c5c5;
+}
+
+.wikiBlockquote .wikiBlockquote .wikiBlockquote .wikiBlockquote,
+blockquote blockquote blockquote blockquote {
+    background: #c0c0c0;
+}
+
+.wikiPreformatted {
+    background-color: #f5f5f5;
+    border: 1px solid #aaaaaa;
+    padding: 5px;
+    font-family: Andale Mono, Courier New, monospace;
+    font-size: 90%;
+    overflow-x: auto;
+}
+
+
+/* ----- Float Styles ----- */
+
+.clear {
+	clear:both;
+}
+
+.floatright {
+	float:right;
+}
+
+.floatleft {
+	float:left;
+}
+
+/* ----- Page Structure styles ----- */
+
+#wrapper {
+	text-align: left;
+	margin: 0 auto;
+	background-color: white;
+	padding: 0;
+	border-left: 1px solid #d3d2d1;
+	border-right: 1px solid #d3d2d1;
+	border-bottom: 1px solid #d3d2d1;
+	background-image:url(../img/leftside_bkgimage.gif);
+	background-repeat:repeat-y;
+	min-width:960px;
+	width: 80%;
+
+}
+
+#header {
+	margin: 0;
+	padding:0;
+	background-image:url(../img/hrd_bkgimage_fade.gif);
+	background-repeat:no-repeat;
+	background-color:#32332b;
+	border-bottom:1px solid #878888;
+	min-width:960px;
+}
+
+#utilityNav {
+	float: right;
+	color:#ca884e;
+    margin-top: 5px;
+}
+
+#container {
+}
+
+#leftColumn {
+	float: left;
+	width: 220px;
+}
+
+#rightColumn {
+	margin-left: 220px;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+.membersAreaContainer {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color:#75a8bd;
+	background-color: white;
+}
+
+.membersArea {
+	padding: 5px 15px;
+}
+
+.membersArea h3 {
+	color: #75a8bd;
+	font-weight: bold;
+	font-size: 1.2em;
+	border-bottom: 1px solid #b6b6b6;
+	margin-top: 0px;
+	margin-bottom: 6px;
+}
+
+.linkNavigation {
+    display: block;
+    padding: 2px 5px 2px 5px;
+    margin: 0 5px 0 5px;
+}
+
+.linkNavigation:visited {color: #576c74}
+
+.workspaceSwitcherContainer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.workspaceSwitcherCombobox {
+}
+
+.workspaceSwitcherLink {
+    display: block;
+}
+
+.feedIcon {
+    vertical-align: text-bottom;
+    margin-right: 5px;
+}
+
+/* -----  Footer styles  ------  */
+
+#footer {
+	clear: both;
+	font-size: 10px;
+	text-align:center;
+	color:#666666;
+	margin:10px auto;
+}
+
+/* --------------------------  Breadcrumb navigation --------------------------------- */
+
+#breadcrumb {}
+
+#breadcrumb .breadcrumbRoot {
+    display: none;
+}
+
+#breadcrumb .itemLink {
+    color: #576c74;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+#breadcrumb .itemLink:hover {
+    color: #000;
+}
+
+#breadcrumb .itemSeparator {
+    padding-left: 2px;
+    padding-right: 2px;
+    color: #000;
+}
+
+#breadcrumb .itemSeparatorDot  {
+    display: none;
+}
+
+#breadcrumb .itemText {
+    color: #576c74;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+#breadcrumb .itemText:hover {
+    color: #000;
+}
+
+/* ------ "Nifty" rounded corners ------- */
+
+b.rtop, b.rbottom {
+	display:block;
+	background: #ede8db
+}
+
+b.rtop b, b.rbottom b {
+	display:block;
+	height: 1px;
+    overflow: hidden;
+	background: white;
+}
+
+b.r1 {
+	margin: 0 5px;
+}
+
+b.r2 {
+	margin: 0 3px;
+}
+
+b.r3 {
+	margin: 0 2px;
+}
+
+b.rtop b.r4, b.rbottom b.r4 {
+	margin: 0 1px;
+	height: 2px;
+}
+
+/* ------ Wiki styles ----- */
+
+/* Messages
+----------------------------------------------- */
+
+.messageBox {
+    background-color: #ffeeee;
+    width: auto;
+}
+
+.messageBox table {
+    padding: 0;
+    margin: 0;
+    border:0;
+}
+
+.infoMessage {
+    font-size: 85%;
+    font-weight: bold;
+    color: #666;
+}
+
+.infoImage {
+    vertical-align: text-top;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.attentionImage {
+    vertical-align: text-top;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.attentionMessage {
+	color: #666;
+}
+
+.messageBox .attentionImage {
+    vertical-align: text-top;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.messageBox .attentionMessage {
+    font-weight: bold;
+    color: #666;
+}
+
+/* General
+----------------------------------------------- */
+
+#bodyPlain {
+    background: white;
+    text-align: left;
+    margin-left: 0;
+    padding: 5px 10px 10px 10px ;
+    border: 0;
+}
+
+.documentTags {
+    border-top: 1px solid #ccc;
+    white-space: nowrap;
+    font-size: 80%;
+    font-weight: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 125%;
+}
+
+.documentCreatorHistory {
+    border-top: 1px solid #ccc;
+    white-space: nowrap;
+    font-size: 80%;
+    font-weight: normal;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 125%;
+}
+
+.attachmentDisplay {
+}
+
+.regularLink{
+    text-decoration: underline;
+}
+
+.brokenLink {
+    color: #ff0000;
+    text-decoration: line-through;
+}
+
+.undecoratedLink a {
+    color: #576c74;
+}
+.undecoratedLink a:hover {
+    color: #000;
+}
+
+.button {
+    background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
+    padding: 2px 5px 2px 5px;
+    margin: 0 5px 0 5px;
+}
+
+.buttonNonpersistent {
+    background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
+    padding: 2px 5px 2px 5px;
+    margin: 0 5px 0 5px;
+}
+
+.buttonLabel{
+    color: #fff;
+    font-weight: bold;
+    font-size: 11px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+/* Generic Lists
+----------------------------------------------- */
+
+.datatable {
+    margin: 0;
+    font-size: 90%;
+    width: 100%;
+    border-collapse: separate;
+}
+
+.datatable input {
+    font-size: 100%;
+}
+
+.topLeftBottomBorder {
+    border-top: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-bottom: 1px solid #d3d2d1;
+}
+
+.rightBorder {
+    border-right: 1px solid #d3d2d1;
+}
+
+.leftBorder {
+    border-left: 1px solid #d3d2d1;
+}
+
+.topBorder {
+    border-top: 1px solid #d3d2d1;
+}
+
+.bottomBorder {
+    border-bottom: 1px solid #d3d2d1;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.alignRight {
+    text-align: right;
+}
+
+.alignLeft {
+    text-align: left;
+}
+
+.noPadding {
+    padding: 0;
+}
+
+.minorPadding {
+    padding: 5px;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.datatable .rowOdd {
+    background-color: #fff;
+    line-height: 160%;
+}
+
+.datatable .rowEven {
+    background-color: #f5f5f5;
+    line-height: 160%;
+}
+
+.datatable .sortableHeader {
+    white-space: nowrap;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: bold;
+}
+
+.datatable .regularHeader {
+    white-space: nowrap;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: bold;
+}
+
+.defaultColumn {
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.onePercentColumn{
+    width: 1%;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.fivePercentColumn {
+    width: 5%;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.tenPercentColumn {
+    width: 10%;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.fifteenPercentColumn {
+    width: 15%;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.twentyPercentColumn {
+    width: 20%;
+    padding-left: 10px;
+    padding-right: 10px;
+    white-space: nowrap;
+}
+
+.wrapWhitespace {
+    white-space: normal;
+}
+
+/* Pager
+-----------------------------------------------*/
+
+.pager {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    text-align: center;
+}
+.pager .pagerIconColumn {
+    width: 10%;
+}
+.pager .pagerTextColumn {
+    width: 60%;
+}
+
+/* Comments
+-----------------------------------------------*/
+
+.commentColumn {
+    padding: 5px;
+}
+
+.commentSubject {
+    font-weight: bold;
+    font-size: 100%;
+    float: left;
+}
+
+
+.commentAuthorDate {
+    text-align:right;
+    font-size: 95%;
+}
+
+.commentAuthor {
+}
+
+.commentDate {
+}
+
+.commentText {
+
+}
+
+.commentForm {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* Document history and diff
+-----------------------------------------------*/
+
+.diffOutput {
+    margin: 10px;
+}
+
+.diffInfo {
+    font-size: 85%;
+    font-weight: bold;
+    color: #666;
+}
+
+.diffDeleted {
+    background-color: #ffaaaa;
+}
+
+.diffAdded {
+    background-color: #aaffaa;
+}
+
+.diffLink {
+    text-decoration: underline;
+}
+
+.diffPlugin {
+    border: 1px dashed black;
+    padding: 2px;
+}
+
+.addedText {
+    background-color: lightgreen;
+}
+
+.deletedText {
+    background-color: lightcoral;
+}
+
+/* Forms
+----------------------------------------------- */
+
+.form {
+    margin-top: 10px;
+}
+
+.form .statusIndicator {
+    float: right;
+}
+
+.form .statusIndicator .statusStart {
+    background: transparent;
+}
+
+.form .statusIndicator .statusStop {
+    background: transparent;
+}
+
+.formListGridColumn {
+    vertical-align: top;
+    padding: 10px;
+}
+
+.formListTable {
+    border: 1px solid #d3d2d1;
+}
+
+.formListItem {
+    background: #fff url(../img/th.bg.gif ) 0 0 repeat-x;
+    font-size: 85%;
+    padding: 3px;
+}
+
+.selectedItem {
+    color: #000;
+}
+
+.formHead {
+    text-align: left;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    font-weight: bold;
+    color: #000;
+    padding-left: 13px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+}
+
+.formFields {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #f5f5f5;
+}
+
+.formBorder {
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+}
+
+.formControls {
+    background-color: #ede8db;
+    border: 1px solid #d3d2d1;
+    padding: 5px;
+}
+
+.entry {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.entry .label {
+	float: left;
+    padding-top: 1px;
+    padding-right: 2%;
+    font-size: 85%;
+    width: 18%;
+	text-align: right;
+}
+
+.entry .output {
+    padding-top: 1px;
+    text-align: left;
+    font-size: 85%;
+}
+
+.entry .input {
+    text-align: left;
+}
+
+.wideLabels .entry .label {
+    width: 30%;
+}
+
+.marginLeft {
+    margin-left: 20%;
+}
+
+.wideMarginLeft {
+    margin-left: 32%;
+}
+
+.entry .label .buttonLabel {
+    font-size: 100%;
+}
+
+.errorDiv {
+    background-color: #ffeeee;
+}
+
+.label {
+    color: #000000;
+    font-weight:bold;
+}
+
+.formFields select {
+    font-size: 95%;
+}
+
+.tableFormFields {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.tableFormFields .input {
+    font-size: 95%;
+}
+
+.tableFormFields .inputError input,
+.tableFormFields .inputError select {
+    font-size: 95%;
+    background-image: none;
+    background-color: #ffeeee;
+}
+
+
+.textEditResizable {
+    margin-left: 20%;
+    margin-bottom:10px;
+}
+
+.wideLabels .textEditResizable {
+    margin-left: 32%;
+}
+
+.textEditResizeHandle {
+    width: 25px;
+    height: 10px;
+    background: #bbb url(../img/icon.resize_s.gif) 0 0 no-repeat;
+    cursor: s-resize;
+    position: absolute;
+    margin-bottom: 10px;
+}
+
+.textPreview {
+    border: 1px dashed #666;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 90%;
+    background-color: white;
+}
+
+/* Box on page
+----------------------------------------------- */
+
+.box {
+    background-color: #fff;
+}
+
+.boxShadowed {
+    background-color: #fff;
+}
+
+.boxHeader {
+    text-align: right;
+    font-size: 110%;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    background: white url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    border-top: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+}
+
+.boxHeader a {
+    color: #576c74;
+    line-height: 100%;
+    margin-left: 5px;
+    font-size: 80%;
+}
+
+.boxHeader a:hover {color: #000}
+.boxHeader a:visited {color: #576c74}
+
+.boxContent {
+    background-color: #fff;
+    padding: 10px;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+}
+
+.boxFooter {
+    background: white url(../img/th.bg.gif) 0 0 repeat-x;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 80%;
+    color: #962325;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+    border-bottom: 1px solid #d3d2d1;
+}
+
+/* Popups
+-----------------------------------------------*/
+
+/* The Window's CSS z-index value is respected (takes priority). If none is supplied,
+  the Window's z-index value will be set to 3000 by default (in jqModal.js). You
+  can change this value by either;
+    a) supplying one via CSS
+    b) passing the "zIndex" parameter. E.g.  (window).jqm({zIndex: 500}); */
+
+.popupDialog {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #d3d2d1;
+}
+
+.popupDialogHead {
+    text-align: left;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    font-size: 85%;
+    font-weight: bold;
+    color: #000;
+    padding-left: 13px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: move;
+}
+
+.popupDialogContent {
+    padding: 10px;
+}
+
+.popupDialogControls {
+    text-align: center;
+}
+
+.popupDialogResizeHandle {
+    width: 15px;
+    height: 15px;
+    background: #fff url(../img/icon.resize_se.gif) 0 0 no-repeat;
+    cursor: se-resize;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.jqmOverlay { background-color: #aaa; }
+
+/* Fixed posistioning emulation for IE6
+     Star selector used to hide definition from browsers other than IE6
+     For valid CSS, use a conditional include instead */
+/* Not active right now, activate when working on IE6 support
+* html .popupDialog {
+     position: absolute;
+     top: expression((document.documentElement.scrollTop || document.body.scrollTop) + Math.round(17 * (document.documentElement.offsetHeight || document.body.clientHeight) / 100) + 'px');
+}
+*/
+
+/* Directory Browser
+----------------------------------------------- */
+
+.directoryPathPanel {
+    width: auto;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    padding-left: 11px;
+    border-top: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+    margin-top: 10px;
+}
+
+.directoryPathPanel .directoryButton {
+	font-weight: bold;
+	font-size: 85%;
+	padding: 2px;
+	border-style: none;
+}
+
+.directoryPathPanel .directorySeparator {
+	font-weight: bold;
+	color: #888;
+	padding: 2px;
+ 	border-style: none;
+}
+
+.directoryEmpty {
+    padding: 5px;
+    border-bottom: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+}
+
+/* Form tabs
+----------------------------------------------- */
+
+.formTabs {
+    background-color: white;
+}
+
+.formTabsTitle {
+    border-right: 1px solid #d6d5c8;
+    color: #000;
+}
+
+/* Caution! Ensure accessibility in print and other media types... */
+@media projection, screen { /* Use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
+    .tabs-hide {
+        display: none;
+    }
+}
+
+/* Hide useless elements in print layouts... */
+@media print {
+    .tabs-nav {
+        display: none;
+    }
+}
+
+/* Skin */
+.tabs-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid #d3d2d1;
+    overflow: auto;
+}
+
+.tabs-nav li {
+    float: left;
+    margin: 0;
+    text-align: left;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    font-weight: bold;
+    font-size: 11px;
+    padding-left: 13px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-top: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+}
+.tabs-nav a {
+    color: #576c74;
+}
+.tabs-nav .tabs-selected {
+    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+}
+
+.tabs-nav .tabs-selected a {
+    color: #555;
+}
+
+.tabs-nav .tabs-selected a, .tabs-nav a:hover, .tabs-nav a:focus, .tabs-nav a:active {
+    background-position: 0 -50px;
+    outline: 0; /* @ Firefox, switch off dotted border */
+}
+.tabs-nav .tabs-disabled a:hover, .tabs-nav .tabs-disabled a:focus, .tabs-nav .tabs-disabled a:active {
+    background-position: 0 0;
+}
+.tabs-nav .tabs-selected a:link, .tabs-nav .tabs-selected a:visited,
+.tabs-nav .tabs-disabled a:link, .tabs-nav .tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+    cursor: text;
+}
+.tabs-nav a:hover, .tabs-nav a:focus, .tabs-nav a:active { /* @ Opera, we need to be explicit again here now... */
+    cursor: pointer;
+}
+.tabs-nav .tabs-disabled {
+    opacity: .4;
+}
+.tabs-container {
+    border-top: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+    background: #f5f5f5; /* declare background color for container to avoid distorted fonts in IE while fading */
+}
+
+
+/* Progress bar
+----------------------------------------------- */
+
+.progressbarContainer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.progressbar {
+    border: 1px solid #d3d2d1;
+    width: 100px;
+    height: 15px;
+    position: relative;
+    color: black;
+}
+
+/* color bar */
+.progressbar div.progress {
+    position: absolute;
+    width: 0;
+    height: 100%;
+    overflow: hidden;
+    background-color: #576c74;
+}
+
+/* text on bar */
+.progressbar div.progress .text {
+    position: absolute;
+    text-align: center;
+    color: white;
+}
+
+/* text off bar */
+.progressbar div.text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.progressbarLabel {
+    font-weight: bold;
+    font-size: 85%;
+}
+
+
+/* Search page
+----------------------------------------------- */
+
+#searchForm\:searchOptions {
+    margin-top: 10px;
+}
+
+#searchForm\:searchPager {
+    margin-top: 10px;
+}
+
+
+/* User List page
+----------------------------------------------- */
+
+#userSearchForm\:userListPager {
+    margin-top: 10px;
+}

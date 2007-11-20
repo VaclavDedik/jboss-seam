@@ -114,6 +114,11 @@
                             <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.commentForm.Post']}"/>
                         </a:commandLink>
 
+                        <h:outputLink value="#{wiki:renderURL(currentDocument)}#commentForm" styleClass="buttonNonpersistent" tabindex="1"
+                                      accesskey="#{messages['lacewiki.button.CancelExit.accesskey']}">
+                            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.CancelExit']}"/>
+                        </h:outputLink>
+
                     </div>
                 </div>
             </div>

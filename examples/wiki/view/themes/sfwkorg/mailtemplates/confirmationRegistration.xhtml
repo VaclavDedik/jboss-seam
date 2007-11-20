@@ -1,0 +1,33 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:m="http://jboss.com/products/seam/mail"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core">
+    <m:header name="X-Sent-From" value="SeamFramework.org" />
+    <m:from name="SeamFramework.org" address="do-not-reply@jboss.com" />
+    <m:to name="#{userHome.instance.fullname}">#{userHome.instance.email}</m:to>
+    <m:subject>[SeamFramework.org] Registration Confirmation</m:subject>
+    <m:body>
+        <html>
+            <body>
+            <p>Hello #{userHome.instance.fullname},</p>
+
+            <p>
+            you registered an account on the Seam community website. You need to click the following link to confirm the
+            validity of your e-mail address and to activate your account:</p>
+
+            <h:outputLink value="#{wikiPreferences.baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</h:outputLink>
+
+    </body>
+        </html>
+        <f:facet name="alternative">
+            <h:outputText>
+Hello #{userHome.instance.fullname},
+
+you registered an account on the Seam community website. You need to use the following link to confirm the
+validity of your e-mail address and to activate your account:
+
+#{wikiPreferences.baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
+            </h:outputText>
+        </f:facet>
+    </m:body>
+</m:message>

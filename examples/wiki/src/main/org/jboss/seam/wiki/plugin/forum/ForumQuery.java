@@ -22,9 +22,12 @@ public class ForumQuery implements Serializable {
 
     private Pager pager;
 
+    @In
+    ForumPreferences forumPreferences;
+
     @RequestParameter
     public void setPage(Integer page) {
-        if (pager == null) pager = new Pager(2l);
+        if (pager == null) pager = new Pager(forumPreferences.getTopicsPerPage());
         pager.setPage(page);
     }
 
@@ -57,8 +60,9 @@ public class ForumQuery implements Serializable {
         return forumInfo;
     }
 
-    @Observer(value = {"Forum.forumListRefresh", "org.jboss.seam.postAuthenticate"}, create = false)
+    @Observer(value = {"Forum.forumListRefresh", "PersistenceContext.filterReset"}, create = false)
     public void loadForums() {
+
         forums = forumDAO.findForums(currentDirectory);
         forumInfo = forumDAO.findForumInfo(currentDirectory);
 
@@ -87,7 +91,7 @@ public class ForumQuery implements Serializable {
         return topics;
     }
 
-    @Observer(value = {"Forum.topicPersisted", "org.jboss.seam.postAuthenticate"}, create = false)
+    @Observer(value = {"Forum.topicPersisted", "PersistenceContext.filterReset"}, create = false)
     public void loadTopics() {
         pager.setNumOfRecords( forumDAO.findTopicCount(currentDirectory) );
         topics = pager.getNumOfRecords() > 0

@@ -50,7 +50,7 @@ public class CommentHome implements Serializable {
         refreshComments();
     }
 
-    @Observer(value = {"org.jboss.seam.postAuthenticate", "PreferenceComponent.refresh.commentsPreferences"}, create = false)
+    @Observer(value = {"PersistenceContext.filterReset", "PreferenceComponent.refresh.commentsPreferences"}, create = false)
     public void refreshComments() {
 
         comments = new ArrayList<Comment>();

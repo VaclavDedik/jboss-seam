@@ -1,0 +1,29 @@
+.postingHeaderGrid {
+    background: #fff url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
+    border: 1px solid #d3d2d1;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.postingHeaderInfo {
+    font-size: 90%;
+    padding-left: 10px;
+}
+
+.postingHeaderInfo .item {
+    margin-right: 20px;
+}
+
+.postingHeaderControls {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.postingSubject {
+
+}
+
+.userInfoPopupContainer {
+    left: 30%;    
+}

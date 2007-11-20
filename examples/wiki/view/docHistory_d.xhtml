@@ -115,8 +115,8 @@
 
     </div>
 
-    <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
-        <div class="formControls">
+    <div class="formControls">
+        <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
             <div class="entry">
                 <div class="label">&#160;</div>
                 <div class="input">
@@ -124,13 +124,13 @@
                     <h:commandLink id="purge" action="#{nodeHistory.purgeHistory}"
                                tabindex="4" accesskey="#{messages['lacewiki.button.docHistory.PurgeHistory.accesskey']}" 
                                styleClass="button">
-                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.PurgeHistory']}"/>
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.docHistory.PurgeHistory']}"/>
                     </h:commandLink>
     
                 </div>
             </div>
-        </div>
-    </s:fragment>
+        </s:fragment>
+    </div>
 
 </div>
 </h:form>

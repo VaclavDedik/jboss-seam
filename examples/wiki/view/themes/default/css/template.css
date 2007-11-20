@@ -1216,6 +1216,10 @@ ul {
     padding-right: 5px;
 }
 
+#breadcrumb .itemSeparatorGreaterThan  {
+    display: none;
+}
+
 #breadcrumb .itemText {
     color: #fff;
     text-decoration: none;

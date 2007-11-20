@@ -73,6 +73,7 @@
 
     <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{directoryHome.instance.feed.id}"
                   styleClass="linkNavigation" rendered="#{not empty directoryHome.instance.feed}">
+        <h:graphicImage styleClass="feedIcon" value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
         <h:outputText value="#{messages['lacewiki.button.DirectoryFeed']}"/>
     </h:outputLink>
 

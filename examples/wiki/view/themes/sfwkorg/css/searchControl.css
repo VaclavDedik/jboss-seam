@@ -1,0 +1,36 @@
+#searchControl {
+}
+
+#searchControlForm {
+}
+
+#searchControl .searchControlTable {
+}
+
+#searchControl .searchControlLabel{
+	color: #ca884e;
+    font-weight: bold;
+    font-size: 75%;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#searchControl .searchControlInput {
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+    font-size: 75%;
+    padding: 2px;
+    margin: 0;
+    border: 0;
+}
+
+#searchControl .searchControlLink{
+    font-weight: bold;
+    font-size: 75%;
+	color: #fff;
+	padding-left: 5px;
+	padding-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#searchControl .searchControlLink:hover { color: #bbb; }

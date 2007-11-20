@@ -10,6 +10,10 @@
 
 <s:fragment rendered="#{not topicHome.showForm}">
 
+    <s:div styleClass="forumDescription">
+        <h:outputText value="#{currentDirectory.description}"/>
+    </s:div>
+
     <s:div styleClass="forumsFeedLink undecoratedLink" rendered="#{not empty currentDirectory.feed}">
         <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}"
                       tabindex="1">

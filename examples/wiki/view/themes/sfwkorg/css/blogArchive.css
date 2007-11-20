@@ -1,0 +1,20 @@
+.blogArchiveSelector {
+    text-align: center;
+}
+.blogArchiveCombo {
+    border: 0;
+    color: #000;
+    font-size: 91%;
+    font-weight: normal;
+}
+
+.blogArchiveFooter {
+    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: normal;
+    font-size: 100%;
+    color: #962325;
+}

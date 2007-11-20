@@ -27,11 +27,11 @@
 
             <c:forEach var="blogEntry" items="#{blogDirectory.blogEntries}">
 
-                <div class="box">
+                <div class="box blogEntryContainer">
 
                     <div class="blogEntryHeader">
                         <h:outputText value="#{blogEntry.entryDocument.name}"/>
-                        <div>
+                        <div class="undecoratedLink">
                             <h:outputText styleClass="blogEntryCreatedOnText" value="#{blogEntry.entryDocument.createdOn}">
                                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                             </h:outputText>
@@ -76,9 +76,9 @@
                         </s:div>
                     </s:div>
 
-                    <div class="boxFooter">
+                    <div class="boxFooter blogEntryFooter">
                         <h:panelGrid styleClass="blogEntryFooterTable" columns="5" cellpadding="0" cellspacing="0" border="0">
-                            <s:div styleClass="blogEntryCommentCount"
+                            <s:div styleClass="blogEntryCommentCount undecoratedLink"
                                    rendered="#{blogEntry.commentCount > 0 and blogEntry.entryDocument.enableComments}">
                                 <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#comments" target="_top">
                                     <span class="blogEntryCommentCountText">
@@ -89,13 +89,13 @@
                                     </span>
                                 </h:outputLink>
                             </s:div>
-                            <s:div styleClass="blogEntryCommentLink" target="_top"
+                            <s:div styleClass="blogEntryCommentLink undecoratedLink"
                                    rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
                                 <h:outputLink target="_top" value="#{wiki:renderURL(blogEntry.entryDocument)}?showCommentForm=true#commentForm">
                                     <h:outputText styleClass="blogEntryCommentLinkText" value="#{messages['lacewiki.label.commentForm.PostComment']}"/>
                                 </h:outputLink>
                             </s:div>
-                            <s:div styleClass="blogEntryAttachmentsLink"
+                            <s:div styleClass="blogEntryAttachmentsLink undecoratedLink"
                                     rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
                                 <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#attachments" target="_top">
                                     <span class="blogEntryAttachmentsLinkText">
@@ -106,12 +106,12 @@
                                     </span>
                                 </h:outputLink>
                             </s:div>
-                            <s:div styleClass="blogEntryPermLink">
+                            <s:div styleClass="blogEntryPermLink undecoratedLink">
                                 <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}" target="_top">
                                     <h:outputText styleClass="blogEntryPermLinkText" value="#{messages['lacewiki.label.PermLink']}"/>
                                 </h:outputLink>
                             </s:div>
-                            <s:div styleClass="blogEntryWikiLink">
+                            <s:div styleClass="blogEntryWikiLink undecoratedLink">
                                 <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}" target="_top">
                                     <h:outputText styleClass="blogEntryWikiLinkText" value="#{messages['lacewiki.label.WikiLink']}"/>
                                 </h:outputLink>

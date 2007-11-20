@@ -61,6 +61,12 @@
 
     </s:fragment>
 
+    <s:fragment rendered="#{documentHome.instance.macroPresent('hideControls') and not s:hasPermission('User', 'isAdmin', currentUser)}">
+        <script type="text/javascript">jQuery(function() {
+            jQuery("#wikiControls").hide();
+        })</script>
+    </s:fragment>
+
 </ui:define>
 
 <ui:define name="content">

@@ -1,0 +1,39 @@
+.userProfilePortrait {
+    text-align: center;
+}
+
+.userProfilePortraitImage {
+    border: 1px solid #d3d2d1;
+}
+
+.userProfileBio{
+    font-size: 75%;
+    margin-right: 10px;
+    margin-left: 10px;
+    color: #000;
+    text-align: justify;
+    line-height: 120%;
+}
+
+.userProfileEntry {
+    clear: both;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 75%;
+    color: #000;
+    line-height: 140%;
+}
+
+.userProfileEntryLabel {
+    font-weight: bold;
+}
+
+.userProfileEntryText {
+}
+
+.userProfileEntryLink {
+    color: #576c74;
+}
+
+.userProfileEntryLink:hover {color: #666}

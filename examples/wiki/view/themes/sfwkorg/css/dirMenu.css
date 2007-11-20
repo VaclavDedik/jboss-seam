@@ -1,0 +1,47 @@
+.dirMenu .level1 {
+}
+
+.dirMenu .level1Body {
+    background-color: white;
+}
+
+.dirMenu .level1Marker {
+    display: none;
+}
+
+.dirMenu .level1Link {
+    font-size: 95%;
+}
+
+
+.dirMenu .level1Children {
+    background-color: white;
+}
+
+.dirMenu .level2 {
+}
+
+.dirMenu .level2Marker {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 80%;
+}
+
+.dirMenu .level2Link {
+    font-size: 80%;
+    white-space: nowrap;
+}
+
+.dirMenu .level3 {}
+
+.dirMenu .level3Marker {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 80%;
+}
+
+.dirMenu .level3Link {
+    font-size: 80%;
+    white-space: nowrap;
+}
+

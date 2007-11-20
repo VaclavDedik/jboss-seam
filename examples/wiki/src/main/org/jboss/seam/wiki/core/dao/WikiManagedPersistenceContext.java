@@ -4,6 +4,9 @@ import org.jboss.seam.persistence.ManagedPersistenceContext;
 import org.jboss.seam.persistence.Filter;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.core.Events;
 
 /**
  * Forces re-evaluation of filter parameter for managed persistence contexts.
@@ -22,9 +25,14 @@ import org.jboss.seam.annotations.Observer;
  */
 public class WikiManagedPersistenceContext extends ManagedPersistenceContext {
 
+    @Logger
+    Log log;
+
     @Observer(value = {"User.loggedIn", "User.loggedInBasicHttp"}, create = false)
     public void resetFilter() {
         try {
+
+            log.debug("Resetting persistence context filters");
             PersistenceProvider persistenceProvider = PersistenceProvider.instance();
             for (Filter f : getFilters()) {
                 if (f.isFilterEnabled()) {
@@ -34,5 +42,6 @@ public class WikiManagedPersistenceContext extends ManagedPersistenceContext {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
+        Events.instance().raiseEvent("PersistenceContext.filterReset");
     }
 }

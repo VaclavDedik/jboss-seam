@@ -1,0 +1,94 @@
+.blogEntryContainer {
+    border: 1px solid #d3d2d1;
+}
+
+.blogEntryContainer .boxFooter {
+    border: 0;
+}
+
+.blogEntryHeader {
+    background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
+    font-size: 110%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 2px;
+    padding-bottom: 8px;
+}
+
+.blogEntryHeader div {
+    text-align: right;
+    white-space: nowrap;
+    font-size: 75%;
+    font-weight: normal;
+    line-height: 100%;
+    padding-top: 3px;
+}
+
+.blogEntryCreatedOn {}
+.blogEntryCreatedOnText {}
+.blogEntryCreatedBy {}
+.blogEntryCreatedByLink {
+}
+
+.blogEntryContent {
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 150%;
+}
+
+.blogEntryFooter {
+}
+
+.blogEntryFooterTable {
+}
+
+.blogEntryCommentCount,
+.blogEntryCommentLink,
+.blogEntryAttachmentsLink,
+.blogEntryPermLink,
+.blogEntryWikiLink {
+    padding-right: 25px;
+    text-align:left;
+}
+.blogEntryCommentCountText,
+.blogEntryCommentLinkText,
+.blogEntryAttachmentsLinkText,
+.blogEntryPermLinkText,
+.blogEntryWikiLinkText {
+    color: #576c74;
+}
+.blogEntryCommentCountText:hover,
+.blogEntryCommentLinkText:hover,
+.blogEntryAttachmentsLinkText:hover,
+.blogEntryPermLinkText:hover,
+.blogEntryWikiLinkText:hover {
+    color: #000;
+}
+
+.blogEntrySeparator {
+    height: 25px;
+}
+
+.blogPagerTable {
+    width: 100%;
+    font-size: 85%;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    text-align: center;
+}
+
+.blogPagerColumn {
+    width: 10%;
+}
+.blogPagerTextColumn {
+    width: 60%;
+}
+
+.documentTags {
+    margin-left: 10px;
+    margin-right: 10px;
+}

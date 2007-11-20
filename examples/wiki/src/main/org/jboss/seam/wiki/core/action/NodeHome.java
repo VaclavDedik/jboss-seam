@@ -43,9 +43,9 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
     @In
     private UserDAO userDAO;
     @In
-    private User currentUser;
+    protected User currentUser;
     @In
-    List<Role.AccessLevel> accessLevelsList;
+    protected List<Role.AccessLevel> accessLevelsList;
 
     protected NodeDAO getNodeDAO() { return nodeDAO; }
     protected UserDAO getUserDAO() { return userDAO; }

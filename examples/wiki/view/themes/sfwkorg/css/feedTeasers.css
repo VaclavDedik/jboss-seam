@@ -1,0 +1,25 @@
+.teaserColumn {
+    padding: 10px;
+}
+
+.teaserTitle {
+    font-size: 120%;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.teaserAuthorDate {
+    font-size: 90%;
+    text-align: right;
+}
+
+.teaserAuthor {
+}
+
+.teaserDate {
+}
+
+.teaserBody {
+    font-size: 110%;
+    line-height: 130%;
+}

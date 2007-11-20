@@ -15,7 +15,7 @@
              var="f"
              value="#{forumQuery.forums}"
              styleClass="datatable topLeftBottomBorder"
-             headerClass="regularHeader rightBorder"
+             headerClass="regularHeader rightBorder alignCenter"
              columnClasses="onePercentColumn rightBorder alignCenter,
                             defaultColumn rightBorder alignLeft,
                             fivePercentColumn rightBorder alignCenter,
@@ -56,7 +56,9 @@
                 <h:outputText value="#{f.name}"/>
             </h:outputLink>
         </s:div>
-        <h:outputText styleClass="forumDescription" value="#{f.description}"/>
+        <s:div styleClass="forumDescription">
+            <h:outputText value="#{f.description}"/>
+        </s:div>
     </h:column>
 
     <h:column rendered="#{not forumListHome.managed}">

@@ -36,25 +36,24 @@
                         <h:outputText value="#{fe.updatedDate}"><f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/></h:outputText>
                         <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
                     </s:span>
-                    <s:span rendered="#{feedTeasersPreferences.properties['showAuthor']}">,&#160;#{messages['feedTeasers.label.By']}&#160;
+                    <s:span styleClass="undecoratedLink" rendered="#{feedTeasersPreferences.properties['showAuthor']}">,&#160;#{messages['feedTeasers.label.By']}&#160;
                         <h:outputLink target="_top" value="#{wiki:renderHomeURL(fe.document.createdBy)}"
                                       rendered="#{!empty fe.document.createdBy.memberHome}">
                             <h:outputText styleClass="teaserAuthorLink" value="#{fe.document.createdBy.fullname}"/>
                         </h:outputLink>
                         <h:outputText styleClass="teaserAuthor" rendered="#{empty fe.document.createdBy.memberHome}" value="#{fe.author}"/>
                     </s:span>
-                    <br/>
-                    <s:span rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}" styleClass="undecoratedLink">
+                    <s:div rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}" styleClass="undecoratedLink">
                         <h:outputLink target="_top" styleClass="feedTeaserComments" value="#{wiki:renderPermLink(fe.document)}#comments">
                             #{wiki:sizeOf(fe.document.comments)}&#160;
                             <h:outputText value="#{wiki:sizeOf(fe.document.comments)>1
                                                  ? messages['lacewiki.label.commentsDisplay.Comments']
                                                  : messages['lacewiki.label.commentsDisplay.Comment']}"/>
                         </h:outputLink>
-                    </s:span>
+                    </s:div>
                 </div>
 
-                <div class="teaserTitle">
+                <div class="teaserTitle undecoratedLink">
                     <h:outputLink target="_top" value="#{fe.link}">#{fe.title}</h:outputLink>
                 </div>
 

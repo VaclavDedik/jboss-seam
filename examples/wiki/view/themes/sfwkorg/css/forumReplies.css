@@ -1,0 +1,41 @@
+.replyTable {
+    width: 100%;
+}
+
+.replyContainer {
+    border: 1px solid #d3d2d1;
+    margin-bottom: 15px;
+}
+
+.replyHeaderGrid {
+    background: #fff url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+}
+
+.replyHeaderInfo {
+    font-size: 90%;
+    padding-left: 10px;
+}
+
+.replyHeaderInfo .item {
+    margin-right: 20px;
+}
+
+.replyHeaderControls {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.replyContent {
+    padding: 10px;
+    background-color: #fff;
+}
+
+.replySubject {
+    font-size: 120%;
+}
+
+.replyText {
+}

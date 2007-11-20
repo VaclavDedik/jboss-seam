@@ -124,7 +124,7 @@
         </h:panelGrid>
     </s:fragment>
 
-    <s:fragment rendered="#{documentHome.instance.enableComments and documentHome.instance.enableCommentForm}">
+    <s:fragment rendered="#{documentHome.instance.enableComments and documentHome.instance.enableCommentForm and not documentHome.instance.macroPresent('hideComments')}">
         <br/>
         <div class="boxHeader">#{messages['lacewiki.label.commentForm.PostComment']}:</div>
         <h:form id="commentForm"><s:validateAll>

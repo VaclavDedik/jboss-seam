@@ -68,8 +68,8 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOL
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (71, 0, 'commentsPreferences', 'enableByDefault', true)
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (80, 0, 'flashPreferences', 'flashURL', '')
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (81, 0, 'flashPreferences', 'objectWidth', 350)
-insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (82, 0, 'flashPreferences', 'objectHeight', 425)
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (81, 0, 'flashPreferences', 'objectWidth', '425')
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (82, 0, 'flashPreferences', 'objectHeight', '355')
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, STRING_VALUE)   values (83, 0, 'flashPreferences', 'allowedDomains', 'video.google.com, youtube.com')
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (110, 0, 'dirMenuPreferences', 'menuLevels', '3')
@@ -82,11 +82,13 @@ insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOL
 
 insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, BOOLEAN_VALUE)  values (130, 0, 'blogArchivePreferences', 'showSubscribeIcon', false)
 
+insert into PREFERENCE(PREF_ID, OBJ_VERSION, COMPONENT_NAME, PROPERTY_NAME, LONG_VALUE)     values (140, 0, 'forumPreferences', 'topicsPerPage', '20')
+
 -- Start document
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION) values  (3, 'DIRECTORY', 1, 1, 3, 1, 0, 'LaceWiki Home', 'LaceWikiHome', true, '2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0, 1, 4, 7, 1)
 insert into NODE_DIRECTORY (DIRECTORY_ID, DEFAULT_DOCUMENT_ID) values (3, null)
 insert into NODE (NODE_ID, NODE_TYPE, NODE_REVISION, CREATED_BY_USER_ID, AREA_NR, PARENT_NODE_ID, OBJ_VERSION, NAME, WIKINAME, MENU_ITEM, CREATED_ON, LAST_MODIFIED_ON, WRITE_ACCESS_LEVEL, READ_ACCESS_LEVEL, NS_THREAD, NS_LEFT, NS_RIGHT, DISPLAY_POSITION)  values (4, 'DOCUMENT', 1, 1, 3, 3, 0, 'Welcome!', 'Welcome', true,'2005-06-27 13:45:00', '2005-06-27 13:45:00', 0, 0, 1, 5, 6, 0)
-insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM, ENABLE_COMMENTS_ON_FEEDS, MACROS) values (4, 'You need to login as /admin/ with password /admin/ to change settings.@@LF@@@@LF@@Do not forget to change the admin password!@@LF@@@@LF@@If you haven't updated it already, change the base URL of your installation in the administration screen.', true, false, false, false, '')
+insert into NODE_DOCUMENT (DOCUMENT_ID, CONTENT, NAME_AS_TITLE, ENABLE_COMMENTS, ENABLE_COMMENT_FORM, ENABLE_COMMENTS_ON_FEEDS, MACROS) values (4, 'You need to login as /admin/ with password /admin/ to change settings.@@LF@@@@LF@@Do not forget to change the admin password!@@LF@@@@LF@@If you have not updated it already, change the base URL of your installation in the administration screen.', true, false, false, false, '')
 update NODE_DIRECTORY set DEFAULT_DOCUMENT_ID = 4 where DIRECTORY_ID = 3
 
 -- Help documents
