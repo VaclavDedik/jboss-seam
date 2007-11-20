@@ -4,8 +4,10 @@ import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.AbstractMap;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
@@ -38,10 +40,12 @@ public class Messages
       
    protected Map createMap() 
    {  
+	  // AbstractMap uses the implementation of entrySet to perform all its 
+	  // operations - for a resource bundle this is very inefficient for keys
       return new AbstractMap<String, String>()
       {
          private java.util.ResourceBundle bundle = SeamResourceBundle.getBundle();
-
+         
          @Override
          public String get(Object key) 
          {
@@ -71,14 +75,33 @@ public class Messages
          @Override
          public Set<Map.Entry<String, String>> entrySet() 
          {
-            Enumeration<String> keys = bundle.getKeys();
+        	Enumeration<String> keys = bundle.getKeys();  
             Map<String, String> map = new HashMap<String, String>();
             while ( keys.hasMoreElements() )
             {
                String key = keys.nextElement();
                map.put( key, get(key) );
-            }
-            return map.entrySet();
+            }  
+            return Collections.unmodifiableSet(map.entrySet());
+         }
+
+         @Override
+         public boolean containsKey(Object key)
+         {
+            return get(key) != null;
+         }
+
+         @Override
+         public Set<String> keySet()
+         {
+            Enumeration<String> keys = bundle.getKeys();  
+            return new HashSet<String>(Collections.list(keys));
+         }
+
+         @Override
+         public int size()
+         {
+            return keySet().size();
          }
          
       };
