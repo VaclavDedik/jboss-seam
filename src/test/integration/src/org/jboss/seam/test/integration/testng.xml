@@ -4,6 +4,7 @@
     <test name="Seam Core - Integration: Contexts">
         <classes>
             <class name="org.jboss.seam.test.integration.PageContextTest"/>
+            <class name="org.jboss.seam.test.integration.ConversationTest" />
         </classes>
     </test>
    
@@ -39,9 +40,9 @@
         </classes>
     </test>
 
-    <test name="Seam Core - Integration: Conversation Components">
+    <test name="Seam Core - Integration: Components">
         <classes>
-            <class name="org.jboss.seam.test.integration.ConversationTest" />
+            <class name="org.jboss.seam.test.integration.JavaBeanEqualsTest"/>
         </classes>
     </test>
 

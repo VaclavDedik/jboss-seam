@@ -87,7 +87,18 @@ public class JavaBeanInterceptor extends RootInterceptor
          //implements Mutable
          dirty = true;
       }
-         
+   
+      //make default equals() method return true when called on itself
+      //by unwrapping the proxy
+      if ( method.getName().equals("equals") 
+               && method.getParameterTypes().length == 1
+               && method.getParameterTypes()[0] == Object.class
+               && params[0] == proxy) 
+      {
+            return interceptInvocation(method, new Object[]{bean});
+      }
+
+      
       Object result = interceptInvocation(method, params);
       return result==bean ? proxy : result;
 
