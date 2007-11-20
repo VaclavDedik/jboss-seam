@@ -24,7 +24,8 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 public class Filter
 {
    private String name;
-   private Map<String, ValueExpression> parameters;
+   // default to no parameters
+   private Map<String, ValueExpression> parameters = new HashMap<String, ValueExpression>();
    private ValueExpression enabled;
    
    @Create
@@ -35,8 +36,6 @@ public class Filter
       {
          name = component.getName();
       }
-      // default to no parameters
-      parameters = new HashMap<String, ValueExpression>();
    }
    
    /**
