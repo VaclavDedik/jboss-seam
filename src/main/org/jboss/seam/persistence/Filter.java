@@ -1,5 +1,6 @@
 package org.jboss.seam.persistence;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.seam.Component;
@@ -34,6 +35,8 @@ public class Filter
       {
          name = component.getName();
       }
+      // default to no parameters
+      /*parameters = new HashMap<String, ValueExpression>();*/
    }
    
    /**
