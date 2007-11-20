@@ -495,8 +495,10 @@
             
             <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
 
-    <navigation if-outcome="success">
-        <redirect view-id="/#{userAgent}/displayDocument.xhtml"/>
+    <navigation>
+        <rule if-outcome="success">
+            <redirect view-id="/#{userAgent}/displayDocument.xhtml"/>
+        </rule>
     </navigation>
     
 </page>]]></programlisting>
