@@ -36,7 +36,7 @@ public class Filter
          name = component.getName();
       }
       // default to no parameters
-      /*parameters = new HashMap<String, ValueExpression>();*/
+      parameters = new HashMap<String, ValueExpression>();
    }
    
    /**
