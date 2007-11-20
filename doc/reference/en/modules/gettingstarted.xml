@@ -57,53 +57,60 @@ seam setup</programlisting>
 
         <para>And you will be prompted for the needed information:</para>
 
-        <programlisting>C:\Projects\jboss-seam&gt;seam setup
+        <programlisting>~/workspace/jboss-seam$ ./seam setup
 Buildfile: build.xml
 
+init:
+
 setup:
-    [echo] Welcome to seam-gen :-)
-    [input] Enter your Java project workspace [C:/Projects]
-
-    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.0.GA]
-
-    [input] Enter the project name [myproject]
+     [echo] Welcome to seam-gen :-)
+    [input] Enter your Java project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]
+/Users/pmuir/workspace
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] [C:/Program Files/jboss-4.2.2.GA]
+/Applications/jboss-4.2.2.GA
+    [input] Enter the project name [myproject] [myproject]
 helloworld
-    [input] Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [ear] (ear,war,)
+     [echo] Accepted project name as: helloworld
+    [input] Select a RichFaces skin (not applicable if using ICEFaces) [blueSky] ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, DEFAULT)
 
-    [input] Enter the Java package name for your session beans [com.mydomain.helloworld]
+    [input] Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [ear]  ([ear], war, )
+
+    [input] Enter the Java package name for your session beans [com.mydomain.helloworld] [com.mydomain.helloworld]
 org.jboss.helloworld
-    [input] Enter the Java package name for your entity beans [org.jboss.helloworld]
+    [input] Enter the Java package name for your entity beans [org.jboss.helloworld] [org.jboss.helloworld]
 
-    [input] Enter the Java package name for your test cases [org.jboss.helloworld.test]
+    [input] Enter the Java package name for your test cases [org.jboss.helloworld.test] [org.jboss.helloworld.test]
 
-    [input] What kind of database are you using? [hsql] (hsql,mysql,oracle,postgres,mssql,db2,sybase,)
+    [input] What kind of database are you using? [hsql]  ([hsql], mysql, oracle, postgres, mssql, db2, sybase, enterprisedb, h2)
 mysql
-    [input] Enter the Hibernate dialect for your database [org.hibernate.dialect.MySQLDialect]
+    [input] Enter the Hibernate dialect for your database [org.hibernate.dialect.MySQLDialect] [org.hibernate.dialect.MySQLDialect]
 
-    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb.jar]
-../../mysql-connector.jar
-    [input] Enter JDBC driver class for your database [com.mysql.jdbc.Driver]
+    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb.jar] [lib/hsqldb.jar]
+/Users/pmuir/java/mysql.jar
+    [input] Enter JDBC driver class for your database [com.mysql.jdbc.Driver] [com.mysql.jdbc.Driver]
 
-    [input] Enter the JDBC URL for your database [jdbc:mysql:///test]
-
-    [input] Enter database username [sa]
-gavin
-    [input] Enter database password []
+    [input] Enter the JDBC URL for your database [jdbc:mysql:///test] [jdbc:mysql:///test]
+jdbc:mysql:///helloworld
+    [input] Enter database username [sa] [sa]
+pmuir
+    [input] Enter database password [] []
 
     [input] skipping input as property hibernate.default_schema.new has already been set.
-    [input] Enter the database catalog name (it is OK to leave this blank) []
+    [input] Enter the database catalog name (it is OK to leave this blank) [] []
 
-    [input] Are you working with tables that already exist in the database? [n] (y,n,)
+    [input] Are you working with tables that already exist in the database? [n]  (y, [n], )
 y
-    [input] Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [n] (y,n,)
+    [input] Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [n]  (y, [n], )
 n
-[propertyfile] Creating new property file: C:\Projects\jboss-seam\seam-gen\build.properties
+    [input] Enter your ICEfaces home directory (leave blank to omit ICEfaces) [] []
+
+[propertyfile] Creating new property file: /Users/pmuir/workspace/jboss-seam/seam-gen/build.properties
      [echo] Installing JDBC driver jar to JBoss server
-     [echo] Type 'seam new-project' to create the new project
+     [echo] Type 'seam create-project' to create the new project
 
 BUILD SUCCESSFUL
-Total time: 1 minute 17 seconds
-C:\Projects\jboss-seam&gt;</programlisting>
+Total time: 1 minute 32 seconds
+~/workspace/jboss-seam $ </programlisting>
 
         <para>The tool provides sensible defaults, which you can accept by just pressing enter at the prompt.</para>
 
@@ -127,19 +134,7 @@ C:\Projects\jboss-seam&gt;</programlisting>
         <programlisting>C:\Projects\jboss-seam&gt;seam new-project
 Buildfile: build.xml
 
-validate-workspace:
-
-validate-project:
-
-copy-lib:
-     [echo] Copying project jars ...
-     [copy] Copying 58 files to C:\Projects\helloworld\lib
-     [copy] Copying 9 files to C:\Projects\helloworld\embedded-ejb
-
-file-copy-war:
-
-file-copy-ear:
-     [echo] Copying resources needed for EAR deployment to the C:\Projects\helloworld/resources directory...
+...
 
 new-project:
      [echo] A new Seam project named 'helloworld' was created in the C:\Projects directory
