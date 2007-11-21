@@ -81,7 +81,7 @@ public class Actor extends AbstractMutable implements Serializable
          };
       }
    };
-   //TODO: dirtyness for groupActorIds
+   
    public String getId() 
    {
       return id;
