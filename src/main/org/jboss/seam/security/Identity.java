@@ -92,8 +92,6 @@ public class Identity implements Serializable
    
    private List<String> preAuthenticationRoles = new ArrayList<String>();
    
-   private boolean authenticateEveryRequest = false;
-   
    /**
     * Flag that indicates we are in the process of authenticating
     */
@@ -114,20 +112,6 @@ public class Identity implements Serializable
    {
       securityEnabled = enabled;
    }
-   
-   public boolean getAuthenticateEveryRequest()
-   {
-      return authenticateEveryRequest;
-   }
-   
-   public void setAuthenticateEveryRequest(boolean authenticateEveryRequest)
-   {
-      this.authenticateEveryRequest = authenticateEveryRequest;
-   }
-
-   public void beginRequest() {}
-   
-   public void endRequest() {}
 
    public static Identity instance()
    {

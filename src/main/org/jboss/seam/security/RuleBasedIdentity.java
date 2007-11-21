@@ -160,7 +160,7 @@ public class RuleBasedIdentity extends Identity
     */
    @Override
    public boolean hasRole(String role)
-   {
+   {      
       if (securityContext != null)
       {
          Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class));
@@ -203,6 +203,7 @@ public class RuleBasedIdentity extends Identity
          if (securityContext != null)
          {
             getSecurityContext().insert(new Role(role));
+            getSecurityContext().fireAllRules();
             return true;
          }
       }
