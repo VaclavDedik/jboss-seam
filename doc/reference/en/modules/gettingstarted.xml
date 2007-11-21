@@ -300,6 +300,16 @@ C:\Projects\jboss-seam&gt;</programlisting>
             be amazed how simple it is! Seam was designed so that data access code is easy to write by hand, even for
             people who don't want to cheat by using seam-gen.</para>
     </section>
+    
+    <section>
+        <title>Generating an application from existing JPA/EJB3 entities</title>
+
+        <para>Place your existing, valid entity classes inside the <literal>src/model</literal>. Now type</para>
+
+        <programlisting>seam generate-ui</programlisting>
+
+        <para>Restart the deployment, and go to <literal>http://localhost:8080/helloworld</literal>.</para>
+    </section>
 
     <section>
         <title>Deploying the application as an EAR</title>
