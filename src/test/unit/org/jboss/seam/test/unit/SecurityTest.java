@@ -1,131 +1,168 @@
 package org.jboss.seam.test.unit;
 
+import java.util.HashMap;
 
-public class SecurityTest
-{
-  /*@Name("mock")
-  class MockSecureEntityMethodId {
-    private Integer id;
-    public MockSecureEntityMethodId(Integer id) { this.id = id; }
-    @Id public Integer getId() { return id; }
-  }
+import javax.security.auth.login.AppConfigurationEntry;
+import javax.security.auth.login.Configuration;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 
-  @Name("mock")
-  class MockSecureEntityFieldId {
-    @Id private Integer id;
-    public MockSecureEntityFieldId(Integer id) { this.id = id; }
-  }
+import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.Lifecycle;
+import org.jboss.seam.mock.BaseSeamTest;
+import org.jboss.seam.mock.MockLoginModule;
+import org.jboss.seam.security.AuthorizationException;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.NotLoggedInException;
+import org.jboss.seam.web.Session;
+import org.testng.annotations.Test;
 
-  class MockCompositeId implements Serializable {
-    private int fieldA;
-    private String fieldB;
-    @Override
-    public String toString() {
-      return String.format("%s,%s", fieldA, fieldB);
-    }
-    public MockCompositeId(int fieldA, String fieldB) {
-      this.fieldA = fieldA;
-      this.fieldB = fieldB;
-    }
-  }
+/**
+ * Seam Security Unit Tests
+ * 
+ * @author Shane Bryzak
+ */
+public class SecurityTest extends BaseSeamTest
+{     
+   private Configuration createMockJAASConfiguration()
+   {
+      return new Configuration()
+      {
+         private AppConfigurationEntry[] aces = { new AppConfigurationEntry( 
+               MockLoginModule.class.getName(), 
+               LoginModuleControlFlag.REQUIRED, 
+               new HashMap<String,String>() 
+            ) };
+         
+         @Override
+         public AppConfigurationEntry[] getAppConfigurationEntry(String name)
+         {
+            return aces;
+         }
+         
+         @Override
+         public void refresh() {}
+      };      
+   }
+   
+   public class MockIdentity extends Identity
+   {
+      @Override
+      protected LoginContext getLoginContext() throws LoginException
+      {
+         return new LoginContext("default", getSubject(), getDefaultCallbackHandler(), 
+               createMockJAASConfiguration());
+      }            
+   }
 
-  @Name("mock")
-  class MockSecureEntityCompositeId {
-    @Id private MockCompositeId id;
-    public MockSecureEntityCompositeId(MockCompositeId id) { this.id = id; }
-  }
+   @Test
+   public void testLogin()
+   {      
+      try
+      {
+         Lifecycle.beginApplication(new HashMap<String,Object>());
+         Lifecycle.beginCall();
+         
+         // Create a mock session
+         Contexts.getSessionContext().set(Component.getComponentName(Session.class), new Session());
+         
+         Identity identity = new MockIdentity();
+         identity.create();
+         
+         // Put the identity into our session context 
+         Contexts.getSessionContext().set(Component.getComponentName(Identity.class), identity);         
+         
+         // Test addRole()
+         identity.addRole("admin");
+         
+         assert(!identity.hasRole("admin"));
+         
+         try
+         {
+            // This should throw a NotLoggedInException
+            identity.checkRole("admin");
+            assert(false);
+         }
+         catch (NotLoggedInException ex)
+         {
+            // expected
+         }         
+                  
+         identity.setUsername("foo");
+         identity.setPassword("bar");
+         
+         assert("foo".equals(identity.getUsername()));
+         assert("bar".equals(identity.getPassword()));
+         
+         assert("loggedIn".equals(identity.login()));
+         assert(identity.isLoggedIn());
+         
+         // Pre-authenticated roles are cleared before authenticating, 
+         // so this should still return false
+         assert(!identity.hasRole("admin"));
+         
+         // The foo role is added by MockLoginModule
+         assert(identity.hasRole("foo"));
+         
+         identity.removeRole("foo");
+         assert(!identity.hasRole("foo"));
+         
+         try
+         {
+            // This should throw an AuthorizationException
+            identity.checkRole("foo");
+            assert(false);
+         }
+         catch (AuthorizationException ex)
+         {
+            // expected
+         }
+         
+         // Now that we're authenticated, adding a role should have an immediate effect
+         identity.addRole("admin");
+         assert(identity.hasRole("admin"));
+                  
+         identity.logout();
+         
+         assert(!identity.hasRole("admin"));         
+         assert(!identity.isLoggedIn());
+      }
+      finally
+      {
+         Lifecycle.endApplication();
+      }
+   }
+   
+   @Test
+   public void testDisableSecurity()
+   {
+      try
+      {      
+         Identity identity = new Identity();
+         identity.create();
+         
+         // Disable security
+         Identity.setSecurityEnabled(false);
+         
+         assert(!Identity.isSecurityEnabled());
+         assert(identity.hasRole("admin"));
+         assert(identity.hasPermission("foo", "bar"));
+   
+         // This shouldn't throw an exception while security is disabled
+         identity.checkRestriction("foo");
+         
+         // Enable security
+         Identity.setSecurityEnabled(true);
+         assert(Identity.isSecurityEnabled());
+         assert(!identity.hasRole("admin"));
+         assert(!identity.hasPermission("foo", "bar"));
+      }
+      finally
+      {
+         Identity.setSecurityEnabled(true);
+      }      
+   }
 
-  @Test
-  public void testJPAIdentityGenerator()
-  {
-    JPAIdentityGenerator gen = new JPAIdentityGenerator();
-    assert("mock:1234".equals(gen.generateIdentity(new MockSecureEntityMethodId(1234))));
-    assert("mock:1234".equals(gen.generateIdentity(new MockSecureEntityFieldId(1234))));
-    assert(null == gen.generateIdentity(new MockSecureEntityMethodId(null)));
-    assert("mock:1234,abc".equals(gen.generateIdentity(new MockSecureEntityCompositeId(
-      new MockCompositeId(1234, "abc")))));
-  }
-
-  @Test
-  public void testPersistentAcls()
-  {
-    Ejb3Configuration ac = new Ejb3Configuration();
-    System.setProperty("java.naming.factory.initial", "org.jnp.interfaces.LocalOnlyContextFactory");
-
-    ac.setProperty("hibernate.connection.driver_class", "org.hsqldb.jdbcDriver");
-    ac.setProperty("hibernate.connection.url", "jdbc:hsqldb:mem:aname");
-    ac.setProperty("hibernate.connection.username", "sa");
-    ac.setProperty("hibernate.dialect", "org.hibernate.dialect.HSQLDialect");
-    ac.setProperty("hibernate.hbm2ddl.auto", "create");
-    //ac.setProperty("hibernate.show_sql", "true");
-    ac.setProperty("hibernate.cache.use_second_level_cache", "false");
-
-    ac.addAnnotatedClass(MockAclPermission.class);
-    ac.addAnnotatedClass(MockAclObjectIdentity.class);
-    ac.addAnnotatedClass(MockSecureEntity.class);
-
-    EntityManagerFactory factory = ac.createEntityManagerFactory();
-
-    EntityManager em = factory.createEntityManager();
-    em.getTransaction().begin();
-
-    // Create our mock entity
-    MockSecureEntity ent = new MockSecureEntity();
-    ent.setId(123);
-    em.persist(ent);
-
-    // Now create an identity for it
-    MockAclObjectIdentity ident = new MockAclObjectIdentity();
-    ident.setId(1);
-    ident.setObjectIdentity(new JPAIdentityGenerator().generateIdentity(ent));
-    em.persist(ident);
-
-    // And now create some permissions
-    //@todo This step should eventually be done using SeamSecurityManager.grantPermission()
-    MockAclPermission perm = new MockAclPermission();
-    perm.setId(1);
-    perm.setIdentity(ident);
-    perm.setRecipient("testUser");
-    perm.setRecipientType(RecipientType.user);
-    perm.setMask(0x01 | 0x02);  // read/delete permission only
-    em.persist(perm);
-    em.flush();
-    em.getTransaction().commit();
-
-    MockServletContext ctx = new MockServletContext();
-    MockExternalContext eCtx = new MockExternalContext(ctx);
-
-    new Initialization(ctx).init();
-
-    Lifecycle.beginRequest(eCtx);
-
-    // Create an Authentication object in session scope
-    Contexts.getSessionContext().set("org.jboss.seam.security.authentication",
-                                     new UsernamePasswordToken("testUser", "",
-                                     new String[] {}));
-
-    Component aclProviderComp = new Component(PersistentAclManager.class,
-                                              "persistentAclProvider");
-    PersistentAclManager aclProvider = (PersistentAclManager) aclProviderComp.newInstance();
-    aclProvider.setPersistenceContextManager(factory);
-    aclProvider.setAclQuery("select p.mask, p.recipient, p.recipientType from MockAclPermission p " +
-        "where p.identity.objectIdentity = :identity");
-
-    MockSecureEntity e2 = em.find(MockSecureEntity.class, 123);
-
-    // This check should pass
-
-    // --> will reinstate once PersistentAclProvider.convertToPermissions() works
-    //SeamSecurityManager.instance().checkPermission(e2, "read");
-
-    // This check should fail
-    //try
-    //{
-      //SeamSecurityManager.instance().checkPermission(e2, "special");
-      //assert(false);
-    //}
-    //catch (SecurityException ex) { }
-
-    Lifecycle.endRequest();
-  }*/
 }
