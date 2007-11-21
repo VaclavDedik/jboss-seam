@@ -23,6 +23,7 @@
        <class name="org.jboss.seam.test.unit.NamespaceTest" />
        <class name="org.jboss.seam.test.unit.ImportTest"/>
        <class name="org.jboss.seam.test.unit.web.MultipartRequestTest" />
+       <class name="org.jboss.seam.test.unit.bpm.ActorTest" />
      </classes>
    </test>
 </suite>
