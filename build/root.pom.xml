@@ -38,7 +38,7 @@
   
   <!-- Externalize some version numbers here -->
   <properties>
-    <version.richfaces>3.1.2.GA</version.richfaces>
+    <version.richfaces>3.1.2.SP1</version.richfaces>
   </properties>
 
   <dependencyManagement>
