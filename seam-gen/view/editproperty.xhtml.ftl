@@ -1,14 +1,15 @@
+<#include "../util/TypeInfo.ftl">
+
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#assign propertyIsId = property.equals(pojo.identifierProperty)>
 <#if !propertyIsId || property.value.identifierGeneratorStrategy == "assigned">
 <#if pojo.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#assign column = componentProperty.columnIterator.next()>
-<#assign propertyType = componentProperty.value.typeName>
 
             <s:decorate id="${componentProperty.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
-<#if propertyType == "date">
+<#if isDate(componentProperty)>
 				<rich:calendar id=${componentProperty.name}"
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
@@ -17,7 +18,7 @@
                        required="true"
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}" datePattern="MM/dd/yyyy" />
-<#elseif propertyType == "time">
+<#elseif isTime(componentProperty)>
                 <h:inputText id="${componentProperty.name}" 
                            size="5"
 <#if !column.nullable>
@@ -27,7 +28,7 @@
                     <s:convertDateTime type="time"/>
                     <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
                 </h:inputText>
-<#elseif propertyType == "timestamp">
+<#elseif isTimestamp(componentProperty)>
                 <h:inputText id="${componentProperty.name}" 
                            size="16"
 <#if !column.nullable>
@@ -37,7 +38,7 @@
                      <s:convertDateTime type="both" dateStyle="short"/>
                      <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
                 </h:inputText>
-<#elseif propertyType == "big_decimal">
+<#elseif isBigDecimal(componentProperty)>
                 <h:inputText id="${componentProperty.name}" 
 <#if !column.nullable>
                        required="true"
@@ -46,7 +47,7 @@
                            size="${column.precision+7}">
                     <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
                 </h:inputText>
-<#elseif propertyType == "big_integer">
+<#elseif isBigInteger(componentProperty)>
                 <h:inputText id="${componentProperty.name}" 
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
@@ -58,7 +59,7 @@
                            size="${column.precision+6}">
                     <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
                 </h:inputText>
-<#elseif propertyType == "boolean" || propertyType == "yes_no" || propertyType == "true_false">
+<#elseif isBoolean(componentProperty)>
                  <h:selectBooleanCheckbox id="${componentProperty.name}"
 <#if !column.nullable>
                                     required="true"
@@ -67,7 +68,7 @@
                                     disabled="${'#'}{${homeName}.managed}"
 </#if>
                                        value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"/>
-<#elseif propertyType == "string">
+<#elseif isString(componentProperty)>
 <#if column.length gt 160>
 <#if column.length gt 800>
 <#assign rows = 10>
@@ -119,11 +120,11 @@
 </#foreach>
 <#else>
 <#assign column = property.columnIterator.next()>
-<#assign propertyType = property.value.typeName>
+<#assign property = property.value.typeName>
 
             <s:decorate id="${property.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${property.name}</ui:define>
-<#if propertyType == "date">
+<#if isDate(property)>
 				<rich:calendar id="${property.name}" 
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
@@ -132,7 +133,7 @@
                        required="true"
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}" datePattern="MM/dd/yyyy" />
-<#elseif propertyType == "time">
+<#elseif isTime(property)>
                 <h:inputText id="${property.name}" 
                            size="5"
 <#if !column.nullable>
@@ -142,7 +143,7 @@
                     <s:convertDateTime type="time"/>
                     <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
                 </h:inputText>
-<#elseif propertyType == "timestamp">
+<#elseif isTimestamp(property)>
                 <h:inputText id="${property.name}" 
                            size="16"
 <#if !column.nullable>
@@ -152,7 +153,7 @@
                     <s:convertDateTime type="both" dateStyle="short"/>
                     <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
                 </h:inputText>
-<#elseif propertyType == "big_decimal">
+<#elseif isBigDecimal(property)>
                 <h:inputText id="${property.name}" 
 <#if !column.nullable>
                        required="true"
@@ -161,7 +162,7 @@
                            size="${column.precision+7}">
                     <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
                 </h:inputText>
-<#elseif propertyType == "big_integer">
+<#elseif isBigInteger(property)>
                 <h:inputText id="${property.name}" 
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
@@ -173,7 +174,7 @@
                            size="${column.precision+6}">
                     <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
                 </h:inputText>
-<#elseif propertyType == "boolean" || propertyType == "yes_no" || propertyType == "true_false">
+<#elseif isBoolean(property)>
                 <h:selectBooleanCheckbox id="${property.name}"
 <#if !column.nullable>
                                    required="true"
@@ -182,7 +183,7 @@
                                    disabled="${'#'}{${homeName}.managed}"
 </#if>
                                       value="${'#'}{${homeName}.instance.${property.name}}"/>
-<#elseif propertyType == "string">
+<#elseif isString(property)>
 <#if column.length gt 160>
 <#if column.length gt 800>
 <#assign rows = 10>

@@ -1,31 +1,32 @@
+<#include "../../util/TypeInfo.ftl">
+
 <#if !property.equals(pojo.identifierProperty) || property.value.identifierGeneratorStrategy == "assigned">
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
-<#assign propertyType = componentProperty.value.typeName>
 
         <s:decorate id="${componentProperty.name}" template="layout/display.xhtml">
             <ui:define name="label">${componentProperty.name}</ui:define>
-<#if propertyType == "date">
+<#if isDate(componentProperty)>
             <ice:outputText id="view${componentProperty.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                 <s:convertDateTime type="date" dateStyle="short"/>
             </ice:outputText>
-<#elseif propertyType == "time">
+<#elseif isTime(componentProperty)>
              <ice:outputText id="view${componentProperty.name}TextId" 
 	                  value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                 <s:convertDateTime type="time"/>
              </ice:outputText>
-<#elseif propertyType == "timestamp">
+<#elseif isTimestamp(componentProperty)>
             <ice:outputText id="view${componentProperty.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                 <s:convertDateTime type="both" dateStyle="short"/>
             </ice:outputText>
-<#elseif propertyType == "big_decimal">
+<#elseif isBigDecimal(componentProperty)>
             <ice:outputText id="view${componentProperty.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                 <f:convertNumber/>
             </ice:outputText>
-<#elseif propertyType == "big_integer">
+<#elseif isBigInteger(componentProperty)>
             <ice:outputText id="view${componentProperty.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                 <f:convertNumber integerOnly="true"/>
@@ -36,31 +37,30 @@
         </s:decorate>
 </#foreach>
 <#else>
-<#assign propertyType = property.value.typeName>
 
         <s:decorate id="${property.name}" template="layout/display.xhtml">
             <ui:define name="label">${property.name}</ui:define>
-<#if propertyType == "date">
+<#if isDate(property)>
             <ice:outputText id="view${property.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}}">
                 <s:convertDateTime type="date" dateStyle="short"/>
             </ice:outputText>
-<#elseif propertyType == "time">
+<#elseif isTime(property)>
             <ice:outputText id="view${property.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}}">
                 <s:convertDateTime type="time"/>
             </ice:outputText>
-<#elseif propertyType == "timestamp">
+<#elseif isTimestamp(property)>
             <ice:outputText id="view${property.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}}">
                 <s:convertDateTime type="both" dateStyle="short"/>
             </ice:outputText>
-<#elseif propertyType == "big_decimal">
+<#elseif isBigDecimal(property)>
             <ice:outputText id="view${property.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}}">
                 <f:convertNumber/>
             </ice:outputText>
-<#elseif propertyType == "big_integer">
+<#elseif isBigInteger(property)>
             <ice:outputText id="view${property.name}TextId"
 	                 value="${'#'}{${homeName}.instance.${property.name}}">
                 <f:convertNumber integerOnly="true"/>

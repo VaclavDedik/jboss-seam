@@ -1,14 +1,15 @@
+<#include "../../util/TypeInfo.ftl">
+
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#assign propertyIsId = property.equals(pojo.identifierProperty)>
 <#if !propertyIsId || property.value.identifierGeneratorStrategy == "assigned">
 <#if pojo.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#assign column = componentProperty.columnIterator.next()>
-<#assign propertyType = componentProperty.value.typeName>
 
             <s:decorate id="${componentProperty.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
-<#if propertyType == "date">
+<#if isDate(componentProperty)>
                         <ice:selectInputDate id="${componentProperty.name}Id" 
                               renderAsPopup="true"
 <#if propertyIsId>
@@ -20,7 +21,7 @@
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">                                         value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                                 
                            </ice:selectInputDate>
-<#elseif propertyType == "time">
+<#elseif isTime(componentProperty)>
                         <ice:inputText id="${componentProperty.name}Id" 
                                    size="5"
 <#if !column.nullable>
@@ -29,7 +30,7 @@
                              value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                     <s:convertDateTime type="time"/>
                         </ice:inputText>
-<#elseif propertyType == "timestamp">
+<#elseif isTimestamp(componentProperty)>
                         <ice:inputText id="${componentProperty.name}Id" 
                                    size="16"
 <#if !column.nullable>
@@ -38,7 +39,7 @@
                                   value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                              <s:convertDateTime type="both" dateStyle="short"/>
                         </ice:inputText>
-<#elseif propertyType == "big_decimal">
+<#elseif isBigDecimal(componentProperty)>
                         <ice:inputText id="${componentProperty.name}Id" 
                               partialSubmit="true"
 <#if !column.nullable>
@@ -47,7 +48,7 @@
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"
                            size="${column.precision+7}">
                         </ice:inputText>
-<#elseif propertyType == "big_integer">
+<#elseif isBigInteger(componentProperty)>
                         <ice:inputText id="${componentProperty.name}Id" 
 					partialSubmit="true"
 <#if propertyIsId>
@@ -59,7 +60,7 @@
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"
                            size="${column.precision+6}">
                         </ice:inputText>
-<#elseif propertyType == "boolean" || propertyType == "yes_no" || propertyType == "true_false">
+<#elseif isBoolean(componentProperty)>
                  <h:selectBooleanCheckbox id="${componentProperty.name}"
 <#if !column.nullable>
                                     required="true"
@@ -68,7 +69,7 @@
                                     disabled="${'#'}{${homeName}.managed}"
 </#if>
                                        value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"/>
-<#elseif propertyType == "string">
+<#elseif isString(componentProperty)>
 <#if column.length gt 160>
 <#if column.length gt 800>
 <#assign rows = 10>
@@ -120,11 +121,10 @@
 </#foreach>
 <#else>
 <#assign column = property.columnIterator.next()>
-<#assign propertyType = property.value.typeName>
 
             <s:decorate id="${property.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${property.name}</ui:define>
-<#if propertyType == "date">
+<#if isDate(property)>
                            <ice:selectInputDate id="${property.name}Id" 
                               renderAsPopup="true"
 
@@ -136,7 +136,7 @@
 </#if>
                                   value="${'#'}{${homeName}.instance.${property.name}}">
                          </ice:selectInputDate>
-<#elseif propertyType == "time">
+<#elseif isTime(property)>
                         <ice:inputText id="${property.name}Id" 
                                    size="5"
 					partialSubmit="true"
@@ -146,7 +146,7 @@
                                   value="${'#'}{${homeName}.instance.${property.name}}">
                             <s:convertDateTime type="time"/>
                         </ice:inputText>
-<#elseif propertyType == "timestamp">
+<#elseif isTimestamp(property)>
                         <ice:inputText id="${property.name}Id" 
                                      size="16"
 			    partialSubmit="true"
@@ -156,7 +156,7 @@
                                    value="${'#'}{${homeName}.instance.${property.name}}">
                             <s:convertDateTime type="both" dateStyle="short"/>
                         </ice:inputText>
-<#elseif propertyType == "big_decimal">
+<#elseif isBigDecimal(property)>
                         <ice:inputText id="${property.name}Id" 
 			    partialSubmit="true"
 <#if !column.nullable>
@@ -165,7 +165,7 @@
                                     value="${'#'}{${homeName}.instance.${property.name}}"
                                      size="${column.precision+7}">
                         </ice:inputText>
-<#elseif propertyType == "big_integer">
+<#elseif isBigInteger(property)>
                         <ice:inputText id="${property.name}Id"
 			                partialSubmit="true"
 <#if propertyIsId>
@@ -176,7 +176,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}"
                            size="${column.precision+6}"/>
-<#elseif propertyType == "boolean" || propertyType == "yes_no" || propertyType == "true_false">
+<#elseif isBoolean(property)>
                         <ice:selectBooleanCheckbox id="${property.name}Id"
 					partialSubmit="true"
 <#if !column.nullable>
@@ -186,7 +186,7 @@
                                    disabled="${'#'}{${homeName}.managed}"
 </#if>
                                       value="${'#'}{${homeName}.instance.${property.name}}"/>
-<#elseif propertyType == "string">
+<#elseif isString(property)>
 <#if column.length gt 160>
 <#if column.length gt 800>
 <#assign rows = 10>

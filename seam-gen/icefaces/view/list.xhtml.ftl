@@ -1,5 +1,7 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../../util/TypeInfo.ftl">
+
 <#assign entityName = pojo.shortName>
 <#assign componentName = util.lower(entityName)>
 <#assign listName = componentName + "List">
@@ -34,7 +36,7 @@
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
-<#if componentProperty.value.typeName == "string">
+<#if isString(componentProperty)>
             <s:decorate id="${componentProperty.name}decId" template="layout/display.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
                   <ice:inputText id="${componentProperty.name}TextId" 
@@ -45,7 +47,7 @@
 </#if>
 </#foreach>
 <#else>
-<#if property.value.typeName == "string">
+<#if isString(property)>
             <s:decorate id="${property.name}decId" template="layout/display.xhtml">
                 <ui:define name="label">${property.name}</ui:define>
                 <ice:inputText id="list${property.name}TextId" 
