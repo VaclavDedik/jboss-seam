@@ -1136,6 +1136,7 @@ public class Pages
          control.setJoin( "true".equals( beginConversation.attributeValue("join") ) );
          control.setNested( "true".equals( beginConversation.attributeValue("nested") ) );
          control.setPageflow( beginConversation.attributeValue("pageflow") );
+         control.setConversationName( beginConversation.attributeValue("conversation") );
          String flushMode = beginConversation.attributeValue("flush-mode");
          if (flushMode!=null)
          {
