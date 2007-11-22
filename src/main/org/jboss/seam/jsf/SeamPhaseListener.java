@@ -190,6 +190,13 @@ public class SeamPhaseListener implements PhaseListener
          try
          {
             Exceptions.instance().handle(e);
+            // A redirect occurred inside the error handler, and we are in after
+            // phase, so we need to clean up now as there are no more after
+            // phases to be run
+            if ( event.getFacesContext().getResponseComplete() )
+            {
+               afterResponseComplete(event.getFacesContext());
+            }
          }
          catch (Exception ehe) 
          {
