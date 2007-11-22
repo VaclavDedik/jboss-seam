@@ -248,16 +248,13 @@
     		<title>Transaction synchronization</title>
 
     		<para>
-    			Transaction synchronization is the ability to provide callbacks for various transaction related events
-    			such as
-    			<literal>beforeCompletion()</literal>
-    			and
-    			<literal>afterCompletion()</literal>
-    			. By default Seam uses it's own transaction synchronization component which requires explicit use of the
+    			Transaction synchronization provides callbacks for transaction related events
+    			such as <literal>beforeCompletion()</literal> and <literal>afterCompletion()</literal>.
+                By default, Seam uses it's own transaction synchronization component which requires explicit use of the
     			Seam transaction component when committing a transaction to ensure synchronization callbacks are
     			correctly executed. If in a Java EE 5 environment the
     			<literal>&lt;transaction:ejb-transaction/&gt;</literal>
-    			component should be be declared in the components.xml to ensure that Seam synchronization callbacks are
+    			component should be be declared in <literal>components.xml</literal> to ensure that Seam synchronization callbacks are
     			correctly called if the container commits a transaction outside of Seam's knowledge.
     		</para>
     	</section>
