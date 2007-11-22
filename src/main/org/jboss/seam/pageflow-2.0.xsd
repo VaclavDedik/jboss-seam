@@ -316,7 +316,7 @@
 				<xs:element ref="event" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="exception-handler" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="transition" maxOccurs="unbounded" minOccurs="0"/>
-				<xs:group ref="action-elements" minOccurs="0" maxOccurs="unbounded" />
+				<xs:group ref="action-elements" minOccurs="0" maxOccurs="1" />
 		</xs:sequence>
 	</xs:group>
 
