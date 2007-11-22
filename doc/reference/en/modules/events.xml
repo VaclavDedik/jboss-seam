@@ -720,7 +720,8 @@ public class HelloListener {
         To apply this interceptor to a session bean which acts as an action listener, we must
         annotate the session bean <literal>@Interceptors(LoggedInInterceptor.class)</literal>.
         This is a somewhat ugly annotation. Seam builds upon the interceptor framework in
-        EJB3 by allowing you to use <literal>@Interceptors</literal> as a meta-annotation. In
+        EJB3 by allowing you to use <literal>@Interceptors</literal> as a meta-annotation for class
+        level interceptors (those annotated <literal>@Target(TYPE)</literal>). In
         our example, we would create an <literal>@LoggedIn</literal> annotation, as follows:
     </para>
       
