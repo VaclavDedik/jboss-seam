@@ -37,7 +37,7 @@ public class DefaultActionRendererBase extends RendererBase
    {
       UIComponent actionComponent = component.getParent();
       String actionComponentId = actionComponent.getClientId(context); 
-      UIForm form = getForm(actionComponent);
+      UIForm form = getUtils().getForm(actionComponent);
       if (form == null)
       {
          log.warn("Must embed default action inside a form");
@@ -77,16 +77,6 @@ public class DefaultActionRendererBase extends RendererBase
          writer.write(functionCode);
          writer.endElement("script");
       }
-   }
-      
-   private UIForm getForm(UIComponent component) {
-       while (component != null) {
-          if (component instanceof UIForm) {
-               break;
-           }
-           component = component.getParent();
-       }
-       return (UIForm) component;
    }
 
    @Override
