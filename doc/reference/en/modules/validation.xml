@@ -183,7 +183,7 @@
         </s:label>
         
         <span class="#{invalid?'error':''}">
-            <h:graphicImage src="img/error.gif" rendered="#{invalid}"/>
+            <h:graphicImage value="/img/error.gif" rendered="#{invalid}"/>
             <s:validateAll>
                 <ui:insert/>
             </s:validateAll>
