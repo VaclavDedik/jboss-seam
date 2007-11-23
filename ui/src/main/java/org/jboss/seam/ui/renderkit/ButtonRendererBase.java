@@ -41,12 +41,13 @@ public class ButtonRendererBase extends RendererBase
       }
       else if (onclick.length() > 0 && !onclick.endsWith(";"))
       {
-         onclick += ";";
+         onclick += "; ";
       }
       if (url != null)
       {
-         onclick += "location.href='" + url + "'";
+         onclick += "location.href='" + url + "'; ";
       }
+      onclick += "return false;";
       if (!button.isDisabled())
       {
          return onclick;
