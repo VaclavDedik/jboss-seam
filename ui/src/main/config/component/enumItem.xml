@@ -16,7 +16,7 @@
 				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-		&ui_select_item_attributes;
+		&ui_component_attributes;
 		<property>
 			<name>enumValue</name>
 			<classname>java.lang.String</classname>
@@ -31,5 +31,12 @@
 				the label to be used when rendering the SelectItem.
 			</description>
 		</property>
+        <property>
+            <name>itemDisabled</name>
+            <classname>boolean</classname>
+            <description>
+                If true, this component isn't saved during state saving
+            </description>
+        </property>
 	</component>
 </components>
