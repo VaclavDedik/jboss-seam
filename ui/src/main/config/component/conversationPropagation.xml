@@ -22,7 +22,7 @@
 			</superclass>
 		</tag>
         <taghandler>
-            <classname>org.jboss.seam.ui.handler.ConversationPropagationComponentHandler</classname>
+            <classname>org.jboss.seam.ui.handler.CommandButtonParameterComponentHandler</classname>
         </taghandler>
 		&ui_component_attributes;
 		&ui_parameter_attributes;

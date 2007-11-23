@@ -15,10 +15,10 @@ import com.sun.facelets.tag.jsf.ComponentHandler;
  * @author Pete Muir
  *
  */
-public class ConversationPropagationComponentHandler extends ComponentHandler
+public class CommandButtonParameterComponentHandler extends ComponentHandler
 {
    
-   public ConversationPropagationComponentHandler(ComponentConfig config)
+   public CommandButtonParameterComponentHandler(ComponentConfig config)
    {
       super(config);
    }
