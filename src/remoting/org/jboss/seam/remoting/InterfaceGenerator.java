@@ -67,6 +67,12 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
         public void process() throws Exception
         {
            ServletContexts.instance().setRequest(request);
+           
+           if (request.getQueryString() == null)
+           {
+              throw new ServletException("Invalid request - no component specified");
+           }
+           
            String[] componentNames = request.getQueryString().split("&");
            Component[] components = new Component[componentNames.length];
            Set<Type> types = new HashSet<Type>();
