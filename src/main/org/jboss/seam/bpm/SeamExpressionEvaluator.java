@@ -45,55 +45,66 @@ public class SeamExpressionEvaluator
     
     private static Expression createExpression(final String expression, final Class returnType, final FunctionMapper mapper)
     {
-        return 
-            new Expression() {
-                private MethodExpression me;
-                private ValueExpression ve; 
+        return new Expression() 
+        {
+            private MethodExpression me;
+            private ValueExpression ve; 
                 
-                private void initMethodExpression() {
-                    me = EL.EXPRESSION_FACTORY.createMethodExpression(EL.EL_CONTEXT, expression, returnType, new Class[0]);
-                }
+            private void initMethodExpression() 
+            {
+                me = EL.EXPRESSION_FACTORY.createMethodExpression(EL.EL_CONTEXT, expression, returnType, new Class[0]);
+            }
                 
-                private void initValueExpression() {
-                    ve = EL.EXPRESSION_FACTORY.createValueExpression(EL.EL_CONTEXT, expression, returnType);
-                }
+            private void initValueExpression() 
+            {
+                ve = EL.EXPRESSION_FACTORY.createValueExpression(EL.EL_CONTEXT, expression, returnType);
+            }
                 
-                @Override
-                public Object evaluate(VariableResolver resolver) throws ELException
-                {
+            @Override
+            public Object evaluate(VariableResolver resolver) throws ELException
+            {
+                try {
                     try {
-                        try {
-                            if (me==null && ve==null) {
-                                initMethodExpression();
-                            }
-                            if (me!=null && ve==null) {
-                                return me.invoke(createELContext(resolver, mapper), new Object[0]);
-                            }
-                        } catch (javax.el.ELException e) {                                    
-                            if (ve==null) {
-                                initValueExpression();
-                            }
-                            if (ve!=null) {
-                                return ve.getValue(createELContext(resolver, mapper));
-                            }
+                        if (me==null && ve==null) 
+                        {
+                            initMethodExpression();
                         }
-                        throw new ELException();
-                    } catch (javax.el.ELException e) {
-                        throw new ELException(e);
+                        if (me!=null && ve==null) 
+                        {
+                            return me.invoke(createELContext(resolver, mapper), new Object[0]);
+                        }
+                    } 
+                    catch (javax.el.ELException e) 
+                    {                                    
+                        if (ve==null) 
+                        {
+                            initValueExpression();
+                        }
+                        if (ve!=null) 
+                        {
+                            return ve.getValue(createELContext(resolver, mapper));
+                        }
                     }
+                    throw new ELException();
                 }
-            };
+                catch (javax.el.ELException e) 
+                {
+                    throw new ELException(e);
+                }
+            }
+        };
     }
    
     private static javax.el.FunctionMapper decorateFunctionMapper(final FunctionMapper functionMapper)
     {
-        return new SeamFunctionMapper( new javax.el.FunctionMapper() {
-                @Override
-                public Method resolveFunction(String prefix, String localName)
-                {
-                    return functionMapper.resolveFunction(prefix, localName);
-                }
-            });
+        return new SeamFunctionMapper( new javax.el.FunctionMapper() 
+        {
+            @Override
+            public Method resolveFunction(String prefix, String localName)
+            {
+                return functionMapper.resolveFunction(prefix, localName);
+            }
+        });
     }
     
     private static ELContext createELContext(VariableResolver resolver, FunctionMapper functionMapper)
