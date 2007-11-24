@@ -49,6 +49,7 @@
     <test name="Seam Core - Integration: BPM">
         <classes>
    	        <class name="org.jboss.seam.test.integration.BusinessProcessTest" />
+            <class name="org.jboss.seam.test.integration.bpm.SeamExpressionEvaluatorTest" />
         </classes>
     </test>
 

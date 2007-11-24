@@ -31,6 +31,7 @@
     <bpm:jbpm>
         <bpm:process-definitions>
             <value>testProcess1.jpdl.xml</value>
+            <value>testProcess2.jpdl.xml</value>
         </bpm:process-definitions>
     </bpm:jbpm>
 
