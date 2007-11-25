@@ -269,6 +269,10 @@ public class Identity implements Serializable
    {
       unAuthenticate();
       preAuthenticationRoles.clear();
+      
+      // TODO - Deprecated, remove for next major release
+      if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.preAuthenticate");      
+      
       if (Events.exists()) Events.instance().raiseEvent(EVENT_PRE_AUTHENTICATE);
    }   
    
@@ -298,6 +302,9 @@ public class Identity implements Serializable
       
       password = null;
 
+      // TODO - Deprecated, remove for next major release
+      if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
+      
       if (Events.exists()) Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE, this);
    }
    
