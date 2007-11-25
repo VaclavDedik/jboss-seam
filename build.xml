@@ -317,6 +317,7 @@
 		<cleanexample name="seamdiscs" />
 		<cleanexample name="icefaces" />
 		<cleanexample name="seambay" />
+		<cleanexample name="nestedbooking" />
 	</target>
 
 	<target name="undeployall" description="Undeploy all examples">
@@ -346,6 +347,7 @@
 		<undeployexample name="seamdiscs" />
 		<undeployexample name="icefaces" />
 		<undeployexample name="seambay" />
+		<undeployexample name="nestedbooking" />
 	</target>
 
 	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
@@ -480,6 +482,7 @@
 				<include name="wiki/**/*" />
 				<!--<include name="portal/**/*" />-->
 				<include name="drools/**/*" />
+				<include name="nestedbooking/**/*" />
 				<include name="remoting/chatroom/**/*" />
 				<include name="remoting/helloworld/**/*" />
 				<include name="remoting/progressbar/**/*" />
