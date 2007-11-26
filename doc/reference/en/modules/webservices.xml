@@ -13,10 +13,13 @@
       To allow Seam to intercept web service requests so that the necessary Seam contexts can be created for the request, 
       a special SOAP handler must be configured; <literal>org.jboss.seam.webservice.SOAPRequestHandler</literal>
       is a <literal>SOAPHandler</literal> implementation that does the work of managing Seam's lifecycle during the scope
-      of a web service request.  The easiest way to configure a project to use this handler, is to place a file called
-      <literal>standard-jaxws-endpoint-config.xml</literal> into the <literal>META-INF</literal> directory of the
-      <literal>jar</literal> file that contains the web service classes.  This file contains the following SOAP handler
-      configuration:
+      of a web service request.  
+    </para>
+    
+    <para>
+      A special configuration file, <literal>standard-jaxws-endpoint-config.xml</literal> should be placed 
+      into the <literal>META-INF</literal> directory of the <literal>jar</literal> file that contains the 
+      web service classes.  This file contains the following SOAP handler configuration:
     </para>
     
     <programlisting><![CDATA[<jaxws-config xmlns="urn:jboss:jaxws-config:2.0" 
