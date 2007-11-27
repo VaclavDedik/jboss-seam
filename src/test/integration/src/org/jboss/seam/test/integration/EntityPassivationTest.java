@@ -54,7 +54,6 @@ public class EntityPassivationTest
                 
                 Map thingMap = (Map) getValue("#{entitytest.someComponent.thingsAsMap}");
                 assert thingMap!=null && thingMap.size() > 0;
-                System.out.println("MAP: " + thingMap);
             }
         }.run();
 

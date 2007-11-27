@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 
 import org.hibernate.StaleStateException;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.testng.Assert;
@@ -108,11 +110,15 @@ public class EntityTest
 
         try {
             new FacesRequest("/page.xhtml", conversation1) {
+                EntityExceptionObserver observer;
+                
                 @Override
                 protected void invokeApplication() throws Exception {
                     Thing thing = (Thing) Contexts.getConversationContext().get("thing");
                     thing.setName("bar");
                    
+                    observer = (EntityExceptionObserver) getValue("#{entityExceptionObserver}");
+                    assert observer != null;
                 }
                 
                 @Override
@@ -122,12 +128,31 @@ public class EntityTest
                 
                 @Override
                 protected void afterRequest() {
-                   assert getValue("#{entityExceptionObserver.optimisticLockExceptionSeen}").equals(Boolean.TRUE);
-                }
-
+                   assert observer.getOptimisticLockExceptionSeen();
+                }        
             }.run();
 
         } catch (StaleStateException e) {
+        }
+    }
+    
+    @Name("entityExceptionObserver")
+    public static class EntityExceptionObserver {
+        
+        private boolean exceptionSeen;
+
+        @Observer(value="org.jboss.seam.exceptionHandled.javax.persistence.OptimisticLockException")
+        public void handleException(Exception e) {
+            exceptionSeen=true;
+        }
+        
+        public boolean getOptimisticLockExceptionSeen() {
+            return exceptionSeen;
+        }
+        
+        @Override
+        public String toString() {
+            return "EntityExceptionObserver[" + exceptionSeen + "]";
         }
     }
 }
