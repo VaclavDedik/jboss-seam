@@ -2,7 +2,7 @@ NAME
    seam (aka seam-gen) - execute seam code generation. The seam.bat (Windows)
    and seam (Linux/Unix) scripts support commands that use Ant build targets to
    setup a Seam project and generate source code. You must have Ant 1.6 and
-   JBoss AS with EJB3 installed (JBoss >= 4.2.0.GA recommended).
+   JBoss AS with EJB3 installed (JBoss AS >= 4.2.0.GA recommended).
 
 SYNOPSIS
    seam COMMAND
