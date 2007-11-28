@@ -1,15 +1,12 @@
 //$Id$
 package org.jboss.seam.util;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import org.jboss.seam.core.ConversationIdGenerator;
 
 public class Id
 {
-   private static AtomicInteger uniqueId = new AtomicInteger(0);
-   
-   public static String nextId() 
-   {
-      //TODO: this is not cluster safe!!!!!
-      return Integer.toString( uniqueId.incrementAndGet() );
-   }
+    @Deprecated
+    public static String nextId() {
+        return ConversationIdGenerator.instance().getNextId();
+    }  
 }
