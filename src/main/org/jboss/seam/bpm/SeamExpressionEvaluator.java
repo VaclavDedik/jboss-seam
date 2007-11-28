@@ -63,8 +63,10 @@ public class SeamExpressionEvaluator
             @Override
             public Object evaluate(VariableResolver resolver) throws ELException
             {
-                try {
-                    try {
+                try 
+                {
+                    try 
+                    {
                         if (me==null && ve==null) 
                         {
                             initMethodExpression();

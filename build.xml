@@ -630,7 +630,6 @@
 				<exclude name="**/testng-*.xml" />
 			</fileset>
 			<report format="noframes" todir="${report.dir}" />
-
 		</junitreport>
 		<echo>Report available at ${report.dir}/junit-noframes.html</echo>
 	</target>
