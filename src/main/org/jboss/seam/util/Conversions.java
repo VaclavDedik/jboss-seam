@@ -37,6 +37,7 @@ public class Conversions
       //put(Date.class, new DateTimeConverter());
       //put(Short.class, new ShortConverter());
       //put(Byte.class, new ByteConverter());
+      put(Enum.class, new EnumConverter());
       put(BigInteger.class, new BigIntegerConverter());
       put(BigDecimal.class, new BigDecimalConverter());
       put(Class.class, new ClassConverter());
@@ -50,6 +51,11 @@ public class Conversions
    public static <Y> Converter<Y> getConverter(Class<Y> clazz)
    {
       Converter<Y> converter = converters.get(clazz);
+      if (converter == null && clazz != null && clazz.isEnum())
+      {
+          converter = converters.get(Enum.class);
+      }
+
       if (converter==null)
       {
           throw new IllegalArgumentException("No converter for type: " + clazz.getName());
@@ -131,8 +137,15 @@ public class Conversions
          return new BigInteger(value.getSingleValue());
       }
    }
- 
-   
+
+   public static class EnumConverter implements Converter<Enum<?>>
+   {
+      public Enum<?> toObject(PropertyValue value, Type type)
+      {
+         return Enum.valueOf((Class<Enum>) type, value.getSingleValue());
+      }
+   }
+
    public static class StringArrayConverter implements Converter<String[]>
    {
       public String[] toObject(PropertyValue values, Type type)
