@@ -46,8 +46,7 @@ public class TaskListTest
    @AfterMethod
    protected void tearDown()
    {
-      Lifecycle.endCall();
-      Lifecycle.unmockApplication();
+      Lifecycle.endApplication();
    }
 
    private void installComponent(Context appContext, Class clazz)

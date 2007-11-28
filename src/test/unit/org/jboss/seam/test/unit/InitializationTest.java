@@ -26,6 +26,7 @@ public class InitializationTest
       assert servletContext.getAttributes().containsKey( Seam.getComponentName(Manager.class) + ".component" );
       assert servletContext.getAttributes().containsKey( Seam.getComponentName(Foo.class) + ".component" );
       assert !Contexts.isApplicationContextActive();
+      ServletLifecycle.endApplication();
    }
 
    /**
@@ -44,7 +45,6 @@ public class InitializationTest
        assert component != null;
        assert component.getPrimaryColor().equals(PrimaryColor.RED);
 
-       Lifecycle.endCall();
        ServletLifecycle.endApplication();
    }
    //TODO: write a test for components.xml
