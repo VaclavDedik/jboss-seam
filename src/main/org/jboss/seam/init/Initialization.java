@@ -206,7 +206,11 @@ public class Initialization
             String name = elem.attributeValue("name");
             String elemName = toCamelCase( elem.getName(), true );
             
-            String className = nsInfo.getPackage().getName() + '.' + elemName;
+            String className = elem.attributeValue("class");
+            if (className==null) {
+                className = nsInfo.getPackage().getName() + '.' + elemName;
+            }
+            
             try
             {
                //get the class implied by the namespaced XML element name
