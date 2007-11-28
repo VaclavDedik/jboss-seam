@@ -23,7 +23,7 @@ import org.jboss.seam.persistence.QueryParser;
  * @author Gavin King
  *
  */
-public abstract class Query<T> 
+public abstract class Query<T, E> 
       extends PersistenceController<T> //TODO: extend MutableController!
 {
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s", Pattern.CASE_INSENSITIVE);
@@ -49,8 +49,8 @@ public abstract class Query<T>
    private List<Object> queryParameterValues;
    private List<Object> restrictionParameterValues;
    
-   public abstract List getResultList();
-   public abstract Object getSingleResult();
+   public abstract List<E> getResultList();
+   public abstract E getSingleResult();
    public abstract Long getResultCount();
 
    @Create
@@ -82,9 +82,9 @@ public abstract class Query<T>
     * Get the selected row of the JSF {@link DataModel}
     * 
     */
-   public Object getDataModelSelection()
+   public E getDataModelSelection()
    {
-      return getDataModel().getRowData();
+      return (E) getDataModel().getRowData();
    }
    
    /**
@@ -439,7 +439,7 @@ public abstract class Query<T>
    {
       this.restrictionParameterValues = restrictionParameterValues;
    }
-   protected List truncResultList(List results)
+   protected List<E> truncResultList(List<E> results)
    {
       Integer mr = getMaxResults();
       if ( mr!=null && results.size() > mr )

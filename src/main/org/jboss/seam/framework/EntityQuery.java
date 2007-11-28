@@ -17,11 +17,11 @@ import org.jboss.seam.transaction.Transaction;
  * @author Gavin King
  *
  */
-public class EntityQuery extends Query<EntityManager>
+public class EntityQuery<E> extends Query<EntityManager, E>
 {
 
-   private List resultList;
-   private Object singleResult;
+   private List<E> resultList;
+   private E singleResult;
    private Long resultCount;
    private Map<String, String> hints;
 
@@ -56,7 +56,7 @@ public class EntityQuery extends Query<EntityManager>
     */
    @Transactional
    @Override
-   public List getResultList()
+   public List<E> getResultList()
    {
       if ( isAnyParameterDirty() )
       {
@@ -84,7 +84,7 @@ public class EntityQuery extends Query<EntityManager>
     */
    @Transactional
    @Override
-   public Object getSingleResult()
+   public E getSingleResult()
    {
       if (isAnyParameterDirty())
       {
@@ -99,8 +99,8 @@ public class EntityQuery extends Query<EntityManager>
       if ( singleResult==null)
       {
          javax.persistence.Query query = createQuery();
-         singleResult = query==null ? 
-               null : query.getSingleResult();
+         singleResult = (E) (query==null ? 
+               null : query.getSingleResult());
       }
    }
 

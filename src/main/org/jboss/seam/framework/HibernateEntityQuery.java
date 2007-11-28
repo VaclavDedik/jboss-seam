@@ -12,11 +12,11 @@ import org.jboss.seam.persistence.QueryParser;
  * @author Gavin King
  *
  */
-public class HibernateEntityQuery extends Query<Session>
+public class HibernateEntityQuery<E> extends Query<Session, E>
 {
 
-   private List resultList;
-   private Object singleResult;
+   private List<E> resultList;
+   private E singleResult;
    private Long resultCount;
    
    private Boolean cacheable;
@@ -35,7 +35,7 @@ public class HibernateEntityQuery extends Query<Session>
 
    @Transactional
    @Override
-   public List getResultList()
+   public List<E> getResultList()
    {
       if ( isAnyParameterDirty() )
       {
@@ -64,7 +64,7 @@ public class HibernateEntityQuery extends Query<Session>
    
    @Transactional
    @Override
-   public Object getSingleResult()
+   public E getSingleResult()
    {
       if (isAnyParameterDirty())
       {
@@ -79,8 +79,8 @@ public class HibernateEntityQuery extends Query<Session>
       if (singleResult==null)
       {
          org.hibernate.Query query = createQuery();
-         singleResult = query==null ? 
-               null : query.uniqueResult();
+         singleResult = (E) (query==null ? 
+               null : query.uniqueResult());
       }
    }
 
