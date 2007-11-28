@@ -2,14 +2,20 @@ package org.jboss.seam.bpm;
 
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.el.CompositeELResolver;
 import javax.el.ELContext;
 import javax.el.MethodExpression;
+import javax.el.MethodNotFoundException;
+import javax.el.PropertyNotFoundException;
 import javax.el.ValueExpression;
 
 import org.jboss.seam.el.EL;
 import org.jboss.seam.el.SeamFunctionMapper;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jbpm.jpdl.el.ELException;
 import org.jbpm.jpdl.el.Expression;
 import org.jbpm.jpdl.el.ExpressionEvaluator;
@@ -23,11 +29,14 @@ import org.jbpm.jpdl.el.VariableResolver;
  * defined only by the JSF ELResolvers.
  * 
  * @author Gavin King
+ * @author Pete Muir
  *
  */
 public class SeamExpressionEvaluator 
     extends ExpressionEvaluator
 {
+   
+    private static LogProvider log = Logging.getLogProvider(SeamExpressionEvaluator.class);
 
     @Override
     public Object evaluate(String expression, Class returnType, final VariableResolver resolver, FunctionMapper mapper)
@@ -48,51 +57,81 @@ public class SeamExpressionEvaluator
         return new Expression() 
         {
             private MethodExpression me;
-            private ValueExpression ve; 
+            private ValueExpression ve;
                 
             private void initMethodExpression() 
             {
-                me = EL.EXPRESSION_FACTORY.createMethodExpression(EL.EL_CONTEXT, expression, returnType, new Class[0]);
+                if (me == null || ve == null)
+                {
+                    me = EL.EXPRESSION_FACTORY.createMethodExpression(EL.EL_CONTEXT, expression, returnType, new Class[0]);
+                }
             }
                 
             private void initValueExpression() 
             {
-                ve = EL.EXPRESSION_FACTORY.createValueExpression(EL.EL_CONTEXT, expression, returnType);
+                if (me == null || ve == null)
+                {
+                    ve = EL.EXPRESSION_FACTORY.createValueExpression(EL.EL_CONTEXT, expression, returnType);
+                }
             }
                 
             @Override
             public Object evaluate(VariableResolver resolver) throws ELException
             {
-                try 
+                List<javax.el.ELException> exceptions = new ArrayList<javax.el.ELException>();
+                try
                 {
-                    try 
-                    {
-                        if (me==null && ve==null) 
-                        {
-                            initMethodExpression();
-                        }
-                        if (me!=null && ve==null) 
-                        {
-                            return me.invoke(createELContext(resolver, mapper), new Object[0]);
-                        }
-                    } 
-                    catch (javax.el.ELException e) 
-                    {                                    
-                        if (ve==null) 
-                        {
-                            initValueExpression();
-                        }
-                        if (ve!=null) 
-                        {
-                            return ve.getValue(createELContext(resolver, mapper));
-                        }
-                    }
-                    throw new ELException();
+                    initMethodExpression(); 
                 }
                 catch (javax.el.ELException e) 
                 {
-                    throw new ELException(e);
+                    exceptions.add(e);
                 }
+                if (me != null)
+                {
+                    try
+                    {
+                        return me.invoke(createELContext(resolver, mapper), new Object[0]);
+                    }
+                    catch (MethodNotFoundException e)
+                    {
+                        exceptions.add(e);
+                    }
+                }
+                 
+                try
+                {
+                    initValueExpression();
+                    if (ve != null)
+                    {
+                        try
+                        {
+                            return ve.getValue(createELContext(resolver, mapper));
+                        }
+                        catch (PropertyNotFoundException e)
+                        {
+                            exceptions.add(e);
+                        }
+                    }
+                }
+                catch (javax.el.ELException e)
+                {
+                    exceptions.add(e);
+                }
+                
+                if (exceptions.size() > 0)
+                {
+                   log.debug("Exceptions occurred when parsing " + expression);
+                   for (javax.el.ELException e : exceptions)
+                   {
+                      log.debug("Possible cause", e);
+                   }
+                }
+                else if (me == null && ve ==  null)
+                {
+                   log.debug("Error parsing " + expression);
+                }
+                throw new ELException("Error evaluating " + expression + "; possible causes are logged at debug level");
             }
         };
     }

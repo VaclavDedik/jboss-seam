@@ -10,7 +10,12 @@ public class SeamExpressionEvaluatorTestController {
    
    
    @CreateProcess(definition="TestProcess2") 
-   public void createProcess() 
+   public void createProcess2() 
+   {            
+   }
+   
+   @CreateProcess(definition="TestProcess3") 
+   public void createProcess3() 
    {            
    }
    
