@@ -17,6 +17,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -47,7 +48,7 @@ public class EntityTransaction extends AbstractUserTransaction
    {
       if (entityManager==null)
       {
-         throw new IllegalStateException("entity manager reference not set, use <transaction:entity-transaction entity-manager=...");
+         entityManager = Expressions.instance().createValueExpression("#{entityManager}", EntityManager.class);
       }
    }
    

@@ -216,24 +216,26 @@
     		</itemizedlist>
     		<para>
     			Configure JPA RESOURCE_LOCAL transaction management by adding the following to your components.xml where
-    			<literal>#{entityManager}</literal>
+    			<literal>#{em}</literal>
     			is the name of the
     			<literal>persistence:managed-persistence-context</literal>
-    			component. (see
+    			component. If your managed persistence context is named <literal>entityManager</literal>, you can
+				opt to leave out the <literal>entity-manager</literal> attribute. (see
     			<link linkend="persistence.seam-managed-persistence-contexts">Seam-managed persistence contexts</link>
     			)
     		</para>
-    		<programlisting><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
+    		<programlisting><![CDATA[<transaction:entity-transaction entity-manager="#{em}"/>]]></programlisting>
     		<para>
     			To configure Hibernate managed transactions declare the following in your components.xml where
-    			<literal>#{hiberanteSession}</literal>
+    			<literal>#{hibernateSession}</literal>
     			is the name of the project's
     			<literal>persistence:managed-hibernate-session</literal>
-    			component. (see
+    			component. If your managed hibernate session is named <literal>session</literal>, you can
+				opt to leave out the <literal>session</literal> attribute. (see
     			<link linkend="persistence.seam-managed-persistence-contexts">Seam-managed persistence contexts</link>
     			)
     		</para>
-    		<programlisting><![CDATA[<transaction:hibernate-transaction session="#{hiberanteSession}"/>]]></programlisting>
+    		<programlisting><![CDATA[<transaction:hibernate-transaction session="#{hibernateSession}"/>]]></programlisting>
             <para>
                 To explicitly disable Seam managed transactions declare the following in your components.xml:
               </para>
