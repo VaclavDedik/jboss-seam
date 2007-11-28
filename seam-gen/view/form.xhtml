@@ -7,7 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:a="http://richfaces.org/a4j"
-                template="/layout/template.xhtml">
+                template="layout/template.xhtml">
                        
 <ui:define name="body">
 
@@ -18,7 +18,7 @@
         <rich:panel>
             <f:facet name="header">@pageName@</f:facet>
     
-            <s:decorate id="valueDecoration" template="/layout/edit.xhtml">
+            <s:decorate id="valueDecoration" template="layout/edit.xhtml">
                 <ui:define name="label">Value</ui:define>
                 <h:inputText id="value" required="true"
                              value="#{@componentName@.value}"/>

@@ -13,7 +13,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
-                template="/layout/template.xhtml">
+                template="layout/template.xhtml">
                        
 <ui:define name="body">
     

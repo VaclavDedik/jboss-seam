@@ -15,7 +15,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:ice="http://www.icesoft.com/icefaces/component"  
-                template="/layout/template.xhtml">
+                template="layout/template.xhtml">
                        
 <ui:define name="body">
     
@@ -37,7 +37,7 @@
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
-            <s:decorate id="${componentProperty.name}decId" template="/layout/display.xhtml">
+            <s:decorate id="${componentProperty.name}decId" template="layout/display.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
                   <ice:inputText id="${componentProperty.name}TextId" 
                           value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"
@@ -48,7 +48,7 @@
 </#foreach>
 <#else>
 <#if isString(property)>
-            <s:decorate id="${property.name}decId" template="/layout/display.xhtml">
+            <s:decorate id="${property.name}decId" template="layout/display.xhtml">
                 <ui:define name="label">${property.name}</ui:define>
                 <ice:inputText id="list${property.name}TextId" 
                           value="${'#'}{${listName}.${componentName}.${property.name}}"

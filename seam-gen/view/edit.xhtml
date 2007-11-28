@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:rich="http://richfaces.org/rich"
-                template="/layout/template.xhtml">
+                template="layout/template.xhtml">
                        
 <ui:define name="body">
     
@@ -17,7 +17,7 @@
         <rich:panel>
             <f:facet name="header">@pageName@</f:facet>
     
-            <s:decorate id="nameDecoration" template="/layout/edit.xhtml">
+            <s:decorate id="nameDecoration" template="layout/edit.xhtml">
                 <ui:define name="label">Name</ui:define>
                 <h:inputText id="name" required="true"
                              value="#{@homeName@.instance.name}"/>

@@ -15,7 +15,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:rich="http://richfaces.org/rich"
-                template="/layout/template.xhtml">
+                template="layout/template.xhtml">
                        
 <ui:define name="body">
     
@@ -30,7 +30,7 @@
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
-            <s:decorate template="/layout/display.xhtml">
+            <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
                 <h:inputText id="${componentProperty.name}" value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"/>
             </s:decorate>
@@ -39,7 +39,7 @@
 </#foreach>
 <#else>
 <#if isString(property)>
-            <s:decorate template="/layout/display.xhtml">
+            <s:decorate template="layout/display.xhtml">
                 <ui:define name="label">${property.name}</ui:define>
                 <h:inputText id="${property.name}" value="${'#'}{${listName}.${componentName}.${property.name}}"/>
             </s:decorate>

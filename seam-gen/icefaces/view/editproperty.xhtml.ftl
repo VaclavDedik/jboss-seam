@@ -7,7 +7,7 @@
 <#foreach componentProperty in property.value.propertyIterator>
 <#assign column = componentProperty.columnIterator.next()>
 
-            <s:decorate id="${componentProperty.name}Decoration" template="/layout/edit.xhtml">
+            <s:decorate id="${componentProperty.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
 <#if isDate(componentProperty)>
                         <ice:selectInputDate id="${componentProperty.name}Id" 
@@ -122,7 +122,7 @@
 <#else>
 <#assign column = property.columnIterator.next()>
 
-            <s:decorate id="${property.name}Decoration" template="/layout/edit.xhtml">
+            <s:decorate id="${property.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${property.name}</ui:define>
 <#if isDate(property)>
                            <ice:selectInputDate id="${property.name}Id" 
