@@ -22,14 +22,14 @@
 			</superclass>
 		</tag>
 		<property>
-        <name>style</name>
-        <classname>java.lang.String</classname>
-        <description>CSS style(s) is/are to be applied when this component is rendered</description>
-    </property>
-    <property>
-        <name>styleClass</name>
-        <classname>java.lang.String</classname>
-        <description>Corresponds to the HTML class attribute</description>
-    </property>
+            <name>style</name>
+            <classname>java.lang.String</classname>
+            <description>CSS style(s) is/are to be applied when this component is rendered</description>
+        </property>
+        <property>
+            <name>styleClass</name>
+            <classname>java.lang.String</classname>
+            <description>Corresponds to the HTML class attribute</description>
+        </property>
 	</component>
 </components>

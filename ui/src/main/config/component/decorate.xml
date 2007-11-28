@@ -29,13 +29,13 @@
 		
 		&ui_component_attributes;
         &html_style_attributes;
-		<property attachedstate="true">
+		<property el="false">
 			<name>for</name>
 			<classname>java.lang.String</classname>
 			<description></description>
 		</property>
 	    
-	    <property>	        
+	    <property exist="true">	        
 	        <name>template</name>
 	        <classname>java.lang.String</classname>
 	        <description></description>

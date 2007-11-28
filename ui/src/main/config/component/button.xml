@@ -38,8 +38,7 @@
 			<classname>java.lang.String</classname>
 			<description>a pageflow definition to begin. (This is only useful when propagation="begin" or propagation="join".)</description>
 		</property>
-		<!-- should be el="false" -->
-		<property>
+		<property el="false">
 			<name>propagation</name>
 			<classname>java.lang.String</classname>
 			<description>determines the conversation propagation style: begin, join, nest, none or end.</description>
@@ -50,8 +49,7 @@
 			<classname>java.lang.String</classname>
 			<description>the fragment identifier to link to.</description>
 		</property>
-		<!-- should be el="false" -->
-		<property transient="true">
+		<property transient="true" el="false">
 			<name>outcome</name>
 			<classname>java.lang.String</classname>
 		</property>

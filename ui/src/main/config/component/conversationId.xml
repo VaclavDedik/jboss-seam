@@ -17,8 +17,7 @@
 			</superclass>
 		</tag>
 		&ui_component_attributes;
-		<!-- Should be el="false" -->
-		<property hidden="true">
+		<property hidden="true" el="false" transient="true">
 			<name>viewId</name>
 			<classname>java.lang.String</classname>
 		</property>
