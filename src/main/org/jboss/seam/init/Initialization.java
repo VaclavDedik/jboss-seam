@@ -207,8 +207,9 @@ public class Initialization
             String elemName = toCamelCase( elem.getName(), true );
             
             String className = elem.attributeValue("class");
-            if (className==null) {
-                className = nsInfo.getPackage().getName() + '.' + elemName;
+            if (className == null)
+            {
+               className = nsInfo.getPackage().getName() + '.' + elemName;
             }
             
             try
