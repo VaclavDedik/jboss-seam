@@ -18,6 +18,7 @@ import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.test.unit.component.TestActions;
 import org.jboss.seam.util.Conversions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

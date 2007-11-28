@@ -1,4 +1,4 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.unit.component;
 
 import java.util.ArrayList;
 import java.util.List;
