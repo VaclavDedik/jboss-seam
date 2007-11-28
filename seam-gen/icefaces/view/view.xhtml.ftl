@@ -12,7 +12,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:ice="http://www.icesoft.com/icefaces/component"   
-                template="layout/template.xhtml">
+                template="/layout/template.xhtml">
                        
 <ui:define name="body">
     
