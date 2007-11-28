@@ -345,6 +345,9 @@ public class Identity implements Serializable
       unAuthenticate();
       Session.instance().invalidate();
       if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGGED_OUT);
+      
+      // TODO - Deprecated, remove for next major release
+      if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.loggedOut");      
    }
 
    /**
