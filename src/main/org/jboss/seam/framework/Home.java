@@ -4,6 +4,7 @@ import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -220,13 +221,30 @@ public abstract class Home<T, E> extends MutableController<T>
     */
    public Class<E> getEntityClass()
    {
-      if (entityClass==null)
+      if (entityClass == null)
       {
          Type type = getClass().getGenericSuperclass();
          if (type instanceof ParameterizedType)
          {
             ParameterizedType paramType = (ParameterizedType) type;
-            entityClass = (Class<E>) paramType.getActualTypeArguments()[0];
+            if (paramType.getActualTypeArguments().length == 2)
+            {
+               // likely dealing with -> new EntityHome<Person>().getEntityClass()
+               if (paramType.getActualTypeArguments()[1] instanceof TypeVariable)
+               {
+                  throw new IllegalArgumentException("Could not guess entity class by reflection");
+               }
+               // likely dealing with -> new Home<EntityManager, Person>() { ... }.getEntityClass()
+               else
+               {
+                  entityClass = (Class<E>) paramType.getActualTypeArguments()[1];
+               }
+            }
+            else
+            {
+               // likely dealing with -> new PersonHome().getEntityClass() where PersonHome extends EntityHome<Person>
+               entityClass = (Class<E>) paramType.getActualTypeArguments()[0];
+            }
          }
          else
          {

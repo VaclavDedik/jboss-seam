@@ -1,4 +1,4 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.unit.entity;
 
 import java.io.Serializable;
 
