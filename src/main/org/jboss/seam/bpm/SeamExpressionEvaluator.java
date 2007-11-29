@@ -119,7 +119,11 @@ public class SeamExpressionEvaluator
                     exceptions.add(e);
                 }
                 
-                if (exceptions.size() > 0)
+                if (exceptions.size() == 1)
+                {
+                   throw new ELException("Error evaluating " + expression, exceptions.get(0));
+                }
+                else if (exceptions.size() > 1)
                 {
                    log.debug("Exceptions occurred when parsing " + expression);
                    for (javax.el.ELException e : exceptions)
@@ -127,9 +131,10 @@ public class SeamExpressionEvaluator
                       log.debug("Possible cause", e);
                    }
                 }
-                else if (me == null && ve ==  null)
+                if (me == null && ve ==  null)
                 {
                    log.debug("Error parsing " + expression);
+                   throw new ELException("Error parsing " + expression + "; not a valid EL expression");
                 }
                 throw new ELException("Error evaluating " + expression + "; possible causes are logged at debug level");
             }
