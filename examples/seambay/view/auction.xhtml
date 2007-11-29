@@ -101,7 +101,9 @@
                 $<b><h:outputText value="#{auction.currentPrice}">
                   <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
                 </h:outputText></b>
-                <h:commandButton styleClass="placeBid" action="#{bidAction.placeBid}"/>
+                <h:commandButton id="placeBid" styleClass="placeBid" action="#{bidAction.placeBid}">
+                  <s:conversationName value="PlaceBid"/>
+                </h:commandButton>
               </div>
             </h:form>              
           </div>
@@ -248,7 +250,9 @@
             </div>
 
             <div class="indented">
-              <h:commandButton styleClass="placeBid" action="#{bidAction.placeBid}"/>
+              <h:commandButton id="placeBidWithAmount" styleClass="placeBid" action="#{bidAction.placeBid}">
+                <s:conversationName value="PlaceBid"/>
+              </h:commandButton>
             </div>
 
           </h:form>
