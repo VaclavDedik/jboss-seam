@@ -64,6 +64,9 @@
         <condition property="project.war" value="true">
             <equals arg1="${project.type}" arg2="war"/>
         </condition>
+        <condition property="project.ear" value="true">
+            <equals arg1="${project.type}" arg2="ear"/>
+        </condition>
         <property name="project.home" value="${workspace.home}/${project.name}"/>
         
 	<!-- filtersets and filesets -->
@@ -1028,14 +1031,24 @@
 	
 	<target name="generate-ui" depends="validate-project, init-generate" description="Build the ui based on existing entities">
 		<echo message="Building project '${project.name}' to generate views and controllers" />
-		<ant antfile="${project.home}/build.xml" target="archive" inheritall="false"/>
+
+		<condition property="project.jar.target" value="jar">
+			<equals arg1="${project.type}" arg2="ear" />
+		</condition>
+		<condition property="project.jar.target" value="war">
+			<equals arg1="${project.type}" arg2="war" />
+		</condition>
+
+		<ant antfile="${project.home}/build.xml" target="${project.jar.target}" inheritall="false"/>
 		<hibernate templatepath="${base.dir}">
 			
 			<jpaconfiguration persistenceunit="${project.name}" />
 			<classpath>
-				<pathelement path="${project.home}/exploded-archives/${project.name}.war/WEB-INF/classes" />
-				<pathelement path="${project.home}/exploded-archives/${project.name}.war/WEB-INF/dev" />
-				<pathelement path="${project.home}/exploded-archives/${project.name}.jar" />
+				<dirset dir="${project.home}/exploded-archives">
+					<include name="*.war/WEB-INF/classes" if="project.war" />
+					<include name="*.war/WEB-INF/dev" if="project.war" />
+					<include name="*.jar" if="project.ear" />
+				</dirset>
 			</classpath>
 			<property key="hibernatetool.util.toolclass" value="org.jboss.seam.tool.Util"/>
         	<hbmtemplate filepattern="{class-name}List.xhtml"
