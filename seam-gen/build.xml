@@ -1009,7 +1009,7 @@
 		<taskdef name="hibernate" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="htools.classpath"/>
 	</target>
 	
-	<target name="generate-model" depends="init-generate">
+	<target name="generate-model" depends="validate-project, init-generate">
 		<echo message="Reverse engineering database using JDBC driver ${driver.jar}"/>
         <echo>project=${project.home}</echo>
         <echo>model=${model.package}</echo>
