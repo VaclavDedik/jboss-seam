@@ -43,7 +43,7 @@ public class SeamExpressionEvaluatorTest extends SeamTest
             }
             catch (Exception e)
             {
-               if (!isRootCause(e, ELException.class))
+               if (!(isRootCause(e, ELException.class) || isRootCause(e, javax.el.ELException.class)))
                {
                   e.printStackTrace();
                   assert false;
