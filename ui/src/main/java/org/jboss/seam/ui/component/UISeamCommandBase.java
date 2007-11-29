@@ -82,6 +82,13 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          uiPropagation.setPageflow(getPageflow());
          url.addParameter(uiPropagation);
       }
+      
+      if (getConversationName() != null)
+      {
+         UIConversationName name = UIConversationName.newInstance();
+         name.setValue(getConversationName());
+         url.addParameter(name);
+      }
 
       ValueExpression taskInstanceValueExpression = getValueExpression("taskInstance");
       if (taskInstanceValueExpression != null)
@@ -114,6 +121,10 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
    public abstract String getFragment();
 
    public abstract void setFragment(String fragment);
+   
+   public abstract void setConversationName(String name);
+   
+   public abstract String getConversationName();
 
    public UISelection getSelection()
    {
@@ -142,6 +153,8 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
       }
    }
 
+   
+   
    public UIData getParentUIData()
    {
       UIComponent parent = this.getParent();

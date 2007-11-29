@@ -64,5 +64,10 @@
 			<classname>java.lang.Object</classname>
 			<description>Specify the task to operate on (e.g. for @StartTask)</description>
 		</property>
+        <property>
+            <name>conversationName</name>
+            <classname>java.lang.String</classname>
+            <description>The name of the conversation for natural conversations</description>
+        </property>
 	</component>
 </components>
