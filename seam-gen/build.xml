@@ -663,6 +663,11 @@
             <filterset refid="jdbc"/>
         </copy>
 
+        <copy tofile="${project.home}/debug-jboss-${project.name}.launch" 
+                file="${base.dir}/build-scripts/debug-jboss.launch">
+            <filterset refid="project"/>
+        </copy>
+
         <copy tofile="${project.home}/${project.name}.launch" 
                 file="${base.dir}/hibernatetools/hibernate-console.launch">
             <filterset refid="project"/>
@@ -748,6 +753,7 @@
         <copy todir="${project.home}">
             <fileset dir="${base.dir}/build-scripts">
             	<exclude name="build*.xml"/>
+            	<exclude name="debug-jboss.launch"/>
             </fileset>
             <filterset refid="project"/>
         </copy>
