@@ -1028,13 +1028,15 @@
 	
 	<target name="generate-ui" depends="validate-project, init-generate" description="Build the ui based on existing entities">
 		<echo message="Building project '${project.name}' to generate views and controllers" />
-		<ant antfile="${project.home}/build.xml" target="jar" inheritall="false"/>
+		<ant antfile="${project.home}/build.xml" target="archive" inheritall="false"/>
 		<hibernate templatepath="${base.dir}">
 			
 			<jpaconfiguration persistenceunit="${project.name}" />
 			<classpath>
-				<pathelement path="${project.home}/exploded-archives/${project.name}.jar"/>
-			</classpath> 
+				<pathelement path="${project.home}/exploded-archives/${project.name}.war/WEB-INF/classes" />
+				<pathelement path="${project.home}/exploded-archives/${project.name}.war/WEB-INF/dev" />
+				<pathelement path="${project.home}/exploded-archives/${project.name}.jar" />
+			</classpath>
 			<property key="hibernatetool.util.toolclass" value="org.jboss.seam.tool.Util"/>
         	<hbmtemplate filepattern="{class-name}List.xhtml"
         	                template="view/list.xhtml.ftl" 
