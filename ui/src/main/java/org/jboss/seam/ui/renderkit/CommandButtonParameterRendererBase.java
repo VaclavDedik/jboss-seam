@@ -71,7 +71,7 @@ public abstract class CommandButtonParameterRendererBase extends RendererBase
                "}" +
             "}";
          String functionCode = 
-            "document.forms['" + formId + "'].elements['" + actionComponentId + "'].onclick = " +
+            "document.getElementById('" + actionComponentId + "').onclick = " +
             "new Function(\"event\", \"" + functionBody + "\");"; 
          writer.write(functionCode);
          writer.endElement("script");
