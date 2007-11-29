@@ -52,7 +52,9 @@ public class PageActionsTest
       // install key components
       installComponents(Contexts.getApplicationContext());
 
-      // initialize pages from WEB-INF/pages.xml
+      // initialize pages
+      // the descriptor file locations are set using the property: org.jboss.seam.navigation.pages.resources
+      // this setup of this test sets this property value to: /META-INF/pagesForPageActionsTest.xml
       Pages.instance();
 
       // mark the application as started
