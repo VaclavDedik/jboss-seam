@@ -10,7 +10,7 @@
             controls, which are used to construct views that can render to PDF, and the DocumentStore component, which
             serves the rendered documents to the user. To include PDF support in your application, included
                 <literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the
-            iText JAR file. There is no further configuration needed to use Seam's iText supportfon. </para>
+            iText JAR file. There is no further configuration needed to use Seam's ciText supportfon. </para>
         <para> The Seam iText module requires the use of Facelets as the view technology. Future versions of the library
             may also support the use of JSP. Additionally, it requires the use of the seam-ui package.</para>
 
@@ -18,12 +18,8 @@
             demonstrates proper deployment packaging, and it contains a number examples that demonstrate the key PDF
             generation features current supported. </para>
 
-
-
         <section id="itext.document">
             <title>Creating a document</title>
-
-
 
             <informaltable>
                 <tgroup cols="2">
@@ -1447,6 +1443,11 @@
     <section id="itext.charting">
         <title>Charting</title>
 
+        <para> Charting support is also provided with <literal>jboss-seam-pdf.jar</literal>. Charts can be used in 
+            PDF documents or can be used as images in an HTML page.
+            Charting requires the JFreeChart library (<literal>jfreechart.jar</literal> and <literal>jcommon.jar</literal>) to be added to the 
+            <literal>WEB-INF/lib</literal> directory.  Three types of charts are currently supported: pie charts, bar charts and line charts.
+        </para>
 
         <informaltable id="itext.barchart">
             <tgroup cols="2">
@@ -1894,126 +1895,142 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>title</literal>
+                                        <literal>title</literal>&#8212; The chart title text. 
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>label</literal>
+                                        <literal>label</literal>&#8212; The default label text for pie sections.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>legend</literal>
+                                        <literal>legend</literal>&#8212; A boolean value indicating whether or not the chart should include a legend. Default value is true 
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>is3D</literal>
+                                        <literal>is3D</literal>&#8212;A boolean value indicating that the chart should be rendered in 3D instead of 2D. 
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelLinkMargin</literal>
+                                        <literal>labelLinkMargin</literal>&#8212; The link margin for labels.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelLinkPaint</literal>
+                                        <literal>labelLinkPaint</literal>&#8212; The paint used for the label linking lines. 
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>labelLinkStroke</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>labelLinksVisible</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>labelOutlinePaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>labelOutlineStroke</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>labelShadowPaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>labelPaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>labelGap</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>labelBackgroundPaint</literal>
+                                        <literal>labelLinkStroke</literal>&#8212; he stroke used for the label linking lines. 
                                     </para>
                                 </listitem>
 
                                 <listitem>
                                     <para>
-                                        <literal>startAngle</literal>
+                                        <literal>labelLinksVisible</literal>&#8212; A flag that controls whether or not the label links are drawn. 
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>circular</literal>
+                                        <literal>labelOutlinePaint</literal>&#8212; The paint used to draw the outline of the section labels.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>direction</literal>
+                                        <literal>labelOutlineStroke</literal>&#8212; The stroke used to draw the outline of the section labels.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>sectionOutlinePaint</literal>
+                                        <literal>labelShadowPaint</literal>&#8212; The paint used to draw the shadow for the section labels.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>sectionOutlineStroke</literal>
+                                        <literal>labelPaint</literal>&#8212;  The color used to draw the section labels 
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>sectionOutlinesVisible</literal>
+                                        <literal>labelGap</literal>&#8212; The gap between the labels and the plot as a percentage of the plot width. 
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>baseSectionOutlinePaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>baseSectionPaint</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>baseSectionOutlineStroke</literal>
+                                        <literal>labelBackgroundPaint</literal>&#8212; The color used to draw the background of the section labels. If this is null, the background is not filled. 
                                     </para>
                                 </listitem>
 
+                                <listitem>
+                                    <para>
+                                        <literal>startAngle</literal>&#8212; The starting angle of the first section.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>circular</literal>&#8212; A boolean value indicating that the chart should be drawn as a circle.
+                                        If false, the chart is drawn as an ellipse.  The default is true.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>direction</literal>&#8212; 
+                                        The direction the pie section are drawn.  One of: <literal>clockwise</literal> or <literal>anticlockwise</literal>. 
+                                        The default is <literal>clockwise</literal>.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>sectionOutlinePaint</literal>&#8212; The outline paint for all sections.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>sectionOutlineStroke</literal>&#8212; The outline stroke for all sections
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>sectionOutlinesVisible</literal>&#8212;  Indicates whether an outline is drawn for each section in the plot. 
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>baseSectionOutlinePaint</literal>&#8212; The base section outline paint.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>baseSectionPaint</literal>&#8212; The base section paint.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>baseSectionOutlineStroke</literal>&#8212; The base section outline stroke.
+                                    </para>
+                                </listitem>
                             </itemizedlist>
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting/>
+                            <programlisting>
+                                
+&lt;p:piechart title=&quot;Pie Chart&quot; circular=&quot;false&quot; direction=&quot;anticlockwise&quot; 
+    startAngle=&quot;30&quot; labelGap=&quot;0.1&quot; labelLinkPaint=&quot;red&quot;&gt;	
+    &lt;p:series key=&quot;Prices&quot;&gt; 
+        &lt;p:data key=&quot;2003&quot; columnKey=&quot;2003&quot; value=&quot;7.36&quot; /&gt; 
+        &lt;p:data key=&quot;2004&quot; columnKey=&quot;2004&quot; value=&quot;11.50&quot; /&gt; 
+        &lt;p:data key=&quot;2005&quot; columnKey=&quot;2005&quot; value=&quot;34.625&quot; /&gt; 
+        &lt;p:data key=&quot;2006&quot; columnKey=&quot;2006&quot; value=&quot;76.30&quot; /&gt; 
+        &lt;p:data key=&quot;2007&quot; columnKey=&quot;2007&quot; value=&quot;85.05&quot; /&gt; 
+    &lt;/p:series&gt; 
+&lt;/p:piechart&gt;	                                
+                                
+                            </programlisting>
 
                         </entry>
                     </row>
@@ -2327,7 +2344,7 @@
                     <row>
                         <entry valign="top">
                             <para>
-                                <literal>&lt;p:barcode&gt;</literal>
+                                <literal>&lt;p:barCode&gt;</literal>
                             </para>
                         </entry>
                         <entry valign="top">
@@ -2343,56 +2360,83 @@
 
                                 <listitem>
                                     <para>
-                                        <literal>type</literal>
+                                        <literal>type</literal> &#8212;  A barcode type supported by iText. 
+                                        Valid values include:
+                                        <literal>EAN13</literal>, <literal>EAN8</literal>, <literal>UPCA</literal>, 
+                                        <literal>UPCE</literal>, 
+                                        <literal>SUPP2</literal>, <literal>SUPP5</literal>, <literal>POSTNET</literal>, 
+                                        <literal>PLANET</literal>, <literal>CODE128</literal>,
+                                        <literal>CODE128_UCC</literal>, <literal>CODE128_RAW</literal> and <literal>CODABAR</literal>.
+                                        
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>code</literal>
+                                        <literal>code</literal>&#8212; The value to be encoded by the barcode.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>xpos</literal>
+                                        <literal>xpos</literal>&#8212; For PDFs, the absolute y position of the barcode on the page.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>ypos</literal>
+                                        <literal>ypos</literal>&#8212; For PDFs, the absolute y position of the barcode on the page.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>rotDegrees</literal>
+                                        <literal>rotDegrees</literal> &#8212; For PDFs, the rotation factor of the barcode in degrees.
                                     </para>
                                 </listitem>
                                 <listitem>
                                     <para>
-                                        <literal>barHeight</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>textSize</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>minBarWidth</literal>
-                                    </para>
-                                </listitem>
-                                <listitem>
-                                    <para>
-                                        <literal>barMultiplier</literal>
+                                        <literal>barHeight</literal> &#8212; The height of the bars in the barCode
                                     </para>
                                 </listitem>
 
-
+                                <listitem>
+                                    <para>
+                                        <literal>minBarWidth</literal> &#8212; The minimum bar width.
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>barMultiplier</literal> &#8212; The bar multiplier for wide bars or the
+                                        distance between bars for <literal>POSTNET</literal> and <literal>PLANET</literal> code.
+                                        
+                                    </para>
+                                </listitem>
+                                <listitem>
+                                    <para>
+                                        <literal>barColor</literal>  &#8212;  The color to draw the bars.
+                                    </para>
+                                </listitem>                                
+                                
+                                <listitem>
+                                    <para>
+                                        <literal>textColor</literal>  &#8212;  The color of any text on the barcode.
+                                    </para>
+                                </listitem>
+                                                                <listitem>
+                                    <para>
+                                        <literal>textSize</literal> &#8212; The size of the barcode text, if any.
+                                    </para>
+                                </listitem>
+                                
+                                
                             </itemizedlist>
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting/>
+                            <programlisting>
+&lt;p:barCode type=&quot;code128&quot; 
+           barHeight=&quot;80&quot; 
+           textSize=&quot;20&quot; 
+           code=&quot;(10)45566(17)040301&quot; 
+           codeType=&quot;code128_ucc&quot; 
+           altText=&quot;My BarCode&quot; /&gt;</programlisting>
 
                         </entry>
                     </row>
