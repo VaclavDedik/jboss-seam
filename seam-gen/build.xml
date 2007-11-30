@@ -984,7 +984,9 @@
         <echo message="Type 'seam restart' and go to http://localhost:8080/${project.name}/${masterPage.name}.seam"/>
     </target>
 
-	<target name="generate-entities" depends="validate-project, generate-model, generate-ui"
+	<!-- Do not remove generate-entities, netbeans depends on it -->
+	<target name="generate-entities" depends="generate" />
+	<target name="generate" depends="validate-project,generate-model,generate-ui"
         description="Reverse engineer entities from the database">
 	</target>
 		
@@ -1012,7 +1014,7 @@
 		<taskdef name="hibernate" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="htools.classpath"/>
 	</target>
 	
-	<target name="generate-model" depends="validate-project, init-generate">
+	<target name="generate-model" depends="validate-project,init-generate">
 		<echo message="Reverse engineering database using JDBC driver ${driver.jar}"/>
         <echo>project=${project.home}</echo>
         <echo>model=${model.package}</echo>
@@ -1029,7 +1031,7 @@
 		</hibernate>
 	</target>
 	
-	<target name="generate-ui" depends="validate-project, init-generate" description="Build the ui based on existing entities">
+	<target name="generate-ui" depends="validate-project,init-generate" description="Build the ui based on existing entities">
 		<echo message="Building project '${project.name}' to generate views and controllers" />
 
 		<condition property="project.jar.target" value="jar">
