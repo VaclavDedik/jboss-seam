@@ -1106,6 +1106,12 @@
 
     </target>
 	
+    <target name="archive" depends="validate-project"
+        description="Create the EAR or WAR archive">
+        <echo message="Building ${project.type} archive for '${project.name}'" />
+        <ant antfile="${project.home}/build.xml" target="archive" inheritall="false"/>
+    </target>
+
     <target name="deploy" depends="validate-project"
         description="Deploy the EAR or WAR">
         <echo message="Deploying project '${project.name}' to JBoss" />
@@ -1124,16 +1130,16 @@
         <ant antfile="${project.home}/build.xml" target="explode" inheritall="false"/>
     </target>
 
-    <target name="restart" depends="validate-project"
-        description="Restart the exploded directory">
-        <echo message="Restarting project '${project.name}'" />
-        <ant antfile="${project.home}/build.xml" target="restart" inheritall="false"/>
-    </target>
-
     <target name="unexplode" depends="validate-project"
         description="Undeploy the exploded directory">
         <echo message="Undeploying exploded directory for project '${project.name}'" />
         <ant antfile="${project.home}/build.xml" target="unexplode" inheritall="false"/>
+    </target>
+
+    <target name="restart" depends="validate-project"
+        description="Restart the exploded directory">
+        <echo message="Restarting project '${project.name}'" />
+        <ant antfile="${project.home}/build.xml" target="restart" inheritall="false"/>
     </target>
     
     <target name="test" depends="validate-project"
