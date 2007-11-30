@@ -88,7 +88,8 @@ public class ConversationInterceptor extends AbstractInterceptor
       if ( !Manager.instance().isLongRunningConversation() )
       {
          String id = null;
-         String conversation = ConversationPropagation.instance().getConversationName();
+         ConversationPropagation propagation = ConversationPropagation.instance(); 
+         String conversation = propagation != null ? propagation.getConversationName() : null;
          
          if ( method.isAnnotationPresent(Begin.class) )
          {
