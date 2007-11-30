@@ -72,17 +72,17 @@ SEAM PROJECT SETUP/DEPLOYMENT COMMANDS
 
       Example: seam explode
 
-   unexplode
-      Undeploy the project archive (exploded EAR or WAR directory
-      structure) and the datasource from the JBoss server.
-
-      Example: seam unexplode
-
    restart
       Restart the project archive that was previously deployed as an
       exploded directory structure.
 
       Example: seam restart
+
+   unexplode
+      Undeploy the project archive (exploded EAR or WAR directory
+      structure) and the datasource from the JBoss server.
+
+      Example: seam unexplode
 
 SEAM CODE GENERATION COMMANDS
    new-action
