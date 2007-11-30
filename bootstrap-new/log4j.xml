@@ -13,7 +13,7 @@
 
     <!-- ############### Embedded JBoss AS #################  -->
     <category name="org.jboss">
-        <priority value="ERROR"/>
+        <priority value="INFO"/>
     </category>
     <category name="com.arjuna">
         <priority value="ERROR"/>
@@ -22,7 +22,7 @@
     <!-- ############### Hibernate logging ################# -->
 
     <category name="org.hibernate">
-        <priority value="WARN"/>
+        <priority value="DEBUG"/>
     </category>
 
     <!--
@@ -42,7 +42,7 @@
 
     <!-- ############### Seam logging ################### -->
     <category name="org.jboss.seam">
-        <priority value="WARN"/>
+        <priority value="INFO"/>
     </category>
 
     <!-- These things are too noisy

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    EJB3 Deployers
+    JCA Deployers
 -->
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
 
+   <!-- TODO this should be removed later on when ENC gets changed -->
    <bean name="java:comp/Initializer" class="org.jboss.ejb3.embedded.JavaCompInitializer"/>
    <bean name="DefaultPersistenceProperties" class="org.jboss.ejb3.DefaultPersistenceProperties"/>
 
@@ -15,20 +16,22 @@
       <property name="defaultPersistenceProperties"><inject bean="DefaultPersistenceProperties" property="properties"/></property>
       <property name="cacheFactoryRegistry"><inject bean="EJB3CacheFactoryRegistry" /></property>
       <property name="poolFactoryRegistry"><inject bean="EJB3PoolFactoryRegistry" /></property>
-
-      <!--
-
-      Configure the deployer to optionally require a deployment
-      descriptor for deployable units.  By turning this switch to "true",
-      "META-INF/jboss.xml" or the EJB3 Deployment Descriptor "META-INF/ejb-jar.xml"
+      <property name="remoteProxyFactoryRegistry"><inject bean="EJB3RemoteProxyFactoryRegistry" /></property>
+      <property name="persistenceManagerFactoryRegistry"><inject bean="EJB3PersistenceManagerFactoryRegistry" /></property>
+      
+      <!-- 
+   
+      Configure the deployer to optionally require a deployment 
+      descriptor for deployable units.  By turning this switch to "true", 
+      "META-INF/jboss.xml" or the EJB3 Deployment Descriptor "META-INF/ejb-jar.xml" 
       will be required for deployment, enabling a performance increace in deployment by
       not scanning for annotations in non-deployable EJB3 JARs.
-
+      
       Default for this value is "false".
-
+      
       -->
-      <property name="deploymentDescriptorRequired">false</property>
-
+      <property name="deploymentDescriptorRequired">true</property>
+      
       <property name="ignoredJarsSet">
          <set elementClass="java.lang.String">
             <value>snmp-adaptor.jar</value>
@@ -116,22 +119,22 @@
    <bean name="EJBStage2Deployer" class="org.jboss.ejb3.deployers.EJBStage2Deployer">
       <depends>AspectLibrary</depends>
    </bean>
-
+   
    <bean name="AppClientParsingDeployer" class="org.jboss.ejb3.deployers.AppClientParsingDeployer">
       <property name="type">car</property>
       <!-- TODO: check depends -->
       <depends>AspectLibrary</depends>
    </bean>
-
+   
    <bean name="JBossClientParsingDeployer" class="org.jboss.ejb3.deployers.JBossClientParsingDeployer">
       <property name="type">car</property>
       <depends>AppClientParsingDeployer</depends>
    </bean>
-
+   
    <bean name="AppClientScanningDeployer" class="org.jboss.ejb3.deployers.AppClientScanningDeployer">
       <depends>JBossClientParsingDeployer</depends>
    </bean>
-
+   
    <bean name="Ejb3ClientDeployer" class="org.jboss.ejb3.deployers.Ejb3ClientDeployer">
       <property name="type">car</property>
       <property name="kernel"><inject bean="jboss.kernel:service=Kernel"/></property>
@@ -140,7 +143,7 @@
       <depends>AspectLibrary</depends>
       <depends>AppClientScanningDeployer</depends>
    </bean>
-
+   
    <!-- EJB3 Cache Factory Registry -->
    <bean name="EJB3CacheFactoryRegistry" class="org.jboss.ejb3.cache.CacheFactoryRegistry">
       <property name="factories">
@@ -165,7 +168,7 @@
          </map>
       </property>
    </bean>
-
+   
    <!-- EJB3 Pool Factory Registry -->
    <bean name="EJB3PoolFactoryRegistry" class="org.jboss.ejb3.pool.PoolFactoryRegistry">
       <property name="factories">
@@ -185,6 +188,72 @@
          </map>
       </property>
    </bean>
-
+   
+   <!-- Remoting Proxy Factory Registry -->
+   <bean name="EJB3RemoteProxyFactoryRegistry" class="org.jboss.ejb3.remoting.RemoteProxyFactoryRegistry">
+      <property name="factories">
+         <!-- Define each of the registered factories -->
+         <map class="java.util.HashMap" keyClass="java.lang.String"
+            valueClass="java.lang.Class">
+            <!-- RemoteProxyFactory -->
+            <entry>
+               <key>RemoteProxyFactory</key>
+               <value>org.jboss.ejb3.remoting.RemoteProxyFactory</value>
+            </entry>
+            <!-- IORFactory -->
+            <entry>
+               <key>IORFactory</key>
+               <value>org.jboss.ejb3.iiop.IORFactory</value>
+            </entry>
+            <!-- ServiceRemoteProxyFactory -->
+            <entry>
+               <key>ServiceRemoteProxyFactory</key>
+               <value>org.jboss.ejb3.service.ServiceRemoteProxyFactory</value>
+            </entry>
+            <!-- StatefulClusterProxyFactory -->
+            <!-- <entry>
+               <key>StatefulClusterProxyFactory</key>
+               <value>org.jboss.ejb3.stateful.StatefulClusterProxyFactory</value>
+            </entry>-->
+            <!-- StatefulRemoteProxyFactory -->
+            <entry>
+               <key>StatefulRemoteProxyFactory</key>
+               <value>org.jboss.ejb3.stateful.StatefulRemoteProxyFactory</value>
+            </entry>
+            <!-- StatelessClusterProxyFactory -->
+            <!-- <entry>
+               <key>StatelessClusterProxyFactory</key>
+               <value>org.jboss.ejb3.stateless.StatelessClusterProxyFactory</value>
+            </entry>-->
+            <!-- StatelessRemoteProxyFactory -->
+            <entry>
+               <key>StatelessRemoteProxyFactory</key>
+               <value>org.jboss.ejb3.stateless.StatelessRemoteProxyFactory</value>
+            </entry>            
+         </map>
+      </property>
+   </bean>
+   
+   <!-- EJB3 Persistence Manager Factory Registry -->
+   <bean name="EJB3PersistenceManagerFactoryRegistry" class="org.jboss.ejb3.cache.persistence.PersistenceManagerFactoryRegistry">
+      <property name="factories">
+         <!-- Define each of the registered factories -->
+         <map class="java.util.HashMap" keyClass="java.lang.String"
+            valueClass="java.lang.Class">
+            <!-- StatefulSessionFilePersistenceManager -->
+            <entry>
+               <key>StatefulSessionFilePersistenceManager</key>
+               <value>org.jboss.ejb3.cache.simple.StatefulSessionFilePersistenceManagerFactory</value>
+            </entry>
+         </map>
+      </property>
+   </bean>
+   
    <bean name="JNDIKernelRegistryPlugin" class="org.jboss.ejb3.kernel.JNDIKernelRegistryPlugin"/>
+   
+   <!-- Persistence Unit deployers -->
+   <bean name="PersistenceUnitParsingDeployer" class="org.jboss.ejb3.deployers.PersistenceUnitParsingDeployer">
+      <property name="type">car</property>
+   </bean>
+   
 </deployment>
