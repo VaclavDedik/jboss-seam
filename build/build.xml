@@ -123,6 +123,14 @@
 		<offline pom="debug.pom" repository="${offline.repository.jboss.org}" />
 	</target>
 	
+	<target name="installEmbedded">
+		<install pom="${embedded.poms.dir}/jboss-embedded-api.pom.xml" jar="${embedded.jars.dir}/jboss-embedded-api.jar" />
+		<install pom="${embedded.poms.dir}/jboss-deployers.pom.xml" jar="${embedded.jars.dir}/jboss-deployers.jar" />
+		<install pom="${embedded.poms.dir}/jboss-embedded-all.pom.xml" jar="${embedded.jars.dir}/jboss-embedded-all.jar" />
+		<install pom="${embedded.poms.dir}/hibernate-all.pom.xml" jar="${embedded.jars.dir}/hibernate-all.jar" />
+		<install pom="${embedded.poms.dir}/thirdparty-all.pom.xml" jar="${embedded.jars.dir}/thirdparty-all.jar" />
+	</target>
+	
 	<macrodef name="offline">
 		<attribute name="pom" />
 		<attribute name="repository" />
