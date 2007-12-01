@@ -1029,6 +1029,16 @@
         	
             <hbm2java jdk5="true" ejb3="true" destdir="${project.home}/src/model"/>
 		</hibernate>
+
+		<taskdef name="javaformatter" 
+			 classname="org.hibernate.tool.ant.JavaFormatterTask" classpathref="htools.classpath"/>
+
+		<javaformatter> 
+		  <fileset dir="${project.home}/src/model">
+		   	   <include name="**/*.java"/>
+		  </fileset>
+		</javaformatter>
+
 	</target>
 	
 	<target name="generate-ui" depends="validate-project,init-generate" description="Build the ui based on existing entities">
@@ -1099,7 +1109,7 @@
 			 classname="org.hibernate.tool.ant.JavaFormatterTask" classpathref="htools.classpath"/>
 
 		<javaformatter> 
-		  <fileset dir="${project.home}/src">
+		  <fileset dir="${project.home}/src/action">
 		   	   <include name="**/*.java"/>
 		  </fileset>
 		</javaformatter>
