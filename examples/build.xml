@@ -443,6 +443,11 @@
 		<javac classpathref="build.classpath" destdir="${jar.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" >
 			<src path="${src.java.dir}" />
 		</javac>
+		<copy todir="${jar.dir}">
+			<fileset dir="${src.java.dir}">
+				<include name="**/*.component.xml" />
+			</fileset>
+		</copy>
 	</target>
 
 	<!-- Build the exploded jar -->
@@ -827,13 +832,15 @@
 			
 			<path path="${test.dir}" />
 			<fileset dir="${lib.dir}/test">
-				<include name="*-all.jar" />
+				<include name="*.jar" />
 			</fileset>
 			<fileset dir="${lib.dir}">
 				<!-- Horrible hack around jbossembedded -->
 				<exclude name="jboss-container.jar" />
 				<exclude name="hibernate.jar" />
 				<exclude name="hibernate-annotations.jar" />
+				<exclude name="xercesImpl.jar" />
+				<exclude name="dtdparser121.jar" />
 				<!-- Don't include seam-ui -->
 				<exclude name="jboss-seam-ui.jar" />
 			</fileset>
