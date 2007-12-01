@@ -158,7 +158,7 @@
           <entry valign="top">
             <para><emphasis>Description</emphasis></para>
             <para>
-              Add the conversation id to an output link (or similar JSF control).
+              Add the conversation id to JSF link or button (e.g. <literal>&lt;h:commandLink /&gt;</literal>, <literal>&lt;s:button /&gt;</literal>).
             </para>
             <para><emphasis>Attributes</emphasis></para>
             <para>

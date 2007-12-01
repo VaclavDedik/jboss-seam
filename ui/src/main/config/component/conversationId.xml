@@ -7,7 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlConversationId</classname>
 		<superclass>org.jboss.seam.ui.component.UIConversationId</superclass>
 		<description>
-			<![CDATA[Add the conversation id to an output link (or similar JSF control).]]>
+			<![CDATA[Add the conversation id to JSF link or button (e.g. <h:commandLink />, <s:button />).]]>
 		</description>
 		<tag>
 			<name>conversationId</name>
