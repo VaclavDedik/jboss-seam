@@ -2201,6 +2201,9 @@ public class HotelSearchingAction implements HotelSearching
                                 method binding with a parameter: <literal>#{hotelBooking.selectHotel(hot)}</literal>.
                                 This is not possible in the standard Unified EL, but Seam provides an extension to the
                                 EL that lets you use parameters on any method binding expression. </para>
+                            <para> If you're wondering how navigation occurs,
+                                you can find all the rules in <literal>WEB-INF/pages.xml</literal>;
+                                this is discussed in <xref linkend="events.pageaction.navigation"/>. </para>
                         </callout>
                     </calloutlist>
                 </programlistingco>
@@ -2210,7 +2213,8 @@ public class HotelSearchingAction implements HotelSearching
                 to the <literal>selectHotel()</literal> method of the <literal>HotelBookingAction</literal>, which is
                 where the <emphasis>really</emphasis> interesting stuff is going to happen. </para>
 
-            <para> Now lets see how the booking example application uses a conversation-scoped stateful session bean to
+
+            <para> Now let's see how the booking example application uses a conversation-scoped stateful session bean to
                 achieve a natural cache of persistent data related to the conversation. The following code example is
                 pretty long. But if you think of it as a list of scripted actions that implement the various steps of
                 the conversation, it's understandable. Read the class from top to bottom, as if it were a story. </para>

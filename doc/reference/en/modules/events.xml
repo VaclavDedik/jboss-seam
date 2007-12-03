@@ -57,7 +57,7 @@
 
         <para>
             You can find out more information about JSF events and jBPM events elsewhere. 
-            Lets concentrate for now upon the two additional kinds of events defined by Seam.
+            Let's concentrate for now upon the two additional kinds of events defined by Seam.
         </para>
         
         <sect2>
@@ -325,7 +325,7 @@
 
         </sect3>
         
-        <sect3>
+        <sect3 id="events.pageaction.navigation">
             <title>Navigation</title>
             
             <para>
