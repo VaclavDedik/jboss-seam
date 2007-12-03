@@ -100,7 +100,9 @@ OC4J 11g Technology Preview
 10. Copy the application to OC4J: 
     cp build/jboss-seam-jee5.ear $ORACLE_HOME/j2ee/home/applications/
 
-11. Start OC4J: $ORACLE_HOME/bin/oc4j -start
+11. Start OC4J: $ORACLE_HOME/j2ee/home/java -jar -XX:MaxPermSize=256M oc4j.jar
+    * You must override the default PermGen memory settings using above command
+       * See http://www.oracle.com/technology/tech/java/oc4j/11/oc4j-relnotes.html
     * You will be asked to set the admin password if this is the first time 
       you've started OC4J
     * You may get an ClassNotFoundException relating to 

@@ -322,7 +322,12 @@
         <listitem>
           <para>
             Start OC4J:
-            <literal>$ORACLE_HOME/bin/oc4j -start</literal>
+            <literal>$ORACLE_HOME/j2ee/home/java -jar -XX:MaxPermSize=256M oc4j.jar</literal>
+          </para>
+          <para>
+            You must override the default PermGen memory settings using above command.
+            See http://www.oracle.com/technology/tech/java/oc4j/11/oc4j-relnotes.html 
+            for details.
           </para>
           <para>
             You will be asked to set the admin password if this is
