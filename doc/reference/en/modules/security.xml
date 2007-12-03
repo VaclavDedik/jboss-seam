@@ -227,6 +227,35 @@ public class Authenticator {
         </mediaobject>        
         
       </sect3>
+      
+      <sect3>
+        <title>Special Considerations</title>
+        
+        <para>
+          When writing an authenticator method, it is important that it is kept minimal and free from 
+          any side-effects. This is because there is no guarantee as to how many times the authenticator 
+          method will be called by the security API, and as such it may be invoked multiple times during
+          a single request.  Because of this, any special code that should execute upon a successful or
+          failed authentication should be written by implementing an event observer.  See the section on
+          Security Events further down in this chapter for more information about which events are
+          raised by Seam Security.
+        </para>
+        
+        <para>
+          To give an example, let's say that upon a successful login that some user statistics must be
+          updated.  We would do this by writing an event observer for the 
+          <literal>org.jboss.seam.security.loginSuccessful</literal> event, like this:
+        </para>
+        
+        <programlisting><![CDATA[   @In UserStats userStats;
+        
+   @Observer("org.jboss.seam.security.loginSuccessful")
+   public void updateUserStats()
+   {
+      userStats.setLastLoginDate(new Date());
+      userStats.incrementLoginCount();               
+   }]]></programlisting>        
+      </sect3>
 
     </sect2>
 
