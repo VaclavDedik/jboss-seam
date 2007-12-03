@@ -603,6 +603,119 @@ public String approveDocument() { ... }]]></programlisting>
     </section>
     
     <section>
+        <title>Natural conversation ids</title>
+        <para>
+            When working with conversations that deal with persistent objects, it may be 
+            desirable to use the natural business key of the object instead of the standard,
+            "surrogate" conversation id.
+        </para>
+        
+        <section>
+            <title>Configuration</title>        
+            <para>
+                Natural conversations are configured in <literal>pages.xml</literal>: 
+            </para>
+            
+            <programlisting><![CDATA[  <conversation name="PlaceBid"
+                  parameter-name="auctionId"
+                  parameter-value="#{auction.auctionId}"/>]]></programlisting>
+                  
+            <para>
+                The first thing to note from the above configuration is that the conversation
+                has a name, in this case <literal>PlaceBid</literal>.  This name uniquely
+                identifies this particular named conversation, and is used by the 
+                <literal>page</literal> definition to identify a named conversation to participate
+                in.
+            </para>
+                
+            <para>
+                The next attribute, <literal>parameter-name</literal> defines the request parameter 
+                that will contain the natural conversation id, in place of the default conversation 
+                id parameter (which is typically either <literal>cid</literal> or <literal>conversationId</literal>).  
+                In this example, the <literal>parameter-name</literal> is <literal>auctionId</literal>.  
+                This means that instead of a conversation parameter like <literal>cid=123</literal> 
+                appearing in the URL for your page, it will contain <literal>auctionId=765432</literal> 
+                instead.
+            </para>
+            
+            <para>
+                The last attribute in the above configuration, <literal>parameter-value</literal>,
+                defines an EL expression used to evaluate the value of the natural business key to
+                use as the conversation id.  In this example, the conversation id will be the primary
+                key value of the <literal>auction</literal> instance currently in scope.
+            </para>
+            
+            <para>
+                The next step is to configure which pages will participate in the named conversation.
+                This is done by specifying the <literal>conversation</literal> attribute for a
+                <literal>page</literal> definition:
+            </para>
+            
+            <programlisting><![CDATA[  <page view-id="/bid.xhtml" conversation="PlaceBid" login-required="true">
+      <navigation from-action="#{bidAction.confirmBid}">        
+          <rule if-outcome="success">
+              <redirect view-id="/auction.xhtml">
+                  <param name="id" value="#{bidAction.bid.auction.auctionId}"/>
+              </redirect>
+          </rule>        
+      </navigation>
+  </page>]]></programlisting>
+       
+        </section>
+        
+        <section>
+            <title>Redirecting to a natural conversation</title>
+            
+            <para>
+                When starting, or redirecting to, a natural conversation there are a number
+                of options for specifying the natural conversation name.  Let's start by looking at
+                the following page configuration:
+            </para>
+            
+            <programlisting><![CDATA[  <page view-id="/auction.xhtml">
+    <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
+       
+    <navigation from-action="#{bidAction.placeBid}">
+      <redirect view-id="/bid.xhtml"/>
+    </navigation>
+  </page>]]></programlisting>
+    
+            <para>
+                From here, we can see that invoking the action <literal>#{bidAction.placeBid}</literal>
+                from our auction view (by the way, all these examples are taken from the seamBay example in Seam),
+                that we will be redirected to <literal>/bid.xhtml</literal>, which as we saw previously
+                is configured with the natural conversation <literal>PlaceBid</literal>.  The declaration for
+                our action method looks like this:                
+            </para>
+            
+            <programlisting><![CDATA[   @Begin(join = true)
+   public void placeBid()]]></programlisting>
+   
+            <para>
+                When named conversations are specified in the <literal>&lt;page/&gt;</literal> element,
+                redirection to the named conversation occurs as part of navigation rules, after the 
+                action method has already been invoked.  This is a problem when redirecting to an
+                existing conversation, as redirection needs to be occur before the action method is 
+                invoked.  To cater for this, it is necessary to specify the conversation name when
+                the action is invoked.  One way of doing this is by using the <literal>s:conversationName</literal>
+                tag:
+            </para>
+            
+            <programlisting><![CDATA[  <h:commandButton id="placeBidWithAmount" styleClass="placeBid" action="#{bidAction.placeBid}">
+    <s:conversationName value="PlaceBid"/>
+  </h:commandButton>]]></programlisting>
+  
+            <para>
+              Another alternative is to specify the <literal>conversationName</literal> attribute when
+              using either <literal>s:link</literal> or <literal>s:button</literal>:
+            </para>
+            
+            <programlisting><![CDATA[  <s:link value="Place Bid" action="#{bidAction.placeBid}" conversationName="PlaceBid"/>]]></programlisting>
+        
+        </section>
+    </section>
+    
+    <section>
         <title>Workspace management</title>
         
         <para>
