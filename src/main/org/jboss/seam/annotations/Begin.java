@@ -58,8 +58,5 @@ public @interface Begin
     * this conversation.
     */
    FlushModeType flushMode() default FlushModeType.AUTO;
-   /**
-    * The name of the (natural) conversation to join 
-    */
-   String conversation() default "";
+
 }
