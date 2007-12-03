@@ -47,7 +47,7 @@ public class DocumentStorePhaseListener
             byte[] data = documentData.getData();
 
             HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-            response.setContentType( documentData.getDocType().getMimeType() );
+            response.setContentType( documentData.getDocumentType().getMimeType() );
             
             response.setHeader("Content-Disposition", "inline; filename=\"" + documentData.getFileName() + "\"");
             

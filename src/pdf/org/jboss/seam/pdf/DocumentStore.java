@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.faces.application.ViewHandler;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.Component;
@@ -11,7 +12,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.pdf.DocumentData.DocType;
+import org.jboss.seam.pdf.DocumentData.DocumentType;
 import org.jboss.seam.ui.util.Faces;
 
 @Name("org.jboss.seam.pdf.documentStore")
@@ -68,22 +69,27 @@ public class DocumentStore implements Serializable
     }
   
 
-    public String preferredUrlForContent(String baseName, DocType docType, String contentId) 
-    {
-       FacesContext context = FacesContext.getCurrentInstance();
-       String url = context.getApplication().getViewHandler().getActionURL(context, "/seam-doc" + Faces.getDefaultSuffix(context));
-       String baseUrl = context.getExternalContext().encodeActionURL(url);
-      
-       if (useExtensions) 
-       {
-           baseUrl = baseName + "." + docType.getExtension();
-       } 
-        
-       return baseUrl + "?docId=" + contentId;
+    public String preferredUrlForContent(String baseName, String extension, String contentId) 
+    {                
+        return baseUrlForContent(baseName, extension) + "?docId=" + contentId;
+    }
+
+    protected String baseUrlForContent(String baseName, String extension) {
+        if (useExtensions) {
+            return baseName + "." + extension;
+        } else { 
+            FacesContext context = FacesContext.getCurrentInstance();
+            ViewHandler handler = context.getApplication().getViewHandler();
+            String url = handler.getActionURL(context, "/seam-doc" + Faces.getDefaultSuffix(context));
+            return context.getExternalContext().encodeActionURL(url);
+        }
     }
     
-    
-    
+//    @Deprecated
+//    public String preferredUrlForContent(String baseName, DocType docType, String contentId) 
+//    {
+//        return preferredUrlForContent(baseName, docType.getExtension(), contentId);
+//    }
     
 }
    

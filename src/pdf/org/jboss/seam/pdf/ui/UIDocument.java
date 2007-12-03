@@ -5,7 +5,7 @@ import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.DocumentStore;
-import org.jboss.seam.pdf.DocumentData.DocType;
+import org.jboss.seam.pdf.DocumentData.DocumentType;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
@@ -22,13 +22,17 @@ public class UIDocument
 {
     public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIDocument";
 
+    public static DocumentType PDF  = new DocumentType("pdf",  "application/pdf");        
+    public static DocumentType RTF  = new DocumentType("rtf",  "text/rtf");
+    public static DocumentType HTML = new DocumentType("html", "text/html");
+        
     DocWriter writer;
     Document document;
     ByteArrayOutputStream stream;
     String id;
     String baseName;
 
-    DocType docType;
+    DocumentType documentType;
 
     String type;
     String title;
@@ -107,7 +111,7 @@ public class UIDocument
     @Override
     public void createITextObject(FacesContext context) {
         type = (String) valueBinding(context, "type", type);        
-        docType = docTypeForName(type);
+        documentType = documentTypeForName(type);
 
         document = new Document();
         // most of this needs to be done BEFORE document.open();
@@ -205,17 +209,7 @@ public class UIDocument
         stream = new ByteArrayOutputStream();
 
         try {
-            switch (docType) {
-            case PDF:
-                writer = PdfWriter.getInstance(document, stream);
-                break;
-            case RTF:
-                writer = RtfWriter2.getInstance(document, stream);
-                break;
-            case HTML:
-                writer = HtmlWriter.getInstance(document, stream);
-                break;
-            }
+            writer = createWriterForStream(stream);
 
             initMetaData(context);
 
@@ -240,7 +234,7 @@ public class UIDocument
 
             String viewId = Pages.getViewId(context);
             baseName = baseNameForViewId(viewId); 
-            String url = store.preferredUrlForContent(baseName, docType, id);
+            String url = store.preferredUrlForContent(baseName, documentType.getExtension(), id);
 
             url = Manager.instance().encodeConversationId(url, viewId);
 
@@ -267,8 +261,6 @@ public class UIDocument
                 throw new RuntimeException(e);
             } 
         }
-
-
     }
 
 
@@ -300,7 +292,7 @@ public class UIDocument
             bytes = signatureField.sign(bytes);
         }
 
-        DocumentData documentData = new DocumentData(baseName, docType, bytes);
+        DocumentData documentData = new DocumentData(baseName, documentType, bytes);
 
         if (sendRedirect) {
             DocumentStore.instance().saveData(id,documentData);
@@ -319,26 +311,38 @@ public class UIDocument
                 ValueHolder holder = (ValueHolder) parent;
                 holder.setValue(documentData);
             }
-
         }
     }
-
-
 
     public DocWriter getWriter() {
         return writer;
     }    
 
-    private DocType docTypeForName(String typeName) {    
+    private DocumentType documentTypeForName(String typeName) {    
         if (typeName != null) {
-            if (typeName.equalsIgnoreCase(DocType.PDF.name())) {
-                return DocType.PDF;
-            } else if (typeName.equalsIgnoreCase(DocType.RTF.name())) {
-                return DocType.RTF;
-            } else if (typeName.equalsIgnoreCase(DocType.HTML.name())) {
-                return DocType.HTML;
+            if (typeName.equalsIgnoreCase("pdf")) {
+                return PDF;
+            } else if (typeName.equalsIgnoreCase("rtf")) {
+                return RTF;
+            } else if (typeName.equalsIgnoreCase("html")) {
+                return HTML;
             }
         }
-        return DocType.PDF;
+        return PDF;
+    }
+    
+
+    private DocWriter createWriterForStream(OutputStream stream) 
+        throws DocumentException 
+    {
+        if (documentType == PDF) {
+            return PdfWriter.getInstance(document, stream);
+        } else if (documentType == RTF) {
+            return RtfWriter2.getInstance(document, stream);
+        } else if (documentType == HTML) {
+            return HtmlWriter.getInstance(document, stream);
+        }
+        
+        throw new IllegalArgumentException("unknown document type");
     }
 }

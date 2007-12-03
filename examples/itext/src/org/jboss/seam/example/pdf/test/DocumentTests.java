@@ -5,7 +5,7 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.mock.SeamTest;
 import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.pdf.DocumentStore;
-import org.jboss.seam.pdf.DocumentData.DocType;
+import org.jboss.seam.pdf.ui.UIDocument;
 import org.testng.annotations.Test;
 
 /**
@@ -31,7 +31,7 @@ public class DocumentTests
                              
                 Contexts.getSessionContext().set("docId", docId);
                 
-                DocumentData documentData = new DocumentData("base", DocType.PDF, new byte[100]);
+                DocumentData documentData = new DocumentData("base", UIDocument.PDF, new byte[100]);
                 store.saveData(docId, documentData);
             }
             
@@ -69,7 +69,7 @@ public class DocumentTests
                 assert store.idIsValid(docId);       
                 
                 DocumentData data = store.getDocumentData(docId);
-                assert data.getDocType().equals(DocType.PDF);
+                assert data.getDocumentType().equals(UIDocument.PDF);
                 assert data.getData().length == 100;
             }
         }.run();

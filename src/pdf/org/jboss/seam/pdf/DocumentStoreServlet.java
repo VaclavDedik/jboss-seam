@@ -39,34 +39,26 @@ public class DocumentStoreServlet
                 
         DocumentStore store = DocumentStore.instance();
         
-        if ( store.idIsValid(contentId) ) 
-        {
+        if (store.idIsValid(contentId)) {
             DocumentData documentData = store.getDocumentData(contentId);
             
             byte[] data = documentData.getData();       
 
-            response.setContentType( documentData.getDocType().getMimeType() );
+            response.setContentType(documentData.getDocumentType().getMimeType());
             response.setHeader("Content-Disposition", 
-                    "inline; filename=\"" + documentData.getFileName() + "\"");
+                               "inline; filename=\"" + documentData.getFileName() + "\"");
 
-            if (data != null) 
-            {
+            if (data != null) {
                 response.getOutputStream().write(data);
             }
-        } 
-        else 
-        {
+        } else{
              String error = store.getErrorPage();             
-             if (error != null) 
-             {      
-                 if (error.startsWith("/")) 
-                 {
+             if (error != null) {      
+                 if (error.startsWith("/")) {
                      error = request.getContextPath() + error;
                  }
                  response.sendRedirect(error);
-             } 
-             else 
-             {
+             } else {
                  response.sendError(404);
              }
         }
