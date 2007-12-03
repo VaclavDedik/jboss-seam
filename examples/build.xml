@@ -53,7 +53,7 @@
 	<property name="test.dir" value="test-build" />
 	<property name="coverage.dir" value="${seam.dir}/build/coverage" />
 	<property name="test-report.dir" value="${seam.dir}/test-output" />
-	<property name="eejb.conf.dir" value="${seam.dir}/bootstrap" />
+	<property name="eejb.conf.dir" value="${seam.dir}/bootstrap-new" />
 	<property name="src.schema.dir" value="${seam.dir}/src/main/org/jboss/seam" />
 	<property name="schema.version" value="${version}" />
 	<property name="testng.jar" value="${seam.dir}/lib/testng-5.6-jdk15.jar" />
@@ -280,6 +280,16 @@
 	<!-- Dependencies for using with antlr (if not shipped with server) -->
 	<fileset id="groovy.jar" dir="${lib.dir}">
 		<include name="groovy-all.jar" if="groovy.lib" />
+	</fileset>
+	
+	<!-- Dependencies for including dbunit.jar in ear (if classloader requires it) -->
+	<fileset id="dbunit.jar" dir="${lib.dir}">
+		<include name="dbunit.jar" if="dbunit.lib" />
+	</fileset>
+	
+	<!-- Dependencies for including jboss-embedded-api.jar in ear (if classloader requires it) -->
+	<fileset id="jboss-embedded-api.jar" dir="${lib.dir}">
+		<include name="jboss-embedded-api.jar" if="jboss-embedded-api.lib" />
 	</fileset>
 
 
@@ -531,6 +541,8 @@
 			<fileset refid="jbpm.jar" />
 			<fileset refid="cache.jar" />
 			<fileset refid="search.jar" />
+			<fileset refid="dbunit.jar" />
+			<fileset refid="jboss-embedded-api.jar" />
 			<fileset refid="gwt.jar" />
 			<fileset refid="quartz.jar" />
 			<fileset refid="spring.jar" />
@@ -834,6 +846,7 @@
 			<fileset dir="${lib.dir}/test">
 				<include name="*.jar" />
 			</fileset>
+			<path location="${lib.dir}/jboss-deployers.jar" />
 			<fileset dir="${lib.dir}">
 				<!-- Horrible hack around jbossembedded -->
 				<exclude name="jboss-container.jar" />

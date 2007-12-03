@@ -8,8 +8,8 @@
 
     <!-- resources -->
     <property name="resources.dir" value="resources" />
-	<property name="dist.dir" value="dist" />
-	<property name="exploded-archives.dir" value="exploded-archives" />
+    <property name="dist.dir" value="dist" />
+    <property name="exploded-archives.dir" value="exploded-archives" />
        
     <!-- Libraries to include -->
     <property name="seam.ui.lib"    value="true"/>
@@ -17,10 +17,14 @@
     <property name="facelets.lib"   value="true"/>
     <property name="richfaces.lib"   value="true"/>
     <!-- add libs for oc4j (broken classloading) -->
-    <!--<property name="jbpm.lib" value="true"/>
-	<property name="drools.lib" value="true"/>
-	<property name="quartz.lib" value="true" />
-    <property name="search.lib" value="true" />-->
+    <!--
+    <property name="jbpm.lib" value="true"/>
+    <property name="drools.lib" value="true"/>
+    <property name="quartz.lib" value="true" />
+    <property name="search.lib" value="true" />
+    <property name="dbunit.lib" value="true" />
+    <property name="jboss-embedded-api.lib" value="true" />
+    -->
   
     <import file="../../build.xml"/>
 
