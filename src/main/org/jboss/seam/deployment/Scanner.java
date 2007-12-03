@@ -12,14 +12,13 @@ import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.jar.JarInputStream;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.annotation.MemberValue;
-
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
@@ -34,11 +33,12 @@ import org.jboss.seam.log.Logging;
  */
 public abstract class Scanner
 {
-    private static final LogProvider log = Logging.getLogProvider(Scanner.class);
+   private static final LogProvider log = Logging.getLogProvider(Scanner.class);
 
-    protected String resourceName;
-    protected ClassLoader classLoader;
-   
+   protected String resourceName;
+   protected ClassLoader classLoader;
+   protected static Boolean useVFS;
+
    public Scanner(String resourceName)
    {
       this( resourceName, Thread.currentThread().getContextClassLoader() );
@@ -50,7 +50,26 @@ public abstract class Scanner
       this.classLoader = classLoader;
       ClassFile.class.getPackage(); //to force loading of javassist, throwing an exception if it is missing
    }
-   
+
+   protected static boolean useVFS()
+   {
+      if (useVFS == null)
+      {
+         try
+         {
+            Class.forName("org.jboss.virtual.VFS");
+            useVFS = true;
+            log.info("Using JBoss VFS for scanning.");
+         }
+         catch(Throwable t)
+         {
+            useVFS = false;
+            log.debug("Using default file utils for scanning.");
+         }
+      }
+      return useVFS;
+   }
+
    public static String filenameToClassname(String filename)
    {
       return filename.substring( 0, filename.lastIndexOf(".class") )
@@ -89,9 +108,10 @@ public abstract class Scanner
                urlPath = URLDecoder.decode(urlPath, "UTF-8");
                if ( urlPath.startsWith("file:") )
                {
-                  // On windows urlpath looks like file:/C: on Linux file:/home
-                  // substring(5) works for both
-                  urlPath = urlPath.substring(5);
+                  if (useVFS())
+                     urlPath = "vfs" + urlPath;
+                  else
+                     urlPath = urlPath.substring(5);
                }
                if ( urlPath.indexOf('!')>0 )
                {
@@ -127,9 +147,14 @@ public abstract class Scanner
             {
                handleDirectory(file, null);
             }
+            else if (useVFS())
+            {
+               URL url = new URL(urlPath);
+               handleArchiveByURL(url);
+            }
             else
             {
-               handleArchive(file);
+               handleArchiveByFile(file);
             }
          }
          catch (IOException ioe) 
@@ -145,7 +170,7 @@ public abstract class Scanner
    }
 
 
-   private void handleArchive(File file) throws ZipException, IOException
+   private void handleArchiveByFile(File file) throws IOException
    {
       log.debug("archive: " + file);
       ZipFile zip = new ZipFile(file);
@@ -159,13 +184,33 @@ public abstract class Scanner
       }
    }
 
+   private void handleArchiveByURL(URL url) throws IOException
+   {
+      log.debug("archive: " + url);
+      JarInputStream inputStream = new JarInputStream(url.openStream());
+      try
+      {
+         ZipEntry entry = inputStream.getNextEntry();
+         while ( entry != null )
+         {
+            String name = entry.getName();
+            log.debug("found: " + name);
+            handleItem(name);
+            entry = inputStream.getNextEntry();
+         }
+      }
+      finally
+      {
+         inputStream.close();
+      }
+   }
+
    private void handleDirectory(File file, String path)
    {
       log.debug("directory: " + file);
       for ( File child: file.listFiles() )
       {
-         String newPath = path==null ? 
-                  child.getName() : path + '/' + child.getName();
+         String newPath = path==null ? child.getName() : path + '/' + child.getName();
          if ( child.isDirectory() )
          {
             handleDirectory(child, newPath);
