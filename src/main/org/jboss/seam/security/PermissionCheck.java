@@ -34,6 +34,11 @@ public class PermissionCheck
   {
     this.granted = true;
   }
+  
+  public void revoke()
+  {
+     this.granted = false;
+  }
 
   public boolean isGranted()
   {
