@@ -1,6 +1,6 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 
-<suite name="Contact List" verbose="3" parallel="false">
+<suite name="Contact List" verbose="2" parallel="false">
 
    <test name="Contact List">
      <classes>
