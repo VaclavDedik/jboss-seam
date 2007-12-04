@@ -5,13 +5,11 @@
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
 
    <!-- ejb-jar.xml parsing deployer -->
-   <!-- <bean name="Ejb2ParsingDeployer" class="org.jboss.deployment.EjbParsingDeployer">
-      <property name="type">ejb2x</property>
-      
+   <bean name="Ejb2ParsingDeployer" class="org.jboss.deployment.EjbParsingDeployer">
+      <property name="type">ejb2x</property>   
       <property name="useSchemaValidation">false</property>
-      
       <property name="relativeOrder">3000</property>
-   </bean>-->
+   </bean>
    <bean name="JBossEjb2ParsingDeployer" class="org.jboss.deployment.JBossEjbParsingDeployer">
       <property name="type">ejb2x</property>      
       <property name="relativeOrder">3001</property>
