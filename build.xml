@@ -359,6 +359,7 @@
 
 	<target name="testall" depends="testcore,build,compiletest, copylib" description="Run the core unit tests and all example tests">
 		<testexample name="booking" />
+		<testexample name="nestedbooking" />
 		<testexample name="dvdstore" />
 		<testexample name="messages" />
 		<testexample name="numberguess" />

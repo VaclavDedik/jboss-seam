@@ -10,7 +10,7 @@
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
 
-    <core:init jndi-pattern="jboss-seam-nested-booking/#{ejbName}/local" debug="true"/>
+    <core:init jndi-pattern="@jndiPattern@" debug="true"/>
 
     <core:manager conversation-timeout="120000"
                   concurrent-request-timeout="500"

@@ -52,6 +52,7 @@ public class HotelBookingAction implements HotelBooking
    @Begin
    public void selectHotel(Hotel selectedHotel)
    {
+      log.info("Selected hotel #0", selectedHotel.getName());
       hotel = em.merge(selectedHotel);
    }
    
@@ -103,12 +104,12 @@ public class HotelBookingAction implements HotelBooking
       log.info("New booking: #{booking.id} for #{user.username}");
       events.raiseTransactionSuccessEvent("bookingConfirmed");
 
-      this.endRoot();
+      endRoot();
    }
    
    public void cancel() 
    {
-	   this.endRootBeforeRedirect();
+	   endRootBeforeRedirect();
    }
    
    @Destroy @Remove

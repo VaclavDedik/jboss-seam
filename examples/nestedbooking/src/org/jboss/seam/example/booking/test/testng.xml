@@ -1,22 +1,12 @@
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
 
-<suite name="Hotel Booking" verbose="2" parallel="false">
+<suite name="Nested Hotel Booking" verbose="2" parallel="false">
 
-   <test name="Login">
+   <test name="Nested Hotel Booking">
      <classes>
-       <class name="org.jboss.seam.example.booking.test.LoginTest"/>
-     </classes>
-   </test>
-	
-   <test name="Booking">
-     <classes>
+       <!-- <class name="org.jboss.seam.example.booking.test.LoginTest"/>-->
        <class name="org.jboss.seam.example.booking.test.BookingTest"/>
-     </classes>
-   </test>
-	
-   <test name="Change Password">
-     <classes>
-       <class name="org.jboss.seam.example.booking.test.ChangePasswordTest"/>
+       <!-- <class name="org.jboss.seam.example.booking.test.ChangePasswordTest"/>-->
      </classes>
    </test>
 	

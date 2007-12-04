@@ -29,7 +29,7 @@ public class BookingTest extends SeamTest
       new FacesRequest() {
          
          @Override
-         protected void invokeApplication() throws Exception
+         protected void invokeApplication()
          {
             Contexts.getSessionContext().set("user", new User("Gavin King", "foobar", "gavin"));
             setValue("#{identity.username}", "gavin");
@@ -42,7 +42,7 @@ public class BookingTest extends SeamTest
       new FacesRequest("/main.xhtml") {
 
          @Override
-         protected void updateModelValues() throws Exception
+         protected void updateModelValues()
          {
             setValue("#{hotelSearch.searchString}", "Union Square");
          }
@@ -65,10 +65,11 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      String id = new FacesRequest("/hotel.xhtml") {
+      final String id = new FacesRequest("/main.xhtml") {
          
          @Override
-         protected void invokeApplication() throws Exception {
+         protected void invokeApplication() 
+         {
             HotelBooking hotelBooking = (HotelBooking) getInstance("hotelBooking");
             DataModel hotels = (DataModel) Contexts.getSessionContext().get("hotels");
             assert hotels.getRowCount()==1;
@@ -86,7 +87,7 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      id = new FacesRequest("/hotel.xhtml", id) {
+      new FacesRequest("/hotel.xhtml", id) {
 
          @Override
          protected void invokeApplication()
@@ -109,56 +110,12 @@ public class BookingTest extends SeamTest
          
       }.run();
       
-      new FacesRequest("/book.xhtml", id) {
-
-         @Override
-         protected void processValidations() throws Exception
-         {
-            validateValue("#{booking.creditCard}", "123");
-            assert isValidationFailure();
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number must 16 digits long");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-      }.run();
-      
-      new FacesRequest("/book.xhtml", id) {
-
-         @Override
-         protected void processValidations() throws Exception
-         {
-            validateValue("#{booking.creditCardName}", "");
-            assert isValidationFailure();
-         }
-
-         @Override
-         protected void renderResponse()
-         {
-            Iterator messages = FacesContext.getCurrentInstance().getMessages();
-            assert messages.hasNext();
-            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card name is required");
-            assert !messages.hasNext();
-            assert Manager.instance().isLongRunningConversation();
-         }
-         
-      }.run();
-      
+            
       new FacesRequest("/book.xhtml", id) {
          
          @Override @SuppressWarnings("deprecation")
-         protected void updateModelValues() throws Exception
+         protected void updateModelValues()
          {  
-            setValue("#{booking.creditCard}", "1234567891021234");
-            setValue("#{booking.creditCardName}", "GAVIN KING");
-            setValue("#{booking.beds}", 2);
             Date now = new Date();
             setValue("#{booking.checkinDate}", now);
             setValue("#{booking.checkoutDate}", now);
@@ -167,7 +124,7 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            assert invokeMethod("#{hotelBooking.setBookingDetails}")==null;
+            assert invokeMethod("#{hotelBooking.setBookingDates}")==null;
          }
 
          @Override
@@ -186,7 +143,7 @@ public class BookingTest extends SeamTest
       new FacesRequest("/book.xhtml", id) {
          
          @Override @SuppressWarnings("deprecation")
-         protected void updateModelValues() throws Exception
+         protected void updateModelValues()
          {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, 2);
@@ -196,18 +153,164 @@ public class BookingTest extends SeamTest
          @Override
          protected void invokeApplication()
          {
-            invokeMethod("#{hotelBooking.setBookingDetails}");
+            assert "rooms".equals(invokeMethod("#{hotelBooking.setBookingDates}"));
          }
 
          @Override
          protected void renderResponse()
          {
-            assert Manager.instance().isLongRunningConversation();
+             assert Manager.instance().isLongRunningConversation();
          }
          
       }.run();
       
-      new FacesRequest("/confirm.xhtml", id) {
+      new FacesRequest("/rooms.xhtml", id) 
+      {
+
+         @Override
+         protected void renderResponse()
+         {
+            assert getValue("#{booking.user}")!=null;
+            assert getValue("#{booking.hotel}")!=null;
+            assert getValue("#{booking.checkinDate}")!=null;
+            assert getValue("#{booking.checkoutDate}")!=null;
+            assert getValue("#{booking.roomPreference}").equals(getValue("#{hotel.standardRoom}"));
+            assert getValue("#{booking.creditCard}")==null;
+            assert getValue("#{booking.creditCardName}")==null;
+            
+            assert getValue("#{availableRooms.rowCount}").equals(new Integer(2));
+            DataModel availableRooms = (DataModel) getValue("#{availableRooms}");
+            availableRooms.setRowIndex(0);
+            assert "Cozy Room".equals(getValue("#{availableRooms.rowData.name}"));
+            availableRooms.setRowIndex(1);
+            assert "Spectacular Room".equals(getValue("#{availableRooms.rowData.name}"));
+         }
+         
+      }.run();
+      
+      final String nestedId = new FacesRequest("/rooms.xhtml", id) 
+      {
+         
+         @Override
+         protected void applyRequestValues()
+         {
+            DataModel availableRooms = (DataModel) getValue("#{availableRooms}");
+            availableRooms.setRowIndex(0);
+         }
+
+         @Override
+         protected void invokeApplication()
+         {
+            assert getValue("#{booking.roomPreference}")!=null;
+            assert "Cozy Room".equals(getValue("#{booking.roomPreference.name}"));
+            assert "payment".equals(invokeAction("#{roomPreference.selectPreference}"));
+            System.out.println("here");
+         }
+         
+         @Override
+         protected void renderResponse()
+         {
+            assert Manager.instance().isLongRunningConversation();
+            assert Manager.instance().isNestedConversation();
+         }
+         
+      }.run();
+      
+      System.out.println(id + "/" + nestedId);
+      // Hmm, need this to move to the new, nested, conversation
+      // TODO This is probably a bug in SeamTest, not sure where
+      new NonFacesRequest("/payment.xhtml", nestedId) 
+      {
+         
+         @Override
+         protected void renderResponse()
+         {
+            System.out.println("here");
+            assert Manager.instance().isLongRunningConversation();
+            assert Manager.instance().isNestedConversation();
+            
+            assert getValue("#{booking.user}")!=null;
+            assert getValue("#{booking.hotel}")!=null;
+            assert getValue("#{booking.checkinDate}")!=null;
+            assert getValue("#{booking.checkoutDate}")!=null;
+            assert getValue("#{booking.roomPreference}")!=null;
+            assert getValue("#{booking.creditCard}")==null;
+            assert getValue("#{booking.creditCardName}")==null;
+         }
+         
+      }.run();
+      
+      new FacesRequest("/payment.xhtml", nestedId) 
+      {
+
+         @Override
+         protected void processValidations()
+         {
+            validateValue("#{booking.creditCard}", "123");
+            assert isValidationFailure();
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            Iterator messages = FacesContext.getCurrentInstance().getMessages();
+            assert messages.hasNext();
+            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card number must 16 digits long");
+            assert !messages.hasNext();
+            assert Manager.instance().isLongRunningConversation();
+            assert Manager.instance().isNestedConversation();
+         }
+         
+      }.run();
+      
+      new FacesRequest("/payment.xhtml", nestedId) 
+      {
+
+         @Override
+         protected void processValidations()
+         {
+            validateValue("#{booking.creditCardName}", "");
+            assert isValidationFailure();
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            Iterator messages = FacesContext.getCurrentInstance().getMessages();
+            assert messages.hasNext();
+            assert ( (FacesMessage) messages.next() ).getSummary().equals("Credit card name is required");
+            assert !messages.hasNext();
+            assert Manager.instance().isLongRunningConversation();
+            assert Manager.instance().isNestedConversation();
+         }
+         
+      }.run();
+
+      new FacesRequest("/payment.xhtml", nestedId)
+      {
+         @Override
+         protected void updateModelValues()
+         {
+            setValue("#{booking.creditCard}", "1234567891021234");
+            setValue("#{booking.creditCardName}", "GAVIN KING");
+         }
+         
+         @Override
+         protected void invokeApplication()
+         {
+            assert "confirm".equals(invokeAction("#{roomPreference.requestConfirmation}"));
+         }
+         
+         @Override
+         protected void renderResponse()
+         {
+            assert Manager.instance().isLongRunningConversation();
+            assert Manager.instance().isNestedConversation();
+         }
+         
+      }.run();
+      
+      new FacesRequest("/confirm.xhtml", nestedId) {
 
          @Override
          protected void invokeApplication()
