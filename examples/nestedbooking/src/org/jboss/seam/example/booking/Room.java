@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.Name;
 @Entity
 @Name("room")
 public class Room implements Serializable {
+   
    private Long id;
    private String name;
    private String description;
@@ -21,49 +22,60 @@ public class Room implements Serializable {
    private BigDecimal price;
 
    @Id @GeneratedValue
-   public Long getId() {
+   public Long getId() 
+   {
       return id;
    }
 
-   public void setId(Long id) {
+   public void setId(Long id) 
+   {
       this.id = id;
    }
 
    @Length(max=20)
-   public String getName() {
+   public String getName() 
+   {
       return name;
    }
 
-   public void setName(String name) {
+   public void setName(String name) 
+   {
       this.name = name;
    }
 
-   public String getDescription() {
+   public String getDescription() 
+   {
       return description;
    }
 
-   public void setDescription(String description) {
+   public void setDescription(String description) 
+   {
       this.description = description;
    }
 
-   public boolean isIncluded() {
+   public boolean isIncluded() 
+   {
       return included;
    }
 
-   public void setIncluded(boolean included) {
+   public void setIncluded(boolean included) 
+   {
       this.included = included;
    }
 
-   public BigDecimal getPrice() {
+   public BigDecimal getPrice() 
+   {
       return price;
    }
 
-   public void setPrice(BigDecimal price) {
+   public void setPrice(BigDecimal price) 
+   {
       this.price = price;
    }	
 
    @Transient
-   public BigDecimal getPrice(int numNights) {
+   public BigDecimal getPrice(int numNights) 
+   {
       return price.multiply(new BigDecimal(numNights));
    }
 }

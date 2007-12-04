@@ -12,7 +12,7 @@ public class RoomHome extends EntityHome<Room>
 {
 
    @RequestParameter
-   Long roomId;
+   private Long roomId;
 
    @Override
    public Object getId() 
@@ -28,7 +28,8 @@ public class RoomHome extends EntityHome<Room>
    }
 
    @Override @Begin
-   public void create() {
+   public void create() 
+   {
       super.create();
    }
 

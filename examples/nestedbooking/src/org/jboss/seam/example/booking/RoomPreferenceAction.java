@@ -22,9 +22,11 @@ import org.jboss.seam.log.Log;
 @Stateful
 @Name("roomPreference")
 @Restrict("#{identity.loggedIn}")
-public class RoomPreferenceAction implements RoomPreference {
+public class RoomPreferenceAction implements RoomPreference 
+{
 
-   @Logger private Log log;
+   @Logger 
+   private Log log;
 
    @In(required=false)
    @Out

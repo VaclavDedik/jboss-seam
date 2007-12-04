@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import javax.ejb.Local;
 
 @Local
-public interface RoomPreference {
+public interface RoomPreference 
+{
+   
    public void loadAvailableRooms();
 
    public String selectPreference();
@@ -17,4 +19,5 @@ public interface RoomPreference {
    public String cancel();
 
    public void destroy();
+
 }
