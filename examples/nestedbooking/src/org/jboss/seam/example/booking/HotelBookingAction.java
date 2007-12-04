@@ -57,30 +57,30 @@ public class HotelBookingAction implements HotelBooking
    
    public String setBookingDates()
    {
-		// the result will indicate whether or not to begin the nested conversation
-		// as well as the navigation.  if a null result is returned, the nested
-		// conversation will not begin, and the user will be returned to the current
-		// page to fix validation issues
-		String result = null;
-	  
-		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_MONTH, -1);
-		   
-		// validate what we have received from the user so far
-		if ( booking.getCheckinDate().before( calendar.getTime() ) )
-		{
-			facesMessages.addToControl("checkinDate", "Check in date must be a future date");
-		}
-		else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
-		{
-			facesMessages.addToControl("checkoutDate", "Check out date must be later than check in date");
-		}
-		else
-		{
-			result = "rooms";
-		}
-		
-		return result;
+      // the result will indicate whether or not to begin the nested conversation
+      // as well as the navigation.  if a null result is returned, the nested
+      // conversation will not begin, and the user will be returned to the current
+      // page to fix validation issues
+      String result = null;
+
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_MONTH, -1);
+
+      // validate what we have received from the user so far
+      if ( booking.getCheckinDate().before( calendar.getTime() ) )
+      {
+         facesMessages.addToControl("checkinDate", "Check in date must be a future date");
+      }
+      else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
+      {
+         facesMessages.addToControl("checkoutDate", "Check out date must be later than check in date");
+      }
+      else
+      {
+         result = "rooms";
+      }
+
+      return result;
    }
    
    public void bookHotel()
@@ -94,19 +94,20 @@ public class HotelBookingAction implements HotelBooking
    
    public void confirm()
    {
-	  // on confirmation we set the room preference in the booking.  the room preference
-	  // will be injected based on the nested conversation we are in.
-	  booking.setRoomPreference(roomSelection);
-	  
+      // on confirmation we set the room preference in the booking.  the room preference
+      // will be injected based on the nested conversation we are in.
+      booking.setRoomPreference(roomSelection);
+
       em.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
       events.raiseTransactionSuccessEvent("bookingConfirmed");
-      
+
       this.endRoot();
    }
    
-   public void cancel() {
+   public void cancel() 
+   {
 	   this.endRootBeforeRedirect();
    }
    
@@ -120,30 +121,32 @@ public class HotelBookingAction implements HotelBooking
     * 
     *	http://jira.jboss.org/jira/browse/JBSEAM-1943
     */
-   private void endRoot() {
-	   Conversation conversation = Conversation.instance();
-	   
-	   if(conversation.isNested()) {
-		   conversation.root();
-	   }
-	
-	   conversation.end();
+   private void endRoot() 
+   {
+      Conversation conversation = Conversation.instance();
+
+      if(conversation.isNested()) {
+         conversation.root();
+      }
+
+      conversation.end();
    }
 	
    /**
-	 * End the root conversation prior to redirect in case we are currently in a 
-	 * nested conversation.  Currently this can only be done programatically, but 
-	 * if you are interested in this feature being supported by Seam vote on:
-	 * 
-	 *	http://jira.jboss.org/jira/browse/JBSEAM-1943
-	 */
-   private void endRootBeforeRedirect() {
-		Conversation conversation = Conversation.instance();
-	   
-		if(conversation.isNested()) {
-			conversation.root();
-		}
-	   
-		conversation.endBeforeRedirect();
-	}
+    * End the root conversation prior to redirect in case we are currently in a 
+    * nested conversation.  Currently this can only be done programatically, but 
+    * if you are interested in this feature being supported by Seam vote on:
+    * 
+    *	http://jira.jboss.org/jira/browse/JBSEAM-1943
+    */
+   private void endRootBeforeRedirect() 
+   {
+      Conversation conversation = Conversation.instance();
+
+      if(conversation.isNested()) {
+         conversation.root();
+      }
+
+      conversation.endBeforeRedirect();
+   }
 }

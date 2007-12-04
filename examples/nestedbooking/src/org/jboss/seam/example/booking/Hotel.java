@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -115,45 +114,53 @@ public class Hotel implements Serializable
    @Transient
    public BigDecimal getMaxPrice()
    {
-	  BigDecimal maxPrice = this.getRooms().get(0).getPrice();
-	  
-	  for(int i = 1; i < this.getRooms().size(); i++) {
-		  Room room = this.getRooms().get(i);
-		  
- 		  if(maxPrice.compareTo(room.getPrice()) < 0) {
- 			  maxPrice = room.getPrice();
- 		  }
- 	  }
-	  
+      BigDecimal maxPrice = this.getRooms().get(0).getPrice();
+
+      for(int i = 1; i < this.getRooms().size(); i++) 
+      {
+         Room room = this.getRooms().get(i);
+
+         if(maxPrice.compareTo(room.getPrice()) < 0) 
+         {
+            maxPrice = room.getPrice();
+         }
+      }
+
       return maxPrice;
    }
    
    @OneToMany
    @JoinColumn(name="HOTEL_ID")
-   public List<Room> getRooms() {
- 	return rooms;
+   public List<Room> getRooms() 
+   {
+      return rooms;
    }
    
-   public void setRooms(List<Room> roomsSelections) {
- 	this.rooms = roomsSelections;
+   public void setRooms(List<Room> roomsSelections) 
+   {
+      this.rooms = roomsSelections;
+   }
+
+   @Transient
+   public List<Room> getAvailableRooms(Date checkinDate, Date checkoutDate) 
+   {
+      // checking could be performed here to determine which
+      // rooms are available for the provided dates. to simplify
+      // the example, just return the list of rooms
+
+      return rooms;
    }
    
    @Transient
-   public List<Room> getAvailableRooms(Date checkinDate, Date checkoutDate) {
-	   // checking could be performed here to determine which
-	   // rooms are available for the provided dates. to simplify
-	   // the example, just return the list of rooms
-	   
-	   return rooms;
-   }
-   
-   @Transient
-   public Room getStandardRoom() {
- 	  for(Room room : this.getRooms()) {
- 		  if(room.isIncluded()) {
- 			  return room;
- 		  }
- 	  }
+   public Room getStandardRoom() 
+   {
+      for(Room room : this.getRooms()) 
+      {
+         if(room.isIncluded()) 
+         {
+            return room;
+         }
+      }
  	  
  	  return null;
    }

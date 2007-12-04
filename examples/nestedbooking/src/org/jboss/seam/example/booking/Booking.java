@@ -137,12 +137,14 @@ public class Booking implements Serializable
    }
 
    @ManyToOne @NotNull
-   public Room getRoomPreference() {
-	  return roomPreference;
+   public Room getRoomPreference() 
+   {
+      return roomPreference;
    }
 	
-   public void setRoomPreference(Room roomPreference) {
-	  this.roomPreference = roomPreference;
+   public void setRoomPreference(Room roomPreference) 
+   {
+      this.roomPreference = roomPreference;
    }
    
    @NotNull(message="Credit card name is required")
