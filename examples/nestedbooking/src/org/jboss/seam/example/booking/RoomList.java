@@ -6,9 +6,9 @@ import org.jboss.seam.framework.EntityQuery;
 @Name("roomList")
 public class RoomList extends EntityQuery
 {
-    @Override
-    public String getEjbql() 
-    { 
-        return "select room from Room room";
-    }
+   @Override
+   public String getEjbql() 
+   { 
+      return "select room from Room room";
+   }
 }

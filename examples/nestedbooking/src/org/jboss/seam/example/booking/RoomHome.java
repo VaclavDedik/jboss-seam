@@ -11,25 +11,25 @@ import org.jboss.seam.example.booking.Room;
 public class RoomHome extends EntityHome<Room>
 {
 
-    @RequestParameter
-    Long roomId;
-    
-    @Override
-    public Object getId() 
-    { 
-        if (roomId==null)
-        {
-            return super.getId();
-        }
-        else
-        {
-            return roomId;
-        }
-    }
-    
-    @Override @Begin
-    public void create() {
-        super.create();
-    }
- 	
+   @RequestParameter
+   Long roomId;
+
+   @Override
+   public Object getId() 
+   { 
+      if (roomId==null)
+      {
+         return super.getId();
+      }
+      else
+      {
+         return roomId;
+      }
+   }
+
+   @Override @Begin
+   public void create() {
+      super.create();
+   }
+
 }

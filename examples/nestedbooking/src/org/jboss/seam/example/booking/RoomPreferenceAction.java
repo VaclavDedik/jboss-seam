@@ -23,68 +23,66 @@ import org.jboss.seam.log.Log;
 @Name("roomPreference")
 @Restrict("#{identity.loggedIn}")
 public class RoomPreferenceAction implements RoomPreference {
-	
-    @Logger private Log log;
-    
-    @In(required=false)
-    @Out
-    private Hotel hotel;
-    
-    @In(required=false) 
-    @Out(required=false)
-    private Booking booking;
-    
-    @DataModel(value="availableRooms")
-    private List<Room> availableRooms;
-    
-    @DataModelSelection(value="availableRooms")
-	@In(required=false, value="roomSelection")
-	@Out(required=false, value="roomSelection")
-	private Room roomSelection;
-    
-    @Factory("availableRooms")
-    public void loadAvailableRooms()
-    {
-    	this.availableRooms = 
-    		this.hotel.getAvailableRooms(booking.getCheckinDate(), booking.getCheckoutDate());
-    	
-    	log.info("Retrieved #0 available rooms", availableRooms.size());
-    }
-    
-    public BigDecimal getExpectedPrice()
-    {
-    	log.info("Retrieving price for room #0", roomSelection.getName());
-    	
-    	return booking.getTotal(roomSelection);
-    }
-    
-    @Begin(nested=true)
-	public String selectPreference()
-	{
-    	// seam takes care of everything for us here.  we don't have to do anything other
-    	// than send the appropriate outcome to forward to the payment screen.
-		log.info("Room selected");
-		
-		return "payment";
-	}
-	
-	public String requestConfirmation()
-	{
-		// all validations are performed through the s:validateAll, so checks are already
-		// performed
-		log.info("Request confirmation from user");
-		
-		return "confirm";
-	}
-	
-	@End(beforeRedirect=true)
-	public String cancel()
-	{
-        log.info("ending conversation");
-        
-		return "cancel";
-	}
-	
-	@Destroy @Remove                                                                      
-	public void destroy() {}	
+
+   @Logger private Log log;
+
+   @In(required=false)
+   @Out
+   private Hotel hotel;
+
+   @In(required=false) 
+   @Out(required=false)
+   private Booking booking;
+
+   @DataModel(value="availableRooms")
+   private List<Room> availableRooms;
+
+   @DataModelSelection(value="availableRooms")
+   @In(required=false, value="roomSelection")
+   @Out(required=false, value="roomSelection")
+   private Room roomSelection;
+
+   @Factory("availableRooms")
+   public void loadAvailableRooms()
+   {
+      availableRooms = hotel.getAvailableRooms(booking.getCheckinDate(), booking.getCheckoutDate());
+      log.info("Retrieved #0 available rooms", availableRooms.size());
+   }
+
+   public BigDecimal getExpectedPrice()
+   {
+      log.info("Retrieving price for room #0", roomSelection.getName());
+      
+      return booking.getTotal(roomSelection);
+   }
+
+   @Begin(nested=true)
+   public String selectPreference()
+   {
+      // seam takes care of everything for us here.  we don't have to do anything other
+      // than send the appropriate outcome to forward to the payment screen.
+      log.info("Room selected");
+      
+      return "payment";
+   }
+
+   public String requestConfirmation()
+   {
+      // all validations are performed through the s:validateAll, so checks are already
+      // performed
+      log.info("Request confirmation from user");
+      
+      return "confirm";
+   }
+
+   @End(beforeRedirect=true)
+   public String cancel()
+   {
+      log.info("ending conversation");
+
+      return "cancel";
+   }
+
+   @Destroy @Remove                                                                      
+   public void destroy() {}	
 }
