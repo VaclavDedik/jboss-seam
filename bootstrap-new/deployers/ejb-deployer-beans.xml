@@ -14,6 +14,7 @@
       <property name="type">ejb2x</property>      
       <property name="relativeOrder">3001</property>
       <property name="useSchemaValidation">false</property>
+      <property name="ignoreMissingStandardJBossXml">true</property>
    </bean>
 
     <bean name="EJB2xDeployer" class="org.jboss.ejb.deployers.EjbDeployer">
