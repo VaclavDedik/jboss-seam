@@ -1,6 +1,7 @@
 package org.jboss.seam.remoting;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,10 +51,10 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
   {
       // We're sending an XML response, so set the response content type to text/xml
       response.setContentType("text/xml");
-
+      
       // Parse the incoming request as XML
       SAXReader xmlReader = new SAXReader();
-      Document doc = xmlReader.read( request.getInputStream() );
+      Document doc = xmlReader.read( new InputStreamReader(request.getInputStream()) );
       final Element env = doc.getRootElement();
       final RequestContext ctx = unmarshalContext(env);
 
