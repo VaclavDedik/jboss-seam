@@ -846,14 +846,7 @@
 			<fileset dir="${lib.dir}/test">
 				<include name="*.jar" />
 			</fileset>
-			<path location="${lib.dir}/jboss-deployers.jar" />
 			<fileset dir="${lib.dir}">
-				<!-- Horrible hack around jbossembedded -->
-				<exclude name="jboss-container.jar" />
-				<exclude name="hibernate.jar" />
-				<exclude name="hibernate-annotations.jar" />
-				<exclude name="xercesImpl.jar" />
-				<exclude name="dtdparser121.jar" />
 				<!-- Don't include seam-ui -->
 				<exclude name="jboss-seam-ui.jar" />
 			</fileset>
@@ -864,7 +857,6 @@
 		<path location="${seam.dir}/src/test/resources/log4j.xml" />
 		</path>
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
-		<property name="cp" refid="test.classpath" />
 		<testng outputdir="${test-report.dir}">
             <jvmarg value="-Xmx800M" />
             <jvmarg value="-Djava.awt.headless=true" />
