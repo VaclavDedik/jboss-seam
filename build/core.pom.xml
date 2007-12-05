@@ -261,7 +261,7 @@
 
     <dependency>
       <groupId>org.jboss.embedded</groupId>
-      <artifactId>jboss-embedded-api</artifactId>
+      <artifactId>jboss-embedded</artifactId>
       <optional>true</optional>
     </dependency>
     

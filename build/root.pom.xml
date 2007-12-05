@@ -657,7 +657,7 @@
       <dependency>
         <groupId>org.jboss.embedded</groupId>
         <artifactId>jboss-embedded</artifactId>
-        <version>beta2</version>
+        <version>beta3-SNAPSHOT</version>
       </dependency>
       
       <dependency>

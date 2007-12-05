@@ -5,15 +5,18 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jboss.embedded</groupId>
   <artifactId>jboss-embedded-all</artifactId>
-  <version>beta2</version>
+  <version>beta3-SNAPSHOT</version>
   <description>The jboss-embedded-all.jar distributed with JBoss Embedded.  This contains all depdencies
   from JBoss AS that originate in JBoss.  This jar has has the org.jboss.embedded packages split out.</description>
   
   <dependencies>
   	<dependency>
   		<groupId>org.jboss.embedded</groupId>
-  		<artifactId>jboss-embedded-api</artifactId>
-  		<version>beta2</version>
+  		<artifactId>jboss-embedded</artifactId>
+  		<version>beta3-SNAPSHOT</version>
+        <exclusions>
+          <exclusion></exclusion>
+        </exclusions>
   	</dependency>
   </dependencies>
 </project>
