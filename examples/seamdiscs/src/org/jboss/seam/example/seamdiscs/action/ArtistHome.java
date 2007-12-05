@@ -44,5 +44,7 @@ public interface ArtistHome
    public boolean isManaged();
 
    public void create();
+   
+   public Object getInstance();
 
 }
