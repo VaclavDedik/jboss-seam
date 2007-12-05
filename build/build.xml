@@ -4,6 +4,8 @@
 	<property file="default.build.properties" />
 	<property file="build.properties" />
 	
+	<property name="embedded.jars.dir" value="${embedded.dir}/output/lib/embedded-jboss/lib"/>
+	
 	<property name="seam.dir" value="${basedir}/../" />
 	<import file="common.build.xml" />
 
@@ -124,11 +126,29 @@
 	</target>
 	
 	<target name="installEmbedded">
-		<install pom="${embedded.poms.dir}/jboss-embedded-api.pom.xml" jar="${embedded.jars.dir}/jboss-embedded-api.jar" />
-		<install pom="${embedded.poms.dir}/jboss-deployers.pom.xml" jar="${embedded.jars.dir}/jboss-deployers.jar" />
+		<install pom="${embedded.poms.dir}/jboss-embedded.pom.xml" jar="${embedded.jars.dir}/jboss-embedded.jar" />
 		<install pom="${embedded.poms.dir}/jboss-embedded-all.pom.xml" jar="${embedded.jars.dir}/jboss-embedded-all.jar" />
 		<install pom="${embedded.poms.dir}/hibernate-all.pom.xml" jar="${embedded.jars.dir}/hibernate-all.jar" />
 		<install pom="${embedded.poms.dir}/thirdparty-all.pom.xml" jar="${embedded.jars.dir}/thirdparty-all.jar" />
+	</target>
+	
+	<target name="deployEmbeddedSnapshot" depends="initdav">
+		<input addproperty="username" 
+			message="JBoss.org username:" />
+		<input addproperty="password" 
+		    message="JBoss.org password:" />
+		<!--<deployWithAttachment pom="${embedded.poms.dir}/jboss-embedded.pom.xml" jar="${embedded.jars.dir}/jboss-embedded.jar" repositoryId="snapshots.jboss.org" attachment="${embedded.dir}/embedded-jboss-${embedded.version}.zip" unique="false">
+			<authentication username="${username}" password="${password}" />
+		</deployWithAttachment>-->
+		<deploy pom="${embedded.poms.dir}/jboss-embedded-all.pom.xml" jar="${embedded.jars.dir}/jboss-embedded-all.jar"  repositoryId="snapshots.jboss.org" unique="false">
+			<authentication username="${username}" password="${password}" />
+		</deploy>
+		<!--<deploy pom="${embedded.poms.dir}/hibernate-all.pom.xml" jar="${embedded.jars.dir}/hibernate-all.jar"  repositoryId="snapshots.jboss.org" unique="false">
+			<authentication username="${username}" password="${password}" />
+		</deploy>
+		<deploy pom="${embedded.poms.dir}/thirdparty-all.pom.xml" jar="${embedded.jars.dir}/thirdparty-all.jar"  repositoryId="snapshots.jboss.org" unique="false">
+			<authentication username="${username}" password="${password}" />
+		</deploy>-->
 	</target>
 	
 	<macrodef name="offline">
