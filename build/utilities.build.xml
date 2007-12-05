@@ -63,10 +63,11 @@
 	<macrodef name="deploy">
 		<attribute name="pom" default="" />
 		<attribute name="jar" default="" />
+		<attribute name="unique" default="true" />
 		<attribute name="repositoryId" default="" />
 		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
-			<artifact:deploy file="@{jar}">
+			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}">
 				<pom file="@{pom}" />
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
@@ -88,6 +89,24 @@
 					<credentials />
 				</remoteRepository>
 				<attach file="@{srcjar}" classifier="sources" />
+			</artifact:deploy>
+		</sequential>
+	</macrodef>
+	
+	<macrodef name="deployWithAttachment">
+		<attribute name="pom" default="" />
+		<attribute name="jar" default="" />
+		<attribute name="unique" default="true" />
+		<attribute name="attachment" />
+		<attribute name="repositoryId" default="" />
+		<element name="credentials" implicit="true" optional="true" />
+		<sequential>
+			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}">
+				<pom file="@{pom}" />
+				<remoteRepository refId="@{repositoryId}">
+					<credentials />
+				</remoteRepository>
+				<attach file="@{attachment}" classifier="bin" type="zip"/>
 			</artifact:deploy>
 		</sequential>
 	</macrodef>
@@ -136,7 +155,7 @@
 				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
 				<sysproperty key="maven.home" value="${maven.dir}" />
 				<arg line="-Dseam.version=${complete.version}" />
-                <arg line="-q" />
+                <!--<arg line="-q" />-->
 				<args />
 				<arg line="@{target}" />
 			</java>
