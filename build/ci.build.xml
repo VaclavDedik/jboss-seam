@@ -36,7 +36,7 @@
   
     <target name="tests-java16">
     	<build target="cleanall" />
-        <artifact:dependencies filesetId="endorsed.fileset" versionsId="${endorsed.versions}">
+        <artifact:dependencies filesetId="endorsed.fileset" versionsId="endorsed.versions">
             <dependency groupId="javax.xml.bind" artifactId="jaxb-api" version="2.1">
                 <exclusion groupId="javax.xml.stream" artifactId="stax-api" />
                 <exclusion groupId="javax.activation" artifactId="activation" />
