@@ -29,7 +29,7 @@
 
 	<target name="tests">
 		<build target="cleanall" />
-		<build target="coverageall" />
+		<build target="coverageall" testngjvmargs="-Dfoo"/>
 		<build target="copytestoutput" />
 		<build target="testreport" />
 	</target>
