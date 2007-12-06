@@ -861,6 +861,7 @@
             <jvmarg value="-Xmx800M" />
             <jvmarg value="-Djava.awt.headless=true" />
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
+			<jvmarg value="-Dsun.lang.ClassLoader.allowArraySyntax=true" />
 			<classpath refid="test.classpath" />
 			<xmlfileset dir="${src.test.dir}" includes="**/testng.xml" />
 		</testng>
