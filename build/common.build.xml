@@ -12,7 +12,7 @@
 
 	<tstamp />
 	
-	<property name="seam.dir" value="../" />
+	<property name="seam.dir" value=".." />
 	
 	<property name="build.dir" value="${seam.dir}/build" />
 	<property name="tmp.dir" value="${seam.dir}/classes" />

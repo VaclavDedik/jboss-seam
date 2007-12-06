@@ -36,16 +36,16 @@
   
     <target name="tests-java16">
     	<build target="cleanall" />
-        <artifact:dependencies filesetId="endorsed.fileset">
+        <artifact:dependencies filesetId="endorsed.fileset" versionsId="${endorsed.versions}">
             <dependency groupId="javax.xml.bind" artifactId="jaxb-api" version="2.1">
                 <exclusion groupId="javax.xml.stream" artifactId="stax-api" />
                 <exclusion groupId="javax.activation" artifactId="activation" />
             </dependency>
         </artifact:dependencies>
-    	<property name="endorsed.dir" value="${tmp.dir}/endorsed" />
+    	<property name="endorsed.dir" value="${tmp.dir}/endorsed/" />
         <copy todir="${endorsed.dir}">
             <fileset refid="endorsed.fileset" />
-        	<mapper type="flatten"/>
+        	<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${endorsed.versions}" to="flatten" />
         </copy>  
         <build target="coverageall" testngjvmargs="-Dsun.lang.ClassLoader.allowArraySyntax=true -Djava.endorsed.dirs=${endorsed.dir}"/>
         <build target="copytestoutput" />
