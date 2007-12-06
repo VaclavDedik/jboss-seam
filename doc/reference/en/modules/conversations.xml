@@ -832,8 +832,9 @@ public String approveDocument() { ... }]]></programlisting>
             </para>
             
             <para>
-                Only conversations with a description will be included in the
-                drop-down menu.
+                Only conversations with a description (specified in 
+                <literal>pages.xml</literal>) will be included in the drop-down 
+                menu.
             </para>
        
         <mediaobject>
