@@ -655,8 +655,8 @@
       </dependency>
 
       <dependency>
-        <groupId>org.jboss.embedded</groupId>
-        <artifactId>jboss-embedded</artifactId>
+        <groupId>org.jboss.seam.embedded</groupId>
+        <artifactId>jboss-embedded-api</artifactId>
         <version>beta3-SNAPSHOT</version>
       </dependency>
       
