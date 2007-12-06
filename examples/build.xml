@@ -861,6 +861,7 @@
             <jvmarg value="-Xmx800M" />
             <jvmarg value="-Djava.awt.headless=true" />
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
+			<jvmarg value="-Djava.endorsed.dirs=${endorsed.dir}" />
 			<jvmarg value="${testng.jvmargs}" />
 			<classpath refid="test.classpath" />
 			<xmlfileset dir="${src.test.dir}" includes="**/testng.xml" />
