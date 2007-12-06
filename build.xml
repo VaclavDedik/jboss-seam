@@ -84,7 +84,7 @@
 
 	<property name="test.dir" value="${basedir}/test-output" />
 	<property name="report.dir" value="${basedir}/test-report" />
-	
+	<property name="testng.jvmargs" value="-Dfoo" />
 
 	<property name="bootstrap.dir" value="${basedir}/bootstrap" />
 
@@ -861,6 +861,7 @@
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
+					<propertyref name="testng.jvmargs"/>
 				</propertyset>
 			</ant>
 		</sequential>

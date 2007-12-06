@@ -146,6 +146,7 @@
             </dependency>
 			<dependency groupId="org.jboss.seam.embedded" artifactId="thirdparty-all" version="${embedded.version}" />
 			<dependency groupId="org.jboss.seam.embedded" artifactId="hibernate-all" version="${embedded.version}" />
+			
 			<remoteRepository refId="repository.jboss.org" />
 			<remoteRepository id="snapshots.jboss.org" url="http://snapshots.jboss.org/maven2" />
 		</artifact:dependencies>
