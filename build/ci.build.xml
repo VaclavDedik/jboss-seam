@@ -46,7 +46,7 @@
             <fileset refid="endorsed.fileset" />
         	<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${endorsed.versions}" to="flatten" />
         </copy>  
-        <build target="coverageall" testngjvmargs="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
+        <build target="testall" testngjvmargs="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
         <build target="copytestoutput" />
         <build target="testreport" />
     </target>
