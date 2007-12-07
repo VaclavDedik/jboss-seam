@@ -38,7 +38,7 @@
     <property name="seamlibs.dir"   value="${seam.dir}"/>
     <property name="local.lib.dir"  value="lib" />
     <property name="drools.lib.dir" value="${seam.dir}/drools/lib"/>
-    <property name="embedded-jboss.dir" value="${seam.dir}/bootstrap-new"/>
+    <property name="embedded-jboss.dir" value="${seam.dir}/bootstrap"/>
 
     <!-- ################## ALIASES ####################### -->
 
@@ -502,7 +502,7 @@
             <jvmarg line="${testng.jvmargs}"/>
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
         	<!-- Needed for running Embedded JBoss under JDK 6 -->
-        	<jvmarg value="-Djava.endorsed.dirs=${endorsed.dir}" />
+        	<jvmarg value="-Djava.endorsed.dirs=${seam.dir}/classes/endorsed" />
         </testng>
         <echo message="Please read the test output in directory: ${test.output.dir}"/>
     </target>
