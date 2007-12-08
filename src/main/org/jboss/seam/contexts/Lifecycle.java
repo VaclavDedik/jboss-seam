@@ -31,11 +31,15 @@ public class Lifecycle
 
    public static Map<String, Object> getApplication() 
    {
-      if (application==null)
+      if (!isApplicationInitialized())
       {
          throw new IllegalStateException("Attempted to invoke a Seam component outside the an initialized application");
       }
       return application;
+   }   
+   
+   public static boolean isApplicationInitialized() {
+       return application!=null; 
    }
 
    public static void beginApplication(Map<String, Object> app) 

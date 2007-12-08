@@ -95,22 +95,24 @@ public class RootInterceptor implements Serializable
    
    protected Object invoke(InvocationContext invocation, EventType invocationType) throws Exception
    {
-      if ( !isSeamComponent )
+      if ( !isSeamComponent || !Lifecycle.isApplicationInitialized())
       {
          //not a Seam component
          return invocation.proceed();
       }
       else if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() ) //not sure about the second bit (only needed at init time!)
       {
-         //a Seam component, and Seam contexts exist
+
+         // a Seam component, and Seam contexts exist
          return createInvocationContext(invocation, invocationType).proceed();
       }
       else
-      {
+      {            
          //if invoked outside of a set of Seam contexts,
          //set up temporary Seam EVENT and APPLICATION
          //contexts just for this call
-         Lifecycle.beginCall();
+         
+         Lifecycle.beginCall();         
          try
          {
             return createInvocationContext(invocation, invocationType).proceed();
