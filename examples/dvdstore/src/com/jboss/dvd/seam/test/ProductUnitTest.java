@@ -19,57 +19,70 @@ import com.jboss.dvd.seam.Product;
 public class ProductUnitTest 
     extends SeamTest
 {   
-    EntityManager em() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("dvdDatabase");
-        EntityManager        em  = emf.createEntityManager();
-        assertNotNull("entity manager", em);
-        assertTrue("entity manager open", em.isOpen());
-        return em;
-    }
-
-
     @Test
     public void testRequiredAttributes()
         throws Exception
     {
-        Product p = new Product();
+        new ComponentTest() {
 
-        EntityManager em = em();
-        try {
-            em.persist(p);
-            fail("empty product persisted");
-        } catch (PersistenceException e) {
-            // good
-        } finally {
-            em.close();
-        }
+            @Override
+            protected void testComponents()
+                throws Exception 
+            {
+                Product p = new Product();
+
+                EntityManager em = (EntityManager) getValue("#{entityManager}");
+                try {
+                    em.persist(p);
+                    fail("empty product persisted");
+                } catch (PersistenceException e) {
+                    // good
+                }                 
+            }            
+        }.run();
     }
 
-    @Test 
-    public void testCreateDelete() {
-        EntityManager em = em();
+     @Test 
+     public void testCreateDelete() 
+         throws Exception 
+     {
+         final Product p = new Product();
+         p.setTitle("test");
 
-        Product p = new Product();
-        p.setTitle("test");
+         new FacesRequest() {
+            protected void invokeApplication()
+            {
+                EntityManager em = (EntityManager) getValue("#{entityManager}");                
+                em.persist(p);            
+            }
+            
+           
+         }.run();
+         
+         new FacesRequest() {
+             protected void invokeApplication()
+             { 
+                 EntityManager em = (EntityManager) getValue("#{entityManager}");
+                 Product found = em.find(Product.class ,p.getProductId());
+                 assertNotNull("find by id", found);
+                 assertEquals("id", p.getProductId(), found.getProductId());
+                 assertEquals("title", "test", found.getTitle());
+         
+                 em.remove(found);             
+             }
+          }.run();
+         
+          new FacesRequest() {
+              protected void invokeApplication()
+              { 
+                  EntityManager em = (EntityManager) getValue("#{entityManager}");
+                  Product found = em.find(Product.class ,p.getProductId());
 
-        em.getTransaction().begin();
-        em.persist(p);
-        em.getTransaction().commit();
-
-        long id = p.getProductId();
-        assertTrue("product id set", id != 0);
-        
-        p = em.find(Product.class ,id);
-        assertNotNull("find by id", p);
-        assertEquals("id", id, p.getProductId());
-        assertEquals("title", "test", p.getTitle());
-
-        em.getTransaction().begin();
-        em.remove(p);
-        em.getTransaction().commit();
-        
-        p = em.find(Product.class, id);
-        assertNull("deleted product", p);
-    }
+                  assertNull("deleted product", found);             
+              }
+           }.run();
+          
+ 
+     }
     
 }
