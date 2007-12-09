@@ -578,7 +578,7 @@ public class Initialization
                scope.getContext().remove(name);
             }
          }
-         Contexts.getApplicationContext().remove(name + ".component");
+         Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
       }
       //TODO open the ability to reuse the classloader by looking at the components class classloaders
       RedeployableStrategy redeployStrategy = getRedeployableInitialization();
