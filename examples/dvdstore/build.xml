@@ -14,7 +14,7 @@
 	<property name="search.lib" value="yes" />
 
 	<!-- Datasource -->
-	<property name="example.ds" value="dvd-ds.xml" />
+	<property name="example.ds" value="jboss-seam-dvd-ds.xml" />
 
 	<import file="../build.xml" />
 

@@ -13,7 +13,7 @@
     <property name="richfaces.lib"   value="yes"/>
 	
 	<!-- Datasource -->
-    <property name="example.ds"             value="booking-ds.xml"/>
+    <property name="example.ds"             value="jboss-seam-booking-ds.xml"/>
     
     <import file="../build.xml"/>
 </project>
