@@ -174,4 +174,73 @@
 		</sequential>
 	</macrodef>
 	
+	<macrodef name="deployExample">
+		<attribute name="name" />
+       	<attribute name="path" default="${seam.dir}/examples/@{name}" />
+		<attribute name="repositoryId" />
+       	<sequential>
+           <ant dir="@{path}" target="archive" inheritall="false">
+           		<propertyset>
+					<propertyref name="initpomsdone" />
+					<propertyref name="copyseamdone" />
+					<propertyref name="copyseamdependenciesdone" />
+					<propertyref name="copyjbossembeddeddone" />
+					<propertyref name="core.pom" />
+					<propertyref name="root.pom" />
+					<propertyref name="parent.pom" />
+					<propertyref name="ui.pom" />
+					<propertyref name="remoting.pom" />
+					<propertyref name="gen.pom" />
+					<propertyref name="pdf.pom" />
+					<propertyref name="ioc.pom" />
+					<propertyref name="mail.pom" />
+					<propertyref name="debug.pom" />
+					<propertyref name="testng.jvmargs"/>
+				</propertyset>
+           	</ant>
+       		<pomfile name="example.pom" value="@{path}/pom.xml" />
+       		<artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear" uniqueVersion="false">
+       			<pom file="${example.pom}" />
+       		    <attach file="@{path}/resources/jboss-seam-@{name}-ds.xml" classifier="ds" type="xml" />
+       			<remoteRepository refid="@{repositoryId}" />
+       		</artifact:deploy>
+       	</sequential>
+	</macrodef>
+	
+	<macrodef name="deployExampleNoDs">
+			<attribute name="name" />
+	       	<attribute name="path" default="${seam.dir}/examples/@{name}" />
+			<attribute name="repositoryId" />
+	       	<sequential>
+	           <ant dir="@{path}" target="archive" inheritall="false">
+	           		<propertyset>
+						<propertyref name="initpomsdone" />
+						<propertyref name="copyseamdone" />
+						<propertyref name="copyseamdependenciesdone" />
+						<propertyref name="copyjbossembeddeddone" />
+						<propertyref name="core.pom" />
+						<propertyref name="root.pom" />
+						<propertyref name="parent.pom" />
+						<propertyref name="ui.pom" />
+						<propertyref name="remoting.pom" />
+						<propertyref name="gen.pom" />
+						<propertyref name="pdf.pom" />
+						<propertyref name="ioc.pom" />
+						<propertyref name="mail.pom" />
+						<propertyref name="debug.pom" />
+						<propertyref name="testng.jvmargs"/>
+					</propertyset>
+	           	</ant>
+	       		<pomfile name="example.pom" value="@{path}/pom.xml" />
+	       		<artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear" uniqueVersion="false">
+	       			<pom file="${example.pom}" />
+	       			<remoteRepository refid="@{repositoryId}" />
+	       		</artifact:deploy>
+	       	</sequential>
+		</macrodef>
+	
+	<target name="initdav">
+		<artifact:install-provider artifactId="wagon-webdav" version="1.0-beta-2"/>
+	</target>
+	
 </project>

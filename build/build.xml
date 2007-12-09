@@ -13,25 +13,14 @@
 	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
 	<artifact:remoteRepository id="offline.repository.jboss.org" url="file:///${offline.repository.jboss.org}" />
 	
-	<target name="initdav">
-		<artifact:install-provider artifactId="wagon-webdav" version="1.0-beta-2"/>
-	</target>
-	
 	<target name="deployLocal">
 		<pomfile name="pom.file" value="${pom}" />
 		<deployLocal pom="${pom.file}" jar="${jar}" />
 	</target>
 	
 	<target name="deploySnapshot" description="Deploy a pom and jar to snapshots.jboss.org" depends="initdav">
-        <input addproperty="username" 
-                   message="JBoss.org username:" />
-        <input addproperty="password" 
-                   message="JBoss.org password:" />
-		
 		<pomfile name="pom.file" value="${pom}" />
-		<deploy pom="${pom.file}" jar="${jar}" repositoryId="snapshots.jboss.org">
-			<authentication username="${username}" password="${password}" />
-		</deploy>
+		<deploy pom="${pom.file}" jar="${jar}" repositoryId="snapshots.jboss.org" />
 	</target>
 
 	<target name="deployRelease" description="Deploy a jar (generating the pom) to snapshots.jboss.org" depends="initdav">
@@ -51,6 +40,9 @@
 		<deployWithSources pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
 		<deployWithSources pom="${remoting.pom}" jar="${lib.dir}/jboss-seam-remoting.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-remoting-sources.jar"/>
 		<deployWithSources pom="${ui.pom}" jar="${lib.dir}/jboss-seam-ui.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-ui-sources.jar"/>
+		<deployExample name="booking" repositoryId="offline.repository.jboss.org"/>
+		<deployExampleNoDs name="numberguess" repositoryId="offline.repository.jboss.org"/>
+		<deployExample name="dvd" path="${seam.dir}/examples/dvdstore" repositoryId="offline.repository.jboss.org"/>
 	</target>
 	
 	<target name="deployLocalPom">
@@ -149,22 +141,14 @@
 	</target>
 	
 	<target name="deployEmbeddedSnapshot" depends="initdav, shadeEmbedded">
-		<input addproperty="username" 
-			message="JBoss.org username:" />
-		<input addproperty="password" 
-		    message="JBoss.org password:" />
-		<deployWithAttachment pom="${embedded.poms.dir}/jboss-embedded.pom.xml" jar="${embedded.jars.dir}/jboss-embedded.jar" repositoryId="snapshots.jboss.org" attachment="${embedded.dir}/embedded-jboss-${embedded.version}.zip" unique="false">
-			<authentication username="${username}" password="${password}" />
-		</deployWithAttachment>
-		<deploy pom="${embedded.poms.dir}/jboss-embedded-all.pom.xml" jar="${embedded.jars.dir}/jboss-embedded-all.jar"  repositoryId="snapshots.jboss.org" unique="false">
-			<authentication username="${username}" password="${password}" />
-		</deploy>
-		<deploy pom="${embedded.poms.dir}/hibernate-all.pom.xml" jar="${embedded.jars.dir}/hibernate-all.jar"  repositoryId="snapshots.jboss.org" unique="false">
-			<authentication username="${username}" password="${password}" />
-		</deploy>
-		<deploy pom="${embedded.poms.dir}/thirdparty-all.pom.xml" jar="${embedded.jars.dir}/thirdparty-all.jar"  repositoryId="snapshots.jboss.org" unique="false">
-			<authentication username="${username}" password="${password}" />
-		</deploy>
+		<deployWithAttachment pom="${embedded.poms.dir}/jboss-embedded.pom.xml" jar="${embedded.jars.dir}/jboss-embedded.jar" repositoryId="snapshots.jboss.org" attachment="${embedded.dir}/embedded-jboss-${embedded.version}.zip" unique="false" />
+		<deploy pom="${embedded.poms.dir}/jboss-embedded-all.pom.xml" jar="${embedded.jars.dir}/jboss-embedded-all.jar"  repositoryId="snapshots.jboss.org" unique="false" />
+		<deploy pom="${embedded.poms.dir}/hibernate-all.pom.xml" jar="${embedded.jars.dir}/hibernate-all.jar"  repositoryId="snapshots.jboss.org" unique="false" />
+		<deploy pom="${embedded.poms.dir}/thirdparty-all.pom.xml" jar="${embedded.jars.dir}/thirdparty-all.jar"  repositoryId="snapshots.jboss.org" unique="false" />
+	</target>
+	
+	<target name="snapshotExample" depends="initdav">
+		<deployExample name="${name}" repositoryId="snapshots.jboss.org"/>
 	</target>
 	
 	<macrodef name="offline">
