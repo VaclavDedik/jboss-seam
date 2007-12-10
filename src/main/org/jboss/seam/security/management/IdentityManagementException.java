@@ -5,14 +5,14 @@ package org.jboss.seam.security.management;
  *  
  * @author Shane Bryzak
  */
-public class CreateAccountException extends RuntimeException
+public class IdentityManagementException extends RuntimeException
 {
-   public CreateAccountException(String message)
+   public IdentityManagementException(String message)
    {
       super(message);
    }
    
-   public CreateAccountException(String message, Throwable cause)
+   public IdentityManagementException(String message, Throwable cause)
    {
       super(message, cause);
    }

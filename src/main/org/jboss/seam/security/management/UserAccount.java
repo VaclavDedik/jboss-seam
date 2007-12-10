@@ -1,43 +1,57 @@
 package org.jboss.seam.security.management;
 
 import java.io.Serializable;
+import java.util.Set;
 
-import javax.persistence.MappedSuperclass;
-
-@MappedSuperclass
+/**
+ * Abstract base class for user/role accounts.  This class should be extended
+ * to create a concrete JPA/Hibernate implementation. The user has no access to
+ * this class via the identity management API. 
+ *  
+ * @author Shane Bryzak
+ */
 public abstract class UserAccount implements Serializable
 {
-   private String username;
-   private String passwordHash;
-   private boolean enabled;
+   public enum AccountType {user, role}
+     
+   public abstract String getUsername();   
+   public abstract void setUsername(String username);
    
-   public String getUsername()
+   public abstract String getPasswordHash();   
+   public abstract void setPasswordHash(String passwordHash);
+
+   public abstract boolean isEnabled();   
+   public abstract void setEnabled(boolean enabled);
+   
+   public abstract AccountType getAccountType();   
+   public abstract void setAccountType(AccountType accountType);
+   
+   public abstract Set<UserAccount> getMemberships();
+   public abstract void setMemberships(Set<UserAccount> memberships);
+   
+   @Override
+   public boolean equals(Object value)
    {
-      return username;
+      if (!(value instanceof UserAccount))
+      {
+         return false;
+      }
+      
+      UserAccount other = (UserAccount) value;      
+      
+      if (other.getUsername() == null && this.getUsername() == null)
+      {
+         return hashCode() == other.hashCode();
+      }
+      else
+      {
+         return getUsername() == null ? false : getUsername().equals(other.getUsername());
+      }
    }
    
-   public void setUsername(String username)
+   @Override
+   public int hashCode()
    {
-      this.username = username;
-   }
-   
-   public String getPasswordHash()
-   {
-      return passwordHash;
-   }
-   
-   public void setPasswordHash(String passwordHash)
-   {
-      this.passwordHash = passwordHash;
-   }
-   
-   public boolean isEnabled()
-   {
-      return enabled;
-   }
-   
-   public void setEnabled(boolean enabled)
-   {
-      this.enabled = enabled;
+      return getUsername() != null ? getUsername().hashCode() : super.hashCode();
    }
 }

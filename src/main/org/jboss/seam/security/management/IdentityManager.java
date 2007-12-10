@@ -3,6 +3,8 @@ package org.jboss.seam.security.management;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.util.List;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
@@ -70,6 +72,36 @@ public class IdentityManager
    public UserAccount createAccount(String username, String password)
    {
       return identityStore.createAccount(username, password); 
+   }
+   
+   public boolean grantRole(String name, String role)
+   {
+      return identityStore.grantRole(name, role);
+   }
+   
+   public boolean revokeRole(String name, String role)
+   {
+      return identityStore.revokeRole(name, role);
+   }
+   
+   public List<String> listUsers()
+   {
+      return identityStore.listUsers();
+   }
+   
+   public List<String> listUsers(String filter)
+   {
+      return identityStore.listUsers(filter);
+   }
+   
+   public List<String> listRoles()
+   {
+      return identityStore.listRoles();
+   }
+   
+   public List<String> getGrantedRoles(String name)
+   {
+      return identityStore.getGrantedRoles(name);
    }
 
    public IdentityStore getIdentityStore()
