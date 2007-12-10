@@ -129,8 +129,6 @@ public class SeamLoginModule implements LoginModule
                identity.addRole(role);
             }         
             
-            Contexts.getSessionContext().
-            
             return success;
          }
          catch (Exception ex)
