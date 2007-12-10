@@ -24,7 +24,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.security.identityManager")
 @Install(precedence = BUILT_IN)
 public class IdentityManager
-{   
+{
    public static final String IDENTITY_STORE_COMPONENT_NAME = "identityStore";    
    
    private static final LogProvider log = Logging.getLogProvider(IdentityManager.class);   
@@ -69,9 +69,19 @@ public class IdentityManager
       return instance;
    }
    
-   public UserAccount createAccount(String username, String password)
+   public boolean createAccount(String name, String password)
    {
-      return identityStore.createAccount(username, password); 
+      return identityStore.createAccount(name, password); 
+   }
+   
+   public boolean enableAccount(String name)
+   {
+      return identityStore.enableAccount(name);
+   }
+   
+   public boolean disableAccount(String name)
+   {
+      return identityStore.disableAccount(name);
    }
    
    public boolean grantRole(String name, String role)
@@ -103,7 +113,17 @@ public class IdentityManager
    {
       return identityStore.getGrantedRoles(name);
    }
-
+   
+   public List<String> getImpliedRoles(String name)
+   {
+      return identityStore.getImpliedRoles(name);
+   }
+   
+   public boolean authenticate(String username, String password)
+   {
+      return identityStore.authenticate(username, password);
+   }
+   
    public IdentityStore getIdentityStore()
    {
       return identityStore;

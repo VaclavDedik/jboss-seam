@@ -15,12 +15,14 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.SimpleGroup;
 import org.jboss.seam.security.SimplePrincipal;
+import org.jboss.seam.security.management.IdentityManager;
 
 /**
  * Performs authentication using a Seam component
@@ -97,21 +99,52 @@ public class SeamLoginModule implements LoginModule
          throw new LoginException(ex.getMessage());
       }
       
+      // If an authentication method has been specified, use that to authenticate
       MethodExpression mb = Identity.instance().getAuthenticateMethod();
-      if (mb==null)
+      if (mb != null)
       {
-         throw new IllegalStateException("No authentication method defined - please define <security:authenticate-method/> for <security:identity/> in components.xml");
+         try
+         {
+           return (Boolean) mb.invoke();      
+         }
+         catch (Exception ex)
+         {
+            log.error("Error invoking login method", ex);
+            throw new LoginException(ex.getMessage());
+         }
       }
       
-      try
+      // Otherwise if identity management is enabled, use it.
+      IdentityManager identityManager = IdentityManager.instance();
+      if (identityManager != null && identityManager.getIdentityStore() != null)
       {
-        return (Boolean) mb.invoke();      
+         Identity identity = Identity.instance();
+         
+         try
+         {
+            boolean success = identityManager.authenticate(username, identity.getPassword());
+            
+            for (String role : identityManager.getImpliedRoles(username))
+            {
+               identity.addRole(role);
+            }         
+            
+            Contexts.getSessionContext().
+            
+            return success;
+         }
+         catch (Exception ex)
+         {
+            log.error("Error invoking login method", ex);
+            throw new LoginException(ex.getMessage());
+         }
       }
-      catch (Exception ex)
+      else
       {
-         log.error("Error invoking login method", ex);
-         throw new LoginException(ex.getMessage());
+         throw new IllegalStateException("No authentication method defined - " +
+               "please define <security:authenticate-method/> for <security:identity/> in components.xml");
       }
+
    }
 
    public boolean logout() throws LoginException

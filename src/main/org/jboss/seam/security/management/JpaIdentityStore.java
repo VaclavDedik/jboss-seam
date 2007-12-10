@@ -1,6 +1,7 @@
 package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.security.management.UserAccount.AccountType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
@@ -47,7 +49,7 @@ public class JpaIdentityStore extends IdentityStore
    }
    
    @Override
-   protected UserAccount createAccount(String username, String password)
+   public boolean createAccount(String username, String password)
    {
       try
       {
@@ -72,7 +74,7 @@ public class JpaIdentityStore extends IdentityStore
          
          persistAccount(account);
          
-         return account;
+         return true;
       }
       catch (Exception ex)
       {
@@ -88,21 +90,18 @@ public class JpaIdentityStore extends IdentityStore
    }
    
    @Override
+   public boolean deleteAccount(String name)
+   {
+      UserAccount account = validateUser(name);
+      getEntityManager().remove(account);
+      return true;
+   }
+   
+   @Override
    public boolean grantRole(String name, String role)
    {
-      UserAccount account = getAccount(name);
-      
-      if (account == null)
-      {
-         throw new IdentityManagementException("No such account: " + name);
-      }
-      
-      UserAccount roleToGrant = getRole(role);
-      
-      if (roleToGrant == null)
-      {
-         throw new IdentityManagementException("No such role: " + role);
-      }
+      UserAccount account = validateUser(name);      
+      UserAccount roleToGrant = validateRole(role);
       
       if (account.getMemberships() == null)
       {
@@ -114,6 +113,7 @@ public class JpaIdentityStore extends IdentityStore
       }
 
       account.getMemberships().add(roleToGrant);
+      mergeAccount(account);
       
       return true;
    }
@@ -121,58 +121,131 @@ public class JpaIdentityStore extends IdentityStore
    @Override
    public boolean revokeRole(String name, String role)
    {
-      UserAccount account = getAccount(name);
+      UserAccount account = validateUser(name);      
+      UserAccount roleToRevoke = validateRole(role);      
+      boolean success = account.getMemberships().remove(roleToRevoke);
+      mergeAccount(account);
+      return success;
+   }
+   
+   @Override
+   public boolean enableAccount(String name)
+   {
+      UserAccount account = validateUser(name);        
       
-      if (account == null)
+      // If it's already enabled return false
+      if (account.isEnabled())
       {
-         throw new IdentityManagementException("No such account: " + name);
+         return false;
       }
       
-      UserAccount roleToRevoke = getRole(role);
+      account.setEnabled(true);
+      mergeAccount(account);
       
-      if (roleToRevoke == null)
+      return true;
+   }
+   
+   @Override
+   public boolean disableAccount(String name)
+   {
+      UserAccount account = validateUser(name);       
+      
+      // If it's already enabled return false
+      if (!account.isEnabled())
       {
-         throw new IdentityManagementException("No such role: " + role);
-      }
+         return false;
+      }    
       
-      return account.getMemberships().remove(roleToRevoke);
+      account.setEnabled(false);
+      mergeAccount(account);
+      
+      return true;
    }
    
    @Override
    public List<String> getGrantedRoles(String name)
    {
-      UserAccount account = getAccount(name);
+      UserAccount account = validateUser(name);
+
+      List<String> roles = new ArrayList<String>();
       
-      if (account == null)
+      for (UserAccount membership : account.getMemberships())
       {
-         return null;
-      }
-      else
-      {
-         List<String> roles = new ArrayList<String>();
-         
-         for (UserAccount membership : account.getMemberships())
+         if (membership.getAccountType().equals(UserAccount.AccountType.role))
          {
-            if (membership.getAccountType().equals(UserAccount.AccountType.role))
-            {
-               roles.add(membership.getUsername());
-            }
+            roles.add(membership.getUsername());
          }
-         
-         return roles;
-      }      
+      }
+      
+      return roles;     
    }
    
-   protected UserAccount getAccount(String name)
+   @Override
+   public List<String> getImpliedRoles(String name)
    {
-      return (UserAccount) getEntityManager().createQuery(
-            "from " + accountClass.getName() + " where username = :username")
+      UserAccount account = validateUser(name);
+
+      Set<String> roles = new HashSet<String>();
+
+      for (UserAccount membership : account.getMemberships())
+      {
+         if (membership.getAccountType().equals(UserAccount.AccountType.role))
+         {
+            addRoleAndMemberships(membership.getUsername(), roles);
+         }
+      }            
+      
+      return new ArrayList<String>(roles);
+   }
+   
+   private void addRoleAndMemberships(String role, Set<String> roles)
+   {
+      UserAccount roleAccount = validateRole(role);
+      roles.add(role);
+      
+      for (UserAccount membership : roleAccount.getMemberships())
+      {
+         if (!roles.contains(membership.getUsername()))
+         {
+            addRoleAndMemberships(membership.getUsername(), roles);
+         }
+      }            
+   }
+   
+   @Override
+   public boolean authenticate(String username, String password)
+   {
+      UserAccount account = validateUser(username);
+      
+      if (account == null || !account.getAccountType().equals(AccountType.user)
+            || !account.isEnabled())
+      {
+         return false;
+      }
+      
+      return hashPassword(password).equals(account.getPasswordHash());
+   }
+   
+   protected UserAccount validateUser(String name)
+   {      
+      try
+      {
+         return (UserAccount) getEntityManager().createQuery(
+            "from " + accountClass.getName() + " where username = :username and " +
+            "accountType = :accountType")
             .setParameter("username", name)
-            .getSingleResult();      
+            .setParameter("accountType", AccountType.user)
+            .getSingleResult();
+      }
+      catch (NoResultException ex)
+      {
+         throw new IdentityManagementException("No such user: " + name);         
+      }
    }
    
-   protected UserAccount getRole(String name)
+   protected UserAccount validateRole(String name)
    {
+      // The role *should* be cached
       for (UserAccount ua : roleCache)
       {
          if (ua.getUsername().equals(name))
@@ -181,16 +254,24 @@ public class JpaIdentityStore extends IdentityStore
          }
       }
       
-      UserAccount ua = getAccount(name); 
-      
-      if (ua.getAccountType().equals(UserAccount.AccountType.role))
+      try
       {
-         return ua;
+         // As a last ditch effort, check the db
+         UserAccount role = (UserAccount) getEntityManager().createQuery(
+            "from " + accountClass.getName() + " where username = :username and " +
+            "accountType = :accountType")
+            .setParameter("username", name)
+            .setParameter("accountType", AccountType.role)
+            .getSingleResult();
+         
+         roleCache.add(role);
+         
+         return role;
       }
-      else
+      catch (NoResultException ex)
       {
-         throw new RuntimeException("No such role: " + name);
-      }
+         throw new IdentityManagementException("No such role: " + name);         
+      }      
    }
    
    @Override
@@ -199,7 +280,7 @@ public class JpaIdentityStore extends IdentityStore
       return getEntityManager().createQuery(
             "select username from " + accountClass.getName() + 
             " where accountType = :accountType")
-            .setParameter("accountType", UserAccount.AccountType.user)
+            .setParameter("accountType", AccountType.user)
             .getResultList();      
    }
    
@@ -209,7 +290,7 @@ public class JpaIdentityStore extends IdentityStore
       return getEntityManager().createQuery(
             "select username from " + accountClass.getName() + 
             " where accountType = :accountType and lower(username) like :username")
-            .setParameter("accountType", UserAccount.AccountType.user)
+            .setParameter("accountType", AccountType.user)
             .setParameter("username", "%" + (filter != null ? filter.toLowerCase() : "") + 
                   "%")
             .getResultList();
@@ -221,13 +302,18 @@ public class JpaIdentityStore extends IdentityStore
       return getEntityManager().createQuery(
             "select username from " + accountClass.getName() + 
             " where accountType = :accountType")
-            .setParameter("accountType", UserAccount.AccountType.role)
+            .setParameter("accountType", AccountType.role)
             .getResultList();      
    }   
    
    protected void persistAccount(UserAccount account)
    {
       getEntityManager().persist(account);
+   }
+   
+   protected UserAccount mergeAccount(UserAccount account)
+   {
+      return getEntityManager().merge(account);
    }
    
    private EntityManager getEntityManager()
