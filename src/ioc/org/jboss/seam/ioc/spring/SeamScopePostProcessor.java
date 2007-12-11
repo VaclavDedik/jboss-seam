@@ -63,6 +63,7 @@ public class SeamScopePostProcessor
             if (scope != ScopeType.UNSPECIFIED)
             {
                 beanFactory.registerScope(prefix + scope.name(), new SeamScope(scope));
+                beanFactory.registerScope(prefix + scope.name().toLowerCase(), new SeamScope(scope));
             }
         }
         // Create a mock application context if not available.
