@@ -74,7 +74,20 @@ public class Initialization
    private Map<String, NamespaceDescriptor> namespaceMap = new HashMap<String, NamespaceDescriptor>();
    private Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
    private Collection<String> globalImports = new ArrayList<String>();
-
+   
+   private Set<String> nonPropertyAttributes = new HashSet<String>();
+   
+   {
+       nonPropertyAttributes.add("name");
+       nonPropertyAttributes.add("installed");
+       nonPropertyAttributes.add("scope");
+       nonPropertyAttributes.add("startup");
+       nonPropertyAttributes.add("class");
+       nonPropertyAttributes.add("jndi-name");
+       nonPropertyAttributes.add("precedence");
+       nonPropertyAttributes.add("auto-create");           
+   }   
+   
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
@@ -390,15 +403,7 @@ public class Initialization
       for ( Attribute prop: (List<Attribute>) component.attributes() )
       {
          String attributeName = prop.getName();
-         boolean isProperty = !"name".equals(attributeName) && 
-               !"installed".equals(attributeName) && 
-               !"scope".equals(attributeName) &&
-               !"startup".equals(attributeName) &&
-               !"class".equals(attributeName) &&
-               !"jndi-name".equals(attributeName) &&
-               !"precedence".equals(attributeName) &&
-               !"auto-create".equals(attributeName);
-         if (isProperty)
+         if (isProperty(prop.getNamespaceURI(),attributeName))
          {
             String qualifiedPropName = name + '.' + toCamelCase( prop.getQName().getName(), false );
             Conversions.PropertyValue propValue = null;
@@ -416,6 +421,14 @@ public class Initialization
             }
          }
       }
+   }
+
+   /**
+    * component properties are non-namespaced and not in the reserved attribute list
+    */
+   private boolean isProperty(String namespaceURI, String attributeName) {
+       return (namespaceURI == null || namespaceURI.length()==0) && 
+              !nonPropertyAttributes.contains(attributeName);
    }
 
    private Class<?> getClassUsingImports(String className) throws ClassNotFoundException
