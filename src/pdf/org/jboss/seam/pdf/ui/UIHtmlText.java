@@ -46,7 +46,6 @@ public class UIHtmlText
                 
         
         String output = stringWriter.getBuffer().toString();        
-        System.out.println("** BODY: " + output);
         addFromHtml(output);            
     }    
     
@@ -56,7 +55,6 @@ public class UIHtmlText
     {
         Object value = getValue();        
         if (value!=null) {
-            System.out.println("** VAL: " + value);
             addFromHtml(convert(context,value));
         }
       
