@@ -139,6 +139,11 @@
         <component-class>org.jboss.seam.pdf.ui.UIStroke</component-class>
     </component>
 
+    <component>
+        <component-type>org.jboss.seam.pdf.ui.UIHtmlText</component-type>
+        <component-class>org.jboss.seam.pdf.ui.UIHtmlText</component-class>
+    </component>
+
     <lifecycle>
         <phase-listener>org.jboss.seam.pdf.DocumentStorePhaseListener</phase-listener>
     </lifecycle>

@@ -195,4 +195,11 @@
         </component>
     </tag>
 
+    <tag>
+        <tag-name>html</tag-name>
+        <component>
+            <component-type>org.jboss.seam.pdf.ui.UIHtmlText</component-type>
+        </component>
+    </tag>
+
 </facelet-taglib>
