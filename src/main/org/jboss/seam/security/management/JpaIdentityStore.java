@@ -3,6 +3,7 @@ package org.jboss.seam.security.management;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.security.management.UserAccount.AccountType;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,8 @@ import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.core.Events;
+import org.jboss.seam.util.Hex;
 
 /**
  * The default identity store implementation, uses JPA as its persistence mechanism.
@@ -25,6 +28,12 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @BypassInterceptors
 public class JpaIdentityStore extends IdentityStore
 {  
+   public static final String EVENT_ACCOUNT_CREATED = "org.jboss.seam.security.management.accountCreated"; 
+   public static final String EVENT_ACCOUNT_AUTHENTICATED = "org.jboss.seam.security.management.accountAuthenticated";
+   
+   private String hashFunction = "MD5";
+   private String hashCharset = "UTF-8";   
+   
    private Class<? extends UserAccount> accountClass;
    
    private String entityManagerName = "entityManager";
@@ -73,6 +82,8 @@ public class JpaIdentityStore extends IdentityStore
          }
          
          persistAccount(account);
+         
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_ACCOUNT_CREATED, account);
          
          return true;
       }
@@ -223,9 +234,23 @@ public class JpaIdentityStore extends IdentityStore
          return false;
       }
       
-      return hashPassword(password).equals(account.getPasswordHash());
+      boolean success = hashPassword(password).equals(account.getPasswordHash());
+      
+      if (success && Events.exists())
+      {
+         Events.instance().raiseEvent(EVENT_ACCOUNT_AUTHENTICATED, account);
+      }
+      
+      return success;
    }
    
+   /**
+    * Retrieves a user UserAccount from persistent storage.  If the UserAccount does
+    * not exist, an IdentityManagementException is thrown.
+    * 
+    * @param name The user's username
+    * @return The UserAccount for the specified user
+    */
    protected UserAccount validateUser(String name)
    {      
       try
@@ -243,6 +268,13 @@ public class JpaIdentityStore extends IdentityStore
       }
    }
    
+   /**
+    * Retrieves a role UserAccount from persistent storage.  If the UserAccount
+    * does not exist, an IdentityManagementException is thrown.
+    * 
+    * @param name The role name
+    * @return The UserAccount for the specific role
+    */
    protected UserAccount validateRole(String name)
    {
       // The role *should* be cached
@@ -339,5 +371,21 @@ public class JpaIdentityStore extends IdentityStore
    public void setAccountClass(Class<? extends UserAccount> accountClass)
    {
       this.accountClass = accountClass;
+   }   
+   
+   
+   protected String hashPassword(String password)
+   {
+      try {
+         MessageDigest md = MessageDigest.getInstance(hashFunction);
+         md.update(password.getBytes(hashCharset));         
+         byte[] raw = md.digest();
+         
+         // TODO - salt the hash, possibly using the user name? 
+         return new String(Hex.encodeHex(raw));
+     } 
+     catch (Exception e) {
+         throw new RuntimeException(e);        
+     }      
    }   
 }
