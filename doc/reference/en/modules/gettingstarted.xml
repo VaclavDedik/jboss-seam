@@ -169,7 +169,7 @@ C:\Projects\jboss-seam&gt;</programlisting>
             are 90% the same between all Seam projects. (They are so easy to write that even seam-gen can do it.)</para>
 
         <para>The generated project includes three database and persistence configurations. The
-            <literal>jboss-beans.xml</literal>, <literal>persistence-test.xml</literal> and
+            <literal>persistence-test.xml</literal> and
             <literal>import-test.sql</literal> files are used when running the TestNG unit tests against HSQLDB. The
             database schema and the test data in <literal>import-test.sql</literal> is always exported to the database
             before running tests. The <literal>myproject-dev-ds.xml</literal>, <literal>persistence-dev.xml</literal>and
