@@ -12,6 +12,11 @@ public class HibernateEntityIdentifier extends Identifier<Session>
       super(entity.getClass(), session.getIdentifier(entity));
    }
    
+   public HibernateEntityIdentifier(Class clazz, Object id)
+   {
+      super(clazz, id);
+   }
+   
    @Override
    public Object find(Session session)
    {

@@ -14,6 +14,11 @@ public class EntityIdentifier extends Identifier<EntityManager>
       super(Entity.forClass(entity.getClass()).getBeanClass(), PersistenceProvider.instance().getId(entity, entityManager));
    }
    
+   public EntityIdentifier(Class clazz, Object id)
+   {
+      super(clazz, id);
+   }
+   
    @Override
    public Object find(EntityManager entityManager)
    {
