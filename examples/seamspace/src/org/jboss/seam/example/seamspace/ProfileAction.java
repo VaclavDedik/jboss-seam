@@ -74,7 +74,7 @@ public class ProfileAction implements ProfileLocal
            .setMaxResults(5)
            .getResultList();
    }
-   
+
    /**
     * Used to read all blog entries for a member
     */

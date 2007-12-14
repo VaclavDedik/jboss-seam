@@ -10,16 +10,6 @@ import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
-rule AdminIsAUser
-  salience 10
-  no-loop
-when
-  Role(name == "admin")
-  not Role(name == "user")
-then
-  insert(new Role("user"));
-end
-
 rule ViewImage
   no-loop
   activation-group "permissions"
@@ -56,8 +46,8 @@ rule CreateBlog
   activation-group "permissions"
 when
   check: PermissionCheck(name == "blog", action == "create", granted == false)
-  Principal(principalName : name)
-  Member(username == principalName)
+  member: Member()
+  not Member(memberId != member.memberId)
 then
   check.grant();
 end
@@ -67,8 +57,8 @@ rule InsertMemberBlog
   activation-group "permissions"  
 when
   check: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
-  Principal(principalName : name)
-  MemberBlog(member : member -> (member.getUsername().equals(principalName)))
+  MemberBlog(member : member)
+  not Member(mbrId : memberId -> (!mbrId.equals(member.getMemberId())))
 then
   check.grant();
 end
@@ -78,8 +68,8 @@ rule CreateFriendComment
   activation-group "permissions"
 when
   check: PermissionCheck(name == "friendComment", action == "create", granted == false)
-  Principal(principalName : name)
-  MemberFriend(authorized == true, f : friend -> (f.getUsername().equals(principalName)))
+  MemberFriend(authorized == true, f : friend)
+  not Member(mbrId : memberId -> (!mbrId.equals(f.getMemberId())))
 then
   check.grant();
 end
@@ -89,8 +79,8 @@ rule CreateFriendRequest
   activation-group "permissions"
 when
   check: PermissionCheck(name == "friendRequest", action == "create", granted == false)
-  Principal(principalName : name)
-  not MemberFriend(f : friend -> (f.getUsername().equals(principalName)))
+  member: Member()
+  not MemberFriend(f : friend -> (f.getMemberId().equals(member.getMemberId())))
 then
   check.grant();
 end

@@ -11,8 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -58,9 +56,6 @@ public class Member implements Serializable
    };
    
    private Integer memberId;
-   private String username;
-
-   private String hashedPassword;
    private String memberName;
    private String firstName;
    private String lastName;
@@ -73,7 +68,6 @@ public class Member implements Serializable
    private String location;
    private Date memberSince;
    
-   private Set<MemberRole> roles;
    private Set<MemberImage> images;   
    private Set<MemberFriend> friends;
 
@@ -86,29 +80,6 @@ public class Member implements Serializable
    public void setMemberId(Integer memberId)
    {
       this.memberId = memberId;
-   }
-
-   @NotNull
-   @Length(min = 4, max = 20)
-   public String getUsername()
-   {
-      return username;
-   }
-
-   public void setUsername(String username)
-   {
-      this.username = username;
-   }
-
-   @NotNull
-   public String getHashedPassword()
-   {
-      return hashedPassword;
-   }
-
-   public void setHashedPassword(String hashedPassword)
-   {
-      this.hashedPassword = hashedPassword;
    }
    
    @NotNull
@@ -160,18 +131,6 @@ public class Member implements Serializable
    public void setEmail(String email)
    {
       this.email = email;
-   }
-
-   @ManyToMany
-   @JoinTable(name = "MemberRoles", joinColumns = @JoinColumn(name = "MEMBER_ID"), inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-   public Set<MemberRole> getRoles()
-   {
-      return roles;
-   }
-
-   public void setRoles(Set<MemberRole> roles)
-   {
-      this.roles = roles;
    }
 
    @OneToOne(fetch = FetchType.LAZY)

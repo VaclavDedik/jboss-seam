@@ -13,9 +13,12 @@ import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.management.IdentityManager;
+import org.jboss.seam.security.management.JpaIdentityStore;
 
 @Stateful
 @Name("register")
@@ -29,13 +32,19 @@ public class RegisterAction implements Register
    
    @In
    private Identity identity;
+   
+   @In
+   private IdentityManager identityManager;
       
+   private MemberAccount newAccount;
+   
+   private String username;   
+   
    /**
     * Password confirmation
     */
    private String password;
-   private String confirm;
-   
+   private String confirm;   
    
    private String gender;
    
@@ -59,25 +68,26 @@ public class RegisterAction implements Register
       if (!verified)
       {
          FacesMessages.instance().addToControl("confirmPassword", "Passwords do not match");
-      }
-            
-      newMember.setHashedPassword(Hash.instance().hash(password));
-            
+      }           
+   }
+   
+   @Observer(JpaIdentityStore.EVENT_ACCOUNT_CREATED)
+   public void accountCreated(MemberAccount account)
+   {
+      this.newAccount = account;
    }
 
    @End
    public void uploadPicture() 
-   {
-      newMember.setMemberSince(new Date());
-      newMember.setRoles(new HashSet<MemberRole>());
+   {      
+      identityManager.createAccount(username, password);
+      identityManager.grantRole(username, "user");
       
-      MemberRole userRole = (MemberRole) entityManager.createQuery(
-            "from MemberRole where name = 'user'")
-            .getSingleResult();
-      
-      newMember.getRoles().add(userRole);
-
+      newMember.setMemberSince(new Date());      
       entityManager.persist(newMember);
+      
+      newAccount.setMember(newMember);
+      newAccount = entityManager.merge(newAccount);
 
       if (picture != null && picture.length > 0)
       {
@@ -92,9 +102,19 @@ public class RegisterAction implements Register
       }
       
       // Login the user
-      identity.setUsername(newMember.getUsername());
+      identity.setUsername(username);
       identity.setPassword(password);
       identity.login();
+   }
+   
+   public String getUsername()
+   {
+      return username;
+   }
+   
+   public void setUsername(String username)
+   {
+      this.username = username;
    }
    
    public String getPassword()
