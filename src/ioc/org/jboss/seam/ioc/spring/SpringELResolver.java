@@ -40,7 +40,7 @@ public class SpringELResolver extends ELResolver
    @Create
    public void initialize()
    {
-      ELResolver resolver = EL.EL_CONTEXT.getELResolver();
+      ELResolver resolver = EL.EL_RESOLVER;
       if (resolver == null || !(resolver instanceof CompositeELResolver))
       {
          throw new IllegalStateException("Could not add Spring ELResolver to Resolver Chain.  "
