@@ -2,7 +2,6 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-import static org.jboss.seam.el.EL.EL_CONTEXT;
 
 import java.io.Serializable;
 
@@ -15,6 +14,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.el.EL;
 import org.jboss.seam.el.SeamExpressionFactory;
 
 /**
@@ -41,11 +41,10 @@ public class Expressions implements Serializable
    
    /**
     * Get an appropriate ELContext. If there is an active JSF request,
-    * use JSF's ELContext. Otherwise, use one that we created.
+    * use JSF's ELContext. Otherwise, use one that we create.
     */
-   public ELContext getELContext()
-   {
-      return EL_CONTEXT;
+   public ELContext getELContext() {
+       return EL.createELContext();
    }
 
    /**
@@ -110,9 +109,9 @@ public class Expressions implements Serializable
          public T getValue()
          {
             return (T) toUnifiedValueExpression().getValue( getELContext() );
-         }
-         
-         public void setValue(T value)
+         }        
+
+        public void setValue(T value)
          {
             toUnifiedValueExpression().setValue( getELContext(), value );
          }

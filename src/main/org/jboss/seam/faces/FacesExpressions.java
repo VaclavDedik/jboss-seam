@@ -2,7 +2,6 @@
 package org.jboss.seam.faces;
 
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
-import static org.jboss.seam.el.EL.EL_CONTEXT;
 
 import javax.el.ELContext;
 import javax.faces.context.FacesContext;
@@ -34,7 +33,7 @@ public class FacesExpressions extends Expressions
    public ELContext getELContext()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext==null ? EL_CONTEXT : facesContext.getELContext();
+      return facesContext==null ? super.getELContext() : facesContext.getELContext();
    }
    
    @Override

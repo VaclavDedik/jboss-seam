@@ -54,8 +54,11 @@ public class SeamExpressionEvaluator
     
     private static Expression createExpression(final String expression, final Class returnType, final FunctionMapper mapper)
     {
+        
         return new Expression() 
         {
+            private ELContext elContext = EL.createELContext();
+
             private MethodExpression me;
             private ValueExpression ve;
                 
@@ -63,7 +66,7 @@ public class SeamExpressionEvaluator
             {
                 if (me == null || ve == null)
                 {
-                    me = EL.EXPRESSION_FACTORY.createMethodExpression(EL.EL_CONTEXT, expression, returnType, new Class[0]);
+                    me = EL.EXPRESSION_FACTORY.createMethodExpression(elContext, expression, returnType, new Class[0]);
                 }
             }
                 
@@ -71,7 +74,7 @@ public class SeamExpressionEvaluator
             {
                 if (me == null || ve == null)
                 {
-                    ve = EL.EXPRESSION_FACTORY.createValueExpression(EL.EL_CONTEXT, expression, returnType);
+                    ve = EL.EXPRESSION_FACTORY.createValueExpression(elContext, expression, returnType);
                 }
             }
                 

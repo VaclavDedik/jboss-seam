@@ -27,7 +27,8 @@ import org.jboss.el.lang.VariableMapperImpl;
 public class EL
 {
    public static final ELResolver EL_RESOLVER = createELResolver();
-   public static final ELContext EL_CONTEXT = createELContext( EL_RESOLVER, new FunctionMapperImpl() );
+   //ELContext instances should not be shared between threads
+   //public static final ELContext EL_CONTEXT = createELContext( EL_RESOLVER, new FunctionMapperImpl() );
    
    public static final ExpressionFactory EXPRESSION_FACTORY = new ExpressionFactoryImpl();
    
@@ -43,6 +44,10 @@ public class EL
       return resolver;
    }
 
+   public static ELContext createELContext() {
+       return createELContext( EL_RESOLVER, new FunctionMapperImpl() );
+   }
+   
    public static ELContext createELContext(final ELResolver resolver, final FunctionMapper functionMapper)
    {
       return new ELContext()
