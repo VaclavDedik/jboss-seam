@@ -247,7 +247,7 @@ public abstract class ITextComponent
             if (component.getRendersChildren()) {
                 component.encodeChildren(context);
             } else {
-                for (UIComponent child: this.getChildren()) {
+                for (UIComponent child: component.getChildren()) {
                     encode(context, child);
                 }
             }
