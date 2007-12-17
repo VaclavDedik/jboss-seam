@@ -291,11 +291,15 @@ input[type="submit"], input[type="button"] {
 	border:0;
 	margin: 0 0 2px 0;
 }
-.button{
+.button, .iceCmdBtn{
 	font-weight: bold;
 	color: #fff;
 	border: 1px solid #5D1414;
 	height: 26px;
 	background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
 	border-style: none;
+}
+
+.iceCmdLnk, .iceOutLnk{
+    color: #0000f8;
 }
