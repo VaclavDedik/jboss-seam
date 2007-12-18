@@ -18,7 +18,7 @@ import org.jboss.seam.framework.Identifier;
  */
 
 @Name("org.jboss.seam.ui.hibernateEntityLoader")
-@Install(precedence=BUILT_IN)
+@Install(precedence=BUILT_IN, classDependencies="org.hibernate.Session")
 @Scope(STATELESS)
 public class HibernateEntityLoader extends AbstractEntityLoader<Session>
 {
