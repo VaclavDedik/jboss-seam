@@ -155,7 +155,7 @@
          do is display the message next to the field with the error
          (this is possible in plain JSF), highlight the field and 
          label (this is not possible) and, for good measure, display 
-         some image next the the field (also not possible). We also
+         some image next to the field (also not possible). We also
          want to display a little colored asterisk next to the label
          for each required form field.
          
