@@ -35,7 +35,7 @@ public class DecorateRendererBase extends RendererBase
       writer.startElement("div", decorate);
       if (decorate.getStyleClass() != null)
       {
-          writer.writeAttribute(HTML.STYLE_CLASS_ATTR, decorate.getStyleClass(), HTML.STYLE_CLASS_ATTR);
+          writer.writeAttribute(HTML.CLASS_ATTR, decorate.getStyleClass(), HTML.CLASS_ATTR);
       }
       if (decorate.getStyle() != null)
       {
