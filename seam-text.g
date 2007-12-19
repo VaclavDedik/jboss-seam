@@ -10,12 +10,23 @@ options
 	defaultErrorHandler=false;
 }
 {   
-	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "q", "blockquote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img"} ) );
+	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "q", "blockquote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img" , "object", "param", "embed"} ) );
 	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id", "style", "width", "height", "name", "value", "type", "wmode" } ) );
+
+	 public class SeamTextMacro {
+	   public String name;
+	   public java.util.SortedMap<String,String> params = new java.util.TreeMap<String,String>();
+
+	   public SeamTextMacro(String name) {
+	       this.name = name;
+	   }
+	 }
+
+	 private SeamTextMacro currentMacro;
 	
     private StringBuilder mainBuilder = new StringBuilder();
     private StringBuilder builder = mainBuilder;
-    
+
     public String toString() {
         return builder.toString();
     }
@@ -56,6 +67,10 @@ options
 
     protected String macroInclude(String macroName) {
         return "";
+    }
+
+    protected String macroInclude(SeamTextMacro m) {
+        return macroInclude(m.name);
     }
 
     protected String paragraphOpenTag() {
@@ -171,7 +186,7 @@ htmlSpecialChars:
 
 link: OPEN
       { beginCapture(); } 
-      (plain)* 
+      (word|punctuation|escape|space)*
       { String text=endCapture(); } 
       EQ GT 
       { beginCapture(); }
@@ -180,12 +195,36 @@ link: OPEN
       CLOSE
     ;
 
+/*
+
+[<=macro<param1=value "1"><param2=value '2'>]
+
+*/
 macro: OPEN
       LT EQ
-      { beginCapture(); }
-      attributeValue 
-      { String macroName = endCapture(); append(macroInclude(macroName)); }
+      mn:ALPHANUMERICWORD { currentMacro = new SeamTextMacro(mn.getText()); }
+      (macroParam)*
       CLOSE
+      { append( macroInclude(currentMacro) ); currentMacro = null; }
+    ;
+
+macroParam:
+      LT
+      pn:ALPHANUMERICWORD
+      EQ
+      { beginCapture(); }
+      macroParamValue
+      { String pv = endCapture(); currentMacro.params.put(pn.getText(),pv); }
+      GT
+    ;
+
+macroParamValue:
+      ( amp:AMPERSAND       { append(amp.getText()); } |
+        dq:DOUBLEQUOTE      { append(dq.getText()); } |
+        sq:SINGLEQUOTE      { append(sq.getText()); } |
+        an:ALPHANUMERICWORD { append(an.getText()); } |
+        p:PUNCTUATION       { append(p.getText()); } |
+        space | specialChars )*
     ;
 
 bold: STAR { append("<b>"); }
