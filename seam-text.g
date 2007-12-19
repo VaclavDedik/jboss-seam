@@ -116,6 +116,14 @@ options
     protected String unorderedListItemOpenTag() {
         return "<li class=\"seamTextUnorderedListItem\">";
     }
+
+    protected String emphasisOpenTag() {
+        return "<i class=\"seamTextEmphasis\">";
+    }
+
+    protected String emphasisCloseTag() {
+        return "</i>";
+    }
 }
 
 startRule: (newline)* ( (heading (newline)* )? text (heading (newline)* text)* )?
@@ -143,13 +151,15 @@ preformatted: BACKTICK { append( preformattedOpenTag() ); }
 plain: word|punctuation|escape|space|link|macro
     ;
   
-formatted: bold|underline|italic|monospace|superscript|deleted
+formatted: underline|emphasis|monospace|superscript|deleted
     ;
 
 word: an:ALPHANUMERICWORD { append( an.getText() ); } | uc:UNICODEWORD { append( uc.getText() ); }
     ;
 
-punctuation: p:PUNCTUATION { append( p.getText() ); } | sq:SINGLEQUOTE { append( sq.getText() ); }
+punctuation: p:PUNCTUATION { append( p.getText() ); }
+           | sq:SINGLEQUOTE { append( sq.getText() ); }
+           | s:SLASH { append( s.getText() ); }
     ;
     
 escape: ESCAPE ( specialChars | moreSpecialChars | evenMoreSpecialChars | htmlSpecialChars )
@@ -157,8 +167,7 @@ escape: ESCAPE ( specialChars | moreSpecialChars | evenMoreSpecialChars | htmlSp
     
 specialChars:
           st:STAR { append( st.getText() ); } 
-        | sl:SLASH { append( sl.getText() ); } 
-        | b:BAR { append( b.getText() ); } 
+        | b:BAR { append( b.getText() ); }
         | h:HAT { append( h.getText() ); }
         | p:PLUS { append( p.getText() ); }
         | eq:EQ { append( eq.getText() ); }
@@ -224,28 +233,24 @@ macroParamValue:
         sq:SINGLEQUOTE      { append(sq.getText()); } |
         an:ALPHANUMERICWORD { append(an.getText()); } |
         p:PUNCTUATION       { append(p.getText()); } |
+        s:SLASH             { append(s.getText()); } |
         space | specialChars )*
     ;
 
-bold: STAR { append("<b>"); }
-      (plain|underline|italic|monospace|superscript|deleted|newline)+
-      STAR { append("</b>"); }
+emphasis: STAR { append( emphasisOpenTag() ); }
+      (plain|underline|monospace|superscript|deleted|newline)+
+      STAR { append( emphasisCloseTag() ); }
     ;
     
 underline: UNDERSCORE { append("<u>"); }
-           (plain|bold|italic|monospace|superscript|deleted|newline)+
+           (plain|emphasis|monospace|superscript|deleted|newline)+
            UNDERSCORE { append("</u>"); }
     ;
     
-italic: SLASH { append("<i>"); }
-        (plain|bold|underline|monospace|superscript|deleted|newline)+
-        SLASH { append("</i>"); }
-    ;
-    
+
 monospace: BAR { append("<tt>"); }
            (word | punctuation | space 
           | st:STAR { append( st.getText() ); }
-          | sl:SLASH { append( sl.getText() ); }
           | h:HAT { append( h.getText() ); }
           | p:PLUS { append( p.getText() ); }
           | eq:EQ { append( eq.getText() ); }
@@ -260,17 +265,17 @@ monospace: BAR { append("<tt>"); }
     ;
     
 superscript: HAT { append("<sup>"); }
-             (plain|bold|underline|italic|monospace|deleted|newline)+
+             (plain|emphasis|underline|monospace|deleted|newline)+
              HAT { append("</sup>"); }
     ;
     
 deleted: TWIDDLE { append("<del>"); }
-         (plain|bold|underline|italic|monospace|superscript|newline)+
+         (plain|emphasis|underline|monospace|superscript|newline)+
          TWIDDLE { append("</del>"); }
     ;
     
 quoted: DOUBLEQUOTE { append("<q>"); }
-        (plain|bold|underline|italic|monospace|superscript|deleted|newline)+
+        (plain|emphasis|underline|monospace|superscript|deleted|newline)+
         DOUBLEQUOTE { append("</q>"); }
     ;
 
@@ -328,7 +333,7 @@ beforeBody: GT { append(">"); }
 closeTagWithBody: LT SLASH name:ALPHANUMERICWORD GT { append("</"); append(name.getText()); append(">"); }
     ;
     
-closeTagWithNoBody: SLASH GT { append("/>"); } 
+closeTagWithNoBody: SLASH GT { append("/>"); }
     ;
     
 attribute: att:ALPHANUMERICWORD (space)* EQ (space)*
@@ -340,6 +345,7 @@ attribute: att:ALPHANUMERICWORD (space)* EQ (space)*
 attributeValue: ( AMPERSAND { append("&amp;"); } |
                 an:ALPHANUMERICWORD { append( an.getText() ); } |
                 p:PUNCTUATION { append( p.getText() ); } |
+                s:SLASH { append( s.getText() ); } |
                 space | specialChars )*
     ;
     
@@ -382,13 +388,13 @@ PLUS: '+'
     
 UNDERSCORE: '_'
     ;
-    
+
 STAR: '*'
     ;
-    
+
 SLASH: '/'
     ;
-    
+
 ESCAPE: '\\'
     ;
     

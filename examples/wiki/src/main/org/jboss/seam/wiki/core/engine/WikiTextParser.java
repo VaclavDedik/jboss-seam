@@ -185,6 +185,14 @@ public class WikiTextParser extends SeamTextParser {
         return renderer.renderUnorderedListItemOpenTag();
     }
 
+    protected String emphasisOpenTag() {
+        return renderer.renderEmphasisOpenTag();
+    }
+
+    protected String emphasisCloseTag() {
+        return renderer.renderEmphasisCloseTag();
+    }
+
     protected String macroInclude(SeamTextMacro macro) {
         // Filter out any dangerous characters
         String filteredName = macro.name.replaceAll("[^\\p{Alnum}]+", "");

@@ -29,6 +29,8 @@ public interface WikiTextRenderer {
     public String renderOrderedListItemOpenTag();
     public String renderUnorderedListOpenTag();
     public String renderUnorderedListItemOpenTag();
+    public String renderEmphasisOpenTag();
+    public String renderEmphasisCloseTag();
 
     public void setAttachmentLinks(List<WikiLink> attachmentLinks);
     public void setExternalLinks(List<WikiLink> externalLinks);

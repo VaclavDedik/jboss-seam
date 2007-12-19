@@ -89,4 +89,12 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     public String renderUnorderedListItemOpenTag() {
         return "<li class=\"wikiUnorderedListItem\">";
     }
+
+    public String renderEmphasisOpenTag() {
+        return "<i class=\"wikiEmphasis\">";
+    }
+
+    public String renderEmphasisCloseTag() {
+        return "</i>";
+    }
 }

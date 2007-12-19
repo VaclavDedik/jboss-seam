@@ -30,4 +30,7 @@ public class NullWikiTextRenderer implements WikiTextRenderer {
     public String renderOrderedListItemOpenTag() { return "<li>"; }
     public String renderUnorderedListOpenTag() { return "<ul>\n"; }
     public String renderUnorderedListItemOpenTag() { return "<li>"; }
+    public String renderEmphasisOpenTag() { return "<i>"; }
+    public String renderEmphasisCloseTag() { return "</i>"; }
+
 }

@@ -15,7 +15,7 @@
             Here is a simple example:
         </para>
         
-        <programlisting><![CDATA[It's easy to make *bold text*, /italic text/, |monospace|, 
+        <programlisting><![CDATA[It's easy to make *emphasis*, |monospace|,
 ~deleted text~, super^scripts^ or _underlines_.]]></programlisting>
     
         <para>
@@ -24,7 +24,7 @@
         </para>
         
         <programlisting><![CDATA[<p>
-It's easy to make <b>bold text</b>, <i>italic text</i>, <tt>monospace</tt>
+It's easy to make <i>emphasis</i>, <tt>monospace</tt>
 <del>deleted text</del>, super<sup>scripts</sup> or <u>underlines</u>.
 </p>]]></programlisting>
 
