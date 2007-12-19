@@ -1,24 +1,25 @@
 package org.jboss.seam.wiki.plugin.forum;
 
-import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.action.Pager;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.log.Log;
 
-import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.Serializable;
 
 @Name("forumQuery")
 @Scope(ScopeType.CONVERSATION)
 public class ForumQuery implements Serializable {
+
+    @Logger
+    Log log;
 
     private Pager pager;
 
@@ -36,7 +37,7 @@ public class ForumQuery implements Serializable {
     }
 
     @In
-    Directory currentDirectory;
+    WikiDirectory currentDirectory;
 
     @In
     User currentUser;
@@ -49,72 +50,79 @@ public class ForumQuery implements Serializable {
 
     /* ####################### FORUMS ########################## */
 
-    List<Directory> forums;
-    public List<Directory> getForums() {
+    List<ForumInfo> forums;
+    public List<ForumInfo> getForums() {
         if (forums == null) loadForums();
         return forums;
     }
 
-    Map<Long, ForumInfo> forumInfo;
-    public Map<Long, ForumInfo> getForumInfo() {
-        return forumInfo;
-    }
 
     @Observer(value = {"Forum.forumListRefresh", "PersistenceContext.filterReset"}, create = false)
     public void loadForums() {
 
-        forums = forumDAO.findForums(currentDirectory);
-        forumInfo = forumDAO.findForumInfo(currentDirectory);
+        Map<Long, ForumInfo> forumInfo = forumDAO.findForums(currentDirectory);
 
         // Find unread postings
-        User adminUser = (User)Component.getInstance("adminUser");
-        User guestUser = (User)Component.getInstance("guestUser");
-        if ( !(currentUser.getId().equals(guestUser.getId())) &&
-             !(currentUser.getId().equals(adminUser.getId())) ) {
-            List<ForumTopic> unreadTopics = forumDAO.findUnreadTopics(currentUser.getPreviousLastLoginOn());
-            ForumCookie forumCookie = (ForumCookie)Component.getInstance("forumCookie");
-            for (ForumTopic unreadTopic : unreadTopics) {
-                if (forumInfo.containsKey(unreadTopic.getParent().getId()) &&
-                    !forumCookie.getCookieValues().containsKey(unreadTopic.getId().toString())) {
-                    forumInfo.get(unreadTopic.getParent().getId()).setUnreadPostings(true);
+        if (!currentUser.isAdmin() && !currentUser.isGuest()) {
+            log.debug("finding unread topics since: " + currentUser.getPreviousLastLoginOn());
+
+            Map<Long,Long> unreadTopicsWithParent =
+                    forumDAO.findUnreadTopicAndParentIds(currentDirectory, currentUser.getPreviousLastLoginOn());
+
+            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance("forumTopicReadManager");
+
+            for (Map.Entry<Long, Long> unreadTopicAndParent: unreadTopicsWithParent.entrySet()) {
+                if (forumInfo.containsKey(unreadTopicAndParent.getValue()) &&
+                    !forumTopicReadManager.isTopicIdRead(unreadTopicAndParent.getValue(), unreadTopicAndParent.getKey()) ) {
+                    forumInfo.get(unreadTopicAndParent.getValue()).setUnreadPostings(true);
                 }
             }
         }
+        forums = new ArrayList<ForumInfo>();
+        forums.addAll(forumInfo.values());
     }
 
     /* ####################### TOPICS ########################## */
 
-    private List<ForumTopic> topics;
+    private List<TopicInfo> topics;
 
-    public List<ForumTopic> getTopics() {
+    public List<TopicInfo> getTopics() {
         if (topics == null) loadTopics();
         return topics;
     }
 
-    @Observer(value = {"Forum.topicPersisted", "PersistenceContext.filterReset"}, create = false)
+    @Observer(value = {"Forum.topicListRefresh", "PersistenceContext.filterReset"}, create = false)
     public void loadTopics() {
         pager.setNumOfRecords( forumDAO.findTopicCount(currentDirectory) );
-        topics = pager.getNumOfRecords() > 0
-            ? forumDAO.findTopics(currentDirectory, pager.getNextRecord(), pager.getPageSize())
-            : new ArrayList<ForumTopic>();
 
-        User adminUser = (User)Component.getInstance("adminUser");
-        User guestUser = (User)Component.getInstance("guestUser");
-        // Find unread postings
-        if ( !(currentUser.getId().equals(guestUser.getId())) &&
-             !(currentUser.getId().equals(adminUser.getId())) ) {
-            List<ForumTopic> unreadTopics = forumDAO.findUnreadTopics(currentUser.getPreviousLastLoginOn());
-            ForumCookie forumCookie = (ForumCookie)Component.getInstance("forumCookie");
-            // TODO: This is nested interation but it's difficult to make this more efficient
-            for (ForumTopic topic : topics) {
-                for (ForumTopic unreadTopic : unreadTopics) {
-                    if (unreadTopic.getId().equals(topic.getId())&&
-                        !forumCookie.getCookieValues().containsKey(topic.getId().toString())) {
-                        topic.setUnread(true);
-                    }
-                }
+        if (pager.getNumOfRecords() == 0) {
+            topics = Collections.emptyList();
+            return;
+        }
+
+        Map<Long, TopicInfo> topicInfo = forumDAO.findTopics(currentDirectory, pager.getNextRecord(), pager.getPageSize());
+
+        if (!currentUser.isAdmin() && !currentUser.isGuest()) {
+            log.debug("finding unread topics since: " + currentUser.getPreviousLastLoginOn());
+
+            Map<Long,Long> unreadTopicsWithParent =
+                    forumDAO.findUnreadTopicAndParentIdsInForum(currentDirectory, currentUser.getPreviousLastLoginOn());
+
+            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance("forumTopicReadManager");
+
+            for (Map.Entry<Long, TopicInfo> topicInfoEntry: topicInfo.entrySet()) {
+                topicInfoEntry.getValue().setUnread(
+                    unreadTopicsWithParent.containsKey(topicInfoEntry.getKey()) &&
+                    !forumTopicReadManager.isTopicIdRead(
+                        unreadTopicsWithParent.get(topicInfoEntry.getKey()),
+                        topicInfoEntry.getKey()
+                    )
+                );
             }
         }
+
+        topics = new ArrayList<TopicInfo>();
+        topics.addAll(topicInfo.values());
     }
 
 }

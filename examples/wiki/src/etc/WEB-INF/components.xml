@@ -86,7 +86,7 @@
     </component>
 
     <component name="nestedSetNodeWrapperRestrictedEntityConverter" scope="CONVERSATION" precedence="20"
-               class="org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapperEntityConverter">
+               class="org.jboss.seam.wiki.core.nestedset.ui.NestedSetNodeWrapperEntityConverter">
         <property name="entityManager">#{restrictedEntityManager}</property>
     </component>
 
@@ -131,4 +131,7 @@
 
     <factory name="skin" scope="SESSION" value="d"/>
 
+    <factory name="sessionTimeoutSeconds" scope="SESSION"
+             value="#{facesContext.externalContext.getSession(true).getMaxInactiveInterval()}"/>
+    
 </components>

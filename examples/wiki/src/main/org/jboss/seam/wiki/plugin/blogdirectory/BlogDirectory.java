@@ -12,9 +12,9 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.io.Serializable;
@@ -25,16 +25,16 @@ import java.util.*;
 public class BlogDirectory implements Serializable {
 
     @In
-    NodeDAO nodeDAO;
+    WikiNodeDAO wikiNodeDAO;
 
     @In
     BlogDAO blogDAO;
 
     @In
-    Directory currentDirectory;
+    WikiDirectory currentDirectory;
 
     @In
-    Document currentDocument;
+    WikiDocument currentDocument;
 
     private Integer page = 0;
     private Integer year;

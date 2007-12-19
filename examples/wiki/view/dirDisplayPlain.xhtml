@@ -17,8 +17,8 @@
 
         <h:panelGroup>
             <s:link view="/dirDisplayPlain.xhtml" tabindex="1" accesskey="."
-                    rendered="#{!empty directoryHome.parentDirectory and s:hasPermission('Node','read',directoryHome.parentDirectory)}">
-                <f:param name="directoryId" value="#{directoryHome.parentDirectory.id}"/>
+                    rendered="#{!empty directoryHome.parentNode and s:hasPermission('Node','read',directoryHome.parentNode)}">
+                <f:param name="directoryId" value="#{directoryHome.parentNode.id}"/>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dirup.gif" width="18" height="20"
                                 style="vertical-align:middle;border:0;margin-bottom:-2px;margin-top:-3px;margin-right:10px;"/>
             </s:link>
@@ -40,23 +40,23 @@
         </h:panelGroup>
     </div>
 
-    <s:div styleClass="directoryEmpty" rendered="#{empty directoryHome.instance.children}">
+    <s:div styleClass="directoryEmpty" rendered="#{empty directoryHome.childNodes}">
             <s:link view="/dirDisplayPlain.xhtml" tabindex="1" accesskey="."
-                    rendered="#{!empty directoryHome.parentDirectory and s:hasPermission('Node','read',directoryHome.parentDirectory)}">
-                <f:param name="directoryId" value="#{directoryHome.parentDirectory.id}"/>
+                    rendered="#{!empty directoryHome.parentNode and s:hasPermission('Node','read',directoryHome.parentNode)}">
+                <f:param name="directoryId" value="#{directoryHome.parentNode.id}"/>
                 <h:panelGrid columns="2">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dirup.gif" width="18" height="20"/>
                     <h:outputText value=".."/>
                 </h:panelGrid>
             </s:link>
-            <h:outputText rendered="#{empty directoryHome.parentDirectory or !s:hasPermission('Node','read',directoryHome.parentDirectory)}"
+            <h:outputText rendered="#{empty directoryHome.parentNode or !s:hasPermission('Node','read',directoryHome.parentNode)}"
                           value="This directory is empty."/>
 
     </s:div>
 
     <h:dataTable id="directoryTable" var="node"
-                 value="#{directoryHome.instance.children}"
-                 rendered="#{!empty directoryHome.instance.children}"
+                 value="#{directoryHome.childNodes}"
+                 rendered="#{!empty directoryHome.childNodes}"
                  styleClass="datatable topLeftBottomBorder"
                  headerClass="regularHeader rightBorder"
                  columnClasses="onePercentColumn rightBorder alignCenter, defaultColumn rightBorder alignLeft"
@@ -66,25 +66,25 @@
         <h:column>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
                             width="18" height="20"
-                            rendered="#{wiki:isDirectory(node)}"/>
+                            rendered="#{node.isInstance('WikiDirectory')}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
                             width="18" height="20"
-                            rendered="#{wiki:isDocument(node) and node != directoryHome.instance.defaultDocument}"/>
+                            rendered="#{node.isInstance('WikiDocument') and node != directoryHome.instance.defaultFile}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.default.gif"
                             width="18" height="20"
-                            rendered="#{wiki:isDocument(node) and node == directoryHome.instance.defaultDocument}"/>
+                            rendered="#{node.isInstance('WikiDocument') and node == directoryHome.instance.defaultFile}"/>
 
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes[node.contentType].displayIcon}"
                             width="18" height="20"
-                            rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                            rendered="#{node.isInstance('WikiUpload') and !empty uploadTypes[node.contentType]}"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes['generic'].displayIcon}"
                             width="18" height="20"
-                            rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
+                            rendered="#{node.isInstance('WikiUpload') and empty uploadTypes[node.contentType]}"/>
         </h:column>
 
         <h:column>
 
-            <s:span rendered="#{wiki:isDirectory(node)}">
+            <s:span rendered="#{node.isInstance('WikiDirectory')}">
                 <s:link id="browseDirectory" value="#{wiki:truncateString(node.name, 40, '...')}"
                         view="/dirDisplayPlain.xhtml"
                         rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
@@ -93,14 +93,14 @@
                 <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}" rendered="#{!s:hasPermission('Node','read',node)}"/>
             </s:span>
 
-            <s:span rendered="#{wiki:isDocument(node)}">
+            <s:span rendered="#{node.isInstance('WikiDocument')}">
                 <h:outputLink value="#{wiki:renderPlainURL(node)}" rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
                     <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
                 </h:outputLink>
                 <h:outputText value="#{node.name}" rendered="#{!s:hasPermission('Node','read',node)}"/>
             </s:span>
 
-            <h:panelGroup rendered="#{wiki:isFile(node) and !s:hasPermission('Node', 'edit', node)}">
+            <h:panelGroup rendered="#{node.isInstance('WikiUpload') and !s:hasPermission('Node', 'edit', node)}">
                 <h:outputLink value="#{wiki:renderPlainURL(node)}">
                     <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
                 </h:outputLink>

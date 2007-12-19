@@ -26,7 +26,15 @@
     <script type="text/javascript" src="#{themePath}/js/jqHistoryRemote.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqProgressBar.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqDimensions.js"></script>
+    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/resource/remote.js"></script>
+    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
+
     <script type="text/javascript">
+
+        // ###################### Seam Remoting #################################
+
+        Seam.Remoting.displayLoadingMessage = function() {};
+        Seam.Remoting.hideLoadingMessage = function() {};
 
         // ###################### jQuery Integration #################################
 
@@ -41,7 +49,46 @@
             return jQuery(element);
         }
 
+        // ###################### Session timeout alert #################################
+
+        var sessionChecker = Seam.Component.getInstance("httpSessionChecker");
+        var timeoutURL = '#{wiki:renderURL(wikiStart)}';
+        var timeoutMillis = '#{sessionTimeoutSeconds}'*1000+3000;
+        var sessionTimeoutInterval = null;
+
+        function startSessionTimeoutCheck() {
+            sessionTimeoutInterval = setInterval('sessionChecker.isNewSession(alertTimeout)', timeoutMillis);
+        }
+
+        function stopSessionTimeoutCheck() {
+            if (sessionTimeoutInterval) clearInterval(sessionTimeoutInterval);
+        }
+
+        function resetSessionTimeoutCheck() {
+            stopSessionTimeoutCheck();
+            startSessionTimeoutCheck();
+        }
+
+        function alertTimeout(newSession) {
+            if (newSession) {
+                clearInterval(sessionTimeoutInterval);
+                jQuery(".ajaxSupport")
+                        .removeAttr('onblur')
+                        .removeAttr('onchange')
+                        .removeAttr('onkeyup')
+                        .removeAttr('onclick');
+                jQuery(".sessionEventTrigger").hide();
+                var answer = confirm("#{messages['lacewiki.msg.SessionTimeout']}");
+                if (answer) window.location = timeoutURL;
+            }
+        }
+
         // ###################### Form helpers #################################
+
+        function onAjaxRequestComplete() {
+            resetSessionTimeoutCheck();
+            wrapBoxes();
+        }
 
         function clickClear(thisfield, defaulttext) {
             if (thisfield.value == defaulttext) {
@@ -63,6 +110,15 @@
         }
 
         // ###################### Popups #################################
+
+        function deleteConfirmation(message, deleteFunction) {
+            var answer = confirm("#{messages['lacewiki.label.AreYouSureYouWantToDelete']} "
+                                  + message
+                                  + " #{messages['lacewiki.label.DeleteAllChildren']}");
+            if (answer){
+                eval(deleteFunction+"()");
+            }
+        }
 
         var fadeInPopupDialog = function(hash) {
             hash.w.fadeIn('fast',function(){ hash.o.show(); });
@@ -115,10 +171,10 @@
                 log("Showing icon for tab: " + tabId);
                 // Show an icon on the tab and blink it a few times
                 jQuery("#"+tabId)
-                    .Pulsate(100,5)
                     .prepend('&lt;img id="' + tabId + 'InvalidIcon" ' +
                             'src="#{themePath}/img/attention.gif" width="13" height="13" ' +
                             'alt="!" style="vertical-align:bottom;margin-left:5px;margin-right:5px;"/>');
+                pulsate("#"+tabId);
             } else if (formTabErrors[tabId] &lt; 1){
                 log("Removing icon of tab: " + tabId);
                 jQuery("#"+tabId + "InvalidIcon").remove();             // Remove the error icon on the tab
@@ -170,6 +226,13 @@
 
         // ###################### Design #################################
 
+        function pulsate(query) {
+            var blinkCount = 4*2;
+            do {
+                jQuery(query)['fade'+(blinkCount%2==0?'Out':'In')]('fast');
+            } while (--blinkCount);
+        }
+
         function clearDocumentBackground() {
             jQuery("#documentDisplayContainer").parents(".shadowContainer").removeClass("shadowContainer");
             jQuery("#documentDisplayContainer").parents(".shadow1").removeClass("shadow1");
@@ -219,7 +282,7 @@
     <s:div id="control">
         <div id="controlOne"><ui:insert name="controlOne"/></div>
         <div id="controlTwo">&#160;
-            <h:form id="workspaceSwitcher" rendered="#{wiki:sizeOf(conversationList) > 0}">
+            <h:form id="workspaceSwitcher" rendered="#{wiki:sizeOf(conversationList) > 0}" styleClass="sessionEventTrigger">
                 <h:selectOneMenu value="#{switcher.conversationIdOrOutcome}"
                                  styleClass="workspaceSwitcherCombobox">
                     <f:selectItems value="#{switcher.selectItems}"/>

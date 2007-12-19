@@ -8,80 +8,139 @@
        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
        xmlns:wiki="http://jboss.com/products/seam/wiki">
 
+<script type="text/javascript">
+    function scrollToCommentForm() {
+        window.scrollTo(0, jQuery('#forumRepliesPlugin\\:replyForm').offset().top)
+        jQuery("#forumRepliesPlugin\\:replyForm\\:replyTextArea").focus();
+    }
+</script>
+
+<s:fragment rendered="#{replyHome.showForm}">
+    <script type="text/javascript">jQuery(function () {scrollToCommentForm(); })</script>
+    <script type="text/javascript">startSessionTimeoutCheck();</script>
+</s:fragment>
+
+<s:fragment rendered="#{not replyHome.showForm}">
+    <script type="text/javascript">stopSessionTimeoutCheck();</script>
+</s:fragment>
+
 <s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory) and replyHome.showForm}">
 
     <div class="box">
 
-    <h:form id="replyForm">
-
+        <h:form id="replyForm">
         <div class="form">
 
-            <div class="formHead">
-                <h:outputText value="New Reply"/>
+            <ui:include src="../../includes/statusIndicator.xhtml">
+                <ui:param name="statusId" value="replyFormStatus"/>
+            </ui:include>
+
+            <div class="formHead bottomBorder">
+                <h:outputText value="#{messages['forum.label.NewReply']}"/>
             </div>
 
             <a:region>
-                <s:div styleClass="formFields formBorder">
+                <s:div rendered="#{replyHome.showForm}"
+                       styleClass="formFields formBorder #{replyHome.instance.ownedByRegularUser ? '' : 'wideLabels'}">
+
+                    <s:fragment rendered="#{not replyHome.instance.ownedByRegularUser}">
+                        <a:region>
+                            <s:decorate id="userNameDecorate" template="../../includes/formFieldDecorate.xhtml">
+                                <ui:define name="label">#{messages['forum.label.replyForm.Name']}</ui:define>
+                                <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="100" required="true"
+                                             id="userName" value="#{replyHome.instance.fromUserName}">
+                                    <a:support status="replyFormStatus" event="onblur" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                                </h:inputText>
+                            </s:decorate>
+                        </a:region>
+
+                        <s:decorate id="userEmailDecorate" template="../../includes/formFieldDecorate.xhtml">
+                            <ui:define name="label">#{messages['forum.label.replyForm.Email']}</ui:define>
+                            <h:inputText tabindex="1" size="40" maxlength="255" required="false"
+                                         id="userEmail" value="#{replyHome.instance.fromUserEmail}">
+                            </h:inputText>
+                        </s:decorate>
+
+                        <s:decorate id="userHomepageDecorate" template="../../includes/formFieldDecorate.xhtml">
+                            <ui:define name="label">#{messages['forum.label.replyForm.Homepage']}</ui:define>
+                            <h:inputText tabindex="1" size="40" maxlength="1000" required="false"
+                                         id="userHomepage" value="#{replyHome.instance.fromUserHomepage}">
+                            </h:inputText>
+                        </s:decorate>
+                    </s:fragment>
 
                     <s:decorate id="subjectDecorate" template="../../includes/formFieldDecorate.xhtml">
-                        <ui:define name="label">Subject</ui:define>
-                        <h:inputText id="replySubject" tabindex="1" size="90" maxlength="255" required="true" value="#{replyHome.comment.subject}">
-                            <a:support event="onblur" reRender="subjectDecorate"/>
+                        <ui:define name="label">#{messages['forum.label.replyForm.Subject']}</ui:define>
+                        <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true"
+                                     id="subject" value="#{replyHome.instance.subject}">
+                            <a:support status="replyFormStatus" event="onblur" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 
+                    <!-- TODO: Update messsage label -->
                     <ui:include src="../../includes/wikiTextEditor.xhtml">
                         <ui:param name="textEditorId" value="reply"/>
                         <ui:param name="textPreviewId" value="replyPreview"/>
                         <ui:param name="namingContainer" value="forumRepliesPlugin\\\\:replyForm"/>
-                        <ui:param name="label" value="Message"/>
-                        <ui:param name="valueBinding" value="#{replyHome.comment.text}"/>
+                        <ui:param name="statusId" value="replyFormStatus"/>
+                        <ui:param name="label" value="#{messages['forum.label.replyForm.Message']}"/>
+                        <ui:param name="valueBinding" value="#{replyHome.instance.content}"/>
                         <ui:param name="valueMaxLength" value="32768"/>
                         <ui:param name="valueRequired" value="true"/>
-                        <ui:param name="textEditorColumns" value="88"/>
+                        <ui:param name="textEditorColumns" value="#{replyHome.instance.ownedByRegularUser ? '80' : '50'}"/>
                         <ui:param name="textEditorRows" value="20"/>
                     </ui:include>
 
-                    <s:div styleClass="marginLeft">
-                        <ui:include src="../../includes/wikiTextPreview.xhtml">
-                            <ui:param name="textPreviewId" value="replyPreview"/>
-                            <ui:param name="valueBinding" value="#{replyHome.comment.text}"/>
-                            <ui:param name="enablePlugins" value="false"/>
-                            <ui:param name="baseDocument" value="#{currentDocument}"/>
-                            <ui:param name="baseDirectory" value="#{currentDirectory}"/>
-                        </ui:include>
-                    </s:div>
+                    <ui:include src="../../includes/wikiTextPreview.xhtml">
+                        <ui:param name="textPreviewId" value="replyPreview"/>
+                        <ui:param name="valueBinding" value="#{replyHome.instance.content}"/>
+                        <ui:param name="enablePlugins" value="false"/>
+                        <ui:param name="baseDocument" value="#{currentDocument}"/>
+                        <ui:param name="baseDirectory" value="#{currentDocument.parent}"/>
+                    </ui:include>
+
+                    <s:decorate id="verifyCaptchaEntry" template="../../includes/captchaEntry.xhtml">
+                        <ui:param name="statusId" value="replyFormStatus"/>
+                        <ui:param name="rendered" value="#{!identity.loggedIn}"/>
+                    </s:decorate>
 
                 </s:div>
 
-                <div class="formControls">
+                <s:div rendered="#{replyHome.showForm}"
+                       styleClass="formControls #{replyHome.instance.ownedByRegularUser ? '' : 'wideLabels'}">
                     <div class="entry">
                         <div class="label">&#160;</div>
                         <div class="input">
 
-                            <a:commandLink id="save" action="#{replyHome.persist}"
-                                           reRender="forumPostingHeaderControls, forumRepliesPluginContainer, messageBoxContainer"
-                                           tabindex="1" accesskey="#{messages['forum.button.Save.accesskey']}"
-                                           styleClass="button saveButton">
+                            <a:commandLink id="post"
+                                           action="#{replyHome.persist}" tabindex="1"
+                                           reRender="documentDisplay"
+                                           accesskey="#{messages['forum.button.Save.accesskey']}"
+                                           status="replyFormStatus"
+                                           eventsQueue="ajaxEventQueue"
+                                           oncomplete="onAjaxRequestComplete()"
+                                           styleClass="button sessionEventTrigger">
                                 <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Save']}"/>
                             </a:commandLink>
 
-                            <a:commandLink action="#{replyHome.cancel}"
+                            <a:commandLink action="#{replyHome.cancel}" tabindex="1"
+                                           reRender="documentDisplay"
                                            immediate="true"
-                                           reRender="forumPostingHeaderControls, forumRepliesPluginContainer, messageBoxContainer"
-                                           tabindex="1" styleClass="buttonNonpersistent"
-                                           accesskey="#{messages['forum.button.Cancel.accesskey']}">
+                                           eventsQueue="ajaxEventQueue"
+                                           accesskey="#{messages['forum.button.Cancel.accesskey']}"
+                                           oncomplete="onAjaxRequestComplete()"
+                                           styleClass="buttonNonpersistent sessionEventTrigger">
                                 <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Cancel']}"/>
                             </a:commandLink>
 
                         </div>
                     </div>
-                </div>
+                </s:div>
 
             </a:region>
 
         </div>
-    </h:form>
+        </h:form>
 
     </div>
 

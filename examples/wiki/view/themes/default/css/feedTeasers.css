@@ -3,14 +3,12 @@
 }
 
 .teaserTitle {
-    font-size: 120%;
     padding-top: 15px;
     padding-bottom: 15px;
 }
 
 .teaserAuthorDate {
     float: right;
-    font-size: 100%;
     text-align: right;
 }
 
@@ -26,7 +24,6 @@
 }
 
 .teaserBody {
-    font-size: 110%;
     line-height: 150%;
     text-align:justify;
 }

@@ -5,13 +5,14 @@
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <h:form id="searchControlForm">
+    <!-- TODO: This form doesn't work on a timeout session, not every page times it out...  -->
+    <h:form id="searchControlForm" styleClass="sessionEventTrigger">
         <h:panelGroup styleClass="searchControlTable">
             <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="#{wikiSearch.simpleQuery}"
                          onclick="clickClear(this, '#{messages['lacewiki.label.searchControl.Search']}')"
                          onblur="clickRecall(this, '#{messages['lacewiki.label.searchControl.Search']}')"
                          size="15" maxlength="1000" tabindex="60"/>
-            <h:commandLink styleClass="searchControlLink" tabindex="61"
+            <h:commandLink styleClass="searchControlLink sessionEventTrigger" tabindex="61"
                            accesskey="#{messages['lacewiki.button.searchControl.Find.accesskey']}"
                            action="search">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.searchControl.Find']}"/>

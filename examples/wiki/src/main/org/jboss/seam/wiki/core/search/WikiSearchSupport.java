@@ -1,8 +1,8 @@
 package org.jboss.seam.wiki.core.search;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Comment;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.search.metamodel.SearchSupport;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntityHandler;
 import org.jboss.seam.wiki.util.WikiUtil;
@@ -25,15 +25,15 @@ public class WikiSearchSupport extends SearchSupport {
         return new HashSet<SearchableEntityHandler>() {{
 
             add(
-                new SearchableEntityHandler<Document>() {
+                new SearchableEntityHandler<WikiDocument>() {
 
                     public boolean isReadAccessChecked() {
                         return true;
                     }
 
-                    public SearchHit extractHit(Query query, Document doc) throws Exception {
+                    public SearchHit extractHit(Query query, WikiDocument doc) throws Exception {
                         return new SearchHit(
-                            Document.class.getSimpleName(),
+                            WikiDocument.class.getSimpleName(),
                             "icon.doc.gif",
                             escapeBestFragments(query, new NullFragmenter(), doc.getName(), 0, 0),
                             WikiUtil.renderURL(doc),
@@ -44,15 +44,15 @@ public class WikiSearchSupport extends SearchSupport {
             );
 
             add(
-                new SearchableEntityHandler<Comment>() {
-                    public SearchHit extractHit(Query query, Comment comment) throws Exception {
+                new SearchableEntityHandler<WikiComment>() {
+                    public SearchHit extractHit(Query query, WikiComment comment) throws Exception {
                         return new SearchHit(
-                            Comment.class.getSimpleName(),
+                            WikiComment.class.getSimpleName(),
                             "icon.user.gif",
                             "(" + comment.getFromUserName() + ") "
                                 + escapeBestFragments(query, new NullFragmenter(), comment.getSubject(), 0, 0),
-                            WikiUtil.renderURL(comment.getDocument())+ "#commentsDisplay",
-                            escapeBestFragments(query, new SimpleFragmenter(100), comment.getText(), 5, 350)
+                            WikiUtil.renderURL(comment),
+                            escapeBestFragments(query, new SimpleFragmenter(100), comment.getContent(), 5, 350)
                         );
                     }
                 }

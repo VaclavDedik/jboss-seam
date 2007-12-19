@@ -16,12 +16,12 @@
 
         <ui:repeat var="node" value="#{breadcrumb}">
 
-            <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemLink" rendered="#{wiki:isDirectory(node)}">
+            <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemLink" rendered="#{node.isInstance('WikiDirectory')}">
                 <h:outputText value="#{wiki:truncateString(node.name, 25, '...')}"/>
             </h:outputLink>
 
-            <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemText" rendered="#{!wiki:isDirectory(node)}">
-                <h:outputText value="#{wiki:truncateString(node.name, 30, '...')}"/>
+            <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemText" rendered="#{!node.isInstance('WikiDirectory')}">
+                <h:outputText value="#{wiki:truncateString(node.name, 35, '...')}"/>
 
                 <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year || !empty param.tag}" value="&#160;(showing"/>
                 <h:outputText rendered="#{!empty param.day}" value="&#160;#{param.day}."/>

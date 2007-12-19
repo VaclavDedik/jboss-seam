@@ -6,26 +6,20 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
-
-import org.jboss.seam.framework.EntityHome;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.dao.UserDAO;
-import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.model.Role;
-import org.jboss.seam.wiki.util.WikiUtil;
-import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.Component;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Events;
+import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.wiki.core.dao.TagDAO;
+import org.jboss.seam.wiki.core.dao.UserDAO;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.util.WikiUtil;
 
+import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import java.util.Date;
 import java.util.List;
 
@@ -34,130 +28,156 @@ import java.util.List;
  *
  * @author Christian Bauer
  */
-public abstract class NodeHome<N extends Node> extends EntityHome<N> {
+public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends EntityHome<N> {
 
     /* -------------------------- Context Wiring ------------------------------ */
 
     @In
-    private NodeDAO nodeDAO;
+    private WikiNodeDAO wikiNodeDAO;
     @In
     private UserDAO userDAO;
+    @In
+    private TagDAO tagDAO;
+    @In
+    private WikiDirectory wikiRoot;
     @In
     protected User currentUser;
     @In
     protected List<Role.AccessLevel> accessLevelsList;
 
-    protected NodeDAO getNodeDAO() { return nodeDAO; }
-    protected UserDAO getUserDAO() { return userDAO; }
-    protected User getCurrentUser() { return currentUser; }
+    public WikiNodeDAO getWikiNodeDAO() { return wikiNodeDAO; }
+    public UserDAO getUserDAO() { return userDAO; }
+    public TagDAO getTagDAO() { return tagDAO; }
+    public WikiDirectory getWikiRoot() { return wikiRoot; }
+    public User getCurrentUser() { return currentUser; }
     public List<Role.AccessLevel> getAccessLevelsList() { return accessLevelsList; }
 
     /* -------------------------- Request Wiring ------------------------------ */
 
-    private Long parentDirectoryId;
-    public Long getParentDirectoryId() {
-        return parentDirectoryId;
+    private Long parentNodeId;
+
+    public Long getParentNodeId() {
+        return parentNodeId;
     }
-    public void setParentDirectoryId(Long parentDirectoryId) {
-        this.parentDirectoryId = parentDirectoryId;
+    public void setParentNodeId(Long parentNodeId) {
+        this.parentNodeId = parentNodeId;
     }
 
-    private Directory parentDirectory;
-    public Directory getParentDirectory() {
-        return parentDirectory;
+    private P parentNode;
+    public P getParentNode() {
+        return parentNode;
     }
-    public void setParentDirectory(Directory parentDirectory) {
-        this.parentDirectory = parentDirectory;
+    public void setParentNode(P parentNode) {
+        this.parentNode = parentNode;
     }
 
     public void setNodeId(Long o) {
         super.setId(o);
     }
-
     public Long getNodeId() {
         return (Long)super.getId();
     }
 
-    public String init() {
+    /* -------------------------- Additional States ------------------------------ */
 
-        getLog().debug("initializing node home");
+    private boolean edit = false;
 
-        // Load the parent instance
-        if (!isIdDefined() && parentDirectoryId == null) {
-            return "missingParameters";
-        }
-
-        if (!isIdDefined()) {
-            getLog().debug("no instance identifier, getting parent directory with id: " + parentDirectoryId);
-            parentDirectory = loadParentDirectory(parentDirectoryId);
-        } else {
-            getLog().debug("using parent of instance: " + getInstance());
-            parentDirectory = getInstance().getParent();
-            if (parentDirectory != null) // Wiki Root doesn't have a parent
-                parentDirectoryId = parentDirectory.getId();
-        }
-
-        getLog().debug("initalized with parent directory: " + parentDirectory);
-
-        // Outjects current node or parent directory, e.g. for breadcrumb rendering
-        // TODO: This clashes if several subclasses of NodeHome run on the same page, e.g. DocumentHome + ForumHome
-        Contexts.getPageContext().set("currentLocation", !isManaged() ? getParentDirectory() : getInstance());
-
-        return null;
-    }
+    public boolean isEdit() { return edit; }
+    public void setEdit(boolean edit) { this.edit = edit; }
 
     /* -------------------------- Basic Overrides ------------------------------ */
-
 
     @Override
     protected String getPersistenceContextName() {
         return "restrictedEntityManager";
     }
 
-    // Access level filtered DAO for retrieval by identifier
     @Override
     public N find() {
-        //noinspection unchecked
-        N result = (N)nodeDAO.findNode((Long)getId());
-        if (result==null) {
+        getLog().debug("finding an existing instance with id: " + getId());
+        N foundNode = findInstance();
+        if (foundNode == null) {
             handleNotFound();
-        } else {
-            writeAccessLevel = getAccessLevelsList().get(
-                accessLevelsList.indexOf(
-                    new Role.AccessLevel(result.getWriteAccessLevel())
-                )
-            );
-            readAccessLevel = getAccessLevelsList().get(
-                accessLevelsList.indexOf(
-                    new Role.AccessLevel(result.getReadAccessLevel())
-                )
-            );
+            return null;
         }
-        return result;
+        getLog().debug("found instance: " + foundNode);
+        return isEdit() ? beforeNodeEditFound(afterNodeFound(foundNode)) : afterNodeFound(foundNode);
     }
 
     @Override
     protected N createInstance() {
-        N node = super.createInstance();
-        if (parentDirectory == null) {
-            throw new IllegalStateException("Call the init() method before you use NodeHome");
-        }
-        // Set default permissions for new nodes - default to same access as parent directory
-        node.setWriteAccessLevel(parentDirectory.getWriteAccessLevel());
-        node.setReadAccessLevel(parentDirectory.getReadAccessLevel());
+        getLog().debug("creating a new instance");
+        N newNode = super.createInstance();
+        getLog().debug("created new instance: " + newNode);
+        return isEdit() ? beforeNodeEditNew(afterNodeCreated(newNode)) : afterNodeCreated(newNode);
+    }
+
+    /* -------------------------- Basic Subclass Callbacks ------------------------------ */
+
+    public N afterNodeCreated(N node) {
+
+        outjectCurrentLocation(node);
+
+        return node;
+    }
+
+    public N beforeNodeEditNew(N node) {
+
+        if (parentNodeId == null)
+            throw new IllegalStateException("Missing parentNodeId parameter");
+
+        getLog().debug("loading parent node with id: " + parentNodeId);
+        parentNode = findParentNode(parentNodeId);
+        if (parentNode == null)
+            throw new IllegalStateException("Could not find parent node with id: " + parentNodeId);
+        getLog().debug("initalized with parent node: " + parentNode);
+
+        // Default to same access permissions as parent node
+        node.setWriteAccessLevel(parentNode.getWriteAccessLevel());
+        node.setReadAccessLevel(parentNode.getReadAccessLevel());
         writeAccessLevel = getAccessLevelsList().get(
             accessLevelsList.indexOf(
-                new Role.AccessLevel(parentDirectory.getWriteAccessLevel())
+                new Role.AccessLevel(parentNode.getWriteAccessLevel())
             )
         );
         readAccessLevel = getAccessLevelsList().get(
             accessLevelsList.indexOf(
-                new Role.AccessLevel(parentDirectory.getReadAccessLevel())
+                new Role.AccessLevel(parentNode.getReadAccessLevel())
             )
         );
 
         return node;
     }
+
+    public N afterNodeFound(N node) {
+
+        getLog().debug("using parent of instance: " + node.getParent());
+        if (node.getParent() != null) {  // Wiki Root doesn't have a parent
+            parentNode = (P)node.getParent();
+            parentNodeId = parentNode.getId();
+        }
+
+        outjectCurrentLocation(node);
+
+        return node;
+    }
+
+    public N beforeNodeEditFound(N node) {
+
+        writeAccessLevel = getAccessLevelsList().get(
+            accessLevelsList.indexOf(
+                new Role.AccessLevel(node.getWriteAccessLevel())
+            )
+        );
+        readAccessLevel = getAccessLevelsList().get(
+            accessLevelsList.indexOf(
+                new Role.AccessLevel(node.getReadAccessLevel())
+            )
+        );
+
+        return node;
+    }
+
 
     /* -------------------------- Custom CUD ------------------------------ */
 
@@ -167,12 +187,8 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
         if (!preparePersist()) return null;
 
-        // Link the node with its parent directory
-        getLog().trace("linking new node with its parent directory");
-        parentDirectory.addChild(getInstance());
-
-        // Last modified metadata
-        setLastModifiedMetadata();
+        getLog().trace("linking new node with its parent node: " + getParentNode());
+        getInstance().setParent(getParentNode());
 
         // Wiki name conversion
         setWikiName();
@@ -222,20 +238,15 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         return outcome;
     }
 
+
+    // TODO: Doesn't handle recursive deletion (only db cascading), so 2nd level cache and lucene index out of sync!
     @Override
     public String remove() {
         checkRemovePermissions();
 
         if (!prepareRemove()) return null;
 
-        // Unlink the node from its directory
-        getInstance().getParent().removeChild(getInstance());
-
         if (!beforeRemove()) return null;
-
-        // Delete preferences of this node
-        PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
-        provider.deleteInstancePreferences(getInstance());
 
         String outcome = super.remove();
         if (outcome != null) {
@@ -244,12 +255,38 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         return outcome;
     }
 
+    /* -------------------------- Internal (Subclass) Methods ------------------------------ */
+
+    public abstract Class<N> getEntityClass();
+
+    protected abstract N findInstance();
+
+    protected abstract P findParentNode(Long parentNodeId);
+
+    protected void outjectCurrentLocation(WikiNode node) {
+        if (isPageRootController()) {
+            // Outjects current node or parent directory, e.g. for breadcrumb rendering
+            Contexts.getPageContext().set("currentLocation", node);
+        }
+    }
+
+    protected void setWikiName() {
+        getLog().trace("setting wiki name of node");
+        getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
+    }
+
+    protected void setLastModifiedMetadata() {
+        getLog().trace("setting last modified metadata");
+        getInstance().setLastModifiedBy(currentUser);
+        getInstance().setLastModifiedOn(new Date());
+    }
+
     protected boolean isValidModel() {
         getLog().trace("validating model");
-        if (getParentDirectory() == null) return true; // Special case, editing the wiki root
+        if (getParentNode() == null) return true; // Special case, editing the wiki root
 
         // Unique wiki name
-        if (nodeDAO.isUniqueWikiname(getInstance())) {
+        if (getWikiNodeDAO().isUniqueWikiname(getParentNode().getAreaNumber(), getInstance())) {
             return true;
         } else {
             getFacesMessages().addToControlFromResourceBundleOrDefault(
@@ -263,22 +300,9 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
 
     }
 
-    /* -------------------------- Internal Methods ------------------------------ */
-
-    protected void setWikiName() {
-        getLog().trace("setting wiki name of node");
-        getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
-    }
-
-    protected void setLastModifiedMetadata() {
-        getLog().trace("setting last modified metadata");
-        getInstance().setLastModifiedBy(currentUser);
-        getInstance().setLastModifiedOn(new Date());
-    }
-
     protected void checkPersistPermissions() {
         getLog().trace("checking persist permissions");
-        if (!Identity.instance().hasPermission("Node", "create", getParentDirectory()) )
+        if (!Identity.instance().hasPermission("Node", "create", getParentNode()) )
             throw new AuthorizationException("You don't have permission for this operation");
         if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()))
             throw new AuthorizationException("You don't have permission for this operation");
@@ -298,11 +322,9 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
             throw new AuthorizationException("You don't have permission for this operation");
     }
 
-    protected Directory loadParentDirectory(Long parentDirectoryId) {
-        return nodeDAO.findDirectory(parentDirectoryId);        
-    }
+    /* -------------------------- Optional Subclass Callbacks ------------------------------ */
 
-    /* -------------------------- Subclass Callbacks ------------------------------ */
+    protected boolean isPageRootController() { return true; }
 
     /**
      * Called before the superclass does its preparation;
@@ -345,7 +367,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
      * @param oldParent the previous parent directory
      * @param newParent the new parent directory
      */
-    protected void afterNodeMoved(Directory oldParent, Directory newParent) {}
+    protected void afterNodeMoved(WikiDirectory oldParent, WikiDirectory newParent) {}
 
     /* -------------------------- Public Features ------------------------------ */
 
@@ -356,20 +378,20 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         Iterator pathIterator = rowkey.iterator();
         Long dirId = null;
         while (pathIterator.hasNext()) dirId = (Long)pathIterator.next();
-        parentDirectory = nodeDAO.findDirectory(dirId);
+        parentNode = nodeDAO.findDirectory(dirId);
         Directory oldParentDirectory = (Directory)getInstance().getParent();
 
         // Move node to different directory
-        if (parentDirectory.getId() != oldParentDirectory.getId()) {
+        if (parentNode.getId() != oldParentDirectory.getId()) {
 
             // Null out default document of old parent
             removeAsDefaultDocument(oldParentDirectory);
 
             // Attach to new parent
-            getInstance().setParent(parentDirectory); // TODO: Disconnects from old parent?
-            getInstance().setAreaNumber(parentDirectory.getAreaNumber());
+            getInstance().setParent(parentNode); // TODO: Disconnects from old parent?
+            getInstance().setAreaNumber(parentNode.getAreaNumber());
 
-            afterNodeMoved(oldParentDirectory, parentDirectory);
+            afterNodeMoved(oldParentDirectory, parentNode);
         }
     }
     */
@@ -393,7 +415,7 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         }
         this.writeAccessLevel = writeAccessLevel;
         getInstance().setWriteAccessLevel(
-            writeAccessLevel != null ? writeAccessLevel.getAccessLevel() : UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL
+            writeAccessLevel != null ? writeAccessLevel.getAccessLevel() : Role.ADMINROLE_ACCESSLEVEL
         );
     }
 
@@ -407,8 +429,16 @@ public abstract class NodeHome<N extends Node> extends EntityHome<N> {
         }
         this.readAccessLevel = readAccessLevel;
         getInstance().setReadAccessLevel(
-            readAccessLevel != null ? readAccessLevel.getAccessLevel() : UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL
+            readAccessLevel != null ? readAccessLevel.getAccessLevel() : Role.ADMINROLE_ACCESSLEVEL
         );
+    }
+
+    private List<DisplayTagCount> popularTags;
+
+    public List<DisplayTagCount> getPopularTags() {
+        // Load 6 most popular tags
+        if (popularTags == null) popularTags = tagDAO.findTagCounts(getWikiRoot(), null, 6);
+        return popularTags;
     }
 
 }

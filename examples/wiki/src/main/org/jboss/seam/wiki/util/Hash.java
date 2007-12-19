@@ -6,12 +6,11 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.AutoCreate;
 
 /**
- * Not really safe, should use a random salt, prepended later on the digest.
+ * Not super safe, should use a random salt, prepended later on the digest.
  * Should also iterate the hashing a few thousand times to make brute force
- * attacks more difficult. Basically, implement user password encryption with
- * the same technique as on a typical Linux distribution.
+ * attacks more difficult. Oh well, probably good enough for storing things
+ * in an internal database.
  * <p/>
- * TODO: Make this more secure - before releasing to public and breaking all stored passwords!
  */
 @Name("hashUtil")
 @AutoCreate

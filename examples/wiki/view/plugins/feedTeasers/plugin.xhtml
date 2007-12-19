@@ -37,14 +37,14 @@
                         <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
                     </s:span>
                     <s:span styleClass="undecoratedLink" rendered="#{feedTeasersPreferences.properties['showAuthor']}">,&#160;#{messages['feedTeasers.label.By']}&#160;
-                        <h:outputLink target="_top" value="#{wiki:renderHomeURL(fe.document.createdBy)}"
+                        <h:outputLink target="_top" value="#{wiki:renderURL(fe.document.createdBy.memberHome)}"
                                       rendered="#{!empty fe.document.createdBy.memberHome}">
                             <h:outputText styleClass="teaserAuthorLink" value="#{fe.document.createdBy.fullname}"/>
                         </h:outputLink>
                         <h:outputText styleClass="teaserAuthor" rendered="#{empty fe.document.createdBy.memberHome}" value="#{fe.author}"/>
                     </s:span>
                     <s:div rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}" styleClass="undecoratedLink">
-                        <h:outputLink target="_top" styleClass="feedTeaserComments" value="#{wiki:renderPermLink(fe.document)}#comments">
+                        <h:outputLink target="_top" styleClass="feedTeaserComments" value="#{wiki:renderPermURL(fe.document)}#comments">
                             #{wiki:sizeOf(fe.document.comments)}&#160;
                             <h:outputText value="#{wiki:sizeOf(fe.document.comments)>1
                                                  ? messages['lacewiki.label.commentsDisplay.Comments']

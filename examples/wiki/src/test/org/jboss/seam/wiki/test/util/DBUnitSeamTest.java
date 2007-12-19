@@ -23,10 +23,14 @@ import org.testng.annotations.*;
 
 import javax.sql.DataSource;
 import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URL;
 
 /**
  * Utility for integration testing with Seam and DBUnit datasets.
@@ -88,9 +92,15 @@ import java.util.List;
  */
 public abstract class DBUnitSeamTest extends SeamTest {
 
+    public enum Database {
+        hsql, mysql
+    }
+
     private Log log = Logging.getLog(DBUnitSeamTest.class);
 
     protected String datasourceJndiName;
+    protected String binaryDir;
+    protected Database database;
     protected List<DataSetOperation> beforeTestOperations = new ArrayList<DataSetOperation>();
     protected List<DataSetOperation> afterTestOperations = new ArrayList<DataSetOperation>();
 
@@ -101,9 +111,26 @@ public abstract class DBUnitSeamTest extends SeamTest {
     }
 
     @BeforeClass
+    public void logTest() {
+        log.info("Executing test class: " + getClass().getName());
+    }
+
+    @BeforeClass
     @Parameters("datasourceJndiName")
     public void setDatasourceJndiName(String datasourceJndiName) {
         this.datasourceJndiName = datasourceJndiName;
+    }
+
+    @BeforeClass
+    @Parameters("binaryDir")
+    public void setBinaryDir(String binaryDir) {
+        this.binaryDir = binaryDir;
+    }
+
+    @BeforeClass
+    @Parameters("database")
+    public void setDatabase(String database) {
+        this.database = Database.valueOf(database);
     }
 
     @BeforeClass
@@ -133,7 +160,7 @@ public abstract class DBUnitSeamTest extends SeamTest {
             con = getConnection();
             disableReferentialIntegrity(con);
             for (DataSetOperation op : list) {
-                log.info("executing DBUnit operation: " + op);
+                log.debug("executing DBUnit operation: " + op);
                 op.execute(con);
             }
             enableReferentialIntegrity(con);
@@ -155,13 +182,14 @@ public abstract class DBUnitSeamTest extends SeamTest {
 
         /**
          * Defaults to <tt>DatabaseOperation.CLEAN_INSERT</tt>
+         * @param dataSetLocation location of DBUnit dataset
          */
         public DataSetOperation(String dataSetLocation){
             this(dataSetLocation, DatabaseOperation.CLEAN_INSERT);
         }
 
         public DataSetOperation(String dataSetLocation, DatabaseOperation operation) {
-            log.info("preparing dataset: " + dataSetLocation);
+            log.info(">>> Preparing dataset: " + dataSetLocation + " <<<");
 
             // Load the base dataset file
             InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation);
@@ -171,6 +199,9 @@ public abstract class DBUnitSeamTest extends SeamTest {
                 throw new RuntimeException(ex);
             }
             this.dataSet.addReplacementObject("[NULL]", null);
+            if (binaryDir != null) {
+                this.dataSet.addReplacementSubstring("[BINARY_DIR]", getBinaryDirFullpath().toString());
+            }
             this.operation = operation;
             this.dataSetLocation = dataSetLocation;
         }
@@ -232,8 +263,11 @@ public abstract class DBUnitSeamTest extends SeamTest {
      */
     protected void disableReferentialIntegrity(IDatabaseConnection con) {
         try {
-            con.getConnection().prepareStatement("set referential_integrity FALSE").execute(); // HSQL DB
-            //con.getConnection().prepareStatement("set foreign_key_checks=0").execute(); // MySQL > 4.1.1
+            if (database.equals(Database.hsql)) {
+                con.getConnection().prepareStatement("set referential_integrity FALSE").execute(); // HSQL DB
+            } else if (database.equals(Database.mysql)) {
+                con.getConnection().prepareStatement("set foreign_key_checks=0").execute(); // MySQL > 4.1.1
+            }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -249,8 +283,11 @@ public abstract class DBUnitSeamTest extends SeamTest {
      */
     protected void enableReferentialIntegrity(IDatabaseConnection con) {
         try {
-            con.getConnection().prepareStatement("set referential_integrity TRUE").execute();  // HSQL DB
-            //con.getConnection().prepareStatement("set foreign_key_checks=1").execute(); // MySQL > 4.1.1
+            if (database.equals(Database.hsql)) {
+                con.getConnection().prepareStatement("set referential_integrity TRUE").execute();  // HSQL DB
+            } else if (database.equals(Database.mysql)) {
+                con.getConnection().prepareStatement("set foreign_key_checks=1").execute(); // MySQL > 4.1.1
+            }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -265,18 +302,72 @@ public abstract class DBUnitSeamTest extends SeamTest {
      * @param config A DBUnit <tt>DatabaseConfig</tt> object for setting properties and features
      */
     protected void editConfig(DatabaseConfig config) {
+        if (database.equals(Database.hsql)) {
+            // DBUnit/HSQL bugfix
+            // http://www.carbonfive.com/community/archives/2005/07/dbunit_hsql_and.html
+            config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new DefaultDataTypeFactory() {
+                public DataType createDataType(int sqlType, String sqlTypeName)
+                  throws DataTypeException {
+                   if (sqlType == Types.BOOLEAN) {
+                      return DataType.BOOLEAN;
+                    }
+                   return super.createDataType(sqlType, sqlTypeName);
+                 }
+            });
+        }
+    }
 
-        // TODO: DBUnit/HSQL bugfix
-        // http://www.carbonfive.com/community/archives/2005/07/dbunit_hsql_and.html
-        config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new DefaultDataTypeFactory() {
-            public DataType createDataType(int sqlType, String sqlTypeName)
-              throws DataTypeException {
-               if (sqlType == Types.BOOLEAN) {
-                  return DataType.BOOLEAN;
-                }
-               return super.createDataType(sqlType, sqlTypeName);
-             }
-        });
+    /**
+     * Resolves the binary dir location with the help of the classloader, we need the
+     * absolute full path of that directory.
+     *
+     * @return URL full absolute path of the binary directory
+     */
+    protected URL getBinaryDirFullpath() {
+        if (binaryDir == null) {
+            throw new RuntimeException("Please set binaryDir property to location of binary test files");
+        }
+        return getResourceURL(binaryDir);
+    }
+
+    protected URL getResourceURL(String resource) {
+        URL url = Thread.currentThread().getContextClassLoader().getResource(resource);
+        if (url == null) {
+            throw new RuntimeException("Could not find resource with classloader: " + resource);
+        }
+        return url;
+    }
+
+    protected byte[] getBinaryFile(String filename) throws Exception {
+        File file = new File(getResourceURL(binaryDir + "/" + filename).toURI());
+        InputStream is = new FileInputStream(file);
+
+        // Get the size of the file
+        long length = file.length();
+
+        if (length > Integer.MAX_VALUE) {
+            // File is too large
+        }
+
+        // Create the byte array to hold the data
+        byte[] bytes = new byte[(int)length];
+
+        // Read in the bytes
+        int offset = 0;
+        int numRead;
+        while (offset < bytes.length
+               && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+            offset += numRead;
+        }
+
+        // Ensure all the bytes have been read in
+        if (offset < bytes.length) {
+            throw new IOException("Could not completely read file "+file.getName());
+        }
+    
+        // Close the input stream and return bytes
+        is.close();
+        return bytes;
     }
 
     /**

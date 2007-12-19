@@ -1,6 +1,14 @@
-.topicControlsContainer {
+.forumDescriptionTopicControls {
+    width: 100%;
+}
+
+.forumDescription {
+}
+
+.topicControls {
     text-align: right;
     white-space: nowrap;
+    padding-left: 10px;
 }
 
 .topicFormContainer {
@@ -15,7 +23,6 @@
 
 .topicPagerTable {
     width: 100%;
-    font-size: 85%;
     font-weight: bold;
     padding: 0;
     margin: 0;
@@ -40,16 +47,12 @@
 .forumsFeedLink {
     margin: 10px;
     float: right;
-    margin-top: -50px;
+    margin-top: -35px;
 }
 
 .forumsFeedLink img {
     vertical-align: middle;
     margin-right: 5px;
-}
-
-.userInfoPopupContainer {
-    text-align: left;
 }
 
 .forumDescription {

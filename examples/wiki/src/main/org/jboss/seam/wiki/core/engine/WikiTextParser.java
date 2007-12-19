@@ -6,22 +6,18 @@
  */
 package org.jboss.seam.wiki.core.engine;
 
-import org.jboss.seam.text.SeamTextParser;
-import org.jboss.seam.text.SeamTextLexer;
-import org.jboss.seam.wiki.core.model.File;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.util.WikiUtil;
 import antlr.ANTLRException;
+import org.jboss.seam.text.SeamTextLexer;
+import org.jboss.seam.text.SeamTextParser;
+import org.jboss.seam.wiki.core.model.*;
 
-import java.util.*;
 import java.io.StringReader;
+import java.util.*;
 
 /**
  * Parses SeamText markup and also resolves link and macro tags as wiki links and wiki plugins.
  * <p>
- * Don't forget to set the resolver and renderer base with <tt>setCurrentDirectory()</tt> and
- * <tt>setCurrentDocument</tt>.
+ * Don't forget to set the resolver and renderer base with <tt>setCurrentAreaNumber()</tt>!
  * </p><p>
  * Picks the <tt>WikiLinkResolver</tt> present in the contextual variable <tt>wikiLinkResolver</tt>. Calls
  * out to a <tt>WikiTextRender</tt> for the actual in-document rendering of wiki links and wiki plugins. Might update
@@ -35,10 +31,11 @@ import java.io.StringReader;
  */
 public class WikiTextParser extends SeamTextParser {
 
+    private int linkCounter = 0;
+
     private WikiTextRenderer renderer;
     private WikiLinkResolver resolver;
-    private Node currentDirectory;
-    private Document currentDocument;
+    private Long currentAreaNumber;
 
     private Map<String, WikiLink> resolvedLinks = new HashMap<String, WikiLink>();
     private List<WikiLink> attachments = new ArrayList<WikiLink>();
@@ -79,52 +76,22 @@ public class WikiTextParser extends SeamTextParser {
      * The render/link resolving base
      * @return the called instance
      */
-    public WikiTextParser setCurrentDirectory(Node currentDirectory) {
-        this.currentDirectory = currentDirectory;
-        return this;
-    }
 
-    /*
-     * The render/link resolving base
-     * @return the called instance
-     */
-    public WikiTextParser setCurrentDocument(Document currentDocument) {
-        this.currentDocument = currentDocument;
-        return this;
+    public void setCurrentAreaNumber(Long currentAreaNumber) {
+        this.currentAreaNumber = currentAreaNumber;
     }
 
     /**
      * Start parsing the wiki text and resolve wiki links and wiki plugins.
      * <p>
-     * If <tt>updateResolvedLinks</tt> is enabled, the <t>currentDocument</tt>'s content will
-     * be udpated after parsing the wiki text. This only occurs if we hit a link during link
-     * resolution that needs to be updated. You should flush this modification to the data store.
-     *
-     * @param updateResolvedLinks Set updated content on <tt>currentDocument</tt>
      * @throws ANTLRException if lexer or parser errors occur, see
      */
-    public void parse(boolean updateResolvedLinks) throws ANTLRException {
-        if (resolver == null) throw new IllegalStateException("WikiTextParser requires setResolver() call");
-        if (renderer == null) throw new IllegalStateException("WikiTextParser requires setRenderer() call");
-        if (currentDocument == null) throw new IllegalStateException("WikiTextParser requires setCurrentDocument() call");
-        if (currentDirectory == null) throw new IllegalStateException("WikiTextParser requires setCurrentDirectory() call");
+    public void parse() throws ANTLRException {
+        if (resolver == null) throw new IllegalStateException("WikiTextParser requires not null setResolver()");
+        if (renderer == null) throw new IllegalStateException("WikiTextParser requires not null setRenderer()");
+        if (currentAreaNumber == null) throw new IllegalStateException("WikiTextParser requires not null setCurrentAreaNumber()");
 
         startRule();
-
-        if (updateResolvedLinks) {
-            for (Map.Entry<String, WikiLink> entry: resolvedLinks.entrySet()) {
-                if(entry.getValue().isRequiresUpdating()) {
-                    // One of the links we parsed and resolved requires updating of the current document, run
-                    // the protocol converter - which is usally only called when storing a document.
-                    currentDocument.setContent(
-                        resolver.convertToWikiProtocol(currentDirectory.getAreaNumber(), currentDocument.getContent())
-                    );
-                    // Yes, this might happen during rendering, you should lush() and UPDATE the document!
-
-                    break; // One is enough
-                }
-            }
-        }
 
         renderer.setAttachmentLinks(attachments);
         renderer.setExternalLinks(externalLinks);
@@ -139,25 +106,27 @@ public class WikiTextParser extends SeamTextParser {
             return renderer.renderInlineLink(unresolvedLink);
         }
 
-        resolver.resolveLinkText(currentDirectory.getAreaNumber(), resolvedLinks, linkText);
+        resolver.resolveLinkText(currentAreaNumber, resolvedLinks, linkText);
         WikiLink link = resolvedLinks.get((linkText));
         if (link == null) return "";
+
+        // Set an internal identifier, used for attachments and external links we later push into a hashmap into the contexts
+        link.setIdentifier(linkCounter++);
 
         // Override the description of the WikiLink with description found in tag
         String finalDescriptionText =
                 (descriptionText!=null && descriptionText.length() > 0 ? descriptionText : link.getDescription());
         link.setDescription(finalDescriptionText);
 
-        // Link to file (inline or attached)
-        if (WikiUtil.isFile(link.getNode())) {
-            File file = (File)link.getNode();
-
-            if (file.getImageMetaInfo() == null || 'A' == file.getImageMetaInfo().getThumbnail()) {
-                // It's an attachment
-                if (!attachments.contains(link)) attachments.add(link);
+        // Link to upload (inline or attached)
+        if (link.getFile() != null && link.getFile().isInstance(WikiUpload.class)) {
+            WikiUpload upload = (WikiUpload)link.getFile();
+            if (upload.isAttachedToDocuments()) {
+                if (!attachments.contains(link)) {
+                    attachments.add(link);
+                }
                 return renderer.renderFileAttachmentLink((attachments.indexOf(link)+1), link);
             } else {
-                // It's an embedded thumbnail
                 return renderer.renderThumbnailImageInlineLink(link);
             }
         }
@@ -170,17 +139,6 @@ public class WikiTextParser extends SeamTextParser {
 
         // Regular link
         return renderer.renderInlineLink(link);
-    }
-
-    protected String macroInclude(String macroName) {
-        // Filter out any dangerous characters
-        String filteredName = macroName.replaceAll("[^\\p{Alnum}]+", "");
-        if ( (macroNames.contains(filteredName) && renderDuplicateMacros) || !macroNames.contains(filteredName)) {
-            macroNames.add(filteredName);
-            return renderer.renderMacro(filteredName);
-        } else {
-            return "[Can't use the same macro twice!]";
-        }
     }
 
     protected String paragraphOpenTag() {
@@ -226,4 +184,21 @@ public class WikiTextParser extends SeamTextParser {
     protected String unorderedListItemOpenTag() {
         return renderer.renderUnorderedListItemOpenTag();
     }
+
+    protected String macroInclude(SeamTextMacro macro) {
+        // Filter out any dangerous characters
+        String filteredName = macro.name.replaceAll("[^\\p{Alnum}]+", "");
+        if ( (macroNames.contains(filteredName) && renderDuplicateMacros) || !macroNames.contains(filteredName)) {
+            macroNames.add(filteredName);
+
+            WikiMacro wikiMacro = new WikiMacro(macro.name);
+            wikiMacro.setParams(macro.params);
+            renderer.addMacro(wikiMacro);
+
+            return renderer.renderMacro(filteredName);
+        } else {
+            return "[Can't use the same macro twice!]";
+        }
+    }
+
 }

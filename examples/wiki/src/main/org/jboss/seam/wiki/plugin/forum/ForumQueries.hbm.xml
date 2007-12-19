@@ -6,98 +6,172 @@
 <hibernate-mapping>
 
     <query name="forums">
-        select
-            f
+        select d.id, d
         from
-            Directory f left join fetch f.feed
+            WikiDirectory d fetch all properties,
+            WikiMenuItem m
         where
-            f.parent = :parentDir
-        order by f.displayPosition asc
+            d = m.directory
+            and d.parent = :parentDir
+        order by m.displayPosition asc
     </query>
 
-    <query name="forumTopicPostCount">
-        select
-            f.id, count(distinct child), count(distinct child) + count(distinct comment)
+    <query name="forumsMenuItems">
+        select m
         from
-            Directory f
-                left outer join f.children as child
-                left outer join child.comments as comment
+            WikiMenuItem m
+        where
+            m.directory.parent = :parentDir
+        order by m.displayPosition asc
+    </query>
+
+    <query name="forumTopicCount">
+        select
+            f.id, count(distinct t)
+        from
+            WikiDirectory f, WikiDocument t
         where
             f.parent = :parentDir
-            and child != f.defaultDocument
+            and t.parent = f
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+        group
+            by f.id
+    </query>
+
+    <query name="forumReplyCount">
+        select
+            f.id, count(distinct c)
+        from
+            WikiDirectory f, WikiDocument t, WikiComment c
+        where
+            f.parent = :parentDir
+            and t.parent = f
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and c.nodeInfo.nsThread in (select c2.nodeInfo.nsThread from WikiComment c2 where c2.parent = t)
         group
             by f.id
     </query>
 
     <query name="forumLastTopic">
         select
-            f.id, lt
+            f.id, t
         from
-            Directory f left outer join f.children as lt left join fetch lt.createdBy u join fetch u.profile
+            WikiDirectory f, WikiDocument t left join fetch t.parent left join fetch t.createdBy u left join fetch u.profile
         where
             f.parent = :parentDir
-            and lt != f.defaultDocument
-            and lt.displayPosition = (select max(n.displayPosition) from Node n where n.parent = f)
+            and t.parent = f
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdOn = (select max(t2.createdOn) from WikiDocument t2 where t2 = t)
     </query>
 
-    <!-- This only uses the timestamp of all comments to identify the last comment - is that enough? -->
-    <query name="forumLastComment"><![CDATA[
+    <query name="forumLastReply">
         select
             f.id, c
         from
-            Comment c left join fetch c.fromUser u join fetch u.profile, Document d, Directory f join fetch c.document
+            WikiDirectory f, WikiDocument t, WikiComment c left join fetch c.parent left join fetch c.createdBy u left join fetch u.profile
         where
-            c.createdOn =
-                (select max(com.createdOn) from Document doc, Comment com where
-                doc.nsLeft > :nsLeft and doc.nsRight < :nsRight and doc.nsThread = :nsThread
-                and com.document = doc)
-            and c.document = d
-            and d.parent = f
+            f.parent = :parentDir
+            and t.parent = f
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and c.nodeInfo.nsThread in (select c2 from WikiComment c2 where c2.parent = t)
+            and c.createdOn = (
+                select max(c3.createdOn) from WikiDirectory f2, WikiDocument t2, WikiComment c3
+                where f2.parent = :parentDir and t2.parent = f2
+                and (t2.headerMacrosString like '%forumPosting%' or t2.headerMacrosString like '%forumStickyPosting%')
+                and c3.nodeInfo.nsThread in (select c4.nodeInfo.nsThread from WikiComment c4 where c4.parent = t2)
+            )
+    </query>
+
+    <query name="forumUnreadTopics"><![CDATA[
+        select
+            distinct t.id, t.parent.id
+        from
+            WikiDirectory f, WikiDocument t
+        where
+            f.parent = :parentDir
+            and t.parent = f
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdOn > :lastLoginDate
     ]]></query>
+
+    <query name="forumUnreadReplies"><![CDATA[
+        select
+            distinct t.id, t.parent.id
+        from
+            WikiDirectory f, WikiDocument t, WikiComment c
+        where
+            f.parent = :parentDir
+            and t.parent = f
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and c.nodeInfo.nsThread in (select c2.nodeInfo.nsThread from WikiComment c2 where c2.parent = t)
+            and c.createdOn > :lastLoginDate
+    ]]></query>
+
+    <query name="forumUnreadTopicsInForum"><![CDATA[
+        select
+            distinct t.id, t.parent.id
+        from
+            WikiDocument t
+        where
+            t.parent = :parentDir
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and t.createdOn > :lastLoginDate
+    ]]></query>
+
+    <query name="forumUnreadRepliesInForum"><![CDATA[
+        select
+            distinct t.id, t.parent.id
+        from
+            WikiDocument t, WikiComment c
+        where
+            t.parent = :parentDir
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            and c.nodeInfo.nsThread in (select c2.nodeInfo.nsThread from WikiComment c2 where c2.parent = t)
+            and c.createdOn > :lastLoginDate
+    ]]></query>
+
 
     <!-- Somewhat ugly workarounds for the missing case...when support in HQL select clause -->
     <query name="forumTopics"><![CDATA[
         select
+            t.id,
             t,
-            count(c),
-            locate('forumStickyPosting', t.macros, 1),
-            c2
+            locate('forumStickyPosting', t.headerMacrosString, 1)
         from
-            Directory f,
-            ForumTopic t
-                join fetch t.createdBy u join fetch u.profile up
-                left outer join t.comments c
-                left outer join t.comments c2 left join fetch c2.fromUser u2 left join fetch u2.profile u2p
+            WikiDirectory f,
+            WikiDocument t join fetch t.createdBy u join fetch u.profile up
         where
             f = :forum
             and t.parent = f
-            and t != f.defaultDocument
-            and (c2.createdOn = (select max(com.createdOn) from Comment com where com.document = t) or c2 is null)
-            group by t.id, t.class, t.version, t.nsLeft, t.nsRight, t.nsThread, t.parent,
-                     t.areaNumber, t.createdBy, t.createdOn, t.lastModifiedBy, t.lastModifiedOn, t.menuItem, t.name, t.displayPosition,
-                     t.readAccessLevel, t.revision, t.wikiname, t.writeAccessLevel, t.tags,
-                     t.enableComments, t.enableCommentForm, t.enableCommentsOnFeeds, t.nameAsTitle, t.macros,
-                     locate('forumStickyPosting', t.macros, 1),
-
-                     c2.id, c2.version, c2.document, c2.subject, c2.fromUser, c2.fromUserName, c2.fromUserEmail, c2.fromUserHomepage, c2.text, c2.useWikiText, c2.createdOn,
-
-                     u.id, u.version, u.firstname, u.lastname, u.username, u.passwordHash, u.email, u.activated, u.activationCode, u.createdOn, u.lastLoginOn, u.memberHome, u.profile,
-                     up.id, up.version, up.createdOn, up.bio, up.website, up.location, up.occupation, up.signature, up.imageContentType,
-
-                     u2.id, u2.version, u2.firstname, u2.lastname, u2.username, u2.passwordHash, u2.email, u2.activated, u2.activationCode, u2.createdOn, u.lastLoginOn, u2.memberHome, u2.profile,
-                     u2p.id, u2p.version, u2p.createdOn, u2p.bio, u2p.website, u2p.location, u2p.occupation, u2p.signature, u2p.imageContentType
-
-            order by case locate('forumStickyPosting', t.macros, 1) when '0' then '0' else '1' end desc, t.createdOn desc, c2.createdOn desc
+            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+            order by case locate('forumStickyPosting', t.headerMacrosString, 1) when '0' then '0' else '1' end desc, t.createdOn desc
     ]]></query>
 
-    <query name="forumUnreadTopics"><![CDATA[
+    <query name="forumTopicsReplies"><![CDATA[
         select
-            distinct t
-        from ForumTopic t left join fetch t.parent left outer join t.comments c
-            where
-                t.createdOn > :lastLoginDate
-                or
-                c.createdOn > :lastLoginDate
+            t.id,
+            count(c),
+            c2
+        from
+            WikiDocument t,
+            WikiComment c,
+            WikiComment c2 join fetch c2.createdBy u join fetch u.profile up
+        where
+            t.id in (:topicIds)
+            and c.nodeInfo.nsThread in (select c3.nodeInfo.nsThread from WikiComment c3 where c3.parent = t)
+            and c2.createdOn =
+                (select max(c4.createdOn) from WikiComment c4 where c4.nodeInfo.nsThread in
+                    (select c5.nodeInfo.nsThread from WikiComment c5 where c5.parent = t) )
+        group by
+            t.id,
+
+            c2.id, c2.nodeInfo.nsLeft, c2.nodeInfo.nsRight, c2.nodeInfo.nsThread,
+            c2.version, c2.parent,
+            c2.areaNumber, c2.name, c2.wikiname, c2.createdBy, c2.createdOn, c2.lastModifiedBy, c2.lastModifiedOn, c2.readAccessLevel, c2.writeAccessLevel, c2.writeProtected,
+            c2.subject, c2.fromUserName, c2.fromUserEmail, c2.fromUserHomepage, c2.useWikiText,
+
+            u.id, u.version, u.firstname, u.lastname, u.username, u.passwordHash, u.email, u.activated, u.activationCode, u.createdOn, u.lastLoginOn, u.memberHome, u.profile,
+            up.id, up.version, up.createdOn, up.bio, up.website, up.location, up.occupation, up.signature, up.imageContentType
 
     ]]></query>
 

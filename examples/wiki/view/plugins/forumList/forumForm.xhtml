@@ -13,16 +13,13 @@
 
 <div class="box">
 
-<s:fragment rendered="#{forumHome.managed}">
-    <ui:include src="../../includes/deleteConfirmation.xhtml">
-        <ui:param name="home" value="#{forumHome}"/>
-        <ui:param name="reRender" value="forumListPluginContainer, messageBoxContainer"/>
-    </ui:include>
-</s:fragment>
-
 <h:form id="forumForm">
 
     <div class="form">
+
+        <ui:include src="../../includes/statusIndicator.xhtml">
+            <ui:param name="statusId" value="forumFormStatus"/>
+        </ui:include>
 
         <div class="formHead">
             <h:outputText value="#{forumHome.managed ? messages['forum.label.EditForum'] : messages['forum.label.NewForum']}"/>
@@ -32,20 +29,20 @@
 
             <s:decorate id="nameDecorate" template="../../includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['forum.label.ForumName']}</ui:define>
-                <h:inputText size="40" maxlength="255" required="true" tabindex="1" value="#{forumHome.instance.name}">
-                    <a:support event="onblur" reRender="nameDecorate"/>
+                <h:inputText styleClass="ajaxSupport" size="40" maxlength="255" required="true" tabindex="1" value="#{forumHome.instance.name}">
+                    <a:support event="onblur" status="forumFormStatus" reRender="nameDecorate"/>
                 </h:inputText>
             </s:decorate>
 
             <s:decorate id="descriptionDecorate" template="../../includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['forum.label.ForumDescription']}</ui:define>
-                <h:inputText size="70" maxlength="512" required="false" tabindex="1" value="#{forumHome.instance.description}">
-                    <a:support event="onblur" reRender="descriptionDecorate"/>
+                <h:inputText styleClass="ajaxSupport" size="70" maxlength="512" required="false" tabindex="1" value="#{forumHome.instance.description}">
+                    <a:support event="onblur" status="forumFormStatus" reRender="descriptionDecorate"/>
                 </h:inputText>
             </s:decorate>
 
             <ui:include src="../../includes/accessLevelSelector.xhtml">
-                <ui:param name="nodeHome" value="#{forumHome}"/>
+                <ui:param name="home" value="#{forumHome}"/>
             </ui:include>
 
             <s:div styleClass="entry">
@@ -55,8 +52,9 @@
                     <h:outputText value="#{messages['forum.label.EnableFeed']}"/>
                     <a:commandLink id="resetFeed" reRender="messageBoxContainer"
                                    action="#{forumHome.resetFeed}"
+                                   status="forumFormStatus"
                                    rendered="#{!empty forumHome.instance.feed}"
-                                   styleClass="buttonNonpersistent">
+                                   styleClass="buttonNonpersistent sessionEventTrigger">
                         <h:outputText  styleClass="buttonLabel" value="#{messages['forum.button.ResetFeed']}"/>
                     </a:commandLink>
                 </div>
@@ -71,29 +69,40 @@
 
                     <a:commandLink action="#{forumHome.update}" rendered="#{forumHome.managed}"
                                    reRender="forumListPluginContainer, messageBoxContainer"
+                                   status="forumFormStatus"
                                    tabindex="1" accesskey="#{messages['forum.button.Update.accesskey']}"
-                                   styleClass="button saveButton">
+                                   styleClass="button saveButton sessionEventTrigger">
                         <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Update']}"/>
                     </a:commandLink>
 
-                    <h:outputLink id="delete" value="#" rendered="#{forumHome.managed}"
-                                  tabindex="1" accesskey="#{messages['forum.button.Remove.accesskey']}"
-                                  styleClass="button saveButton"><j4j:idProxy id="openDialogDelete"/>
-                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Remove']}"/>
-                    </h:outputLink>
+
+                    <s:fragment rendered="#{forumHome.managed}">
+                        <a:jsFunction name="deleteForum"
+                                      reRender="forumListPluginContainer, messageBoxContainer"
+                                      status="forumFormStatus"
+                                      action="#{forumHome.remove}"/>
+                        <h:outputLink value="#" tabindex="1"
+                                      accesskey="#{messages['forum.button.Remove.accesskey']}"
+                                      onclick="deleteConfirmation('\\'#{forumHome.instance.name}\\'', 'deleteForum')"
+                                      styleClass="button saveButton sessionEventTrigger">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Remove']}"/>
+                        </h:outputLink>
+                    </s:fragment>
 
                     <a:commandLink action="#{forumHome.persist}" rendered="#{!forumHome.managed}"
                                    reRender="forumListPluginContainer, messageBoxContainer"
+                                   status="forumFormStatus"
                                    tabindex="1" accesskey="#{messages['forum.button.Save.accesskey']}"
-                                   styleClass="button saveButton">
+                                   styleClass="button saveButton sessionEventTrigger">
                         <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Save']}"/>
                     </a:commandLink>
 
                     <a:region>
                         <a:commandLink action="#{forumHome.cancel}"
                                        immediate="true"
+                                       status="forumFormStatus"
                                        reRender="forumListPluginContainer, messageBoxContainer"
-                                       tabindex="1" styleClass="buttonNonpersistent"
+                                       tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger"
                                        accesskey="#{messages['forum.button.Cancel.accesskey']}">
                             <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Cancel']}"/>
                         </a:commandLink>

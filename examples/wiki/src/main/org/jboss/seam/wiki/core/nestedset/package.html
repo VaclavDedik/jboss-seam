@@ -181,7 +181,7 @@
 
 <pre>
     &#064;Entity
-    &#064;Table("NODE")
+    &#064;Table("ITEM")
     class Item {
 
         &#064;Id &#064;GeneratedValue
@@ -201,14 +201,15 @@
 </pre>
 
 <p>
-    You can now overlay a nested set by either implementing the {@link NestedSetNode} interface or by extending
-    the default implementation, {@link AbstractNestedSetNode}:
+    This implementation is based on mix-in and delegates. The <tt>ITEM</tt> table of the <tt>Item</tt> class will
+    does not carry the left, right, and thread values. This job is delegated to an additional
+    <tt>ItemNestedSetDelegate</tt> class:
 </p>
 
 <pre>
     &#064;Entity
-    &#064;Table("NODE")
-    class Item extends AbstractNestedSetNode&lt;Item> {
+    &#064;Table("ITEM")
+    class Item implements NestedSetDelegateOwner {
 
         &#064;Id &#064;GeneratedValue
         &#064;Column(name = "ID")
@@ -218,9 +219,14 @@
         &#064;JoinColumn(name = "PARENT")
         private Item parent;
 
-        &#064;OneToMany(mappedBy = "parent", cascade = CascadeType.PERSIST)
+        &#064;OneToMany(mappedBy = "parent")
         &#064;org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
         private Set&lt;Item> children;
+
+        &#064;OneToOne(mappedBy="owner",
+                       fetch = FetchType.EAGER,
+                       cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+        private ItemNestedSetDelegate nestedSetDelegate;
 
         // Constructor, getters and setters
         ...
@@ -228,11 +234,21 @@
 </pre>
 
 <p>
-    This is a mapped and persistent superclass, so additional columns are either created or required on the <tt>NODE</tt>
-    table, their default names are <tt>NS_THREAD</tt> (identifies a particular tree), <tt>NS_LEFT</tt>, and
-    <tt>NS_RIGHT</tt>. You can override using the JPA <tt>@AttributeOverrides</tt> annotation on the <tt>Item</tt> entity
-    class.
+    The delegate class maintains the nested set information transparently and stores it in a separate table:
 </p>
+
+<pre>
+    &#064;Entity
+    &#064;Table("ITEM_NESTED_SET")
+    class ItemNestedSetDelegate extends AbstractNestedSetDelegate&lt;Item> {
+
+        protected ItemNestedSetDelegate() {}
+
+        public ItemNestedSetDelegate(Item owner) {
+            super(owner);
+        }
+    }
+</pre>
 
 <p>
     It is recommended that you enable <tt>ON DELETE CASCADE</tt> as a foreign key option on the join column of the
@@ -241,22 +257,23 @@
     persistence context after deletion or if you have the second-level cache enabled).
 </p>
 <p>
-    Enabling cascading persistence on the collection of children is also recommended. If you do not enable it, you need to call
-    <tt>entityManager.persist(item)</tt> in the right order, e.g.: You need to call persist(A) before you
+    You need to call <tt>entityManager.persist(item)</tt> in the right order, e.g.: You need to call persist(A) before you
     call persist(B) and persist(C) if B and C are children of A. In any case, the order in which B and C are inserted is
     undefined, this is a Set in the example - and it doesn't matter. However, parents need to be inserted before children.
 </p>
 
 <p>
     The tree is manipulated through the <tt>parent</tt> property and <tt>children</tt> collection of each node. Remember
-    to always set both references if you link a node to a parent, which is what the default implementations
-    <tt>addChild()</tt> and <tt>removeChild()</tt> of {@link AbstractNestedSetNode} can do for you. If you want to
-    save a new item, create it, link it to its parent with <tt>addChild()</tt>, persist it with the
+    to always set both references if you link a node to a parent. If you want to save a new item, create it, link it
+    to its parent with <tt>addChild()</tt>, persist it with the
     <tt>EntityManager</tt> and flush the persistence context.
     If you want to remove an item from the tree, unlink it with <tt>removeChild()</tt> from its parent, remove it
-    with the <tt>EntityManager</tt>, then flush the persistence context. The nested set tree is automatically
-    updated by the event listeners in this package, which you have to add to your Hibernate configuration, here
-    for JPA with <tt>persistence.xml</tt>:
+    with the <tt>EntityManager</tt>, then flush the persistence context.
+</p>
+
+<p>
+    The nested set tree table is automatically updated by the event listeners in this package, which you have to add
+    to your Hibernate configuration, here for JPA with <tt>persistence.xml</tt>:
 </p>
 
 <pre>
@@ -279,46 +296,33 @@
 </p>
 
 <p>
-    To query for a subtree, use the <tt>NestedSetNodeWrapper</tt> and <tt>NestedSetResultTransformer</tt>
+    To query for a subtree, use the <tt>NestedSetWrapper</tt> and <tt>NestedSetResultTransformer</tt>
     convenience classes. An example, loading the whole subtree starting at <tt>startNode</tt> (which would
     be an instance of <tt>Item</tt> you have already loaded):
 </p>
 
 <pre>
-    select
-      count(n1.id) as nestedSetNodeLevel,
-      n1           as nestedSetNode
-    from Item n1, Item n2
-    where
-      n1.nsThread = :thread and n2.nsThread = :thread
-      and n1.nsLeft between n2.nsLeft and n2.nsRight
-      and n2.nsLeft > :startLeft and n2.nsRight &lt; :startRight
-    group by [allPropertiesOfItem]
-    order by n1.nsLeft
+NestedSetQueryBuilder nsQuery = new NestedSetQueryBuilder(startNode);
+Query nestedSetQuery =  session.createQuery(nsQuery.getSimpleQuery());
 
-    // Now bind the thread, left, and right values of the startNode as query arguments to the parameters
+// Bind parameters
+nestedSetQuery.setParameter("nsThread", startNode.getNestedSetDelegate().getNsThread());
+nestedSetQuery.setParameter("nsLeft", startNode.getNestedSetDelegate().getNsLeft());
+nestedSetQuery.setParameter("nsRight", startNode.getNestedSetDelegate().getNsRight());
 
+// Apply transformer that marshalls flat table result into an in-memory tree
+NestedSetNodeWrapper&lt;ItemNestedSetDelegate> startNodeWrapper = new NestedSetNodeWrapper&lt;ItemNestedSetDelegate>(startNode);
 
-    // This comparator sorts the Items by name!
-    Comparator&lt;NestedSetNodeWrapper&lt;Item>> comp =
-        new Comparator&lt;NestedSetNodeWrapper&lt;Item>>() {
-            public int compare(NestedSetNodeWrapper&lt;Item> o, NestedSetNodeWrapper&lt;Item> o2) {
-                // Sort nodes at the same level by name?
-                // return o.getWrappedNode().getName().compareTo(o2.getWrappedNode().getName());
-            }
-        };
+nestedSetQuery.setResultTransformer( new NestedSetResultTransformer&lt;ItemNestedSetDelegate>(startNodeWrapper) );
 
-    NestedSetNodeWrapper&lt;Item> startNodeWrapper = new NestedSetNodeWrapper&lt;Item>(startNode, comp);
-    nestedSetQuery.setResultTransformer( new NestedSetResultTransformer&lt;Item>(startNodeWrapper) );
-    nestedSetQuery.list();
+nestedSetQuery.list();
 </pre>
 
 <p>
     You can now traverse the tree by accessing <tt>startNodeWrapper.getWrappedParent()</tt>,
     <tt>startNodeWrapper.getWrappedChildren()</tt>, <tt>startNodeWrapper.getLevel()</tt>, and
-    <tt>startNodeWrapper.getWrappedNode()</tt>. All sub-children are initialized with this single query,
-    and the <tt>startNodeWrapper.getWrappedChildrenSorted()</tt> collection is sorted with the
-    supplied <tt>Comparator</tt>. Use this comparator for "in-level" sorting of nodes.
+    <tt>startNodeWrapper.getWrappedNode()</tt>. These wrappers wrap nested set delegates, so you get the real node by calling
+    <tt>getOwner()</tt> if necessary. All sub-children as well as their owners are initialized with this single query.
 </p>
 
 <p>

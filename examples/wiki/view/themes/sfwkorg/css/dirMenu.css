@@ -10,7 +10,6 @@
 }
 
 .dirMenu .level1Link {
-    font-size: 95%;
 }
 
 
@@ -24,11 +23,9 @@
 .dirMenu .level2Marker {
     padding-left: 2px;
     padding-right: 2px;
-    font-size: 80%;
 }
 
 .dirMenu .level2Link {
-    font-size: 80%;
     white-space: nowrap;
 }
 
@@ -37,11 +34,9 @@
 .dirMenu .level3Marker {
     padding-left: 2px;
     padding-right: 2px;
-    font-size: 80%;
 }
 
 .dirMenu .level3Link {
-    font-size: 80%;
     white-space: nowrap;
 }
 

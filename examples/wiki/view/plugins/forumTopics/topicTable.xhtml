@@ -15,107 +15,74 @@
     <div class="box">
 
     <h:dataTable id="topicTable"
-                 var="topic"
+                 var="t"
                  value="#{forumQuery.topics}"
                  rendered="#{not empty forumQuery.topics}"
                  styleClass="datatable topLeftBottomBorder topicTable"
-                 headerClass="regularHeader rightBorder alignCenter"
-                 columnClasses="onePercentColumn rightBorder alignCenter, defaultColumn rightBorder alignLeft,
-                                onePercentColumn rightBorder alignCenter, fivePercentColumn rightBorder alignCenter,
-                                tenPercentColumn rightBorder alignCenter"
+                 headerClass="regularHeader rightBorder alignCenter smallFont"
+                 columnClasses="onePercentColumn rightBorder alignCenter smallFont, defaultColumn rightBorder alignLeft wrapWhitespace,
+                                onePercentColumn rightBorder alignCenter smallFont, fivePercentColumn rightBorder alignCenter smallFont,
+                                tenPercentColumn rightBorder alignCenter smallFont"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
 
         <h:column>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.#{topic.iconName}.gif" width="22" height="26"/>
+            <f:facet name="header">&#160;</f:facet>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.#{t.iconName}.gif" width="22" height="26"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Topic</f:facet>
 
-            <h:outputLink value="#{wiki:renderURL(topic)}" tabindex="1">
-                <h:outputText value="#{wiki:truncateString(topic.name, 60, '...')}"/>
+            <h:outputLink value="#{wiki:renderURL(t.topic)}" tabindex="1">
+                <h:outputText value="#{wiki:truncateString(t.topic.name, 60, '...')}"/>
             </h:outputLink>
 
         </h:column>
 
         <h:column>
             <f:facet name="header">Replies</f:facet>
-            <h:outputText value="#{topic.numOfComments}" rendered="#{topic.numOfComments != 0}"/>
-            <h:outputText value="-" rendered="#{topic.numOfComments == 0}"/>
+            <h:outputText value="#{t.numOfReplies}" rendered="#{t.numOfReplies != 0}"/>
+            <h:outputText value="-" rendered="#{t.numOfReplies == 0}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">Author</f:facet>
 
-            <s:fragment rendered="#{wiki:isRegularUser(topic.createdBy)}">
-                <s:div styleClass="undecoratedLink">
-                    <h:outputLink value="#"
-                                  onclick="jQuery('#userInfoPopup#{topic.createdBy.id}').jqmShow().css({right: '11%'});">
-                        <h:outputText value="#{topic.createdBy.fullname}"/>
-                    </h:outputLink>
-                </s:div>
-                <ui:include src="../forumPosting/userInfoPopup.xhtml">
-                    <ui:param name="user" value="#{topic.createdBy}"/>
-                    <ui:param name="userInfoPopupId" value="#{topic.createdBy.id}"/>
-                </ui:include>
-            </s:fragment>
-            <s:div rendered="#{not wiki:isRegularUser(topic.createdBy)}">
-                <h:outputText value="#{topic.createdBy.fullname}"/>
-            </s:div>
+            <ui:include src="../../includes/userInfoLink.xhtml">
+                <ui:param name="user" value="#{t.topic.createdBy}"/>
+            </ui:include>
 
         </h:column>
 
         <h:column>
             <f:facet name="header">Last Post</f:facet>
-            <s:fragment rendered="#{not empty topic.lastComment}">
-                <h:outputLink value="#{wiki:renderCommentURL(topic, topic.lastComment)}" tabindex="1">
-                    <h:outputText value="#{topic.lastComment.createdOn}">
-                        <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+
+            <s:fragment rendered="#{not empty t.lastComment}">
+                <h:outputLink value="#{wiki:renderURL(t.lastComment)}" tabindex="1">
+                    <h:outputText value="#{t.lastComment.createdOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                     </h:outputText>
                     <h:graphicImage styleClass="topicGotoIcon" value="/themes/#{wikiPreferences.themeName}/img/icon.posting_goto.gif" width="18" height="9"/>
                 </h:outputLink>
 
-                <s:fragment rendered="#{wiki:isRegularUser(topic.lastComment.fromUser)}">
-                    <s:div styleClass="undecoratedLink">
-                        <h:outputLink value="#"
-                                      onclick="jQuery('#userInfoPopup#{topic.lastComment.id}').jqmShow().css({right: '1%'});">
-                            <h:outputText value="#{topic.lastComment.fromUser.fullname}"/>
-                        </h:outputLink>
-                    </s:div>
-                    <ui:include src="../forumPosting/userInfoPopup.xhtml">
-                        <ui:param name="user" value="#{topic.lastComment.fromUser}"/>
-                        <ui:param name="userInfoPopupId" value="#{topic.lastComment.id}"/>
-                    </ui:include>
-                </s:fragment>
-                <s:div rendered="#{not wiki:isRegularUser(topic.lastComment.fromUser)}">
-                    <h:outputText value="#{topic.lastComment.fromUser.fullname}"/>
-                </s:div>
+                <ui:include src="../../includes/userInfoLink.xhtml">
+                    <ui:param name="user" value="#{t.lastComment.createdBy}"/>
+                </ui:include>
 
             </s:fragment>
-            <s:fragment rendered="#{empty topic.lastComment}">
-                <h:outputLink value="#{wiki:renderURL(topic)}" tabindex="1">
-                    <h:outputText value="#{topic.createdOn}">
-                        <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+
+            <s:fragment rendered="#{empty t.lastComment}">
+                <h:outputLink value="#{wiki:renderURL(t.topic)}" tabindex="1">
+                    <h:outputText value="#{t.topic.createdOn}">
+                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                     </h:outputText>
                     <h:graphicImage styleClass="topicGotoIcon" value="/themes/#{wikiPreferences.themeName}/img/icon.posting_goto.gif" width="18" height="9"/>
                 </h:outputLink>
 
-                <s:fragment rendered="#{wiki:isRegularUser(topic.createdBy)}">
-                    <s:div styleClass="undecoratedLink">
-                        <h:outputLink value="#"
-                                      onclick="jQuery('#userInfoPopup#{topic.id}').jqmShow().css({right: '1%'});">
-                            <h:outputText value="#{topic.createdBy.fullname}"/>
-                        </h:outputLink>
-                    </s:div>
-                    <ui:include src="../forumPosting/userInfoPopup.xhtml">
-                        <ui:param name="user" value="#{topic.createdBy}"/>
-                        <ui:param name="userInfoPopupId" value="#{topic.id}"/>
-                    </ui:include>
-                </s:fragment>
-                <s:div rendered="#{not wiki:isRegularUser(topic.createdBy)}">
-                    <h:outputText value="#{topic.createdBy.fullname}"/>
-                </s:div>
+                <ui:include src="../../includes/userInfoLink.xhtml">
+                    <ui:param name="user" value="#{t.topic.createdBy}"/>
+                </ui:include>
 
             </s:fragment>
         </h:column>

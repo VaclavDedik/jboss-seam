@@ -7,81 +7,39 @@
     <namespace>http://jboss.com/products/seam/wiki</namespace>
 
     <function>
+        <function-name>generateRandomNumber</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>int generateRandomNumber()</function-signature>
+    </function>
+
+    <function>
         <function-name>renderPlainURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderPlainURL(org.jboss.seam.wiki.core.model.Node)</function-signature>
+        <function-signature>java.lang.String renderPlainURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
     </function>
 
     <function>
         <function-name>renderURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderURL(org.jboss.seam.wiki.core.model.Node)</function-signature>
+        <function-signature>java.lang.String renderURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
     </function>
 
     <function>
-        <function-name>renderCommentURL</function-name>
+        <function-name>renderPermURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderURL(org.jboss.seam.wiki.core.model.Node,org.jboss.seam.wiki.core.model.Comment)</function-signature>
+        <function-signature>java.lang.String renderPermURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
     </function>
 
     <function>
-        <function-name>renderPermLink</function-name>
+        <function-name>renderWikiURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderPermLink(org.jboss.seam.wiki.core.model.Node)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderCommentPermLink</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderPermLink(org.jboss.seam.wiki.core.model.Node,org.jboss.seam.wiki.core.model.Comment)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderWikiLink</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderWikiLink(org.jboss.seam.wiki.core.model.Node)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderCommentWikiLink</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderWikiLink(org.jboss.seam.wiki.core.model.Node,org.jboss.seam.wiki.core.model.Comment)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderHomeURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderHomeURL(org.jboss.seam.wiki.core.model.User)</function-signature>
+        <function-signature>java.lang.String renderWikiURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
     </function>
 
     <function>
         <function-name>convertToWikiName</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String convertToWikiName(java.lang.String)</function-signature>
-    </function>
-
-    <function>
-        <function-name>isDocument</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>boolean isDocument(org.jboss.seam.wiki.core.model.Node)</function-signature>
-    </function>
-
-    <function>
-        <function-name>isDirectory</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>boolean isDirectory(org.jboss.seam.wiki.core.model.Node)</function-signature>
-    </function>
-
-    <function>
-        <function-name>isFile</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>boolean isFile(org.jboss.seam.wiki.core.model.Node)</function-signature>
-    </function>
-
-    <function>
-        <function-name>getType</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String getType(org.jboss.seam.wiki.core.model.Node)</function-signature>
     </function>
 
     <function>

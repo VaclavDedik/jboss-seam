@@ -21,9 +21,9 @@ import java.io.Serializable;
 public class FlashPreferences extends PreferenceSupport implements Serializable {
 
     public String getCurrentUserVariable() { return "currentUser"; }
-    public String getCurrentInstanceVariable() { return "currentDocument"; }
+    public String getCurrentInstanceVariable() { return "renderedBaseDocument"; }
 
-    @Observer("PreferenceEditor.refresh.flashPreferences")
+//    @Observer(value = {"PreferenceEditor.refresh.flashPreferences", "Render.startRenderDocument"}, create = false)
     public void refreshProperties() { super.refreshProperties(); }
 
     @Preference(description = "01. URL of flash movie", visibility = PreferenceVisibility.INSTANCE)

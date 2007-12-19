@@ -5,6 +5,10 @@
 
 <hibernate-mapping>
 
+    <filter-def name="accessLevelFilter">
+        <filter-param name="currentAccessLevel" type="integer"/>
+    </filter-def>
+
     <!-- TODO: Re-creating FK constraints with options not supported by Hibernate's @ForeignKey
     This sucks big time... especially for MySQL which is too dumb to recognize two commands separated with a semicolon...
     http://opensource.atlassian.com/projects/hibernate/browse/ANN-598
@@ -17,19 +21,10 @@
 
     <database-object>
         <create>
-            alter table FEEDENTRY drop constraint FK_FEEDENTRY_DOCUMENT_ID;
-            alter table FEEDENTRY add constraint FK_FEEDENTRY_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE on delete cascade;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
             alter table FEED_FEEDENTRY drop constraint FK_FEED_FEEDENTRY_FEED_ID;
             alter table FEED_FEEDENTRY add constraint FK_FEED_FEEDENTRY_FEED_ID foreign key (FEED_ID) references FEED on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
@@ -38,88 +33,52 @@
             alter table FEED_FEEDENTRY drop constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID;
             alter table FEED_FEEDENTRY add constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID foreign key (FEEDENTRY_ID) references FEEDENTRY on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table NODE drop constraint FK_NODE_PARENT_NODE_ID;
-            alter table NODE add constraint FK_NODE_PARENT_NODE_ID foreign key (PARENT_NODE_ID) references NODE on delete cascade;
+            alter table WIKI_DIRECTORY drop constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID;
+            alter table WIKI_DIRECTORY add constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID foreign key (DEFAULT_FILE_ID) references WIKI_FILE on delete set null;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table NODE drop constraint FK_NODE_LAST_MODIFIED_BY_USER_ID;
-            alter table NODE add constraint FK_NODE_LAST_MODIFIED_BY_USER_ID foreign key (LAST_MODIFIED_BY_USER_ID) references USERS on delete set null;
+            alter table WIKI_TAG drop constraint FK_WIKI_TAG_FILE_ID;
+            alter table WIKI_TAG add constraint FK_WIKI_TAG_FILE_ID foreign key (FILE_ID) references WIKI_FILE on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table NODE_DIRECTORY drop constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID;
-            alter table NODE_DIRECTORY add constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID foreign key (DEFAULT_DOCUMENT_ID) references NODE on delete set null;
+            alter table WIKI_FILE_LINK drop constraint FK_SOURCE_WIKI_FILE_ID;
+            alter table WIKI_FILE_LINK add constraint FK_SOURCE_WIKI_FILE_ID foreign key (SOURCE_WIKI_FILE_ID) references WIKI_FILE on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table NODE_DOCUMENT drop constraint FK_NODE_DOCUMENT_DOCUMENT_ID;
-            alter table NODE_DOCUMENT add constraint FK_NODE_DOCUMENT_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE on delete cascade;
+            alter table WIKI_FILE_LINK drop constraint FK_TARGET_WIKI_FILE_ID;
+            alter table WIKI_FILE_LINK add constraint FK_TARGET_WIKI_FILE_ID foreign key (TARGET_WIKI_FILE_ID) references WIKI_FILE on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table NODE_DIRECTORY drop constraint FK_NODE_DIRECTORY_DIRECTORY_ID;
-            alter table NODE_DIRECTORY add constraint FK_NODE_DIRECTORY_DIRECTORY_ID foreign key (DIRECTORY_ID) references NODE on delete cascade;
+            alter table USERS drop constraint FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID;
+            alter table USERS add constraint FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID foreign key (MEMBER_HOME_WIKI_DIRECTORY_ID) references WIKI_DIRECTORY on delete set null;
         </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table NODE_FILE drop constraint FK_NODE_FILE_FILE_ID;
-            alter table NODE_FILE add constraint FK_NODE_FILE_FILE_ID foreign key (FILE_ID) references NODE on delete cascade;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table PREFERENCE drop constraint FK_PREFERENCE_NODE_ID;
-            alter table PREFERENCE add constraint FK_PREFERENCE_NODE_ID foreign key (NODE_ID) references NODE on delete cascade;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table PREFERENCE drop constraint FK_PREFERENCE_USER_ID;
-            alter table PREFERENCE add constraint FK_PREFERENCE_USER_ID foreign key (USER_ID) references USERS on delete cascade;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USERS drop constraint FK_USER_MEMBER_HOME_NODE_ID;
-            alter table USERS add constraint FK_USER_MEMBER_HOME_NODE_ID foreign key (MEMBER_HOME_NODE_ID) references NODE on delete set null;
-        </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
@@ -128,7 +87,7 @@
             alter table USER_ROLE drop constraint USER_ROLE_USER_ID;
             alter table USER_ROLE add constraint USER_ROLE_USER_ID foreign key (USER_ID) references USERS on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
@@ -137,7 +96,7 @@
             alter table USER_ROLE drop constraint USER_ROLE_ROLE_ID;
             alter table USER_ROLE add constraint USER_ROLE_ROLE_ID foreign key (ROLE_ID) references ROLES on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
@@ -146,16 +105,7 @@
             alter table USERS drop constraint FK_USER_USER_PROFILE_ID;
             alter table USERS add constraint FK_USER_USER_PROFILE_ID foreign key (USER_PROFILE_ID) references USER_PROFILE on delete cascade;
         </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table COMMENTS drop constraint FK_COMMENT_FROM_USER_ID;
-            alter table COMMENTS add constraint FK_COMMENT_FROM_USER_ID foreign key (FROM_USER_ID) references USERS on delete cascade;
-        </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
@@ -179,38 +129,25 @@
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
-
     <!-- ############################### MySQL ############################### -->
 
     <database-object>
         <create>
-            alter table FEEDENTRY drop foreign key FK_FEEDENTRY_DOCUMENT_ID;
-        </create><drop></drop><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table FEEDENTRY
-                add constraint FK_FEEDENTRY_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE (NODE_ID) on delete cascade;
-        </create><drop></drop><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
             alter table FEED_FEEDENTRY drop foreign key FK_FEED_FEEDENTRY_FEED_ID;
-        </create><drop></drop><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        </create><drop/><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
             alter table FEED_FEEDENTRY
                 add constraint FK_FEED_FEEDENTRY_FEED_ID foreign key (FEED_ID) references FEED (FEED_ID) on delete cascade;
-        </create><drop></drop><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        </create><drop/><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
     <database-object>
         <create>
             alter table FEED_FEEDENTRY drop foreign key FK_FEED_FEEDENTRY_FEEDENTRY_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
@@ -218,144 +155,82 @@
             alter table FEED_FEEDENTRY
                 add constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID foreign key (FEEDENTRY_ID) references FEEDENTRY (FEEDENTRY_ID) on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table NODE drop foreign key FK_NODE_PARENT_NODE_ID;
+            alter table WIKI_DIRECTORY drop foreign key FK_WIKI_DIRECTORY_DEFAULT_FILE_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
-            alter table NODE
-                add constraint FK_NODE_PARENT_NODE_ID foreign key (PARENT_NODE_ID) references NODE (NODE_ID) on delete cascade;
+            alter table WIKI_DIRECTORY add constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID foreign key (DEFAULT_FILE_ID) references WIKI_FILE(NODE_ID) on delete set null;
         </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table NODE drop foreign key FK_NODE_LAST_MODIFIED_BY_USER_ID;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table NODE
-                add constraint FK_NODE_LAST_MODIFIED_BY_USER_ID foreign key (LAST_MODIFIED_BY_USER_ID) references USERS (USER_ID) on delete set null;
-        </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table NODE_DIRECTORY drop foreign key FK_DIRECTORY_DEFAULT_DOCUMENT_ID;
+            alter table WIKI_TAG drop foreign key FK_WIKI_TAG_FILE_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
-            alter table NODE_DIRECTORY add constraint FK_DIRECTORY_DEFAULT_DOCUMENT_ID foreign key (DEFAULT_DOCUMENT_ID) references NODE (NODE_ID) on delete set null;
+            alter table WIKI_TAG add constraint FK_WIKI_TAG_FILE_ID foreign key (FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
         </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table NODE_DOCUMENT drop foreign key FK_NODE_DOCUMENT_DOCUMENT_ID;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table NODE_DOCUMENT add constraint FK_NODE_DOCUMENT_DOCUMENT_ID foreign key (DOCUMENT_ID) references NODE (NODE_ID) on delete cascade;
-        </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table NODE_DIRECTORY drop foreign key FK_NODE_DIRECTORY_DIRECTORY_ID;
+            alter table WIKI_FILE_LINK drop foreign key FK_SOURCE_WIKI_FILE_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
-            alter table NODE_DIRECTORY add constraint FK_NODE_DIRECTORY_DIRECTORY_ID foreign key (DIRECTORY_ID) references NODE (NODE_ID) on delete cascade;
+            alter table WIKI_FILE_LINK add constraint FK_SOURCE_WIKI_FILE_ID foreign key (SOURCE_WIKI_FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
         </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table NODE_FILE drop foreign key FK_NODE_FILE_FILE_ID;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table NODE_FILE add constraint FK_NODE_FILE_FILE_ID foreign key (FILE_ID) references NODE (NODE_ID) on delete cascade;
-        </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table PREFERENCE drop foreign key FK_PREFERENCE_NODE_ID;
+            alter table WIKI_FILE_LINK drop foreign key FK_TARGET_WIKI_FILE_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
-            alter table PREFERENCE add constraint FK_PREFERENCE_NODE_ID foreign key (NODE_ID) references NODE (NODE_ID) on delete cascade;
+            alter table WIKI_FILE_LINK add constraint FK_TARGET_WIKI_FILE_ID foreign key (TARGET_WIKI_FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
         </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table PREFERENCE drop foreign key FK_PREFERENCE_USER_ID;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table PREFERENCE add constraint FK_PREFERENCE_USER_ID foreign key (USER_ID) references USERS (USER_ID) on delete cascade;
-        </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            alter table USERS drop foreign key FK_USER_MEMBER_HOME_NODE_ID;
+            alter table USERS drop foreign key FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
-            alter table USERS add constraint FK_USER_MEMBER_HOME_NODE_ID foreign key (MEMBER_HOME_NODE_ID) references NODE (NODE_ID) on delete set null;
+            alter table USERS add constraint FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID foreign key (MEMBER_HOME_WIKI_DIRECTORY_ID) references WIKI_DIRECTORY(NODE_ID) on delete set null;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
@@ -363,14 +238,14 @@
         <create>
             alter table USER_ROLE drop foreign key USER_ROLE_USER_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
             alter table USER_ROLE add constraint USER_ROLE_USER_ID foreign key (USER_ID) references USERS (USER_ID) on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
@@ -378,14 +253,14 @@
         <create>
             alter table USER_ROLE drop foreign key USER_ROLE_ROLE_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
             alter table USER_ROLE add constraint USER_ROLE_ROLE_ID foreign key (ROLE_ID) references ROLES (ROLE_ID) on delete cascade;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
@@ -393,29 +268,14 @@
         <create>
             alter table USERS drop foreign key FK_USER_USER_PROFILE_ID;
         </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
     <database-object>
         <create>
             alter table USERS add constraint FK_USER_USER_PROFILE_ID foreign key (USER_PROFILE_ID) references USER_PROFILE (USER_PROFILE_ID) on delete cascade;
         </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table COMMENTS drop foreign key FK_COMMENT_FROM_USER_ID;
-        </create>
-        <drop></drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table COMMENTS add constraint FK_COMMENT_FROM_USER_ID foreign key (FROM_USER_ID) references USERS (USER_ID) on delete cascade;
-        </create>
-        <drop></drop>
+        <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 

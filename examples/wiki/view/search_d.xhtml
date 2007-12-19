@@ -16,7 +16,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+    <s:link id="close" styleClass="linkNavigation sessionEventTrigger" view="/wiki.xhtml" propagation="end"
             accesskey="#{messages['lacewiki.button.Close.accesskey']}">
         <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
     </s:link>
@@ -28,15 +28,19 @@
     <h:form id="searchForm" styleClass="box">
         <s:div styleClass="form" id="searchControl">
 
-            <ui:include src="includes/statusIndicator.xhtml"/>
+            <ui:include src="includes/statusIndicator.xhtml">
+                <ui:param name="statusId" value="searchFormStatus"/>
+            </ui:include>
+
+            <script type="text/javascript">startSessionTimeoutCheck()</script>
 
             <a:region>
 
             <h:panelGrid columns="5"
                          styleClass="datatable topLeftBottomBorder"
                          headerClass="regularHeader rightBorder"
-                         columnClasses="twentyPercentColumn formFields, twentyPercentColumn formFields,
-                                        twentyPercentColumn formFields, twentyPercentColumn formFields,
+                         columnClasses="formFields minorPadding, formFields minorPadding,
+                                        formFields minorPadding, formFields minorPadding,
                                         defaultColumn alignCenter rightBorder formFields"
                          cellpadding="0" cellspacing="0" border="0">
 
@@ -46,18 +50,19 @@
 
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
                     <h:outputText styleClass="label" value="In:&#160;"/>
-                    <h:selectOneMenu value="#{wikiSearch.selectedSearchableEntity}" tabindex="1">
+                    <h:selectOneMenu value="#{wikiSearch.selectedSearchableEntity}" tabindex="1" styleClass="ajaxSupport">
                         <s:selectItems value="#{searchRegistry.searchableEntities}"
                                        var="se"
                                        label="#{se.description}"
                                        noSelectionLabel="#{messages['lacewiki.label.search.All']}"/>
-                        <a:support status="searchForm:status" event="onchange" reRender="searchControl, searchPager, searchResult" action="#{wikiSearch.search}"/>
+                        <a:support status="searchFormStatus" event="onchange" reRender="searchControl, searchPager, searchResult"
+                                   action="#{wikiSearch.search}" oncomplete="onAjaxRequestComplete()"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
 
                 <h:panelGrid columns="2" rendered="#{empty wikiSearch.selectedSearchableEntity}" cellpadding="0" cellspacing="0" border="0">
                     <h:outputText styleClass="label" value="#{messages['lacewiki.label.search.Terms']}:&#160;"/>
-                    <h:inputText value="#{wikiSearch.simpleQuery}" size="28" maxlength="1000" tabindex="1"/>
+                    <h:inputText value="#{wikiSearch.simpleQuery}" size="25" maxlength="1000" tabindex="1"/>
                 </h:panelGrid>
                 <s:span rendered="#{not empty wikiSearch.selectedSearchableEntity}">&#160;</s:span>
 
@@ -69,17 +74,20 @@
 
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
                     <h:outputText styleClass="label" value="#{messages['lacewiki.label.search.Results']}:&#160;"/>
-                    <h:selectOneMenu value="#{wikiSearch.pageSize}" id="pageSize" tabindex="1">
+                    <h:selectOneMenu value="#{wikiSearch.pageSize}" id="pageSize" tabindex="1" styleClass="ajaxSupport">
                         <f:selectItem itemLabel="5" itemValue="5"/>
                         <f:selectItem itemLabel="15" itemValue="15"/>
                         <f:selectItem itemLabel="50" itemValue="50"/>
-                        <a:support status="searchForm:status" event="onchange" reRender="searchControl, searchPager, searchResult" action="#{wikiSearch.search}"/>
+                        <a:support status="searchFormStatus" event="onchange" reRender="searchControl, searchPager, searchResult"
+                                   action="#{wikiSearch.search}" oncomplete="onAjaxRequestComplete()"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
 
-                <a:commandLink id="find" styleClass="buttonNonpersistent" reRender="workspaceSwitcher, searchControl, searchPager, searchResult"
-                               status="searchForm:status"
+                <a:commandLink id="find" styleClass="buttonNonpersistent sessionEventTrigger"
+                               reRender="workspaceSwitcher, searchControl, searchPager, searchResult"
+                               status="searchFormStatus"
                                action="#{wikiSearch.search()}"
+                               oncomplete="onAjaxRequestComplete()"
                                tabindex="1" accesskey="#{messages['lacewiki.button.search.Find.accesskey']}">
                     <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.search.Find']}"/>
 
@@ -138,13 +146,15 @@
                          cellpadding="0" cellspacing="0" border="0"
                          rendered="#{wikiSearch.totalCount > 0}">
 
-                <h:commandLink action="#{wikiSearch.firstPage()}" rendered="#{wikiSearch.previousPageAvailable}" tabindex="7">
+                <h:commandLink action="#{wikiSearch.firstPage()}" styleClass="sessionEventTrigger"
+                               rendered="#{wikiSearch.previousPageAvailable}" tabindex="7">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
                 </h:commandLink>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                                 rendered="#{!wikiSearch.previousPageAvailable}"/>
 
-                <h:commandLink action="#{wikiSearch.previousPage()}" rendered="#{wikiSearch.previousPageAvailable}" tabindex="7">
+                <h:commandLink action="#{wikiSearch.previousPage()}" styleClass="sessionEventTrigger"
+                               rendered="#{wikiSearch.previousPageAvailable}" tabindex="7">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
                 </h:commandLink>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
@@ -154,13 +164,15 @@
                                      #{wikiSearch.lastRow} #{messages['lacewiki.label.search.Of']}
                                      #{wikiSearch.totalCount} #{messages['lacewiki.label.search.Hits']}"/>
 
-                <h:commandLink action="#{wikiSearch.nextPage()}" rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
+                <h:commandLink action="#{wikiSearch.nextPage()}" styleClass="sessionEventTrigger"
+                               rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
                 </h:commandLink>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
                                 rendered="#{!wikiSearch.nextPageAvailable}"/>
 
-                <h:commandLink action="#{wikiSearch.lastPage()}" rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
+                <h:commandLink action="#{wikiSearch.lastPage()}" styleClass="sessionEventTrigger"
+                               rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
                 </h:commandLink>
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
@@ -185,7 +197,7 @@
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{hit.icon}" width="18" height="20"/>
                         <h:outputLink value="#{hit.link}" tabindex="1"><h:outputText escape="false" value="#{hit.title}"/></h:outputLink>
                     </h:panelGrid>
-                    <h:outputText escape="false" value="#{hit.fragment}"/>
+                    <h:outputText styleClass="smallFont" escape="false" value="#{hit.fragment}"/>
                 </h:column>
 
             </h:dataTable>

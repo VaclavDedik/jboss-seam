@@ -22,9 +22,6 @@
         <from>.*</from>
         <condition next="or" name="user-agent">Windows CE</condition>
         <condition next="or" name="user-agent">SonyEricsson</condition>
-        <!-- iPhone looks better with regular skin
-        <condition next="or" name="user-agent">iPhone</condition>
-        -->
         <condition name="user-agent">BlackBerry</condition>
         <set type="session" name="skin">m</set>
     </rule>

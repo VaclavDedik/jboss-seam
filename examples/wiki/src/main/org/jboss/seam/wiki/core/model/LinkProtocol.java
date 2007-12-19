@@ -23,7 +23,7 @@ public class LinkProtocol {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    protected Integer version;
+    protected int version;
 
     @Column(name = "PREFIX", nullable = false)
     @Length(min = 2, max = 10)

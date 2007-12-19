@@ -6,21 +6,26 @@
  */
 package org.jboss.seam.wiki.core.dao;
 
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.faces.FacesMessages;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.LinkProtocol;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.model.LinkProtocol;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.util.WikiUtil;
 
+import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
-import javax.faces.application.FacesMessage;
 import java.io.Serializable;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Name("wikiNodeFactory")
 public class WikiNodeFactory implements Serializable {
@@ -32,10 +37,10 @@ public class WikiNodeFactory implements Serializable {
     protected EntityManager restrictedEntityManager;
 
     @Factory(value = "wikiRoot", scope = ScopeType.PAGE, autoCreate = true)
-    public Directory loadWikiRoot() {
+    public WikiDirectory loadWikiRoot() {
         try {
-            return (Directory) entityManager
-                    .createQuery("select d from Directory d where d.parent is null")
+            return (WikiDirectory) entityManager
+                    .createQuery("select d from WikiDirectory d where d.parent is null")
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (RuntimeException ex) {
@@ -44,11 +49,11 @@ public class WikiNodeFactory implements Serializable {
     }
 
     @Factory(value = "wikiStart", scope = ScopeType.PAGE, autoCreate = true)
-    public Document loadWikiStart() {
+    public WikiDocument loadWikiStart() {
         WikiPreferences wikiPreferences = (WikiPreferences) Component.getInstance("wikiPreferences");
         try {
-            return (Document) restrictedEntityManager
-                    .createQuery("select d from Document d where d.id = :id")
+            return (WikiDocument) restrictedEntityManager
+                    .createQuery("select d from WikiDocument d where d.id = :id")
                     .setParameter("id", wikiPreferences.getDefaultDocumentId())
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
@@ -57,17 +62,17 @@ public class WikiNodeFactory implements Serializable {
         }
 
         // TODO: Message instead!
-        throw new RuntimeException("Couldn't find default document with id '" + wikiPreferences.getDefaultDocumentId() +"'");
+        throw new RuntimeException("Couldn't find wiki default start document with id '" + wikiPreferences.getDefaultDocumentId() +"'");
     }
 
     // Loads the same instance into a different persistence context
     @Factory(value = "restrictedWikiRoot", scope = ScopeType.PAGE, autoCreate = true)
-    public Directory loadWikiRootRestricted() {
-        Directory wikiroot = (Directory) Component.getInstance("wikiRoot");
+    public WikiDirectory loadWikiRootRestricted() {
+        WikiDirectory wikiroot = (WikiDirectory) Component.getInstance("wikiRoot");
 
         try {
-            return (Directory) restrictedEntityManager
-                    .createQuery("select d from Directory d where d.id = :id")
+            return (WikiDirectory) restrictedEntityManager
+                    .createQuery("select d from WikiDirectory d where d.id = :id")
                     .setParameter("id", wikiroot.getId())
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
@@ -77,20 +82,20 @@ public class WikiNodeFactory implements Serializable {
     }
 
     @Factory(value = "memberArea", scope = ScopeType.PAGE, autoCreate = true)
-    public Directory loadMemberArea() {
-        Long memberAreaId = ((WikiPreferences)Component.getInstance("wikiPreferences")).getMemberAreaId();
+    public WikiDirectory loadMemberArea() {
+        String memberAreaName = ((WikiPreferences)Component.getInstance("wikiPreferences")).getMemberArea();
         try {
-            return (Directory) entityManager
-                    .createQuery("select d from Directory d where d.id = :dirId and d.parent.parent is null")
-                    .setParameter("dirId", memberAreaId)
+            return (WikiDirectory) entityManager
+                    .createQuery("select d from WikiDirectory d where d.wikiname = :name and d.parent.parent is null")
+                    .setParameter("name", WikiUtil.convertToWikiName(memberAreaName) )
                     .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (RuntimeException ex) {
             FacesMessages.instance().addFromResourceBundleOrDefault(
                 FacesMessage.SEVERITY_ERROR,
                 "lacewiki.msg.MemberHomedirectoryNotFound",
-                "Could not find member area with id {0}  - your configuration is broken, please change it.",
-                memberAreaId
+                "Could not find member area with name {0}  - your configuration is broken, please change it.",
+                memberAreaName
             );
             return null;
         }

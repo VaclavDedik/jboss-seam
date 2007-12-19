@@ -8,82 +8,140 @@
      xmlns:c="http://java.sun.com/jstl/core"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-<s:div styleClass="box" style="margin-top:25px"
-     rendered="#{not empty commentHome.comments and documentHome.instance.enableComments}">
+<s:div styleClass="box" rendered="#{not empty commentQuery.comments}">
 
     <h:panelGrid columns="1"
-                 styleClass="datatable rightBorder leftBorder topBorder bottomBorder"
-                 columnClasses="commentColumn" rowClasses="rowOdd, rowEven"
+                 styleClass="datatable"
+                 columnClasses="commentColumn"
                  cellpadding="0" cellspacing="0" border="0">
         <f:facet name="header">
-            <s:div styleClass="regularHeader alignLeft">
-                <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;#{messages['lacewiki.label.commentsDisplay.Comment']}:"
-                              rendered="#{wiki:sizeOf(commentHome.comments) == 1}"/>
-                <h:outputText value="#{wiki:sizeOf(commentHome.comments)}&#160;#{messages['lacewiki.label.commentsDisplay.Comments']}:"
-                              rendered="#{wiki:sizeOf(commentHome.comments) > 1}"/>
+            <s:div styleClass="regularHeader alignLeft topBorder bottomBorder rightBorder leftBorder">
+                <h:outputText value="#{commentQuery.comments.size()}&#160;#{titleSingular}:"
+                              rendered="#{commentQuery.comments.size() == 1}"/>
+                <h:outputText value="#{commentQuery.comments.size()}&#160;#{titlePlural}:"
+                              rendered="#{commentQuery.comments.size() > 1}"/>
             </s:div>
         </f:facet>
-        <c:forEach var="c" items="#{commentHome.comments}">
-            <s:span>
+        <c:forEach var="c" items="#{commentQuery.comments}">
+
+            <s:div style="margin-left:#{c.level > 1 ? c.level : ''}0px;"
+                   styleClass="#{c.level > 1 ? 'commentLevel' : 'commentFirstLevel'}">
+
                 <a id="comment#{c.id}"/>
 
-                <s:div styleClass="commentSubject undecoratedLink" rendered="#{documentHome.instance.name != c.subject}">
-                    <h:outputLink value="#{wiki:renderCommentURL(currentDocument, c)}">
-                        <h:outputText value="#{c.subject}"/>
-                    </h:outputLink>
-                </s:div>
+                <h:panelGrid columns="3" styleClass="commentHeader"
+                             columnClasses="commentSubject, commentAuthorInfo smallFont, commentAuthorPortrait"
+                             cellpadding="0" cellspacing="0" border="0">
 
-                <div class="commentAuthorDate">
-                    <span class="commentLink undecoratedLink">
-                        <h:outputLink value="#{wiki:renderCommentURL(currentDocument, c)}">
-                            <h:outputText value="#{messages['lacewiki.label.Link']}"/>
+                    <s:div styleClass="undecoratedLink largeFont" rendered="#{currentDocument.name != c.subject}">
+                        <h:outputLink value="#{wiki:renderURL(c)}">
+                            <h:outputText value="#{c.subject}"/>
                         </h:outputLink>
-                    </span>
-                    <h:outputText value="&#160;|&#160;"/>
-                    <span class="commentDate">
-                        <h:outputText value="#{c.createdOn}">
-                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
-                        </h:outputText>
-                        <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
-                    </span>
-                    <h:outputText value="&#160;|&#160;"/>
-                    <s:span>
-                        <s:span styleClass="commentAuthor" rendered="#{empty c.fromUserHomepage}">#{c.fromUserName}</s:span>
-                        <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserHomepage}"><a
-                                href="#{c.fromUserHomepage}">#{c.fromUserName}</a></s:span>
-                        <s:span styleClass="commentAuthor" rendered="#{!empty c.fromUserEmail}">,&#160;
-                            <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">#{wiki:escapeAtSymbol(c.fromUserEmail)}</h:outputLink>
-                        </s:span>
-                    </s:span>
-                </div>
+                    </s:div>
+                    <s:div styleClass="largeFont" rendered="#{currentDocument.name == c.subject}">
+                        <h:outputText value="&#160;"/>
+                    </s:div>
 
-                <s:div styleClass="commentText" rendered="#{c.useWikiText}">
-                    <wiki:formattedText value="#{c.text}"
+                    <s:fragment>
+                        <s:div>
+                            <s:span styleClass="commentDate">
+                                <h:outputText value="#{c.createdOn}">
+                                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                                </h:outputText>
+                                <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                            </s:span>
+                            <h:outputText value="&#160;|&#160;"/>
+                            <s:span styleClass="commentLink undecoratedLink">
+                                <h:outputLink value="#{wiki:renderURL(c)}">
+                                    <h:outputText value="#{messages['lacewiki.label.Link']}"/>
+                                </h:outputLink>
+                            </s:span>
+                        </s:div>
+                        <s:div rendered="#{c.ownedByRegularUser}">
+                            <s:span styleClass="undecoratedLink">
+                                <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
+                                    <f:param name="userId" value="#{c.createdBy.id}"/>
+                                    <h:outputText value="#{c.createdBy.fullname}"/>
+                                </s:link>
+                            </s:span>
+                            <h:outputText value="&#160;|&#160;"/>
+                            <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.createdBy.email))}">
+                                <h:outputText value="#{wiki:escapeAtSymbol(c.createdBy.email)}"/>
+                            </h:outputLink>
+                        </s:div>
+                        <s:div rendered="#{not c.ownedByRegularUser}">
+                            <h:outputText rendered="#{empty c.fromUserHomepage}" value="#{c.fromUserName}"/>
+                            <s:fragment rendered="#{not empty c.fromUserHomepage}">
+                                <a href="#{c.fromUserHomepage}">#{c.fromUserName}</a>
+                            </s:fragment>
+                            <s:fragment rendered="#{not empty c.fromUserEmail}">
+                                <h:outputText value="&#160;|&#160;"/>
+                                    <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUserEmail))}">
+                                    <h:outputText value="#{wiki:escapeAtSymbol(c.fromUserEmail)}"/>
+                                </h:outputLink>
+                            </s:fragment>
+                        </s:div>
+                    </s:fragment>
+
+                    <s:fragment rendered="#{c.ownedByRegularUser and !empty c.createdBy.profile.imageContentType}">
+                        <s:span styleClass="undecoratedLink">
+                            <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
+                                <f:param name="userId" value="#{c.createdBy.id}"/>
+                                <s:graphicImage styleClass="commentAuthorPortraitImage" value="#{c.createdBy.profile.image}">
+                                    <s:transformImageSize width="30" maintainRatio="true"/>
+                                </s:graphicImage>
+                            </s:link>
+                        </s:span>
+                    </s:fragment>
+
+                </h:panelGrid>
+
+                <s:div styleClass="commentText" rendered="#{c.useWikiText and not empty currentDocument.areaNumber}">
+                    <wiki:formattedText value="#{c.content}"
                                         linkStyleClass="regularLink"
                                         brokenLinkStyleClass="brokenLink"
                                         attachmentLinkStyleClass="regularLink"
                                         thumbnailLinkStyleClass="regularLink"
-                                        renderBaseDocument="#{documentHome.instance}"
-                                        renderBaseDirectory="#{documentHome.parentDirectory}"
+                                        linkBaseFile="#{currentDocument}"
+                                        currentAreaNumber="#{currentDocument.areaNumber}"
                                         enablePlugins="false"/>
                 </s:div>
-                <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name != c.subject}" style="margin-top:15px;">
-                    <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
+                <s:div styleClass="commentText" rendered="#{not c.useWikiText and currentDocument.name != c.subject}" style="margin-top:15px;">
+                    <h:outputText value="#{wiki:escapeHTML(c.content, true)}" escape="false"/>
                 </s:div>
-                <s:div styleClass="commentText" rendered="#{not c.useWikiText and documentHome.instance.name == c.subject}">
-                    <h:outputText value="#{wiki:escapeHTML(c.text, true)}" escape="false"/>
+                <s:div styleClass="commentText" rendered="#{not c.useWikiText and currentDocument.name == c.subject}">
+                    <h:outputText value="#{wiki:escapeHTML(c.content, true)}" escape="false"/>
                 </s:div>
 
-                <div align="right">
-                    <h:form rendered="#{s:hasPermission('Comment', 'delete', documentHome.instance)}">
-                        <a:commandLink action="#{commentHome.remove(c.id)}" reRender="comments" oncomplete="wrapBoxes();"
-                                       styleClass="button"><span class="buttonLabel">#{messages['lacewiki.button.commentsDisplay.RemoveComment']}</span></a:commandLink>
+                <s:div styleClass="commentSignature"
+                       rendered="#{not empty c.createdBy.profile.signature and not empty currentDocument.areaNumber}">
+                    <s:div styleClass="commentSignatureSeparator">
+                        <h:outputText value="&#160;"/>
+                    </s:div>
+                    <wiki:formattedText value="#{c.createdBy.profile.signature}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        thumbnailLinkStyleClass="regularLink"
+                                        linkBaseFile="#{currentDocument}"
+                                        currentAreaNumber="#{currentDocument.areaNumber}"
+                                        enablePlugins="false"/>
+                </s:div>
+
+                <div align="right" class="commentControls">
+
+                    <h:form>
+                    <h:panelGroup>
+                        <ui:insert name="controls"/>
+                    </h:panelGroup>
                     </h:form>
+
                 </div>
 
-            </s:span>
+            </s:div>
         </c:forEach>
     </h:panelGrid>
 
 </s:div>
 </s:span>
+

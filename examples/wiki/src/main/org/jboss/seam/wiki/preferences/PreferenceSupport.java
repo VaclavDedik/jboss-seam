@@ -7,15 +7,9 @@
 package org.jboss.seam.wiki.preferences;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.wiki.plugin.lastmodified.LastModifiedDocumentsPreferences;
-import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 
 import java.util.HashMap;
 import java.util.Map;

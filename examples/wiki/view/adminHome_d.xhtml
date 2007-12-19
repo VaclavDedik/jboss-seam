@@ -16,7 +16,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+    <s:link id="close" styleClass="linkNavigation sessionEventTrigger" view="/wiki.xhtml" propagation="end"
             accesskey="#{messages['lacewiki.button.Close.accesskey']}">
         <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
     </s:link>
@@ -25,7 +25,6 @@
 
 <ui:define name="content">
 
-<script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>
 <script type="text/javascript" src="seam/resource/remoting/interface.js?adminHome"></script>
 <script type="text/javascript">
     Seam.Remoting.displayLoadingMessage = function() {};
@@ -58,7 +57,11 @@
 <h:form id="adminForm" styleClass="box">
     <div class="form">
 
-        <ui:include src="includes/statusIndicator.xhtml"/>
+        <ui:include src="includes/statusIndicator.xhtml">
+            <ui:param name="statusId" value="adminFormStatus"/>
+        </ui:include>
+
+        <script type="text/javascript">startSessionTimeoutCheck()</script>
 
         <script type="text/javascript">jQuery(function() {
             jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
@@ -105,7 +108,7 @@
                              value="#{indexedEntities}"
                              rendered="#{indexedEntities.rowCount >0}"
                              styleClass="datatable topLeftBottomBorder"
-                             headerClass="regularHeader rightBorder"
+                             headerClass="regularHeader rightBorder smallFont"
                              columnClasses="twentyPercentColumn rightBorder alignLeft,
                                             tenPercentColumn rightBorder alignCenter,
                                             tenPercentColumn rightBorder alignCenter,
@@ -142,8 +145,8 @@
                         <script type="text/javascript">
                             jQuery(function(){ getIndexingProgress("#{ie.clazz.name}") });
                         </script>
-                        <a:commandLink status="adminForm:status" id="resetSearchIndex" styleClass="button resetIndexButton" reRender="indexStatistics"
-                                       action="#{adminHome.resetSearchIndex()}">
+                        <a:commandLink status="adminFormStatus" id="resetSearchIndex" styleClass="button resetIndexButton sessionEventTrigger" reRender="indexStatistics"
+                                       action="#{adminHome.resetSearchIndex()}" oncomplete="onAjaxRequestComplete()">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.RebuildIndex']}"/>
                         </a:commandLink>
                     </h:column>
@@ -165,7 +168,7 @@
                          value="#{linkProtocols}"
                          rendered="#{linkProtocols.rowCount >0}"
                          styleClass="datatable topLeftBottomBorder"
-                         headerClass="regularHeader rightBorder"
+                         headerClass="regularHeader rightBorder smallFont"
                          columnClasses="twentyPercentColumn rightBorder alignLeft,
                                         defaultColumn rightBorder alignLeft,
                                         tenPercentColumn rightBorder alignCenter"
@@ -185,9 +188,10 @@
                     #{lp.link}
                 </h:column>
                 <h:column>
-                    <a:commandLink status="adminForm:status" id="removeLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolsRegion"
-                                   action="#{adminHome.removeLinkProtocol()}">
-                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.Remove']}"/>
+                    <a:commandLink status="adminFormStatus" id="removeLinkProtocol"
+                                   styleClass="buttonNonpersistent sessionEventTrigger" reRender="linkProtocolsRegion"
+                                   action="#{adminHome.removeLinkProtocol()}" oncomplete="onAjaxRequestComplete()">
+                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Remove']}"/>
                     </a:commandLink>
                 </h:column>
             </h:dataTable>
@@ -209,9 +213,10 @@
                 <div class="entry">
                     <div class="label">&#160;</div>
                     <div class="input">
-                        <a:commandLink status="adminForm:status" id="addLinkProtocol" styleClass="buttonNonpersistent" reRender="linkProtocolsRegion"
-                                       action="#{adminHome.addLinkProtocol}">
-                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.Add']}"/>
+                        <a:commandLink status="adminFormStatus" id="addLinkProtocol"
+                                       styleClass="buttonNonpersistent sessionEventTrigger" reRender="linkProtocolsRegion"
+                                       action="#{adminHome.addLinkProtocol}" oncomplete="onAjaxRequestComplete()">
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Add']}"/>
                         </a:commandLink>
                     </div>
                 </div>
@@ -238,8 +243,10 @@
             <div class="label">&#160;</div>
             <div class="input">
 
-                <a:commandLink status="adminForm:status" id="update" styleClass="button saveButton" reRender="body" oncomplete="wrapBoxes();"
+                <a:commandLink status="adminFormStatus" id="update"
+                               styleClass="button saveButton sessionEventTrigger" reRender="body"
                                action="#{adminHome.update}"
+                               oncomplete="onAjaxRequestComplete()"
                                tabindex="9"
                                accesskey="#{messages['lacewiki.button.adminHome.SaveSettings.accesskey']}">
                     <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.SaveSettings']}"/>

@@ -94,12 +94,11 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_BROKEN_LINK_STYLE_CLASS);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_ATTACHMENT_LINK_STYLE_CLASS);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_THUMBNAIL_LINK_STYLE_CLASS);
-        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_UPDATE_RESOLVED_LINKS);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_PLAIN_VIEW);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_INTERNAL_TARGET_FRAME);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_EXTERNAL_TARGET_FRAME);
-        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_RENDER_BASE_DOCUMENT);
-        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_RENDER_BASE_DIRECTORY);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_LINK_BASE_FILE);
+        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_CURRENT_AREA_NUMBER);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_ENABLE_PLUGINS);
     }
 
@@ -139,7 +138,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         String unparsed = valueAttribute.getValue(ctx);
 
         if (getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS) == null ||
-            !getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS).getValue().equals("true")) {
+            !getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS).getBoolean(ctx)) {
             wikiFormattedText.setValue(unparsed);
             return;
         }
@@ -167,8 +166,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
                 } else {
                     // Best guess based plugin renderer
                     placeHolder = wikiFormattedText.addPlugin(
-                        (parent.getChildren().get(parent.getChildCount() - 1)
-                            .getClientId( ctx.getFacesContext() )
+                        (parent.getChildren().get(parent.getChildCount() - 1).getClientId( ctx.getFacesContext() )
                         )
                     );
                 }

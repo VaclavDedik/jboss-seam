@@ -18,7 +18,7 @@ img {
 }
 body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: small;
+    font-size: 12px;
 	line-height: 1.25em;
 	margin: 0;
 	padding: 0;
@@ -116,6 +116,25 @@ hr {
 
 ul {
     list-style: square;
+}
+
+/* ---- Fonts ----- */
+
+.smallFont {
+    font-size: 80%;
+    line-height: 150%;
+}
+
+.largeFont {
+    font-size: 115%;
+}
+
+.extraLargeFont {
+    font-size: 130%;
+}
+
+.extraExtraLargeFont {
+    font-size: 150%;
 }
 
 /* Layout
@@ -234,13 +253,11 @@ ul {
 #workspaceBreadcrumb .workspaceBreadcrumbLabel {
     color: #000;
     font-weight: bold;
-    font-size: 75%;
     text-decoration: none;
 }
 
 #workspaceBreadcrumb .workspaceBreadcrumbLink {
     font-weight: bold;
-    font-size: 75%;
 	color: #C7B299;
 	text-decoration: none;
 }
@@ -250,7 +267,6 @@ ul {
     padding-right: 5px;
     color: #000;
     font-weight: bold;
-    font-size: 75%;
 }
 
 #workspaceSwitcher {
@@ -262,7 +278,6 @@ ul {
     border: 0;
     padding: 0;
     margin-bottom: 1px;
-    font-size: 70%;
     color: #C7B299;
     font-weight: normal;
     vertical-align: top;
@@ -273,7 +288,6 @@ ul {
 #workspaceSwitcher .workspaceSwitcherLabel {
     color: #fff;
     font-weight: bold;
-    font-size: 75%;
     text-decoration: none;
     padding-left: 5px;
     padding-right: 5px;
@@ -295,8 +309,6 @@ ul {
 }
 
 .infoMessage {
-    font-size: 85%;
-    font-weight: bold;
     color: #fff;
 }
 
@@ -315,7 +327,6 @@ ul {
 }
 
 .attentionMessage {
-    font-size: 85%;
 	color: #600;
 }
 
@@ -326,9 +337,15 @@ ul {
 }
 
 .messageBox .attentionMessage {
+    color: #fff;
     font-size: 85%;
     font-weight: bold;
+}
+
+.messageBox .infoMessage {
     color: #fff;
+    font-size: 85%;
+    font-weight: bold;
 }
 
 /* General
@@ -339,30 +356,44 @@ ul {
     margin-top: 10px;
 }
 
+.documentTitle {
+    color: #000;
+}
+
+.documentTitle:hover {
+    text-decoration: underline;
+}
+
 .documentTags {
     border-top: 1px solid #C3BBB6;
     white-space: nowrap;
-    font-size: 70%;
-    font-weight: normal;
     padding-top: 5px;
     padding-bottom: 5px;
-    line-height: 125%;
+    line-height: 150%;
+    font-size: 85%;
 }
 
 .documentCreatorHistory {
     border-top: 1px solid #C3BBB6;
     white-space: nowrap;
-    font-size: 70%;
-    font-weight: normal;
     padding-top: 5px;
     padding-bottom: 5px;
-    line-height: 125%;
+    line-height: 150%;
+    font-size: 85%;
 }
 
 .attachmentDisplay {
     padding-top: 10px;
     padding-bottom: 10px;
     clear:both;
+}
+
+#commentDisplayForm .commentsDisplay .box {
+    margin-top: 20px;
+}
+
+#commentDisplayForm .commentsDisplay .boxShadowed {
+    margin-top: 20px;
 }
 
 .regularLink{
@@ -382,7 +413,6 @@ ul {
     color: #666;
 }
 
-
 .addedText {
     background-color: lightgreen;
 }
@@ -395,18 +425,19 @@ ul {
     background: #fff url(../img/btn.bg.gif) 0 0 repeat-x;
     padding: 2px 5px 2px 5px;
     margin: 0 5px 0 5px;
+    font-size: 10px;
 }
 
 .buttonNonpersistent {
     background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
     padding: 2px 5px 2px 5px;
     margin: 0 5px 0 5px;
+    font-size: 10px;
 }
 
 .buttonLabel{
     color: #fff;
     font-weight: bold;
-    font-size: 85%;
     text-decoration:none;
     padding-top: 2px;
     padding-bottom: 2px;
@@ -424,7 +455,6 @@ ul {
 
 .linkTab {
     text-decoration:none;
-    font-size: 85%;
     font-weight: bold;
     border: 1px solid #fff;
     padding: 2px 5px 2px 5px;
@@ -464,7 +494,17 @@ ul {
     vertical-align: top;
     color: #962325;
     font-weight: bold;
-    font-size: 85%;
+}
+
+.feedIcon {
+    display: none;
+}
+
+.captchaImage {
+    vertical-align:top;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 1px solid #C3BBB6;
 }
 
 /* Forms
@@ -508,8 +548,8 @@ ul {
 .formHead {
     text-align: left;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
-    font-size: 85%;
     font-weight: bold;
+    font-size: 85%;
     color: #555;
     padding-left: 13px;
     padding-right: 10px;
@@ -545,16 +585,19 @@ ul {
 .entry .label {
 	float: left;
     padding-top: 1px;
-    padding-right: 2%;
-    font-size: 85%;
-    width: 18%;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 135px;
 	text-align: right;
+    color: #000000;
+    font-weight:bold;
+    font-size: 85%;
+    line-height: 155%;
 }
 
 .entry .output {
-    padding-top: 1px;
+    padding-top: 2px;
     text-align: left;
-    font-size: 85%;
 }
 
 .entry .input {
@@ -562,32 +605,21 @@ ul {
 }
 
 .wideLabels .entry .label {
-    width: 30%;
+    width: 220px;
 }
 
-.marginLeft {
-    margin-left: 20%;
-}
-
-.wideMarginLeft {
-    margin-left: 32%;
-}
-
-.entry .label .buttonLabel {
-    font-size: 100%;
-}
-
-.errorDiv {
+.errorEntry {
     background-color: #ffeeee;
 }
 
-.label {
-    color: #000000;
-    font-weight:bold;
+.errorEntry .errorMessage {
+    font-weight: normal;
+    text-align: left;
 }
 
-.formFields select {
-    font-size: 95%;
+.entry .label .errorMessage {
+    font-size: 100%;
+    font-weight: normal;
 }
 
 .tableFormFields {
@@ -596,25 +628,19 @@ ul {
 }
 
 .tableFormFields .input {
-    font-size: 95%;
 }
 
 .tableFormFields .inputError input,
 .tableFormFields .inputError select {
-    font-size: 95%;
     background-image: none;
     background-color: #ffeeee;
 }
 
-
 .textEditResizable {
-    margin-left: 20%;
-    margin-bottom:10px;
+    margin-bottom: 5px;
 }
 
-.wideLabels .textEditResizable {
-    margin-left: 32%;
-}
+.wideLabels .textEditResizable {}
 
 .textEditResizeHandle {
     width: 25px;
@@ -623,17 +649,26 @@ ul {
     cursor: s-resize;
     position: absolute;
     margin-bottom: 10px;
+    margin-left: 155px;
+}
+
+.wideLabels .textEditResizeHandle {
+    margin-left: 240px;
+}
+
+.textAreaHelp {
+    padding-top: 5px;
+    vertical-align: top;
 }
 
 .textPreview {
     border: 1px dashed #666;
-    margin-top: 10px;
     margin-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    width: 90%;
-    text-align: justify;
     background-color: white;
+    margin-left: 80px;
+    margin-right: 80px;
 }
 
 /* Directory Browser
@@ -650,12 +685,12 @@ ul {
 }
 
 .directoryPathPanel .directoryButton {
-	font-weight: bold;
     color: #fff;
-	font-size: 85%;
 	padding: 2px;
 	border-style: none;
     background: #fff url(../img/menu.bg.gif) 0 0 repeat-x;
+    font-size: 85%;
+    font-weight: bold;
 }
 
 .directoryPathPanel .directorySeparator {
@@ -678,13 +713,8 @@ ul {
 
 .datatable {
     margin: 0;
-    font-size: 85%;
     width: 100%;
     border-collapse: separate;
-}
-
-.datatable input {
-    font-size: 100%;
 }
 
 .topLeftBottomBorder {
@@ -820,41 +850,74 @@ ul {
 }
 .pager .pagerTextColumn {
     width: 60%;
+    font-size: 85%;
 }
 
 /* Comments
 -----------------------------------------------*/
 
 .commentColumn {
-    padding: 5px;
+}
+
+.commentHeader {
+    width: 100%;
+}
+
+.commentSubjectIcon {
+    padding-right: 10px;
 }
 
 .commentSubject {
-    font-weight: bold;
-    font-size: 100%;
     text-decoration:none;
-    float: left;
+    width: 100%;
 }
 
-
-.commentAuthorDate {
-    text-align:right;
-    font-size: 95%;
+.commentAuthorInfo {
+    white-space: nowrap;
+    text-align: right;
+    padding-left: 10px;
+    line-height: 140%;
 }
 
-.commentAuthor {
+.commentAuthorPortrait {
+    padding-left: 10px;
 }
 
-.commentDate {
+.commentAuthorPortraitImage {
 }
 
-.commentText {
+.commentText {}
 
+.commentSignatureSeparator {
+    font-size: 1px;
+    width: 20px;
+    border-bottom: 1px dashed #d3d2d1;
 }
 
-.commentForm {
-    margin-top: 10px;
+.commentSignature {
+    font-size: 85%;
 }
+
+.commentSignature .wikiPara {
+    line-height: 120%;
+}
+
+.commentControls {
+    margin-bottom: 10px;
+}
+
+.commentFirstLevel {
+    background-color: #f5f5f5;
+}
+
+.commentFirstLevel, .commentLevel {
+    padding: 5px;
+    border-bottom: 1px solid #C3BBB6;
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
+}
+
+.commentForm {}
 
 /* Document history and diff
 -----------------------------------------------*/
@@ -864,7 +927,6 @@ ul {
 }
 
 .diffInfo {
-    font-size: 85%;
     font-weight: bold;
     color: #666;
 }
@@ -906,7 +968,6 @@ ul {
 .popupDialogHead {
     text-align: left;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
-    font-size: 85%;
     font-weight: bold;
     color: #555;
     padding-left: 13px;
@@ -1074,7 +1135,6 @@ ul {
 
 .progressbarLabel {
     font-weight: bold;
-    font-size: 85%;
 }
 
 /* Box on page
@@ -1090,7 +1150,6 @@ ul {
 
 .boxHeader {
     text-align: right;
-    font-size: 100%;
     padding-left: 10px;
     padding-right: 15px;
     padding-top: 5px;
@@ -1099,13 +1158,14 @@ ul {
     border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
     background: white url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    font-size: 115%;
 }
 
 .boxHeader a {
     color: #962325;
-    font-size: 70%;
     line-height: 100%;
     margin-left: 5px;
+    font-size: 70%;
 }
 
 .boxHeader a:hover {color: #666}
@@ -1132,7 +1192,6 @@ ul {
     padding-left: 15px;
     padding-right: 15px;
     font-weight: normal;
-    font-size: 80%;
     color: #962325;
 	text-decoration: none;
     text-align: right;
@@ -1146,7 +1205,6 @@ ul {
 }
 
 .pluginPreferencesMessage {
-    font-size: 85%;
     color: #600;
 }
 
@@ -1183,7 +1241,6 @@ ul {
 }
 
 .pluginPreferencesEditorPropertyDescription {
-    font-size: 85%;
 }
 
 .pluginPreferencesEditorPropertyInput {
@@ -1199,8 +1256,6 @@ ul {
 
 #breadcrumb {
 	text-align: left;
-	font-size: 75%;
-	font-weight: bold;
 }
 
 #breadcrumb .itemLink{
@@ -1211,7 +1266,6 @@ ul {
 }
 
 #breadcrumb .itemSeparator {
-	font-size: 100%;
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -1226,3 +1280,84 @@ ul {
     padding-left: 2px;
     padding-right: 2px;
 }
+
+
+/* User Info
+----------------------------------------------- */
+
+.userInfo {
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+.userInfoDetails {
+    vertical-align: top;
+    width: 70%;
+    padding-right: 15px;
+}
+
+.userInfoDetails .form {
+    margin-top: 0;
+}
+
+.userInfoProfile {
+    vertical-align: top;
+}
+
+.userInfoProfileContent {
+    font-size: 85%;
+    line-height: 140%;
+    color: #000;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0;
+    padding-bottom: 5px;
+}
+
+.userInfoPortraitWithBio {
+    float: right;
+    margin-left: 10px;
+}
+
+.userInfoPortrait {
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.userInfoPortraitImage {
+    border: 1px solid #87786e;
+}
+
+.userInfoBio{}
+
+.userInfoBio .wikiPara:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+
+.userInfoBio .wikiPara{
+    line-height: 140%;
+}
+
+.userInfoEntry {
+    clear: both;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.userInfoEntryLabel {
+    font-weight: bold;
+}
+
+.userInfoEntryText {
+}
+
+.userInfoEntryLink {
+    color: #962325;
+}
+
+.userInfoEntryLink:hover {color: #666}
+

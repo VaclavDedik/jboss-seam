@@ -17,12 +17,12 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="exitManaged" styleClass="linkNavigation" rendered="#{documentHome.managed}" action="exitManaged"
+    <s:link id="exitManaged" styleClass="linkNavigation sessionEventTrigger" rendered="#{documentHome.managed}" action="exitManaged"
             accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
         <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
     </s:link>
 
-    <s:link id="exitUnmanaged" styleClass="linkNavigation" rendered="#{!documentHome.managed}" action="exitUnmanaged"
+    <s:link id="exitUnmanaged" styleClass="linkNavigation sessionEventTrigger" rendered="#{!documentHome.managed}" action="exitUnmanaged"
             accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
         <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
     </s:link>
@@ -31,30 +31,21 @@
 
 <ui:define name="content">
 
-    <s:span rendered="#{documentHome.managed}">
-        <ui:include src="includes/directorySelector.xhtml">
-            <ui:param name="home" value="#{documentHome}"/>
-        </ui:include>
-    </s:span>
-
     <s:span rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and documentHome.managed}">
         <ui:include src="includes/ownerSelector.xhtml">
             <ui:param name="home" value="#{documentHome}"/>
         </ui:include>
     </s:span>
 
-    <s:span rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}">
-        <ui:include src="includes/deleteConfirmation.xhtml">
-            <ui:param name="home" value="#{documentHome}"/>
-        </ui:include>
-    </s:span>
-
-
     <div id="docEditFormContainer" class="box">
     <h:form id="docEditForm">
         <div class="form">
 
-            <ui:include src="includes/statusIndicator.xhtml"/>
+            <ui:include src="includes/statusIndicator.xhtml">
+                <ui:param name="statusId" value="docEditFormStatus"/>
+            </ui:include>
+
+            <script type="text/javascript">startSessionTimeoutCheck();</script>
 
             <script type="text/javascript">jQuery(function() {
                 jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
@@ -80,12 +71,7 @@
                             <s:div styleClass="entry">
                                 <div class="label">#{messages['lacewiki.label.docEdit.Directory']}:</div>
                                 <div class="output">
-                                    <s:span id="directoryNameDisplay">#{documentHome.parentDirectory.name}</s:span>
-
-                                    <h:outputLink id="selectDirectory" rendered="#{documentHome.managed}"
-                                                  value="#" tabindex="1"
-                                                  styleClass="buttonNonpersistent"><j4j:idProxy
-                                            id="openDialogDirectorySelection"/><span class="buttonLabel">...</span></h:outputLink>
+                                    <s:span id="directoryNameDisplay">#{documentHome.parentNode.name}</s:span>
                                 </div>
                             </s:div>
 
@@ -93,16 +79,16 @@
                                 <ui:param name="tabId" value="docContentTab"/>
                                 <ui:param name="fieldId" value="name"/>
                                 <ui:define name="label">#{messages['lacewiki.label.docEdit.Name']}</ui:define>
-                                <h:inputText tabindex="1" size="70" maxlength="255" required="true" value="#{documentHome.instance.name}">
-                                    <a:support status="docEditForm:status" event="onblur" reRender="nameDecorate, contentPreview"/>
+                                <h:inputText styleClass="ajaxSupport" tabindex="1" size="65" maxlength="200" required="true" value="#{documentHome.instance.name}">
+                                    <a:support status="docEditFormStatus" event="onblur" reRender="nameDecorate, contentPreview" oncomplete="onAjaxRequestComplete()"/>
                                 </h:inputText>
                             </s:decorate>
 
                             <s:div styleClass="entry">
                                 <div class="label">&#160;</div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.instance.nameAsTitle}" tabindex="1">
-                                        <a:support status="docEditForm:status" event="onchange" reRender="contentPreview"/>
+                                    <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.instance.nameAsTitle}" tabindex="1">
+                                        <a:support status="docEditFormStatus" event="onchange" reRender="contentPreview" oncomplete="onAjaxRequestComplete()"/>
                                     </h:selectBooleanCheckbox>
                                     <h:outputText value="#{messages['lacewiki.label.docEdit.RenderNameAsTitle']}"/>
                                 </div>
@@ -120,8 +106,8 @@
                                 <s:div styleClass="entry">
                                     <div class="label">&#160;</div>
                                     <div class="input">
-                                        <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1">
-                                            <a:support status="docEditForm:status" event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged"/>
+                                        <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.pushOnFeeds}" tabindex="1">
+                                            <a:support status="docEditFormStatus" event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged" oncomplete="onAjaxRequestComplete()"/>
                                         </h:selectBooleanCheckbox>
                                         <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnParentFeeds']}"/>
                                     </div>
@@ -138,7 +124,7 @@
                             </s:fragment>
 
                             <s:fragment rendered="#{documentHome.managed}">
-                                <s:fragment rendered="#{documentHome.siteFeedEntryPresent}">
+                                <s:fragment rendered="#{documentHome.onSiteFeed}">
                                     <s:div styleClass="entry">
                                         <div class="label">&#160;</div>
                                         <div class="input">
@@ -147,12 +133,12 @@
                                         </div>
                                     </s:div>
                                 </s:fragment>
-                                <s:fragment rendered="#{not documentHome.siteFeedEntryPresent}">
+                                <s:fragment rendered="#{not documentHome.onSiteFeed}">
                                     <s:div styleClass="entry">
                                         <div class="label">&#160;</div>
                                         <div class="input">
-                                            <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}" tabindex="1">
-                                                <a:support status="docEditForm:status" event="onchange" reRender="pushOnSiteFeedSwitch"/>
+                                            <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.pushOnFeeds}" tabindex="1">
+                                                <a:support status="docEditFormStatus" event="onchange" reRender="pushOnSiteFeedSwitch" oncomplete="onAjaxRequestComplete()"/>
                                             </h:selectBooleanCheckbox>
                                             <h:outputText value="#{messages['lacewiki.label.docEdit.PushOnParentFeeds']}"/>
                                         </div>
@@ -173,6 +159,7 @@
                                 <ui:param name="textEditorId" value="content"/>
                                 <ui:param name="textPreviewId" value="#{documentHome.enabledPreview ? 'contentPreview' : ''}"/>
                                 <ui:param name="namingContainer" value="docEditForm"/>
+                                <ui:param name="statusId" value="docEditFormStatus"/>
                                 <ui:param name="label" value="#{messages['lacewiki.label.docEdit.Content']}"/>
                                 <ui:param name="textEditorColumns" value="#{docEditorPreferences.properties['regularEditAreaColumns']}"/>
                                 <ui:param name="textEditorRows" value="#{docEditorPreferences.properties['regularEditAreaRows']}"/>
@@ -185,9 +172,10 @@
                                 <h:message for="previewSwitch"/>
                                 <div class="label">&#160;</div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.enabledPreview}" tabindex="1" id="previewSwitch">
-                                        <a:support status="docEditForm:status"
+                                    <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.enabledPreview}" tabindex="1" id="previewSwitch">
+                                        <a:support status="docEditFormStatus"
                                                    event="onchange"
+                                                   oncomplete="onAjaxRequestComplete()"
                                                    reRender="contentPreview, docEditForm:contentTextEditor, pluginSwitch"/>
                                     </h:selectBooleanCheckbox>
                                     <h:outputText value="#{messages['lacewiki.label.docEdit.EnableLivePreview']}"/>
@@ -195,11 +183,11 @@
                             </s:div>
 
                             <s:div id="pluginSwitch">
-                                <s:div styleClass="entry" rendered="#{documentHome.enabledPreview}">
+                                <s:div styleClass="entry" rendered="false">
                                     <div class="label">&#160;</div>
                                     <div class="input">
-                                        <h:selectBooleanCheckbox value="#{documentHome.showPluginPrefs}" tabindex="1">
-                                            <a:support status="docEditForm:status" event="onchange" reRender="contentPreview"/>
+                                        <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.showPluginPrefs}" tabindex="1">
+                                            <a:support status="docEditFormStatus" event="onchange" reRender="contentPreview" oncomplete="onAjaxRequestComplete()"/>
                                         </h:selectBooleanCheckbox>
                                         <h:outputText value="#{messages['lacewiki.label.docEdit.ShowPluginSettings']}"/>
                                     </div>
@@ -222,7 +210,7 @@
                                 </div>
                                 <div class="output">
                                     <h:outputText value="#{documentHome.instance.createdOn}">
-                                        <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                                     </h:outputText>
                                     <s:span id="ownerDisplay">&#160;(#{documentHome.instance.createdBy.username})</s:span>
                                     <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent"
@@ -232,7 +220,7 @@
                             </s:div>
 
                             <ui:include src="includes/accessLevelSelector.xhtml">
-                                <ui:param name="nodeHome" value="#{documentHome}"/>
+                                <ui:param name="home" value="#{documentHome}"/>
                             </ui:include>
 
                             <s:div styleClass="entry">
@@ -240,8 +228,8 @@
                                     <h:outputText value="#{messages['lacewiki.label.docEdit.Options']}:"/>
                                 </div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox value="#{documentHome.instance.enableComments}" tabindex="1">
-                                        <a:support status="docEditForm:status" event="onchange" reRender="commentFormSwitch"/>
+                                    <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.instance.enableComments}" tabindex="1">
+                                        <a:support status="docEditFormStatus" event="onchange" reRender="commentFormSwitch" oncomplete="onAjaxRequestComplete()"/>
                                     </h:selectBooleanCheckbox>
                                     <h:outputText value="#{messages['lacewiki.label.docEdit.EnableComments']}"/>
                                 </div>
@@ -269,53 +257,14 @@
 
                             </s:div>
 
-                            <s:div styleClass="entry">
-                                <div class="label">
-                                    <h:outputText value="#{messages['lacewiki.label.docEdit.Tags']}:"/>
-                                </div>
-                                <div class="input">
-                                    <h:inputText id="tagsInput" tabindex="1" size="70" maxlength="1024" required="false" value="#{documentHome.instance.tags}">
-                                        <a:support event="onblur" reRender="popularTagsList"/>
-                                    </h:inputText>
-                                </div>
-                            </s:div>
+                            <ui:include src="includes/writeProtectionSelector.xhtml">
+                                <ui:param name="home" value="#{documentHome}"/>
+                            </ui:include>
 
-                            <script type="text/javascript">
-                                function appendTag(tag) {
-                                    oldValue = jQuery('#docEditForm\\:tagsInput').val();
-                                    if (oldValue != null &amp;&amp; oldValue.length > 0) {
-                                        jQuery('#docEditForm\\:tagsInput').val(
-                                            trimString(oldValue) + (stringEndsWith(trimString(oldValue), ",") ? " " : ", ") + tag
-                                        );
-                                    } else {
-                                        jQuery('#docEditForm\\:tagsInput').val(tag);
-                                    }
-                                    refreshPopularTagsList();
-                                }
-                            </script>
-                            <a:jsFunction name="refreshPopularTagsList"
-                                          reRender="popularTagsList"/>
-
-                            <s:div styleClass="entry" id="popularTagsList">
-                                <div class="label">
-                                    <h:outputText value="#{messages['lacewiki.label.docEdit.PopularTags']}:"/>
-                                </div>
-                                <div class="input">
-                                    <h:panelGroup>
-                                        <ui:repeat var="tagCount" value="#{documentHome.popularTags}">
-                                            <s:span styleClass="undecoratedLink">
-                                                <s:fragment rendered="#{not empty tagCount.tag and not documentHome.instance.tags.contains(tagCount.tag)}">
-                                                    <h:outputLink value="#"
-                                                                  onclick="appendTag('#{tagCount.tag}')" >#{tagCount.tag}</h:outputLink>
-                                                    &#160;
-                                                </s:fragment>
-                                            </s:span>
-                                        </ui:repeat>
-                                    </h:panelGroup>
-                                    
-                                </div>
-                            </s:div>
-                            
+                            <ui:include src="includes/tagEditor.xhtml">
+                                <ui:param name="namingContainer" value="docEditForm"/>
+                                <ui:param name="home" value="#{documentHome}"/>
+                            </ui:include>
 
                         </div>
                     </a:region>
@@ -332,23 +281,27 @@
                         <h:commandLink id="save" action="#{documentHome.persist}"
                                        rendered="#{!documentHome.managed}"
                                        tabindex="1" accesskey="#{messages['lacewiki.button.docEdit.Save.accesskey']}"
-                                       styleClass="button saveButton">
+                                       styleClass="button saveButton sessionEventTrigger">
                             <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Save']}"/>
                         </h:commandLink>
 
                         <h:commandLink id="update" action="#{documentHome.update}"
                                    rendered="#{documentHome.managed}"
                                    tabindex="1" accesskey="#{messages['lacewiki.button.docEdit.Update.accesskey']}"
-                                   styleClass="button saveButton">
+                                   styleClass="button saveButton sessionEventTrigger">
                             <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Update']}"/>
                         </h:commandLink>
 
-                        <h:outputLink id="delete" value="#" tabindex="1"
-                                      accesskey="#{messages['lacewiki.button.docEdit.Delete.accesskey']}"
-                                      styleClass="button"
-                                      rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"><j4j:idProxy id="openDialogDelete"/>
-                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Delete']}"/>
-                        </h:outputLink>
+                        <s:fragment rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}">
+                            <a:jsFunction name="deleteDocument"
+                                          action="#{documentHome.remove}"/>
+                            <h:outputLink value="#" tabindex="1"
+                                          accesskey="#{messages['lacewiki.button.docEdit.Delete.accesskey']}"
+                                          onclick="deleteConfirmation('\\'#{documentHome.instance.name}\\'', 'deleteDocument')"
+                                          styleClass="button sessionEventTrigger">
+                                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Delete']}"/>
+                            </h:outputLink>
+                        </s:fragment>
 
                     </div>
                 </div>
@@ -365,9 +318,6 @@
         <s:div id="documentDisplayContainer"
                rendered="#{documentHome.enabledPreview}"
                styleClass="box">
-            <script type="text/javascript">jQuery(function() {
-                wrapBoxes();
-            });</script>
             <s:fragment rendered="#{documentHome.instance.macroPresent('clearBackground')}">
                 <script type="text/javascript">jQuery(function() {
                     clearDocumentBackground();
@@ -380,8 +330,8 @@
                                     brokenLinkStyleClass="brokenLink"
                                     attachmentLinkStyleClass="regularLink"
                                     thumbnailLinkStyleClass="regularLink"
-                                    renderBaseDocument="#{documentHome.instance}"
-                                    renderBaseDirectory="#{documentHome.parentDirectory}"
+                                    linkBaseFile="#{documentHome.instance}"
+                                    currentAreaNumber="#{documentHome.parentNode.areaNumber}"
                                     enablePlugins="true"/>
             </s:div>
         </s:div>

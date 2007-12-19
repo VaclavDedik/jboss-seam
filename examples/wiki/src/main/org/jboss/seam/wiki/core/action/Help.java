@@ -1,81 +1,95 @@
 package org.jboss.seam.wiki.core.action;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.log.Log;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.framework.EntityNotFoundException;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.io.Serializable;
 
 @Name("help")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.SESSION)
 public class Help implements Serializable {
 
     @Logger
     Log log;
 
     @In
-    NodeDAO nodeDAO;
+    WikiNodeDAO wikiNodeDAO;
 
     @In
     WikiPreferences wikiPreferences;
 
-    NestedSetNodeWrapper<Node> root;
+    NestedSetNodeWrapper<WikiDirectory> root;
 
-    public NestedSetNodeWrapper<Node> getRoot() {
-        // If this is the first time or if the preferences changed... (re)load the help document tree
-        if (root == null || !root.getWrappedNode().getName().equals(wikiPreferences.getHelpArea()) ) {
-            Directory helpAreaRoot = nodeDAO.findArea(WikiUtil.convertToWikiName(wikiPreferences.getHelpArea()));
-            if (helpAreaRoot != null) {
-                log.debug("Loading help documents tree");
-                root = nodeDAO.findMenuItems(helpAreaRoot, 99l, 1l, false);
-            } else {
-                throw new EntityNotFoundException("Help Area: '" + wikiPreferences.getHelpArea() + "'", Directory.class);
-            }
-        }
+    public NestedSetNodeWrapper<WikiDirectory> getRoot() {
+        if (root == null) refreshRoot();
         return root;
     }
 
-    Document selectedDocument;
-    Directory selectedDirectory;
-    public Document getSelectedDocument() { return selectedDocument; }
-    public Directory getSelectedDirectory() { return selectedDirectory; }
-
-    NestedSetNodeWrapper<Node> selectedNode;
-    public NestedSetNodeWrapper<Node> getSelectedNode() { return selectedNode; }
-    public void setSelectedNode(NestedSetNodeWrapper<Node> selectedNode) {
-        this.selectedNode = selectedNode;
-
-        selectedDirectory = null;
-        selectedDocument = null;
-        if (selectedNode != null) {
-            if (WikiUtil.isDirectory( selectedNode.getWrappedNode() )) {
-                selectedDirectory = (Directory)selectedNode.getWrappedNode();
-            } else if (WikiUtil.isDocument( selectedNode.getWrappedNode() ) ) {
-                selectedDocument = (Document)selectedNode.getWrappedNode();
-                selectedDirectory = selectedNode.getWrappedNode().getParent();
-            }
+    // TODO: Find event that triggers help document updates... difficult
+    //@Observer(value = "Nodes.menuStructureModified", create = false)
+    public void refreshRoot() {
+        log.debug("Loading help documents tree");
+         WikiDirectory helpAreaRoot = wikiNodeDAO.findArea(WikiUtil.convertToWikiName(wikiPreferences.getHelpArea()));
+        if (helpAreaRoot != null) {
+            root = wikiNodeDAO.findWikiDirectoryTree(helpAreaRoot, 99l, 1l, false);
         } else {
-            selectedDirectory = (Directory)root.getWrappedNode();
+            throw new EntityNotFoundException("Help Area: '" + wikiPreferences.getHelpArea() + "'", WikiDirectory.class);
         }
     }
 
-    public void selectDocumentByName(String documentName) {
-        Node foundNode = nodeDAO.findDocumentInArea(root.getWrappedNode().getAreaNumber(), WikiUtil.convertToWikiName(documentName));
-        if (foundNode == null)
-            throw new EntityNotFoundException("Help document: "+documentName, Document.class);
+    // Needed for the tree dropdown
+    NestedSetNodeWrapper<WikiDirectory> selectedNode;
+    public NestedSetNodeWrapper<WikiDirectory> getSelectedNode() {
+        return selectedNode;
+    }
+    public void setSelectedNode(NestedSetNodeWrapper<WikiDirectory> selectedNode) {
+        this.selectedNode = selectedNode;
+        setSelectedDirectory(selectedNode.getWrappedNode());
+        setSelectedDocument(null);
+    }
+    WikiDocument selectedDocument;
+    WikiDirectory selectedDirectory;
 
-        setSelectedNode(new NestedSetNodeWrapper(foundNode));
+    public WikiDocument getSelectedDocument() {
+        return selectedDocument;
+    }
+
+    public void setSelectedDocument(WikiDocument selectedDocument) {
+        this.selectedDocument = selectedDocument;
+    }
+
+    public WikiDirectory getSelectedDirectory() {
+        return selectedDirectory;
+    }
+
+    public void setSelectedDirectory(WikiDirectory selectedDirectory) {
+        this.selectedDirectory = selectedDirectory;
+    }
+
+    public void selectDocumentByName(String documentName) {
+        log.debug("Searching for help document with wiki name in area: " + getRoot().getWrappedNode().getAreaNumber() + ", " + WikiUtil.convertToWikiName(documentName));
+        WikiDocument helpDoc =
+                wikiNodeDAO.findWikiDocumentInArea(
+                        getRoot().getWrappedNode().getAreaNumber(),
+                        WikiUtil.convertToWikiName(documentName)
+                );
+        if (helpDoc == null)
+            throw new EntityNotFoundException("Help document: "+documentName, WikiDocument.class);
+
+        log.debug("Found help document: " + helpDoc);
+        // TODO: Avoid cast
+        setSelectedNode(new NestedSetNodeWrapper<WikiDirectory>( (WikiDirectory)helpDoc.getParent()) );
+        setSelectedDocument(helpDoc);
+        // TODO: Avoid cast
+        setSelectedDirectory( (WikiDirectory)helpDoc.getParent() );
     }
 
 }

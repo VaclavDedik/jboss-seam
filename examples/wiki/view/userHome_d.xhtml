@@ -16,7 +16,7 @@
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" view="/wiki.xhtml" propagation="end"
+    <s:link id="close" styleClass="linkNavigation sessionEventTrigger" view="/wiki.xhtml" propagation="end"
             accesskey="#{messages['lacewiki.button.Close.accesskey']}">
         <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
     </s:link>
@@ -25,16 +25,14 @@
 
 <ui:define name="content">
 
-<s:span rendered="#{s:hasPermission('User', 'delete', userHome.instance)}">
-    <ui:include src="includes/deleteConfirmation.xhtml">
-        <ui:param name="home" value="#{userHome}"/>
-    </ui:include>
-</s:span>
-
 <h:form id="userHomeForm" styleClass="box" enctype="multipart/form-data">
     <div class="form">
 
-        <ui:include src="includes/statusIndicator.xhtml"/>
+        <ui:include src="includes/statusIndicator.xhtml">
+            <ui:param name="statusId" value="userHomeFormStatus"/>
+        </ui:include>
+
+        <script type="text/javascript">startSessionTimeoutCheck()</script>
 
         <script type="text/javascript">jQuery(function() {
             jQuery('#formTabs').tabs(2, {onClick: function(){formTabClicked()} });
@@ -72,8 +70,8 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="firstname"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.FirstName']}</ui:define>
-                        <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
-                            <a:support status="userHomeForm:status" event="onblur" reRender="firstnameDecorate"/>
+                        <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
+                            <a:support status="userHomeFormStatus" event="onblur" reRender="firstnameDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
                     </a:region>
@@ -83,8 +81,8 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="lastname"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.LastName']}</ui:define>
-                        <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
-                            <a:support status="userHomeForm:status" event="onblur" reRender="lastnameDecorate"/>
+                        <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
+                            <a:support status="userHomeFormStatus" event="onblur" reRender="lastnameDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
                     </a:region>
@@ -94,9 +92,9 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="email"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Email']}</ui:define>
-                        <h:inputText tabindex="1" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"
+                        <h:inputText  styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"
                                      disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support status="userHomeForm:status" event="onblur" reRender="emailDecorate"/>
+                            <a:support status="userHomeFormStatus" event="onblur" reRender="emailDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
                     </a:region>
@@ -106,10 +104,11 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="username"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Username']}</ui:define>
-                        <h:inputText tabindex="1" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"
+                        <h:inputText  styleClass="ajaxSupport" tabindex="1" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"
                                      disabled="#{userHome.instance.username == adminUser.username
                                                  or userHome.instance.username == guestUser.username}">
-                            <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validateUsername}" reRender="usernameDecorate"/>
+                            <a:support status="userHomeFormStatus" event="onblur" action="#{userHome.validateUsername}"
+                                       reRender="usernameDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
                     </a:region>
@@ -119,10 +118,11 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="password"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Password']}</ui:define>
-                        <h:inputSecret tabindex="1" size="15" maxlength="15"
+                        <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
                                        redisplay="true" value="#{userHome.password}"
                                        disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validatePassword}" reRender="passwordDecorate"/>
+                            <a:support status="userHomeFormStatus" event="onblur" action="#{userHome.validatePassword}"
+                                       reRender="passwordDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputSecret>
                     </s:decorate>
                     </a:region>
@@ -132,10 +132,11 @@
                         <ui:param name="tabId" value="userAccountTab"/>
                         <ui:param name="fieldId" value="passwordControl"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.RepeatPassword']}</ui:define>
-                        <h:inputSecret tabindex="1" size="15" maxlength="15"
+                        <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
                                        redisplay="true" value="#{userHome.passwordControl}"
                                        disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support status="userHomeForm:status" event="onblur" action="#{userHome.validatePasswordControl}" reRender="passwordControlDecorate"/>
+                            <a:support status="userHomeFormStatus" event="onblur" action="#{userHome.validatePasswordControl}"
+                                       reRender="passwordControlDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputSecret>
                     </s:decorate>
                     </a:region>
@@ -179,28 +180,50 @@
             <div class="formFields wideLabels">
                 <s:validateAll>
 
-                    <s:div styleClass="entry" rendered="#{!empty userHome.instance.profile.image}">
-                        <div class="label">
-                            <h:outputText value="#{messages['lacewiki.label.userHome.Portrait']}"/>
-                        </div>
-                        <div class="output">
-                            <s:graphicImage value="#{userHome.instance.profile.image}" style="border: 1px solid black;"/>
-                        </div>
-                    </s:div>
+                    <s:div id="portraitEditor">
+                        <s:div styleClass="entry" rendered="#{!empty userHome.instance.profile.image}">
+                            <div class="label">
+                                <h:outputText value="#{messages['lacewiki.label.userHome.Portrait']}"/>
+                            </div>
+                            <div class="output">
+                                <s:graphicImage value="#{userHome.instance.profile.image}" style="border: 1px solid black;"/>
+                            </div>
+                        </s:div>
 
-                    <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
-                        <ui:param name="tabId" value="userProfileTab"/>
-                        <ui:param name="fieldId" value="userimage"/>
-                        <ui:define name="label">#{messages['lacewiki.label.userHome.UploadPortrait']} (#{messages['lacewiki.label.userHome.UploadMax']}. #{wiki:displayFilesize(200000)})</ui:define>
-                        <s:fileUpload id="upload" data="#{userHome.portraitImageData}"
-                                                  contentType="#{userHome.portraitContentType}"/>
-                    </s:decorate>
+                        <s:div styleClass="entry" rendered="#{!empty userHome.instance.profile.image}">
+                            <div class="label">&#160;</div>
+                            <div class="input">
+                                <a:commandLink action="#{userHome.removePortrait()}"
+                                               reRender="portraitEditor, messageBoxContainer"
+                                               oncomplete="onCompleteAjaxRequest()"
+                                               styleClass="buttonNonpersistent sessionEventTrigger" tabindex="1">
+                                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.userHome.RemovePortrait']}"/>
+                                </a:commandLink>
+                            </div>
+                        </s:div>
+
+                        <s:span styleClass="sessionEventTrigger">
+                            <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
+                                <ui:param name="tabId" value="userProfileTab"/>
+                                <ui:param name="fieldId" value="userimage"/>
+                                <ui:define name="label">
+                                    #{messages['lacewiki.label.userHome.UploadPortrait']}
+                                    (#{messages['lacewiki.label.upload.UploadMax']}
+                                     #{wiki:displayFilesize(org.jboss.seam.web.multipartFilter.maxRequestSize)})
+                                </ui:define>
+                                <s:fileUpload id="upload" data="#{userHome.uploader.data}"
+                                              contentType="#{userHome.uploader.contentType}"
+                                              fileName="#{userHome.uploader.filename}"/>
+                            </s:decorate>
+                        </s:span>
+                    </s:div>
 
                     <ui:include src="includes/wikiTextEditor.xhtml">
                         <ui:param name="tabId" value="userProfileTab"/>
                         <ui:param name="textEditorId" value="bio"/>
                         <ui:param name="textPreviewId" value="bioPreview"/>
                         <ui:param name="namingContainer" value="userHomeForm"/>
+                        <ui:param name="statusId" value="userHomeFormStatus"/>
                         <ui:param name="label" value="#{messages['lacewiki.label.userHome.Bio']}"/>
                         <ui:param name="valueBinding" value="#{userHome.instance.profile.bio}"/>
                         <ui:param name="valueMaxLength" value="1000"/>
@@ -208,21 +231,19 @@
                         <ui:param name="textEditorRows" value="5"/>
                     </ui:include>
 
-                    <s:div styleClass="wideMarginLeft">
-                        <ui:include src="includes/wikiTextPreview.xhtml">
-                            <ui:param name="textPreviewId" value="bioPreview"/>
-                            <ui:param name="valueBinding" value="#{userHome.instance.profile.bio}"/>
-                            <ui:param name="baseDocument" value="#{wikiStart}"/>
-                            <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
-                        </ui:include>
-                    </s:div>
+                    <ui:include src="includes/wikiTextPreview.xhtml">
+                        <ui:param name="textPreviewId" value="bioPreview"/>
+                        <ui:param name="valueBinding" value="#{userHome.instance.profile.bio}"/>
+                        <ui:param name="baseDocument" value="#{wikiStart}"/>
+                        <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
+                    </ui:include>
 
                     <s:decorate id="websiteDecorate" template="includes/formFieldDecorate.xhtml">
                         <ui:param name="tabId" value="userProfileTab"/>
                         <ui:param name="fieldId" value="website"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Website']}</ui:define>
-                        <h:inputText tabindex="1" size="60" maxlength="1000" value="#{userHome.instance.profile.website}">
-                            <a:support status="userHomeForm:status" event="onblur" reRender="websiteDecorate"/>
+                        <h:inputText styleClass="ajaxSupport" tabindex="1" size="55" maxlength="1000" value="#{userHome.instance.profile.website}">
+                            <a:support status="userHomeFormStatus" event="onblur" reRender="websiteDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -230,8 +251,8 @@
                         <ui:param name="tabId" value="userProfileTab"/>
                         <ui:param name="fieldId" value="location"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Location']}</ui:define>
-                        <h:inputText tabindex="1" size="40" maxlength="255" value="#{userHome.instance.profile.location}">
-                            <a:support status="userHomeForm:status" event="onblur" reRender="locationDecorate"/>
+                        <h:inputText styleClass="ajaxSupport" tabindex="1" size="55" maxlength="255" value="#{userHome.instance.profile.location}">
+                            <a:support status="userHomeFormStatus" event="onblur" reRender="locationDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -239,8 +260,8 @@
                         <ui:param name="tabId" value="userProfileTab"/>
                         <ui:param name="fieldId" value="occupation"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Occupation']}</ui:define>
-                        <h:inputText tabindex="1" size="60" maxlength="1000" value="#{userHome.instance.profile.occupation}">
-                            <a:support status="userHomeForm:status" event="onblur" reRender="occupationDecorate"/>
+                        <h:inputText styleClass="ajaxSupport" tabindex="1" size="55" maxlength="1000" value="#{userHome.instance.profile.occupation}">
+                            <a:support status="userHomeFormStatus" event="onblur" reRender="occupationDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -249,6 +270,7 @@
                         <ui:param name="textEditorId" value="signature"/>
                         <ui:param name="textPreviewId" value="signaturePreview"/>
                         <ui:param name="namingContainer" value="userHomeForm"/>
+                        <ui:param name="statusId" value="userHomeFormStatus"/>
                         <ui:param name="label" value="#{messages['lacewiki.label.userHome.Signature']}"/>
                         <ui:param name="valueBinding" value="#{userHome.instance.profile.signature}"/>
                         <ui:param name="valueMaxLength" value="1000"/>
@@ -256,14 +278,12 @@
                         <ui:param name="textEditorRows" value="5"/>
                     </ui:include>
 
-                    <s:div styleClass="wideMarginLeft">
-                        <ui:include src="includes/wikiTextPreview.xhtml">
-                            <ui:param name="textPreviewId" value="signaturePreview"/>
-                            <ui:param name="valueBinding" value="#{userHome.instance.profile.signature}"/>
-                            <ui:param name="baseDocument" value="#{wikiStart}"/>
-                            <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
-                        </ui:include>
-                    </s:div>
+                    <ui:include src="includes/wikiTextPreview.xhtml">
+                        <ui:param name="textPreviewId" value="signaturePreview"/>
+                        <ui:param name="valueBinding" value="#{userHome.instance.profile.signature}"/>
+                        <ui:param name="baseDocument" value="#{wikiStart}"/>
+                        <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
+                    </ui:include>
 
                 </s:validateAll>
             </div>
@@ -286,7 +306,7 @@
             <div class="label">&#160;</div>
             <div class="input">
 
-                <h:commandLink id="createHomeDirectory" styleClass="buttonNonpersistent"
+                <h:commandLink id="createHomeDirectory" styleClass="buttonNonpersistent sessionEventTrigger"
                                tabindex="1"
                                rendered="#{empty userHome.instance.memberHome
                                            and userHome.instance.id != guestUser.id
@@ -296,21 +316,24 @@
                     <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.userHome.CreateHomeDirectory']}"/>
                 </h:commandLink>
 
-                <h:commandLink id="update" styleClass="button saveButton"
+                <h:commandLink id="update" styleClass="button saveButton sessionEventTrigger"
                                action="#{userHome.update}"
                                tabindex="1"
                                accesskey="#{messages['lacewiki.button.userHome.SaveSettings.accesskey']}">
                     <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userHome.SaveSettings']}"/>
                 </h:commandLink>
 
-                <h:outputLink id="delete" value="#" tabindex="1"
-                              accesskey="#{messages['lacewiki.button.userHome.Delete.accesskey']}"
-                              styleClass="button"
-                              rendered="#{s:hasPermission('User', 'delete', userHome.instance)}"><j4j:idProxy id="openDialogDelete"/>
-                    <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userHome.Delete']}"/>
-                </h:outputLink>
-
-
+                <s:fragment rendered="#{s:hasPermission('User', 'delete', userHome.instance)}">
+                    <a:jsFunction name="deleteUser"
+                                  action="#{userHome.remove}"/>
+                    <h:outputLink value="#" tabindex="1"
+                                  accesskey="#{messages['lacewiki.button.userHome.Delete.accesskey']}"
+                                  onclick="deleteConfirmation('\\'#{userHome.instance.username}\\'', 'deleteUser')"
+                                  styleClass="button sessionEventTrigger">
+                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userHome.Delete']}"/>
+                    </h:outputLink>
+                </s:fragment>
+                
             </div>
         </div>
     </div>

@@ -6,149 +6,201 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.engine.*;
-import org.jboss.seam.wiki.core.dao.FeedDAO;
-import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
-import org.jboss.seam.wiki.core.dao.TagDAO;
-import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
-import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.log.Log;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
+import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.feeds.FeedDAO;
+import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.model.FeedEntry;
+import org.jboss.seam.wiki.preferences.PreferenceProvider;
 
-import java.util.List;
-import java.util.Date;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import java.util.*;
 
 @Name("documentHome")
 @Scope(ScopeType.CONVERSATION)
-public class DocumentHome extends NodeHome<Document> {
-
-    @Logger
-    static Log log;
+public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
     /* -------------------------- Context Wiring ------------------------------ */
 
-    @In
-    private Directory wikiRoot;
     @In(required = false)
-    private Node selectedHistoricalNode;
+    private DocumentHistory documentHistory;
     @In
     private FeedDAO feedDAO;
-    @In
-    private TagDAO tagDAO;
-
-    /* -------------------------- Request Wiring ------------------------------ */
-
-    @Observer("DocumentHome.init")
-    public String init() {
-        String result = super.init();
-        if (result != null) return result;
-
-        // Rollback to historical revision?
-        if (selectedHistoricalNode != null) {
-            getLog().debug("rolling back to revision: " + selectedHistoricalNode.getRevision());
-            getInstance().rollback(selectedHistoricalNode);
-        }
-
-        // Make a copy
-        if (historicalCopy == null) {
-            historicalCopy = new Document(getInstance(), true);
-        }
-
-        // Wiki text parser and plugins need this
-        log.debug("setting current document: " + getInstance());
-        Contexts.getPageContext().set("currentDocument", getInstance());
-        log.debug("setting current directory: " + getParentDirectory());
-        Contexts.getPageContext().set("currentDirectory", getParentDirectory());
-
-        return null;
-    }
 
     /* -------------------------- Internal State ------------------------------ */
 
-    private Document historicalCopy;
+    private WikiDocument historicalCopy;
     private Boolean minorRevision;
     private String formContent;
+    private String tagString;
+    Set<WikiFile> linkTargets;
     private boolean enabledPreview = false;
     private boolean pushOnFeeds = false;
     private boolean pushOnSiteFeed = false;
-    private List<Node> historicalNodes;
-    private Long numOfHistoricalNodes;
+    private boolean isOnSiteFeed = false;
+    private List<WikiFile> historicalFiles;
+    private Long numOfHistoricalFiles = 0l;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
+    @Override
+    public Class<WikiDocument> getEntityClass() {
+        return WikiDocument.class;
+    }
+
+    @Override
+    public WikiDocument findInstance() {
+        return getWikiNodeDAO().findWikiDocument((Long)getId());
+    }
+
+    @Override
+    protected WikiDirectory findParentNode(Long parentNodeId) {
+        return getEntityManager().find(WikiDirectory.class, parentNodeId);
+    }
+
+    @Override
+    public WikiDocument afterNodeCreated(WikiDocument doc) {
+        doc = super.afterNodeCreated(doc);
+
+        outjectDocumentAndDirectory(doc, getParentNode());
+        return doc;
+    }
+
+    @Override
+    public WikiDocument beforeNodeEditNew(WikiDocument doc) {
+        doc = super.beforeNodeEditNew(doc);
+
+        doc.setEnableComments( ((CommentsPreferences)Component.getInstance("commentsPreferences")).getEnableByDefault() );
+
+        return doc;
+    }
+
+    @Override
+    public WikiDocument afterNodeFound(WikiDocument doc) {
+        doc = super.afterNodeFound(doc);
+
+        findHistoricalFiles(doc);
+        syncMacros(doc.getAreaNumber(), doc);
+        outjectDocumentAndDirectory(doc, getParentNode());
+
+        return doc;
+    }
+
+    @Override
+    public WikiDocument beforeNodeEditFound(WikiDocument doc) {
+        doc = super.beforeNodeEditFound(doc);
+
+        // Rollback to historical revision?
+        if (documentHistory != null && documentHistory.getSelectedHistoricalFile() != null) {
+            getLog().debug("rolling back to revision: " + documentHistory.getSelectedHistoricalFile().getRevision());
+            // TODO: Avoid cast, make history polymorphic
+            doc.rollback((WikiDocument)documentHistory.getSelectedHistoricalFile());
+        }
+
+        isOnSiteFeed = feedDAO.isOnSiteFeed(doc);
+        tagString = doc.getTagsCommaSeparated();
+
+        return doc;
+    }
 
     /* -------------------------- Custom CUD ------------------------------ */
 
-    protected Document createInstance() {
-        Document newDoc = super.createInstance();
-        newDoc.setEnableComments( ((CommentsPreferences)Component.getInstance("commentsPreferences")).getEnableByDefault() );
-        return newDoc;
-    }
-
+    @Override
     protected boolean beforePersist() {
         // Sync document content
-        syncFormToInstance(getParentDirectory());
+        syncFormContentToInstance(getParentNode());
+        syncLinks();
+        syncTags();
 
         // Set createdOn date _now_
         getInstance().setCreatedOn(new Date());
 
         // Make a copy
-        historicalCopy = new Document(getInstance(), true);
+        historicalCopy = new WikiDocument();
+        historicalCopy.flatCopy(getInstance(), true);
 
         return true;
     }
 
+    @Override
     public String persist() {
         String outcome = super.persist();
 
         // Create feed entries (needs identifiers assigned, so we run after persist())
         if (outcome != null && isPushOnFeeds()) {
-            feedDAO.createFeedEntry(getInstance(), isPushOnSiteFeed());
+            getLog().debug("creating feed entries on parent dirs - and on site feed: " + isPushOnSiteFeed());
+            isOnSiteFeed = isPushOnSiteFeed();
+
+            FeedEntry feedEntry =
+                    ((FeedEntryManager)Component.getInstance(getFeedEntryManagerName())).createFeedEntry(getInstance());
+            feedDAO.createFeedEntry(getParentNode(), getInstance(), feedEntry, isPushOnSiteFeed());
+
             getEntityManager().flush();
-            pushOnFeeds = false;
-            pushOnSiteFeed = false;
+            setPushOnFeeds(false);
+            setPushOnSiteFeed(false);
         }
 
         return outcome;
     }
 
+    @Override
     protected boolean beforeUpdate() {
 
         // Sync document content
-        syncFormToInstance(getParentDirectory());
+        syncFormContentToInstance(getParentNode());
+        syncLinks();
+        syncTags();
 
         // Update feed entries
-        if (getInstance().getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL && isPushOnFeeds()) {
-            feedDAO.updateFeedEntry(getInstance(), isPushOnSiteFeed());
-            pushOnFeeds = false;
-            pushOnSiteFeed = false;
+        if (isPushOnFeeds()) {
+            isOnSiteFeed = isPushOnSiteFeed();
+
+            FeedEntry feedEntry = feedDAO.findFeedEntry(getInstance());
+            if (feedEntry == null) {
+                getLog().debug("creating feed entries on parent dirs - and on site feed: " + isPushOnSiteFeed());
+                feedEntry = ((FeedEntryManager)Component.getInstance(getFeedEntryManagerName())).createFeedEntry(getInstance());
+                feedDAO.createFeedEntry(getParentNode(), getInstance(), feedEntry, isPushOnSiteFeed());
+            } else {
+                getLog().debug("updating feed entries on parent dirs - and on site feed: " + isPushOnSiteFeed());
+                ((FeedEntryManager)Component.getInstance(getFeedEntryManagerName())).updateFeedEntry(feedEntry, getInstance());
+                feedDAO.updateFeedEntry(getParentNode(), getInstance(), feedEntry, isPushOnSiteFeed());
+            }
+
+            setPushOnFeeds(false);
+            setPushOnSiteFeed(false);
         }
 
         // Feeds should not be removed by a maintenance thread: If there
         // is no activity on the site, feeds shouldn't be empty but show the last updates.
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         Calendar oldestDate = GregorianCalendar.getInstance();
-        oldestDate.roll(Calendar.DAY_OF_YEAR, -wikiPrefs.getPurgeFeedEntriesAfterDays().intValue());
+        oldestDate.add(Calendar.DAY_OF_YEAR, -wikiPrefs.getPurgeFeedEntriesAfterDays().intValue());
         feedDAO.purgeOldFeedEntries(oldestDate.getTime());
 
         // Write history log and prepare a new copy for further modification
         if (!isMinorRevision()) {
-
+            if (historicalCopy == null)
+                throw new IllegalStateException("Call getFormContent() once to create a historical revision");
+            getLog().debug("storing the historical copy as a new revision");
             historicalCopy.setId(getInstance().getId());
-            getNodeDAO().persistHistoricalNode(historicalCopy);
+            historicalCopy.setLastModifiedBy(getCurrentUser());
+            getWikiNodeDAO().persistHistoricalFile(historicalCopy);
             getInstance().incrementRevision();
             // New historical copy in conversation
-            historicalCopy = new Document(getInstance(), true);
+            historicalCopy = new WikiDocument();
+            historicalCopy.flatCopy(getInstance(), true);
 
             // Reset form
             setMinorRevision(
@@ -160,23 +212,42 @@ public class DocumentHome extends NodeHome<Document> {
         return true;
     }
 
+    @Override
     protected boolean prepareRemove() {
 
         // Remove feed entry before removing document
-        feedDAO.removeFeedEntries(getInstance());
+        feedDAO.removeFeedEntry(
+            feedDAO.findFeeds(getInstance()),
+            feedDAO.findFeedEntry(getInstance())
+        );
 
         return super.prepareRemove();
     }
 
-    protected void afterNodeMoved(Directory oldParent, Directory newParent) {
+    @Override
+    protected boolean beforeRemove() {
+
+        // Delete preferences of this node
+        PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
+        provider.deleteInstancePreferences(getInstance());
+
+
+        return super.beforeRemove();
+    }
+
+    /* TODO: Implement node moving
+    @Override
+    protected void afterNodeMoved(WikiDirectory oldParent, WikiDirectory newParent) {
         // Update view
-        syncFormToInstance(oldParent); // Resolve existing links in old directory
-        syncInstanceToForm(newParent); // Now update the form, effectively re-rendering the links
+        syncFormContentToInstance(oldParent); // Resolve existing links in old directory
+        syncInstanceToFormContent(newParent); // Now update the form, effectively re-rendering the links
         Contexts.getConversationContext().set("currentDirectory", newParent);
     }
+    */
 
     /* -------------------------- Messages ------------------------------ */
 
+    @Override
     protected void createdMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
@@ -186,6 +257,7 @@ public class DocumentHome extends NodeHome<Document> {
         );
     }
 
+    @Override
     protected void updatedMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
@@ -195,6 +267,7 @@ public class DocumentHome extends NodeHome<Document> {
         );
     }
 
+    @Override
     protected void deletedMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
@@ -206,31 +279,94 @@ public class DocumentHome extends NodeHome<Document> {
 
     /* -------------------------- Internal Methods ------------------------------ */
 
-
-    private void syncFormToInstance(Directory dir) {
-        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-        getInstance().setContent(
-            wikiLinkResolver.convertToWikiProtocol(dir.getAreaNumber(), formContent)
-        );
-        getInstance().setMacros( WikiUtil.findMacros(getInstance(), getParentDirectory(), formContent) );
+    protected void findHistoricalFiles(WikiDocument doc) {
+        getLog().debug("Finding number of historical files for: " + doc);
+        numOfHistoricalFiles= getWikiNodeDAO().findNumberOfHistoricalFiles(doc);
+        if (isHistoricalFilesPresent()) {
+            historicalFiles = getWikiNodeDAO().findHistoricalFiles(doc);
+        }
     }
 
-    private void syncInstanceToForm(Directory dir) {
+    // Wiki text parser and plugins need this
+    protected void outjectDocumentAndDirectory(WikiDocument doc, WikiDirectory dir) {
+        if (isPageRootController()) {
+            if (doc != null) {
+                getLog().debug("setting current document: " + doc);
+                Contexts.getPageContext().set("currentDocument", doc);
+            }
+            if (dir != null) {
+                getLog().debug("setting current directory: " + dir);
+                Contexts.getPageContext().set("currentDirectory", dir);
+            }
+        }
+    }
+
+    private void syncLinks() {
+        if (linkTargets != null) getInstance().setOutgoingLinks(linkTargets);
+    }
+
+    private void syncTags() {
+        getInstance().setTagsCommaSeparated(tagString);
+    }
+
+    private void syncMacros(Long areaNumber, WikiDocument doc) {
+        if (doc.getHeader() != null) {
+            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(areaNumber, doc.getHeader());
+            doc.setHeaderMacros(renderer.getMacros());
+            doc.setHeaderMacrosString(renderer.getMacrosString());
+        }
+        if (doc.getContent() != null) {
+            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(areaNumber, doc.getContent());
+            doc.setContentMacros(renderer.getMacros());
+            doc.setContentMacrosString(renderer.getMacrosString());
+        }
+        if (doc.getFooter() != null) {
+            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(areaNumber, doc.getFooter());
+            doc.setFooterMacros(renderer.getMacros());
+            doc.setFooterMacrosString(renderer.getMacrosString());
+        }
+    }
+
+    private void syncFormContentToInstance(WikiDirectory dir) {
+        if (formContent != null) {
+            getLog().debug("sync form content to instance");
+            WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
+            linkTargets = new HashSet<WikiFile>();
+            getInstance().setContent(
+                wikiLinkResolver.convertToWikiProtocol(linkTargets, dir.getAreaNumber(), formContent)
+            );
+            syncMacros(dir.getAreaNumber(), getInstance());
+        }
+    }
+
+    private void syncInstanceToFormContent(WikiDirectory dir) {
+        getLog().debug("sync instance to form");
         WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
         formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContent());
+        if (historicalCopy == null) {
+            getLog().debug("making a history copy of the document");
+            historicalCopy = new WikiDocument();
+            historicalCopy.flatCopy(getInstance(), true);
+        }
+    }
+
+    protected String getFeedEntryManagerName() {
+        return "wikiDocumentFeedEntryManager";
     }
 
     /* -------------------------- Public Features ------------------------------ */
 
     public String getFormContent() {
         // Load the document content and resolve links
-        if (formContent == null) syncInstanceToForm(getParentDirectory());
+        if (formContent == null) syncInstanceToFormContent(getParentNode());
         return formContent;
     }
 
     public void setFormContent(String formContent) {
         this.formContent = formContent;
-        if (formContent != null) syncFormToInstance(getParentDirectory());
+        if (formContent != null) {
+            syncFormContentToInstance(getParentNode());
+        }
     }
 
     public boolean isMinorRevision() {
@@ -248,11 +384,11 @@ public class DocumentHome extends NodeHome<Document> {
 
     public void setEnabledPreview(boolean enabledPreview) {
         this.enabledPreview = enabledPreview;
-        syncFormToInstance(getParentDirectory());
+        syncFormContentToInstance(getParentNode());
     }
 
-    public boolean isSiteFeedEntryPresent() {
-        return feedDAO.isOnSiteFeed(getInstance());
+    public boolean isOnSiteFeed() {
+        return isOnSiteFeed;
     }
 
     public boolean isPushOnFeeds() {
@@ -278,26 +414,27 @@ public class DocumentHome extends NodeHome<Document> {
     // TODO: Move this into WikiTextEditor.java
     public boolean isShowPluginPrefs() {
         Boolean showPluginPrefs = (Boolean)Contexts.getPageContext().get("showPluginPreferences");
-        return showPluginPrefs != null ? showPluginPrefs : false;
+        return showPluginPrefs != null && showPluginPrefs;
     }
 
-    public boolean isHistoricalNodesPresent() {
-        if (numOfHistoricalNodes == null) {
-            getLog().debug("Finding number of historical nodes for: " + getInstance());
-            numOfHistoricalNodes = getNodeDAO().findNumberOfHistoricalNodes(getInstance());
-        }
-        return numOfHistoricalNodes != null && numOfHistoricalNodes > 0;
+    public boolean isHistoricalFilesPresent() {
+        return numOfHistoricalFiles != null && numOfHistoricalFiles> 0;
     }
 
-    public List<Node> getHistoricalNodes() {
-        if (historicalNodes == null)
-            historicalNodes = getNodeDAO().findHistoricalNodes(getInstance());
-        return historicalNodes;
+    public List<WikiFile> getHistoricalFiles() {
+        return historicalFiles;
     }
 
-    public List<TagDAO.TagCount> getPopularTags() {
-        List list = tagDAO.findTagsAggregatedSorted(wikiRoot, null, 0);
-        return list;
+    public String getTagString() {
+        return tagString;
+    }
+
+    public void setTagString(String tagString) {
+        this.tagString = tagString;
+    }
+
+    public boolean isTagInTagString(String tag) {
+        return tag != null && getTagString() != null && getTagString().contains(tag);
     }
 
 }

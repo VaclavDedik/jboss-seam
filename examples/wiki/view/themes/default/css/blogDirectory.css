@@ -3,7 +3,6 @@
     border-left: 1px solid #87786e;
     border-right: 1px solid #87786e;
     background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-    font-size: 120%;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 5px;
@@ -13,7 +12,6 @@
 .blogEntryHeader div {
     text-align: right;
     white-space: nowrap;
-    font-size: 70%;
     font-weight: normal;
     padding-left: 15px;
     padding-right: 15px;
@@ -44,7 +42,6 @@
     padding-left: 15px;
     padding-right: 15px;
     font-weight: normal;
-    font-size: 80%;
     color: #962325;
 	text-decoration: none;
 }
@@ -80,7 +77,6 @@
 
 .blogPagerTable {
     width: 100%;
-    font-size: 85%;
     font-weight: bold;
     padding: 0;
     margin: 0;

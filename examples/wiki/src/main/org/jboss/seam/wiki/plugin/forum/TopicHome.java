@@ -1,68 +1,110 @@
 package org.jboss.seam.wiki.plugin.forum;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.wiki.core.action.NodeHome;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.dao.FeedDAO;
+import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Events;
+import org.jboss.seam.international.Messages;
+import org.jboss.seam.wiki.core.action.DocumentHome;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-import java.util.Date;
 
 @Name("topicHome")
 @Scope(ScopeType.CONVERSATION)
-public class TopicHome extends NodeHome<ForumTopic> {
+public class TopicHome extends DocumentHome {
 
     @In
-    Directory currentDirectory;
-
-    @In
-    private FeedDAO feedDAO;
+    WikiDirectory currentDirectory;
 
     private boolean showForm = false;
-    private String formContent;
-    private User user;
+    private boolean sticky = false;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
+    @Override
+    protected boolean isPageRootController() {
+        return false;
+    }
+
+    @Override
+    public Class<WikiDocument> getEntityClass() {
+        return WikiDocument.class;
+    }
+
+    @Override
     public void create() {
         super.create();
-        super.setParentDirectory(currentDirectory);
+        setParentNodeId(currentDirectory.getId());
     }
 
+    @Override
+    public WikiDocument afterNodeCreated(WikiDocument doc) {
+        WikiDocument newTopic = super.afterNodeCreated(doc);
+
+        WikiDocumentDefaults newTopicDefaults =
+                new WikiDocumentDefaults() {
+                    public String getDefaultName() {
+                        return Messages.instance().get("forum.label.NewTopic");
+                    }
+                    public String[] getDefaultHeaderMacros() {
+                        return new String[] { "clearBackground", "hideControls", "hideComments",
+                                              "hideTags", "hideCreatorHistory", "disableContentMacros", "forumPosting" };
+                    }
+                    public String getDefaultContent() {
+                        return Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisTextPreviewUpdatesAutomatically");
+                    }
+
+                    public String[] getDefaultFooterMacros() {
+                        return new String[] { "forumReplies" };
+                    }
+                    public void setDefaults(WikiDocument newTopic) {
+                        newTopic.setNameAsTitle(false);
+                        newTopic.setEnableComments(true);
+                        newTopic.setEnableCommentForm(true);
+                        newTopic.setEnableCommentsOnFeeds(true);
+                    }
+                };
+        newTopic.setDefaults(newTopicDefaults);
+
+        setPushOnFeeds(true);
+
+        return newTopic;
+    }
+
+    @Override
     protected boolean beforePersist() {
-        // Sync topic content
-        syncFormToInstance(getParentDirectory());
-
-        // Macros
-        getInstance().setDefaultMacros();
-
-        // Set createdOn date _now_
-        getInstance().setCreatedOn(new Date());
-
-        return true;
+        if (isSticky())
+            getInstance().setHeader(
+                getInstance().getHeader().replaceAll("forumPosting", "forumStickyPosting")
+            );
+        return super.beforePersist();
     }
 
-    /* -------------------------- Internal Methods ------------------------------ */
-
-
-    private void syncFormToInstance(Directory dir) {
-        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver) Component.getInstance("wikiLinkResolver");
-        getInstance().setContentWithoutMacros(
-            wikiLinkResolver.convertToWikiProtocol(dir.getAreaNumber(), formContent)
-        );
+    @Override
+    public String persist() {
+        String outcome = super.persist();
+        if (outcome != null) {
+            endConversation();
+        }
+        return null; // Prevent navigation
     }
 
-    private void syncInstanceToForm(Directory dir) {
-        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-        formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContentWithoutMacros());
+    @Override
+    public String update() {
+        String outcome = super.update();
+        if (outcome != null) endConversation();
+        return null; // Prevent navigation
     }
 
-    protected User getCurrentUser() {
-        return user; // Return user from this persistence context
+    @Override
+    public String remove() {
+        String outcome = super.remove();
+        if (outcome != null) endConversation();
+        return null; // Prevent navigation
     }
 
     /* -------------------------- Messages ------------------------------ */
@@ -70,7 +112,7 @@ public class TopicHome extends NodeHome<ForumTopic> {
     protected void createdMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
-                "lacewiki.msg.Topic.Persist",
+                "forum.msg.Topic.Persist",
                 "Topic '{0}' has been saved.",
                 getInstance().getName()
         );
@@ -79,7 +121,7 @@ public class TopicHome extends NodeHome<ForumTopic> {
     protected void updatedMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
-                "lacewiki.msg.Topic.Update",
+                "forum.msg.Topic.Update",
                 "Topic '{0}' has been updated.",
                 getInstance().getName()
         );
@@ -88,50 +130,26 @@ public class TopicHome extends NodeHome<ForumTopic> {
     protected void deletedMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
-                "lacewiki.msg.Topic.Delete",
+                "forum.msg.Topic.Delete",
                 "Topic '{0}' has been deleted.",
                 getInstance().getName()
         );
     }
 
-    /* -------------------------- Public Features ------------------------------ */
+    /* -------------------------- Internal Methods ------------------------------ */
 
-    @Begin(flushMode = FlushModeType.MANUAL)
-    public void newTopic() {
-
-        showForm = true;
-
-        // Start with a fresh instance
-        setInstance(createInstance());
-
-        // Get a fresh parent directory instance into the current persistence context
-        setParentDirectory(loadParentDirectory(getParentDirectory().getId()));
-
-        // Get a fresh user instance into the current persistence context
-        user = getUserDAO().findUser(currentUser.getId());
-
-    }
-
-    @End
-    public void cancel() {
+    private void endConversation() {
         showForm = false;
+        Conversation.instance().end();
+        getEntityManager().clear(); // Need to force re-read in the topic list refresh
+        Events.instance().raiseEvent("Forum.topicListRefresh");
     }
 
-    @End
-    @RaiseEvent("Forum.topicPersisted")
-    public String persist() {
-        String outcome = super.persist();
-        showForm = outcome == null; // Keep showing the form if there was a validation error
-
-        // Create feed entries (needs identifiers assigned, so we run after persist())
-        if (outcome != null) {
-            String feedEntryTitle = "[" + getParentDirectory().getName() + "] " + getInstance().getName();
-            feedDAO.createFeedEntry(getInstance(), false, feedEntryTitle);
-            getEntityManager().flush();
-        }
-
-        return outcome;
+    protected String getFeedEntryManagerName() {
+        return "forumTopicFeedEntryManager";
     }
+
+    /* -------------------------- Public Features ------------------------------ */
 
     public boolean isShowForm() {
         return showForm;
@@ -141,15 +159,32 @@ public class TopicHome extends NodeHome<ForumTopic> {
         this.showForm = showForm;
     }
 
-    public String getFormContent() {
-        // Load the topic content and resolve links
-        if (formContent == null) syncInstanceToForm(getParentDirectory());
-        return formContent;
+    public boolean isSticky() {
+        return sticky;
     }
 
-    public void setFormContent(String formContent) {
-        this.formContent = formContent;
-        if (formContent != null) syncFormToInstance(getParentDirectory());
+    public void setSticky(boolean sticky) {
+        this.sticky = sticky;
+    }
+
+    @Begin(flushMode = FlushModeType.MANUAL, join = true)
+    public void newTopic() {
+        setEdit(true);
+        showForm = true;
+    }
+
+    public void cancel() {
+        endConversation();
+    }
+
+    @RequestParameter("showTopicForm")
+    public void showTopicForm(Boolean requestParam) {
+        if (requestParam != null && requestParam && !showForm) {
+            getLog().debug("request parameter sets topic form visible, starts conversation");
+            Conversation.instance().begin(true, false);
+            Conversation.instance().changeFlushMode(FlushModeType.MANUAL);
+            newTopic();
+        }
     }
 
 }

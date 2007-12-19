@@ -61,7 +61,7 @@
         <pathelement path="${testclasses.dir}"/>
         <pathelement path="${embedded-jboss.dir}"/>
 
-    	<!-- JBoss Embedded, without hibernate -->
+        <!-- JBoss Embedded, without Hibernate -->
     	<fileset dir="${global.lib.dir}/test">
     		<include name="jboss-embedded-all.jar" />
     		<include name="thirdparty-all.jar" />
@@ -69,23 +69,12 @@
 
         <fileset dir="${global.lib.dir}">
             <include name="*.jar" />
-        	<!-- Horrible hack around jbossembedded -->
-        	<exclude name="jboss-container.jar" />
-        	<!-- Use local hibernate -->
+        	<!-- Don't use that Hibernate either... -->
             <exclude name="hibernate*.jar"/>
-			<!-- Don't need all seam jars -->
-			<exclude name="jboss-seam.jar" />
         </fileset>
         <fileset dir="${local.lib.dir}">
+            <!-- This has the Hibernate we want -->
             <include name="*.jar" />
-        </fileset>
-
-        <!-- YOU NEED THIS FILESET AND IT CAN ONLY CONTAIN jboss-seam.jar AND NOTHING ELSE!
-             OTHERWISE THE EMBEDDABLE CONTAINER WON'T SCAN IT FOR EJBs (EjbTransaction, TimserServiceDispatcher, etc.)
-             IN THE jboss-seam.jar.
-        -->
-        <fileset dir="${global.lib.dir}">
-            <include name="jboss-seam.jar" />
         </fileset>
 
     	<!-- Add EMMA to the classpath for coverage support -->
@@ -120,6 +109,12 @@
     	<taskdef name="hibernatetool"
     	             classname="org.hibernate.tool.ant.HibernateToolTask"
     	             classpathref="tools.classpath"/>
+
+        <!-- Import test data if we are in 'dev' profile -->
+        <condition property="importdata">
+            <equals arg1="${profile}" arg2="dev"/>
+        </condition>
+
     </target>
 
     <target name="clean" description="Cleans up all build artifacts">
@@ -159,6 +154,7 @@
                 deprecation="${javac.deprecation}"
                      nowarn="${javac.nowarn}">
             <src path="${src.java.dir}"/>
+            <exclude name="org/jboss/seam/wiki/plugin/blogdirectory/**"/>
         </javac>
 
         <!-- Copy resources (mapping files, properties, etc.) to classes -->
@@ -177,16 +173,18 @@
             <fileset dir="${classes.dir}/org/jboss/seam/wiki/core/model">
                 <include name="**/*.class"/>
             </fileset>
+            <!-- TODO
             <fileset dir="${classes.dir}/org/jboss/seam/wiki/plugin/forum">
                 <include name="ForumTopic.class"/>
             </fileset>
+            -->
         </instrument>
 
     </target>
 
     <!-- ################## EXPLODE ####################### -->
 
-    <target name="explodewar" depends="explodehotdeploy, exploderesources"
+    <target name="explodewar" depends="explodehotdeploy, exploderesources, copydatasets"
             description="Creates a hot-redeployable exploded WAR directory">
     </target>
 
@@ -308,11 +306,31 @@
                 file="${src.etc.dir}/META-INF/persistence-${profile}-war.xml"
                 overwrite="true">
         </copy>
+        <copy tofile="${exploded.war.dir}/WEB-INF/classes/META-INF/components.xml"
+                file="${src.etc.dir}/META-INF/components-${profile}.xml"
+                overwrite="true">
+        </copy>
+
         <!--
         <replace file="${exploded.war.dir}/WEB-INF/classes/META-INF/persistence.xml"
                  token="@LuceneIndexDir@" value="${lucene.indexDir}"/>
          -->
 
+    </target>
+
+    <target name="copydatasets" if="importdata">
+        <mkdir dir="${exploded.war.dir}/WEB-INF/classes/META-INF/testdata"/>
+        <copy todir="${exploded.war.dir}/WEB-INF/classes/META-INF/testdata" flatten="true">
+            <fileset dir="${src.test.dir}">
+                <include name="**/*.dbunit.xml"/>
+            </fileset>
+        </copy>
+        <mkdir dir="${exploded.war.dir}/WEB-INF/classes/META-INF/testbinaries"/>
+        <copy todir="${exploded.war.dir}/WEB-INF/classes/META-INF/testbinaries" flatten="true">
+            <fileset dir="${basedir}/testbinaries">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
     </target>
 
     <!-- ################## DEPLOYMENT ####################### -->
@@ -487,6 +505,14 @@
                 file="${src.etc.dir}/wiki-test-ds.xml"
            overwrite="true"/>
 
+        <!-- ######## Test binaries ######## -->
+        <mkdir dir="${testclasses.dir}/META-INF/testbinaries"/>
+        <copy todir="${testclasses.dir}/META-INF/testbinaries">
+            <fileset dir="${basedir}/testbinaries">
+                <include name="**/*"/>
+            </fileset>
+        </copy>
+
         <!-- ######## Test output ######## -->
         <delete  dir="${test.output.dir}"/>
         <mkdir dir="${test.output.dir}"/>
@@ -508,7 +534,7 @@
     </target>
 
 
-    <property name="database.dir"        value="database"/>
+    <property name="database.dir" value="database"/>
     <target name="startdb" description="Run HSQL database server with clean content">
         <!-- Delete database files -->
         <mkdir dir="${database.dir}"/>

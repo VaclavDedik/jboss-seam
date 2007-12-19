@@ -6,15 +6,15 @@
         xmlns:a="https://ajax4jsf.dev.java.net/ajax"
         xmlns:wiki="http://jboss.com/products/seam/wiki">
 
-<s:div id="#{textPreviewId}" styleClass="entry">
-    <s:div styleClass="textPreview input" rendered="#{not empty valueBinding}">
+<s:div id="#{textPreviewId}">
+    <s:div styleClass="textPreview" rendered="#{not empty valueBinding}">
         <wiki:formattedText value="#{valueBinding}"
                             linkStyleClass="regularLink"
                             brokenLinkStyleClass="brokenLink"
                             attachmentLinkStyleClass="regularLink"
                             thumbnailLinkStyleClass="regularLink"
-                            renderBaseDocument="#{baseDocument}"
-                            renderBaseDirectory="#{baseDirectory}"
+                            linkBaseFilet="#{baseDocument}"
+                            currentAreaNumber="#{baseDirectory.areaNumber}"
                             enablePlugins="false"/>
     </s:div>
 </s:div>

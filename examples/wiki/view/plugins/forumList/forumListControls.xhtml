@@ -23,6 +23,8 @@
 <h:form rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
 <s:fragment rendered="#{not forumListHome.managed}">
 
+    <script type="text/javascript">stopSessionTimeoutCheck();</script>
+
     <h:panelGroup>
 
         <a:commandLink action="#{forumListHome.manage()}"
@@ -36,6 +38,10 @@
 
 </s:fragment>
 
+<s:fragment rendered="#{forumListHome.managed}">
+    <script type="text/javascript">startSessionTimeoutCheck();</script>
+</s:fragment>
+
 <s:fragment rendered="#{forumListHome.managed and not forumHome.showForm}">
 
     <h:panelGroup>
@@ -43,19 +49,20 @@
         <a:commandLink action="#{forumHome.newForum()}"
                        reRender="forumListPluginContainer, messageBoxContainer"
                        accesskey="#{messages['forum.button.NewForum.accesskey']}"
-                       tabindex="1" styleClass="buttonNonpersistent">
+                       tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
             <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewForum']}"/>
         </a:commandLink>
 
         <h:outputLink value="#{wiki:renderURL(currentDirectory)}"
                       accesskey="#{messages['forum.button.Exit.accesskey']}"
-                      tabindex="1" styleClass="buttonNonpersistent">
+                      tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Exit']}"/>
         </h:outputLink>
 
     </h:panelGroup>
 
 </s:fragment>
+
 </h:form>
 
 </s:div>

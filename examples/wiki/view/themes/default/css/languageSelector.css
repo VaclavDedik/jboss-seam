@@ -1,6 +1,5 @@
 #languageSelector {
 	text-align: right;
-	font-size: 75%;
 	font-weight: bold;
 }
 
@@ -12,5 +11,5 @@
 }
 
 #languageSelector .languageSelectorSeparator {
-	font-size: 100%;
+
 }

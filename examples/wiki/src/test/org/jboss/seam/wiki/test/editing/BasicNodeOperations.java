@@ -8,45 +8,23 @@ package org.jboss.seam.wiki.test.editing;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.StatelessSession;
+import org.hibernate.Session;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.log.Logging;
-import org.jboss.seam.wiki.core.action.DirectoryHome;
-import org.jboss.seam.wiki.core.action.DocumentHome;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
-import org.jboss.seam.wiki.core.nestedset.NestedSetResultTransformer;
-import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
-import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.faces.Redirect;
-import org.jboss.seam.Component;
+import org.jboss.seam.wiki.core.action.DirectoryHome;
+import org.jboss.seam.wiki.core.action.DocumentHome;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
-
-import java.util.Comparator;
 
 public class BasicNodeOperations extends DBUnitSeamTest {
 
-    private Log log = Logging.getLog(BasicNodeOperations.class);
-
-    private static final Long TEST_WIKI_ROOT_ID = 1l;
-
-    private static final Long TEST_DIRECTORY1_ID = 100l;
-    private static final Long TEST_DOCUMENT1_ID = 101l;
-    private static final Long TEST_DOCUMENT2_ID = 102l;
-    private static final Long TEST_DOCUMENT3_ID = 103l;
-    private static final Long TEST_DIRECTORY2_ID = 104l;
-    private static final Long TEST_DOCUMENT5_ID = 105l;
-    private static final Long TEST_DOCUMENT6_ID = 106l;
-    private static final Long TEST_DOCUMENT7_ID = 107l;
-
     protected void prepareDBUnitOperations() {
         beforeTestOperations.add(
-                new DataSetOperation("org/jboss/seam/wiki/test/WikiBaseData.xml")
-        );
-        beforeTestOperations.add(
-                new DataSetOperation("org/jboss/seam/wiki/test/editing/NestedNodes.xml", DatabaseOperation.INSERT)
+                new DataSetOperation("org/jboss/seam/wiki/test/WikiBaseData.dbunit.xml", DatabaseOperation.CLEAN_INSERT)
         );
     }
 
@@ -55,8 +33,8 @@ public class BasicNodeOperations extends DBUnitSeamTest {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
-                setParameter("documentId", TEST_DOCUMENT1_ID.toString());
-                setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
+                setParameter("documentId", "6");
+                setParameter("parentDirectoryId", "3");
             }
         }.run();
 
@@ -70,8 +48,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 assert Conversation.instance().isLongRunning();
 
                 DocumentHome docHome = (DocumentHome)getInstance("documentHome");
-                assert checkNestedSetNodeInMemory( docHome.getInstance(), 9, 10);
-                assert checkNestedSetNodeInMemory( docHome.getParentDirectory(), 8, 23);
+                assert docHome.getInstance().getId().equals(6l);
 
                 assert invokeMethod("#{documentHome.remove}").equals("removed");
 
@@ -80,17 +57,8 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 Redirect.instance().setViewId("/dirDisplay.xhtml");
                 Redirect.instance().execute();
 
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 21);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY2_ID, 13, 18);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT5_ID, 14, 15);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 16, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 19, 20);
-                assert checkNestedSetNodeInMemory( (Node)getValue("#{documentHome.parentDirectory}"), 8, 21);
-                assert !checkNodeInDatabase(TEST_DOCUMENT1_ID);
-
-                displayNodeTree( (NodeDAO)getValue("#{nodeDAO}"), (Node)getValue("#{documentHome.parentDirectory}") );
+                assert checkNestedSetNodeInDatabase(3l, 4, 9);
+                assert !checkDocumentInDatabase(6l);
             }
 
         }.run();
@@ -101,8 +69,8 @@ public class BasicNodeOperations extends DBUnitSeamTest {
 
         final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
-                setParameter("directoryId", TEST_DIRECTORY2_ID.toString());
-                setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
+                setParameter("directoryId", "2");
+                setParameter("parentDirectoryId", "1");
             }
         }.run();
 
@@ -113,20 +81,6 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
-                dirHome.init(); // TODO: Seam test doesn't call page actions
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 23);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 13, 14);
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY2_ID, 15, 20);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT5_ID, 16, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
-
-                assert checkNestedSetNodeInMemory( dirHome.getInstance(), 15, 20);
-                assert checkNestedSetNodeInMemory( dirHome.getParentDirectory(), 8, 23);
-
                 assert invokeMethod("#{directoryHome.remove}").equals("removed");
 
                 // TODO: SeamTest doesn't do navigation but we don't want to have /dirEdit_d.xhtml in the RENDER RESPONSE
@@ -134,28 +88,19 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 Redirect.instance().setViewId("/dirDisplay.xhtml");
                 Redirect.instance().execute();
 
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 13, 14);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 15, 16);
-                assert checkNestedSetNodeInMemory( (Node)getValue("#{directoryHome.parentDirectory}"), 8, 17);
-                assert !checkNodeInDatabase(TEST_DIRECTORY2_ID);
-                assert !checkNodeInDatabase(TEST_DOCUMENT5_ID);
-                assert !checkNodeInDatabase(TEST_DOCUMENT6_ID);
-
-                displayNodeTree( (NodeDAO)getValue("#{nodeDAO}"), (Node)getValue("#{directoryHome.parentDirectory}") );
+                assert checkNestedSetNodeInDatabase(1l, 1, 997);
+                assert !checkDirectoryInDatabase(2l);
             }
 
         }.run();
     }
 
     @Test
-    public void createDocumentInArea() throws Exception {
+    public void createDocument() throws Exception {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
-                setParameter("parentDirectoryId", TEST_DIRECTORY1_ID.toString());
+                setParameter("parentDirectoryId", "3");
             }
         }.run();
 
@@ -168,261 +113,136 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
 
                 DocumentHome docHome = (DocumentHome)getInstance("documentHome");
-                docHome.getInstance().setName("Testname");
-                docHome.getInstance().setReadAccessLevel(0);
-                docHome.getInstance().setWriteAccessLevel(0);
-                docHome.getInstance().setEnableComments(false);
-                docHome.setFormContent("Testcontent");
-
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 23);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 13, 14);
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY2_ID, 15, 20);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT5_ID, 16, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
-
-                assert checkNestedSetNodeInMemory( docHome.getParentDirectory(), 8, 23);
+                docHome.getInstance().setName("Test Name");
+                docHome.setFormContent("Test Content");
 
                 assert invokeMethod("#{documentHome.persist}").equals("persisted");
 
             }
 
             protected void renderResponse() throws Exception {
+                WikiDocument newNode = (WikiDocument)getValue("#{documentHome.instance}");
 
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 25);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 13, 14);
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY2_ID, 15, 20);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT5_ID, 16, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
-                Node newNode = (Node)getValue("#{documentHome.instance}");
-                assert checkNodeInDatabase(newNode.getId());
-                assert checkNestedSetNodeInMemory(newNode, 23, 24);
-                assert checkNestedSetNodeInDatabase(newNode.getId(), 23, 24);
-
-                Node parentDir = (Node)getValue("#{documentHome.parentDirectory}");
-                assert checkNestedSetNodeInMemory(parentDir, 8, 25);
-
-                displayNodeTree( (NodeDAO)getValue("#{nodeDAO}"), parentDir );
+                assert checkNestedSetNodeInDatabase(3l, 4, 9);
+                assert newNode.getAreaNumber().equals(3l);
+                assert newNode.getCreatedBy().getId().equals(2l);
+                assert newNode.getParent().getId().equals(3l);
+                assert newNode.getWikiname().equals("TestName");
+                assert newNode.getReadAccessLevel() == 0;
+                assert newNode.getWriteAccessLevel() == 0;
+                assert newNode.getLastModifiedBy() == null;
+                assert newNode.getLastModifiedOn() == null;
+                assert newNode.getTags().size() == 0;
+                assert checkDocumentInDatabase(newNode.getId());
             }
 
         }.run();
     }
 
     @Test
-    public void createDocumentInSubdirectory() throws Exception {
-
-        final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
-            protected void beforeRequest() {
-                setParameter("parentDirectoryId", TEST_DIRECTORY2_ID.toString());
-            }
-        }.run();
-
-        new FacesRequest("/docEdit_d.xhtml") {
-
-            protected void beforeRequest() {
-                setParameter("cid", conversationId);
-            }
-
-            protected void invokeApplication() throws Exception {
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
-
-                docHome.getInstance().setName("Testname");
-                docHome.getInstance().setReadAccessLevel(0);
-                docHome.getInstance().setWriteAccessLevel(0);
-                docHome.getInstance().setEnableComments(false);
-                docHome.setFormContent("Testcontent");
-
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 23);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 13, 14);
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY2_ID, 15, 20);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT5_ID, 16, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
-
-                assert checkNestedSetNodeInMemory( docHome.getParentDirectory(), 15, 20);
-
-                assert invokeMethod("#{documentHome.persist}").equals("persisted");
-            }
-
-            protected void renderResponse() throws Exception {
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 25);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 13, 14);
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY2_ID, 15, 22);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT5_ID, 16, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 23, 24);
-                Node newNode = (Node)getValue("#{documentHome.instance}");
-                assert checkNodeInDatabase(newNode.getId());
-                assert checkNestedSetNodeInMemory(newNode, 20, 21);
-                assert checkNestedSetNodeInDatabase(newNode.getId(), 20, 21);
-
-                Node parentDir = (Node)getValue("#{documentHome.parentDirectory}");
-                assert checkNestedSetNodeInMemory(parentDir, 15, 22);
-
-                displayNodeTree( (NodeDAO)getValue("#{nodeDAO}"), parentDir );
-            }
-
-        }.run();
-    }
-
-    @Test
-    public void moveDirectoryLeft() throws Exception {
+    public void setDefaultDocument() throws Exception {
 
         final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
-                setParameter("directoryId", TEST_DIRECTORY1_ID.toString());
-                setParameter("parentDirectoryId", TEST_WIKI_ROOT_ID.toString());
+                setParameter("directoryId", "4");
+                setParameter("parentDirectoryId", "3");
             }
         }.run();
 
         new FacesRequest("/dirEdit_d.xhtml") {
 
+            Long newDefaultDocumentId = null;
+
             protected void beforeRequest() {
                 setParameter("cid", conversationId);
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                assert Conversation.instance().isLongRunning();
 
-                // Move the TEST_DIRECTORY2 (position 3) to position 1
-                WikiUtil.shiftListElement(dirHome.getInstance().getChildren(), 3, 1);
+                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                assert dirHome.getInstance().getId().equals(4l); // Init!
+
+                // Just take the first one, these should be ordered by name, but there is only one there
+                WikiDocument defaultDocument = dirHome.getChildDocuments().get(0);
+                dirHome.getInstance().setDefaultFile(defaultDocument);
+                newDefaultDocumentId = defaultDocument.getId();
 
                 assert invokeMethod("#{directoryHome.update}").equals("updated");
             }
 
             protected void renderResponse() throws Exception {
-
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 23);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 13, 14);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY2_ID, 15, 20);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT5_ID, 16, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
-
                 DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
-
-                assert dirHome.getInstance().getChildren().get(0).getId().equals(TEST_DOCUMENT1_ID);
-                assert checkNestedSetNodeInMemory(dirHome.getInstance().getChildren().get(0), 9, 10);
-
-                displayNodeTree( (NodeDAO)getValue("#{nodeDAO}"), (Node)getValue("#{directoryHome.instance}") );
-
+                assert dirHome.getInstance().getDefaultFile().getId().equals(newDefaultDocumentId);
             }
-
         }.run();
     }
 
-
     @Test
-    public void moveDocumentRight() throws Exception {
+    public void changeDefaultDocument() throws Exception {
 
         final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
-                setParameter("directoryId", TEST_DIRECTORY1_ID.toString());
-                setParameter("parentDirectoryId", TEST_WIKI_ROOT_ID.toString());
+                setParameter("directoryId", "3");
+                setParameter("parentDirectoryId", "1");
             }
         }.run();
 
         new FacesRequest("/dirEdit_d.xhtml") {
 
+            Long newDefaultDocumentId = null;
+
             protected void beforeRequest() {
                 setParameter("cid", conversationId);
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                assert Conversation.instance().isLongRunning();
 
-                // Move the TEST_DOCUMENT2 (position 1) to position 3
-                WikiUtil.shiftListElement(dirHome.getInstance().getChildren(), 1, 3);
+                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                assert dirHome.getInstance().getId().equals(3l); // Init!
+
+                // Switch from first to second, these are ordered by name, "One", "Two"
+                WikiDocument defaultDocument = dirHome.getChildDocuments().get(1);
+                dirHome.getInstance().setDefaultFile(defaultDocument);
+                newDefaultDocumentId = defaultDocument.getId();
 
                 assert invokeMethod("#{directoryHome.update}").equals("updated");
             }
 
             protected void renderResponse() throws Exception {
-
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY1_ID, 8, 23);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT1_ID, 9, 10);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT2_ID, 11, 12);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT3_ID, 13, 14);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT7_ID, 21, 22);
-                assert checkNestedSetNodeInDatabase(TEST_DIRECTORY2_ID, 15, 20);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT5_ID, 16, 17);
-                assert checkNestedSetNodeInDatabase(TEST_DOCUMENT6_ID, 18, 19);
-
                 DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
-
-                assert dirHome.getInstance().getChildren().get(0).getId().equals(TEST_DOCUMENT1_ID);
-                assert checkNestedSetNodeInMemory(dirHome.getInstance().getChildren().get(0), 9, 10);
-
-                displayNodeTree( (NodeDAO)getValue("#{nodeDAO}"), (Node)getValue("#{directoryHome.instance}") );
+                assert dirHome.getInstance().getDefaultFile().getId().equals(newDefaultDocumentId);
+                assert newDefaultDocumentId.equals(7l);
             }
-
         }.run();
-    }
-
-    /* ############################################################################################################## */
-
-    private boolean checkNestedSetNodeInMemory(Node node, long left, long right) throws Exception {
-        return node.getNsLeft() == left && node.getNsRight() == right;
     }
 
     private boolean checkNestedSetNodeInDatabase(long nodeId, long left, long right) throws Exception {
-        StatelessSession ss = getStatelessSession();
-        Node node = (Node)ss.createQuery("select n from Node n left join fetch n.parent where n.id = :id").setParameter("id", nodeId).uniqueResult();
-        ss.close();
-        return node.getNsLeft() == left && node.getNsRight() == right;
+        Session s = getHibernateSession();
+        WikiDirectory dir = (WikiDirectory)s.createQuery("select d from WikiDirectory d  left join fetch d.parent where d.id = :id").setParameter("id", nodeId).uniqueResult();
+        s.close();
+        return dir.getNodeInfo().getNsLeft() == left && dir.getNodeInfo().getNsRight() == right;
     }
 
-    private boolean checkNodeInDatabase(long nodeId) throws Exception {
-        StatelessSession ss = getStatelessSession();
-        Node node = (Node)ss.createQuery("select n from Node n left join fetch n.parent where n.id = :id").setParameter("id", nodeId).uniqueResult();
-        ss.close();
-        return node != null;
+    private boolean checkDirectoryInDatabase(long nodeId) throws Exception {
+        Session s = getHibernateSession();
+        WikiDirectory dir = (WikiDirectory ) s.createQuery("select d from WikiDirectory d left join fetch d.parent where d.id = :id").setParameter("id", nodeId).uniqueResult();
+        s.close();
+        return dir != null;
     }
 
-    private StatelessSession getStatelessSession() throws Exception {
+    private boolean checkDocumentInDatabase(long nodeId) throws Exception {
+        Session s = getHibernateSession();
+        WikiDocument doc = (WikiDocument) s.createQuery("select d from WikiDocument d left join fetch d.parent left join fetch d.tags where d.id = :id").setParameter("id", nodeId).uniqueResult();
+        s.close();
+        return doc != null;
+    }
+
+    private Session getHibernateSession() throws Exception {
         org.jboss.ejb3.entity.InjectedEntityManagerFactory jbossEMF =
                 (org.jboss.ejb3.entity.InjectedEntityManagerFactory) getInitialContext().lookup("java:/entityManagerFactories/wiki");
-        return ((HibernateEntityManagerFactory) jbossEMF.getDelegate()).getSessionFactory().openStatelessSession();
-    }
-
-    private void displayNodeTree(NodeDAO dao, Node startNode) {
-        if (log.isTraceEnabled()) {
-
-            Comparator<NestedSetNodeWrapper<Node>> comp =
-                new Comparator<NestedSetNodeWrapper<Node>>() {
-                    public int compare(NestedSetNodeWrapper<Node> o, NestedSetNodeWrapper<Node> o2) {
-                        return o.getWrappedNode().getDisplayPosition().compareTo(o2.getWrappedNode().getDisplayPosition());
-                    }
-                };
-            NestedSetNodeWrapper<Node> startNodeWrapper = new NestedSetNodeWrapper<Node>(startNode, comp);
-            NestedSetResultTransformer<Node> transformer = new NestedSetResultTransformer<Node>(startNodeWrapper);
-            dao.appendNestedSetNodes(transformer, null, false);
-
-            log.trace("######################################## TREE BEGIN #####################################################");
-            displayNodes(startNodeWrapper);
-            log.trace("######################################## TREE END   #####################################################");
-        }
-    }
-    private void displayNodes(NestedSetNodeWrapper<Node> startNode) {
-        StringBuilder levelMarkers = new StringBuilder();
-        for (int i = 1; i <= startNode.getLevel(); i++) {
-            levelMarkers.append("#");
-        }
-        log.trace(levelMarkers.toString() + " " + startNode);
-        for (NestedSetNodeWrapper<Node> next : startNode.getWrappedChildren()) {
-            displayNodes(next);
-        }
+        return ((HibernateEntityManagerFactory) jbossEMF.getDelegate()).getSessionFactory().openSession();
     }
 
 }

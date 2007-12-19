@@ -1,5 +1,7 @@
 package org.jboss.seam.wiki.core.engine;
 
+import org.jboss.seam.wiki.core.model.WikiMacro;
+
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ public class NullWikiTextRenderer implements WikiTextRenderer {
     public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
     public void setExternalLinks(List<WikiLink> externalLinks) {}
     public String renderMacro(String macroName) { return null; }
+    public void addMacro(WikiMacro macro) {}
     public String renderParagraphOpenTag() { return "<p>\n"; }
     public String renderPreformattedOpenTag() { return "<pre>\n"; }
     public String renderBlockquoteOpenTag() { return "<blockquote>\n"; }

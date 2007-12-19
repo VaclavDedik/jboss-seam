@@ -3,8 +3,9 @@ package org.jboss.seam.wiki.plugin.tags;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Directory;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.DisplayTagCount;
 import org.jboss.seam.wiki.core.dao.TagDAO;
 
 import java.util.*;
@@ -15,20 +16,20 @@ import java.io.Serializable;
 public class TagsAggregator implements Serializable {
 
     @DataModel
-    List<TagDAO.TagCount> tagsSortedByCount = new ArrayList<TagDAO.TagCount>();
+    List<DisplayTagCount> tagsSortedByCount = new ArrayList<DisplayTagCount>();
 
     @In
     TagDAO tagDAO;
 
     @In
-    Directory currentDirectory;
+    WikiDirectory currentDirectory;
 
     @In
-    Document currentDocument;
+    WikiDocument currentDocument;
 
     @Factory("tagsSortedByCount")
     public void aggregateTags() {
-        tagsSortedByCount = tagDAO.findTagsAggregatedSorted(currentDirectory, currentDocument, 0);
+        tagsSortedByCount = tagDAO.findTagCounts(currentDirectory, currentDocument, 0);
     }
 
 }

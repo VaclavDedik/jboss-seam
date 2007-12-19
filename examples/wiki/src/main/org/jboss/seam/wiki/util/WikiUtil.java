@@ -7,14 +7,13 @@
 package org.jboss.seam.wiki.util;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
-import org.jboss.seam.international.Messages;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.engine.NullWikiTextRenderer;
+import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
 
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
@@ -45,6 +44,11 @@ import antlr.ANTLRException;
  */
 public class WikiUtil {
 
+    // Disable caching of imags (e.g. captcha) by appending this as a random URL parameter
+    public static int generateRandomNumber() {
+        return (int) Math.round(1 + (Math.random()*1000000));
+    }
+
     // Creates clean alphanumeric UpperCaseCamelCase
     public static String convertToWikiName(String realName) {
         StringBuilder wikiName = new StringBuilder();
@@ -62,27 +66,6 @@ public class WikiUtil {
         return wikiName.toString();
     }
 
-    // Replacement for missing instaceOf in EL (can't use string comparison, might be proxy)
-    public static boolean isDirectory(Node node) {
-        return node != null && Directory.class.isAssignableFrom(node.getClass());
-    }
-
-    public static boolean isDocument(Node node) {
-        return node != null && Document.class.isAssignableFrom(node.getClass());
-    }
-
-    public static boolean isFile(Node node) {
-        return node != null && File.class.isAssignableFrom(node.getClass());
-    }
-
-    public static String getType(Node node) {
-        if (isDirectory(node)) return "Directory";
-        if (isDocument(node)) return "Document";
-        if (isFile(node)) return "File";
-        return "UNKNOWN TYPE";
-    }
-
-    // EL is weak
     public static String truncateString(String string, int length, String appendString) {
         if (string.length() <= length) return string;
         return string.substring(0, length-1) + appendString;
@@ -101,16 +84,16 @@ public class WikiUtil {
     }
 
     // Rendering made easy
-    public static String renderPlainURL(Node node) {
-        if (isFile(node)) return renderFileLink((File)node);
+    public static String renderPlainURL(WikiNode node) {
+// TODO: Fixme        if (node.isInstance(File.class) return renderFileLink((File)node);
         WikiPreferences prefs = (WikiPreferences) Component.getInstance("wikiPreferences");
         String url = "";
-        if (isDocument(node)) {
+        if (node.isInstance(WikiDocument.class)) {
             url = prefs.getBaseUrl() + "/docDisplayPlain.seam?documentId=" + node.getId();
-        } else if (isDirectory(node)) {
-            Directory dir = (Directory)node;
-            if (dir.getDefaultDocument() != null) {
-                url = prefs.getBaseUrl() + "/docDisplayPlain.seam?documentId=" + dir.getDefaultDocument().getId();
+        } else if (node.isInstance(WikiDirectory.class)) {
+            WikiDirectory dir = (WikiDirectory)node;
+            if (dir.getDefaultFile() != null) {
+                url = prefs.getBaseUrl() + "/docDisplayPlain.seam?documentId=" + dir.getDefaultFile().getId();
             } else {
                 url = prefs.getBaseUrl() + "/dirDisplayPlain.seam?directoryId=" + node.getId();
             }
@@ -119,68 +102,22 @@ public class WikiUtil {
         return url;
     }
 
-    public static String renderURL(Node node) {
-        return renderURL(node, null);
-    }
-
-    public static String renderURL(Node node, Comment comment) {
-        if (isFile(node)) return renderFileLink((File)node);
+    public static String renderURL(WikiNode node) {
+        if (node == null || node.getId() == null) return "";
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
-        if (wikiPrefs.isRenderPermlinks()) {
-            return renderPermLink(node, comment);
-        } else {
-            return renderWikiLink(node, comment);
-        }
+        return wikiPrefs.isRenderPermlinks() ? renderPermURL(node) : renderWikiURL(node);
     }
 
-    public static String renderPermLink(Node node) {
-        return renderPermLink(node, null);
-    }
-
-    public static String renderPermLink(Node node, Comment comment) {
-        if (node == null || node.getId() == null) return "";
-        if (isFile(node)) return renderFileLink((File)node);
-        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
-        StringBuilder url = new StringBuilder();
-        url.append(prefs.getBaseUrl());
-        if (!prefs.getBaseUrl().endsWith("/")) url.append("/");
-        url.append(node.getId());
-        url.append(prefs.getPermlinkSuffix());
-        if (comment != null) url.append("#comment").append(comment.getId());
-        return url.toString();
-    }
-
-    public  static String renderWikiLink(Node node) {
-        return renderWikiLink(node, null);
-    }
-
-    public  static String renderWikiLink(Node node, Comment comment) {
+    public static String renderPermURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
         WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
-        StringBuilder url = new StringBuilder();
-        url.append(prefs.getBaseUrl());
-        if (!prefs.getBaseUrl().endsWith("/")) url.append("/");
-        if (node.getArea().getWikiname().equals(node.getWikiname())) {
-            url.append(node.getArea().getWikiname());
-        } else {
-            url.append(node.getArea().getWikiname()).append("/").append(node.getWikiname());
-        }
-        if (comment != null) url.append("#comment").append(comment.getId());
-        return url.toString();
+        return prefs.getBaseUrl() + node.getPermURL(prefs.getPermlinkSuffix());
     }
 
-    private static String renderFileLink(File file) {
-        if (file == null || file.getId() == null) return "";
+    public static String renderWikiURL(WikiNode node) {
+        if (node == null || node.getId() == null) return "";
         WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
-        return prefs.getBaseUrl() + "/servlets/files/download.seam?fileId=" + file.getId();
-    }
-
-    public static String renderHomeURL(User user) {
-        if (user == null) return "";
-        if (user.getMemberHome() == null) throw new IllegalArgumentException("User does not have a home directory");
-        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
-        return prefs.getBaseUrl() + "/" + user.getMemberHome().getParent().getWikiname() + "/" + user.getMemberHome().getWikiname();
-
+        return prefs.getBaseUrl() + node.getWikiURL();
     }
 
     public static String displayFilesize(int fileSizeInBytes) {
@@ -246,33 +183,6 @@ public class WikiUtil {
         String REGEX_MACRO = Pattern.quote("[") + "<=[a-z]{1}?[a-zA-Z0-9]+?" + Pattern.quote("]");
         return string.replaceAll(REGEX_MACRO, "");
 
-    }
-
-    public static String findMacros(Document currentDocument, Directory currentDirectory, String wikitext) {
-        if (wikitext == null) return null;
-        final StringBuilder usedMacros = new StringBuilder();
-        WikiTextParser parser = new WikiTextParser(wikitext, false, false);
-        parser.setCurrentDocument(currentDocument);
-        parser.setCurrentDirectory(currentDirectory);
-        parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
-
-        try {
-            class MacroRenderer extends NullWikiTextRenderer {
-                public String renderMacro(String macroName) {
-                    usedMacros.append(macroName).append(" ");
-                    return null;
-                }
-            }
-            parser.setRenderer( new MacroRenderer() ).parse(false);
-
-        } catch (RecognitionException rex) {
-            // Swallowing, we don't really care if there was a parse error
-        } catch (ANTLRException ex) {
-            // All other errors are fatal;
-            throw new RuntimeException(ex);
-        }
-
-        return usedMacros.toString();
     }
 
     // TODO: This would be the job of a more flexible seam text parser...

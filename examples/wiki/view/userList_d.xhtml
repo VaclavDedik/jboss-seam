@@ -31,17 +31,21 @@
 <ui:define name="content">
 
     <h:form id="userSearchForm" styleClass="box">
-
         <div class="form" id="userSearchControl">
 
-            <ui:include src="includes/statusIndicator.xhtml"/>
+            <ui:include src="includes/statusIndicator.xhtml">
+                <ui:param name="statusId" value="userSearchFormStatus"/>
+            </ui:include>
 
             <h:panelGrid columns="6"
-                         styleClass="datatable topLeftBottomBorder"
+                         styleClass="datatable topLeftBottomBorder smallFont"
                          headerClass="regularHeader rightBorder"
-                         columnClasses="tenPercentColumn formFields, tenPercentColumn formFields, tenPercentColumn formFields,
-                                        tenPercentColumn formFields, twentyPercentColumn alignLeft formFields,
-                                        defaultColumn alignRight formFields rightBorder"
+                         columnClasses="formFields minorPadding,
+                                        formFields minorPadding,
+                                        formFields minorPadding,
+                                        formFields minorPadding,
+                                        formFields minorPadding,
+                                        defaultColumn rightBorder formFields minorPadding"
                          cellpadding="0" cellspacing="0" border="0">
 
                 <f:facet name="header">
@@ -125,7 +129,7 @@
         <h:dataTable id="userTable" var="u"
                      value="#{usersList}"
                      rendered="#{usersList.rowCount >0}"
-                     styleClass="datatable topLeftBottomBorder"
+                     styleClass="datatable topLeftBottomBorder smallFont"
                      headerClass="sortableHeader rightBorder alignCenter"
                      columnClasses="tenPercentColumn rightBorder alignLeft,
                                     twentyPercentColumn rightBorder alignLeft,
@@ -147,9 +151,16 @@
                         <h:outputText value="#{messages['lacewiki.label.userList.Username']}"/>
                     </h:commandLink>
                 </f:facet>
-                <h:outputLink value="#{wiki:renderHomeURL(u)}" rendered="#{!empty u.memberHome}">#{u.username}</h:outputLink>
-                <h:outputText rendered="#{empty u.memberHome}" value="#{u.username}"/>
-                <h:outputText rendered="#{!u.activated}" value="&#160;(#{messages['lacewiki.label.userList.NotActivated']})"/>
+                <s:fragment rendered="#{u.admin or u.guest}">
+                    <h:outputText value="#{u.username}"/>
+                </s:fragment>
+                <s:fragment rendered="#{not u.admin and not u.guest}">
+                    <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
+                        <f:param name="userId" value="#{u.id}"/>
+                        <h:outputText rendered="#{empty u.memberHome}" value="#{u.username}"/>
+                    </s:link>
+                    <h:outputText rendered="#{!u.activated}" value="&#160;(#{messages['lacewiki.label.userList.NotActivated']})"/>
+                </s:fragment>
             </h:column>
 
             <h:column>
@@ -202,7 +213,7 @@
                     </h:commandLink>
                 </f:facet>
                 <h:outputText value="#{u.createdOn}">
-                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
             </h:column>
 
@@ -217,7 +228,7 @@
                     </h:commandLink>
                 </f:facet>
                 <h:outputText value="#{u.lastLoginOn}" rendered="#{not empty u.lastLoginOn}">
-                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
                 <h:outputText value="-" rendered="#{empty u.lastLoginOn}"/>
             </h:column>

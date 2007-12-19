@@ -16,7 +16,7 @@
             <h:outputText styleClass="pluginPreferencesEditorTitleText" value="#{pluginPreferencesEditor.preferenceComponent.description}"/>
 
             <a:commandLink action="#{pluginPreferencesEditor.apply}" tabindex="1"
-                           reRender="#{pluginDiv}"
+                           reRender="#{pluginDiv}" oncomplete="onAjaxRequestComplete()"
                            styleClass="buttonNonpersistent"><span class="buttonLabel">Apply</span></a:commandLink>
 
         </h:panelGrid>

@@ -10,12 +10,12 @@
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="screenname">
-    <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{nodeHistory.currentNode.name}"/>
+    <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{documentHistory.currentFile.name}"/>
 </ui:define>
 
 <ui:define name="controlTwo">
 
-    <s:link id="close" styleClass="linkNavigation" action="exit"
+    <s:link id="close" styleClass="linkNavigation sessionEventTrigger" action="exit"
             accesskey="#{messages['lacewiki.button.Close.accesskey']}">
         <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
     </s:link>
@@ -24,43 +24,50 @@
 
 <ui:define name="content">
 
-<h:form rendered="#{historicalNodeList.rowCount >0}" styleClass="box">
+<h:form id="historyForm" rendered="#{historicalFileList.rowCount >0}" styleClass="box">
 
 <div class="form">
-    <div class="formHead">#{messages['lacewiki.label.docHistory.DocumentHistory']}: #{nodeHistory.currentNode.name}</div>
+
+    <ui:include src="includes/statusIndicator.xhtml">
+        <ui:param name="statusId" value="historyFormStatus"/>
+    </ui:include>
+
+    <script type="text/javascript">startSessionTimeoutCheck()</script>
+
+    <div class="formHead">#{messages['lacewiki.label.docHistory.DocumentHistory']}: #{documentHistory.currentFile.name}</div>
     <div class="formFields formBorder">
 
         <s:div styleClass="entry">
             <div class="label">#{messages['lacewiki.label.docHistory.CurrentRevision']}:</div>
             <div class="output">
-                <h:outputText value="#{nodeHistory.currentNode.revision}"/>
+                <h:outputText value="#{documentHistory.currentFile.revision}"/>
             </div>
         </s:div>
 
         <s:div styleClass="entry">
             <div class="label">#{messages['lacewiki.label.docHistory.Parent']}:</div>
             <div class="output">
-                <h:outputText value="#{nodeHistory.currentNode.parent.name}"/>
+                <h:outputText value="#{documentHistory.currentFile.parent.name}"/>
             </div>
         </s:div>
 
         <s:div styleClass="entry">
             <div class="label">#{messages['lacewiki.label.docHistory.CreatedOn']}:</div>
             <div class="output">
-                <h:outputText value="#{nodeHistory.currentNode.createdOn}">
-                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                <h:outputText value="#{documentHistory.currentFile.createdOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
-                (#{nodeHistory.currentNode.createdBy.username})
+                (#{documentHistory.currentFile.createdBy.username})
             </div>
         </s:div>
 
-        <s:div styleClass="entry" rendered="#{!empty nodeHistory.currentNode.lastModifiedBy}">
+        <s:div styleClass="entry" rendered="#{!empty documentHistory.currentFile.lastModifiedBy}">
             <div class="label">#{messages['lacewiki.label.docHistory.LastModifiedOn']}:</div>
             <div class="output">
-                <h:outputText value="#{nodeHistory.currentNode.lastModifiedOn}">
-                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                <h:outputText value="#{documentHistory.currentFile.lastModifiedOn}">
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
                 </h:outputText>
-                (#{nodeHistory.currentNode.lastModifiedBy.username})
+                (#{documentHistory.currentFile.lastModifiedBy.username})
             </div>
         </s:div>
 
@@ -68,8 +75,8 @@
             <div class="label">#{messages['lacewiki.label.docHistory.HistoricalRevisions']}:</div>
             <div class="input">
 
-                <h:dataTable id="historyTable" var="hnode" style="width:50%"
-                             value="#{historicalNodeList}"
+                <h:dataTable id="historyTable" var="hfile" style="width:70%"
+                             value="#{historicalFileList}"
                              styleClass="datatable topLeftBottomBorder"
                              columnClasses="onePercentColumn rightBorder alignCenter,
                                             twentyPercentColumn rightBorder alignLeft,
@@ -78,32 +85,44 @@
                              cellpadding="0" cellspacing="0" border="0">
 
                     <h:column>
-                        #{hnode.revision}
+                        <h:outputText value="#{hfile.revision}"/>
                     </h:column>
 
                     <h:column>
-                        <h:outputText value="#{hnode.lastModifiedOn}">
-                            <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
-                        </h:outputText>
-                        <h:outputText value="&#160;(#{hnode.lastModifiedByUsername})" rendered="#{!empty hnode.lastModifiedByUsername}"/>
-                        <h:outputText value="&#160;(unknown)" rendered="#{empty hnode.lastModifiedByUsername}"/>
+                        <s:fragment rendered="#{not empty hfile.lastModifiedOn}">
+                            <h:outputText value="#{hfile.lastModifiedOn}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                            </h:outputText>
+                            <h:outputText value="&#160;(#{hfile.lastModifiedByUsername})" rendered="#{!empty hfile.lastModifiedByUsername}"/>
+                        </s:fragment>
+                        <s:fragment rendered="#{empty hfile.lastModifiedOn}">
+                            <h:outputText value="(Initial Revision)"/>
+                        </s:fragment>
                     </h:column>
 
                     <h:column>
-                        <a:commandLink id="show"
-                                       action="#{nodeHistory.displayHistoricalRevision}"
-                                       reRender="messageBoxContainer, diffResult, historicalPreview"
-                                       tabindex="3" styleClass="buttonNonpersistent">
+                        <a:commandLink id="show" status="historyFormStatus"
+                                       oncomplete="onAjaxRequestComplete()"
+                                       action="#{documentHistory.displayHistoricalRevision}"
+                                       reRender="messageBoxContainer, historyTable, diffResult, historicalPreview"
+                                       tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Show']}"/>
                         </a:commandLink>
-                        <s:link id="diff" action="#{nodeHistory.diff}" tabindex="3" styleClass="buttonNonpersistent">
+
+                        <s:link id="diff" rendered="#{empty documentHistory.diffResult or hfile.historicalFileId != documentHistory.historicalFileId}"
+                                action="#{documentHistory.diff}" tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Diff']}"/>
-                            <f:param name="historicalNodeId" value="#{hnode.historyId}"/>
+                            <f:param name="historicalFileId" value="#{hfile.historicalFileId}"/>
                         </s:link>
+                        <h:outputLink rendered="#{not empty documentHistory.diffResult and hfile.historicalFileId == documentHistory.historicalFileId}"
+                                      value="#diffResult" tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
+                            <h:outputText styleClass="buttonLabel" value="Diff Output"/>
+                        </h:outputLink>
+
                         <h:commandLink id="rollback"
-                                       action="#{nodeHistory.rollback}"
-                                       tabindex="4" styleClass="buttonNonpersistent"
-                                       rendered="#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}">
+                                       action="#{documentHistory.rollback}"
+                                       tabindex="4" styleClass="buttonNonpersistent sessionEventTrigger"
+                                       rendered="#{s:hasPermission('Node', 'edit', documentHistory.currentFile)}">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Rollback']}"/>
                         </h:commandLink>
                     </h:column>
@@ -121,9 +140,9 @@
                 <div class="label">&#160;</div>
                 <div class="input">
 
-                    <h:commandLink id="purge" action="#{nodeHistory.purgeHistory}"
+                    <h:commandLink id="purge" action="#{documentHistory.purgeHistory}"
                                tabindex="4" accesskey="#{messages['lacewiki.button.docHistory.PurgeHistory.accesskey']}" 
-                               styleClass="button">
+                               styleClass="button sessionEventTrigger">
                         <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.docHistory.PurgeHistory']}"/>
                     </h:commandLink>
     
@@ -138,29 +157,27 @@
 <br/>
 
 <s:div id="diffResult">
-    <s:div styleClass="box diffOutput" rendered="#{not empty nodeHistory.diffResult}">
-        <script type="text/javascript">jQuery(function() {
-            wrapBoxes();
-        });</script>
-        <h:outputText value="#{nodeHistory.diffResult}" escape="false"/>
+    <s:div styleClass="box diffOutput" rendered="#{not empty documentHistory.diffResult}">
+        <h:outputText value="#{documentHistory.diffResult}" escape="false"/>
     </s:div>
 </s:div>
 
 <s:div id="historicalPreview">
     <s:div id="documentDisplayContainer"
-           rendered="#{not empty nodeHistory.displayedHistoricalNode}"
+           rendered="#{not empty documentHistory.displayedHistoricalFile}"
            styleClass="box">
-        <script type="text/javascript">jQuery(function() {
-            wrapBoxes();
-        });</script>
+        <s:div rendered="#{documentHistory.displayedHistoricalFile.name != documentHistory.currentFile.name}">
+            <h:outputText value="Revision document name: #{documentHistory.displayedHistoricalFile.name}"/>
+            <hr/>
+        </s:div>
         <s:div id="documentDisplay" styleClass="documentDisplay">
-            <wiki:formattedText value="#{nodeHistory.displayedHistoricalNode.content}"
+            <wiki:formattedText value="#{documentHistory.displayedHistoricalFile.content}"
                                 linkStyleClass="regularLink"
                                 brokenLinkStyleClass="brokenLink"
                                 attachmentLinkStyleClass="regularLink"
                                 thumbnailLinkStyleClass="regularLink"
-                                renderBaseDocument="#{nodeHistory.currentNode}"
-                                renderBaseDirectory="#{nodeHistory.currentNode.parent}"
+                                linkBaseFile="#{documentHistory.currentFile}"
+                                currentAreaNumber="#{documentHistory.currentFile.parent.areaNumber}"
                                 enablePlugins="false"/>
         </s:div>
     </s:div>

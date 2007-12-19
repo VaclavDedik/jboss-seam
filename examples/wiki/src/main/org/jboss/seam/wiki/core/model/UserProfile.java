@@ -23,7 +23,7 @@ public class UserProfile {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    protected Integer version;
+    protected int version;
 
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
     private Date createdOn = new Date();

@@ -9,7 +9,7 @@
                 template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
 
 <ui:define name="screenname">
-    <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{nodeHistory.currentNode.name}"/>
+    <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{documentHistory.currentFile.name}"/>
 </ui:define>
 
 <ui:define name="control">
@@ -21,26 +21,26 @@
 
 <ui:define name="content">
 
-<h:form rendered="#{historicalNodeList.rowCount >0}" styleClass="box">
+<h:form rendered="#{historicalFileList.rowCount >0}" styleClass="box">
 
-    <div>#{messages['lacewiki.label.docHistory.CurrentRevision']}:&#160;<h:outputText value="#{nodeHistory.currentNode.revision}"/></div>
-    <div>#{messages['lacewiki.label.docHistory.Parent']}:&#160;<h:outputText value="#{nodeHistory.currentNode.parent.name}"/></div>
+    <div>#{messages['lacewiki.label.docHistory.CurrentRevision']}:&#160;<h:outputText value="#{documentHistory.currentFile.revision}"/></div>
+    <div>#{messages['lacewiki.label.docHistory.Parent']}:&#160;<h:outputText value="#{documentHistory.currentFile.parent.name}"/></div>
     <div>#{messages['lacewiki.label.docHistory.CreatedOn']}:&#160;
-        <h:outputText value="#{nodeHistory.currentNode.createdOn}">
-            <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+        <h:outputText value="#{documentHistory.currentFile.createdOn}">
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
         </h:outputText>
-        (#{nodeHistory.currentNode.createdBy.username})
+        (#{documentHistory.currentFile.createdBy.username})
     </div>
     <div>#{messages['lacewiki.label.docHistory.LastModifiedOn']}:&#160;
-        <h:outputText value="#{nodeHistory.currentNode.lastModifiedOn}">
-            <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+        <h:outputText value="#{documentHistory.currentFile.lastModifiedOn}">
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
         </h:outputText>
-        (#{nodeHistory.currentNode.lastModifiedBy.username})
+        (#{documentHistory.currentFile.lastModifiedBy.username})
     </div>
     <div>#{messages['lacewiki.label.docHistory.HistoricalRevisions']}:</div>
 
     <h:dataTable id="historyTable" var="hnode"
-                 value="#{historicalNodeList}"
+                 value="#{historicalFileList}"
                  rowClasses="rowEven, rowOdd"
                  cellpadding="5" cellspacing="0" border="1">
 
@@ -50,26 +50,26 @@
 
         <h:column>
             <h:outputText value="#{hnode.lastModifiedOn}">
-                <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
             </h:outputText>
             <h:outputText value="&#160;(#{hnode.lastModifiedByUsername})" rendered="#{!empty hnode.lastModifiedByUsername}"/>
             <h:outputText value="&#160;(unknown)" rendered="#{empty hnode.lastModifiedByUsername}"/>
         </h:column>
 
         <h:column>
-            <h:commandButton action="#{nodeHistory.displayHistoricalRevision}"
+            <h:commandButton action="#{documentHistory.displayHistoricalRevision}"
                              value="#{messages['lacewiki.button.Show']}"/>
         </h:column>
         <h:column>
-            <h:commandButton action="#{nodeHistory.rollback}"
+            <h:commandButton action="#{documentHistory.rollback}"
                              value="#{messages['lacewiki.button.Rollback']}"
-                             rendered="#{s:hasPermission('Node', 'edit', nodeHistory.currentNode)}"/>
+                             rendered="#{s:hasPermission('Node', 'edit', documentHistory.currentFile)}"/>
         </h:column>
 
     </h:dataTable>
 
     <s:div rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}" styleClass="formControls">
-        <h:commandButton id="purge" action="#{nodeHistory.purgeHistory}"
+        <h:commandButton id="purge" action="#{documentHistory.purgeHistory}"
                          value="#{messages['lacewiki.button.PurgeHistory']}"/>
     </s:div>
 
@@ -77,23 +77,17 @@
 
 <br/>
 
-<s:div id="diffResult">
-    <s:div rendered="#{not empty nodeHistory.diffResult}">
-        <h:outputText value="#{nodeHistory.diffResult}" escape="false"/>
-    </s:div>
-</s:div>
-
 <s:div id="historicalPreview">
     <s:div id="documentDisplayContainer"
-           rendered="#{not empty nodeHistory.displayedHistoricalNode}">
+           rendered="#{not empty documentHistory.displayedHistoricalFile}">
         <s:div id="documentDisplay" styleClass="documentDisplay">
-            <wiki:formattedText value="#{nodeHistory.displayedHistoricalNode.content}"
+            <wiki:formattedText value="#{documentHistory.displayedHistoricalFile.content}"
                                 linkStyleClass="regularLink"
                                 brokenLinkStyleClass="brokenLink"
                                 attachmentLinkStyleClass="regularLink"
                                 thumbnailLinkStyleClass="regularLink"
-                                renderBaseDocument="#{nodeHistory.currentNode}"
-                                renderBaseDirectory="#{nodeHistory.currentNode.parent}"
+                                linkBaseFile="#{documentHistory.currentFile}"
+                                currentAreaNumber="#{documentHistory.currentFile.parent.areaNumber}"
                                 enablePlugins="false"/>
         </s:div>
     </s:div>

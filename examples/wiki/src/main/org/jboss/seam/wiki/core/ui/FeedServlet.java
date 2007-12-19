@@ -9,12 +9,11 @@ package org.jboss.seam.wiki.core.ui;
 import com.sun.syndication.feed.synd.*;
 import com.sun.syndication.io.SyndFeedOutput;
 import org.jboss.seam.Component;
-import org.jboss.seam.wiki.core.dao.FeedDAO;
-import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
+import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.core.model.FeedEntry;
-import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.action.Authenticator;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.servlet.ServletException;
@@ -25,13 +24,41 @@ import javax.transaction.UserTransaction;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Serves syndicated feeds, one feed for each directory that has a feed.
+ * <p>
+ * This servlet uses either the currently logged in user (session) or
+ * basic HTTP authorization if there is no user logged in or if the feed
+ * requires a higher access level than currently available. The access level
+ * of the feed is the read-access level of the directory the feed belongs to.
+ * Feed entries are also read-access filtered, depending on the document they
+ * belong to.
+ *
+ * @author Christian Bauer
+ */
 public class FeedServlet extends HttpServlet {
 
-    private Map<String,String> feedTypes = new HashMap<String,String>() {{
-        put("/atom.seam", "atom_1.0");
-        // TODO: Support more of these... also need to consider setContentType() ... put("/rss.seam", "rss_2.0");
+    // Possible feed types
+    public enum SyndFeedType {
+        ATOM("/atom.seam", "atom_1.0", "application/atom+xml"),
+        RSS2("/rss.seam", "rss_2.0", "application/rss+xml");
+
+        SyndFeedType(String pathInfo, String feedType, String contentType) {
+            this.pathInfo = pathInfo;
+            this.feedType = feedType;
+            this.contentType = contentType;
+        }
+        String pathInfo;
+        String feedType;
+        String contentType;
+    }
+
+    // Supported feed types
+    private Map<String, SyndFeedType> feedTypes = new HashMap<String,SyndFeedType>() {{
+        put(SyndFeedType.ATOM.pathInfo, SyndFeedType.ATOM);
     }};
 
+    // Allow unit testing
     public FeedServlet() {}
 
     @Override
@@ -42,7 +69,7 @@ public class FeedServlet extends HttpServlet {
         String feedId = request.getParameter("feedId");
 
         if (!feedTypes.containsKey(pathInfo)) return;
-        String feedType = feedTypes.get(pathInfo);
+        SyndFeedType syndFeedType = feedTypes.get(pathInfo);
         if (feedId == null) return;
 
         // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
@@ -76,46 +103,10 @@ public class FeedServlet extends HttpServlet {
                 }
             }
 
-            // Create feed
-            SyndFeed syndFeed = new SyndFeedImpl();
-            syndFeed.setUri(request.getRequestURL().toString() + "?feedId=" + feedId);
-            syndFeed.setFeedType(feedType);
-            syndFeed.setTitle(feed.getTitle());
-            syndFeed.setLink(request.getRequestURL().toString() + "?feedId=" + feedId);
-            syndFeed.setAuthor(feed.getAuthor());
-            if (feed.getDescription() != null && feed.getDescription().length() >0)
-                syndFeed.setDescription(feed.getDescription());
-            syndFeed.setPublishedDate(feed.getPublishedDate());
-
-            // Create feed entries
-            List<SyndEntry> syndEntries = new ArrayList<SyndEntry>();
-            SortedSet<FeedEntry> entries = feed.getFeedEntries();
-            for (FeedEntry entry : entries) {
-                SyndEntry syndEntry;
-                SyndContent description;
-                syndEntry = new SyndEntryImpl();
-                syndEntry.setTitle(entry.getTitle());
-                syndEntry.setLink(entry.getLink());
-                syndEntry.setUri(entry.getLink());
-                syndEntry.setAuthor(entry.getAuthor());
-                syndEntry.setPublishedDate(entry.getPublishedDate());
-                syndEntry.setUpdatedDate(entry.getUpdatedDate());
-                description = new SyndContentImpl();
-                description.setType(entry.getDescriptionType());
-                description.setValue(WikiUtil.removeMacros(entry.getDescriptionValue()));
-                syndEntry.setDescription(description);
-                if (entry.getDocument() != null && entry.getDocument().getReadAccessLevel() <= currentAccessLevel) {
-                    // Only add entry if the associated document has the right access level
-                    syndEntries.add(syndEntry);
-                } else if (entry.getDocument() == null) {
-                    // or if there is no document associated with it, then everyone can read it who can read the feed
-                    syndEntries.add(syndEntry);
-                }
-            }
-            syndFeed.setEntries(syndEntries);
+            SyndFeed syndFeed = createSyndFeed(request.getRequestURL().toString(), syndFeedType,  feed, currentAccessLevel);
 
             // Write feed to output
-            response.setContentType("application/atom+xml"); // TODO: Make this more flexible
+            response.setContentType(syndFeedType.contentType);
             response.setCharacterEncoding("UTF-8");
             SyndFeedOutput output = new SyndFeedOutput();
             output.output(syndFeed, response.getWriter());
@@ -124,12 +115,56 @@ public class FeedServlet extends HttpServlet {
             if (startedTx) userTx.commit();
         } catch (Exception ex) {
             try {
-                if (startedTx) userTx.rollback();
+                if (startedTx && userTx.getStatus() != javax.transaction.Status.STATUS_MARKED_ROLLBACK)
+                    userTx.rollback();
             } catch (Exception rbEx) {
                 rbEx.printStackTrace();
             }
             throw new RuntimeException(ex);
         }
+    }
+
+    public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {
+
+        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+
+        // Create feed
+        SyndFeed syndFeed = new SyndFeedImpl();
+        syndFeed.setUri(baseURI + "?feedId=" + feed.getId());
+        syndFeed.setFeedType(syndFeedType.feedType);
+        syndFeed.setTitle(prefs.getFeedTitlePrefix() + feed.getTitle());
+        syndFeed.setLink(WikiUtil.renderURL(feed.getDirectory()));
+        syndFeed.setAuthor(feed.getAuthor());
+        if (feed.getDescription() != null && feed.getDescription().length() >0)
+            syndFeed.setDescription(feed.getDescription());
+        syndFeed.setPublishedDate(feed.getPublishedDate());
+
+        // Create feed entries
+        List<SyndEntry> syndEntries = new ArrayList<SyndEntry>();
+        SortedSet<FeedEntry> entries = feed.getFeedEntries();
+        for (FeedEntry entry : entries) {
+            if (entry.getReadAccessLevel() <= currentAccessLevel) {
+                SyndEntry syndEntry;
+                syndEntry = new SyndEntryImpl();
+                syndEntry.setTitle(entry.getTitle());
+                syndEntry.setLink(entry.getLink());
+                syndEntry.setUri(entry.getLink());
+                syndEntry.setAuthor(entry.getAuthor());
+                syndEntry.setPublishedDate(entry.getPublishedDate());
+                syndEntry.setUpdatedDate(entry.getUpdatedDate());
+
+                SyndContent description;
+                description = new SyndContentImpl();
+                description.setType(entry.getDescriptionType());
+                description.setValue(WikiUtil.removeMacros(entry.getDescriptionValue()));
+                syndEntry.setDescription(description);
+
+                syndEntries.add(syndEntry);
+            }
+        }
+        syndFeed.setEntries(syndEntries);
+
+        return syndFeed;
     }
 
 }

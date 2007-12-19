@@ -27,7 +27,16 @@
     <script type="text/javascript" src="#{themePath}/js/jqHistoryRemote.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqProgressBar.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqDimensions.js"></script>
+
+    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/resource/remote.js"></script>
+    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
+
     <script type="text/javascript">
+
+        // ###################### Seam Remoting #################################
+
+        Seam.Remoting.displayLoadingMessage = function() {};
+        Seam.Remoting.hideLoadingMessage = function() {};
 
         // ###################### jQuery Integration #################################
 
@@ -42,7 +51,46 @@
             return jQuery(element);
         }
 
+        // ###################### Session timeout alert #################################
+
+        var sessionChecker = Seam.Component.getInstance("httpSessionChecker");
+        var timeoutURL = '#{wiki:renderURL(wikiStart)}';
+        var timeoutMillis = '#{sessionTimeoutSeconds}'*1000+3000;
+        var sessionTimeoutInterval = null;
+
+        function startSessionTimeoutCheck() {
+            sessionTimeoutInterval = setInterval('sessionChecker.isNewSession(alertTimeout)', timeoutMillis);
+        }
+
+        function stopSessionTimeoutCheck() {
+            if (sessionTimeoutInterval) clearInterval(sessionTimeoutInterval);
+        }
+
+        function resetSessionTimeoutCheck() {
+            stopSessionTimeoutCheck();
+            startSessionTimeoutCheck();
+        }
+
+        function alertTimeout(newSession) {
+            if (newSession) {
+                clearInterval(sessionTimeoutInterval);
+                jQuery(".ajaxSupport")
+                        .removeAttr('onblur')
+                        .removeAttr('onchange')
+                        .removeAttr('onkeyup')
+                        .removeAttr('onclick');
+                jQuery(".sessionEventTrigger").hide();
+                var answer = confirm("#{messages['lacewiki.msg.SessionTimeout']}");
+                if (answer) window.location = timeoutURL;
+            }
+        }
+
         // ###################### Form helpers #################################
+
+        function onAjaxRequestComplete() {
+            resetSessionTimeoutCheck();
+            wrapBoxes();
+        }
 
         function clickClear(thisfield, defaulttext) {
             if (thisfield.value == defaulttext) {
@@ -64,6 +112,15 @@
         }
 
         // ###################### Popups #################################
+
+        function deleteConfirmation(message, deleteFunction) {
+            var answer = confirm("#{messages['lacewiki.label.AreYouSureYouWantToDelete']} "
+                                  + message
+                                  + " #{messages['lacewiki.label.DeleteAllChildren']}");
+            if (answer){
+                eval(deleteFunction+"()");
+            }
+        }
 
         var fadeInPopupDialog = function(hash) {
             hash.w.fadeIn('fast',function(){ hash.o.show(); });
@@ -116,10 +173,10 @@
                 log("Showing icon for tab: " + tabId);
                 // Show an icon on the tab and blink it a few times
                 jQuery("#"+tabId)
-                    .Pulsate(100,5)
                     .prepend('&lt;img id="' + tabId + 'InvalidIcon" ' +
                             'src="#{themePath}/img/attention.gif" width="13" height="13" ' +
                             'alt="!" style="vertical-align:bottom;margin-left:5px;margin-right:5px;"/>');
+                pulsate("#"+tabId);
             } else if (formTabErrors[tabId] &lt; 1){
                 log("Removing icon of tab: " + tabId);
                 jQuery("#"+tabId + "InvalidIcon").remove();             // Remove the error icon on the tab
@@ -171,6 +228,13 @@
 
         // ###################### Design #################################
 
+        function pulsate(query) {
+            var blinkCount = 4*2;
+            do {
+                jQuery(query)['fade'+(blinkCount%2==0?'Out':'In')]('fast');
+            } while (--blinkCount);
+        }
+
         function clearDocumentBackground() {
             // Noop for this skin
         }
@@ -179,6 +243,7 @@
         function wrapBoxes() {
             // Noop for this skin
         }
+
     </script>
 
 </head>
@@ -203,7 +268,7 @@
 
       <div>
           <h:outputLink value="#{wikiPreferences.baseUrl}">
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="210" height="100"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="210" height="98"/>
           </h:outputLink>
       </div>
 
@@ -218,29 +283,32 @@
             <ui:define name="mainMenuHeader">
             </ui:define>
             <ui:define name="mainMenuFooter">
-                <s:div styleClass="feeds">
+                <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0" styleClass="feeds">
                     <h:outputLink styleClass="feedLink" value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{wikiRoot.feed.id}">
-                        <span class="feedText">#{messages['lacewiki.button.SiteFeed']}</span>
                         <h:graphicImage styleClass="feedIcon" value="/themes/#{wikiPreferences.themeName}/img/icon.atom.onbrown.gif" width="18" height="18"/>
                     </h:outputLink>
-                </s:div>
+                    <h:outputLink styleClass="feedLink" value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{wikiRoot.feed.id}">
+                        <span class="feedText">#{messages['lacewiki.button.SiteFeed']}</span>
+                    </h:outputLink>
+                </h:panelGrid>
             </ui:define>
         </ui:decorate>
 
         <br/>
 
         <!-- Members Area -->
-        <div id="wikiControls" class="membersAreaContainer"><b class="rtop"><b class="r1"></b><b class="r2"></b><b class="r3"></b><b class="r4"></b></b>
+        <s:div id="wikiControls" rendered="#{not hideControls}"
+               styleClass="membersAreaContainer"><b class="rtop"><b class="r1"></b><b class="r2"></b><b class="r3"></b><b class="r4"></b></b>
             <div class="membersArea">
                 <h3>Controls</h3>
 
                 <s:fragment rendered="#{not empty currentDocument and not empty currentDocument.id}">
                     
-                    <h:outputLink styleClass="linkNavigation" value="#{wiki:renderPermLink(currentDocument)}" target="_top">
+                    <h:outputLink styleClass="linkNavigation" value="#{wiki:renderPermURL(currentDocument)}" target="_top">
                         <h:outputText value="#{messages['lacewiki.label.PermLink']}"/>
                     </h:outputLink>
 
-                    <h:outputLink styleClass="linkNavigation" value="#{wiki:renderWikiLink(currentDocument)}" target="_top">
+                    <h:outputLink styleClass="linkNavigation" value="#{wiki:renderWikiURL(currentDocument)}" target="_top">
                         <h:outputText value="#{messages['lacewiki.label.WikiLink']}"/>
                     </h:outputLink>
 
@@ -250,11 +318,11 @@
 
             </div>
             <b class="rbottom"><b class="r4"></b><b class="r3"></b><b class="r2"></b><b class="r1"></b></b>
-        </div>
+        </s:div>
 
         <s:div styleClass="membersAreaContainer workspaceSwitcherContainer" rendered="#{wiki:sizeOf(conversationList) > 0}">
             <b class="rtop"><b class="r1"></b><b class="r2"></b><b class="r3"></b><b class="r4"></b></b>
-            <h:form id="workspaceSwitcher">
+            <h:form id="workspaceSwitcher" styleClass="sessionEventTrigger">
                 <h:selectOneMenu value="#{switcher.conversationIdOrOutcome}"
                                  styleClass="workspaceSwitcherCombobox">
                     <f:selectItems value="#{switcher.selectItems}"/>
@@ -273,9 +341,8 @@
             <p>
                 We are building the new Seam community website publicly. You
                 are invited to contribute. Please do not link to this website at this time, the addresses and URLs
-                will change when we go live. If you find a bug in the software or get hit by an exception, please
-                send an e-mail with a full description
-                to <a href="mailto:christian.bauer(at)gmail.com">christian.bauer(at)gmail.com</a>
+                will change when we go live. If you find a bug or get hit by an exception, please
+                send an e-mail with a full description to <a href="mailto:christian.bauer(at)gmail.com">Christian</a>.
             </p>
         </div>
 
@@ -299,7 +366,7 @@
                 </ui:repeat>
                 <script type="text/javascript">jQuery(function() {
                     jQuery("#messageBoxContainer").css("margin-top", "10px").css("margin-bottom", "10px");
-                    jQuery(".messageBoxImage").Pulsate(100,5);
+                    pulsate(".messageBoxImage");
                 });</script>
             </s:div>
         </s:div>
@@ -308,7 +375,7 @@
                 <table id="clientMessageBoxTable" class="messageBoxTable" cellpadding="0" cellspacing="0" border="0"/>
                 <script type="text/javascript">jQuery(function() {
                     jQuery("#clientMessageBoxContainer").css("margin-top", "10px").css("margin-bottom", "10px");
-                    jQuery(".clientMessageBoxImage").Pulsate(100,5);
+                    pulsate(".clientMessageBoxImage");
                 });</script>
             </div>
         </s:div>

@@ -1,30 +1,30 @@
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
-import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.wiki.core.model.WikiDocument;
 
 import java.io.Serializable;
 
 public class BlogEntry implements Serializable {
 
-    Document entryDocument;
+    WikiDocument entryDocument;
     Long commentCount;
 
     public BlogEntry() {}
 
-    public BlogEntry(Document entryDocument) {
+    public BlogEntry(WikiDocument entryDocument) {
         this.entryDocument = entryDocument;
     }
 
-    public BlogEntry(Document entryDocument, Long commentCount) {
+    public BlogEntry(WikiDocument entryDocument, Long commentCount) {
         this.entryDocument = entryDocument;
         this.commentCount = commentCount;
     }
 
-    public Document getEntryDocument() {
+    public WikiDocument getEntryDocument() {
         return entryDocument;
     }
 
-    public void setEntryDocument(Document entryDocument) {
+    public void setEntryDocument(WikiDocument entryDocument) {
         this.entryDocument = entryDocument;
     }
 

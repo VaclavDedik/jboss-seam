@@ -8,11 +8,13 @@
        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
+<s:fragment rendered="#{topicHome.showForm}">
+    <script type="text/javascript">startSessionTimeoutCheck();</script>
+</s:fragment>
+
 <s:fragment rendered="#{not topicHome.showForm}">
 
-    <s:div styleClass="forumDescription">
-        <h:outputText value="#{currentDirectory.description}"/>
-    </s:div>
+    <script type="text/javascript">stopSessionTimeoutCheck();</script>
 
     <s:div styleClass="forumsFeedLink undecoratedLink" rendered="#{not empty currentDirectory.feed}">
         <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}"
@@ -22,25 +24,33 @@
         </h:outputLink>
     </s:div>
 
-    <h:form>
-    <h:panelGroup>
+    <h:panelGrid columns="2" styleClass="forumDescriptionTopicControls"
+                 columnClasses="forumDescription, topicControls"
+                 cellpadding="0" cellspacing="0" border="0">
 
-        <h:outputLink value="#{wiki:renderURL(currentDirectory.parent)}"
-                      accesskey="#{messages['forum.button.ForumList.accesskey']}"
-                      tabindex="1" styleClass="buttonNonpersistent">
-            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
-        </h:outputLink>
+        <h:outputText value="#{currentDirectory.description}"/>
 
-        <a:commandLink rendered="#{s:hasPermission('Node', 'create', currentDirectory)}"
-                       action="#{topicHome.newTopic}"
-                       reRender="forumTopicsPluginContainer, messageBoxContainer"
-                       accesskey="#{messages['forum.button.NewTopic.accesskey']}"
-                       tabindex="1" styleClass="buttonNonpersistent">
-            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewTopic']}"/>
-        </a:commandLink>
+        <h:form>
+        <h:panelGroup>
 
-    </h:panelGroup>
-    </h:form>
+            <h:outputLink value="#{wiki:renderURL(currentDirectory.parent)}"
+                          accesskey="#{messages['forum.button.ForumList.accesskey']}"
+                          tabindex="1" styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
+            </h:outputLink>
+
+            <s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory)}">
+                <h:outputLink value="#{wiki:renderURL(currentDocument)}?showTopicForm=true"
+                              accesskey="#{messages['forum.button.NewTopic.accesskey']}"
+                              tabindex="1" styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewTopic']}"/>
+                </h:outputLink>
+            </s:fragment>
+
+        </h:panelGroup>
+        </h:form>
+
+    </h:panelGrid>
 
 </s:fragment>
 

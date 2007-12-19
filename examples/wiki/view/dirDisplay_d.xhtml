@@ -6,14 +6,13 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:rich="http://richfaces.org/rich"
-                xmlns:richtree="http://labs.jboss.com/jbossrichfaces/ui/treeModel"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="screenname">#{directoryHome.instance.name}</ui:define>
 
 <ui:define name="controlTwo">
 
-    <s:fragment rendered="#{!empty directoryHome.parentDirectory}">
+    <s:fragment rendered="#{!empty directoryHome.parentNode}">
 
         <s:link id="createDir" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.CreateSubdirectory.accesskey']}"
@@ -42,16 +41,15 @@
 
         <s:link id="uploadFile" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.UploadFile.accesskey']}"
-                view="/fileEdit_#{skin}.xhtml"
+                view="/uploadCreate_#{skin}.xhtml"
                 rendered="#{s:hasPermission('Node', 'create', directoryHome.instance)}">
             <h:outputText escape="false" value="#{messages['lacewiki.button.UploadFile']}"/>
-            <f:param name="fileId"/>
             <f:param name="parentDirectoryId" value="#{directoryHome.instance.id}"/>
         </s:link>
 
     </s:fragment>
 
-    <s:fragment rendered="#{empty directoryHome.parentDirectory}">
+    <s:fragment rendered="#{empty directoryHome.parentNode}">
         <s:link id="createArea" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.NewArea.accesskey']}"
                 view="/dirEdit_#{skin}.xhtml"
@@ -99,86 +97,148 @@
         </h:panelGroup>
     </div>
 
-    <s:div styleClass="directoryEmpty" rendered="#{empty directoryHome.instance.children}">
+    <s:div styleClass="directoryEmpty" rendered="#{empty directoryHome.childNodes}">
             <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" accesskey="."
-                    rendered="#{!empty directoryHome.parentDirectory and s:hasPermission('Node','read',directoryHome.parentDirectory)}">
-                <f:param name="directoryId" value="#{directoryHome.parentDirectory.id}"/>
+                    rendered="#{!empty directoryHome.parentNode and s:hasPermission('Node','read',directoryHome.parentNode)}">
+                <f:param name="directoryId" value="#{directoryHome.parentNode.id}"/>
                 <h:panelGrid columns="2">
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dirup.gif" width="18" height="20"/>
                     <h:outputText value=".."/>
                 </h:panelGrid>
             </s:link>
-            <h:outputText rendered="#{empty directoryHome.parentDirectory or !s:hasPermission('Node','read',directoryHome.parentDirectory)}"
+            <h:outputText rendered="#{empty directoryHome.parentNode or !s:hasPermission('Node','read',directoryHome.parentNode)}"
                           value="#{messages['lacewiki.label.dirDisplay.DirectoryIsEmpty']}"/>
 
     </s:div>
 
+    <h:panelGrid columns="5" rendered="#{not empty directoryHome.childNodes and directoryHome.pager.numOfRecords > directoryHome.pager.pageSize}"
+                 styleClass="pager"
+                 columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
+                 cellpadding="0" cellspacing="0" border="0">
+
+
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
+                rendered="#{directoryHome.pager.previousPageAvailable}">
+            <f:param name="page" value="0"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
+        </s:link>
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!directoryHome.pager.previousPageAvailable}"/>
+
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
+                rendered="#{directoryHome.pager.previousPageAvailable}">
+            <f:param name="page" value="#{directoryHome.pager.previousPage}"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
+        </s:link>
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!directoryHome.pager.previousPageAvailable}"/>
+
+        <s:span>
+            <h:outputText value="#{messages['lacewiki.label.dirDisplay.PagerShowing']}
+                                    #{directoryHome.pager.firstRecord} #{messages['lacewiki.label.dirDisplay.PagerTo']}
+                                    #{directoryHome.pager.lastRecord} #{messages['lacewiki.label.dirDisplay.PagerOf']}
+                                    #{directoryHome.pager.numOfRecords} #{messages['lacewiki.label.dirDisplay.PagerElements']}"/>
+        </s:span>
+
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
+                rendered="#{directoryHome.pager.nextPageAvailable}">
+            <f:param name="page" value="#{directoryHome.pager.nextPage}"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
+        </s:link>
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!directoryHome.pager.nextPageAvailable}"/>
+
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
+                rendered="#{directoryHome.pager.nextPageAvailable}">
+            <f:param name="page" value="#{directoryHome.pager.lastPage}"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
+        </s:link>
+        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!directoryHome.pager.nextPageAvailable}"/>
+
+    </h:panelGrid>
+
     <h:dataTable id="directoryTable" var="node"
-                 value="#{directoryHome.instance.children}"
-                 rendered="#{!empty directoryHome.instance.children}"
-                 styleClass="datatable topLeftBottomBorder"
-                 headerClass="regularHeader rightBorder"
+                 value="#{directoryHome.childNodes}"
+                 rendered="#{!empty directoryHome.childNodes}"
+                 styleClass="datatable topLeftBottomBorder smallFont"
+                 headerClass="regularHeader rightBorder alignCenter"
                  columnClasses="onePercentColumn rightBorder alignCenter, defaultColumn rightBorder alignLeft,
                                 tenPercentColumn rightBorder alignLeft, fifteenPercentColumn rightBorder alignLeft,
                                 fifteenPercentColumn rightBorder alignLeft,twentyPercentColumn rightBorder alignCenter"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
-
         <h:column>
             <f:facet name="header">
                 <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" accesskey="."
-                        rendered="#{!empty directoryHome.parentDirectory and s:hasPermission('Node','read',directoryHome.parentDirectory)}">
-                    <f:param name="directoryId" value="#{directoryHome.parentDirectory.id}"/>
+                        rendered="#{!empty directoryHome.parentNode and s:hasPermission('Node','read',directoryHome.parentNode)}">
+                    <f:param name="directoryId" value="#{directoryHome.parentNode.id}"/>
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dirup.gif" width="18" height="20"/>
                 </s:link>
             </f:facet>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
                             width="18" height="20"
-                            rendered="#{wiki:isDirectory(node)}"/>
+                            rendered="#{node.isInstance('WikiDirectory')}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
                             width="18" height="20"
-                            rendered="#{wiki:isDocument(node) and node != directoryHome.instance.defaultDocument}"/>
+                            rendered="#{node.isInstance('WikiDocument') and node != directoryHome.instance.defaultFile}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.default.gif"
                             width="18" height="20"
-                            rendered="#{wiki:isDocument(node) and node == directoryHome.instance.defaultDocument}"/>
+                            rendered="#{node.isInstance('WikiDocument') and node == directoryHome.instance.defaultFile}"/>
 
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[node.contentType].displayIcon}"
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes[node.contentType].displayIcon}"
                             width="18" height="20"
-                            rendered="#{wiki:isFile(node) and !empty fileMetaMap[node.contentType]}"/>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                            rendered="#{node.isInstance('WikiUpload') and !empty uploadTypes[node.contentType]}"/>
+            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes['generic'].displayIcon}"
                             width="18" height="20"
-                            rendered="#{wiki:isFile(node) and empty fileMetaMap[node.contentType]}"/>
+                            rendered="#{node.isInstance('WikiUpload') and empty uploadTypes[node.contentType]}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">
-                #{messages['lacewiki.label.dirDisplay.Name']}
+                <h:outputText value="#{messages['lacewiki.label.dirDisplay.Name']}"/>
             </f:facet>
 
-            <s:span rendered="#{wiki:isDirectory(node)}">
+            <s:span rendered="#{node.isInstance('WikiDirectory')}">
                 <s:link id="browseDirectory" value="#{wiki:truncateString(node.name, 40, '...')}"
                         view="/dirDisplay_#{skin}.xhtml"
-                        rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
+                        rendered="#{s:hasPermission('Node','read',node)}" tabindex="1">
                     <f:param name="directoryId" value="#{node.id}"/>
                 </s:link>
                 <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}" rendered="#{!s:hasPermission('Node','read',node)}"/>
+
+                <s:link rendered="#{s:hasPermission('Node', 'edit', node)}"
+                        styleClass="buttonNonpersistent" tabindex="1"
+                        view="/dirEdit_#{skin}.xhtml">
+                    <f:param name="directoryId" value="#{node.id}"/>
+                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Edit']}"/>
+                </s:link>
+
             </s:span>
 
-            <s:span rendered="#{wiki:isDocument(node)}">
-                <h:outputLink value="#{wiki:renderURL(node)}" rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
+            <s:span rendered="#{node.isInstance('WikiDocument')}">
+                <h:outputLink value="#{wiki:renderURL(node)}" rendered="#{s:hasPermission('Node','read',node)}" tabindex="1">
                     <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
                 </h:outputLink>
                 <h:outputText value="#{node.name}" rendered="#{!s:hasPermission('Node','read',node)}"/>
+
+                <s:link rendered="#{s:hasPermission('Node', 'edit', node)}"
+                        styleClass="buttonNonpersistent" tabindex="1"
+                        view="/docEdit_#{skin}.xhtml">
+                    <f:param name="documentId" value="#{node.id}"/>
+                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Edit']}"/>
+                </s:link>
+
             </s:span>
 
-            <s:span rendered="#{wiki:isFile(node) and s:hasPermission('Node', 'edit', node)}">
-                <s:link id="editFile" value="#{wiki:truncateString(node.name, 30, '...')}" tabindex="2" view="/fileEdit_#{skin}.xhtml">
-                    <f:param name="fileId" value="#{node.id}"/>
+            <s:span rendered="#{node.isInstance('WikiUpload') and s:hasPermission('Node', 'edit', node)}">
+                <s:link id="editFile" value="#{wiki:truncateString(node.name, 30, '...')}" tabindex="1" view="/uploadEdit_#{skin}.xhtml">
+                    <f:param name="uploadId" value="#{node.id}"/>
                     <f:param name="parentDirectoryId" value="#{directoryHome.instance.id}"/>
                 </s:link>
                 <h:outputText value=" (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
             </s:span>
-            <h:panelGroup rendered="#{wiki:isFile(node) and !s:hasPermission('Node', 'edit', node)}">
+            <h:panelGroup rendered="#{node.isInstance('WikiUpload') and !s:hasPermission('Node', 'edit', node)}">
                 <h:outputLink value="#{wiki:renderURL(node)}">
                     <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
                 </h:outputLink>
@@ -190,7 +250,12 @@
             <f:facet name="header">
                 #{messages['lacewiki.label.dirDisplay.Owner']}
             </f:facet>
-            #{node.createdBy.fullname}
+            <s:span styleClass="undecoratedLink">
+                <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
+                    <f:param name="userId" value="#{node.createdBy.id}"/>
+                    <h:outputText value="#{node.createdBy.fullname}"/>
+                </s:link>
+            </s:span>
         </h:column>
 
         <h:column>
@@ -212,9 +277,14 @@
                 #{messages['lacewiki.label.dirDisplay.LastModifiedOn']}
             </f:facet>
             <h:outputText value="#{node.lastModifiedOn}">
-                <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
             </h:outputText>
-            (#{node.lastModifiedBy.username})
+            (<s:span styleClass="undecoratedLink">
+                <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
+                    <f:param name="userId" value="#{node.lastModifiedBy.id}"/>
+                    <h:outputText value="#{node.lastModifiedBy.username}"/>
+                </s:link>
+            </s:span>)
         </h:column>
 
         <h:column rendered="#{empty node.lastModifiedOn or empty node.lastModifiedBy}">
@@ -226,65 +296,9 @@
 
     </h:dataTable>
 
-
-    <h:form id="dirTree" rendered="false">
-        <ui:include src="includes/statusIndicator.xhtml"/>
-
-        #{directoryHome.instance.name}:
-        <rich:tree value="#{directoryHome.tree}" var="nodeWrapper"
-                   switchType="ajax" status="dirTree\:status"
-                   nodeFace="#{wiki:getType(nodeWrapper.wrappedNode)}">
-
-            <rich:treeNode type="Directory">
-                <f:facet name="icon">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif" width="18" height="20"/>
-                </f:facet>
-                <f:facet name="iconLeaf">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif" width="18" height="20"/>
-                </f:facet>
-                <h:outputText value="#{nodeWrapper.wrappedNode.name}"/> (#{nodeWrapper.level})
-            </rich:treeNode>
-
-            <rich:treeNode type="Document">
-                <f:facet name="icon">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif" width="18" height="20"
-                                    rendered="#{nodeWrapper.wrappedNode != nodeWrapper.wrappedParent.wrappedNode.defaultDocument}"/>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.default.gif" width="18" height="20"
-                                    rendered="#{nodeWrapper.wrappedNode == nodeWrapper.wrappedParent.wrappedNode.defaultDocument}"/>
-                </f:facet>
-                <f:facet name="iconLeaf">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif" width="18" height="20"
-                                    rendered="#{nodeWrapper.wrappedNode != nodeWrapper.wrappedParent.wrappedNode.defaultDocument}"/>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.default.gif" width="18" height="20"
-                                    rendered="#{nodeWrapper.wrappedNode == nodeWrapper.wrappedParent.wrappedNode.defaultDocument}"/>
-                </f:facet>
-                <h:outputText value="#{nodeWrapper.wrappedNode.name}"/> (#{nodeWrapper.level})
-            </rich:treeNode>
-
-            <rich:treeNode type="File">
-                <f:facet name="icon">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[nodeWrapper.wrappedNode.contentType].displayIcon}"
-                                    width="18" height="20"
-                                    rendered="#{!empty fileMetaMap[nodeWrapper.wrappedNode.contentType]}"/>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
-                                    width="18" height="20"
-                                    rendered="#{empty fileMetaMap[nodeWrapper.wrappedNode.contentType]}"/>
-                </f:facet>
-                <f:facet name="iconLeaf">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[nodeWrapper.wrappedNode.contentType].displayIcon}"
-                                    width="18" height="20"
-                                    rendered="#{!empty fileMetaMap[nodeWrapper.wrappedNode.contentType]}"/>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
-                                    width="18" height="20"
-                                    rendered="#{empty fileMetaMap[nodeWrapper.wrappedNode.contentType]}"/>
-                </f:facet>
-                <h:outputText value="#{nodeWrapper.wrappedNode.name}"/> (#{nodeWrapper.level})
-            </rich:treeNode>
-
-        </rich:tree>
-    </h:form>
-
 </div>
+
+
 </ui:define>
 
 <ui:define name="footer">&#160;</ui:define>

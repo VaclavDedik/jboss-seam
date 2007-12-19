@@ -11,11 +11,12 @@
         <property name="profile" value="dev" />
       </properties>
       <executeOn event="afterCompilation" target="deploy" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="LoginTest" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="Unnamed" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="AllTests" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="DocumentHistoryTests.updateDocumentCheckRevisions" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
     </buildFile>
   </component>
   <component name="BuildJarProjectSettings">
@@ -49,6 +50,9 @@
   <component name="CompilerConfiguration">
     <option name="DEFAULT_COMPILER" value="Javac" />
     <option name="DEPLOY_AFTER_MAKE" value="0" />
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/src/main/org/jboss/seam/wiki/plugin/blogdirectory" includeSubdirectories="true" />
+    </excludeFromCompile>
     <resourceExtensions>
       <entry name=".+\.(properties|xml|html|dtd|tld)" />
       <entry name=".+\.(gif|png|jpeg|jpg)" />
@@ -1133,6 +1137,21 @@
     <option name="OPEN_IN_BROWSER" value="false" />
     <option name="OUTPUT_DIRECTORY" />
   </component>
+  <component name="FacetAutodetectingManager">
+    <autodetection-disabled>
+      <facet-type id="jpa">
+        <modules>
+          <module name="Wiki">
+            <files>
+              <file url="file://$PROJECT_DIR$/src/etc/META-INF/persistence-dev-war.xml" />
+              <file url="file://$PROJECT_DIR$/src/etc/META-INF/persistence-prod-war.xml" />
+              <file url="file://$PROJECT_DIR$/src/etc/META-INF/persistence-test-war.xml" />
+            </files>
+          </module>
+        </modules>
+      </facet-type>
+    </autodetection-disabled>
+  </component>
   <component name="IdProvider" IDEtalkID="DABC613C2C2ECC9BA342B78949704CE0" />
   <component name="InspectionProjectProfileManager">
     <option name="PROJECT_PROFILE" value="Project Default" />
@@ -1182,6 +1201,7 @@
           <option name="m_ignoreTestCases" value="true" />
           <option name="m_ignoreIgnoreParameter" value="true" />
         </inspection_tool>
+        <inspection_tool class="EjbQlInspection" level="ERROR" enabled="false" />
       </profile>
     </profiles>
   </component>
@@ -1373,6 +1393,7 @@
     <mapping directory="" vcs="CVS" />
   </component>
   <component name="VssVcs" />
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
     <option name="USER_DEFINED_CONFIGS">
       <value>

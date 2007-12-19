@@ -68,7 +68,8 @@ public class UserDAO {
 
         User adminUser = (User) Component.getInstance("adminUser");
 
-        entityManager.createQuery("update Node n set n.createdBy = :admin where n.createdBy = :user")
+        //TODO: This needs to do much more work now that we can't have the FK names anymore in the @MappedSuperclass WikiNode. Hibernate sucks. Shit.
+        entityManager.createQuery("update WikiNode n set n.createdBy = :admin where n.createdBy = :user")
                     .setParameter("admin", entityManager.merge(adminUser))
                     .setParameter("user", user)
                     .executeUpdate();
@@ -95,6 +96,11 @@ public class UserDAO {
 
     private Criteria prepareExampleCriteria(User exampleUser, String orderByProperty, boolean orderDescending, String... ignoreProperty) {
         Example example =  Example.create(exampleUser).enableLike(MatchMode.ANYWHERE).ignoreCase();
+
+        // Sanitize input
+        if (orderByProperty != null) {
+            orderByProperty = orderByProperty.replaceAll("[^a-zA-Z0-9]", "");
+        }
 
         for (String s : ignoreProperty) example.excludeProperty(s);
 

@@ -6,23 +6,23 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import static org.jboss.seam.ScopeType.SESSION;
-import static org.jboss.seam.annotations.Install.APPLICATION;
-
-import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.AuthorizationException;
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.Component;
+import static org.jboss.seam.ScopeType.SESSION;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Install;
+import static org.jboss.seam.annotations.Install.APPLICATION;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Events;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.faces.context.FacesContext;
+import org.jboss.seam.security.AuthorizationException;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.core.model.Role;
+import org.jboss.seam.wiki.core.model.WikiDocument;
 
 /**
  * Need this until Drools fixes bugs and becomes usable/debuggable.
@@ -60,16 +60,16 @@ public class WikiIdentity extends Identity {
         }
 
         if ("Node".equals(name) && "create".equals(action)) {
-            return checkCreateAccess( (Node)args[0]);
+            return checkCreateAccess( (WikiNode)args[0]);
         } else
         if ("Node".equals(name) && "edit".equals(action)) {
-            return checkEditAccess((Node)args[0]);
+            return checkEditAccess((WikiNode)args[0]);
         } else
         if ("Node".equals(name) && "read".equals(action)) {
-            return checkReadAccess((Node)args[0]);
+            return checkReadAccess((WikiNode)args[0]);
         } else
         if ("Node".equals(name) && "changeAccessLevel".equals(action)) {
-            return checkRaiseAccessLevel((Node)args[0]);
+            return checkRaiseAccessLevel((WikiNode)args[0]);
         } else
         if ("User".equals(name) && "edit".equals(action)) {
             return checkEditUser((User)args[0]);
@@ -81,13 +81,16 @@ public class WikiIdentity extends Identity {
             return checkEditUserRoles((User)args[0]);
         } else
         if ("Node".equals(name) && "editMenu".equals(action)) {
-            return checkEditMenu((Node)args[0]);
+            return checkEditMenu((WikiNode)args[0]);
         } else
         if ("User".equals(name) && "isAdmin".equals(action)) {
             return checkIsAdmin((User)args[0]);
         } else
+        if ("Comment".equals(name) && "create".equals(action)) {
+            return checkCommentCreate((WikiDocument)args[0]);
+        } else
         if ("Comment".equals(name) && "delete".equals(action)) {
-            return checkCommentDelete((Node)args[0]);
+            return checkCommentDelete((WikiNode)args[0]);
         }
 
 
@@ -98,9 +101,9 @@ public class WikiIdentity extends Identity {
         User either needs to have the access level of the parent directory
         or the user is the creator of the parent directory
     */
-    private boolean checkCreateAccess(Node directory) {
+    private boolean checkCreateAccess(WikiNode directory) {
         //if (directory.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
-        if (directory.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
+        if (directory.getWriteAccessLevel() == Role.GUESTROLE_ACCESSLEVEL) return true;
         int dirWriteAccessLevel = directory.getWriteAccessLevel();
         User dirCreator = directory.getCreatedBy();
         if (
@@ -116,8 +119,8 @@ public class WikiIdentity extends Identity {
     /*
         User either needs to have the access level of the edited node or has to be the creator
     */
-    private boolean checkReadAccess(Node node) {
-        if (node.getReadAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
+    private boolean checkReadAccess(WikiNode node) {
+        if (node.getReadAccessLevel() == Role.GUESTROLE_ACCESSLEVEL) return true;
         int nodeReadAccessLevel = node.getReadAccessLevel();
         User nodeCreator = node.getCreatedBy();
 
@@ -131,10 +134,12 @@ public class WikiIdentity extends Identity {
     }
 
     /*
-        User either needs to have the access level of the edited node or has to be the creator
+        User either needs to have the access level of the edited node or has to be the creator,
+        if the node is write protected, he needs to be admin.
     */
-    private boolean checkEditAccess(Node node) {
-        if (node.getWriteAccessLevel() == UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL) return true;
+    private boolean checkEditAccess(WikiNode node) {
+        if (node.isWriteProtected() && currentAccessLevel != Role.ADMINROLE_ACCESSLEVEL) return false;
+        if (node.getWriteAccessLevel() == Role.GUESTROLE_ACCESSLEVEL) return true;
         int nodeWriteAccessLevel = node.getWriteAccessLevel();
         User nodeCreator = node.getCreatedBy();
 
@@ -151,7 +156,7 @@ public class WikiIdentity extends Identity {
         User can't persist or update a node and assign a higher access level than
         he has, unless he is the creator
     */
-    private boolean checkRaiseAccessLevel(Node node) {
+    private boolean checkRaiseAccessLevel(WikiNode node) {
         //if (node.getId() != null && node.getId().equals(wikiPrefs.getMemberAreaId())) return false; // Member home dir is immutable
         int desiredWriteAccessLevel = node.getWriteAccessLevel();
         int desiredReadAccessLevel = node.getReadAccessLevel();
@@ -175,14 +180,14 @@ public class WikiIdentity extends Identity {
         Only admins can change roles of a user
     */
     private boolean checkEditUserRoles(User currentUser) {
-        return currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL;
+        return currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL;
     }
 
     /*
         Only admins can edit users, or the user himself
     */
     private boolean checkEditUser(User user) {
-        if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
+        if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
         if (currentUser.getId().equals(user.getId())) return true;
         return false;
     }
@@ -197,15 +202,15 @@ public class WikiIdentity extends Identity {
         if (user.getId().equals(adminUser.getId())) return false;
         if (user.getId().equals(guestUser.getId())) return false;
 
-        if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
+        if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
         return false;
     }
 
     /*
         Admins can edit all menus, owners can edit their own.
     */
-    private boolean checkEditMenu(Node node) {
-        if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
+    private boolean checkEditMenu(WikiNode node) {
+        if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
         if (node.getCreatedBy().getId().equals(currentUser.getId())) return true;
         return false;
     }
@@ -214,16 +219,25 @@ public class WikiIdentity extends Identity {
         Only admins are admins
     */
     private boolean checkIsAdmin(User user) {
-        if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
+        if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
         return false;
     }
 
     /*
-        Only admins or document creator can delete comments
+        Only admins or enabled documents allow comments, if you can read the document.
     */
-    private boolean checkCommentDelete(Node node) {
-        if (currentAccessLevel == UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL) return true;
-        if (node.getCreatedBy().getId().equals(currentUser.getId())) return true;
+    private boolean checkCommentCreate(WikiDocument doc) {
+        if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
+        if (doc.getReadAccessLevel() <= currentAccessLevel &&
+            doc.isEnableComments() && doc.isEnableCommentForm()) return true;
+        return false;
+    }
+
+    /*
+        Only admins can delete comments.
+    */
+    private boolean checkCommentDelete(WikiNode node) {
+        if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
         return false;
     }
 

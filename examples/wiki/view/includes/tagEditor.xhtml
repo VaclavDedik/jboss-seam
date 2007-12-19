@@ -1,0 +1,59 @@
+<s:fragment 
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div styleClass="entry">
+        <div class="label">
+            <h:outputText value="#{messages['lacewiki.label.tagEdit.Tags']}:"/>
+        </div>
+        <div class="input">
+            <h:inputText id="tagsInput" styleClass="ajaxSupport" tabindex="1" size="70" maxlength="1024" required="false" value="#{home.tagString}">
+                <a:support event="onblur" reRender="popularTagsList" oncomplete="onAjaxRequestComplete()"/>
+            </h:inputText>
+        </div>
+    </s:div>
+
+    <script type="text/javascript">
+        function appendTag(tag) {
+            oldValue = jQuery('##{namingContainer}\\:tagsInput').val();
+            if (oldValue != null &amp;&amp; oldValue.length > 0) {
+                jQuery('##{namingContainer}\\:tagsInput').val(
+                    trimString(oldValue) + (stringEndsWith(trimString(oldValue), ",") ? " " : ", ") + tag
+                );
+            } else {
+                jQuery('##{namingContainer}\\:tagsInput').val(tag);
+            }
+            refreshPopularTagsList();
+        }
+    </script>
+    <a:jsFunction name="refreshPopularTagsList"
+                  reRender="popularTagsList"/>
+
+    <s:div styleClass="entry" id="popularTagsList">
+        <div class="label">
+            <h:outputText value="#{messages['lacewiki.label.tagEdit.PopularTags']}:"/>
+        </div>
+        <div class="input">
+            <h:panelGroup>
+                <ui:repeat var="tagCount" value="#{home.popularTags}">
+                    <s:span styleClass="undecoratedLink">
+                        <s:fragment rendered="#{not home.isTagInTagString(tagCount.tag)}">
+                            <h:outputLink value="#" styleClass="sessionEventTrigger"
+                                          onclick="appendTag('#{tagCount.tag}')">#{tagCount.tag}</h:outputLink>
+                            &#160;&#160;
+                        </s:fragment>
+                    </s:span>
+                </ui:repeat>
+            </h:panelGroup>
+            &#160;
+        </div>
+    </s:div>
+
+</s:fragment>
+
+

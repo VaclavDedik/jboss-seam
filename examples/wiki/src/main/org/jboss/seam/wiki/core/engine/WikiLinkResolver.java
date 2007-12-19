@@ -6,7 +6,10 @@
  */
 package org.jboss.seam.wiki.core.engine;
 
+import org.jboss.seam.wiki.core.model.WikiFile;
+
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -94,11 +97,12 @@ public interface WikiLinkResolver {
      * }
      * </pre>
      *
+     * @param linkTargets       This collection will be filled with <tt>WikiFile</tt> instances which are the link targets in the wiki text
      * @param currentAreaNumber The currennt area useable as the namespace for scoped resolving
      * @param wikiText Text with wiki markup containing [=>Target Name] links
      * @return The <tt>wikiText</tt> with all <tt>[=>Target Name]<tt> links replaced with <tt>[=>wiki://id]</tt>
      */
-    public String convertToWikiProtocol(Long currentAreaNumber, String wikiText);
+    public String convertToWikiProtocol(Set<WikiFile> linkTargets, Long currentAreaNumber, String wikiText);
 
     /**
      * Replace stored text links such as <tt>[Link description=>wiki://id]</tt> with clear text target names, so

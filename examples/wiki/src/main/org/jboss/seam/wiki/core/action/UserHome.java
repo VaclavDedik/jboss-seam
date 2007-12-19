@@ -24,7 +24,10 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.ui.FileMetaMap;
+import org.jboss.seam.wiki.core.model.WikiUpload;
+import org.jboss.seam.wiki.core.model.WikiUploadImage;
+import org.jboss.seam.wiki.core.upload.UploadType;
+import org.jboss.seam.wiki.core.upload.Uploader;
 import org.jboss.seam.wiki.preferences.PreferenceComponent;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.util.Hash;
@@ -64,9 +67,6 @@ public class UserHome extends EntityHome<User> {
     @In(create = true)
     private Renderer renderer;
 
-    @In
-    Map<String, FileMetaMap.FileMetaInfo> fileMetaMap;
-
     @DataModel
     private List<PreferenceComponent> userPreferenceComponents;
     PreferenceEditor preferenceEditor;
@@ -76,9 +76,15 @@ public class UserHome extends EntityHome<User> {
     private String passwordControl;
     private List<Role> roles;
     private org.jboss.seam.wiki.core.model.Role defaultRole;
-    private String portraitContentType;
-    // TODO: This should really use an InputStream and directly stream into the BLOB without consuming server memory
-    private byte[] portraitImageData;
+    private Uploader uploader;
+
+    public Uploader getUploader() {
+        return uploader;
+    }
+
+    public void setUploader(Uploader uploader) {
+        this.uploader = uploader;
+    }
 
     public void init() {
         if (isManaged()) {
@@ -87,6 +93,8 @@ public class UserHome extends EntityHome<User> {
             }
             if (roles == null) roles = getInstance().getRoles();
             if (oldUsername == null) oldUsername = getInstance().getUsername();
+
+            uploader = (Uploader)Component.getInstance("uploader");
 
         } else {
             UserManagementPreferences userMgmtPrefs =
@@ -159,9 +167,26 @@ public class UserHome extends EntityHome<User> {
     @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
     public String update() {
 
-        // Validate
-        if (!isUniqueUsername())
-                return null;
+        if (uploader.hasData()) {
+            uploader.uploadNewInstance();
+            if (WikiUploadImage.class.isAssignableFrom(uploader.getUpload().getClass())) {
+                WikiUploadImage portrait = (WikiUploadImage)uploader.getUpload();
+                getLog().debug("updating portrait file data/type");
+                getInstance().getProfile().setImageContentType(portrait.getContentType());
+                getInstance().getProfile().setImage(
+                    WikiUtil.resizeImage(portrait.getData(), portrait.getContentType(), 80) // TODO: Make size configurable?
+                );
+
+            } else {
+                facesMessages.addFromResourceBundleOrDefault(
+                    FacesMessage.SEVERITY_ERROR,
+                    "lacewiki.msg.userHome.WrongPortraitImageType",
+                    "The file type '{0}' is not supported, the portrait was not updated.",
+                    uploader.getUpload().getContentType()
+                );
+            }
+        }
+        uploader.reset();
 
         User adminUser = (User)Component.getInstance("adminUser");
         User guestUser = (User)Component.getInstance("guestUser");
@@ -201,26 +226,11 @@ public class UserHome extends EntityHome<User> {
         }
 
         // User changed his username
-        if (!getInstance().getUsername().equals(oldUsername)) loginCredentialsModified = true;
+        if (!getInstance().getUsername().equals(oldUsername)) {
+            loginCredentialsModified = true;
 
-        // Profile image upload
-        if (portraitImageData != null && portraitImageData.length > 0) {
-
-            if (fileMetaMap.get(portraitContentType) != null &&
-                fileMetaMap.get(portraitContentType).image) {
-                getLog().debug("updating portrait file data/type");
-                getInstance().getProfile().setImageContentType(portraitContentType);
-                getInstance().getProfile().setImage(
-                    WikiUtil.resizeImage(portraitImageData, portraitContentType, 80)
-                );
-            } else {
-                facesMessages.addFromResourceBundleOrDefault(
-                    FacesMessage.SEVERITY_ERROR,
-                    "lacewiki.msg.WrongPortraitImageType",
-                    "The file type '{0}' is not supported, the portrait was not updated.",
-                    portraitContentType
-                );
-            }
+            // Validate
+            if (!isUniqueUsername()) return null;
         }
 
         if (Identity.instance().hasPermission("User", "isAdmin", Component.getInstance("currentUser"))) {
@@ -259,6 +269,19 @@ public class UserHome extends EntityHome<User> {
         return super.remove();
     }
 
+    @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
+    public void removePortrait() {
+        getInstance().getProfile().setImage(null);
+        getInstance().getProfile().setImageContentType(null);
+
+        facesMessages.addFromResourceBundleOrDefault(
+            FacesMessage.SEVERITY_INFO,
+            "lacewiki.msg.userHome.PortraitRemoved",
+            "The portrait has been removed, save to make changes permanent."
+        );
+    }
+
+
     /* -------------------------- Messages ------------------------------ */
 
     protected void createdMessage() {
@@ -293,12 +316,6 @@ public class UserHome extends EntityHome<User> {
 
     public String getPasswordControl() { return passwordControl; }
     public void setPasswordControl(String passwordControl) { this.passwordControl = passwordControl; }
-
-    public String getPortraitContentType() { return portraitContentType; }
-    public void setPortraitContentType(String portraitContentType) { this.portraitContentType = portraitContentType; }
-
-    public byte[] getPortraitImageData() { return portraitImageData; }
-    public void setPortraitImageData(byte[] portraitImageData) { this.portraitImageData = portraitImageData; }
 
     public List<Role> getRoles() { return roles; }
     @Restrict("#{s:hasPermission('User', 'editRoles', currentUser)}")

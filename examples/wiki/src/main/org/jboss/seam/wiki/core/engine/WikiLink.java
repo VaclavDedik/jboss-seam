@@ -1,6 +1,6 @@
 package org.jboss.seam.wiki.core.engine;
 
-import org.jboss.seam.wiki.core.model.Node;
+import org.jboss.seam.wiki.core.model.WikiFile;
 
 /**
  * Simple value holder for link resolution and rendering.
@@ -8,7 +8,9 @@ import org.jboss.seam.wiki.core.model.Node;
  * @author Christian Bauer
  */
 public class WikiLink {
-    Node node;
+
+    int identifier;
+    WikiFile file;
     boolean requiresUpdating = false;
     String url;
     String description;
@@ -19,8 +21,12 @@ public class WikiLink {
         this.broken = broken;
         this.external = external;
     }
-    public Node getNode() { return node; }
-    public void setNode(Node node) { this.node = node; }
+
+    public int getIdentifier() { return identifier; }
+    public void setIdentifier(int identifier) { this.identifier = identifier; }
+
+    public WikiFile getFile() { return file; }
+    public void setFile(WikiFile file) { this.file = file; }
 
     public String getUrl() { return url; }
     public void setUrl(String url) { this.url = url; }
@@ -35,6 +41,6 @@ public class WikiLink {
     public void setRequiresUpdating(boolean requiresUpdating) { this.requiresUpdating = requiresUpdating; }
 
     public String toString() {
-        return "Node:" + node + " Description: " + description + " URL: " + url;
+        return "File:" + file + " Description: " + description + " URL: " + url;
     }
 }

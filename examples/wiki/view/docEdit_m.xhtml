@@ -31,7 +31,7 @@
 
     <h:form><s:validateAll>
 
-        <div>#{messages['lacewiki.label.docEdit.Directory']}:&#160;#{documentHome.parentDirectory.name}</div>
+        <div>#{messages['lacewiki.label.docEdit.Directory']}:&#160;#{documentHome.parentNode.name}</div>
         <div class="errorMessage"><h:message for="name"/></div>
         <div>#{messages['lacewiki.label.docEdit.Name']}:&#160;
             <h:inputText id="name" size="30" maxlength="255" required="true" value="#{documentHome.instance.name}"/>
@@ -58,13 +58,13 @@
         </s:fragment>
 
         <s:fragment rendered="#{documentHome.managed}">
-            <s:fragment rendered="#{documentHome.siteFeedEntryPresent}">
+            <s:fragment rendered="#{documentHome.onSiteFeed}">
                 <div>
                     <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}"/>
                     &#160;#{messages['lacewiki.label.docEdit.PushOnFeeds']}
                 </div>
             </s:fragment>
-            <s:fragment rendered="#{not documentHome.siteFeedEntryPresent}">
+            <s:fragment rendered="#{not documentHome.onSiteFeed}">
                 <s:div styleClass="entry">
                     <div>
                         <h:selectBooleanCheckbox value="#{documentHome.pushOnFeeds}"/>

@@ -8,10 +8,11 @@ package org.jboss.seam.wiki;
 
 import org.hibernate.jmx.StatisticsService;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.util.DBUnitImporter;
 
 import javax.management.ObjectName;
 import javax.naming.*;
@@ -31,11 +32,19 @@ public class WikiInit {
     @Logger
     static Log log;
 
+    @In(required = false)
+    DBUnitImporter dbunitImporter;
+
     private ObjectName hibernateMBeanName;
 
     @Observer("org.jboss.seam.postInitialization")
     public void initWiki() throws Exception {
         log.info("Starting LaceWiki...");
+
+        if (dbunitImporter != null) {
+            log.info("Importing development test data");
+            dbunitImporter.importDatasets();
+        }
 
         //System.out.println(listJNDITree("java:"));
 
@@ -182,7 +191,5 @@ public class WikiInit {
             buffer.append("error while listing context " + ctx.toString() + ": " + ne.toString(true));
         }
     }
-
-
 
 }

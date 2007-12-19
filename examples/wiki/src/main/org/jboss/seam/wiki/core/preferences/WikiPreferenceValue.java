@@ -6,12 +6,12 @@
  */
 package org.jboss.seam.wiki.core.preferences;
 
-import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.preferences.PreferenceValue;
+import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.preferences.PreferenceProperty;
+import org.jboss.seam.wiki.preferences.PreferenceValue;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -69,10 +69,10 @@ public class WikiPreferenceValue implements PreferenceValue, Serializable, Compa
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "NODE_ID", nullable = true, updatable = false)
-    @org.hibernate.annotations.ForeignKey(name = "FK_PREFERENCE_NODE_ID")
+    @JoinColumn(name = "WIKI_DOCUMENT_ID", nullable = true, updatable = false)
+    @org.hibernate.annotations.ForeignKey(name = "FK_PREFERENCE_WIKI_DOCUMENT_ID")
     @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-    private Node node;
+    private WikiDocument document;
 
     @org.hibernate.annotations.Type(type = "preference_value_usertype")
     @org.hibernate.annotations.Columns(
@@ -126,12 +126,12 @@ public class WikiPreferenceValue implements PreferenceValue, Serializable, Compa
         this.user = user;
     }
 
-    public Node getNode() {
-        return node;
+    public WikiDocument getDocument() {
+        return document;
     }
 
-    public void setNode(Node node) {
-        this.node = node;
+    public void setDocument(WikiDocument document) {
+        this.document = document;
     }
 
     public Object getValue() {
@@ -149,15 +149,15 @@ public class WikiPreferenceValue implements PreferenceValue, Serializable, Compa
     }
 
     public boolean isSystemAssigned() {
-        return getNode() == null && getUser() == null;
+        return getDocument() == null && getUser() == null;
     }
 
     public boolean isUserAssigned() {
-        return getNode() == null && getUser() != null;
+        return getDocument() == null && getUser() != null;
     }
 
     public boolean isInstanceAssigned() {
-        return getNode() != null && getUser() == null;
+        return getDocument() != null && getUser() == null;
     }
 
     // Useful for provider

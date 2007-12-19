@@ -31,8 +31,8 @@
 
     <h:form><s:validateAll>
 
-        <s:div rendered="#{!empty directoryHome.parentDirectory}">
-            #{messages['lacewiki.label.dirEdit.Parent']}:&#160;#{directoryHome.parentDirectory.name}
+        <s:div rendered="#{!empty directoryHome.parentNode}">
+            #{messages['lacewiki.label.dirEdit.Parent']}:&#160;#{directoryHome.parentNode.name}
         </s:div>
         <div class="errorMessage"><h:message for="name"/></div>
         <div>#{messages['lacewiki.label.dirEdit.Name']}:&#160;
@@ -43,7 +43,7 @@
             <h:inputText id="description" size="30" maxlength="512" required="false" value="#{directoryHome.instance.description}"/>
         </div>
         <div>#{messages['lacewiki.label.dirEdit.DefaultDocument']}:&#160;
-            <h:selectOneMenu value="#{directoryHome.instance.defaultDocument}" converter="#{restrictedEntityConverter}">
+            <h:selectOneMenu value="#{directoryHome.instance.defaultFile}" converter="#{restrictedEntityConverter}">
                 <s:selectItems value="#{directoryHome.childDocuments}"
                                var="document"
                                label="#{wiki:truncateString(document.name, 40, '...')}"
@@ -52,7 +52,7 @@
         </div>
         <div>
             <h:selectBooleanCheckbox value="#{directoryHome.hasFeed}"
-                                     disabled="#{empty directoryHome.parentDirectory}"/>
+                                     disabled="#{empty directoryHome.parentNode}"/>
             <h:outputText value="&#160;#{messages['lacewiki.label.dirEdit.EnableFeed']}"/>
         </div>
 
@@ -62,10 +62,10 @@
             <h:commandButton action="#{directoryHome.update}" rendered="#{directoryHome.managed}"
                              value="#{messages['lacewiki.button.Update']}"/>
             <h:commandButton action="#{directoryHome.remove}"
-                             rendered="#{empty directoryHome.instance.children
+                             rendered="#{empty directoryHome.childNodes
                                         and directoryHome.managed
-                                        and !empty directoryHome.parentDirectory
-                                        and directoryHome.instance.id != wikiPreferences.memberAreaId}"
+                                        and !empty directoryHome.parentNode
+                                        and directoryHome.instance.id != memberArea.id}"
                              value="#{messages['lacewiki.button.Delete']}"/>
         </s:div>
 

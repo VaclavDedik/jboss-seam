@@ -9,7 +9,7 @@
     <m:body>
         <html>
             <body>
-            <p>Hello #{userHome.instance.fullname},</p>
+            <p>Hello #{userHome.instance.firstname},</p>
 
             <p>
             you registered an account on the Seam community website. You need to click the following link to confirm the
@@ -21,7 +21,7 @@
         </html>
         <f:facet name="alternative">
             <h:outputText>
-Hello #{userHome.instance.fullname},
+Hello #{userHome.instance.firstname},
 
 you registered an account on the Seam community website. You need to use the following link to confirm the
 validity of your e-mail address and to activate your account:

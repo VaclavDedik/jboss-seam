@@ -27,22 +27,22 @@ a:visited {
 
 h1 {
 	color:#576c74;
-	font-size:1.5em;
+	font-size:150%;
 }
 
 h2 {
 	color:#576c74;
-	font-size:1.2em;
+	font-size:130%;
 }
 
 h3 {
     color:#576c74;
-	font-size:1em;
+	font-size:115%;
 }
 
 h4 {
 	color:#696969;
-	font-size:1em;
+	font-size:100%;
 }
 
 hr {
@@ -58,12 +58,16 @@ hr {
 input, textarea, select {
 	border: 1px solid #d3d2d1;
     background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
-    font-size: 85%;
+    font-size: 90%;
     padding: 2px;
     font-family: Andale Mono, Courier New, monospace;
 }
 
 /* ----- Wiki text ---- */
+
+.wikiHeadline2 {
+    margin-top: 25px;
+}
 
 .wikiHeadline3 {
     color:#576c74;
@@ -116,6 +120,25 @@ blockquote blockquote blockquote blockquote {
     overflow-x: auto;
 }
 
+/* ---- Fonts ----- */
+
+.smallFont {
+    font-size: 85%;
+    line-height: 150%;
+}
+
+.largeFont {
+    font-size: 115%;
+}
+
+.extraLargeFont {
+    font-size: 130%;
+}
+
+.extraExtraLargeFont {
+    font-size: 150%;
+}
+
 
 /* ----- Float Styles ----- */
 
@@ -144,14 +167,14 @@ blockquote blockquote blockquote blockquote {
 	background-image:url(../img/leftside_bkgimage.gif);
 	background-repeat:repeat-y;
 	min-width:960px;
-	width: 80%;
+	width: 90%;
 
 }
 
 #header {
 	margin: 0;
 	padding:0;
-	background-image:url(../img/hrd_bkgimage_fade.gif);
+	background-image:url(../img/hrd_bkgimage_fade_alpha.gif);
 	background-repeat:no-repeat;
 	background-color:#32332b;
 	border-bottom:1px solid #878888;
@@ -169,11 +192,20 @@ blockquote blockquote blockquote blockquote {
 
 #leftColumn {
 	float: left;
-	width: 220px;
+	width: 260px;
+}
+
+#leftColumn h2 {
+    font-weight: normal;
+}
+
+#leftColumn p {
+    text-align: inherit;
+    font-size: 85%;
 }
 
 #rightColumn {
-	margin-left: 220px;
+	margin-left: 260px;
 	padding-left:20px;
 	padding-right:20px;
 }
@@ -193,7 +225,7 @@ blockquote blockquote blockquote blockquote {
 .membersArea h3 {
 	color: #75a8bd;
 	font-weight: bold;
-	font-size: 1.2em;
+	font-size: 120%;
 	border-bottom: 1px solid #b6b6b6;
 	margin-top: 0px;
 	margin-bottom: 6px;
@@ -225,6 +257,13 @@ blockquote blockquote blockquote blockquote {
     margin-right: 5px;
 }
 
+.captchaImage {
+    vertical-align:top;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 1px solid #C3BBB6;
+}
+
 /* -----  Footer styles  ------  */
 
 #footer {
@@ -237,7 +276,9 @@ blockquote blockquote blockquote blockquote {
 
 /* --------------------------  Breadcrumb navigation --------------------------------- */
 
-#breadcrumb {}
+#breadcrumb {
+    margin-left:-2px;
+}
 
 #breadcrumb .breadcrumbRoot {
     display: none;
@@ -321,7 +362,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 
 .infoMessage {
-    font-size: 85%;
     font-weight: bold;
     color: #666;
 }
@@ -369,8 +409,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 .documentTags {
     border-top: 1px solid #ccc;
     white-space: nowrap;
-    font-size: 80%;
-    font-weight: normal;
     padding-top: 5px;
     padding-bottom: 5px;
     line-height: 125%;
@@ -379,14 +417,17 @@ b.rtop b.r4, b.rbottom b.r4 {
 .documentCreatorHistory {
     border-top: 1px solid #ccc;
     white-space: nowrap;
-    font-size: 80%;
-    font-weight: normal;
     padding-top: 5px;
     padding-bottom: 5px;
     line-height: 125%;
 }
 
 .attachmentDisplay {
+    margin-top: 15px;
+}
+
+#commentDisplayForm .commentsDisplay .box {
+    margin-top: 20px;
 }
 
 .regularLink{
@@ -420,9 +461,9 @@ b.rtop b.r4, b.rbottom b.r4 {
 .buttonLabel{
     color: #fff;
     font-weight: bold;
-    font-size: 11px;
     padding-top: 2px;
     padding-bottom: 2px;
+    font-size: 11px;
 }
 
 /* Generic Lists
@@ -430,13 +471,8 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .datatable {
     margin: 0;
-    font-size: 90%;
     width: 100%;
     border-collapse: separate;
-}
-
-.datatable input {
-    font-size: 100%;
 }
 
 .topLeftBottomBorder {
@@ -581,36 +617,68 @@ b.rtop b.r4, b.rbottom b.r4 {
 /* Comments
 -----------------------------------------------*/
 
-.commentColumn {
-    padding: 5px;
+.commentColumn {}
+
+.commentHeader {
+    width: 100%;
+}
+
+.commentSubjectIcon {
+    padding-right: 10px;
 }
 
 .commentSubject {
-    font-weight: bold;
-    font-size: 100%;
-    float: left;
+    text-decoration:none;
+    width: 100%;
 }
 
-
-.commentAuthorDate {
-    text-align:right;
-    font-size: 95%;
+.commentAuthorInfo {
+    white-space: nowrap;
+    text-align: right;
+    padding-left: 10px;
+    line-height: 140%;
 }
 
-.commentAuthor {
+.commentAuthorPortrait {
+    padding-left: 10px;
 }
 
-.commentDate {
+.commentAuthorPortraitImage {
 }
 
-.commentText {
+.commentText {}
 
+.commentSignatureSeparator {
+    font-size: 1px;
+    width: 20px;
+    border-bottom: 1px dashed #d3d2d1;
 }
 
-.commentForm {
-    margin-top: 10px;
+.commentSignature {
+    font-size: 85%;
+}
+
+.commentSignature .wikiPara {
+    line-height: 120%;
+}
+
+.commentControls {
     margin-bottom: 10px;
 }
+
+.commentFirstLevel {
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+}
+
+.commentFirstLevel, .commentLevel {
+    padding: 5px;
+    border-bottom: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+}
+
+.commentForm {}
+
 
 /* Document history and diff
 -----------------------------------------------*/
@@ -620,7 +688,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 
 .diffInfo {
-    font-size: 85%;
     font-weight: bold;
     color: #666;
 }
@@ -680,7 +747,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .formListItem {
     background: #fff url(../img/th.bg.gif ) 0 0 repeat-x;
-    font-size: 85%;
     padding: 3px;
 }
 
@@ -727,16 +793,19 @@ b.rtop b.r4, b.rbottom b.r4 {
 .entry .label {
 	float: left;
     padding-top: 1px;
-    padding-right: 2%;
-    font-size: 85%;
-    width: 18%;
+    padding-right: 10px;
+    padding-left: 10px;
+    width: 135px;
 	text-align: right;
+    color: #000000;
+    font-weight:bold;
+    font-size: 90%;
+    line-height: 155%;
 }
 
 .entry .output {
-    padding-top: 1px;
+    padding-top: 2px;
     text-align: left;
-    font-size: 85%;
 }
 
 .entry .input {
@@ -744,32 +813,19 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 
 .wideLabels .entry .label {
-    width: 30%;
+    width: 220px;
 }
 
-.marginLeft {
-    margin-left: 20%;
-}
-
-.wideMarginLeft {
-    margin-left: 32%;
-}
-
-.entry .label .buttonLabel {
-    font-size: 100%;
-}
-
-.errorDiv {
+.errorEntry {
     background-color: #ffeeee;
 }
 
-.label {
-    color: #000000;
-    font-weight:bold;
+.errorEntry .errorMessage {
+    font-weight: normal;
+    text-align: left;
 }
 
 .formFields select {
-    font-size: 95%;
 }
 
 .tableFormFields {
@@ -778,25 +834,19 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 
 .tableFormFields .input {
-    font-size: 95%;
 }
 
 .tableFormFields .inputError input,
 .tableFormFields .inputError select {
-    font-size: 95%;
     background-image: none;
     background-color: #ffeeee;
 }
 
-
 .textEditResizable {
-    margin-left: 20%;
-    margin-bottom:10px;
+    margin-bottom: 5px;
 }
 
-.wideLabels .textEditResizable {
-    margin-left: 32%;
-}
+.wideLabels .textEditResizable {}
 
 .textEditResizeHandle {
     width: 25px;
@@ -805,6 +855,16 @@ b.rtop b.r4, b.rbottom b.r4 {
     cursor: s-resize;
     position: absolute;
     margin-bottom: 10px;
+    margin-left: 155px;
+}
+
+.wideLabels .textEditResizeHandle {
+    margin-left: 240px;
+}
+
+.textAreaHelp {
+    padding-top: 5px;
+    vertical-align: top;
 }
 
 .textPreview {
@@ -812,8 +872,9 @@ b.rtop b.r4, b.rbottom b.r4 {
     margin-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
-    width: 90%;
     background-color: white;
+    margin-left: 80px;
+    margin-right: 80px;
 }
 
 /* Box on page
@@ -829,7 +890,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .boxHeader {
     text-align: right;
-    font-size: 110%;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 5px;
@@ -838,13 +898,14 @@ b.rtop b.r4, b.rbottom b.r4 {
     border-top: 1px solid #d3d2d1;
     border-left: 1px solid #d3d2d1;
     border-right: 1px solid #d3d2d1;
+    font-size: 115%;
 }
 
 .boxHeader a {
     color: #576c74;
     line-height: 100%;
     margin-left: 5px;
-    font-size: 80%;
+    font-size: 70%;
 }
 
 .boxHeader a:hover {color: #000}
@@ -864,7 +925,6 @@ b.rtop b.r4, b.rbottom b.r4 {
     padding-left: 15px;
     padding-right: 15px;
     font-weight: normal;
-    font-size: 80%;
     color: #962325;
     border-left: 1px solid #d3d2d1;
     border-right: 1px solid #d3d2d1;
@@ -890,7 +950,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 .popupDialogHead {
     text-align: left;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
-    font-size: 85%;
     font-weight: bold;
     color: #000;
     padding-left: 13px;
@@ -945,7 +1004,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .directoryPathPanel .directoryButton {
 	font-weight: bold;
-	font-size: 85%;
 	padding: 2px;
 	border-style: none;
 }
@@ -1005,7 +1063,6 @@ b.rtop b.r4, b.rbottom b.r4 {
     text-align: left;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
     font-weight: bold;
-    font-size: 11px;
     padding-left: 13px;
     padding-right: 10px;
     padding-top: 5px;
@@ -1091,7 +1148,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .progressbarLabel {
     font-weight: bold;
-    font-size: 85%;
 }
 
 
@@ -1113,3 +1169,89 @@ b.rtop b.r4, b.rbottom b.r4 {
 #userSearchForm\:userListPager {
     margin-top: 10px;
 }
+
+/* Tag Display
+----------------------------------------------- */
+
+#tagTable {
+    margin-top: 10px;
+}
+
+/* User Info
+----------------------------------------------- */
+
+.userInfo {
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+.userInfoDetails {
+    vertical-align: top;
+    width: 70%;
+    padding-right: 15px;
+}
+
+.userInfoDetails .form {
+    margin-top: 0;
+}
+
+.userInfoProfile {
+    vertical-align: top;
+}
+
+.userInfoProfileContent {
+    font-size: 85%;
+    line-height: 140%;
+    color: #000;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 0;
+    padding-bottom: 5px;    
+}
+
+.userInfoPortraitWithBio {
+    float: right;
+    margin-left: 10px;
+}
+
+.userInfoPortrait {
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.userInfoPortraitImage {
+    border: 1px solid #87786e;
+}
+
+.userInfoBio{}
+
+.userInfoBio .wikiPara:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+}
+
+.userInfoBio .wikiPara{
+    line-height: 140%;
+}
+
+.userInfoEntry {
+    clear: both;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.userInfoEntryLabel {
+    font-weight: bold;
+}
+
+.userInfoEntryText {
+}
+
+.userInfoEntryLink {
+    color: #962325;
+}
+
+.userInfoEntryLink:hover {color: #666}

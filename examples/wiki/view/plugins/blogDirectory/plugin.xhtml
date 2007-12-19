@@ -37,7 +37,7 @@
                             </h:outputText>
                             <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
                             <h:outputText value=",&#160;by&#160;"/>
-                            <h:outputLink value="#{wiki:renderHomeURL(blogEntry.entryDocument.createdBy)}" target="_top"
+                            <h:outputLink value="#{wiki:renderURL(blogEntry.entryDocument.createdBy.memberHome)}" target="_top"
                                           rendered="#{!empty blogEntry.entryDocument.createdBy.memberHome}">
                                 <h:outputText styleClass="blogEntryCreatedByLink"
                                               value="#{blogEntry.entryDocument.createdBy.fullname}"/>
@@ -56,8 +56,8 @@
                                             updateResolvedLinks="false"
                                             internalTargetFrame="_top"
                                             externalTargetFrame="_top"
-                                            renderBaseDocument="#{blogEntry.entryDocument}"
-                                            renderBaseDirectory="#{currentDirectory}"
+                                            linkBaseFile="#{blogEntry.entryDocument}"
+                                            currentAreaNumber="#{currentDirectory.areaNumber}"
                                             enablePlugins="true"/>
                     </div>
 
@@ -80,7 +80,7 @@
                         <h:panelGrid styleClass="blogEntryFooterTable" columns="5" cellpadding="0" cellspacing="0" border="0">
                             <s:div styleClass="blogEntryCommentCount undecoratedLink"
                                    rendered="#{blogEntry.commentCount > 0 and blogEntry.entryDocument.enableComments}">
-                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#comments" target="_top">
+                                <h:outputLink value="#{wiki:renderPermURL(blogEntry.entryDocument)}#comments" target="_top">
                                     <span class="blogEntryCommentCountText">
                                         <h:outputText value="#{blogEntry.commentCount}&#160;"/>
                                         <h:outputText value="#{blogEntry.commentCount>1
@@ -97,7 +97,7 @@
                             </s:div>
                             <s:div styleClass="blogEntryAttachmentsLink undecoratedLink"
                                     rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
-                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}#attachments" target="_top">
+                                <h:outputLink value="#{wiki:renderPermURL(blogEntry.entryDocument)}#attachments" target="_top">
                                     <span class="blogEntryAttachmentsLinkText">
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)}&#160;"/>
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1
@@ -107,12 +107,12 @@
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryPermLink undecoratedLink">
-                                <h:outputLink value="#{wiki:renderPermLink(blogEntry.entryDocument)}" target="_top">
+                                <h:outputLink value="#{wiki:renderPermURL(blogEntry.entryDocument)}" target="_top">
                                     <h:outputText styleClass="blogEntryPermLinkText" value="#{messages['lacewiki.label.PermLink']}"/>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryWikiLink undecoratedLink">
-                                <h:outputLink value="#{wiki:renderWikiLink(blogEntry.entryDocument)}" target="_top">
+                                <h:outputLink value="#{wiki:renderWikiURL(blogEntry.entryDocument)}" target="_top">
                                     <h:outputText styleClass="blogEntryWikiLinkText" value="#{messages['lacewiki.label.WikiLink']}"/>
                                 </h:outputLink>
                             </s:div>

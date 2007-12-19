@@ -12,14 +12,13 @@
 }
 
 .forumTitle {
-    font-weight: bold;
-    font-size: 120%;
-    margin-top: 15px;
+    font-weight: normal;
+    line-height: 180%;
 }
 
 .forumDescription {
     white-space: normal;
-    margin-bottom: 15px;
+    line-height: 130%;
 }
 
 .topicGotoIcon {
@@ -30,7 +29,7 @@
 .forumsFeedLink {
     margin: 10px;
     float: right;
-    margin-top: -30px;
+    margin-top: -40px;
 }
 
 .forumsFeedLink img {
@@ -43,11 +42,7 @@
 }
 
 .forumFeedLink img {
-    margin-left: 8px;
-    margin-right: 8px;
-    margin-bottom: 2px;
+    margin-left: 5px;
+    margin-bottom: 3px;
 }
 
-.userInfoPopupContainer {
-    text-align: left;
-}

@@ -11,13 +11,13 @@
         <a:region>
         <h:dataTable id="preferenceComponentList" var="prefComp"
                      value="#{preferenceComponents}"
-                     styleClass="formListTable"
+                     styleClass="formListTable  sessionEventTrigger"
                      cellpadding="0" cellspacing="0" border="0"
                      columnClasses="formListItem">
 
             <h:column>
                 <a:commandLink action="#{preferenceEditor.selectPreferenceComponent(prefComp)}"
-                               reRender="preferenceComponentList, propertyPanel"
+                               reRender="preferenceComponentList, propertyPanel" oncomplete="onAjaxRequestComplete()"
                                styleClass="#{prefComp == preferenceEditor.preferenceComponent ? 'selectedItem' : ''}">
                         #{prefComp.description}
                 </a:commandLink>
@@ -32,7 +32,7 @@
             <h:dataTable id="propertyTable" var="v"
                          rendered="#{not empty preferenceEditor.preferenceComponent}"
                          value="#{preferenceEditor.preferenceValues}"
-                         styleClass="datatable topLeftBottomBorder rightBorder"
+                         styleClass="datatable topLeftBottomBorder rightBorder sessionEventTrigger"
                          columnClasses="twentyPercentColumn alignLeft minorPadding,
                                         twentyPercentColumn alignLeft, defaultColumn alignCenter rightBorder"
                          rowClasses="rowEven,rowOdd"
@@ -48,8 +48,8 @@
                     </s:div>
 
                     <s:div rendered="#{v.preferenceProperty.type.simpleName == 'String'}">
-                        <h:inputText value="#{v.value}" size="25" rendered="#{!v.preferenceProperty.longStringAllowed}">
-                            <a:support event="onblur" action="#{preferenceEditor.validate}"
+                        <h:inputText styleClass="ajaxSupport" value="#{v.value}" size="25" rendered="#{!v.preferenceProperty.longStringAllowed}">
+                            <a:support event="onblur" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
                                        reRender="preferenceValidationErrors, preferenceComponentList"/>
                         </h:inputText>
                         <h:inputTextarea value="#{v.value}" rows="10" cols="35" style="margin:5px;" rendered="#{v.preferenceProperty.longStringAllowed}">
@@ -59,25 +59,25 @@
                     </s:div>
 
                     <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Long'}">
-                        <h:inputText value="#{v.value}" size="5">
+                        <h:inputText styleClass="ajaxSupport" value="#{v.value}" size="5">
                             <f:converter converterId="javax.faces.Long"/>
-                            <a:support event="onblur" action="#{preferenceEditor.validate}"
+                            <a:support event="onblur" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
                                        reRender="preferenceValidationErrors, preferenceComponentList, propertyPanel"/>
                         </h:inputText>
                     </s:div>
 
                     <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Double'}">
-                        <h:inputText value="#{v.value}" size="10">
+                        <h:inputText styleClass="ajaxSupport" value="#{v.value}" size="10">
                             <f:converter converterId="javax.faces.Double"/>
-                            <a:support event="onblur" action="#{preferenceEditor.validate}"
+                            <a:support event="onblur" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
                                        reRender="preferenceValidationErrors, preferenceComponentList"/>
                         </h:inputText>
                     </s:div>
 
                     <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Date'}">
-                         <h:inputText id="dt" value="#{v.value}">
+                         <h:inputText styleClass="ajaxSupport" id="dt" value="#{v.value}">
                             <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
-                             <a:support event="onblur" action="#{preferenceEditor.validate}"
+                             <a:support event="onblur" action="#{preferenceEditor.validate}" oncomplete="onAjaxRequestComplete()"
                                         reRender="preferenceValidationErrors, preferenceComponentList"/>
                         </h:inputText>
                         <s:selectDate for="dt" dateFormat="dd. MMM yyyy, HH:mm">

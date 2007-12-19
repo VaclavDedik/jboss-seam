@@ -1,18 +1,24 @@
 package org.jboss.seam.wiki.plugin.forum;
 
-import org.jboss.seam.wiki.core.model.Comment;
+import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
 
 public class ForumInfo {
 
+    private WikiDirectory forum;
     private boolean unreadPostings = false;
     private long totalNumOfTopics;
     private long totalNumOfPosts;
-    private ForumTopic lastTopic;
-    private Comment lastComment;
+    private WikiDocument lastTopic;
+    private WikiComment lastComment;
 
-    public ForumInfo(long totalNumOfTopics, long totalNumOfPosts) {
-        this.totalNumOfTopics = totalNumOfTopics;
-        this.totalNumOfPosts = totalNumOfPosts;
+    public ForumInfo(WikiDirectory forum) {
+        this.forum = forum;
+    }
+
+    public WikiDirectory getForum() {
+        return forum;
     }
 
     public boolean isUnreadPostings() {
@@ -39,19 +45,19 @@ public class ForumInfo {
         this.totalNumOfPosts = totalNumOfPosts;
     }
 
-    public ForumTopic getLastTopic() {
+    public WikiDocument getLastTopic() {
         return lastTopic;
     }
 
-    public void setLastTopic(ForumTopic lastTopic) {
+    public void setLastTopic(WikiDocument lastTopic) {
         this.lastTopic = lastTopic;
     }
 
-    public Comment getLastComment() {
+    public WikiComment getLastComment() {
         return lastComment;
     }
 
-    public void setLastComment(Comment lastComment) {
+    public void setLastComment(WikiComment lastComment) {
         this.lastComment = lastComment;
     }
 
@@ -62,4 +68,11 @@ public class ForumInfo {
         return false;
     }
 
+    public String toString() {
+        return "ForumInfo(" + getForum().getId() +
+                ") topics: " + getTotalNumOfTopics() +
+                ", posts: " + getTotalNumOfPosts() +
+                ", last topic: " + getLastTopic() +
+                ", last comment: " + getLastComment();
+    }
 }

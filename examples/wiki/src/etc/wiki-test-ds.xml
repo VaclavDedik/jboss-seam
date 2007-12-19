@@ -22,7 +22,9 @@
         <user-name>sa</user-name>
         <password></password>
     </local-tx-datasource>
+    -->
 
+    <!--
     MySQL also requires changes to persistence-test.xml and DBUnitSeamTest.java (foreign key checks)
     <local-tx-datasource>
         <jndi-name>wikiTestDatasource</jndi-name>

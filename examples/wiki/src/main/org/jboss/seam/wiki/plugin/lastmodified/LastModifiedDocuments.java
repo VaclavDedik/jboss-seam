@@ -1,10 +1,12 @@
 package org.jboss.seam.wiki.plugin.lastmodified;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.model.Document;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.WikiDocument;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,21 +16,21 @@ import java.util.List;
 public class LastModifiedDocuments implements Serializable {
 
     @In
-    NodeDAO nodeDAO;
+    WikiNodeDAO wikiNodeDAO;
 
     @In("#{lastModifiedDocumentsPreferences.numberOfItems}")
     private Long numberOfItems;
 
-    private List<Document>lastModifiedDocuments;
+    private List<WikiDocument>lastModifiedDocuments;
 
-    public List<Document> getLastModifiedDocuments() {
+    public List<WikiDocument> getLastModifiedDocuments() {
         if (lastModifiedDocuments == null) loadDocuments();
         return lastModifiedDocuments;
     }
 
     @Observer("PreferenceComponent.refresh.lastModifiedDocumentsPreferences")
     public void loadDocuments() {
-        lastModifiedDocuments = nodeDAO.findDocumentsOrderByLastModified(Long.valueOf(numberOfItems).intValue());
+        lastModifiedDocuments = wikiNodeDAO.findWikiDocumentsOrderByLastModified(Long.valueOf(numberOfItems).intValue());
     }
 
 }

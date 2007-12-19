@@ -6,60 +6,100 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.dao.WikiTreeNodeAdapter;
-import org.jboss.seam.wiki.core.dao.FeedDAO;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.wiki.core.feeds.FeedDAO;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiMenuItem;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.util.WikiUtil;
-import org.richfaces.model.TreeNode;
 
 import javax.faces.application.FacesMessage;
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import java.util.*;
 
 @Name("directoryHome")
 @Scope(ScopeType.CONVERSATION)
-public class DirectoryHome extends NodeHome<Directory> {
+public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
+
 
     /* -------------------------- Context Wiring ------------------------------ */
 
     @In
-    FeedDAO feedDAO;
+    protected FeedDAO feedDAO;
 
-    /* -------------------------- Request Wiring ------------------------------ */
-
-    @Observer("DirectoryHome.init")
-    public String init() {
-        String result = super.init();
-        if (result != null) return result;
-
-        // Fill the datamodel for outjection
-        refreshChildNodes();
-
-        // Feed checkbox
-        hasFeed = getInstance().getFeed()!=null;
-
-        return null;
-    }
 
     /* -------------------------- Internal State ------------------------------ */
 
-    private List<Document> childDocuments = new ArrayList<Document>();
-    public List<Document> getChildDocuments() { return childDocuments; }
+    // TODO: Move page size into preferences
+    private Pager pager = new Pager(15l);
+    private boolean hasFeed;
+    private List<WikiNode> childNodes = new ArrayList<WikiNode>();
+    private List<WikiDocument> childDocuments = new ArrayList<WikiDocument>();
+    private List<WikiMenuItem> menuItems = new ArrayList<WikiMenuItem>();
+    private SortedSet<WikiDirectory> alreadyUsedMenuItems = new TreeSet<WikiDirectory>();
+    private SortedSet<WikiDirectory> availableMenuItems = new TreeSet<WikiDirectory>();
+    private WikiDirectory selectedChildDirectory;
 
+    /* -------------------------- Basic Overrides ------------------------------ */
+
+    @Override
+    public Class<WikiDirectory> getEntityClass() {
+        return WikiDirectory.class;
+    }
+
+    @Override
+    public WikiDirectory findInstance() {
+        return getWikiNodeDAO().findWikiDirectory((Long)getId());
+    }
+
+    @Override
+    protected WikiDirectory findParentNode(Long parentNodeId) {
+        return getEntityManager().find(WikiDirectory.class, parentNodeId);
+    }
+
+    @Override
+    public WikiDirectory afterNodeFound(WikiDirectory dir) {
+        super.afterNodeFound(dir);
+
+        refreshChildNodes(dir);
+
+        return dir;
+    }
+
+    @Override
+    public WikiDirectory beforeNodeEditFound(WikiDirectory dir) {
+        dir = super.beforeNodeEditFound(dir);
+
+        hasFeed = dir.getFeed()!=null;
+
+        childDocuments = getWikiNodeDAO().findWikiDocuments(dir);
+
+        menuItems = getWikiNodeDAO().findMenuItems(dir);
+        alreadyUsedMenuItems = new TreeSet<WikiDirectory>();
+        for (WikiMenuItem menuItem : menuItems) {
+            alreadyUsedMenuItems.add(menuItem.getDirectory());
+        }
+        refreshAvailableMenuItems(dir);
+
+        return dir;
+    }
 
     /* -------------------------- Custom CUD ------------------------------ */
 
     @Override
     public String persist() {
 
-        if (getParentDirectory().getParent() != null) {
+        if (getParentNode().getParent() != null) {
             // This is a subdirectory in an area
-            getInstance().setAreaNumber(getParentDirectory().getAreaNumber());
+            getInstance().setAreaNumber(getParentNode().getAreaNumber());
             return super.persist();
         } else {
             // This is a logical area in the wiki root
@@ -78,30 +118,28 @@ public class DirectoryHome extends NodeHome<Directory> {
         }
     }
 
+    @Override
     protected boolean beforePersist() {
         createOrRemoveFeed();
         return super.preparePersist();
     }
 
+    @Override
     protected boolean beforeUpdate() {
         createOrRemoveFeed();
+        updateMenuItems();
         return super.beforeUpdate();
     }
 
+    @Override
     protected boolean prepareRemove() {
         if (getInstance().getParent() == null) return false; // Veto wiki root delete
         return true;
     }
 
-    protected boolean beforeRemove() {
-        // Remove all children (nested, recursively, udpates the second-level cache)
-        getNodeDAO().removeChildren(getInstance());
-
-        return true;
-    }
-
     /* -------------------------- Messages ------------------------------ */
 
+    @Override
     protected void createdMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
@@ -111,6 +149,7 @@ public class DirectoryHome extends NodeHome<Directory> {
         );
     }
 
+    @Override
     protected void updatedMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
@@ -120,6 +159,7 @@ public class DirectoryHome extends NodeHome<Directory> {
         );
     }
 
+    @Override
     protected void deletedMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
@@ -129,12 +169,57 @@ public class DirectoryHome extends NodeHome<Directory> {
         );
     }
 
+    protected void feedCreatedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+            FacesMessage.SEVERITY_INFO,
+            "lacewiki.msg.Feed.Create",
+            "Created syndication feed for this directory");
+    }
+
+    protected void feedRemovedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+            FacesMessage.SEVERITY_INFO,
+            "lacewiki.msg.Feed.Remove",
+            "Removed syndication feed of this directory");
+    }
+
     /* -------------------------- Internal Methods ------------------------------ */
 
-    private void refreshChildNodes() {
-        childDocuments.clear();
-        for (Node childNode : getInstance().getChildren()) {
-            if (childNode instanceof Document) childDocuments.add((Document)childNode);
+    private void refreshChildNodes(WikiDirectory dir) {
+        pager.setNumOfRecords(getWikiNodeDAO().findChildrenCount(dir));
+        if (pager.getNumOfRecords() > 0) {
+            childNodes = getWikiNodeDAO().findChildren(dir, "createdOn", false, pager.getNextRecord(), pager.getPageSize());
+        }
+    }
+
+    private void refreshAvailableMenuItems(WikiDirectory dir) {
+        availableMenuItems = new TreeSet();
+        availableMenuItems.addAll(getWikiNodeDAO().findChildWikiDirectories(dir));
+        availableMenuItems.removeAll(alreadyUsedMenuItems);
+    }
+
+    private void updateMenuItems() {
+        if ( Identity.instance().hasPermission("Node", "editMenu", getInstance()) ) {
+            // No point in doing that if the user couldn't have edited anything
+
+            // Compare the edited list of menu items to the persistent menu items and insert/remove accordingly
+            List<WikiMenuItem> persistentMenuItems = getWikiNodeDAO().findMenuItems(getInstance());
+            for (WikiMenuItem persistentMenuItem : persistentMenuItems) {
+                if (menuItems.contains(persistentMenuItem)) {
+                    persistentMenuItem.setDisplayPosition(menuItems.indexOf(persistentMenuItem));
+                    getLog().debug("Updated menu: " + persistentMenuItem);
+                } else {
+                    getEntityManager().remove(persistentMenuItem);
+                    getLog().debug("Removed menu: " + persistentMenuItem);
+                }
+            }
+            for (WikiMenuItem menuItem : menuItems) {
+                if (!persistentMenuItems.contains(menuItem)) {
+                    menuItem.setDisplayPosition(menuItems.indexOf(menuItem));
+                    getEntityManager().persist(menuItem);
+                    getLog().debug("Inserted menu: " + menuItem);
+                }
+            }
         }
     }
 
@@ -142,20 +227,12 @@ public class DirectoryHome extends NodeHome<Directory> {
         if (hasFeed && getInstance().getFeed() == null) {
             // Does not have a feed but user wants one, create it
             feedDAO.createFeed(getInstance());
-
-            getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
-                "lacewiki.msg.Feed.Create",
-                "Created syndication feed for this directory");
+            feedCreatedMessage();
 
         } else if (!hasFeed && getInstance().getFeed() != null) {
             // Does have feed but user doesn't want it anymore... delete it
             feedDAO.removeFeed(getInstance());
-
-            getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
-                "lacewiki.msg.Feed.Remove",
-                "Removed syndication feed of this directory");
+            feedRemovedMessage();
 
         } else if (getInstance().getFeed() != null) {
             // Does have a feed and user still wants it, update the feed
@@ -165,41 +242,33 @@ public class DirectoryHome extends NodeHome<Directory> {
 
     /* -------------------------- Public Features ------------------------------ */
 
-    @In(required=false)
-    @Out(required = false, scope=ScopeType.PAGE)
-    WikiTreeNodeAdapter directoryTree;
-
-    public TreeNode getTree() {
-        if (directoryTree == null) {
-            directoryTree = new WikiTreeNodeAdapter(getInstance(), getNodeDAO().getComparatorDisplayPosition(), 2l);
-            directoryTree.loadChildren();
-        }
-        return directoryTree;
-        /*
-        TreeNode root = new TreeNodeImpl();
-        TreeNode bar = new TreeNodeImpl();
-        TreeNode baz = new TreeNodeImpl();
-        TreeNode faz  = new TreeNodeImpl();
-        root.setData("Foo");
-        bar.setData("bar");
-        baz.setData("baz");
-        faz.setData("faz");
-        root.addChild("1", bar);
-        root.addChild("2", baz);
-        root.addChild("3", faz);
-        return root;
-        */
+    @Observer(value = "PersistenceContext.filterReset", create = false)
+    public void refreshChildNodes() {
+        if (isManaged()) refreshChildNodes(getInstance());
     }
 
-    private boolean hasFeed;
-
-    public boolean isHasFeed() {
-        return hasFeed;
+    @RequestParameter
+    public void setPage(Integer page) {
+        pager.setPage(page);
     }
 
-    public void setHasFeed(boolean hasFeed) {
-        this.hasFeed = hasFeed;
+    public Pager getPager() {
+        return pager;
     }
+
+    public List<WikiNode> getChildNodes() { return childNodes; }
+
+    public List<WikiDocument> getChildDocuments() { return childDocuments; }
+
+    public List<WikiMenuItem> getMenuItems() { return menuItems; }
+
+    public WikiDirectory getSelectedChildDirectory() { return selectedChildDirectory; }
+    public void setSelectedChildDirectory(WikiDirectory selectedChildDirectory) { this.selectedChildDirectory = (WikiDirectory)selectedChildDirectory; }
+
+    public SortedSet<WikiDirectory> getAvailableMenuItems() { return availableMenuItems; }
+
+    public boolean isHasFeed() { return hasFeed; }
+    public void setHasFeed(boolean hasFeed) { this.hasFeed = hasFeed; }
 
     public void resetFeed() {
         if (getInstance().getFeed() != null) {
@@ -214,19 +283,36 @@ public class DirectoryHome extends NodeHome<Directory> {
     }
 
     @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
-    public void moveNode(int currentPosition, int newPosition) {
+    public void removeMenuItem(Long menuItemId) {
+        Iterator<WikiMenuItem> it = menuItems.iterator();
+        while (it.hasNext()) {
+            WikiMenuItem wikiMenuItem = it.next();
+            if (wikiMenuItem.getDirectoryId().equals(menuItemId)) {
+                getLog().debug("Removing menu item: " + menuItemId);
+                it.remove();
+                alreadyUsedMenuItems.remove(wikiMenuItem.getDirectory());
+                refreshAvailableMenuItems(getInstance());
+            }
+        }
+    }
+
+    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
+    public void addMenuItem() {
+        if (selectedChildDirectory != null) {
+            getLog().debug("Adding menu item: " + selectedChildDirectory);
+            WikiMenuItem newMenuItem = new WikiMenuItem(selectedChildDirectory);
+            menuItems.add(newMenuItem);
+            alreadyUsedMenuItems.add(selectedChildDirectory);
+            refreshAvailableMenuItems(getInstance());
+        }
+    }
+
+    @Restrict("#{s:hasPermission('Node', 'editMenu', directoryHome.instance)}")
+    public void moveMenuItem(int currentPosition, int newPosition) {
 
         if (currentPosition != newPosition) {
-
             // Shift and refresh displayed list
-            WikiUtil.shiftListElement(getInstance().getChildren(), currentPosition, newPosition);
-
-            // Required update, this is only refreshed on database load
-            for (Node node : getInstance().getChildren()) {
-                node.setDisplayPosition( getInstance().getChildren().indexOf(node) );
-            }
-
-            refreshChildNodes();
+            WikiUtil.shiftListElement(menuItems, currentPosition, newPosition);
         }
     }
 

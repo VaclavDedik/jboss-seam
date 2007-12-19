@@ -7,7 +7,7 @@
         xmlns:c="http://java.sun.com/jstl/core"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-<c:forEach var="childWrapper" items="#{node.wrappedChildren}">
+<c:forEach var="childWrapper" items="#{node.wrappedChildrenSorted}">
     <s:div styleClass="level#{childWrapper.level}">
         <s:div styleClass="level#{childWrapper.level}Body">
             <h:outputText styleClass="level#{childWrapper.level}Marker" value="&#183;"/>

@@ -20,10 +20,6 @@ public class Feed implements Serializable {
     @Column(name = "FEED_ID")
     private Long id;
 
-    @Version
-    @Column(name = "OBJ_VERSION", nullable = false)
-    protected Integer version;
-
     @Column(name = "TITLE", nullable = false)
     private String title;
 
@@ -37,10 +33,10 @@ public class Feed implements Serializable {
     private Date publishedDate = new Date();
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DIRECTORY_ID", nullable = false, updatable = false)
-    @org.hibernate.annotations.ForeignKey(name = "FK_FEED_DIRECTORY_ID")
+    @JoinColumn(name = "DIRECTORY_ID", nullable = false, updatable = false, unique = true)
+    @org.hibernate.annotations.ForeignKey(name = "FK_FEED_WIKI_DIRECTORY_ID")
     @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-    private Directory directory;
+    private WikiDirectory directory;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -57,7 +53,6 @@ public class Feed implements Serializable {
     // Immutable properties
 
     public Long getId() { return id; }
-    public Integer getVersion() { return version; }
 
     // Mutable properties
 
@@ -93,11 +88,11 @@ public class Feed implements Serializable {
         this.publishedDate = publishedDate;
     }
 
-    public Directory getDirectory() {
+    public WikiDirectory getDirectory() {
         return directory;
     }
 
-    public void setDirectory(Directory directory) {
+    public void setDirectory(WikiDirectory directory) {
         this.directory = directory;
     }
 

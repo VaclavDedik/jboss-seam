@@ -1,17 +1,21 @@
 package org.jboss.seam.wiki.core.preferences;
 
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.preferences.*;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.log.Log;
 import org.hibernate.Session;
 import org.hibernate.validator.InvalidValue;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.*;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.preferences.PreferenceComponent;
+import org.jboss.seam.wiki.preferences.PreferenceProperty;
+import org.jboss.seam.wiki.preferences.PreferenceProvider;
+import org.jboss.seam.wiki.preferences.PreferenceValue;
 
 import javax.persistence.EntityManager;
-import java.util.*;
 import java.io.Serializable;
+import java.util.*;
 
 /**
  * Implementation for the wiki, loads and stores <tt>WikiPreferenceValue</tt> objects.
@@ -46,8 +50,8 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
             currentValueMap.put(component, new TreeSet<PreferenceValue>());
 
             // Only load and instance preferences if there actually can be instance preferences
-            if (instance != null && ((Node)instance).getId() != null && component.allowsInstanceOverride())
-                loadInstanceValues(currentValueMap.get(component), component, (Node)instance);
+            if (instance != null && ((WikiNode)instance).getId() != null && component.allowsInstanceOverride())
+                loadInstanceValues(currentValueMap.get(component), component, (WikiNode)instance);
 
             // Only load and user preferences if there actually can be user preferences
             if (user != null && component.allowsUserOverride())
@@ -76,7 +80,7 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
                 log.trace("New preference value object at INSTANCE level for property: " + valueHolder.getPreferenceProperty());
 
                 WikiPreferenceValue newValueHolder = new WikiPreferenceValue(valueHolder.getPreferenceProperty());
-                newValueHolder.setNode((Node) instance);
+                newValueHolder.setDocument((WikiDocument) instance);
                 newValueHolder.setValue(valueHolder.getValue());
                 newValueHolder.setDirty(false); // New object is not "dirty"
 
@@ -110,14 +114,14 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
 
     public void deleteUserPreferences(Object user) {
         log.debug("Deleting all preference values of user '" + user + "'");
-        entityManager.createQuery("delete from WikiPreferenceValue wp where wp.user = :user and wp.node is null")
+        entityManager.createQuery("delete from WikiPreferenceValue wp where wp.user = :user and wp.document is null")
                 .setParameter("user", user)
                 .executeUpdate();
     }
 
     public void deleteInstancePreferences(Object instance) {
         log.debug("Deleting all preference values of instance '" + instance + "'");
-        entityManager.createQuery("delete from WikiPreferenceValue wp where wp.user is null and wp.node = :node")
+        entityManager.createQuery("delete from WikiPreferenceValue wp where wp.user is null and wp.document = :node")
                 .setParameter("node", instance)
                 .executeUpdate();
     }
@@ -163,7 +167,7 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
         List<WikiPreferenceValue> values =
             entityManager.createQuery(
                             "select wp from WikiPreferenceValue wp" +
-                            " where wp.componentName = :name and wp.user is null and wp.node is null"
+                            " where wp.componentName = :name and wp.user is null and wp.document is null"
                           ).setParameter("name", preferenceComponent.getName())
                            .setHint("org.hibernate.cacheable", true).getResultList();
 
@@ -185,7 +189,7 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
         List<WikiPreferenceValue> values =
             entityManager.createQuery(
                             "select wp from WikiPreferenceValue wp" +
-                            " where wp.componentName = :name and wp.user = :user and wp.node is null"
+                            " where wp.componentName = :name and wp.user = :user and wp.document is null"
                           )
                         .setParameter("name", preferenceComponent.getName())
                         .setParameter("user", user)
@@ -197,12 +201,12 @@ public class WikiPreferenceProvider implements PreferenceProvider, Serializable 
         }
     }
 
-    private void loadInstanceValues(Set<PreferenceValue> loadedValues, PreferenceComponent preferenceComponent, Node node) {
+    private void loadInstanceValues(Set<PreferenceValue> loadedValues, PreferenceComponent preferenceComponent, WikiNode node) {
         //noinspection unchecked
         List<WikiPreferenceValue> values =
             entityManager.createQuery(
                             "select wp from WikiPreferenceValue wp" +
-                            " where wp.componentName = :name and wp.user is null and wp.node = :node"
+                            " where wp.componentName = :name and wp.user is null and wp.document = :node"
                           )
                         .setParameter("name", preferenceComponent.getName())
                         .setParameter("node", node)

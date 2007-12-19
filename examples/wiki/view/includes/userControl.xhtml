@@ -1,4 +1,4 @@
-<h:form id="userControl"
+<h:form id="userControl" styleClass="userControlForm"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
@@ -10,14 +10,16 @@
 
         <h:panelGroup styleClass="userControlPanel">
 
-            <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="#{messages['lacewiki.label.userControl.Username']}:"/>
-            <h:inputText styleClass="userControlInput" id="loginUsername" value="#{identity.username}" size="8" tabindex="50"/>
-            <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="#{messages['lacewiki.label.userControl.Password']}:"/>
-            <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="8" tabindex="50"/>
-            <h:commandLink styleClass="userControlLink" action="#{identity.login}" tabindex="50"
-                           accesskey="#{messages['lacewiki.button.userControl.Login.accesskey']}">
-                <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Login']}"/>
-            </h:commandLink>
+            <s:span styleClass="sessionEventTrigger">
+                <h:outputLabel styleClass="userControlLabel" for="loginUsername" value="#{messages['lacewiki.label.userControl.Username']}:"/>
+                <h:inputText styleClass="userControlInput" id="loginUsername" value="#{identity.username}" size="8" tabindex="50"/>
+                <h:outputLabel styleClass="userControlLabel" for="loginPassword" value="#{messages['lacewiki.label.userControl.Password']}:"/>
+                <h:inputSecret styleClass="userControlInput" id="loginPassword" value="#{identity.password}" size="8" tabindex="50"/>
+                <h:commandLink styleClass="userControlLink" action="#{identity.login}" tabindex="50"
+                               accesskey="#{messages['lacewiki.button.userControl.Login.accesskey']}">
+                    <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Login']}"/>
+                </h:commandLink>
+            </s:span>
 
             <s:link styleClass="userControlLink" tabindex="50"
                     accesskey="#{messages['lacewiki.button.userControl.Register.accesskey']}"
@@ -39,21 +41,22 @@
     <s:div rendered="#{identity.loggedIn}">
 
         <h:panelGroup styleClass="userControlPanel">
-            <h:outputText styleClass="userControlLabel" value="(#{currentUser.fullname})"/>
 
-            <s:link styleClass="userControlLink" action="#{authenticator.logout}" tabindex="70"
+            <h:outputText styleClass="userControlLabel sessionEventTrigger" value="(#{currentUser.fullname})"/>
+
+            <s:link styleClass="userControlLink sessionEventTrigger" action="#{authenticator.logout}" tabindex="70"
                     accesskey="#{messages['lacewiki.button.userControl.Logout.accesskey']}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Logout']}"/>
             </s:link>
 
-            <h:outputLink styleClass="userControlLink" tabindex="70"
+            <h:outputLink styleClass="userControlLink sessionEventTrigger" tabindex="70"
                           accesskey="#{messages['lacewiki.button.userControl.Home.accesskey']}" 
-                          value="#{wiki:renderHomeURL(currentUser)}"
+                          value="#{wiki:renderURL(currentUser.memberHome)}"
                     rendered="#{!empty currentUser.memberHome}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Home']}"/>
             </h:outputLink>
 
-            <s:link styleClass="userControlLink" tabindex="70"
+            <s:link styleClass="userControlLink sessionEventTrigger" tabindex="70"
                     accesskey="#{messages['lacewiki.button.userControl.Profile.accesskey']}"
                     view="/userHome_#{skin}.xhtml" propagation="none">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Profile']}"/>

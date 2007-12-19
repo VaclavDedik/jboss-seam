@@ -1,20 +1,21 @@
 package org.jboss.seam.wiki.core.dao;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.wiki.core.model.Node;
-import org.hibernate.Session;
 import org.hibernate.Query;
-import org.hibernate.transform.ResultTransformer;
+import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.core.model.DisplayTagCount;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.nestedset.query.NestedSetQueryBuilder;
 
 import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.io.Serializable;
+import java.util.List;
 
 @Name("tagDAO")
 @AutoCreate
@@ -26,131 +27,68 @@ public class TagDAO {
     @In
     protected EntityManager restrictedEntityManager;
 
-    public List<TagCount> findTagsAggregatedSorted(Node startNode, Node ignoreNode, int limit) {
-        List<TagCount> tagsSortedByCount = new ArrayList<TagCount>();
-        List<Node> taggedNodes = findNodes(startNode, ignoreNode, null);
-        for (Node taggedNode : taggedNodes) {
-            String[] splitTags = taggedNode.getTags().split(",");
-            for (String splitTag : splitTags) {
-                String tag = splitTag.trim();
-
-                Integer count = 1;
-                TagCount newTag = new TagCount(tag, count);
-                if (tagsSortedByCount.contains(newTag)) {
-                    tagsSortedByCount.get(tagsSortedByCount.indexOf(newTag)).incrementCount();
-                } else {
-                    tagsSortedByCount.add(newTag);
-                }
-            }
-        }
-        Collections.sort(tagsSortedByCount);
-        if (limit != 0 && tagsSortedByCount.size() > limit)
-            return tagsSortedByCount.subList(0, limit);
-        else
-            return tagsSortedByCount;
-    }
-
-    public List<Node> findNodes(Node startNode, Node ignoreNode, final String tag) {
+    public List<DisplayTagCount> findTagCounts(WikiDirectory startDir, WikiFile ignoreFile, int limit) {
 
         StringBuilder queryString = new StringBuilder();
 
-        queryString.append("select distinct n1").append(" ");
-        queryString.append("from ").append(startNode.getTreeSuperclassEntityName()).append(" n1, ");
-        queryString.append(startNode.getTreeSuperclassEntityName()).append(" n2 ");
-        queryString.append("where n1.nsThread = :thread and n2.nsThread = :thread").append(" ");
-        queryString.append("and n1.nsLeft between n2.nsLeft and n2.nsRight").append(" ");
-        queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
-        queryString.append("and n2.class = :clazz").append(" ");
-
-        if (tag != null && tag.length()>0) {
-            queryString.append("and n1.tags like :tag").append(" ");
-        } else {
-            queryString.append("and n1.tags is not null").append(" ");
-            queryString.append("and length(n1.tags)>0").append(" ");
-        }
-
-        if (ignoreNode != null && ignoreNode.getId() != null)
-            queryString.append("and not n1 = :ignoreNode").append(" ");
-
-        queryString.append("order by n1.createdOn desc");
+        queryString.append("select t as tag, count(t) as count").append(" ");
+        queryString.append("from WikiFile f join f.tags as t").append(" ");
+        queryString.append("where f.parent.id in");
+        queryString.append("(").append(getNestedDirectoryQuery(startDir)).append(")").append(" ");
+        if (ignoreFile != null && ignoreFile.getId() != null) queryString.append("and not f = :ignoreFile").append(" ");
+        queryString.append("group by t").append(" ");
+        queryString.append("order by count(t) desc, t asc ");
 
         Query nestedSetQuery = getSession().createQuery(queryString.toString());
-        nestedSetQuery.setParameter("thread", startNode.getNsThread());
-        nestedSetQuery.setParameter("startLeft", startNode.getNsLeft());
-        nestedSetQuery.setParameter("startRight", startNode.getNsRight());
-        nestedSetQuery.setParameter("clazz", "DOCUMENT"); // TODO: Hibernate can't bind the discriminator? Not even with Hibernate.CLASS type...
-        if (ignoreNode != null && ignoreNode.getId() != null)
-            nestedSetQuery.setParameter("ignoreNode", ignoreNode);
-
-        if (tag != null && tag.length()>0) {
-            nestedSetQuery.setParameter("tag", "%" + tag + "%");
-            // These nodes have the tag _as a substring_ in their comma-separated tags list, we need to find
-            // the real tags, narrowing down the list of nodes by checking each node again.
-            nestedSetQuery.setResultTransformer(
-                new ResultTransformer() {
-                    public Object transformTuple(Object[] result, String[] aliases) {
-                        Node node = (Node)result[0];
-                        if (node.isTagged(tag)) return node;
-                        return null;
-                    }
-                    public List transformList(List list) {
-                        List listWithoutNulls = new ArrayList();
-                        for (Object o : list) if (o != null) listWithoutNulls.add(o);
-                        return listWithoutNulls;
-                    }
-                }
-            );
+        nestedSetQuery.setParameter("nsThread", startDir.getNodeInfo().getNsThread());
+        nestedSetQuery.setParameter("nsLeft", startDir.getNodeInfo().getNsLeft());
+        nestedSetQuery.setParameter("nsRight", startDir.getNodeInfo().getNsRight());
+        if (ignoreFile != null && ignoreFile.getId() != null)
+            nestedSetQuery.setParameter("ignoreFile", ignoreFile);
+        if (limit > 0) {
+            nestedSetQuery.setMaxResults(limit);
         }
 
-        return nestedSetQuery.list();
+        nestedSetQuery.setResultTransformer(Transformers.aliasToBean(DisplayTagCount.class));
 
+        return nestedSetQuery.list();
+    }
+
+    public List<WikiFile> findWikFiles(WikiDirectory startDir, WikiFile ignoreFile, final String tag) {
+
+        if (tag == null || tag.length() == 0) return Collections.emptyList();
+
+        StringBuilder queryString = new StringBuilder();
+
+        queryString.append("select distinct f from WikiFile f join f.tags as t where f.parent.id in");
+        queryString.append("(").append(getNestedDirectoryQuery(startDir)).append(")").append(" ");
+        if (ignoreFile != null && ignoreFile.getId() != null) queryString.append("and not f = :ignoreFile").append(" ");
+        queryString.append("and t = :tag").append(" ");
+        queryString.append("order by f.createdOn desc");
+
+        Query nestedSetQuery = getSession().createQuery(queryString.toString());
+        nestedSetQuery.setParameter("nsThread", startDir.getNodeInfo().getNsThread());
+        nestedSetQuery.setParameter("nsLeft", startDir.getNodeInfo().getNsLeft());
+        nestedSetQuery.setParameter("nsRight", startDir.getNodeInfo().getNsRight());
+        if (ignoreFile != null && ignoreFile.getId() != null)
+            nestedSetQuery.setParameter("ignoreFile", ignoreFile);
+        nestedSetQuery.setParameter("tag", tag);
+
+        return nestedSetQuery.list();
+    }
+
+    private String getNestedDirectoryQuery(WikiDirectory dir) {
+        NestedSetQueryBuilder builder = new NestedSetQueryBuilder(dir, true);
+        StringBuilder queryString = new StringBuilder();
+        queryString.append("select distinct ").append(NestedSetQueryBuilder.NODE_ALIAS).append(".id").append(" ");
+        queryString.append("from ").append(builder.getFromClause()).append(" ");
+        queryString.append("where ").append(builder.getWhereClause()).append(" ");
+        return queryString.toString();
     }
 
     private Session getSession() {
         return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
     }
 
-    public class TagCount implements Comparable, Serializable {
-        String tag;
-        Integer count;
-
-        public TagCount(String tag, Integer count) {
-            this.tag = tag;
-            this.count = count;
-        }
-
-        public String getTag() {
-            return tag;
-        }
-
-        public Integer getCount() {
-            return count;
-        }
-
-        public void incrementCount() {
-            count++;
-        }
-
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-
-            TagCount tagCount = (TagCount) o;
-
-            return tag.equals(tagCount.tag);
-
-        }
-
-        public int hashCode() {
-            return tag.hashCode();
-        }
-
-        public int compareTo(Object o) {
-            int result = ((TagCount)o).getCount().compareTo( this.getCount() );
-            return result == 0
-                ? this.getTag().compareTo( ((TagCount)o).getTag() )
-                : result;
-        }
-    }
 
 }

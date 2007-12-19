@@ -16,6 +16,9 @@ import java.util.Date;
 @Table(name = "ROLES")
 public class Role implements Serializable, Comparable {
 
+    public static final int GUESTROLE_ACCESSLEVEL = 0;
+    public static final int ADMINROLE_ACCESSLEVEL = 1000;
+
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "ROLE_ID")
@@ -23,7 +26,7 @@ public class Role implements Serializable, Comparable {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    private int version = 0;
+    private int version;
 
     @Column(name = "NAME", length = 255, nullable = false, unique = true)
     private String name;
@@ -74,6 +77,14 @@ public class Role implements Serializable, Comparable {
 
     public int getAccessLevel() { return accessLevel; }
     public void setAccessLevel(int accessLevel) { this.accessLevel = accessLevel; }
+
+    public boolean isAdminRole() {
+        return getAccessLevel() == ADMINROLE_ACCESSLEVEL;
+    }
+
+    public boolean isGuestRole() {
+        return getAccessLevel() == GUESTROLE_ACCESSLEVEL;
+    }
 
     public String toString() {
         return  "Role ('" + getId() + "'), " +

@@ -1,16 +1,18 @@
 package org.jboss.seam.wiki.core.engine;
 
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.util.WikiUtil;
-import org.jboss.seam.log.Log;
 
-
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A default implementation of <tt>WikiLinkResolver</tt>.
@@ -24,16 +26,16 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
     @Logger static Log log;
 
     // Render these strings whenever [=>wiki://123] needs to be resolved but can't
-    public static final String BROKENLINK_URL = "PageDoesNotExist";
+    public static final String BROKENLINK_URL = "FileNotFound";
     public static final String BROKENLINK_DESCRIPTION = "?BROKEN LINK?";
 
     @In
-    private NodeDAO nodeDAO;
+    private WikiNodeDAO wikiNodeDAO;
 
     @In
     Map<String, LinkProtocol> linkProtocolMap;
 
-    public String convertToWikiProtocol(Long currentAreaNumber, String wikiText) {
+    public String convertToWikiProtocol(Set<WikiFile> linkTargets, Long currentAreaNumber, String wikiText) {
         if (wikiText == null) return null;
 
         StringBuffer replacedWikiText = new StringBuffer(wikiText.length());
@@ -42,8 +44,11 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
         // Replace with [Link Text=>wiki://<node id>] or leave as is if not found
         while (matcher.find()) {
             String linkText = matcher.group(2);
-            Node node = resolveCrossAreaLinkText(currentAreaNumber, linkText);
-            if (node != null) matcher.appendReplacement(replacedWikiText, "[$1=>wiki://" + node.getId() + "]");
+            WikiFile file = resolveCrossAreaLinkText(currentAreaNumber, linkText);
+            if (file != null) {
+                matcher.appendReplacement(replacedWikiText, "[$1=>wiki://" + file.getId() + "]");
+                linkTargets.add(file);
+            }
         }
         matcher.appendTail(replacedWikiText);
         return replacedWikiText.toString();
@@ -59,16 +64,16 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
         while (matcher.find()) {
 
             // Find the node by PK
-            Node node = nodeDAO.findNode(Long.valueOf(matcher.group(2)));
+            WikiFile file = wikiNodeDAO.findWikiFile(Long.valueOf(matcher.group(2)));
 
             // Node is in current area, just use its name
-            if (node != null && node.getAreaNumber().equals(currentAreaNumber)) {
-                matcher.appendReplacement(replacedWikiText, "[$1=>" + node.getName() + "]");
+            if (file != null && file.getAreaNumber().equals(currentAreaNumber)) {
+                matcher.appendReplacement(replacedWikiText, "[$1=>" + file.getName() + "]");
 
             // Node is in different area, prepend the area name
-            } else if (node != null && !node.getAreaNumber().equals(currentAreaNumber)) {
-                Directory area = nodeDAO.findArea(node.getAreaNumber());
-                matcher.appendReplacement(replacedWikiText, "[$1=>" + area.getName() + "|" + node.getName() + "]");
+            } else if (file != null && !file.getAreaNumber().equals(currentAreaNumber)) {
+                WikiDirectory area = wikiNodeDAO.findArea(file.getAreaNumber());
+                matcher.appendReplacement(replacedWikiText, "[$1=>" + area.getName() + "|" + file.getName() + "]");
 
             // Couldn't find it anymore, its a broken link
             } else {
@@ -101,11 +106,11 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
         } else if (wikiProtocolMatcher.find()) {
 
             // Find the node by PK
-            Node node = nodeDAO.findNode(Long.valueOf(wikiProtocolMatcher.group(1)));
-            if (node != null) {
+            WikiFile file = wikiNodeDAO.findWikiFile(Long.valueOf(wikiProtocolMatcher.group(1)));
+            if (file != null) {
                 wikiLink = new WikiLink(false, false);
-                wikiLink.setNode(node);
-                wikiLink.setDescription(node.getName());
+                wikiLink.setFile(file);
+                wikiLink.setDescription(file.getName());
                 log.debug("wiki link resolved to existing node: " + linkText);
             } else {
                 // Can't do anything, [=>wiki://123] no longer exists
@@ -137,12 +142,12 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
         } else {
 
             // Try a WikiWord search in the current or named area
-            Node node = resolveCrossAreaLinkText(currentAreaNumber, linkText);
-            if (node!=null) {
+            WikiFile doc = resolveCrossAreaLinkText(currentAreaNumber, linkText);
+            if (doc!=null) {
 
                 wikiLink = new WikiLink(false, false);
-                wikiLink.setNode(node);
-                wikiLink.setDescription(node.getName());
+                wikiLink.setFile(doc);
+                wikiLink.setDescription(doc.getName());
                 // Indicate that caller should update the wiki text that contains this link
                 wikiLink.setRequiresUpdating(true);
                 log.debug("resolved wiki word link, this needs updating to the real identifier: " + linkText);
@@ -168,20 +173,18 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
         links.put(linkText, wikiLink);
     }
 
-    private Node resolveCrossAreaLinkText(Long currentAreaNumber, String linkText) {
+    private WikiFile resolveCrossAreaLinkText(Long currentAreaNumber, String linkText) {
         Matcher crossLinkMatcher = Pattern.compile(REGEX_WIKILINK_CROSSAREA).matcher(linkText);
         if (crossLinkMatcher.find()) {
             // Try to find the node in the referenced area
             String areaName = crossLinkMatcher.group(1);
             String nodeName = crossLinkMatcher.group(2);
-            Node crossLinkArea = nodeDAO.findArea(WikiUtil.convertToWikiName(areaName));
-            if ( crossLinkArea != null && (nodeName == null || nodeName.length() == 0) )
-                return crossLinkArea; // Support [=>This is an Area Link|] syntax
-            else if (crossLinkArea != null)
-                return nodeDAO.findNodeInArea(crossLinkArea.getAreaNumber(), WikiUtil.convertToWikiName(nodeName));
+            WikiNode crossLinkArea = wikiNodeDAO.findArea(WikiUtil.convertToWikiName(areaName));
+            if (crossLinkArea != null)
+                return wikiNodeDAO.findWikiFileInArea(crossLinkArea.getAreaNumber(), WikiUtil.convertToWikiName(nodeName));
         } else {
             // Try the current area
-            return nodeDAO.findNodeInArea(currentAreaNumber, WikiUtil.convertToWikiName(linkText));
+            return wikiNodeDAO.findWikiFileInArea(currentAreaNumber, WikiUtil.convertToWikiName(linkText));
         }
         return null;
     }

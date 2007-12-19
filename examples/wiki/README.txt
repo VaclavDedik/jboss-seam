@@ -33,7 +33,7 @@ INSTALLATION WITH MYSQL (production profile)
 
 - Install JBoss Application Server 4.2.2 GA
 
-- Upgrade/downgrade the Hibernate libraries bundled with JBoss 4.2.1 to the libraries bundled
+- Upgrade/downgrade the Hibernate libraries bundled with JBoss AS to the libraries bundled
   with this application. Follow the steps outlined above (edit build.properties, call
   'ant upgradehibernate') or copy them manually.
 
@@ -56,6 +56,7 @@ INSTALLATION WITH MYSQL (production profile)
 - Start (if you haven't done so already) JBoss AS and access http://localhost:8080/wiki (or the
   baseUrl you specified on data import)
 
+- Login as admin/admin and update the Lucene index in the 'Administration' screen
 
 NOTE: The lucene index directory is named "lacewikiIndex" and located in the current directory. This
 is the current directory from which you started the application server! If you want to change this setting,

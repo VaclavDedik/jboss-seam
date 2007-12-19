@@ -20,6 +20,9 @@ import java.util.*;
 @org.hibernate.annotations.BatchSize(size = 20)
 public class User implements Serializable {
 
+    public static final String GUEST_USERNAME = "guest";
+    public static final String ADMIN_USERNAME = "admin";
+
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "USER_ID")
@@ -27,7 +30,7 @@ public class User implements Serializable {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    private int version = 0;
+    private int version;
 
     @Column(name = "FIRSTNAME", length = 63, nullable = false)
     @NotNull
@@ -90,9 +93,9 @@ public class User implements Serializable {
     private List<Role> roles = new ArrayList<Role>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_HOME_NODE_ID", nullable = true)
-    @org.hibernate.annotations.ForeignKey(name = "FK_USER_MEMBER_HOME_NODE_ID")
-    private Directory memberHome;
+    @JoinColumn(name = "MEMBER_HOME_WIKI_DIRECTORY_ID", nullable = true)
+    @org.hibernate.annotations.ForeignKey(name = "FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID")
+    private WikiDirectory memberHome;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "USER_PROFILE_ID", nullable = false, unique = true)
@@ -151,8 +154,8 @@ public class User implements Serializable {
     public String getActivationCode() { return activationCode; }
     public void setActivationCode(String activationCode) { this.activationCode = activationCode; }
 
-    public Directory getMemberHome() { return memberHome; }
-    public void setMemberHome(Directory memberHome) { this.memberHome = memberHome; }
+    public WikiDirectory getMemberHome() { return memberHome; }
+    public void setMemberHome(WikiDirectory memberHome) { this.memberHome = memberHome; }
 
     public List<Role> getRoles() { return roles; }
     public void setRoles(List<Role> roles) { this.roles = roles; }
@@ -161,6 +164,14 @@ public class User implements Serializable {
     public void setProfile(UserProfile profile) { this.profile = profile; }
 
     // Misc methods
+
+    public boolean isGuest() {
+        return GUEST_USERNAME.equals(getUsername());
+    }
+
+    public boolean isAdmin() {
+        return ADMIN_USERNAME.equals(getUsername());
+    }
 
     public String toString() {
         return  getUsername();

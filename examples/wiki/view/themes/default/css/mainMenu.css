@@ -13,8 +13,8 @@
 
 #mainMenu .level1Link {
     font-weight: bold;
+    font-size: 100%;
     color: #fff;
-    font-size: 95%;
     text-decoration: none;
     margin-left: 10px;
 }
@@ -37,7 +37,7 @@
 }
 
 #mainMenu .level2Link {
-    font-size: 80%;
+    font-size: 85%;
     font-weight: bold;
     color: #fff;
     text-decoration: none;

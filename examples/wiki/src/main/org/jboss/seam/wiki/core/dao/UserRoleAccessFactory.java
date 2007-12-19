@@ -15,11 +15,6 @@ import java.util.*;
 @Name("userRoleAccessFactory")
 public class UserRoleAccessFactory implements Serializable {
 
-    public static final String GUEST_USERNAME = "guest";
-    public static final String ADMIN_USERNAME = "admin";
-    public static final int GUESTROLE_ACCESSLEVEL = 0;
-    public static final int ADMINROLE_ACCESSLEVEL = 1000;
-    
     @In
     EntityManager entityManager;
 
@@ -28,17 +23,17 @@ public class UserRoleAccessFactory implements Serializable {
         try {
             User guestUser =
                     (User) entityManager
-                            .createQuery("select u from User u left join fetch u.roles where u.username = '"+GUEST_USERNAME+"'")
+                            .createQuery("select u from User u left join fetch u.roles where u.username = '"+User.GUEST_USERNAME+"'")
                             .getSingleResult();
             if (guestUser.getRoles().size() > 1 || guestUser.getRoles().size() == 0) {
-                throw new RuntimeException("Your '"+GUEST_USERNAME+"' user has none or more than one role assigned, illegal database state");
+                throw new RuntimeException("Your '"+User.GUEST_USERNAME+"' user has none or more than one role assigned, illegal database state");
             }
-            if (guestUser.getRoles().iterator().next().getAccessLevel() != GUESTROLE_ACCESSLEVEL) {
-                throw new RuntimeException("Your '"+GUEST_USERNAME+"' user isn't assigned to the guest role (access level "+GUESTROLE_ACCESSLEVEL+")");
+            if (guestUser.getRoles().iterator().next().getAccessLevel() != Role.GUESTROLE_ACCESSLEVEL) {
+                throw new RuntimeException("Your '"+User.GUEST_USERNAME+"' user isn't assigned to the guest role (access level "+Role.GUESTROLE_ACCESSLEVEL+")");
             }
             return guestUser;
         } catch (NoResultException ex) {
-            throw new RuntimeException("You need to INSERT a user with username '"+GUEST_USERNAME+"' into the database");
+            throw new RuntimeException("You need to INSERT a user with username '"+User.GUEST_USERNAME+"' into the database");
         }
     }
 
@@ -48,17 +43,17 @@ public class UserRoleAccessFactory implements Serializable {
         try {
             User adminUser =
                     (User) entityManager
-                            .createQuery("select u from User u left join fetch u.roles where u.username = '"+ADMIN_USERNAME+"'")
+                            .createQuery("select u from User u left join fetch u.roles where u.username = '"+User.ADMIN_USERNAME+"'")
                             .getSingleResult();
             if (adminUser.getRoles().size() > 1 || adminUser.getRoles().size() == 0) {
-                throw new RuntimeException("Your '"+ADMIN_USERNAME+"' user has none or more than one role assigned, illegal database state");
+                throw new RuntimeException("Your '"+User.ADMIN_USERNAME+"' user has none or more than one role assigned, illegal database state");
             }
-            if (adminUser.getRoles().iterator().next().getAccessLevel() != ADMINROLE_ACCESSLEVEL) {
-                throw new RuntimeException("Your '"+ADMIN_USERNAME+"' user isn't assigned to the admin role (access level "+ADMINROLE_ACCESSLEVEL+")");
+            if (adminUser.getRoles().iterator().next().getAccessLevel() != Role.ADMINROLE_ACCESSLEVEL) {
+                throw new RuntimeException("Your '"+User.ADMIN_USERNAME+"' user isn't assigned to the admin role (access level "+Role.ADMINROLE_ACCESSLEVEL+")");
             }
             return adminUser;
         } catch (NoResultException ex) {
-            throw new RuntimeException("You need to INSERT a user with username '"+ADMIN_USERNAME+"' into the database");
+            throw new RuntimeException("You need to INSERT a user with username '"+User.ADMIN_USERNAME+"' into the database");
         }
     }
 
@@ -66,10 +61,10 @@ public class UserRoleAccessFactory implements Serializable {
     public Role getGuestRole() {
         try {
             return (Role) entityManager
-                    .createQuery("select r from Role r where r.accessLevel = '"+GUESTROLE_ACCESSLEVEL+"'")
+                    .createQuery("select r from Role r where r.accessLevel = '"+Role.GUESTROLE_ACCESSLEVEL+"'")
                             .getSingleResult();
         } catch (NoResultException ex) {
-            throw new RuntimeException("You need to INSERT a role with accesslevel '"+GUESTROLE_ACCESSLEVEL+"' (the guest role) into the database");
+            throw new RuntimeException("You need to INSERT a role with accesslevel '"+Role.GUESTROLE_ACCESSLEVEL+"' (the guest role) into the database");
         }
     }
 
@@ -77,10 +72,10 @@ public class UserRoleAccessFactory implements Serializable {
     public Role getAdminRole() {
         try {
             return (Role) entityManager
-                    .createQuery("select r from Role r where r.accessLevel = '"+ADMINROLE_ACCESSLEVEL+"'")
+                    .createQuery("select r from Role r where r.accessLevel = '"+Role.ADMINROLE_ACCESSLEVEL+"'")
                             .getSingleResult();
         } catch (NoResultException ex) {
-            throw new RuntimeException("You need to INSERT a role with accesslevel '"+ADMINROLE_ACCESSLEVEL+"' (the admin role) into the database");
+            throw new RuntimeException("You need to INSERT a role with accesslevel '"+Role.ADMINROLE_ACCESSLEVEL+"' (the admin role) into the database");
         }
     }
 
@@ -118,7 +113,7 @@ public class UserRoleAccessFactory implements Serializable {
                             .getResultList();
                 if (roles.size() < 2)
                     throw new RuntimeException("You need to INSERT at least two roles into the database, " +
-                                               "with access level '"+GUESTROLE_ACCESSLEVEL+"' and '"+ADMINROLE_ACCESSLEVEL+"'");
+                                               "with access level '"+Role.GUESTROLE_ACCESSLEVEL+"' and '"+Role.ADMINROLE_ACCESSLEVEL+"'");
                 }
             return roles;
         }
@@ -163,7 +158,7 @@ public class UserRoleAccessFactory implements Serializable {
                     Role.AccessLevel newAccessLevel =
                             new Role.AccessLevel(
                                     role.getAccessLevel(),
-                                    role.getAccessLevel() == ADMINROLE_ACCESSLEVEL
+                                    role.getAccessLevel() == Role.ADMINROLE_ACCESSLEVEL
                                         ? "Owner, " + role.getDisplayName()
                                         : role.getDisplayName()
                             );

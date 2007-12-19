@@ -8,134 +8,95 @@
         xmlns:a="https://ajax4jsf.dev.java.net/ajax"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-<s:span id="forumRepliesPluginContainer">
 
-    <script type="text/javascript">jQuery(function() {
-        jQuery(".userInfoPopupContainer")
-                .jqm({trigger: false, overlay: 0});
-    });</script>
-    <script type="text/javascript">jQuery(function() {
-        wrapBoxes();
-    });</script>
+    <!-- The forumPostingDocumentWrapper <div> is open! -->
 
-    <s:div styleClass="box" style="margin-top:25px" rendered="#{not empty replyHome.comments}">
+        <s:div styleClass="commentSignature"
+               rendered="#{not empty currentDocument.createdBy.profile.signature and not empty currentDocument.areaNumber}">
+            <s:div styleClass="commentSignatureSeparator">
+                <h:outputText value="&#160;"/>
+            </s:div>
+            <wiki:formattedText value="#{currentDocument.createdBy.profile.signature}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                linkBaseFile="#{currentDocument}"
+                                currentAreaNumber="#{currentDocument.areaNumber}"
+                                enablePlugins="false"/>
+        </s:div>
 
-        <h:panelGrid columns="1" width="100%"
-                     cellpadding="0" cellspacing="0" border="0">
+        <s:div id="forumPostingControls" styleClass="forumPostingControls">
 
-            <c:forEach var="c" items="#{replyHome.comments}">
-                <s:div styleClass="replyContainer">
-                    <a id="comment#{c.id}"/>
+            <h:panelGroup rendered="#{not replyHome.showForm and replyHome.hasReplyPermission()}">
 
-                    <h:panelGrid columns="2"
-                                 styleClass="replyHeaderGrid"
-                                 columnClasses="replyHeaderInfo, replyHeaderControls"
-                                 cellpadding="0" cellspacing="0" border="0">
+                <s:link tabindex="1"
+                        action="#{replyHome.replyToDocument()}"
+                        accesskey="#{messages['forum.button.Reply.accesskey']}"
+                        styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Reply']}"/>
+                 </s:link>
 
-                        <s:span>
-                            <s:span styleClass="item">
-                                <h:outputText value="#{c.createdOn}">
-                                    <f:convertDateTime type="both" timeZone="#{wikiPreferences.timeZone}"/>
-                                </h:outputText>
-                            </s:span>
+                <s:link tabindex="1"
+                        action="#{replyHome.quoteDocument()}"
+                        styleClass="buttonNonpersistent"
+                        accesskey="#{messages['forum.button.Quote.accesskey']}">
+                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Quote']}"/>
+                 </s:link>
 
-                            <s:fragment rendered="#{wiki:isRegularUser(c.fromUser)}">
-                                <s:span styleClass="item">
-                                    <s:span styleClass="undecoratedLink">
-                                        <h:outputLink value="#" onclick="jQuery('#userInfoPopup#{c.id}').jqmShow();">
-                                            <h:outputText value="#{c.fromUser.fullname}"/>
-                                        </h:outputLink>
-                                        <s:span rendered="#{c.fromUser.id != guestUser.id}">
-                                            <h:outputText value=",&#160;"/>
-                                            <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.fromUser.email))}">
-                                                <h:outputText value="#{wiki:escapeAtSymbol(c.fromUser.email)}"/>
-                                            </h:outputLink>
-                                        </s:span>
-                                    </s:span>
-                                </s:span>
+            </h:panelGroup>
 
-                                <ui:include src="../forumPosting/userInfoPopup.xhtml">
-                                    <ui:param name="user" value="#{c.fromUser}"/>
-                                    <ui:param name="userInfoPopupId" value="#{c.id}"/>
-                                </ui:include>
-                            </s:fragment>
+        </s:div>
 
-                            <s:span styleClass="item" rendered="#{not wiki:isRegularUser(c.fromUser)}">
-                                <h:outputText value="#{c.fromUser.fullname}"/>
-                            </s:span>
+    <!-- The forumPostingDocumentWrapper <div> is closed here! -->
+    <h:outputText escape="false" value="&lt;/div>"/>
 
-                            <s:span styleClass="item undecoratedLink">
-                                <h:outputLink value="#{wiki:renderCommentPermLink(currentDocument, c)}" target="_top">
-                                    <h:outputText value="#{messages['lacewiki.label.Link']}"/>
-                                </h:outputLink>
-                            </s:span>
+    <s:span id="forumRepliesContainer">
 
-                        </s:span>
+        <s:fragment rendered="#{currentDocument.enableComments}">
 
-                        <h:form>
-                        <h:panelGroup>
+            <ui:decorate template="../../includes/commentsDisplay.xhtml">
+                <ui:param name="titleSingular" value="#{messages['forum.label.Reply']}"/>
+                <ui:param name="titlePlural" value="#{messages['forum.label.Replies']}"/>
+                <ui:define name="controls">
 
-                            <a:commandLink rendered="#{s:hasPermission('Node', 'create', currentDirectory)
-                                                       and not replyHome.showForm and currentDocument.enableCommentForm}"
-                                           action="#{replyHome.newReplyToComment(c.id, false)}"
-                                           reRender="forumPostingHeaderControls, forumRepliesPluginContainer, messageBoxContainer"
-                                           focus="forumRepliesPlugin:replyForm:replyTextArea"
-                                           tabindex="1" styleClass="buttonNonpersistent">
-                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.Reply.nokey']}"/>
-                            </a:commandLink>
+                    <s:fragment rendered="#{not replyHome.showForm and replyHome.hasReplyPermission()}">
 
-                            <a:commandLink rendered="#{s:hasPermission('Node', 'create', currentDirectory)
-                                                       and not replyHome.showForm and currentDocument.enableCommentForm}"
-                                           action="#{replyHome.newReplyToComment(c.id, true)}"
-                                           reRender="forumPostingHeaderControls, forumRepliesPluginContainer, messageBoxContainer"
-                                           focus="forumRepliesPlugin:replyForm:replyTextArea"
-                                           tabindex="1" styleClass="buttonNonpersistent">
-                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.Quote.nokey']}"/>
-                            </a:commandLink>
+                        <s:link tabindex="102"
+                                action="#{replyHome.replyTo()}"
+                                styleClass="buttonNonpersistent">
+                            <f:param name="parentCommentId" value="#{c.id}"/>
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
+                        </s:link>
 
-                            <a:commandLink rendered="#{s:hasPermission('User', 'isAdmin', currentUser) and not replyHome.showForm}"
-                                           action="#{replyHome.remove(c.id)}"
-                                           reRender="forumRepliesPluginContainer, messageBoxContainer"
-                                           oncomplete="wrapBoxes();"
-                                           styleClass="button">
-                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.RemoveReply']}"/>
-                            </a:commandLink>
+                        <s:link tabindex="102"
+                                action="#{replyHome.quote()}"
+                                styleClass="buttonNonpersistent">
+                            <f:param name="parentCommentId" value="#{c.id}"/>
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
+                        </s:link>
 
-                            </h:panelGroup>
-                        </h:form>
+                    </s:fragment>
 
-                    </h:panelGrid>
+                     <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not replyHome.showForm}">
+                        <a:jsFunction name="deleteReplyId#{c.id}"
+                                      reRender="forumRepliesContainer"
+                                      action="#{replyHome.remove(c.id)}"/>
+                            <h:outputLink value="#"
+                                  onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.Comment']} \\'#{c.subject}\\'', 'deleteReplyId#{c.id}')"
+                                  styleClass="button sessionEventTrigger">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                        </h:outputLink>
+                    </s:fragment>
+                </ui:define>
+            </ui:decorate>
 
-                    <s:div styleClass="replyContent">
+            <ui:include src="replyForm.xhtml">
+                <ui:param name="home" value="#{replyHome}"/>
+            </ui:include>
 
+        </s:fragment>
 
-                        <s:div styleClass="replySubject undecoratedLink" rendered="#{currentDocument.name != c.subject}">
-                            <h:outputLink value="#{wiki:renderCommentURL(currentDocument, c)}">
-                                <h:outputText value="#{c.subject}"/>
-                            </h:outputLink>
-                        </s:div>
-
-                        <s:div styleClass="replyText">
-                            <wiki:formattedText value="#{c.text}"
-                                                linkStyleClass="regularLink"
-                                                brokenLinkStyleClass="brokenLink"
-                                                attachmentLinkStyleClass="regularLink"
-                                                thumbnailLinkStyleClass="regularLink"
-                                                renderBaseDocument="#{currentDocument}"
-                                                renderBaseDirectory="#{currentDirectory}"
-                                                enablePlugins="false"/>
-                        </s:div>
-
-                    </s:div>
-
-                </s:div>
-            </c:forEach>
-        </h:panelGrid>
-
-    </s:div>
-
-    <ui:include src="replyForm.xhtml"/>
-
-</s:span>
+    </s:span>
 
 </wiki:plugin>

@@ -7,7 +7,7 @@
        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <a:status id="status">
+    <a:status id="#{statusId}" forceId="true">
         <f:facet name="start">
             <s:div styleClass="statusStart">
                 <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/statusindicator.gif" width="20" height="25"/>

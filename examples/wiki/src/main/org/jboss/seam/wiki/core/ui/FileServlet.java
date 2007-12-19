@@ -1,6 +1,8 @@
 package org.jboss.seam.wiki.core.ui;
 
-import org.jboss.seam.wiki.core.model.File;
+import org.jboss.seam.wiki.core.model.WikiUpload;
+import org.jboss.seam.wiki.core.model.WikiUploadImage;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -46,39 +48,33 @@ public class FileServlet extends HttpServlet {
         if (DOWNLOAD_PATH.equals(request.getPathInfo())) {
 
             String id = request.getParameter("fileId");
-            File file = null;
+            WikiUpload file = null;
 
-            // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
-            UserTransaction userTx = null;
-            boolean startedTx = false;
-            try {
-
-                userTx = (UserTransaction)org.jboss.seam.Component.getInstance("org.jboss.seam.transaction.transaction");
-                if (userTx.getStatus() != javax.transaction.Status.STATUS_ACTIVE) {
-                    startedTx = true;
-                    userTx.begin();
-                }
-
-                EntityManager em = ((EntityManager)org.jboss.seam.Component.getInstance("restrictedEntityManager"));
-
-                if (!"".equals(id)) {
-                    try {
-                        file = (File)em.createQuery("select f from File f where f.id = :fid")
-                                .setParameter("fid", Long.parseLong(id))
-                                .getSingleResult();
-                    } catch (NoResultException ex) {
-                        // ignore... we want null
-                    }
-                }
-
-                if (startedTx) userTx.commit();
-            } catch (Exception ex) {
+            if (!"".equals(id)) {
+                // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
+                UserTransaction userTx = null;
+                boolean startedTx = false;
                 try {
-                    if (startedTx) userTx.rollback();
-                } catch (Exception rbEx) {
-                    rbEx.printStackTrace();
+
+                    userTx = (UserTransaction)org.jboss.seam.Component.getInstance("org.jboss.seam.transaction.transaction");
+                    if (userTx.getStatus() != javax.transaction.Status.STATUS_ACTIVE) {
+                        startedTx = true;
+                        userTx.begin();
+                    }
+
+                    WikiNodeDAO wikiNodeDAO = (WikiNodeDAO)org.jboss.seam.Component.getInstance("wikiNodeDAO");
+                    file = wikiNodeDAO.findWikiUpload(Long.parseLong(id));
+
+                    if (startedTx) userTx.commit();
+                } catch (Exception ex) {
+                    try {
+                        if (startedTx && userTx.getStatus() != javax.transaction.Status.STATUS_MARKED_ROLLBACK)
+                            userTx.rollback();
+                    } catch (Exception rbEx) {
+                        rbEx.printStackTrace();
+                    }
+                    throw new RuntimeException(ex);
                 }
-                throw new RuntimeException(ex);
             }
 
             String contentType = null;
@@ -89,17 +85,15 @@ public class FileServlet extends HttpServlet {
             if (file != null
                 && thumbnail != null
                 && Boolean.valueOf(thumbnail)
-                && file.getImageMetaInfo() != null
-                && file.getImageMetaInfo().getThumbnailData() != null
-                && file.getImageMetaInfo().getThumbnailData().length >0) {
+                && file.isInstance(WikiUploadImage.class)
+                && ((WikiUploadImage)file).getThumbnailData() != null
+                && ((WikiUploadImage)file).getThumbnailData().length >0) {
 
                 // Render thumbnail picture
                 contentType = file.getContentType();
-                data = file.getImageMetaInfo().getThumbnailData();
+                data = ((WikiUploadImage)file).getThumbnailData();
 
-            } else if (file != null
-                       && file.getData() != null
-                       && file.getData().length > 0) {
+            } else if (file != null && file.getData() != null && file.getData().length > 0) {
 
                 // Render file regularly
                 contentType = file.getContentType();
@@ -119,7 +113,7 @@ public class FileServlet extends HttpServlet {
                 // the file instead of displaying it
                 // TODO: What about PDFs? Lot's of people want to show PDFs inline...
                 if ( file != null &&
-                    ( file.getImageMetaInfo() == null || (file.getImageMetaInfo() != null && file.getImageMetaInfo().getThumbnail() == 'A') )
+                    ( !file.isInstance(WikiUploadImage.class) || ( ((WikiUploadImage)file).getThumbnail() == 'A') )
                    ) {
                     response.setHeader("Content-Disposition", "attachement; filename=\"" + file.getFilename() + "\"" );
                 }

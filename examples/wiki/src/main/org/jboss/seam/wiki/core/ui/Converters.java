@@ -10,12 +10,12 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
-import org.jboss.seam.wiki.core.importers.metamodel.Importer;
-import org.jboss.seam.wiki.core.importers.metamodel.ImporterRegistry;
+import org.jboss.seam.wiki.core.upload.importers.metamodel.Importer;
+import org.jboss.seam.wiki.core.upload.importers.metamodel.ImporterRegistry;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -105,7 +105,7 @@ public class Converters {
     @Name("treeNodeAdapter")
     public static class TreeNodeAdapter {
 
-        /* TODO: Fixme
+        /* TODO: Fixme or deleteme
         @Factory(value = "writableDirectoryTree", scope = ScopeType.CONVERSATION, autoCreate = true)
         public TreeNode loadWritableDirectoryTree() {
             Directory wikiroot = (Directory) Component.getInstance("restrictedWikiRoot");

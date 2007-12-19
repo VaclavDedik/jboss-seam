@@ -13,15 +13,10 @@ import java.util.Date;
 import java.io.Serializable;
 
 @Entity
-@Table(
-    name = "FEEDENTRY",
-    uniqueConstraints = {
-        // An entry can either be for a document (DOCUMENT_ID 123, COMMENT_IDENTIFIER null)
-        // or a comment (DOCUMENT_ID 123, COMMENT_IDENTIFIER 456). Duplicate comment identifiers
-        // for the same document are not allowed.
-        @UniqueConstraint(columnNames = {"DOCUMENT_ID", "COMMENT_IDENTIFIER"})
-    }
-)
+@Table(name = "FEEDENTRY")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "FEEDENTRY_TYPE", length = 255)
+@DiscriminatorValue("EXTERNAL")
 public class FeedEntry implements Serializable, Comparable {
 
     public static final String END_TEASER_MACRO = "endTeaser";
@@ -34,7 +29,7 @@ public class FeedEntry implements Serializable, Comparable {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    protected Integer version;
+    protected int version;
 
     @Column(name = "LINK", nullable = false)
     @Length(min = 3, max = 1024)
@@ -61,14 +56,6 @@ public class FeedEntry implements Serializable, Comparable {
     @Column(name = "DESCRIPTION_VALUE", nullable = false)
     @Length(min = 1, max = 32768)
     private String descriptionValue;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DOCUMENT_ID", nullable = false)
-    @org.hibernate.annotations.ForeignKey(name = "FK_FEEDENTRY_DOCUMENT_ID")
-    private Document document;
-
-    @Column(name = "COMMENT_IDENTIFIER", nullable = true)
-    private Long commentIdentifier;
 
     public FeedEntry() {}
 
@@ -148,20 +135,8 @@ public class FeedEntry implements Serializable, Comparable {
         return isTeaserMarkerPresent() ? stripped.substring(0, stripped.indexOf(END_TEASER_MARKER)) : stripped;
     }
 
-    public Document getDocument() {
-        return document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
-    }
-
-    public Long getCommentIdentifier() {
-        return commentIdentifier;
-    }
-
-    public void setCommentIdentifier(Long commentIdentifier) {
-        this.commentIdentifier = commentIdentifier;
+    public int getReadAccessLevel() {
+        return 0; // No restrictions
     }
 
     // Sort by date
@@ -172,10 +147,11 @@ public class FeedEntry implements Serializable, Comparable {
     }
 
     public String toString() {
-        return "FeedEntry: " + getId();
+        return "FeedEntry (" + getId() + ")";
     }
 
     private String stripHTMLTags(String original) {
         return original.replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
     }
+
 }

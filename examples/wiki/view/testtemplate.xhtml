@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:wiki="http://jboss.com/products/seam/wiki"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax">
+
+<head><title>Test</title>
+
+    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/resource/remote.js"></script>
+
+    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
+
+    <script type="text/javascript">
+        Seam.Remoting.displayLoadingMessage = function() {};
+        Seam.Remoting.hideLoadingMessage = function() {};
+
+        var sessionChecker = Seam.Component.getInstance("httpSessionChecker");
+        var test = null;
+
+        function startTest() {
+            alert("Start");
+            test = setInterval('sessionChecker.isNewSession(testCallback)', 3000);
+        }
+
+        function testCallback(result) {
+            window.status = result;
+        }
+    </script>
+
+</head>
+<body>
+
+<ui:insert name="content"/>
+
+</body>
+</html>

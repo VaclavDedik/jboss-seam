@@ -17,11 +17,9 @@
 
 <s:div id="screen">
 
-    <s:div id="header">
-        <h:outputText value="Seam Framework - "/><ui:insert name="screenname"/>
-    </s:div>
+    <h:outputText value="Seam Framework - "/><ui:insert name="screenname"/>
 
-    <s:div id="control">
+    <s:div id="control" rendered="#{not hideControls}">
         <ui:insert name="control"/>
     </s:div>
 
@@ -77,7 +75,7 @@
 
                 <h:commandButton action="#{authenticator.logout}" value="#{messages['lacewiki.button.Logout']}"/>
 
-                <h:outputLink styleClass="userControlLink" value="#{wiki:renderHomeURL(currentUser)}"
+                <h:outputLink styleClass="userControlLink" value="#{wiki:renderURL(currentUser.memberHome)}"
                         rendered="#{!empty currentUser.memberHome}">#{messages['lacewiki.button.Home']}</h:outputLink>
 
             </h:panelGrid>

@@ -10,10 +10,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.ScopeType;
 
 import java.io.Serializable;
@@ -28,17 +27,17 @@ import java.io.Serializable;
 public class DirMenu implements Serializable {
 
     @In
-    Directory currentDirectory;
+    WikiDirectory currentDirectory;
 
     @In
-    NodeDAO nodeDAO;
+    WikiNodeDAO wikiNodeDAO;
 
     @In
     DirMenuPreferences dirMenuPreferences;
+/*
+    NestedSetNodeWrapper<WikiDirectoryNSDelegate> root;
 
-    NestedSetNodeWrapper<Node> root;
-
-    public NestedSetNodeWrapper<Node> getRoot() {
+    public NestedSetNodeWrapper<WikiDirectoryNSDelegate> getRoot() {
         if (root == null) {
             refreshRoot();
         }
@@ -47,6 +46,7 @@ public class DirMenu implements Serializable {
 
     @Observer("PreferenceComponent.refresh.dirMenuPreferences")
     public void refreshRoot() {
-        root = nodeDAO.findMenuItems(currentDirectory, dirMenuPreferences.getMenuDepth(), dirMenuPreferences.getMenuLevels(), false);
+        root = wikiNodeDAO.findWikiDirectoryTree(currentDirectory, dirMenuPreferences.getMenuDepth(), dirMenuPreferences.getMenuLevels(), false);
     }
+    */
 }

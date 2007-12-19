@@ -8,16 +8,15 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.dao.UserDAO;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
+import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
-import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.util.Base64;
 import org.jboss.seam.core.Events;
@@ -85,7 +84,7 @@ public class Authenticator {
     }
 
     private User getUserForCredentials(String username, String password) {
-        if (org.jboss.seam.wiki.core.dao.UserRoleAccessFactory.GUEST_USERNAME.equals(username)) return null;
+        if (User.GUEST_USERNAME.equals(username)) return null;
         User user = userDAO.findUser(username, true, true);
         if (user == null || password == null || !user.getPasswordHash().equalsIgnoreCase(hashUtil.hash(password))) {
             log.info("Invalid authentication credentials for user: " + username);
@@ -131,19 +130,18 @@ public class Authenticator {
 
     public void createHomeDirectory(User user) {
 
-        NodeDAO nodeDAO = (NodeDAO)Component.getInstance("nodeDAO");
+        WikiNodeDAO nodeDAO = (WikiNodeDAO)Component.getInstance("wikiNodeDAO");
 
         // Create home directory
-        Directory memberArea = (Directory)Component.getInstance("memberArea");
+        WikiDirectory memberArea = (WikiDirectory)Component.getInstance("memberArea");
 
-        Directory homeDirectory = new Directory(user.getUsername());
+        WikiDirectory homeDirectory = new WikiDirectory(user.getUsername());
         homeDirectory.setWikiname(WikiUtil.convertToWikiName(homeDirectory.getName()));
         homeDirectory.setAreaNumber(memberArea.getAreaNumber());
         homeDirectory.setCreatedBy(user);
-        homeDirectory.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
-        homeDirectory.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
-        homeDirectory.setMenuItem(true);
-        memberArea.addChild(homeDirectory);
+        homeDirectory.setWriteAccessLevel(Role.ADMINROLE_ACCESSLEVEL);
+        homeDirectory.setReadAccessLevel(Role.GUESTROLE_ACCESSLEVEL);
+        homeDirectory.setParent(memberArea);
         user.setMemberHome(homeDirectory);
 
         // Create feed for home directory
@@ -156,19 +154,23 @@ public class Authenticator {
         nodeDAO.makePersistent(homeDirectory);
 
         // Create home page
-        Document homePage = new Document("Home of " + user.getUsername());
+        WikiDocument homePage = new WikiDocument();
+        homePage.setName("Home of " + user.getUsername());
         homePage.setWikiname(WikiUtil.convertToWikiName(homePage.getName()));
         homePage.setCreatedBy(user);
         homePage.setAreaNumber(homeDirectory.getAreaNumber());
         homePage.setContent(
             ((UserManagementPreferences)Component.getInstance("userManagementPreferences")).getHomepageDefaultContent()
         );
-        homePage.setWriteAccessLevel(UserRoleAccessFactory.ADMINROLE_ACCESSLEVEL);
-        homePage.setReadAccessLevel(UserRoleAccessFactory.GUESTROLE_ACCESSLEVEL);
-        homePage.setMenuItem(true);
-        homePage.setMacros(WikiUtil.findMacros(homePage, homeDirectory, homePage.getContent()));
-        homeDirectory.addChild(homePage);
-        homeDirectory.setDefaultDocument(homePage);
+        homePage.setWriteAccessLevel(Role.ADMINROLE_ACCESSLEVEL);
+        homePage.setReadAccessLevel(Role.GUESTROLE_ACCESSLEVEL);
+
+        MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(homeDirectory.getAreaNumber(), homePage.getContent());
+        homePage.setContentMacros(renderer.getMacros());
+        homePage.setContentMacrosString(renderer.getMacrosString());
+
+        homePage.setParent(homeDirectory);
+        homeDirectory.setDefaultFile(homePage);
 
         nodeDAO.makePersistent(homePage);
     }

@@ -22,12 +22,12 @@
                     <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
                                     width="18" height="20"
                                     rendered="#{wiki:isDocument(childWrapper.wrappedNode)}"/>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap[childWrapper.wrappedNode.contentType].displayIcon}"
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes[childWrapper.wrappedNode.contentType].displayIcon}"
                                     width="18" height="20"
-                                    rendered="#{wiki:isFile(childWrapper.wrappedNode) and !empty fileMetaMap[childWrapper.wrappedNode.contentType]}"/>
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{fileMetaMap['generic'].displayIcon}"
+                                    rendered="#{wiki:isFile(childWrapper.wrappedNode) and !empty uploadTypes[childWrapper.wrappedNode.contentType]}"/>
+                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes['generic'].displayIcon}"
                                     width="18" height="20"
-                                    rendered="#{wiki:isFile(childWrapper.wrappedNode) and empty fileMetaMap[childWrapper.wrappedNode.contentType]}"/>
+                                    rendered="#{wiki:isFile(childWrapper.wrappedNode) and empty uploadTypes[childWrapper.wrappedNode.contentType]}"/>
                 </s:span>
 
                 <h:outputLink styleClass="level#{childWrapper.level}Link" target="_top"

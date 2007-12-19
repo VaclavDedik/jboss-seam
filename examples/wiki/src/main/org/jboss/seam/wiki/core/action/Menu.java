@@ -7,13 +7,12 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.log.Log;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Node;
-import org.jboss.seam.wiki.core.nestedset.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
 
 import java.io.Serializable;
 
@@ -23,33 +22,33 @@ import java.io.Serializable;
  * @author Christian Bauer
  */
 @Name("menu")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.SESSION)
 public class Menu implements Serializable {
 
     @Logger
     Log log;
 
     @In
-    Directory wikiRoot;
+    WikiDirectory wikiRoot;
 
     @In
-    NodeDAO nodeDAO;
+    WikiNodeDAO wikiNodeDAO;
 
     @In
     WikiPreferences wikiPreferences;
 
-    NestedSetNodeWrapper<Node> root;
-    public NestedSetNodeWrapper<Node> getRoot() {
+    NestedSetNodeWrapper<WikiDirectory> root;
+    public NestedSetNodeWrapper<WikiDirectory> getRoot() {
         if (root == null) {
             refreshRoot();
         }
         return root;
     }
 
-    @Observer(value = "Nodes.menuStructureModified", create = false)
+    @Observer(value = { "Nodes.menuStructureModified", "PersistenceContext.filterReset" }, create = false)
     public void refreshRoot() {
         log.debug("Loading menu items tree");
-        root = nodeDAO.findMenuItems(
+        root = wikiNodeDAO.findMenuItemTree(
                 wikiRoot,
                 wikiPreferences.getMainMenuDepth(), 
                 wikiPreferences.getMainMenuLevels(),

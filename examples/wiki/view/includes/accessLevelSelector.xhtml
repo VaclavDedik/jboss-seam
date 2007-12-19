@@ -5,17 +5,17 @@
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib"
-     rendered="#{currentUser != guestUser}">
+     rendered="#{!currentUser.guest}">
 
     <s:div styleClass="entry">
         <div class="label">#{messages['lacewiki.label.ReadableBy']}:</div>
         <div class="input">
-            <h:selectOneMenu value="#{nodeHome.readAccessLevel}" tabindex="1">
+            <h:selectOneMenu value="#{home.readAccessLevel}" tabindex="1">
                 <s:selectItems value="#{assignableAccessLevelsList}"
                                var="aLvl"
                                label="Role: #{wiki:truncateString(aLvl.roleNames, 40, '...')}"
-                               noSelectionLabel="#{currentUser.id == nodeHome.instance.createdBy.id
-                                                   || empty nodeHome.instance.createdBy
+                               noSelectionLabel="#{currentUser.id == home.instance.createdBy.id
+                                                   || empty home.instance.createdBy
                                                    ? wiki:concat('User: ', currentUser.username)
                                                    : null}"/>
             </h:selectOneMenu>
@@ -25,12 +25,12 @@
     <s:div styleClass="entry">
         <div class="label">#{messages['lacewiki.label.WritableBy']}:</div>
         <div class="input">
-            <h:selectOneMenu value="#{nodeHome.writeAccessLevel}" tabindex="1">
+            <h:selectOneMenu value="#{home.writeAccessLevel}" tabindex="1">
                 <s:selectItems value="#{assignableAccessLevelsList}"
                                var="aLvl"
                                label="Role: #{wiki:truncateString(aLvl.roleNames, 40, '...')}"
-                               noSelectionLabel="#{currentUser.id == nodeHome.instance.createdBy.id
-                                                   || empty nodeHome.instance.createdBy
+                               noSelectionLabel="#{currentUser.id == home.instance.createdBy.id
+                                                   || empty home.instance.createdBy
                                                    ? wiki:concat('User: ', currentUser.username)
                                                    : null}"/>
             </h:selectOneMenu>

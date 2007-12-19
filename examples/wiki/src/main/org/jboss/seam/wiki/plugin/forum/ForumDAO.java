@@ -3,17 +3,16 @@ package org.jboss.seam.wiki.plugin.forum;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Comment;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiMenuItem;
 import org.hibernate.Session;
 import org.hibernate.ScrollableResults;
 import org.hibernate.transform.ResultTransformer;
 
 import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Date;
+import java.util.*;
 
 @Name("forumDAO")
 @AutoCreate
@@ -25,24 +24,23 @@ public class ForumDAO {
     @In
     EntityManager restrictedEntityManager;
 
-    public List<Directory> findForums(Directory forumDirectory) {
-        return getSession(true).getNamedQuery("forums")
-                .setParameter("parentDir", forumDirectory)
+    public List<WikiMenuItem> findForumsMenuItems(WikiDirectory forumsDirectory) {
+        return getSession(true).getNamedQuery("forumsMenuItems")
+                .setParameter("parentDir", forumsDirectory)
                 .list();
     }
-    
-    public Map<Long, ForumInfo> findForumInfo(Directory forumDirectory) {
-        final Map<Long, ForumInfo> forumInfoMap = new HashMap<Long, ForumInfo>();
 
-        // Append thread and posting count
-        getSession(true).getNamedQuery("forumTopicPostCount")
-            .setParameter("parentDir", forumDirectory)
+    public Map<Long, ForumInfo> findForums(WikiDirectory forumsDirectory) {
+        final Map<Long, ForumInfo> forumInfoMap = new LinkedHashMap<Long, ForumInfo>();
+
+        getSession(true).getNamedQuery("forums")
+            .setParameter("parentDir", forumsDirectory)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
                         forumInfoMap.put(
                             (Long) result[0],
-                            new ForumInfo( (Long)result[1], (Long)result[2])
+                            new ForumInfo( (WikiDirectory)result[1])
                         );
                         return null;
                     }
@@ -51,14 +49,17 @@ public class ForumDAO {
             )
             .list();
 
-        // Append last topic Document
-        getSession(true).getNamedQuery("forumLastTopic")
-            .setParameter("parentDir", forumDirectory)
+        // Find topic count (topics are just wiki documents in the forum directories)
+        getSession(true).getNamedQuery("forumTopicCount")
+            .setParameter("parentDir", forumsDirectory)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
-                        if (forumInfoMap.containsKey((Long)result[0]))
-                            forumInfoMap.get( (Long)result[0] ).setLastTopic( (ForumTopic)result[1] );
+                        if (forumInfoMap.containsKey((Long)result[0])) {
+                            ForumInfo info = forumInfoMap.get( (Long)result[0] );
+                            info.setTotalNumOfTopics((Long)result[1]);
+                            info.setTotalNumOfPosts(info.getTotalNumOfTopics());
+                        }
                         return null;
                     }
                     public List transformList(List list) { return list; }
@@ -66,16 +67,48 @@ public class ForumDAO {
             )
             .list();
 
-        // Append last reply Comment
-        getSession(true).getNamedQuery("forumLastComment")
-            .setParameter("nsLeft", forumDirectory.getNsLeft())
-            .setParameter("nsRight", forumDirectory.getNsRight())
-            .setParameter("nsThread", forumDirectory.getNsThread())
+        // Add reply count to topic count to get total num of posts
+        getSession(true).getNamedQuery("forumReplyCount")
+            .setParameter("parentDir", forumsDirectory)
+            .setResultTransformer(
+                new ResultTransformer() {
+                    public Object transformTuple(Object[] result, String[] strings) {
+                        if (forumInfoMap.containsKey((Long)result[0])) {
+                            ForumInfo info = forumInfoMap.get( (Long)result[0] );
+                            info.setTotalNumOfPosts(
+                                info.getTotalNumOfPosts() + (Long)result[1]
+                            );
+                        }
+                        return null;
+                    }
+                    public List transformList(List list) { return list; }
+                }
+            )
+            .list();
+
+        // Append last topic WikiDocument
+        getSession(true).getNamedQuery("forumLastTopic")
+            .setParameter("parentDir", forumsDirectory)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
                         if (forumInfoMap.containsKey((Long)result[0]))
-                            forumInfoMap.get( (Long)result[0] ).setLastComment( (Comment)result[1] );
+                            forumInfoMap.get( (Long)result[0] ).setLastTopic( (WikiDocument)result[1] );
+                        return null;
+                    }
+                    public List transformList(List list) { return list; }
+                }
+            )
+            .list();
+
+        // Append last reply WikiComment
+        getSession(true).getNamedQuery("forumLastReply")
+                .setParameter("parentDir", forumsDirectory)
+            .setResultTransformer(
+                new ResultTransformer() {
+                    public Object transformTuple(Object[] result, String[] strings) {
+                        if (forumInfoMap.containsKey((Long)result[0]))
+                            forumInfoMap.get( (Long)result[0] ).setLastComment( (WikiComment)result[1] );
                         return null;
                     }
                     public List transformList(List list) { return list; }
@@ -86,7 +119,50 @@ public class ForumDAO {
         return forumInfoMap;
     }
 
-    public Long findTopicCount(Directory forum) {
+    public Map<Long, Long> findUnreadTopicAndParentIds(WikiDirectory forumsDir, Date lastLoginDate) {
+        return findUnreadTopicAndParentIds("forumUnreadTopics", "forumUnreadReplies", forumsDir, lastLoginDate);
+    }
+
+    public Map<Long, Long> findUnreadTopicAndParentIdsInForum(WikiDirectory forum, Date lastLoginDate) {
+        return findUnreadTopicAndParentIds("forumUnreadTopicsInForum", "forumUnreadRepliesInForum", forum, lastLoginDate);
+    }
+
+    private Map<Long, Long> findUnreadTopicAndParentIds(String unreadTopicsQuery, String unreadRepliesQuery,
+                                                        WikiDirectory directory, Date lastLoginDate) {
+        final Map<Long, Long> unreadTopics = new HashMap<Long, Long>();
+
+        getSession(true).getNamedQuery(unreadTopicsQuery)
+            .setParameter("parentDir", directory)
+            .setParameter("lastLoginDate", lastLoginDate)
+            .setResultTransformer(
+                new ResultTransformer() {
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        unreadTopics.put((Long)objects[0], (Long)objects[1]);
+                        return null;
+                    }
+                    public List transformList(List list) { return list;}
+                }
+            )
+            .list();
+
+        getSession(true).getNamedQuery(unreadRepliesQuery)
+            .setParameter("parentDir", directory)
+            .setParameter("lastLoginDate", lastLoginDate)
+            .setResultTransformer(
+                new ResultTransformer() {
+                    public Object transformTuple(Object[] objects, String[] strings) {
+                        unreadTopics.put((Long)objects[0], (Long)objects[1]);
+                        return null;
+                    }
+                    public List transformList(List list) { return list;}
+                }
+            )
+            .list();
+
+        return unreadTopics;
+    }
+
+    public Long findTopicCount(WikiDirectory forum) {
         ScrollableResults cursor =
             getSession(true).getNamedQuery("forumTopics")
                 .setParameter("forum", forum)
@@ -97,27 +173,45 @@ public class ForumDAO {
 
         return count;
     }
-   
-    public List<ForumTopic> findTopics(Directory forum, long firstResult, long maxResults) {
-        return getSession(true).getNamedQuery("forumTopics")
+
+    public Map<Long, TopicInfo> findTopics(WikiDirectory forum, long firstResult, long maxResults) {
+        final Map<Long, TopicInfo> topicInfoMap = new LinkedHashMap<Long, TopicInfo>();
+
+        getSession(true).getNamedQuery("forumTopics")
             .setParameter("forum", forum)
+            .setFirstResult(new Long(firstResult).intValue())
+            .setMaxResults(new Long(maxResults).intValue())
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
-                        return ForumTopic.fromArray(result);
+                        topicInfoMap.put(
+                            (Long) result[0],
+                            new TopicInfo( (WikiDocument)result[1], (Integer)result[2])
+                        );
+                        return null;
                     }
                     public List transformList(List list) { return list; }
                 }
             )
-            .setFirstResult(new Long(firstResult).intValue())
-            .setMaxResults(new Long(maxResults).intValue())
             .list();
-    }
+        getSession(true).getNamedQuery("forumTopicsReplies")
+            .setParameterList("topicIds", topicInfoMap.keySet())
+            .setResultTransformer(
+                new ResultTransformer() {
+                    public Object transformTuple(Object[] result, String[] strings) {
+                        if (topicInfoMap.containsKey((Long)result[0])) {
+                            TopicInfo info = topicInfoMap.get( (Long)result[0] );
+                            info.setNumOfReplies((Long)result[1]);
+                            info.setLastComment((WikiComment)result[2]);
+                        }
+                        return null;
+                    }
+                    public List transformList(List list) { return list; }
+                }
+            )
+            .list();
 
-    public List<ForumTopic> findUnreadTopics(Date lastLoginDate) {
-        return getSession(true).getNamedQuery("forumUnreadTopics")
-                .setParameter("lastLoginDate", lastLoginDate)
-                .list();
+        return topicInfoMap;
     }
 
     private Session getSession(boolean restricted) {

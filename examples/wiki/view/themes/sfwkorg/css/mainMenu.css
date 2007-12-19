@@ -1,5 +1,5 @@
 #mainMenu {
-    width: 220px;
+    width: 260px;
     background-color: #433930;
     border-top: 8px solid rgb(31, 32, 26);
     border-bottom: 8px solid rgb(31, 32, 26);
@@ -10,7 +10,6 @@
 }
 
 #mainMenu .level1 {
-    border-bottom: 1px solid #433930;
 }
 
 #mainMenu .level1Body {
@@ -26,41 +25,45 @@
 #mainMenu .level1Link {
     color:#ca884e;
     margin-left: 10px;
-    font-size: 12px;
-    font-weight:500;
+    font-size: 110%;
 }
 
 #mainMenu .level1Link:hover { color: #ffaf64; }
 
 #mainMenu .level1Children {
-    background-color:#433930;
+    background-color:#2A2B24;
+    border-bottom: 1px solid #433930;
 }
 
 #mainMenu .level2 {
     padding-left: 10px;
-    background-color:#32332b;
-    padding-top: 2px;
-    padding-bottom: 2px;
+    background-color:#2A2B24;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 #mainMenu .level2Marker {
-    display: none;
+    color: #ca884e;
+    margin-right: 4px;
+    font-size: 85%;
 }
 
 #mainMenu .level2Link {
     color: #ca884e;
     white-space: nowrap;
-    font-size: 10px;
-    font-weight:500;
+    font-size: 85%;
 }
 
 #mainMenu .level2Link:hover {color: #ffaf64}
 
 #mainMenu .level2Children {
-    background-color: #32332b;
+    background-color: #2A2B24;
 }
 
-#mainMenu .level3 {}
+#mainMenu .level3 {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
 
 #mainMenu .level3Marker {
     padding-left: 2px;
@@ -70,8 +73,7 @@
 }
 
 #mainMenu .level3Link {
-    font-size: 9px;
-    font-weight:500;
+    font-size: 80%;
     color: #ca884e;
     white-space: nowrap;
 }
@@ -89,8 +91,6 @@
 }
 
 #mainMenu .mainMenuFooter .feedIcon {
-    vertical-align: text-bottom;
-    padding-left: 5px;
 }
 
 #mainMenu .mainMenuFooter .feedLink {
@@ -100,6 +100,4 @@
 
 #mainMenu .mainMenuFooter .feedText {
     color:#ca884e;
-    font-size: 12px;
-    font-weight:500;
 }

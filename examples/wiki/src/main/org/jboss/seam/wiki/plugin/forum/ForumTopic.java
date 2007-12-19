@@ -1,7 +1,5 @@
 package org.jboss.seam.wiki.plugin.forum;
 
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Comment;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
 import org.jboss.seam.wiki.util.WikiUtil;
 
@@ -22,12 +20,14 @@ import javax.persistence.*;
  *
  * @author Christian Bauer
  */
+/*
 @Entity
 @DiscriminatorValue("FORUMTOPIC")
 @org.hibernate.search.annotations.Indexed
 @Searchable(description = "Forum Topics")
-public class ForumTopic extends Document {
-
+*/
+public class ForumTopic {
+/*
     @Transient
     protected final String[] MACROS_BEFORE_CONTENT =
             {"clearBackground", "forumPosting"};
@@ -102,7 +102,7 @@ public class ForumTopic extends Document {
     public void setContentWithoutMacros(String content) {
         // First, remove any macros that the user might have put into the text
         content = WikiUtil.removeMacros(content);
-        
+
         // Apply the macros before and after content, separated with double newlines
         StringBuilder contentWithMacros = new StringBuilder();
         for (String s : MACROS_BEFORE_CONTENT) contentWithMacros.append("[<=").append(s).append("]\n");
@@ -132,5 +132,5 @@ public class ForumTopic extends Document {
 
         return iconName.toString();
     }
-
+*/
 }

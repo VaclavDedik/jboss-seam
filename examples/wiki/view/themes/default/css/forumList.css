@@ -12,7 +12,8 @@
 }
 
 .forumTitle {
-    font-weight: bold;
+    font-weight: normal;
+    line-height: 160%;
 }
 
 .forumDescription {
@@ -43,8 +44,4 @@
     margin-left: 8px;
     margin-right: 8px;
     margin-bottom: 2px;
-}
-
-.userInfoPopupContainer {
-    text-align: left;
 }

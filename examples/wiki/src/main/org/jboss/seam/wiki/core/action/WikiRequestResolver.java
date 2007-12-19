@@ -6,17 +6,14 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.faces.FacesMessages;
-import org.jboss.seam.wiki.core.dao.NodeDAO;
-import org.jboss.seam.wiki.core.model.Document;
-import org.jboss.seam.wiki.core.model.Directory;
-import org.jboss.seam.wiki.core.model.Node;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.search.WikiSearch;
-import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.faces.application.FacesMessage;
 
@@ -33,13 +30,16 @@ import javax.faces.application.FacesMessage;
  * </pre>
  * <p>
  * 'Foo' is a WikiName of a directory with a parentless parent (ROOT), we call this a logical area.
- * 'Bar' is a WikiName of a node in that logical area, unique within that area subtree.
+ * 'Bar' is a WikiName of a node in that logical area, unique within that area subtree. A node can either
+ * be a document or a directory, so we don't know what 'Bar' is until we searched for it by its unique
+ * name inside the area.
  * </p>
  * <p>
  * We _never_ have URLs like <tt>http://host/Foo/Baz/Bar</tt> because 'Baz' would be a subdirectory
  * we don't need. An area name and a node name is enough, the node name is unique within
  * a subtree. We also never have <tt>http://host/Bar</tt>, a node name alone is not enough to
- * identify a node, we also need the area name.
+ * identify a node, we also need the area name. Of course, <tt>http://host/Foo</tt> is enough, then
+ * we look for a default document of that area.
  * </p>
  *<p>
  * If the given parameters can't be resolved, the following prodecure applies:
@@ -70,13 +70,10 @@ public class WikiRequestResolver {
     static Log log;
 
     @In
-    protected org.jboss.seam.faces.Redirect redirect;
-
-    @In
     private FacesMessages facesMessages;
 
     @In
-    protected NodeDAO nodeDAO;
+    protected WikiNodeDAO wikiNodeDAO;
 
     protected Long nodeId;
     public Long getNodeId() { return nodeId; }
@@ -95,63 +92,62 @@ public class WikiRequestResolver {
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
 
-    protected Document currentDocument = null;
-    public Document getCurrentDocument() { return currentDocument; }
-
-    protected Directory currentDirectory = null;
-    public Directory getCurrentDirectory() { return currentDirectory; }
+    protected WikiDocument currentDocument = null;
+    protected WikiDirectory currentDirectory = null;
 
     public String resolve() {
+        log.debug("resolving wiki request, node id: " + getNodeId() + " area name: " + getAreaName() + " node name: " + getNodeName());
 
         // Queue a message if requested (for message passing across session invalidations and conversations)
         if (message != null) {
+            log.debug("wiki request contained message: " + message);
             facesMessages.addFromResourceBundle(
                 FacesMessage.SEVERITY_INFO,
                 message
             );
         }
 
-        // Have we been called with a nodeId request parameter, could be document or directory
+        // Have we been called with a nodeId request parameter, must be a document
         if (nodeId != null) {
             log.debug("trying to resolve node id: " + nodeId);
 
             // Try to find a document
-            currentDocument = nodeDAO.findDocument(nodeId);
-
-            // Document not found, see if it is a directory
-            if (currentDocument == null) {
-                currentDirectory = nodeDAO.findDirectory(nodeId);
-
-                // Try to get a default document of that directory
-                currentDocument = nodeDAO.findDefaultDocument(currentDirectory);
-
-            } else {
+            currentDocument = wikiNodeDAO.findWikiDocument(nodeId);
+            if (currentDocument != null) {
                 // Document found, take its directory
-                currentDirectory = currentDocument.getParent();
+                // TODO: Avoid cast
+                currentDirectory = (WikiDirectory)currentDocument.getParent();
+            } else {
+                // Let's check if the id was a directory
+                currentDirectory = wikiNodeDAO.findWikiDirectory(nodeId);
+
             }
 
         // Have we been called with an areaName and nodeName request parameter
         } else if (areaName != null && nodeName != null) {
             log.debug("trying to resolve area name: " + areaName + " and node name: " + nodeName);
 
-            // Try to find the area
-            Directory area = nodeDAO.findArea(areaName);
+            // Try to find the area/directory
+            WikiDirectory area = wikiNodeDAO.findArea(areaName);
             if (area != null) {
-                Node node = nodeDAO.findNodeInArea(area.getAreaNumber(), nodeName);
-                if (WikiUtil.isDirectory(node)) {
-                    currentDirectory = (Directory)node;
-                    currentDocument = nodeDAO.findDefaultDocument(currentDirectory);
-                 } else {
-                    currentDocument = (Document)node;
-                    currentDirectory = currentDocument != null ? currentDocument.getParent() : area;
+
+                // Try to find the document
+                WikiDocument doc = wikiNodeDAO.findWikiDocumentInArea(area.getAreaNumber(), nodeName);
+                if (doc != null) {
+                    // Found it, let's use that
+                    currentDocument = doc;
+                    // TODO: Avoid cast
+                    currentDirectory = (WikiDirectory)currentDocument.getParent();
+                } else {
+                    // Didn't find a document for the node name, let's see if it's a directory
+                    currentDirectory = wikiNodeDAO.findWikiDirectoryInArea(area.getAreaNumber(), nodeName);
                 }
             }
 
         // Or have we been called just with an areaName request parameter
         } else if (areaName != null) {
             log.debug("trying to resolve area name: " + areaName);
-            currentDirectory = nodeDAO.findArea(areaName);
-            currentDocument = nodeDAO.findDefaultDocument(currentDirectory);
+            currentDirectory = wikiNodeDAO.findArea(areaName);
         }
 
         log.debug("resolved directory: " + currentDirectory + " and document: " + currentDocument);
@@ -172,23 +168,32 @@ public class WikiRequestResolver {
             } else {
                 log.debug("falling back to wiki start document");
                 // Fall back to default document
-                currentDocument = (Document)Component.getInstance("wikiStart");
-                currentDirectory = currentDocument.getParent();
+                currentDocument = (WikiDocument)Component.getInstance("wikiStart");
+                // TODO: Avoid cast
+                currentDirectory = (WikiDirectory)currentDocument.getParent();
             }
         }
 
+        // Last attempt, in case nothing worked try the default document if we have a directory
+        if (currentDirectory != null && currentDocument == null) {
+            // We have a directory, let's see if it has a default file and if that is a document we can use
+            // TODO: Default can be a file, not only a document, currently the UI only allows you to set documents,
+            // so narrow the Hibernate proxy down to a document with a special DAO method and a NO_PROXY mapping
+            currentDocument = wikiNodeDAO.findDefaultDocument(currentDirectory);
+        }
+
         if (currentDocument != null) {
-            nodeId = currentDocument.getId();
             DocumentHome documentHome = (DocumentHome)Component.getInstance("documentHome");
-            documentHome.setId(nodeId);
+            documentHome.setNodeId(currentDocument.getId());
             documentHome.setInstance(currentDocument);
+            documentHome.afterNodeFound(currentDocument);
             log.debug("displaying document: " + currentDocument);
             return "docDisplay";
         } else {
-            nodeId = currentDirectory.getId();
             DirectoryHome directoryHome = (DirectoryHome)Component.getInstance("directoryHome");
-            directoryHome.setId(nodeId);
+            directoryHome.setNodeId(currentDirectory.getId());
             directoryHome.setInstance(currentDirectory);
+            directoryHome.afterNodeFound(currentDirectory);
             log.debug("displaying directory: " + currentDirectory);
             return "dirDisplay";
         }

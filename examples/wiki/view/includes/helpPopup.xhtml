@@ -44,24 +44,22 @@
 
         <s:div id="helpSelector">
             <h:panelGrid columns="3" styleClass="fullWidth"
+                    
                          columnClasses="alignLeft fivePercentColumn, alignLeft defaultColumn, alignRight tenPercentColumn">
                 <h:outputText value="#{messages['lacewiki.label.help.Browse']}:"/>
-                <h:form id="helpSelectorForm">
-                    <h:selectOneMenu
-                            value="#{help.selectedNode}"
-                            converter="#{nestedSetNodeWrapperRestrictedEntityConverter}">
+                <h:form id="helpSelectorForm" style="display:inline;">
+                    <h:selectOneMenu value="#{help.selectedNode}" styleClass="ajaxSupport" converter="#{nestedSetNodeWrapperRestrictedEntityConverter}">
                         <s:selectItems value="#{help.root.wrappedChildren}"
                                        var="helpNode"
-                                       label="#{wiki:repeatString('&#160;',helpNode.level)}#{wiki:isDocument(helpNode.wrappedNode) ? '&#183;' : '' }#{wiki:truncateString(helpNode.wrappedNode.name, 40, '...')}"
-                                       noSelectionLabel="#{help.root.wrappedNode.name}"/>
-                        <a:support event="onchange" reRender="helpSelectorFullscreenLink, helpContent"/>
+                                       label="#{wiki:repeatString('&#160;',helpNode.level-1)}#{wiki:truncateString(helpNode.wrappedNode.name, 40, '...')}"/>
+                        <a:support event="onchange" reRender="helpSelectorForm, helpSelectorFullscreenLink, helpContent" oncomplete="onAjaxRequestComplete()"/>
                     </h:selectOneMenu>
                 </h:form>
 
                 <h:panelGroup>
                     <s:span id="helpSelectorFullscreenLink">
-                        <h:outputLink value="#{wiki:renderURL(help.selectedNode.wrappedNode)}"
-                                      rendered="#{not empty help.selectedNode}"
+                        <h:outputLink value="#{wiki:renderURL(help.selectedDocument)}"
+                                      rendered="#{not empty help.selectedDocument}"
                                       styleClass="buttonNonpersistent"
                                       tabindex="1">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.help.OpenFullscreen']}"/>
@@ -95,7 +93,8 @@
                 </script>
             </s:fragment>
         </s:div>
+
     </ui:define>
-    <ui:define name="dialogControls"></ui:define>
+    <ui:define name="dialogControls"/>
 
 </ui:decorate>

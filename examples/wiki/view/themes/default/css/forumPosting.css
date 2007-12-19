@@ -1,29 +1,40 @@
-.postingHeaderGrid {
-    background: #fff url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
-    border: 1px solid #C3BBB6;
-    padding-top: 5px;
-    padding-bottom: 5px;
+.forumPostingHeaderInfoControls {
     width: 100%;
+    margin-bottom: 10px;
 }
 
-.postingHeaderInfo {
-    font-size: 70%;
-    padding-left: 10px;
+.forumPostingHeaderInfo {
+    text-align: left;
 }
 
-.postingHeaderInfo .item {
-    margin-right: 20px;
-}
-
-.postingHeaderControls {
+.forumPostingHeaderControls {
     text-align: right;
     white-space: nowrap;
 }
 
-.postingSubject {
-
+.forumPostingControls {
+    text-align: right;
+    white-space: nowrap;
+}
+    
+.forumPostingDocumentWrapper {
+    border-left: 1px solid #C3BBB6;
+    border-right: 1px solid #C3BBB6;
+    border-top: 1px solid #C3BBB6;
+    padding: 5px;
 }
 
-.userInfoPopupContainer {
-    left: 30%;    
+.forumPostingDocumentWrapper .subjectLink {
+    margin-left: 10px;
+    font-weight: normal;
+    line-height: 100%;
 }
+
+.forumPostingDocumentWrapper .subjectIcon {
+    vertical-align: text-top;
+}
+
+.noComments {
+    border-bottom: 1px solid #C3BBB6;
+}
+

@@ -2,6 +2,10 @@
 }
 
 #searchControlForm {
+    display: inline;
+    margin: 0;
+    border: 0;
+    padding: 0;
 }
 
 #searchControl .searchControlTable {
@@ -17,9 +21,11 @@
 
 #searchControl .searchControlInput {
     background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
-    font-size: 75%;
-    padding: 2px;
+    font-size: 90%;
+    padding: 1px;
+    padding-top: 0;
     margin: 0;
+    margin-bottom: 1px;
     border: 0;
 }
 
