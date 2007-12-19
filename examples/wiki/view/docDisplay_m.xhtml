@@ -230,10 +230,12 @@
                                         <f:param name="userId" value="#{c.createdBy.id}"/>
                                         <h:outputText value="#{c.createdBy.fullname}"/>
                                     </s:link>
-                                    <br/>
-                                    <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.createdBy.email))}">
-                                        <h:outputText value="#{wiki:escapeAtSymbol(c.createdBy.email)}"/>
-                                    </h:outputLink>
+                                    <s:fragment rendered="#{wiki:showEmailAddress()}">
+                                        <br/>
+                                        <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.createdBy.email))}">
+                                            <h:outputText value="#{wiki:escapeAtSymbol(c.createdBy.email)}"/>
+                                        </h:outputLink>
+                                    </s:fragment>
                                 </s:div>
 
                                 <s:div rendered="#{not c.ownedByRegularUser}">

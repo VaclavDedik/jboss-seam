@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.util;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.*;
@@ -118,6 +119,16 @@ public class WikiUtil {
         if (node == null || node.getId() == null) return "";
         WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
         return prefs.getBaseUrl() + node.getWikiURL();
+    }
+
+    public static boolean showEmailAddress() {
+        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+        if (prefs.isShowEmailToLoggedInOnly() && Identity.instance().isLoggedIn()) {
+            return true;
+        } else if (!prefs.isShowEmailToLoggedInOnly()) {
+            return true;
+        }
+        return false;
     }
 
     public static String displayFilesize(int fileSizeInBytes) {

@@ -78,23 +78,26 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
     @NotNull
     private String atSymbolReplacement;
 
-    @Preference(description = "12. Flatten main menu to levels (set to 0 for unlimited visible levels)", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "12. Show e-mail addresses only to logged-in users", visibility = PreferenceVisibility.SYSTEM)
+    private Boolean showEmailToLoggedInOnly;
+
+    @Preference(description = "13. Flatten main menu to levels (set to 0 for unlimited visible levels)", visibility = PreferenceVisibility.SYSTEM)
     @Range(min = 0l, max = 10l)
     @NotNull
     private Long mainMenuLevels;
 
-    @Preference(description = "13. Maximum depth of main menu nodes", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "14. Maximum depth of main menu nodes", visibility = PreferenceVisibility.SYSTEM)
     @Range(min = 1l, max = 99l)
     @NotNull
     private Long mainMenuDepth;
 
-    @Preference(description = "14. Show only nodes owned by system administrator in main menu", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "15. Show only nodes owned by system administrator in main menu", visibility = PreferenceVisibility.SYSTEM)
     private Boolean mainMenuShowAdminOnly;
 
-    @Preference(description = "15. Show document creator/edit history in document footer", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "16. Show document creator/edit history in document footer", visibility = PreferenceVisibility.SYSTEM)
     private Boolean showDocumentCreatorHistory;
     
-    @Preference(description = "16. Show document tags in document footer", visibility = PreferenceVisibility.SYSTEM)
+    @Preference(description = "17. Show document tags in document footer", visibility = PreferenceVisibility.SYSTEM)
     private Boolean showTags;
 
     public String getBaseUrl() {
@@ -139,6 +142,10 @@ public class WikiPreferences extends PreferenceSupport implements Serializable {
 
     public String getAtSymbolReplacement() {
         return atSymbolReplacement;
+    }
+
+    public Boolean isShowEmailToLoggedInOnly() {
+        return showEmailToLoggedInOnly;
     }
 
     public Long getMainMenuLevels() {

@@ -189,7 +189,7 @@
                 #{u.lastname}
             </h:column>
 
-            <h:column>
+            <h:column rendered="#{wiki:showEmailAddress()}">
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('email')}" tabindex="1">
                         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"

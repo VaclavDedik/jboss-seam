@@ -169,7 +169,7 @@
                     #{u.lastname}
                 </h:column>
 
-                <h:column>
+                <h:column rendered="#{wiki:showEmailAddress()}">
                     <f:facet name="header">
                         <a:commandLink action="#{userSearch.sortBy('email')}" tabindex="20" reRender="dialogOwnerSelectionContent"
                                        oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"

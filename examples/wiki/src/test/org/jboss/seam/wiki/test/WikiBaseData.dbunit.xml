@@ -18,6 +18,7 @@
     <PREFERENCE PREF_ID = "14" OBJ_VERSION = "0" COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "mainMenuShowAdminOnly" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "false"/>
     <PREFERENCE PREF_ID = "15" OBJ_VERSION = "0" COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "showDocumentCreatorHistory" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
     <PREFERENCE PREF_ID = "16" OBJ_VERSION = "0" COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "showTags" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "17" OBJ_VERSION = "0" COMPONENT_NAME = "wikiPreferences" PROPERTY_NAME = "showEmailToLoggedInOnly" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
 
     <PREFERENCE PREF_ID = "20" OBJ_VERSION = "0" COMPONENT_NAME = "docEditorPreferences" PROPERTY_NAME = "minorRevisionEnabled" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
     <PREFERENCE PREF_ID = "21" OBJ_VERSION = "0" COMPONENT_NAME = "docEditorPreferences" PROPERTY_NAME = "regularEditAreaRows" STRING_VALUE = "[NULL]" LONG_VALUE = "15" BOOLEAN_VALUE = "[NULL]"/>

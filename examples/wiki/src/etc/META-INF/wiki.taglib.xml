@@ -37,6 +37,12 @@
     </function>
 
     <function>
+        <function-name>showEmailAddress</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean showEmailAddress()</function-signature>
+    </function>
+
+    <function>
         <function-name>convertToWikiName</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String convertToWikiName(java.lang.String)</function-signature>

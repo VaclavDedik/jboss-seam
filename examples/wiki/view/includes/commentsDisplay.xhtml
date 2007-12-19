@@ -64,10 +64,12 @@
                                     <h:outputText value="#{c.createdBy.fullname}"/>
                                 </s:link>
                             </s:span>
-                            <h:outputText value="&#160;|&#160;"/>
-                            <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.createdBy.email))}">
-                                <h:outputText value="#{wiki:escapeAtSymbol(c.createdBy.email)}"/>
-                            </h:outputLink>
+                            <s:fragment rendered="#{wiki:showEmailAddress()}">
+                                <h:outputText value="&#160;|&#160;"/>
+                                <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.createdBy.email))}">
+                                    <h:outputText value="#{wiki:escapeAtSymbol(c.createdBy.email)}"/>
+                                </h:outputLink>
+                            </s:fragment>
                         </s:div>
                         <s:div rendered="#{not c.ownedByRegularUser}">
                             <h:outputText rendered="#{empty c.fromUserHomepage}" value="#{c.fromUserName}"/>
