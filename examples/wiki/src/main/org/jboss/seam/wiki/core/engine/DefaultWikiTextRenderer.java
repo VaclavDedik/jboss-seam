@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.core.engine;
 
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.core.model.WikiMacro;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     public String renderInlineLink(WikiLink inlineLink) {
         return !inlineLink.isBroken() ?
                 "<a href=\""
-                + WikiUtil.renderURL(inlineLink.getNode(), null)
+                + WikiUtil.renderURL(inlineLink.getFile())
                 + "\">"
                 + inlineLink.getDescription()
                 + "</a>" : "[Broken Link]";
@@ -39,6 +40,8 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     public String renderMacro(String macroName) {
         return "[Macro]";
     }
+
+    public void addMacro(WikiMacro macro) {}
 
     public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
     public void setExternalLinks(List<WikiLink> externalLinks) {}
@@ -76,7 +79,7 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     }
 
     public String renderOrderedListItemOpenTag() {
-        return "<ol class=\"wikiOrderedListItem\">";
+        return "<li class=\"wikiOrderedListItem\">";
     }
 
     public String renderUnorderedListOpenTag() {
@@ -84,6 +87,6 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     }
 
     public String renderUnorderedListItemOpenTag() {
-        return "<ul class=\"wikiUnorderedListItem\">";
+        return "<li class=\"wikiUnorderedListItem\">";
     }
 }
