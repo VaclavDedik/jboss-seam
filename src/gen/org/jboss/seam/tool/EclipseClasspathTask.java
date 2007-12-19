@@ -74,7 +74,7 @@ public class EclipseClasspathTask extends Task
             String line = reader.readLine();
             if (line.contains(filterProperty))
             {
-               line = line.replaceFirst("@" + filterProperty + "@", eclipsepaths);
+               line = line.replace("@" + filterProperty + "@", eclipsepaths);
             }
             writer.write(line + "\r\n");
          }
