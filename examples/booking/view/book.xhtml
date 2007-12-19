@@ -27,12 +27,12 @@
 			
 		<s:decorate id="checkinDateDecorate" template="edit.xhtml">
 			<ui:define name="label">Check In Date:</ui:define>
-			<rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkinDateDecorate" />
+			<rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkinDateDecorate" style="width: auto;" />
 		</s:decorate>
 		
 		<s:decorate id="checkoutDateDecorate" template="edit.xhtml">
 			<ui:define name="label">Check Out Date:</ui:define>
-			<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkoutDateDecorate" />
+			<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkoutDateDecorate"  style="width: auto;"/>
 		</s:decorate>
 		
 		<s:decorate id="bedsDecorate" template="edit.xhtml">

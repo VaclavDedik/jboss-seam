@@ -61,7 +61,7 @@
                             <div class="label"><h:outputLabel for="checkinDate">Check In Date:</h:outputLabel></div>
                             <div class="input">
                                 <s:decorate id="checkinDateDecorate">
-									<rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkinDateDecorate" />                                
+									<rich:calendar id="checkinDate" value="#{booking.checkinDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkinDateDecorate" style="width: auto;" />                                
 								</s:decorate>
                             </div>
 			</div>
@@ -70,7 +70,7 @@
                             <div class="label"><h:outputLabel for="checkoutDate">Check Out Date:</h:outputLabel></div>
                             <div class="input">
                                 <s:decorate id="checkoutDateDecorate">
-									<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkoutDateDecorate" />                                
+									<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkoutDateDecorate" style="width: auto;"/>                 
 								</s:decorate>
                             </div>
                         </div>

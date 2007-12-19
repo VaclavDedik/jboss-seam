@@ -32,10 +32,7 @@
     
     <event type="org.jboss.seam.security.loginSuccessful">
         <action execute="#{redirect.returnToCapturedView}"/>
-    </event>   
-    
-    <!-- Work around a bug in Ajax4jsf-Trinidad integration -->
-	<web:ajax4jsf-filter enable-cache="false" />
+    </event>
 	
 	<framework:entity-query name="discs" ejbql="select disc from Disc disc" order="disc.name ASC" max-results="5"/>
 	
