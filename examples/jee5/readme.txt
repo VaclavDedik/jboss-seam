@@ -109,7 +109,7 @@ OC4J 11g Technology Preview
       org.jboss.logging.util.OnlyOnceErrorHandler, this doesn't impact on the 
       running of the app.  We are working to get rid of this error!
 
-12. Checout the app at: http://localhost:8888/seam-jee5
+12. Checkout the app at: http://localhost:8888/seam-jee5
 
 13. You can stop the server by pressing CTRL-c in the console on which the 
     server is running.
