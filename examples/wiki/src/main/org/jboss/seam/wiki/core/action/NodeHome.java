@@ -362,39 +362,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
      */
     protected boolean beforeRemove() { return true; }
 
-    /**
-     * Called after the node has been disconnected from the old parent and reconnected to the new.
-     * @param oldParent the previous parent directory
-     * @param newParent the new parent directory
-     */
-    protected void afterNodeMoved(WikiDirectory oldParent, WikiDirectory newParent) {}
-
     /* -------------------------- Public Features ------------------------------ */
-
-    /* Moving of nodes in the tree is not supported right now
-    public void parentDirectorySelected(NodeSelectedEvent nodeSelectedEvent) {
-        // TODO: There is really no API in RichFaces to get the selection! Already shouted at devs...
-        TreeRowKey rowkey = (TreeRowKey)((HtmlTree)nodeSelectedEvent.getSource()).getRowKey();
-        Iterator pathIterator = rowkey.iterator();
-        Long dirId = null;
-        while (pathIterator.hasNext()) dirId = (Long)pathIterator.next();
-        parentNode = nodeDAO.findDirectory(dirId);
-        Directory oldParentDirectory = (Directory)getInstance().getParent();
-
-        // Move node to different directory
-        if (parentNode.getId() != oldParentDirectory.getId()) {
-
-            // Null out default document of old parent
-            removeAsDefaultDocument(oldParentDirectory);
-
-            // Attach to new parent
-            getInstance().setParent(parentNode); // TODO: Disconnects from old parent?
-            getInstance().setAreaNumber(parentNode.getAreaNumber());
-
-            afterNodeMoved(oldParentDirectory, parentNode);
-        }
-    }
-    */
 
     @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
     public void selectOwner(Long creatorId) {

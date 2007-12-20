@@ -992,6 +992,29 @@ b.rtop b.r4, b.rbottom b.r4 {
 /* Directory Browser
 ----------------------------------------------- */
 
+.directoryControl {
+    width: 100%;
+    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    border-top: 1px solid #d3d2d1;
+    border-left: 1px solid #d3d2d1;
+    border-right: 1px solid #d3d2d1;
+    margin-top: 10px;
+    padding: 10px;
+    white-space: nowrap;
+}
+
+.directoryPagerControl {
+    text-align: left;
+}
+
+.directorySelectControl {
+    text-align: center;
+}
+
+.directoryClipboard {
+    text-align: right;
+}
+
 .directoryPathPanel {
     width: auto;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
@@ -999,7 +1022,6 @@ b.rtop b.r4, b.rbottom b.r4 {
     border-top: 1px solid #d3d2d1;
     border-left: 1px solid #d3d2d1;
     border-right: 1px solid #d3d2d1;
-    margin-top: 10px;
 }
 
 .directoryPathPanel .directoryButton {

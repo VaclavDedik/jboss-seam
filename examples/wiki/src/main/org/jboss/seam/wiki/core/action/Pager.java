@@ -1,10 +1,21 @@
 package org.jboss.seam.wiki.core.action;
 
-public class Pager {
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.ScopeType;
+
+import java.io.Serializable;
+
+@Name("pager")
+@Scope(ScopeType.PAGE)
+@AutoCreate
+public class Pager implements Serializable {
 
     private Long numOfRecords = 0l;
     private Integer page = 0;
-    private Long pageSize = 10l;
+    private Long pageSize = 15l;
 
     public Pager() {}
 
@@ -32,8 +43,10 @@ public class Pager {
         return pageSize;
     }
 
+    @RequestParameter
     public void setPageSize(Long pageSize) {
-        this.pageSize = pageSize;
+        if (pageSize != null)
+            this.pageSize = pageSize;
     }
 
     public int getNextPage() {

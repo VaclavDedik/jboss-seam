@@ -5,7 +5,6 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.org/rich"
                 template="themes/#{wikiPreferences.themeName}/template.xhtml">
 
 <ui:define name="screenname">#{directoryHome.instance.name}</ui:define>
@@ -78,17 +77,119 @@
 </ui:define>
 
 <ui:define name="content">
+
+<h:form id="directorySelectionForm">
+
 <div class="box">
 
+    <script type="text/javascript">
+        function switchClipboardControl() {
+            var clipboardControlsEnabled = false
+            jQuery(".wikiFileSelect").each(
+                function checkSelected() {
+                    if (jQuery(this).attr("checked")) {
+                        clipboardControlsEnabled = true;
+                    }
+                }
+            );
+            if (clipboardControlsEnabled) {
+                jQuery(".clipboardControl").show();
+            } else {
+                jQuery(".clipboardControl").hide();
+            }
+        }
+    </script>
+
+    <h:panelGrid columns="3"
+                 styleClass="directoryControl" columnClasses="directoryPagerControl, directorySelectControl, directoryClipboard"
+                 cellpadding="0" cellspacing="0" border="0">
+
+        <s:fragment>
+            <h:panelGroup rendered="#{not empty childNodesList or
+                                      clipboard.isContainsCutFromDirectory(directoryHome.instance.id)}">
+                <h:outputText value="#{messages['lacewiki.label.dirDisplay.ShowItems']}:&#160;"/>
+                <h:selectOneMenu value="#{directoryHome.pager.pageSize}" tabindex="1">
+                    <f:selectItem itemLabel="5" itemValue="5"/>
+                    <f:selectItem itemLabel="15" itemValue="15"/>
+                    <f:selectItem itemLabel="50" itemValue="50"/>
+                    <f:selectItem itemLabel="#{messages['lacewiki.label.dirDisplay.All']}" itemValue="999999"/>
+                </h:selectOneMenu>
+                <h:commandLink action="#{directoryHome.refreshChildNodes()}"
+                                 tabindex="1" accesskey="#{messages['lacewiki.button.dirDisplay.Refresh.accesskey']}"
+                                 styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.dirDisplay.Refresh']}"/>
+                </h:commandLink>
+            </h:panelGroup>
+        </s:fragment>
+
+        <s:fragment>
+            <h:panelGroup styleClass="undecoratedLink" rendered="#{not empty childNodesList}">
+                <h:outputText value="#{messages['lacewiki.label.Clipboard.Select']}:&#160;"/>
+                <h:outputLink value="#" onclick="selectCheckBoxes('wikiFileSelect'); switchClipboardControl();" tabindex="1">
+                    <h:outputText value="#{messages['lacewiki.label.Clipboard.All']}"/>
+                </h:outputLink>
+                <h:outputText value="&#160;|&#160;"/>
+                <h:outputLink value="#" onclick="deselectCheckBoxes('wikiFileSelect'); switchClipboardControl();" tabindex="1">
+                    <h:outputText value="#{messages['lacewiki.label.Clipboard.None']}"/>
+                </h:outputLink>
+                <h:outputText value="&#160;|&#160;"/>
+                <h:outputLink value="#"  tabindex="1"
+                              onclick="deselectCheckBoxes('wikiFileSelect'); selectCheckBoxes('wikiDocumentSelect'); switchClipboardControl();">
+                    <h:outputText value="#{messages['lacewiki.label.Clipboard.Documents']}"/>
+                </h:outputLink>
+                <h:outputText value="&#160;|&#160;"/>
+                <h:outputLink value="#" tabindex="1"
+                              onclick="deselectCheckBoxes('wikiFileSelect'); selectCheckBoxes('wikiUploadSelect'); switchClipboardControl();">
+                    <h:outputText value="#{messages['lacewiki.label.Clipboard.UploadedFiles']}"/>
+                </h:outputLink>
+            </h:panelGroup>
+        </s:fragment>
+
+        <s:fragment>
+            <h:panelGroup>
+                <s:span>
+                    <h:outputText value="#{messages['lacewiki.label.Clipboard']}&#160;"/>
+                    <h:outputText value="(#{clipboard.items.size()} #{messages['lacewiki.label.Clipboard.Items']})" rendered="#{clipboard.items.size() > 1}"/>
+                    <h:outputText value="(#{clipboard.items.size()} #{messages['lacewiki.label.Clipboard.Item']})" rendered="#{clipboard.items.size() == 1}"/>
+                    <h:outputText value="(#{messages['lacewiki.label.Clipboard.Empty']})" rendered="#{empty clipboard.items}"/>
+                    <h:outputText value=":&#160;" styleClass="#{empty clipboard.items ? 'clipboardControl': ''}"
+                                  style="display:#{empty clipboard.items ? 'none':'inherit'}"/>
+                </s:span>
+
+                <h:commandLink action="#{directoryHome.copy()}" style="display:none;"
+                               tabindex="1" styleClass="buttonNonpersistent clipboardControl"
+                               accesskey="#{messages['lacewiki.button.Clipboard.Copy.accesskey']}">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Clipboard.Copy']}"/>
+                </h:commandLink>
+                <h:commandLink action="#{directoryHome.cut()}" style="display:none;"
+                               rendered="#{s:hasPermission('Node', 'edit', directoryHome.instance)}"
+                               tabindex="1" styleClass="buttonNonpersistent clipboardControl"
+                               accesskey="#{messages['lacewiki.button.Clipboard.Cut.accesskey']}">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Clipboard.Cut']}"/>
+                </h:commandLink>
+                <h:commandLink action="#{directoryHome.clearClipboard()}"
+                               rendered="#{not empty clipboard.items}"
+                               tabindex="1"
+                               accesskey="#{messages['lacewiki.button.Clipboard.Clear.accesskey']}"
+                               styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Clipboard.Clear']}"/>
+                </h:commandLink>
+                <h:commandLink action="#{directoryHome.paste()}"
+                               rendered="#{not empty clipboard.items and s:hasPermission('Node', 'create', directoryHome.instance)}"
+                               tabindex="1"
+                               accesskey="#{messages['lacewiki.button.Clipboard.Paste.accesskey']}"
+                               styleClass="button">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Clipboard.Paste']}"/>
+                </h:commandLink>
+            </h:panelGroup>
+        </s:fragment>
+
+    </h:panelGrid>
+
+
     <div class="directoryPathPanel">
-
-        <s:link view="/dirDisplay_#{skin}.xhtml" value="#{wikiRoot.name}" styleClass="directoryButton" tabindex="1">
-            <f:param name="directoryId" value="#{wikiRoot.id}"/>
-        </s:link>
-        <h:outputText value="/" styleClass="directorySeparator"/>
-
         <h:panelGroup>
-            <ui:repeat var="directory" value="#{breadcrumb}">
+            <ui:repeat var="directory" value="#{directoryHome.instance.path}">
                 <s:link view="/dirDisplay_#{skin}.xhtml" value="#{directory.name}" styleClass="directoryButton" tabindex="1">
                     <f:param name="directoryId" value="#{directory.id}"/>
                 </s:link>
@@ -97,7 +198,7 @@
         </h:panelGroup>
     </div>
 
-    <s:div styleClass="directoryEmpty" rendered="#{empty directoryHome.childNodes}">
+    <s:div styleClass="directoryEmpty" rendered="#{empty childNodesList}">
             <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" accesskey="."
                     rendered="#{!empty directoryHome.parentNode and s:hasPermission('Node','read',directoryHome.parentNode)}">
                 <f:param name="directoryId" value="#{directoryHome.parentNode.id}"/>
@@ -111,7 +212,7 @@
 
     </s:div>
 
-    <h:panelGrid columns="5" rendered="#{not empty directoryHome.childNodes and directoryHome.pager.numOfRecords > directoryHome.pager.pageSize}"
+    <h:panelGrid columns="5" rendered="#{not empty childNodesList and directoryHome.pager.numOfRecords > directoryHome.pager.pageSize}"
                  styleClass="pager"
                  columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
                  cellpadding="0" cellspacing="0" border="0">
@@ -120,6 +221,7 @@
         <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
                 rendered="#{directoryHome.pager.previousPageAvailable}">
             <f:param name="page" value="0"/>
+            <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
         </s:link>
         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
@@ -128,6 +230,7 @@
         <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
                 rendered="#{directoryHome.pager.previousPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.previousPage}"/>
+            <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
         </s:link>
         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
@@ -143,6 +246,7 @@
         <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
                 rendered="#{directoryHome.pager.nextPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.nextPage}"/>
+            <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
         </s:link>
         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
@@ -151,6 +255,7 @@
         <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
                 rendered="#{directoryHome.pager.nextPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.lastPage}"/>
+            <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
         </s:link>
         <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
@@ -159,15 +264,32 @@
     </h:panelGrid>
 
     <h:dataTable id="directoryTable" var="node"
-                 value="#{directoryHome.childNodes}"
-                 rendered="#{!empty directoryHome.childNodes}"
+                 value="#{childNodesList}"
+                 rendered="#{!empty childNodesList}"
                  styleClass="datatable topLeftBottomBorder smallFont"
                  headerClass="regularHeader rightBorder alignCenter"
-                 columnClasses="onePercentColumn rightBorder alignCenter, defaultColumn rightBorder alignLeft,
+                 columnClasses="onePercentColumn rightBorder alignCenter, onePercentColumn rightBorder alignCenter,
+                                defaultColumn rightBorder alignLeft,
                                 tenPercentColumn rightBorder alignLeft, fifteenPercentColumn rightBorder alignLeft,
                                 fifteenPercentColumn rightBorder alignLeft,twentyPercentColumn rightBorder alignCenter"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
+        <h:column>
+            <s:fragment rendered="#{not clipboard.isCut(node.id)}">
+                <h:selectBooleanCheckbox value="#{directoryHome.selectedNodes[node]}"
+                                         onchange="switchClipboardControl()"
+                                         styleClass="wikiFileSelect wikiDocumentSelect"
+                                         rendered="#{node.isInstance('WikiDocument')}"/>
+                <h:selectBooleanCheckbox value="#{directoryHome.selectedNodes[node]}"
+                                         onchange="switchClipboardControl()"
+                                         styleClass="wikiFileSelect wikiUploadSelect"
+                                         rendered="#{node.isInstance('WikiUpload')}"/>
+                <h:outputText value="-" rendered="#{node.isInstance('WikiDirectory')}"/>
+            </s:fragment>
+            <s:fragment rendered="#{clipboard.isCut(node.id)}">
+                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.cut.gif" width="18" height="20"/>
+            </s:fragment>
+        </h:column>
         <h:column>
             <f:facet name="header">
                 <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" accesskey="."
@@ -181,10 +303,10 @@
                             rendered="#{node.isInstance('WikiDirectory')}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
                             width="18" height="20"
-                            rendered="#{node.isInstance('WikiDocument') and node != directoryHome.instance.defaultFile}"/>
+                            rendered="#{node.isInstance('WikiDocument') and node.id != directoryHome.instance.defaultFile.id}"/>
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.default.gif"
                             width="18" height="20"
-                            rendered="#{node.isInstance('WikiDocument') and node == directoryHome.instance.defaultFile}"/>
+                            rendered="#{node.isInstance('WikiDocument') and node.id == directoryHome.instance.defaultFile.id}"/>
 
             <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes[node.contentType].displayIcon}"
                             width="18" height="20"
@@ -298,6 +420,7 @@
 
 </div>
 
+</h:form>
 
 </ui:define>
 

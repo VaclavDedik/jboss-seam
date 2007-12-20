@@ -63,6 +63,33 @@ public class WikiNodeDAO {
 
     }
 
+    public List<WikiNode> findWikiNodes(List<Long> ids) {
+        return restrictedEntityManager
+                .createQuery("select n from WikiNode n where n.id in (:idList)")
+                .setParameter("idList", ids)
+                .setHint("org.hibernate.comment", "Find wikinodes by id list")
+                .getResultList();
+    }
+
+    public WikiNode findWikiNodeInArea(Long areaNumber, String wikiname) {
+        return findWikiNodeInArea(areaNumber, wikiname, restrictedEntityManager);
+    }
+
+    public WikiNode findWikiNodeInArea(Long areaNumber, String wikiname, EntityManager em) {
+        try {
+            return (WikiNode) em
+                    .createQuery("select n from WikiNode n where n.areaNumber = :areaNumber and n.wikiname = :wikiname")
+                    .setParameter("areaNumber", areaNumber)
+                    .setParameter("wikiname", wikiname)
+                    .setHint("org.hibernate.comment", "Find node in area")
+                    .setHint("org.hibernate.cacheable", true)
+                    .getSingleResult();
+        } catch (EntityNotFoundException ex) {
+        } catch (NoResultException ex) {
+        }
+        return null;
+    }
+
     public Long findChildrenCount(WikiNode node) {
         try {
             return (Long) restrictedEntityManager
@@ -400,18 +427,12 @@ public class WikiNodeDAO {
 
     // Multi-row constraint validation
     public boolean isUniqueWikiname(Long areaNumber, WikiNode node) {
-        WikiNode foundNode = findWikiDocumentInArea(areaNumber, node.getWikiname(), entityManager);
-        if (foundNode == null) {
-            foundNode = findWikiDirectoryInArea(areaNumber, node.getWikiname(), entityManager);
-        }
+        WikiNode foundNode = findWikiNodeInArea(areaNumber, node.getWikiname(), entityManager);
         return foundNode == null || node.getId() != null && node.getId().equals(foundNode.getId());
     }
 
     public boolean isUniqueWikiname(Long areaNumber, String wikiname) {
-        WikiNode foundNode = findWikiDocumentInArea(areaNumber, wikiname, entityManager);
-        if (foundNode == null) {
-            foundNode = findWikiDirectoryInArea(areaNumber, wikiname, entityManager);
-        }
+        WikiNode foundNode = findWikiNodeInArea(areaNumber, wikiname, entityManager);
         return foundNode == null;
     }
 

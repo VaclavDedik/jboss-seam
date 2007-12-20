@@ -16,7 +16,7 @@ import java.util.LinkedHashSet;
 @org.hibernate.search.annotations.Indexed
 @Searchable(description = "Documents")
 
-public class WikiDocument extends WikiFile implements Serializable {
+public class WikiDocument extends WikiFile<WikiDocument> implements Serializable {
 
     @Column(name = "NAME_AS_TITLE", nullable = false)
     private boolean nameAsTitle = true;
@@ -123,9 +123,17 @@ public class WikiDocument extends WikiFile implements Serializable {
         this.headerMacrosString = original.headerMacrosString;
         this.contentMacrosString = original.contentMacrosString;
         this.footerMacrosString = original.footerMacrosString;
+        this.header = original.header;
+        this.footer = original.footer;
         if (copyLazyProperties) {
             this.content = original.content;
         }
+    }
+
+    public WikiDocument duplicate(boolean copyLazyProperties) {
+        WikiDocument dupe = new WikiDocument();
+        dupe.flatCopy(this, copyLazyProperties);
+        return dupe;
     }
 
     public void rollback(WikiDocument revision) {

@@ -92,6 +92,13 @@
             wrapBoxes();
         }
 
+        function selectCheckBoxes(styleClass) {
+            jQuery("."+styleClass).attr("checked", "true");
+        }
+        function deselectCheckBoxes(styleClass) {
+            jQuery("."+styleClass).removeAttr("checked");
+        }
+
         function clickClear(thisfield, defaulttext) {
             if (thisfield.value == defaulttext) {
                 thisfield.value = "";

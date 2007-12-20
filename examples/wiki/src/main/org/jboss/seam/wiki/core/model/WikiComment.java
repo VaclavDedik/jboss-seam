@@ -26,7 +26,7 @@ import java.util.Date;
         properties = {"subject", "content"}
     )
 )
-public class WikiComment extends WikiNode implements NestedSetNode<WikiComment>, Serializable {
+public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<WikiComment>, Serializable {
 
     @Column(name = "SUBJECT", nullable = false)
     @Length(min = 3, max = 255)
@@ -96,6 +96,12 @@ public class WikiComment extends WikiNode implements NestedSetNode<WikiComment>,
         if (copyLazyProperties) {
             this.content = original.content;
         }
+    }
+
+    public WikiComment duplicate(boolean copyLazyProperties) {
+        WikiComment dupe = new WikiComment();
+        dupe.flatCopy(this, copyLazyProperties);
+        return dupe;
     }
 
     public NestedSetNodeInfo<WikiComment> getNodeInfo() {

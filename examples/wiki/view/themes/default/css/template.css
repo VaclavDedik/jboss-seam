@@ -674,6 +674,23 @@ ul {
 /* Directory Browser
 ----------------------------------------------- */
 
+.directoryControl {
+    width: 100%;
+    white-space: nowrap;
+}
+
+.directoryPagerControl {
+    text-align: left;
+}
+
+.directorySelectControl {
+    text-align: center;
+}
+
+.directoryClipboard {
+    text-align: right;
+}
+
 .directoryPathPanel {
     width: auto;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;

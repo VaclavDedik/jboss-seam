@@ -3,16 +3,18 @@ package org.jboss.seam.wiki.core.model;
 import org.hibernate.validator.Length;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNodeInfo;
-import org.jboss.seam.wiki.core.nestedset.query.NestedSetDuplicator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 @Entity
 @Table(name = "WIKI_DIRECTORY")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_DIRECTORY_NODE_ID")
 @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-public class WikiDirectory extends WikiNode implements NestedSetNode<WikiDirectory>, Serializable {
+public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetNode<WikiDirectory>, Serializable {
 
     @Column(name = "DESCRIPTION", nullable = true)
     @Length(min = 0, max = 512)
@@ -62,6 +64,12 @@ public class WikiDirectory extends WikiNode implements NestedSetNode<WikiDirecto
         this.nodeInfo = original.nodeInfo;
     }
 
+    public WikiDirectory duplicate(boolean copyLazyProperties) {
+        WikiDirectory dupe = new WikiDirectory();
+        dupe.flatCopy(this, copyLazyProperties);
+        return dupe;
+    }
+
     public NestedSetNodeInfo<WikiDirectory> getNodeInfo() {
         return nodeInfo;
     }
@@ -96,6 +104,18 @@ public class WikiDirectory extends WikiNode implements NestedSetNode<WikiDirecto
         } else {
             return "/" + getArea().getWikiname() + "/" + getWikiname();
         }
+    }
+
+    public List<WikiDirectory> getPath() {
+        List<WikiDirectory> path = new ArrayList<WikiDirectory>();
+        WikiDirectory current = this;
+        path.add(current);
+        while (current.getParent() != null && getParent().isInstance(WikiDirectory.class)){
+            current = (WikiDirectory)current.getParent();
+            path.add(current);
+        }
+        Collections.reverse(path);
+        return path;
     }
 
     public String toString() {

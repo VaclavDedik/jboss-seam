@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "WIKI_UPLOAD_IMAGE")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_UPLOAD_IMAGE_NODE_ID")
 @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-public class WikiUploadImage extends WikiUpload {
+public class WikiUploadImage extends WikiUpload<WikiUploadImage> {
 
     @Column(name = "SIZE_X")
     private int sizeX;
@@ -75,6 +75,12 @@ public class WikiUploadImage extends WikiUpload {
         if (copyLazyProperties) {
             this.thumbnailData = original.thumbnailData;
         }
+    }
+
+    public WikiUploadImage duplicate(boolean copyLazyProperties) {
+        WikiUploadImage dupe = new WikiUploadImage();
+        dupe.flatCopy(this, copyLazyProperties);
+        return dupe;
     }
 
     public String toString() {

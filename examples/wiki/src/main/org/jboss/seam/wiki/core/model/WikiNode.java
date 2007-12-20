@@ -23,7 +23,7 @@ import java.util.Date;
     condition = "READ_ACCESS_LEVEL <= :currentAccessLevel"
 )
 @org.hibernate.annotations.BatchSize(size = 20)
-public abstract class WikiNode implements Comparable {
+public abstract class WikiNode<N extends WikiNode> implements Comparable {
 
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
@@ -67,7 +67,7 @@ public abstract class WikiNode implements Comparable {
     @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_NODE_CREATED_BY_USER_ID")
     protected User createdBy;
 
-    @Column(name = "LAST_MODIFIED_ON", nullable = true, insertable = false)
+    @Column(name = "LAST_MODIFIED_ON", nullable = true)
     @org.hibernate.search.annotations.Field(
         index = org.hibernate.search.annotations.Index.UN_TOKENIZED,
         store = org.hibernate.search.annotations.Store.YES
@@ -77,7 +77,7 @@ public abstract class WikiNode implements Comparable {
     protected Date lastModifiedOn;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "LAST_MODIFIED_BY_USER_ID", nullable = true, insertable = false)
+    @JoinColumn(name = "LAST_MODIFIED_BY_USER_ID", nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_NODE_LAST_MODIFIED_BY")
     protected User lastModifiedBy;
 
@@ -205,4 +205,6 @@ public abstract class WikiNode implements Comparable {
     public abstract String getPermURL(String suffix);
     public abstract String getWikiURL();
 
+    public abstract N duplicate(boolean copyLazyProperties);
+    
 }

@@ -40,6 +40,25 @@ public class DirectoryTests extends DBUnitSeamTest {
     }
 
     @Test
+    public void getDirectoryPath() throws Exception {
+        new FacesRequest() {
+
+            protected void invokeApplication() throws Exception {
+                EntityManager em = (EntityManager) getInstance("restrictedEntityManager");
+                WikiDirectory d = (WikiDirectory)
+                        em.createQuery("select d from WikiDirectory d where d.id = :id")
+                                .setParameter("id", 4l)
+                                .getSingleResult();
+                assert d.getName().equals("DDD");
+                assert d.getPath().size() == 3;
+                assert d.getPath().get(0).getId().equals(1l);
+                assert d.getPath().get(1).getId().equals(3l);
+                assert d.getPath().get(2).getId().equals(4l);
+            }
+        }.run();
+    }
+
+    @Test
     public void updateDirectoryById() throws Exception {
         new FacesRequest() {
 

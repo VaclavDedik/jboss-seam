@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "WIKI_UPLOAD")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_UPLOAD_NODE_ID")
 @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-public class WikiUpload extends WikiFile {
+public class WikiUpload<U extends WikiUpload> extends WikiFile<U> {
 
     @Column(name = "FILENAME", length = 255, nullable = false)
     private String filename;
@@ -98,6 +98,12 @@ public class WikiUpload extends WikiFile {
         if (copyLazyProperties) {
             this.data = original.getData();
         }
+    }
+
+    public U duplicate(boolean copyLazyProperties) {
+        U dupe = (U)new WikiUpload();
+        dupe.flatCopy(this, copyLazyProperties);
+        return dupe;
     }
 
     public String getPermURL(String suffix) {

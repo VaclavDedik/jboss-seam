@@ -7,7 +7,7 @@ import java.util.*;
 @Table(name = "WIKI_FILE")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_FILE_NODE_ID")
 @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-public abstract class WikiFile extends WikiNode {
+public abstract class WikiFile<N extends WikiFile> extends WikiNode<N> {
 
     @org.hibernate.annotations.CollectionOfElements(fetch = FetchType.LAZY)
     @JoinTable(name = "WIKI_TAG", joinColumns = @JoinColumn(name = "FILE_ID"))
@@ -61,7 +61,8 @@ public abstract class WikiFile extends WikiNode {
     @Override
     public void setLastModifiedBy(User lastModifiedBy) {
         super.setLastModifiedBy(lastModifiedBy);
-        lastModifiedByUsername = lastModifiedBy.getUsername();
+        if (lastModifiedBy != null)
+            lastModifiedByUsername = lastModifiedBy.getUsername();
     }
 
     public int getRevision() { return revision; }
