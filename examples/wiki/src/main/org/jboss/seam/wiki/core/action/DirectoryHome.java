@@ -367,6 +367,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
     @Restrict("#{s:hasPermission('Node', 'create', directoryHome.instance)}")
     public void paste() {
 
+        if (getInstance().getId().equals(getWikiRoot().getId())) return; // Can't paste in wiki root
+
         // Batch the work
         int batchSize = 2;
         int i = 0;

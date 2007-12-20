@@ -123,7 +123,8 @@
         </s:fragment>
 
         <s:fragment>
-            <h:panelGroup styleClass="undecoratedLink" rendered="#{not empty childNodesList}">
+            <h:panelGroup styleClass="undecoratedLink"
+                          rendered="#{not empty childNodesList and directoryHome.instance.id != wikiRoot.id}">
                 <h:outputText value="#{messages['lacewiki.label.Clipboard.Select']}:&#160;"/>
                 <h:outputLink value="#" onclick="selectCheckBoxes('wikiFileSelect'); switchClipboardControl();" tabindex="1">
                     <h:outputText value="#{messages['lacewiki.label.Clipboard.All']}"/>
@@ -175,7 +176,8 @@
                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Clipboard.Clear']}"/>
                 </h:commandLink>
                 <h:commandLink action="#{directoryHome.paste()}"
-                               rendered="#{not empty clipboard.items and s:hasPermission('Node', 'create', directoryHome.instance)}"
+                               rendered="#{not empty clipboard.items and directoryHome.instance.id != wikiRoot.id
+                                           and s:hasPermission('Node', 'create', directoryHome.instance)}"
                                tabindex="1"
                                accesskey="#{messages['lacewiki.button.Clipboard.Paste.accesskey']}"
                                styleClass="button">
