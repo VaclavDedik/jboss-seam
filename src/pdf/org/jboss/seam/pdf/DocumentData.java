@@ -5,12 +5,16 @@ public class DocumentData {
     DocumentType documentType;
     String baseName;
 
+    String disposition = "inline";
+    
     public DocumentData(String baseName, DocumentType documentType, byte[] data) {
         super();
         this.data = data;
         this.documentType = documentType;
         this.baseName = baseName;
     }
+    
+     
     public byte[] getData() {
         return data;
     }
@@ -23,6 +27,14 @@ public class DocumentData {
 
     public String getFileName() {
         return getBaseName() + "." + getDocumentType().getExtension();
+    }
+    
+    public void setDisposition(String disposition) {
+        this.disposition = disposition;
+    }
+    
+    public String getDisposition() {
+        return disposition;
     }
 
     static public class DocumentType {

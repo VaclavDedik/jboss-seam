@@ -44,9 +44,10 @@ public class DocumentStoreServlet
             
             byte[] data = documentData.getData();       
 
-            response.setContentType(documentData.getDocumentType().getMimeType());
+            response.setContentType(documentData.getDocumentType().getMimeType());            
             response.setHeader("Content-Disposition", 
-                               "inline; filename=\"" + documentData.getFileName() + "\"");
+                               documentData.getDisposition() + 
+                               "; filename=\"" + documentData.getFileName() + "\"");
 
             if (data != null) {
                 response.getOutputStream().write(data);

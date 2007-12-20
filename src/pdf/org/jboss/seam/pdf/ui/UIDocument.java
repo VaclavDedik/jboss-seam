@@ -31,7 +31,8 @@ public class UIDocument
     ByteArrayOutputStream stream;
     String id;
     String baseName;
-
+    String disposition;
+    
     DocumentType documentType;
 
     String type;
@@ -51,7 +52,9 @@ public class UIDocument
 
     UISignature signatureField;
 
-
+    public void setDisposition(String disposition) {
+        this.disposition = disposition;
+    }
 
     public void setType(String type) {
         this.type = type;
@@ -287,13 +290,17 @@ public class UIDocument
 
         byte[] bytes = stream.toByteArray();
 
-        if (signatureField != null) 
-        {
+        if (signatureField != null) {
             bytes = signatureField.sign(bytes);
         }
 
         DocumentData documentData = new DocumentData(baseName, documentType, bytes);
 
+        String dispositionValue = (String) valueBinding(context, "disposition", disposition);
+        if (dispositionValue != null) {
+            documentData.setDisposition(dispositionValue);
+        }
+        
         if (sendRedirect) {
             DocumentStore.instance().saveData(id,documentData);
 
