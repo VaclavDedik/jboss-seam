@@ -84,25 +84,6 @@ public class WikiUtil {
                );
     }
 
-    // Rendering made easy
-    public static String renderPlainURL(WikiNode node) {
-// TODO: Fixme        if (node.isInstance(File.class) return renderFileLink((File)node);
-        WikiPreferences prefs = (WikiPreferences) Component.getInstance("wikiPreferences");
-        String url = "";
-        if (node.isInstance(WikiDocument.class)) {
-            url = prefs.getBaseUrl() + "/docDisplayPlain.seam?documentId=" + node.getId();
-        } else if (node.isInstance(WikiDirectory.class)) {
-            WikiDirectory dir = (WikiDirectory)node;
-            if (dir.getDefaultFile() != null) {
-                url = prefs.getBaseUrl() + "/docDisplayPlain.seam?documentId=" + dir.getDefaultFile().getId();
-            } else {
-                url = prefs.getBaseUrl() + "/dirDisplayPlain.seam?directoryId=" + node.getId();
-            }
-        }
-        if (url.length() > 0) url = url + "&amp;cid=" + Conversation.instance().getId();
-        return url;
-    }
-
     public static String renderURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
         WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");

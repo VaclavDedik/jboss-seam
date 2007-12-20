@@ -94,7 +94,6 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_BROKEN_LINK_STYLE_CLASS);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_ATTACHMENT_LINK_STYLE_CLASS);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_THUMBNAIL_LINK_STYLE_CLASS);
-        setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_PLAIN_VIEW);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_INTERNAL_TARGET_FRAME);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_EXTERNAL_TARGET_FRAME);
         setAttribute(ctx, cmp, UIWikiFormattedText.ATTR_LINK_BASE_FILE);

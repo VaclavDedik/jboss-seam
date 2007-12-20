@@ -9,7 +9,6 @@ package org.jboss.seam.wiki.core.ui;
 import antlr.ANTLRException;
 import antlr.RecognitionException;
 import org.jboss.seam.Component;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
@@ -20,7 +19,6 @@ import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.model.WikiFile;
-import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.util.WikiUtil;
 
@@ -32,8 +30,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Uses WikiTextParser and WikiLinkResolver to render Seam Text markup with wiki links.
@@ -51,7 +47,6 @@ public class UIWikiFormattedText extends UIOutput {
     public static final String ATTR_BROKEN_LINK_STYLE_CLASS         = "brokenLinkStyleClass";
     public static final String ATTR_ATTACHMENT_LINK_STYLE_CLASS     = "attachmentLinkStyleClass";
     public static final String ATTR_THUMBNAIL_LINK_STYLE_CLASS      = "thumbnailLinkStyleClass";
-    public static final String ATTR_PLAIN_VIEW                      = "plainView";
     public static final String ATTR_INTERNAL_TARGET_FRAME           = "internalTargetFrame";
     public static final String ATTR_EXTERNAL_TARGET_FRAME           = "externalTargetFrame";
     public static final String ATTR_LINK_BASE_FILE                  = "linkBaseFile";
@@ -106,9 +101,7 @@ public class UIWikiFormattedText extends UIOutput {
                         + (
                             inlineLink.isBroken()
                                 ? inlineLink.getUrl()
-                                : "true".equals(getAttributes().get(ATTR_PLAIN_VIEW))
-                                  ? WikiUtil.renderPlainURL(inlineLink.getFile())
-                                  : WikiUtil.renderURL(inlineLink.getFile())
+                                : WikiUtil.renderURL(inlineLink.getFile())
                            )
                         + "\" target=\""
                         + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")
@@ -131,9 +124,7 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
                 return "<a href=\""
-                        + ("true".equals(getAttributes().get(ATTR_PLAIN_VIEW))
-                          ? WikiUtil.renderPlainURL(baseFile)
-                          : WikiUtil.renderURL(baseFile))
+                        + WikiUtil.renderURL(baseFile)
                         + "#attachment" + attachmentNumber
                         + "\" target=\""
                         + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")

@@ -398,14 +398,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 /* General
 ----------------------------------------------- */
 
-#bodyPlain {
-    background: white;
-    text-align: left;
-    margin-left: 0;
-    padding: 5px 10px 10px 10px ;
-    border: 0;
-}
-
 .documentTags {
     border-top: 1px solid #ccc;
     white-space: nowrap;
@@ -432,6 +424,14 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .regularLink{
     text-decoration: underline;
+}
+
+.regularLink:hover {
+    color: #000;
+}
+
+.regularLink:visited {
+    text-decoration: none;
 }
 
 .brokenLink {

@@ -181,14 +181,6 @@ ul {
     padding-bottom: 10px;
 }
 
-#bodyPlain {
-    background: white;
-    text-align: left;
-    margin-left: 0;
-    padding: 5px 10px 10px 10px ;
-    border: 0;
-}
-
 #control {
     background-color: #362f2d;
     text-align: right;

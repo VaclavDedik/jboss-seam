@@ -13,12 +13,6 @@
     </function>
 
     <function>
-        <function-name>renderPlainURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderPlainURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
-    </function>
-
-    <function>
         <function-name>renderURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
