@@ -10,6 +10,7 @@ import org.jboss.seam.pdf.DocumentData.DocumentType;
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.*;
+
 import java.io.*;
 
 import com.lowagie.text.*;
@@ -29,12 +30,10 @@ public class UIDocument
     DocWriter writer;
     Document document;
     ByteArrayOutputStream stream;
-    String id;
-    String baseName;
-    String disposition;
-    
+
     DocumentType documentType;
 
+    String disposition;
     String type;
     String title;
     String subject;
@@ -48,7 +47,6 @@ public class UIDocument
     Boolean marginMirroring;
 
     boolean sendRedirect = true;
-
 
     UISignature signatureField;
 
@@ -131,8 +129,7 @@ public class UIDocument
             } else if (orientation.equalsIgnoreCase("landscape")) {
                 Rectangle currentSize = document.getPageSize();
                 document.setPageSize(new Rectangle(currentSize.height(),
-                        currentSize.width()));
-
+                                                   currentSize.width()));
             } else {
                 throw new RuntimeException("orientation value " + orientation + "unknown");
             }
@@ -154,7 +151,7 @@ public class UIDocument
         }        
     }
 
-    private void initMetaData(FacesContext context) {
+    protected void initMetaData(FacesContext context) {
         title = (String) valueBinding(context, "title", title);
         if (title != null) {
             document.addTitle(title);
@@ -203,9 +200,10 @@ public class UIDocument
         this.signatureField = signatureField;
     }
 
+    
     @Override
     public void encodeBegin(FacesContext context) 
-    throws IOException
+        throws IOException
     {
         super.encodeBegin(context);
 
@@ -215,42 +213,16 @@ public class UIDocument
             writer = createWriterForStream(stream);
 
             initMetaData(context);
-
             processHeaders();
 
             document.open();
         } catch (DocumentException e) {
             throw new RuntimeException(e);
         }
-
-        if (sendRedirect) {
-            DocumentStore store = DocumentStore.instance();
-            id = store.newId();
-
-            ResponseWriter response = context.getResponseWriter();
-            response.write("<!DOCTYPE composition PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\" >");
-            response.startElement("html", this);
-            response.writeAttribute("xmlns", "http://www.w3.org/1999/xhtml", null);
-            response.startElement("head", this);
-            response.startElement("meta", this);
-            response.writeAttribute("http-equiv", "Refresh", null);
-
-            String viewId = Pages.getViewId(context);
-            baseName = baseNameForViewId(viewId); 
-            String url = store.preferredUrlForContent(baseName, documentType.getExtension(), id);
-
-            url = Manager.instance().encodeConversationId(url, viewId);
-
-            response.writeAttribute("content", "0; URL=" + url, null);
-
-            response.endElement("meta");
-            response.endElement("head");
-
-            response.startElement("body",this);
-        }
     }
-
-    private void processHeaders() {
+    
+   
+    protected void processHeaders() {
         Object facet = getFacet("header");      
 
         if (facet == null) {
@@ -268,7 +240,7 @@ public class UIDocument
 
 
 
-    private String baseNameForViewId(String viewId) {
+    protected String baseNameForViewId(String viewId) {
         int pos = viewId.lastIndexOf("/");
         if (pos != -1) {
             viewId = viewId.substring(pos+1);
@@ -282,6 +254,7 @@ public class UIDocument
         return viewId;
     }
 
+    
     @Override
     public void encodeEnd(FacesContext context) 
         throws IOException
@@ -293,24 +266,28 @@ public class UIDocument
         if (signatureField != null) {
             bytes = signatureField.sign(bytes);
         }
-
+        
+        String viewId = Pages.getViewId(context);        
+        String baseName = baseNameForViewId(viewId); 
+        
         DocumentData documentData = new DocumentData(baseName, documentType, bytes);
-
         String dispositionValue = (String) valueBinding(context, "disposition", disposition);
         if (dispositionValue != null) {
             documentData.setDisposition(dispositionValue);
         }
         
         if (sendRedirect) {
-            DocumentStore.instance().saveData(id,documentData);
+            DocumentStore store = DocumentStore.instance();
+            String id = store.newId();
 
-            ResponseWriter response = context.getResponseWriter();
-            response.endElement("body");
-            response.endElement("html");
+            String url = store.preferredUrlForContent(baseName, documentType.getExtension(), id);
+            url = Manager.instance().encodeConversationId(url, viewId);
 
+            store.saveData(id, documentData);
+           
             removeITextObject();
 
-            Manager.instance().beforeRedirect();
+            context.getExternalContext().redirect(url);
         } else {
             UIComponent parent = getParent();
 
@@ -320,6 +297,7 @@ public class UIDocument
             }
         }
     }
+
 
     public DocWriter getWriter() {
         return writer;
@@ -339,7 +317,7 @@ public class UIDocument
     }
     
 
-    private DocWriter createWriterForStream(OutputStream stream) 
+    protected DocWriter createWriterForStream(OutputStream stream) 
         throws DocumentException 
     {
         if (documentType == PDF) {

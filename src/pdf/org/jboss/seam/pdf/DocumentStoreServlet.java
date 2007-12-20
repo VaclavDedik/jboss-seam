@@ -22,12 +22,12 @@ public class DocumentStoreServlet
         new ContextualHttpServletRequest(request)
         {
             @Override
-            public void process() throws ServletException, IOException
+            public void process() 
+                throws ServletException, IOException
             {
                doWork(request, response);
             }
-        }.run();
-    
+        }.run();    
     }    
     
     
