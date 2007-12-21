@@ -302,7 +302,12 @@ public class UIDocument
     public DocWriter getWriter() {
         return writer;
     }    
-
+    
+    public PdfTemplate createPdfTemplate(float width, float height) {        
+        PdfWriter writer = (PdfWriter) getWriter();
+        return writer.getDirectContent().createTemplate(width, height);
+    }
+    
     private DocumentType documentTypeForName(String typeName) {    
         if (typeName != null) {
             if (typeName.equalsIgnoreCase("pdf")) {
