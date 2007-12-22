@@ -3,7 +3,6 @@ package org.jboss.seam.bpm;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
@@ -30,13 +29,12 @@ public class PooledTaskInstanceList
    @Transactional
    public List<TaskInstance> getPooledTaskInstanceList()
    {
-      if ( Actor.instance().getGroupActorIds().size() == 0 )
-      {
-         return Collections.<TaskInstance>emptyList();
-      }
-      
-      return ManagedJbpmContext.instance()
-            .getGroupTaskList( new ArrayList( Actor.instance().getGroupActorIds() ) );
+      Actor actor = Actor.instance();
+      String actorId = actor.getId();
+      if ( actorId == null ) return null;
+      ArrayList groupIds = new ArrayList( actor.getGroupActorIds() );
+      groupIds.add(actorId);
+      return ManagedJbpmContext.instance().getGroupTaskList(groupIds);
    }
    
 }
