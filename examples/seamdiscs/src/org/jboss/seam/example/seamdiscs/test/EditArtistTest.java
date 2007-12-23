@@ -144,7 +144,7 @@ public class EditArtistTest extends DBUnitSeamTest
             @Override
             protected void updateModelValues() throws Exception 
             {
-                setValue("#{artist.name}", NEW_ARTIST_NAME);
+                setValue("#{artistHome.instance.name}", NEW_ARTIST_NAME);
                 assert isLongRunningConversation();
             }
             
@@ -152,12 +152,6 @@ public class EditArtistTest extends DBUnitSeamTest
             protected void invokeApplication() throws Exception 
             {
                 assert PERSISTED.equals(invokeAction("#{artistHome.persist}"));
-            }
-            
-            @Override
-            protected void renderResponse() throws Exception 
-            {
-                assert NEW_ARTIST_NAME.equals(getValue("#{artist.name}"));
             }
             
         }.run();
@@ -226,7 +220,7 @@ public class EditArtistTest extends DBUnitSeamTest
             @Override
             protected void updateModelValues() throws Exception 
             {
-                setValue("#{artist.name}", NEW_BAND_NAME);
+                setValue("#{artistHome.instance.name}", NEW_BAND_NAME);
                 assert isLongRunningConversation();
             }
             
@@ -234,13 +228,7 @@ public class EditArtistTest extends DBUnitSeamTest
             protected void invokeApplication() throws Exception 
             {
                 assert PERSISTED.equals(invokeAction("#{artistHome.persist}"));
-            }
-            
-            @Override
-            protected void renderResponse() throws Exception 
-            {
-                assert NEW_BAND_NAME.equals(getValue("#{artist.name}"));
-                assert ((Integer) 0).equals("#{artist.bandMembers.size}");
+                assert ((Integer) 0).equals(getValue("#{artistHome.instance.bandMembers.size}"));
             }
             
         }.run();
