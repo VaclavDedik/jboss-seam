@@ -14,7 +14,7 @@
  implied. See the License for the specific language governing
  permissions and limitations under the License.
  
- $Id: jsf-core.taglib.xml,v 1.3 2005/07/27 04:47:46 jhook Exp $
+ $Id$
 -->
 
 <!DOCTYPE facelet-taglib PUBLIC
@@ -22,5 +22,5 @@
   "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
 
 <facelet-taglib>
-	<library-class>com.sun.facelets.tag.jsf.core.CoreLibrary</library-class>
+	<library-class>com.sun.facelets.tag.jsf.html.HtmlLibrary</library-class>
 </facelet-taglib>

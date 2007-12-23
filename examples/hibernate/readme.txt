@@ -1,4 +1,4 @@
-Seam Hibernate2 Example
+Seam Hibernate Example
 =======================
 
 This is the Hotel Booking example implemented in Seam and Hibernate POJOs.

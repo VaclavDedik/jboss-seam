@@ -307,7 +307,7 @@
 		<cleanexample name="remoting/chatroom" />
 		<cleanexample name="remoting/progressbar" />
 		<cleanexample name="remoting/gwt" />
-		<cleanexample name="hibernate2" />
+		<cleanexample name="hibernate" />
 		<cleanexample name="jpa" />
 		<cleanexample name="jee5/booking" />
 		<cleanexample name="jee5/remoting" />
@@ -374,7 +374,7 @@
 		<testexample name="mail" />
 		<testexample name="seampay" />
 		<testexample name="itext" />
-		<testexample name="hibernate2" />
+		<testexample name="hibernate" />
 		<testexample name="jpa" />
 		<testexample name="quartz" />
 		<ant dir="examples/wiki" target="test" inheritall="false">
@@ -459,7 +459,7 @@
 				<exclude name="booking/alter.config" />
 				<exclude name="booking/alter.config/**/*" />
 				<exclude name="booking/build.alter.xml" />
-				<include name="hibernate2/**/*" />
+				<include name="hibernate/**/*" />
 				<include name="icefaces/**/*" />
 				<include name="jpa/**/*" />
 				<include name="jee5/**/*" />
