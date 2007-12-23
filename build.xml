@@ -22,7 +22,7 @@
 	<property name="classes.gen.dir" value="${classes.dir}/genclasses" />
 	<property name="classes.test.dir" value="${classes.dir}/testclasses" />
 
-	<property name="ui.dir" value="ui" />
+	<property name="ui.dir" value="${basedir}/ui" />
 	<property name="seamgen.dir" value="${basedir}/seam-gen" />
 
 	<!-- Source directories -->
