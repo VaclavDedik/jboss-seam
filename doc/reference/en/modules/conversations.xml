@@ -756,12 +756,20 @@ public String approveDocument() { ... }]]></programlisting>
             </para>
             
             <programlisting><![CDATA[<pages>
-    <page view-id="/main.xhtml">Search hotels: #{hotelBooking.searchString}</page>
-    <page view-id="/hotel.xhtml">View hotel: #{hotel.name}</page>
-    <page view-id="/book.xhtml">Book hotel: #{hotel.name}</page>
-    <page view-id="/confirm.xhtml">Confirm: #{booking.description}</page>
-</pages>]]></programlisting>
-
+    <page view-id="/main.xhtml">
+        <description>Search hotels: #{hotelBooking.searchString}</description>
+    </page>
+    <page view-id="/hotel.xhtml">
+        <description>View hotel: #{hotel.name}</description>
+    </page>
+    <page view-id="/book.xhtml">
+        <description>Book hotel: #{hotel.name}</description>
+    </page>
+    <page view-id="/confirm.xhtml">
+        <description>Confirm: #{booking.description}</description>
+    </page>
+    </pages>]]></programlisting>
+            
            <para>
                Note that if this file is missing, the Seam application will
                continue to work perfectly! The only missing functionality
