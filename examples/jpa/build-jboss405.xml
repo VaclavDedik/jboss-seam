@@ -20,12 +20,16 @@
     <import file="../build.xml"/>
 
     <fileset id="noejb.war.lib.extras" dir="${seam.dir}">
-        <include name="lib/common*.jar"/>
-        <include name="lib/jsf-*.jar"/>
-        <include name="lib/jstl-*.jar"/>
-        <include name="hibernate/lib/*.jar"/>
-        <!-- Needed since JBoss 4.0.5 does not support JSP 2.0 -->
-        <include name="examples/jpa/lib/el-*.jar"/>
+        <include name="lib/commons-beanutils.jar"/>
+        <include name="lib/commons-collections.jar"/>
+        <include name="lib/commons-digester.jar"/>
+        <include name="lib/commons-lang.jar"/>
+        <include name="lib/commons-logging.jar"/>
+        <include name="lib/jsf-impl.jar"/>
+        <include name="lib/jsf-api.jar"/>
+        <include name="lib/jstl.jar"/>
+        <include name="examples/jpa/lib/el-ri.jar"/>
+        <include name="lib/el-api.jar"/>
     </fileset>
        
 </project>
