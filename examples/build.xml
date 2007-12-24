@@ -341,6 +341,7 @@
 		<include name="import.sql" />
 		<include name="seam.properties" />
 		<include name="seam.quartz.properties" />
+		<include name="*.drl" />
 		<include name="META-INF/persistence.xml" />
 		<include name="META-INF/ejb-jar.xml" />
 		<include name="META-INF/orm.xml" />
@@ -380,8 +381,7 @@
 		<include name="*.jpdl.xml" />
 		<exclude name=".gpd.*" />
 		<include name="*.cfg.xml" />
-		<include name="*.xsd" />
-		<include name="*.drl" />
+		<include name="*.xsd" />		
 	</fileset>
 
 	<!-- Property resources (e.g. themes, i8ln) get put on the classpath -->
