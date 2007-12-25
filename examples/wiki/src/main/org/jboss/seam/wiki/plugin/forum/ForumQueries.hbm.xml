@@ -131,21 +131,62 @@
     ]]></query>
 
 
-    <!-- Somewhat ugly workarounds for the missing case...when support in HQL select clause -->
-    <query name="forumTopics"><![CDATA[
-        select
-            t.id,
-            t,
-            locate('forumStickyPosting', t.headerMacrosString, 1)
+    <!-- TODO: HQL doesn't support CASE...WHEN -->
+    <!-- TODO: We could optimize this a little if we'd also retrieve the CREATED_BY_USER_ID guy but
+               we'll hit the 2nd level cache anyway or we load them in batches... -->
+    <sql-query name="forumTopics">
+        <return class="org.jboss.seam.wiki.core.model.WikiDocument"/>
+        <return-scalar column="STICKY" type="integer"/>
+        <return-scalar column="LAST_POST" type="timestamp"/>
+        <![CDATA[
+        select distinct
+            doc2.NODE_ID as NODE_ID,
+            doc2.OBJ_VERSION as OBJ_VERSION,
+            doc2.AREA_NR as AREA_NR,
+            doc2.NAME as NAME,
+            doc2.WIKINAME as WIKINAME,
+            doc2.CREATED_ON as CREATED_ON,
+            doc2.CREATED_BY_USER_ID as CREATED_BY_USER_ID,
+            doc2.LAST_MODIFIED_ON as LAST_MODIFIED_ON,
+            doc2.LAST_MODIFIED_BY_USER_ID as LAST_MODIFIED_BY_USER_ID,
+            doc2.WRITE_ACCESS_LEVEL as WRITE_ACCESS_LEVEL,
+            doc2.READ_ACCESS_LEVEL as READ_ACCESS_LEVEL,
+            doc2.WRITE_PROTECTED as WRITE_PROTECTED,
+            doc2.PARENT_NODE_ID as PARENT_NODE_ID,
+
+            doc1.FILE_REVISION as FILE_REVISION,
+
+            doc0.NAME_AS_TITLE as NAME_AS_TITLE,
+            doc0.ENABLE_COMMENTS as ENABLE_COMMENTS,
+            doc0.ENABLE_COMMENT_FORM as ENABLE_COMMENT_FORM,
+            doc0.ENABLE_COMMENTS_ON_FEEDS as ENABLE_COMMENTS_ON_FEEDS,
+            doc0.HEADER as HEADER,
+            doc0.HEADER_MACROS as HEADER_MACROS,
+            doc0.CONTENT_MACROS as CONTENT_MACROS,
+            doc0.FOOTER as FOOTER,
+            doc0.FOOTER_MACROS as FOOTER_MACROS,
+
+            case when (doc0.HEADER_MACROS like '%forumStickyPosting%') then 1 else 0 end as STICKY,
+            case
+                when
+                  (select max(c3.CREATED_ON) from WIKI_COMMENT c2 inner join WIKI_NODE c3 on c2.NODE_ID = c3.NODE_ID where c2.NS_THREAD in
+                   (select c4.NS_THREAD from WIKI_COMMENT c4 inner join WIKI_NODE c5 on c4.NODE_ID = c5.NODE_ID where c5.PARENT_NODE_ID = doc0.NODE_ID)
+                  ) is null
+                 then doc2.CREATED_ON
+                else
+                (select max(c3.CREATED_ON) from WIKI_COMMENT c2 inner join WIKI_NODE c3 on c2.NODE_ID = c3.NODE_ID where c2.NS_THREAD in
+                   (select c4.NS_THREAD from WIKI_COMMENT c4 inner join WIKI_NODE c5 on c4.NODE_ID = c5.NODE_ID where c5.PARENT_NODE_ID = doc0.NODE_ID)
+                  )
+            end as LAST_POST
         from
-            WikiDirectory f,
-            WikiDocument t join fetch t.createdBy u join fetch u.profile up
+            WIKI_DOCUMENT doc0 inner join WIKI_FILE doc1 on doc0.NODE_ID=doc1.NODE_ID inner join WIKI_NODE doc2 on doc0.NODE_ID=doc2.NODE_ID,
+            WIKI_COMMENT c0 inner join WIKI_NODE c1 on c0.NODE_ID = c1.NODE_ID
         where
-            f = :forum
-            and t.parent = f
-            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
-            order by case locate('forumStickyPosting', t.headerMacrosString, 1) when '0' then '0' else '1' end desc, t.createdOn desc
-    ]]></query>
+            doc2.PARENT_NODE_ID= :parentNodeId
+            and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
+        order
+            by STICKY desc, LAST_POST desc
+    ]]></sql-query>
 
     <query name="forumTopicsReplies"><![CDATA[
         select
@@ -155,7 +196,7 @@
         from
             WikiDocument t,
             WikiComment c,
-            WikiComment c2 join fetch c2.createdBy u join fetch u.profile up
+            WikiComment c2 join fetch c2.createdBy u
         where
             t.id in (:topicIds)
             and c.nodeInfo.nsThread in (select c3.nodeInfo.nsThread from WikiComment c3 where c3.parent = t)
@@ -170,8 +211,7 @@
             c2.areaNumber, c2.name, c2.wikiname, c2.createdBy, c2.createdOn, c2.lastModifiedBy, c2.lastModifiedOn, c2.readAccessLevel, c2.writeAccessLevel, c2.writeProtected,
             c2.subject, c2.fromUserName, c2.fromUserEmail, c2.fromUserHomepage, c2.useWikiText,
 
-            u.id, u.version, u.firstname, u.lastname, u.username, u.passwordHash, u.email, u.activated, u.activationCode, u.createdOn, u.lastLoginOn, u.memberHome, u.profile,
-            up.id, up.version, up.createdOn, up.bio, up.website, up.location, up.occupation, up.signature, up.imageContentType
+            u.id, u.version, u.firstname, u.lastname, u.username, u.passwordHash, u.email, u.activated, u.activationCode, u.createdOn, u.lastLoginOn, u.memberHome, u.profile
 
     ]]></query>
 

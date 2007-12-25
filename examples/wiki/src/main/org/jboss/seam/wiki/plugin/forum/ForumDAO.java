@@ -35,6 +35,7 @@ public class ForumDAO {
 
         getSession(true).getNamedQuery("forums")
             .setParameter("parentDir", forumsDirectory)
+            .setComment("Finding all forums")
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
@@ -52,6 +53,8 @@ public class ForumDAO {
         // Find topic count (topics are just wiki documents in the forum directories)
         getSession(true).getNamedQuery("forumTopicCount")
             .setParameter("parentDir", forumsDirectory)
+            .setComment("Finding topic count for all forums")
+            .setCacheable(true)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
@@ -70,6 +73,8 @@ public class ForumDAO {
         // Add reply count to topic count to get total num of posts
         getSession(true).getNamedQuery("forumReplyCount")
             .setParameter("parentDir", forumsDirectory)
+            .setComment("Finding reply count for all forums")
+            .setCacheable(true)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
@@ -89,6 +94,7 @@ public class ForumDAO {
         // Append last topic WikiDocument
         getSession(true).getNamedQuery("forumLastTopic")
             .setParameter("parentDir", forumsDirectory)
+            .setComment("Finding last topics for all forums")
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
@@ -103,7 +109,8 @@ public class ForumDAO {
 
         // Append last reply WikiComment
         getSession(true).getNamedQuery("forumLastReply")
-                .setParameter("parentDir", forumsDirectory)
+            .setParameter("parentDir", forumsDirectory)
+            .setComment("Finding last replies for all forums")
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
@@ -134,6 +141,8 @@ public class ForumDAO {
         getSession(true).getNamedQuery(unreadTopicsQuery)
             .setParameter("parentDir", directory)
             .setParameter("lastLoginDate", lastLoginDate)
+            .setComment("Finding unread topics")
+            .setCacheable(true)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] objects, String[] strings) {
@@ -148,6 +157,8 @@ public class ForumDAO {
         getSession(true).getNamedQuery(unreadRepliesQuery)
             .setParameter("parentDir", directory)
             .setParameter("lastLoginDate", lastLoginDate)
+            .setComment("Finding unread replies")
+            .setCacheable(true)
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] objects, String[] strings) {
@@ -165,7 +176,8 @@ public class ForumDAO {
     public Long findTopicCount(WikiDirectory forum) {
         ScrollableResults cursor =
             getSession(true).getNamedQuery("forumTopics")
-                .setParameter("forum", forum)
+                .setParameter("parentNodeId", forum.getId())
+                .setComment("Counting forum topics")
                 .scroll();
         cursor.last();
         Long count = cursor.getRowNumber() + 1l;
@@ -178,15 +190,16 @@ public class ForumDAO {
         final Map<Long, TopicInfo> topicInfoMap = new LinkedHashMap<Long, TopicInfo>();
 
         getSession(true).getNamedQuery("forumTopics")
-            .setParameter("forum", forum)
+            .setParameter("parentNodeId", forum.getId())
+            .setComment("Retrieving forum topics")
             .setFirstResult(new Long(firstResult).intValue())
             .setMaxResults(new Long(maxResults).intValue())
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
                         topicInfoMap.put(
-                            (Long) result[0],
-                            new TopicInfo( (WikiDocument)result[1], (Integer)result[2])
+                            ((WikiDocument)result[0]).getId(),
+                            new TopicInfo( (WikiDocument)result[0], (Integer)result[1])
                         );
                         return null;
                     }
@@ -196,6 +209,7 @@ public class ForumDAO {
             .list();
         getSession(true).getNamedQuery("forumTopicsReplies")
             .setParameterList("topicIds", topicInfoMap.keySet())
+            .setComment("Retrieving forum topic replies")
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
