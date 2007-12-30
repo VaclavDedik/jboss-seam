@@ -85,11 +85,9 @@ public class DisplayHistory extends DBUnitSeamTest {
                 WikiFile selected = historicalFileList.get(1);
                 assert selected.getHistoricalFileId().equals(2l);
 
-                System.out.println("#### HASH BEFORE: " + selected.hashCode());
                 docHistory.setSelectedHistoricalFile(selected);
                 WikiFile selectedHistoricalFile = docHistory.getSelectedHistoricalFile();
 
-                System.out.println("#### HASH AFTER: " + selectedHistoricalFile.hashCode());
                 assert selectedHistoricalFile.getHistoricalFileId().equals(selected.getHistoricalFileId());
                 assert selectedHistoricalFile.getId().equals(1l);
                 assert selectedHistoricalFile.getRevision() == 1;
