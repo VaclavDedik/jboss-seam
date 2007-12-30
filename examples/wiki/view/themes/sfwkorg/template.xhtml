@@ -28,8 +28,8 @@
     <script type="text/javascript" src="#{themePath}/js/jqProgressBar.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqDimensions.js"></script>
 
-    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/resource/remote.js"></script>
-    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
+    <script type="text/javascript" src="#{preferences.get('Wiki').baseUrl}/seam/resource/remoting/resource/remote.js"></script>
+    <script type="text/javascript" src="#{preferences.get('Wiki').baseUrl}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
 
     <script type="text/javascript">
 
@@ -274,8 +274,8 @@
       </div>
 
       <div>
-          <h:outputLink value="#{wikiPreferences.baseUrl}">
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="210" height="98"/>
+          <h:outputLink value="#{preferences.get('Wiki').baseUrl}">
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="210" height="98"/>
           </h:outputLink>
       </div>
 
@@ -292,7 +292,7 @@
             <ui:define name="mainMenuFooter">
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0" styleClass="feeds">
                     <h:outputLink styleClass="feedLink" value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{wikiRoot.feed.id}">
-                        <h:graphicImage styleClass="feedIcon" value="/themes/#{wikiPreferences.themeName}/img/icon.atom.onbrown.gif" width="18" height="18"/>
+                        <h:graphicImage styleClass="feedIcon" value="/themes/#{preferences.get('Wiki').themeName}/img/icon.atom.onbrown.gif" width="18" height="18"/>
                     </h:outputLink>
                     <h:outputLink styleClass="feedLink" value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{wikiRoot.feed.id}">
                         <span class="feedText">#{messages['lacewiki.button.SiteFeed']}</span>
@@ -358,7 +358,7 @@
     <!-- Main Content area  -->
     <div id="rightColumn">
 
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="1" height="1"/>
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="1" height="1"/>
         <ui:include src="../../includes/breadcrumb.xhtml"/>
 
         <!-- Status messages -->
@@ -366,7 +366,7 @@
             <s:div id="messageBox" styleClass="messageBox" rendered="#{!empty facesMessages.currentGlobalMessages}">
                 <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
                     <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/info.gif"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/info.gif"
                                         width="18" height="18" styleClass="messageBoxImage infoImage"/>
                         <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
                     </h:panelGrid>

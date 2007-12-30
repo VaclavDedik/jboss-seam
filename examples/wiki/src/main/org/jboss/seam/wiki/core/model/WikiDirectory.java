@@ -26,8 +26,8 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
     @org.hibernate.annotations.LazyToOne(org.hibernate.annotations.LazyToOneOption.NO_PROXY)
     private WikiFile defaultFile;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "directory", cascade = CascadeType.PERSIST)
-    @org.hibernate.annotations.LazyToOne(org.hibernate.annotations.LazyToOneOption.NO_PROXY)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "directory", cascade = CascadeType.PERSIST)
+    @org.hibernate.annotations.Fetch(org.hibernate.annotations.FetchMode.JOIN)
     private Feed feed;
 
     @Embedded

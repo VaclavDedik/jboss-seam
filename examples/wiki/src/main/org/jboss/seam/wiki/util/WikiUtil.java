@@ -8,13 +8,11 @@ package org.jboss.seam.wiki.util;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.engine.NullWikiTextRenderer;
-import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
+import org.jboss.seam.wiki.core.model.Role;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
@@ -25,16 +23,13 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Date;
-import java.util.regex.Pattern;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-
-import antlr.RecognitionException;
-import antlr.ANTLRException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -86,24 +81,24 @@ public class WikiUtil {
 
     public static String renderURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
-        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
         return wikiPrefs.isRenderPermlinks() ? renderPermURL(node) : renderWikiURL(node);
     }
 
     public static String renderPermURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
-        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+        WikiPreferences prefs = (WikiPreferences)Preferences.getInstance("Wiki");
         return prefs.getBaseUrl() + node.getPermURL(prefs.getPermlinkSuffix());
     }
 
     public static String renderWikiURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
-        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+        WikiPreferences prefs = (WikiPreferences)Preferences.getInstance("Wiki");
         return prefs.getBaseUrl() + node.getWikiURL();
     }
 
     public static boolean showEmailAddress() {
-        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+        WikiPreferences prefs = (WikiPreferences)Preferences.getInstance("Wiki");
         if (prefs.isShowEmailToLoggedInOnly() && Identity.instance().isLoggedIn()) {
             return true;
         } else if (!prefs.isShowEmailToLoggedInOnly()) {
@@ -134,14 +129,14 @@ public class WikiUtil {
     }
 
     public static String escapeEmailURL(String string) {
-        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
         return string.length() >= 7 && string.substring(0, 7).equals("mailto:")
                 ? string.replaceAll("@", wikiPrefs.getAtSymbolReplacement())
                 : string;
     }
 
     public static String escapeAtSymbol(String string) {
-        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
         return string.replaceAll("@", wikiPrefs.getAtSymbolReplacement());
     }
 
@@ -278,10 +273,8 @@ public class WikiUtil {
     }
 
     public static boolean isRegularUser(User user) {
-        User guestUser = (User)Component.getInstance("guestUser");
-        User adminUser = (User)Component.getInstance("adminUser");
-        if (user.getId().equals(guestUser.getId()) || user.getId().equals(adminUser.getId())) return false;
-        return true;
+        return !(user.getUsername().equals(User.ADMIN_USERNAME) ||
+                 user.getUsername().equals(User.GUEST_USERNAME));
     }
 
     /**

@@ -6,28 +6,8 @@
  */
 package org.jboss.seam.wiki.core.ui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.el.ELException;
-import javax.el.VariableMapper;
-import javax.faces.FacesException;
-import javax.faces.component.UIComponent;
-
-import org.jboss.seam.Component;
-import org.jboss.seam.log.Logging;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.faces.ResourceLoader;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.ui.component.UILoadStyle;
-import org.jboss.seam.wiki.core.action.PluginPreferenceEditor;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-
+import antlr.ANTLRException;
+import antlr.RecognitionException;
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.el.VariableMapperWrapper;
 import com.sun.facelets.tag.MetaRuleset;
@@ -35,6 +15,24 @@ import com.sun.facelets.tag.MetaTagHandler;
 import com.sun.facelets.tag.TagAttribute;
 import com.sun.facelets.tag.TagConfig;
 import com.sun.facelets.tag.jsf.ComponentSupport;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.faces.ResourceLoader;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.ui.component.UILoadStyle;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.engine.NullWikiTextRenderer;
+import org.jboss.seam.wiki.core.engine.WikiMacro;
+import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.preferences.Preferences;
+
+import javax.el.ELException;
+import javax.el.VariableMapper;
+import javax.faces.FacesException;
+import javax.faces.component.UIComponent;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Iterator;
 
 /**
  * Creates a UIWikiText JSF component and substitutes macro names in wiki
@@ -49,12 +47,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
 
     private static final String MARK = "org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler";
 
-    public static final String REGEX_MACRO =
-            Pattern.quote("[") + "<=([a-zA-Z0-9]+)" + Pattern.quote("]");
-
     private TagAttribute valueAttribute;
-
-    private Set<String> includedMacros;
 
     public WikiFormattedTextHandler(TagConfig config) {
         super(config);
@@ -65,7 +58,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
     * Main apply method called by facelets to create this component.
     */
     public void apply(FaceletContext ctx, UIComponent parent) throws IOException, FacesException, ELException {
-        includedMacros = new HashSet<String>();
+        log.debug("<<< building wiki text components");
         String id = ctx.generateUniqueId(this.tagId);
         UIComponent cmp = findChildByTagId(parent, id);
         if (cmp == null) {
@@ -130,56 +123,73 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
      * @param ctx FaceletContext
      * @param parent Parent component
      */
-    private void createPlugins(FaceletContext ctx, UIComponent parent) {
+    private void createPlugins(final FaceletContext ctx, final UIComponent parent) {
         if (!(parent instanceof UIWikiFormattedText)) return;
-        UIWikiFormattedText wikiFormattedText = (UIWikiFormattedText) parent;
+        final UIWikiFormattedText wikiFormattedText = (UIWikiFormattedText) parent;
 
         String unparsed = valueAttribute.getValue(ctx);
 
+        // Don't forget this, transporting the value to the handled component
+        wikiFormattedText.setValue(unparsed);
+
         if (getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS) == null ||
             !getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS).getBoolean(ctx)) {
-            wikiFormattedText.setValue(unparsed);
+            log.debug("plugin rendering disabled");
             return;
         }
 
-        Matcher matcher = Pattern.compile(REGEX_MACRO).matcher(unparsed);
-        StringBuffer parsed = new StringBuffer();
-        while (matcher.find()) {
+        log.debug("<<< creating plugin components from wiki text macros");
 
-            // Include the plugin
-            String macroName = matcher.group(1);
+        WikiTextParser parser = new WikiTextParser(unparsed, true, false);
+        parser.setRenderer(
+            new NullWikiTextRenderer() {
+                public String renderMacro(WikiMacro macro) {
+                    log.debug("found macro: " + macro);
 
-            URL faceletURL = getPluginURL(macroName, ctx);
-            if (faceletURL != null) {
-                includePluginCSS(macroName, parent);
-                includePluginFacelet(faceletURL, ctx, parent);
-                createPreferencesEditor(macroName);
-                includedMacros.add(macroName);
+                    URL faceletURL = getPluginURL(macro.getName(), ctx);
+                    if (faceletURL == null) return null;
 
-                // Get the placeholder to use
-                String placeHolder;
-                Object nextPlugin = parent.getAttributes().get(UIPlugin.NEXT_PLUGIN);
-                if (nextPlugin != null) {
-                    placeHolder = wikiFormattedText.addPlugin(nextPlugin.toString());
-                    parent.getAttributes().remove(UIPlugin.NEXT_PLUGIN);
-                } else {
-                    // Best guess based plugin renderer
-                    placeHolder = wikiFormattedText.addPlugin(
-                        (parent.getChildren().get(parent.getChildCount() - 1).getClientId( ctx.getFacesContext() )
-                        )
-                    );
+                    log.debug("setting current macro in EVENT context");
+                    Contexts.getEventContext().set(UIWikiFormattedText.CURRENT_MACRO_EVENT_VARIABLE, macro);
+
+                    includePluginCSS(macro.getName(), parent);
+                    includePluginFacelet(faceletURL, ctx, parent);
+
+                    // TODO: Need to understand this magic from Pete if we want to make sub-clientIds for plugins
+                    Object nextPluginId = parent.getAttributes().get(UIPlugin.NEXT_PLUGIN);
+                    if (nextPluginId != null) {
+                        macro.setClientId(nextPluginId.toString());
+                        wikiFormattedText.addPluginMacro(macro.getPosition(), macro);
+                        parent.getAttributes().remove(UIPlugin.NEXT_PLUGIN);
+                    } else {
+                        // Best guess based plugin renderer
+                        String pluginId =
+                            parent.getChildren().get( parent.getChildCount()-1 )
+                                   .getClientId( ctx.getFacesContext() );
+                        macro.setClientId(pluginId);
+                        wikiFormattedText.addPluginMacro(macro.getPosition(), macro);
+                    }
+
+                    log.debug("including plugin CSS and facelet template at URL: " + faceletURL);
+
+                    return null;
                 }
-                matcher.appendReplacement(parsed, " [<=" + placeHolder + "]");
-            } else {
-                matcher.appendReplacement(parsed, " [<=" + macroName + "]");
             }
+        );
+
+        try {
+            parser.parse();
+        } catch (RecognitionException rex) {
+            // Swallow parsing errors, we don't really care here...
+        } catch (ANTLRException ex) {
+            // All other errors are fatal;
+            throw new RuntimeException(ex);
         }
-        matcher.appendTail(parsed);
-        wikiFormattedText.setValue(parsed.toString());
     }
 
     private URL getPluginURL(String macroName, FaceletContext ctx) {
-        if (macroName == null || macroName.length() == 0 || includedMacros.contains(macroName)) return null;
+        //if (macroName == null || macroName.length() == 0 || includedMacros.contains(macroName)) return null;
+        if (macroName == null || macroName.length() == 0) return null;
 
         String includeView = "/plugins/" + macroName + "/plugin.xhtml";
 
@@ -210,7 +220,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
     */
     private void includePluginCSS(String macroName, UIComponent cmp) {
         // Try to get the CSS for it
-        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
         String css = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css";
         if (ResourceLoader.instance().getResource(css) != null) {
             // TODO: For Pete to fix, UILoadStyle doesn't load the CSS anymore
@@ -220,34 +230,6 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
             // Clear these out in the next build phase
             ComponentSupport.markForDeletion(style);
         }
-    }
-
-    /*
-     * If this plugin has preferences and editing is enabled, instantiate a
-     * plugin preferences editor and put it in the conversation context
-     */
-    private void createPreferencesEditor(String macroName) {
-
-        String pluginPreferenceName = macroName + "Preferences";
-        Boolean showPluginPreferences = (Boolean) Contexts.getPageContext().get("showPluginPreferences");
-        Object existingEditor = Contexts.getConversationContext().get(pluginPreferenceName + "Editor");
-
-        if (showPluginPreferences != null && showPluginPreferences && existingEditor == null) {
-
-            PluginPreferenceEditor pluginPreferenceEditor = new PluginPreferenceEditor(pluginPreferenceName);
-            PluginPreferenceEditor.FlushObserver observer =
-                    (PluginPreferenceEditor.FlushObserver) Component.getInstance("pluginPreferenceEditorFlushObserver");
-
-            if (pluginPreferenceEditor.getPreferenceValues().size() > 0) {
-                log.debug("Creating plugin preference editor for: " + pluginPreferenceName);
-                Contexts.getConversationContext().set(pluginPreferenceName + "Editor", pluginPreferenceEditor);
-                observer.addPluginPreferenceEditor(pluginPreferenceEditor);
-            }
-        } else if (showPluginPreferences == null || !showPluginPreferences) {
-            log.debug("Disabling plugin preference editor for: " + pluginPreferenceName);
-            Contexts.getConversationContext().set(pluginPreferenceName + "Editor", null);
-        }
-
     }
 
     /*

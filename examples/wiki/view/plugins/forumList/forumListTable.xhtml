@@ -30,23 +30,23 @@
         <h:panelGroup>
 
             <h:outputLink styleClass="undecoratedLink" value="#{wiki:renderURL(f.forum)}" tabindex="1">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.posting_unread.gif" width="22" height="26"
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.posting_unread.gif" width="22" height="26"
                                 rendered="#{f.unreadPostings}"/>
 
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.posting.gif" width="22" height="26"
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.posting.gif" width="22" height="26"
                                 rendered="#{not f.unreadPostings}"/>
             </h:outputLink>
 
             <s:span styleClass="forumFeedLink undecoratedLink" rendered="#{not empty f.forum.feed}">
                 <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{f.forum.feed.id}"
                               tabindex="1">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.gif" width="18" height="18"/>
+                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.atom.gif" width="18" height="18"/>
                 </h:outputLink>
             </s:span>
 
             <s:span styleClass="forumFeedLink" rendered="#{empty f.forum.feed}">
                 <h:graphicImage rendered="#{empty f.forum.feed}"
-                                value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="18" height="18"/>
+                                value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="18" height="18"/>
             </s:span>
 
         </h:panelGroup>

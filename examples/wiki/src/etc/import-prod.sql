@@ -1,6 +1,54 @@
 -- MySQL magic!
 set session sql_mode='PIPES_AS_CONCAT'
 
+INSERT INTO PREFERENCE VALUES(1,'Wiki','baseUrl',NULL,NULL,NULL,NULL,'http://www.lacewiki.org/change_me_in_database_import',0,NULL)
+INSERT INTO PREFERENCE VALUES(2,'Wiki','timeZone',NULL,NULL,NULL,NULL,'CET',0,NULL)
+INSERT INTO PREFERENCE VALUES(3,'Wiki','themeName',NULL,NULL,NULL,NULL,'default',0,NULL)
+INSERT INTO PREFERENCE VALUES(4,'Wiki','memberArea',NULL,NULL,NULL,NULL,'Members',0,NULL)
+INSERT INTO PREFERENCE VALUES(5,'Wiki','helpArea',NULL,NULL,NULL,NULL,'Help',0,NULL)
+INSERT INTO PREFERENCE VALUES(6,'Wiki','defaultDocumentId',3,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(7,'Wiki','renderPermlinks',NULL,NULL,NULL,FALSE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(8,'Wiki','permlinkSuffix',NULL,NULL,NULL,NULL,'.lace',0,NULL)
+INSERT INTO PREFERENCE VALUES(9,'Wiki','feedTitlePrefix',NULL,NULL,NULL,NULL,'LaceWiki - ',0,NULL)
+INSERT INTO PREFERENCE VALUES(10,'Wiki','purgeFeedEntriesAfterDays',999,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(11,'Wiki','atSymbolReplacement',NULL,NULL,NULL,NULL,'(AT)',0,NULL)
+INSERT INTO PREFERENCE VALUES(12,'Wiki','mainMenuLevels',3,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(13,'Wiki','mainMenuDepth',2,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(14,'Wiki','mainMenuShowAdminOnly',NULL,NULL,NULL,FALSE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(15,'Wiki','showDocumentCreatorHistory',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(16,'Wiki','showTags',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(17,'Wiki','showEmailToLoggedInOnly',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(20,'DocEditor','minorRevisionEnabled',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(21,'DocEditor','regularEditAreaRows',15,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(22,'DocEditor','regularEditAreaColumns',65,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(30,'UserManagement','activationCodeSalt',NULL,NULL,NULL,NULL,'MySecretSalt123',0,NULL)
+INSERT INTO PREFERENCE VALUES(31,'UserManagement','passwordRegex',NULL,NULL,NULL,NULL,'^[0-9A-Za-z]{6,15}',0,NULL)
+INSERT INTO PREFERENCE VALUES(32,'UserManagement','newUserInRole',NULL,NULL,NULL,NULL,'member',0,NULL)
+INSERT INTO PREFERENCE VALUES(33,'UserManagement','enableRegistration',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(34,'UserManagement','createHomeAfterUserActivation',NULL,NULL,NULL,FALSE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(35,'UserManagement','homepageDefaultContent',NULL,NULL,NULL,NULL,'This is your homepage, login to edit it.',0,NULL)
+INSERT INTO PREFERENCE VALUES(40,'Comments','listAscending',NULL,NULL,NULL,FALSE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(41,'Comments','enableByDefault',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(42,'Comments','threaded',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(110,'LastModifiedDocuments','numberOfItems',5,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(111,'LastModifiedDocuments','showUsernames',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(112,'LastModifiedDocuments','documentTitleLength',20,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(120,'Blog','pageSize',5,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(121,'Blog','archiveSubscribeIcon',NULL,NULL,NULL,FALSE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(122,'Blog','recentEntriesItems',10,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(123,'Blog','recentEntriesTruncateTitle',40,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(124,'Blog','recentEntriesSubscribeIcon',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(130,'FeedTeasers','title',NULL,NULL,NULL,NULL,'Site news feed:',0,NULL)
+INSERT INTO PREFERENCE VALUES(131,'FeedTeasers','numberOfTeasers',5,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(132,'FeedTeasers','truncateDescription',200,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(133,'FeedTeasers','showAuthor',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(140,'Flash','allowedDomains',NULL,NULL,NULL,NULL,'video.google.com,www.youtube.com',0,NULL)
+INSERT INTO PREFERENCE VALUES(150,'DirMenu','title',NULL,NULL,NULL,NULL,'Directory Menu',0,NULL)
+INSERT INTO PREFERENCE VALUES(151,'DirMenu','menuLevels',3,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(152,'DirMenu','menuDepth',3,NULL,NULL,NULL,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(160,'Tags','linkToCurrentDocument',NULL,NULL,NULL,TRUE,NULL,0,NULL)
+INSERT INTO PREFERENCE VALUES(180,'Forum','topicsPerPage',20,NULL,NULL,NULL,NULL,0,NULL)
+
 INSERT INTO `ROLES` (`ROLE_ID`, `ACCESS_LEVEL`, `CREATED_ON`, `DISPLAY_NAME`, `NAME`, `OBJ_VERSION`) VALUES (1,1000,'2006-06-27 13:45:00','Administrator','admin',0)
 INSERT INTO `ROLES` (`ROLE_ID`, `ACCESS_LEVEL`, `CREATED_ON`, `DISPLAY_NAME`, `NAME`, `OBJ_VERSION`) VALUES (2,0,'2006-06-27 13:45:00','Guest','guest',0)
 INSERT INTO `ROLES` (`ROLE_ID`, `ACCESS_LEVEL`, `CREATED_ON`, `DISPLAY_NAME`, `NAME`, `OBJ_VERSION`) VALUES (3,1,'2006-06-27 13:45:00','Member','member',0)
@@ -40,76 +88,17 @@ INSERT INTO `WIKI_DIRECTORY` (`NODE_ID`, `DESCRIPTION`, `NS_LEFT`, `NS_RIGHT`, `
 
 INSERT INTO `WIKI_DOCUMENT` (`NODE_ID`, `CONTENT`, `CONTENT_MACROS`, `ENABLE_COMMENT_FORM`, `ENABLE_COMMENTS`, `ENABLE_COMMENTS_ON_FEEDS`, `FOOTER`, `FOOTER_MACROS`, `HEADER`, `HEADER_MACROS`, `NAME_AS_TITLE`) VALUES (3,'Welcome to LaceWiki.\n\nLogin with admin-admin and rebuild the search index in the administration area.',NULL,true,true,true,NULL,NULL,NULL,NULL,true)
 
-INSERT INTO `WIKI_DOCUMENT` (`NODE_ID`, `CONTENT`, `CONTENT_MACROS`, `ENABLE_COMMENT_FORM`, `ENABLE_COMMENTS`, `ENABLE_COMMENTS_ON_FEEDS`, `FOOTER`, `FOOTER_MACROS`, `HEADER`, `HEADER_MACROS`, `NAME_AS_TITLE`) VALUES (7,'Most content on this website (blogs, blog comments, wiki pages, user profiles) is rendered using the [Seam Text=>http://docs.jboss.com/seam/latest/reference/en/html/text.html] engine. If you are creating content, it helps to know a few simple tricks.\n\n++ Basic formatting\n\nYou can emphasize words using *emphasis*, _underline_, ~strikeout~ or ^superscript^.\n\n`You can emphasize words using\n*emphasis*, _underline_, ~strikeout~ or ^superscript^.`\n\nBut if you really want to type a special character such as \\* or \\+, you need to escape it with a \\\\.\n\n`But if you really want to type a special character\nsuch as \\* or \\+, you need to escape it with a \\\\.`\n\nAlternatively, you can use special characters freely inside |monospace text|.\n\n`Alternatively, you can use special characters freely\ninside |monospace text|.`\n\n++ Block formatting\n\nOf course, you can also use \"inline quotes\".\n\n\"And block quotes.\"\n\nAnd split text across several paragraphs.\n\n`Of course, you can also use \"inline quotes\".\n\n\"And block quotes.\"\n\nAnd split text across several paragraphs.`\n\nYou can create\n\n= unorderedlists\n= of stuff\n= like this\n\nor\n\n# numbered lists\n# of other things\n\n`You can create\n= unordered lists\n= of stuff\n= like this\n\nor\n\n# numbered lists\n# of other things`\n\nA third option for embedding text that uses special characters is to use a code block, delimited by *backticks*. For example:\n\n`for (int i=0; i<100; i++) {\n   log.info(\"Hello world!\");\n}`\n\n+ Here is a first-level heading\n\nHere is a normal paragraph.\n\n++ Here is a second-level heading\n\nAnd another paragraph.\n\n`+ Here is a first-level heading\n\nHere is a normal paragraph.\n\n++ Here is a second-level heading\n\nAnd another paragraph.`\n\n++ Links\n\nThe wiki has powerful handling for links.\n\nHTML links to [=>http://hibernate.org] or attach the link to [some link text=>http://hibernate.org].\nMy [e-mail address=>mailto:foo@bar.tld] will be automatically protected.\n\n`HTML links to [=>http://hibernate.org] or attach the\nlink to [some link text=>http://hibernate.org].\nMy [e-mail address=>mailto:foo@bar.tld] will be\nautomatically protected.`\n\nInternal wiki links simply use area and document/file names:\n\n= Link to  another document: \\[\\=\\>My Document\\] \n= Link to another document with link text: \\[A document\\=\\>My Document\\]\n= Link to another document in another area: \\[\\=\\>Another Area\\|My Document\\]\n= Link to an uploaded file or image: \\[\\=\\>My Upload\\]\n\nYou can even link to a [Hibernate JIRA issue=>hhh://2702], or a\n[Seam JIRA issue=>jbseam://1920].\n\n`You can even link to a [Hibernate JIRA issue=>hhh://2702],\nor a [Seam JIRA issue=>jbseam://1920].`\n\n++ Embedded HTML\n\nYou can even use <i>many</i> HTML tags directly, but <b>not</b> tags that would create a security vulnerability!\n\n`You can even use <i>many</i> HTML tags directly,\nbut <b>not</b> tags that would create a\nsecurity vulnerability!`',NULL,false,false,false,NULL,NULL,NULL,NULL,true)
+INSERT INTO `WIKI_DOCUMENT` (`NODE_ID`, `CONTENT`, `CONTENT_MACROS`, `ENABLE_COMMENT_FORM`, `ENABLE_COMMENTS`, `ENABLE_COMMENTS_ON_FEEDS`, `FOOTER`, `FOOTER_MACROS`, `HEADER`, `HEADER_MACROS`, `NAME_AS_TITLE`) VALUES (7,'Most content on this website (blogs, blog comments, wiki pages, user profiles) is rendered using the [Seam Text=>http://docs.jboss.com/seam/latest/reference/en/html/text.html] engine. If you are creating content, it helps to know a few simple tricks.\n\n++ Basic formatting\n\nYou can emphasize words using *emphasis*, _underline_, ~strikeout~ or ^superscript^.\n\n`You can emphasize words using\n*emphasis*, _underline_, ~strikeout~ or ^superscript^.`\n\nBut if you really want to type a special character such as \\* or \\+, you need to escape it with a \\\\.\n\n`But if you really want to type a special character\nsuch as \\* or \\+, you need to escape it with a \\\\.`\n\nAlternatively, you can use special characters freely inside |monospace text|.\n\n`Alternatively, you can use special characters freely\ninside |monospace text|.`\n\n++ Block formatting\n\nOf course, you can also use \"inline quotes\".\n\n\"And block quotes.\"\n\nAnd split text across several paragraphs.\n\n`Of course, you can also use \"inline quotes\".\n\n\"And block quotes.\"\n\nAnd split text across several paragraphs.`\n\nYou can create\n\n= unorderedlists\n= of stuff\n= like this\n\nor\n\n# numbered lists\n# of other things\n\n`You can create\n= unordered lists\n= of stuff\n= like this\n\nor\n\n# numbered lists\n# of other things`\n\n++ Code Blocks\n\nA third option for embedding text that uses special characters is to use a code block, delimited by `backticks`. For example:\n\n<pre>\\`for (int i\\=0; i\\<100; i\\+\\+) {\n   log.info(\\\"Hello world!\\\");\n}\\`</pre>\n\n+ Here is a first-level heading\n\nHere is a normal paragraph.\n\n++ Here is a second-level heading\n\nAnd another paragraph.\n\n`+ Here is a first-level heading\n\nHere is a normal paragraph.\n\n++ Here is a second-level heading\n\nAnd another paragraph.`\n\n++ Links\n\nThe wiki has powerful handling for links.\n\nHTML links to [=>http://hibernate.org] or attach the link to [some link text=>http://hibernate.org].\nMy [e-mail address=>mailto:foo@bar.tld] will be automatically protected.\n\n`HTML links to [=>http://hibernate.org] or attach the\nlink to [some link text=>http://hibernate.org].\nMy [e-mail address=>mailto:foo@bar.tld] will be\nautomatically protected.`\n\nInternal wiki links simply use area and document/file names:\n\n= Link to  another document: \\[\\=\\>My Document\\] \n= Link to another document with link text: \\[A document\\=\\>My Document\\]\n= Link to another document in another area: \\[\\=\\>Another Area\\|My Document\\]\n= Link to an uploaded file or image: \\[\\=\\>My Upload\\]\n\nYou can even link to a [Hibernate JIRA issue=>hhh://2702], or a\n[Seam JIRA issue=>jbseam://1920].\n\n`You can even link to a [Hibernate JIRA issue=>hhh://2702],\nor a [Seam JIRA issue=>jbseam://1920].`\n\n++ Embedded HTML\n\nYou can even use <i>many</i> HTML tags directly, but <b>not</b> tags that would create a security vulnerability!\n\n`You can even use <i>many</i> HTML tags directly,\nbut <b>not</b> tags that would create a\nsecurity vulnerability!`',NULL,false,false,false,NULL,NULL,NULL,NULL,true)
 
 INSERT INTO `WIKI_MENU_ITEM` (`DIRECTORY_ID`, `DISPLAY_POSITION`) VALUES (2,0)
 INSERT INTO `WIKI_MENU_ITEM` (`DIRECTORY_ID`, `DISPLAY_POSITION`) VALUES (4,1)
 INSERT INTO `WIKI_MENU_ITEM` (`DIRECTORY_ID`, `DISPLAY_POSITION`) VALUES (5,2)
-
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (1,'wikiPreferences','baseUrl',NULL,NULL,NULL,NULL,'http://www.lacewiki.org',0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (2,'wikiPreferences','timeZone',NULL,NULL,NULL,NULL,'CET',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (3,'wikiPreferences','themeName',NULL,NULL,NULL,NULL,'default',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (4,'wikiPreferences','memberArea',NULL,NULL,NULL,NULL,'Members',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (5,'wikiPreferences','helpArea',NULL,NULL,NULL,NULL,'Help',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (6,'wikiPreferences','defaultDocumentId',3,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (7,'wikiPreferences','renderPermlinks',NULL,NULL,NULL,false,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (8,'wikiPreferences','permlinkSuffix',NULL,NULL,NULL,NULL,'.lace',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (9,'wikiPreferences','feedTitlePrefix',NULL,NULL,NULL,NULL,'LaceWiki - ',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (10,'wikiPreferences','purgeFeedEntriesAfterDays',999,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (11,'wikiPreferences','atSymbolReplacement',NULL,NULL,NULL,NULL,'(AT)',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (12,'wikiPreferences','mainMenuLevels',3,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (13,'wikiPreferences','mainMenuDepth',3,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (14,'wikiPreferences','mainMenuShowAdminOnly',NULL,NULL,NULL,false,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (15,'wikiPreferences','showDocumentCreatorHistory',NULL,NULL,NULL,'',NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (16,'wikiPreferences','showTags',NULL,NULL,NULL,'',NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (17,'wikiPreferences','showEmailToLoggedInOnly',NULL,NULL,NULL,'',NULL, true,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (20,'docEditorPreferences','minorRevisionEnabled',NULL,NULL,NULL,'',NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (21,'docEditorPreferences','regularEditAreaRows',15,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (22,'docEditorPreferences','regularEditAreaColumns',80,NULL,NULL,NULL,NULL,0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (30,'userManagementPreferences','activationCodeSalt',NULL,NULL,NULL,NULL,'MySecretSalt123',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (31,'userManagementPreferences','passwordRegex',NULL,NULL,NULL,NULL,'^[0-9A-Za-z]{6,15}',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (32,'userManagementPreferences','newUserInRole',NULL,NULL,NULL,NULL,'member',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (33,'userManagementPreferences','enableRegistration',NULL,NULL,NULL,'',NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (34,'userManagementPreferences','createHomeAfterUserActivation',NULL,NULL,NULL,false,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (35,'userManagementPreferences','homepageDefaultContent',NULL,NULL,NULL,NULL,'This is your homepage, login to edit it.',0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (40,'commentsPreferences','listAscending',NULL,NULL,NULL,false,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (41,'commentsPreferences','enableByDefault',NULL,NULL,NULL,'',NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (42,'commentsPreferences','threadedComments',NULL,NULL,NULL,'',NULL,0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (110,'lastModifiedDocumentsPreferences','numberOfItems',5,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (111,'lastModifiedDocumentsPreferences','showUsernames',NULL,NULL,NULL,'',NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (112,'lastModifiedDocumentsPreferences','documentTitleLength',20,NULL,NULL,NULL,NULL,0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (120,'blogDirectoryPreferences','pageSize',5,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (121,'blogDirectoryPreferences','recentHeadlines',10,NULL,NULL,NULL,NULL,0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (130,'feedTeasersPreferences','teaserTitle',NULL,NULL,NULL,NULL,'Site news feed:',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (131,'feedTeasersPreferences','feedIdentifier',1,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (132,'feedTeasersPreferences','numberOfTeasers',5,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (133,'feedTeasersPreferences','truncateDescription',200,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (134,'feedTeasersPreferences','showAuthor',NULL,NULL,NULL,'',NULL,0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (140,'flashPreferences','flashURL',NULL,NULL,NULL,NULL,'',0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (141,'flashPreferences','objectWidth',350,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (142,'flashPreferences','objectHeight',425,NULL,NULL,NULL,NULL,0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (170,'dirMenuPreferences','menuLevels',3,NULL,NULL,NULL,NULL,0,NULL,NULL)
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (171,'dirMenuPreferences','menuDepth',3,NULL,NULL,NULL,NULL,0,NULL,NULL)
-
-INSERT INTO `PREFERENCE` (`PREF_ID`, `COMPONENT_NAME`, `PROPERTY_NAME`, `LONG_VALUE`, `DOUBLE_VALUE`, `TIMESTAMP_VALUE`, `BOOLEAN_VALUE`, `STRING_VALUE`, `OBJ_VERSION`, `WIKI_DOCUMENT_ID`, `USER_ID`) VALUES (180,'forumPreferences','topicsPerPage',20,NULL,NULL,NULL,NULL,0,NULL,NULL)
-
 
 INSERT INTO `FEED` (`FEED_ID`, `AUTHOR`, `DESCRIPTION`, `PUBLISHED_ON`, `TITLE`, `DIRECTORY_ID`) VALUES (1,'System Administrator',NULL,'2006-09-23 13:45:00','ROOT',1);
 
 INSERT INTO `LINK_PROTOCOL` (`LINK_PROTOCOL_ID`, `LINK`, `PREFIX`, `OBJ_VERSION`) VALUES (1,'http://jira.jboss.com/jira/browse/JBSEAM-[[link]]','jbseam',0)
 INSERT INTO `LINK_PROTOCOL` (`LINK_PROTOCOL_ID`, `LINK`, `PREFIX`, `OBJ_VERSION`) VALUES (2,'http://opensource.atlassian.com/projects/hibernate/browse/HHH-[[link]]','hhh',0)
 INSERT INTO `LINK_PROTOCOL` (`LINK_PROTOCOL_ID`, `LINK`, `PREFIX`, `OBJ_VERSION`) VALUES (3,'http://www.youtube.com/watch?v=[[link]]','youtube',0)
-
 
 -- More MySQL magic!
 set session sql_mode=''

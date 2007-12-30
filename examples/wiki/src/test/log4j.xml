@@ -88,30 +88,6 @@
     </category>
     -->
 
-    <!-- Debugging conversations and persistence contexts
-    <category name="org.jboss.seam.core.Manager">
-        <priority value="DEBUG"/>
-    </category>
-    <category name="org.jboss.seam.core.ManagedPersistenceContext">
-        <priority value="DEBUG"/>
-    </category>
-    <category name="org.jboss.seam.jsf.AbstractSeamPhaseListener">
-        <priority value="DEBUG"/>
-    </category>
-    <category name="org.jboss.seam.interceptors.ConversationInterceptor">
-        <priority value="DEBUG"/>
-    </category>
-    <category name="org.jboss.seam.contexts.Lifecycle">
-        <priority value="DEBUG"/>
-    </category>
-    <category name="org.hibernate.impl.SessionImpl">
-        <priority value="DEBUG"/>
-    </category>
-    <category name="org.hibernate.event.def.AbstractFlushingEventListener">
-        <priority value="DEBUG"/>
-    </category>
-    -->
-
     <root>
         <priority value="INFO"/>
         <appender-ref ref="CONSOLE"/>

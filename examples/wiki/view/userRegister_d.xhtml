@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.userRegister.Registration']}"/>

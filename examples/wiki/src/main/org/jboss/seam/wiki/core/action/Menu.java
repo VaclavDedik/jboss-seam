@@ -34,7 +34,7 @@ public class Menu implements Serializable {
     @In
     WikiNodeDAO wikiNodeDAO;
 
-    @In
+    @In("#{preferences.get('Wiki')}")
     WikiPreferences wikiPreferences;
 
     NestedSetNodeWrapper<WikiDirectory> root;

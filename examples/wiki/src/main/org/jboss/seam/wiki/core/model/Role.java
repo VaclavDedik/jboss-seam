@@ -26,7 +26,7 @@ public class Role implements Serializable, Comparable {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    private int version;
+    private int version = 0;
 
     @Column(name = "NAME", length = 255, nullable = false, unique = true)
     private String name;

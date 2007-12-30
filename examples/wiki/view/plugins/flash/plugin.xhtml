@@ -6,39 +6,29 @@
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
-<s:div id="flashPluginDiv" styleClass="#{showPluginPreferences and !empty flashPreferencesEditor ? 'pluginPreferencesBox' : ''}">
+<s:div id="flashPluginDiv">
 
-    <s:div id="flashPreferences"
-           rendered="#{showPluginPreferences and !empty flashPreferencesEditor}">
-        <div align="center">
-            <h:message for="flashPreferences" styleClass="pluginPreferencesMessage"/>
-
-            <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-                <ui:param name="pluginDiv" value="flashPluginDiv"/>
-                <ui:param name="pluginPreferencesEditor" value="#{flashPreferencesEditor}"/>
-            </ui:include>
-        </div>
-    </s:div>
-
-    <s:div rendered="#{not empty flashPreferences.flashURL and flash.URLAllowed}">
-        <object width="#{flashPreferencesobjectWidth}"
-                height="#{flashPreferences.objectHeight}">
-            <param name="movie" value="#{flashPreferences.flashURL}"></param>
+    <s:div rendered="#{not empty preferences.get('Flash', currentMacro).url and flash.URLAllowed}">
+        <object width="#{preferences.get('Flash', currentMacro).width}"
+                height="#{preferences.get('Flash', currentMacro).height}">
+            <param name="movie" value="#{preferences.get('Flash', currentMacro).url}"></param>
             <param name="wmode" value="transparent"></param>
-            <embed src="#{flashPreferences.flashURL}"
+            <embed src="#{preferences.get('Flash', currentMacro).url}"
                    type="application/x-shockwave-flash"
                    wmode="transparent"
-                   width="#{flashPreferences.objectWidth}"
-                   height="#{flashPreferences.objectHeight}">
+                   width="#{preferences.get('Flash', currentMacro).width}"
+                   height="#{preferences.get('Flash', currentMacro).height}">
            </embed>
         </object>
     </s:div>
 
-    <s:div rendered="#{empty flashPreferences.flashURL}" styleClass="flashURLNotSupplied">
+    <s:div rendered="#{empty preferences.get('Flash', currentMacro).url}"
+           styleClass="flashURLNotSupplied">
         <h:outputText value="#{messages['flash.msg.URLNotSupplied']}"/>
     </s:div>
 
-    <s:div rendered="#{not empty flashPreferences.flashURL and not flash.URLAllowed}" styleClass="flashURLNotAllowed">
+    <s:div rendered="#{not empty preferences.get('Flash', currentMacro).url and not flash.URLAllowed}"
+           styleClass="flashURLNotAllowed">
         <h:outputText value="#{messages['flash.msg.URLNotAllowed']}"/>
     </s:div>
 

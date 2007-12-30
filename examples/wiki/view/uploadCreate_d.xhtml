@@ -8,7 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.upload.UploadFile']}"/>

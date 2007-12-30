@@ -24,7 +24,7 @@
             <s:link styleClass="userControlLink" tabindex="50"
                     accesskey="#{messages['lacewiki.button.userControl.Register.accesskey']}"
                     view="/userRegister_#{skin}.xhtml" propagation="none"
-                    rendered="#{userManagementPreferences.properties['enableRegistration']}">
+                    rendered="#{preferences.get('UserManagement').enableRegistration}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.userControl.Register']}"/>
             </s:link>
 

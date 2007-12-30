@@ -8,7 +8,7 @@
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.docEdit.CreateDocument']}" rendered="#{!documentHome.managed}"/>
@@ -161,8 +161,8 @@
                                 <ui:param name="namingContainer" value="docEditForm"/>
                                 <ui:param name="statusId" value="docEditFormStatus"/>
                                 <ui:param name="label" value="#{messages['lacewiki.label.docEdit.Content']}"/>
-                                <ui:param name="textEditorColumns" value="#{docEditorPreferences.properties['regularEditAreaColumns']}"/>
-                                <ui:param name="textEditorRows" value="#{docEditorPreferences.properties['regularEditAreaRows']}"/>
+                                <ui:param name="textEditorColumns" value="#{preferences.get('DocEditor').regularEditAreaColumns}"/>
+                                <ui:param name="textEditorRows" value="#{preferences.get('DocEditor').regularEditAreaRows}"/>
                                 <ui:param name="valueBinding" value="#{documentHome.formContent}"/>
                                 <ui:param name="valueMaxLength" value="32768"/>
                                 <ui:param name="valueRequired" value="true"/>
@@ -210,7 +210,7 @@
                                 </div>
                                 <div class="output">
                                     <h:outputText value="#{documentHome.instance.createdOn}">
-                                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                                     </h:outputText>
                                     <s:span id="ownerDisplay">&#160;(#{documentHome.instance.createdBy.username})</s:span>
                                     <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent"

@@ -11,15 +11,15 @@ import org.jboss.seam.ScopeType;
 import java.io.Serializable;
 import java.util.List;
 
-@Name("feedTeasersPlugin")
+@Name("feedTeasers")
 @Scope(ScopeType.PAGE)
 public class FeedTeasers implements Serializable {
 
     @In
     FeedDAO feedDAO;
 
-    @In
-    FeedTeasersPreferences feedTeasersPreferences;
+    @In("#{preferences.get('FeedTeasers', currentMacro)}")
+    FeedTeasersPreferences prefs;
 
     private List<FeedEntry> teasers;
 
@@ -28,12 +28,12 @@ public class FeedTeasers implements Serializable {
         return teasers;
     }
 
-    @Observer("PreferenceComponent.refresh.feedTeasersPreferences")
+    @Observer(value = "Macro.render.feedTeasers", create = false)
     public void loadTeasers() {
         teasers =
             feedDAO.findLastFeedEntries(
-                feedTeasersPreferences.getFeedIdentifier(),
-                feedTeasersPreferences.getNumberOfTeasers().intValue()
+                prefs.getFeed(),
+                prefs.getNumberOfTeasers().intValue()
             );
     }
 

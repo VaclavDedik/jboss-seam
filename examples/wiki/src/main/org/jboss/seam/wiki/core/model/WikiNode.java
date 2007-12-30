@@ -33,7 +33,7 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    protected int version;
+    protected int version = 0;
 
     @Column(name = "AREA_NR", nullable = false)
     protected Long areaNumber;
@@ -100,9 +100,6 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
     @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_NODE_PARENT_NODE_ID")
     @org.hibernate.annotations.Fetch(org.hibernate.annotations.FetchMode.JOIN)
-    /*
-    @org.hibernate.annotations.LazyToOne(org.hibernate.annotations.LazyToOneOption.NO_PROXY)
-    */
     protected WikiNode parent;
 
     protected WikiNode() {}

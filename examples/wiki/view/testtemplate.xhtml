@@ -9,9 +9,9 @@
 
 <head><title>Test</title>
 
-    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/resource/remote.js"></script>
+    <script type="text/javascript" src="#{preferences.get('Wiki').baseUrl}/seam/resource/remoting/resource/remote.js"></script>
 
-    <script type="text/javascript" src="#{wikiPreferences.baseUrl}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
+    <script type="text/javascript" src="#{preferences.get('Wiki').baseUrl}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
 
     <script type="text/javascript">
         Seam.Remoting.displayLoadingMessage = function() {};

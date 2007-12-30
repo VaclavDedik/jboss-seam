@@ -15,7 +15,7 @@
             you registered an account on the LaceWiki. You need to click the following link to confirm the
             validity of your e-mail address and to activate your account:</p>
 
-            <h:outputLink value="#{wikiPreferences.baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</h:outputLink>
+            <h:outputLink value="#{preferences.get('Wiki').baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</h:outputLink>
 
             <p>
             Regards,<br/>
@@ -30,7 +30,7 @@ Hello #{userHome.instance.fullname},
 you registered an account on the LaceWiki. You need to use the following link to confirm the
 validity of your e-mail address and to activate your account:
 
-#{wikiPreferences.baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
+#{preferences.get('Wiki').baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
 
 Regards,
 LaceWiki

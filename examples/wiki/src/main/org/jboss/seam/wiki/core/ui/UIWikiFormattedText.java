@@ -9,15 +9,13 @@ package org.jboss.seam.wiki.core.ui;
 import antlr.ANTLRException;
 import antlr.RecognitionException;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Events;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
-import org.jboss.seam.wiki.core.engine.DefaultWikiTextRenderer;
-import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.wiki.core.model.WikiFile;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.util.WikiUtil;
@@ -28,8 +26,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Uses WikiTextParser and WikiLinkResolver to render Seam Text markup with wiki links.
@@ -43,6 +42,9 @@ public class UIWikiFormattedText extends UIOutput {
 
     Log log = Logging.getLog(UIWikiFormattedText.class);
 
+    public static final String CURRENT_MACRO_EVENT_VARIABLE         = "currentMacro";
+    public static final String CURRENT_MACRO_EVENT_VARIABLE_SET     = "Macro.render.";
+
     public static final String ATTR_LINK_STYLE_CLASS                = "linkStyleClass";
     public static final String ATTR_BROKEN_LINK_STYLE_CLASS         = "brokenLinkStyleClass";
     public static final String ATTR_ATTACHMENT_LINK_STYLE_CLASS     = "attachmentLinkStyleClass";
@@ -53,7 +55,7 @@ public class UIWikiFormattedText extends UIOutput {
     public static final String ATTR_CURRENT_AREA_NUMBER             = "currentAreaNumber";
     public static final String ATTR_ENABLE_PLUGINS                  = "enablePlugins";
 
-    private List<String> plugins;
+    private Map<Integer, WikiMacro> pluginMacros;
 
     public static final String COMPONENT_FAMILY = "org.jboss.seam.wiki.core.ui.UIWikiFormattedText";
 
@@ -61,7 +63,7 @@ public class UIWikiFormattedText extends UIOutput {
 
     public UIWikiFormattedText() {
         super();
-        plugins = new ArrayList<String>();
+        pluginMacros = new HashMap<Integer, WikiMacro>();
     }
 
     @Override
@@ -84,7 +86,7 @@ public class UIWikiFormattedText extends UIOutput {
         if (!isRendered() || getValue() == null) return;
 
         // Use the WikiTextParser to resolve macros
-        WikiTextParser parser = new WikiTextParser((String) getValue(), false, true);
+        WikiTextParser parser = new WikiTextParser((String) getValue(), true, true);
 
         // Resolve the base document and directory we are resolving against
         final WikiFile baseFile = (WikiFile)getAttributes().get(ATTR_LINK_BASE_FILE);
@@ -165,23 +167,29 @@ public class UIWikiFormattedText extends UIOutput {
                 }
             }
 
-            public String renderMacro(String macroName) {
-                if (macroName == null || macroName.length() == 0) return "";
-                try {
-                    new Integer(macroName);
-                } catch (NumberFormatException ex) {
-                    // This is the name of a not-found plugin, otherwise
-                    // we'd have a numeric client identifier of the
-                    // included plugin component
+            public String renderMacro(WikiMacro macro) {
+
+                WikiMacro pluginMacro = pluginMacros.get(macro.getPosition());
+                if (pluginMacro == null) {
+                    log.debug("macro is not a plugin, skipping: " + macro);
                     return "";
                 }
-                UIComponent child = findComponent(plugins.get(new Integer(macroName)));
+
+                log.debug("preparing plugin rendering for macro: " + macro);
+                UIComponent child = findComponent( pluginMacros.get(macro.getPosition()).getClientId() );
+                log.debug("JSF child client identifier: " + child.getClientId(getFacesContext()));
                 ResponseWriter originalResponseWriter = getFacesContext().getResponseWriter();
                 StringWriter stringWriter = new StringWriter();
                 ResponseWriter tempResponseWriter = originalResponseWriter
                         .cloneWithWriter(stringWriter);
                 getFacesContext().setResponseWriter(tempResponseWriter);
+
+                log.debug("setting current macro in EVENT context");
+                Contexts.getEventContext().set(CURRENT_MACRO_EVENT_VARIABLE, macro);
+                Events.instance().raiseEvent(CURRENT_MACRO_EVENT_VARIABLE_SET+macro.getName());
+
                 try {
+                    log.debug("rendering plugin macro: " + macro);
                     JSF.renderChild(getFacesContext(), child);
                 }
                 catch (Exception ex) {
@@ -227,6 +235,7 @@ public class UIWikiFormattedText extends UIOutput {
         parser.setRenderer(new WikiFormattedTextRenderer());
 
         try {
+            log.debug(">>> rendering wiki text");
             parser.parse();
 
         } catch (RecognitionException rex) {
@@ -241,9 +250,8 @@ public class UIWikiFormattedText extends UIOutput {
 
     }
 
-    protected String addPlugin(String clientId) {
-        plugins.add(clientId);
-        return (plugins.size() - 1) + "";
+    protected void addPluginMacro(Integer position, WikiMacro macro) {
+        pluginMacros.put(position, macro);
     }
 
 }

@@ -15,7 +15,7 @@
             you registered an account on the Seam community website. You need to click the following link to confirm the
             validity of your e-mail address and to activate your account:</p>
 
-            <h:outputLink value="#{wikiPreferences.baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</h:outputLink>
+            <h:outputLink value="#{preferences.get('Wiki').baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}">Click this link to activate the account '#{userHome.instance.username}'</h:outputLink>
 
     </body>
         </html>
@@ -26,7 +26,7 @@ Hello #{userHome.instance.firstname},
 you registered an account on the Seam community website. You need to use the following link to confirm the
 validity of your e-mail address and to activate your account:
 
-#{wikiPreferences.baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
+#{preferences.get('Wiki').baseUrl}/confirmRegistration.seam?activationCode=#{userHome.instance.activationCode}
             </h:outputText>
         </f:facet>
     </m:body>

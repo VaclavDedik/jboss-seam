@@ -29,7 +29,7 @@ public class FeedEntry implements Serializable, Comparable {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    protected int version;
+    protected int version = 0;
 
     @Column(name = "LINK", nullable = false)
     @Length(min = 3, max = 1024)
@@ -137,6 +137,10 @@ public class FeedEntry implements Serializable, Comparable {
 
     public int getReadAccessLevel() {
         return 0; // No restrictions
+    }
+
+    public boolean isTagged(String tag) {
+        return false; // Can't be tagged
     }
 
     // Sort by date

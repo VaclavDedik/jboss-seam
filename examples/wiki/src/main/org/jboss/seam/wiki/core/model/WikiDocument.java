@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
+import org.jboss.seam.wiki.core.engine.WikiMacro;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -142,10 +143,16 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     }
 
     public boolean macroPresent(String macroName) {
-        WikiMacro wikiMacro = new WikiMacro(macroName);
-        return getHeaderMacros().contains(wikiMacro) ||
-               getContentMacros().contains(wikiMacro) ||
-               getFooterMacros().contains(wikiMacro);
+        for (WikiMacro headerMacro : headerMacros) {
+            if (headerMacro.getName().equals(macroName)) return true;
+        }
+        for (WikiMacro contentMacro : contentMacros) {
+            if (contentMacro.getName().equals(macroName)) return true;
+        }
+        for (WikiMacro footerMacro : footerMacros) {
+            if (footerMacro.getName().equals(macroName)) return true;
+        }
+        return false;
     }
 
     public String getFeedDescription() {

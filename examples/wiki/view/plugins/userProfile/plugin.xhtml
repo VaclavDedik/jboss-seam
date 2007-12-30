@@ -1,90 +1,14 @@
-<wiki:plugin id="userProfilePlugin"
-             rendered="#{currentDocument.createdBy.id != guestUser.id}"
-             xmlns="http://www.w3.org/1999/xhtml"
-             xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:h="http://java.sun.com/jsf/html"
-             xmlns:f="http://java.sun.com/jsf/core"
-             xmlns:wiki="http://jboss.com/products/seam/wiki"
-             xmlns:s="http://jboss.com/products/seam/taglib">
+<wiki:plugin
+        rendered="#{currentDocument.ownedByRegularUser}"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:wiki="http://jboss.com/products/seam/wiki"
+        xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <div class="box">
-
-        <div class="boxHeader">
-            <h:outputText value="#{currentDocument.createdBy.fullname}"/>
-            <div>
-                <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', currentDocument.createdBy.email))}">
-                    <h:outputText value="#{wiki:escapeAtSymbol(currentDocument.createdBy.email)}"/>
-                </h:outputLink>
-            </div>
-        </div>
-
-        <div class="boxContent" style="padding:0;">
-
-            <s:div rendered="#{!empty currentDocument.createdBy.profile.imageContentType}" styleClass="userProfilePortrait">
-                <s:graphicImage styleClass="userProfilePortraitImage" value="#{currentDocument.createdBy.profile.image}">
-                    <s:transformImageSize width="80" maintainRatio="true"/>
-                </s:graphicImage>
-            </s:div>
-
-            <s:div styleClass="userProfileBio"
-                   rendered="#{empty currentDocument.createdBy.profile.bio and !empty currentDocument.createdBy.profile.imageContentType}">
-                <wiki:formattedText value="If you are #{currentDocument.createdBy.fullname}, please login and edit your bio in your profile."
-                                    linkStyleClass="regularLink"
-                                    brokenLinkStyleClass="brokenLink"
-                                    attachmentLinkStyleClass="regularLink"
-                                    thumbnailLinkStyleClass="regularLink"
-                                    linkBaseFile="#{currentDocument}"
-                                    currentAreaNumber="#{currentDirectory.areaNumber}"
-                                    internalTargetFrame="_top"
-                                    externalTargetFrame="_top"
-                                    enablePlugins="false"/>
-            </s:div>
-
-            <s:div styleClass="userProfileBio" rendered="#{!empty currentDocument.createdBy.profile.bio}">
-                <wiki:formattedText value="#{currentDocument.createdBy.profile.bio}"
-                                    linkStyleClass="regularLink"
-                                    brokenLinkStyleClass="brokenLink"
-                                    attachmentLinkStyleClass="regularLink"
-                                    thumbnailLinkStyleClass="regularLink"
-                                    linkBaseFile="#{currentDocument}"
-                                    currentAreaNumber="#{currentDirectory.areaNumber}"
-                                    internalTargetFrame="_top"
-                                    externalTargetFrame="_top"
-                                    enablePlugins="false"/>
-            </s:div>
-
-            <s:div rendered="#{!empty currentDocument.createdBy.profile.website}" styleClass="userProfileEntry">
-                <span class="userProfileEntryLabel">#{messages['lacewiki.label.userHome.Website']}:</span>
-                <span class="userProfileEntryLink">
-                    <h:outputLink target="_top" value="#{currentDocument.createdBy.profile.website}">#{currentDocument.createdBy.profile.website}</h:outputLink>
-                </span>
-            </s:div>
-            <s:div rendered="#{!empty currentDocument.createdBy.profile.location}" styleClass="userProfileEntry">
-                <span class="userProfileEntryLabel">#{messages['lacewiki.label.userHome.Location']}:</span>
-                <span class="userProfileEntryText">
-                    <h:outputText value="#{currentDocument.createdBy.profile.location}"/>
-                </span>
-            </s:div>
-            <s:div rendered="#{!empty currentDocument.createdBy.profile.occupation}" styleClass="userProfileEntry">
-                <span class="userProfileEntryLabel">#{messages['lacewiki.label.userHome.Occupation']}:</span>
-                <span class="userProfileEntryText">
-                    <h:outputText value="#{currentDocument.createdBy.profile.occupation}"/>
-                </span>
-            </s:div>
-
-            <s:div styleClass="userProfileEntry" rendered="#{
-                    empty currentDocument.createdBy.profile.imageContentType
-                and empty currentDocument.createdBy.profile.bio
-                and empty currentDocument.createdBy.profile.website
-                and empty currentDocument.createdBy.profile.location
-                and empty currentDocument.createdBy.profile.occupation}">
-                <h:outputText value="#{messages['userProfile.label.NoProfile']}"/>
-            </s:div>
-
-        </div>
-
-        <s:div styleClass="boxFooter"/>
-        
-    </div>
+    <ui:include src="../../includes/userInfo.xhtml">
+        <ui:param name="user" value="#{currentDocument.createdBy}"/>
+    </ui:include>
 
 </wiki:plugin>

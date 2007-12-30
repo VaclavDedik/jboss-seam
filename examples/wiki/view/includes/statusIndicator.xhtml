@@ -10,12 +10,12 @@
     <a:status id="#{statusId}" forceId="true">
         <f:facet name="start">
             <s:div styleClass="statusStart">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/statusindicator.gif" width="20" height="25"/>
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/statusindicator.gif" width="20" height="25"/>
             </s:div>
         </f:facet>
         <f:facet name="stop">
             <s:div styleClass="statusStop">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="20" height="25"/>
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="20" height="25"/>
             </s:div>
         </f:facet>
     </a:status>

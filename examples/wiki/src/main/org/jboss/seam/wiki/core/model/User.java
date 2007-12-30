@@ -30,7 +30,7 @@ public class User implements Serializable {
 
     @Version
     @Column(name = "OBJ_VERSION", nullable = false)
-    private int version;
+    private int version = 0;
 
     @Column(name = "FIRSTNAME", length = 63, nullable = false)
     @NotNull

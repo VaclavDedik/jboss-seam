@@ -1,45 +1,63 @@
 package org.jboss.seam.wiki.core.action.prefs;
 
-import org.jboss.seam.wiki.preferences.PreferenceSupport;
-import org.jboss.seam.wiki.preferences.Preference;
-import org.jboss.seam.wiki.preferences.PreferenceVisibility;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.ScopeType;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.jboss.seam.wiki.preferences.annotations.Preferences;
+import org.jboss.seam.wiki.preferences.annotations.PreferenceProperty;
+import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 
 import java.io.Serializable;
 
-@Name("userManagementPreferences")
-@AutoCreate
-@Scope(ScopeType.CONVERSATION)
-@Preference(description = "Core: User Management", visibility = PreferenceVisibility.SYSTEM)
-public class UserManagementPreferences extends PreferenceSupport implements Serializable {
+@Preferences(name = "UserManagement", description = "#{messages['lacewiki.preferences.userManagement.Name']}")
+public class UserManagementPreferences implements Serializable {
 
-    @Preference(description = "01. Secret salt used to generate activation codes", visibility = PreferenceVisibility.SYSTEM)
+    @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.userManagement.ActivationCodeSalt']}",
+        visibility = PreferenceVisibility.SYSTEM,
+        editorIncludeName = "AdaptiveTextInput"
+    )
     @Length(min = 5, max = 20)
     @NotNull
     private String activationCodeSalt;
 
-    @Preference(description = "02. Regex used for password strength verification", visibility = PreferenceVisibility.SYSTEM)
+    @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.userManagement.PasswordRegex']}",
+        visibility = PreferenceVisibility.SYSTEM,
+        editorIncludeName = "AdaptiveTextInput"
+    )
     @Length(min = 2, max = 100)
     @NotNull
     private String passwordRegex;
 
-    @Preference(description = "03. Default role name of new users after registration", visibility = PreferenceVisibility.SYSTEM)
+    @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.userManagement.NewUserInRole']}",
+        visibility = PreferenceVisibility.SYSTEM,
+        editorIncludeName = "SelectOne",
+        templateComponentName = "rolesPreferenceValueTemplate"
+    )
     @Length(min = 3, max = 255)
     @NotNull
     private String newUserInRole;
 
-    @Preference(description = "04. Enable free user registration", visibility = PreferenceVisibility.SYSTEM)
+    @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.userManagement.EnableRegistration']}",
+        visibility = PreferenceVisibility.SYSTEM
+    )
+    @NotNull
     private Boolean enableRegistration;
 
-    @Preference(description = "05. Create home directory for new user after activation", visibility = PreferenceVisibility.SYSTEM)
+    @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.userManagement.CreateHomeAfterUserActivation']}",
+        visibility = PreferenceVisibility.SYSTEM
+    )
+    @NotNull
     private Boolean createHomeAfterUserActivation;
 
-    @Preference(description = "06. Content of created home page", visibility = PreferenceVisibility.SYSTEM)
+    @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.userManagement.HomepageDefaultContent']}",
+        visibility = PreferenceVisibility.SYSTEM,
+        editorIncludeName = "AdaptiveTextInput"
+    )
     @Length(min = 0, max = 1024)
     private String homepageDefaultContent;
 
@@ -55,11 +73,11 @@ public class UserManagementPreferences extends PreferenceSupport implements Seri
         return newUserInRole;
     }
 
-    public Boolean isEnableRegistration() {
+    public Boolean getEnableRegistration() {
         return enableRegistration;
     }
 
-    public Boolean isCreateHomeAfterUserActivation() {
+    public Boolean getCreateHomeAfterUserActivation() {
         return createHomeAfterUserActivation;
     }
 

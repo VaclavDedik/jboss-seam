@@ -8,7 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.dirEdit.CreateDirectory']}" rendered="#{!directoryHome.managed}"/>
@@ -70,7 +70,7 @@
             </div>
             <div class="output">
                 <h:outputText value="#{directoryHome.instance.createdOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
                 <s:span id="ownerDisplay">&#160;(#{directoryHome.instance.createdBy.username})</s:span>
                 <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger"
@@ -152,7 +152,7 @@
 
                         <h:column>
                             <a:outputPanel>
-                                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif" width="18" height="20"/>
+                                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.dir.gif" width="18" height="20"/>
                             </a:outputPanel>
                         </h:column>
 
@@ -179,7 +179,7 @@
                                            oncomplete="onAjaxRequestComplete()"
                                            styleClass="sessionEventTrigger" tabindex="1"
                                            reRender="menuEditor">
-                                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/up.gif" width="18" height="18"/>
+                                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/up.gif" width="18" height="18"/>
                             </a:commandLink>
                         </h:column>
                         <h:column>
@@ -189,7 +189,7 @@
                                            oncomplete="onAjaxRequestComplete()"
                                            styleClass="sessionEventTrigger" tabindex="1"
                                            reRender="menuEditor">
-                                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/down.gif" width="18" height="18"/>
+                                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/down.gif" width="18" height="18"/>
                             </a:commandLink>
                         </h:column>
 

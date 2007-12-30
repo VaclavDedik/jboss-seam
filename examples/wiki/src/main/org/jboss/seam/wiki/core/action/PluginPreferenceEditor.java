@@ -36,7 +36,7 @@ import java.io.Serializable;
  * @author Christian Bauer
  */
 public class PluginPreferenceEditor implements Serializable {
-
+/* TODO: We need to implement a new macro editor
     private String pluginPreferenceName;
     private PreferenceComponent preferenceComponent;
     private List<PreferenceValue> preferenceValues = new ArrayList<PreferenceValue>();
@@ -125,5 +125,5 @@ public class PluginPreferenceEditor implements Serializable {
         }
     }
 
-    
+    */
 }

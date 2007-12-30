@@ -1,33 +1,34 @@
 package org.jboss.seam.wiki.plugin.flash;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.log.Log;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.net.URI;
+import java.util.Arrays;
 
 @Name("flash")
 @Scope(ScopeType.PAGE)
 public class Flash implements Serializable {
 
-    @In
-    FlashPreferences flashPreferences;
-
     @Logger
     Log log;
 
+    @In("#{preferences.get('Flash', currentMacro)}")
+    FlashPreferences prefs;
+
     public boolean isURLAllowed() {
-        String allowedDomains = flashPreferences.getAllowedDomains();
+
+        String allowedDomains = prefs.getAllowedDomains();
         if (allowedDomains == null || allowedDomains.length() == 0) return false;
 
         String desiredDomainName;
         try {
-            URI uri = new URI(flashPreferences.getFlashURL());
+            URI uri = new URI(prefs.getUrl());
             desiredDomainName = uri.getHost();
         } catch (Exception ex) {
             log.debug("Exception parsing flash movie URL into URI: " + ex.getMessage());

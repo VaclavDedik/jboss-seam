@@ -22,17 +22,17 @@
                         <a:commandLink status="uploadEditFormStatus" id="zoomOut" tabindex="2" action="#{editor.zoomPreviewOut}"
                                        reRender="imagePreview, messageBoxContainer" oncomplete="onAjaxRequestComplete()"
                                        styleClass="sessionEventTrigger">
-                            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/minus.gif" width="18" height="18"/>
+                            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/minus.gif" width="18" height="18"/>
                         </a:commandLink>
                         <a:commandLink status="uploadEditFormStatus" id="actualSize" tabindex="2" action="#{editor.zoomActualSize}"
                                        reRender="imagePreview, messageBoxContainer" oncomplete="onAjaxRequestComplete()"
                                        styleClass="sessionEventTrigger">
-                            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/equals.gif" width="18" height="18"/>
+                            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/equals.gif" width="18" height="18"/>
                         </a:commandLink>
                         <a:commandLink status="uploadEditFormStatus" id="zoomIn" tabindex="2" action="#{editor.zoomPreviewIn}"
                                        reRender="imagePreview, messageBoxContainer" oncomplete="onAjaxRequestComplete()"
                                        styleClass="sessionEventTrigger">
-                            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/plus.gif" width="18" height="18"/>
+                            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/plus.gif" width="18" height="18"/>
                         </a:commandLink>
                     </a:region>
                 </h:panelGroup>

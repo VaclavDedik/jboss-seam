@@ -60,11 +60,11 @@
 
                     <s:div rendered="#{v.preferenceProperty.type.simpleName == 'Date'}">
                         <h:inputText id="dt" value="#{v.value}" tabindex="1">
-                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                         </h:inputText>
                         <s:selectDate for="dt" dateFormat="dd. MMM yyyy, HH:mm">
                             <h:graphicImage style="vertical-align:bottom;margin-bottom:2px;"
-                                            value="/themes/#{wikiPreferences.themeName}/img/icon.calendar.gif" width="16"
+                                            value="/themes/#{preferences.get('Wiki').themeName}/img/icon.calendar.gif" width="16"
                                             height="16"/>
                         </s:selectDate>
                     </s:div>

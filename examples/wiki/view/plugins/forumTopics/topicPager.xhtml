@@ -13,16 +13,16 @@
 
         <h:outputLink rendered="#{forumQuery.pager.previousPageAvailable}" target="_top"
                       value="#{wiki:renderURL(currentDocument)}">
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.first.gif" width="13" height="11"/>
         </h:outputLink>
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
                         rendered="#{!forumQuery.pager.previousPageAvailable}"/>
 
         <h:outputLink rendered="#{forumQuery.pager.previousPageAvailable}" target="_top"
                       value="#{wiki:renderURL(currentDocument)}/Page/#{forumQuery.pager.previousPage}">
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.previous.gif" width="13" height="11"/>
         </h:outputLink>
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
                         rendered="#{!forumQuery.pager.previousPageAvailable}"/>
 
         <s:span>
@@ -34,16 +34,16 @@
 
         <h:outputLink rendered="#{forumQuery.pager.nextPageAvailable}" target="_top"
                       value="#{wiki:renderURL(currentDocument)}/Page/#{forumQuery.pager.nextPage}">
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.next.gif" width="13" height="11"/>
         </h:outputLink>
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
                         rendered="#{!forumQuery.pager.nextPageAvailable}"/>
 
         <h:outputLink rendered="#{forumQuery.pager.nextPageAvailable}" target="_top"
                       value="#{wiki:renderURL(currentDocument)}/Page/#{forumQuery.pager.lastPage}">
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.last.gif" width="13" height="11"/>
         </h:outputLink>
-        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
                         rendered="#{!forumQuery.pager.nextPageAvailable}"/>
 
     </h:panelGrid>

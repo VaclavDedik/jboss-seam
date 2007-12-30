@@ -2,23 +2,20 @@ package org.jboss.seam.wiki.core.action;
 
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.TermEnum;
-import org.hibernate.Session;
-import org.hibernate.search.store.DirectoryProvider;
-import org.hibernate.search.util.ContextHelper;
 import org.hibernate.search.FullTextSession;
+import org.hibernate.search.store.DirectoryProvider;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.core.Validators;
-import org.jboss.seam.core.Events;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -27,17 +24,17 @@ import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.search.IndexManager;
 import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
-import org.jboss.seam.wiki.preferences.PreferenceComponent;
+import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.util.Progress;
 
 import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManager;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.io.Serializable;
 
 @Name("adminHome")
 @Scope(ScopeType.CONVERSATION)
@@ -52,8 +49,6 @@ public class AdminHome implements Serializable {
     @In
     EntityManager entityManager;
 
-    PreferenceEditor preferenceEditor;
-
     @Create
     public void create() {
         if (!Identity.instance().hasPermission("User", "isAdmin", (User)Component.getInstance("currentUser") ) ) {
@@ -63,6 +58,7 @@ public class AdminHome implements Serializable {
 
     @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
     public String update() {
+        log.debug("updating system settings");
 
         // Preferences
         if (preferenceEditor != null) {
@@ -70,6 +66,7 @@ public class AdminHome implements Serializable {
             if (editorFailed != null) return null;
         }
 
+        log.debug("flushing the entityManager (maybe again)");
         entityManager.flush(); // Flush everything (maybe again if prefEditor.save() already flushed)
 
         facesMessages.addFromResourceBundleOrDefault(
@@ -83,17 +80,18 @@ public class AdminHome implements Serializable {
 
     // ####################### PREFERENCES ##################################
 
-    @DataModel(value = "systemPreferenceComponents")
-    private List<PreferenceComponent> systemPreferenceComponents;
+    PreferenceEditor preferenceEditor;
 
-    @Factory("systemPreferenceComponents")
-    public void loadUserPreferenceComponents() {
+    @DataModel(value = "systemPreferenceEntities")
+    private List<PreferenceEntity> systemPreferenceEntities;
+
+    @Factory("systemPreferenceEntities")
+    public void initPreferencesEditor() {
         preferenceEditor = (PreferenceEditor)Component.getInstance("prefEditor");
-        preferenceEditor.setPreferenceVisibility(PreferenceVisibility.SYSTEM);
-        systemPreferenceComponents = preferenceEditor.loadPreferenceComponents();
+        preferenceEditor.setVisibilities(new PreferenceVisibility[] {PreferenceVisibility.SYSTEM});
+        systemPreferenceEntities = preferenceEditor.getPreferenceEntities();
         Contexts.getConversationContext().set("preferenceEditor", preferenceEditor);
     }
-
 
     // ####################### LINK PROTOCOLS ##################################
 

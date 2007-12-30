@@ -15,6 +15,7 @@ import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.util.Hash;
+import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
@@ -117,8 +118,8 @@ public class Authenticator {
 
             // Optionally, create home directory
             UserManagementPreferences userMgmtPrefs =
-                    (UserManagementPreferences)Component.getInstance("userManagementPreferences");
-            if ( userMgmtPrefs.isCreateHomeAfterUserActivation() ) {
+                    (UserManagementPreferences) Preferences.getInstance("UserManagement");
+            if ( userMgmtPrefs.getCreateHomeAfterUserActivation() ) {
                 createHomeDirectory(user);
             }
 
@@ -160,12 +161,12 @@ public class Authenticator {
         homePage.setCreatedBy(user);
         homePage.setAreaNumber(homeDirectory.getAreaNumber());
         homePage.setContent(
-            ((UserManagementPreferences)Component.getInstance("userManagementPreferences")).getHomepageDefaultContent()
+            ((UserManagementPreferences) Preferences.getInstance("UserManagement")).getHomepageDefaultContent()
         );
         homePage.setWriteAccessLevel(Role.ADMINROLE_ACCESSLEVEL);
         homePage.setReadAccessLevel(Role.GUESTROLE_ACCESSLEVEL);
 
-        MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(homeDirectory.getAreaNumber(), homePage.getContent());
+        MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(homePage.getContent());
         homePage.setContentMacros(renderer.getMacros());
         homePage.setContentMacrosString(renderer.getMacrosString());
 
@@ -196,7 +197,7 @@ public class Authenticator {
      */
     @Factory(value = "currentAccessLevel", scope = ScopeType.SESSION, autoCreate = true)
     public Integer getGuestAccessLevel() {
-        return ((Role)Component.getInstance("guestRole")).getAccessLevel();
+        return Role.GUESTROLE_ACCESSLEVEL;
     }
 
 }

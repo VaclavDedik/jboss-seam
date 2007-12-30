@@ -7,7 +7,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{documentHistory.currentFile.name}"/>
@@ -55,7 +55,7 @@
             <div class="label">#{messages['lacewiki.label.docHistory.CreatedOn']}:</div>
             <div class="output">
                 <h:outputText value="#{documentHistory.currentFile.createdOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
                 (#{documentHistory.currentFile.createdBy.username})
             </div>
@@ -65,7 +65,7 @@
             <div class="label">#{messages['lacewiki.label.docHistory.LastModifiedOn']}:</div>
             <div class="output">
                 <h:outputText value="#{documentHistory.currentFile.lastModifiedOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
                 (#{documentHistory.currentFile.lastModifiedBy.username})
             </div>
@@ -91,7 +91,7 @@
                     <h:column>
                         <s:fragment rendered="#{not empty hfile.lastModifiedOn}">
                             <h:outputText value="#{hfile.lastModifiedOn}">
-                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                             </h:outputText>
                             <h:outputText value="&#160;(#{hfile.lastModifiedByUsername})" rendered="#{!empty hfile.lastModifiedByUsername}"/>
                         </s:fragment>

@@ -5,7 +5,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:param name="hideControls" value="true"/>
 
@@ -33,13 +33,13 @@
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.Tag']}: #{tagQuery.tag}"/>
             </f:facet>
 
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.doc.gif"
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.doc.gif"
                             width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
                             rendered="#{file.isInstance('WikiDocument')}"/>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes[file.contentType].displayIcon}"
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/#{uploadTypes[file.contentType].displayIcon}"
                             width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
                             rendered="#{file.isInstance('WikiUpload') and !empty uploadTypes[file.contentType]}"/>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/#{uploadTypes['generic'].displayIcon}"
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/#{uploadTypes['generic'].displayIcon}"
                             width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
                             rendered="#{file.isInstance('WikiUpload') and empty uploadTypes[file.contentType]}"/>
 
@@ -69,7 +69,7 @@
             <f:facet name="header">
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.InDirectory']}"/>
             </f:facet>
-            <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.dir.gif"
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.dir.gif"
                             width="18" height="20" style="vertical-align: middle; margin-right: 5px;"/>
             <s:link value="#{wiki:truncateString(file.parent.name, 20, '...')}"
                     view="/dirDisplay_#{skin}.xhtml"
@@ -95,7 +95,7 @@
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.CreatedOn']}"/>
             </f:facet>
             <h:outputText value="#{file.createdOn}">
-                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
             </h:outputText>
         </h:column>
         <h:column rendered="#{!empty file.lastModifiedOn and !empty file.lastModifiedBy}">
@@ -103,7 +103,7 @@
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.LastModifiedOn']}"/>
             </f:facet>
             <h:outputText value="#{file.lastModifiedOn}">
-                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
             </h:outputText>
             (<s:span styleClass="undecoratedLink">
                 <s:link view="/userInfo_#{skin}.xhtml" propagation="none">

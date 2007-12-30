@@ -54,7 +54,6 @@ public class WikiNodeDAO {
                     .createQuery("select n from WikiNode n where n.id = :id")
                     .setParameter("id", nodeId)
                     .setHint("org.hibernate.comment", "Find wikinode by id")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -82,7 +81,6 @@ public class WikiNodeDAO {
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
                     .setHint("org.hibernate.comment", "Find node in area")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -104,7 +102,7 @@ public class WikiNodeDAO {
         return null;
     }
 
-    public List<WikiNode> findChildren(WikiNode node, String orderByProperty, boolean orderAscending, long firstResult, long maxResults) {
+    public List<WikiNode> findChildren(WikiNode node, String orderByProperty, boolean orderAscending, int firstResult, int maxResults) {
         // Sanitize input
         orderByProperty = orderByProperty.replaceAll("[^a-zA-Z0-9]", "");
 
@@ -116,14 +114,14 @@ public class WikiNodeDAO {
                 .createQuery(queryString.toString())
                 .setHint("org.hibernate.comment", "Find wikinode children order by "+orderByProperty)
                 .setParameter("parent", node)
-                .setFirstResult(new Long(firstResult).intValue())
-                .setMaxResults(new Long(maxResults).intValue())
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResults)
                 .getResultList();
     }
 
     public List<WikiDirectory> findChildWikiDirectories(WikiDirectory dir) {
         return restrictedEntityManager
-                .createQuery("select d from WikiDirectory d where d.parent = :parent")
+                .createQuery("select d from WikiDirectory d left join fetch d.feed where d.parent = :parent")
                 .setHint("org.hibernate.comment", "Find wikinode children directories")
                 .setParameter("parent", dir)
                 .getResultList();
@@ -135,7 +133,6 @@ public class WikiNodeDAO {
                     .createQuery("select c from WikiComment c where c.id = :id")
                     .setParameter("id", commentId)
                     .setHint("org.hibernate.comment", "Find comment by id")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -148,7 +145,7 @@ public class WikiNodeDAO {
     }
 
     public List<WikiComment> findWikiCommentsFlat(WikiDocument document, boolean orderbyDateAscending) {
-        return findWikiComments(document, false, true);
+        return findWikiComments(document, false, orderbyDateAscending);
     }
 
     private List<WikiComment> findWikiComments(WikiDocument document, final boolean threaded, boolean unthreadedAscending) {
@@ -195,7 +192,6 @@ public class WikiNodeDAO {
                     .createQuery("select f from WikiFile f where f.id = :id")
                     .setParameter("id", fileId)
                     .setHint("org.hibernate.comment", "Find wikifile by id")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -214,7 +210,6 @@ public class WikiNodeDAO {
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
                     .setHint("org.hibernate.comment", "Find wikifile in area")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -228,7 +223,6 @@ public class WikiNodeDAO {
                     .createQuery("select d from WikiDocument d where d.id = :id")
                     .setParameter("id", documentId)
                     .setHint("org.hibernate.comment", "Find document by id")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -244,7 +238,6 @@ public class WikiNodeDAO {
                     .createQuery("select d.defaultFile from WikiDirectory d where d = :dir")
                     .setParameter("dir", directory)
                     .setHint("org.hibernate.comment", "Find default file")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -259,7 +252,6 @@ public class WikiNodeDAO {
                     .createQuery("select doc from WikiDocument doc, WikiDirectory d where d = :dir and doc.id = d.defaultFile.id")
                     .setParameter("dir", directory)
                     .setHint("org.hibernate.comment", "Find default doc")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -285,7 +277,6 @@ public class WikiNodeDAO {
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
                     .setHint("org.hibernate.comment", "Find document in area")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -308,7 +299,6 @@ public class WikiNodeDAO {
                     .createQuery("select u from WikiUpload u where u.id = :id")
                     .setParameter("id", uploadId)
                     .setHint("org.hibernate.comment", "Find upload by id")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -326,10 +316,9 @@ public class WikiNodeDAO {
     public WikiDirectory findWikiDirectory(Long directoryId) {
         try {
             return (WikiDirectory) restrictedEntityManager
-                    .createQuery("select d from WikiDirectory d where d.id = :id")
+                    .createQuery("select d from WikiDirectory d left join fetch d.feed where d.id = :id")
                     .setParameter("id", directoryId)
                     .setHint("org.hibernate.comment", "Find directory by id")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -344,11 +333,10 @@ public class WikiNodeDAO {
     public WikiDirectory findWikiDirectoryInArea(Long areaNumber, String wikiname, EntityManager em) {
         try {
             return (WikiDirectory) em
-                    .createQuery("select d from WikiDirectory d where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
+                    .createQuery("select d from WikiDirectory d left join fetch d.feed where d.areaNumber = :areaNumber and d.wikiname = :wikiname")
                     .setParameter("areaNumber", areaNumber)
                     .setParameter("wikiname", wikiname)
                     .setHint("org.hibernate.comment", "Find directory in area")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -359,10 +347,9 @@ public class WikiNodeDAO {
     public WikiDirectory findArea(String wikiname) {
         try {
             return (WikiDirectory) restrictedEntityManager
-                    .createQuery("select d from WikiDirectory d, WikiDirectory r where r.parent is null and d.parent = r and d.wikiname = :wikiname")
+                    .createQuery("select d from WikiDirectory d left join fetch d.feed, WikiDirectory r where r.parent is null and d.parent = r and d.wikiname = :wikiname")
                     .setParameter("wikiname", wikiname)
                     .setHint("org.hibernate.comment", "Find area by wikiname")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -373,10 +360,9 @@ public class WikiNodeDAO {
     public WikiDirectory findArea(Long areaNumber) {
         try {
             return (WikiDirectory) restrictedEntityManager
-                    .createQuery("select d from WikiDirectory d, WikiDirectory r where r.parent is null and d.parent = r and d.areaNumber = :areaNumber")
+                    .createQuery("select d from WikiDirectory d left join fetch d.feed, WikiDirectory r where r.parent is null and d.parent = r and d.areaNumber = :areaNumber")
                     .setParameter("areaNumber", areaNumber)
                     .setHint("org.hibernate.comment", "Find area by area number")
-                    .setHint("org.hibernate.cacheable", true)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -402,6 +388,7 @@ public class WikiNodeDAO {
         if (file == null || file.getId() == null) return 0l;
         return (Long)getSession(true).createQuery("select count(f) from " + file.getHistoricalEntityName() + " f where f.id = :fileId")
                                   .setParameter("fileId", file.getId())
+                                  .setCacheable(true)
                                   .uniqueResult();
     }
 
@@ -526,7 +513,6 @@ public class WikiNodeDAO {
         if (maxDepth != null) nestedSetQuery.setParameter("maxDepth", maxDepth);
 
         nestedSetQuery.setComment("Appending nested set nodes to startnode: " + startNode.getId());
-        nestedSetQuery.setCacheable(true);
 
         nestedSetQuery.setResultTransformer(transformer);
         nestedSetQuery.list(); // Append all children hierarchically to the transformers rootWrapper

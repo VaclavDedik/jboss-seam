@@ -8,7 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.uploadEdit.UploadFile']}" rendered="#{!uploadHome.managed}"/>
@@ -59,7 +59,7 @@
                     <div class="label">#{messages['lacewiki.label.uploadEdit.CreatedOn']}:</div>
                     <div class="output">
                         <h:outputText value="#{uploadHome.instance.createdOn}">
-                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                         </h:outputText>
                         <s:span id="ownerDisplay">&#160;(#{uploadHome.instance.createdBy.username})</s:span>
                         <h:outputLink id="selectOwner" value="#" tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger"

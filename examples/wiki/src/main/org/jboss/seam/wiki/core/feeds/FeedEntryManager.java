@@ -1,10 +1,7 @@
 package org.jboss.seam.wiki.core.feeds;
 
 import org.jboss.seam.wiki.core.model.FeedEntry;
-import org.jboss.seam.wiki.core.engine.DefaultWikiTextRenderer;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.Component;
@@ -42,8 +39,8 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
             }
 
             // Preserve the macro that marks the end of the teaser
-            public String renderMacro(String macroName) {
-                if (macroName.equals(FeedEntry.END_TEASER_MACRO)) {
+            public String renderMacro(WikiMacro macro) {
+                if (macro.getName().equals(FeedEntry.END_TEASER_MACRO)) {
                     return FeedEntry.END_TEASER_MARKER;
                 } else {
                     return "";

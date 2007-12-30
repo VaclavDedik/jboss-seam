@@ -24,7 +24,7 @@ public class CommentQuery implements Serializable {
     @In
     protected DocumentHome documentHome;
 
-    @In
+    @In("#{preferences.get('Comments')}")
     protected CommentsPreferences commentsPreferences;
 
     protected List<WikiComment> comments;
@@ -47,7 +47,7 @@ public class CommentQuery implements Serializable {
             return;
         }
 
-        if (commentsPreferences.getThreadedComments() != null && commentsPreferences.getThreadedComments()) {
+        if (commentsPreferences.getThreaded()) {
             comments = wikiNodeDAO.findWikiCommentsThreaded(documentHome.getInstance());
         } else {
             comments = wikiNodeDAO.findWikiCommentsFlat(documentHome.getInstance(), commentsPreferences.getListAscending());

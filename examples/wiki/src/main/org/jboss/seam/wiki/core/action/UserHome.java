@@ -6,11 +6,12 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
@@ -24,19 +25,18 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
-import org.jboss.seam.wiki.core.upload.UploadType;
 import org.jboss.seam.wiki.core.upload.Uploader;
-import org.jboss.seam.wiki.preferences.PreferenceComponent;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
+import org.jboss.seam.wiki.preferences.Preferences;
+import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.faces.application.FacesMessage;
-import java.util.List;
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,17 +59,13 @@ public class UserHome extends EntityHome<User> {
     private UserDAO userDAO;
 
     @In
-    private UserManagementPreferences userManagementPreferences;
-
-    @In
     private Hash hashUtil;
 
     @In(create = true)
     private Renderer renderer;
 
-    @DataModel
-    private List<PreferenceComponent> userPreferenceComponents;
-    PreferenceEditor preferenceEditor;
+    @In("#{preferences.get('UserManagement')}")
+    UserManagementPreferences prefs;
 
     private String oldUsername;
     private String password;
@@ -97,9 +93,7 @@ public class UserHome extends EntityHome<User> {
             uploader = (Uploader)Component.getInstance("uploader");
 
         } else {
-            UserManagementPreferences userMgmtPrefs =
-                    (UserManagementPreferences) Component.getInstance("userManagementPreferences");
-            if (!userMgmtPrefs.isEnableRegistration() &&
+            if (!prefs.getEnableRegistration() &&
                 !Identity.instance().hasPermission("User", "isAdmin", Component.getInstance("currentUser"))) {
                 throw new AuthorizationException("User registration is disabled");
             }
@@ -134,8 +128,9 @@ public class UserHome extends EntityHome<User> {
             getInstance().setActivated(true);
             return super.persist();
         } else {
+
             // Set activation code (unique user in time)
-            String seed = getInstance().getUsername() + System.currentTimeMillis() + userManagementPreferences.getActivationCodeSalt();
+            String seed = getInstance().getUsername() + System.currentTimeMillis() + prefs.getActivationCodeSalt();
             getInstance().setActivationCode( ((Hash)Component.getInstance("hashUtil")).hash(seed) );
 
             String outcome = super.persist();
@@ -145,7 +140,7 @@ public class UserHome extends EntityHome<User> {
 
                     // Send confirmation email
                     renderer.render("/themes/"
-                            + ((WikiPreferences)Component.getInstance("wikiPreferences")).getThemeName()
+                            + ((WikiPreferences) Preferences.getInstance("Wiki")).getThemeName()
                             + "/mailtemplates/confirmationRegistration.xhtml");
 
                     /* For debugging
@@ -334,15 +329,6 @@ public class UserHome extends EntityHome<User> {
         );
     }
 
-    @Factory("userPreferenceComponents")
-    public void loadUserPreferenceComponents() {
-        preferenceEditor = (PreferenceEditor)Component.getInstance("prefEditor");
-        preferenceEditor.setPreferenceVisibility(PreferenceVisibility.USER);
-        preferenceEditor.setUser(getInstance());
-        userPreferenceComponents = preferenceEditor.loadPreferenceComponents();
-        Contexts.getConversationContext().set("preferenceEditor", preferenceEditor);
-    }
-
     // Validation rules for persist(), update(), and remove();
 
     public boolean passwordAndControlNotNull() {
@@ -360,14 +346,14 @@ public class UserHome extends EntityHome<User> {
     }
 
     public boolean passwordMatchesRegex() {
-        Matcher matcher = Pattern.compile(userManagementPreferences.getPasswordRegex()).matcher(getPassword());
+        Matcher matcher = Pattern.compile(prefs.getPasswordRegex()).matcher(getPassword());
         if (!matcher.find()) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "password",
                 FacesMessage.SEVERITY_ERROR,
                 "lacewiki.msg.PasswordDoesntMatchPattern",
                 "Password does not match the pattern: {0}",
-                userManagementPreferences.getPasswordRegex()
+                prefs.getPasswordRegex()
             );
             return false;
         }
@@ -412,6 +398,22 @@ public class UserHome extends EntityHome<User> {
 
     public void validatePasswordControl() {
         passwordMatchesControl();
+    }
+
+    // ####################### PREFERENCES ##################################
+
+    PreferenceEditor preferenceEditor;
+
+    @DataModel(value = "userPreferenceEntities")
+    private List<PreferenceEntity> userPreferenceEntities;
+
+    @Factory("userPreferenceEntities")
+    public void initPreferencesEditor() {
+        preferenceEditor = (PreferenceEditor)Component.getInstance("prefEditor");
+        preferenceEditor.setVisibilities(new PreferenceVisibility[] {PreferenceVisibility.USER});
+        preferenceEditor.setUser(getInstance());
+        userPreferenceEntities = preferenceEditor.getPreferenceEntities();
+        Contexts.getConversationContext().set("preferenceEditor", preferenceEditor);
     }
 
 }

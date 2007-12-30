@@ -33,7 +33,6 @@ public class Converters {
         return new String[]{"NULL","January","February","March","April","May","June","July","August","September","October","November","December"};
     }
 
-
     @Name("importerConverter")
     @org.jboss.seam.annotations.faces.Converter(forClass = Importer.class)
     public static class ImporterConverter implements Converter, Serializable {
@@ -101,6 +100,7 @@ public class Converters {
             }
         }
     }
+
 
     @Name("treeNodeAdapter")
     public static class TreeNodeAdapter {

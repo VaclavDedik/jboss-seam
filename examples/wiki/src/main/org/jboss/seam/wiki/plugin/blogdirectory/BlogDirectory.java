@@ -7,7 +7,6 @@
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
@@ -16,6 +15,7 @@ import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import java.io.Serializable;
 import java.util.*;
@@ -84,10 +84,9 @@ public class BlogDirectory implements Serializable {
 
     // Lazier than @In, would be too many injections because of c:forEach iteration on blog entry list
     private void initializePreferences() {
-        pageSize = 
-                ((BlogDirectoryPreferences) Component.getInstance("blogDirectoryPreferences")).getPageSize();
-        recentBlogEntriesCount =
-                ((BlogRecentEntriesPreferences)Component.getInstance("blogRecentEntriesPreferences")).getRecentHeadlines();
+        // TODO: Uhm, we have several macros that use this backend bean... that doesn't work
+        pageSize = ((BlogPreferences) Preferences.getInstance("Blog", "currentMacro")).getPageSize();
+        recentBlogEntriesCount = ((BlogPreferences) Preferences.getInstance("Blog", "currentMacro")).getRecentEntriesItems();
     }
 
     private void queryNumOfBlogEntries() {

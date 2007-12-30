@@ -9,12 +9,14 @@ package org.jboss.seam.wiki.core.ui;
 import com.sun.syndication.feed.synd.*;
 import com.sun.syndication.io.SyndFeedOutput;
 import org.jboss.seam.Component;
+import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.core.model.FeedEntry;
 import org.jboss.seam.wiki.core.action.Authenticator;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -67,6 +69,7 @@ public class FeedServlet extends HttpServlet {
 
         String pathInfo = request.getPathInfo();
         String feedId = request.getParameter("feedId");
+        String tag = request.getParameter("tag");
 
         if (!feedTypes.containsKey(pathInfo)) return;
         SyndFeedType syndFeedType = feedTypes.get(pathInfo);
@@ -103,7 +106,7 @@ public class FeedServlet extends HttpServlet {
                 }
             }
 
-            SyndFeed syndFeed = createSyndFeed(request.getRequestURL().toString(), syndFeedType,  feed, currentAccessLevel);
+            SyndFeed syndFeed = createSyndFeed(request.getRequestURL().toString(), syndFeedType,  feed, currentAccessLevel, tag);
 
             // Write feed to output
             response.setContentType(syndFeedType.contentType);
@@ -125,14 +128,23 @@ public class FeedServlet extends HttpServlet {
     }
 
     public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {
+        return createSyndFeed(baseURI, syndFeedType, feed, currentAccessLevel, null);
+    }
 
-        WikiPreferences prefs = (WikiPreferences)Component.getInstance("wikiPreferences");
+    public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel, String tag) {
+
+        WikiPreferences prefs = (WikiPreferences) Preferences.getInstance("Wiki");
 
         // Create feed
         SyndFeed syndFeed = new SyndFeedImpl();
         syndFeed.setUri(baseURI + "?feedId=" + feed.getId());
         syndFeed.setFeedType(syndFeedType.feedType);
         syndFeed.setTitle(prefs.getFeedTitlePrefix() + feed.getTitle());
+        if (tag != null) {
+            syndFeed.setTitle(
+                syndFeed.getTitle() + " (" + Messages.instance().get("lacewiki.label.tagDisplay.Tag") + " '" + tag + "')"
+            );
+        }
         syndFeed.setLink(WikiUtil.renderURL(feed.getDirectory()));
         syndFeed.setAuthor(feed.getAuthor());
         if (feed.getDescription() != null && feed.getDescription().length() >0)
@@ -143,24 +155,25 @@ public class FeedServlet extends HttpServlet {
         List<SyndEntry> syndEntries = new ArrayList<SyndEntry>();
         SortedSet<FeedEntry> entries = feed.getFeedEntries();
         for (FeedEntry entry : entries) {
-            if (entry.getReadAccessLevel() <= currentAccessLevel) {
-                SyndEntry syndEntry;
-                syndEntry = new SyndEntryImpl();
-                syndEntry.setTitle(entry.getTitle());
-                syndEntry.setLink(entry.getLink());
-                syndEntry.setUri(entry.getLink());
-                syndEntry.setAuthor(entry.getAuthor());
-                syndEntry.setPublishedDate(entry.getPublishedDate());
-                syndEntry.setUpdatedDate(entry.getUpdatedDate());
+            if (entry.getReadAccessLevel() > currentAccessLevel) continue;
+            if (tag != null && !entry.isTagged(tag)) continue;
 
-                SyndContent description;
-                description = new SyndContentImpl();
-                description.setType(entry.getDescriptionType());
-                description.setValue(WikiUtil.removeMacros(entry.getDescriptionValue()));
-                syndEntry.setDescription(description);
+            SyndEntry syndEntry;
+            syndEntry = new SyndEntryImpl();
+            syndEntry.setTitle(entry.getTitle());
+            syndEntry.setLink(entry.getLink());
+            syndEntry.setUri(entry.getLink());
+            syndEntry.setAuthor(entry.getAuthor());
+            syndEntry.setPublishedDate(entry.getPublishedDate());
+            syndEntry.setUpdatedDate(entry.getUpdatedDate());
 
-                syndEntries.add(syndEntry);
-            }
+            SyndContent description;
+            description = new SyndContentImpl();
+            description.setType(entry.getDescriptionType());
+            description.setValue(WikiUtil.removeMacros(entry.getDescriptionValue()));
+            syndEntry.setDescription(description);
+
+            syndEntries.add(syndEntry);
         }
         syndFeed.setEntries(syndEntries);
 

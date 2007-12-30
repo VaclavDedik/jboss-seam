@@ -1,4 +1,4 @@
-<wiki:plugin id="feedTeasersPlugin"
+<wiki:plugin
        xmlns="http://www.w3.org/1999/xhtml"
        xmlns:ui="http://java.sun.com/jsf/facelets"
        xmlns:h="http://java.sun.com/jsf/html"
@@ -7,42 +7,31 @@
        xmlns:wiki="http://jboss.com/products/seam/wiki"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <s:div id="feedTeasers"
-           styleClass="#{showPluginPreferences and !empty feedTeasersPreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
+    <s:div styleClass="feedTeasers box">
 
-        <s:div id="feedTeasersPreferences"
-               rendered="#{showPluginPreferences and !empty feedTeasersPreferencesEditor}">
-            <div align="center">
-                <h:message for="feedTeasersPreferences" styleClass="pluginPreferencesMessage"/>
-
-                <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-                    <ui:param name="pluginDiv" value="feedTeasers"/>
-                    <ui:param name="pluginPreferencesEditor" value="#{feedTeasersPreferencesEditor}"/>
-                </ui:include>
-            </div>
-        </s:div>
-
-        <h:dataTable value="#{feedTeasersPlugin.teasers}" var="fe"
+        <h:dataTable value="#{feedTeasers.teasers}" var="fe"
                      styleClass="datatable rightBorder leftBorder topBorder bottomBorder feedTeaserTable"
                      headerClass="regularHeader alignLeft feedTeaserHeader"
                      columnClasses="teaserColumn"
                      rowClasses="rowOdd, rowEven"
                      cellpadding="0" cellspacing="0" border="0">
             <h:column>
-                <f:facet name="header"><h:outputText value="#{feedTeasersPreferences.properties['teaserTitle']}"/></f:facet>
+                <f:facet name="header"><h:outputText value="#{preferences.get('FeedTeasers', currentMacro).title}"/></f:facet>
 
                 <div class="teaserAuthorDate">
                     <s:span styleClass="teaserDate">
-                        <h:outputText value="#{fe.updatedDate}"><f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/></h:outputText>
-                        <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                        <h:outputText value="#{fe.updatedDate}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                        <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
                     </s:span>
-                    <s:span styleClass="undecoratedLink" rendered="#{feedTeasersPreferences.properties['showAuthor']}">,&#160;#{messages['feedTeasers.label.By']}&#160;
-                        <h:outputLink target="_top" value="#{wiki:renderURL(fe.document.createdBy.memberHome)}"
-                                      rendered="#{!empty fe.document.createdBy.memberHome}">
-                            <h:outputText styleClass="teaserAuthorLink" value="#{fe.document.createdBy.fullname}"/>
-                        </h:outputLink>
-                        <h:outputText styleClass="teaserAuthor" rendered="#{empty fe.document.createdBy.memberHome}" value="#{fe.author}"/>
+                    <s:span styleClass="undecoratedLink"
+                            rendered="#{preferences.get('FeedTeasers', currentMacro).showAuthor}">
+                        <h:outputText value=",&#160;#{messages['feedTeasers.label.By']}&#160;"/>
+                        <h:outputText styleClass="teaserAuthor" value="#{fe.author}"/>
                     </s:span>
+
+                    <!-- TODO: Fix this somehow... it was an ugly hack anyway
                     <s:div rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}" styleClass="undecoratedLink">
                         <h:outputLink target="_top" styleClass="feedTeaserComments" value="#{wiki:renderPermURL(fe.document)}#comments">
                             #{wiki:sizeOf(fe.document.comments)}&#160;
@@ -51,6 +40,7 @@
                                                  : messages['lacewiki.label.commentsDisplay.Comment']}"/>
                         </h:outputLink>
                     </s:div>
+                    -->
                 </div>
 
                 <div class="teaserTitle undecoratedLink">
@@ -66,11 +56,11 @@
 
                 <s:fragment rendered="#{not fe.teaserMarkerPresent}">
                     <h:outputText styleClass="teaserBody"
-                                  value="#{wiki:truncateString(fe.descriptionValueStripped, feedTeasersPreferences.properties['truncateDescription'], '')}"/>
+                                  value="#{wiki:truncateString(fe.descriptionValueStripped, preferences.get('FeedTeasers', currentMacro).truncateDescription, '')}"/>
 
                     <h:outputLink target="_top" styleClass="teaserBody"
                                   value="#{fe.link}"
-                                  rendered="#{wiki:length(fe.descriptionValueStripped) > feedTeasersPreferences.properties['truncateDescription']}">
+                                  rendered="#{wiki:length(fe.descriptionValueStripped) > preferences.get('FeedTeasers', currentMacro).truncateDescription}">
                         &#160;#{messages['feedTeasers.label.More']}
                     </h:outputLink>
                 </s:fragment>

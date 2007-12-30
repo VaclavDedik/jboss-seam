@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/#{skin}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.docHistory.DocumentHistory']} #{documentHistory.currentFile.name}"/>
@@ -27,13 +27,13 @@
     <div>#{messages['lacewiki.label.docHistory.Parent']}:&#160;<h:outputText value="#{documentHistory.currentFile.parent.name}"/></div>
     <div>#{messages['lacewiki.label.docHistory.CreatedOn']}:&#160;
         <h:outputText value="#{documentHistory.currentFile.createdOn}">
-            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
         </h:outputText>
         (#{documentHistory.currentFile.createdBy.username})
     </div>
     <div>#{messages['lacewiki.label.docHistory.LastModifiedOn']}:&#160;
         <h:outputText value="#{documentHistory.currentFile.lastModifiedOn}">
-            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
         </h:outputText>
         (#{documentHistory.currentFile.lastModifiedBy.username})
     </div>
@@ -50,7 +50,7 @@
 
         <h:column>
             <h:outputText value="#{hnode.lastModifiedOn}">
-                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
             </h:outputText>
             <h:outputText value="&#160;(#{hnode.lastModifiedByUsername})" rendered="#{!empty hnode.lastModifiedByUsername}"/>
             <h:outputText value="&#160;(unknown)" rendered="#{empty hnode.lastModifiedByUsername}"/>

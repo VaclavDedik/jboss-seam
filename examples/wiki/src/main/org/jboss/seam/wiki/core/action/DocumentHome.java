@@ -23,7 +23,7 @@ import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiFile;
 import org.jboss.seam.wiki.core.model.FeedEntry;
-import org.jboss.seam.wiki.preferences.PreferenceProvider;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import java.util.*;
@@ -82,7 +82,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     public WikiDocument beforeNodeEditNew(WikiDocument doc) {
         doc = super.beforeNodeEditNew(doc);
 
-        doc.setEnableComments( ((CommentsPreferences)Component.getInstance("commentsPreferences")).getEnableByDefault() );
+        doc.setEnableComments( ((CommentsPreferences)Preferences.getInstance("Comments")).getEnableByDefault() );
 
         return doc;
     }
@@ -92,7 +92,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         doc = super.afterNodeFound(doc);
 
         findHistoricalFiles(doc);
-        syncMacros(doc.getAreaNumber(), doc);
+        syncMacros(doc);
         outjectDocumentAndDirectory(doc, getParentNode());
 
         return doc;
@@ -141,7 +141,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         // Create feed entries (needs identifiers assigned, so we run after persist())
         if (outcome != null && isPushOnFeeds()) {
             getLog().debug("creating feed entries on parent dirs - and on site feed: " + isPushOnSiteFeed());
-            isOnSiteFeed = isPushOnSiteFeed();
+            if (isPushOnSiteFeed()) isOnSiteFeed = true;
 
             FeedEntry feedEntry =
                     ((FeedEntryManager)Component.getInstance(getFeedEntryManagerName())).createFeedEntry(getInstance());
@@ -165,7 +165,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
         // Update feed entries
         if (isPushOnFeeds()) {
-            isOnSiteFeed = isPushOnSiteFeed();
+            if (isPushOnSiteFeed()) isOnSiteFeed = true;
 
             FeedEntry feedEntry = feedDAO.findFeedEntry(getInstance());
             if (feedEntry == null) {
@@ -184,7 +184,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
         // Feeds should not be removed by a maintenance thread: If there
         // is no activity on the site, feeds shouldn't be empty but show the last updates.
-        WikiPreferences wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
+        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
         Calendar oldestDate = GregorianCalendar.getInstance();
         oldestDate.add(Calendar.DAY_OF_YEAR, -wikiPrefs.getPurgeFeedEntriesAfterDays().intValue());
         feedDAO.purgeOldFeedEntries(oldestDate.getTime());
@@ -204,8 +204,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
             // Reset form
             setMinorRevision(
-                (Boolean)((DocumentEditorPreferences)Component
-                    .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled")
+                ((DocumentEditorPreferences)Preferences.getInstance("DocEditor")).getMinorRevisionEnabled()
             );
         }
 
@@ -227,9 +226,11 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     @Override
     protected boolean beforeRemove() {
 
+        /* TODO:
         // Delete preferences of this node
         PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
         provider.deleteInstancePreferences(getInstance());
+        */
 
 
         return super.beforeRemove();
@@ -309,19 +310,19 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         getInstance().setTagsCommaSeparated(tagString);
     }
 
-    private void syncMacros(Long areaNumber, WikiDocument doc) {
+    private void syncMacros(WikiDocument doc) {
         if (doc.getHeader() != null) {
-            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(areaNumber, doc.getHeader());
+            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(doc.getHeader());
             doc.setHeaderMacros(renderer.getMacros());
             doc.setHeaderMacrosString(renderer.getMacrosString());
         }
         if (doc.getContent() != null) {
-            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(areaNumber, doc.getContent());
+            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(doc.getContent());
             doc.setContentMacros(renderer.getMacros());
             doc.setContentMacrosString(renderer.getMacrosString());
         }
         if (doc.getFooter() != null) {
-            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(areaNumber, doc.getFooter());
+            MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(doc.getFooter());
             doc.setFooterMacros(renderer.getMacros());
             doc.setFooterMacrosString(renderer.getMacrosString());
         }
@@ -335,7 +336,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
             getInstance().setContent(
                 wikiLinkResolver.convertToWikiProtocol(linkTargets, dir.getAreaNumber(), formContent)
             );
-            syncMacros(dir.getAreaNumber(), getInstance());
+            syncMacros(getInstance());
         }
     }
 
@@ -372,8 +373,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     public boolean isMinorRevision() {
         // Lazily initalize preferences
         if (minorRevision == null)
-            minorRevision = (Boolean)((DocumentEditorPreferences)Component
-                    .getInstance("docEditorPreferences")).getProperties().get("minorRevisionEnabled");
+            minorRevision = ((DocumentEditorPreferences) Preferences.getInstance("DocEditor")).getMinorRevisionEnabled();
         return minorRevision;
     }
     public void setMinorRevision(boolean minorRevision) { this.minorRevision = minorRevision; }

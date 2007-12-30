@@ -1,4 +1,4 @@
-<wiki:plugin id="lastModifiedDocumentsPlugin"
+<wiki:plugin
        xmlns="http://www.w3.org/1999/xhtml"
        xmlns:ui="http://java.sun.com/jsf/facelets"
        xmlns:h="http://java.sun.com/jsf/html"
@@ -7,22 +7,9 @@
        xmlns:wiki="http://jboss.com/products/seam/wiki"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <s:div id="lastModifiedDocuments"
-           styleClass="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
+    <s:div styleClass="box lastModifiedDocuments">
 
-        <s:div id="lastModifiedDocumentsPreferences"
-               rendered="#{showPluginPreferences and !empty lastModifiedDocumentsPreferencesEditor}">
-            <div align="center">
-                <h:message for="lastModifiedDocumentsPreferences" styleClass="pluginPreferencesMessage"/>
-
-                <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-                    <ui:param name="pluginDiv" value="lastModifiedDocuments"/>
-                    <ui:param name="pluginPreferencesEditor" value="#{lastModifiedDocumentsPreferencesEditor}"/>
-                </ui:include>
-            </div>
-        </s:div>
-
-        <h:dataTable value="#{lastModifiedDocumentsPlugin.lastModifiedDocuments}" var="doc"
+        <h:dataTable value="#{lastModifiedDocuments.listOfDocuments}" var="doc"
                      styleClass="datatable rightBorder leftBorder topBorder bottomBorder lastModifiedDocumentsTable"
                      headerClass="regularHeader alignLeft"
                      columnClasses="onePercentColumn alignLeft lastModifiedColumn, defaultColumn alignLeft"
@@ -31,21 +18,21 @@
             <h:column>
                 <f:facet name="header">
                     #{messages['lastModifiedDocuments.label.Last']}
-                    #{lastModifiedDocumentsPreferences.properties['numberOfItems']}
+                    #{preferences.get('LastModifiedDocuments', currentMacro).numberOfItems}
                     #{messages['lastModifiedDocuments.label.ModifiedDocuments']}:
                 </f:facet>
                 <h:outputText value="#{doc.lastModifiedOn}"
                               rendered="#{!empty doc.lastModifiedOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
-                <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
                 <h:outputText value=" (#{doc.lastModifiedBy.username})"
-                              rendered="#{!empty doc.lastModifiedBy and lastModifiedDocumentsPreferences.properties['showUsernames']}">
+                              rendered="#{!empty doc.lastModifiedBy and preferences.get('LastModifiedDocuments', currentMacro).showUsernames}">
                 </h:outputText>
             </h:column>
             <h:column>
                 <h:outputLink target="_top" value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
-                    <h:outputText value="#{wiki:truncateString(doc.name, lastModifiedDocumentsPreferences.properties['documentTitleLength'],'...')}"/>
+                    <h:outputText value="#{wiki:truncateString(doc.name, preferences.get('LastModifiedDocuments', currentMacro).documentTitleLength, '...')}"/>
                 </h:outputLink>
             </h:column>
         </h:dataTable>

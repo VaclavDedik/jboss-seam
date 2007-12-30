@@ -22,7 +22,7 @@ public class Help implements Serializable {
     @In
     WikiNodeDAO wikiNodeDAO;
 
-    @In
+    @In("#{preferences.get('Wiki')}")
     WikiPreferences wikiPreferences;
 
     WikiDirectory helpAreaRoot;

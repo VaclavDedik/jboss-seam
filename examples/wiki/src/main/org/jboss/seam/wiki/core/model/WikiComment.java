@@ -136,14 +136,14 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
         return "/" + getArea().getWikiname() + "/" + getParentDocument().getWikiname() + "#comment" + getId();
     }
 
-    // TODO: Everything can have comments
-    public WikiDocument getParentDocument() {
+    // TODO: Everything can have comments, this has the wrong name and it's crude
+    public WikiNode getParentDocument() {
         WikiNode current = this.getParent();
-        if (WikiDocument.class.isAssignableFrom(current.getClass())) return (WikiDocument)current;
+        if (WikiDocument.class.isAssignableFrom(current.getClass())) return current;
         while (current.getParent() != null && WikiComment.class.isAssignableFrom(current.getParent().getClass())) {
             current = current.getParent();
         }
-        return (WikiDocument)current.getParent(); // Let's just assume that the parent of a comment is at some point a document
+        return current.getParent(); // Let's just assume that the parent of a comment is at some point a document
 
     }
 

@@ -9,9 +9,7 @@ package org.jboss.seam.wiki.test.editing;
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.DocumentHome;
-import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiUpload;
-import org.jboss.seam.wiki.core.model.WikiMacro;
+import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
@@ -46,16 +44,15 @@ public class EditMacros extends DBUnitSeamTest {
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 assert docHome.getInstance().getHeaderMacros().size() == 2;
-                assert docHome.getInstance().getContentMacros().size() == 2;
+                assert docHome.getInstance().getContentMacros().size() == 5;
                 assert docHome.getInstance().getFooterMacros().size() == 2;
 
-                WikiMacro macro = new WikiMacro("contentMacro1");
                 boolean macroFound = false;
                 for (WikiMacro wikiMacro : docHome.getInstance().getContentMacros()) {
-                    if (wikiMacro.equals(macro)) {
+                    if (wikiMacro.getName().equals("lastModifiedDocuments")) {
                         assert wikiMacro.getParams().size()==2;
-                        assert wikiMacro.getParams().get("param1").equals("value one");
-                        assert wikiMacro.getParams().get("param2").equals("value two");
+                        assert wikiMacro.getParams().get("documentTitleLength").equals("10");
+                        assert wikiMacro.getParams().get("showUsernames").equals("true");
                         macroFound = true;
                     }
                 }
@@ -88,13 +85,16 @@ public class EditMacros extends DBUnitSeamTest {
                 DocumentHome docHome = (DocumentHome)getInstance("documentHome");
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
-                docHome.setFormContent("[<=contentMacro3<param=value>]");
+                docHome.setFormContent("[<=contentMacro[param=value]]");
 
                 assert docHome.getInstance().getHeaderMacros().size() == 2;
                 assert docHome.getInstance().getContentMacros().size() == 1;
                 assert docHome.getInstance().getFooterMacros().size() == 2;
 
-                WikiMacro macro = new WikiMacro("contentMacro3");
+                // Check WikiMacro.equals() as well
+                WikiMacro macro = new WikiMacro("contentMacro");
+                macro.setPosition(0);
+
                 boolean macroFound = false;
                 for (WikiMacro wikiMacro : docHome.getInstance().getContentMacros()) {
                     if (wikiMacro.equals(macro)) {

@@ -8,7 +8,7 @@
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.adminHome.Administration']}"/>
@@ -230,7 +230,8 @@
             <div class="formFields">
                 <ui:include src="includes/preferencesEditor.xhtml">
                     <ui:param name="tabId" value="systemPrefsTab"/>
-                    <ui:param name="preferenceComponents" value="#{systemPreferenceComponents}"/>
+                    <ui:param name="statusId" value="adminFormStatus"/>
+                    <ui:param name="preferenceEntities" value="#{systemPreferenceEntities}"/>
                 </ui:include>
             </div>
         </div>

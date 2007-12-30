@@ -98,7 +98,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
         new NonFacesRequest("/wiki.xhtml") {
             protected void renderResponse() throws Exception {
                 FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
-                checkTestDocumentIsOnFeed("System Administrator", "AAA", feedDAO.findFeed(1l), 1);
+                checkTestDocumentIsOnFeed("Regular Member", "AAA", feedDAO.findFeed(1l), 1);
             }
         }.run();
 

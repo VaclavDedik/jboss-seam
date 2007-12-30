@@ -2,7 +2,6 @@ package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.action.Pager;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
@@ -23,12 +22,12 @@ public class ForumQuery implements Serializable {
 
     private Pager pager;
 
-    @In
-    ForumPreferences forumPreferences;
+    @In("#{preferences.get('Forum')}")
+    ForumPreferences prefs;
 
     @RequestParameter
     public void setPage(Integer page) {
-        if (pager == null) pager = new Pager(forumPreferences.getTopicsPerPage());
+        if (pager == null) pager = new Pager(prefs.getTopicsPerPage());
         pager.setPage(page);
     }
 
@@ -55,7 +54,6 @@ public class ForumQuery implements Serializable {
         if (forums == null) loadForums();
         return forums;
     }
-
 
     @Observer(value = {"Forum.forumListRefresh", "PersistenceContext.filterReset"}, create = false)
     public void loadForums() {

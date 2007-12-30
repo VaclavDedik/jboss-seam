@@ -1,4 +1,4 @@
-<wiki:plugin id="dirMenuPlugin"
+<wiki:plugin 
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
@@ -7,55 +7,38 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <s:div id="dirMenuPluginDiv"
-           styleClass="#{showPluginPreferences and !empty dirMenuPreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
+    <s:div styleClass="box dirMenu">
 
-        <s:div id="dirMenuPreferences"
-              rendered="#{showPluginPreferences and !empty dirMenuPreferencesEditor}">
-           <div align="center">
-               <h:message for="dirMenuPreferences" styleClass="pluginPreferencesMessage"/>
-
-               <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-                   <ui:param name="pluginDiv" value="dirMenuPluginDiv"/>
-                   <ui:param name="pluginPreferencesEditor" value="#{dirMenuPreferencesEditor}"/>
-               </ui:include>
-           </div>
+        <s:div styleClass="boxHeader" rendered="#{not preferences.get('DirMenu', currentMacro).showSubscribeIcon}">
+            <h:outputText value="#{preferences.get('DirMenu', currentMacro).title}"/>
         </s:div>
 
-        <s:div styleClass="dirMenu">
+        <h:panelGrid rendered="#{preferences.get('DirMenu', currentMacro).showSubscribeIcon}"
+                     columns="2" cellpadding="0" cellspacing="0" border="0"
+                     styleClass="boxHeader fullWidth">
 
-            <s:div styleClass="boxHeader" rendered="#{not dirMenuPreferences.showSubscribeIcon}">
-                <h:outputText value="#{messages['dirMenu.label.Menu']}"/>
-            </s:div>
-
-            <h:panelGrid rendered="#{dirMenuPreferences.showSubscribeIcon}"
-                         columns="2" cellpadding="0" cellspacing="0" border="0"
-                         styleClass="boxHeader fullWidth">
-
-                <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
-                    <h:outputLink  target="_top"
-                                   value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
-                    </h:outputLink>
-                    <h:outputLink  target="_top"
-                                   value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                        <h:outputText value="#{messages['dirMenu.label.Subscribe']}"/>
-                    </h:outputLink>
-                </h:panelGrid>
-
-                <h:outputText value="#{messages['dirMenu.label.Menu']}"/>
-
+            <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
+                <h:outputLink  target="_top"
+                               value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                    <h:graphicImage value="/themes/#{preferences.get('Wiki', currentMacro).themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
+                </h:outputLink>
+                <h:outputLink  target="_top"
+                               value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                    <h:outputText value="#{messages['dirMenu.label.Subscribe']}"/>
+                </h:outputLink>
             </h:panelGrid>
 
-            <div class="boxContent">
-                <ui:include src="dirMenuItem.xhtml">
-                    <ui:param name="node" value="#{dirMenu.root}"/>
-                </ui:include>
-            </div>
+            <h:outputText value="#{messages['dirMenu.label.Menu']}"/>
 
-            <s:div styleClass="boxFooter"/>
+        </h:panelGrid>
 
-        </s:div>
+        <div class="boxContent">
+            <ui:include src="dirMenuItem.xhtml">
+                <ui:param name="node" value="#{dirMenu.root}"/>
+            </ui:include>
+        </div>
+
+        <s:div styleClass="boxFooter"/>
 
     </s:div>
 

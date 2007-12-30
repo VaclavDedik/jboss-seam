@@ -8,7 +8,7 @@
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:param name="hideControls" value="#{not s:hasPermission('User', 'isAdmin', currentUser)}"/>
 
@@ -47,7 +47,7 @@
                         </s:div>
                         <s:div styleClass="output">
                             <h:outputText value="#{userHome.instance.createdOn}">
-                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                             </h:outputText>
                             <h:outputText value="&#160;(#{messages['lacewiki.label.userInfo.NotActivated']})"
                                           rendered="#{not userHome.instance.admin and not userHome.instance.guest
@@ -61,7 +61,7 @@
                         </s:div>
                         <s:div styleClass="output">
                             <h:outputText value="#{userHome.instance.lastLoginOn}">
-                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                             </h:outputText>
                         </s:div>
                     </s:div>

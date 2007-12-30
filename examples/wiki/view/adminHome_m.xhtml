@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{wikiPreferences.themeName}/#{skin}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/#{skin}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.adminHome.Administration']}"/>

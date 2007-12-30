@@ -533,7 +533,13 @@ ul {
     padding: 3px;
 }
 
-.selectedItem {
+.formListSelectedItem{
+    background: #fff url(../img/th.bg.inverse.gif ) 0 0 repeat-x;
+    font-size: 85%;
+    padding: 3px;
+}
+
+.formListSelectedItem a {
     color: #555;
 }
 
@@ -673,6 +679,7 @@ ul {
 
 .directoryPagerControl {
     text-align: left;
+    width: 10%;
 }
 
 .directorySelectControl {
@@ -681,6 +688,7 @@ ul {
 
 .directoryClipboard {
     text-align: right;
+    width: 30%;
 }
 
 .directoryPathPanel {
@@ -916,7 +924,7 @@ ul {
 }
 
 .commentFirstLevel {
-    background-color: #f5f5f5;
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
 }
 
 .commentFirstLevel, .commentLevel {
@@ -1090,6 +1098,7 @@ ul {
 }
 .tabs-nav a:hover, .tabs-nav a:focus, .tabs-nav a:active { /* @ Opera, we need to be explicit again here now... */
     cursor: pointer;
+    color: #555;
 }
 .tabs-nav .tabs-disabled {
     opacity: .4;

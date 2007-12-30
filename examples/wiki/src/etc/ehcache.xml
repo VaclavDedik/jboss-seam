@@ -111,16 +111,7 @@
            timeToLiveSeconds="6000"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
-<!--
-    <cache name="WikiNode"
-           maxElementsInMemory="1000"
-           eternal="false"
-           overflowToDisk="false"
-           timeToIdleSeconds="1000"
-           timeToLiveSeconds="6000"
-           diskPersistent="false"
-           memoryStoreEvictionPolicy="LRU"/>
--->
+
     <cache name="WikiLinkProtocol"
            maxElementsInMemory="50"
            eternal="false"
@@ -130,6 +121,7 @@
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
+<!-- TODO: Cascade delete
     <cache name="WikiFeed"
            maxElementsInMemory="100"
            eternal="false"
@@ -156,7 +148,7 @@
            timeToLiveSeconds="259200"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
-
+-->
     <cache name="WikiUser"
            maxElementsInMemory="5000"
            eternal="false"
@@ -166,12 +158,21 @@
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
-    <cache name="WikiComment"
-           maxElementsInMemory="2000"
+    <cache name="WikiRole"
+           maxElementsInMemory="100"
            eternal="false"
            overflowToDisk="false"
-           timeToIdleSeconds="86400"
-           timeToLiveSeconds="259200"
+           timeToIdleSeconds="10000"
+           timeToLiveSeconds="60000"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="WikiUserRoleCollection"
+           maxElementsInMemory="5000"
+           eternal="false"
+           overflowToDisk="false"
+           timeToIdleSeconds="10000"
+           timeToLiveSeconds="60000"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 

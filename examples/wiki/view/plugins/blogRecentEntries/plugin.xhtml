@@ -1,4 +1,4 @@
-<wiki:plugin id="blogRecentEntriesPlugin"
+<wiki:plugin
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
@@ -8,28 +8,15 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <s:div id="blogRecentEntriesPluginDiv"
-           styleClass="#{showPluginPreferences and !empty blogRecentEntriesPreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
-
-        <s:div id="blogRecentEntriesPreferences"
-              rendered="#{showPluginPreferences and !empty blogRecentEntriesPreferencesEditor}">
-           <div align="center">
-               <h:message for="blogRecentEntriesPreferences" styleClass="pluginPreferencesMessage"/>
-
-               <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-                   <ui:param name="pluginDiv" value="blogRecentEntriesPluginDiv"/>
-                   <ui:param name="pluginPreferencesEditor" value="#{blogRecentEntriesPreferencesEditor}"/>
-               </ui:include>
-           </div>
-        </s:div>
+    <s:div styleClass="blogRecentEntries box">
 
         <s:div styleClass="blogRecentEntries">
 
-            <s:div styleClass="boxHeader" rendered="#{not blogRecentEntriesPreferences.showSubscribeIcon}">
+            <s:div styleClass="boxHeader" rendered="#{not preferences.get('Blog').recentEntriesSubscribeIcon}">
                 <h:outputText value="#{messages['blogRecentEntries.label.RecentEntries']}"/>
             </s:div>
 
-            <h:panelGrid rendered="#{blogRecentEntriesPreferences.showSubscribeIcon}"
+            <h:panelGrid rendered="#{preferences.get('Blog').recentEntriesSubscribeIcon}"
                          columns="2" cellpadding="0" cellspacing="0" border="0"
                          styleClass="boxHeader fullWidth">
 
@@ -37,7 +24,7 @@
                     <h:outputLink
                             target="_top"
                             value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
                     </h:outputLink>
                     <h:outputLink
                             target="_top"
@@ -58,7 +45,7 @@
                 <h:column>
                     <div class="blogRecentEntriesDay">
                         <h:outputText value="#{dayMap.key}">
-                            <f:convertDateTime pattern="dd. MMM yyyy" timeZone="#{wikiPreferences.timeZone}"/>
+                            <f:convertDateTime pattern="dd. MMM yyyy" timeZone="#{preferences.get('Wiki').timeZone}"/>
                         </h:outputText>
                     </div>
 
@@ -67,7 +54,8 @@
                                  cellpadding="0" cellspacing="0" border="0">
                         <h:column>
                             <h:outputLink styleClass="blogRecentEntriesItemLink" target="_top" value="#{wiki:renderURL(be.entryDocument)}">
-                                <h:outputText styleClass="blogRecentEntriesItemLinkText" value="#{wiki:truncateString(be.entryDocument.name, blogRecentEntriesPreferences.truncateItemText, '...')}"/>
+                                <h:outputText styleClass="blogRecentEntriesItemLinkText"
+                                              value="#{wiki:truncateString(be.entryDocument.name, preferences.get('Blog').recentEntriesTruncateTitle, '...')}"/>
                             </h:outputLink>
                         </h:column>
                     </h:dataTable>

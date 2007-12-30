@@ -54,7 +54,6 @@ public class FeedDAO {
             return (Feed) restrictedEntityManager
                 .createQuery("select f from Feed f where f.id = :id")
                 .setParameter("id", feedId)
-                .setHint("org.hibernate.cacheable", true)
                 .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {}
@@ -135,7 +134,6 @@ public class FeedDAO {
         return (List<FeedEntry>) restrictedEntityManager
                 .createQuery("select fe from Feed f join f.feedEntries fe where f.id = :feedId order by fe.publishedDate desc")
                 .setParameter("feedId", feedId)
-                .setHint("org.hibernate.cacheable", true)
                 .setMaxResults(maxResults)
                 .getResultList();
     }

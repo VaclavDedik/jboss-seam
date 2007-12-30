@@ -17,8 +17,6 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.core.dao.UserRoleAccessFactory;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.model.Role;
@@ -37,7 +35,6 @@ public class WikiIdentity extends Identity {
 
     private User currentUser;
     private Integer currentAccessLevel;
-    private WikiPreferences wikiPrefs;
 
     // We don't care if a user is logged in, just check it...
     public void checkRestriction(String expr) {
@@ -52,7 +49,6 @@ public class WikiIdentity extends Identity {
 
         currentUser = (User)Component.getInstance("currentUser");
         currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
-        wikiPrefs = (WikiPreferences) Component.getInstance("wikiPreferences");
 
         if (args == null || args.length == 0) {
             // All the security checks currently need arguments...

@@ -23,5 +23,9 @@ public class WikiDocumentFeedEntry extends FeedEntry {
     public int getReadAccessLevel() {
         return getDocument().getReadAccessLevel();
     }
+
+    public boolean isTagged(String tag) {
+        return getDocument().isTagged(tag);
+    }
     
 }

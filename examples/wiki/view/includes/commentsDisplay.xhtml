@@ -46,9 +46,9 @@
                         <s:div>
                             <s:span styleClass="commentDate">
                                 <h:outputText value="#{c.createdOn}">
-                                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                                 </h:outputText>
-                                <h:outputText value="&#160;#{wikiPreferences.timeZone}"/>
+                                <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
                             </s:span>
                             <h:outputText value="&#160;|&#160;"/>
                             <s:span styleClass="commentLink undecoratedLink">

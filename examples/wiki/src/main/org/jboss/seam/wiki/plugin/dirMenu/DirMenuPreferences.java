@@ -8,41 +8,59 @@ package org.jboss.seam.wiki.plugin.dirMenu;
 
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Range;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.wiki.preferences.Preference;
-import org.jboss.seam.wiki.preferences.PreferenceSupport;
+import org.hibernate.validator.Length;
+import org.jboss.seam.wiki.preferences.annotations.Preferences;
+import org.jboss.seam.wiki.preferences.annotations.PreferenceProperty;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 
 import java.io.Serializable;
 
-@Name("dirMenuPreferences")
-@AutoCreate
-@Scope(ScopeType.CONVERSATION)
-@Preference(description = "Plugin: Directory Menu", visibility = PreferenceVisibility.INSTANCE)
-public class DirMenuPreferences extends PreferenceSupport implements Serializable {
+@Preferences(name = "DirMenu", description = "#{messages['dirMenu.preferences.Name']}")
+public class DirMenuPreferences implements Serializable {
 
-    public String getCurrentUserVariable() { return "currentUser"; }
-    public String getCurrentInstanceVariable() { return "currentDocument"; }
+    @PreferenceProperty(
+        description = "#{messages['dirMenu.preferences.Title']}",
+        visibility = {PreferenceVisibility.SYSTEM, PreferenceVisibility.INSTANCE},
+        editorIncludeName = "AdaptiveTextInput"
+    )
+    @Length(min = 0, max = 255)
+    @NotNull
+    private String title;
 
-    @Observer("PreferenceEditor.refresh.dirMenuPreferences")
-    public void refreshProperties() { super.refreshProperties(); }
-
-    @Preference(description = "01. Flatten display of menu tree to levels", visibility = PreferenceVisibility.INSTANCE)
-    @Range(min = 1l, max = 100l)
+    @PreferenceProperty(
+        description = "#{messages['dirMenu.preferences.MenuLevels']}",
+        visibility = {PreferenceVisibility.SYSTEM, PreferenceVisibility.INSTANCE},
+        editorIncludeName = "NumberRange"
+    )
+    @Range(min = 1l, max = 10l)
     @NotNull
     private Long menuLevels;
 
-    @Preference(description = "02. Maximum depth of menu tree nodes", visibility = PreferenceVisibility.INSTANCE)
+    @PreferenceProperty(
+        description = "#{messages['dirMenu.preferences.MenuDepth']}",
+        visibility = {PreferenceVisibility.SYSTEM, PreferenceVisibility.INSTANCE},
+        editorIncludeName = "NumberRange"
+
+    )
     @Range(min = 1l, max = 100l)
     @NotNull
     private Long menuDepth;
 
-    @Preference(description = "03. Show 'Subscribe' icon", visibility = PreferenceVisibility.INSTANCE)
+    @PreferenceProperty(
+        description = "#{messages['dirMenu.preferences.ShowSubscribeIcon']}",
+        visibility = PreferenceVisibility.INSTANCE
+    )
     private Boolean showSubscribeIcon;
+
+    @PreferenceProperty(
+            description = "#{messages['dirMenu.preferences.OnlyMenuItems']}",
+        visibility = PreferenceVisibility.INSTANCE
+    )
+    private Boolean onlyMenuItems;
+
+    public String getTitle() {
+        return title;
+    }
 
     public Long getMenuLevels() {
         return menuLevels;
@@ -54,5 +72,9 @@ public class DirMenuPreferences extends PreferenceSupport implements Serializabl
 
     public Boolean getShowSubscribeIcon() {
         return showSubscribeIcon;
+    }
+
+    public Boolean getOnlyMenuItems() {
+        return onlyMenuItems;
     }
 }

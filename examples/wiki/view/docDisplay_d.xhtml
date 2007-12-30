@@ -8,8 +8,7 @@
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:c="http://java.sun.com/jstl/core"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
-                xmlns:rich="http://richfaces.org/rich"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="includeHeaders">
 
@@ -118,7 +117,7 @@
 
         </s:div>
 
-        <s:div rendered="#{wikiPreferences.showTags and not documentHome.instance.macroPresent('hideTags') and not empty documentHome.instance.tags}"
+        <s:div rendered="#{preferences.get('Wiki').showTags and not documentHome.instance.macroPresent('hideTags') and not empty documentHome.instance.tags}"
                styleClass="documentTags undecoratedLink smallFont">
             <s:div>
                 #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
@@ -133,14 +132,14 @@
             </s:div>
         </s:div>
 
-        <s:div rendered="#{wikiPreferences.showDocumentCreatorHistory and not documentHome.instance.macroPresent('hideCreatorHistory')}"
+        <s:div rendered="#{preferences.get('Wiki').showDocumentCreatorHistory and not documentHome.instance.macroPresent('hideCreatorHistory')}"
                styleClass="documentCreatorHistory undecoratedLink smallFont">
             <s:div>
                 #{messages['lacewiki.label.docDisplay.Created']}:&#160;
                 <h:outputText value="#{documentHome.instance.createdOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
-                <h:outputText value="&#160;#{wikiPreferences.timeZone}&#160;("/>
+                <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;("/>
                 <h:outputLink value="#{wiki:renderURL(documentHome.instance.createdBy.memberHome)}"
                               rendered="#{!empty documentHome.instance.createdBy.memberHome}">
                     <h:outputText value="#{documentHome.instance.createdBy.fullname}"/>
@@ -152,9 +151,9 @@
             <s:div rendered="#{not empty documentHome.instance.lastModifiedBy}">
                 #{messages['lacewiki.label.docDisplay.LastModified']}:&#160;
                 <h:outputText value="#{documentHome.instance.lastModifiedOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
-                <h:outputText value="&#160;#{wikiPreferences.timeZone}&#160;("/>
+                <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;("/>
                 <h:outputLink value="#{wiki:renderURL(documentHome.instance.lastModifiedBy.memberHome)}"
                               rendered="#{!empty documentHome.instance.lastModifiedBy.memberHome}">
                     <h:outputText value="#{documentHome.instance.lastModifiedBy.fullname}"/>
@@ -170,9 +169,9 @@
 
                     <s:fragment rendered="#{not empty hfile.lastModifiedOn}">
                         <h:outputText value="#{hfile.lastModifiedOn}">
-                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                         </h:outputText>
-                        <h:outputText value="&#160;#{wikiPreferences.timeZone}&#160;(#{hfile.lastModifiedByUsername})"/>
+                        <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;(#{hfile.lastModifiedByUsername})"/>
                     </s:fragment>
                     <s:fragment rendered="#{empty hfile.lastModifiedOn}">
                         <h:outputText value="(Initial Revision)"/>

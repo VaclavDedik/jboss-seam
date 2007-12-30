@@ -1,7 +1,7 @@
 package org.jboss.seam.wiki.core.engine;
 
 import org.jboss.seam.wiki.util.WikiUtil;
-import org.jboss.seam.wiki.core.model.WikiMacro;
+import org.jboss.seam.wiki.core.engine.WikiMacro;
 
 import java.util.List;
 
@@ -37,11 +37,9 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
         return "[Embedded Image]";
     }
 
-    public String renderMacro(String macroName) {
+    public String renderMacro(WikiMacro macro) {
         return "[Macro]";
     }
-
-    public void addMacro(WikiMacro macro) {}
 
     public void setAttachmentLinks(List<WikiLink> attachmentLinks) {}
     public void setExternalLinks(List<WikiLink> externalLinks) {}

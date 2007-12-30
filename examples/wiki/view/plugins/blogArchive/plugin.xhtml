@@ -1,4 +1,4 @@
-<wiki:plugin id="blogArchivePlugin"
+<wiki:plugin
         rendered="#{skin == 'd'}"
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -8,35 +8,22 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <s:div id="blogArchivePluginDiv"
-           styleClass="#{showPluginPreferences and !empty blogArchivePreferencesEditor ? 'pluginPreferencesBox box' : 'box'}">
-
-        <s:div id="blogArchivePreferences"
-              rendered="#{showPluginPreferences and !empty blogArchivePreferencesEditor}">
-           <div align="center">
-               <h:message for="blogArchivePreferences" styleClass="pluginPreferencesMessage"/>
-
-               <ui:include src="../../includes/pluginPreferencesForm.xhtml">
-                   <ui:param name="pluginDiv" value="blogArchivePluginDiv"/>
-                   <ui:param name="pluginPreferencesEditor" value="#{blogArchivePreferencesEditor}"/>
-               </ui:include>
-           </div>
-        </s:div>
+    <s:div styleClass="blogArchive box">
 
         <s:div styleClass="blogArchive">
 
-            <s:div styleClass="boxHeader" rendered="#{not blogArchivePreferences.showSubscribeIcon}">
+            <s:div styleClass="boxHeader" rendered="#{not preferences.get('Blog').archiveSubscribeIcon}">
                 <h:outputText rendered="#{empty param.tag}" value="#{messages['blogArchive.label.Archive']}"/>
                 <h:outputText rendered="#{not empty param.tag}" value="#{messages['blogArchive.label.Archive']} '#{param.tag}'"/>
             </s:div>
 
-            <h:panelGrid rendered="#{blogArchivePreferences.showSubscribeIcon}"
+            <h:panelGrid rendered="#{preferences.get('Blog').archiveSubscribeIcon}"
                          columns="2" cellpadding="0" cellspacing="0" border="0"
                          styleClass="boxHeader fullWidth">
 
                 <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
                     <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
                     </h:outputLink>
                     <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
                         <h:outputText value="#{messages['blogArchive.label.Subscribe']}"/>

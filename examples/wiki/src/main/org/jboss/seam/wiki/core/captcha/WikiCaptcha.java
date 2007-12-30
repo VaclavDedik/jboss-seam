@@ -106,7 +106,7 @@ public class WikiCaptcha extends Captcha {
     }
 
     @Override
-    @CaptchaResponse(message = "#{messages['lacewiki.label.VerificationError']}")
+    @CaptchaResponse(message = "#{lacewiki.label.VerificationError']}")
     public String getResponse() {
         return super.getResponse();
     }

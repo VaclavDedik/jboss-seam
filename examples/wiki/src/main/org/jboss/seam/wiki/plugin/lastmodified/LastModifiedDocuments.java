@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.plugin.lastmodified;
 
 import org.jboss.seam.ScopeType;
@@ -11,26 +17,27 @@ import org.jboss.seam.wiki.core.model.WikiDocument;
 import java.io.Serializable;
 import java.util.List;
 
-@Name("lastModifiedDocumentsPlugin")
+@Name("lastModifiedDocuments")
 @Scope(ScopeType.PAGE)
 public class LastModifiedDocuments implements Serializable {
 
     @In
     WikiNodeDAO wikiNodeDAO;
 
-    @In("#{lastModifiedDocumentsPreferences.numberOfItems}")
-    private Long numberOfItems;
+    @In("#{preferences.get('LastModifiedDocuments', currentMacro)}")
+    LastModifiedDocumentsPreferences prefs;
 
-    private List<WikiDocument>lastModifiedDocuments;
+    private List<WikiDocument> listOfDocuments;
 
-    public List<WikiDocument> getLastModifiedDocuments() {
-        if (lastModifiedDocuments == null) loadDocuments();
-        return lastModifiedDocuments;
+    public List<WikiDocument> getListOfDocuments() {
+        if (listOfDocuments == null) loadDocuments();
+        return listOfDocuments;
     }
 
-    @Observer("PreferenceComponent.refresh.lastModifiedDocumentsPreferences")
+    @Observer(value = "Macro.render.lastModifiedDocuments", create = false)
     public void loadDocuments() {
-        lastModifiedDocuments = wikiNodeDAO.findWikiDocumentsOrderByLastModified(Long.valueOf(numberOfItems).intValue());
+        listOfDocuments =
+                wikiNodeDAO.findWikiDocumentsOrderByLastModified(Long.valueOf(prefs.getNumberOfItems()).intValue());
     }
 
 }

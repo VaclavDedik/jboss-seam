@@ -17,6 +17,7 @@ import org.jboss.seam.wiki.core.model.LinkProtocol;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManager;
@@ -40,8 +41,8 @@ public class WikiNodeFactory implements Serializable {
     public WikiDirectory loadWikiRoot() {
         try {
             return (WikiDirectory) entityManager
-                    .createQuery("select d from WikiDirectory d where d.parent is null")
-                    .setHint("org.hibernate.cacheable", true)
+                    .createQuery("select d from WikiDirectory d left join fetch d.feed where d.parent is null")
+                    .setHint("org.hibernate.comment", "Loading wikiRoot")
                     .getSingleResult();
         } catch (RuntimeException ex) {
             throw new RuntimeException("You need to INSERT at least one parentless directory into the database", ex);
@@ -50,12 +51,12 @@ public class WikiNodeFactory implements Serializable {
 
     @Factory(value = "wikiStart", scope = ScopeType.PAGE, autoCreate = true)
     public WikiDocument loadWikiStart() {
-        WikiPreferences wikiPreferences = (WikiPreferences) Component.getInstance("wikiPreferences");
+        WikiPreferences wikiPreferences = (WikiPreferences) Preferences.getInstance("Wiki");
         try {
             return (WikiDocument) restrictedEntityManager
                     .createQuery("select d from WikiDocument d where d.id = :id")
                     .setParameter("id", wikiPreferences.getDefaultDocumentId())
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.comment", "Loading wikiStart")
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -72,9 +73,9 @@ public class WikiNodeFactory implements Serializable {
 
         try {
             return (WikiDirectory) restrictedEntityManager
-                    .createQuery("select d from WikiDirectory d where d.id = :id")
+                    .createQuery("select d from WikiDirectory d left join fetch d.feed where d.id = :id")
                     .setParameter("id", wikiroot.getId())
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.comment", "Loading wikiRootRestricted")
                     .getSingleResult();
         } catch (RuntimeException ex) {
             throw new RuntimeException("You need to INSERT at least one parentless directory into the database", ex);
@@ -83,12 +84,12 @@ public class WikiNodeFactory implements Serializable {
 
     @Factory(value = "memberArea", scope = ScopeType.PAGE, autoCreate = true)
     public WikiDirectory loadMemberArea() {
-        String memberAreaName = ((WikiPreferences)Component.getInstance("wikiPreferences")).getMemberArea();
+        String memberAreaName = ((WikiPreferences)Preferences.getInstance("Wiki")).getMemberArea();
         try {
             return (WikiDirectory) entityManager
-                    .createQuery("select d from WikiDirectory d where d.wikiname = :name and d.parent.parent is null")
+                    .createQuery("select d from WikiDirectory d left join fetch d.feed where d.wikiname = :name and d.parent.parent is null")
                     .setParameter("name", WikiUtil.convertToWikiName(memberAreaName) )
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.comment", "Loading memberArea")
                     .getSingleResult();
         } catch (RuntimeException ex) {
             FacesMessages.instance().addFromResourceBundleOrDefault(
@@ -107,7 +108,7 @@ public class WikiNodeFactory implements Serializable {
         //noinspection unchecked
         List<Object[]> result = entityManager
                 .createQuery("select lp.prefix, lp from LinkProtocol lp order by lp.prefix asc")
-                .setHint("org.hibernate.cacheable", true)
+                .setHint("org.hibernate.comment", "Loading link protocols")
                 .getResultList();
         for (Object[] objects : result) {
             linkProtocols.put((String)objects[0], (LinkProtocol)objects[1]);

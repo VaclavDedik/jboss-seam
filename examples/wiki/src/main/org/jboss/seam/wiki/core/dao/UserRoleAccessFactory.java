@@ -1,16 +1,17 @@
 package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
+import org.jboss.seam.annotations.*;
+import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Name("userRoleAccessFactory")
 public class UserRoleAccessFactory implements Serializable {
@@ -24,6 +25,7 @@ public class UserRoleAccessFactory implements Serializable {
             User guestUser =
                     (User) entityManager
                             .createQuery("select u from User u left join fetch u.roles where u.username = '"+User.GUEST_USERNAME+"'")
+                            .setHint("org.hibernate.cacheable", true)
                             .getSingleResult();
             if (guestUser.getRoles().size() > 1 || guestUser.getRoles().size() == 0) {
                 throw new RuntimeException("Your '"+User.GUEST_USERNAME+"' user has none or more than one role assigned, illegal database state");
@@ -44,6 +46,7 @@ public class UserRoleAccessFactory implements Serializable {
             User adminUser =
                     (User) entityManager
                             .createQuery("select u from User u left join fetch u.roles where u.username = '"+User.ADMIN_USERNAME+"'")
+                            .setHint("org.hibernate.cacheable", true)
                             .getSingleResult();
             if (adminUser.getRoles().size() > 1 || adminUser.getRoles().size() == 0) {
                 throw new RuntimeException("Your '"+User.ADMIN_USERNAME+"' user has none or more than one role assigned, illegal database state");
@@ -62,7 +65,8 @@ public class UserRoleAccessFactory implements Serializable {
         try {
             return (Role) entityManager
                     .createQuery("select r from Role r where r.accessLevel = '"+Role.GUESTROLE_ACCESSLEVEL+"'")
-                            .getSingleResult();
+                    .setHint("org.hibernate.cacheable", true)
+                    .getSingleResult();
         } catch (NoResultException ex) {
             throw new RuntimeException("You need to INSERT a role with accesslevel '"+Role.GUESTROLE_ACCESSLEVEL+"' (the guest role) into the database");
         }
@@ -73,7 +77,8 @@ public class UserRoleAccessFactory implements Serializable {
         try {
             return (Role) entityManager
                     .createQuery("select r from Role r where r.accessLevel = '"+Role.ADMINROLE_ACCESSLEVEL+"'")
-                            .getSingleResult();
+                    .setHint("org.hibernate.cacheable", true)
+                    .getSingleResult();
         } catch (NoResultException ex) {
             throw new RuntimeException("You need to INSERT a role with accesslevel '"+Role.ADMINROLE_ACCESSLEVEL+"' (the admin role) into the database");
         }
@@ -81,11 +86,12 @@ public class UserRoleAccessFactory implements Serializable {
 
     @Factory(value = "newUserDefaultRole", scope = ScopeType.SESSION)
     public Role getDefaultRole() {
-        UserManagementPreferences userPrefs = (UserManagementPreferences) Component.getInstance("userManagementPreferences");
+        UserManagementPreferences userPrefs = (UserManagementPreferences) Preferences.getInstance("UserManagement");
         try {
             return (Role) entityManager
                     .createQuery("select r from Role r where r.name = '"+userPrefs.getNewUserInRole()+"'")
-                            .getSingleResult();
+                    .setHint("org.hibernate.cacheable", true)
+                    .getSingleResult();
         } catch (NoResultException ex) {
             throw new RuntimeException("Configured default role for new users '"+userPrefs.getNewUserInRole()+"' not found");
         }
@@ -110,7 +116,8 @@ public class UserRoleAccessFactory implements Serializable {
             if (roles == null) {
                 roles = (List<Role>) entityManager
                         .createQuery("select r from Role r order by r.accessLevel desc, r.displayName asc")
-                            .getResultList();
+                        .setHint("org.hibernate.cacheable", true)
+                        .getResultList();
                 if (roles.size() < 2)
                     throw new RuntimeException("You need to INSERT at least two roles into the database, " +
                                                "with access level '"+Role.GUESTROLE_ACCESSLEVEL+"' and '"+Role.ADMINROLE_ACCESSLEVEL+"'");

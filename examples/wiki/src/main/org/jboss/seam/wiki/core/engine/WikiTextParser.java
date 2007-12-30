@@ -31,9 +31,12 @@ import java.util.*;
  */
 public class WikiTextParser extends SeamTextParser {
 
+    private int macroPosition = 0;
     private int linkCounter = 0;
 
     private WikiTextRenderer renderer;
+
+    private boolean resolveLinks;
     private WikiLinkResolver resolver;
     private Long currentAreaNumber;
 
@@ -42,7 +45,6 @@ public class WikiTextParser extends SeamTextParser {
     private List<WikiLink> externalLinks = new ArrayList<WikiLink>();
     private Set<String> macroNames = new HashSet<String>();
     private boolean renderDuplicateMacros;
-    private boolean resolveLinks;
 
     public WikiTextParser(String wikiText, boolean renderDuplicateMacros, boolean resolveLinks) {
         super(new SeamTextLexer(new StringReader(wikiText)));
@@ -87,9 +89,12 @@ public class WikiTextParser extends SeamTextParser {
      * @throws ANTLRException if lexer or parser errors occur, see
      */
     public void parse() throws ANTLRException {
-        if (resolver == null) throw new IllegalStateException("WikiTextParser requires not null setResolver()");
         if (renderer == null) throw new IllegalStateException("WikiTextParser requires not null setRenderer()");
-        if (currentAreaNumber == null) throw new IllegalStateException("WikiTextParser requires not null setCurrentAreaNumber()");
+
+        if (resolveLinks) {
+            if (resolver == null) throw new IllegalStateException("WikiTextParser requires not null setResolver()");
+            if (currentAreaNumber == null) throw new IllegalStateException("WikiTextParser requires not null setCurrentAreaNumber()");
+        }
 
         startRule();
 
@@ -193,18 +198,19 @@ public class WikiTextParser extends SeamTextParser {
         return renderer.renderEmphasisCloseTag();
     }
 
-    protected String macroInclude(SeamTextMacro macro) {
-        // Filter out any dangerous characters
-        String filteredName = macro.name.replaceAll("[^\\p{Alnum}]+", "");
-        if ( (macroNames.contains(filteredName) && renderDuplicateMacros) || !macroNames.contains(filteredName)) {
-            macroNames.add(filteredName);
+    protected String macroInclude(Macro macro) {
+        if (macro.name == null || macro.name.length() == 0) return "";
+
+        if ( (macroNames.contains(macro.name) && renderDuplicateMacros) || !macroNames.contains(macro.name)) {
+            macroNames.add(macro.name);
 
             WikiMacro wikiMacro = new WikiMacro(macro.name);
             wikiMacro.setParams(macro.params);
-            renderer.addMacro(wikiMacro);
+            wikiMacro.setPosition(macroPosition++);
 
-            return renderer.renderMacro(filteredName);
+            return renderer.renderMacro(wikiMacro);
         } else {
+            macroPosition++;
             return "[Can't use the same macro twice!]";
         }
     }

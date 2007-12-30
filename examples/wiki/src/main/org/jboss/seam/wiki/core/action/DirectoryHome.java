@@ -203,7 +203,12 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
         getLog().debug("number of children: " + pager.getNumOfRecords());
         if (pager.getNumOfRecords() > 0) {
             getLog().debug("loading children page from: " + pager.getNextRecord() + " size: " + pager.getPageSize());
-            childNodes = getWikiNodeDAO().findChildren(dir, "createdOn", false, pager.getNextRecord(), pager.getPageSize());
+            childNodes =
+                    getWikiNodeDAO().findChildren(
+                            dir, "createdOn", false,
+                            new Long(pager.getNextRecord()).intValue(),
+                            new Long(pager.getPageSize()).intValue()
+                    );
         }
     }
 

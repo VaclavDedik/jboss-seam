@@ -6,7 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
-                template="themes/#{wikiPreferences.themeName}/template.xhtml">
+                template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.userList.MemberList']}"/>
@@ -98,29 +98,29 @@
                          rendered="#{userSearch.rowCount > 0}">
 
                 <h:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="1">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.first.gif" width="13" height="11"/>
+                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.first.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.previousPageAvailable}"/>
 
                 <h:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="1">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.previous.gif" width="13" height="11"/>
+                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.previous.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.previousPageAvailable}"/>
 
                 <h:outputText value="#{messages['lacewiki.label.userList.Found']} #{userSearch.rowCount} #{messages['lacewiki.label.userList.Members']}"/>
 
                 <h:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="1">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.next.gif" width="13" height="11"/>
+                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.next.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.nextPageAvailable}"/>
 
                 <h:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="1">
-                    <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/page.last.gif" width="13" height="11"/>
+                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.last.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.nextPageAvailable}"/>
 
             </h:panelGrid>
@@ -144,9 +144,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('username')}" tabindex="1">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.Username']}"/>
                     </h:commandLink>
@@ -166,9 +166,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="1">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.FirstName']}"/>
                     </h:commandLink>
@@ -179,9 +179,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="1">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.LastName']}"/>
                     </h:commandLink>
@@ -192,9 +192,9 @@
             <h:column rendered="#{wiki:showEmailAddress()}">
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('email')}" tabindex="1">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.Email']}"/>
                     </h:commandLink>
@@ -205,30 +205,30 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('createdOn')}" tabindex="1">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.JoinedOn']}"/>
                     </h:commandLink>
                 </f:facet>
                 <h:outputText value="#{u.createdOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
             </h:column>
 
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('lastLoginOn')}" tabindex="1">
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastLoginOn'}"/>
-                        <h:graphicImage value="/themes/#{wikiPreferences.themeName}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastLoginOn'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.LastLoginOn']}"/>
                     </h:commandLink>
                 </f:facet>
                 <h:outputText value="#{u.lastLoginOn}" rendered="#{not empty u.lastLoginOn}">
-                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{wikiPreferences.timeZone}"/>
+                    <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
                 <h:outputText value="-" rendered="#{empty u.lastLoginOn}"/>
             </h:column>

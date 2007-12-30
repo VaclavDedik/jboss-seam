@@ -2,19 +2,18 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.faces.FacesMessages;
-import org.jboss.seam.wiki.preferences.*;
-import org.jboss.seam.wiki.preferences.PreferenceRegistry;
 import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.preferences.PreferenceVisibility;
+import org.jboss.seam.wiki.preferences.PreferenceValue;
+import org.jboss.seam.wiki.preferences.PreferenceProvider;
+import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
+import org.jboss.seam.wiki.preferences.metamodel.PreferenceRegistry;
 import org.hibernate.validator.InvalidValue;
 
 import javax.faces.application.FacesMessage;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashSet;
+import java.util.*;
 import java.io.Serializable;
 
 @Name("prefEditor")
@@ -26,76 +25,76 @@ public class PreferenceEditor implements Serializable {
     @In
     private FacesMessages facesMessages;
 
-    private User user;
-    private PreferenceVisibility preferenceVisibility;
+    @In
+    PreferenceProvider preferenceProvider;
 
-    private PreferenceComponent preferenceComponent;
+    @In
+    PreferenceRegistry preferenceRegistry;
+
+    private User user;
+    private PreferenceVisibility[] visibilities;
+    private List<PreferenceEntity> preferenceEntities;
+    private PreferenceEntity preferenceEntity;
     private List<PreferenceValue> preferenceValues;
     boolean valid = true;
 
     public String save() {
-        log.debug("saving preference component values");
-        if (preferenceComponent == null) return null;
+        log.debug("saving preference values");
+        if (preferenceEntity == null) return null;
 
         validate();
         if (!valid) return "failed";
 
-        PreferenceProvider provider = (PreferenceProvider)Component.getInstance("preferenceProvider");
-        if (preferenceVisibility.equals(PreferenceVisibility.USER)) {
-            // Store prefs for a user
-            preferenceValues = new ArrayList<PreferenceValue>(
-                provider.store(preferenceComponent, new HashSet<PreferenceValue>(preferenceValues), user, null)
-            );
-        } else {
-            // Store system prefs
-            preferenceValues = new ArrayList<PreferenceValue>(
-                provider.store(preferenceComponent, new HashSet<PreferenceValue>(preferenceValues), null, null)
-            );
-        }
-        provider.flush();
+        preferenceProvider.storeValues(new HashSet<PreferenceValue>(preferenceValues), user, null);
+        preferenceProvider.flush();
+        log.debug("completed saving of preference values");
 
         return null;
     }
 
     public void validate() {
         log.debug("validating preference component values");
-        if (preferenceComponent == null) return;
+        if (preferenceEntity == null) return;
         valid = true;
-        Map<PreferenceProperty, InvalidValue[]> invalidProperties = preferenceComponent.validate(preferenceValues);
-        for (Map.Entry<PreferenceProperty, InvalidValue[]> entry : invalidProperties.entrySet()) {
+        Map<PreferenceEntity.Property, InvalidValue[]> invalidProperties =
+                preferenceEntity.validate(preferenceValues, Arrays.asList(visibilities));
+
+        for (Map.Entry<PreferenceEntity.Property, InvalidValue[]> entry : invalidProperties.entrySet()) {
             for (InvalidValue validationError : entry.getValue()) {
                 valid = false;
 
                 facesMessages.addToControlFromResourceBundleOrDefault(
                     "preferenceValidationErrors",
                     FacesMessage.SEVERITY_ERROR,
-                    "preferenceValueValidationFailed." + preferenceComponent.getName() + "." + entry.getKey().getName(),
-                    preferenceComponent.getDescription() + " - '" + entry.getKey().getDescription() + "': " + validationError.getMessage());
+                    "preferenceValueValidationFailed." + preferenceEntity.getEntityName() + "." + entry.getKey().getFieldName(),
+                    preferenceEntity.getDescription() + " - '" + entry.getKey().getDescription() + "': " + validationError.getMessage());
             }
         }
     }
 
-    public void selectPreferenceComponent(PreferenceComponent selectedPreferenceComponent) {
-        preferenceComponent = selectedPreferenceComponent;
-
-        PreferenceProvider provider = (PreferenceProvider)Component.getInstance("preferenceProvider");
-
-        if (preferenceVisibility.equals(PreferenceVisibility.USER)) {
-            // Load prefs for a user
-            preferenceValues = new ArrayList<PreferenceValue>(provider.load(preferenceComponent, user, null, false));
-        } else {
-            // Load system prefs
-            preferenceValues = new ArrayList<PreferenceValue>(provider.load(preferenceComponent, null, null, true));
-        }
+    public void selectPreferenceEntity(PreferenceEntity selectedPreferenceEntity) {
+        preferenceEntity = selectedPreferenceEntity;
+        log.debug("selected preference entity: " + preferenceEntity);
+        preferenceValues =
+                new ArrayList<PreferenceValue>(
+                    preferenceProvider.loadValues(preferenceEntity.getEntityName(),
+                                                      user,
+                                                      null,
+                                                      Arrays.asList(visibilities))
+                );
     }
 
-    public List<PreferenceComponent> loadPreferenceComponents() {
-        PreferenceRegistry registry = (PreferenceRegistry)Component.getInstance("preferenceRegistry");
-        return new ArrayList<PreferenceComponent>(registry.getPreferenceComponents(preferenceVisibility));
+    private void loadPreferenceEntities() {
+        preferenceEntities = new ArrayList<PreferenceEntity>(preferenceRegistry.getPreferenceEntities(visibilities));
     }
 
-    public PreferenceComponent getPreferenceComponent() {
-        return preferenceComponent;
+    public List<PreferenceEntity> getPreferenceEntities() {
+        if (preferenceEntities == null) loadPreferenceEntities();
+        return preferenceEntities;
+    }
+
+    public PreferenceEntity getPreferenceEntity() {
+        return preferenceEntity;
     }
 
     public List<PreferenceValue> getPreferenceValues() {
@@ -106,8 +105,8 @@ public class PreferenceEditor implements Serializable {
         this.user = user;
     }
 
-    public void setPreferenceVisibility(PreferenceVisibility preferenceVisibility) {
-        this.preferenceVisibility = preferenceVisibility;
+    public void setVisibilities(PreferenceVisibility[] visibilities) {
+        this.visibilities = visibilities;
     }
 
     public boolean isValid() {

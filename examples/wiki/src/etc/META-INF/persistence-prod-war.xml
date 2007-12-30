@@ -27,7 +27,7 @@
             <!-- Run the Hibernate bytecode instrumentation at deployment time, for lazy loading of @ToOne and byte[] properties -->
             <!-- TODO: That doesn't work for me, using the enhancer in build.xml manually -->
             <property name="hibernate.ejb.use_class_enhancer" value="true"/>
-            <property name="hibernate.max_fetch_depth" value="2"/>
+            <property name="hibernate.max_fetch_depth" value="1"/>
             <property name="hibernate.jdbc.batch_size" value="0"/>
 
             <!-- Enable Hibernate statistics, needs SessionFactory in JNDI for JMX monitoring -->
@@ -36,16 +36,25 @@
 
             <!-- Enable EHCache and register the JMX monitoring MBean -->
             <property name="hibernate.cache.provider_class" value="org.jboss.seam.wiki.util.MonitoringEHCacheProvider"/>
-            <property name="hibernate.cache.use_query_cache" value="false"/>
-            <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.cache.use_second_level_cache" value="true"/>
 
-            <!-- TODO:
             <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.preferences.WikiPreferenceValue"
                       value="read-write, WikiPreference"/>
 
             <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.LinkProtocol"
                       value="nonstrict-read-write, WikiLinkProtocol"/>
 
+            <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.User"
+                      value="read-write, WikiUser"/>
+
+            <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.Role"
+                      value="read-write, WikiRole"/>
+
+            <property name="hibernate.ejb.collectioncache.org.jboss.seam.wiki.core.model.User.roles"
+                      value="read-write, WikiUserRoleCollection"/>
+
+            <!-- TODO: Cascade delete
             <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.Feed"
                       value="read-write, WikiFeed"/>
 
@@ -54,13 +63,7 @@
 
             <property name="hibernate.ejb.collectioncache.org.jboss.seam.wiki.core.model.Feed.feedEntries"
                       value="read-write, WikiFeedEntryCollection"/>
-
-            <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.User"
-                      value="read-write, WikiUser"/>
-
-            <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.Comment"
-                      value="nonstrict-read-write, WikiComment"/>
-          -->
+            -->
 
             <!-- Nested Set handling through special Hibernate event listeners -->
             <property name="hibernate.ejb.event.post-insert"

@@ -111,20 +111,20 @@
 
     <database-object>
         <create>
-            create index IDX_COMPONENT_NAME on PREFERENCE (COMPONENT_NAME);
+            create index IDX_PREFERENCE_ENTITY_NAME on PREFERENCE (ENTITY_NAME);
         </create>
         <drop>
-            drop index IDX_COMPONENT_NAME
+            drop index IDX_PREFERENCE_ENTITY_NAME
         </drop>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            create index IDX_COMPONENT_PROPERTY_NAME on PREFERENCE (PROPERTY_NAME, COMPONENT_NAME);
+            create index IDX_PREFERENCE_ENTITY_PROPERTY_NAME on PREFERENCE (PROPERTY_NAME, ENTITY_NAME);
         </create>
         <drop>
-            drop index IDX_COMPONENT_PROPERTY_NAME
+            drop index IDX_PREFERENCE_ENTITY_PROPERTY_NAME
         </drop>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
@@ -281,20 +281,110 @@
 
     <database-object>
         <create>
-            create index IDX_COMPONENT_NAME on PREFERENCE (COMPONENT_NAME);
+            create index IDX_PREFERENCE_ENTITY_NAME on PREFERENCE (ENTITY_NAME)
         </create>
         <drop>
-            drop index IDX_COMPONENT_NAME
+            drop index IDX_PREFERENCE_ENTITY_NAME
         </drop>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
 
     <database-object>
         <create>
-            create index IDX_COMPONENT_PROPERTY_NAME on PREFERENCE (PROPERTY_NAME, COMPONENT_NAME);
+            create index IDX_PREFERENCE_ENTITY_PROPERTY_NAME on PREFERENCE (PROPERTY_NAME, ENTITY_NAME)
         </create>
         <drop>
-            drop index IDX_COMPONENT_PROPERTY_NAME
+            drop index IDX_PREFERENCE_ENTITY_PROPERTY_NAME
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_NODE_READ_ACCESS_LEVEL on WIKI_NODE (READ_ACCESS_LEVEL)
+        </create>
+        <drop>
+            drop index IDX_WIKI_NODE_READ_ACCESS_LEVEL
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_NODE_CREATED_ON on WIKI_NODE (CREATED_ON)
+        </create>
+        <drop>
+            drop index IDX_WIKI_NODE_CREATED_ON
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_DIRECTORY_NS_LEFT on WIKI_DIRECTORY (NS_LEFT)
+        </create>
+        <drop>
+            drop index IDX_WIKI_DIRECTORY_NS_LEFT
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_DIRECTORY_NS_RIGHT on WIKI_DIRECTORY (NS_RIGHT)
+        </create>
+        <drop>
+            drop index IDX_WIKI_DIRECTORY_NS_RIGHT
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_DIRECTORY_NS_THREAD on WIKI_DIRECTORY (NS_THREAD)
+        </create>
+        <drop>
+            drop index IDX_WIKI_DIRECTORY_NS_THREAD
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_COMMENT_NS_LEFT on WIKI_COMMENT (NS_LEFT)
+        </create>
+        <drop>
+            drop index IDX_WIKI_COMMENT_NS_LEFT
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_COMMENT_NS_RIGHT on WIKI_COMMENT (NS_RIGHT)
+        </create>
+        <drop>
+            drop index IDX_WIKI_COMMENT_NS_RIGHT
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_COMMENT_NS_THREAD on WIKI_COMMENT (NS_THREAD)
+        </create>
+        <drop>
+            drop index IDX_WIKI_COMMENT_NS_THREAD
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            create index IDX_WIKI_DOCUMENT_HEADER_MACROS on WIKI_DOCUMENT (HEADER_MACROS)
+        </create>
+        <drop>
+            drop index IDX_WIKI_DOCUMENT_HEADER_MACROS
         </drop>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>

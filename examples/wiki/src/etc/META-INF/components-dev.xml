@@ -30,6 +30,7 @@
             <value>META-INF/testdata/UploadData.dbunit.xml</value>
             <value>META-INF/testdata/BlogData.dbunit.xml</value>
             <value>META-INF/testdata/ForumData.dbunit.xml</value>
+            <value>META-INF/testdata/KnowledgeBase.dbunit.xml</value>
         </property>
     </component>
 

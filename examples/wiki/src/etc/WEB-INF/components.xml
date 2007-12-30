@@ -24,7 +24,7 @@
 
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
     <web:redirect-filter disabled="true"/> <!-- Messes up into-conversation-redirect and is not needed -->
-
+    
     <!-- ##### END OF WIKI USER CONFIGURATION ##### -->
 
     <!-- Seam settings -->
@@ -60,7 +60,9 @@
             <value>#{accessLevelFilter}</value>
         </property>
     </component>
-<!--
+    <!-- TODO: I want to reset the filter argument when a user logs in, so had to write my own SMPC, this is only
+               "safe" because a logged-in user means higher access privileges than before, so anything that was
+               cached in the SMPC before the filter argument is reset has to be still valid. We hope... 
     <persistence:managed-persistence-context name="restrictedEntityManager"
                                       auto-create="true"
                                       entity-manager-factory="#{wikiEntityManagerFactory}"
@@ -126,12 +128,25 @@
         </property>
     </component>
 
-    <factory name="themePath" scope="APPLICATION"
-             value="#{facesContext.externalContext.request.contextPath}/themes/#{wikiPreferences.themeName}"/>
+    <component name="themePreferenceValueTemplate"
+               class="org.jboss.seam.wiki.core.preferences.template.ThemeTemplate"
+               scope="CONVERSATION">
+        <property name="templateValues">
+            <value>default</value>
+            <value>sfwkorg</value>
+            <!--<value>inrelationto</value>-->
+        </property>
+    </component>
+
+    <factory name="themePath" scope="CONVERSATION"
+             value="#{facesContext.externalContext.request.contextPath}/themes/#{preferences.get('Wiki').themeName}"/>
 
     <factory name="skin" scope="SESSION" value="d"/>
 
     <factory name="sessionTimeoutSeconds" scope="SESSION"
              value="#{facesContext.externalContext.getSession(true).getMaxInactiveInterval()}"/>
-    
+
+    <factory name="currentPreferencesUser" scope="EVENT"
+             value="#{currentUser}"/>
+
 </components>

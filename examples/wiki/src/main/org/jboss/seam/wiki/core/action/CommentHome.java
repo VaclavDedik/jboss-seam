@@ -38,7 +38,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     @In
     protected FeedDAO feedDAO;
 
-    @In
+    @In("#{preferences.get('Comments')}")
     protected CommentsPreferences commentsPreferences;
 
     /* -------------------------- Internal State ------------------------------ */
@@ -222,14 +222,14 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         if (parentCommentId == null || parentCommentId.equals(0l))
             throw new IllegalStateException("Missing parentCommentId request parameter");
 
-        if (commentsPreferences.getThreadedComments()) {
+        if (commentsPreferences.getThreaded()) {
             // Override parent from @Create
             setParentNodeId(parentCommentId);
         }
         getLog().debug("reply to comment id: " + parentCommentId);
         newComment();
 
-        if (commentsPreferences.getThreadedComments()) {
+        if (commentsPreferences.getThreaded()) {
             getInstance(); // Init
             setReplySubject((WikiComment)getParentNode());
         } else {
@@ -242,7 +242,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     public String quote() {
         replyTo();
 
-        if (commentsPreferences.getThreadedComments()) {
+        if (commentsPreferences.getThreaded()) {
             setQuotedContent((WikiComment)getParentNode());
         } else {
             setQuotedContent(getWikiNodeDAO().findWikiComment(parentCommentId));

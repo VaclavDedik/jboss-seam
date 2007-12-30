@@ -227,7 +227,7 @@ blockquote blockquote blockquote blockquote {
 	font-weight: bold;
 	font-size: 120%;
 	border-bottom: 1px solid #b6b6b6;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 6px;
 }
 
@@ -750,7 +750,12 @@ b.rtop b.r4, b.rbottom b.r4 {
     padding: 3px;
 }
 
-.selectedItem {
+.formListSelectedItem{
+    background: #fff url(../img/th.bg.inverse.gif ) 0 0 repeat-x;
+    padding: 3px;
+}
+
+.formListSelectedItem a {
     color: #000;
 }
 
@@ -1005,6 +1010,7 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .directoryPagerControl {
     text-align: left;
+    width: 10%;
 }
 
 .directorySelectControl {
@@ -1013,6 +1019,7 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .directoryClipboard {
     text-align: right;
+    width: 30%;
 }
 
 .directoryPathPanel {
@@ -1095,6 +1102,7 @@ b.rtop b.r4, b.rbottom b.r4 {
 .tabs-nav a {
     color: #576c74;
 }
+
 .tabs-nav .tabs-selected {
     background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
 }
@@ -1116,6 +1124,7 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 .tabs-nav a:hover, .tabs-nav a:focus, .tabs-nav a:active { /* @ Opera, we need to be explicit again here now... */
     cursor: pointer;
+    color: #000;
 }
 .tabs-nav .tabs-disabled {
     opacity: .4;

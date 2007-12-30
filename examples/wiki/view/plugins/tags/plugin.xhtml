@@ -1,4 +1,4 @@
-<wiki:plugin id="tagsPlugin"
+<wiki:plugin
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
@@ -19,8 +19,13 @@
                          columnClasses="defaultColumn, onePercentColumn"
                          cellpadding="0" cellspacing="0" border="0">
                 <h:column>
-                    <s:span rendered="#{param.tag != tagCount.tag}" styleClass="undecoratedLink">
+                    <s:span rendered="#{param.tag != tagCount.tag and preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
                         <h:outputLink value="#{wiki:renderURL(currentDocument)}/Tag/#{wiki:encodeURL(tagCount.tag)}">#{tagCount.tag}</h:outputLink>
+                    </s:span>
+                    <s:span rendered="#{param.tag != tagCount.tag and not preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
+                        <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tagCount.tag}">
+                            <f:param value="#{tagCount.tag}" name="tag"/>
+                        </s:link>
                     </s:span>
                     <s:span rendered="#{param.tag == tagCount.tag}">
                         <h:outputText value="&gt;&#160;#{tagCount.tag}&#160;&lt;"/>
@@ -31,7 +36,7 @@
                 </h:column>
             </h:dataTable>
 
-            <s:span styleClass="undecoratedLink defaultColumn">
+            <s:span styleClass="undecoratedLink defaultColumn" rendered="#{preferences.get('Tags', currentMacro).linkToCurrentDocument}">
                 <h:outputLink value="#{wiki:renderURL(currentDocument)}">
                     <h:outputText value="#{messages['tags.label.All']}"/>
                 </h:outputLink>
