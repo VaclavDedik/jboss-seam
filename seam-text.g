@@ -13,16 +13,16 @@ options
 	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "q", "blockquote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img"} ) );
 	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id", "style", "width", "height", "name", "value", "type" } ) );
 
-	 public class SeamTextMacro {
+	 public class Macro {
 	   public String name;
 	   public java.util.SortedMap<String,String> params = new java.util.TreeMap<String,String>();
 
-	   public SeamTextMacro(String name) {
+	   public Macro(String name) {
 	       this.name = name;
 	   }
 	 }
 
-	 private SeamTextMacro currentMacro;
+	 private Macro currentMacro;
 	
     private StringBuilder mainBuilder = new StringBuilder();
     private StringBuilder builder = mainBuilder;
@@ -69,7 +69,7 @@ options
         return "";
     }
 
-    protected String macroInclude(SeamTextMacro m) {
+    protected String macroInclude(Macro m) {
         return macroInclude(m.name);
     }
 
@@ -162,7 +162,7 @@ punctuation: p:PUNCTUATION { append( p.getText() ); }
            | s:SLASH { append( s.getText() ); }
     ;
     
-escape: ESCAPE ( specialChars | moreSpecialChars | evenMoreSpecialChars | htmlSpecialChars )
+escape: ESCAPE ( specialChars | moreSpecialChars | evenMoreSpecialChars | htmlSpecialChars | b:BACKTICK {append( b.getText() );} )
     ;
     
 specialChars:
@@ -206,25 +206,25 @@ link: OPEN
 
 /*
 
-[<=macro<param1=value "1"><param2=value '2'>]
+[<=macro[param1=value "1"][param2=value '2']]
 
 */
 macro: OPEN
       LT EQ
-      mn:ALPHANUMERICWORD { currentMacro = new SeamTextMacro(mn.getText()); }
+      mn:ALPHANUMERICWORD { currentMacro = new Macro(mn.getText()); }
       (macroParam)*
       CLOSE
       { append( macroInclude(currentMacro) ); currentMacro = null; }
     ;
 
 macroParam:
-      LT
+      OPEN
       pn:ALPHANUMERICWORD
       EQ
       { beginCapture(); }
       macroParamValue
       { String pv = endCapture(); currentMacro.params.put(pn.getText(),pv); }
-      GT
+      CLOSE
     ;
 
 macroParamValue:
@@ -234,6 +234,8 @@ macroParamValue:
         an:ALPHANUMERICWORD { append(an.getText()); } |
         p:PUNCTUATION       { append(p.getText()); } |
         s:SLASH             { append(s.getText()); } |
+        lt:LT               { append(lt.getText()); } |
+        gt:GT               { append(gt.getText()); } |
         space | specialChars )*
     ;
 
