@@ -222,5 +222,19 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         }.run();
     }
 
+    @Test
+    public void findSiblings() throws Exception {
+        new FacesRequest() {
+
+            protected void invokeApplication() throws Exception {
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiDocument d = dao.findWikiDocument(6l);
+                assert d.getName().equals("One");
+
+                assert dao.findSiblingWikiDocumentInDirectory(d, "createdOn", true) == null;
+                assert dao.findSiblingWikiDocumentInDirectory(d, "createdOn", false).getId().equals(7l);
+            }
+        }.run();
+    }
 
 }
