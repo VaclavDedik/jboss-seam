@@ -293,6 +293,23 @@ public class WikiNodeDAO {
                 .getResultList();
     }
 
+    public WikiDocument findSiblingWikiDocumentInDirectory(WikiDocument currentDocument, String byProperty, boolean previousOrNext) {
+        byProperty = byProperty.replaceAll("[^\\p{Alnum}]+", ""); // Avoid SQL injection hole!
+        try {
+            return (WikiDocument)restrictedEntityManager
+                    .createQuery("select sibling from WikiDocument sibling, WikiDocument current" +
+                                 " where sibling.parent = current.parent and current = :current and not sibling = :current" +
+                                 " and sibling."+ byProperty + " " + (previousOrNext ? "<=" : ">=") + "current."+byProperty +
+                                 " order by sibling." +byProperty + " " + (previousOrNext ? "desc" : "asc") )
+                    .setMaxResults(1)
+                    .setParameter("current", currentDocument)
+                    .getSingleResult();
+            } catch (EntityNotFoundException ex) {
+            } catch (NoResultException ex) {
+        }
+        return null;
+    }
+
     public WikiUpload findWikiUpload(Long uploadId) {
         try {
             return (WikiUpload) restrictedEntityManager

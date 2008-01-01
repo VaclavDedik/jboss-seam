@@ -208,23 +208,23 @@
         NODE_ID="6" FILE_REVISION="3"/>
     <WIKI_DOCUMENT
         NODE_ID="6"
-        CONTENT="Testdocument One with some plugins:&#xA;&#xA;&lt;table>&#xA;&lt;tr>&#xA;&lt;td style=&quot;vertical-align:top; padding-right: 20px; width:60%&quot;>&#xA;[&lt;=feedTeasers[feed=1]]&#xA;&lt;br/>&#xA;[&lt;=lastModifiedDocuments[documentTitleLength=10][showUsernames=true]]&#xA;&lt;br/>&#xA;[&lt;=tags[linkToCurrentDocument=false]]&#xA;&lt;br/>&#xA;[&lt;=dirMenu[title=Test Menu]]&#xA;&lt;/td>&#xA;&lt;td>&#xA;[&lt;=userProfile]&#xA;&lt;/td>&#xA;&lt;/tr>&#xA;&lt;/table>&#xA;&#xA;And some images/attachments:&#xA;&#xA;[=>BBB|Test Image]&#xA;&#xA;[=>BBB|Test Upload]&#xA;&#xA;"
+        CONTENT="Testdocument One with some plugins:&#xA;&#xA;[&lt;=docPager]&#xA;&#xA;&lt;table>&#xA;&lt;tr>&#xA;&lt;td style=&quot;vertical-align:top; padding-right: 20px; width:60%&quot;>&#xA;[&lt;=feedTeasers[feed=1]]&#xA;&lt;br/>&#xA;[&lt;=lastModifiedDocuments[documentTitleLength=10][showUsernames=true]]&#xA;&lt;br/>&#xA;[&lt;=tags[linkToCurrentDocument=false]]&#xA;&lt;br/>&#xA;[&lt;=dirMenu[title=Test Menu]]&#xA;&lt;/td>&#xA;&lt;td>&#xA;[&lt;=userProfile]&#xA;&lt;/td>&#xA;&lt;/tr>&#xA;&lt;/table>&#xA;&#xA;And some images/attachments:&#xA;&#xA;[=>BBB|Test Image]&#xA;&#xA;[=>BBB|Test Upload]&#xA;&#xA;"
         HEADER="[&lt;=headerMacro1]&#xA;[&lt;=headerMacro2]" FOOTER="[&lt;=footerMacro1]&#xA;[&lt;=footerMacro2]&#xA;"
-        HEADER_MACROS="headerMacro1 headerMacro2" CONTENT_MACROS="feedTeasers lastModifiedDocuments tags dirMenu userProfile" FOOTER_MACROS="footerMacro1 footerMacro2"
+        HEADER_MACROS="headerMacro1 headerMacro2" CONTENT_MACROS="docPager feedTeasers lastModifiedDocuments tags dirMenu userProfile" FOOTER_MACROS="footerMacro1 footerMacro2"
         NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
     <WIKI_TAG FILE_ID="6" TAG="Tag One"/>
 
     <WIKI_NODE
         NODE_ID="7" OBJ_VERSION="0" PARENT_NODE_ID="3"
         AREA_NR="3" NAME="Two" WIKINAME="Two"
-        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="2006-09-25 13:45:00" LAST_MODIFIED_BY_USER_ID="1"
+        CREATED_ON="2006-09-24 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="2006-09-25 13:45:00" LAST_MODIFIED_BY_USER_ID="1"
         READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="false"/>
     <WIKI_FILE
         NODE_ID="7" FILE_REVISION="0"/>
     <WIKI_DOCUMENT
-        NODE_ID="7" CONTENT="Testdocument Two with a link to [=>wiki://8] and another link to [=>wiki://9] and a movie:&#xA;&#xA;[&lt;=flash[url=http://www.youtube.com/v/lGVwm326rnk][width=425][height=355]]"
+        NODE_ID="7" CONTENT="[&lt;=docPager]&#xA;&#xA;Testdocument Two with a link to [=>wiki://8] and another link to [=>wiki://9] and a movie:&#xA;&#xA;[&lt;=flash[url=http://www.youtube.com/v/lGVwm326rnk][width=425][height=355]]"
         HEADER="[NULL]" FOOTER="[NULL]"
-        HEADER_MACROS="[NULL]" CONTENT_MACROS="flash" FOOTER_MACROS="[NULL]"
+        HEADER_MACROS="[NULL]" CONTENT_MACROS="docPager flash" FOOTER_MACROS="[NULL]"
         NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
     <WIKI_TAG FILE_ID="7" TAG="Tag One"/>
     <WIKI_TAG FILE_ID="7" TAG="Tag Two"/>

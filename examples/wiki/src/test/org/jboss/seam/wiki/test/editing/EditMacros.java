@@ -44,7 +44,6 @@ public class EditMacros extends DBUnitSeamTest {
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 assert docHome.getInstance().getHeaderMacros().size() == 2;
-                assert docHome.getInstance().getContentMacros().size() == 5;
                 assert docHome.getInstance().getFooterMacros().size() == 2;
 
                 boolean macroFound = false;

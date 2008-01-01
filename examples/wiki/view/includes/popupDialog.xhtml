@@ -30,7 +30,7 @@
     <s:div styleClass="popupDialogControls" id="#{dialogId}Controls">
         <h:panelGroup>
             <ui:insert name="dialogControls"/>
-            <h:outputLink value="#" rendered="#{!hideCancelButton}"
+            <h:outputLink rendered="#{!hideCancelButton}"
                           styleClass="buttonNonpersistent closeDialog">
                 <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.Cancel']}"/>
             </h:outputLink>

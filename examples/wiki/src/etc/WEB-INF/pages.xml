@@ -236,6 +236,22 @@
         </navigation>
     </page>
 
+    <page view-id="/resetPassword.xhtml" action="#{authenticator.resetPassword}">
+        <param name="activationCode" value="#{authenticator.activationCode}"/>
+        <navigation>
+            <rule if-outcome="passwordResetPrepared">
+                <redirect view-id="/wiki.xhtml">
+                    <param name="message" value="lacewiki.msg.resetPassword.PasswordResetPrepared"/>
+                </redirect>
+            </rule>
+            <rule if-outcome="notFound">
+                <redirect view-id="/wiki.xhtml">
+                    <param name="message" value="lacewiki.msg.InvalidActivationCode"/>
+                </redirect>
+            </rule>
+        </navigation>
+    </page>
+
     <page view-id="/*">
 
         <navigation>

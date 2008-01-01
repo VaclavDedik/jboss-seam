@@ -74,6 +74,11 @@
                         </s:div>
                     </s:fragment>
 
+                    <s:decorate id="verifyCaptchaEntry" template="../../includes/captchaEntry.xhtml">
+                        <ui:param name="statusId" value="topicFormStatus"/>
+                        <ui:param name="rendered" value="#{!identity.loggedIn}"/>
+                    </s:decorate>
+
                 </s:div>
 
                 <div class="formControls">

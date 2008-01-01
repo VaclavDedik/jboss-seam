@@ -28,13 +28,27 @@
                 <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
             </h:outputLink>
 
-            <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not replyHome.showForm}">
+            <s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory) and not replyHome.showForm}">
                 <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}?showTopicForm=true"
                               accesskey="#{messages['forum.button.NewTopic.accesskey']}"
                               tabindex="1" styleClass="buttonNonpersistent">
                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewTopic']}"/>
                 </h:outputLink>
             </s:fragment>
+
+            <h:outputLink value="#{wiki:renderURL(docPager.previous)}"
+                          rendered="#{not empty docPager.previous and docPager.previous.id != currentDirectory.defaultFile.id}"
+                          accesskey="#{messages['forum.button.PreviousPosting.accesskey']}"
+                          tabindex="1" styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.PreviousPosting']}"/>
+            </h:outputLink>
+
+            <h:outputLink value="#{wiki:renderURL(docPager.next)}"
+                          rendered="#{not empty docPager.next and docPager.next.id != currentDirectory.defaultFile.id}"
+                          accesskey="#{messages['forum.button.NextPosting.accesskey']}"
+                          tabindex="1" styleClass="buttonNonpersistent">
+                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NextPosting']}"/>
+            </h:outputLink>
 
         </h:panelGroup>
 

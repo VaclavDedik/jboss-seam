@@ -45,7 +45,8 @@
                         <s:fragment rendered="#{not home.isTagInTagString(tagCount.tag)}">
                             <h:outputLink value="#" styleClass="sessionEventTrigger"
                                           onclick="appendTag('#{tagCount.tag}')">#{tagCount.tag}</h:outputLink>
-                            &#160;&#160;
+                            <h:outputText rendered="#{home.popularTags.indexOf(tagCount) &lt; home.popularTags.size()-1}"
+                                          value="&#160;|&#160;"/>
                         </s:fragment>
                     </s:span>
                 </ui:repeat>

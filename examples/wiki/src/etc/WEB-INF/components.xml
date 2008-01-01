@@ -114,6 +114,7 @@
             <value>messages_userProfile</value>
             <value>messages_forum</value>
             <value>messages_flash</value>
+            <value>messages_docPager</value>
         </core:bundle-names>
     </core:resource-loader>
 
