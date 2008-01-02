@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLDecoder;
@@ -58,8 +59,11 @@ public abstract class Scanner
          try
          {
             Class.forName("org.jboss.virtual.VFS");
-            useVFS = true;
-            log.info("Using JBoss VFS for scanning.");
+            // OK, we have VFS
+            // but are we in JBoss5 and also not using Embedded
+            useVFS = isJBoss5() && !isEmbedded();
+            if (useVFS)
+               log.info("Using JBoss VFS for scanning.");
          }
          catch(Throwable t)
          {
@@ -68,6 +72,38 @@ public abstract class Scanner
          }
       }
       return useVFS;
+   }
+
+   protected static boolean isJBoss5()
+   {
+      try
+      {
+         Class versionClass = Class.forName("org.jboss.Version");
+         Method getVersionInstance = versionClass.getMethod("getInstance");
+         Object versionInstance = getVersionInstance.invoke(null);
+         Method getMajor = versionClass.getMethod("getMajor");
+         Object major = getMajor.invoke(versionInstance);
+         return major != null && major.equals(5);
+      }
+      catch (Exception e)
+      {
+         return false;
+      }
+   }
+
+   protected static boolean isEmbedded()
+   {
+      try
+      {
+         Class.forName("org.jboss.embedded.Bootstrap");
+         if (log.isTraceEnabled())
+            log.trace("Using JBoss Embedded.");
+         return true;
+      }
+      catch(Exception e)
+      {
+         return false;
+      }
    }
 
    public static String filenameToClassname(String filename)
