@@ -39,8 +39,7 @@ public class TaskListTest
    public void emptyPooledTaskListIfNoGroupActorIds()
    {
       Object pooledTaskInstanceList = Component.getInstance("org.jboss.seam.bpm.pooledTaskInstanceList");
-      assert pooledTaskInstanceList instanceof List;
-      assert ((List) pooledTaskInstanceList) == Collections.EMPTY_LIST;
+      assert pooledTaskInstanceList == null;
    }
 
    @AfterMethod
