@@ -1,0 +1,214 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
+package org.jboss.seam.wiki.core.action;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.faces.Renderer;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.dao.UserDAO;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.preferences.Preferences;
+import org.jboss.seam.wiki.util.Hash;
+
+import javax.faces.application.FacesMessage;
+import javax.persistence.EntityManager;
+import java.io.Serializable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * @author Christian Bauer
+ */
+@Name("userPasswordReset")
+@Scope(ScopeType.CONVERSATION)
+public class UserPasswordReset implements Serializable {
+
+    public static final String RESET_PASSWORD_OF_USER = "resetPasswordOfUser";
+
+    @Logger
+    Log log;
+
+    @In
+    private FacesMessages facesMessages;
+
+    @In("#{preferences.get('UserManagement')}")
+    UserManagementPreferences prefs;
+
+    @In(create = true)
+    private Renderer renderer;
+
+    @In
+    private UserDAO userDAO;
+
+    @In
+    protected EntityManager entityManager;
+
+    @In
+    private Hash hashUtil;
+
+    private String activationCode;
+    private String username;
+    private String email;
+
+    private String password;
+    private String passwordControl;
+
+    public String getActivationCode() { return activationCode; }
+    public void setActivationCode(String activationCode) { this.activationCode = activationCode; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getPasswordControl() { return passwordControl; }
+    public void setPasswordControl(String passwordControl) { this.passwordControl = passwordControl; }
+
+
+    public void sendResetPasswordEmail() {
+        log.debug("trying to reset password of user: " + username);
+
+        User user = getUserForEmail(username, email);
+        if (user == null) {
+            facesMessages.addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_ERROR,
+                "lacewiki.msg.resetPassword.NotValid",
+                "Your account and e-mail address information didn't match, please try again to reset your password."
+            );
+            username = null;
+            email = null;
+            return;
+        }
+
+        // Set activation code (unique user in time)
+        String seed = user.getUsername() + System.currentTimeMillis() + prefs.getActivationCodeSalt();
+        user.setActivationCode( ((Hash) Component.getInstance("hashUtil")).hash(seed) );
+        // TODO: Flush by side effect?
+
+        try {
+
+            // Outject for email
+            Contexts.getEventContext().set(RESET_PASSWORD_OF_USER, user);
+
+            // Send confirmation email
+            renderer.render("/themes/"
+                    + ((WikiPreferences) Preferences.getInstance("Wiki")).getThemeName()
+                    + "/mailtemplates/resetPassword.xhtml");
+
+            facesMessages.addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_INFO,
+                "lacewiki.msg.resetPassword.EmailSent",
+                "A new activation code has been sent to your e-mail address, please read this e-mail to reset your password."
+            );
+
+        } catch (Exception ex) {
+            facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send password reset email: " + ex.getMessage());
+        }
+    }
+
+    public String prepare() {
+        User user = userDAO.findUserWithActivationCode(activationCode);
+        if (user != null) {
+            log.debug("preparing password reset of: " + user);
+            user.setActivationCode(null);
+            // Outject for form
+            Contexts.getSessionContext().set(RESET_PASSWORD_OF_USER, user);
+
+            return "prepared";
+        } else {
+            return "notFound";
+        }
+    }
+
+    public void reset() {
+        User user = (User)Component.getInstance(RESET_PASSWORD_OF_USER);
+        if (user == null) {
+            throw new IllegalStateException("No user for password reset in SESSION context");
+        }
+
+        // Validate
+        if (!passwordAndControlNotNull() ||
+            !passwordMatchesRegex() ||
+            !passwordMatchesControl()) {
+
+            // Force re-entry
+            setPassword(null);
+            setPasswordControl(null);
+
+            return;
+        }
+        log.debug("resetting password of: " + user);
+
+        User persistentUser = userDAO.findUser(user.getId());
+        persistentUser.setPasswordHash(hashUtil.hash(getPassword()));
+        Contexts.getSessionContext().remove(RESET_PASSWORD_OF_USER);
+
+        facesMessages.addFromResourceBundleOrDefault(
+            FacesMessage.SEVERITY_ERROR,
+            "lacewiki.msg.resetPassword.Complete",
+            "Successfully reset password of account '{0}', please log in.",
+            persistentUser.getUsername()
+        );
+
+    }
+
+    private User getUserForEmail(String username, String email) {
+        if (User.GUEST_USERNAME.equals(username)) return null;
+        User user = userDAO.findUser(username, false, true);
+        return user != null && user.getEmail().equals(email) ? user : null;
+    }
+
+    public boolean passwordAndControlNotNull() {
+        if (getPassword() == null || getPassword().length() == 0 ||
+            getPasswordControl() == null || getPasswordControl().length() == 0) {
+            facesMessages.addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_ERROR,
+                "lacewiki.msg.PasswordOrPasswordControlEmpty",
+                "Please enter your password twice!"
+            );
+            return false;
+        }
+        return true;
+    }
+
+    public boolean passwordMatchesRegex() {
+        Matcher matcher = Pattern.compile(prefs.getPasswordRegex()).matcher(getPassword());
+        if (!matcher.find()) {
+            facesMessages.addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_ERROR,
+                "lacewiki.msg.PasswordDoesntMatchPattern",
+                "Password does not match the pattern: {0}",
+                prefs.getPasswordRegex()
+            );
+            return false;
+        }
+        return true;
+    }
+
+    public boolean passwordMatchesControl() {
+        if (!password.equals(passwordControl) ) {
+            facesMessages.addFromResourceBundleOrDefault(
+                FacesMessage.SEVERITY_ERROR,
+                "lacewiki.msg.PasswordControlNoMatch",
+                "The passwords don't match."
+            );
+            return false;
+        }
+        return true;
+    }
+
+}

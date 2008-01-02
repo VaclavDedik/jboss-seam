@@ -4,6 +4,7 @@
             xmlns:f="http://java.sun.com/jsf/core">
     <m:header name="X-Sent-From" value="SeamFramework.org" />
     <m:from name="SeamFramework.org" address="do-not-reply@jboss.com" />
+    <m:header name="Precedence" value="list"/>
     <m:to name="#{userHome.instance.fullname}">#{userHome.instance.email}</m:to>
     <m:subject>[SeamFramework.org] Registration Confirmation</m:subject>
     <m:body>

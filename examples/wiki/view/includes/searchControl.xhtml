@@ -7,7 +7,7 @@
 
     <!-- TODO: This form doesn't work on a timeout session, not every page times it out...  -->
     <h:form id="searchControlForm" styleClass="sessionEventTrigger">
-        <h:panelGroup styleClass="searchControlTable">
+        <h:panelGrid columns="2" styleClass="searchControlTable" cellpadding="0" cellspacing="0" border="0">
             <h:inputText styleClass="searchControlInput" id="searchControlSearchString" value="#{wikiSearch.simpleQuery}"
                          onclick="clickClear(this, '#{messages['lacewiki.label.searchControl.Search']}')"
                          onblur="clickRecall(this, '#{messages['lacewiki.label.searchControl.Search']}')"
@@ -18,7 +18,7 @@
                 <h:outputText escape="false" value="#{messages['lacewiki.button.searchControl.Find']}"/>
                 <f:param name="conversationPropagation" value="none"/>
             </h:commandLink>
-        </h:panelGroup>
+        </h:panelGrid>
     </h:form>
 
 </div>

@@ -3,6 +3,7 @@
             xmlns:h="http://java.sun.com/jsf/html"
             xmlns:f="http://java.sun.com/jsf/core">
     <m:header name="X-Sent-From" value="JBoss Seam" />
+    <m:header name="Precedence" value="list"/>
     <m:from name="Seam Wiki" address="do-not-reply@jboss.com" />
     <m:to name="#{userHome.instance.fullname}">#{userHome.instance.email}</m:to>
     <m:subject>[LaceWiki] Registration Confirmation</m:subject>

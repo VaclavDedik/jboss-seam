@@ -236,10 +236,10 @@
         </navigation>
     </page>
 
-    <page view-id="/resetPassword.xhtml" action="#{authenticator.resetPassword}">
-        <param name="activationCode" value="#{authenticator.activationCode}"/>
+    <page view-id="/resetPassword.xhtml" action="#{userPasswordReset.prepare}">
+        <param name="activationCode" value="#{userPasswordReset.activationCode}"/>
         <navigation>
-            <rule if-outcome="passwordResetPrepared">
+            <rule if-outcome="prepared">
                 <redirect view-id="/wiki.xhtml">
                     <param name="message" value="lacewiki.msg.resetPassword.PasswordResetPrepared"/>
                 </redirect>

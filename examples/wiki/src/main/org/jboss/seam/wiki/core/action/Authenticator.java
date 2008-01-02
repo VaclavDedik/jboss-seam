@@ -6,23 +6,24 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import org.jboss.seam.annotations.*;
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.core.Events;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.util.Base64;
+import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.model.Role;
-import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
-import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.util.Hash;
-import org.jboss.seam.wiki.preferences.Preferences;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.util.Base64;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.security.Identity;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -41,6 +42,9 @@ public class Authenticator {
 
     @In
     private Identity identity;
+
+    @In("#{preferences.get('UserManagement')}")
+    UserManagementPreferences prefs;
 
     private String activationCode;
     public String getActivationCode() { return activationCode; }
@@ -117,9 +121,7 @@ public class Authenticator {
             Contexts.getEventContext().set("activatedUser", user);
 
             // Optionally, create home directory
-            UserManagementPreferences userMgmtPrefs =
-                    (UserManagementPreferences) Preferences.getInstance("UserManagement");
-            if ( userMgmtPrefs.getCreateHomeAfterUserActivation() ) {
+            if ( prefs.getCreateHomeAfterUserActivation() ) {
                 createHomeDirectory(user);
             }
 
@@ -160,9 +162,7 @@ public class Authenticator {
         homePage.setWikiname(WikiUtil.convertToWikiName(homePage.getName()));
         homePage.setCreatedBy(user);
         homePage.setAreaNumber(homeDirectory.getAreaNumber());
-        homePage.setContent(
-            ((UserManagementPreferences) Preferences.getInstance("UserManagement")).getHomepageDefaultContent()
-        );
+        homePage.setContent(prefs.getHomepageDefaultContent());
         homePage.setWriteAccessLevel(Role.ADMINROLE_ACCESSLEVEL);
         homePage.setReadAccessLevel(Role.GUESTROLE_ACCESSLEVEL);
 

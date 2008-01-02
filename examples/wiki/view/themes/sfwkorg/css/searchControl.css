@@ -3,9 +3,6 @@
 
 #searchControlForm {
     display: inline;
-    margin: 0;
-    border: 0;
-    padding: 0;
 }
 
 #searchControl .searchControlTable {
@@ -13,8 +10,7 @@
 
 #searchControl .searchControlLabel{
 	color: #ca884e;
-    font-weight: bold;
-    font-size: 75%;
+    font-size: 90%;
     padding-left: 5px;
     padding-right: 5px;
 }
@@ -30,8 +26,7 @@
 }
 
 #searchControl .searchControlLink{
-    font-weight: bold;
-    font-size: 75%;
+    font-size: 90%;
 	color: #fff;
 	padding-left: 5px;
 	padding-right: 5px;

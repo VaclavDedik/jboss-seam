@@ -1,18 +1,33 @@
-#userControl {
+.userControlPanel {
+    text-align:right;
+    font-size: 90%;
+    margin-right: 10px;
+}
+
+.loginForm {
     display: inline;
 }
 
-#userControl .userControlLabel {
-	color: #ca884e;
-    font-weight: bold;
-    font-size: 75%;
-    padding-left: 5px;
-    padding-right: 5px;
+.userControlPanel .label {
+    color: #ca884e;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-right: 5px;
 }
 
-#userControl .userControlInput {
+.userControlPanel .link {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.userControlPanel .linkText {
+	color: #fff;
+	text-decoration: none;
+}
+
+.userControlPanel .input {
     background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
-    font-size: 90%;
+    font-size: 100%;
     padding: 1px;
     padding-top: 0;
     margin: 0;
@@ -20,14 +35,13 @@
     border: 0;
 }
 
-#userControl .userControlLink {
-    font-weight: bold;
-    font-size: 75%;
-	color: #fff;
-	padding-left: 5px;
-	padding-right: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
+.resetPasswordForm {
+    display: inline;
 }
 
-#userControl .userControlLink:hover { color: #bbb; }
+.resetPasswordRequestForm .form {
+    margin:-10px;
+}
+
+.resetPasswordRequestForm .form .formFields {
+}
