@@ -28,7 +28,7 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "directory", cascade = CascadeType.PERSIST)
     @org.hibernate.annotations.Fetch(org.hibernate.annotations.FetchMode.JOIN)
-    private Feed feed;
+    private WikiFeed feed;
 
     @Embedded
     private NestedSetNodeInfo<WikiDirectory> nodeInfo;
@@ -55,8 +55,8 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
     public WikiFile getDefaultFile() { return defaultFile; }
     public void setDefaultFile(WikiFile defaultFile) { this.defaultFile = defaultFile; }
 
-    public Feed getFeed() { return feed; }
-    public void setFeed(Feed feed) { this.feed = feed; }
+    public WikiFeed getFeed() { return feed; }
+    public void setFeed(WikiFeed feed) { this.feed = feed; }
 
     public void flatCopy(WikiDirectory original, boolean copyLazyProperties) {
         super.flatCopy(original, copyLazyProperties);

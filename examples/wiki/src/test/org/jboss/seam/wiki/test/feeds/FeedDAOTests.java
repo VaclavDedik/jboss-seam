@@ -9,9 +9,9 @@ package org.jboss.seam.wiki.test.feeds;
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
-import org.jboss.seam.wiki.core.model.Feed;
-import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiFeed;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
@@ -39,7 +39,7 @@ public class FeedDAOTests extends DBUnitSeamTest {
 
                 FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
 
-                List<Feed> feeds = feedDAO.findFeeds(document);
+                List<WikiFeed> feeds = feedDAO.findFeeds(document);
                 assert feeds.size() == 2;
                 assert feeds.get(0).getId().equals(2l);
                 assert feeds.get(1).getId().equals(1l);
@@ -74,7 +74,7 @@ public class FeedDAOTests extends DBUnitSeamTest {
 
                 FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
 
-                List<Feed> feeds = feedDAO.findParentFeeds(dir, true);
+                List<WikiFeed> feeds = feedDAO.findParentFeeds(dir, true);
 
                 assert feeds.size() == 2;
                 assert feeds.get(0).getId().equals(2l);

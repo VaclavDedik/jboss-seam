@@ -148,7 +148,8 @@ public class Authenticator {
         user.setMemberHome(homeDirectory);
 
         // Create feed for home directory
-        Feed feed = new Feed();
+        WikiFeed feed = new WikiFeed();
+        feed.setLink(WikiUtil.renderURL(homeDirectory));
         feed.setDirectory(homeDirectory);
         feed.setAuthor(homeDirectory.getCreatedBy().getFullname());
         feed.setTitle(homeDirectory.getName());

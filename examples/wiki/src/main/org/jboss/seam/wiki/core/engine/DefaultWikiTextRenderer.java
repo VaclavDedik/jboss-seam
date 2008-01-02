@@ -1,7 +1,6 @@
 package org.jboss.seam.wiki.core.engine;
 
 import org.jboss.seam.wiki.util.WikiUtil;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
 
 import java.util.List;
 

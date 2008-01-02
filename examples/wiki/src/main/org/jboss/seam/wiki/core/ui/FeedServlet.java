@@ -95,10 +95,10 @@ public class FeedServlet extends HttpServlet {
 
             // Authenticate and authorize, first with current user (session) then with basic HTTP authentication
             Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
-            if (feed.getDirectory().getReadAccessLevel() > currentAccessLevel) {
+            if (feed.getReadAccessLevel() > currentAccessLevel) {
                 boolean loggedIn = ((Authenticator)Component.getInstance("authenticator")).authenticateBasicHttp(request);
                 currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
-                if (!loggedIn || feed.getDirectory().getReadAccessLevel() > currentAccessLevel) {
+                if (!loggedIn || feed.getReadAccessLevel() > currentAccessLevel) {
                     response.setHeader("WWW-Authenticate", "Basic realm=\"" + feed.getTitle().replace("\"", "'") + "\"");
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     if (startedTx) userTx.commit();
@@ -145,7 +145,7 @@ public class FeedServlet extends HttpServlet {
                 syndFeed.getTitle() + " (" + Messages.instance().get("lacewiki.label.tagDisplay.Tag") + " '" + tag + "')"
             );
         }
-        syndFeed.setLink(WikiUtil.renderURL(feed.getDirectory()));
+        syndFeed.setLink(feed.getLink());
         syndFeed.setAuthor(feed.getAuthor());
         if (feed.getDescription() != null && feed.getDescription().length() >0)
             syndFeed.setDescription(feed.getDescription());

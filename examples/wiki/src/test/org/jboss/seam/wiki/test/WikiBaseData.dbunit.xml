@@ -348,6 +348,8 @@
 
     <FEED
         FEED_ID = "1"
+        FEED_TYPE="INTERNAL"
+        FEED_LINK="http://localhost:8080/wiki/ROOT"
         TITLE = "AAA"
         AUTHOR = "System Administrator"
         PUBLISHED_ON = "2006-09-23 13:45:00"
@@ -356,6 +358,8 @@
 
     <FEED
         FEED_ID = "2"
+        FEED_TYPE="INTERNAL"
+        FEED_LINK="http://localhost:8080/wiki/BBB"
         TITLE = "BBB"
         AUTHOR = "System Administrator"
         PUBLISHED_ON = "2006-09-25 13:45:00"

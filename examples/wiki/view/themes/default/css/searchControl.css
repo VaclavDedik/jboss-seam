@@ -7,6 +7,11 @@
 }
 
 #searchControl .searchControlTable {
+    margin-left: 10px;
+}
+
+#searchControl #searchControlForm {
+    display: inline;
 }
 
 #searchControl .searchControlLabel{

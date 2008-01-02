@@ -13,12 +13,18 @@ import java.io.Serializable;
 @Entity
 @Table(name = "FEED")
 @org.hibernate.annotations.BatchSize(size = 10)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "FEED_TYPE", length = 255)
+@DiscriminatorValue("EXTERNAL")
 public class Feed implements Serializable {
 
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "FEED_ID")
     private Long id;
+
+    @Column(name = "FEED_LINK", nullable = false)
+    private String link;
 
     @Column(name = "TITLE", nullable = false)
     private String title;
@@ -31,12 +37,6 @@ public class Feed implements Serializable {
 
     @Column(name = "PUBLISHED_ON", nullable = false, updatable = false)
     private Date publishedDate = new Date();
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DIRECTORY_ID", nullable = false, updatable = false, unique = true)
-    @org.hibernate.annotations.ForeignKey(name = "FK_FEED_WIKI_DIRECTORY_ID")
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-    private WikiDirectory directory;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -55,6 +55,14 @@ public class Feed implements Serializable {
     public Long getId() { return id; }
 
     // Mutable properties
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public String getTitle() {
         return title;
@@ -88,20 +96,30 @@ public class Feed implements Serializable {
         this.publishedDate = publishedDate;
     }
 
-    public WikiDirectory getDirectory() {
-        return directory;
-    }
-
-    public void setDirectory(WikiDirectory directory) {
-        this.directory = directory;
-    }
-
     public SortedSet<FeedEntry> getFeedEntries() {
         return feedEntries;
     }
 
     public void setFeedEntries(SortedSet<FeedEntry> feedEntries) {
         this.feedEntries = feedEntries;
+    }
+
+    public int getReadAccessLevel() {
+        return 0; // No restrictions
+    }
+
+    // Need this for JSF EL expressions
+    public boolean isInstance(String className) {
+        try {
+            Class clazz = Class.forName(getClass().getPackage().getName() + "." + className);
+            return isInstance(clazz);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public boolean isInstance(Class clazz) {
+        return clazz.isAssignableFrom(this.getClass());
     }
 
     public String toString() {

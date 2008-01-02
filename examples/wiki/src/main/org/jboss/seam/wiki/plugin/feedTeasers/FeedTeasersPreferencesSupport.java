@@ -44,7 +44,7 @@ public class FeedTeasersPreferencesSupport extends PreferencesSupport {
 
         public List<String> getTemplateValues() {
             if (feedIdentifiers == null) {
-                List<Feed> feeds = feedDAO.findFeeds();
+                List<Feed> feeds = feedDAO.findAllFeeds();
                 for (Feed feed : feeds) {
                     feedIdentifiers.add(feed.getId().toString());
                 }

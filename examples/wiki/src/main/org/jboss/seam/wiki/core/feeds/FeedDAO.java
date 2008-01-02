@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -42,9 +43,16 @@ public class FeedDAO {
 
     /* ############################# FINDERS ################################ */
 
-    public List<Feed> findFeeds() {
+    public List<Feed> findAllFeeds() {
         return restrictedEntityManager
-                .createQuery("select f from Feed f join fetch f.directory d order by d.createdOn asc")
+                .createQuery("select f from Feed f")
+                .getResultList();
+
+    }
+
+    public List<WikiFeed> findWikiFeeds() {
+        return restrictedEntityManager
+                .createQuery("select f from WikiFeed f join fetch f.directory d order by d.createdOn asc")
                 .getResultList();
 
     }
@@ -60,29 +68,29 @@ public class FeedDAO {
         return null;
     }
 
-    public List<Feed> findFeeds(WikiDocument document) {
+    public List<WikiFeed> findFeeds(WikiDocument document) {
         if (document == null || document.getId() == null) throw new IllegalArgumentException("document is null or unsaved");
         return restrictedEntityManager
                 .createQuery(
-                    "select distinct f from WikiDocumentFeedEntry fe, Feed f join f.feedEntries allFe " +
+                    "select distinct f from WikiDocumentFeedEntry fe, WikiFeed f join f.feedEntries allFe " +
                     " where fe.document = :doc and fe = allFe order by f.publishedDate desc"
                 )
                 .setParameter("doc", document)
                 .getResultList();
     }
 
-    public List<Feed> findFeeds(WikiComment comment) {
+    public List<WikiFeed> findFeeds(WikiComment comment) {
         if (comment == null || comment.getId() == null) throw new IllegalArgumentException("comment is null or unsaved");
         return restrictedEntityManager
                 .createQuery(
-                    "select distinct f from WikiCommentFeedEntry fe, Feed f join f.feedEntries allFe " +
+                    "select distinct f from WikiCommentFeedEntry fe, WikiFeed f join f.feedEntries allFe " +
                     " where fe.comment = :comment and fe = allFe order by f.publishedDate desc"
                 )
                 .setParameter("comment", comment)
                 .getResultList();
     }
 
-    public List<Feed> findParentFeeds(WikiDirectory startDir, boolean includeSiteFeed) {
+    public List<WikiFeed> findParentFeeds(WikiDirectory startDir, boolean includeSiteFeed) {
         StringBuilder queryString = new StringBuilder();
 
         queryString.append("select f from WikiDirectory d join d.feed f ");
@@ -100,12 +108,6 @@ public class FeedDAO {
             query.setParameter("wikiRoot", Component.getInstance("wikiRoot"));
 
         return query.getResultList();
-    }
-
-    public List<FeedEntry> findFeedEntriesasdf(WikiFile file) {
-        return restrictedEntityManager.createQuery("select fe from FeedEntry fe where fe.file = :file")
-            .setParameter("file", file)
-            .getResultList();
     }
 
     public WikiDocumentFeedEntry findFeedEntry(WikiDocument document) {
@@ -141,7 +143,7 @@ public class FeedDAO {
     public boolean isOnSiteFeed(WikiDocument document) {
         if (document == null || document.getId() == null) throw new IllegalArgumentException("document is null or unsaved");
         Long count = (Long)restrictedEntityManager
-                .createQuery("select count(fe) from WikiDocumentFeedEntry fe, Feed f join f.feedEntries allFe " +
+                .createQuery("select count(fe) from WikiDocumentFeedEntry fe, WikiFeed f join f.feedEntries allFe " +
                             " where f = :feed and fe.document = :doc and fe = allFe")
                 .setParameter("feed", ((WikiDirectory)Component.getInstance("wikiRoot")).getFeed() )
                 .setParameter("doc", document)
@@ -153,8 +155,9 @@ public class FeedDAO {
     /* ############################# FEED CUD ################################ */
 
     public void createFeed(WikiDirectory dir) {
-        Feed feed = new Feed();
+        WikiFeed feed = new WikiFeed();
         feed.setDirectory(dir);
+        feed.setLink(WikiUtil.renderURL(dir));
         feed.setAuthor(dir.getCreatedBy().getFullname());
         feed.setTitle(dir.getName());
         feed.setDescription(dir.getDescription());
@@ -162,6 +165,7 @@ public class FeedDAO {
     }
 
     public void updateFeed(WikiDirectory dir) {
+        dir.getFeed().setLink(WikiUtil.renderURL(dir));
         dir.getFeed().setTitle(dir.getName());
         dir.getFeed().setAuthor(dir.getCreatedBy().getFullname());
         dir.getFeed().setDescription(dir.getDescription());
@@ -177,7 +181,7 @@ public class FeedDAO {
 
     public void createFeedEntry(WikiDirectory parentDir, WikiNode node, FeedEntry feedEntry, boolean pushOnSiteFeed) {
 
-        List<Feed> feeds = findParentFeeds(parentDir, pushOnSiteFeed);
+        List<WikiFeed> feeds = findParentFeeds(parentDir, pushOnSiteFeed);
 
         // Now create a feedentry and link it to all the feeds
         if (feeds.size() >0) {
@@ -196,14 +200,14 @@ public class FeedDAO {
         log.debug("updating feed entry: " + feedEntry.getId());
 
         // Link feed entry with all feeds (there might be new feeds since this feed entry was created)
-        List<Feed> feeds = findParentFeeds(parentDir, pushOnSiteFeed);
+        List<WikiFeed> feeds = findParentFeeds(parentDir, pushOnSiteFeed);
         for (Feed feed : feeds) {
             log.debug("linking feed entry with feed: " + feed.getId());
             feed.getFeedEntries().add(feedEntry);
         }
     }
 
-    public void removeFeedEntry(List<Feed> feeds, FeedEntry feedEntry) {
+    public void removeFeedEntry(List<WikiFeed> feeds, FeedEntry feedEntry) {
         if (feedEntry == null) return;
         // Unlink feed entry from all feeds
         for (Feed feed : feeds) {
