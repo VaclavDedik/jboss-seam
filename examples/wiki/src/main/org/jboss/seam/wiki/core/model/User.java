@@ -36,7 +36,7 @@ public class User implements Serializable {
     @NotNull
     @Length(min = 1, max = 63)
     @Pattern(
-        regex="[a-zA-Z]+",
+        regex="[a-zA-Z0-9\\s\\-\\.]+",
         message="#{messages['lacewiki.entity.FirstNameMustOnlyContainLetters']}"
     )
     private String firstname;
@@ -45,7 +45,7 @@ public class User implements Serializable {
     @NotNull
     @Length(min = 1, max = 63)
     @Pattern(
-        regex="[a-zA-Z]+",
+        regex="[a-zA-Z0-9\\s\\-\\.]+",
         message="#{messages['lacewiki.entity.LastNameMustOnlyContainLetters']}"
     )
     private String lastname;
