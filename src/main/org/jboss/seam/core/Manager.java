@@ -296,6 +296,10 @@ public class Manager
                      //      unlock() the CE
                      log.info("destroying conversation with garbage lock: " + conversationEntry.getId());
                   }
+                  if ( Events.exists() ) 
+                  {
+                     Events.instance().raiseEvent("org.jboss.seam.conversationTimeout", conversationEntry.getId());
+                  }
                   destroyConversation( conversationEntry.getId(), session );
                }
             }

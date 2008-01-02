@@ -654,6 +654,7 @@ public class HelloListener {
             <listitem><para><literal>org.jboss.seam.postDestroyContext.&lt;SCOPE&gt;</literal> &#8212; called after the &lt;SCOPE&gt; context is destroyed</para></listitem>
             <listitem><para><literal>org.jboss.seam.beginConversation </literal>&#8212; called whenever a long-running conversation begins</para></listitem>
             <listitem><para><literal>org.jboss.seam.endConversation </literal>&#8212; called whenever a long-running conversation ends</para></listitem>
+            <listitem><para><literal>org.jboss.seam.conversationTimeout</literal>&#8212; called when a conversation timeout occurs. The conversation id is passed as a parameter.</para></listitem>
             <listitem><para><literal>org.jboss.seam.beginPageflow.&lt;name&gt; </literal>&#8212; called when the pageflow &lt;name&gt; begins</para></listitem>
             <listitem><para><literal>org.jboss.seam.endPageflow.&lt;name&gt; </literal>&#8212; called when the pageflow &lt;name&gt; ends</para></listitem>
             <listitem><para><literal>org.jboss.seam.createProcess.&lt;name&gt; </literal>&#8212; called when the process &lt;name&gt; is created</para></listitem>
