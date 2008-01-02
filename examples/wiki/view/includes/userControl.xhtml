@@ -75,14 +75,14 @@
 
     <h:form id="resetPasswordForm" styleClass="resetPasswordForm" rendered="#{not empty resetPasswordOfUser}">
 
-        <h:outputText styleClass="label" value="Reset password of '#{resetPasswordOfUser.username}':"/>
+        <h:outputText styleClass="label" value="#{messages['lacewiki.label.resetPassword.ResetPasswordOf']} '#{resetPasswordOfUser.username}':"/>
         <h:inputSecret styleClass="input" id="password" value="#{userPasswordReset.password}" size="8" tabindex="50"/>
 
-        <h:outputText styleClass="label" value="Repeat:"/>
+        <h:outputText styleClass="label" value="#{messages['lacewiki.label.resetPassword.Repeat']}:"/>
         <h:inputSecret styleClass="input" id="passwordControl" value="#{userPasswordReset.passwordControl}" size="8" tabindex="50"/>
 
         <h:commandLink styleClass="button" action="#{userPasswordReset.reset}" tabindex="50">
-            <h:outputText styleClass="buttonLabel" value="Reset"/>
+            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.resetPassword.Reset']}"/>
         </h:commandLink>
 
     </h:form>
