@@ -24,10 +24,9 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
     
-    <!-- authenticate-method="#{authenticator.authenticate}"  -->
     <security:identity security-rules="#{securityRules}"/>
     
-   <identity-management:jpa-identity-store name="identityStore" account-class="org.jboss.seam.example.seamspace.MemberAccount"/>    
+    <identity-management:jpa-identity-store name="identityStore" account-class="org.jboss.seam.example.seamspace.MemberAccount"/>    
     
     <drools:rule-base name="securityRules">
        <drools:rule-files>

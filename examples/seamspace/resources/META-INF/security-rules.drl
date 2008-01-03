@@ -47,7 +47,7 @@ rule CreateBlog
 when
   check: PermissionCheck(name == "blog", action == "create", granted == false)
   member: Member()
-  not Member(memberId != member.memberId)
+  not Member(mbrId : memberId -> (!mbrId.equals(member.getMemberId())))
 then
   check.grant();
 end

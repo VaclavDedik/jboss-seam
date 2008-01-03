@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:rich="http://richfaces.org/rich"       
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+   
+    <ui:define name="content">
+        
+      <script type="text/javascript">
+        function confirmDelete()
+        {
+          return confirm("Are you sure you wish to delete this user? This action cannot be undone.");
+        }
+      </script>
+
+      <div id="contentMain">
+
+  	    <h2>User Manager</h2>  
+  	    
+        <rich:dataTable 
+            id="threads"
+            value="#{users}" 
+            var="user" 
+            styleClass="default"
+            columnClasses=",,action">
+            <f:facet name="header">
+              <rich:columnGroup>
+                <rich:column>
+                  User name
+                </rich:column>
+                <rich:column>
+                  Roles
+                </rich:column>
+                <rich:column>
+                  Action
+                </rich:column>              
+              </rich:columnGroup>
+            </f:facet>            
+          <rich:column>
+            #{user}
+          </rich:column>
+          <rich:column>
+            #{userSearch.getUserRoles(user)}
+          </rich:column>
+          <rich:column>
+            <s:link value="Delete" styleClass="navLink" onclick="return confirmDelete()"/>
+          </rich:column>
+  	    </rich:dataTable>
+	    </div>
+	    
+    </ui:define>
+    
+  </ui:composition>
+</html>
