@@ -74,6 +74,11 @@ public class IdentityManager
       return identityStore.createAccount(name, password); 
    }
    
+   public boolean deleteAccount(String name)
+   {
+      return identityStore.deleteAccount(name);
+   }
+   
    public boolean enableAccount(String name)
    {
       return identityStore.enableAccount(name);
