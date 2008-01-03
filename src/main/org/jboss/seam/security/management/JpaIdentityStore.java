@@ -101,14 +101,32 @@ public class JpaIdentityStore implements IdentityStore
    
    public boolean deleteAccount(String name)
    {
-      UserAccount account = validateUser(name);
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+      } 
+      catch (NoSuchUserException e)
+      {
+         return false;
+      }
       getEntityManager().remove(account);
       return true;
    }
    
    public boolean grantRole(String name, String role)
    {
-      UserAccount account = validateUser(name);      
+      UserAccount account;
+      
+      try
+      {
+         account = validateUser(name);         
+      }
+      catch (NoSuchUserException ex)
+      {
+         return false;
+      }
+            
       UserAccount roleToGrant = validateRole(role);
       
       if (account.getMemberships() == null)
@@ -128,7 +146,16 @@ public class JpaIdentityStore implements IdentityStore
    
    public boolean revokeRole(String name, String role)
    {
-      UserAccount account = validateUser(name);      
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+      } 
+      catch (NoSuchUserException e)
+      {
+         return false;
+      }
+      
       UserAccount roleToRevoke = validateRole(role);      
       boolean success = account.getMemberships().remove(roleToRevoke);
       mergeAccount(account);
@@ -137,7 +164,15 @@ public class JpaIdentityStore implements IdentityStore
    
    public boolean enableAccount(String name)
    {
-      UserAccount account = validateUser(name);        
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+      } 
+      catch (NoSuchUserException e)
+      {
+         return false;
+      }        
       
       // If it's already enabled return false
       if (account.isEnabled())
@@ -153,7 +188,15 @@ public class JpaIdentityStore implements IdentityStore
    
    public boolean disableAccount(String name)
    {
-      UserAccount account = validateUser(name);       
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+      } 
+      catch (NoSuchUserException e)
+      {
+         return false;
+      }       
       
       // If it's already enabled return false
       if (!account.isEnabled())
@@ -169,7 +212,15 @@ public class JpaIdentityStore implements IdentityStore
    
    public List<String> getGrantedRoles(String name)
    {
-      UserAccount account = validateUser(name);
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+      } 
+      catch (NoSuchUserException e)
+      {
+         return null;
+      }
 
       List<String> roles = new ArrayList<String>();
       
@@ -186,7 +237,15 @@ public class JpaIdentityStore implements IdentityStore
    
    public List<String> getImpliedRoles(String name)
    {
-      UserAccount account = validateUser(name);
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+      } 
+      catch (NoSuchUserException e)
+      {
+         return null;
+      }
 
       Set<String> roles = new HashSet<String>();
 
@@ -217,7 +276,16 @@ public class JpaIdentityStore implements IdentityStore
    
    public boolean authenticate(String username, String password)
    {
-      UserAccount account = validateUser(username);
+      UserAccount account = null;
+      
+      try
+      {
+         account = validateUser(username);
+      }         
+      catch (NoSuchUserException ex)
+      {
+         return false;  
+      }
       
       if (account == null || !account.getAccountType().equals(AccountType.user)
             || !account.isEnabled())
@@ -242,7 +310,7 @@ public class JpaIdentityStore implements IdentityStore
     * @param name The user's username
     * @return The UserAccount for the specified user
     */
-   protected UserAccount validateUser(String name)
+   protected UserAccount validateUser(String name) throws NoSuchUserException
    {      
       try
       {
@@ -255,7 +323,7 @@ public class JpaIdentityStore implements IdentityStore
       }
       catch (NoResultException ex)
       {
-         throw new IdentityManagementException("No such user: " + name);         
+         throw new NoSuchUserException("No such user: " + name);         
       }
    }
    
@@ -286,6 +354,9 @@ public class JpaIdentityStore implements IdentityStore
             .setParameter("username", name)
             .setParameter("accountType", AccountType.role)
             .getSingleResult();
+         
+         // Force load memberships
+         role.getMemberships().size();
          
          roleCache.add(role);
          

@@ -123,10 +123,13 @@ public class SeamLoginModule implements LoginModule
          {
             boolean success = identityManager.authenticate(username, identity.getPassword());
             
-            for (String role : identityManager.getImpliedRoles(username))
+            if (success)
             {
-               identity.addRole(role);
-            }         
+               for (String role : identityManager.getImpliedRoles(username))
+               {
+                  identity.addRole(role);
+               }
+            }
             
             return success;
          }
