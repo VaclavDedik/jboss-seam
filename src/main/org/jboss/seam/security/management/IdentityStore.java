@@ -8,23 +8,23 @@ import java.util.List;
  * 
  * @author Shane Bryzak
  */
-public abstract class IdentityStore
+public interface IdentityStore
 {     
-   protected abstract boolean createAccount(String username, String password);
-   protected abstract boolean deleteAccount(String name);
+   boolean createAccount(String username, String password);
+   boolean deleteAccount(String name);
    
-   protected abstract boolean grantRole(String name, String role);
-   protected abstract boolean revokeRole(String name, String role);
+   boolean grantRole(String name, String role);
+   boolean revokeRole(String name, String role);
    
-   protected abstract boolean enableAccount(String name);
-   protected abstract boolean disableAccount(String name);   
+   boolean enableAccount(String name);
+   boolean disableAccount(String name);   
    
-   protected abstract List<String> listUsers();
-   protected abstract List<String> listUsers(String filter);
-   protected abstract List<String> listRoles();
+   List<String> listUsers();
+   List<String> listUsers(String filter);
+   List<String> listRoles();
    
-   protected abstract List<String> getGrantedRoles(String name);
-   protected abstract List<String> getImpliedRoles(String name);
+   List<String> getGrantedRoles(String name);
+   List<String> getImpliedRoles(String name);
    
-   protected abstract boolean authenticate(String username, String password);
+   boolean authenticate(String username, String password);
 }

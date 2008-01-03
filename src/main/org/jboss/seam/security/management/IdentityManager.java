@@ -49,7 +49,7 @@ public class IdentityManager
          log.warn("no identity store available - please install an IdentityStore with the name '" +
                IDENTITY_STORE_COMPONENT_NAME + "' if identity management is required.");
       }
-   }   
+   }  
    
    public static IdentityManager instance()
    {

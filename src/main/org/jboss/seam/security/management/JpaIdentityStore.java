@@ -1,7 +1,6 @@
 package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
-import static org.jboss.seam.security.management.UserAccount.AccountType;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
@@ -9,14 +8,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.framework.EntityController;
+import org.jboss.seam.security.management.UserAccount.AccountType;
 import org.jboss.seam.util.Hex;
 
 /**
@@ -26,7 +25,7 @@ import org.jboss.seam.util.Hex;
  */
 @Scope(APPLICATION)
 @BypassInterceptors
-public class JpaIdentityStore extends IdentityStore
+public class JpaIdentityStore extends EntityController implements IdentityStore
 {  
    public static final String EVENT_ACCOUNT_CREATED = "org.jboss.seam.security.management.accountCreated"; 
    public static final String EVENT_ACCOUNT_AUTHENTICATED = "org.jboss.seam.security.management.accountAuthenticated";
@@ -35,8 +34,6 @@ public class JpaIdentityStore extends IdentityStore
    private String hashCharset = "UTF-8";   
    
    private Class<? extends UserAccount> accountClass;
-   
-   private String entityManagerName = "entityManager";
    
    private Set<UserAccount> roleCache;
    
@@ -57,7 +54,6 @@ public class JpaIdentityStore extends IdentityStore
       roleCache.addAll(roles);      
    }
    
-   @Override
    public boolean createAccount(String username, String password)
    {
       try
@@ -100,7 +96,6 @@ public class JpaIdentityStore extends IdentityStore
       }
    }
    
-   @Override
    public boolean deleteAccount(String name)
    {
       UserAccount account = validateUser(name);
@@ -108,7 +103,6 @@ public class JpaIdentityStore extends IdentityStore
       return true;
    }
    
-   @Override
    public boolean grantRole(String name, String role)
    {
       UserAccount account = validateUser(name);      
@@ -129,7 +123,6 @@ public class JpaIdentityStore extends IdentityStore
       return true;
    }
    
-   @Override
    public boolean revokeRole(String name, String role)
    {
       UserAccount account = validateUser(name);      
@@ -139,7 +132,6 @@ public class JpaIdentityStore extends IdentityStore
       return success;
    }
    
-   @Override
    public boolean enableAccount(String name)
    {
       UserAccount account = validateUser(name);        
@@ -156,7 +148,6 @@ public class JpaIdentityStore extends IdentityStore
       return true;
    }
    
-   @Override
    public boolean disableAccount(String name)
    {
       UserAccount account = validateUser(name);       
@@ -173,7 +164,6 @@ public class JpaIdentityStore extends IdentityStore
       return true;
    }
    
-   @Override
    public List<String> getGrantedRoles(String name)
    {
       UserAccount account = validateUser(name);
@@ -191,7 +181,6 @@ public class JpaIdentityStore extends IdentityStore
       return roles;     
    }
    
-   @Override
    public List<String> getImpliedRoles(String name)
    {
       UserAccount account = validateUser(name);
@@ -223,7 +212,6 @@ public class JpaIdentityStore extends IdentityStore
       }            
    }
    
-   @Override
    public boolean authenticate(String username, String password)
    {
       UserAccount account = validateUser(username);
@@ -306,7 +294,6 @@ public class JpaIdentityStore extends IdentityStore
       }      
    }
    
-   @Override
    public List<String> listUsers()
    {
       return getEntityManager().createQuery(
@@ -316,7 +303,6 @@ public class JpaIdentityStore extends IdentityStore
             .getResultList();      
    }
    
-   @Override
    public List<String> listUsers(String filter)
    {
       return getEntityManager().createQuery(
@@ -328,7 +314,6 @@ public class JpaIdentityStore extends IdentityStore
             .getResultList();
    }
 
-   @Override
    public List<String> listRoles()
    {
       return getEntityManager().createQuery(
@@ -346,21 +331,6 @@ public class JpaIdentityStore extends IdentityStore
    protected UserAccount mergeAccount(UserAccount account)
    {
       return getEntityManager().merge(account);
-   }
-   
-   private EntityManager getEntityManager()
-   {
-      return (EntityManager) Component.getInstance(entityManagerName);
-   }
-   
-   public String getEntityManagerName()
-   {
-      return entityManagerName;
-   }
-   
-   public void setEntityManagerName(String name)
-   {
-      this.entityManagerName = name;
    }
    
    public Class<? extends UserAccount> getAccountClass()

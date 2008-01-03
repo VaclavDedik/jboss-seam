@@ -15,7 +15,6 @@ import javax.security.auth.callback.PasswordCallback;
 import javax.security.auth.login.LoginException;
 import javax.security.auth.spi.LoginModule;
 
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -139,8 +138,9 @@ public class SeamLoginModule implements LoginModule
       }
       else
       {
-         throw new IllegalStateException("No authentication method defined - " +
-               "please define <security:authenticate-method/> for <security:identity/> in components.xml");
+         log.error("No authentication method defined - " +
+               "please define authenticate-method for <security:identity/> in components.xml");
+         throw new LoginException("No authentication method defined");
       }
 
    }
