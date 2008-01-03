@@ -47,7 +47,7 @@
             #{userSearch.getUserRoles(user)}
           </rich:column>
           <rich:column>
-            <s:link value="Delete" styleClass="navLink" onclick="return confirmDelete()"/>
+            <s:link value="Delete" action="#{identityManager.deleteAccount(userSearch.selectedUser)}" onclick="return confirmDelete()"/>
           </rich:column>
   	    </rich:dataTable>
 	    </div>
