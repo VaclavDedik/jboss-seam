@@ -8,13 +8,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.framework.EntityController;
 import org.jboss.seam.security.management.UserAccount.AccountType;
 import org.jboss.seam.util.Hex;
 
@@ -25,13 +26,15 @@ import org.jboss.seam.util.Hex;
  */
 @Scope(APPLICATION)
 @BypassInterceptors
-public class JpaIdentityStore extends EntityController implements IdentityStore
+public class JpaIdentityStore implements IdentityStore
 {  
    public static final String EVENT_ACCOUNT_CREATED = "org.jboss.seam.security.management.accountCreated"; 
    public static final String EVENT_ACCOUNT_AUTHENTICATED = "org.jboss.seam.security.management.accountAuthenticated";
    
    private String hashFunction = "MD5";
-   private String hashCharset = "UTF-8";   
+   private String hashCharset = "UTF-8";
+   
+   private String entityManagerName = "entityManager";
    
    private Class<? extends UserAccount> accountClass;
    
@@ -343,6 +346,20 @@ public class JpaIdentityStore extends EntityController implements IdentityStore
       this.accountClass = accountClass;
    }   
    
+   private EntityManager getEntityManager()
+   {
+      return (EntityManager) Component.getInstance(entityManagerName);
+   }
+   
+   public String getEntityManagerName()
+   {
+      return entityManagerName;
+   }
+   
+   public void setEntityManagerName(String name)
+   {
+      this.entityManagerName = name;
+   }      
    
    protected String hashPassword(String password)
    {
