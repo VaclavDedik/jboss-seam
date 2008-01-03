@@ -424,6 +424,22 @@
 	<path id="emma.classpath">
 		<fileset dir="${seam.dir}/extras/emma/*.jar" />
 	</path>
+	
+	<path id="test.classpath">			
+		<path path="${test.dir}" />
+		<fileset dir="${lib.dir}/test">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<!-- Don't include seam-ui -->
+			<exclude name="jboss-seam-ui.jar" />
+		</fileset>
+		<path path="${eejb.conf.dir}" />
+		<path refid="test.classpath.extras" />
+		<path refid="build.classpath.extras" />
+		<path refid="emma.classpath" />
+	    <path location="${seam.dir}/src/test/resources/log4j.xml" />
+	</path>
 
 
 	<!-- ##################### BUILD TARGETS (COMMON) ##################### -->
@@ -840,22 +856,6 @@
 	</target>
 
 	<target name="test" depends="buildtest, copyjbossembedded" description="Run the tests">
-		<path id="test.classpath">
-			
-			<path path="${test.dir}" />
-			<fileset dir="${lib.dir}/test">
-				<include name="*.jar" />
-			</fileset>
-			<fileset dir="${lib.dir}">
-				<!-- Don't include seam-ui -->
-				<exclude name="jboss-seam-ui.jar" />
-			</fileset>
-			<path path="${eejb.conf.dir}" />
-			<path refid="test.classpath.extras" />
-			<path refid="build.classpath.extras" />
-			<path refid="emma.classpath" />
-		<path location="${seam.dir}/src/test/resources/log4j.xml" />
-		</path>
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
 		<testng outputdir="${test-report.dir}">
             <jvmarg value="-Xmx800M" />
@@ -868,11 +868,25 @@
 		</testng>
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	</target>
+	
+	<target name="testclass" depends="buildtest, copyjbossembedded" description="Run a specific test">
+		<taskdef resource="testngtasks" classpathref="build.classpath" />
+		<testng outputdir="${test-report.dir}" testname="${className}" suitename="${className}" >
+            <jvmarg value="-Xmx800M" />
+            <jvmarg value="-Djava.awt.headless=true" />
+			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
+			<jvmarg value="-Djava.endorsed.dirs=${endorsed.dir}" />
+			<jvmarg value="${testng.jvmargs}" />
+			<classpath refid="test.classpath" />
+			<classfileset dir="${test.dir}" includes="**/${className}.class"/>
+		</testng>
+		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
+	</target>
 
-        <target name="example-info">
-            <echo>
+    <target name="example-info">
+        <echo>
 This is the Seam examples directory.  The example projects can be run 
 using the individual build files in the each example subdirectory.
-            </echo>
-        </target>
+        </echo>
+    </target>
 </project>
