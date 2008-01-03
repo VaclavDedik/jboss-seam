@@ -24,8 +24,7 @@
     </local-tx-datasource>
     -->
 
-    <!--
-    MySQL also requires changes to persistence-test.xml and DBUnitSeamTest.java (foreign key checks)
+    <!-- MySQL also requires changes to persistence-test.xml and AllTests.tng.xml
     <local-tx-datasource>
         <jndi-name>wikiTestDatasource</jndi-name>
         <connection-url>jdbc:mysql://localhost/test?characterEncoding=UTF-8</connection-url>

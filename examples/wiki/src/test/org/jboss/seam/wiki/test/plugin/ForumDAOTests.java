@@ -175,9 +175,9 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
     }
 
-    /* TODO: Queries are not supported by HSQL DB
     @Test
     public void findTopicsOne() throws Exception {
+        if (!database.equals(Database.mysql)) return;
 
         loginMember();
 
@@ -207,6 +207,7 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
     @Test
     public void findTopicsTwo() throws Exception {
+        if (!database.equals(Database.mysql)) return;
 
         loginMember();
 
@@ -229,7 +230,6 @@ public class ForumDAOTests extends DBUnitSeamTest {
         }.run();
 
     }
-    */
 
     private void loginMember() throws Exception {
         new FacesRequest() {

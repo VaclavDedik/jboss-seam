@@ -10,7 +10,7 @@
         <jta-data-source>java:/wikiTestDatasource</jta-data-source>
         <properties>
 
-            <!--
+            <!-- MySQL also requires changes to AllTests.tng.xml and wiki-test-ds.xml
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
             -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>

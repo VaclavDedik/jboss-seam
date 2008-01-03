@@ -7,14 +7,11 @@
 
     <persistence-unit name="wiki" transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-
         <jta-data-source>java:/wikiDatasource</jta-data-source>
         <properties>
-
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
             <property name="hibernate.transaction.manager_lookup_class"
                       value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
-
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
 
             <!-- Automatic schema export and drop -->
             <property name="hibernate.hbm2ddl.auto" value="create-drop"/>

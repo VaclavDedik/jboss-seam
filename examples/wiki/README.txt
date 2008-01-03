@@ -9,7 +9,7 @@ RUNNING THE UNIT TESTS
 - Verify the rest results in build/test-output/
 
 
-INSTALLATION WITH HSQL DB (development profile)
+INSTALLATION WITH MYSQL (development profile)
 ==========================================================================================
 
 - Install JBoss Application Server 4.2.2 GA
@@ -17,11 +17,16 @@ INSTALLATION WITH HSQL DB (development profile)
 - Edit build.properties
 
 - Upgrade/downgrade the Hibernate libraries to the ones bundled with this application:
-  'ant upgradehibernate' will replace the libraries in server/default/lib of JBoss AS 4.2.1
+  'ant upgradehibernate' will replace the libraries in server/default/lib of JBoss AS 4.2.2
   and also copy the required ehcache.jar.
-  (Sorry, but no other version works currently and the 4.2.1 bundled libraries are too old.)
+  (Sorry, but no other version works currently and the 4.2.2 bundled libraries are too old.)
 
-- Run the standalone HSQL DB server with 'ant startdb'
+- Install MySQL 5.x and start it
+
+- Obtain the correct JDBC driver for your MySQL version and copy it into server/default/lib/ of JBoss AS
+
+- The 'dev' default deployment profile will use the default MySQL 'test' database with user 'test' and
+  no password, a fresh database schema will be exported to the database on each redeploy
 
 - Call 'ant deploy'
 

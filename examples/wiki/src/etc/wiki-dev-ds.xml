@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources>
 
+    <!-- TODO: Queries are getting too complex for HSQL DB, see ForumQueries.hbm.xml
     <local-tx-datasource>
         <jndi-name>wikiDatasource</jndi-name>
         <connection-url>jdbc:hsqldb:hsql://localhost:9001</connection-url>
         <driver-class>org.hsqldb.jdbcDriver</driver-class>
         <user-name>sa</user-name>
+        <password></password>
+    </local-tx-datasource>
+    -->
+
+    <local-tx-datasource>
+        <jndi-name>wikiDatasource</jndi-name>
+        <connection-url>jdbc:mysql://localhost/test?characterEncoding=UTF-8</connection-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <user-name>test</user-name>
         <password></password>
     </local-tx-datasource>
 
