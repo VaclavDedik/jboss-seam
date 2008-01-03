@@ -19,13 +19,7 @@ public class ReplyHome extends CommentHome {
     @Override
     public void create() {
         super.create();
-
-        if (!getCurrentUser().isAdmin() && !getCurrentUser().isGuest()) {
-            getLog().debug("### adding to read topics, forum id: "
-                            + documentHome.getParentNode().getId() + " topic id: " + documentHome.getInstance().getId());
-            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance("forumTopicReadManager");
-            forumTopicReadManager.addTopicId(documentHome.getParentNode().getId(), documentHome.getInstance().getId());
-        }
+        markTopicRead();
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
@@ -97,6 +91,15 @@ public class ReplyHome extends CommentHome {
                 "Reply '{0}' has been deleted.",
                 getInstance().getSubject()
         );
+    }
+
+    private void markTopicRead() {
+        if (!getCurrentUser().isAdmin() && !getCurrentUser().isGuest()) {
+            getLog().debug("adding to read topics, forum id: "
+                            + documentHome.getParentNode().getId() + " topic id: " + documentHome.getInstance().getId());
+            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance("forumTopicReadManager");
+            forumTopicReadManager.addTopicId(documentHome.getParentNode().getId(), documentHome.getInstance().getId());
+        }
     }
 
 }

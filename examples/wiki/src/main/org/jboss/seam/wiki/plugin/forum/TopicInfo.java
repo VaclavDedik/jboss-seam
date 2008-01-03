@@ -8,12 +8,14 @@ public class TopicInfo {
     private WikiDocument topic;
     private boolean unread;
     private boolean sticky;
+    private boolean replies;
     private long numOfReplies;
     private WikiComment lastComment;
 
-    public TopicInfo(WikiDocument topic, Integer sticky) {
+    public TopicInfo(WikiDocument topic, Integer sticky, Boolean replies) {
         this.topic = topic;
         this.sticky = sticky != 0;
+        this.replies = replies;
     }
 
     public WikiDocument getTopic() {
@@ -34,6 +36,14 @@ public class TopicInfo {
 
     public void setSticky(boolean sticky) {
         this.sticky = sticky;
+    }
+
+    public boolean isReplies() {
+        return replies;
+    }
+
+    public void setReplies(boolean replies) {
+        this.replies = replies;
     }
 
     public long getNumOfReplies() {

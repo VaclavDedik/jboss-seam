@@ -23,16 +23,16 @@ public class Feed implements Serializable {
     @Column(name = "FEED_ID")
     private Long id;
 
-    @Column(name = "FEED_LINK", nullable = false)
+    @Column(name = "FEED_LINK", nullable = false, length = 1024)
     private String link;
 
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "TITLE", nullable = false, length = 1024)
     private String title;
 
-    @Column(name = "DESCRIPTION", nullable = true)
+    @Column(name = "DESCRIPTION", nullable = true, length = 1024)
     private String description;
 
-    @Column(name = "AUTHOR", nullable = false)
+    @Column(name = "AUTHOR", nullable = false, length = 1024)
     private String author;
 
     @Column(name = "PUBLISHED_ON", nullable = false, updatable = false)

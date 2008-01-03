@@ -130,13 +130,20 @@
             and c.createdOn > :lastLoginDate
     ]]></query>
 
+    <query name="forumTopicsCount">
+        select count(t) from WikiDocument t
+        where t.parent = :parentDir
+        and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
+    </query>
 
-    <!-- TODO: HQL doesn't support CASE...WHEN -->
+
+    <!-- TODO: HQL doesn't support CASE...WHEN or arbitrary OUTER JOINs  -->
     <!-- TODO: We could optimize this a little if we'd also retrieve the CREATED_BY_USER_ID guy but
                we'll hit the 2nd level cache anyway or we load them in batches... -->
     <sql-query name="forumTopics">
         <return class="org.jboss.seam.wiki.core.model.WikiDocument"/>
         <return-scalar column="STICKY" type="integer"/>
+        <return-scalar column="HAS_REPLIES" type="boolean"/>
         <return-scalar column="LAST_POST" type="timestamp"/>
         <![CDATA[
         select distinct
@@ -167,22 +174,20 @@
             doc0.FOOTER_MACROS as FOOTER_MACROS,
 
             case when (doc0.HEADER_MACROS like '%forumStickyPosting%') then 1 else 0 end as STICKY,
-            case
-                when
-                  (select max(c3.CREATED_ON) from WIKI_COMMENT c2 inner join WIKI_NODE c3 on c2.NODE_ID = c3.NODE_ID where c2.NS_THREAD in
-                   (select c4.NS_THREAD from WIKI_COMMENT c4 inner join WIKI_NODE c5 on c4.NODE_ID = c5.NODE_ID where c5.PARENT_NODE_ID = doc0.NODE_ID)
-                  ) is null
-                 then doc2.CREATED_ON
-                else
-                (select max(c3.CREATED_ON) from WIKI_COMMENT c2 inner join WIKI_NODE c3 on c2.NODE_ID = c3.NODE_ID where c2.NS_THREAD in
-                   (select c4.NS_THREAD from WIKI_COMMENT c4 inner join WIKI_NODE c5 on c4.NODE_ID = c5.NODE_ID where c5.PARENT_NODE_ID = doc0.NODE_ID)
-                  )
-            end as LAST_POST
+            case when c0.CREATED_ON is null then false else true end as HAS_REPLIES,
+            case when c0.CREATED_ON is null then doc2.CREATED_ON else c0.CREATED_ON end as LAST_POST
+
         from
-            WIKI_DOCUMENT doc0 inner join WIKI_FILE doc1 on doc0.NODE_ID=doc1.NODE_ID inner join WIKI_NODE doc2 on doc0.NODE_ID=doc2.NODE_ID,
-            WIKI_COMMENT c0 inner join WIKI_NODE c1 on c0.NODE_ID = c1.NODE_ID
+            WIKI_DOCUMENT doc0 inner join WIKI_FILE doc1 on doc0.NODE_ID=doc1.NODE_ID inner join WIKI_NODE doc2 on doc0.NODE_ID=doc2.NODE_ID
+           left outer join WIKI_NODE c0
+           on c0.NODE_ID in (select c1.NODE_ID from WIKI_COMMENT c1 where c1.NS_THREAD in
+                                (select c2.NS_THREAD from WIKI_COMMENT c2 inner join WIKI_NODE c3 on c3.NODE_ID = c2.NODE_ID where c3.PARENT_NODE_ID = doc0.NODE_ID)
+                            )
+           and c0.CREATED_ON = (select max(c5.CREATED_ON) from WIKI_COMMENT c4 inner join WIKI_NODE c5 on c4.NODE_ID = c5.NODE_ID where c4.NS_THREAD in
+                                    (select c6.NS_THREAD from WIKI_COMMENT c6 inner join WIKI_NODE c7 on c6.NODE_ID = c7.NODE_ID where c7.PARENT_NODE_ID = doc0.NODE_ID)
+                                )
         where
-            doc2.PARENT_NODE_ID= :parentNodeId
+            doc2.PARENT_NODE_ID = :parentNodeId
             and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
         order
             by STICKY desc, LAST_POST desc

@@ -174,16 +174,11 @@ public class ForumDAO {
     }
 
     public Long findTopicCount(WikiDirectory forum) {
-        ScrollableResults cursor =
-            getSession(true).getNamedQuery("forumTopics")
-                .setParameter("parentNodeId", forum.getId())
-                .setComment("Counting forum topics")
-                .scroll();
-        cursor.last();
-        Long count = cursor.getRowNumber() + 1l;
-        cursor.close();
-
-        return count;
+        return (Long)getSession(true).getNamedQuery("forumTopicsCount")
+                .setParameter("parentDir", forum)
+                .setComment("Retrieving forum topics count")
+                .setCacheable(true)
+                .uniqueResult();
     }
 
     public Map<Long, TopicInfo> findTopics(WikiDirectory forum, long firstResult, long maxResults) {
@@ -199,7 +194,7 @@ public class ForumDAO {
                     public Object transformTuple(Object[] result, String[] strings) {
                         topicInfoMap.put(
                             ((WikiDocument)result[0]).getId(),
-                            new TopicInfo( (WikiDocument)result[0], (Integer)result[1])
+                            new TopicInfo( (WikiDocument)result[0], (Integer)result[1], (Boolean)result[2])
                         );
                         return null;
                     }
@@ -207,8 +202,15 @@ public class ForumDAO {
                 }
             )
             .list();
+
+        List<Long> topicIdsWithReplies = new ArrayList<Long>();
+        for (Map.Entry<Long, TopicInfo> entry : topicInfoMap.entrySet()) {
+            if (entry.getValue().isReplies()) topicIdsWithReplies.add(entry.getKey());
+        }
+        if (topicIdsWithReplies.size() == 0) return topicInfoMap; // Early exit possible
+        
         getSession(true).getNamedQuery("forumTopicsReplies")
-            .setParameterList("topicIds", topicInfoMap.keySet())
+            .setParameterList("topicIds", topicIdsWithReplies)
             .setComment("Retrieving forum topic replies")
             .setResultTransformer(
                 new ResultTransformer() {
