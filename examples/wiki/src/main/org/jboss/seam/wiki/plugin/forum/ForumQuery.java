@@ -8,6 +8,7 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
 
 import java.util.*;
@@ -16,6 +17,8 @@ import java.io.Serializable;
 @Name("forumQuery")
 @Scope(ScopeType.CONVERSATION)
 public class ForumQuery implements Serializable {
+
+    public static final String TOPIC_PAGE = "topicPage";
 
     @Logger
     Log log;
@@ -29,6 +32,7 @@ public class ForumQuery implements Serializable {
     public void setPage(Integer page) {
         if (pager == null) pager = new Pager(prefs.getTopicsPerPage());
         pager.setPage(page);
+        Contexts.getSessionContext().set(TOPIC_PAGE, page);
     }
 
     public Pager getPager() {

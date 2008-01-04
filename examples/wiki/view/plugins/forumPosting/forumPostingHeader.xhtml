@@ -22,11 +22,20 @@
                 <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
             </h:outputLink>
 
-            <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}"
-                          accesskey="#{messages['forum.button.TopicList.accesskey']}"
-                          tabindex="1" styleClass="buttonNonpersistent">
-                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
-            </h:outputLink>
+            <s:fragment rendered="#{empty topicPage or topicPage == 0}">
+                <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}"
+                              accesskey="#{messages['forum.button.TopicList.accesskey']}"
+                              tabindex="1" styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
+                </h:outputLink>
+            </s:fragment>
+            <s:fragment rendered="#{topicPage > 0}">
+                <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}/Page/#{topicPage}"
+                              accesskey="#{messages['forum.button.TopicList.accesskey']}"
+                              tabindex="1" styleClass="buttonNonpersistent">
+                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
+                </h:outputLink>
+            </s:fragment>
 
             <s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory) and not replyHome.showForm}">
                 <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}?showTopicForm=true"

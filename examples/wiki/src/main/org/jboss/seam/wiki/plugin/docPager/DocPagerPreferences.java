@@ -10,6 +10,7 @@ import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.annotations.PreferenceProperty;
 import org.jboss.seam.wiki.preferences.annotations.Preferences;
 import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
 
 import java.io.Serializable;
 
@@ -27,7 +28,18 @@ public class DocPagerPreferences implements Serializable {
     @Length(min = 0, max = 255)
     private String byProperty;
 
+    @PreferenceProperty(
+        description = "#{messages['docPager.preferences.ShowNames']}",
+        visibility = {PreferenceVisibility.SYSTEM, PreferenceVisibility.INSTANCE}
+    )
+    @NotNull
+    private Boolean showNames;
+
     public String getByProperty() {
         return byProperty;
+    }
+
+    public Boolean getShowNames() {
+        return showNames;
     }
 }
