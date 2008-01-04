@@ -4,8 +4,12 @@
        xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd">
        
     <page view-id="/dvd.xhtml" 
-          action="#{search.selectFromRequest}" /> 
-    
+          action="#{search.selectFromRequest}"> 
+        <navigation from-action="#{search.addToCart}">
+            <redirect view-id="/dvd.xhtml"/>
+        </navigation>
+    </page>
+
     <page view-id="/admin/ship.xhtml"
           no-conversation-view-id="/admin/admin.xhtml"/>
     
