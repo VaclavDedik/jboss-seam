@@ -25,7 +25,7 @@ import org.jboss.seam.ui.converter.NoSelectionConverter;
  */
 public abstract class UISelectItems extends javax.faces.component.UISelectItems {
    
-   private Object value;
+   private List<javax.faces.model.SelectItem> selectItems;
    private Object originalValue;
    
    private class NullableSelectItem extends javax.faces.model.SelectItem
@@ -145,64 +145,42 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    @Override
    public Object getValue()
    {
-      if (value == null || originalValue == null || !originalValue.equals(super.getValue()))
+      if (selectItems == null || originalValue == null || !originalValue.equals(super.getValue()))
       {
          originalValue = super.getValue();
-         
+         selectItems = new ArrayList<javax.faces.model.SelectItem>();
+         javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
+         if (noSelectionLabel != null) 
+         {
+            selectItems.add(noSelectionLabel);
+         }
          if (originalValue instanceof Iterable)
          {
-            value = asSelectItems((Iterable) originalValue);
+            selectItems.addAll(asSelectItems((Iterable) originalValue));
          }
          else if (originalValue instanceof DataModel && ((DataModel) originalValue).getWrappedData() instanceof Iterable)
          {
-            value = asSelectItems((Iterable) ((DataModel) originalValue).getWrappedData()); 
+            selectItems.addAll(asSelectItems((Iterable) ((DataModel) originalValue).getWrappedData())); 
          }
          else if (originalValue instanceof Query)
          {
-            value = asSelectItems(((Query) originalValue).getResultList());
+            selectItems.addAll(asSelectItems(((Query) originalValue).getResultList()));
          }
          else if (originalValue != null && originalValue.getClass().isArray())
          {
-            if (originalValue.getClass().getComponentType().isPrimitive())
-            {
-               List list = new ArrayList();
-               for (int i = 0; i < Array.getLength(originalValue); i++)
-               {
-                  list.add(Array.get(originalValue, i));
-               }
-               value = asSelectItems(list);
-            }
-            else
-            {
-               value = asSelectItems(Arrays.asList((Object[]) originalValue));
-            }
+            selectItems.addAll(asSelectItems(arrayAsList(originalValue)));
          }
-         else
+         else if (selectItems.size() == 0)
          {
-            javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
-            if (noSelectionLabel != null) 
-            {
-               List<javax.faces.model.SelectItem> selectItems = new ArrayList<javax.faces.model.SelectItem>();
-               selectItems.add(noSelectionLabel);
-               value = selectItems;
-            }
-            else 
-            {
-               value = originalValue;
-            }
+            return originalValue;
          }
       }
-      return value;
-   }
+      return selectItems;      
+   }   
    
    private List<javax.faces.model.SelectItem> asSelectItems(Iterable iterable) 
    {
-      final List<javax.faces.model.SelectItem> selectItems =  new ArrayList<javax.faces.model.SelectItem>();
-      javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
-      if (noSelectionLabel != null) 
-      {
-         selectItems.add(noSelectionLabel);
-      }
+      List<javax.faces.model.SelectItem> selectItems =  new ArrayList<javax.faces.model.SelectItem>();
       for (final Object o : iterable)
       {
          selectItems.add(new ContextualSelectItem(o)
@@ -232,6 +210,8 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       }
       return selectItems;
    }
+   
+   
 
    private javax.faces.model.SelectItem noSelectionLabel()
    {
@@ -299,6 +279,23 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       else
       {
          return null;
+      }
+   }
+   
+   private static List arrayAsList(Object array)
+   {
+      if (array.getClass().getComponentType().isPrimitive())
+      {
+         List list = new ArrayList();
+         for (int i = 0; i < Array.getLength(array); i++)
+         {
+            list.add(Array.get(array, i));
+         }
+         return list;
+      }
+      else
+      {
+         return Arrays.asList((Object[]) array);
       }
    }
 	
