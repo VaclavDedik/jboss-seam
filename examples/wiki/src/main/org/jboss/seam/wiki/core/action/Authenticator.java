@@ -92,7 +92,7 @@ public class Authenticator {
         if (User.GUEST_USERNAME.equals(username)) return null;
         User user = userDAO.findUser(username, true, true);
         if (user == null || password == null || !user.getPasswordHash().equalsIgnoreCase(hashUtil.hash(password))) {
-            log.info("Invalid authentication credentials for user: " + username);
+            log.info("Invalid authentication credentials for username '" + username + "'");
             return null;
         }
         log.debug("Successfully authenticated user: " + user.getUsername());

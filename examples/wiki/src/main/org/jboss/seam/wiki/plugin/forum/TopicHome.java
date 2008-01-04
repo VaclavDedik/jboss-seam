@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.faces.Redirect;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.core.Conversation;
@@ -10,6 +11,7 @@ import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 
@@ -17,11 +19,14 @@ import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 @Scope(ScopeType.CONVERSATION)
 public class TopicHome extends DocumentHome {
 
+    public static final String TOPIC_NOTIFY_ME_MACRO = "forumNotifyReplies";
+
     @In
     WikiDirectory currentDirectory;
 
     private boolean showForm = false;
     private boolean sticky = false;
+    private boolean notifyReplies = false;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -39,6 +44,9 @@ public class TopicHome extends DocumentHome {
     public void create() {
         super.create();
         setParentNodeId(currentDirectory.getId());
+
+        Boolean preferencesNotifyReplies = ((ForumPreferences) Preferences.getInstance("Forum")).getNotifyMeOfReplies();
+        notifyReplies = preferencesNotifyReplies != null && preferencesNotifyReplies;
     }
 
     @Override
@@ -77,17 +85,22 @@ public class TopicHome extends DocumentHome {
 
     @Override
     protected boolean beforePersist() {
+        // TODO: Use macro parameters for "sticky" and "notify" options instead of additional macros
         if (isSticky())
-            getInstance().setHeader(
-                getInstance().getHeader().replaceAll("forumPosting", "forumStickyPosting")
-            );
+            getInstance().replaceHeaderMacro("forumPosting", "forumStickyPosting");
+        if (isNotifyReplies())
+            getInstance().addHeaderMacro(TOPIC_NOTIFY_ME_MACRO);
         return super.beforePersist();
     }
 
     @Override
     public String persist() {
+        // Only owners or admins can edit topics
+        getInstance().setWriteAccessLevel(org.jboss.seam.wiki.core.model.Role.ADMINROLE_ACCESSLEVEL);
+
         String outcome = super.persist();
         if (outcome != null) {
+
             endConversation();
         }
         return null; // Prevent navigation
@@ -139,6 +152,7 @@ public class TopicHome extends DocumentHome {
     /* -------------------------- Internal Methods ------------------------------ */
 
     private void endConversation() {
+        getLog().debug("ending conversation and hiding topic form");
         showForm = false;
         Conversation.instance().end();
         getEntityManager().clear(); // Need to force re-read in the topic list refresh
@@ -165,6 +179,14 @@ public class TopicHome extends DocumentHome {
 
     public void setSticky(boolean sticky) {
         this.sticky = sticky;
+    }
+
+    public boolean isNotifyReplies() {
+        return notifyReplies;
+    }
+
+    public void setNotifyReplies(boolean notifyReplies) {
+        this.notifyReplies = notifyReplies;
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)

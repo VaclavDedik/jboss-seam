@@ -54,7 +54,7 @@
                             <ui:define name="label">#{messages['lacewiki.label.commentForm.Name']}</ui:define>
                             <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="100" required="true"
                                          id="userName" value="#{commentHome.instance.fromUserName}">
-                                <a:support status="commentFormStatus" event="onblur" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                                <a:support status="commentFormStatus" event="onchange" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
                             </h:inputText>
                         </s:decorate>
                     </a:region>
@@ -79,7 +79,7 @@
                     <ui:define name="label">#{messages['lacewiki.label.commentForm.Subject']}</ui:define>
                     <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true"
                                  id="subject" value="#{commentHome.instance.subject}">
-                        <a:support status="commentFormStatus" event="onblur" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
+                        <a:support status="commentFormStatus" event="onchange" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
                     </h:inputText>
                 </s:decorate>
                 </a:region>
@@ -121,22 +121,20 @@
                         <a:commandLink id="post"
                                        action="#{commentHome.persist}" tabindex="1"
                                        reRender="commentDisplayForm, messageBoxContainer"
-                                       accesskey="#{messages['lacewiki.button.commentForm.Post.accesskey']}"
                                        status="commentFormStatus"
                                        eventsQueue="ajaxEventQueue"
                                        oncomplete="onAjaxRequestComplete()"
                                        styleClass="button sessionEventTrigger">
-                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.commentForm.Post']}"/>
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentForm.Post']}"/>
                         </a:commandLink>
 
                         <a:commandLink action="#{commentHome.cancel}" tabindex="1"
                                        reRender="commentDisplayForm, messageBoxContainer"
                                        immediate="true"
                                        eventsQueue="ajaxEventQueue"
-                                       accesskey="#{messages['lacewiki.button.CancelExit.accesskey']}"
                                        oncomplete="onAjaxRequestComplete()"
                                        styleClass="buttonNonpersistent sessionEventTrigger">
-                            <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.CancelExit']}"/>
+                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.CancelNoKey']}"/>
                         </a:commandLink>
 
                     </div>

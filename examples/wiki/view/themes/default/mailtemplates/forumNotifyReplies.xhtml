@@ -1,0 +1,53 @@
+<m:message xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:m="http://jboss.com/products/seam/mail"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:wiki="http://jboss.com/products/seam/wiki">
+    <m:header name="X-Sent-From" value="JBoss Seam" />
+    <m:header name="Precedence" value="list"/>
+    <m:from name="Seam Wiki" address="do-not-reply@jboss.com" />
+    <m:to name="#{currentDocument.createdBy.fullname}">#{currentDocument.createdBy.email}</m:to>
+    <m:subject>[Lacewiki] Forum Notification: #{currentDocument.name}</m:subject>
+    <m:body>
+        <html>
+            <body>
+            <p>Hello #{currentDocument.createdBy.firstname},</p>
+
+            <p>
+              you received a <a href="#{wiki:renderURL(replyHome.instance)}">response</a>
+              to <a href="#{wiki:renderURL(currentDocument)}">your posting</a> on the
+              Lacewiki forum, posted by #{replyHome.instance.createdBy.fullname}:
+            </p>
+
+            <hr/>
+
+            <wiki:formattedText value="#{replyHome.instance.content}"
+                                linkStyleClass="regularLink"
+                                brokenLinkStyleClass="brokenLink"
+                                attachmentLinkStyleClass="regularLink"
+                                thumbnailLinkStyleClass="regularLink"
+                                linkBaseFile="#{currentDocument}"
+                                currentAreaNumber="#{currentDocument.areaNumber}"
+                                enablePlugins="false"/>
+
+            <hr/>
+            <h:outputLink value="#{wiki:renderURL(replyHome.instance)}">Click here</h:outputLink> to reply...
+
+            </body>
+        </html>
+        <f:facet name="alternative">
+            <h:outputText>
+Hello #{currentDocument.createdBy.firstname},
+
+you received a response to your posting on the Seam community forum.
+
+From: #{replyHome.instance.createdBy.fullname}
+Subject:#{replyHome.instance.subject}
+
+Follow this link to read and reply:
+
+#{wiki:renderURL(replyHome.instance)}
+</h:outputText>
+        </f:facet>
+    </m:body>
+</m:message>

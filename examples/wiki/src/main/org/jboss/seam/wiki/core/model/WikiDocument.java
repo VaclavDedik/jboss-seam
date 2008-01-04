@@ -186,6 +186,27 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
         defaults.setDefaults(this);
     }
 
+    public void addHeaderMacro(String... macro) {
+        setHeaderMacrosString( getHeaderMacrosString() + appendMacrosAsString(macro));
+        setHeader( getHeader() + appendMacrosAsWikiTextString(macro));
+    }
+
+    public void addFooterMacro(String... macro) {
+        setFooterMacrosString( getFooterMacrosString() + appendMacrosAsString(macro));
+        setFooter( getFooter()+ appendMacrosAsWikiTextString(macro));
+    }
+
+    // TODO: The replacement methods should tokenize the strings, not replaceAll()
+    public void replaceHeaderMacro(String macro, String replacement) {
+        setHeaderMacrosString(getHeaderMacrosString().replaceAll(macro, replacement));
+        setHeader(getHeader().replaceAll(macro, replacement));
+    }
+
+    public void replaceFooterMacro(String macro, String replacement) {
+        setFooterMacrosString(getFooterMacrosString().replaceAll(macro, replacement));
+        setFooter(getFooter().replaceAll(macro, replacement));
+    }
+
     private String appendMacrosAsString(String[] macros) {
         if (macros.length == 0) return "";
         StringBuilder macrosString = new StringBuilder();

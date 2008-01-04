@@ -20,7 +20,17 @@ public class ForumPreferences implements Serializable {
     @NotNull
     private Long topicsPerPage;
 
+    @PreferenceProperty(
+        description = "#{messages['forum.preferences.NotifyMeOfReplies']}",
+        visibility = PreferenceVisibility.USER
+    )
+    private Boolean notifyMeOfReplies;
+
     public Long getTopicsPerPage() {
         return topicsPerPage;
+    }
+
+    public Boolean getNotifyMeOfReplies() {
+        return notifyMeOfReplies;
     }
 }

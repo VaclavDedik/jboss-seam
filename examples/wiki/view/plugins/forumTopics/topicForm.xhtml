@@ -57,7 +57,7 @@
                     <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
                         <s:div styleClass="entry">
                             <div class="label">
-                                <h:outputText value="#{messages['forum.label.Options']}:"/>
+                                <div class="label">&#160;</div>
                             </div>
                             <div class="input">
                                 <h:selectBooleanCheckbox value="#{topicHome.sticky}" tabindex="1"/>
@@ -74,6 +74,14 @@
                         </s:div>
                     </s:fragment>
 
+                    <s:div styleClass="entry" rendered="#{not currentuser.guest and not currentUser.admin}">
+                        <div class="label">&#160;</div>
+                        <div class="input">
+                            <h:selectBooleanCheckbox value="#{topicHome.notifyReplies}" tabindex="1"/>
+                            <h:outputText value="#{messages['forum.label.NotifyMeOfReplies']}"/>
+                        </div>
+                    </s:div>
+
                     <s:decorate id="verifyCaptchaEntry" template="../../includes/captchaEntry.xhtml">
                         <ui:param name="statusId" value="topicFormStatus"/>
                         <ui:param name="rendered" value="#{!identity.loggedIn}"/>
@@ -89,17 +97,18 @@
                             <a:commandLink id="save" action="#{topicHome.persist}"
                                            eventsQueue="ajaxEventQueue"
                                            reRender="forumTopicsPluginContainer, messageBoxContainer"
-                                           tabindex="1" accesskey="#{messages['forum.button.Save.accesskey']}"
+                                           status="topicFormStatus"
+                                           tabindex="1"
                                            styleClass="button saveButton sessionEventTrigger">
-                                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Save']}"/>
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.SaveNoKey']}"/>
                             </a:commandLink>
 
                             <a:commandLink action="#{topicHome.cancel}"
                                            reRender="forumTopicsPluginContainer, messageBoxContainer"
+                                           status="topicFormStatus"
                                            eventsQueue="ajaxEventQueue"
-                                           tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger"
-                                           accesskey="#{messages['forum.button.Cancel.accesskey']}">
-                                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Cancel']}"/>
+                                           tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.CancelNoKey']}"/>
                             </a:commandLink>
 
                         </div>

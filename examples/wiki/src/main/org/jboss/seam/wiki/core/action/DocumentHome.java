@@ -341,7 +341,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     }
 
     private void syncInstanceToFormContent(WikiDirectory dir) {
-        getLog().debug("sync instance to form");
+        getLog().debug("sync instance to form in area: " + dir.getAreaNumber());
         WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
         formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContent());
         if (historicalCopy == null) {

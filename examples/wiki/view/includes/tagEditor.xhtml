@@ -13,7 +13,7 @@
         </div>
         <div class="input">
             <h:inputText id="tagsInput" styleClass="ajaxSupport" tabindex="1" size="70" maxlength="1024" required="false" value="#{home.tagString}">
-                <a:support event="onblur" reRender="popularTagsList" oncomplete="onAjaxRequestComplete()"/>
+                <a:support event="onchange" reRender="popularTagsList" oncomplete="onAjaxRequestComplete()"/>
             </h:inputText>
         </div>
     </s:div>

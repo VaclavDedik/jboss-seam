@@ -71,7 +71,7 @@
                         <ui:param name="fieldId" value="firstname"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.FirstName']}</ui:define>
                         <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
-                            <a:support status="userHomeFormStatus" event="onblur" reRender="firstnameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            <a:support status="userHomeFormStatus" event="onchange" reRender="firstnameDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
                     </a:region>
@@ -82,7 +82,7 @@
                         <ui:param name="fieldId" value="lastname"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.LastName']}</ui:define>
                         <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
-                            <a:support status="userHomeFormStatus" event="onblur" reRender="lastnameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            <a:support status="userHomeFormStatus" event="onchange" reRender="lastnameDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
                     </a:region>
@@ -94,7 +94,7 @@
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Email']}</ui:define>
                         <h:inputText  styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"
                                      disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support status="userHomeFormStatus" event="onblur" reRender="emailDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            <a:support status="userHomeFormStatus" event="onchange" reRender="emailDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
                     </a:region>
@@ -107,7 +107,7 @@
                         <h:inputText  styleClass="ajaxSupport" tabindex="1" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"
                                      disabled="#{userHome.instance.username == adminUser.username
                                                  or userHome.instance.username == guestUser.username}">
-                            <a:support status="userHomeFormStatus" event="onblur" action="#{userHome.validateUsername}"
+                            <a:support status="userHomeFormStatus" event="onchange" action="#{userHome.validateUsername}"
                                        reRender="usernameDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
@@ -121,7 +121,7 @@
                         <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
                                        redisplay="true" value="#{userHome.password}"
                                        disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support status="userHomeFormStatus" event="onblur" action="#{userHome.validatePassword}"
+                            <a:support status="userHomeFormStatus" event="onchange" action="#{userHome.validatePassword}"
                                        reRender="passwordDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputSecret>
                     </s:decorate>
@@ -135,7 +135,7 @@
                         <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
                                        redisplay="true" value="#{userHome.passwordControl}"
                                        disabled="#{userHome.instance.username == guestUser.username}">
-                            <a:support status="userHomeFormStatus" event="onblur" action="#{userHome.validatePasswordControl}"
+                            <a:support status="userHomeFormStatus" event="onchange" action="#{userHome.validatePasswordControl}"
                                        reRender="passwordControlDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputSecret>
                     </s:decorate>
@@ -243,7 +243,7 @@
                         <ui:param name="fieldId" value="website"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Website']}</ui:define>
                         <h:inputText styleClass="ajaxSupport" tabindex="1" size="55" maxlength="1000" value="#{userHome.instance.profile.website}">
-                            <a:support status="userHomeFormStatus" event="onblur" reRender="websiteDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            <a:support status="userHomeFormStatus" event="onchange" reRender="websiteDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -252,7 +252,7 @@
                         <ui:param name="fieldId" value="location"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Location']}</ui:define>
                         <h:inputText styleClass="ajaxSupport" tabindex="1" size="55" maxlength="255" value="#{userHome.instance.profile.location}">
-                            <a:support status="userHomeFormStatus" event="onblur" reRender="locationDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            <a:support status="userHomeFormStatus" event="onchange" reRender="locationDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -261,7 +261,7 @@
                         <ui:param name="fieldId" value="occupation"/>
                         <ui:define name="label">#{messages['lacewiki.label.userHome.Occupation']}</ui:define>
                         <h:inputText styleClass="ajaxSupport" tabindex="1" size="55" maxlength="1000" value="#{userHome.instance.profile.occupation}">
-                            <a:support status="userHomeFormStatus" event="onblur" reRender="occupationDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            <a:support status="userHomeFormStatus" event="onchange" reRender="occupationDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 

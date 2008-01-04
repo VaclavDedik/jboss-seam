@@ -45,7 +45,7 @@
             <s:decorate id="firstnameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.FirstName']}</ui:define>
                 <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
-                    <a:support status="userRegisterFormStatus" event="onblur" reRender="firstnameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                    <a:support status="userRegisterFormStatus" event="onchange" reRender="firstnameDecorate" oncomplete="onAjaxRequestComplete()"/>
                 </h:inputText>
             </s:decorate>
             </a:region>
@@ -54,7 +54,7 @@
             <s:decorate id="lastnameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.LastName']}</ui:define>
                 <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
-                    <a:support status="userRegisterFormStatus" event="onblur" reRender="lastnameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                    <a:support status="userRegisterFormStatus" event="onchange" reRender="lastnameDecorate" oncomplete="onAjaxRequestComplete()"/>
                 </h:inputText>
             </s:decorate>
             </a:region>
@@ -63,7 +63,7 @@
             <s:decorate id="emailDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.Email']}</ui:define>
                 <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true" value="#{userHome.instance.email}">
-                    <a:support status="userRegisterFormStatus" event="onblur" reRender="emailDecorate" oncomplete="onAjaxRequestComplete()"/>
+                    <a:support status="userRegisterFormStatus" event="onchange" reRender="emailDecorate" oncomplete="onAjaxRequestComplete()"/>
                 </h:inputText>
             </s:decorate>
             </a:region>
@@ -72,7 +72,7 @@
             <s:decorate id="usernameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.Username']}</ui:define>
                 <h:inputText styleClass="ajaxSupport" tabindex="1" size="16" maxlength="16" required="true" id="username" value="#{userHome.instance.username}">
-                    <a:support status="userRegisterFormStatus" event="onblur" action="#{userHome.validateUsername}"
+                    <a:support status="userRegisterFormStatus" event="onchange" action="#{userHome.validateUsername}"
                                reRender="usernameDecorate" oncomplete="onAjaxRequestComplete()"/>
                 </h:inputText>
             </s:decorate>
@@ -83,7 +83,7 @@
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.Password']}</ui:define>
                 <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
                                redisplay="true" value="#{userHome.password}">
-                    <a:support status="userRegisterFormStatus" event="onblur" action="#{userHome.validatePassword}"
+                    <a:support status="userRegisterFormStatus" event="onchange" action="#{userHome.validatePassword}"
                                reRender="passwordDecorate" oncomplete="onAjaxRequestComplete()"/>
                 </h:inputSecret>
             </s:decorate>
@@ -94,7 +94,7 @@
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.RepeatPassword']}</ui:define>
                 <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
                                redisplay="true" value="#{userHome.passwordControl}">
-                    <a:support status="userRegisterFormStatus" event="onblur" action="#{userHome.validatePasswordControl}"
+                    <a:support status="userRegisterFormStatus" event="onchange" action="#{userHome.validatePasswordControl}"
                                reRender="passwordControlDecorate" oncomplete="onAjaxRequestComplete()"/>
                 </h:inputSecret>
             </s:decorate>

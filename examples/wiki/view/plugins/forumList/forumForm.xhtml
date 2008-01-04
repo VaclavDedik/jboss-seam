@@ -30,14 +30,14 @@
             <s:decorate id="nameDecorate" template="../../includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['forum.label.ForumName']}</ui:define>
                 <h:inputText styleClass="ajaxSupport" size="40" maxlength="255" required="true" tabindex="1" value="#{forumHome.instance.name}">
-                    <a:support event="onblur" status="forumFormStatus" reRender="nameDecorate"/>
+                    <a:support event="onchange" status="forumFormStatus" reRender="nameDecorate"/>
                 </h:inputText>
             </s:decorate>
 
             <s:decorate id="descriptionDecorate" template="../../includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['forum.label.ForumDescription']}</ui:define>
                 <h:inputText styleClass="ajaxSupport" size="70" maxlength="512" required="false" tabindex="1" value="#{forumHome.instance.description}">
-                    <a:support event="onblur" status="forumFormStatus" reRender="descriptionDecorate"/>
+                    <a:support event="onchange" status="forumFormStatus" reRender="descriptionDecorate"/>
                 </h:inputText>
             </s:decorate>
 

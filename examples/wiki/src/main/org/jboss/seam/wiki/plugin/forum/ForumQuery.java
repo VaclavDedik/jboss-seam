@@ -95,6 +95,7 @@ public class ForumQuery implements Serializable {
 
     @Observer(value = {"Forum.topicListRefresh", "PersistenceContext.filterReset"}, create = false)
     public void loadTopics() {
+        log.debug("loading forum topics");
         pager.setNumOfRecords( forumDAO.findTopicCount(currentDirectory) );
 
         if (pager.getNumOfRecords() == 0) {

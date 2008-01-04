@@ -2,13 +2,14 @@ package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthorizationException;
-import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.FlushModeType;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.action.CommentHome;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 
@@ -20,6 +21,23 @@ public class ReplyHome extends CommentHome {
     public void create() {
         super.create();
         markTopicRead();
+    }
+
+    @In(create = true)
+    private Renderer renderer;
+
+    @Observer(value = "Comment.persisted", create = false)
+    public void notifyOriginalPoster() {
+        // Triggered by superclass after reply was persisted
+        if (documentHome.getInstance().macroPresent(TopicHome.TOPIC_NOTIFY_ME_MACRO)
+            && !documentHome.getInstance().getCreatedBy().getUsername().equals(
+                    getInstance().getCreatedBy().getUsername()
+                )) {
+            getLog().debug("sending confirmation e-mail to original poster");
+            renderer.render("/themes/"
+                    + ((WikiPreferences) Preferences.getInstance("Wiki")).getThemeName()
+                    + "/mailtemplates/forumNotifyReply.xhtml");
+        }
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)

@@ -71,7 +71,7 @@
                 <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
                     <ui:define name="label">#{messages['lacewiki.label.uploadEdit.Name']}</ui:define>
                     <h:inputText styleClass="ajaxSupport" size="50" maxlength="255" required="true" tabindex="1" value="#{uploadHome.instance.name}">
-                        <a:support status="uploadEditFormStatus" event="onblur" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                        <a:support status="uploadEditFormStatus" event="onchange" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
                     </h:inputText>
                 </s:decorate>
 

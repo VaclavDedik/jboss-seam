@@ -82,14 +82,14 @@
         <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
             <ui:define name="label">#{messages['lacewiki.label.dirEdit.Name']}</ui:define>
             <h:inputText styleClass="ajaxSupport" size="25" maxlength="255" required="true" tabindex="1" value="#{directoryHome.instance.name}">
-                <a:support status="directoryEditFormStatus" event="onblur" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                <a:support status="directoryEditFormStatus" event="onchange" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
             </h:inputText>
         </s:decorate>
 
         <s:decorate id="descriptionDecorate" template="includes/formFieldDecorate.xhtml">
             <ui:define name="label">#{messages['lacewiki.label.dirEdit.Description']}</ui:define>
             <h:inputText styleClass="ajaxSupport" size="50" maxlength="512" required="false" tabindex="1" value="#{directoryHome.instance.description}">
-                <a:support status="directoryEditFormStatus" event="onblur" reRender="descriptionDecorate" oncomplete="onAjaxRequestComplete()"/>
+                <a:support status="directoryEditFormStatus" event="onchange" reRender="descriptionDecorate" oncomplete="onAjaxRequestComplete()"/>
             </h:inputText>
         </s:decorate>
 

@@ -399,6 +399,11 @@ b.rtop b.r4, b.rbottom b.r4 {
 /* General
 ----------------------------------------------- */
 
+a:hover .documentTitle {
+    color: #000;
+    text-decoration: underline;
+}
+
 .documentTags {
     border-top: 1px solid #ccc;
     white-space: nowrap;
@@ -895,7 +900,7 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 
 .boxHeader {
-    text-align: right;
+    text-align: left;
     padding-left: 5px;
     padding-right: 5px;
     padding-top: 5px;
@@ -919,7 +924,6 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .boxContent {
     background-color: #fff;
-    padding: 10px;
     border-left: 1px solid #d3d2d1;
     border-right: 1px solid #d3d2d1;
 }

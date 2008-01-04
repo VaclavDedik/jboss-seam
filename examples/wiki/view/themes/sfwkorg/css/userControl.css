@@ -20,6 +20,10 @@
     margin-right: 5px;
 }
 
+.userControlPanel .link:hover .linkText {
+    color: #aaa;
+}
+
 .userControlPanel .linkText {
 	color: #fff;
 	text-decoration: none;

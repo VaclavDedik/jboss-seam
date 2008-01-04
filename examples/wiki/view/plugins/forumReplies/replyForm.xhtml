@@ -49,7 +49,7 @@
                                 <ui:define name="label">#{messages['forum.label.replyForm.Name']}</ui:define>
                                 <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="100" required="true"
                                              id="userName" value="#{replyHome.instance.fromUserName}">
-                                    <a:support status="replyFormStatus" event="onblur" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                                    <a:support status="replyFormStatus" event="onchange" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
                                 </h:inputText>
                             </s:decorate>
                         </a:region>
@@ -73,7 +73,7 @@
                         <ui:define name="label">#{messages['forum.label.replyForm.Subject']}</ui:define>
                         <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true"
                                      id="subject" value="#{replyHome.instance.subject}">
-                            <a:support status="replyFormStatus" event="onblur" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            <a:support status="replyFormStatus" event="onchange" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -115,22 +115,21 @@
                             <a:commandLink id="post"
                                            action="#{replyHome.persist}" tabindex="1"
                                            reRender="documentDisplay"
-                                           accesskey="#{messages['forum.button.Save.accesskey']}"
                                            status="replyFormStatus"
                                            eventsQueue="ajaxEventQueue"
                                            oncomplete="onAjaxRequestComplete()"
                                            styleClass="button sessionEventTrigger">
-                                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Save']}"/>
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.SaveNoKey']}"/>
                             </a:commandLink>
 
                             <a:commandLink action="#{replyHome.cancel}" tabindex="1"
                                            reRender="documentDisplay"
                                            immediate="true"
+                                           status="replyFormStatus"
                                            eventsQueue="ajaxEventQueue"
-                                           accesskey="#{messages['forum.button.Cancel.accesskey']}"
                                            oncomplete="onAjaxRequestComplete()"
                                            styleClass="buttonNonpersistent sessionEventTrigger">
-                                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Cancel']}"/>
+                                <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.CancelNoKey']}"/>
                             </a:commandLink>
 
                         </div>

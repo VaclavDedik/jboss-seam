@@ -80,7 +80,7 @@
                                 <ui:param name="fieldId" value="name"/>
                                 <ui:define name="label">#{messages['lacewiki.label.docEdit.Name']}</ui:define>
                                 <h:inputText styleClass="ajaxSupport" tabindex="1" size="65" maxlength="200" required="true" value="#{documentHome.instance.name}">
-                                    <a:support status="docEditFormStatus" event="onblur" reRender="nameDecorate, contentPreview" oncomplete="onAjaxRequestComplete()"/>
+                                    <a:support status="docEditFormStatus" event="onchange" reRender="nameDecorate, contentPreview" oncomplete="onAjaxRequestComplete()"/>
                                 </h:inputText>
                             </s:decorate>
 

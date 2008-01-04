@@ -13,6 +13,7 @@ import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.FeedEntry;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.plugin.forum.TopicHome;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
@@ -85,6 +86,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 assert newTopic.isEnableCommentForm();
                 assert newTopic.isEnableComments();
                 assert newTopic.isEnableCommentsOnFeeds();
+                assert newTopic.getWriteAccessLevel() == Role.ADMINROLE_ACCESSLEVEL;
             }
         }.run();
 
