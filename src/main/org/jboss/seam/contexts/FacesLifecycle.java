@@ -47,7 +47,7 @@ public class FacesLifecycle
 
    public static void beginRequest(ExternalContext externalContext) 
    {
-      log.debug( ">>> Begin JSF request" );
+      log.debug( ">>> Begin JSF request for " + getRequestPath(externalContext) );
       Contexts.eventContext.set( new EventContext( externalContext.getRequestMap() ) );
       Contexts.applicationContext.set( new ApplicationContext( externalContext.getApplicationMap() ) );
       Contexts.sessionContext.set( new SessionContext( externalContext.getSessionMap() ) );
@@ -122,7 +122,7 @@ public class FacesLifecycle
       finally
       {
          Lifecycle.clearThreadlocals();
-         log.debug( "<<< End JSF request" );
+         log.debug( "<<< End JSF request for " + getRequestPath(externalContext) );
       }
    }
    
@@ -161,6 +161,11 @@ public class FacesLifecycle
    public static void resumePage()
    {
       Contexts.pageContext.set( new PageContext() );
+   }
+  
+   private static String getRequestPath(ExternalContext externalContext)
+   {
+      return externalContext.getRequestContextPath() + externalContext.getRequestServletPath();
    }
 
 }
