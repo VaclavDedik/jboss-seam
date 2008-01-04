@@ -40,13 +40,13 @@ public class FullTextSearchAction
 {
     static final long serialVersionUID = -6536629890251170098L;
     
-    @In(create = true)
+    @In(create=true)
     ShoppingCart cart;
     
     @PersistenceContext
     EntityManager em;
 
-    @RequestParameter
+    //@RequestParameter
     Long id;
 
     int pageSize = 15;
@@ -59,13 +59,13 @@ public class FullTextSearchAction
     @DataModel
     List<Product> searchResults;
 
-    @DataModelSelection
+    //@DataModelSelection
     Product selectedProduct;
 
     @Out(required = false)
     Product dvd;
 
-    @Out(scope = ScopeType.CONVERSATION, required = false)
+    @Out(scope=ScopeType.CONVERSATION, required=false)
     Map<Product, Boolean> searchSelections;
 
 
@@ -106,6 +106,7 @@ public class FullTextSearchAction
     
     @Begin(join = true)
     public void selectFromRequest() {
+        System.out.println("*** ID=" + id);
         if (id != null)  {
             dvd = em.find(Product.class, id);
         } else if (selectedProduct != null) {
@@ -191,6 +192,15 @@ public class FullTextSearchAction
     
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public Long getSelectedId() {
+        return id;
+    }
+
+    public void setSelectedId(Long id) {
+        System.out.println("- set id " + id);
+        this.id = id;
     }
     
     @End

@@ -5,6 +5,9 @@
        
     <page view-id="/dvd.xhtml" 
           action="#{search.selectFromRequest}"> 
+
+        <param name="id" value="#{search.selectedId}"/> 
+
         <navigation from-action="#{search.addToCart}">
             <redirect view-id="/dvd.xhtml"/>
         </navigation>
