@@ -361,7 +361,7 @@ public class UserHome extends EntityHome<User> {
     }
 
     public boolean passwordMatchesControl() {
-        if (!password.equals(passwordControl) ) {
+        if (password == null || passwordControl == null || !password.equals(passwordControl) ) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "passwordControl",
                 FacesMessage.SEVERITY_ERROR,
