@@ -1,24 +1,3 @@
-/**
- * License Agreement.
- *
- * Ajax4jsf 1.1 - Natural Ajax for Java Server Faces (JSF)
- *
- * Copyright (C) 2007 Exadel, Inc.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License version 2.1 as published by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
- */
-
 package org.jboss.seam.ui.component;
 
 import static org.jboss.seam.util.Strings.emptyIfNull;
@@ -41,7 +20,7 @@ import org.jboss.seam.ui.converter.NoSelectionConverter;
 
 
 /**
- * JSF component class
+ * @auth Pete Muir
  *
  */
 public abstract class UISelectItems extends javax.faces.component.UISelectItems {
@@ -66,6 +45,55 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
          return value;
       }
 
+   }
+   
+   private abstract class ContextualSelectItem {
+      
+      private Object varValue;
+      
+      public ContextualSelectItem(Object varValue)
+      {
+         if (varValue == null)
+         {
+            throw new FacesException("var attribute must be set");
+         }
+         this.varValue = varValue;
+      }
+      
+      /**
+       * @return the varValue
+       */
+      protected Object getVarValue()
+      {
+         return this.varValue;
+      }
+      
+      private void setup()
+      {
+         getFacesContext().getExternalContext().getRequestMap().put(getVar(), varValue);
+      }
+      
+      private void cleanup()
+      {
+         getFacesContext().getExternalContext().getRequestMap().remove(getVar());
+      }
+      
+      protected abstract Object getSelectItemValue();
+      protected abstract String getSelectItemLabel();
+      protected abstract Boolean getSelectItemDisabled();
+      
+      protected javax.faces.model.SelectItem create()
+      {
+         try
+         {
+            setup();
+            return new javax.faces.model.SelectItem(this.getSelectItemValue(), this.getSelectItemLabel(), "", this.getSelectItemDisabled());
+         }
+         finally
+         {
+            cleanup();
+         }
+      }
    }
 
    private static final String NO_SELECTION_VALUE = null;
@@ -169,61 +197,47 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    
    private List<javax.faces.model.SelectItem> asSelectItems(Iterable iterable) 
    {
-      List<javax.faces.model.SelectItem> selectItems =  new ArrayList<javax.faces.model.SelectItem>();
+      final List<javax.faces.model.SelectItem> selectItems =  new ArrayList<javax.faces.model.SelectItem>();
       javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
       if (noSelectionLabel != null) 
       {
          selectItems.add(noSelectionLabel);
       }
-      for (Object o : iterable)
+      for (final Object o : iterable)
       {
-         initVar(o);
-         String itemLabel = emptyIfNull(getLabel());
-         Object value = getItemValue();
-         Object itemValue = value == null ? o : value;
-         Boolean disabled = getDisabled();
-         boolean itemDisabled = disabled == null ? false : disabled;
-         selectItems.add( new javax.faces.model.SelectItem(itemValue, itemLabel, "", itemDisabled) );
-         destroyVar();
+         selectItems.add(new ContextualSelectItem(o)
+         {
+
+            @Override
+            protected Boolean getSelectItemDisabled()
+            {
+               Boolean disabled = getDisabled();
+               return disabled == null ? false : disabled;
+            }
+
+            @Override
+            protected String getSelectItemLabel()
+            {
+               return emptyIfNull(getLabel());
+            }
+
+            @Override
+            protected Object getSelectItemValue()
+            {
+               Object value = getItemValue();
+               return value == null ? getVarValue() : value;
+            }
+            
+         }.create());
       }
       return selectItems;
    }
 
    private javax.faces.model.SelectItem noSelectionLabel()
    {
-      boolean show = false;
-      /*
-       * This is a slight hack. If you do an EL expresison like this (to hide the label)
-       * 
-       * noSelectionLabel="#{x eq y ? 'Please Select' : null}"
-       * 
-       * then, if x != y, EL will return an empty String, not null, so we work around that, with the side effect
-       * that if the result of the EL expression is an empty String, then the label will be hidden.
-       */
-      ValueExpression vb = getValueExpression("noSelectionLabel");
-      String noSelectionLabel = getNoSelectionLabel();
-      Object parentValue = getParentValue();
-      Boolean hideNoSelectionLabel = getHideNoSelectionLabel();
-      if (noSelectionLabel != null && vb == null && !(hideNoSelectionLabel  && parentValue != null))
+      if (isShowNoSelectionLabel())
       {
-         /* 
-          * Here, the user has specfied a noSelectionLabel (may be an empty string), and, if hideNoSelectionLabel
-          * is set, then, if a value is selected, then the label is hidden
-          */ 
-         show = true;
-      } 
-      else if (noSelectionLabel != null && !"".equals(noSelectionLabel) && !(hideNoSelectionLabel && parentValue != null))
-      {
-         /*
-          * Here, the user has used an EL expression as the noSelectionLabel.  In this case, an empty string is
-          * indicates that the label should be hidden.
-          */
-         show = true;
-      }
-      
-      if (show)
-      {
-         NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, noSelectionLabel);
+         NullableSelectItem s = new NullableSelectItem(NO_SELECTION_VALUE, getNoSelectionLabel());
          ConverterChain converterChain = new ConverterChain(this.getParent());
          Converter noSelectionConverter = new NoSelectionConverter();
          // Make sure that the converter is only added once
@@ -237,20 +251,42 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
          return null;
       }
    }
-
-   @SuppressWarnings("unchecked")
-   private void initVar(Object varValue)
-   {
-      if (getVar() == null)
+   
+   private boolean isShowNoSelectionLabel()
+   {  
+      ValueExpression vb = getValueExpression("noSelectionLabel");
+      String noSelectionLabel = getNoSelectionLabel();
+      Boolean hideNoSelectionLabel = getHideNoSelectionLabel();
+      Object parentValue = getParentValue();
+      
+      /*
+       * This is a slight hack. If you do an EL expresison like this (to hide the label)
+       * 
+       * noSelectionLabel="#{x eq y ? 'Please Select' : null}"
+       * 
+       * then, if x != y, EL will return an empty String, not null, so we work around that, with the side effect
+       * that if the result of the EL expression is an empty String, then the label will be hidden.
+       */
+      if (noSelectionLabel != null && vb == null && !(hideNoSelectionLabel  && parentValue != null))
       {
-         throw new FacesException("var attribute must be set");
+         /* 
+          * Here, the user has specfied a noSelectionLabel (may be an empty string), and, if hideNoSelectionLabel
+          * is set, then, if a value is selected, then the label is hidden
+          */ 
+         return true;
+      } 
+      else if (noSelectionLabel != null && !"".equals(noSelectionLabel) && !(hideNoSelectionLabel && parentValue != null))
+      {
+         /*
+          * Here, the user has used an EL expression as the noSelectionLabel.  In this case, an empty string is
+          * indicates that the label should be hidden.
+          */
+         return true;
       }
-      getFacesContext().getExternalContext().getRequestMap().put(getVar(), varValue);
-   }
-
-   private void destroyVar()
-   {
-      getFacesContext().getExternalContext().getRequestMap().remove(getVar());
+      else
+      {
+         return false;
+      }
    }
 
    private Object getParentValue()
