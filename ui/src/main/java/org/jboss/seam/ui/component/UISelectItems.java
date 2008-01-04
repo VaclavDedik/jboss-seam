@@ -145,15 +145,17 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    @Override
    public Object getValue()
    {
-      if (selectItems == null || originalValue == null || !originalValue.equals(super.getValue()))
+      List<javax.faces.model.SelectItem> temporarySelectItems = new ArrayList<javax.faces.model.SelectItem>();
+      javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
+      if (noSelectionLabel != null) 
       {
+         temporarySelectItems.add(noSelectionLabel);
+      }
+      if (selectItems == null || originalValue == null || !originalValue.equals(super.getValue()))
+      {  
          originalValue = super.getValue();
          selectItems = new ArrayList<javax.faces.model.SelectItem>();
-         javax.faces.model.SelectItem noSelectionLabel = noSelectionLabel();
-         if (noSelectionLabel != null) 
-         {
-            selectItems.add(noSelectionLabel);
-         }
+         
          if (originalValue instanceof Iterable)
          {
             selectItems.addAll(asSelectItems((Iterable) originalValue));
@@ -170,12 +172,14 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
          {
             selectItems.addAll(asSelectItems(arrayAsList(originalValue)));
          }
-         else if (selectItems.size() == 0)
+         else if (temporarySelectItems.size() == 0)
          {
             return originalValue;
          }
+         
       }
-      return selectItems;      
+      temporarySelectItems.addAll(selectItems);
+      return temporarySelectItems;
    }   
    
    private List<javax.faces.model.SelectItem> asSelectItems(Iterable iterable) 
