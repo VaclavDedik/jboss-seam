@@ -499,12 +499,12 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 		
 		<programlisting><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess.Person">
     <action execute="#{people.refresh}" />
-</event>]]></programlisting>
+    </event>]]></programlisting>
 
-        <para>
-            The examples in this section have all shown reuse by configuration. However,
-            reuse by extension is equally possible for Query objects.
-        </para>
+      <para>
+         The examples in this section have all shown reuse by configuration. However,
+         reuse by extension is equally possible for Query objects.
+      </para>
 
     </section>
     
