@@ -111,3 +111,7 @@ img.errors {
 	color: red;
 	padding-left: 2px;
 }
+
+.rich-stglpanel-body {
+   overflow: auto;
+} 
