@@ -605,7 +605,7 @@
 	</target>
 
 
-	<target name="testcore" depends="inittestcore,compiletest" description="Run the core unit tests">
+	<target name="testcore" depends="inittestcore,compiletest" description="Run the core tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
 		<testng>
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
