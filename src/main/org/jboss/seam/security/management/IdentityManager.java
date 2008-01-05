@@ -3,6 +3,8 @@ package org.jboss.seam.security.management;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.jboss.seam.Component;
@@ -101,17 +103,41 @@ public class IdentityManager
    
    public List<String> listUsers()
    {
-      return identityStore.listUsers();
+      List<String> users = identityStore.listUsers();      
+      
+      Collections.sort(users, new Comparator<String>() {
+         public int compare(String value1, String value2) {
+            return value1.compareTo(value2);
+         }
+      });
+      
+      return users;
    }
    
    public List<String> listUsers(String filter)
    {
-      return identityStore.listUsers(filter);
+      List<String> users = identityStore.listUsers(filter);
+      
+      Collections.sort(users, new Comparator<String>() {
+         public int compare(String value1, String value2) {
+            return value1.compareTo(value2);
+         }
+      });
+      
+      return users;      
    }
    
    public List<String> listRoles()
    {
-      return identityStore.listRoles();
+      List<String> roles = identityStore.listRoles();
+      
+      Collections.sort(roles, new Comparator<String>() {
+         public int compare(String value1, String value2) {
+            return value1.compareTo(value2);
+         }
+      });
+      
+      return roles;      
    }
    
    public List<String> getGrantedRoles(String name)
