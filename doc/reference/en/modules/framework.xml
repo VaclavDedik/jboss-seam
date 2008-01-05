@@ -500,6 +500,14 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 		<programlisting><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess.Person">
     <action execute="#{people.refresh}" />
     </event>]]></programlisting>
+       
+      <para>
+         Unfortunately Query objects don't work well with 
+         <emphasis>join fetch</emphasis> queries - the use of pagination with
+         these queries is not recomended, and you'll have to implement your own
+         method of calculating the total number of results (by overriding 
+         <literal>getCountEjbql()</literal>.
+      </para>
 
       <para>
          The examples in this section have all shown reuse by configuration. However,
