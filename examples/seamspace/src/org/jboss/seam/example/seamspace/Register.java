@@ -24,5 +24,7 @@ public interface Register
    
    boolean isVerified();
    
+   void accountCreated(MemberAccount account);
+   
    void destroy();
 }

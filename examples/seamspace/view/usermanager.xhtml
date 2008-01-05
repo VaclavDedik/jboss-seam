@@ -21,6 +21,8 @@
 
   	    <h2>User Manager</h2>  
   	    
+        <s:button action="#{userAction.createUser}" styleClass="newuser"/>
+  	    
         <rich:dataTable 
             id="threads"
             value="#{users}" 
@@ -33,7 +35,7 @@
                   User name
                 </rich:column>
                 <rich:column>
-                  Roles
+                  Member Of
                 </rich:column>
                 <rich:column>
                   Action

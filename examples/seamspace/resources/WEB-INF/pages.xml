@@ -62,6 +62,18 @@
     
     <page view-id="/usermanager.xhtml" action="#{userSearch.loadUsers}">
       <restrict>#{s:hasRole('admin')}</restrict>    
+      
+      <navigation from-action="#{userAction.createUser}">
+        <redirect view-id="/userdetail.xhtml"/>
+      </navigation>
+    </page>
+    
+    <page view-id="/userdetail.xhtml">
+        <navigation from-action="#{userAction.save}">
+          <rule if-outcome="success">
+            <redirect view-id="/usermanager.xhtml"/>
+          </rule>
+        </navigation>
     </page>
     
     <page view-id="/profile.xhtml">

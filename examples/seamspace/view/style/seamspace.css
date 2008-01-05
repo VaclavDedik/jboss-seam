@@ -499,3 +499,54 @@ quote {
   background-color: #fbf4ec;
   display: block;
 }
+
+input.newuser {
+  background: url(../images/btn_newuser.png) top left no-repeat;
+  height: 24px;
+  width: 80px;
+  margin: 4px 4px 4px 4px;
+  border: 0px;
+  cursor: pointer;  
+}
+
+/* General form styles */
+
+div.formRow {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  clear: both;
+}
+
+div.formRow label {
+  float: left;
+  width: 120px; 
+  padding: 2px 2px 2px 2px;
+}
+
+div.formRow input[type='text'] {
+  width: 120px;
+}
+
+div.formRow input[type='password'] {
+  width: 120px;
+}
+
+div.selectMany label {
+  float: none;
+}
+
+.formButton {
+  background: url(../images/bg_button.png) top left repeat-x;
+  border: 1px solid #003399;
+  font-size: small;
+  font-weight: bold;
+  color: #000000; 
+  margin-right: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+div.formButtons {
+  float: right;
+  padding: 4px 8px 16px 2px;
+}

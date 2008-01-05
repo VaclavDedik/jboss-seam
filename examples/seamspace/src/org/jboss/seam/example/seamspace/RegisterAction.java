@@ -1,7 +1,6 @@
 package org.jboss.seam.example.seamspace;
 
 import java.util.Date;
-import java.util.HashSet;
 
 import javax.ejb.Remove;
 import javax.ejb.Stateful;
@@ -74,6 +73,23 @@ public class RegisterAction implements Register
    @Observer(JpaIdentityStore.EVENT_ACCOUNT_CREATED)
    public void accountCreated(MemberAccount account)
    {
+      // The user *may* have been created from the user manager screen. In that
+      // case, create a dummy Member record just for the purpose of demonstrating the
+      // identity management API
+      if (newMember == null)
+      {
+         newMember = new Member();
+         newMember.setMemberName(account.getUsername());
+         newMember.setGender(Member.Gender.male);
+         newMember.setFirstName("John");
+         newMember.setLastName("Doe");
+         newMember.setEmail(account.getUsername() + "@nowhere.com");
+         newMember.setDob(new Date());
+         newMember.setMemberSince(new Date());
+         entityManager.persist(newMember);
+      }
+      
+      account.setMember(newMember);
       this.newAccount = account;
    }
 

@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.jboss.seam.security.management.UserAccount;
 
@@ -43,7 +42,6 @@ public class MemberAccount extends UserAccount implements Serializable
    }
    
    @NotNull
-   @Length(min = 4, max = 20)
    @Override
    public String getUsername()
    {
