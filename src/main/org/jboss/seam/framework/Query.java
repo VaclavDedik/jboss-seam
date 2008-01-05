@@ -254,6 +254,11 @@ public abstract class Query<T, E>
       return parameterValue!=null && !"".equals(parameterValue);
    }
 
+   /**
+    * Return the ejbql to used in a count query (for calculating number of
+    * results)
+    * @return
+    */
    protected String getCountEjbql()
    {
       String ejbql = getRenderedEjbql();
