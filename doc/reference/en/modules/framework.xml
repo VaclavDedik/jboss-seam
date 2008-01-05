@@ -77,7 +77,7 @@ public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
         </para>
         
         <para>
-            At this time, the Seam Application Framework provides just four
+            At this time, the Seam Application Framework provides four main
             built-in components: <literal>EntityHome</literal> and
             <literal>HibernateEntityHome</literal> for CRUD, along with
             <literal>EntityQuery</literal> and <literal>HibernateEntityQuery</literal>
