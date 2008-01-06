@@ -20,6 +20,10 @@ public abstract class AbstractEntityLoader<T> extends PersistenceController<T>
    @Transactional
    public Object get(String key)
    {
+      if (getPersistenceContext() == null)
+      {
+         throw new IllegalStateException("Unable to get a Persistence Context to load Entity. Make sure you have an SMPC called entityManager configured in components.xml (or have correctly configured s:convertEntity to use another SMPC).");
+      }
       Identifier identifier = EntityIdentifierStore.instance().get(key);
       if (identifier != null)
       {
@@ -38,7 +42,11 @@ public abstract class AbstractEntityLoader<T> extends PersistenceController<T>
     */
    @Transactional
    public String put(Object entity)
-   {      
+   {
+      if (getPersistenceContext() == null)
+      {
+         throw new IllegalStateException("Unable to get a Persistence Context to store Entity. Make sure you have an SMPC called entityManager configured in components.xml (or have correctly configured s:convertEntity to use another SMPC).");
+      }
       return EntityIdentifierStore.instance().put(createIdentifier(entity), entity);
    }
    
