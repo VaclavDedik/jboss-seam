@@ -387,6 +387,10 @@ C:\Projects\jboss-seam&gt;</programlisting>
             <listitem>
                 <para>Seam debug mode must be enabled</para>
             </listitem>
+            
+            <listitem>
+               <para>You must have the Seam filter installed in web.xml</para>
+            </listitem>
         </itemizedlist>
 
         <para>If you create a WAR project using seam-gen, incremental hot deployment is available out of the box for
