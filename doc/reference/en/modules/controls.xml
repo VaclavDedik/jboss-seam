@@ -1138,7 +1138,7 @@
              </itemizedlist>
              <para><emphasis>Usage</emphasis></para>
              <programlisting><![CDATA[<h:selectOneMenu value="#{person.age}" 
-                 converter="#{converters.ageConverter}">
+                 converter="ageConverter">
   <s:selectItems value="#{ages}" var="age" label="#{age}" />
 </h:selectOneMenu>]]></programlisting>
           </entry>
