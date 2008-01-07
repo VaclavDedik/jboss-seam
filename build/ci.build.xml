@@ -81,7 +81,7 @@
 	</target>
 	
 	<target name="deployDocumentation" depends="initdav, initpoms">
-		<deploy pom="${docs.pom}" jar="${dist.ref.dir}/en/pdf/seam_reference.pdf" unique="false" repositoryId="repository.jboss.org"/>
+		<deploy pom="${docs.pom}" jar="${dist.ref.dir}/en/pdf/seam_reference.pdf" unique="false" repositoryId="snapshots.jboss.org"/>
 	</target>
 
 	<macrodef name="build">
