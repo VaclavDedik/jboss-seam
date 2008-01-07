@@ -527,7 +527,7 @@ public class SeamPhaseListener implements PhaseListener
          
          Manager.instance().handleConversationPropagation(parameters);
          
-         if ( Init.instance().isJbpmInstalled() )
+         if ( Init.instance().isJbpmInstalled() && !isExceptionHandlerRedirect() )
          {
             Pageflow.instance().validatePageflow(facesContext);
          }
@@ -561,6 +561,11 @@ public class SeamPhaseListener implements PhaseListener
             }
          }
       }
+   }
+   
+   private boolean isExceptionHandlerRedirect()
+   {
+      return Contexts.getConversationContext().isSet("org.jboss.seam.handledException");
    }
       
    void begin(PhaseId phaseId) 
