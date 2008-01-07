@@ -1282,11 +1282,10 @@
         <literal>@Converter</literal>
       </term>
       <listitem>
-        <programlisting>
-<![CDATA[@Name("fooConverter") 
+        <programlisting><![CDATA[@Name("itemConverter") 
 @BypassInterceptors 
 @Converter
-public class FooConverter implements Converter {
+public class ItemConverter implements Converter {
    
   @Transactional
   public Object getAsObject(FacesContext context, UIComponent cmp, String value) {
@@ -1300,12 +1299,15 @@ public class FooConverter implements Converter {
   }
   
 }]]></programlisting>
-            <para>
-              Registers the Seam component as a JSF converter.  Shown here is a 
-              converter which is able to access the JPA EntityManager inside a 
-              JTA transaction, when converting the value back to it's object
-              representation.
-            </para>
+
+          <programlisting><![CDATA[<h:inputText value="#{shop.item}" converter="itemConverter" />]]></programlisting>
+            
+          <para>
+            Registers the Seam component as a JSF converter.  Shown here is a 
+            converter which is able to access the JPA EntityManager inside a 
+            JTA transaction, when converting the value back to it's object
+            representation.
+          </para>
         </listitem>
     </varlistentry>
     <varlistentry>
@@ -1313,19 +1315,20 @@ public class FooConverter implements Converter {
         <literal>@Validator</literal>
       </term>
       <listitem>
-        <programlisting>
-<![CDATA[@Name("barValidator") 
+        <programlisting><![CDATA[@Name("itemValidator") 
 @BypassInterceptors 
 @Validator
-public class BarValidator implements Validator {
+public class ItemValidator implements Validator {
    
   public void validate(FacesContext context, UIComponent cmp, Object value)
     throws ValidatorException {
-    FooController fooController = (FooController) Component.getInstance("fooController");
-    return fooController.validate(value);
+    ItemController ItemController = (ItemController) Component.getInstance("itemController");
+    return itemController.validate(value);
   }
   
-}]]></programlisting>
+  }]]></programlisting>
+         
+         <programlisting><![CDATA[<h:inputText value="#{shop.item}" validator="itemValidator" />]]></programlisting>
             <para>
               Registers the Seam component as a JSF validator.  Shown here is a 
               validator which injects another Seam component; the injected 
