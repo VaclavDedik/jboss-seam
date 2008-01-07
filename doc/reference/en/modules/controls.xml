@@ -270,7 +270,7 @@
             <para>
               If you want to use more than one entity manager with the entity 
               converter, you can create a copy of the entity converter for each
-              entity manager; in components.xml:
+              entity manager in components.xml:
             </para>
             
             <programlisting><![CDATA[<component name="myEntityConverter" class="org.jboss.seam.ui.converter.EntityConverter">
