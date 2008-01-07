@@ -124,7 +124,7 @@
     <xs:element name="restrict" type="xs:string"/>
     <xs:element name="navigation">
         <xs:complexType>
-            <xs:choice>
+            <xs:choice maxOccurs="2">
                 <xs:sequence>
                     <xs:choice minOccurs="0">
                         <xs:element ref="pages:begin-conversation"/>
