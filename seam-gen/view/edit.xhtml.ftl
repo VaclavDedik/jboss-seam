@@ -89,7 +89,7 @@
 </#if>
     <div class="association" id="${property.name}Parent">
     
-        <h:outputText value="No ${property.name}" 
+        <h:outputText value="There is no ${property.name} associated with this ${componentName}." 
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
         
         <rich:dataTable var="${parentName}" 
@@ -170,7 +170,7 @@
 <#assign childPageName = childPojo.shortName>
 <#assign childEditPageName = childPojo.shortName + "Edit">
 <#assign childName = util.lower(childPojo.shortName)>
-            <h:outputText value="No ${property.name}" 
+            <h:outputText value="There are no ${property.name} associated with this ${componentName}." 
                        rendered="${'#'}{empty ${homeName}.${property.name}}"/>
         
             <rich:dataTable value="${'#'}{${homeName}.${property.name}}" 

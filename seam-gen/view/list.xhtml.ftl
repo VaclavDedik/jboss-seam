@@ -61,7 +61,7 @@
         <f:facet name="header">${entityName} search results</f:facet>
     <div class="results" id="${componentName}List">
 
-    <h:outputText value="No ${componentName} exists" 
+    <h:outputText value="The ${componentName} search returned no results." 
                rendered="${'#'}{empty ${listName}.resultList}"/>
                
     <rich:dataTable id="${listName}" 

@@ -71,7 +71,7 @@
 	<ice:panelTab id="view${property.name}panelTab" label="${property.name}">
    		<div class="association" id="${property.name}Parent">
         
-       		 <h:outputText value="No ${property.name}" 
+       		 <h:outputText value="There is no ${property.name} associated with this ${componentName}." 
 		                  id="view${property.name}TextId"
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
    
@@ -145,7 +145,7 @@
 <#assign childEditPageName = childPojo.shortName + "Edit">
 <#assign childName = util.lower(childPojo.shortName)>
 <#assign childHomeName = childName + "Home">
-        <h:outputText value="No ${property.name}" 
+        <h:outputText value="There are no ${property.name} associated with this ${componentName}." 
 	                 id="view${property.name}ChildTextId"
                    rendered="${'#'}{empty ${homeName}.${property.name}}"/>
         

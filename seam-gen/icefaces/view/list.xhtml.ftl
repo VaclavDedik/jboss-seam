@@ -75,7 +75,7 @@
     <h3>${componentName}  search results</h3>
 
     <div class="searchResults" id="list${componentName}Results">
-    <ice:outputText value="No ${componentName} exists" 
+    <ice:outputText value="The ${componentName} search returned no results." 
                rendered="${'#'}{empty ${listName}.resultList}"/>
                
     <ice:dataTable id="${listName}TableId" 

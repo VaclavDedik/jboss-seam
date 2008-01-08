@@ -96,7 +96,7 @@
 </#if>
 		<div class="association" id="${property.name}Parent">
     
-        	<h:outputText id="edit${property.name}TextId" value="No ${property.name}" 
+        	<h:outputText id="edit${property.name}TextId" value="There is no ${property.name} associated with this ${componentName}." 
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
        	<ice:dataTable var="${parentName}" 
                    value="${'#'}{${homeName}.instance.${property.name}}" 
@@ -176,7 +176,7 @@
 <#assign childPageName = childPojo.shortName>
 <#assign childEditPageName = childPojo.shortName + "Edit">
 <#assign childName = util.lower(childPojo.shortName)>
-            <h:outputText value="No ${property.name}" 
+            <h:outputText value="There are no ${property.name} associated with this ${componentName}." 
 	                     id="edit${property.name}TextId"
                        rendered="${'#'}{empty ${homeName}.${property.name}}"/>
            <ice:dataTable value="${'#'}{${homeName}.${property.name}}" 
