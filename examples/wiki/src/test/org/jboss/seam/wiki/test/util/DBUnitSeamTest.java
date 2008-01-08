@@ -19,18 +19,21 @@ import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
 import javax.sql.DataSource;
-import java.io.InputStream;
-import java.io.FileInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
-import java.net.URL;
 
 /**
  * Utility for integration testing with Seam and DBUnit datasets.
@@ -134,9 +137,8 @@ public abstract class DBUnitSeamTest extends SeamTest {
     }
 
     @BeforeClass
-    @Override
-    public void init() throws Exception {
-        super.init();
+    public void setupClass() throws Exception {
+        super.setupClass();
         prepareDBUnitOperations();
     }
 
