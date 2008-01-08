@@ -12,6 +12,7 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 import org.hibernate.validator.InvalidValue;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.SeamResourceBundle;
 import org.jboss.seam.core.Validators;
 import org.jboss.seam.core.Expressions.ValueExpression;
@@ -164,7 +165,8 @@ public final class Param
 
       if (parameterValues==null || parameterValues.length==0)
       {
-         if ( isRequired() )
+         // Page parameters are propagated in the page context through faces requests
+         if ( isRequired() && !Contexts.getPageContext().isSet( getName() ) )
          {
             addRequiredMessage(facesContext);
          }
