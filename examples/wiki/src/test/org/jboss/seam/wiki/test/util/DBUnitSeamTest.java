@@ -19,9 +19,12 @@ import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.mock.SeamTest;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Parameters;
 
 import javax.sql.DataSource;
@@ -141,6 +144,41 @@ public abstract class DBUnitSeamTest extends SeamTest {
         super.setupClass();
         prepareDBUnitOperations();
     }
+    
+    @Override
+    @AfterClass
+    protected void cleanupClass() throws Exception
+    {
+        super.cleanupClass();
+    }
+    
+    @Override
+    @BeforeSuite
+    protected void startSeam() throws Exception
+    {
+        super.startSeam();
+    }
+    
+    @Override
+    @AfterSuite
+    protected void stopSeam() throws Exception
+    {
+        super.stopSeam();
+    }
+    
+    @Override
+    public void init() throws Exception
+    {
+        // no-op
+    }
+   
+    @Override
+    public void cleanup() throws Exception
+    {
+        // no-op
+    }
+    
+    
 
     @BeforeMethod
     @Override

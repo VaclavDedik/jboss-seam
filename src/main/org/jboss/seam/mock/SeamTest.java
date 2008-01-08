@@ -8,12 +8,8 @@ package org.jboss.seam.mock;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
 
 /**
  * Provides BaseSeamTest functionality for TestNG integration tests.
@@ -21,7 +17,6 @@ import org.testng.annotations.BeforeTest;
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @author Mike Youngstrom
- * @author Pete Muir
  */
 public class SeamTest extends BaseSeamTest
 {
@@ -41,45 +36,17 @@ public class SeamTest extends BaseSeamTest
    }
 
    @Override
-   @Deprecated
+   @BeforeClass
    public void init() throws Exception
    {
       super.init();
    }
 
    @Override
-   @Deprecated
+   @AfterClass
    public void cleanup() throws Exception
    {
       super.cleanup();
-   }
-   
-   @Override
-   @BeforeSuite
-   public void startSeam() throws Exception
-   {
-      super.startSeam();
-   }
-   
-   @Override
-   @AfterSuite
-   public void stopSeam() throws Exception
-   {
-      super.stopSeam();
-   }
-   
-   @Override
-   @BeforeClass
-   public void setupClass() throws Exception
-   {
-      super.setupClass();
-   }
-   
-   @Override
-   @AfterClass
-   protected void cleanupClass() throws Exception
-   {
-      super.cleanupClass();
    }
 
    /**

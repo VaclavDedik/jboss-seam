@@ -918,7 +918,6 @@ public class BaseSeamTest
       session = null;
    }
 
-   @Deprecated
    public void init() throws Exception
    {
       startSeam();
@@ -981,7 +980,6 @@ public class BaseSeamTest
       conversationViewRootAttributes = null;
    }
 
-   @Deprecated
    public void cleanup() throws Exception
    {
       cleanupClass();
