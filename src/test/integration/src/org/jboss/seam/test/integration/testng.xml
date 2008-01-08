@@ -64,4 +64,10 @@
           <class name="org.jboss.seam.test.integration.SeamMockELResolverTest" />
         </classes>
     </test>
+    
+    <test name="Seam Core - Integration: Pages.xml">
+        <classes>
+          <class name="org.jboss.seam.test.integration.PageParamTest" />
+        </classes>
+    </test>
 </suite>

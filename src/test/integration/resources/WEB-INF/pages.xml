@@ -12,6 +12,14 @@
     <page view-id="/pageWithAnotherDescription.xhtml">
     	<description>another page description</description>
     </page>
+    
+    <page view-id="/pageWithParameter.xhtml">
+        <param name="personName" value="#{person.name}" />
+    </page>
+    
+    <page view-id="/pageWithRequiredParameter.xhtml">
+        <param name="personName" value="#{person.name}" required="true"/>
+    </page>
 
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
