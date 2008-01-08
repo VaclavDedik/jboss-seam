@@ -173,9 +173,13 @@
 	    	     validargs="y,n,"
 	          defaultvalue="${old.icefaces}" />
 
+        <condition property="richfaces.skin.new" value="">
+            <equals arg1="${icefaces.new}" arg2="y"/>
+        </condition>
+
         <property name="old.richfaces.skin" value="blueSky"/>
         <input addproperty="richfaces.skin.new" 
-                   message="Select a RichFaces skin (not applicable if using ICEFaces) [${old.richfaces.skin}]" 
+                   message="Select a RichFaces skin [${old.richfaces.skin}]" 
                  validargs="blueSky,classic,ruby,wine,deepMarine,emeraldTown,sakura,DEFAULT"
               defaultvalue="${old.richfaces.skin}"/>
         
