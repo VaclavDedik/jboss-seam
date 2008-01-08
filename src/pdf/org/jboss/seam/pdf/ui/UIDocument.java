@@ -1,21 +1,28 @@
 package org.jboss.seam.pdf.ui;
 
-import org.jboss.seam.core.Manager;
-import org.jboss.seam.navigation.Pages;
-import org.jboss.seam.pdf.DocumentData;
-import org.jboss.seam.pdf.ITextUtils;
-import org.jboss.seam.pdf.DocumentStore;
-import org.jboss.seam.pdf.DocumentData.DocumentType;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
-import javax.faces.context.*;
+import javax.faces.context.FacesContext;
 
-import java.io.*;
+import org.jboss.seam.core.Manager;
+import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.pdf.DocumentData;
+import org.jboss.seam.pdf.DocumentStore;
+import org.jboss.seam.pdf.ITextUtils;
+import org.jboss.seam.pdf.DocumentData.DocumentType;
 
-import com.lowagie.text.*;
+import com.lowagie.text.DocWriter;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Rectangle;
 import com.lowagie.text.html.HtmlWriter;
-import com.lowagie.text.pdf.*;
+import com.lowagie.text.pdf.PdfTemplate;
+import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.rtf.RtfWriter2;
 
 public class UIDocument 
