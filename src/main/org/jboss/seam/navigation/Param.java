@@ -70,7 +70,7 @@ public final class Param
    {
       if (validatorId!=null)
       {
-         return FacesContext.getCurrentInstance().getApplication().createValidator(converterId);
+         return FacesContext.getCurrentInstance().getApplication().createValidator(validatorId);
       }
       else if (validatorValueExpression!=null)
       {
