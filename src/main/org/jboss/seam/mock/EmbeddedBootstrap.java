@@ -1,14 +1,13 @@
 package org.jboss.seam.mock;
 
 import org.jboss.embedded.Bootstrap;
-import org.jboss.seam.mock.embedded.BootstrapWrapper;
 
 public class EmbeddedBootstrap
 {
    
    public void startAndDeployResources() throws Exception
    {
-      Bootstrap bootstrap = BootstrapWrapper.getInstance();
+      Bootstrap bootstrap = Bootstrap.getInstance();
       bootstrap.bootstrap();
 
       if (resourceExists("seam.properties")) 
