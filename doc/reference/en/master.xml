@@ -34,6 +34,7 @@
 <!ENTITY testing                SYSTEM "modules/testing.xml">
 <!ENTITY tools                  SYSTEM "modules/tools.xml">
 <!ENTITY oc4j                   SYSTEM "modules/oc4j.xml">
+<!ENTITY weblogic                   SYSTEM "modules/weblogic.xml">
 <!ENTITY dependencies           SYSTEM "modules/dependencies.xml">
 ]>
 
@@ -362,6 +363,7 @@
 	  &hsearch;
     &configuration;
     &oc4j;
+    &weblogic;
     &annotations;
     &components;
     &controls;
