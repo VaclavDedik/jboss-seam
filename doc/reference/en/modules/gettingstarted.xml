@@ -385,7 +385,8 @@ C:\Projects\jboss-seam&gt;</programlisting>
             </listitem>
 
             <listitem>
-                <para>Seam debug mode must be enabled</para>
+               <para>Seam debug mode must be enabled and <literal>jboss-seam-debug.jar</literal>
+                   must be in <literal>WEB-INF/lib</literal></para>
             </listitem>
             
             <listitem>
