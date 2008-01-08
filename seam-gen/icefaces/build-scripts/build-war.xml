@@ -183,6 +183,7 @@
                 <include name="jboss-seam-*.jar" />
                 <exclude name="jboss-seam-gen.jar" />
                 <include name="drools-*.jar"/>
+                <include name="core.jar"/>
                 <include name="janino*.jar"/>
                 <include name="antlr-*.jar"/>
                 <include name="mvel*.jar"/>
