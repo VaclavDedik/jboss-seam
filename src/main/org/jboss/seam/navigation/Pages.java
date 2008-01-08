@@ -572,7 +572,9 @@ public class Pages
 
    protected void notLoggedIn()
    {
+//    TODO - Deprecated, remove for next major release
       Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
+      Events.instance().raiseEvent(Identity.EVENT_NOT_LOGGED_IN);
       
       FacesMessages.instance().addFromResourceBundleOrDefault( 
             FacesMessage.SEVERITY_WARN, 
