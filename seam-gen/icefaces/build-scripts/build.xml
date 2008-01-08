@@ -110,7 +110,6 @@
                         <filterset>
                             <filter token="debug" value="${debug}" />
                             <filter token="jndiPattern" value="${project.name}/#{ejbName}/local" />
-                            <filter token="embeddedEjb" value="false" />
                         </filterset>
                 </copy>         
                 <copy todir="${war.dir}/WEB-INF">
