@@ -6,12 +6,16 @@ import static javax.mail.Message.RecipientType.CC;
 import java.io.InputStream;
 
 import javax.faces.FacesException;
+import javax.faces.context.FacesContext;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.jboss.seam.mail.ui.UIAttachment;
+import org.jboss.seam.mail.ui.UIMessage;
+import org.jboss.seam.pdf.DocumentData;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.mail.Person;
 import org.jboss.seam.mail.MailSession;
@@ -182,6 +186,42 @@ public class MailTest extends SeamTest
             }            
         }.run();
        
+    }
+    
+    /**
+     * This test is needed since the PDF is not rendered in the attachment test.
+     * If PDF rendering is supported in a test environment, then this test can be
+     * removed.
+     */
+    @Test
+    public void testPdfAttachment() throws Exception
+    {
+       new FacesRequest()
+       {
+          @Override
+          protected void invokeApplication() throws Exception
+          {
+             UIAttachment attachment = new UIAttachment();
+             attachment.setFileName("filename.pdf");
+             UIMessage message = new UIMessage();
+             message.setMailSession(MailSession.instance());
+             attachment.setParent(message);
+             DocumentData doc = new DocumentData("filename", new DocumentData.DocumentType("pdf", "application/pdf"), new byte[] {});
+             attachment.setValue(doc);
+             attachment.encodeEnd(FacesContext.getCurrentInstance());
+             
+             // verify we built the message
+             MimeMessage mimeMessage = message.getMimeMessage();
+             Object content = mimeMessage.getContent();
+             assert content instanceof MimeMultipart;
+             MimeMultipart multipartContent = (MimeMultipart) content;
+             assert multipartContent.getCount() == 1;
+             assert multipartContent.getBodyPart(0) instanceof MimeBodyPart;
+             MimeBodyPart bodyPart = (MimeBodyPart) multipartContent.getBodyPart(0);
+             assert "filename.pdf".equals(bodyPart.getFileName());
+             assert "attachment".equals(bodyPart.getDisposition());
+          }
+       }.run();
     }
     
     @Test

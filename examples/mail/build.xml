@@ -28,5 +28,10 @@
       <path location="${lib.dir}/jboss-seam-ui.jar" />
     </path>
 
+    <path id="build.classpath.extras">
+      <path location="${lib.dir}/jboss-seam-mail.jar" />
+      <path location="${lib.dir}/jboss-seam-pdf.jar" />
+    </path>
+
 </project>
 
