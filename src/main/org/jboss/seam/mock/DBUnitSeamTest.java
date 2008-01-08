@@ -107,8 +107,8 @@ public abstract class DBUnitSeamTest extends SeamTest {
 
     @BeforeClass
     @Override
-    public void init() throws Exception {
-        super.init();
+    public void setupClass() throws Exception {
+        super.setupClass();
         prepareDBUnitOperations();
     }
 
