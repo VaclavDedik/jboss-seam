@@ -1,6 +1,5 @@
 package org.jboss.seam.test.integration;
 
-import org.jboss.seam.RequiredException;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
