@@ -129,7 +129,7 @@ public class UIAttachment extends MailComponent implements ValueHolder
          else if (Reflections.isInstanceOf(getValue().getClass(), "org.jboss.seam.pdf.DocumentData"))
          {
             Method dataGetter = Reflections.getGetterMethod(getValue().getClass(), "data");
-            Method docTypeGetter = Reflections.getGetterMethod(getValue().getClass(), "docType");
+            Method docTypeGetter = Reflections.getGetterMethod(getValue().getClass(), "documentType");
             Object docType = Reflections.invokeAndWrap(docTypeGetter, getValue());
             Method mimeTypeGetter = Reflections.getGetterMethod(docType.getClass(), "mimeType");
             ds = new ByteArrayDataSource((byte[]) Reflections.invokeAndWrap(dataGetter, getValue()), (String) Reflections.invokeAndWrap(mimeTypeGetter, docType));
