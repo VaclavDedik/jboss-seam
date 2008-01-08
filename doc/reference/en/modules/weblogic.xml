@@ -64,52 +64,42 @@
             details or if you are having any issues please check with the BEA docs
             at the <ulink
                url="http://edocs.bea.com/wls/essex/TechPreview/"> Tech
-            Preview Doc Center </ulink> . I installed the RHEL 5 version using the
-            graphical installer which are the steps below. </para>
+            Preview Doc Center </ulink> . Here we install the RHEL 5 version using the
+            graphical installer: </para>
          
          <orderedlist>
             <listitem>
-               <para> Following the link given above for 10.3.TP and download
+               <para> Follow the link given above for 10.3.TP and download
                   the correct version for your environment. You will need to
                   sign up for an account with BEA in order to do this. </para>
             </listitem>
             <listitem>
                <para> You may need to change the the
                   <literal>server103tp_XX.bin</literal> file to be
-                  executable:
-                  
-                  
-                  <programlisting>chmod a+x server103tp_XX.bin</programlisting>
-                  </para>
+                  executable: </para>
+               <programlisting>chmod a+x server103tp_XX.bin</programlisting>
             </listitem>
             <listitem>
-               <para> Execute the install :
-                  
-                  
-                  <programlisting>./server103tp_XX.bin</programlisting>
-                  </para>
+               <para> Execute the install: </para>
+               <programlisting>./server103tp_XX.bin</programlisting>
             </listitem>
             <listitem>
-               <para> When the graphical install loads you need to set the BEA
+               <para> When the graphical install loads, you need to set the BEA
                   home location. This is where all BEA applications are
-                  installed. This location will be know as
-                  <literal>$BEA_HOME</literal> in this document. I chose:
-                  <programlisting>/home/jbalunas/bea</programlisting>
-                  </para>
+                  installed. This location will be known as
+                  <literal>$BEA_HOME</literal> in this document e.g.: </para>
+               <programlisting>/home/jbalunas/bea</programlisting>
             </listitem>
             <listitem>
-               <para> Select <literal>Complete</literal> for an
+               <para> Select <literal>Complete</literal> as the
                   installation type. You do not need all the extras of the
                   complete install (such as struts and beehive libraries), but
                   it will not hurt. </para>
             </listitem>
             <listitem>
                <para> Then you need to tell it where to install the server
-                  components:
-                  
-                  
-                  <programlisting>$BEA_HOME/wlserver_10.3tp</programlisting>
-                  </para>
+                  components: </para>
+               <programlisting>$BEA_HOME/wlserver_10.3tp</programlisting>
             </listitem>
          </orderedlist>
       </section>
@@ -123,15 +113,12 @@
          
          <orderedlist>
             <listitem>
-               <para> Start up the Weblogic configuration wizard:
-                  
-                  
-                  <programlisting>$BEA_HOME/wlserver_10.3tp/common/bin/config.sh</programlisting>
-                  </para>
+               <para> Start up the Weblogic configuration wizard:</para>
+               <programlisting>$BEA_HOME/wlserver_10.3tp/common/bin/config.sh</programlisting>
             </listitem>
             <listitem>
                <para> Choose to create a new domain, configured to support
-                  <literal>Weblogic Server TP</literal> . Note that this is
+                  <literal>Weblogic Server TP</literal>. Note that this is
                   the default domain option. </para>
             </listitem>
             <listitem>
@@ -143,7 +130,7 @@
             </listitem>
             <listitem>
                <para> The next screen asks if you want to customize any setting.
-                  Select <literal>No</literal> . </para>
+                  Select <literal>No</literal>. </para>
             </listitem>
             <listitem>
                <para> Finally set the name of the domain to
@@ -214,9 +201,9 @@
                   <listitem>
                      <para> Hitting <literal>Ctrl-C</literal> in the
                         terminal where you started the domain.</para>
-                     <para> I have not seen any negative effects, but I would not
-                        do this while in the middle of configuration changes in
-                        the console. </para>
+                     <para> No negative effects have been seen, but we would not
+                        recommend doing this while in the middle of 
+                        configuration changes in the console. </para>
                   </listitem>
                </itemizedlist>
             </listitem>
@@ -249,11 +236,19 @@
             
             
             <programlisting><![CDATA[java.io.IOException: Compiler failed executable.exec: 
-/home/jbalunas/bea/wlserver_10.3tp/user_projects/domains/seam_examples/servers/AdminServer/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:194: modifier transient not allowed here
-  public transient javax.ejb.Timer scheduleAsynchronousEvent(java.lang.String arg0, java.lang.Object[] arg1)
+/home/jbalunas/bea/wlserver_10.3tp/user_projects/domains/seam_examples/servers/AdminServer
+/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/
+TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:194: modifier transient 
+not allowed here
+  public transient javax.ejb.Timer scheduleAsynchronousEvent(java.lang.String arg0,
+  java.lang.Object[] arg1)
                                    ^
-/home/jbalunas/bea/wlserver_10.3tp/user_projects/domains/seam_examples/servers/AdminServer/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:275: modifier transient not allowed here
-  public transient javax.ejb.Timer scheduleTimedEvent(java.lang.String arg0, org.jboss.seam.async.TimerSchedule arg1, java.lang.Object[] arg2)]]></programlisting>
+/home/jbalunas/bea/wlserver_10.3tp/user_projects/domains/seam_examples/servers/AdminServer
+/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/
+TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:275: modifier transient
+not allowed here
+  public transient javax.ejb.Timer scheduleTimedEvent(java.lang.String arg0, 
+  org.jboss.seam.async.TimerSchedule arg1, java.lang.Object[] arg2)]]></programlisting>
             BEA says that this is a bug with Java specification. Sun admits the
             issue, and provides a work around, and will not fix the core issue.
             
@@ -283,12 +278,13 @@
          <section>
             <title>Secondary issue with the Tech Preview</title>
             <para>A less severe issue is also present in the tech preview version
-               of weblogic. You can not use any JPA provider with EJB's except for
-               the default <literal>kodo or openJPA</literal>
+               of Weblogic. You can not use any JPA provider with EJB's except for
+               the default <literal>kodo</literal> or <literal>openJPA</literal>
                implementation. As you set up this example you will run into this
                issue before the <literal>varargs</literal> problem.
-               Unfortunately this issue does not help the blocker stated above,
-               but is important to know.</para>
+               Unfortunately using <literal>kodo</literal> or <literal>openJPA</literal>
+               does not help with the blocker described above but is important 
+               to know.</para>
             
             <para>Other users have seen this issue with the tech preview and I
                would hope/expect that it will be fixed in future releases (
@@ -300,8 +296,7 @@
       </section>
       
       <section>
-         <title>Getting the <literal>jee5/booking</literal> example to the
-            blocked point</title>
+         <title>The <literal>jee5/booking</literal> example</title>
          <para>In this section will will quickly go over the steps needed to get
             the <literal>jee5/booking</literal> example to the point that
             blocker shows itself.</para>
@@ -513,13 +508,19 @@
                
                <programlisting><![CDATA[ <Error> <EJB> <BEA-012036> <Compiling generated EJB classes produced the following Java compiler error message:
 
-/home/jbalunas/bea/user_projects/domains/seam_examples/servers/AdminServer/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:32:
+/home/jbalunas/bea/user_projects/domains/seam_examples/servers/AdminServer/cache/
+EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/
+TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:32:
                 modifier transient not allowed here
-  public transient void scheduleTransactionSuccessEvent(java.lang.String arg0, java.lang.Object[] arg1)
+  public transient void scheduleTransactionSuccessEvent(java.lang.String arg0,
+  java.lang.Object[] arg1)
                         ^
-/home/jbalunas/bea/user_projects/domains/seam_examples/servers/AdminServer/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:113:
+/home/jbalunas/bea/user_projects/domains/seam_examples/servers/AdminServer/cache/
+EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/
+TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:113:
                 modifier transient not allowed here
-  public transient javax.ejb.Timer scheduleAsynchronousEvent(java.lang.String arg0, java.lang.Object[] arg1)
+  public transient javax.ejb.Timer scheduleAsynchronousEvent(java.lang.String arg0,
+  java.lang.Object[] arg1)
 
 ...
 ]]></programlisting></para>
@@ -541,7 +542,7 @@
       
       <para> First we'll build the example for Weblogic 10.x and do the needed
          steps to deploy. Then we'll talk about what is different between the
-         weblogic versions, and with the JBoss AS version. </para>
+         Weblogic versions, and with the JBoss AS version. </para>
       
       <section>
          <title>Building and deploying <literal>jpa</literal> booking
@@ -587,15 +588,14 @@
                archive directories.</para>
          </section>
          <section>
-            <title>deploying the example</title>
+            <title>Deploying the example</title>
             
             <para> When we installed Weblogic following <xref
                   linkend="weblogic-domain"/> we chose to have the domain in
                development mode. This means to deploy the application all we
-               need to do is copy it into the autodeploy directory.
+               need to do is copy it into the autodeploy directory.</para>
                
-               
-               <programlisting>cp  ./dist-weblogic10/jboss-seam-jpa.war /home/jbalunas/bea/user_projects/domains/seam_examples/autodeploy</programlisting></para>
+               <programlisting>cp  ./dist-weblogic10/jboss-seam-jpa.war /home/jbalunas/bea/user_projects/domains/seam_examples/autodeploy</programlisting>
             
             <para>Check out the application at the following
                <literal>http://localhost:7001/jboss-seam-jpa/</literal>
@@ -611,14 +611,13 @@
             database and a pre-installed data source if you chose to install the
             "example" domains.</para>
          
-         <para>Like OC4J, Weblogic 10.x use an older version of ANLR, so we need to
+         <para>Like OC4J, Weblogic 10.x use an older version of ANTLR, so we need to
             use an alternative query factory. This is done by adding the
             following property in the <literal>persistence.xml</literal>
-            file.
-            
-            
+            file.</para>
+                        
             <programlisting><![CDATA[<property name="hibernate.query.factory_class" 
-   value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory"/>]]></programlisting></para>
+   value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory"/>]]></programlisting>
          
          <para>There are certainly more differences with the Weblogic versions
             and the JBoss version, but none of them major except for library
@@ -635,10 +634,9 @@
                </listitem>
                <listitem>
                   <para><literal>components.xml</literal> &#8212; JBoss
-                     version uses the built in entity manager via:
+                     version uses the built in entity manager via:</para>
                      
-                     
-                     <programlisting><![CDATA[ <transaction:entity-transaction entity-manager="#{em}"/>]]></programlisting></para>
+                  <programlisting><![CDATA[ <transaction:entity-transaction entity-manager="#{em}"/>]]></programlisting>
                </listitem>
                <listitem>
                   <para><literal>jboss-web.xml</literal> &#8212; JBoss
@@ -782,14 +780,14 @@
       <title> Deploying an application created using
          <literal>seam-gen</literal> on Weblogic 10.x</title>
       
-      <para><literal>seam-gen</literal> is a a very useful tool for developers
-         to quickly get an application up and running, and provides a fountation
+      <para><literal>seam-gen</literal> is a very useful tool for developers
+         to quickly get an application up and running, and provides a foundation
          to add your own functionality. Out of box <literal>seam-gen</literal>
          will produce applications configured to run on JBoss AS. These
          instructions will show the steps needed to get it to run on Weblogic.
          </para>
-      <para><literal>seam-gen</literal> was build for simplicity so as you can
-         image deploying an application generated by
+      <para><literal>seam-gen</literal> was build for simplicity so, as you can
+         imagine, deploying an application generated by
          <literal>seam-gen</literal> to Weblogic 10.x is not too hard.
          Basically it consists of updating or removing some configuration
          files, and adding dependent jars that Weblogic 10.x does not ship
