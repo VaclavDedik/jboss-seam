@@ -5,14 +5,17 @@
 
 <faces-config>
 
-
    <application>
-   <message-bundle>messages</message-bundle>
+      <message-bundle>messages</message-bundle>
       <locale-config>
-    		<default-locale>en</default-locale>
+         <default-locale>en</default-locale>
+         <supported-locale>bg</supported-locale>
+         <supported-locale>de</supported-locale>
+         <supported-locale>en</supported-locale>
+         <supported-locale>fr</supported-locale>
+         <supported-locale>tr</supported-locale>
       </locale-config>
       <view-handler>com.icesoft.faces.facelets.D2DSeamFaceletViewHandler</view-handler>
    </application>
-
 
 </faces-config>
