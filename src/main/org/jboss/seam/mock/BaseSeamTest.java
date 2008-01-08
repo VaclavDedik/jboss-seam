@@ -58,7 +58,7 @@ import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
 
 /**
- * Base class for integration tests for JSF/Seam applications.  This class can be
+ * Base class for integration tests for JSF/Seam applications. This class can be
  * extended or referenced directly for integration with various testing
  * frameworks.
  * 
@@ -123,14 +123,16 @@ public class BaseSeamTest
     */
    public abstract class Script extends Request
    {
-      public Script() {}
+      public Script()
+      {
+      }
 
       public Script(String conversationId)
       {
          super(conversationId);
       }
    }
-   
+
    public abstract class ComponentTest
    {
       /**
@@ -157,11 +159,11 @@ public class BaseSeamTest
          Expressions.instance().createValueExpression(valueExpression).setValue(value);
       }
 
-     protected abstract void testComponents() throws Exception;
-      
+      protected abstract void testComponents() throws Exception;
+
       public void run() throws Exception
       {
-         TestLifecycle.beginTest( servletContext, new ServletSessionMap(session) );
+         TestLifecycle.beginTest(servletContext, new ServletSessionMap(session));
          try
          {
             testComponents();
@@ -186,12 +188,12 @@ public class BaseSeamTest
       private String action;
       private boolean validationFailed;
       private String viewId;
-      
+
       private boolean renderResponseBegun;
       private boolean renderResponseComplete;
       private boolean invokeApplicationBegun;
       private boolean invokeApplicationComplete;
-      
+
       private HttpServletRequest request;
       private HttpServletResponse response;
       private MockFacesContext facesContext;
@@ -210,12 +212,12 @@ public class BaseSeamTest
 
       protected Map<String, String[]> getParameters()
       {
-         return ( (MockHttpServletRequest) externalContext.getRequest() ).getParameters();
+         return ((MockHttpServletRequest) externalContext.getRequest()).getParameters();
       }
 
       protected Map<String, String[]> getHeaders()
       {
-         return ( (MockHttpServletRequest) externalContext.getRequest() ).getHeaders();
+         return ((MockHttpServletRequest) externalContext.getRequest()).getHeaders();
       }
 
       /**
@@ -266,7 +268,9 @@ public class BaseSeamTest
        * A script for a JSF interaction with no existing long-running
        * conversation.
        */
-      protected Request() {}
+      protected Request()
+      {
+      }
 
       /**
        * A script for a JSF interaction in the scope of an existing long-running
@@ -306,25 +310,33 @@ public class BaseSeamTest
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the apply request values phase.
        */
-      protected void applyRequestValues() throws Exception {}
+      protected void applyRequestValues() throws Exception
+      {
+      }
 
       /**
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the process validations phase.
        */
-      protected void processValidations() throws Exception {}
+      protected void processValidations() throws Exception
+      {
+      }
 
       /**
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the update model values phase.
        */
-      protected void updateModelValues() throws Exception {}
+      protected void updateModelValues() throws Exception
+      {
+      }
 
       /**
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the invoke application phase.
        */
-      protected void invokeApplication() throws Exception {}
+      protected void invokeApplication() throws Exception
+      {
+      }
 
       /**
        * Set the outcome of the INVOKE_APPLICATION phase
@@ -333,7 +345,7 @@ public class BaseSeamTest
       {
          this.outcome = outcome;
       }
-      
+
       /**
        * The outcome of the INVOKE_APPLICATION phase
        */
@@ -354,20 +366,26 @@ public class BaseSeamTest
        * Override to implement the interactions between the JSF page and your
        * components that occurs during the render response phase.
        */
-      protected void renderResponse() throws Exception {}
+      protected void renderResponse() throws Exception
+      {
+      }
 
       /**
        * Override to set up any request parameters for the request.
        * 
        * @deprecated use beforeRequest()
        */
-      protected void setup() {}
+      protected void setup()
+      {
+      }
 
       /**
        * Make some assertions, after the end of the request.
        */
-      protected void afterRequest() {}
-      
+      protected void afterRequest()
+      {
+      }
+
       /**
        * Do anything you like, after the start of the request. Especially, set
        * up any request parameters for the request.
@@ -405,8 +423,7 @@ public class BaseSeamTest
          if (ivs.length > 0)
          {
             validationFailed = true;
-            FacesMessage message = FacesMessages.createFacesMessage(FacesMessage.SEVERITY_WARN,
-                     ivs[0].getMessage());
+            FacesMessage message = FacesMessages.createFacesMessage(FacesMessage.SEVERITY_WARN, ivs[0].getMessage());
             FacesContext.getCurrentInstance().addMessage(property, /* TODO */message);
             FacesContext.getCurrentInstance().renderResponse();
          }
@@ -443,8 +460,7 @@ public class BaseSeamTest
        */
       protected void setValue(String valueExpression, Object value)
       {
-         application.getExpressionFactory().createValueExpression(facesContext.getELContext(),
-                  valueExpression, Object.class).setValue(facesContext.getELContext(), value);
+         application.getExpressionFactory().createValueExpression(facesContext.getELContext(), valueExpression, Object.class).setValue(facesContext.getELContext(), value);
       }
 
       /**
@@ -453,13 +469,12 @@ public class BaseSeamTest
        */
       protected boolean validateValue(String valueExpression, Object value)
       {
-         ValueExpression ve = application.getExpressionFactory()
-               .createValueExpression(facesContext.getELContext(), valueExpression, Object.class);
+         ValueExpression ve = application.getExpressionFactory().createValueExpression(facesContext.getELContext(), valueExpression, Object.class);
          InvalidValue[] ivs = Validators.instance().validate(ve, facesContext.getELContext(), value);
          if (ivs.length > 0)
          {
             validationFailed = true;
-            facesContext.addMessage( null, FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, ivs[0].getMessage()) );
+            facesContext.addMessage(null, FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, ivs[0].getMessage()));
             return false;
          }
          else
@@ -467,10 +482,10 @@ public class BaseSeamTest
             return true;
          }
       }
-            
-      protected void onException(Exception e) 
+
+      protected void onException(Exception e)
       {
-          throw new AssertionError(e);
+         throw new AssertionError(e);
       }
 
       /**
@@ -478,9 +493,7 @@ public class BaseSeamTest
        */
       protected Object invokeMethod(String methodExpression)
       {
-         return application.getExpressionFactory().createMethodExpression(
-                  facesContext.getELContext(), methodExpression, Object.class, new Class[0])
-                  .invoke(facesContext.getELContext(), null);
+         return application.getExpressionFactory().createMethodExpression(facesContext.getELContext(), methodExpression, Object.class, new Class[0]).invoke(facesContext.getELContext(), null);
       }
 
       /**
@@ -490,17 +503,16 @@ public class BaseSeamTest
       {
          action = actionMethodExpression;
          Object result = invokeMethod(actionMethodExpression);
-         if (result!=null)
+         if (result != null)
          {
-            setOutcome( result.toString() );
+            setOutcome(result.toString());
          }
          return result;
       }
 
       /**
        * @return the conversation id
-       * @throws Exception
-       *            to fail the test
+       * @throws Exception to fail the test
        */
       public String run() throws Exception
       {
@@ -509,12 +521,13 @@ public class BaseSeamTest
             init();
             beforeRequest();
             setStandardJspVariables();
-            seamFilter.doFilter(request, response, new FilterChain() { 
+            seamFilter.doFilter(request, response, new FilterChain()
+            {
                public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException
                {
                   try
                   {
-                     if ( emulateJsfLifecycle() )
+                     if (emulateJsfLifecycle())
                      {
                         saveConversationViewRoot();
                      }
@@ -525,7 +538,7 @@ public class BaseSeamTest
                      throw new ServletException(e);
                   }
                }
-            } );
+            });
             seamFilter.destroy();
             afterRequest();
             return conversationId;
@@ -543,7 +556,7 @@ public class BaseSeamTest
       private void saveConversationViewRoot()
       {
          Map renderedViewRootAttributes = facesContext.getViewRoot().getAttributes();
-         if  (renderedViewRootAttributes!=null && conversationId!=null )
+         if (renderedViewRootAttributes != null && conversationId != null)
          {
             Map conversationState = new HashMap();
             conversationState.putAll(renderedViewRootAttributes);
@@ -553,7 +566,7 @@ public class BaseSeamTest
 
       protected void init()
       {
-         Cookie[] cookieArray = getCookies().toArray( new Cookie[]{} );
+         Cookie[] cookieArray = getCookies().toArray(new Cookie[] {});
          request = new MockHttpServletRequest(session, getPrincipalName(), getPrincipalRoles(), cookieArray, isGetRequest() ? "GET" : "POST");
          response = new MockHttpServletResponse();
          externalContext = new MockExternalContext(servletContext, request, response);
@@ -563,10 +576,10 @@ public class BaseSeamTest
 
       private void setStandardJspVariables()
       {
-         //TODO: looks like we should also set request, session, application, page...
+         // TODO: looks like we should also set request, session, application,
+         // page...
          Map<String, String> params = new HashMap<String, String>();
-         for (Map.Entry<String, String[]> e : ((Map<String, String[]>) request.getParameterMap())
-                  .entrySet())
+         for (Map.Entry<String, String[]> e : ((Map<String, String[]>) request.getParameterMap()).entrySet())
          {
             if (e.getValue().length == 1)
             {
@@ -582,24 +595,24 @@ public class BaseSeamTest
       private boolean emulateJsfLifecycle() throws Exception
       {
          restoreViewPhase();
-         if ( !isGetRequest() && !skipToRender() )
+         if (!isGetRequest() && !skipToRender())
          {
             applyRequestValuesPhase();
             if (!skipToRender())
             {
                processValidationsPhase();
-               if ( !skipToRender() )
+               if (!skipToRender())
                {
                   updateModelValuesPhase();
-                  if ( !skipToRender() )
-                  {                     
+                  if (!skipToRender())
+                  {
                      invokeApplicationPhase();
                   }
                }
             }
          }
-         
-         if ( skipRender() )
+
+         if (skipRender())
          {
             // we really should look at redirect parameters here!
             return false;
@@ -613,134 +626,121 @@ public class BaseSeamTest
 
       private void renderResponsePhase() throws Exception
       {
-         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
-                  MockLifecycle.INSTANCE));
-  
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE));
+
          try
          {
             updateConversationId();
-            
+
             renderResponseBegun = true;
-     
+
             renderResponse();
-     
+
             renderResponseComplete = true;
-     
+
             facesContext.getApplication().getStateManager().saveView(facesContext);
-     
+
             updateConversationId();
          }
          finally
          {
-            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE,
-                  MockLifecycle.INSTANCE));
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RENDER_RESPONSE, MockLifecycle.INSTANCE));
          }
       }
 
       private void invokeApplicationPhase() throws Exception
       {
-         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
-                  MockLifecycle.INSTANCE));
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE));
          try
          {
             updateConversationId();
-            
+
             invokeApplicationBegun = true;
-     
+
             invokeApplication();
-     
+
             invokeApplicationComplete = true;
-     
+
             String outcome = getInvokeApplicationOutcome();
-            facesContext.getApplication().getNavigationHandler()
-                     .handleNavigation(facesContext, action, outcome);
-     
+            facesContext.getApplication().getNavigationHandler().handleNavigation(facesContext, action, outcome);
+
             viewId = getRenderedViewId();
-     
+
             updateConversationId();
          }
          finally
-         {     
-            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION,
-                  MockLifecycle.INSTANCE));
+         {
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.INVOKE_APPLICATION, MockLifecycle.INSTANCE));
          }
       }
 
       private void updateModelValuesPhase() throws Exception
       {
-         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
-                  MockLifecycle.INSTANCE));
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE));
          try
-         {  
+         {
             updateConversationId();
-            
+
             updateModelValues();
-     
+
             updateConversationId();
          }
          finally
-         {  
-            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES,
-                  MockLifecycle.INSTANCE));
+         {
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.UPDATE_MODEL_VALUES, MockLifecycle.INSTANCE));
          }
       }
 
       private void processValidationsPhase() throws Exception
       {
-         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
-                  MockLifecycle.INSTANCE));
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE));
          try
-         {  
+         {
             updateConversationId();
-            
+
             processValidations();
-     
+
             updateConversationId();
-            
-            if ( isValidationFailure() )
+
+            if (isValidationFailure())
             {
                facesContext.renderResponse();
             }
          }
          finally
          {
-            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS,
-                  MockLifecycle.INSTANCE));
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.PROCESS_VALIDATIONS, MockLifecycle.INSTANCE));
          }
       }
 
       private void applyRequestValuesPhase() throws Exception
       {
-         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
-                  MockLifecycle.INSTANCE));
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE));
          try
-         {  
+         {
             updateConversationId();
-            
+
             applyRequestValues();
-     
+
             updateConversationId();
          }
          finally
-         {            
-            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES,
-                  MockLifecycle.INSTANCE));
+         {
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.APPLY_REQUEST_VALUES, MockLifecycle.INSTANCE));
          }
       }
 
       private void restoreViewPhase()
       {
-         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW,
-                  MockLifecycle.INSTANCE));
+         phases.beforePhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE));
          try
-         {  
-            UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(
-                     facesContext, getViewId());
+         {
+            UIViewRoot viewRoot = facesContext.getApplication().getViewHandler().createView(facesContext, getViewId());
             facesContext.setViewRoot(viewRoot);
             Map restoredViewRootAttributes = facesContext.getViewRoot().getAttributes();
             if (conversationId != null)
             {
-               if ( isGetRequest() )
+               if (isGetRequest())
                {
                   setParameter(Manager.instance().getConversationIdParameter(), conversationId);
                   // TODO: what about conversationIsLongRunning????
@@ -756,7 +756,7 @@ public class BaseSeamTest
                   }
                }
             }
-            if ( isGetRequest() )
+            if (isGetRequest())
             {
                facesContext.renderResponse();
             }
@@ -766,18 +766,15 @@ public class BaseSeamTest
             }
          }
          finally
-         {  
-            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW,
-                  MockLifecycle.INSTANCE));
+         {
+            phases.afterPhase(new PhaseEvent(facesContext, PhaseId.RESTORE_VIEW, MockLifecycle.INSTANCE));
          }
       }
 
       private void updateConversationId()
       {
          Manager manager = Manager.instance();
-         conversationId = manager.isLongRunningConversation() ?
-                  manager.getCurrentConversationId() :
-                  manager.getParentConversationId()   ;
+         conversationId = manager.isLongRunningConversation() ? manager.getCurrentConversationId() : manager.getParentConversationId();
       }
 
       private boolean skipRender()
@@ -787,8 +784,7 @@ public class BaseSeamTest
 
       private boolean skipToRender()
       {
-         return FacesContext.getCurrentInstance().getRenderResponse()
-                  || FacesContext.getCurrentInstance().getResponseComplete();
+         return FacesContext.getCurrentInstance().getRenderResponse() || FacesContext.getCurrentInstance().getResponseComplete();
       }
 
       protected boolean isInvokeApplicationBegun()
@@ -810,24 +806,25 @@ public class BaseSeamTest
       {
          return renderResponseComplete;
       }
-      
+
       protected MimeMessage getRenderedMailMessage(String viewId)
       {
-          installMockTransport();
-          MockTransport.clearMailMessage(); 
-          Renderer.instance().render(viewId);
-          return MockTransport.getMailMessage();
+         installMockTransport();
+         MockTransport.clearMailMessage();
+         Renderer.instance().render(viewId);
+         return MockTransport.getMailMessage();
       }
 
    }
 
    public class NonFacesRequest extends Request
    {
-      public NonFacesRequest() {}
+      public NonFacesRequest()
+      {
+      }
 
       /**
-       * @param viewId
-       *           the view id to be rendered
+       * @param viewId the view id to be rendered
        */
       public NonFacesRequest(String viewId)
       {
@@ -835,10 +832,8 @@ public class BaseSeamTest
       }
 
       /**
-       * @param viewId
-       *           the view id to be rendered
-       * @param conversationId
-       *           the conversation id
+       * @param viewId the view id to be rendered
+       * @param conversationId the conversation id
        */
       public NonFacesRequest(String viewId, String conversationId)
       {
@@ -869,7 +864,7 @@ public class BaseSeamTest
       {
          throw new UnsupportedOperationException();
       }
-      
+
       @Override
       protected final void invokeApplication() throws Exception
       {
@@ -881,11 +876,12 @@ public class BaseSeamTest
    public class FacesRequest extends Request
    {
 
-      public FacesRequest() {}
+      public FacesRequest()
+      {
+      }
 
       /**
-       * @param viewId
-       *           the view id of the form that was submitted
+       * @param viewId the view id of the form that was submitted
        */
       public FacesRequest(String viewId)
       {
@@ -893,10 +889,8 @@ public class BaseSeamTest
       }
 
       /**
-       * @param viewId
-       *           the view id of the form that was submitted
-       * @param conversationId
-       *           the conversation id
+       * @param viewId the view id of the form that was submitted
+       * @param conversationId the conversation id
        */
       public FacesRequest(String viewId, String conversationId)
       {
@@ -924,46 +918,89 @@ public class BaseSeamTest
       session = null;
    }
 
+   @Deprecated
    public void init() throws Exception
    {
+      startSeam();
+      setupClass();
+   }
+   
+   /**
+    * Boot Seam. Can be used at class, test group or suite level (e.g.
+    * @BeforeClass, @BeforeTest, @BeforeSuite)
+    * Use in conjunction with {@link #stopSeam()}.
+    * @throws Exception
+    */
+   protected void startSeam() throws Exception
+   {
       startJbossEmbeddedIfNecessary();
-      
-      application = new SeamApplication( new MockApplication() );
-      phases = new SeamPhaseListener();
-
       servletContext = new MockServletContext();
-      initServletContext( servletContext.getInitParameters() );
+      initServletContext(servletContext.getInitParameters());
       ServletLifecycle.beginApplication(servletContext);
       new Initialization(servletContext).create().init();
-      ( (Init) servletContext.getAttribute( Seam.getComponentName(Init.class) ) ).setDebug(false);
+      ((Init) servletContext.getAttribute(Seam.getComponentName(Init.class))).setDebug(false);
+   }
+   
+   /**
+    * Shutdown Seam. Can be used at class, test group or suite level (e.g
+    * @AfterClass, @AfterTest, @AfterSuite)
+    * Use in conjunction with {@link #startSeam()}.
+    * @throws Exception
+    */
+   protected void stopSeam() throws Exception
+   {
+      ServletLifecycle.endApplication();
+   }
+   
+   /**
+    * Setup this test class instance
+    * Must be run for each test class instance (e.g. @BeforeClass)
+    * @throws Exception
+    */
+   protected void setupClass() throws Exception
+   {
+      servletContext = (MockServletContext) ServletLifecycle.getServletContext();
+      application = new SeamApplication(new MockApplication());
+      phases = new SeamPhaseListener();
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();
-
+      
       for (ELResolver elResolver : getELResolvers())
       {
          application.addELResolver(elResolver);
       }
-      
    }
-
-   public void cleanup() throws Exception
+   
+   /**
+    * Cleanup this test class instance
+    * Must be run for each test class instance (e.g. @AfterClass)
+    */
+   protected void cleanupClass() throws Exception
    {
       seamFilter.destroy();
-      ServletLifecycle.endApplication();
       conversationViewRootAttributes = null;
+   }
+
+   @Deprecated
+   public void cleanup() throws Exception
+   {
+      cleanupClass();
+      stopSeam();
    }
 
    protected Filter createSeamFilter() throws ServletException
    {
       SeamFilter seamFilter = new SeamFilter();
-      seamFilter.init( new MockFilterConfig(servletContext) );
+      seamFilter.init(new MockFilterConfig(servletContext));
       return seamFilter;
    }
 
    /**
     * Override to set up any servlet context attributes.
     */
-   public void initServletContext(Map initParams) {}
+   public void initServletContext(Map initParams)
+   {
+   }
 
    protected InitialContext getInitialContext() throws NamingException
    {
@@ -981,7 +1018,8 @@ public class BaseSeamTest
    protected Object getField(Object object, String fieldName)
    {
       Field field = Reflections.getField(object.getClass(), fieldName);
-      if (!field.isAccessible()) field.setAccessible(true);
+      if (!field.isAccessible())
+         field.setAccessible(true);
       return Reflections.getAndWrap(field, object);
    }
 
@@ -991,44 +1029,44 @@ public class BaseSeamTest
    protected void setField(Object object, String fieldName, Object value)
    {
       Field field = Reflections.getField(object.getClass(), fieldName);
-      if (!field.isAccessible()) field.setAccessible(true);
+      if (!field.isAccessible())
+         field.setAccessible(true);
       Reflections.setAndWrap(field, object, value);
    }
-   
+
    private static boolean started;
-   
-   protected void startJbossEmbeddedIfNecessary()
-       throws Exception
+
+   protected void startJbossEmbeddedIfNecessary() throws Exception
    {
-      if (!started && embeddedJBossAvailable()) 
+      if (!started && embeddedJBossAvailable())
       {
-          new EmbeddedBootstrap().startAndDeployResources();         
+         new EmbeddedBootstrap().startAndDeployResources();
       }
-      
+
       started = true;
    }
 
    private boolean embeddedJBossAvailable()
-   {       
-      try 
+   {
+      try
       {
          Class.forName("org.jboss.embedded.Bootstrap");
          return true;
-      } 
-      catch (ClassNotFoundException e) 
+      }
+      catch (ClassNotFoundException e)
       {
          return false;
-      } 
+      }
    }
-   
-   protected ELResolver[] getELResolvers() 
+
+   protected ELResolver[] getELResolvers()
    {
       return new ELResolver[0];
    }
-   
+
    protected void installMockTransport()
    {
-       Contexts.getApplicationContext().set(Seam.getComponentName(MailSession.class), new MailSession("mock").create());
+      Contexts.getApplicationContext().set(Seam.getComponentName(MailSession.class), new MailSession("mock").create());
 
    }
 

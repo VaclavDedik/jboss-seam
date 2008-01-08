@@ -8,8 +8,10 @@ package org.jboss.seam.mock;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 
 /**
  * Provides BaseSeamTest functionality for TestNG integration tests.
@@ -17,6 +19,7 @@ import org.testng.annotations.BeforeMethod;
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @author Mike Youngstrom
+ * @author Pete Muir
  */
 public class SeamTest extends BaseSeamTest
 {
@@ -35,23 +38,52 @@ public class SeamTest extends BaseSeamTest
       super.end();
    }
 
-   @BeforeClass
    @Override
+   @Deprecated
    public void init() throws Exception
    {
       super.init();
    }
 
-   @AfterClass
    @Override
+   @Deprecated
    public void cleanup() throws Exception
    {
       super.cleanup();
    }
+   
+   @Override
+   @BeforeTest
+   public void startSeam() throws Exception
+   {
+      super.startSeam();
+   }
+   
+   @Override
+   @AfterTest
+   public void stopSeam() throws Exception
+   {
+      super.stopSeam();
+   }
+   
+   @Override
+   @BeforeClass
+   public void setupClass() throws Exception
+   {
+      super.setupClass();
+   }
+   
+   @Override
+   @AfterClass
+   protected void cleanupClass() throws Exception
+   {
+      super.cleanupClass();
+   }
 
    /**
-    * A pass through to BaseSeamTest.FacesRequest. Perhaps these should be
-    * deprecated?
+    * A pass through to BaseSeamTest.FacesRequest. 
+    * 
+    * Deprecated, use BaseSeamTest.FacesRequest instead
     */
    public class FacesRequest extends BaseSeamTest.FacesRequest
    {
@@ -74,8 +106,9 @@ public class SeamTest extends BaseSeamTest
    }
 
    /**
-    * A pass through to BaseSeamTest.NonFacesRequest. Perhaps these should be
-    * deprecated?
+    * A pass through to BaseSeamTest.NonFacesRequest.
+    * 
+    * Deprecated, use BaseSeamTest.NonFacesRequest instead
     */
    public class NonFacesRequest extends BaseSeamTest.NonFacesRequest
    {
@@ -98,8 +131,9 @@ public class SeamTest extends BaseSeamTest
    }
 
    /**
-    * A pass through to BaseSeamTest.Request. Perhaps these should be
-    * deprecated?
+    * A pass through to BaseSeamTest.Request.
+    * 
+    * Deprecated, use BaseSeamTest.Request instead
     */
    public abstract class Request extends BaseSeamTest.Request
    {
@@ -117,9 +151,8 @@ public class SeamTest extends BaseSeamTest
    }
 
    /**
-    * @deprecated Use FacesRequest or NonFacesRequest instead
+    * @deprecated Use BaseSeamTest.FacesRequest or BaseSeamTest.NonFacesRequest instead
     */
-   @Deprecated
    public abstract class Script extends BaseSeamTest.Script
    {
 
