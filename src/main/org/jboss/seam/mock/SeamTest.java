@@ -8,9 +8,11 @@ package org.jboss.seam.mock;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
 /**
@@ -53,14 +55,14 @@ public class SeamTest extends BaseSeamTest
    }
    
    @Override
-   @BeforeTest
+   @BeforeSuite
    public void startSeam() throws Exception
    {
       super.startSeam();
    }
    
    @Override
-   @AfterTest
+   @AfterSuite
    public void stopSeam() throws Exception
    {
       super.stopSeam();
