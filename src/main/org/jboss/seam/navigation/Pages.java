@@ -708,7 +708,7 @@ public class Pages
          for ( Page page: getPageStack( getViewId(facesContext) ) )
          {
             for ( Param pageParameter: page.getParameters() )
-            {  
+            {
                String value = pageParameter.getStringValueFromRequest(facesContext, requestParameters);
                if (value==null)
                {
