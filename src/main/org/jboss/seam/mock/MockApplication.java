@@ -383,22 +383,36 @@ public class MockApplication extends Application
       throw new UnsupportedOperationException();
    }
 
+   private final Map<String, Validator> validatorsById = new HashMap<String, Validator>();
+   
    @Override
-   public void addValidator(String id, String validator)
+   public void addValidator(String id, String validatorClass)
    {
-      throw new UnsupportedOperationException();
+      validatorsById.put(id, instantiateValidator(validatorClass));
    }
 
+   private Validator instantiateValidator(String validatorClass)
+   {
+      try
+      {
+         return (Validator) Reflections.classForName(validatorClass).newInstance();
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
+   
    @Override
    public Validator createValidator(String id) throws FacesException
    {
-      throw new UnsupportedOperationException();
+      return validatorsById.get(id);
    }
 
    @Override
    public Iterator getValidatorIds()
    {
-      throw new UnsupportedOperationException();
+      return validatorsById.keySet().iterator();
    }
 
    @Override
