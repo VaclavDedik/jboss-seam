@@ -24,6 +24,7 @@ public class ITextUtils {
 		colorMap.put("magenta", Color.magenta);
 		colorMap.put("cyan", Color.cyan);
 		colorMap.put("blue", Color.blue);
+		colorMap.put("orange", Color.orange);
 	}
 
 	
