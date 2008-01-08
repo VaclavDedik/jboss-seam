@@ -1,6 +1,6 @@
 <#include "../util/TypeInfo.ftl">
 
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
 <#assign propertyIsId = property.equals(pojo.identifierProperty)>
 <#if !propertyIsId || property.value.identifierGeneratorStrategy == "assigned">
 <#if pojo.isComponent(property)>

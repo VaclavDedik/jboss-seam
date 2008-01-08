@@ -28,7 +28,7 @@
           </table>
       
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
 <#include "viewproperty.xhtml.ftl">
 </#if>
 </#foreach>
@@ -82,7 +82,7 @@
 	        columnClasses="allCols"
                       id="view${property.name}TableId">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
-<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty)>
+<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty) && parentProperty != parentPojo.versionProperty!>
 <#if parentPojo.isComponent(parentProperty)>
 <#foreach componentProperty in parentProperty.value.propertyIterator>
             <ice:column id="viewColumn${componentProperty.name}Id">
@@ -156,7 +156,7 @@
 		    columnClasses="allCols"
                         id="view${property.name}TableId">
 <#foreach childProperty in childPojo.allPropertiesIterator>
-<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
+<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty) && childProperty != childPojo.versionProperty!>
 <#if childPojo.isComponent(childProperty)>
 <#foreach componentProperty in childProperty.value.propertyIterator>
             <ice:column id="view${componentProperty.name}Id">

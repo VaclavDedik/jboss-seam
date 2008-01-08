@@ -105,7 +105,7 @@
 		  columnClasses="allCols"
                       id="edit${property.name}TableId">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
-<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty)>
+<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty) && parentProperty != parentPojo.versionProperty!>
 <#if parentPojo.isComponent(parentProperty)>
 <#foreach componentProperty in parentProperty.value.propertyIterator>
             <ice:column id="$editColumn${componentProperty.name}Id">
@@ -186,7 +186,7 @@
 			  columnClasses="allCols"
                             id="edit${property.name}Table">
 <#foreach childProperty in childPojo.allPropertiesIterator>
-<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty)>
+<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty) && childProperty != childPojo.versionProperty!>
 <#if childPojo.isComponent(childProperty)>
 <#foreach componentProperty in childProperty.value.propertyIterator>
                <ice:column id="edit${componentProperty.name}Id">

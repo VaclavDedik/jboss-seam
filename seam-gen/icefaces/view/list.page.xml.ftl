@@ -17,7 +17,7 @@
    <param name="order" value="${'#'}{${listName}.order}"/>
    <param name="from"/>
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
