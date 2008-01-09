@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "WIKI_UPLOAD_IMAGE")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_UPLOAD_IMAGE_NODE_ID")
-@org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+//TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 public class WikiUploadImage extends WikiUpload<WikiUploadImage> {
 
     @Column(name = "SIZE_X")

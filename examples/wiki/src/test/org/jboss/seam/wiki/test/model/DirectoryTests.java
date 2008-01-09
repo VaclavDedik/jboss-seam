@@ -83,6 +83,7 @@ public class DirectoryTests extends DBUnitSeamTest {
         }.run();
     }
 
+    /* TODO: Requires (now deprecated) database cascading, deletion nees to go through DirectoryHome
     @Test
     public void deleteDirectoryById() throws Exception {
         new FacesRequest() {
@@ -192,6 +193,7 @@ public class DirectoryTests extends DBUnitSeamTest {
             }
         }.run();
     }
+    */
 
     @Test
     public void insertDirectoryById() throws Exception {

@@ -675,33 +675,32 @@ ul {
 .directoryControl {
     width: 100%;
     white-space: nowrap;
-}
-
-.directoryPagerControl {
-    text-align: left;
-    width: 10%;
+    padding: 7px;
 }
 
 .directorySelectControl {
-    text-align: center;
+    text-align: left;
+    width: 40%
 }
 
 .directoryClipboard {
     text-align: right;
-    width: 30%;
+    width: 40%
 }
 
-.directoryPathPanel {
-    width: auto;
+.directoryTrash {
+    text-align: right;
+}
+
+.directoryPathTable {
+    width: 100%;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
-    padding-left: 11px;
     border-top: 1px solid #C3BBB6;
     border-left: 1px solid #C3BBB6;
     border-right: 1px solid #C3BBB6;
-    margin-top: 10px;
 }
 
-.directoryPathPanel .directoryButton {
+.directoryPathTable .directoryButton {
     color: #fff;
 	padding: 2px;
 	border-style: none;
@@ -710,11 +709,22 @@ ul {
     font-weight: bold;
 }
 
-.directoryPathPanel .directorySeparator {
+.directoryPathTable .directorySeparator {
 	font-weight: bold;
 	color: #888;
 	padding: 2px;
  	border-style: none;
+}
+
+.directoryPath  {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.directoryPagerControl {
+    text-align: right;
+    white-space: nowrap;
+    padding: 5px;
 }
 
 .directoryEmpty {

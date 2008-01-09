@@ -65,12 +65,4 @@
         </packages>
     </test>
 
-    <!--
-    <test name="Adhoc">
-        <classes>
-            <class name="org.jboss.seam.wiki.test.preferences.InstancePreferencesTests"/>
-        </classes>
-    </test>
-    -->
-
 </suite>

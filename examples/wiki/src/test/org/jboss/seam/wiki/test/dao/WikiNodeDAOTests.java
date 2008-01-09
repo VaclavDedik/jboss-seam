@@ -223,6 +223,34 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
     }
 
     @Test
+    public void findCommentSubthreads() throws Exception {
+        new FacesRequest() {
+
+            protected void invokeApplication() throws Exception {
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+
+                WikiComment rootOne = dao.findWikiComment(10l);
+                List<WikiComment> commentsOne = dao.findWikiCommentSubtree(rootOne);
+                assert commentsOne.size() == 3;
+                assert commentsOne.get(0).getLevel().equals(1l);
+                assert commentsOne.get(0).getId().equals(11l);
+                assert commentsOne.get(1).getLevel().equals(1l);
+                assert commentsOne.get(1).getId().equals(12l);
+                assert commentsOne.get(2).getLevel().equals(2l);
+                assert commentsOne.get(2).getId().equals(13l);
+
+                WikiComment rootTwo = dao.findWikiComment(14l);
+                List<WikiComment> commentsTwo = dao.findWikiCommentSubtree(rootTwo);
+                assert commentsTwo.size() == 1;
+                assert commentsTwo.get(0).getLevel().equals(1l);
+                assert commentsTwo.get(0).getId().equals(15l);
+
+            }
+        }.run();
+    }
+
+
+    @Test
     public void findSiblings() throws Exception {
         new FacesRequest() {
 

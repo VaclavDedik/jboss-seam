@@ -60,7 +60,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance("clipboard");
 
                 assert clipboard.getItems().size() == 1;
-                assert clipboard.getItemsAsList().get(0).getId().equals(9l);
+                assert clipboard.getItemsAsList().get(0).equals(9l);
                 assert !clipboard.isCut(9l);
             }
         }.run();
@@ -144,7 +144,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance("clipboard");
 
                 assert clipboard.getItems().size() == 1;
-                assert clipboard.getItemsAsList().get(0).getId().equals(30l);
+                assert clipboard.getItemsAsList().get(0).equals(30l);
                 assert !clipboard.isCut(30l);
             }
         }.run();
@@ -319,7 +319,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance("clipboard");
 
                 assert clipboard.getItems().size() == 1;
-                assert clipboard.getItemsAsList().get(0).getId().equals(9l);
+                assert clipboard.getItemsAsList().get(0).equals(9l);
                 assert clipboard.isCut(9l);
             }
         }.run();
@@ -399,7 +399,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance("clipboard");
 
                 assert clipboard.getItems().size() == 1;
-                assert clipboard.getItemsAsList().get(0).getId().equals(30l);
+                assert clipboard.getItemsAsList().get(0).equals(30l);
                 assert clipboard.isCut(30l);
             }
         }.run();
@@ -578,7 +578,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance("clipboard");
 
                 assert clipboard.getItems().size() == 1;
-                assert clipboard.getItemsAsList().get(0).getId().equals(9l);
+                assert clipboard.getItemsAsList().get(0).equals(9l);
                 assert clipboard.isCut(9l);
             }
         }.run();
@@ -656,7 +656,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance("clipboard");
 
                 assert clipboard.getItems().size() == 1;
-                assert clipboard.getItemsAsList().get(0).getId().equals(9l);
+                assert clipboard.getItemsAsList().get(0).equals(9l);
                 assert !clipboard.isCut(9l);
             }
         }.run();
@@ -730,7 +730,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance("clipboard");
 
                 assert clipboard.getItems().size() == 1;
-                assert clipboard.getItemsAsList().get(0).getId().equals(6l);
+                assert clipboard.getItemsAsList().get(0).equals(6l);
                 assert clipboard.isCut(6l);
             }
         }.run();

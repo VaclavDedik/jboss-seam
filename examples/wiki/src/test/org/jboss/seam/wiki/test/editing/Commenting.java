@@ -12,6 +12,7 @@ import org.jboss.seam.wiki.core.action.CommentQuery;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.jboss.seam.contexts.Contexts;
@@ -32,7 +33,6 @@ public class Commenting extends DBUnitSeamTest {
 
             protected void beforeRequest() {
                 setParameter("documentId", "6");
-                setParameter("parentDirectoryId", "3");
             }
 
             protected void updateModelValues() throws Exception {
@@ -86,7 +86,6 @@ public class Commenting extends DBUnitSeamTest {
 
             protected void beforeRequest() {
                 setParameter("documentId", "6");
-                setParameter("parentDirectoryId", "3");
             }
 
             protected void updateModelValues() throws Exception {
@@ -94,18 +93,20 @@ public class Commenting extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                invokeMethod("#{commentHome.remove(15)}");
+                invokeMethod("#{commentHome.remove(12)}");
             }
 
             protected void renderResponse() throws Exception {
                 CommentQuery commentQuery = (CommentQuery)getInstance("commentQuery");
-                assert commentQuery.getComments().size() == 5;
-
+                assert commentQuery.getComments().size() == 4;
                 assert commentQuery.getComments().get(0).getId().equals(10l);
+                assert commentQuery.getComments().get(0).getLevel().equals(1l);
                 assert commentQuery.getComments().get(1).getId().equals(11l);
-                assert commentQuery.getComments().get(2).getId().equals(12l);
-                assert commentQuery.getComments().get(3).getId().equals(13l);
-                assert commentQuery.getComments().get(4).getId().equals(14l);
+                assert commentQuery.getComments().get(1).getLevel().equals(2l);
+                assert commentQuery.getComments().get(2).getId().equals(14l);
+                assert commentQuery.getComments().get(2).getLevel().equals(1l);
+                assert commentQuery.getComments().get(3).getId().equals(15l);
+                assert commentQuery.getComments().get(3).getLevel().equals(2l);
             }
 
         }.run();

@@ -12,7 +12,7 @@ import java.util.LinkedHashSet;
 @Entity
 @Table(name = "WIKI_DOCUMENT")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_DOCUMENT_NODE_ID")
-@org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+//TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 
 @org.hibernate.search.annotations.Indexed
 @Searchable(description = "Documents")

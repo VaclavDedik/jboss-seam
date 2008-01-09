@@ -13,7 +13,7 @@ import java.util.Collections;
 @Entity
 @Table(name = "WIKI_DIRECTORY")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_DIRECTORY_NODE_ID")
-@org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+//TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetNode<WikiDirectory>, Serializable {
 
     @Column(name = "DESCRIPTION", nullable = true)

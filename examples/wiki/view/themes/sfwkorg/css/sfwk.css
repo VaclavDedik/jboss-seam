@@ -1009,40 +1009,50 @@ a:hover .documentTitle {
     border-left: 1px solid #d3d2d1;
     border-right: 1px solid #d3d2d1;
     margin-top: 10px;
-    padding: 10px;
+    padding: 7px;
     white-space: nowrap;
 }
 
-.directoryPagerControl {
-    text-align: left;
-    width: 10%;
-}
-
 .directorySelectControl {
-    text-align: center;
+    text-align: left;
+    width: 40%
 }
 
 .directoryClipboard {
     text-align: right;
-    width: 30%;
+    width: 40%
 }
 
-.directoryPathPanel {
-    width: auto;
+.directoryTrash {
+    text-align: right;
+}
+
+.directoryPathTable {
+    width: 100%;
     background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
-    padding-left: 11px;
     border-top: 1px solid #d3d2d1;
     border-left: 1px solid #d3d2d1;
     border-right: 1px solid #d3d2d1;
 }
 
-.directoryPathPanel .directoryButton {
+.directoryPath  {
+    text-align: left;
+    padding-left: 5px;
+}
+
+.directoryPagerControl {
+    text-align: right;
+    white-space: nowrap;
+    padding: 5px;
+}
+
+.directoryPath .directoryButton {
 	font-weight: bold;
 	padding: 2px;
 	border-style: none;
 }
 
-.directoryPathPanel .directorySeparator {
+.directoryPath .directorySeparator {
 	font-weight: bold;
 	color: #888;
 	padding: 2px;

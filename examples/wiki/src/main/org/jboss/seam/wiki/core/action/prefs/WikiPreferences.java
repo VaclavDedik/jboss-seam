@@ -68,6 +68,16 @@ public class WikiPreferences implements Serializable {
     private String helpArea;
 
     @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.wiki.TrashArea']}",
+        visibility = PreferenceVisibility.SYSTEM,
+        editorIncludeName = "SelectOne",
+        templateComponentName = "writeProtectedAreaPreferenceValueTemplate"
+    )
+    @Length(min = 3, max = 255)
+    @NotNull
+    private String trashArea;
+
+    @PreferenceProperty(
         description = "#{messages['lacewiki.preferences.wiki.DefaultDocumentId']}",
         visibility = PreferenceVisibility.SYSTEM
     )
@@ -176,6 +186,10 @@ public class WikiPreferences implements Serializable {
 
     public String getHelpArea() {
         return helpArea;
+    }
+
+    public String getTrashArea() {
+        return trashArea;
     }
 
     public Long getDefaultDocumentId() {

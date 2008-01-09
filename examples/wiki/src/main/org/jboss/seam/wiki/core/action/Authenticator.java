@@ -185,20 +185,18 @@ public class Authenticator {
     /**
      * Assigns the Guest user to 'currentUser' when 'currentUser' is first referenced. If a
      * user actually logs in, the 'currentUser' is reset.
-     * @return User Guest user
      */
-    @Factory(value = "currentUser", scope = ScopeType.SESSION, autoCreate = true)
-    public User getGuestUser() {
-        return (User) Component.getInstance("guestUser");
+    @Factory(value = "currentUser", autoCreate = true)
+    public void setGuestUser() {
+        Contexts.getSessionContext().set("currentUser", Component.getInstance("guestUser"));
     }
 
     /**
      * Assigns the context variable 'currentAccessLevel' when no user is logged in.
-     * @return Integer Guest access level.
      */
-    @Factory(value = "currentAccessLevel", scope = ScopeType.SESSION, autoCreate = true)
-    public Integer getGuestAccessLevel() {
-        return Role.GUESTROLE_ACCESSLEVEL;
+    @Factory(value = "currentAccessLevel", autoCreate = true)
+    public void setGuestAccessLevel() {
+        Contexts.getSessionContext().set("currentAccessLevel", Role.GUESTROLE_ACCESSLEVEL);
     }
 
 }

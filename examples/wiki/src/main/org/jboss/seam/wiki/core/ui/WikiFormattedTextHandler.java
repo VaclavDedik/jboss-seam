@@ -58,7 +58,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
     * Main apply method called by facelets to create this component.
     */
     public void apply(FaceletContext ctx, UIComponent parent) throws IOException, FacesException, ELException {
-        log.debug("<<< building wiki text components");
+        log.debug(">>> building wiki text components");
         String id = ctx.generateUniqueId(this.tagId);
         UIComponent cmp = findChildByTagId(parent, id);
         if (cmp == null) {

@@ -13,7 +13,7 @@
 
     <!-- ############### Wiki logging #################  -->
     <category name="org.jboss.seam.wiki">
-        <priority value="WARN"/>
+        <priority value="TRACE"/>
     </category>
     <category name="org.jboss.seam.wiki.test">
         <priority value="info"/>
@@ -37,11 +37,11 @@
         <priority value="WARN"/>
     </category>
 
-    <!--
     <category name="org.hibernate.SQL">
         <priority value="TRACE"/>
     </category>
 
+    <!--
     <category name="org.hibernate.type">
         <priority value="TRACE"/>
     </category>
@@ -65,6 +65,7 @@
     </category>
 
     <!-- These things are too noisy
+    -->
     <category name="org.jboss.seam.jsf.SeamVariableResolver">
         <priority value="INFO"/>
     </category>
@@ -86,7 +87,6 @@
     <category name="org.jboss.seam.core.Events">
         <priority value="INFO"/>
     </category>
-    -->
 
     <root>
         <priority value="INFO"/>

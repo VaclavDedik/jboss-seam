@@ -29,6 +29,7 @@ import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.core.upload.Uploader;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.Preferences;
+import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
@@ -260,6 +261,11 @@ public class UserHome extends EntityHome<User> {
 
         // All nodes created by this user are reset to be created by the admin user
         userDAO.resetNodeCreatorToAdmin(getInstance());
+
+        // Remove preferences for this user
+        PreferenceProvider prefProvider = (PreferenceProvider)Component.getInstance("preferenceProvider");
+        prefProvider.deleteUserPreferenceValues(getInstance());
+        prefProvider.flush();
 
         return super.remove();
     }

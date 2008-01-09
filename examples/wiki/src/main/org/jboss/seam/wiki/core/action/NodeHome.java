@@ -6,6 +6,7 @@
  */
 package org.jboss.seam.wiki.core.action;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
@@ -20,6 +21,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import java.util.Date;
 import java.util.List;
 
@@ -206,6 +208,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
         if (!beforePersist()) return null;
 
+        getLog().debug("persisting node: " + getInstance());
         String outcome = super.persist();
         if (outcome != null) {
             Events.instance().raiseEvent("PreferenceEditor.flushAll");
@@ -230,6 +233,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
         if (!beforeUpdate()) return null;
 
+        getLog().debug("updating node: " + getInstance());
         String outcome = super.update();
         if (outcome != null) {
             Events.instance().raiseEvent("PreferenceEditor.flushAll");
@@ -238,21 +242,41 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         return outcome;
     }
 
+    public boolean isRemovable() {
+        if (!isManaged()) return false;
+        if (getNodeRemover() != null) {
+            return getNodeRemover().isRemovable(getInstance());
+        }
+        return true;
+    }
 
-    // TODO: Doesn't handle recursive deletion (only db cascading), so 2nd level cache and lucene index out of sync!
     @Override
     public String remove() {
+        if (!isRemovable()) return null;
+        
         checkRemovePermissions();
 
-        if (!prepareRemove()) return null;
-
-        if (!beforeRemove()) return null;
-
+        getLog().debug("removing node: " + getInstance());
+        getNodeRemover().removeWikiNode(getInstance());
         String outcome = super.remove();
         if (outcome != null) {
             Events.instance().raiseEvent("Nodes.menuStructureModified");
         }
         return outcome;
+    }
+
+    public String trash() {
+        if (!isRemovable()) return null;
+
+        checkRemovePermissions();
+
+        getLog().debug("trashing node : " + getInstance());
+        getNodeRemover().trashWikiNode(getInstance());
+        setLastModifiedMetadata();
+        getEntityManager().flush();
+        trashedMessage();
+
+        return "removed";
     }
 
     /* -------------------------- Internal (Subclass) Methods ------------------------------ */
@@ -322,6 +346,15 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
             throw new AuthorizationException("You don't have permission for this operation");
     }
 
+    protected void trashedMessage() {
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.Node.Trashed",
+                "'{0}' has been moved into the trash.",
+                getInstance().getName()
+        );
+    }
+
     /* -------------------------- Optional Subclass Callbacks ------------------------------ */
 
     protected boolean isPageRootController() { return true; }
@@ -351,16 +384,11 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     protected boolean beforeUpdate() { return true; }
 
     /**
-     * Called before the superclass does its preparation;
-     * @return boolean continue processing
+     * Called when a node is removed, obtains remover for execution of dependency deletion
+     * before the node is finally removed.
+     * @return NodeRemover instance
      */
-    protected boolean prepareRemove() { return true; }
-
-    /**
-     * Called after superclass did its preparation right before the actual remove()
-     * @return boolean continue processing
-     */
-    protected boolean beforeRemove() { return true; }
+    protected abstract NodeRemover getNodeRemover();
 
     /* -------------------------- Public Features ------------------------------ */
 

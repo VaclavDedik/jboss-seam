@@ -6,7 +6,7 @@ import java.util.*;
 @Entity
 @Table(name = "WIKI_FILE")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_FILE_NODE_ID")
-@org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+//TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 public abstract class WikiFile<N extends WikiFile> extends WikiNode<N> {
 
     @org.hibernate.annotations.CollectionOfElements(fetch = FetchType.LAZY)

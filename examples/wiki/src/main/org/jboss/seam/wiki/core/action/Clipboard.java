@@ -4,7 +4,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.wiki.core.model.WikiNode;
 
 import java.util.*;
 import java.io.Serializable;
@@ -14,35 +13,26 @@ import java.io.Serializable;
 @AutoCreate
 public class Clipboard implements Serializable {
 
-    private Map<WikiNode, Boolean> items = new LinkedHashMap<WikiNode, Boolean>();
+    private Map<Long, Boolean> items = new LinkedHashMap<Long, Boolean>();
 
-    public Set<WikiNode> getItems() {
+    public Set<Long> getItems() {
         return items.keySet();
     }
 
-    public List<WikiNode> getItemsAsList() {
-        return new ArrayList<WikiNode>(getItems());
+    public List<Long> getItemsAsList() {
+        return new ArrayList<Long>(getItems());
     }
 
     public void clear() {
         items.clear();
     }
 
-    public void add(WikiNode node, Boolean cut) {
-        items.put(node, cut);
+    public void add(Long nodeId, Boolean cut) {
+        items.put(nodeId, cut);
     }
 
     public boolean isCut(Long nodeId) {
-        for (WikiNode wikiNode : items.keySet()) {
-            if (wikiNode.getId().equals(nodeId) && items.get(wikiNode)) return true;
-        }
-        return false;
+        return items.containsKey(nodeId) && items.get(nodeId);
     }
 
-    public boolean isContainsCutFromDirectory(Long dirId) {
-        for (WikiNode wikiNode : items.keySet()) {
-            if (wikiNode.getParent().getId().equals(dirId)) return true;
-        }
-        return false;
-    }
 }

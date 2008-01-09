@@ -16,7 +16,7 @@ import java.util.Date;
 @Entity
 @Table(name = "WIKI_COMMENT")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_COMMENT_NODE_ID")
-@org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+//TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 
 @org.hibernate.search.annotations.Indexed
 @Searchable(description = "Comments")
@@ -152,8 +152,9 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
     }
 
     public String toString() {
-        return  "Comment (" + getId() + "), " +
-                "Subject: '" + getSubject() + "'";
+        return  "Comment (" + getId() + ")," +
+                " Level: " + getLevel() +
+                " Subject: '" + getSubject() + "'";
     }
 
 }

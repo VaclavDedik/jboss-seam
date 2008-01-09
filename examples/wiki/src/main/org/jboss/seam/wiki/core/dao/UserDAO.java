@@ -68,8 +68,11 @@ public class UserDAO {
 
         User adminUser = (User) Component.getInstance("adminUser");
 
-        //TODO: This needs to do much more work now that we can't have the FK names anymore in the @MappedSuperclass WikiNode. Hibernate sucks. Shit.
         entityManager.createQuery("update WikiNode n set n.createdBy = :admin where n.createdBy = :user")
+                    .setParameter("admin", entityManager.merge(adminUser))
+                    .setParameter("user", user)
+                    .executeUpdate();
+        entityManager.createQuery("update WikiNode n set n.lastModifiedBy = :admin where n.lastModifiedBy = :user")
                     .setParameter("admin", entityManager.merge(adminUser))
                     .setParameter("user", user)
                     .executeUpdate();

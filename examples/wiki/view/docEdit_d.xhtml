@@ -6,6 +6,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+                xmlns:c="http://java.sun.com/jstl/core"
                 xmlns:wiki="http://jboss.com/products/seam/wiki"
                 xmlns:j4j="http://javascript4jsf.dev.java.net/"
                 template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
@@ -113,13 +114,15 @@
                                     </div>
                                 </s:div>
                                 <s:div id="pushOnSiteFeedSwitchUnmanaged">
-                                    <s:div styleClass="entry">
-                                        <div class="label">&#160;</div>
-                                        <div class="input">
-                                            <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
-                                            <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}"/>
-                                        </div>
-                                    </s:div>
+                                    <s:fragment rendered="#{s:hasPermission('Feed','write',wikiRoot.feed)}">
+                                        <s:div styleClass="entry">
+                                            <div class="label">&#160;</div>
+                                            <div class="input">
+                                                <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
+                                                <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}"/>
+                                            </div>
+                                        </s:div>
+                                    </s:fragment>
                                 </s:div>
                             </s:fragment>
 
@@ -144,13 +147,16 @@
                                         </div>
                                     </s:div>
                                     <s:div id="pushOnSiteFeedSwitch">
-                                        <s:div styleClass="entry">
-                                            <div class="label">&#160;</div>
-                                            <div class="input">
-                                                <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}" value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
-                                                <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}"/>
-                                            </div>
-                                        </s:div>
+                                        <s:fragment rendered="#{s:hasPermission('Feed','write',wikiRoot.feed)}">
+                                            <s:div styleClass="entry">
+                                                <div class="label">&#160;</div>
+                                                <div class="input">
+                                                    <h:selectBooleanCheckbox disabled="#{not documentHome.pushOnFeeds}"
+                                                                             value="#{documentHome.pushOnSiteFeed}" tabindex="1"/>
+                                                    <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnSiteFeed']}"/>
+                                                </div>
+                                            </s:div>
+                                        </s:fragment>
                                     </s:div>
                                 </s:fragment>
                             </s:fragment>
@@ -292,7 +298,7 @@
                             <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Update']}"/>
                         </h:commandLink>
 
-                        <s:fragment rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}">
+                        <s:fragment rendered="#{documentHome.removable}">
                             <a:jsFunction name="deleteDocument"
                                           action="#{documentHome.remove}"/>
                             <h:outputLink value="#" tabindex="1"
@@ -315,30 +321,31 @@
     <br/>
 
     <s:div id="contentPreview">
-        <s:div id="documentDisplayContainer"
-               rendered="#{documentHome.enabledPreview}"
-               styleClass="box">
-            <s:fragment rendered="#{documentHome.instance.macroPresent('clearBackground')}">
-                <script type="text/javascript">jQuery(function() {
-                    clearDocumentBackground();
-                });</script>
-            </s:fragment>
-            <s:div id="documentDisplay" styleClass="documentDisplay">
-                <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
-                <wiki:formattedText value="#{documentHome.instance.content}"
-                                    linkStyleClass="regularLink"
-                                    brokenLinkStyleClass="brokenLink"
-                                    attachmentLinkStyleClass="regularLink"
-                                    thumbnailLinkStyleClass="regularLink"
-                                    linkBaseFile="#{documentHome.instance}"
-                                    currentAreaNumber="#{documentHome.parentNode.areaNumber}"
-                                    enablePlugins="true"/>
+        <c:if test="#{documentHome.enabledPreview}">
+            <s:div id="documentDisplayContainer"
+                   styleClass="box">
+                <s:fragment rendered="#{documentHome.instance.macroPresent('clearBackground')}">
+                    <script type="text/javascript">jQuery(function() {
+                        clearDocumentBackground();
+                    });</script>
+                </s:fragment>
+                <s:div id="documentDisplay" styleClass="documentDisplay">
+                    <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
+                    <wiki:formattedText value="#{documentHome.instance.content}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        thumbnailLinkStyleClass="regularLink"
+                                        linkBaseFile="#{documentHome.instance}"
+                                        currentAreaNumber="#{documentHome.parentNode.areaNumber}"
+                                        enablePlugins="true"/>
+                </s:div>
             </s:div>
-        </s:div>
 
-        <s:div rendered="#{documentHome.enabledPreview}">
-            <ui:include src="includes/attachmentDisplay.xhtml"/>
-        </s:div>
+            <s:div rendered="#{documentHome.enabledPreview}">
+                <ui:include src="includes/attachmentDisplay.xhtml"/>
+            </s:div>
+        </c:if>
     </s:div>
 
 </ui:define>

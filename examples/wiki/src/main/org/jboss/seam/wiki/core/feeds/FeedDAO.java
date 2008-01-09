@@ -46,6 +46,7 @@ public class FeedDAO {
     public List<Feed> findAllFeeds() {
         return restrictedEntityManager
                 .createQuery("select f from Feed f")
+                .setHint("org.hibernate.cacheable", true)
                 .getResultList();
 
     }
@@ -53,6 +54,7 @@ public class FeedDAO {
     public List<WikiFeed> findWikiFeeds() {
         return restrictedEntityManager
                 .createQuery("select f from WikiFeed f join fetch f.directory d order by d.createdOn asc")
+                .setHint("org.hibernate.cacheable", true)
                 .getResultList();
 
     }
@@ -62,6 +64,7 @@ public class FeedDAO {
             return (Feed) restrictedEntityManager
                 .createQuery("select f from Feed f where f.id = :id")
                 .setParameter("id", feedId)
+                .setHint("org.hibernate.cacheable", true)
                 .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {}

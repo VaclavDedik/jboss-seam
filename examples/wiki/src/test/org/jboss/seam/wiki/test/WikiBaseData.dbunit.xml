@@ -4,7 +4,7 @@
 
     <PREFERENCE PREF_ID = "1" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "baseUrl" STRING_VALUE = "http://localhost:8080/wiki" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "2" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "timeZone" STRING_VALUE = "CET" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
-    <PREFERENCE PREF_ID = "3" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "themeName" STRING_VALUE = "sfwkorg" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "3" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "themeName" STRING_VALUE = "default" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "4" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "memberArea" STRING_VALUE = "Members" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "5" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "helpArea" STRING_VALUE = "Help" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "6" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "defaultDocumentId" STRING_VALUE = "[NULL]" LONG_VALUE = "6" BOOLEAN_VALUE = "[NULL]"/>
@@ -19,6 +19,7 @@
     <PREFERENCE PREF_ID = "15" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "showDocumentCreatorHistory" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
     <PREFERENCE PREF_ID = "16" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "showTags" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
     <PREFERENCE PREF_ID = "17" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "showEmailToLoggedInOnly" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
+    <PREFERENCE PREF_ID = "18" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Wiki" PROPERTY_NAME = "trashArea" STRING_VALUE = "Trash" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
 
     <PREFERENCE PREF_ID = "20" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "minorRevisionEnabled" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
     <PREFERENCE PREF_ID = "21" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "regularEditAreaRows" STRING_VALUE = "[NULL]" LONG_VALUE = "15" BOOLEAN_VALUE = "[NULL]"/>
@@ -140,7 +141,7 @@
         FIRSTNAME = "Regular" LASTNAME = "Member"
         USERNAME = "member"
         PASSWORDHASH = "aa08769cdcb26674c6706093503ff0a3"
-        EMAIL = "christian.bauer@gmail.com"
+        EMAIL = "member@domain.tld"
         ACTIVATED = "true"
         ACTIVATION_CODE ="ebb0bce9eeeee191e8089afd1120c4a7"
         USER_PROFILE_ID = "3"
@@ -368,7 +369,7 @@
         DIRECTORY_ID = "2"
     />
 
-    <!-- Member home -->
+    <!-- Member Area -->
     <WIKI_NODE
         NODE_ID="16" OBJ_VERSION="0" PARENT_NODE_ID="1"
         AREA_NR="16" NAME="Members" WIKINAME="Members"
@@ -378,6 +379,16 @@
         NODE_ID="16" DESCRIPTION="Default member area" DEFAULT_FILE_ID="[NULL]"
         NS_LEFT="10" NS_RIGHT="11" NS_THREAD="1"/>
     
+
+    <!-- Trash Area -->
+    <WIKI_NODE
+        NODE_ID="17" OBJ_VERSION="0" PARENT_NODE_ID="1"
+        AREA_NR="17" NAME="Trash" WIKINAME="Trash"
+        CREATED_ON="2006-09-23 13:45:00" CREATED_BY_USER_ID="1" LAST_MODIFIED_ON="[NULL]" LAST_MODIFIED_BY_USER_ID="[NULL]"
+        READ_ACCESS_LEVEL="0" WRITE_ACCESS_LEVEL="0" WRITE_PROTECTED="true"/>
+    <WIKI_DIRECTORY
+        NODE_ID="17" DESCRIPTION="Trash area" DEFAULT_FILE_ID="[NULL]"
+        NS_LEFT="12" NS_RIGHT="13" NS_THREAD="1"/>
 
     <!-- Clean these tables -->
     <FEEDENTRY/>

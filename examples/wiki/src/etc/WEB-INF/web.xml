@@ -11,6 +11,13 @@
         <param-value>wiki</param-value>
     </context-param>
 
+    <!--
+    <context-param>
+       <param-name>org.ajax4jsf.xmlparser.ORDER</param-name>
+       <param-value>NEKO</param-value>
+   </context-param>
+   -->
+
     <!-- Seam -->
 
     <listener>

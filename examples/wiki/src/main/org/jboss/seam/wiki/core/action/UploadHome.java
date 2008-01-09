@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -18,6 +19,8 @@ import java.util.Map;
 @Name("uploadHome")
 @Scope(ScopeType.CONVERSATION)
 public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
+
+    public static final String UPLOAD_NODE_REMOVER = "uploadNodeRemover";
 
     /* -------------------------- Context Wiring ------------------------------ */
 
@@ -100,8 +103,13 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
     }
 
     @Override
-    protected boolean beforeRemove() {
-        return uploadEditor.beforeRemove();
+    public String remove() {
+        return trash();
+    }
+
+    @Override
+    protected NodeRemover getNodeRemover() {
+        return (NodeRemover) Component.getInstance(UploadNodeRemover.class);
     }
 
     /* -------------------------- Internal Methods ------------------------------ */

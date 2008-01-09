@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "WIKI_UPLOAD")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_UPLOAD_NODE_ID")
-@org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+//TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 public class WikiUpload<U extends WikiUpload> extends WikiFile<U> {
 
     @Column(name = "FILENAME", length = 255, nullable = false)

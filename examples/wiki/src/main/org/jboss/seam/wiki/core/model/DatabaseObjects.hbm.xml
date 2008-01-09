@@ -21,33 +21,6 @@
 
     <database-object>
         <create>
-            alter table FEED_FEEDENTRY drop constraint FK_FEED_FEEDENTRY_FEED_ID;
-            alter table FEED_FEEDENTRY add constraint FK_FEED_FEEDENTRY_FEED_ID foreign key (FEED_ID) references FEED on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY drop constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID;
-            alter table FEED_FEEDENTRY add constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID foreign key (FEEDENTRY_ID) references FEEDENTRY on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table WIKI_DIRECTORY drop constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID;
-            alter table WIKI_DIRECTORY add constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID foreign key (DEFAULT_FILE_ID) references WIKI_FILE on delete set null;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
             alter table WIKI_TAG drop constraint FK_WIKI_TAG_FILE_ID;
             alter table WIKI_TAG add constraint FK_WIKI_TAG_FILE_ID foreign key (FILE_ID) references WIKI_FILE on delete cascade;
         </create>
@@ -68,6 +41,34 @@
         <create>
             alter table WIKI_FILE_LINK drop constraint FK_TARGET_WIKI_FILE_ID;
             alter table WIKI_FILE_LINK add constraint FK_TARGET_WIKI_FILE_ID foreign key (TARGET_WIKI_FILE_ID) references WIKI_FILE on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <!--
+    <database-object>
+        <create>
+            alter table FEED_FEEDENTRY drop constraint FK_FEED_FEEDENTRY_FEED_ID;
+            alter table FEED_FEEDENTRY add constraint FK_FEED_FEEDENTRY_FEED_ID foreign key (FEED_ID) references FEED on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table FEED_FEEDENTRY drop constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID;
+            alter table FEED_FEEDENTRY add constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID foreign key (FEEDENTRY_ID) references FEEDENTRY on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_DIRECTORY drop constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID;
+            alter table WIKI_DIRECTORY add constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID foreign key (DEFAULT_FILE_ID) references WIKI_FILE on delete set null;
         </create>
         <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
@@ -108,71 +109,10 @@
         <drop/>
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
-
-    <database-object>
-        <create>
-            create index IDX_PREFERENCE_ENTITY_NAME on PREFERENCE (ENTITY_NAME);
-        </create>
-        <drop>
-            drop index IDX_PREFERENCE_ENTITY_NAME
-        </drop>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            create index IDX_PREFERENCE_ENTITY_PROPERTY_NAME on PREFERENCE (PROPERTY_NAME, ENTITY_NAME);
-        </create>
-        <drop>
-            drop index IDX_PREFERENCE_ENTITY_PROPERTY_NAME
-        </drop>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
+-->
 
     <!-- ############################### MySQL ############################### -->
 
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY drop foreign key FK_FEED_FEEDENTRY_FEED_ID;
-        </create><drop/><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY
-                add constraint FK_FEED_FEEDENTRY_FEED_ID foreign key (FEED_ID) references FEED (FEED_ID) on delete cascade;
-        </create><drop/><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY drop foreign key FK_FEED_FEEDENTRY_FEEDENTRY_ID;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY
-                add constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID foreign key (FEEDENTRY_ID) references FEEDENTRY (FEEDENTRY_ID) on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table WIKI_DIRECTORY drop foreign key FK_WIKI_DIRECTORY_DEFAULT_FILE_ID;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table WIKI_DIRECTORY add constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID foreign key (DEFAULT_FILE_ID) references WIKI_FILE(NODE_ID) on delete set null;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
 
     <database-object>
         <create>
@@ -214,6 +154,50 @@
     <database-object>
         <create>
             alter table WIKI_FILE_LINK add constraint FK_TARGET_WIKI_FILE_ID foreign key (TARGET_WIKI_FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <!--
+    <database-object>
+        <create>
+            alter table FEED_FEEDENTRY drop foreign key FK_FEED_FEEDENTRY_FEED_ID;
+        </create><drop/><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table FEED_FEEDENTRY
+                add constraint FK_FEED_FEEDENTRY_FEED_ID foreign key (FEED_ID) references FEED (FEED_ID) on delete cascade;
+        </create><drop/><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table FEED_FEEDENTRY drop foreign key FK_FEED_FEEDENTRY_FEEDENTRY_ID;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table FEED_FEEDENTRY
+                add constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID foreign key (FEEDENTRY_ID) references FEEDENTRY (FEEDENTRY_ID) on delete cascade;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
+            alter table WIKI_DIRECTORY drop foreign key FK_WIKI_DIRECTORY_DEFAULT_FILE_ID;
+        </create>
+        <drop/>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+    <database-object>
+        <create>
+            alter table WIKI_DIRECTORY add constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID foreign key (DEFAULT_FILE_ID) references WIKI_FILE(NODE_ID) on delete set null;
         </create>
         <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
@@ -278,7 +262,7 @@
         <drop/>
         <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
     </database-object>
-
+-->
     <database-object>
         <create>
             create index IDX_PREFERENCE_ENTITY_NAME on PREFERENCE (ENTITY_NAME)

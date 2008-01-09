@@ -93,7 +93,7 @@ public class User implements Serializable {
     private List<Role> roles = new ArrayList<Role>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_HOME_WIKI_DIRECTORY_ID", nullable = true)
+    @JoinColumn(name = "MEMBER_HOME_WIKI_DIRECTORY_ID", nullable = true, unique = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID")
     private WikiDirectory memberHome;
 

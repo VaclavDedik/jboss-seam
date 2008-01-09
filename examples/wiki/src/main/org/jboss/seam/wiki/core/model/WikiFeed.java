@@ -19,7 +19,7 @@ public class WikiFeed extends Feed implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DIRECTORY_ID", nullable = true, updatable = false, unique = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_FEED_WIKI_DIRECTORY_ID")
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    //TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private WikiDirectory directory;
 
     public WikiFeed() {

@@ -17,10 +17,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.WikiNode;
-import org.jboss.seam.wiki.core.model.Role;
-import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.*;
 
 /**
  * Need this until Drools fixes bugs and becomes usable/debuggable.
@@ -87,6 +84,12 @@ public class WikiIdentity extends Identity {
         } else
         if ("Comment".equals(name) && "delete".equals(action)) {
             return checkCommentDelete((WikiNode)args[0]);
+        } else
+        if ("Trash".equals(name) && "empty".equals(action)) {
+            return checkTrashEmpty((WikiDirectory)args[0]);
+        } else
+        if ("Feed".equals(name) && "write".equals(action)) {
+            return checkFeedWrite((WikiFeed)args[0]);
         }
 
 
@@ -235,6 +238,22 @@ public class WikiIdentity extends Identity {
     private boolean checkCommentDelete(WikiNode node) {
         if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
         return false;
+    }
+
+    /*
+        Only admins can empty the trash
+    */
+    private boolean checkTrashEmpty(WikiDirectory trashArea) {
+        if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
+        return false;
+    }
+
+    /*
+        Only admins can write to feed or users who have write permission on the associated dir.
+    */
+    private boolean checkFeedWrite(WikiFeed feed) {
+        if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
+        return feed.getDirectory().getWriteAccessLevel() <= currentAccessLevel;
     }
 
 }

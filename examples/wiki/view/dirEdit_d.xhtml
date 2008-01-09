@@ -244,7 +244,7 @@
                 <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.Update']}"/>
             </h:commandLink>
 
-            <s:fragment rendered="#{directoryHome.managed and !empty directoryHome.parentNode and directoryHome.instance.id != memberArea.id}">
+            <s:fragment rendered="#{directoryHome.removable}">
                 <a:jsFunction name="deleteDirectory"
                               action="#{directoryHome.remove}"/>
                 <h:outputLink value="#" tabindex="1"

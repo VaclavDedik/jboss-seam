@@ -153,7 +153,16 @@ public class WikiPreferenceProvider implements PreferenceProvider<User, WikiMacr
     }
 
     public void deleteUserPreferenceValues(User user) {
-        // NOOP, deleted by foreign key cascade on PREFERENCE table
+        log.debug("deleting preferences of user: " + user);
+        List<WikiPreferenceValue> values =
+            entityManager.createQuery(
+                            "select wp from WikiPreferenceValue wp" +
+                            " where wp.user = :user"
+                          ).setParameter("user", user)
+                           .getResultList();
+        for (WikiPreferenceValue value : values) {
+            entityManager.remove(value);
+        }
     }
 
     public void flush() {

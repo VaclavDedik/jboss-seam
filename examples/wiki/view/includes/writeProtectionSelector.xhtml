@@ -5,7 +5,7 @@
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib"
-     rendered="#{currentUser.admin}">
+     rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
 
     <s:div styleClass="entry">
         <div class="label">&#160;</div>

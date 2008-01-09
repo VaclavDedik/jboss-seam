@@ -103,6 +103,15 @@
            diskPersistent="false"
            overflowToDisk="false"/>
 
+    <cache name="WikiNode"
+           maxElementsInMemory="1000"
+           eternal="false"
+           overflowToDisk="false"
+           timeToIdleSeconds="1000"
+           timeToLiveSeconds="6000"
+           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
     <cache name="WikiPreference"
            maxElementsInMemory="20000"
            eternal="false"
@@ -121,7 +130,6 @@
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
-<!-- TODO: Cascade delete
     <cache name="WikiFeed"
            maxElementsInMemory="100"
            eternal="false"
@@ -148,7 +156,7 @@
            timeToLiveSeconds="259200"
            diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
--->
+
     <cache name="WikiUser"
            maxElementsInMemory="5000"
            eternal="false"

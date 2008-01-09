@@ -14,7 +14,7 @@ public class WikiMenuItem implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "DIRECTORY_ID", insertable = false, updatable = false)
     @org.hibernate.annotations.ForeignKey(name = "FK_MENU_ITEM_DIRECTORY_ID")
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    //TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private WikiDirectory directory;
 
     @Column(name = "DISPLAY_POSITION", nullable = false)

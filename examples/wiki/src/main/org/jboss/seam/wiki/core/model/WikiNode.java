@@ -97,7 +97,7 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PARENT_NODE_ID", nullable = true)
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    //TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_NODE_PARENT_NODE_ID")
     @org.hibernate.annotations.Fetch(org.hibernate.annotations.FetchMode.JOIN)
     protected WikiNode parent;

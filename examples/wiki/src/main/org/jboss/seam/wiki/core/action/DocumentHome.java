@@ -19,10 +19,7 @@ import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
-import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiFile;
-import org.jboss.seam.wiki.core.model.FeedEntry;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
@@ -212,39 +209,14 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     }
 
     @Override
-    protected boolean prepareRemove() {
-
-        // Remove feed entry before removing document
-        feedDAO.removeFeedEntry(
-            feedDAO.findFeeds(getInstance()),
-            feedDAO.findFeedEntry(getInstance())
-        );
-
-        return super.prepareRemove();
+    public String remove() {
+        return trash();
     }
 
     @Override
-    protected boolean beforeRemove() {
-
-        /* TODO:
-        // Delete preferences of this node
-        PreferenceProvider provider = (PreferenceProvider) Component.getInstance("preferenceProvider");
-        provider.deleteInstancePreferences(getInstance());
-        */
-
-
-        return super.beforeRemove();
+    protected NodeRemover getNodeRemover() {
+        return (DocumentNodeRemover)Component.getInstance(DocumentNodeRemover.class);
     }
-
-    /* TODO: Implement node moving
-    @Override
-    protected void afterNodeMoved(WikiDirectory oldParent, WikiDirectory newParent) {
-        // Update view
-        syncFormContentToInstance(oldParent); // Resolve existing links in old directory
-        syncInstanceToFormContent(newParent); // Now update the form, effectively re-rendering the links
-        Contexts.getConversationContext().set("currentDirectory", newParent);
-    }
-    */
 
     /* -------------------------- Messages ------------------------------ */
 
@@ -293,11 +265,11 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         if (isPageRootController()) {
             if (doc != null) {
                 getLog().debug("setting current document: " + doc);
-                Contexts.getPageContext().set("currentDocument", doc);
+                Contexts.getConversationContext().set("currentDocument", doc);
             }
             if (dir != null) {
                 getLog().debug("setting current directory: " + dir);
-                Contexts.getPageContext().set("currentDirectory", dir);
+                Contexts.getConversationContext().set("currentDirectory", dir);
             }
         }
     }

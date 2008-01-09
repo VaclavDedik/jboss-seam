@@ -9,7 +9,7 @@ public class WikiCommentFeedEntry extends FeedEntry {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WIKI_COMMENT_ID", nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_FEEDENTRY_WIKI_COMMENT_ID")
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    //TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private WikiComment comment;
 
     public WikiComment getComment() {

@@ -94,7 +94,7 @@
                              value="#{messages['lacewiki.button.Save']}"/>
             <h:commandButton action="#{documentHome.update}" rendered="#{documentHome.managed}"
                              value="#{messages['lacewiki.button.Update']}"/>
-            <h:commandButton action="#{documentHome.remove}" rendered="#{documentHome.managed and documentHome.instance.id != wikiStart.id}"
+            <h:commandButton action="#{documentHome.remove}" rendered="#{documentHome.removable}"
                              value="#{messages['lacewiki.button.Delete']}"/>
         </s:div>
 

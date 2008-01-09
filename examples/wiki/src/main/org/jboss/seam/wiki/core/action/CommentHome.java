@@ -54,6 +54,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return false;
     }
 
+    @Override
     public Class<WikiComment> getEntityClass() {
         return WikiComment.class;
     }
@@ -97,6 +98,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return comment;
     }
 
+    @Override
     protected void checkPersistPermissions() {
         getLog().trace("checking comment persist permissions");
         if (!Identity.instance().hasPermission("Comment", "create", documentHome.getInstance()) ) {
@@ -125,7 +127,12 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return null; // Prevent navigation
     }
 
-    /* -------------------------- Messages ------------------------------ */
+    @Override
+    protected NodeRemover getNodeRemover() {
+        return (CommentNodeRemover)Component.getInstance(CommentNodeRemover.class);
+    }
+
+/* -------------------------- Messages ------------------------------ */
 
     @Override
     protected void createdMessage() {

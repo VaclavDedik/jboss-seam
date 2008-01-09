@@ -145,7 +145,7 @@
                             <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.uploadEdit.Update']}"/>
                         </h:commandLink>
 
-                        <s:fragment rendered="#{uploadHome.managed}">
+                        <s:fragment rendered="#{uploadHome.removable}">
                             <a:jsFunction name="deleteUpload"
                                           action="#{uploadHome.remove}"/>
                             <h:outputLink value="#" tabindex="1"

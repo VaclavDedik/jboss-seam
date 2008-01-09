@@ -9,7 +9,7 @@ public class WikiDocumentFeedEntry extends FeedEntry {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "WIKI_DOCUMENT_ID", nullable = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_FEEDENTRY_WIKI_DOCUMENT_ID")
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
+    //TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private WikiDocument document;
 
     public WikiDocument getDocument() {

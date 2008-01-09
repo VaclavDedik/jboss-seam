@@ -13,9 +13,10 @@
       <executeOn event="afterCompilation" target="deploy" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="LoginTest" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="Adhoc" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="Unnamed" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="DocumentHistoryTests.updateDocumentCheckRevisions" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="" />
     </buildFile>
   </component>
@@ -1195,11 +1196,6 @@
               </list>
             </value>
           </option>
-        </inspection_tool>
-        <inspection_tool class="EmptyCatchBlock" level="WARNING" enabled="false">
-          <option name="m_includeComments" value="true" />
-          <option name="m_ignoreTestCases" value="true" />
-          <option name="m_ignoreIgnoreParameter" value="true" />
         </inspection_tool>
         <inspection_tool class="EjbQlInspection" level="ERROR" enabled="false" />
       </profile>

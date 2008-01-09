@@ -7,17 +7,15 @@
 package org.jboss.seam.wiki.test.editing;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.hibernate.StatelessSession;
 import org.hibernate.Session;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
 import org.jboss.seam.core.Conversation;
-import org.jboss.seam.faces.Redirect;
 import org.jboss.seam.wiki.core.action.DirectoryHome;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.faces.Redirect;
 import org.testng.annotations.Test;
 
 public class BasicNodeOperations extends DBUnitSeamTest {
@@ -26,42 +24,9 @@ public class BasicNodeOperations extends DBUnitSeamTest {
         beforeTestOperations.add(
                 new DataSetOperation("org/jboss/seam/wiki/test/WikiBaseData.dbunit.xml", DatabaseOperation.CLEAN_INSERT)
         );
-    }
-
-    @Test
-    public void deleteDocument() throws Exception {
-
-        final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
-            protected void beforeRequest() {
-                setParameter("documentId", "6");
-                setParameter("parentDirectoryId", "3");
-            }
-        }.run();
-
-        new FacesRequest("/docEdit_d.xhtml") {
-
-            protected void beforeRequest() {
-                setParameter("cid", conversationId);
-            }
-
-            protected void invokeApplication() throws Exception {
-                assert Conversation.instance().isLongRunning();
-
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
-                assert docHome.getInstance().getId().equals(6l);
-
-                assert invokeMethod("#{documentHome.remove}").equals("removed");
-
-                // TODO: SeamTest doesn't do navigation but we don't want to have /docEdit_d.xhtml in the RENDER RESPONSE
-                Conversation.instance().end();
-                Redirect.instance().setViewId("/dirDisplay.xhtml");
-                Redirect.instance().execute();
-
-                assert checkNestedSetNodeInDatabase(3l, 4, 9);
-                assert !checkDocumentInDatabase(6l);
-            }
-
-        }.run();
+        beforeTestOperations.add(
+                new DataSetOperation("org/jboss/seam/wiki/test/HelpDocuments.dbunit.xml", DatabaseOperation.INSERT)
+        );
     }
 
     @Test
@@ -69,8 +34,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
 
         final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
             protected void beforeRequest() {
-                setParameter("directoryId", "2");
-                setParameter("parentDirectoryId", "1");
+                setParameter("directoryId", "5");
             }
         }.run();
 
@@ -81,6 +45,8 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
+                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                assert dirHome.getInstance().getId().equals(5l); // Init!
                 assert invokeMethod("#{directoryHome.remove}").equals("removed");
 
                 // TODO: SeamTest doesn't do navigation but we don't want to have /dirEdit_d.xhtml in the RENDER RESPONSE
@@ -89,7 +55,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 Redirect.instance().execute();
 
                 assert checkNestedSetNodeInDatabase(1l, 1, 997);
-                assert !checkDirectoryInDatabase(2l);
+                assert !checkDirectoryInDatabase(5l);
             }
 
         }.run();

@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.annotations.*;
@@ -143,10 +144,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
         return super.beforeUpdate();
     }
 
-    @Override
-    protected boolean prepareRemove() {
-        // Wiki ROOT is special
-        return getInstance().getParent() != null;
+    protected NodeRemover getNodeRemover() {
+        return (NodeRemover)Component.getInstance(DirectoryNodeRemover.class);
     }
 
     /* -------------------------- Messages ------------------------------ */
@@ -209,6 +208,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
                             new Long(pager.getNextRecord()).intValue(),
                             new Long(pager.getPageSize()).intValue()
                     );
+        } else {
+            childNodes = Collections.emptyList();
         }
     }
 
@@ -227,17 +228,17 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
             for (WikiMenuItem persistentMenuItem : persistentMenuItems) {
                 if (menuItems.contains(persistentMenuItem)) {
                     persistentMenuItem.setDisplayPosition(menuItems.indexOf(persistentMenuItem));
-                    getLog().debug("Updated menu: " + persistentMenuItem);
+                    getLog().debug("updated menu: " + persistentMenuItem);
                 } else {
                     getEntityManager().remove(persistentMenuItem);
-                    getLog().debug("Removed menu: " + persistentMenuItem);
+                    getLog().debug("removed menu: " + persistentMenuItem);
                 }
             }
             for (WikiMenuItem menuItem : menuItems) {
                 if (!persistentMenuItems.contains(menuItem)) {
                     menuItem.setDisplayPosition(menuItems.indexOf(menuItem));
                     getEntityManager().persist(menuItem);
-                    getLog().debug("Inserted menu: " + menuItem);
+                    getLog().debug("inserted menu: " + menuItem);
                 }
             }
         }
@@ -351,7 +352,7 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
         for (Map.Entry<WikiNode, Boolean> entry : getSelectedNodes().entrySet()) {
             if (entry.getValue()) {
                 getLog().debug("copying to clipboard: " + entry.getKey());
-                clipboard.add(entry.getKey(), false);
+                clipboard.add(entry.getKey().getId(), false);
             }
         }
         selectedNodes.clear();
@@ -362,7 +363,7 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
         for (Map.Entry<WikiNode, Boolean> entry : getSelectedNodes().entrySet()) {
             if (entry.getValue()) {
                 getLog().debug("cutting to clipboard: " + entry.getKey());
-                clipboard.add(entry.getKey(), true);
+                clipboard.add(entry.getKey().getId(), true);
             }
         }
         selectedNodes.clear();
@@ -378,9 +379,9 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
         int batchSize = 2;
         int i = 0;
         List<Long> batchIds = new ArrayList<Long>();
-        for (WikiNode clipboardNode : clipboard.getItems()) {
+        for (Long clipboardNodeId : clipboard.getItems()) {
             i++;
-            batchIds.add(clipboardNode.getId());
+            batchIds.add(clipboardNodeId);
             if (i % batchSize == 0) {
                 List<WikiNode> nodesForPasteBatch = getWikiNodeDAO().findWikiNodes(batchIds);
                 pasteNodes(nodesForPasteBatch);
@@ -483,6 +484,40 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
             }
         }
         getLog().debug("completed executing of paste batch");
+    }
+
+    @Restrict("#{s:hasPermission('Trash', 'empty', trashArea)}")
+    public void emptyTrash() {
+        WikiDirectory trashArea = (WikiDirectory) Component.getInstance("trashArea");
+        if (!isManaged() || !trashArea.getId().equals(getInstance().getId())) return;
+
+        getLog().debug("emptying trash");
+        List<WikiNode> children = getWikiNodeDAO().findChildren(getInstance(), "createdOn", false, 0, Integer.MAX_VALUE);
+
+        // TODO: This should be batched with a database cursor!
+        for (WikiNode child : children) {
+            getLog().debug("trashing item: " + child);
+
+            // TODO: Make this polymorphic and connect it somehow to the stuff that happens in DocumentHome/UploadHome
+            if (child.isInstance(WikiDocument.class)) {
+                List<WikiComment> comments = getWikiNodeDAO().findWikiCommentsFlat((WikiDocument)child, true);
+                for (WikiComment comment : comments) {
+                    getLog().debug("trashing sub-item: " + comment);
+                    getEntityManager().remove(comment);
+                }
+            }
+            getEntityManager().remove(child);
+        }
+        getEntityManager().flush();
+
+        getFacesMessages().addFromResourceBundleOrDefault(
+                SEVERITY_INFO,
+                "lacewiki.msg.Trash.Emptied",
+                "All items in the trash have been permanently deleted."
+        );
+
+        selectedNodes.clear();
+        refreshChildNodes();
     }
 
 }
