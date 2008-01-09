@@ -1,4 +1,4 @@
-<#include "../../util/TypeInfo.ftl">
+<#include "../util/TypeInfo.ftl">
 
 <#if !property.equals(pojo.identifierProperty) || property.value.identifierGeneratorStrategy == "assigned">
 <#if c2j.isComponent(property)>

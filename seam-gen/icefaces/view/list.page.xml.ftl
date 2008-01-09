@@ -7,7 +7,7 @@
       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd">
 
       
-<#include "../../util/TypeInfo.ftl">
+<#include "../util/TypeInfo.ftl">
 
 <#assign entityName = pojo.shortName>
 <#assign componentName = util.lower(entityName)>

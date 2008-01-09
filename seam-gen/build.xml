@@ -482,6 +482,7 @@
                 <include name="test/**"/>
                 <include name="view/**"/>
                 <include name="nbproject/**"/>
+            	<include name="util/**"/>
             </fileset>
         </copy>
         <copy todir="icefaces-staging" overwrite="true">
