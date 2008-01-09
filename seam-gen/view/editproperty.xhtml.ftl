@@ -26,7 +26,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                     <s:convertDateTime type="time"/>
-                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isTimestamp(componentProperty)>
                 <h:inputText id="${componentProperty.name}" 
@@ -36,7 +36,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                      <s:convertDateTime type="both" dateStyle="short"/>
-                     <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
+                     <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isBigDecimal(componentProperty)>
                 <h:inputText id="${componentProperty.name}" 
@@ -45,7 +45,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"
                            size="${column.precision+7}">
-                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isBigInteger(componentProperty)>
                 <h:inputText id="${componentProperty.name}" 
@@ -57,7 +57,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"
                            size="${column.precision+6}">
-                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isBoolean(componentProperty)>
                  <h:selectBooleanCheckbox id="${componentProperty.name}"
@@ -101,7 +101,7 @@
                           size="${size}"
                      maxlength="${column.length}"
                          value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 </#if>
 <#else>
@@ -113,7 +113,7 @@
                        disabled="${'#'}{${homeName}.managed}"
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 </#if>
             </s:decorate>
@@ -141,7 +141,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}">
                     <s:convertDateTime type="time"/>
-                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isTimestamp(property)>
                 <h:inputText id="${property.name}" 
@@ -151,7 +151,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}">
                     <s:convertDateTime type="both" dateStyle="short"/>
-                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isBigDecimal(property)>
                 <h:inputText id="${property.name}" 
@@ -160,7 +160,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}"
                            size="${column.precision+7}">
-                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isBigInteger(property)>
                 <h:inputText id="${property.name}" 
@@ -172,7 +172,7 @@
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}"
                            size="${column.precision+6}">
-                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isBoolean(property)>
                 <h:selectBooleanCheckbox id="${property.name}"
@@ -216,7 +216,7 @@
                            size="${size}"
                       maxlength="${column.length}"
                           value="${'#'}{${homeName}.instance.${property.name}}">
-                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 </#if>
 <#else>
@@ -228,7 +228,7 @@
                        disabled="${'#'}{${homeName}.managed}"
 </#if>
                           value="${'#'}{${homeName}.instance.${property.name}}">
-                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true"/>
+                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 </#if>
             </s:decorate>
