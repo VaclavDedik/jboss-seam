@@ -531,6 +531,18 @@ div.formRow input[type='password'] {
   width: 120px;
 }
 
+div.validationError {
+  margin-left: 120px;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+.roles {
+  width: 120px;
+  border: 1px solid #7F9DB9;
+  background-color: #E7EDF7;
+}
+
 div.selectMany label {
   float: none;
 }
@@ -549,4 +561,28 @@ div.selectMany label {
 div.formButtons {
   float: right;
   padding: 4px 8px 16px 2px;
+}
+
+div.checkmark {
+  background: url(../images/checkmark.png) top left no-repeat;
+  width: 14px;
+  height: 15px;
+  margin-left: auto;
+  margin-right: auto;    
+}
+
+div.cross {
+  background: url(../images/cross.png) top left no-repeat;
+  width: 14px;
+  height: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td.enabled {
+  text-align: center;
+}
+
+td.action {
+  text-align: right;
 }

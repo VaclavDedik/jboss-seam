@@ -28,7 +28,7 @@
             value="#{users}" 
             var="user" 
             styleClass="default"
-            columnClasses=",,action">
+            columnClasses=",,enabled,action">
             <f:facet name="header">
               <rich:columnGroup>
                 <rich:column>
@@ -36,6 +36,9 @@
                 </rich:column>
                 <rich:column>
                   Member Of
+                </rich:column>
+                <rich:column>
+                  Enabled
                 </rich:column>
                 <rich:column>
                   Action
@@ -49,6 +52,10 @@
             #{userSearch.getUserRoles(user)}
           </rich:column>
           <rich:column>
+            <div class="#{identityManager.isEnabled(user) ? 'checkmark' : 'cross'}"/>
+          </rich:column>
+          <rich:column>
+            <s:link value="Edit" action="#{userAction.editUser(userSearch.selectedUser)}"/><span> | </span>
             <s:link value="Delete" action="#{identityManager.deleteAccount(userSearch.selectedUser)}" onclick="return confirmDelete()"/>
           </rich:column>
   	    </rich:dataTable>

@@ -66,6 +66,10 @@
       <navigation from-action="#{userAction.createUser}">
         <redirect view-id="/userdetail.xhtml"/>
       </navigation>
+      
+      <navigation from-action="#{userAction.editUser(userSearch.selectedUser)}">
+        <redirect view-id="/userdetail.xhtml"/>
+      </navigation>      
     </page>
     
     <page view-id="/userdetail.xhtml">

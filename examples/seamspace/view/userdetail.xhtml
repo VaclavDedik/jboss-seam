@@ -20,12 +20,14 @@
               
           <div class="formRow">
             <h:outputLabel for="username" value="Username" styleClass="formLabel"/>
-            <h:inputText id="username" value="#{userAction.username}"/>
+            <h:inputText id="username" value="#{userAction.username}" readonly="#{identityManager.accountExists(userAction.username)}"/>
+            <div class="validationError"><h:message for="username"/></div>
           </div>              
 
           <div class="formRow">
             <h:outputLabel for="password" value="Password" styleClass="formLabel"/>
             <h:inputSecret id="password" value="#{userAction.password}"/>
+            <div class="validationError"><h:message for="password"/></div>
           </div>              
           
           <div class="formRow">
@@ -36,11 +38,17 @@
           <div class="formRow">            
             <h:outputLabel for="roles" value="Roles" styleClass="formLabel"/>
             <div class="selectMany">
-              <h:selectManyCheckbox id="roles" value="#{userAction.roles}" layout="pageDirection">
+              <h:selectManyCheckbox id="roles" value="#{userAction.roles}" layout="pageDirection" styleClass="roles">
                 <s:selectItems value="#{identityManager.listRoles()}" var="role" label="#{role}"/>
               </h:selectManyCheckbox>
             </div>
+            <div class="validationError"><h:message for="roles"/></div>            
           </div>
+          
+          <div class="formRow">
+            <h:outputLabel for="enabled" value="Account enabled" styleClass="formLabel"/>
+            <h:selectBooleanCheckbox id="enabled" value="#{userAction.enabled}"/>
+          </div>   
                                       
           <div class="formButtons">
             <h:commandButton value="Save" action="#{userAction.save}" styleClass="formButton"/>
