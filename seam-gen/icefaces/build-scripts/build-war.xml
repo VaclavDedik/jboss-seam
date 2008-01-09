@@ -214,7 +214,8 @@
                 <include name="commons-beanutils.jar" />
                 <include name="icefaces*.jar" />
                 <include name="backport-util-concurrent.jar" />
-                <include name="commons-fileupload.jar"/> 	
+                <include name="commons-fileupload.jar"/>
+                <exclude name="icefaces-ahs.jar"/>
             </fileset>
         </copy>
         
@@ -347,10 +348,11 @@
 	<target name="freshen" description="grab fresh icefaces jars">
 	<copy todir="${lib.dir}">
 	    <fileset dir="${icefaces.home}/lib">
-		   <include name="icefaces*.jar" />
-                   <include name="backport-util-concurrent.jar" />	
-                   <include name="commons-fileupload.jar"/> 	
-                   <include name="commons-digester.jar"/>		
+		    <include name="icefaces*.jar" />
+            <include name="backport-util-concurrent.jar" />	
+            <include name="commons-fileupload.jar"/> 	
+            <include name="commons-digester.jar"/>
+            <exclude name="icefaces-ahs.jar"/>
   	    </fileset>
 	</copy>
 	</target>

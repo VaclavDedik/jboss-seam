@@ -90,12 +90,26 @@
         </condition>
 
         <condition property="icefaces.lib" value="${icefaces.home}/lib" else="../lib">
-            <equals arg1="${icefaces}" arg2="y"/>
+        	<and>
+            	<equals arg1="${icefaces}" arg2="y"/>
+        		<not>
+            		<equals arg1="${icefaces.home}" arg2=""/>
+        		</not>
+        	</and>
         </condition>
 
         <condition property="icefaces.property">
             <equals arg1="${icefaces}" arg2="y"/>
         </condition>
+    	
+    	<condition property="icefaces.lib.property">
+    		<and>
+            	<equals arg1="${icefaces}" arg2="y"/>
+        		<not>
+            		<equals arg1="${icefaces.home}" arg2=""/>
+        		</not>
+        	</and>
+    	</condition>
          
         <filterset id="jdbc">
             <filter token="jdbcUrl" value="${hibernate.connection.url}"/>
@@ -172,6 +186,15 @@
 	               message="Do you want to use ICEFaces instead of RichFaces [${old.icefaces}]"
 	    	     validargs="y,n,"
 	          defaultvalue="${old.icefaces}" />
+    	
+    	<condition property="icefaces.home.new" value="">
+    	    <equals arg1="${icefaces.new}" arg2="n"/>
+    	</condition>
+    	
+    	<property name="old.icefaces.home" value="" />
+    	<input addproperty="icefaces.home.new"
+    		       message="By default, seam-gen will download the recommended  ICEFaces. If you want to use a specific version of ICEFaces, enter the path to icefaces here [${old.icefaces.home}]"
+    	           defaultvalue="${old.icefaces.home}" />
 
         <condition property="richfaces.skin.new" value="">
             <equals arg1="${icefaces.new}" arg2="y"/>
@@ -420,6 +443,7 @@
             <entry key="project.type" value="${project.type.new}"/>
             <entry key="jboss.home" value="${jboss.home.new}"/>
             <entry key="icefaces" value="${icefaces.new}"/>
+        	<entry key="icefaces.home" value="${icefaces.home.new}"/>
             <entry key="action.package" value="${action.package.new}"/>
             <entry key="model.package" value="${model.package.new}"/>
             <entry key="test.package" value="${test.package.new}"/>
@@ -565,7 +589,7 @@
 
 
 
-    <target name="copy-lib" depends="copyseam, copyseamdependencies, copyjbossembedded, copy-icefaces">
+    <target name="copy-lib" depends="copyseam, copyseamdependencies, copyjbossembedded, copy-icefaces-home, copy-icefaces-maven">
         <echo message="Copying Seam and depdencies to the ${project.home}/lib directory..." />
     	
         <copy todir="${project.home}/lib" overwrite="true">
@@ -587,7 +611,7 @@
         
     </target>
 	
-	<target name="copy-icefaces" if="icefaces.property">
+	<target name="copy-icefaces-maven" if="icefaces.property" unless="icefaces.lib.property">
 		<artifact:dependencies filesetId="icefaces.fileset" versionsId="icefaces.versions">
 			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.6.1">
 				<exclusion groupId="javax.el" artifactId="el-api" />
@@ -603,6 +627,17 @@
 		<copy todir="${project.home}/lib" overwrite="true">
 			<fileset refid="icefaces.fileset" />
 			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${icefaces.versions}" to="flatten" />
+		</copy>
+	</target>
+	
+	<target name="copy-icefaces-home" if="icefaces.lib.property">
+		<copy todir="${project.home}/lib" overwrite="true">
+			<fileset dir="${icefaces.lib}" >
+				<include name="icefaces*.jar"/>
+			    <include name="backport-util-concurrent.jar"/>
+			    <include name="commons-fileupload.jar"/>
+			    <include name="commons-digester.jar"/>
+			</fileset>
 		</copy>
 	</target>
 	

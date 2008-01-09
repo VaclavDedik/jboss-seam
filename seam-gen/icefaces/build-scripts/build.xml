@@ -152,10 +152,11 @@
                                 <include name="lib/janino*.jar"/>
                                 <include name="lib/antlr-*.jar"/>
                                 <include name="lib/mvel*.jar"/>
-				<include name="lib/icefaces*.jar" />
-				<include name="lib/backport-util-concurrent.jar" />
-				<include name="lib/commons-fileupload.jar"/> 	
-                                <include name="lib/commons-digester.jar"/>		
+				                <include name="lib/icefaces*.jar" />
+				                <include name="lib/backport-util-concurrent.jar" />
+				                <include name="lib/commons-fileupload.jar"/> 	
+                                <include name="lib/commons-digester.jar"/>
+                                <exclude name="lib/icefaces-ahs.jar"/>		
                         </fileset>
                 </copy>
                 <copy todir="${ear.dir}/META-INF">
@@ -323,10 +324,11 @@
 	<target name="freshen" description="grab fresh icefaces jars">
 	<copy todir="${lib.dir}">
 	    <fileset dir="${icefaces.home}/lib">
-		<include name="icefaces*.jar" />
-		<include name="backport-util-concurrent.jar" />	
-		<include name="commons-fileupload.jar"/> 	
-            <include name="commons-digester.jar"/>		
+			<include name="icefaces*.jar" />
+			<include name="backport-util-concurrent.jar" />	
+			<include name="commons-fileupload.jar"/> 	
+            <include name="commons-digester.jar"/>
+	    	<exclude name="icefaces-ahs.jar"/>
   	    </fileset>
 	</copy>
 	</target>
