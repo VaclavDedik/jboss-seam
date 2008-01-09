@@ -91,6 +91,16 @@ public class IdentityManager
       return identityStore.disableAccount(name);
    }
    
+   public boolean changePassword(String name, String password)
+   {
+      return identityStore.changePassword(name, password);
+   }
+   
+   public boolean isEnabled(String name)
+   {
+      return identityStore.isEnabled(name);
+   }
+   
    public boolean grantRole(String name, String role)
    {
       return identityStore.grantRole(name, role);
@@ -99,6 +109,11 @@ public class IdentityManager
    public boolean revokeRole(String name, String role)
    {
       return identityStore.revokeRole(name, role);
+   }
+   
+   public boolean accountExists(String name)
+   {
+      return identityStore.accountExists(name);
    }
    
    public List<String> listUsers()

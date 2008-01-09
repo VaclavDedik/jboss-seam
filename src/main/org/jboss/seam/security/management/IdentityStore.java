@@ -18,7 +18,10 @@ public interface IdentityStore
    
    boolean enableAccount(String name);
    boolean disableAccount(String name);   
+   boolean isEnabled(String name);
+   boolean changePassword(String name, String password);
    
+   boolean accountExists(String name);
    List<String> listUsers();
    List<String> listUsers(String filter);
    List<String> listRoles();

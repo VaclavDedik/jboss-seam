@@ -210,6 +210,51 @@ public class JpaIdentityStore implements IdentityStore
       return true;
    }
    
+   public boolean changePassword(String name, String password)
+   {
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+         account.setPasswordHash(hashPassword(password));
+         mergeAccount(account);
+         return true;
+      } 
+      catch (NoSuchUserException e)
+      {
+         return false;
+      }        
+   }
+   
+   public boolean accountExists(String name)
+   {
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+         return account != null;
+      } 
+      catch (NoSuchUserException e)
+      {
+         return false;
+      }
+   }
+   
+   public boolean isEnabled(String name)
+   {
+      UserAccount account;
+      try
+      {
+         account = validateUser(name);
+      } 
+      catch (NoSuchUserException e)
+      {
+         return false;
+      }   
+      
+      return account.isEnabled();
+   }
+   
    public List<String> getGrantedRoles(String name)
    {
       UserAccount account;
