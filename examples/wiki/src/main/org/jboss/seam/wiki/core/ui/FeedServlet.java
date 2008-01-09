@@ -71,6 +71,13 @@ public class FeedServlet extends HttpServlet {
         String feedId = request.getParameter("feedId");
         String tag = request.getParameter("tag");
 
+        try {
+            Long.valueOf(feedId);
+        } catch (NumberFormatException ex) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedId);
+            return;
+        }
+
         if (!feedTypes.containsKey(pathInfo)) return;
         SyndFeedType syndFeedType = feedTypes.get(pathInfo);
         if (feedId == null) return;
@@ -88,7 +95,7 @@ public class FeedServlet extends HttpServlet {
             FeedDAO feedDAO = (FeedDAO)Component.getInstance("feedDAO");
             Feed feed = feedDAO.findFeed(Long.valueOf(feedId));
             if (feed == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedId);
                 if (startedTx) userTx.commit();
                 return;
             }

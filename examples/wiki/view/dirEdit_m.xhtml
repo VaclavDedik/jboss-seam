@@ -62,10 +62,7 @@
             <h:commandButton action="#{directoryHome.update}" rendered="#{directoryHome.managed}"
                              value="#{messages['lacewiki.button.Update']}"/>
             <h:commandButton action="#{directoryHome.remove}"
-                             rendered="#{empty directoryHome.childNodes
-                                        and directoryHome.managed
-                                        and !empty directoryHome.parentNode
-                                        and directoryHome.instance.id != memberArea.id}"
+                             rendered="#{directoryHome.removable}"
                              value="#{messages['lacewiki.button.Delete']}"/>
         </s:div>
 

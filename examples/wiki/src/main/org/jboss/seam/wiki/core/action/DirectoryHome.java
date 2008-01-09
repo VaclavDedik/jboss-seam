@@ -497,14 +497,12 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
         // TODO: This should be batched with a database cursor!
         for (WikiNode child : children) {
             getLog().debug("trashing item: " + child);
-
-            // TODO: Make this polymorphic and connect it somehow to the stuff that happens in DocumentHome/UploadHome
             if (child.isInstance(WikiDocument.class)) {
-                List<WikiComment> comments = getWikiNodeDAO().findWikiCommentsFlat((WikiDocument)child, true);
-                for (WikiComment comment : comments) {
-                    getLog().debug("trashing sub-item: " + comment);
-                    getEntityManager().remove(comment);
-                }
+                NodeRemover documentRemover = (NodeRemover)Component.getInstance(DocumentNodeRemover.class);
+                documentRemover.removeDependencies(child);
+            } else if (child.isInstance(WikiUpload.class)) {
+                NodeRemover uploadRemover = (NodeRemover)Component.getInstance(UploadNodeRemover.class);
+                uploadRemover.removeDependencies(child);
             }
             getEntityManager().remove(child);
         }

@@ -48,7 +48,7 @@ public abstract class NodeRemover<N extends WikiNode> {
 
     public abstract boolean isRemovable(N node);
 
-    public void trashWikiNode(N node) {
+    public void trash(N node) {
 
         // Check if the cut item was a default file for its parent
         if (node.getParent().isInstance(WikiDirectory.class)) {
@@ -71,7 +71,7 @@ public abstract class NodeRemover<N extends WikiNode> {
 
     }
 
-    public abstract void removeWikiNode(N node);
+    public abstract void removeDependencies(N node);
 
     protected Log getLog() {
         return log;

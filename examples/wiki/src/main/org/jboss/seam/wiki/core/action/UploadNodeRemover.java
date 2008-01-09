@@ -22,7 +22,7 @@ public class UploadNodeRemover extends NodeRemover<WikiUpload> {
         return true;
     }
 
-    public void removeWikiNode(WikiUpload upload) {
+    public void removeDependencies(WikiUpload upload) {
         getLog().debug("removing dependencies of: " + upload);
 
     }

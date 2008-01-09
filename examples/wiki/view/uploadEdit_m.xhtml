@@ -118,7 +118,7 @@
                              value="#{messages['lacewiki.button.Save']}"/>
             <h:commandButton action="#{uploadHome.update}" rendered="#{uploadHome.managed}"
                              value="#{messages['lacewiki.button.Update']}"/>
-            <h:commandButton action="#{uploadHome.remove}" rendered="#{uploadHome.managed}"
+            <h:commandButton action="#{uploadHome.remove}" rendered="#{uploadHome.removable}"
                              value="#{messages['lacewiki.button.Delete']}"/>
 
         </div>

@@ -6,7 +6,6 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
@@ -257,7 +256,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         checkRemovePermissions();
 
         getLog().debug("removing node: " + getInstance());
-        getNodeRemover().removeWikiNode(getInstance());
+        getNodeRemover().removeDependencies(getInstance());
         String outcome = super.remove();
         if (outcome != null) {
             Events.instance().raiseEvent("Nodes.menuStructureModified");
@@ -271,7 +270,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         checkRemovePermissions();
 
         getLog().debug("trashing node : " + getInstance());
-        getNodeRemover().trashWikiNode(getInstance());
+        getNodeRemover().trash(getInstance());
         setLastModifiedMetadata();
         getEntityManager().flush();
         trashedMessage();

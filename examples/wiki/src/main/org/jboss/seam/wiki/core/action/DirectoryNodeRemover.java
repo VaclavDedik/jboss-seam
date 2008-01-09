@@ -37,11 +37,11 @@ public class DirectoryNodeRemover extends NodeRemover<WikiDirectory> {
 
     }
 
-    public void trashWikiNode(WikiDirectory node) {
+    public void trash(WikiDirectory node) {
         throw new IllegalStateException("Can't trash WikiDirectory instance");
     }
 
-    public void removeWikiNode(WikiDirectory dir) {
+    public void removeDependencies(WikiDirectory dir) {
         getLog().debug("removing dependencies of: " + dir);
 
         // Feed
@@ -51,8 +51,8 @@ public class DirectoryNodeRemover extends NodeRemover<WikiDirectory> {
         }
 
         // WikiMenuItem
-        List<WikiMenuItem> persistentMenuItems = getWikiNodeDAO().findMenuItems(dir);
-        for (WikiMenuItem menuItem : persistentMenuItems) {
+        WikiMenuItem menuItem = getWikiNodeDAO().findMenuItem(dir);
+        if (menuItem != null) {
             getLog().debug("removing menu item of directory: " + menuItem);
             getEntityManager().remove(menuItem);
         }

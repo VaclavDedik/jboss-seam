@@ -27,7 +27,7 @@ public class DocumentNodeRemover extends NodeRemover<WikiDocument> {
         return !doc.getId().equals(wikiStart.getId());
     }
 
-    public void trashWikiNode(WikiDocument doc) {
+    public void trash(WikiDocument doc) {
 
         feedDAO.removeFeedEntry(
             feedDAO.findFeeds(doc),
@@ -38,22 +38,23 @@ public class DocumentNodeRemover extends NodeRemover<WikiDocument> {
         for (WikiNode child : children) {
             if (child.isInstance(WikiComment.class)) {
                 getLog().debug("deleting dependent comment: " + child);
-                commentNodeRemover.trashWikiNode( (WikiComment)child );
+                commentNodeRemover.trash( (WikiComment)child );
             }
         }
 
-        super.trashWikiNode(doc);
+        super.trash(doc);
     }
 
-    public void removeWikiNode(WikiDocument doc) {
+    public void removeDependencies(WikiDocument doc) {
         getLog().debug("removing dependencies of: " + doc);
 
         List<WikiNode> children = getWikiNodeDAO().findChildren(doc, "createdOn", false, 0, Integer.MAX_VALUE);
         for (WikiNode child : children) {
             if (child.isInstance(WikiComment.class)) {
                 getLog().debug("deleting dependent comment: " + child);
-                commentNodeRemover.removeWikiNode( (WikiComment)child );
+                commentNodeRemover.removeDependencies( (WikiComment)child );
             }
+            getEntityManager().remove(child);
         }
 
     }

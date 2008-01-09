@@ -515,6 +515,20 @@ public class WikiNodeDAO {
         return foundNode == null;
     }
 
+    public WikiMenuItem findMenuItem(WikiDirectory dir) {
+        try {
+            return (WikiMenuItem) restrictedEntityManager
+                    .createQuery("select m from WikiMenuItem m where m.directory = :dir")
+                    .setParameter("dir", dir)
+                    .setHint("org.hibernate.comment", "Find menu item of directory")
+                    .getSingleResult();
+        } catch (EntityNotFoundException ex) {
+        } catch (NoResultException ex) {
+        }
+        return null;
+
+    }
+
     public List<WikiMenuItem> findMenuItems(WikiDirectory parentDir) {
         return restrictedEntityManager.createQuery("select m from WikiMenuItem m where m.directory.parent = :parent order by m.displayPosition asc")
                 .setParameter("parent", parentDir)

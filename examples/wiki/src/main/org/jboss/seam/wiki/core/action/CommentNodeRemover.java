@@ -23,14 +23,14 @@ public class CommentNodeRemover extends NodeRemover<WikiComment> {
         return true;
     }
 
-    public void trashWikiNode(WikiComment comment) {
+    public void trash(WikiComment comment) {
         feedDAO.removeFeedEntry(
             feedDAO.findFeeds(comment),
             feedDAO.findFeedEntry(comment)
         );
     }
 
-    public void removeWikiNode(WikiComment comment) {
+    public void removeDependencies(WikiComment comment) {
         getLog().debug("removing dependencies of: " + comment);
 
         List<WikiComment> children = getWikiNodeDAO().findWikiCommentSubtree(comment, true);
