@@ -13,6 +13,7 @@ import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.core.model.FeedEntry;
+import org.jboss.seam.wiki.core.model.WikiCommentFeedEntry;
 import org.jboss.seam.wiki.core.action.Authenticator;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
@@ -39,6 +40,10 @@ import java.util.*;
  * @author Christian Bauer
  */
 public class FeedServlet extends HttpServlet {
+
+    public static enum Comments {
+        include, exclude, only
+    }
 
     // Possible feed types
     public enum SyndFeedType {
@@ -68,19 +73,35 @@ public class FeedServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String pathInfo = request.getPathInfo();
-        String feedId = request.getParameter("feedId");
-        String tag = request.getParameter("tag");
+        String feedIdParam = request.getParameter("feedId");
+        String tagParam = request.getParameter("tag");
+        String commentsParam = request.getParameter("comments");
+
+        Comments comments  = Comments.include;
+        if (commentsParam != null) {
+            try {
+                comments = Comments.valueOf(commentsParam);
+            } catch (IllegalArgumentException ex) {}
+        }
 
         try {
-            Long.valueOf(feedId);
+            Long.valueOf(feedIdParam);
         } catch (NumberFormatException ex) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedId);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
             return;
         }
 
+        try {
+            Long.valueOf(feedIdParam);
+        } catch (NumberFormatException ex) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
+            return;
+        }
+
+
         if (!feedTypes.containsKey(pathInfo)) return;
         SyndFeedType syndFeedType = feedTypes.get(pathInfo);
-        if (feedId == null) return;
+        if (feedIdParam == null) return;
 
         // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
         UserTransaction userTx = null;
@@ -93,9 +114,9 @@ public class FeedServlet extends HttpServlet {
             }
 
             FeedDAO feedDAO = (FeedDAO)Component.getInstance("feedDAO");
-            Feed feed = feedDAO.findFeed(Long.valueOf(feedId));
+            Feed feed = feedDAO.findFeed(Long.valueOf(feedIdParam));
             if (feed == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedId);
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
                 if (startedTx) userTx.commit();
                 return;
             }
@@ -113,7 +134,7 @@ public class FeedServlet extends HttpServlet {
                 }
             }
 
-            SyndFeed syndFeed = createSyndFeed(request.getRequestURL().toString(), syndFeedType,  feed, currentAccessLevel, tag);
+            SyndFeed syndFeed = createSyndFeed(request.getRequestURL().toString(), syndFeedType,  feed, currentAccessLevel, tagParam, comments);
 
             // Write feed to output
             response.setContentType(syndFeedType.contentType);
@@ -135,10 +156,10 @@ public class FeedServlet extends HttpServlet {
     }
 
     public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {
-        return createSyndFeed(baseURI, syndFeedType, feed, currentAccessLevel, null);
+        return createSyndFeed(baseURI, syndFeedType, feed, currentAccessLevel, null, Comments.include);
     }
 
-    public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel, String tag) {
+    public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel, String tag, Comments comments) {
 
         WikiPreferences prefs = (WikiPreferences) Preferences.getInstance("Wiki");
 
@@ -162,8 +183,13 @@ public class FeedServlet extends HttpServlet {
         List<SyndEntry> syndEntries = new ArrayList<SyndEntry>();
         SortedSet<FeedEntry> entries = feed.getFeedEntries();
         for (FeedEntry entry : entries) {
+
             if (entry.getReadAccessLevel() > currentAccessLevel) continue;
+
             if (tag != null && !entry.isTagged(tag)) continue;
+
+            if (comments.equals(Comments.exclude) && entry.isInstance(WikiCommentFeedEntry.class)) continue;
+            if (comments.equals(Comments.only) && !entry.isInstance(WikiCommentFeedEntry.class)) continue;
 
             SyndEntry syndEntry;
             syndEntry = new SyndEntryImpl();

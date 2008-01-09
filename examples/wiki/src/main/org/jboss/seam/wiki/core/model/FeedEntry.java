@@ -143,6 +143,20 @@ public class FeedEntry implements Serializable, Comparable {
         return false; // Can't be tagged
     }
 
+    // Need this for JSF EL expressions
+    public boolean isInstance(String className) {
+        try {
+            Class clazz = Class.forName(getClass().getPackage().getName() + "." + className);
+            return isInstance(clazz);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public boolean isInstance(Class clazz) {
+        return clazz.isAssignableFrom(this.getClass());
+    }
+
     // Sort by date
     public int compareTo(Object o) {
         FeedEntry other = (FeedEntry)o;
