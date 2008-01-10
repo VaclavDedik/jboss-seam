@@ -5,6 +5,7 @@
             xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:bpm="http://jboss.com/products/seam/bpm"
             xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:identity-management="http://jboss.com/products/seam/security/management"
             xmlns:mail="http://jboss.com/products/seam/mail"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
@@ -13,6 +14,7 @@
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd
                  http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.0.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
+                 http://jboss.com/products/seam/security/management http://jboss.com/products/seam/identity-management-2.0.xsd
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.0.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
 
@@ -25,6 +27,8 @@
    <persistence:managed-persistence-context name="entityManager"
                                      auto-create="true"
                       persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
+                      
+   <identity-management:jpa-identity-store name="identityStore" account-class="@modelPackage@.UserAccount"/>                          
 
    <drools:rule-base name="securityRules">
        <drools:rule-files>
@@ -32,9 +36,7 @@
        </drools:rule-files>
    </drools:rule-base>
 
-   <security:identity authenticate-method="#{authenticator.authenticate}"
-                           security-rules="#{securityRules}"
-                           remember-me="true"/>
+   <security:identity security-rules="#{securityRules}" remember-me="true"/>
    
    <event type="org.jboss.seam.security.notLoggedIn">
        <action execute="#{redirect.captureCurrentView}"/>

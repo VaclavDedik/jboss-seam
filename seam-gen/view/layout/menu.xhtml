@@ -8,6 +8,7 @@
     <rich:toolBarGroup>
         <h:outputText value="#{projectName}:"/>
         <s:link view="/home.xhtml" value="Home"/>
+        <s:link view="/usermanager.xhtml" value="User Manager" rendered="#{s:hasRole('admin')}"/>
     </rich:toolBarGroup>
     <!-- @newMenuItem@ -->
     <rich:toolBarGroup location="right">

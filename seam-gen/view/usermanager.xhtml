@@ -1,0 +1,68 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+
+  <ui:define name="body">
+
+    <h:messages globalOnly="true" styleClass="message"/>
+        
+    <script type="text/javascript">
+      function confirmDelete()
+      {
+        return confirm("Are you sure you wish to delete this user? This action cannot be undone.");
+      }
+    </script>
+
+    <div id="contentMain">
+
+	    <h2>User Manager</h2>  
+	    
+      <s:button action="#{userAction.createUser}" styleClass="newuser"/>
+	    
+      <rich:dataTable 
+          id="threads"
+          value="#{users}" 
+          var="user" 
+          styleClass="userlist"
+          columnClasses=",,enabled,action">
+          <f:facet name="header">
+            <rich:columnGroup>
+              <rich:column>
+                User name
+              </rich:column>
+              <rich:column>
+                Member Of
+              </rich:column>
+              <rich:column>
+                Enabled
+              </rich:column>
+              <rich:column>
+                Action
+              </rich:column>              
+            </rich:columnGroup>
+          </f:facet>            
+        <rich:column>
+          #{user}
+        </rich:column>
+        <rich:column>
+          #{userSearch.getUserRoles(user)}
+        </rich:column>
+        <rich:column>
+          <div class="#{identityManager.isEnabled(user) ? 'checkmark' : 'cross'}"/>
+        </rich:column>
+        <rich:column>
+          <s:link value="Edit" action="#{userAction.editUser(userSearch.selectedUser)}"/><span> | </span>
+          <s:link value="Delete" action="#{identityManager.deleteAccount(userSearch.selectedUser)}" onclick="return confirmDelete()"/>
+        </rich:column>
+	    </rich:dataTable>
+    </div>
+	    
+  </ui:define>
+    
+</ui:composition>

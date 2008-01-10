@@ -115,3 +115,83 @@ img.errors {
 .rich-stglpanel-body {
    overflow: auto;
 } 
+
+/* User Manager */
+
+div.formRow {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  clear: both;
+}
+
+div.formRow label {
+  float: left;
+  width: 120px; 
+  padding: 2px 2px 2px 2px;
+}
+
+div.formRow input[type='text'] {
+  width: 120px;
+}
+
+div.formRow input[type='password'] {
+  width: 120px;
+}
+
+div.validationError {
+  margin-left: 120px;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+table.userlist {
+  width: 600px;
+}
+
+input.newuser {
+  background: url(../img/btn_newuser.png) top left no-repeat;
+  height: 24px;
+  width: 80px;
+  margin: 4px 4px 4px 4px;
+  border: 0px;
+  cursor: pointer;  
+}
+
+.roles {
+  width: 120px;
+  border: 1px solid #7F9DB9;
+  background-color: #E7EDF7;
+}
+
+div.selectMany label {
+  float: none;
+}
+
+div.formButtons {
+  float: right;
+  padding: 4px 8px 16px 2px;
+}
+
+div.checkmark {
+  background: url(../img/checkmark.png) top left no-repeat;
+  width: 14px;
+  height: 15px;
+  margin-left: auto;
+  margin-right: auto;    
+}
+
+div.cross {
+  background: url(../img/cross.png) top left no-repeat;
+  width: 14px;
+  height: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td.enabled {
+  text-align: center;
+}
+
+td.action {
+  text-align: right;
+}
