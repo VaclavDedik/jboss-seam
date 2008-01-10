@@ -742,8 +742,8 @@ public class Pages
                String value = (String) Contexts.getPageContext().get( pageParameter.getName() );
                if (value!=null)
                {
-                  pageParameter.validateConvertedValue(facesContext, value);
                   Object convertedValue = pageParameter.convertValueFromString(facesContext, value);
+                  pageParameter.validateConvertedValue(facesContext, convertedValue);
                   Contexts.getEventContext().set( pageParameter.getName(), convertedValue );
                }
             }
