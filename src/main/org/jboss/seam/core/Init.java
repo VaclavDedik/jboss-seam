@@ -8,6 +8,7 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -332,6 +333,28 @@ public class Init
          observerMethodBindings.put(eventType, observerList);
       }
       observerList.add( new ObserverMethodExpression(methodBinding) );
+   }
+   
+   /**
+    * Remove any observer methods registered on the component. Needed to clean
+    * out old observer methods on hot deploy
+    * @param component
+    */
+   public void removeObserverMethods(Component component)
+   {
+      // TODO Better implementation ;-)
+      for (String eventType : observerMethods.keySet())
+      {
+         List<ObserverMethod> observerMethodsToRemove = new ArrayList<ObserverMethod>();
+         for (ObserverMethod observerMethod : observerMethods.get(eventType))
+         {
+            if (observerMethod.getComponent().equals(component))
+            {
+               observerMethodsToRemove.add(observerMethod);
+            }
+         }
+         observerMethods.get(eventType).removeAll(observerMethodsToRemove);
+      }
    }
    
    public boolean isJbpmInstalled()

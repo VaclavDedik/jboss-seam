@@ -590,6 +590,7 @@ public class Initialization
             {
                scope.getContext().remove(name);
             }
+            init.removeObserverMethods(component);
          }
          Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
       }
