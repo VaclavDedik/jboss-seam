@@ -5,10 +5,10 @@ insert into Member (memberid, membername, firstname, lastname, email, tagline, g
 
 insert into MemberAccount (accountid, username, enabled, accounttype, member_id) values (1, 'user', 1, 1, null);
 insert into MemberAccount (accountid, username, enabled, accounttype, member_id) values (2, 'admin', 1, 1, null);
-insert into MemberAccount (accountid, username, passwordhash, enabled, accounttype, member_id) values (3, 'demo', 'fe01ce2a7fbac8fafaed7c982a04e229', 1, 0, 1);
-insert into MemberAccount (accountid, username, passwordhash, enabled, accounttype, member_id) values (4, 'duke', '041cf7cf23d3d372644b707505218fb0', 1, 0, 2);
-insert into MemberAccount (accountid, username, passwordhash, enabled, accounttype, member_id) values (5, 'shadowman', '1bafb3c11c60b0892007c63ac6a321de', 1, 0, 3);
-insert into MemberAccount (accountid, username, passwordhash, enabled, accounttype, member_id) values (6, 'mona', '4af5cab77c62eaec5f87b570f2d2b127', 1, 0, 4);
+insert into MemberAccount (accountid, username, passwordhash, enabled, accounttype, member_id) values (3, 'demo', 'ffd49efe97c77941fc149e1ab010fa8d', 1, 0, 1);
+insert into MemberAccount (accountid, username, passwordhash, enabled, accounttype, member_id) values (4, 'duke', '97291c29cc69a65890424d0f97db28f2', 1, 0, 2);
+insert into MemberAccount (accountid, username, passwordhash, enabled, accounttype, member_id) values (5, 'shadowman', 'd76acda33fcfede62a8a6979df88e690', 1, 0, 3);
+insert into MemberAccount (accountid, username, passwordhash, enabled, accounttype, member_id) values (6, 'mona', '0a7adfe58071398e15b5177f4ace8493', 1, 0, 4);
 
 insert into AccountMembership (accountid, memberof) values (2, 1);
 insert into AccountMembership (accountid, memberof) values (3, 2);

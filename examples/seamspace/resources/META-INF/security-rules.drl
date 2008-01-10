@@ -84,3 +84,43 @@ when
 then
   check.grant();
 end
+
+rule CreateAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "seam.account", action == "create", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
+rule ReadAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "seam.account", action == "read", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
+rule UpdateAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "seam.account", action == "update", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
+rule DeleteAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "seam.account", action == "delete", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end

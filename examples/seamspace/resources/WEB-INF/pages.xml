@@ -61,7 +61,7 @@
     </page>
     
     <page view-id="/usermanager.xhtml" action="#{userSearch.loadUsers}">
-      <restrict>#{s:hasRole('admin')}</restrict>    
+      <restrict>#{s:hasPermission('seam.account', 'read', null)}</restrict>    
       
       <navigation from-action="#{userAction.createUser}">
         <redirect view-id="/userdetail.xhtml"/>
