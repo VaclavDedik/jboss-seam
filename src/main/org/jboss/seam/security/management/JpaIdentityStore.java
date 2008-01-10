@@ -66,6 +66,11 @@ public class JpaIdentityStore implements IdentityStore
             throw new IdentityManagementException("Could not create account, accountClass not set");
          }
          
+         if (accountExists(username))
+         {
+            throw new IdentityManagementException("Could not create account, already exists");
+         }
+         
          UserAccount account = accountClass.newInstance();
          account.setAccountType(UserAccount.AccountType.user);
          account.setUsername(username);
@@ -216,7 +221,7 @@ public class JpaIdentityStore implements IdentityStore
       try
       {
          account = validateUser(name);
-         account.setPasswordHash(hashPassword(password));
+         account.setPasswordHash(hashPassword(password, name));
          mergeAccount(account);
          return true;
       } 
@@ -269,11 +274,14 @@ public class JpaIdentityStore implements IdentityStore
 
       List<String> roles = new ArrayList<String>();
       
-      for (UserAccount membership : account.getMemberships())
+      if (account.getMemberships() != null)
       {
-         if (membership.getAccountType().equals(UserAccount.AccountType.role))
+         for (UserAccount membership : account.getMemberships())
          {
-            roles.add(membership.getUsername());
+            if (membership.getAccountType().equals(UserAccount.AccountType.role))
+            {
+               roles.add(membership.getUsername());
+            }
          }
       }
       
@@ -338,7 +346,7 @@ public class JpaIdentityStore implements IdentityStore
          return false;
       }
       
-      boolean success = hashPassword(password).equals(account.getPasswordHash());
+      boolean success = hashPassword(password, username).equals(account.getPasswordHash());
       
       if (success && Events.exists())
       {
@@ -477,14 +485,20 @@ public class JpaIdentityStore implements IdentityStore
       this.entityManagerName = name;
    }      
    
-   protected String hashPassword(String password)
+   protected String hashPassword(String password, String saltPhrase)
    {
       try {
          MessageDigest md = MessageDigest.getInstance(hashFunction);
-         md.update(password.getBytes(hashCharset));         
+         
+         md.update(saltPhrase.getBytes());
+         byte[] salt = md.digest();
+         
+         md.reset();
+         md.update(password.getBytes(hashCharset));
+         md.update(salt);
+         
          byte[] raw = md.digest();
          
-         // TODO - salt the hash, possibly using the user name? 
          return new String(Hex.encodeHex(raw));
      } 
      catch (Exception e) {
