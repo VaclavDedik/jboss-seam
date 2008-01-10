@@ -36,7 +36,7 @@
           </div>                        
               
           <div class="formRow">            
-            <h:outputLabel for="roles" value="Roles" styleClass="formLabel"/>
+            <h:outputLabel for="roles" value="Member of" styleClass="formLabel"/>
             <div class="selectMany">
               <h:selectManyCheckbox id="roles" value="#{userAction.roles}" layout="pageDirection" styleClass="roles">
                 <s:selectItems value="#{identityManager.listRoles()}" var="role" label="#{role}"/>
