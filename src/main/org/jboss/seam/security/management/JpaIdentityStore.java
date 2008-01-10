@@ -81,7 +81,7 @@ public class JpaIdentityStore implements IdentityStore
          }
          else
          {
-            account.setPasswordHash(hashPassword(password));
+            account.setPasswordHash(hashPassword(password, username));
             account.setEnabled(true);            
          }
          
