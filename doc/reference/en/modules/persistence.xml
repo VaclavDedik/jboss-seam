@@ -189,10 +189,16 @@
     		<para>
     			Seam provides a transaction management abstraction for beginning, committing, rolling back, and
     			synchronizing with a transaction. By default Seam uses a JTA transaction component that integrates with
-    			Container Managed and programmatic EJB transactions.
+    			Container Managed and programmatic EJB transactions. If you are working in a Java EE 5 environment, you
+    			should install the EJB synchronization component in <literal>components.xml</literal>:
     		</para>
+    	   
+    	   <programlisting><![CDATA[<transaction:ejb-transaction />]]></programlisting>
+    	   
     		<para>
-    			Out of the box Seam provides transaction components for the following additional transaction APIs:
+    			However, if you are working in a non EE 5 container, Seam will try auto detect the transaction
+    			synchronization mechanism to use. However, if Seam is unable to detect the correct transaction
+    			synchronization to use, you may find you need configure one of the following:
     		</para>
     		<itemizedlist>
     			<listitem>
