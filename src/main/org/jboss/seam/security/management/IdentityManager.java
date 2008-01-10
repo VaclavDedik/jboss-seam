@@ -16,6 +16,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.security.Identity;
 
 /**
  * Identity Management API, deals with user name/password-based identity management.
@@ -27,7 +28,8 @@ import org.jboss.seam.log.Logging;
 @Install(precedence = BUILT_IN)
 public class IdentityManager
 {
-   public static final String IDENTITY_STORE_COMPONENT_NAME = "identityStore";    
+   public static final String IDENTITY_STORE_COMPONENT_NAME = "identityStore";
+   public static final String ACCOUNT_PERMISSION_NAME = "seam.account";
    
    private static final LogProvider log = Logging.getLogProvider(IdentityManager.class);   
    
@@ -73,51 +75,61 @@ public class IdentityManager
    
    public boolean createAccount(String name, String password)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "create");
       return identityStore.createAccount(name, password); 
    }
    
    public boolean deleteAccount(String name)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "delete");
       return identityStore.deleteAccount(name);
    }
    
    public boolean enableAccount(String name)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "update");
       return identityStore.enableAccount(name);
    }
    
    public boolean disableAccount(String name)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "update");
       return identityStore.disableAccount(name);
    }
    
    public boolean changePassword(String name, String password)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "update");
       return identityStore.changePassword(name, password);
    }
    
    public boolean isEnabled(String name)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "read");
       return identityStore.isEnabled(name);
    }
    
    public boolean grantRole(String name, String role)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "update");
       return identityStore.grantRole(name, role);
    }
    
    public boolean revokeRole(String name, String role)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "update");
       return identityStore.revokeRole(name, role);
    }
    
    public boolean accountExists(String name)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "read");
       return identityStore.accountExists(name);
    }
    
    public List<String> listUsers()
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "read");
       List<String> users = identityStore.listUsers();      
       
       Collections.sort(users, new Comparator<String>() {
@@ -131,6 +143,7 @@ public class IdentityManager
    
    public List<String> listUsers(String filter)
    {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, "read");
       List<String> users = identityStore.listUsers(filter);
       
       Collections.sort(users, new Comparator<String>() {
@@ -143,7 +156,7 @@ public class IdentityManager
    }
    
    public List<String> listRoles()
-   {
+   {      
       List<String> roles = identityStore.listRoles();
       
       Collections.sort(roles, new Comparator<String>() {
