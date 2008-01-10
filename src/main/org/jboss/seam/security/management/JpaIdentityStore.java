@@ -424,6 +424,7 @@ public class JpaIdentityStore implements IdentityStore
       }
       catch (NoResultException ex)
       {
+         roleCache.remove(name);
          throw new IdentityManagementException("No such role: " + name);         
       }      
    }
