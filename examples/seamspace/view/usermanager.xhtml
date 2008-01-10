@@ -31,30 +31,30 @@
             columnClasses=",,enabled,action">
             <f:facet name="header">
               <rich:columnGroup>
-                <rich:column>
+                <rich:column width="auto">
                   User name
                 </rich:column>
-                <rich:column>
+                <rich:column width="auto">
                   Member Of
                 </rich:column>
-                <rich:column>
+                <rich:column width="auto">
                   Enabled
                 </rich:column>
-                <rich:column>
+                <rich:column width="auto">
                   Action
                 </rich:column>              
               </rich:columnGroup>
             </f:facet>            
-          <rich:column>
+          <rich:column width="auto">
             #{user}
           </rich:column>
-          <rich:column>
+          <rich:column width="auto">
             #{userSearch.getUserRoles(user)}
           </rich:column>
-          <rich:column>
+          <rich:column width="auto">
             <div class="#{identityManager.isEnabled(user) ? 'checkmark' : 'cross'}"/>
           </rich:column>
-          <rich:column>
+          <rich:column width="auto">
             <s:fragment rendered="#{s:hasPermission('seam.account', 'update', null)}">
               <s:link value="Edit" action="#{userAction.editUser(userSearch.selectedUser)}"/><span> | </span>
             </s:fragment>
