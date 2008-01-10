@@ -196,22 +196,30 @@
     		</para>
     		<itemizedlist>
     			<listitem>
-    				JPA RESOURCE_LOCAL transactions with the
-    				<literal>javax.persistence.EntityTransaction</literal>
-    				interface.
+    			   <para>
+    				   JPA RESOURCE_LOCAL transactions with the
+    				   <literal>javax.persistence.EntityTransaction</literal>
+    				   interface.
+    				</para>
     			</listitem>
     			<listitem>
-    				Hibernate managed transactions with the
-    				<literal>org.hibernate.Transaction</literal>
-    				interface.
+    			   <para>
+    				   Hibernate managed transactions with the
+    				   <literal>org.hibernate.Transaction</literal>
+    				   interface.
+    			   </para>
     			</listitem>
     			<listitem>
-    				Spring managed transactions with the
-    				<literal>org.springframework.transaction.PlatformTransactionManager</literal>
-    				interface.
+    			   <para>
+    				   Spring managed transactions with the
+    				   <literal>org.springframework.transaction.PlatformTransactionManager</literal>
+    				   interface.
+    			   </para>
     			</listitem>
                 <listitem>
-                    Explicitly disable Seam managed transactions
+                   <para>
+                      Explicitly disable Seam managed transactions
+                   </para>
                 </listitem>
     		</itemizedlist>
     		<para>
