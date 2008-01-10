@@ -30,7 +30,7 @@
       Default for this value is "false".
       
       -->
-      <property name="deploymentDescriptorRequired">true</property>
+      <property name="deploymentDescriptorRequired">false</property>
       
       <property name="ignoredJarsSet">
          <set elementClass="java.lang.String">

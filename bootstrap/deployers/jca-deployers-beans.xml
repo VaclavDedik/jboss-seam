@@ -46,8 +46,7 @@
       <property name="suffix">-ds.xml</property>      
       <property name="type">jca-ds</property>
    </bean>
-   
-   
+
    <bean name="ManagedConnectionFactoryDeployer" class="org.jboss.resource.deployers.ManagedConnectionFactoryDeployer">      
       <property name="repository"><inject bean="JCAMetaDataRepository"></inject></property>      
       <property name="builders">
@@ -63,15 +62,59 @@
    </bean>
 
    <!-- The template for creating a datasource -->
-   <bean name="DsDataSourceTemplate" class="org.jboss.resource.deployers.management.DsDataSourceTemplate">
-      <property name="info"><inject bean="DsDataSourceTemplateInfo"/></property>
+   <bean name="LocalTxDataSourceTemplate" class="org.jboss.resource.deployers.management.DsDataSourceTemplate">
+      <property name="info"><inject bean="LocalTxDataSourceTemplateInfo"/></property>
    </bean>
-   <bean name="DsDataSourceTemplateInfo"
+   <bean name="LocalTxDataSourceTemplateInfo"
       class="org.jboss.resource.deployers.management.DsDataSourceTemplateInfo">
       <constructor>
-         <parameter>DsDataSourceTemplate</parameter>
-         <parameter>A template for *-ds.xml deployments</parameter>
-         <parameter>org.jboss.resource.metadata.mcf.ManagedConnectionFactoryDeploymentGroup</parameter>
+         <parameter>LocalTxDataSourceTemplate</parameter>
+         <parameter>A template for datasource *-ds.xml deployments</parameter>
+         <parameter>local-tx-datasource</parameter>
+      </constructor>
+   </bean>
+   <bean name="XADataSourceTemplate" class="org.jboss.resource.deployers.management.DsDataSourceTemplate">
+      <property name="info"><inject bean="XADataSourceTemplateInfo"/></property>
+   </bean>
+   <bean name="XADataSourceTemplateInfo"
+      class="org.jboss.resource.deployers.management.DsDataSourceTemplateInfo">
+      <constructor>
+         <parameter>XADataSourceTemplate</parameter>
+         <parameter>A template for xa-datasource *-ds.xml deployments</parameter>
+         <parameter>xa-datasource</parameter>
+      </constructor>
+   </bean>
+   <bean name="NoTxDataSourceTemplate" class="org.jboss.resource.deployers.management.DsDataSourceTemplate">
+      <property name="info"><inject bean="NoTxDataSourceTemplateInfo"/></property>
+   </bean>
+   <bean name="NoTxDataSourceTemplateInfo"
+      class="org.jboss.resource.deployers.management.DsDataSourceTemplateInfo">
+      <constructor>
+         <parameter>NoTxDataSourceTemplate</parameter>
+         <parameter>A template for no-tx-datasource *-ds.xml deployments</parameter>
+         <parameter>no-tx-datasource</parameter>
+      </constructor>
+   </bean>
+   <bean name="TxConnectionFactoryTemplate" class="org.jboss.resource.deployers.management.DsDataSourceTemplate">
+      <property name="info"><inject bean="TxConnectionFactoryTemplateInfo"/></property>
+   </bean>
+   <bean name="TxConnectionFactoryTemplateInfo"
+      class="org.jboss.resource.deployers.management.DsDataSourceTemplateInfo">
+      <constructor>
+         <parameter>TxConnectionFactoryTemplate</parameter>
+         <parameter>A template for tx-connection-factory *-ds.xml deployments</parameter>
+         <parameter>tx-connection-factory</parameter>
+      </constructor>
+   </bean>
+   <bean name="NoTxConnectionFactoryTemplate" class="org.jboss.resource.deployers.management.DsDataSourceTemplate">
+      <property name="info"><inject bean="NoTxConnectionFactoryTemplateInfo"/></property>
+   </bean>
+   <bean name="NoTxConnectionFactoryTemplateInfo"
+      class="org.jboss.resource.deployers.management.DsDataSourceTemplateInfo">
+      <constructor>
+         <parameter>NoTxConnectionFactoryTemplate</parameter>
+         <parameter>A template for no-tx-connection-factory *-ds.xml deployments</parameter>
+         <parameter>no-tx-connection-factory</parameter>
       </constructor>
    </bean>
    
