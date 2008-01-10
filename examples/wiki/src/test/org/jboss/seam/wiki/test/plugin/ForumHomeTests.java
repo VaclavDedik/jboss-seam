@@ -35,13 +35,13 @@ public class ForumHomeTests extends DBUnitSeamTest {
         final String conversationId = new FacesRequest() {
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(100l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
-                ForumHome home = (ForumHome)getInstance("forumHome");
+                ForumHome home = (ForumHome)getInstance(ForumHome.class);
                 home.newForum();
             }
         }.run();
@@ -53,13 +53,13 @@ public class ForumHomeTests extends DBUnitSeamTest {
             }
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(100l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
-                ForumHome home = (ForumHome)getInstance("forumHome");
+                ForumHome home = (ForumHome)getInstance(ForumHome.class);
 
                 home.getInstance().setName("New Forum");
                 home.getInstance().setDescription("This is a new forum");
@@ -70,7 +70,7 @@ public class ForumHomeTests extends DBUnitSeamTest {
             protected void renderResponse() throws Exception {
                 Long newId = (Long)getValue("#{forumHome.instance.id}");
 
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory newForum = nodeDAO.findWikiDirectory(newId);
 
                 assert newForum.getAreaNumber().equals(100l);

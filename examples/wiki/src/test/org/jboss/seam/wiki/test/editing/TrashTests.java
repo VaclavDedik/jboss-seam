@@ -56,12 +56,12 @@ public class TrashTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                PreferenceRegistry registry = (PreferenceRegistry)getInstance("preferenceRegistry");
+                PreferenceRegistry registry = (PreferenceRegistry)getInstance(PreferenceRegistry.class);
                 PreferenceEntity wikiEntity = registry.getPreferenceEntitiesByName().get("Wiki");
 
                 invokeMethod("#{adminHome.initPreferencesEditor}");
 
-                PreferenceEditor prefEditor = (PreferenceEditor)getInstance("preferenceEditor");
+                PreferenceEditor prefEditor = (PreferenceEditor)getInstance(PreferenceEditor.class);
                 prefEditor.selectPreferenceEntity(wikiEntity);
             }
 
@@ -74,7 +74,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                PreferenceEditor prefEditor = (PreferenceEditor)getInstance("preferenceEditor");
+                PreferenceEditor prefEditor = (PreferenceEditor)getInstance(PreferenceEditor.class);
                 List<PreferenceValue> values = prefEditor.getPreferenceValues();
                 // This is somewhat dodgy... no other way to get the value we want
                 for (PreferenceValue value : values) {
@@ -101,7 +101,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 assert invokeMethod("#{documentHome.remove}").equals("removed");
@@ -117,7 +117,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(17l); // Init!
 
                 assert dirHome.getChildNodes().size() == 1;
@@ -134,7 +134,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(17l); // Init!
                 dirHome.emptyTrash();
             }
@@ -147,12 +147,12 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(17l); // Init!
 
                 assert dirHome.getChildNodes().size() == 0;
 
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 assert dao.findWikiNode(6l) == null;
 
                 assert dao.findWikiComment(10l) == null;
@@ -185,7 +185,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(9l); // Init!
 
                 assert invokeMethod("#{documentHome.remove}").equals("removed");
@@ -193,10 +193,10 @@ public class TrashTests extends DBUnitSeamTest {
 
             // Feed entries should be gone
             protected void renderResponse() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument document = nodeDAO.findWikiDocument(9l);
 
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
 
                 List<WikiFeed> feeds = feedDAO.findFeeds(document);
                 assert feeds.size() == 0;
@@ -212,7 +212,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(17l); // Init!
 
                 assert dirHome.getChildNodes().size() == 1;
@@ -229,7 +229,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(17l); // Init!
                 dirHome.emptyTrash();
             }
@@ -242,12 +242,12 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(17l); // Init!
 
                 assert dirHome.getChildNodes().size() == 0;
 
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 assert dao.findWikiNode(9l) == null;
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
@@ -273,7 +273,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                UploadHome uploadHome = (UploadHome)getInstance("uploadHome");
+                UploadHome uploadHome = (UploadHome)getInstance(UploadHome.class);
                 assert uploadHome.getInstance().getId().equals(30l); // Init!
 
                 assert invokeMethod("#{uploadHome.remove}").equals("removed");
@@ -289,7 +289,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(17l); // Init!
 
                 assert dirHome.getChildNodes().size() == 1;
@@ -306,7 +306,7 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(17l); // Init!
                 dirHome.emptyTrash();
             }
@@ -319,11 +319,11 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
 
                 assert dirHome.getChildNodes().size() == 0;
 
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 assert dao.findWikiNode(30l) == null;
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");

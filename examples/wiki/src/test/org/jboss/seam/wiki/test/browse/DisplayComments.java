@@ -36,7 +36,7 @@ public class DisplayComments extends DBUnitSeamTest {
                 assert doc.getId().equals(6l);
 
 
-                CommentQuery commentQuery = (CommentQuery)getInstance("commentQuery");
+                CommentQuery commentQuery = (CommentQuery)getInstance(CommentQuery.class);
                 assert commentQuery.getComments().size() == 6;
 
                 assert commentQuery.getComments().get(0).getId().equals(10l);

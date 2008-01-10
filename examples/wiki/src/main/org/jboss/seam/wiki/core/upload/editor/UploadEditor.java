@@ -17,39 +17,15 @@ public abstract class UploadEditor<WU extends WikiUpload> {
     }
 
     /**
-     * Called before the owning home action does its preparation;
-     * @return boolean continue processing
-     */
-    public boolean preparePersist() { return true; }
-
-    /**
      * Called after superclass did its preparation right before the actual persist()
      * @return boolean continue processing
      */
     public boolean beforePersist() { return true; }
 
     /**
-     * Called before the owning home action does its preparation;
-     * @return boolean continue processing
-     */
-    public boolean prepareUpdate() { return true; }
-
-    /**
      * Called after superclass did its preparation right before the actual update()
      * @return boolean continue processing
      */
     public boolean beforeUpdate() { return true; }
-
-    /**
-     * Called before the owning home action does its preparation;
-     * @return boolean continue processing
-     */
-    public boolean prepareRemove() { return true; }
-
-    /**
-     * Called after superclass did its preparation right before the actual remove()
-     * @return boolean continue processing
-     */
-    public boolean beforeRemove() { return true; }
 
 }

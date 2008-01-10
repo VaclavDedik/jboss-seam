@@ -44,7 +44,7 @@ public class Tagging extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
 
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
@@ -55,12 +55,12 @@ public class Tagging extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getTags().size() == 2;
                 assert docHome.getInstance().getTagsAsList().get(0).equals("New Tag");
                 assert docHome.getInstance().getTagsAsList().get(1).equals("Tag One");
 
-                TagQuery tagQuery = (TagQuery)getInstance("tagQuery");
+                TagQuery tagQuery = (TagQuery)getInstance(TagQuery.class);
                 tagQuery.setTag("New Tag");
                 List<WikiFile> taggedFiles = tagQuery.getTaggedFiles();
                 assert taggedFiles.size() == 1;
@@ -86,7 +86,7 @@ public class Tagging extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                UploadHome uploadHome = (UploadHome)getInstance("uploadHome");
+                UploadHome uploadHome = (UploadHome)getInstance(UploadHome.class);
                 assert uploadHome.getInstance().getId().equals(30l); // Init!
 
                 assert uploadHome.getInstance().getTags().size() == 0;
@@ -95,11 +95,11 @@ public class Tagging extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                UploadHome uploadHome = (UploadHome)getInstance("uploadHome");
+                UploadHome uploadHome = (UploadHome)getInstance(UploadHome.class);
                 assert uploadHome.getInstance().getTags().size() == 1;
                 assert uploadHome.getInstance().getTagsAsList().get(0).equals("New Tag");
 
-                TagQuery tagQuery = (TagQuery)getInstance("tagQuery");
+                TagQuery tagQuery = (TagQuery)getInstance(TagQuery.class);
                 tagQuery.setTag("New Tag");
                 List<WikiFile> taggedFiles = tagQuery.getTaggedFiles();
                 assert taggedFiles.size() == 1;

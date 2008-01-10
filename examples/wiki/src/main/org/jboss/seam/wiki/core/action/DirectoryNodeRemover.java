@@ -13,12 +13,13 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.Component;
 
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Christian Bauer
  */
 @Name("directoryNodeRemover")
-public class DirectoryNodeRemover extends NodeRemover<WikiDirectory> {
+public class DirectoryNodeRemover extends NodeRemover<WikiDirectory> implements Serializable {
 
     public boolean isRemovable(WikiDirectory dir) {
         if (getWikiNodeDAO().findChildrenCount(dir) > 0) {

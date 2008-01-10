@@ -43,7 +43,7 @@ public class EditMenu extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(2l); // Init!
                 assert dirHome.getAvailableMenuItems().size() == 0;
             }
@@ -73,7 +73,7 @@ public class EditMenu extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(3l); // Init!
 
                 assert dirHome.getMenuItems().size() == 1;
@@ -90,7 +90,7 @@ public class EditMenu extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getMenuItems().size() == 2;
                 WikiMenuItem[] menuItems = dirHome.getMenuItems().toArray(new WikiMenuItem[dirHome.getMenuItems().size()]);
                 assert menuItems[0].getDirectoryId().equals(4l);
@@ -126,7 +126,7 @@ public class EditMenu extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(3l); // Init!
 
                 assert dirHome.getMenuItems().size() == 1;
@@ -138,7 +138,7 @@ public class EditMenu extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getMenuItems().size() == 0;
             }
         }.run();
@@ -167,7 +167,7 @@ public class EditMenu extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(3l); // Init!
 
                 assert dirHome.getMenuItems().size() == 1;
@@ -183,7 +183,7 @@ public class EditMenu extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getMenuItems().size() == 1;
                 WikiMenuItem[] menuItems = dirHome.getMenuItems().toArray(new WikiMenuItem[dirHome.getMenuItems().size()]);
                 assert menuItems[0].getDirectoryId().equals(5l);
@@ -215,7 +215,7 @@ public class EditMenu extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(3l); // Init!
 
                 assert dirHome.getMenuItems().size() == 1;
@@ -230,7 +230,7 @@ public class EditMenu extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getMenuItems().size() == 2;
                 WikiMenuItem[] menuItems = dirHome.getMenuItems().toArray(new WikiMenuItem[dirHome.getMenuItems().size()]);
                 assert menuItems[0].getDirectoryId().equals(5l);

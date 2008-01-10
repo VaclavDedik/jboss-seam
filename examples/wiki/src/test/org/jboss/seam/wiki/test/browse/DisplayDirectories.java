@@ -34,7 +34,7 @@ public class DisplayDirectories extends DBUnitSeamTest {
                 WikiDocument doc = (WikiDocument)getValue("#{currentDocument}");
                 assert doc == null;
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 WikiDirectory dir = dirHome.getInstance();
                 assert dir != null;
                 assert dir.getId().equals(2l);
@@ -61,7 +61,7 @@ public class DisplayDirectories extends DBUnitSeamTest {
                 WikiDocument doc = (WikiDocument)getValue("#{currentDocument}");
                 assert doc == null;
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 WikiDirectory dir = dirHome.getInstance();
                 assert dir != null;
                 assert dir.getId().equals(4l);

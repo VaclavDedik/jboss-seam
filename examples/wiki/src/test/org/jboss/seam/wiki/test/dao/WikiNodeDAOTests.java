@@ -30,7 +30,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument d = dao.findWikiDocument(6l);
                 assert d.getName().equals("One");
             }
@@ -42,7 +42,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory dir = dao.findWikiDirectory(3l);
                 WikiFile d = dao.findDefaultWikiFile(dir);
                 assert d.getName().equals("One");
@@ -56,7 +56,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory dir = dao.findWikiDirectory(3l);
                 WikiDocument d = dao.findDefaultDocument(dir);
                 assert d.getName().equals("One");
@@ -69,7 +69,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument d = dao.findWikiDocumentInArea(3l, "Two");
                 assert d.getName().equals("Two");
                 assert d.getId().equals(7l);
@@ -82,7 +82,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 List<WikiDocument> result = dao.findWikiDocumentsOrderByLastModified(2);
                 assert result.size() == 2;
                 assert result.get(0).getId().equals(6l);
@@ -96,7 +96,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory d = dao.findWikiDirectory(1l);
                 assert d.getName().equals("AAA");
             }
@@ -108,7 +108,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory d = dao.findWikiDirectoryInArea(3l, "DDD");
                 assert d.getName().equals("DDD");
                 assert d.getId().equals(4l);
@@ -121,7 +121,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory d = dao.findArea("BBB");
                 assert d.getName().equals("BBB");
                 assert d.getId().equals(2l);
@@ -134,7 +134,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory d = dao.findArea(2l);
                 assert d.getName().equals("BBB");
                 assert d.getId().equals(2l);
@@ -147,7 +147,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 Boolean result = dao.isUniqueWikiname(3l, "Foobar");
                 assert result;
             }
@@ -159,7 +159,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 Boolean result = dao.isUniqueWikiname(3l, "One");
                 assert !result;
             }
@@ -171,7 +171,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument newDoc = new WikiDocument();
                 newDoc.setWikiname("Foobar");
                 Boolean result = dao.isUniqueWikiname(3l, newDoc);
@@ -185,7 +185,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument newDoc = new WikiDocument();
                 newDoc.setWikiname("One");
                 Boolean result = dao.isUniqueWikiname(3l, newDoc);
@@ -199,7 +199,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument d = dao.findWikiDocument(6l);
                 assert d.getName().equals("One");
 
@@ -227,7 +227,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
 
                 WikiComment rootOne = dao.findWikiComment(10l);
                 List<WikiComment> commentsOne = dao.findWikiCommentSubtree(rootOne);
@@ -255,7 +255,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO dao = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument d = dao.findWikiDocument(6l);
                 assert d.getName().equals("One");
 

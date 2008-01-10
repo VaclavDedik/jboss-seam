@@ -62,7 +62,7 @@ public class FileServlet extends HttpServlet {
                         userTx.begin();
                     }
 
-                    WikiNodeDAO wikiNodeDAO = (WikiNodeDAO)org.jboss.seam.Component.getInstance("wikiNodeDAO");
+                    WikiNodeDAO wikiNodeDAO = (WikiNodeDAO)org.jboss.seam.Component.getInstance(WikiNodeDAO.class);
                     file = wikiNodeDAO.findWikiUpload(Long.parseLong(id));
 
                     if (startedTx) userTx.commit();

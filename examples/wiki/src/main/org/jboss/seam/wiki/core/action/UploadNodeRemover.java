@@ -11,12 +11,13 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.Component;
 
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Christian Bauer
  */
 @Name("uploadNodeRemover")
-public class UploadNodeRemover extends NodeRemover<WikiUpload> {
+public class UploadNodeRemover extends NodeRemover<WikiUpload> implements Serializable {
 
     public boolean isRemovable(WikiUpload upload) {
         return true;

@@ -115,7 +115,7 @@ public class ReplyHome extends CommentHome {
         if (!getCurrentUser().isAdmin() && !getCurrentUser().isGuest()) {
             getLog().debug("adding to read topics, forum id: "
                             + documentHome.getParentNode().getId() + " topic id: " + documentHome.getInstance().getId());
-            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance("forumTopicReadManager");
+            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance(ForumTopicReadManager.class);
             forumTopicReadManager.addTopicId(documentHome.getParentNode().getId(), documentHome.getInstance().getId());
         }
     }

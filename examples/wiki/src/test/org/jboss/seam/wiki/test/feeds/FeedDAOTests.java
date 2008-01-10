@@ -34,10 +34,10 @@ public class FeedDAOTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument document = nodeDAO.findWikiDocument(9l);
 
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
 
                 List<WikiFeed> feeds = feedDAO.findFeeds(document);
                 assert feeds.size() == 2;
@@ -53,10 +53,10 @@ public class FeedDAOTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument document = nodeDAO.findWikiDocument(9l);
 
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
 
                 assert feedDAO.isOnSiteFeed(document);
             }
@@ -69,10 +69,10 @@ public class FeedDAOTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory dir = nodeDAO.findWikiDirectory(2l);
 
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
 
                 List<WikiFeed> feeds = feedDAO.findParentFeeds(dir, true);
 

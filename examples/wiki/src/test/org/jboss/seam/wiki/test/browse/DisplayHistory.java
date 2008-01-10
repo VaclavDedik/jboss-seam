@@ -34,7 +34,7 @@ public class DisplayHistory extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DocumentHistory docHistory = (DocumentHistory)getInstance("documentHistory");
+                DocumentHistory docHistory = (DocumentHistory)getInstance(DocumentHistory.class);
                 docHistory.init();
             }
 
@@ -43,7 +43,7 @@ public class DisplayHistory extends DBUnitSeamTest {
                 assert currentFile.getId().equals(6l);
                 assert currentFile.getRevision() == 3;
 
-                DocumentHistory docHistory = (DocumentHistory)getInstance("documentHistory");
+                DocumentHistory docHistory = (DocumentHistory)getInstance(DocumentHistory.class);
                 List<WikiFile> historicalFileList = docHistory.getHistoricalFileList();
                 assert historicalFileList.size() == 3;
 
@@ -78,7 +78,7 @@ public class DisplayHistory extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DocumentHistory docHistory = (DocumentHistory)getInstance("documentHistory");
+                DocumentHistory docHistory = (DocumentHistory)getInstance(DocumentHistory.class);
                 docHistory.init();
 
                 List<WikiFile> historicalFileList = docHistory.getHistoricalFileList();
@@ -94,7 +94,7 @@ public class DisplayHistory extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DocumentHistory docHistory = (DocumentHistory)getInstance("documentHistory");
+                DocumentHistory docHistory = (DocumentHistory)getInstance(DocumentHistory.class);
 
             }
         }.run();

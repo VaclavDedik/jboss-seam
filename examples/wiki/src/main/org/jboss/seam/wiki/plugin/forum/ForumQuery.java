@@ -71,7 +71,7 @@ public class ForumQuery implements Serializable {
             Map<Long,Long> unreadTopicsWithParent =
                     forumDAO.findUnreadTopicAndParentIds(currentDirectory, currentUser.getPreviousLastLoginOn());
 
-            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance("forumTopicReadManager");
+            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance(ForumTopicReadManager.class);
 
             for (Map.Entry<Long, Long> unreadTopicAndParent: unreadTopicsWithParent.entrySet()) {
                 if (forumInfo.containsKey(unreadTopicAndParent.getValue()) &&
@@ -111,7 +111,7 @@ public class ForumQuery implements Serializable {
             Map<Long,Long> unreadTopicsWithParent =
                     forumDAO.findUnreadTopicAndParentIdsInForum(currentDirectory, currentUser.getPreviousLastLoginOn());
 
-            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance("forumTopicReadManager");
+            ForumTopicReadManager forumTopicReadManager = (ForumTopicReadManager)Component.getInstance(ForumTopicReadManager.class);
 
             for (Map.Entry<Long, TopicInfo> topicInfoEntry: topicInfo.entrySet()) {
                 topicInfoEntry.getValue().setUnread(

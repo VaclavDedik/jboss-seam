@@ -42,7 +42,6 @@ public class WikiPreferenceValue implements PreferenceValue, Serializable, Compa
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "USER_ID", nullable = true, updatable = false)
     @org.hibernate.annotations.ForeignKey(name = "FK_PREFERENCE_USER_ID")
-    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
     private User user;
 
     @org.hibernate.annotations.Type(type = "preference_value_usertype")

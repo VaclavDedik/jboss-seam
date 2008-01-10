@@ -35,14 +35,14 @@ public class ForumQueryTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(100l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
 
-                ForumQuery query = (ForumQuery)getInstance("forumQuery");
+                ForumQuery query = (ForumQuery)getInstance(ForumQuery.class);
                 List<ForumInfo> forums = query.getForums();
 
                 assert forums.size() == 2;
@@ -73,14 +73,14 @@ public class ForumQueryTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
 
-                ForumQuery query = (ForumQuery)getInstance("forumQuery");
+                ForumQuery query = (ForumQuery)getInstance(ForumQuery.class);
                 List<TopicInfo> topics = query.getTopics();
 
                 assert topics.size() == 2;
@@ -109,14 +109,14 @@ public class ForumQueryTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(109l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
 
-                ForumQuery query = (ForumQuery)getInstance("forumQuery");
+                ForumQuery query = (ForumQuery)getInstance(ForumQuery.class);
                 List<TopicInfo> topics = query.getTopics();
 
                 assert topics.size() == 1;

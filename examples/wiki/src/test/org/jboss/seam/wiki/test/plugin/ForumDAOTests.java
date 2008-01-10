@@ -32,10 +32,10 @@ public class ForumDAOTests extends DBUnitSeamTest {
     public void findForumsGuest() throws Exception {
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(100l);
 
-                ForumDAO dao = (ForumDAO)getInstance("forumDAO");
+                ForumDAO dao = (ForumDAO)getInstance(ForumDAO.class);
 
                 Map<Long, ForumInfo> forums = dao.findForums(forumDir);
 
@@ -52,10 +52,10 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(100l);
 
-                ForumDAO dao = (ForumDAO)getInstance("forumDAO");
+                ForumDAO dao = (ForumDAO)getInstance(ForumDAO.class);
 
                 Map<Long, ForumInfo> forums = dao.findForums(forumDir);
 
@@ -74,10 +74,10 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(100l);
 
-                ForumDAO dao = (ForumDAO)getInstance("forumDAO");
+                ForumDAO dao = (ForumDAO)getInstance(ForumDAO.class);
 
                 Map<Long, ForumInfo> infos = dao.findForums(forumDir);
                 assert infos.size() == 2;
@@ -103,10 +103,10 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forums = nodeDAO.findWikiDirectory(100l);
 
-                ForumDAO dao = (ForumDAO)getInstance("forumDAO");
+                ForumDAO dao = (ForumDAO)getInstance(ForumDAO.class);
 
                 Calendar lastLogin = new GregorianCalendar(2007, 2, 1);
                 Map<Long, Long> unreadTopics = dao.findUnreadTopicAndParentIds(forums, lastLogin.getTime());
@@ -133,10 +133,10 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forum = nodeDAO.findWikiDirectory(102l);
 
-                ForumDAO dao = (ForumDAO)getInstance("forumDAO");
+                ForumDAO dao = (ForumDAO)getInstance(ForumDAO.class);
 
                 Calendar lastLogin = new GregorianCalendar(2007, 2, 1);
                 Map<Long, Long> unreadTopics = dao.findUnreadTopicAndParentIdsInForum(forum, lastLogin.getTime());
@@ -161,10 +161,10 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forum = nodeDAO.findWikiDirectory(102l);
 
-                ForumDAO dao = (ForumDAO)getInstance("forumDAO");
+                ForumDAO dao = (ForumDAO)getInstance(ForumDAO.class);
                 assert dao.findTopicCount(forum).equals(2l);
 
                 forum = nodeDAO.findWikiDirectory(109l);
@@ -183,10 +183,10 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forum = nodeDAO.findWikiDirectory(102l);
 
-                ForumDAO dao = (ForumDAO)getInstance("forumDAO");
+                ForumDAO dao = (ForumDAO)getInstance(ForumDAO.class);
 
                 Map<Long, TopicInfo> topics = dao.findTopics(forum, 0, 10);
 
@@ -213,10 +213,10 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forum = nodeDAO.findWikiDirectory(109l);
 
-                ForumDAO dao = (ForumDAO)getInstance("forumDAO");
+                ForumDAO dao = (ForumDAO)getInstance(ForumDAO.class);
 
                 Map<Long, TopicInfo> topics = dao.findTopics(forum, 0, 10);
 

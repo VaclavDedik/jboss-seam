@@ -45,7 +45,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(5l); // Init!
                 assert invokeMethod("#{directoryHome.remove}").equals("removed");
 
@@ -78,7 +78,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
                 docHome.setFormContent("Test Content");
 
@@ -126,7 +126,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(4l); // Init!
 
                 // Just take the first one, these should be ordered by name, but there is only one there
@@ -138,7 +138,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getDefaultFile().getId().equals(newDefaultDocumentId);
             }
         }.run();
@@ -165,7 +165,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getId().equals(3l); // Init!
 
                 // Switch from first to second, these are ordered by name, "One", "Two"
@@ -177,7 +177,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert dirHome.getInstance().getDefaultFile().getId().equals(newDefaultDocumentId);
                 assert newDefaultDocumentId.equals(7l);
             }

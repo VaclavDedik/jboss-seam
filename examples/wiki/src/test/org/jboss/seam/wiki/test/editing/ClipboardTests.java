@@ -36,7 +36,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
@@ -54,10 +54,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
                 assert clipboard.getItemsAsList().get(0).equals(9l);
@@ -72,7 +72,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 home.paste();
@@ -88,10 +88,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
                 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 assert home.getChildNodes().size() == 2;
@@ -120,7 +120,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 WikiUpload upload = home.getWikiNodeDAO().findWikiUpload(30l);
@@ -138,10 +138,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
                 assert clipboard.getItemsAsList().get(0).equals(30l);
@@ -156,7 +156,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 home.paste();
@@ -172,10 +172,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 assert home.getChildNodes().size() == 2;
@@ -204,7 +204,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
@@ -224,10 +224,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 2;
                 assert !clipboard.isCut(9l);
@@ -242,7 +242,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 home.paste();
@@ -258,10 +258,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 assert home.getChildNodes().size() == 3;
@@ -295,7 +295,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
@@ -313,10 +313,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
                 assert clipboard.getItemsAsList().get(0).equals(9l);
@@ -331,7 +331,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 home.paste();
@@ -347,10 +347,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 assert home.getChildNodes().size() == 2;
@@ -375,7 +375,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 WikiUpload upload = home.getWikiNodeDAO().findWikiUpload(30l);
@@ -393,10 +393,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
                 assert clipboard.getItemsAsList().get(0).equals(30l);
@@ -411,7 +411,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 home.paste();
@@ -427,10 +427,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 assert home.getChildNodes().size() == 2;
@@ -459,7 +459,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
@@ -479,10 +479,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 2;
 
@@ -498,7 +498,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 home.paste();
@@ -514,10 +514,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(4l); // Init!
 
                 assert home.getChildNodes().size() == 3;
@@ -554,7 +554,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
@@ -572,10 +572,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
                 assert clipboard.getItemsAsList().get(0).equals(9l);
@@ -590,7 +590,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 home.paste();
@@ -606,10 +606,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 assert home.getChildNodes().size() == 3;
@@ -632,7 +632,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
@@ -650,10 +650,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
                 assert clipboard.getItemsAsList().get(0).equals(9l);
@@ -668,7 +668,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 home.paste();
@@ -684,10 +684,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 assert home.getChildNodes().size() == 4;
@@ -706,7 +706,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(3l); // Init!
 
                 WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(6l);
@@ -724,10 +724,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(3l); // Init!
 
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
                 assert clipboard.getItemsAsList().get(0).equals(6l);
@@ -742,7 +742,7 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 home.paste();
@@ -758,10 +758,10 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                Clipboard clipboard = (Clipboard)getInstance("clipboard");
+                Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance("directoryHome");
+                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
                 assert home.getInstance().getId().equals(2l); // Init!
 
                 assert home.getChildNodes().size() == 4;

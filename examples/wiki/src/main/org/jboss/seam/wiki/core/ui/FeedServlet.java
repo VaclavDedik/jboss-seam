@@ -32,10 +32,10 @@ import java.util.*;
  * <p>
  * This servlet uses either the currently logged in user (session) or
  * basic HTTP authorization if there is no user logged in or if the feed
- * requires a higher access level than currently available. The access level
- * of the feed is the read-access level of the directory the feed belongs to.
- * Feed entries are also read-access filtered, depending on the document they
- * belong to.
+ * requires a higher access level than currently available. Feed entries are also
+ * read-access filtered. Optionally, requests can enable/disable comments on the feed
+ * or filter by tag. It's up to the actual <tt>WikiFeedEntry</tt> instance how these
+ * filters are applied.
  *
  * @author Christian Bauer
  */
@@ -113,7 +113,7 @@ public class FeedServlet extends HttpServlet {
                 userTx.begin();
             }
 
-            FeedDAO feedDAO = (FeedDAO)Component.getInstance("feedDAO");
+            FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
             Feed feed = feedDAO.findFeed(Long.valueOf(feedIdParam));
             if (feed == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
@@ -124,7 +124,7 @@ public class FeedServlet extends HttpServlet {
             // Authenticate and authorize, first with current user (session) then with basic HTTP authentication
             Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
             if (feed.getReadAccessLevel() > currentAccessLevel) {
-                boolean loggedIn = ((Authenticator)Component.getInstance("authenticator")).authenticateBasicHttp(request);
+                boolean loggedIn = ((Authenticator)Component.getInstance(Authenticator.class)).authenticateBasicHttp(request);
                 currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
                 if (!loggedIn || feed.getReadAccessLevel() > currentAccessLevel) {
                     response.setHeader("WWW-Authenticate", "Basic realm=\"" + feed.getTitle().replace("\"", "'") + "\"");

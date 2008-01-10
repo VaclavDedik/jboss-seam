@@ -33,7 +33,7 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 WikiDocument doc = (WikiDocument)getValue("#{currentDocument}");
@@ -83,7 +83,7 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
                 docHome.setFormContent("Test Content");
 
@@ -95,7 +95,7 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
                 WikiFile newFile = (WikiFile)getValue("#{documentHome.instance}");
 
                 // Shouldn't have any historical data
-                WikiNodeDAO wikiNodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO wikiNodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 assert wikiNodeDAO.findHistoricalFiles(newFile).size() == 0;
                 assert wikiNodeDAO.findNumberOfHistoricalFiles(newFile).equals(0l);
             }
@@ -126,7 +126,7 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 docHome.getFormContent(); // Initialize historical revision
@@ -145,7 +145,7 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 assert docHome.isHistoricalFilesPresent();

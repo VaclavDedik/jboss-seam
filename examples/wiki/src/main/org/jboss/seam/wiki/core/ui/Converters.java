@@ -62,7 +62,7 @@ public class Converters {
                                   UIComponent arg1,
                                   String arg2) throws ConverterException {
             if (arg2 == null) return null;
-            SearchRegistry searchRegistry = (SearchRegistry)Component.getInstance("searchRegistry");
+            SearchRegistry searchRegistry = (SearchRegistry)Component.getInstance(SearchRegistry.class);
             return searchRegistry.getSearchableEntitiesByName().get(arg2);
         }
 

@@ -157,7 +157,7 @@ public class WikiRequestResolver {
             boolean foundMatches = false;
             if (areaName != null && areaName.length() > 0) {
                 log.debug("searching for unknown area name: " + areaName);
-                WikiSearch wikiSearch = (WikiSearch) Component.getInstance("wikiSearch");
+                WikiSearch wikiSearch = (WikiSearch) Component.getInstance(WikiSearch.class);
                 wikiSearch.setSimpleQuery(areaName);
                 wikiSearch.search();
                 foundMatches = wikiSearch.getTotalCount() > 0;
@@ -183,14 +183,14 @@ public class WikiRequestResolver {
         }
 
         if (currentDocument != null) {
-            DocumentHome documentHome = (DocumentHome)Component.getInstance("documentHome");
+            DocumentHome documentHome = (DocumentHome)Component.getInstance(DocumentHome.class);
             documentHome.setNodeId(currentDocument.getId());
             documentHome.setInstance(currentDocument);
             documentHome.afterNodeFound(currentDocument);
             log.debug("displaying document: " + currentDocument);
             return "docDisplay";
         } else {
-            DirectoryHome directoryHome = (DirectoryHome)Component.getInstance("directoryHome");
+            DirectoryHome directoryHome = (DirectoryHome)Component.getInstance(DirectoryHome.class);
             directoryHome.setNodeId(currentDirectory.getId());
             directoryHome.setInstance(currentDirectory);
             directoryHome.afterNodeFound(currentDirectory);

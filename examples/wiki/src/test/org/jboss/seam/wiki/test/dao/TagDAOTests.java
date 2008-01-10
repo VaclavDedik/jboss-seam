@@ -31,7 +31,7 @@ public class TagDAOTests extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 WikiDirectory wikiRoot = (WikiDirectory)getInstance("wikiRoot");
 
-                TagDAO dao = (TagDAO)getInstance("tagDAO");
+                TagDAO dao = (TagDAO)getInstance(TagDAO.class);
                 List<DisplayTagCount> tags = dao.findTagCounts(wikiRoot, null, 0);
                 assert tags.size() == 3;
                 assert tags.get(0).getTag().equals("Tag One");
@@ -50,9 +50,9 @@ public class TagDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
 
             protected void invokeApplication() throws Exception {
-                WikiDirectory startDir = ((WikiNodeDAO)getInstance("wikiNodeDAO")).findWikiDirectory(4l);
+                WikiDirectory startDir = ((WikiNodeDAO)getInstance(WikiNodeDAO.class)).findWikiDirectory(4l);
 
-                TagDAO dao = (TagDAO)getInstance("tagDAO");
+                TagDAO dao = (TagDAO)getInstance(TagDAO.class);
                 List<DisplayTagCount> tags = dao.findTagCounts(startDir, null, 2);
 
                 assert tags.size() == 2;

@@ -11,13 +11,14 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.wiki.core.model.WikiComment;
 
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Christian Bauer
  */
 @Name("commentNodeRemover")
 @AutoCreate
-public class CommentNodeRemover extends NodeRemover<WikiComment> {
+public class CommentNodeRemover extends NodeRemover<WikiComment> implements Serializable {
 
     public boolean isRemovable(WikiComment comment) {
         return true;

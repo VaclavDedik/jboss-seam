@@ -79,11 +79,6 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
     /* -------------------------- Custom CUD ------------------------------ */
 
     @Override
-    protected boolean preparePersist() {
-        return uploadEditor.preparePersist();
-    }
-
-    @Override
     protected boolean beforePersist() {
         // Set createdOn date _now_
         getInstance().setCreatedOn(new Date());

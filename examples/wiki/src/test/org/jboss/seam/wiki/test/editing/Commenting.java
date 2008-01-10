@@ -41,7 +41,7 @@ public class Commenting extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                CommentHome commentHome = (CommentHome)getInstance("commentHome");
+                CommentHome commentHome = (CommentHome)getInstance(CommentHome.class);
 
                 commentHome.newComment();
 
@@ -55,7 +55,7 @@ public class Commenting extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                CommentQuery commentQuery = (CommentQuery)getInstance("commentQuery");
+                CommentQuery commentQuery = (CommentQuery)getInstance(CommentQuery.class);
                 assert commentQuery.getComments().size() == 7;
 
                 assert commentQuery.getComments().get(0).getId().equals(10l);
@@ -97,7 +97,7 @@ public class Commenting extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                CommentQuery commentQuery = (CommentQuery)getInstance("commentQuery");
+                CommentQuery commentQuery = (CommentQuery)getInstance(CommentQuery.class);
                 assert commentQuery.getComments().size() == 4;
                 assert commentQuery.getComments().get(0).getId().equals(10l);
                 assert commentQuery.getComments().get(0).getLevel().equals(1l);

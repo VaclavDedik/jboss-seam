@@ -40,7 +40,7 @@ public class EditMacros extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 assert docHome.getInstance().getHeaderMacros().size() == 2;
@@ -81,7 +81,7 @@ public class EditMacros extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 docHome.setFormContent("[<=contentMacro[param=value]]");

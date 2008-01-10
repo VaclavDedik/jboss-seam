@@ -87,7 +87,7 @@ public class AdminHome implements Serializable {
 
     @Factory("systemPreferenceEntities")
     public void initPreferencesEditor() {
-        preferenceEditor = (PreferenceEditor)Component.getInstance("prefEditor");
+        preferenceEditor = (PreferenceEditor)Component.getInstance(PreferenceEditor.class);
         preferenceEditor.setVisibilities(new PreferenceVisibility[] {PreferenceVisibility.SYSTEM});
         systemPreferenceEntities = preferenceEditor.getPreferenceEntities();
         Contexts.getConversationContext().set("preferenceEditor", preferenceEditor);
@@ -148,7 +148,7 @@ public class AdminHome implements Serializable {
     @Factory("indexedEntities")
     public void loadIndexedEntities() throws Exception {
 
-        SearchRegistry registry = (SearchRegistry)Component.getInstance("searchRegistry");
+        SearchRegistry registry = (SearchRegistry)Component.getInstance(SearchRegistry.class);
         indexedEntities = registry.getSearchableEntities();
 
         EntityManager em = (EntityManager) Component.getInstance("entityManager");
@@ -180,7 +180,7 @@ public class AdminHome implements Serializable {
 
     public void resetSearchIndex() throws Exception {
 
-        IndexManager indexMgr = (IndexManager)Component.getInstance("indexManager");
+        IndexManager indexMgr = (IndexManager)Component.getInstance(IndexManager.class);
         Progress progress = new Progress(selectedIndexedEntity.getClazz().getName());
         indexMgr.rebuildIndex(selectedIndexedEntity.getClazz(), progress);
 

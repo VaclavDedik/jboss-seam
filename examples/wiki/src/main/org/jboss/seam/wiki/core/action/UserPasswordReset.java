@@ -96,7 +96,7 @@ public class UserPasswordReset implements Serializable {
 
         // Set activation code (unique user in time)
         String seed = user.getUsername() + System.currentTimeMillis() + prefs.getActivationCodeSalt();
-        user.setActivationCode( ((Hash) Component.getInstance("hashUtil")).hash(seed) );
+        user.setActivationCode( ((Hash) Component.getInstance(Hash.class)).hash(seed) );
         // TODO: Flush by side effect?
 
         try {

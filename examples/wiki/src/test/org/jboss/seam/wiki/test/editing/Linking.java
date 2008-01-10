@@ -44,7 +44,7 @@ public class Linking extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 docHome.setFormContent("[=>http://foo.bar]");
@@ -103,7 +103,7 @@ public class Linking extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 docHome.setFormContent("[=>Two]");
@@ -154,7 +154,7 @@ public class Linking extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 docHome.setFormContent("[=>Two]");
@@ -189,7 +189,7 @@ public class Linking extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 assert docHome.getInstance().getOutgoingLinks().size() == 0;

@@ -24,7 +24,7 @@ public class BlogDAOTests extends DBUnitSeamTest {
     public void findBlogEntriesWithCommentCount() throws Exception {
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory blogDir = nodeDAO.findWikiDirectory(51l);
 
                 BlogDAO dao = (BlogDAO)getInstance("blogDAO");
@@ -58,7 +58,7 @@ public class BlogDAOTests extends DBUnitSeamTest {
     public void findBlogEntriesWithCommentCountLimitDate() throws Exception {
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory blogDir = nodeDAO.findWikiDirectory(51l);
 
                 BlogDAO dao = (BlogDAO)getInstance("blogDAO");
@@ -124,7 +124,7 @@ public class BlogDAOTests extends DBUnitSeamTest {
     public void findBlogEntriesWithCommentCountLimitTag() throws Exception {
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory blogDir = nodeDAO.findWikiDirectory(51l);
 
                 BlogDAO dao = (BlogDAO)getInstance("blogDAO");
@@ -155,7 +155,7 @@ public class BlogDAOTests extends DBUnitSeamTest {
     public void findBlogEntriesWithCommentCountLimitTagDate() throws Exception {
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory blogDir = nodeDAO.findWikiDirectory(51l);
 
                 BlogDAO dao = (BlogDAO)getInstance("blogDAO");

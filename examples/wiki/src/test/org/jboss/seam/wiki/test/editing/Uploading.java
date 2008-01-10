@@ -39,7 +39,7 @@ public class Uploading extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                Uploader uploader = (Uploader) getInstance("uploader");
+                Uploader uploader = (Uploader) getInstance(Uploader.class);
 
                 assert uploader.getParentDirectoryId().equals(2l);
 
@@ -70,7 +70,7 @@ public class Uploading extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                UploadHome uploadHome = (UploadHome)getInstance("uploadHome");
+                UploadHome uploadHome = (UploadHome)getInstance(UploadHome.class);
                 uploadHome.setEdit(true);
 
                 assert uploadHome.getInstance().getFilename().equals("testupload2.zip");

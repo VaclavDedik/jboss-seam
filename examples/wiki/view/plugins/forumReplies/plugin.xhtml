@@ -83,7 +83,7 @@
                                       reRender="forumRepliesContainer"
                                       action="#{replyHome.remove(c.id)}"/>
                             <h:outputLink value="#"
-                                  onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.Comment']} \\'#{c.subject}\\'', 'deleteReplyId#{c.id}')"
+                                  onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'', 'deleteReplyId#{c.id}')"
                                   styleClass="button sessionEventTrigger">
                                 <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
                         </h:outputLink>

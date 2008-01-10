@@ -133,7 +133,7 @@ public class Authenticator {
 
     public void createHomeDirectory(User user) {
 
-        WikiNodeDAO nodeDAO = (WikiNodeDAO)Component.getInstance("wikiNodeDAO");
+        WikiNodeDAO nodeDAO = (WikiNodeDAO)Component.getInstance(WikiNodeDAO.class);
 
         // Create home directory
         WikiDirectory memberArea = (WikiDirectory)Component.getInstance("memberArea");

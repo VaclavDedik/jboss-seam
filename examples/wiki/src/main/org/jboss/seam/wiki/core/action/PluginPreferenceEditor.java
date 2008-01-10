@@ -45,7 +45,7 @@ public class PluginPreferenceEditor implements Serializable {
         this.pluginPreferenceName = pluginPreferenceName;
 
         // Load the preference component
-        PreferenceRegistry registry = (PreferenceRegistry) Component.getInstance("preferenceRegistry");
+        PreferenceRegistry registry = (PreferenceRegistry) Component.getInstance(PreferenceRegistry.class);
         preferenceComponent = registry.getPreferenceComponentsByName().get(pluginPreferenceName);
 
         if (preferenceComponent != null) {

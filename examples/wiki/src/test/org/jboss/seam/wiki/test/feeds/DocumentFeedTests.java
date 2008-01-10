@@ -44,7 +44,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
                 docHome.setFormContent("Test Content");
 
@@ -58,7 +58,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
         new NonFacesRequest("/wiki.xhtml") {
             protected void renderResponse() throws Exception {
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 checkTestDocumentIsOnFeed("Anonymous Guest", "AAA", feedDAO.findFeed(1l), 1);
             }
         }.run();
@@ -83,7 +83,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
                 docHome.setFormContent("Test Content");
 
@@ -97,7 +97,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
         new NonFacesRequest("/wiki.xhtml") {
             protected void renderResponse() throws Exception {
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 checkTestDocumentIsOnFeed("Regular Member", "AAA", feedDAO.findFeed(1l), 1);
             }
         }.run();
@@ -121,7 +121,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
                 docHome.setFormContent("Test Content");
 
@@ -134,7 +134,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
         new NonFacesRequest("/wiki.xhtml") {
             protected void renderResponse() throws Exception {
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 checkTestDocumentIsOnFeed("Anonymous Guest", "BBB", feedDAO.findFeed(2l), 1);
                 checkFeedHasEntries(feedDAO.findFeed(1l), 1);
             }
@@ -160,7 +160,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
                 docHome.setFormContent("Test Content");
 
@@ -173,7 +173,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
         new NonFacesRequest("/wiki.xhtml") {
             protected void renderResponse() throws Exception {
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 checkTestDocumentIsOnFeed("System Administrator", "BBB", feedDAO.findFeed(2l), 0);
                 checkFeedHasEntries(feedDAO.findFeed(1l), 1);
             }
@@ -198,7 +198,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
                 docHome.setFormContent("Test Content");
 
@@ -212,7 +212,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
         new NonFacesRequest("/wiki.xhtml") {
             protected void renderResponse() throws Exception {
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 checkTestDocumentIsOnFeed("Anonymous Guest", "AAA", feedDAO.findFeed(1l), 1);
                 checkTestDocumentIsOnFeed("Anonymous Guest", "BBB", feedDAO.findFeed(2l), 1);
             }
@@ -238,7 +238,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
                 docHome.setFormContent("Test Content");
 
@@ -252,7 +252,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
         new NonFacesRequest("/wiki.xhtml") {
             protected void renderResponse() throws Exception {
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 checkTestDocumentIsOnFeed("System Administrator", "AAA", feedDAO.findFeed(1l), 0);
                 checkTestDocumentIsOnFeed("System Administrator", "BBB", feedDAO.findFeed(2l), 0);
             }
@@ -283,7 +283,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
         new NonFacesRequest("/wiki.xhtml") {
             protected void renderResponse() throws Exception {
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 checkFeedHasEntries(feedDAO.findFeed(1l), 0);
                 checkFeedHasEntries(feedDAO.findFeed(2l), 0);
             }

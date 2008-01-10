@@ -12,12 +12,13 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.Component;
 
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Christian Bauer
  */
 @Name("documentNodeRemover")
-public class DocumentNodeRemover extends NodeRemover<WikiDocument> {
+public class DocumentNodeRemover extends NodeRemover<WikiDocument> implements Serializable {
 
     @In
     CommentNodeRemover commentNodeRemover;

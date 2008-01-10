@@ -91,7 +91,7 @@ public class UserHome extends EntityHome<User> {
             if (roles == null) roles = getInstance().getRoles();
             if (oldUsername == null) oldUsername = getInstance().getUsername();
 
-            uploader = (Uploader)Component.getInstance("uploader");
+            uploader = (Uploader)Component.getInstance(Uploader.class);
 
         } else {
             if (!prefs.getEnableRegistration() &&
@@ -132,7 +132,7 @@ public class UserHome extends EntityHome<User> {
 
             // Set activation code (unique user in time)
             String seed = getInstance().getUsername() + System.currentTimeMillis() + prefs.getActivationCodeSalt();
-            getInstance().setActivationCode( ((Hash)Component.getInstance("hashUtil")).hash(seed) );
+            getInstance().setActivationCode( ((Hash)Component.getInstance(Hash.class)).hash(seed) );
 
             String outcome = super.persist();
             if (outcome != null) {
@@ -325,7 +325,7 @@ public class UserHome extends EntityHome<User> {
     @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
     public void createHomeDirectory() {
 
-        Authenticator auth = (Authenticator)Component.getInstance("authenticator");
+        Authenticator auth = (Authenticator)Component.getInstance(Authenticator.class);
         auth.createHomeDirectory(getInstance());
 
         facesMessages.addFromResourceBundleOrDefault(
@@ -415,7 +415,7 @@ public class UserHome extends EntityHome<User> {
 
     @Factory("userPreferenceEntities")
     public void initPreferencesEditor() {
-        preferenceEditor = (PreferenceEditor)Component.getInstance("prefEditor");
+        preferenceEditor = (PreferenceEditor)Component.getInstance(PreferenceEditor.class);
         preferenceEditor.setVisibilities(new PreferenceVisibility[] {PreferenceVisibility.USER});
         preferenceEditor.setUser(getInstance());
         userPreferenceEntities = preferenceEditor.getPreferenceEntities();

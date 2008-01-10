@@ -225,7 +225,7 @@
                                       reRender="commentDisplayForm"
                                       action="#{commentHome.remove(c.id)}"/>
                             <h:outputLink value="#"
-                                  onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.Comment']} \\'#{c.subject}\\'', 'deleteCommentId#{c.id}')"
+                                  onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'', 'deleteCommentId#{c.id}')"
                                   styleClass="button">
                                 <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
                         </h:outputLink>

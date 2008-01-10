@@ -63,12 +63,12 @@ public class SystemPreferencesTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
 
-                PreferenceRegistry registry = (PreferenceRegistry)getInstance("preferenceRegistry");
+                PreferenceRegistry registry = (PreferenceRegistry)getInstance(PreferenceRegistry.class);
                 PreferenceEntity wikiEntity = registry.getPreferenceEntitiesByName().get("Wiki");
 
                 invokeMethod("#{adminHome.initPreferencesEditor}");
 
-                PreferenceEditor prefEditor = (PreferenceEditor)getInstance("preferenceEditor");
+                PreferenceEditor prefEditor = (PreferenceEditor)getInstance(PreferenceEditor.class);
                 prefEditor.selectPreferenceEntity(wikiEntity);
             }
 
@@ -81,7 +81,7 @@ public class SystemPreferencesTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                PreferenceEditor prefEditor = (PreferenceEditor)getInstance("preferenceEditor");
+                PreferenceEditor prefEditor = (PreferenceEditor)getInstance(PreferenceEditor.class);
                 List<PreferenceValue> values = prefEditor.getPreferenceValues();
                 // This is somewhat dodgy... no other way to get the value we want
                 for (PreferenceValue value : values) {

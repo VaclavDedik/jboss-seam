@@ -43,7 +43,7 @@ public class ResetPasswordTests  extends DBUnitSeamTest {
         new FacesRequest("/wiki.xhtml") {
 
             protected void invokeApplication() throws Exception {
-                UserPasswordReset reset = (UserPasswordReset)getInstance("userPasswordReset");
+                UserPasswordReset reset = (UserPasswordReset)getInstance(UserPasswordReset.class);
                 reset.setPassword("foo123");
                 reset.setPasswordControl("foo123");
 
@@ -54,10 +54,10 @@ public class ResetPasswordTests  extends DBUnitSeamTest {
                 User user = (User)getInstance(UserPasswordReset.RESET_PASSWORD_OF_USER);
                 assert user == null;
 
-                UserDAO dao = (UserDAO)getInstance("userDAO");
+                UserDAO dao = (UserDAO)getInstance(UserDAO.class);
                 User dbUser = dao.findUser(3l);
                 assert dbUser.getActivationCode() == null;
-                Hash hashUtil = (Hash)getInstance("hashUtil");
+                Hash hashUtil = (Hash)getInstance(Hash.class);
                 assert dbUser.getPasswordHash().equals(hashUtil.hash("foo123"));
             }
         }.run();

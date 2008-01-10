@@ -49,7 +49,7 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
 
             protected void renderResponse() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 WikiTextParser parser = new WikiTextParser(docHome.getInstance().getContent(), true, false);
@@ -90,7 +90,7 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 assert Conversation.instance().isLongRunning();
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 docHome.setFormContent("[<=lastModifiedDocuments[documentTitleLength=66]]");
@@ -109,7 +109,7 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
 
             protected void renderResponse() throws Exception {
 
-                DocumentHome docHome = (DocumentHome)getInstance("documentHome");
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 WikiTextParser parser = new WikiTextParser(docHome.getInstance().getContent(), true, false);

@@ -35,13 +35,13 @@ public class TopicHomeTests extends DBUnitSeamTest {
         final String conversationId = new FacesRequest() {
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
-                TopicHome home = (TopicHome)getInstance("topicHome");
+                TopicHome home = (TopicHome)getInstance(TopicHome.class);
                 home.newTopic();
             }
         }.run();
@@ -53,13 +53,13 @@ public class TopicHomeTests extends DBUnitSeamTest {
             }
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
-                TopicHome home = (TopicHome)getInstance("topicHome");
+                TopicHome home = (TopicHome)getInstance(TopicHome.class);
 
                 home.getInstance().setName("New Topic");
                 home.setFormContent("This is a new topic.");
@@ -70,12 +70,12 @@ public class TopicHomeTests extends DBUnitSeamTest {
             protected void renderResponse() throws Exception {
                 Long newId = (Long)getValue("#{topicHome.instance.id}");
 
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument newTopic = nodeDAO.findWikiDocument(newId);
 
                 assert newTopic.getAreaNumber().equals(100l);
 
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 FeedEntry fe = feedDAO.findFeedEntry(newTopic);
                 assert fe.getTitle().equals("[Seam Users] New Topic");
 
@@ -100,13 +100,13 @@ public class TopicHomeTests extends DBUnitSeamTest {
         final String conversationId = new FacesRequest() {
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
-                TopicHome home = (TopicHome)getInstance("topicHome");
+                TopicHome home = (TopicHome)getInstance(TopicHome.class);
                 home.newTopic();
             }
         }.run();
@@ -118,13 +118,13 @@ public class TopicHomeTests extends DBUnitSeamTest {
             }
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
-                TopicHome home = (TopicHome)getInstance("topicHome");
+                TopicHome home = (TopicHome)getInstance(TopicHome.class);
 
                 home.getInstance().setName("New Topic");
                 home.setFormContent("This is a new topic.");
@@ -136,12 +136,12 @@ public class TopicHomeTests extends DBUnitSeamTest {
             protected void renderResponse() throws Exception {
                 Long newId = (Long)getValue("#{topicHome.instance.id}");
 
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument newTopic = nodeDAO.findWikiDocument(newId);
 
                 assert newTopic.getAreaNumber().equals(100l);
 
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 FeedEntry fe = feedDAO.findFeedEntry(newTopic);
                 assert fe.getTitle().equals("[Seam Users] New Topic");
 
@@ -164,13 +164,13 @@ public class TopicHomeTests extends DBUnitSeamTest {
         final String conversationId = new FacesRequest() {
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
-                TopicHome home = (TopicHome)getInstance("topicHome");
+                TopicHome home = (TopicHome)getInstance(TopicHome.class);
                 home.newTopic();
             }
         }.run();
@@ -182,13 +182,13 @@ public class TopicHomeTests extends DBUnitSeamTest {
             }
 
             protected void updateModelValues() throws Exception {
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
             }
 
             protected void invokeApplication() throws Exception {
-                TopicHome home = (TopicHome)getInstance("topicHome");
+                TopicHome home = (TopicHome)getInstance(TopicHome.class);
 
                 home.getInstance().setName("New Topic");
                 home.setFormContent("This is a new topic.");
@@ -200,12 +200,12 @@ public class TopicHomeTests extends DBUnitSeamTest {
             protected void renderResponse() throws Exception {
                 Long newId = (Long)getValue("#{topicHome.instance.id}");
 
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance("wikiNodeDAO");
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDocument newTopic = nodeDAO.findWikiDocument(newId);
 
                 assert newTopic.getAreaNumber().equals(100l);
 
-                FeedDAO feedDAO = (FeedDAO)getInstance("feedDAO");
+                FeedDAO feedDAO = (FeedDAO)getInstance(FeedDAO.class);
                 FeedEntry fe = feedDAO.findFeedEntry(newTopic);
                 assert fe.getTitle().equals("[Seam Users] New Topic");
 
