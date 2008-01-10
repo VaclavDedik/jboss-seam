@@ -4,8 +4,10 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -38,7 +40,7 @@ public class JpaIdentityStore implements IdentityStore
    
    private Class<? extends UserAccount> accountClass;
    
-   private Set<UserAccount> roleCache;
+   private Map<String,Set<String>> roleCache;
    
    @Create
    public void init()
@@ -53,8 +55,17 @@ public class JpaIdentityStore implements IdentityStore
             .setParameter("accountType", UserAccount.AccountType.role)
             .getResultList();
       
-      roleCache = new HashSet<UserAccount>();
-      roleCache.addAll(roles);      
+      roleCache = new HashMap<String,Set<String>>();
+      
+      for (UserAccount role : roles)
+      {
+         Set<String> memberships = new HashSet<String>();
+         for (UserAccount m : role.getMemberships())
+         {
+            memberships.add(m.getUsername());
+         }
+         roleCache.put(role.getUsername(), memberships);
+      }      
    }
    
    public boolean createAccount(String username, String password)
@@ -315,14 +326,13 @@ public class JpaIdentityStore implements IdentityStore
    
    private void addRoleAndMemberships(String role, Set<String> roles)
    {
-      UserAccount roleAccount = validateRole(role);
       roles.add(role);
       
-      for (UserAccount membership : roleAccount.getMemberships())
+      for (String membership : roleCache.get(role))
       {
-         if (!roles.contains(membership.getUsername()))
+         if (!roles.contains(membership))
          {
-            addRoleAndMemberships(membership.getUsername(), roles);
+            addRoleAndMemberships(membership, roles);
          }
       }            
    }
@@ -388,16 +398,7 @@ public class JpaIdentityStore implements IdentityStore
     * @return The UserAccount for the specific role
     */
    protected UserAccount validateRole(String name)
-   {
-      // The role *should* be cached
-      for (UserAccount ua : roleCache)
-      {
-         if (ua.getUsername().equals(name))
-         {
-            return ua;
-         }
-      }
-      
+   {      
       try
       {
          // As a last ditch effort, check the db
@@ -407,11 +408,17 @@ public class JpaIdentityStore implements IdentityStore
             .setParameter("username", name)
             .setParameter("accountType", AccountType.role)
             .getSingleResult();
-         
-         // Force load memberships
-         role.getMemberships().size();
-         
-         roleCache.add(role);
+    
+         if (!roleCache.containsKey(role.getUsername()))
+         {
+            Set<String> memberships = new HashSet<String>();
+            for (UserAccount m : role.getMemberships())
+            {
+               memberships.add(m.getUsername());
+            }
+            
+            roleCache.put(role.getUsername(), memberships);            
+         }
          
          return role;
       }
