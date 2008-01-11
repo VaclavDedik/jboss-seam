@@ -4,15 +4,9 @@
     Aspect  Deployer
 -->
 <deployment xmlns="urn:jboss:bean-deployer:2.0">
-
-<!--
-   <bean name="AOPClassLoaderScopingPolicy" class="org.jboss.aop.asintegration.jboss4.RepositoryClassLoaderScopingPolicy"/>
-
-   <bean name="AOPJBossIntegration" class="org.jboss.aop.asintegration.jboss5.JBoss5Integration">
-      <property name="scopingPolicy"><inject bean="AOPClassLoaderScopingPolicy"/></property>
-   </bean>
+<!-- Enable following embedded upgrade
+   <bean name="AOPJBossIntegration" class="org.jboss.aop.asintegration.embedded.JBossEmbeddedUCLIntegration"/>
 -->
-
    <!--
       Valid values for the AspectManager bean for use with enableTransformer=true are:
       * org.jboss.aop.deployers.AspectManagerJDK5 - works with the -javaagent:pluggable-instrumentor.jar switch
@@ -25,9 +19,9 @@
 				</aop>]]>
 	      </parameter>
       </constructor>
-
-      <!--<property name="jbossIntegration"><inject bean="AOPJBossIntegration"/></property>-->
-
+<!-- Enable following embedded upgrade
+      <property name="jbossIntegration"><inject bean="AOPJBossIntegration"/></property>
+-->
       <property name="enableLoadtimeWeaving">false</property>
       <!-- only relevant when EnableLoadtimeWeaving is true.
            When transformer is on, every loaded class gets
