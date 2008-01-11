@@ -11,7 +11,7 @@ options
 }
 {   
 	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "q", "blockquote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img"} ) );
-	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id", "style", "width", "height", "name", "value", "type" } ) );
+	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id", "style", "width", "height", "name", "value", "type", "cellpadding", "cellspacing", "border" } ) );
 
 	 public class Macro {
 	   public String name;
@@ -85,20 +85,20 @@ options
         return "<blockquote class=\"seamTextBlockquote\">\n";
     }
 
-    protected String headline1OpenTag() {
-        return "<h1 class=\"seamTextHeadline1\">";
+    protected String headline1(String line) {
+        return "<h1 class=\"seamTextHeadline1\">" + line + "</h1>";
     }
 
-    protected String headline2OpenTag() {
-        return "<h2 class=\"seamTextHeadline2\">";
+    protected String headline2(String line) {
+        return "<h2 class=\"seamTextHeadline2\">" + line + "</h2>";
     }
 
-    protected String headline3OpenTag() {
-        return "<h3 class=\"seamTextHeadline3\">";
+    protected String headline3(String line) {
+        return "<h3 class=\"seamTextHeadline3\">" + line + "</h3>";
     }
 
-    protected String headline4OpenTag() {
-        return "<h4 class=\"seamTextHeadline4\">";
+    protected String headline4(String line) {
+        return "<h4 class=\"seamTextHeadline4\">" + line + "</h4>";
     }
 
     protected String orderedListOpenTag() {
@@ -284,18 +284,34 @@ quoted: DOUBLEQUOTE { append("<q>"); }
 heading: ( h1 | h2 | h3 | h4 ) newlineOrEof
     ;
   
-h1: PLUS { append( headline1OpenTag() ); } line { append("</h1>"); }
+h1: PLUS
+      { beginCapture(); }
+      line
+      { String headline=endCapture(); }
+      { append(headline1(headline.trim())); }
     ;
  
-h2: PLUS PLUS { append( headline2OpenTag() ); } line { append("</h2>"); }
+h2: PLUS PLUS
+      { beginCapture(); }
+      line
+      { String headline=endCapture(); }
+      { append(headline2(headline.trim())); }
+    ;
+
+h3: PLUS PLUS PLUS
+      { beginCapture(); }
+      line
+      { String headline=endCapture(); }
+      { append(headline3(headline.trim())); }
     ;
  
-h3: PLUS PLUS PLUS { append( headline3OpenTag() ); } line { append("</h3>"); }
+h4: PLUS PLUS PLUS PLUS
+      { beginCapture(); }
+      line
+      { String headline=endCapture(); }
+      { append(headline4(headline.trim())); }
     ;
- 
-h4: PLUS PLUS PLUS PLUS { append( headline4OpenTag() ); } line { append("</h4>"); }
-    ;
- 
+
 list: ( olist | ulist ) newlineOrEof
     ;
     
