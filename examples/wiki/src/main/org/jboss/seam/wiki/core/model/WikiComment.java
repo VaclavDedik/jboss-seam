@@ -129,11 +129,11 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
 
 
     public String getPermURL(String suffix) {
-        return "/" + getParentDocument().getId() + suffix + "#comment" + getId();
+        return getParentDocument().getId() + suffix + "#comment" + getId();
     }
 
     public String getWikiURL() {
-        return "/" + getArea().getWikiname() + "/" + getParentDocument().getWikiname() + "#comment" + getId();
+        return getArea().getWikiname() + "/" + getParentDocument().getWikiname() + "#comment" + getId();
     }
 
     // TODO: Everything can have comments, this has the wrong name and it's crude

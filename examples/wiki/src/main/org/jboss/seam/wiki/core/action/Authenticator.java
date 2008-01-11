@@ -169,7 +169,6 @@ public class Authenticator {
 
         MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(homePage.getContent());
         homePage.setContentMacros(renderer.getMacros());
-        homePage.setContentMacrosString(renderer.getMacrosString());
 
         homePage.setParent(homeDirectory);
         homeDirectory.setDefaultFile(homePage);

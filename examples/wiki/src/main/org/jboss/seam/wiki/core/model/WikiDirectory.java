@@ -94,15 +94,15 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
     }
 
     public String getPermURL(String suffix) {
-        return "/" + getId() + suffix;
+        return getId() + suffix;
     }
 
     public String getWikiURL() {
-        if (getArea() == null) return "/"; // Wiki ROOT
+        if (getArea() == null) return ""; // Wiki ROOT
         if (getArea().getWikiname().equals(getWikiname())) {
-            return "/" + getArea().getWikiname();
+            return getArea().getWikiname();
         } else {
-            return "/" + getArea().getWikiname() + "/" + getWikiname();
+            return getArea().getWikiname() + "/" + getWikiname();
         }
     }
 

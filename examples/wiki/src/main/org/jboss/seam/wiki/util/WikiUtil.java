@@ -88,13 +88,12 @@ public class WikiUtil {
     public static String renderPermURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
         WikiPreferences prefs = (WikiPreferences)Preferences.getInstance("Wiki");
-        return prefs.getBaseUrl() + node.getPermURL(prefs.getPermlinkSuffix());
+        return Component.getInstance("basePath") + "/" + node.getPermURL(prefs.getPermlinkSuffix());
     }
 
     public static String renderWikiURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
-        WikiPreferences prefs = (WikiPreferences)Preferences.getInstance("Wiki");
-        return prefs.getBaseUrl() + node.getWikiURL();
+        return Component.getInstance("basePath") + "/" + node.getWikiURL();
     }
 
     public static boolean showEmailAddress() {
@@ -166,6 +165,7 @@ public class WikiUtil {
         return sb.toString();
     }
 
+    // TODO: Ouch...
     public static String removeMacros(String string) {
         String REGEX_MACRO = Pattern.quote("[") + "<=[a-z]{1}?[a-zA-Z0-9]+?" + Pattern.quote("]");
         return string.replaceAll(REGEX_MACRO, "");

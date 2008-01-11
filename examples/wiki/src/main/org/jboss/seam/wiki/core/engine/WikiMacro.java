@@ -32,6 +32,11 @@ public class WikiMacro implements Serializable {
         this.name = name;
     }
 
+    public WikiMacro(Integer position, String name) {
+        this.position = position;
+        this.name = name;
+    }
+
     public Integer getPosition() {
         return position;
     }

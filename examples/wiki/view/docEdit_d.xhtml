@@ -58,8 +58,23 @@
                         <h:outputText value="#{messages['lacewiki.label.docEdit.CreateDocument']}" rendered="#{!documentHome.managed}"/>
                         <h:outputText value="#{messages['lacewiki.label.docEdit.EditDocument']}" rendered="#{documentHome.managed}"/>
                     </li>
-                    <li id="docContentTab"><a href="#docContent" accesskey="C"><u>C</u>ontent</a></li>
-                    <li id="docPropertiesTab"><a href="#docProperties" accesskey="T">Proper<u>t</u>ies</a></li>
+                    <li id="docContentTab">
+                        <a href="#docContent" accesskey="#{messages['lacewiki.button.docEdit.Content.accesskey']}">
+                            <h:outputText escape="false" value="#{messages['lacewiki.button.docEdit.Content']}"/>
+                        </a>
+                    </li>
+                    <li id="docPropertiesTab">
+                        <a href="#docProperties" accesskey="#{messages['lacewiki.button.docEdit.Properties.accesskey']}">
+                            <h:outputText escape="false" value="#{messages['lacewiki.button.docEdit.Properties']}"/>
+                        </a>
+                    </li>
+                    <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                        <li id="adminOptionsTab">
+                            <a href="#adminOptions" accesskey="#{messages['lacewiki.button.docEdit.AdminOptions.accesskey']}">
+                                <h:outputText escape="false" value="#{messages['lacewiki.button.docEdit.AdminOptions']}"/>
+                            </a>
+                        </li>
+                    </s:fragment>
                 </ul>
 
                 <div id="formTabsTitle"/>
@@ -263,10 +278,6 @@
 
                             </s:div>
 
-                            <ui:include src="includes/writeProtectionSelector.xhtml">
-                                <ui:param name="home" value="#{documentHome}"/>
-                            </ui:include>
-
                             <ui:include src="includes/tagEditor.xhtml">
                                 <ui:param name="namingContainer" value="docEditForm"/>
                                 <ui:param name="home" value="#{documentHome}"/>
@@ -276,6 +287,34 @@
                     </a:region>
 
                 </div>
+
+                <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                    <div id="adminOptions">
+
+                        <a:region>
+
+                            <s:decorate id="headerDecorate" template="includes/formFieldDecorate.xhtml">
+                                <ui:param name="tabId" value="docContentTab"/>
+                                <ui:param name="fieldId" value="header"/>
+                                <ui:define name="label">#{messages['lacewiki.label.docEdit.Header']}</ui:define>
+                                <h:inputTextarea rows="8" cols="60" value="#{documentHome.instance.header}"/>
+                            </s:decorate>
+
+                            <s:decorate id="footerDecorate" template="includes/formFieldDecorate.xhtml">
+                                <ui:param name="tabId" value="docContentTab"/>
+                                <ui:param name="fieldId" value="footer"/>
+                                <ui:define name="label">#{messages['lacewiki.label.docEdit.Footer']}</ui:define>
+                                <h:inputTextarea rows="8" cols="60" value="#{documentHome.instance.footer}"/>
+                            </s:decorate>
+
+                            <ui:include src="includes/writeProtectionSelector.xhtml">
+                                <ui:param name="home" value="#{documentHome}"/>
+                            </ui:include>
+
+                        </a:region>
+
+                    </div>
+                </s:fragment>
 
             </div>
 

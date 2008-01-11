@@ -35,8 +35,8 @@ public class URLTests extends DBUnitSeamTest {
                                 .setParameter("id", 6l)
                                 .getSingleResult();
 
-                assert d.getPermURL(".lace").equals("/6.lace");
-                assert d.getWikiURL().equals("/CCC/One");
+                assert d.getPermURL(".lace").equals("6.lace");
+                assert d.getWikiURL().equals("CCC/One");
             }
         }.run();
     }
@@ -52,24 +52,24 @@ public class URLTests extends DBUnitSeamTest {
                                 .setParameter("id", 3l)
                                 .getSingleResult();
 
-                assert d.getPermURL(".lace").equals("/3.lace");
-                assert d.getWikiURL().equals("/CCC");
+                assert d.getPermURL(".lace").equals("3.lace");
+                assert d.getWikiURL().equals("CCC");
 
                 d = (WikiDirectory)
                         em.createQuery("select d from WikiDirectory d where d.id = :id")
                                 .setParameter("id", 4l)
                                 .getSingleResult();
 
-                assert d.getPermURL(".lace").equals("/4.lace");
-                assert d.getWikiURL().equals("/CCC/DDD");
+                assert d.getPermURL(".lace").equals("4.lace");
+                assert d.getWikiURL().equals("CCC/DDD");
 
                 d = (WikiDirectory)
                         em.createQuery("select d from WikiDirectory d where d.id = :id")
                                 .setParameter("id", 1l)
                                 .getSingleResult();
 
-                assert d.getPermURL(".lace").equals("/1.lace");
-                assert d.getWikiURL().equals("/");
+                assert d.getPermURL(".lace").equals("1.lace");
+                assert d.getWikiURL().equals("");
 
             }
         }.run();
@@ -86,8 +86,8 @@ public class URLTests extends DBUnitSeamTest {
                                 .setParameter("id", 10l)
                                 .getSingleResult();
 
-                assert c.getPermURL(".lace").equals("/6.lace#comment10");
-                assert c.getWikiURL().equals("/CCC/One#comment10");
+                assert c.getPermURL(".lace").equals("6.lace#comment10");
+                assert c.getWikiURL().equals("CCC/One#comment10");
 
             }
         }.run();
@@ -105,8 +105,8 @@ public class URLTests extends DBUnitSeamTest {
                                 .setParameter("id", 30l)
                                 .getSingleResult();
 
-                assert u.getPermURL(".lace").equals("/servlets/files/download.seam?fileId=30");
-                assert u.getWikiURL().equals("/servlets/files/download.seam?fileId=30");
+                assert u.getPermURL(".lace").equals("servlets/files/download.seam?fileId=30");
+                assert u.getWikiURL().equals("servlets/files/download.seam?fileId=30");
 
             }
         }.run();

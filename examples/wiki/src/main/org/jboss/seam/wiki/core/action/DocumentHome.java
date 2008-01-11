@@ -282,21 +282,18 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         getInstance().setTagsCommaSeparated(tagString);
     }
 
-    private void syncMacros(WikiDocument doc) {
+    public void syncMacros(WikiDocument doc) {
         if (doc.getHeader() != null) {
             MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(doc.getHeader());
             doc.setHeaderMacros(renderer.getMacros());
-            doc.setHeaderMacrosString(renderer.getMacrosString());
         }
         if (doc.getContent() != null) {
             MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(doc.getContent());
             doc.setContentMacros(renderer.getMacros());
-            doc.setContentMacrosString(renderer.getMacrosString());
         }
         if (doc.getFooter() != null) {
             MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(doc.getFooter());
             doc.setFooterMacros(renderer.getMacros());
-            doc.setFooterMacrosString(renderer.getMacrosString());
         }
     }
 

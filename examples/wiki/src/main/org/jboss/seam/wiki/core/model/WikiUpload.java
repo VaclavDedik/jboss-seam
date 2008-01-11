@@ -107,11 +107,11 @@ public class WikiUpload<U extends WikiUpload> extends WikiFile<U> {
     }
 
     public String getPermURL(String suffix) {
-        return "/servlets/files/download.seam?fileId=" + getId();
+        return "servlets/files/download.seam?fileId=" + getId();
     }
 
     public String getWikiURL() {
-        return "/servlets/files/download.seam?fileId=" + getId();
+        return "servlets/files/download.seam?fileId=" + getId();
     }
 
     public String toString() {

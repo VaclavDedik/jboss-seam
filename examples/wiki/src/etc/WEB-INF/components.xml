@@ -139,8 +139,11 @@
         </property>
     </component>
 
-    <factory name="themePath" scope="CONVERSATION"
-             value="#{facesContext.externalContext.request.contextPath}/themes/#{preferences.get('Wiki').themeName}"/>
+    <factory name="basePath"
+             value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName
+                     }:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}"/>
+
+    <factory name="themePath" scope="CONVERSATION" value="#{basePath}/themes/#{preferences.get('Wiki').themeName}"/>
 
     <factory name="skin" scope="SESSION" value="d"/>
 

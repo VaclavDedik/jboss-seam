@@ -6,8 +6,7 @@ import org.jboss.seam.wiki.core.engine.WikiMacro;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Set;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 @Entity
 @Table(name = "WIKI_DOCUMENT")
@@ -36,8 +35,6 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     private String header;
     @Column(name = "HEADER_MACROS", nullable = true, length = 4000)
     private String headerMacrosString;
-    @Transient
-    private Set<WikiMacro> headerMacros = new LinkedHashSet<WikiMacro>();
 
     @Column(name = "CONTENT", nullable = false)
     @Length(min = 0, max = 32768)
@@ -47,16 +44,12 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     private String content;
     @Column(name = "CONTENT_MACROS", nullable = true, length = 4000)
     private String contentMacrosString;
-    @Transient
-    private Set<WikiMacro> contentMacros = new LinkedHashSet<WikiMacro>();
 
     @Column(name = "FOOTER", nullable = true)
     @Length(min = 0, max = 4000)
     private String footer;
     @Column(name = "FOOTER_MACROS", nullable = true, length = 4000)
     private String footerMacrosString;
-    @Transient
-    private Set<WikiMacro> footerMacros = new LinkedHashSet<WikiMacro>();
 
     public WikiDocument() {
         super();
@@ -65,7 +58,7 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     }
 
     public WikiDocument(WikiDocumentDefaults defaults) {
-        super(defaults.getDefaultName());
+        super(defaults.getName());
         setDefaults(defaults);
     }
 
@@ -106,15 +99,6 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     public String getFooterMacrosString() { return footerMacrosString; }
     public void setFooterMacrosString(String footerMacrosString) { this.footerMacrosString = footerMacrosString; }
 
-    public Set<WikiMacro> getHeaderMacros() { return headerMacros; }
-    public void setHeaderMacros(Set<WikiMacro> headerMacros) { this.headerMacros = headerMacros; }
-
-    public Set<WikiMacro> getContentMacros() { return contentMacros; }
-    public void setContentMacros(Set<WikiMacro> contentMacros) { this.contentMacros = contentMacros; }
-
-    public Set<WikiMacro> getFooterMacros() { return footerMacros; }
-    public void setFooterMacros(Set<WikiMacro> footerMacros) { this.footerMacros = footerMacros; }
-
     public void flatCopy(WikiDocument original, boolean copyLazyProperties) {
         super.flatCopy(original, copyLazyProperties);
         this.nameAsTitle = original.nameAsTitle;
@@ -142,6 +126,105 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
         this.content = revision.content;
     }
 
+    public String getFeedDescription() {
+        return getContent();
+    }
+
+    public String getHistoricalEntityName() {
+        return "HistoricalWikiDocument";
+    }
+
+    public String getPermURL(String suffix) {
+        return getId() + suffix;
+    }
+
+    public String getWikiURL() {
+        return getArea().getWikiname() + "/" + getWikiname();
+    }
+
+    public void setDefaults(WikiDocumentDefaults defaults) {
+        setName(defaults.getName());
+        content = defaults.getContentText() != null ? defaults.getContentText() : "";
+        header = defaults.getHeaderText() != null ? defaults.getHeaderText() : null;
+        footer = defaults.getFooterText() != null ? defaults.getFooterText() : null;
+        setMacroFieldsFromDefaults(defaults);
+        defaults.setOptions(this);
+    }
+
+    /*
+        Macro handling routines, based on the following concept:
+
+        - Persistent HEADER/CONTENT/FOOTER fields: This is the editable text, show to the user.
+
+        - Persistent HEADER_MACROS/CONTENT_MACROS/FOOTER_MACROS fields: These are strings that represent
+          a space-separated list of all macros (names only) the user has entered. We need this separate
+          in the database for aggregation queries, e.g. find me all documents that have "forumPosting"
+          macro in the HEADER_MACROS field.
+
+        - Transient headerMacros/contentMacros/footerMacros fields: These are type-safe collections
+          that represent the macros of this document. They are empty after you load a document from
+          the database and need to be generated. This generation is outside of the model class, we
+          expect that the client who loads the document will parse the persistent fields and call
+          the setters with filled collections. Only then will macroPresent(name) return a correct
+          result.
+     */
+
+    @Transient
+    private Collection<WikiMacro> headerMacros = new LinkedHashSet<WikiMacro>();
+    public Collection<WikiMacro> getHeaderMacros() { return headerMacros; }
+    public void setHeaderMacros(Collection<WikiMacro> headerMacros) {
+        this.headerMacros = headerMacros;
+        setHeaderMacrosString(getMacrosAsString(headerMacros));
+        setHeader(getMacrosAsWikiText(headerMacros) + getWikiTextWithoutMacros(getHeader()) ); // Text after macros
+    }
+
+    @Transient
+    private Collection<WikiMacro> contentMacros = new LinkedHashSet<WikiMacro>();
+    public Collection<WikiMacro> getContentMacros() { return contentMacros; }
+    public void setContentMacros(Collection<WikiMacro> contentMacros) {
+        this.contentMacros = contentMacros;
+        setContentMacrosString(getMacrosAsString(contentMacros));
+    }
+
+    @Transient
+    private Collection<WikiMacro> footerMacros = new LinkedHashSet<WikiMacro>();
+    public Collection<WikiMacro> getFooterMacros() { return footerMacros; }
+    public void setFooterMacros(Collection<WikiMacro> footerMacros) {
+        this.footerMacros = footerMacros;
+        setFooterMacrosString(getMacrosAsString(footerMacros));
+        setFooter(getWikiTextWithoutMacros(getFooter()) + getMacrosAsWikiText(footerMacros)); // Text before macros
+    }
+
+    public void addHeaderMacro(WikiMacro... macro) {
+        headerMacros.addAll(Arrays.asList(macro));
+        setHeaderMacros(headerMacros);
+    }
+
+    public void addFooterMacro(WikiMacro... macro) {
+        footerMacros.addAll(Arrays.asList(macro));
+        setFooterMacros(footerMacros);
+    }
+
+    public void removeHeaderMacro(WikiMacro... macro) {
+        headerMacros.removeAll(Arrays.asList(macro));
+        setHeaderMacros(headerMacros);
+    }
+
+    public void removeFooterMacro(WikiMacro... macro) {
+        footerMacros.removeAll(Arrays.asList(macro));
+        setFooterMacros(footerMacros);
+    }
+
+    public void removeHeaderMacros(String macroName) {
+        removeMacrosFromCollection(headerMacros, macroName);
+        setHeaderMacros(headerMacros);
+    }
+
+    public void removeFooterMacros(String macroName) {
+        removeMacrosFromCollection(footerMacros, macroName);
+        setFooterMacros(footerMacros);
+    }
+
     public boolean macroPresent(String macroName) {
         for (WikiMacro headerMacro : headerMacros) {
             if (headerMacro.getName().equals(macroName)) return true;
@@ -155,76 +238,83 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
         return false;
     }
 
-    public String getFeedDescription() {
-        return getContent();
+    private void removeMacrosFromCollection(Collection<WikiMacro> macros, String macroName) {
+        Iterator<WikiMacro> it = macros.iterator();
+        while (it.hasNext()) {
+            WikiMacro wikiMacro = it.next();
+            if (wikiMacro.getName().equals(macroName)) it.remove();
+        }
     }
 
-    public String getHistoricalEntityName() {
-        return "HistoricalWikiDocument";
+    private String getWikiTextWithoutMacros(String wikiText) {
+        if (wikiText == null) return "";
+        StringBuilder textWithoutMacro = new StringBuilder();
+        String[] textLines = wikiText.split("\n");
+        for (int i = 0; i < textLines.length; i++) {
+            if (!textLines[i].startsWith("[<=")) {
+                textWithoutMacro.append(textLines[i]);
+                if (i < textLines.length-1) textWithoutMacro.append("\n");
+            }
+        }
+        return textWithoutMacro.toString();
     }
 
-    public String getPermURL(String suffix) {
-        return "/" + getId() + suffix;
-    }
-
-    public String getWikiURL() {
-        return "/" + getArea().getWikiname() + "/" + getWikiname();
-    }
-
-    public void setDefaults(WikiDocumentDefaults defaults) {
-        setName(defaults.getDefaultName());
-
-        setHeaderMacrosString( appendMacrosAsString(defaults.getDefaultHeaderMacros()) );
-        setHeader( appendMacrosAsWikiTextString(defaults.getDefaultHeaderMacros()) + defaults.getDefaultHeader() );
-
-        setContentMacrosString( appendMacrosAsString(defaults.getDefaultContentMacros()) );
-        setContent( appendMacrosAsWikiTextString(defaults.getDefaultContentMacros()) + defaults.getDefaultContent());
-
-        setFooterMacrosString( appendMacrosAsString(defaults.getDefaultFooterMacros()) );
-        setFooter( appendMacrosAsWikiTextString(defaults.getDefaultFooterMacros()) + defaults.getDefaultFooter());
-
-        defaults.setDefaults(this);
-    }
-
-    public void addHeaderMacro(String... macro) {
-        setHeaderMacrosString( getHeaderMacrosString() + appendMacrosAsString(macro));
-        setHeader( getHeader() + appendMacrosAsWikiTextString(macro));
-    }
-
-    public void addFooterMacro(String... macro) {
-        setFooterMacrosString( getFooterMacrosString() + appendMacrosAsString(macro));
-        setFooter( getFooter()+ appendMacrosAsWikiTextString(macro));
-    }
-
-    // TODO: The replacement methods should tokenize the strings, not replaceAll()
-    public void replaceHeaderMacro(String macro, String replacement) {
-        setHeaderMacrosString(getHeaderMacrosString().replaceAll(macro, replacement));
-        setHeader(getHeader().replaceAll(macro, replacement));
-    }
-
-    public void replaceFooterMacro(String macro, String replacement) {
-        setFooterMacrosString(getFooterMacrosString().replaceAll(macro, replacement));
-        setFooter(getFooter().replaceAll(macro, replacement));
-    }
-
-    private String appendMacrosAsString(String[] macros) {
-        if (macros.length == 0) return "";
+    private String getMacrosAsString(Collection<WikiMacro> macros) {
+        if (macros.size() == 0) return "";
         StringBuilder macrosString = new StringBuilder();
-        for (String s : macros) {
-            macrosString.append(s).append(" ");
+        for (WikiMacro m : macros) {
+            macrosString.append(m.getName()).append(" ");
         }
         return macrosString.substring(0, macrosString.length() - 1);
     }
 
-    private String appendMacrosAsWikiTextString(String[] macros) {
-        if (macros.length == 0) return "";
+    private String getMacrosAsWikiText(Collection<WikiMacro> macros) {
+        if (macros.size() == 0) return "";
         StringBuilder macrosString = new StringBuilder();
-        for (String s : macros) {
-            macrosString.append("[<=").append(s).append("]\n");
+        for (WikiMacro m : macros) {
+            macrosString.append("[<=").append(m.getName());
+            for (Map.Entry<String, String> param : m.getParams().entrySet()) {
+                macrosString.append("[").append(param.getKey()).append("=").append(param.getValue()).append("]");
+            }
+            macrosString.append("]\n");
         }
         return macrosString.toString();
     }
 
+    private void setMacroFieldsFromDefaults(WikiDocumentDefaults defaults) {
+        if (defaults.getContentMacros() != null) {
+            setContentMacros(defaults.getContentMacros());
+            setContentMacrosString(getMacrosAsString(defaults.getContentMacros()));
+            content = getMacrosAsWikiText(defaults.getContentMacros()) + "\n" + content;
+        } else {
+            Collection<WikiMacro> macros = new ArrayList<WikiMacro>();
+            int i = 0;
+            for (String m : defaults.getContentMacrosAsString()) {
+                macros.add(new WikiMacro(i++, m));
+            }
+            setContentMacros(macros);
+            setContentMacrosString(getMacrosAsString(macros));
+            content = getMacrosAsWikiText(macros) + "\n" + content;
+        }
+
+        if (defaults.getHeaderMacros() != null) {
+            setHeaderMacros(defaults.getHeaderMacros());
+        } else {
+            int i = 0;
+            for (String m : defaults.getHeaderMacrosAsString()) {
+                addHeaderMacro(new WikiMacro(i++, m));
+            }
+        }
+
+        if (defaults.getFooterMacros() != null) {
+            setFooterMacros(defaults.getFooterMacros());
+        } else {
+            int i = 0;
+            for (String m : defaults.getFooterMacrosAsString()) {
+                addFooterMacro(new WikiMacro(i++, m));
+            }
+        }
+    }
 
     public String toString() {
         return "Document (" + getId() + "): " + getName();

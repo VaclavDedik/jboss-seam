@@ -85,21 +85,25 @@ public class ForumHomeTests extends DBUnitSeamTest {
                 assert newMenuItem.getDisplayPosition() == 2l;
                 s.close();
 
-                assert newForum.getDefaultFile().getName().equals("New Forum Forum");
-                assert newForum.getDefaultFile().getAreaNumber().equals(100l);
-                assert newForum.getDefaultFile().getWikiname().equals("NewForumForum");
-                assert ((WikiDocument)newForum.getDefaultFile()).isNameAsTitle();
-                assert newForum.getDefaultFile().getReadAccessLevel() == 0;
-                assert newForum.getDefaultFile().getWriteAccessLevel() == Role.ADMINROLE_ACCESSLEVEL;
-                assert newForum.getDefaultFile().getCreatedBy().getUsername().equals(User.ADMIN_USERNAME);
-                assert !((WikiDocument)newForum.getDefaultFile()).isEnableCommentForm();
-                assert !((WikiDocument)newForum.getDefaultFile()).isEnableComments();
-                assert !((WikiDocument)newForum.getDefaultFile()).isEnableCommentsOnFeeds();
-                assert ((WikiDocument)newForum.getDefaultFile()).getHeaderMacrosString()
-                        .equals("clearBackground hideControls hideComments hideTags hideCreatorHistory");
-                assert ((WikiDocument)newForum.getDefaultFile()).getContentMacrosString().equals("forumTopics");
-                assert ((WikiDocument)newForum.getDefaultFile()).getFooterMacrosString().equals("");
-
+                WikiDocument defaultDoc = (WikiDocument)newForum.getDefaultFile();
+                assert defaultDoc.getName().equals("New Forum Forum");
+                assert defaultDoc.getAreaNumber().equals(100l);
+                assert defaultDoc.getWikiname().equals("NewForumForum");
+                assert defaultDoc.isNameAsTitle();
+                assert defaultDoc.getReadAccessLevel() == 0;
+                assert defaultDoc.getWriteAccessLevel() == Role.ADMINROLE_ACCESSLEVEL;
+                assert defaultDoc.getCreatedBy().getUsername().equals(User.ADMIN_USERNAME);
+                assert !defaultDoc.isEnableCommentForm();
+                assert !defaultDoc.isEnableComments();
+                assert !defaultDoc.isEnableCommentsOnFeeds();
+                assert defaultDoc.getHeaderMacrosString().contains("clearBackground");
+                assert defaultDoc.getHeaderMacrosString().contains("hideControls");
+                assert defaultDoc.getHeaderMacrosString().contains("hideComments");
+                assert defaultDoc.getHeaderMacrosString().contains("hideTags");
+                assert defaultDoc.getHeaderMacrosString().contains("hideComments");
+                assert defaultDoc.getHeaderMacrosString().contains("clearBackground");
+                assert defaultDoc.getContentMacrosString().contains("forumTopics");
+                assert defaultDoc.getFooterMacrosString() == null;
             }
         }.run();
 

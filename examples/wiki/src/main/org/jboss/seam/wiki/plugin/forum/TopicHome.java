@@ -11,6 +11,7 @@ import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
+import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
@@ -55,21 +56,25 @@ public class TopicHome extends DocumentHome {
 
         WikiDocumentDefaults newTopicDefaults =
                 new WikiDocumentDefaults() {
-                    public String getDefaultName() {
+                    @Override
+                    public String getName() {
                         return Messages.instance().get("forum.label.NewTopic");
                     }
-                    public String[] getDefaultHeaderMacros() {
+                    @Override
+                    public String[] getHeaderMacrosAsString() {
                         return new String[] { "clearBackground", "hideControls", "hideComments",
                                               "hideTags", "hideCreatorHistory", "disableContentMacros", "forumPosting" };
                     }
-                    public String getDefaultContent() {
+                    @Override
+                    public String getContentText() {
                         return Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisTextPreviewUpdatesAutomatically");
                     }
-
-                    public String[] getDefaultFooterMacros() {
+                    @Override
+                    public String[] getFooterMacrosAsString() {
                         return new String[] { "forumReplies" };
                     }
-                    public void setDefaults(WikiDocument newTopic) {
+                    @Override
+                    public void setOptions(WikiDocument newTopic) {
                         newTopic.setNameAsTitle(false);
                         newTopic.setEnableComments(true);
                         newTopic.setEnableCommentForm(true);
@@ -86,10 +91,13 @@ public class TopicHome extends DocumentHome {
     @Override
     protected boolean beforePersist() {
         // TODO: Use macro parameters for "sticky" and "notify" options instead of additional macros
-        if (isSticky())
-            getInstance().replaceHeaderMacro("forumPosting", "forumStickyPosting");
-        if (isNotifyReplies())
-            getInstance().addHeaderMacro(TOPIC_NOTIFY_ME_MACRO);
+        if (isSticky()) {
+            getInstance().removeHeaderMacros("forumPosting");
+            getInstance().addHeaderMacro(new WikiMacro("forumStickyPosting"));
+        }
+        if (isNotifyReplies()) {
+            getInstance().addHeaderMacro(new WikiMacro(TOPIC_NOTIFY_ME_MACRO));
+        }
         return super.beforePersist();
     }
 

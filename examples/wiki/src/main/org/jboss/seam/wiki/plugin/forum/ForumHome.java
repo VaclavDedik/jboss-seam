@@ -70,19 +70,24 @@ public class ForumHome extends DirectoryHome {
             // Default document is topic list
             WikiDocumentDefaults topicListDefaults =
                 new WikiDocumentDefaults() {
-                    public String getDefaultName() {
+                    @Override
+                    public String getName() {
                         return getInstance().getName() + " " + Messages.instance().get("forum.label.Forum");
                     }
-                    public String[] getDefaultHeaderMacros() {
+                    @Override
+                    public String[] getHeaderMacrosAsString() {
                         return new String[] {"clearBackground", "hideControls", "hideComments", "hideTags", "hideCreatorHistory"};
                     }
-                    public String[] getDefaultContentMacros() {
+                    @Override
+                    public String[] getContentMacrosAsString() {
                         return new String[] {"forumTopics"};
                     }
-                    public String getDefaultContent() {
+                    @Override
+                    public String getContentText() {
                         return "";
                     }
-                    public void setDefaults(WikiDocument document) {
+                    @Override
+                    public void setOptions(WikiDocument document) {
                         document.setAreaNumber(getInstance().getAreaNumber());
                         document.setWikiname(WikiUtil.convertToWikiName(document.getName()));
                         document.setNameAsTitle(true);

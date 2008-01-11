@@ -9,20 +9,14 @@ import antlr.ANTLRException;
 public class MacroWikiTextRenderer extends NullWikiTextRenderer {
 
     private Set<WikiMacro> macros = new LinkedHashSet<WikiMacro>();
-    private StringBuilder macrosString = new StringBuilder();
 
     public String renderMacro(WikiMacro macro) {
         macros.add(macro);
-        macrosString.append(macro.getName()).append(" ");
         return null;
     }
 
     public Set<WikiMacro> getMacros() {
         return macros;
-    }
-
-    public String getMacrosString() {
-        return macrosString.toString();
     }
 
     public static MacroWikiTextRenderer renderMacros(String wikiText) {
