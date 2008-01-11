@@ -108,7 +108,7 @@ public class WikiTextParser extends SeamTextParser {
             WikiLink unresolvedLink = new WikiLink(false, false);
             unresolvedLink.setDescription(descriptionText);
             unresolvedLink.setUrl(linkText);
-            return renderer.renderInlineLink(unresolvedLink);
+            return renderer.renderInternalLink(unresolvedLink);
         }
 
         resolver.resolveLinkText(currentAreaNumber, resolvedLinks, linkText);
@@ -132,7 +132,7 @@ public class WikiTextParser extends SeamTextParser {
                 }
                 return renderer.renderFileAttachmentLink((attachments.indexOf(link)+1), link);
             } else {
-                return renderer.renderThumbnailImageInlineLink(link);
+                return renderer.renderThumbnailImageLink(link);
             }
         }
 
@@ -143,7 +143,7 @@ public class WikiTextParser extends SeamTextParser {
         }
 
         // Regular link
-        return renderer.renderInlineLink(link);
+        return renderer.renderInternalLink(link);
     }
 
     protected String paragraphOpenTag() {
@@ -158,20 +158,20 @@ public class WikiTextParser extends SeamTextParser {
         return renderer.renderBlockquoteOpenTag();
     }
 
-    protected String headline1OpenTag() {
-        return renderer.renderHeadline1Opentag();
+    protected String headline1(String headline) {
+        return renderer.renderHeadline1(headline);
     }
 
-    protected String headline2OpenTag() {
-        return renderer.renderHeadline2OpenTag();
+    protected String headline2(String headline) {
+        return renderer.renderHeadline2(headline);
     }
 
-    protected String headline3OpenTag() {
-        return renderer.renderHeadline3OpenTag();
+    protected String headline3(String headline) {
+        return renderer.renderHeadline3(headline);
     }
 
-    protected String headline4OpenTag() {
-        return renderer.renderHeadline4OpenTag();
+    protected String headline4(String headline) {
+        return renderer.renderHeadline4(headline);
     }
 
     protected String orderedListOpenTag() {

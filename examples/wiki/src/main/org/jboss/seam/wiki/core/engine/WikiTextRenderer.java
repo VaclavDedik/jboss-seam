@@ -1,7 +1,5 @@
 package org.jboss.seam.wiki.core.engine;
 
-import org.jboss.seam.wiki.core.engine.WikiMacro;
-
 import java.util.List;
 
 /**
@@ -11,19 +9,21 @@ import java.util.List;
  */
 public interface WikiTextRenderer {
 
-    public String renderInlineLink(WikiLink inlineLink);
+    public static final String HEADLINE_ID_PREFIX = "H-";
+
+    public String renderInternalLink(WikiLink internalLink);
     public String renderExternalLink(WikiLink externalLink);
-    public String renderThumbnailImageInlineLink(WikiLink inlineLink);
+    public String renderThumbnailImageLink(WikiLink link);
     public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink);
     public String renderMacro(WikiMacro macro);
 
     public String renderParagraphOpenTag();
     public String renderPreformattedOpenTag();
     public String renderBlockquoteOpenTag();
-    public String renderHeadline1Opentag();
-    public String renderHeadline2OpenTag();
-    public String renderHeadline3OpenTag();
-    public String renderHeadline4OpenTag();
+    public String renderHeadline1(String headline);
+    public String renderHeadline2(String headline);
+    public String renderHeadline3(String headline);
+    public String renderHeadline4(String headline);
     public String renderOrderedListOpenTag();
     public String renderOrderedListItemOpenTag();
     public String renderUnorderedListOpenTag();

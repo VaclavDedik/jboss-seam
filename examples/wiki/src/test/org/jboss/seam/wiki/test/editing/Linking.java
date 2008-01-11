@@ -7,12 +7,19 @@
 package org.jboss.seam.wiki.test.editing;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.DocumentHome;
+import org.jboss.seam.wiki.core.engine.WikiLink;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
+import org.jboss.seam.wiki.util.WikiUtil;
 import org.testng.annotations.Test;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class Linking extends DBUnitSeamTest {
 
@@ -23,6 +30,9 @@ public class Linking extends DBUnitSeamTest {
         beforeTestOperations.add(
             new DataSetOperation("org/jboss/seam/wiki/test/UploadData.dbunit.xml", DatabaseOperation.INSERT)
         );
+        beforeTestOperations.add(
+            new DataSetOperation("org/jboss/seam/wiki/test/HelpDocuments.dbunit.xml", DatabaseOperation.INSERT)
+        );
     }
 
     @Test
@@ -31,7 +41,6 @@ public class Linking extends DBUnitSeamTest {
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("documentId", "6");
-                setParameter("parentDirectoryId", "3");
             }
         }.run();
 
@@ -42,8 +51,6 @@ public class Linking extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                assert Conversation.instance().isLongRunning();
-
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
@@ -85,12 +92,11 @@ public class Linking extends DBUnitSeamTest {
     }
 
     @Test
-    public void linkToDocuments() throws Exception {
+    public void linkToCustomProtocols() throws Exception {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("documentId", "6");
-                setParameter("parentDirectoryId", "3");
             }
         }.run();
 
@@ -101,35 +107,81 @@ public class Linking extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                assert Conversation.instance().isLongRunning();
-
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
-                docHome.setFormContent("[=>Two]");
-                assert docHome.getInstance().getContent().equals("[=>wiki://7]");
-                assert docHome.getFormContent().equals("[=>Two]");
+                WikiLinkResolver resolver = (WikiLinkResolver)getInstance("wikiLinkResolver");
+                Map<String, WikiLink> links = new HashMap<String, WikiLink>();
 
-                docHome.setFormContent("[=>Four]");
-                assert docHome.getInstance().getContent().equals("[=>Four]");
-                assert docHome.getFormContent().equals("[=>Four]");
+                docHome.setFormContent("[=>hhh://1234]");
+                resolver.resolveLinkText(3l, links, "hhh://1234");
+                assert links.size()==1;
+                assert links.get("hhh://1234").getUrl().equals("http://opensource.atlassian.com/projects/hibernate/browse/HHH-1234");
+            }
 
-                docHome.setFormContent("[=>BBB|Four]");
-                assert docHome.getInstance().getContent().equals("[=>wiki://9]");
-                assert docHome.getFormContent().equals("[=>BBB|Four]");
+        }.run();
+    }
 
-                docHome.setFormContent("[Foo Bar=>Two]");
-                assert docHome.getInstance().getContent().equals("[Foo Bar=>wiki://7]");
-                assert docHome.getFormContent().equals("[Foo Bar=>Two]");
+    @Test
+    public void linkToDocuments() throws Exception {
 
-                docHome.setFormContent("[Foo Bar=>Four]");
-                assert docHome.getInstance().getContent().equals("[Foo Bar=>Four]");
-                assert docHome.getFormContent().equals("[Foo Bar=>Four]");
+        final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
+            protected void beforeRequest() {
+                setParameter("documentId", "6");
+            }
+        }.run();
 
-                docHome.setFormContent("[Foo Bar=>BBB|Four]");
-                assert docHome.getInstance().getContent().equals("[Foo Bar=>wiki://9]");
-                assert docHome.getFormContent().equals("[Foo Bar=>BBB|Four]");
+        new FacesRequest("/docEdit_d.xhtml") {
 
+            protected void beforeRequest() {
+                setParameter("cid", conversationId);
+            }
+
+            protected void invokeApplication() throws Exception {
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
+                assert docHome.getInstance().getId().equals(6l); // Init!
+
+                WikiLinkResolver resolver = (WikiLinkResolver)getInstance("wikiLinkResolver");
+
+                checkLink(resolver, 7l, "[=>Two]", "[=>wiki://7]");
+                checkLink(resolver, 7l, "[Foo Bar=>Two]", "[Foo Bar=>wiki://7]");
+
+                checkLink(resolver, 9l, "[=>BBB|Four]", "[=>wiki://9]");
+                checkLink(resolver, 9l, "[Foo Bar=>BBB|Four]", "[Foo Bar=>wiki://9]");
+
+                checkLink(resolver, null, "[=>Four]", "[=>Four]"); // Broken link
+                checkLink(resolver, null, "[Foo Bar=>Four]", "[Foo Bar=>Four]"); // Broken link
+
+            }
+
+        }.run();
+    }
+
+    @Test
+    public void linkToDocumentFragments() throws Exception {
+
+        final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
+            protected void beforeRequest() {
+                setParameter("documentId", "6");
+            }
+        }.run();
+
+        new FacesRequest("/docEdit_d.xhtml") {
+
+            protected void beforeRequest() {
+                setParameter("cid", conversationId);
+            }
+
+            protected void invokeApplication() throws Exception {
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
+                assert docHome.getInstance().getId().equals(6l); // Init!
+
+                WikiLinkResolver resolver = (WikiLinkResolver)getInstance("wikiLinkResolver");
+
+                final String FRAGMENT = "#foo123.,; baz -?!()/&";
+
+                checkLink(resolver, 7l, "[=>Two"+FRAGMENT+"]", "[=>wiki://7"+FRAGMENT+"]", FRAGMENT);
+                checkLink(resolver, 9l, "[=>BBB|Four"+FRAGMENT+"]", "[=>wiki://9"+FRAGMENT+"]", FRAGMENT);
             }
 
         }.run();
@@ -141,7 +193,6 @@ public class Linking extends DBUnitSeamTest {
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("documentId", "6");
-                setParameter("parentDirectoryId", "3");
             }
         }.run();
 
@@ -152,19 +203,12 @@ public class Linking extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                assert Conversation.instance().isLongRunning();
-
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
-                docHome.setFormContent("[=>Two]");
-                assert docHome.getInstance().getContent().equals("[=>wiki://7]");
-                assert docHome.getFormContent().equals("[=>Two]");
+                WikiLinkResolver resolver = (WikiLinkResolver)getInstance("wikiLinkResolver");
 
-                docHome.setFormContent("[=>BBB|Test Image]");
-                assert docHome.getInstance().getContent().equals("[=>wiki://30]");
-                assert docHome.getFormContent().equals("[=>BBB|Test Image]");
-
+                checkLink(resolver, 30l, "[=>BBB|Test Image]", "[=>wiki://30]");
             }
 
         }.run();
@@ -176,7 +220,6 @@ public class Linking extends DBUnitSeamTest {
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
             protected void beforeRequest() {
                 setParameter("documentId", "6");
-                setParameter("parentDirectoryId", "3");
             }
         }.run();
 
@@ -187,8 +230,6 @@ public class Linking extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                assert Conversation.instance().isLongRunning();
-
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
@@ -221,6 +262,30 @@ public class Linking extends DBUnitSeamTest {
             }
 
         }.run();
+    }
+
+    private void checkLink(WikiLinkResolver resolver, Long fileId, String wikiText, String databaseText) {
+        checkLink(resolver, fileId, wikiText, databaseText, null);
+    }
+
+    private void checkLink(WikiLinkResolver resolver, Long fileId, String wikiText, String databaseText, String fragment) {
+        assert resolver.convertToWikiProtocol(new HashSet(), 3l, wikiText).equals(databaseText);
+        assert resolver.convertFromWikiProtocol(3l, databaseText).equals(wikiText);
+        Map<String, WikiLink> links = new HashMap<String, WikiLink>();
+        resolver.resolveLinkText(3l, links, databaseText);
+        assert links.size()==1;
+        if (fileId == null) {
+            assert links.get(databaseText).isBroken();
+        } else {
+            assert links.get(databaseText).getFile().getId().equals(fileId);
+            if (fragment != null) {
+                assert links.get(databaseText).getFragment().equals(fragment);
+                assert links.get(databaseText).getEncodedFragment().equals(
+                    WikiTextRenderer.HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(fragment)
+                );
+            }
+        }
+
     }
 
 

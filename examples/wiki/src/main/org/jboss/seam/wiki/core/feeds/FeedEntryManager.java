@@ -29,12 +29,12 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
         parser.setResolver((WikiLinkResolver) Component.getInstance("wikiLinkResolver"));
 
         class FeedRenderer extends DefaultWikiTextRenderer {
-            public String renderInlineLink(WikiLink inlineLink) {
-                return !inlineLink.isBroken() ?
+            public String renderInternalLink(WikiLink internalLink) {
+                return !internalLink.isBroken() ?
                         "<a href=\""
-                        + WikiUtil.renderURL(inlineLink.getFile())
+                        + WikiUtil.renderURL(internalLink.getFile())
                         + "\">"
-                        + inlineLink.getDescription()
+                        + internalLink.getDescription()
                         + "</a>" : "[Broken Link]";
             }
 

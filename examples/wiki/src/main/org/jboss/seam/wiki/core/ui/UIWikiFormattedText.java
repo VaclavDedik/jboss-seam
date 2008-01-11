@@ -98,19 +98,24 @@ public class UIWikiFormattedText extends UIOutput {
         // Set a customized renderer for parser macro callbacks
         class WikiFormattedTextRenderer extends DefaultWikiTextRenderer {
 
-            public String renderInlineLink(WikiLink inlineLink) {
+            public String renderInternalLink(WikiLink internalLink) {
                 return "<a href=\""
                         + (
-                            inlineLink.isBroken()
-                                ? inlineLink.getUrl()
-                                : WikiUtil.renderURL(inlineLink.getFile())
+                            internalLink.isBroken()
+                                ? internalLink.getUrl()
+                                : WikiUtil.renderURL(internalLink.getFile())
                            )
+                        + (
+                            internalLink.getFragment() != null
+                                ? "#"+internalLink.getEncodedFragment()
+                                : ""
+                          )
                         + "\" target=\""
                         + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")
                         + "\" class=\""
-                        + (inlineLink.isBroken() ? getAttributes().get(ATTR_BROKEN_LINK_STYLE_CLASS)
+                        + (internalLink.isBroken() ? getAttributes().get(ATTR_BROKEN_LINK_STYLE_CLASS)
                         : getAttributes().get(ATTR_LINK_STYLE_CLASS)) + "\">"
-                        + inlineLink.getDescription() + "</a>";
+                        + internalLink.getDescription() + "</a>";
             }
 
             public String renderExternalLink(WikiLink externalLink) {
@@ -135,10 +140,10 @@ public class UIWikiFormattedText extends UIOutput {
                         + attachmentLink.getDescription() + "[" + attachmentNumber + "]" + "</a>";
             }
 
-            public String renderThumbnailImageInlineLink(WikiLink inlineLink) {
+            public String renderThumbnailImageLink(WikiLink link) {
 
                 // TODO: This is not typesafe and clean, need different rendering strategy for WikiUpload subclasses
-                WikiUploadImage image = (WikiUploadImage)inlineLink.getFile();
+                WikiUploadImage image = (WikiUploadImage)link.getFile();
                 if (image.getThumbnail() == 'F') {
                     // Full size display, no thumbnail
                     //TODO: Make sure we really don't need this - but it messes up the comment form conversation:
@@ -158,7 +163,7 @@ public class UIWikiFormattedText extends UIOutput {
                     String thumbnailUrl = WikiUtil.renderURL(image) + "&amp;thumbnail=true";
 
                     return "<a href=\""
-                            + (inlineLink.isBroken() ? inlineLink.getUrl() : WikiUtil.renderURL(image))
+                            + (link.isBroken() ? link.getUrl() : WikiUtil.renderURL(image))
                             + "\" target=\""
                             + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")
                             + "\" class=\""

@@ -27,17 +27,32 @@ public interface WikiLinkResolver {
     /**
      * Matches known protocols, e.g. [=>http://foo.bar], which can be ignored and "resolved" as-is
      */
-    public static final String REGEX_KNOWN_PROTOCOL = "(http://)|(https://)|(ftp://)|(mailto:)";
+    public static final String REGEX_KNOWN_PROTOCOL = "^(http://)|(https://)|(ftp://)|(mailto:).+$";
 
     /**
      * Matches customized protocols, e.g. [=>seamjira://123], which should be resolved and rendered
      */
-    public static final String REGEX_CUSTOM_PROTOCOL = "([a-zA-Z]+)://(.+)";
+    public static final String REGEX_CUSTOM_PROTOCOL = "^([a-zA-Z]+)://(.+)$";
+
+    /**
+     * Matches WikiNode.getName() constraint.
+     */
+    public static final String REGEX_NODE_NAME = "[a-zA-Z0-9]+[^/#\\|\\]\\[]*";
+
+    /**
+     * Matches URL fragments, punctuation is limited, so not all fragments are reachable.
+     */
+    public static final String REGEX_FRAGMENT = "#[\\w\\s\\.\\,\\;\\-\\?\\!\\(\\)\\&\\/]+";
+
+    /**
+     * Matches "Node Name#Fragment123" with two groups.
+     */
+    public static final String REGEX_NODE_NAME_FRAGMENT = "("+REGEX_NODE_NAME+")(" + REGEX_FRAGMENT + ")?";
 
     /**
      * Prepended to primary identifiers when links are stored, e.g. [This is a stored link=>wiki://5]
      */
-    public static final String REGEX_WIKI_PROTOCOL = "wiki://([0-9]+)";
+    public static final String REGEX_WIKI_PROTOCOL = "wiki://([0-9]+)("+REGEX_FRAGMENT+")?";
 
     /**
      * Match [GROUP1=>GROUP1], used to replace links from user input with wiki:// URLs - used
@@ -45,7 +60,7 @@ public interface WikiLinkResolver {
      */
     public static final String REGEX_WIKILINK_FORWARD =
             Pattern.quote("[") + "([^" + Pattern.quote("]") + "|" + Pattern.quote("[") + "]*)" +
-            "=>([^(?://)@" + Pattern.quote("]") + Pattern.quote("[") + "]+)" + Pattern.quote("]");
+            "=>([^" + Pattern.quote("]") + Pattern.quote("[") + "]+)" + Pattern.quote("]");
 
     /**
      * Match [GROUP1=>wiki://GROUP2], used to replace wiki:// URLs with page names
@@ -55,9 +70,9 @@ public interface WikiLinkResolver {
             "=>" + REGEX_WIKI_PROTOCOL + Pattern.quote("]");
 
     /**
-     * Match "Foo Bar|Baz Brrr" as two groups
+     * Match "Foo Bar|Baz Brrr#Fragment" as three groups
      */
-    public static final String REGEX_WIKILINK_CROSSAREA = "^(.+)" + Pattern.quote("|") + "(.*)$";
+    public static final String REGEX_WIKILINK_CROSSAREA = "^(" + REGEX_NODE_NAME +")"+ Pattern.quote("|") + REGEX_NODE_NAME_FRAGMENT + "$";
 
     /**
      * Replaces clear text links such as <tt>[Link description=>Target Name]</tt> in <tt>wikiText</tt> with
@@ -141,7 +156,7 @@ public interface WikiLinkResolver {
      * original document that contains this <tt>linkText</tt> should be updated in the datastore (usually
      * by passing its wiki text content through <tt>convertToWikiProtocol</tt>) - set <tt>requiresUpdating=true</tt>
      * on the <tt>WikiLink</tt> instance. It's the job of the client of this resolver to handle this flag
-     * (or ignore it).
+     * (or to ignore it).
      *</li>
      * </ul>
      * 

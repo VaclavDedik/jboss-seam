@@ -11,12 +11,12 @@ import java.util.List;
  */
 public class DefaultWikiTextRenderer implements WikiTextRenderer {
 
-    public String renderInlineLink(WikiLink inlineLink) {
-        return !inlineLink.isBroken() ?
+    public String renderInternalLink(WikiLink internalLink) {
+        return !internalLink.isBroken() ?
                 "<a href=\""
-                + WikiUtil.renderURL(inlineLink.getFile())
+                + WikiUtil.renderURL(internalLink.getFile())
                 + "\">"
-                + inlineLink.getDescription()
+                + internalLink.getDescription()
                 + "</a>" : "[Broken Link]";
     }
 
@@ -32,7 +32,7 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
         return "[Attachment]";
     }
 
-    public String renderThumbnailImageInlineLink(WikiLink inlineLink) {
+    public String renderThumbnailImageLink(WikiLink link) {
         return "[Embedded Image]";
     }
 
@@ -55,21 +55,22 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
         return "<blockquote class=\"wikiBlockquote\">\n";
     }
 
-    public String renderHeadline1Opentag() {
-        return "<h1 class=\"wikiHeadline1\">";
+    public String renderHeadline1(String headline) {
+        return "<h1 class=\"wikiHeadline1\" id=\""+getHeadlineId(headline)+"\">" + headline + "</h1>";
     }
 
-    public String renderHeadline2OpenTag() {
-        return "<h2 class=\"wikiHeadline2\">";
+    public String renderHeadline2(String headline) {
+        return "<h2 class=\"wikiHeadline2\" id=\""+getHeadlineId(headline)+"\">" + headline + "</h2>";
     }
 
-    public String renderHeadline3OpenTag() {
-        return "<h3 class=\"wikiHeadline3\">";
+    public String renderHeadline3(String headline) {
+        return "<h3 class=\"wikiHeadline3\" id=\""+getHeadlineId(headline)+"\">" + headline + "</h3>";
     }
 
-    public String renderHeadline4OpenTag() {
-        return "<h4 class=\"wikiHeadline4\">";
+    public String renderHeadline4(String headline) {
+        return "<h4 class=\"wikiHeadline4\" id=\""+getHeadlineId(headline)+"\">" + headline + "</h4>";
     }
+
 
     public String renderOrderedListOpenTag() {
         return "<ol class=\"wikiOrderedList\">\n";
@@ -93,5 +94,11 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
 
     public String renderEmphasisCloseTag() {
         return "</i>";
+    }
+
+    protected String getHeadlineId(String headline) {
+        // HTML id attribute has restrictions on valid values... so the easiest way is to make this a WikiLink
+        return HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline);
+        // We also need to access it correctly, see WikiLink.java
     }
 }
