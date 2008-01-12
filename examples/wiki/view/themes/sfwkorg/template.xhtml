@@ -27,6 +27,7 @@
     <script type="text/javascript" src="#{themePath}/js/jqHistoryRemote.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqProgressBar.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqDimensions.js"></script>
+    <script type="text/javascript" src="#{themePath}/js/jqContextMenu.js"></script>
 
     <script type="text/javascript" src="#{basePath}/seam/resource/remoting/resource/remote.js"></script>
     <script type="text/javascript" src="#{basePath}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
@@ -250,6 +251,24 @@
         function wrapBoxes() {
             // Noop for this skin
         }
+
+        jQuery(function() {
+            $.contextMenu.defaults({
+                shadow: false,
+                menuStyle: {
+                    padding: '0'
+                },
+                itemStyle: {
+                    border: 'none',
+                    padding: '4px'
+                },
+                itemHoverStyle: {
+                    backgroundColor: '#f5f5f5',
+                    border: 'none',
+                    padding: '4px'
+                }
+            });
+        });
 
     </script>
 

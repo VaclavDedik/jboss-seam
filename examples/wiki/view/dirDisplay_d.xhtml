@@ -78,7 +78,7 @@
 
 <ui:define name="content">
 
-<h:form id="directorySelectionForm">
+<h:form id="dirSelectionForm">
 
 <div class="box">
 
@@ -280,7 +280,7 @@
 
     </h:panelGrid>
 
-    <h:dataTable id="directoryTable" var="node"
+    <h:dataTable id="dirTable" var="node"
                  value="#{childNodesList}"
                  rendered="#{childNodesList.size > 0}"
                  styleClass="datatable topLeftBottomBorder smallFont"
@@ -346,53 +346,122 @@
 
         <h:column>
             <f:facet name="header">
-                <h:outputText value="#{messages['lacewiki.label.dirDisplay.Name']}"/>
+                <h:outputText value="#{messages['lacewiki.label.dirDisplay.Name']}&#160;#{messages['lacewiki.label.dirDisplay.RightClickForActions']}"/>
             </f:facet>
 
-            <s:span rendered="#{node.isInstance('WikiDirectory')}">
-                <s:link id="browseDirectory" value="#{wiki:truncateString(node.name, 40, '...')}"
-                        view="/dirDisplay_#{skin}.xhtml"
-                        rendered="#{s:hasPermission('Node','read',node)}" tabindex="1">
-                    <f:param name="directoryId" value="#{node.id}"/>
-                </s:link>
+            <s:fragment rendered="#{node.isInstance('WikiDirectory')}">
+                <s:fragment rendered="#{s:hasPermission('Node','read',node)}">
+
+                    <s:link id="directoryLink" value="#{wiki:truncateString(node.name, 40, '...')}"
+                            view="/dirDisplay_#{skin}.xhtml" tabindex="1">
+                        <f:param name="directoryId" value="#{node.id}"/>
+                    </s:link>
+
+                    <s:div id="directoryMenu" styleClass="contextMenu">
+                        <ul>
+                            <li class="undecoratedLink">
+                                <h:outputLink value="#{wiki:renderURL(node)}">
+                                    <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
+                                </h:outputLink>
+                            </li>
+
+                            <s:fragment rendered="#{s:hasPermission('Node', 'edit', node)}">
+                                <li class="undecoratedLink">
+                                    <s:link view="/dirEdit_#{skin}.xhtml">
+                                        <f:param name="directoryId" value="#{node.id}"/>
+                                        <h:outputText value="#{messages['lacewiki.button.dirDisplay.Edit']}"/>
+                                    </s:link>
+                                </li>
+                            </s:fragment>
+
+                        </ul>
+                    </s:div>
+
+                    <script type="text/javascript">jQuery(function() {
+                        jQuery("#dirSelectionForm\\:dirTable\\:#{uiComponent['dirSelectionForm:dirTable'].rowIndex}\\:directoryLink")
+                                .contextMenu("dirSelectionForm\\:dirTable\\:#{uiComponent['dirSelectionForm:dirTable'].rowIndex}\\:directoryMenu", {})
+                    });</script>
+
+                </s:fragment>
+
                 <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}" rendered="#{!s:hasPermission('Node','read',node)}"/>
 
-                <s:link rendered="#{s:hasPermission('Node', 'edit', node)}"
-                        styleClass="buttonNonpersistent" tabindex="1"
-                        view="/dirEdit_#{skin}.xhtml">
-                    <f:param name="directoryId" value="#{node.id}"/>
-                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Edit']}"/>
-                </s:link>
+            </s:fragment>
 
-            </s:span>
+            <s:fragment rendered="#{node.isInstance('WikiDocument')}">
 
-            <s:span rendered="#{node.isInstance('WikiDocument')}">
-                <h:outputLink value="#{wiki:renderURL(node)}" rendered="#{s:hasPermission('Node','read',node)}" tabindex="1">
-                    <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
-                </h:outputLink>
-                <h:outputText value="#{node.name}" rendered="#{!s:hasPermission('Node','read',node)}"/>
+                <s:fragment rendered="#{s:hasPermission('Node','read',node)}">
 
-                <s:link rendered="#{s:hasPermission('Node', 'edit', node)}"
-                        styleClass="buttonNonpersistent" tabindex="1"
-                        view="/docEdit_#{skin}.xhtml">
-                    <f:param name="documentId" value="#{node.id}"/>
-                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Edit']}"/>
-                </s:link>
+                    <h:outputLink id="documentLink" value="#{wiki:renderURL(node)}" tabindex="1">
+                        <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
+                    </h:outputLink>
 
-            </s:span>
+                    <s:div id="documentMenu" styleClass="contextMenu">
+                        <ul>
+                            <li class="undecoratedLink">
+                                <h:outputLink value="#{wiki:renderURL(node)}">
+                                    <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
+                                </h:outputLink>
+                            </li>
 
-            <s:span rendered="#{node.isInstance('WikiUpload') and s:hasPermission('Node', 'edit', node)}">
-                <s:link id="editFile" value="#{wiki:truncateString(node.name, 30, '...')}" tabindex="1" view="/uploadEdit_#{skin}.xhtml">
-                    <f:param name="uploadId" value="#{node.id}"/>
-                    <f:param name="parentDirectoryId" value="#{directoryHome.instance.id}"/>
-                </s:link>
-                <h:outputText value=" (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
-            </s:span>
-            <h:panelGroup rendered="#{node.isInstance('WikiUpload') and !s:hasPermission('Node', 'edit', node)}">
-                <h:outputLink value="#{wiki:renderURL(node)}">
-                    <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
-                </h:outputLink>
-            </h:panelGroup>
+                            <s:fragment rendered="#{s:hasPermission('Node', 'edit', node)}">
+                                <li class="undecoratedLink">
+                                    <s:link view="/docEdit_#{skin}.xhtml">
+                                        <f:param name="documentId" value="#{node.id}"/>
+                                        <h:outputText value="#{messages['lacewiki.button.dirDisplay.Edit']}"/>
+                                    </s:link>
+                                </li>
+                            </s:fragment>
+
+                        </ul>
+                    </s:div>
+
+                    <script type="text/javascript">jQuery(function() {
+                        jQuery("#dirSelectionForm\\:dirTable\\:#{uiComponent['dirSelectionForm:dirTable'].rowIndex}\\:documentLink")
+                                .contextMenu("dirSelectionForm\\:dirTable\\:#{uiComponent['dirSelectionForm:dirTable'].rowIndex}\\:documentMenu", {})
+                    });</script>
+                </s:fragment>
+
+                <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}" rendered="#{!s:hasPermission('Node','read',node)}"/>
+
+            </s:fragment>
+
+            <s:fragment rendered="#{node.isInstance('WikiUpload')}">
+                <s:fragment rendered="#{s:hasPermission('Node','read',node)}">
+
+                    <h:outputLink id="uploadLink" value="#{wiki:renderURL(node)}" tabindex="1">
+                        <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
+                    </h:outputLink>
+
+                    <s:div id="uploadMenu" styleClass="contextMenu">
+                        <ul>
+                            <li class="undecoratedLink">
+                                <h:outputLink value="#{wiki:renderURL(node)}">
+                                    <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
+                                </h:outputLink>
+                            </li>
+
+                            <s:fragment rendered="#{s:hasPermission('Node', 'edit', node)}">
+                                <li class="undecoratedLink">
+                                    <s:link view="/uploadEdit_#{skin}.xhtml">
+                                        <f:param name="uploadId" value="#{node.id}"/>
+                                        <h:outputText value="#{messages['lacewiki.button.dirDisplay.Edit']}"/>
+                                    </s:link>
+                                </li>
+                            </s:fragment>
+
+                        </ul>
+                    </s:div>
+
+                    <script type="text/javascript">jQuery(function() {
+                        jQuery("#dirSelectionForm\\:dirTable\\:#{uiComponent['dirSelectionForm:dirTable'].rowIndex}\\:uploadLink")
+                                .contextMenu("dirSelectionForm\\:dirTable\\:#{uiComponent['dirSelectionForm:dirTable'].rowIndex}\\:uploadMenu", {})
+                    });</script>
+                </s:fragment>
+
+                <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}" rendered="#{!s:hasPermission('Node','read',node)}"/>
+
+            </s:fragment>
 
         </h:column>
 
