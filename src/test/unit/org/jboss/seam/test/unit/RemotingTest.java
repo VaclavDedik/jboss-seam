@@ -726,7 +726,7 @@ public class RemotingTest
       // Initialize Seam
       MockServletContext servletContext = new MockServletContext();
       ServletLifecycle.beginApplication(servletContext);
-      new Initialization(servletContext).init();
+      new Initialization(servletContext).create().init();
 
       try
       {

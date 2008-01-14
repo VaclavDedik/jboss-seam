@@ -1,8 +1,6 @@
 package org.jboss.seam.test.unit.bpm;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import javax.transaction.Status;
 import javax.transaction.SystemException;
@@ -27,7 +25,7 @@ public class TaskListTest
    protected void setUp()
    {
       Lifecycle.beginApplication(new HashMap<String, Object>());
-      new Initialization(new MockServletContext()).init();
+      new Initialization(new MockServletContext()).create().init();
       Lifecycle.mockApplication();
       installComponent(Contexts.getApplicationContext(), Actor.class);
       installComponent(Contexts.getApplicationContext(), PooledTaskInstanceList.class);

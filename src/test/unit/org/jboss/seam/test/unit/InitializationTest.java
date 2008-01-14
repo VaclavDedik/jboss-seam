@@ -20,7 +20,7 @@ public class InitializationTest
    {
       MockServletContext servletContext = new MockServletContext();
       ServletLifecycle.beginApplication(servletContext);
-      new Initialization(servletContext).init();
+      new Initialization(servletContext).create().init();
 
       assert !servletContext.getAttributes().isEmpty();
       assert servletContext.getAttributes().containsKey( Seam.getComponentName(Manager.class) + ".component" );
@@ -37,7 +37,7 @@ public class InitializationTest
    {
        MockServletContext servletContext = new MockServletContext();
        ServletLifecycle.beginApplication(servletContext);
-       new Initialization( servletContext ).init();
+       new Initialization( servletContext ).create().init();
 
        Lifecycle.beginCall();
 
