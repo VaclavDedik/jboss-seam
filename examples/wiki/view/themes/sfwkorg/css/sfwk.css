@@ -414,7 +414,7 @@ a:hover .documentTitle {
 
 .documentCreatorHistory {
     border-top: 1px solid #ccc;
-    white-space: nowrap;
+    white-space: normal;
     padding-top: 5px;
     padding-bottom: 5px;
     line-height: 125%;

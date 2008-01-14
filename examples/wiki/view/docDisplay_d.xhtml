@@ -174,9 +174,8 @@
                         <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;(#{hfile.lastModifiedByUsername})"/>
                     </s:fragment>
                     <s:fragment rendered="#{empty hfile.lastModifiedOn}">
-                        <h:outputText value="(Initial Revision)"/>
+                        <h:outputText value="(#{messages['lacewiki.label.docDisplay.InitialRevision']})"/>
                     </s:fragment>
-
                     &#160;
                     <s:link view="/docHistory_#{skin}.xhtml" action="#{documentHistory.diff}">
                         <h:outputText value="#{messages['lacewiki.label.docDisplay.Diff']}"/>
@@ -185,7 +184,7 @@
                     </s:link>
 
                     <h:outputText rendered="#{documentHome.historicalFiles.indexOf(hfile) &lt; documentHome.historicalFiles.size()-1}"
-                                  value="&#160;|&#160;"/>
+                                  value="&#160;-&#160; "/>
 
                 </ui:repeat>
             </s:div>

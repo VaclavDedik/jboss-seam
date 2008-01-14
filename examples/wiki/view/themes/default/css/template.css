@@ -367,7 +367,7 @@ ul {
 
 .documentCreatorHistory {
     border-top: 1px solid #C3BBB6;
-    white-space: nowrap;
+    white-space: normal;
     padding-top: 5px;
     padding-bottom: 5px;
     line-height: 150%;
