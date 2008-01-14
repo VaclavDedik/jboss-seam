@@ -7,8 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
-import org.jboss.cache.util.setCache;
-
 /**
  * Abstract superclass for Seam components that act
  * as servlet filters. Note that since a filter is
