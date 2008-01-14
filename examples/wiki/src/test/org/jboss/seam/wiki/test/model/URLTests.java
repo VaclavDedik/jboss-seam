@@ -105,8 +105,8 @@ public class URLTests extends DBUnitSeamTest {
                                 .setParameter("id", 30l)
                                 .getSingleResult();
 
-                assert u.getPermURL(".lace").equals("servlets/files/download.seam?fileId=30");
-                assert u.getWikiURL().equals("servlets/files/download.seam?fileId=30");
+                assert u.getPermURL(".lace").equals("service/File/30");
+                assert u.getWikiURL().equals("service/File/30");
 
             }
         }.run();
