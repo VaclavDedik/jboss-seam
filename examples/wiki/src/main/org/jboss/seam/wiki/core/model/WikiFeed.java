@@ -37,4 +37,8 @@ public class WikiFeed extends Feed implements Serializable {
     public int getReadAccessLevel() {
         return getDirectory().getReadAccessLevel();
     }
+
+    public String getURL() {
+        return directory.getWikiURL().length() > 0 ?  "/"+directory.getWikiURL() : "";
+    }
 }

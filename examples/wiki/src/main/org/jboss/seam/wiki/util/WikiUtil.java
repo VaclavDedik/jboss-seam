@@ -9,9 +9,8 @@ package org.jboss.seam.wiki.util;
 import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.core.model.Role;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.ui.FeedServlet;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.faces.context.FacesContext;
@@ -77,6 +76,19 @@ public class WikiUtil {
         return accessLevels.get(
                 accessLevels.indexOf(new Role.AccessLevel(accessLevel, null))
                );
+    }
+
+    public static String renderFeedURL(Feed feed, String tag, String comments) {
+        if (feed == null || feed.getId() == null) return "";
+        StringBuilder url = new StringBuilder();
+        url.append(Component.getInstance("basePath")).append("/service/Feed/atom").append(feed.getURL());
+        if (comments != null && comments.length() >0) {
+            try {
+                url.append("/Comments/").append(FeedServlet.Comments.valueOf(comments));
+            } catch (IllegalArgumentException ex) {}
+        }
+        if (tag != null && tag.length() >0) url.append("/Tag/").append(encodeURL(tag));
+        return url.toString();
     }
 
     public static String renderURL(WikiNode node) {

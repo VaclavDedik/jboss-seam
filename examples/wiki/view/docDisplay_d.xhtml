@@ -15,7 +15,7 @@
     <s:fragment rendered="#{not empty documentHome.instance.parent.feed}">
         <link rel="alternate" type="application/atom+xml"
               title="#{documentHome.instance.parent.name}"
-              href="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}"/>
+              href="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}"/>
         
     </s:fragment>
 

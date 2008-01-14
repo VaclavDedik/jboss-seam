@@ -81,11 +81,11 @@ public class WikiRequestResolver {
     
     protected String areaName;
     public String getAreaName() { return areaName; }
-    public void setAreaName(String areaName) { this.areaName = areaName; }
+    public void setAreaName(String areaName) { this.areaName = areaName != null && areaName.length() > 0 ? areaName : null; }
 
     protected String nodeName;
     public String getNodeName() { return nodeName; }
-    public void setNodeName(String nodeName) { this.nodeName = nodeName; }
+    public void setNodeName(String nodeName) { this.nodeName = nodeName != null && nodeName.length() > 0 ? nodeName : null; }
 
     protected String message;
 

@@ -36,7 +36,7 @@
                         </a:commandLink>
                     </a:region>
                 </h:panelGroup>
-                <h:outputLink value="#{facesContext.externalContext.requestContextPath}/servlets/files/download.seam?fileId=#{editor.instance.id}">
+                <h:outputLink value="#{wiki:renderURL(editor.instance)}">
                     <s:graphicImage value="#{editor.instance.data}" style="border: 1px solid black;">
                         <s:transformImageSize width="#{editor.imagePreviewSize}" maintainRatio="true"/>
                     </s:graphicImage>

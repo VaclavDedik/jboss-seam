@@ -11,13 +11,15 @@ import com.sun.syndication.io.SyndFeedOutput;
 import org.jboss.seam.Component;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
-import org.jboss.seam.wiki.core.model.Feed;
-import org.jboss.seam.wiki.core.model.FeedEntry;
-import org.jboss.seam.wiki.core.model.WikiCommentFeedEntry;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.Authenticator;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.dao.WikiNodeFactory;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.Preferences;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,14 +43,16 @@ import java.util.*;
  */
 public class FeedServlet extends HttpServlet {
 
+    private static final Log log = LogFactory.getLog(FeedServlet.class);
+
     public static enum Comments {
         include, exclude, only
     }
 
     // Possible feed types
     public enum SyndFeedType {
-        ATOM("/atom.seam", "atom_1.0", "application/atom+xml"),
-        RSS2("/rss.seam", "rss_2.0", "application/rss+xml");
+        ATOM("/atom.seam", "atom_1.0", "application/atom+xml");
+        // TODO: I don't think we'll ever do that: ,RSS2("/rss.seam", "rss_2.0", "application/rss+xml");
 
         SyndFeedType(String pathInfo, String feedType, String contentType) {
             this.pathInfo = pathInfo;
@@ -72,36 +76,38 @@ public class FeedServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String pathInfo = request.getPathInfo();
         String feedIdParam = request.getParameter("feedId");
-        String tagParam = request.getParameter("tag");
-        String commentsParam = request.getParameter("comments");
+        String areaNameParam = request.getParameter("areaName");
+        String nodeNameParam = request.getParameter("nodeName");
+        log.debug("feed request id: '" + feedIdParam + "' area name: '" + areaNameParam + "' node name: '" + nodeNameParam + "'");
 
+        // Feed type
+        String pathInfo = request.getPathInfo();
+        log.debug("requested feed type: " + pathInfo);
+        if (!feedTypes.containsKey(pathInfo)) {
+            log.debug("can not render this feed type, returning BAD REQUEST");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unsupported feed type " + pathInfo);
+            return;
+        }
+        SyndFeedType syndFeedType = feedTypes.get(pathInfo);
+
+        // Comments
+        String commentsParam = request.getParameter("comments");
         Comments comments  = Comments.include;
         if (commentsParam != null) {
             try {
                 comments = Comments.valueOf(commentsParam);
             } catch (IllegalArgumentException ex) {}
         }
+        log.debug("feed rendering handles comments: " + comments);
 
-        try {
-            Long.valueOf(feedIdParam);
-        } catch (NumberFormatException ex) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
-            return;
+        // Tag
+        String tagParam = request.getParameter("tag");
+        String tag = null;
+        if (tagParam != null && tagParam.length() >0) {
+            log.debug("feed rendering restricts on tag: " + tagParam);
+            tag = tagParam;
         }
-
-        try {
-            Long.valueOf(feedIdParam);
-        } catch (NumberFormatException ex) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
-            return;
-        }
-
-
-        if (!feedTypes.containsKey(pathInfo)) return;
-        SyndFeedType syndFeedType = feedTypes.get(pathInfo);
-        if (feedIdParam == null) return;
 
         // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
         UserTransaction userTx = null;
@@ -113,20 +119,59 @@ public class FeedServlet extends HttpServlet {
                 userTx.begin();
             }
 
-            FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
-            Feed feed = feedDAO.findFeed(Long.valueOf(feedIdParam));
+            Feed feed = null;
+
+            // Find the feed, depending on variations of request parameters
+            if (feedIdParam != null && feedIdParam.length() >0) {
+                try {
+                    log.debug("trying to retrieve feed for id: " + feedIdParam);
+                    Long feedId = Long.valueOf(feedIdParam);
+                    FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
+                    feed = feedDAO.findFeed(feedId);
+                } catch (NumberFormatException ex) {
+                    log.debug("feed identifier couldn't be converted to java.lang.Long");
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
+                }
+            } else if (areaNameParam != null && areaNameParam.matches("^[A-Z0-9]+.*")) {
+                log.debug("trying to retrieve area: " + areaNameParam);
+                WikiNodeDAO nodeDAO = (WikiNodeDAO)Component.getInstance(WikiNodeDAO.class);
+                WikiDirectory area = nodeDAO.findAreaUnrestricted(areaNameParam);
+                if (area != null && (nodeNameParam == null || !nodeNameParam.matches("^[A-Z0-9]+.*")) && area.getFeed() != null) {
+                    log.debug("using feed of area, no node requested: " + area);
+                    feed = area.getFeed();
+                } else if (area != null && nodeNameParam != null && nodeNameParam.matches("^[A-Z0-9]+.*")) {
+                    log.debug("trying to retrieve node: " + nodeNameParam);
+                    WikiDirectory nodeDir = nodeDAO.findWikiDirectoryInAreaUnrestricted(area.getAreaNumber(), nodeNameParam);
+                    if (nodeDir != null && nodeDir.getFeed() != null) {
+                        log.debug("using feed of node: " + nodeDir);
+                        feed = nodeDir.getFeed();
+                    } else {
+                        log.debug("node not found or node has no feed");
+                    }
+                } else {
+                    log.debug("area not found or area has no feed");
+                }
+            } else {
+                log.debug("neither feed id nor area name requested, getting wikiRoot feed");
+                WikiNodeFactory factory = (WikiNodeFactory)Component.getInstance(WikiNodeFactory.class);
+                feed = factory.loadWikiRoot().getFeed();
+            }
+
             if (feed == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
+                log.debug("feed not found, returning NOT FOUND");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed");
                 if (startedTx) userTx.commit();
                 return;
             }
 
+            log.debug("checking permissions of feed: " + feed);
             // Authenticate and authorize, first with current user (session) then with basic HTTP authentication
             Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
             if (feed.getReadAccessLevel() > currentAccessLevel) {
                 boolean loggedIn = ((Authenticator)Component.getInstance(Authenticator.class)).authenticateBasicHttp(request);
                 currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
                 if (!loggedIn || feed.getReadAccessLevel() > currentAccessLevel) {
+                    log.debug("requiring authentication, feed has higher access level than current");
                     response.setHeader("WWW-Authenticate", "Basic realm=\"" + feed.getTitle().replace("\"", "'") + "\"");
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     if (startedTx) userTx.commit();
@@ -134,7 +179,8 @@ public class FeedServlet extends HttpServlet {
                 }
             }
 
-            SyndFeed syndFeed = createSyndFeed(request.getRequestURL().toString(), syndFeedType,  feed, currentAccessLevel, tagParam, comments);
+            log.debug("finally rendering feed");
+            SyndFeed syndFeed = createSyndFeed(request.getRequestURL().toString(), syndFeedType,  feed, currentAccessLevel, tag, comments);
 
             // Write feed to output
             response.setContentType(syndFeedType.contentType);

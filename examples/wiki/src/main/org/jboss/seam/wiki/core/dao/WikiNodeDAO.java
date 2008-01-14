@@ -415,6 +415,10 @@ public class WikiNodeDAO {
         return null;
     }
 
+    public WikiDirectory findWikiDirectoryInAreaUnrestricted(Long areaNumber, String wikiname) {
+        return findWikiDirectoryInArea(areaNumber, wikiname, entityManager);
+    }
+
     public WikiDirectory findWikiDirectoryInArea(Long areaNumber, String wikiname) {
         return findWikiDirectoryInArea(areaNumber, wikiname, restrictedEntityManager);
     }
@@ -434,9 +438,17 @@ public class WikiNodeDAO {
         return null;
     }
 
+    public WikiDirectory findAreaUnrestricted(String wikiname) {
+        return findArea(wikiname, entityManager);
+    }
+
     public WikiDirectory findArea(String wikiname) {
+        return findArea(wikiname, restrictedEntityManager);
+    }
+
+    public WikiDirectory findArea(String wikiname, EntityManager em) {
         try {
-            return (WikiDirectory) restrictedEntityManager
+            return (WikiDirectory) em
                     .createQuery("select d from WikiDirectory d left join fetch d.feed, WikiDirectory r where r.parent is null and d.parent = r and d.wikiname = :wikiname")
                     .setParameter("wikiname", wikiname)
                     .setHint("org.hibernate.comment", "Find area by wikiname")

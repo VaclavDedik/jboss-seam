@@ -19,11 +19,11 @@
 
             <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
                 <h:outputLink  target="_top"
-                               value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                               value="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}">
                     <h:graphicImage value="/themes/#{preferences.get('Wiki', currentMacro).themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
                 </h:outputLink>
                 <h:outputLink  target="_top"
-                               value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{currentDirectory.feed.id}">
+                               value="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}">
                     <h:outputText value="#{messages['dirMenu.label.Subscribe']}"/>
                 </h:outputLink>
             </h:panelGrid>

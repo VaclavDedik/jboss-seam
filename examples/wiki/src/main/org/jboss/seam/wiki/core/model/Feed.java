@@ -108,6 +108,10 @@ public class Feed implements Serializable {
         return 0; // No restrictions
     }
 
+    public String getURL() {
+        return ""; // Depends...
+    }
+
     // Need this for JSF EL expressions
     public boolean isInstance(String className) {
         try {

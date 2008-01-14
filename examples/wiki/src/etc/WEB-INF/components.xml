@@ -120,7 +120,7 @@
 
     <!-- Misc Settings -->
 
-    <web:context-filter url-pattern="/servlets/*"/>
+    <web:context-filter url-pattern="/service/*"/>
 
     <component name="wikiUrlRewriteFilter" class="org.jboss.seam.wiki.core.ui.WikiUrlRewriteFilter" precedence="30">
         <property name="initParameters">

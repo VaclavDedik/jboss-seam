@@ -70,7 +70,7 @@
 
     </s:fragment>
 
-    <h:outputLink value="#{facesContext.externalContext.request.contextPath}/servlets/feeds/atom.seam?feedId=#{directoryHome.instance.feed.id}"
+    <h:outputLink value="#{wiki:renderFeedURL(directoryHome.instance.feed, null, null)}"
                   styleClass="linkNavigation" rendered="#{not empty directoryHome.instance.feed}">
         <h:outputText value="#{messages['lacewiki.button.DirectoryFeed']}"/>
     </h:outputLink>
