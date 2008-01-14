@@ -95,7 +95,9 @@ public class SeamLoginModule implements LoginModule
       catch (Exception ex)
       {
          log.error("Error logging in", ex);
-         throw new LoginException(ex.getMessage());
+         LoginException le = new LoginException(ex.getMessage());
+         le.initCause(ex);
+         throw le;
       }
       
       // If an authentication method has been specified, use that to authenticate
@@ -136,7 +138,9 @@ public class SeamLoginModule implements LoginModule
          catch (Exception ex)
          {
             log.error("Error invoking login method", ex);
-            throw new LoginException(ex.getMessage());
+            LoginException le = new LoginException(ex.getMessage());
+            le.initCause(ex);
+            throw le;
          }
       }
       else
