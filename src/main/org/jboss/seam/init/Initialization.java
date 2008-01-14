@@ -8,7 +8,6 @@ package org.jboss.seam.init;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,8 +42,8 @@ import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.PojoCache;
-import org.jboss.seam.deployment.ComponentScanner;
-import org.jboss.seam.deployment.NamespaceScanner;
+import org.jboss.seam.deployment.HotDeploymentStrategy;
+import org.jboss.seam.deployment.SimpleDeploymentStrategy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Conversions;
@@ -59,6 +58,7 @@ import org.jboss.seam.util.XML;
  * 
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
+ * @author Pete Muir
  */
 public class Initialization
 {
@@ -74,6 +74,9 @@ public class Initialization
    private Map<String, NamespaceDescriptor> namespaceMap = new HashMap<String, NamespaceDescriptor>();
    private Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
    private Collection<String> globalImports = new ArrayList<String>();
+   
+   private SimpleDeploymentStrategy deploymentStrategy;
+   private HotDeploymentStrategy hotDeploymentStrategy;
    
    private Set<String> nonPropertyAttributes = new HashSet<String>();
    
@@ -95,6 +98,8 @@ public class Initialization
    
    public Initialization create()
    {
+      deploymentStrategy = new SimpleDeploymentStrategy(Thread.currentThread().getContextClassLoader());
+      deploymentStrategy.scan();
       addNamespaces();
       initComponentsFromXmlDocument("/WEB-INF/components.xml");
       initComponentsFromXmlDocument("/WEB-INF/events.xml"); //deprecated
@@ -549,10 +554,9 @@ public class Initialization
       log.info("initializing Seam");
       ServletLifecycle.beginInitialization();
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
-      RedeployableStrategy redeployStrategy = getRedeployableInitialization();
-      scanForHotDeployableComponents(redeployStrategy);
+      scanForHotDeployableComponents();
       scanForComponents();
-      addComponent( new ComponentDescriptor(Init.class), Contexts.getApplicationContext(), redeployStrategy );
+      addComponent( new ComponentDescriptor(Init.class), Contexts.getApplicationContext());
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);    
       ComponentDescriptor desc = findDescriptor(Jbpm.class);
       if (desc != null && desc.isInstalled())
@@ -560,10 +564,12 @@ public class Initialization
          init.setJbpmInstalled(true);
       }
       init.setTimestamp( System.currentTimeMillis() );
-      init.setHotDeployPaths( redeployStrategy.getPaths() );
-      
+      if (hotDeploymentStrategy != null)
+      {
+         init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
+      }
       addSpecialComponents(init);
-      installComponents(init, redeployStrategy);
+      installComponents(init);
       
       for (String globalImport: globalImports)
       {
@@ -595,122 +601,96 @@ public class Initialization
          Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
       }
       //TODO open the ability to reuse the classloader by looking at the components class classloaders
-      RedeployableStrategy redeployStrategy = getRedeployableInitialization();
-      scanForHotDeployableComponents(redeployStrategy);
+      scanForHotDeployableComponents();
       init.setTimestamp( System.currentTimeMillis() );
-      init.setHotDeployPaths(redeployStrategy.getPaths());
-      installComponents(init, redeployStrategy);
+      init.setHotDeployPaths(hotDeploymentStrategy.getHotDeploymentPaths());
+      installComponents(init);
       ServletLifecycle.endInitialization();
       log.info("done redeploying");
       return this;
    }
 
-   private RedeployableStrategy getRedeployableInitialization() 
+   private void scanForHotDeployableComponents()
    {
-      String path = servletContext.getRealPath("/WEB-INF/dev");
-      if (path==null) //WebLogic!
+      createHotDeploymentStrategy(Thread.currentThread().getContextClassLoader());
+      if (hotDeploymentStrategy != null)
       {
-         log.debug("Could not find path for /WEB-INF/dev");
-         return new NoHotRedeployable();
-      }
-      else
-      {
-         File hotDeployDir = new File(path);
-         String strategy = getRedeployableStrategyName(hotDeployDir);
-         try
-         {
-            Class initializer = Reflections.classForName(strategy);
-            Constructor ctr = initializer.getConstructor(File.class);
-            return (RedeployableStrategy) ctr.newInstance(hotDeployDir);
-         }
-         catch (Exception e)
-         {
-            throw new RuntimeException( "Unable to instantiate redeployable strategy: " + strategy );
-         }
-      }
-   }
-
-   private String getRedeployableStrategyName(File hotDeployDir)
-   {
-      boolean debugEnabled = Thread.currentThread().getContextClassLoader()
-                  .getResource("META-INF/debug.xhtml")!=null;
-      boolean isGroovy;
-      try 
-      {
-         Reflections.classForName( "groovy.lang.GroovyObject" );
-         isGroovy = true;
-      }
-      catch (ClassNotFoundException e)
-      {
-         //groovy is not there
-         isGroovy = false;
-      }
-
-      if ( debugEnabled && hotDeployDir.exists() )
-      {
-         if (isGroovy)
-         {
-            log.debug("Using Java+Groovy hot deploy");
-            return "org.jboss.seam.init.GroovyHotRedeployable";
-         }
-         else 
-         {
-            log.debug("Using Java hot deploy");
-            return "org.jboss.seam.init.JavaHotRedeployable";
-         }
-      }
-//    else if (isGroovy) {
-//       TODO Implement it even when debug is not set up
-//    }
-      else 
-      {
-         log.debug("No hot deploy used");
-         return "org.jboss.seam.init.NoHotRedeployable";
-      }
-   }
-
-   private void scanForHotDeployableComponents(RedeployableStrategy redeployStrategy)
-   {
-      ComponentScanner scanner = redeployStrategy.getScanner();
-      if (scanner != null) 
-      {
-         Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
-         scannedClasses.addAll(scanner.getClasses());
-         for (Class<Object> scannedClass: scannedClasses)
+         hotDeploymentStrategy.scan();
+         for (Class<Object> scannedClass: hotDeploymentStrategy.getScannedComponentClasses() )
          {
             installScannedComponentAndRoles(scannedClass);
          }
       }
    }
+   
+   private void createHotDeploymentStrategy(ClassLoader classLoader)
+   {
+      File hotDeployDirectory = getHotDeployDirectory(servletContext);
+      if ( isDebugEnabled() && hotDeployDirectory != null )
+      {
+         if (isGroovyPresent())
+         {
+            log.debug("Using Java + Groovy hot deploy");
+            hotDeploymentStrategy = HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory);
+         }
+         else 
+         {
+            log.debug("Using Java hot deploy");
+            hotDeploymentStrategy = new HotDeploymentStrategy(classLoader, hotDeployDirectory);
+         }
+      }
+   }
+   
+   private static File getHotDeployDirectory(ServletContext servletContext)
+   {
+      String path = servletContext.getRealPath(HotDeploymentStrategy.HOT_DEPLOYMENT_DIRECTORY_PATH);
+      if (path==null) //WebLogic!
+      {
+         log.debug("Could not find path for " + HotDeploymentStrategy.HOT_DEPLOYMENT_DIRECTORY_PATH);
+      }
+      else
+      {
+         File hotDeployDir = new File(path);
+         if (hotDeployDir.exists())
+         {
+            return hotDeployDir;
+         }
+      }
+      return null;
+   }
+   
+   private static boolean isDebugEnabled()
+   {
+      return Resources.getResource("META-INF/debug.xhtml", null) != null;
+   }
+   
+   private static boolean isGroovyPresent()
+   {
+      try 
+      {
+         Reflections.classForName( "groovy.lang.GroovyObject" );
+         return true;
+      }
+      catch (ClassNotFoundException e)
+      {
+         //groovy is not there
+         return false;
+      }
+   }
 
    private void scanForComponents()
    {
-      ComponentScanner[] scanners = {
-             new ComponentScanner("seam.properties"),
-             new ComponentScanner("META-INF/seam.properties"),
-             new ComponentScanner("META-INF/components.xml")
-      };
-      
-      Set<Class<Object>> scannedClasses = new HashSet<Class<Object>>();
-      for (ComponentScanner scanner: scanners) 
-      {
-          scannedClasses.addAll(scanner.getClasses());          
-      }
-            
-      for (Class<Object> scannedClass: scannedClasses) 
+      for ( Class<Object> scannedClass: deploymentStrategy.getScannedComponentClasses() ) 
       {
           installScannedComponentAndRoles(scannedClass);
       }
       
-      for (ComponentScanner scanner: scanners) 
+      
+      for ( String name: deploymentStrategy.getScannedComponentResources() ) 
       {
-          for ( String name: scanner.getResources() ) 
-          {
-              installComponentsFromDescriptor( name, scanner.getClassLoader() );              
-          }
+          installComponentsFromDescriptor( name, deploymentStrategy.getClassLoader() );              
       }
    }
-
 
    private static String classFilenameFromDescriptor(String descriptor) {
        int pos = descriptor.lastIndexOf(".component.xml");
@@ -799,15 +779,7 @@ public class Initialization
 
    private void addNamespaces()
    {
-      for ( Package pkg : new NamespaceScanner("META-INF/components.xml").getPackages() )
-      {
-         addNamespace(pkg);
-      }
-      for ( Package pkg : new NamespaceScanner("seam.properties").getPackages() )
-      {
-         addNamespace(pkg);
-      }
-      for ( Package pkg : new NamespaceScanner("META-INF/seam.properties").getPackages() )
+      for ( Package pkg : deploymentStrategy.getScannedNamespaces() )
       {
          addNamespace(pkg);
       }
@@ -905,7 +877,7 @@ public class Initialization
       }
    }
 
-   private void installComponents(Init init, RedeployableStrategy redeployStrategy)
+   private void installComponents(Init init)
    {
       log.info("Installing components...");
       Context context = Contexts.getApplicationContext();
@@ -919,7 +891,7 @@ public class Initialization
 
           if ( !context.isSet(compName) ) 
           {
-              addComponent(componentDescriptor, context, redeployStrategy);
+              addComponent(componentDescriptor, context);
 
               if ( componentDescriptor.isAutoCreate() ) 
               {
@@ -976,7 +948,7 @@ public class Initialization
     * This actually creates a real Component and should only be called when
     * we want to install a component
     */
-   protected void addComponent(ComponentDescriptor descriptor, Context context, RedeployableStrategy redeployStrategy)
+   protected void addComponent(ComponentDescriptor descriptor, Context context)
    {
       String name = descriptor.getName();
       String componentName = name + COMPONENT_SUFFIX;
@@ -990,7 +962,7 @@ public class Initialization
                descriptor.getJndiName()
             );
          context.set(componentName, component);
-         if ( redeployStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
+         if ( hotDeploymentStrategy != null && hotDeploymentStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
          {
             Init.instance().addHotDeployableComponent( component.getName() );
          }
