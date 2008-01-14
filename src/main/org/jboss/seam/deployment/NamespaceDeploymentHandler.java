@@ -9,6 +9,8 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
+ * A deployment handler for namespaces
+ * 
  * @author Pete Muir
  *
  */
@@ -33,7 +35,7 @@ public class NamespaceDeploymentHandler extends AbstractDeploymentHandler
    {
        return Collections.unmodifiableSet(packages);
    }
-
+   
    public void handle(String name, ClassLoader classLoader)
    {
        if ( name.endsWith("/package-info.class") ) 

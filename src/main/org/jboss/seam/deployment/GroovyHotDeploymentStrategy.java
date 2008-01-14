@@ -11,6 +11,8 @@ import org.codehaus.groovy.control.CompilerConfiguration;
 
 
 /**
+ * A deployment strategy for hot deploying Seam groovy components
+ * 
  * @author Pete Muir
  *
  */
@@ -23,6 +25,12 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
    
    private GroovyDeploymentHandler groovyDeploymentHandler;
    
+   /**
+    * @param classLoader The parent classloader of the hot deployment classloader
+    * @param hotDeployDirectory The directory in which hot deployable java and 
+    * groovy Seam components are placed
+    * 
+    */
    public GroovyHotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory)
    {
       super(classLoader, hotDeployDirectory);

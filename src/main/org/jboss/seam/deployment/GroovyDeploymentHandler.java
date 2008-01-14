@@ -17,6 +17,8 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
+ * A deployment handler for (uncompiled) Groovy Seam components
+ * 
  * @author Pete Muir
  *
  */
@@ -31,12 +33,19 @@ public class GroovyDeploymentHandler extends AbstractDeploymentHandler
    
    private Set<Class<Object>> classes;
    
+   /**
+    * 
+    * @param groovyFileExtension The extension to use for the groovy file
+    */
    public GroovyDeploymentHandler(String groovyFileExtension)
    {
       this.groovyFileExtension = groovyFileExtension;
       this.classes = new HashSet<Class<Object>>();
    }
    
+   /**
+    * Get all the Groovy Seam Components this handler has handled 
+    */
    public Set<Class<Object>> getClasses()
    {
       return Collections.unmodifiableSet(classes);

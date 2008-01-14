@@ -43,7 +43,7 @@ import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
-import org.jboss.seam.deployment.SimpleDeploymentStrategy;
+import org.jboss.seam.deployment.StandardDeploymentStrategy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Conversions;
@@ -75,7 +75,7 @@ public class Initialization
    private Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
    private Collection<String> globalImports = new ArrayList<String>();
    
-   private SimpleDeploymentStrategy deploymentStrategy;
+   private StandardDeploymentStrategy deploymentStrategy;
    private HotDeploymentStrategy hotDeploymentStrategy;
    
    private Set<String> nonPropertyAttributes = new HashSet<String>();
@@ -98,7 +98,7 @@ public class Initialization
    
    public Initialization create()
    {
-      deploymentStrategy = new SimpleDeploymentStrategy(Thread.currentThread().getContextClassLoader());
+      deploymentStrategy = new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader());
       deploymentStrategy.scan();
       addNamespaces();
       initComponentsFromXmlDocument("/WEB-INF/components.xml");

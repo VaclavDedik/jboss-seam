@@ -10,18 +10,25 @@ import javassist.bytecode.ClassFile;
 import javassist.bytecode.annotation.MemberValue;
 
 /**
+ * Abstract base class for {@link DeploymentHandler} providing common functionality
+ * 
  * @author Pete Muir
  *
  */
 public abstract class AbstractDeploymentHandler implements DeploymentHandler
 {
-   
-   public static String filenameToClassname(String filename)
+   /**
+    * Convert a path to a class file to a class name
+    */
+   protected static String filenameToClassname(String filename)
    {
       return filename.substring( 0, filename.lastIndexOf(".class") )
             .replace('/', '.').replace('\\', '.');
    }
    
+   /**
+    * Get a Javassist {@link ClassFile} for a given class name from the classLoader
+    */
    protected ClassFile getClassFile(String name, ClassLoader classLoader) throws IOException 
    {
       InputStream stream = classLoader.getResourceAsStream(name);
@@ -38,9 +45,12 @@ public abstract class AbstractDeploymentHandler implements DeploymentHandler
       }
    }
    
-   protected boolean hasAnnotation(ClassFile cf, Class<? extends Annotation> annotationType)
+   /**
+    * Check if the Javassist {@link ClassFile} has the specfied annotation
+    */
+   protected boolean hasAnnotation(ClassFile classFile, Class<? extends Annotation> annotationType)
    { 
-      AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute( AnnotationsAttribute.visibleTag ); 
+      AnnotationsAttribute visible = (AnnotationsAttribute) classFile.getAttribute( AnnotationsAttribute.visibleTag ); 
       if ( visible != null ) 
       {
          return visible.getAnnotation( annotationType.getName() ) != null; 
@@ -48,9 +58,13 @@ public abstract class AbstractDeploymentHandler implements DeploymentHandler
       return false; 
    }
    
-   protected String getAnnotationValue(ClassFile cf, Class<? extends Annotation> annotationType, String memberName)
+   /**
+    * Get the value of the annotation on the Javassist {@link ClassFile}, or null
+    * if the class doesn't have that annotation
+    */
+   protected String getAnnotationValue(ClassFile classFile, Class<? extends Annotation> annotationType, String memberName)
    { 
-      AnnotationsAttribute visible = (AnnotationsAttribute) cf.getAttribute( AnnotationsAttribute.visibleTag ); 
+      AnnotationsAttribute visible = (AnnotationsAttribute) classFile.getAttribute( AnnotationsAttribute.visibleTag ); 
       if ( visible != null ) 
       {
          javassist.bytecode.annotation.Annotation annotation = visible.getAnnotation( annotationType.getName() );
@@ -70,11 +84,7 @@ public abstract class AbstractDeploymentHandler implements DeploymentHandler
       }
    }
    
-   public static String filenameToPackage(String filename)
-   {
-      return filename.substring( 0, filename.lastIndexOf(".class") )
-            .replace('/', '.').replace('\\', '.');
-   }
+
   
 
 }

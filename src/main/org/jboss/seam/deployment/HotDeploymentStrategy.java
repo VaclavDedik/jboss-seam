@@ -10,12 +10,16 @@ import java.util.Set;
 import org.jboss.seam.util.Reflections;
 
 /**
+ * A deployment strategy for hot deployable Java Seam components
+ * 
  * @author Pete Muir
  *
  */
 public class HotDeploymentStrategy extends DeploymentStrategy
 {
-   
+   /**
+    * The default path at which hot deployable Seam components are placed
+    */
    public static final String HOT_DEPLOYMENT_DIRECTORY_PATH = "WEB-INF/dev";
    
    private ClassLoader hotDeployClassLoader;
@@ -24,6 +28,11 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    
    private ComponentDeploymentHandler componentDeploymentHandler;
    
+   /**
+    * @param classLoader The parent classloader of the hot deployment classloader
+    * @param hotDeployDirectory The directory in which hot deployable Seam 
+    * components are placed
+    */
    public HotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory)
    {
       initHotDeployClassLoader(classLoader, hotDeployDirectory);
@@ -50,16 +59,31 @@ public class HotDeploymentStrategy extends DeploymentStrategy
       }
    }
 
+   /**
+    * Get all hot deployable paths
+    */
    public File[] getHotDeploymentPaths()
    {
       return hotDeploymentPaths;
    }
 
+   /**
+    * Return true if the component is from a hot deployment classloader
+    */
    public boolean isFromHotDeployClassLoader(Class componentClass)
    {
       return componentClass.getClassLoader() == hotDeployClassLoader;
    }
 
+   /**
+    * Dynamically instantiate a {@link HotDeploymentStrategy}
+    * 
+    * Needed to prevent dependency on optional librarires
+    * @param className The strategy to use 
+    * @param classLoader The classloader to use with this strategy
+    * @param hotDeployDirectory The directory which contains hot deployable
+    * Seam components
+    */
    public static HotDeploymentStrategy createInstance(String className, ClassLoader classLoader, File hotDeployDirectory)
    {
       try
@@ -85,21 +109,12 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    {
       return null;
    }
-
-   @Override
-   public ClassLoader getScannableClassLoader()
-   {
-      return getClassLoader();
-   }
    
+   /**
+    * Get all Components which the strategy has scanned and handled
+    */
    public Set<Class<Object>> getScannedComponentClasses()
    {
       return componentDeploymentHandler.getClasses();
-   }
-   
-   @Override
-   public void scan()
-   {
-      getScanner().scanClassLoader();
    }
 }

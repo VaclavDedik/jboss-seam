@@ -15,8 +15,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
- * Abstract class for scanning archives in the
- * Seam classpath.
+ * Implementation of {@link Scanner} which can scan a {@link URLClassLoader}
  * 
  * @author Thomas Heute
  * @author Gavin King

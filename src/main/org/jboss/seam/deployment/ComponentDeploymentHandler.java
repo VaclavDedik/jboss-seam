@@ -13,12 +13,18 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
+ * The {@link ComponentDeploymentHandler} process Seam components, both 
+ * annotated with {@link org.jboss.seam.annotations.Name} and specified in
+ * components.xml 
+ * 
  * @author Pete Muir
  *
  */
 public class ComponentDeploymentHandler extends AbstractDeploymentHandler
 {
-   
+   /**
+    * Name under which this {@link DeploymentHandler} is registered
+    */
    public static final String NAME = "org.jboss.seam.deployment.ComponentDeploymentHandler";
    
    private static final LogProvider log = Logging.getLogProvider(ComponentDeploymentHandler.class);
@@ -34,18 +40,24 @@ public class ComponentDeploymentHandler extends AbstractDeploymentHandler
    }
 
    /**
-    * Returns only Seam components (ie: classes annotated with @Name)
+    * Get annotated Seam components
     */
    public Set<Class<Object>> getClasses()
    {
       return Collections.unmodifiableSet(classes);
    }
    
+   /**
+    * Get paths to components.xml files
+    */
    public Set<String> getResources() 
    {
        return Collections.unmodifiableSet(resources);
    }
 
+   /**
+    * @see DeploymentHandler#handle(String, ClassLoader)
+    */
    public void handle(String name, ClassLoader classLoader)
    {
       if (name.endsWith(".class")) 

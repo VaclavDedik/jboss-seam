@@ -14,6 +14,9 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
+ * A {@link DeploymentStrategy} coordinates the deploy of resources for a Seam
+ * application.
+ * 
  * @author Pete Muir
  *
  */
@@ -31,10 +34,32 @@ public abstract class DeploymentStrategy
       this.deploymentHandlers = new HashMap<String, DeploymentHandler>();
    }
    
-   public abstract void scan();
+   /**
+    * Do the scan for resources
+    * 
+    * If {@link #getResourceNames()} are specified, then {@link Scanner#scanResources()}
+    * will be used, otherwise {@link Scanner#scanClassLoader()} will be used.
+    */
+   public void scan()
+   {
+      if (getResourceNames() == null)
+      {
+         getScanner().scanClassLoader();
+      }
+      else
+      {
+         getScanner().scanResources();
+      }
+   }
 
+   /**
+    * Get the resource names which this {@link DeploymentStrategy} will scan for.
+    */
    public abstract String[] getResourceNames();
    
+   /**
+    * Get the scanner being used
+    */
    protected Scanner getScanner()
    {
       if (scanner == null)
@@ -44,15 +69,38 @@ public abstract class DeploymentStrategy
       return scanner;
    }
    
+   /**
+    * Get the classloader to use
+    */
    public abstract ClassLoader getClassLoader();
    
-   public abstract ClassLoader getScannableClassLoader();
+   /**
+    * Sometimes the main classloader cannot be scanned, so a scannable 
+    * classloader can be provided
+    * 
+    * By default the classloader specified in {@link #getClassLoader()}
+    */
+   public ClassLoader getScannableClassLoader()
+   {
+      return getClassLoader();
+   }
 
+   /**
+    * Get (or modify) any registered {@link DeploymentHandler}s
+    * 
+    * Implementations of {@link DeploymentStrategy} may add default 
+    * {@link DeploymentHandler}s 
+    */
    public Map<String, DeploymentHandler> getDeploymentHandlers()
    {
       return this.deploymentHandlers;
    }
 
+   /**
+    * Handle a resource using any registered {@link DeploymentHandler}s
+    * 
+    * @param name Path to a resource to handle
+    */
    public void handle(String name)
    {
       for (String key: getDeploymentHandlers().keySet())

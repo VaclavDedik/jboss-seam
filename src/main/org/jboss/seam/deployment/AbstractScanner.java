@@ -6,6 +6,8 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
+ * Abstract base class for {@link Scanner} providing common functionality
+ * 
  * @author Pete Muir
  *
  */
