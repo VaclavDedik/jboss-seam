@@ -552,6 +552,10 @@ public class Initialization
    public Initialization init()
    {
       log.info("initializing Seam");
+      if (deploymentStrategy == null)
+      {
+         throw new IllegalStateException("No deployment strategy!");
+      }
       ServletLifecycle.beginInitialization();
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
       scanForHotDeployableComponents();
