@@ -105,9 +105,35 @@
 
             <para>The Seam master filter <emphasis>must</emphasis> be the first filter specified in
                 <literal>web.xml</literal>. This ensures it is run first. </para>
-
-            <para>To disable a built in filter, you can set <literal>disabled="true"</literal> on
-            a particular filter.</para>
+            
+            <para>
+               The Seam filters share a number of common attributes, you can set these in 
+               <literal>components.xml</literal> in addition to any parameters discussed
+               below:
+            </para>
+            
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>url-pattern</literal> &#8212; Used to specify which requests are filtered, the
+                         default is all requests. <literal>url-pattern</literal> is a Tomcat style pattern
+                         which allows a wildcard suffix.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>regex-url-pattern</literal> &#8212; Used to specify which requests are filtered, the
+                     default is all requests. <literal>regex-url-pattern</literal> is a true regular expression
+                     match for request path. It's worth noting when composing the regular expression that the request path does not contain
+                     the server or request context path. 
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>disabled</literal> &#8212; Used to disable a built in filter.
+                  </para>
+               </listitem>
+           </itemizedlist>
 
             <para> Adding the master filter enables the following built-in filters. </para>
 
@@ -130,13 +156,7 @@
 
 </components>]]></programlisting>
 
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <literal>url-pattern</literal> &#8212; Used to specify which requests are filtered, the
-                            default is all requests. </para>
-                    </listitem>
-                </itemizedlist>
+                
             </sect3>
 
             <sect3>
@@ -149,14 +169,6 @@
                     in <literal>components.xml</literal>: </para>
 
                 <programlisting><![CDATA[<web:redirect-filter url-pattern="*.seam"/>]]></programlisting>
-
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <literal>url-pattern</literal> &#8212; Used to specify which requests are filtered, the
-                            default is all requests. </para>
-                    </listitem>
-                </itemizedlist>
             </sect3>
 
             <sect3>
@@ -182,11 +194,6 @@
                             <literal>max-request-size</literal> &#8212; If the size of a file upload request
                             (determined by reading the <literal>Content-Length</literal> header in the request) exceeds
                             this value, the request will be aborted. The default setting is 0 (no size limit). </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <literal>url-pattern</literal> &#8212; Used to specify which requests are filtered, the
-                            default is all requests. </para>
                     </listitem>
                 </itemizedlist>
             </sect3>
@@ -214,11 +221,6 @@
                             matter whether the request already specifies an encoding or not. If set to
                             <literal>false</literal>, the request encoding will only be set if the request doesn't
                             already specify an encoding. The default setting is <literal>false</literal>. </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            <literal>url-pattern</literal> &#8212; Used to specify which requests are filtered, the
-                            default is all requests. </para>
                     </listitem>
                 </itemizedlist>
             </sect3>
@@ -267,11 +269,6 @@
                             path, relative to web application context, to the log4j.xml configuration file should be
                             provided. </para>
                     </listitem>
-                    <listitem>
-                        <para>
-                            <literal>url-pattern</literal> &#8212; Used to specify which requests are filtered, the
-                            default is all requests. </para>
-                    </listitem>
                 </itemizedlist>
 
             </sect3>
@@ -294,19 +291,8 @@
     <web:logging-filter url-pattern="*.seam"/>
 </components>]]></programlisting>
 
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <literal>url-pattern</literal> &#8212; Used to specify which requests the filter is active for. The
-                            default is all requests. </para>
-                    </listitem>
-                </itemizedlist>
-
             </sect3>
-
-            
-            
-            
+       
             <sect3>
                 <title>Context management for custom servlets</title>
                 <para> Requests sent direct to some servlet other than the JSF servlet are not processed through the JSF
@@ -323,15 +309,6 @@
                     <literal>components.xml</literal> to enable it: </para>
 
                 <programlisting><![CDATA[<web:context-filter url-pattern="/media/*"/>]]></programlisting>
-
-                <itemizedlist>
-                    <listitem>
-                        <para>
-                            <literal>url-pattern</literal> &#8212; Used to specify which requests are filtered, the
-                            default is all requests. If the url-pattern is specified for the context filter, then the
-                            filter will be enabled (unless explicitly disabled). </para>
-                    </listitem>
-                </itemizedlist>
 
                 <para> The context filter expects to find the conversation id of any conversation context in a request
                     parameter named <literal>conversationId</literal>. You are responsible for ensuring that it gets

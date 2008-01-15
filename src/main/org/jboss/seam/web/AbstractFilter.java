@@ -1,5 +1,7 @@
 package org.jboss.seam.web;
 
+import java.util.regex.Pattern;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
@@ -26,6 +28,10 @@ public abstract class AbstractFilter implements Filter
 
    private String urlPattern;
    
+   private String regexUrlPattern;
+   
+   private Pattern pattern;
+   
    private boolean disabled;
 
    public void init(FilterConfig filterConfig) throws ServletException
@@ -48,6 +54,26 @@ public abstract class AbstractFilter implements Filter
       this.urlPattern = urlPattern;
    }
    
+   public String getRegexUrlPattern()
+   {
+      return this.regexUrlPattern;
+   }
+   
+   public void setRegexUrlPattern(String regexUrlPattern)
+   {
+      this.regexUrlPattern = regexUrlPattern;
+      pattern = null;
+   }
+   
+   private Pattern getPattern()
+   {
+      if (pattern == null && getRegexUrlPattern() != null)
+      {
+         pattern = Pattern.compile(getRegexUrlPattern());
+      }
+      return pattern;
+   }
+   
    public boolean isDisabled() 
    {
       return disabled;
@@ -68,10 +94,33 @@ public abstract class AbstractFilter implements Filter
    public boolean isMappedToCurrentRequestPath(ServletRequest request)
    {
       if (!(request instanceof HttpServletRequest))
+      {
          return true;
-      
+      }
       String path = ((HttpServletRequest) request).getServletPath();      
-      String pattern = getUrlPattern();
+      String urlPattern = getUrlPattern();
+      Pattern regexPattern = getPattern();
+      if (urlPattern != null)
+      {
+         return matchesTomcatPattern(path, urlPattern);
+      }
+      else if (regexPattern != null)
+      {
+         return matchesRegexPattern(path, regexPattern);
+      }
+      else
+      {
+         return true;
+      }
+   }
+   
+   private static boolean matchesRegexPattern(String path, Pattern pattern)
+   {
+      return pattern.matcher(path).matches();
+   }
+
+   private static boolean matchesTomcatPattern(String path, String pattern)
+   {
       
       if (pattern==null) return true;
 
