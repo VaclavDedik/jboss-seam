@@ -81,7 +81,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
         comment.setAreaNumber(documentHome.getInstance().getAreaNumber());
         comment.setDerivedName(documentHome.getInstance());
-        comment.setWikiname(comment.getName());
+        comment.setWikiname(WikiUtil.convertToWikiName(comment.getName()));
         comment.setCreatedBy(getCurrentUser());
 
         // TODO: This means that when a user is deleted, his name will still be preserved. However, it's an old name.

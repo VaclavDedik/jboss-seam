@@ -72,6 +72,9 @@ public class Commenting extends DBUnitSeamTest {
                 assert commentQuery.getComments().get(6).getSubject().equals("Some Subject");
                 assert commentQuery.getComments().get(6).getContent().equals("Some Content");
 
+                assert commentQuery.getComments().get(6).getName().matches("One\\.Comment[0-9]+");
+                assert !commentQuery.getComments().get(6).getWikiname().contains(" ");
+                
             }
 
         }.run();

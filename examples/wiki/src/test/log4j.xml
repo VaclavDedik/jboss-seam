@@ -13,7 +13,7 @@
 
     <!-- ############### Wiki logging #################  -->
     <category name="org.jboss.seam.wiki">
-        <priority value="WARN"/>
+        <priority value="DEBUG"/>
     </category>
     <category name="org.jboss.seam.wiki.test">
         <priority value="info"/>

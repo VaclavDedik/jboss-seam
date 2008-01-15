@@ -53,7 +53,6 @@
                             <div class="input">
                                 <a:commandLink styleClass="buttonNonpersistent sessionEventTrigger closeDialog" tabindex="51"
                                                reRender="messageBoxContainer, passwordReset"
-                                               oncomplete="onAjaxRequestComplete()"
                                                action="#{userPasswordReset.sendResetPasswordEmail}">
                                     <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.resetPassword.Reset']}"/>
                                 </a:commandLink>

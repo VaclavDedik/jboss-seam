@@ -11,6 +11,7 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.DisplayTagCount;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetQueryBuilder;
 
 import javax.persistence.EntityManager;
@@ -54,7 +55,8 @@ public class TagDAO {
         return nestedSetQuery.list();
     }
 
-    public List<WikiFile> findWikFiles(WikiDirectory startDir, WikiFile ignoreFile, final String tag) {
+    public List<WikiFile> findWikFiles(WikiDirectory startDir, WikiFile ignoreFile, final String tag,
+                                       WikiNode.SortableProperty orderBy, boolean orderAscending) {
 
         if (tag == null || tag.length() == 0) return Collections.emptyList();
 
@@ -64,7 +66,7 @@ public class TagDAO {
         queryString.append("(").append(getNestedDirectoryQuery(startDir)).append(")").append(" ");
         if (ignoreFile != null && ignoreFile.getId() != null) queryString.append("and not f = :ignoreFile").append(" ");
         queryString.append("and t = :tag").append(" ");
-        queryString.append("order by f.createdOn desc");
+        queryString.append("order by f.").append(orderBy.name()).append(" ").append(orderAscending ? "asc" : "desc");
 
         Query nestedSetQuery = getSession().createQuery(queryString.toString());
         nestedSetQuery.setParameter("nsThread", startDir.getNodeInfo().getNsThread());

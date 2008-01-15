@@ -180,14 +180,14 @@ public class ClipboardTests extends DBUnitSeamTest {
 
                 assert home.getChildNodes().size() == 2;
 
-                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance());
+                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance(), WikiNode.SortableProperty.createdOn, true);
 
                 assert uploads.size() == 1;
                 assert uploads.get(0).getName().equals("Test Image");
                 assert uploads.get(0).getAreaNumber().equals(home.getInstance().getAreaNumber());
 
                 WikiDirectory originalDir = home.getWikiNodeDAO().findWikiDirectory(2l);
-                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir);
+                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
                 assert originalUploads.size() == 2;
             }
         }.run();
@@ -271,14 +271,14 @@ public class ClipboardTests extends DBUnitSeamTest {
 
                 assert doc.getAreaNumber().equals(home.getInstance().getAreaNumber());
 
-                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance());
+                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance(), WikiNode.SortableProperty.createdOn, true);
 
                 assert uploads.size() == 1;
                 assert uploads.get(0).getName().equals("Test Image");
                 assert uploads.get(0).getAreaNumber().equals(home.getInstance().getAreaNumber());
 
                 WikiDirectory originalDir = home.getWikiNodeDAO().findWikiDirectory(2l);
-                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir);
+                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
                 assert originalUploads.size() == 2;
             }
         }.run();
@@ -435,14 +435,14 @@ public class ClipboardTests extends DBUnitSeamTest {
 
                 assert home.getChildNodes().size() == 2;
 
-                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance());
+                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance(), WikiNode.SortableProperty.createdOn, true);
 
                 assert uploads.size() == 1;
                 assert uploads.get(0).getName().equals("Test Image");
                 assert uploads.get(0).getAreaNumber().equals(home.getInstance().getAreaNumber());
 
                 WikiDirectory originalDir = home.getWikiNodeDAO().findWikiDirectory(2l);
-                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir);
+                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
                 assert originalUploads.size() == 1;
             }
         }.run();
@@ -527,7 +527,7 @@ public class ClipboardTests extends DBUnitSeamTest {
 
                 assert doc.getAreaNumber().equals(home.getInstance().getAreaNumber());
 
-                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance());
+                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance(), WikiNode.SortableProperty.createdOn, true);
 
                 assert uploads.size() == 1;
                 assert uploads.get(0).getName().equals("Test Image");
@@ -537,7 +537,7 @@ public class ClipboardTests extends DBUnitSeamTest {
                 assert docOriginal == null;
 
                 WikiDirectory originalDir = home.getWikiNodeDAO().findWikiDirectory(2l);
-                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir);
+                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
                 assert originalUploads.size() == 1;
             }
         }.run();

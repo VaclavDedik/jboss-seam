@@ -25,6 +25,10 @@ import java.util.Date;
 @org.hibernate.annotations.BatchSize(size = 20)
 public abstract class WikiNode<N extends WikiNode> implements Comparable {
 
+    public static enum SortableProperty {
+        name, createdOn, lastModifiedOn;
+    }
+
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "NODE_ID")

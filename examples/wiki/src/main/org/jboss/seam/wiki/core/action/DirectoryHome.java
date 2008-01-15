@@ -93,7 +93,7 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
         hasFeed = dir.getFeed()!=null;
 
-        childDocuments = getWikiNodeDAO().findWikiDocuments(dir);
+        childDocuments = getWikiNodeDAO().findWikiDocuments(dir, WikiNode.SortableProperty.name, true);
 
         menuItems = getWikiNodeDAO().findMenuItems(dir);
         alreadyUsedMenuItems = new TreeSet<WikiDirectory>();
@@ -204,7 +204,7 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
             getLog().debug("loading children page from: " + pager.getNextRecord() + " size: " + pager.getPageSize());
             childNodes =
                     getWikiNodeDAO().findChildren(
-                            dir, "createdOn", false,
+                            dir, WikiNode.SortableProperty.name, false,
                             new Long(pager.getNextRecord()).intValue(),
                             new Long(pager.getPageSize()).intValue()
                     );
@@ -492,7 +492,7 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
         if (!isManaged() || !trashArea.getId().equals(getInstance().getId())) return;
 
         getLog().debug("emptying trash");
-        List<WikiNode> children = getWikiNodeDAO().findChildren(getInstance(), "createdOn", false, 0, Integer.MAX_VALUE);
+        List<WikiNode> children = getWikiNodeDAO().findChildren(getInstance(), WikiNode.SortableProperty.name, false, 0, Integer.MAX_VALUE);
 
         // TODO: This should be batched with a database cursor!
         for (WikiNode child : children) {

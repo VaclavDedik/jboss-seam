@@ -105,17 +105,15 @@ public class WikiNodeDAO {
         return null;
     }
 
-    public List<WikiNode> findChildren(WikiNode node, String orderByProperty, boolean orderAscending, int firstResult, int maxResults) {
-        // Sanitize input
-        orderByProperty = orderByProperty.replaceAll("[^a-zA-Z0-9]", "");
+    public List<WikiNode> findChildren(WikiNode node, WikiNode.SortableProperty orderBy, boolean orderAscending, int firstResult, int maxResults) {
 
         StringBuilder queryString = new StringBuilder();
         queryString.append("select n from WikiNode n where n.parent = :parent").append(" ");
-        queryString.append("order by n.").append(orderByProperty).append(" ").append(orderAscending ? "asc" : "desc");
+        queryString.append("order by n.").append(orderBy.name()).append(" ").append(orderAscending ? "asc" : "desc");
 
         return restrictedEntityManager
                 .createQuery(queryString.toString())
-                .setHint("org.hibernate.comment", "Find wikinode children order by "+orderByProperty)
+                .setHint("org.hibernate.comment", "Find wikinode children order by "+orderBy.name())
                 .setParameter("parent", node)
                 .setHint("org.hibernate.cacheable", true)
                 .setFirstResult(firstResult)
@@ -311,8 +309,12 @@ public class WikiNodeDAO {
         return null;
     }
 
-    public List<WikiDocument> findWikiDocuments(WikiDirectory directory) {
-        return restrictedEntityManager.createQuery("select d from WikiDocument d where d.parent = :dir order by d.createdOn asc")
+    public List<WikiDocument> findWikiDocuments(WikiDirectory directory, WikiNode.SortableProperty orderBy, boolean orderAscending) {
+
+        StringBuilder query = new StringBuilder();
+        query.append("select d from WikiDocument d where d.parent = :dir");
+        query.append(" order by d.").append(orderBy.name()).append(" ").append(orderAscending ? "asc" : "desc");
+        return restrictedEntityManager.createQuery(query.toString())
                 .setParameter("dir", directory)
                 .setHint("org.hibernate.comment", "Find documents of directory")
                 .setHint("org.hibernate.cacheable", true)
@@ -338,23 +340,27 @@ public class WikiNodeDAO {
         return null;
     }
     
-    public List<WikiDocument> findWikiDocumentsOrderByLastModified(int maxResults) {
-        //noinspection unchecked
+    public List<WikiDocument> findWikiDocuments(int maxResults, WikiNode.SortableProperty orderBy, boolean orderAscending) {
+
+        StringBuilder query = new StringBuilder();
+        query.append("select d from WikiDocument d where d.lastModifiedOn is not null");
+        query.append(" order by d.").append(orderBy.name()).append(" ").append(orderAscending ? "asc" : "desc");
+
+
         return (List<WikiDocument>)restrictedEntityManager
-                .createQuery("select d from WikiDocument d where d.lastModifiedOn is not null order by d.lastModifiedOn desc")
-                .setHint("org.hibernate.comment", "Find documents order by lastModified")
+                .createQuery(query.toString())
+                .setHint("org.hibernate.comment", "Find documents order by " + orderBy.name())
                 .setHint("org.hibernate.cacheable", true)
                 .setMaxResults(maxResults)
                 .getResultList();
     }
 
-    public WikiDocument findSiblingWikiDocumentInDirectory(WikiDocument currentDocument, String byProperty, boolean previousOrNext) {
-        byProperty = byProperty.replaceAll("[^\\p{Alnum}]+", ""); // Avoid SQL injection hole!
+    public WikiDocument findSiblingWikiDocumentInDirectory(WikiDocument currentDocument, WikiNode.SortableProperty byProperty, boolean previousOrNext) {
         try {
             return (WikiDocument)restrictedEntityManager
                     .createQuery("select sibling from WikiDocument sibling, WikiDocument current" +
                                  " where sibling.parent = current.parent and current = :current and not sibling = :current" +
-                                 " and sibling."+ byProperty + " " + (previousOrNext ? "<=" : ">=") + "current."+byProperty +
+                                 " and sibling."+ byProperty.name() + " " + (previousOrNext ? "<=" : ">=") + "current."+ byProperty.name() +
                                  " order by sibling." +byProperty + " " + (previousOrNext ? "desc" : "asc") )
                     .setHint("org.hibernate.cacheable", true)
                     .setMaxResults(1)
@@ -380,8 +386,12 @@ public class WikiNodeDAO {
         return null;
     }
 
-    public List<WikiUpload> findWikiUploads(WikiDirectory directory) {
-        return restrictedEntityManager.createQuery("select u from WikiUpload u where u.parent = :dir order by u.createdOn asc")
+    public List<WikiUpload> findWikiUploads(WikiDirectory directory, WikiNode.SortableProperty orderBy, boolean orderAscending) {
+        StringBuilder query = new StringBuilder();
+        query.append("select u from WikiUpload u where u.parent = :dir");
+        query.append(" order by u.").append(orderBy.name()).append(" ").append(orderAscending ? "asc" : "desc");
+
+        return restrictedEntityManager.createQuery(query.toString())
                 .setParameter("dir", directory)
                 .setHint("org.hibernate.comment", "Find uploads of directory")
                 .setHint("org.hibernate.cacheable", true)

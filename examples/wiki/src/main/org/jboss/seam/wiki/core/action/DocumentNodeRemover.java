@@ -35,7 +35,7 @@ public class DocumentNodeRemover extends NodeRemover<WikiDocument> implements Se
             feedDAO.findFeedEntry(doc)
         );
 
-        List<WikiNode> children = getWikiNodeDAO().findChildren(doc, "createdOn", false, 0, Integer.MAX_VALUE);
+        List<WikiNode> children = getWikiNodeDAO().findChildren(doc, WikiNode.SortableProperty.createdOn, false, 0, Integer.MAX_VALUE);
         for (WikiNode child : children) {
             if (child.isInstance(WikiComment.class)) {
                 getLog().debug("deleting dependent comment: " + child);
@@ -49,7 +49,7 @@ public class DocumentNodeRemover extends NodeRemover<WikiDocument> implements Se
     public void removeDependencies(WikiDocument doc) {
         getLog().debug("removing dependencies of: " + doc);
 
-        List<WikiNode> children = getWikiNodeDAO().findChildren(doc, "createdOn", false, 0, Integer.MAX_VALUE);
+        List<WikiNode> children = getWikiNodeDAO().findChildren(doc, WikiNode.SortableProperty.createdOn, false, 0, Integer.MAX_VALUE);
         for (WikiNode child : children) {
             if (child.isInstance(WikiComment.class)) {
                 getLog().debug("deleting dependent comment: " + child);

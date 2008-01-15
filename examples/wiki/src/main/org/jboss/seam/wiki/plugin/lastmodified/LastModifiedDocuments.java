@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiNode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -37,7 +38,11 @@ public class LastModifiedDocuments implements Serializable {
     @Observer(value = "Macro.render.lastModifiedDocuments", create = false)
     public void loadDocuments() {
         listOfDocuments =
-                wikiNodeDAO.findWikiDocumentsOrderByLastModified(Long.valueOf(prefs.getNumberOfItems()).intValue());
+            wikiNodeDAO.findWikiDocuments(
+                Long.valueOf(prefs.getNumberOfItems()).intValue(),
+                WikiNode.SortableProperty.lastModifiedOn,
+                false
+            );
     }
 
 }

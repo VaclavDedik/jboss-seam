@@ -8,10 +8,7 @@ package org.jboss.seam.wiki.test.dao;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiFile;
-import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
@@ -83,7 +80,7 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
 
             protected void invokeApplication() throws Exception {
                 WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
-                List<WikiDocument> result = dao.findWikiDocumentsOrderByLastModified(2);
+                List<WikiDocument> result = dao.findWikiDocuments(2, WikiNode.SortableProperty.lastModifiedOn, false);
                 assert result.size() == 2;
                 assert result.get(0).getId().equals(6l);
                 assert result.get(1).getId().equals(7l);
@@ -259,8 +256,8 @@ public class WikiNodeDAOTests extends DBUnitSeamTest {
                 WikiDocument d = dao.findWikiDocument(6l);
                 assert d.getName().equals("One");
 
-                assert dao.findSiblingWikiDocumentInDirectory(d, "createdOn", true) == null;
-                assert dao.findSiblingWikiDocumentInDirectory(d, "createdOn", false).getId().equals(7l);
+                assert dao.findSiblingWikiDocumentInDirectory(d, WikiNode.SortableProperty.createdOn, true) == null;
+                assert dao.findSiblingWikiDocumentInDirectory(d, WikiNode.SortableProperty.createdOn, false).getId().equals(7l);
             }
         }.run();
     }

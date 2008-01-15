@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiNode;
 
 import java.io.Serializable;
 
@@ -45,9 +46,11 @@ public class DocPager implements Serializable {
     public void loadSibling() {
 
         // By default, previous/next documents are searched by creation date
-        String byProperty = "createdOn";
+        WikiNode.SortableProperty byProperty = WikiNode.SortableProperty.createdOn;
         if (prefs.getByProperty() != null) {
-            byProperty = prefs.getByProperty();
+            try {
+                byProperty = WikiNode.SortableProperty.valueOf(prefs.getByProperty());
+            } catch (IllegalArgumentException ex) {}
         }
 
         previous = wikiNodeDAO.findSiblingWikiDocumentInDirectory(currentDocument, byProperty, true);

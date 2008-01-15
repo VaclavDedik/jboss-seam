@@ -7,6 +7,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.model.WikiNode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -35,6 +36,6 @@ public class TagQuery implements Serializable {
     }
 
     public void loadTaggedFiles() {
-        taggedFiles = tagDAO.findWikFiles(wikiRoot, null, tag);
+        taggedFiles = tagDAO.findWikFiles(wikiRoot, null, tag, WikiNode.SortableProperty.createdOn, false);
     }
 }

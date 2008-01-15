@@ -28,7 +28,7 @@ public class WriteProtectedAreaTemplate implements PreferenceValueTemplate, Seri
     public List<String> getTemplateValues() {
         if (areaNames == null) {
              areaNames = new ArrayList<String>();
-            List<WikiNode> areas = wikiNodeDAO.findChildren(wikiRoot, "name", false, 0, Integer.MAX_VALUE);
+            List<WikiNode> areas = wikiNodeDAO.findChildren(wikiRoot, WikiNode.SortableProperty.name, false, 0, Integer.MAX_VALUE);
             for (WikiNode area : areas) {
                 if (area.isWriteProtected()) {
                     areaNames.add(area.getName());
