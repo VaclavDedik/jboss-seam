@@ -13,10 +13,10 @@
 
     <!-- ############### Wiki logging #################  -->
     <category name="org.jboss.seam.wiki">
-        <priority value="DEBUG"/>
+        <priority value="WARN"/>
     </category>
     <category name="org.jboss.seam.wiki.test">
-        <priority value="info"/>
+        <priority value="WARN"/>
     </category>
 
     <category name="net.sf.jmimemagic.MagicParser">
