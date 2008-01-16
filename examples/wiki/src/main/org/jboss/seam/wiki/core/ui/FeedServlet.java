@@ -79,7 +79,17 @@ public class FeedServlet extends HttpServlet {
         String feedIdParam = request.getParameter("feedId");
         String areaNameParam = request.getParameter("areaName");
         String nodeNameParam = request.getParameter("nodeName");
-        log.debug("feed request id: '" + feedIdParam + "' area name: '" + areaNameParam + "' node name: '" + nodeNameParam + "'");
+        log.debug(">>> feed request id: '" + feedIdParam + "' area name: '" + areaNameParam + "' node name: '" + nodeNameParam + "'");
+        log.debug("full request URL: " + request.getRequestURL().toString());
+        if (log.isDebugEnabled()) {
+            Map<String,String[]> params = (Map<String,String[]>)request.getParameterMap();
+            for (Map.Entry<String, String[]> entry : params.entrySet()) {
+                log.debug("request param: " + entry.getKey());
+                for (String s : entry.getValue()) {
+                    log.debug("value: '" +s + "'");
+                }
+            }
+        }
 
         // Feed type
         String pathInfo = request.getPathInfo();
@@ -164,7 +174,7 @@ public class FeedServlet extends HttpServlet {
                 return;
             }
 
-            log.debug("checking permissions of feed: " + feed);
+            log.debug("checking permissions of " + feed);
             // Authenticate and authorize, first with current user (session) then with basic HTTP authentication
             Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
             if (feed.getReadAccessLevel() > currentAccessLevel) {
@@ -188,6 +198,8 @@ public class FeedServlet extends HttpServlet {
             SyndFeedOutput output = new SyndFeedOutput();
             output.output(syndFeed, response.getWriter());
             response.getWriter().flush();
+
+            log.debug("<<< commit, rendering complete");
 
             if (startedTx) userTx.commit();
         } catch (Exception ex) {

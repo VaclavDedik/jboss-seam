@@ -115,12 +115,13 @@
             <value>messages_forum</value>
             <value>messages_flash</value>
             <value>messages_docPager</value>
+            <value>messages_faqBrowser</value>
         </core:bundle-names>
     </core:resource-loader>
 
     <!-- Misc Settings -->
 
-    <web:context-filter url-pattern="/service/*"/>
+    <web:context-filter regex-url-pattern="/(service|servlets)/.+"/>
 
     <component name="wikiUrlRewriteFilter" class="org.jboss.seam.wiki.core.ui.WikiUrlRewriteFilter" precedence="30">
         <property name="initParameters">
@@ -144,6 +145,10 @@
                      }:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}"/>
 
     <factory name="themePath" scope="CONVERSATION" value="#{basePath}/themes/#{preferences.get('Wiki').themeName}"/>
+
+    <factory name="themePathGetRequest" scope="CONVERSATION"
+             value="#{servletContexts.request.scheme}://#{servletContexts.request.serverName
+                     }:#{servletContexts.request.serverPort}#{servletContexts.request.contextPath}/themes/#{preferences.get('Wiki').themeName}"/>
 
     <factory name="skin" scope="SESSION" value="d"/>
 
