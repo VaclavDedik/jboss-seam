@@ -38,18 +38,22 @@ public class FaqBrowser {
     @In
     WikiDirectory currentDirectory;
 
-    NestedSetNodeWrapper<WikiDirectory> root;
+    NestedSetNodeWrapper<WikiDirectory> tree;
 
-    public NestedSetNodeWrapper<WikiDirectory> getRoot() {
-        if (root == null) loadRoot();
-        return root;
+    public NestedSetNodeWrapper<WikiDirectory> getTree() {
+        if (tree == null) loadTree();
+        return tree;
     }
 
-    public void loadRoot() {
+    public void loadTree() {
         log.debug("loading faq root, starting search for parent default file with macro in directory: " + currentDirectory);
         WikiDirectory faqRoot = faqBrowserDAO.findFaqRootDir(currentDirectory);
         if (faqRoot != null) {
-            root = wikiNodeDAO.findWikiDirectoryTree(faqRoot, 99l, 1l, false);
+            log.debug("found faq root: " + faqRoot);
+            tree = wikiNodeDAO.findWikiDirectoryTree(faqRoot, 99l, 1l, false);
+        } else {
+            log.debug("couldn't find faq tree root by searching the directory tree upwards, assuming that the current dir is the root");
+            tree = wikiNodeDAO.findWikiDirectoryTree(currentDirectory, 99l, 1l, false);
         }
     }
 
@@ -94,8 +98,8 @@ public class FaqBrowser {
 
     @RequestParameter("category")
     public void selectCategory(String requestParam) {
-        if (requestParam != null && requestParam.length() > 0 && getRoot() != null) {
-            WikiDirectory category = wikiNodeDAO.findWikiDirectoryInArea(getRoot().getWrappedNode().getAreaNumber(), requestParam);
+        if (requestParam != null && requestParam.length() > 0) {
+            WikiDirectory category = wikiNodeDAO.findWikiDirectoryInArea(getTree().getWrappedNode().getAreaNumber(), requestParam);
             if (category != null) {
                 selectedDir = new NestedSetNodeWrapper<WikiDirectory>(category);
                 showQuestions();

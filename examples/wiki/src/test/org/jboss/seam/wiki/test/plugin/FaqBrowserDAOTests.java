@@ -32,12 +32,17 @@ public class FaqBrowserDAOTests extends DBUnitSeamTest {
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
-                WikiDirectory faqSubDir = nodeDAO.findWikiDirectory(302l); // Start in a subdirectory of the FAQ root
 
                 FaqBrowserDAO dao = (FaqBrowserDAO)getInstance(FaqBrowserDAO.class);
 
+                // Start in a subdirectory of the FAQ root
+                WikiDirectory faqSubDir = nodeDAO.findWikiDirectory(302l);
                 WikiDirectory root = dao.findFaqRootDir(faqSubDir);
+                assert root.getId().equals(300l);
 
+                // Start in the root directory (should be the same)
+                WikiDirectory faqDir = nodeDAO.findWikiDirectory(300l);
+                root = dao.findFaqRootDir(faqDir);
                 assert root.getId().equals(300l);
 
             }
