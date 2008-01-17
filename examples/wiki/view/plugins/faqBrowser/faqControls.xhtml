@@ -23,6 +23,7 @@
 
             <s:span>
                 <h:selectOneMenu value="#{faqBrowser.selectedDir}"
+                                 rendered="#{not empty faqBrowser.tree}"
                                  converter="#{nestedSetNodeWrapperRestrictedEntityConverter}"
                                  styleClass="ajaxSupport" tabindex="1">
                     <s:selectItems value="#{faqBrowser.tree.wrappedChildren}"
@@ -32,19 +33,20 @@
                                action="#{faqBrowser.showQuestions}"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"/>
                 </h:selectOneMenu>
+                <h:outputText value="#{messages['faqBrowser.msg.TreeNotFound']}" rendered="#{empty faqBrowser.tree}"/>
             </s:span>
 
             <s:span id="faqQuestionsControl">
                 <a:commandLink action="#{faqBrowser.showQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
                                status="faqsSelectorFormStatus"
-                               rendered="#{not faqBrowser.directorySelected}">
+                               rendered="#{not faqBrowser.directorySelected and not empty faqBrowser.tree}">
                     <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/down.gif" width="18" height="18"/>
                 </a:commandLink>
                 <a:commandLink action="#{faqBrowser.hideQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
                                status="faqsSelectorFormStatus"
-                               rendered="#{faqBrowser.directorySelected}">
+                               rendered="#{faqBrowser.directorySelected and not empty faqBrowser.tree}">
                     <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/up.gif" width="18" height="18"/>
                 </a:commandLink>
             </s:span>

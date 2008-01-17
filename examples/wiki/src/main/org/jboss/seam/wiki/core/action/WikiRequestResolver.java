@@ -8,7 +8,10 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.web.Parameters;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
@@ -16,6 +19,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.search.WikiSearch;
 
 import javax.faces.application.FacesMessage;
+import java.util.Map;
 
 /**
  * Returns <tt>docDisplay</tt>, <tt>dirDisplay</tt>, or <tt>search</tt> for the resolved <tt>nodeId</tt>.
@@ -97,6 +101,9 @@ public class WikiRequestResolver {
 
     public String resolve() {
         log.debug("resolving wiki request, node id: " + getNodeId() + " area name: " + getAreaName() + " node name: " + getNodeName());
+
+        // Push optional request parameters into contexts
+        resolveRequestParameters();
 
         // Queue a message if requested (for message passing across session invalidations and conversations)
         if (message != null) {
@@ -196,6 +203,46 @@ public class WikiRequestResolver {
             directoryHome.afterNodeFound(currentDirectory);
             log.debug("displaying directory: " + currentDirectory);
             return "dirDisplay";
+        }
+    }
+
+    // These are pushed into the EVENT context, if present in the request (used by plugins etc.)
+    public static enum OptionalParameter {
+
+        category("requestedCategory", String.class),
+        year("requestedYear", Long.class),
+        month("requestedMonth", Long.class),
+        day("requestedDay", Long.class),
+        page("requestedPage", Long.class);
+
+        String variableName;
+        Class variableType;
+        public String getVariableName() {
+            return variableName;
+        }
+        public Class getVariableType() {
+            return variableType;
+        }
+        OptionalParameter(String variableName, Class variableType) {
+            this.variableName = variableName;
+            this.variableType = variableType;
+        }
+    }
+
+    private void resolveRequestParameters() {
+        log.debug("resolving (optional) request paramters");
+
+        OptionalParameter[] optionalParams = OptionalParameter.values();
+        for (OptionalParameter optionalParam : optionalParams) {
+            Object value =
+                Parameters.instance().convertMultiValueRequestParameter(
+                    Parameters.instance().getRequestParameters(), optionalParam.name(), optionalParam.getVariableType()
+                );
+            if (value != null) {
+                log.debug("found request parameter '" + optionalParam.name() + "', setting '"
+                           + optionalParam.getVariableName()+"' in EVENT context: " + value);
+                Contexts.getEventContext().set(optionalParam.variableName, value);
+            }
         }
     }
 

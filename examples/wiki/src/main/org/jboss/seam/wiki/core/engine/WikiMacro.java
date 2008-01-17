@@ -21,6 +21,9 @@ public class WikiMacro implements Serializable {
     protected boolean appliesToFooter = false;
 
     protected boolean displayedInPreview = true;
+
+    createMethodBuildTime
+    createMethodRenderTime
     */
 
     private Integer position;
