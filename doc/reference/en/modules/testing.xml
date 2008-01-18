@@ -21,108 +21,70 @@
             environment.
 		</para>
 		<para>
-		    Consider the following Seam component:
+		    Consider the following Seam Component which creates a statement of
+            account for a customer:
 		</para>
 		
         <programlisting><![CDATA[@Stateless
 @Scope(EVENT)
-@Name("register")
-public class RegisterAction implements Register
-{
-   private User user;
-   private EntityManager em;
-
+@Name("statementOfAccount")
+public class StatementOfAccount {
+   
+   @In(create=true) EntityManager entityManager
+   
+   private double statementTotal;
+   
    @In
-   public void setUser(User user) {
-       this.user = user;
-   }
+   private Customer customer;
    
-   @PersistenceContext
-   public void setBookingDatabase(EntityManager em) {
-       this.em = em;
-   }
-   
-   public String register()
-   {
-      List existing = em.createQuery("select username from User where username=:username")
-         .setParameter("username", user.getUsername())
+   @Create
+   public void create() {
+      List<Invoice> invoices = entityManager
+         .createQuery("select invoice from Invoice invoice where invoice.customer = :customer")
+         .setParameter("customer", customer)
          .getResultList();
-      if (existing.size()==0)
-      {
-         em.persist(user);
-         return "success";
-      }
-      else
-      {
-         return null;
-      }
+      statementTotal = calculateTotal(invoices);
    }
-
+   
+   public double calculateTotal(List<Invoice> invoices) {
+      double total = 0.0;
+      for (Invoice invoice: invoices)
+      {
+         double += invoice.getTotal();
+      }
+      return total;
+   }
+   
+   // getter and setter for statementTotal
+   
 }]]></programlisting>
 
         <para>
-            We could write a TestNG test for this component as follows:
+            We could write a unit test for the calculateTotal method (which tests
+            the business logic of the component) as follows:
         </para>
 
-        <programlisting><![CDATA[public class RegisterActionTest
-{
-
+        <programlisting><![CDATA[public class StatementOfAccountTest {
+    
     @Test
-    public testRegisterAction()
-    {
-        EntityManager em = getEntityManagerFactory().createEntityManager();
-        em.getTransaction().begin();
-        
-        User gavin = new User();
-        gavin.setName("Gavin King");
-        gavin.setUserName("1ovthafew");
-        gavin.setPassword("secret");
-        
-        RegisterAction action = new RegisterAction();
-        action.setUser(gavin);
-        action.setBookingDatabase(em);
-        
-        assert "success".equals( action.register() );
-        
-        em.getTransaction().commit();
-        em.close();
-    }
-    
-    
-    private EntityManagerFactory emf;
-    
-    public EntityManagerFactory getEntityManagerFactory()
-    {
-        return emf;
-    }
-    
-    @BeforeClass
-    public void init() 
-    {
-        emf = Persistence.createEntityManagerFactory("myResourceLocalEntityManager");
-    }
-    
-    @AfterClass
-    public void destroy()
-    {
-        emf.close();
-    }
-    
+    public testCalculateTotal {
+       List<Invoice> invoices = generateTestInvoices(); // A test data generator
+       double statementTotal = new StatementOfAccount().calculateTotal(invoices);
+       assert statementTotal = 123.45;
+    }   
 }
 ]]></programlisting>
 
         <para>
-            The Java Persistence API can be used with both Java SE and Java EE &#8212; 
-            when the above component is used inside an Application Server (Java 
-            EE) the container is responsible for transaction management, however 
-            in the unit test (Java SE) the transaction must be managed 
-            explicitly using a resource local entity manager. This requires
-            configuration in <literal>persistence.xml</literal>.
+            You'll notice we aren't testing retrieving data from or persisting
+            data to the database; nor are we testing any functionality 
+            provided by Seam. We are just testing the logic of our POJOs. Seam
+            components don't usually depend directly upon container infrastructure,
+            so most unit testing as as easy as that!
        </para>
        <para>    
-            Seam components don't usually depend directly upon container infrastructure,
-            so most unit testing as as easy as that!
-        </para>
+            However, if you want to test the entire application, read on.
+       </para>
         
     </section>
     
