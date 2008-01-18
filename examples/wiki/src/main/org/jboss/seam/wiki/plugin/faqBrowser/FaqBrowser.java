@@ -8,7 +8,6 @@ package org.jboss.seam.wiki.plugin.faqBrowser;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
@@ -17,6 +16,7 @@ import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
 
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Christian Bauer
@@ -24,7 +24,7 @@ import java.util.List;
 @Name("faqBrowser")
 @Scope(ScopeType.PAGE)
 @AutoCreate
-public class FaqBrowser {
+public class FaqBrowser implements Serializable {
 
     @Logger
     Log log;
