@@ -18,6 +18,7 @@
 	<property name="classes.ioc.dir" value="${classes.dir}/iocclasses" />
 	<property name="classes.mail.dir" value="${classes.dir}/mailclasses" />
 	<property name="classes.debug.dir" value="${classes.dir}/debugclasses" />
+	<property name="classes.jbas5.dir" value="${classes.dir}/jbas5classes" />
 	<property name="classes.remoting.dir" value="${classes.dir}/remotingclasses" />
 	<property name="classes.gen.dir" value="${classes.dir}/genclasses" />
 	<property name="classes.test.dir" value="${classes.dir}/testclasses" />
@@ -32,6 +33,7 @@
 	<property name="src.ioc.dir" value="src/ioc" />
 	<property name="src.mail.dir" value="src/mail" />
 	<property name="src.debug.dir" value="src/debug" />
+	<property name="src.jbas5.dir" value="src/jbas5" />
 	<property name="src.gen.dir" value="src/gen" />
 	<property name="src.remoting.dir" value="src/remoting" />
 	<property name="src.test.dir" value="src/test" />
@@ -62,6 +64,7 @@
 	<property name="dist.src.ioc.dir" value="${dist.dir}/src/ioc" />
 	<property name="dist.src.mail.dir" value="${dist.dir}/src/mail" />
 	<property name="dist.src.debug.dir" value="${dist.dir}/src/debug" />
+	<property name="dist.src.jbas5.dir" value="${dist.dir}/src/jbas5" />
 	<property name="dist.src.gen.dir" value="${dist.dir}/src/gen" />
 	<property name="dist.src.remoting.dir" value="${dist.dir}/src/remoting" />
 	<property name="dist.src.test.dir" value="${dist.dir}/src/test" />
@@ -150,7 +153,7 @@
 		<delete dir="${lib.dir}" quiet="${quietclean}" />
 	</target>
 
-	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui" description="Build all four distribution .jar files" />
+	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarjbas5" description="Build all distribution .jar files" />
 
 	<target name="select-compiler">
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
@@ -239,7 +242,20 @@
 	<target name="jardebug" depends="compiledebug" description="Build the distribution .jar file for the Debug package">
 		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" pom="${debug.pom}"  srcdir="${src.debug.dir}"/>
 	</target>
+	
+	<!-- ########################### JBAS5 TARGETS ###########################-->
 
+	<target name="initjbas5" depends="init, jarcore">
+		<init classesdir="${classes.jbas5.dir}" srcdir="${src.jbas5.dir}" modulename="jbas5" pom="${jbas5.pom}" />
+	</target>
+
+	<target name="compilejbas5" depends="initjbas5, select-compiler">
+		<compile classesdir="${classes.jbas5.dir}" srcdir="${src.jbas5.dir}" classpath="compile.jbas5.path" />
+	</target>
+
+	<target name="jarjbas5" depends="compilejbas5" description="Build the distribution .jar file for the JBAS5 integration package">
+		<archive classesdir="${classes.jbas5.dir}" module="jboss-seam-jbas5" pom="${jbas5.pom}"  srcdir="${src.jbas5.dir}"/>
+	</target>
 
 	<!-- ########################### GEN TARGETS ###########################-->
 
