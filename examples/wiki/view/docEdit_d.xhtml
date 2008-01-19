@@ -369,7 +369,15 @@
                     });</script>
                 </s:fragment>
                 <s:div id="documentDisplay" styleClass="documentDisplay">
-                    <s:div rendered="#{documentHome.instance.nameAsTitle}"><h1 class="documentTitle">#{documentHome.instance.name}</h1></s:div>
+
+                    <s:div rendered="#{documentHome.instance.nameAsTitle}">
+                        <h1 class="documentTitle">
+                            <h:outputLink value="#{wiki:renderURL(currentDocument)}">
+                                <h:outputText value="#{documentHome.instance.name}"/>
+                            </h:outputLink>
+                        </h1>
+                    </s:div>
+
                     <wiki:formattedText value="#{documentHome.instance.content}"
                                         linkStyleClass="regularLink"
                                         brokenLinkStyleClass="brokenLink"
