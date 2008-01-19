@@ -820,8 +820,8 @@
         <include name="login.xhtml"/>
         <include name="login.page.xml"/>
         <include name="index.html"/>
-        <include name="usermanager.xhtml"/>
-        <include name="userdetail.xhtml"/>
+        <!--include name="usermanager.xhtml"/>
+        <include name="userdetail.xhtml"/-->
         <include name="layout/*"/>
         <include name="stylesheet/*"/>
         <exclude name="**/*.ftl"/>
@@ -858,12 +858,12 @@
     <mkdir dir="${project.home}/src/action"/>
     <mkdir dir="${project.home}/src/test"/>
       
-    <copy todir="${project.home}/src/${model.dir}">
+    <!--copy todir="${project.home}/src/${model.dir}">
       <fileset dir="${base.dir}/src/">
         <include name="UserAccount.java"/>
       </fileset>
       <filterset refid="filters"/>
-    </copy>
+    </copy-->
   
     <copy todir="${project.home}/src/test" file="${base.dir}/test/readme.txt" />
 
