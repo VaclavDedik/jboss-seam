@@ -51,6 +51,11 @@ public class FaqBrowser implements Serializable {
         if (faqRoot != null) {
             log.debug("found faq root: " + faqRoot);
             tree = wikiNodeDAO.findWikiDirectoryTree(faqRoot, 99l, 1l, false);
+        } else {
+            log.warn("did not find faq root, started search in: " + currentDirectory);
+        }
+        if (tree == null) {
+            log.warn("faq directory tree has not been loaded");
         }
     }
 
@@ -75,15 +80,18 @@ public class FaqBrowser implements Serializable {
     }
 
     public NestedSetNodeWrapper<WikiDirectory> getTree() {
+        log.debug("getting faq tree");
         if (tree == null) loadTree();
         return tree;
     }
 
     public NestedSetNodeWrapper<WikiDirectory> getSelectedDir() {
+        log.debug("getting selected directory : " + selectedDir);
         return selectedDir;
     }
 
     public void setSelectedDir(NestedSetNodeWrapper<WikiDirectory> selectedDir) {
+        log.debug("setting selected directory: " + selectedDir);
         this.selectedDir = selectedDir;
     }
 
@@ -107,6 +115,7 @@ public class FaqBrowser implements Serializable {
     List<WikiDocument> questions;
 
     public List<WikiDocument> getQuestions() {
+        log.debug("retrieving questions: " + questions);
         return questions;
     }
 

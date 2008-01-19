@@ -23,7 +23,7 @@
 
             <s:span>
                 <h:selectOneMenu value="#{faqBrowser.selectedDir}"
-                                 rendered="#{not empty faqBrowser.tree}"
+                                 rendered="#{not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}"
                                  converter="#{nestedSetNodeWrapperRestrictedEntityConverter}"
                                  styleClass="ajaxSupport" tabindex="1">
                     <s:selectItems value="#{faqBrowser.tree.wrappedChildren}"
@@ -34,19 +34,20 @@
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"/>
                 </h:selectOneMenu>
                 <h:outputText value="#{messages['faqBrowser.msg.TreeNotFound']}" rendered="#{empty faqBrowser.tree}"/>
+                <h:outputText value="#{messages['faqBrowser.msg.TreeEmpty']}" rendered="#{faqBrowser.tree.wrappedChildren.size() == 0}"/>
             </s:span>
 
             <s:span id="faqQuestionsControl">
                 <a:commandLink action="#{faqBrowser.showQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
                                status="faqsSelectorFormStatus"
-                               rendered="#{not faqBrowser.directorySelected and not empty faqBrowser.tree}">
+                               rendered="#{not faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
                     <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/down.gif" width="18" height="18"/>
                 </a:commandLink>
                 <a:commandLink action="#{faqBrowser.hideQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
                                status="faqsSelectorFormStatus"
-                               rendered="#{faqBrowser.directorySelected and not empty faqBrowser.tree}">
+                               rendered="#{faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
                     <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/up.gif" width="18" height="18"/>
                 </a:commandLink>
             </s:span>

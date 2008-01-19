@@ -26,22 +26,18 @@ a:visited {
 }
 
 h1 {
-	color:#576c74;
 	font-size:150%;
 }
 
 h2 {
-	color:#576c74;
 	font-size:130%;
 }
 
 h3 {
-    color:#576c74;
 	font-size:115%;
 }
 
 h4 {
-	color:#696969;
 	font-size:100%;
 }
 
@@ -65,12 +61,19 @@ input, textarea, select {
 
 /* ----- Wiki text ---- */
 
+.wikiHeadline1 a, .wikiHeadline2 a, .wikiHeadline3 a, .wikiHeadline4 a {
+    color: #576c74;
+}
+
+.wikiHeadline1 a:hover, .wikiHeadline2 a:hover, .wikiHeadline3 a:hover, .wikiHeadline4 a:hover {
+    color: #000;
+}
+
 .wikiHeadline2 {
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .wikiHeadline3 {
-    color:#576c74;
     border-top: 1px solid #576c74;
     background-color:#b9d5e0;
     padding: 2px;
@@ -399,9 +402,8 @@ b.rtop b.r4, b.rbottom b.r4 {
 /* General
 ----------------------------------------------- */
 
-a:hover .documentTitle {
+.documentTitle a:hover {
     color: #000;
-    text-decoration: underline;
 }
 
 .documentTags {

@@ -11,6 +11,10 @@ import java.util.List;
  */
 public class DefaultWikiTextRenderer implements WikiTextRenderer {
 
+    public static enum Headline {
+        H1, H2, H3, H4;
+    }
+
     public String renderInternalLink(WikiLink internalLink) {
         return !internalLink.isBroken() ?
                 "<a href=\""
@@ -56,19 +60,27 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     }
 
     public String renderHeadline1(String headline) {
-        return "<h1 class=\"wikiHeadline1\" id=\""+getHeadlineId(headline)+"\">" + headline + "</h1>";
+        return "<h1 class=\"wikiHeadline1\" id=\""+getHeadlineId(Headline.H1, headline)+"\">"
+                + getHeadlineLink(Headline.H1, headline)
+               + "</h1>";
     }
 
     public String renderHeadline2(String headline) {
-        return "<h2 class=\"wikiHeadline2\" id=\""+getHeadlineId(headline)+"\">" + headline + "</h2>";
+        return "<h2 class=\"wikiHeadline2\" id=\""+getHeadlineId(Headline.H2, headline)+"\">"
+                + getHeadlineLink(Headline.H2, headline)
+               + "</h2>";
     }
 
     public String renderHeadline3(String headline) {
-        return "<h3 class=\"wikiHeadline3\" id=\""+getHeadlineId(headline)+"\">" + headline + "</h3>";
+        return "<h3 class=\"wikiHeadline3\" id=\""+getHeadlineId(Headline.H3, headline)+"\">"
+                + getHeadlineLink(Headline.H3, headline)
+               + "</h3>";
     }
 
     public String renderHeadline4(String headline) {
-        return "<h4 class=\"wikiHeadline4\" id=\""+getHeadlineId(headline)+"\">" + headline + "</h4>";
+        return "<h4 class=\"wikiHeadline4\" id=\""+getHeadlineId(Headline.H4, headline)+"\">"
+                + getHeadlineLink(Headline.H4, headline)
+               + "</h4>";
     }
 
 
@@ -96,9 +108,11 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
         return "</i>";
     }
 
-    protected String getHeadlineId(String headline) {
-        // HTML id attribute has restrictions on valid values... so the easiest way is to make this a WikiLink
-        return HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline);
-        // We also need to access it correctly, see WikiLink.java
+    protected String getHeadlineId(Headline h, String headline) {
+        return "";
+    }
+
+    protected String getHeadlineLink(Headline h, String headline) {
+        return headline;
     }
 }

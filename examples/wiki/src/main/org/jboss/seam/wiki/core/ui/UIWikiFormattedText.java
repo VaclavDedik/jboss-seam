@@ -235,6 +235,18 @@ public class UIWikiFormattedText extends UIOutput {
                 Contexts.getEventContext().set(contextVariable, contextLinks);
                 */
             }
+
+            protected String getHeadlineId(Headline h, String headline) {
+                // HTML id attribute has restrictions on valid values... so the easiest way is to make this a WikiLink
+                return HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline);
+                // We also need to access it correctly, see WikiLink.java and getHeadLineLink()
+            }
+
+            protected String getHeadlineLink(Headline h, String headline) {
+                return "<a href=\""+WikiUtil.renderURL(baseFile)+"#"+WikiTextRenderer.HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline)+"\">"
+                        + headline
+                       +"</a>";
+            }
         }
 
         parser.setRenderer(new WikiFormattedTextRenderer());

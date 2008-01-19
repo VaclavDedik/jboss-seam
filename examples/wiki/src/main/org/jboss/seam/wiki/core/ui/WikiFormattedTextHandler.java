@@ -58,16 +58,18 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
     * Main apply method called by facelets to create this component.
     */
     public void apply(FaceletContext ctx, UIComponent parent) throws IOException, FacesException, ELException {
-        log.debug(">>> building wiki text components");
+        log.debug(">>> building wiki text components for child of: " + parent.getClientId(ctx.getFacesContext()));
         String id = ctx.generateUniqueId(this.tagId);
         UIComponent cmp = findChildByTagId(parent, id);
         if (cmp == null) {
             cmp = createComponent(ctx);
             cmp.getAttributes().put(MARK, id);
         }
+        log.debug("::: invoking nextHandler for child id: " + cmp.getClientId(ctx.getFacesContext()) );
         this.nextHandler.apply(ctx, cmp);
         parent.getChildren().add(cmp);
         createPlugins(ctx, cmp);
+        log.debug("<<< completed building wiki text components for child of: " + parent.getClientId(ctx.getFacesContext()));
     }
 
     private UIComponent createComponent(FaceletContext ctx) {
@@ -132,13 +134,20 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         // Don't forget this, transporting the value to the handled component
         wikiFormattedText.setValue(unparsed);
 
+        log.debug("trying to create plugin children for component");
+
+        if (Contexts.getEventContext().get(UIWikiFormattedText.CURRENT_MACRO_EVENT_VARIABLE) != null) {
+            log.debug("disabling plugin rendering, we are trying to create plugins inside a plugin - not possible!");
+            return;
+        }
+
         if (getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS) == null ||
             !getAttribute(UIWikiFormattedText.ATTR_ENABLE_PLUGINS).getBoolean(ctx)) {
             log.debug("plugin rendering disabled");
             return;
         }
 
-        log.debug("<<< creating plugin components from wiki text macros");
+        log.debug("creating plugin components from wiki text macros");
 
         WikiTextParser parser = new WikiTextParser(unparsed, true, false);
         parser.setRenderer(
@@ -149,7 +158,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
                     URL faceletURL = getPluginURL(macro.getName(), ctx);
                     if (faceletURL == null) return null;
 
-                    log.debug("setting current macro in EVENT context");
+                    log.debug("setting current macro in EVENT context before including facelets file");
                     Contexts.getEventContext().set(UIWikiFormattedText.CURRENT_MACRO_EVENT_VARIABLE, macro);
 
                     includePluginCSS(macro.getName(), parent);
@@ -170,8 +179,8 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
                         wikiFormattedText.addPluginMacro(macro.getPosition(), macro);
                     }
 
-                    log.debug("including plugin CSS and facelet template at URL: " + faceletURL);
-
+                    log.debug("unsetting current macro in EVENT context");
+                    Contexts.getEventContext().remove(UIWikiFormattedText.CURRENT_MACRO_EVENT_VARIABLE);
                     return null;
                 }
             }
@@ -205,6 +214,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         // Cribbed from facelets
         VariableMapper orig = ctx.getVariableMapper();
         try {
+            log.debug("including plugin facelets file from URL: " + faceletURL);
             ctx.setVariableMapper(new VariableMapperWrapper(orig));
             ctx.includeFacelet(parent, faceletURL);
         } catch (IOException e) {
@@ -223,6 +233,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
         WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
         String css = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css";
         if (ResourceLoader.instance().getResource(css) != null) {
+            log.debug("including plugin CSS file from resource: " + css);
             // TODO: For Pete to fix, UILoadStyle doesn't load the CSS anymore
             UILoadStyle style = UILoadStyle.newInstance();
             style.setSrc(css);

@@ -118,6 +118,12 @@ ul {
     list-style: square;
 }
 
+/* ----- Wiki text ---- */
+
+.wikiHeadline1 a, .wikiHeadline2 a, .wikiHeadline3 a, .wikiHeadline4 a {
+    color: black;
+}
+
 /* ---- Fonts ----- */
 
 .smallFont {
@@ -348,11 +354,11 @@ ul {
     margin-top: 10px;
 }
 
-.documentTitle {
+.documentTitle a {
     color: #000;
 }
 
-.documentTitle:hover {
+.documentTitle a:hover {
     text-decoration: underline;
 }
 

@@ -8,22 +8,21 @@
       <customJdkName value="" />
       <maximumHeapSize value="128" />
       <properties>
-        <property name="profile" value="prod" />
+        <property name="profile" value="dev" />
       </properties>
       <executeOn event="afterCompilation" target="deploy" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="DocumentHistoryTests.updateDocumentCheckRevisions" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationName="" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="LoginTest" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationName="Unnamed" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationName="AllTests" />
       <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="Adhoc" />
-      <executeOn event="beforeRun" target="configuretests" runConfigurationName="" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="AllTests" />
+      <executeOn event="beforeRun" target="configuretests" runConfigurationType="TestNG" runConfigurationName="DocumentHistoryTests.updateDocumentCheckRevisions" />
     </buildFile>
   </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
   </component>
-  <component name="ClearCase" />
   <component name="CodeStyleProjectProfileManger">
     <option name="PROJECT_PROFILE" />
     <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
@@ -80,12 +79,15 @@
       <option name="DEFAULT_SCHEMA_NAME" />
       <option name="TABLE_PATTERN" value="" />
       <option name="NAME" value="Datasource" />
+      <option name="PROJECT" value="Wiki" />
       <TABLE_DATA>
         <option name="NAME" value="COMMENTS" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="COMMENT_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -95,6 +97,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="OBJ_VERSION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -104,6 +107,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="SUBJECT" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -113,6 +117,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FROM_USER_NAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -122,6 +127,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FROM_USER_EMAIL" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -131,6 +137,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FROM_USER_HOMEPAGE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -140,6 +147,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="COMMENT_TEXT" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -149,6 +157,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CREATED_ON" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="93" />
           <option name="TYPE" value="java.sql.Timestamp" />
           <option name="PRIMARY" value="false" />
@@ -158,6 +167,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FROM_USER_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -167,6 +177,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="DOCUMENT_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -199,8 +210,10 @@
         <option name="NAME" value="NODE" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_TYPE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -210,6 +223,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -219,6 +233,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_REVISION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -228,6 +243,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="OBJ_VERSION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -237,6 +253,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -246,6 +263,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="WIKINAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -255,6 +273,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="MENU_ITEM" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="16" />
           <option name="TYPE" value="java.lang.Boolean" />
           <option name="PRIMARY" value="false" />
@@ -264,6 +283,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="AREA_NR" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -273,6 +293,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CREATED_ON" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="93" />
           <option name="TYPE" value="java.sql.Timestamp" />
           <option name="PRIMARY" value="false" />
@@ -282,6 +303,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="LAST_MODIFIED_ON" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="93" />
           <option name="TYPE" value="java.sql.Timestamp" />
           <option name="PRIMARY" value="false" />
@@ -291,6 +313,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="WRITE_ACCESS_LEVEL" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -300,6 +323,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="READ_ACCESS_LEVEL" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -309,6 +333,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CONTENT" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -318,6 +343,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NAME_AS_TITLE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="16" />
           <option name="TYPE" value="java.lang.Boolean" />
           <option name="PRIMARY" value="false" />
@@ -327,6 +353,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="PARENT_NODE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -336,6 +363,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="DEFAULT_DOCUMENT_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -345,6 +373,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="LAST_MODIFIED_BY_USER_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -354,6 +383,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CREATED_BY_USER_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -363,6 +393,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_POSITION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -415,8 +446,10 @@
         <option name="NAME" value="NODE_FILE" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="FILENAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -426,6 +459,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FILESIZE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -435,6 +469,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FILEDATA" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-4" />
           <option name="TYPE" value="byte[]" />
           <option name="PRIMARY" value="false" />
@@ -444,6 +479,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CONTENT_TYPE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -453,6 +489,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="IMAGE_SIZE_X" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -462,6 +499,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="IMAGE_SIZE_Y" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -471,6 +509,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="IMAGE_THUMBNAIL" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="1" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -480,6 +519,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FILE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -502,8 +542,10 @@
         <option name="NAME" value="NODE_HISTORY" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_HISTORY_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -513,6 +555,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_TYPE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -522,6 +565,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -531,6 +575,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_REVISION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -540,6 +585,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -549,6 +595,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="WIKINAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -558,6 +605,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="LAST_MODIFIED_ON" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="93" />
           <option name="TYPE" value="java.sql.Timestamp" />
           <option name="PRIMARY" value="false" />
@@ -567,6 +615,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="LAST_MODIFIED_BY_USERNAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -576,6 +625,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CONTENT" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -585,6 +635,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FILENAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -594,6 +645,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FILESIZE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -603,6 +655,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FILEDATA" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-3" />
           <option name="TYPE" value="byte[]" />
           <option name="PRIMARY" value="false" />
@@ -612,6 +665,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CONTENT_TYPE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -621,6 +675,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="IMAGE_SIZE_X" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -630,6 +685,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="IMAGE_SIZE_Y" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -639,6 +695,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="IMAGE_THUMBNAIL" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="1" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -651,8 +708,10 @@
         <option name="NAME" value="PREFERENCE" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="PREF_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -662,6 +721,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="OBJ_VERSION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -671,6 +731,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="COMPONENT_NAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -680,6 +741,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="PROPERTY_NAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -689,6 +751,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="LONG_VALUE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -698,6 +761,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="DOUBLE_VALUE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="8" />
           <option name="TYPE" value="java.lang.Double" />
           <option name="PRIMARY" value="false" />
@@ -707,6 +771,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="TIMESTAMP_VALUE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="93" />
           <option name="TYPE" value="java.sql.Timestamp" />
           <option name="PRIMARY" value="false" />
@@ -716,6 +781,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="BOOLEAN_VALUE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="16" />
           <option name="TYPE" value="java.lang.Boolean" />
           <option name="PRIMARY" value="false" />
@@ -725,6 +791,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="STRING_VALUE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -737,8 +804,10 @@
         <option name="NAME" value="PREFERENCE_NODE" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="PREF_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -748,6 +817,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NODE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -780,8 +850,10 @@
         <option name="NAME" value="PREFERENCE_USER" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="PREF_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -791,6 +863,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="USER_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -823,8 +896,10 @@
         <option name="NAME" value="ROLE" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="ROLE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -834,6 +909,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="OBJ_VERSION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -843,6 +919,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="NAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -852,6 +929,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="DISPLAY_NAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -861,6 +939,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="ACCESS_LEVEL" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -870,6 +949,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CREATED_ON" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="93" />
           <option name="TYPE" value="java.sql.Timestamp" />
           <option name="PRIMARY" value="false" />
@@ -882,8 +962,10 @@
         <option name="NAME" value="USERS" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="USER_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -893,6 +975,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="OBJ_VERSION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -902,6 +985,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="FIRSTNAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -911,6 +995,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="LASTNAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -920,6 +1005,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="USERNAME" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -929,6 +1015,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="PASSWORDHASH" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -938,6 +1025,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="EMAIL" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -947,6 +1035,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="ACTIVATED" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="16" />
           <option name="TYPE" value="java.lang.Boolean" />
           <option name="PRIMARY" value="false" />
@@ -956,6 +1045,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="ACTIVATION_CODE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -965,6 +1055,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CREATED_ON" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="93" />
           <option name="TYPE" value="java.sql.Timestamp" />
           <option name="PRIMARY" value="false" />
@@ -974,6 +1065,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="MEMBER_HOME_NODE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -996,8 +1088,10 @@
         <option name="NAME" value="USER_IMAGE" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="USER_IMAGE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="true" />
@@ -1007,6 +1101,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="OBJ_VERSION" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="4" />
           <option name="TYPE" value="java.lang.Integer" />
           <option name="PRIMARY" value="false" />
@@ -1016,6 +1111,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="IMAGE_DATA" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-4" />
           <option name="TYPE" value="byte[]" />
           <option name="PRIMARY" value="false" />
@@ -1025,6 +1121,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CONTENT_TYPE" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="12" />
           <option name="TYPE" value="java.lang.String" />
           <option name="PRIMARY" value="false" />
@@ -1034,6 +1131,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="CREATED_ON" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="93" />
           <option name="TYPE" value="java.sql.Timestamp" />
           <option name="PRIMARY" value="false" />
@@ -1043,6 +1141,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="USER_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -1065,8 +1164,10 @@
         <option name="NAME" value="USER_ROLE" />
         <option name="SCHEMA" value="PUBLIC" />
         <option name="CATALOG" />
+        <option name="TYPE" />
         <FIELD_ELEMENT>
           <option name="NAME" value="USER_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -1076,6 +1177,7 @@
         </FIELD_ELEMENT>
         <FIELD_ELEMENT>
           <option name="NAME" value="ROLE_ID" />
+          <option name="SQL_TYPE" />
           <option name="JDBC_TYPE" value="-5" />
           <option name="TYPE" value="java.lang.Long" />
           <option name="PRIMARY" value="false" />
@@ -1107,7 +1209,7 @@
       <libraries>
         <library>
           <attribute name="URI" value="" />
-          <url>jar://$PROJECT_DIR$/../../seam-gen/lib/hsqldb.jar!/</url>
+          <url>jar://$PROJECT_DIR$/../../../jboss-seam/seam-gen/lib/hsqldb.jar!/</url>
         </library>
       </libraries>
     </DataSource>
@@ -1115,7 +1217,9 @@
   <component name="DependenciesAnalyzeManager">
     <option name="myForwardDirection" value="false" />
   </component>
-  <component name="DependencyValidationManager" />
+  <component name="DependencyValidationManager">
+    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
+  </component>
   <component name="EclipseCompilerSettings">
     <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="true" />
@@ -1162,24 +1266,6 @@
       <profile version="1.0" is_locked="false">
         <option name="myName" value="Project Default" />
         <option name="myLocal" value="false" />
-        <used_levels>
-          <error>
-            <option name="myName" value="ERROR" />
-            <option name="myVal" value="400" />
-          </error>
-          <warning>
-            <option name="myName" value="WARNING" />
-            <option name="myVal" value="300" />
-          </warning>
-          <information>
-            <option name="myName" value="INFO" />
-            <option name="myVal" value="200" />
-          </information>
-          <server>
-            <option name="myName" value="SERVER PROBLEM" />
-            <option name="myVal" value="100" />
-          </server>
-        </used_levels>
         <inspection_tool class="FieldCanBeLocal" level="WARNING" enabled="false" />
         <inspection_tool class="UNUSED_SYMBOL" level="WARNING" enabled="true">
           <option name="LOCAL_VARIABLE" value="true" />
@@ -1187,6 +1273,7 @@
           <option name="METHOD" value="true" />
           <option name="CLASS" value="true" />
           <option name="PARAMETER" value="true" />
+          <option name="REPORT_PARAMETER_FOR_PUBLIC_METHODS" value="true" />
           <option name="INJECTION_ANNOS">
             <value>
               <list size="3">
@@ -1200,6 +1287,7 @@
         <inspection_tool class="EjbQlInspection" level="ERROR" enabled="false" />
       </profile>
     </profiles>
+    <list size="0" />
   </component>
   <component name="JavacSettings">
     <option name="DEBUGGING_INFO" value="true" />
@@ -1369,7 +1457,6 @@
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.5.0" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
-  <component name="ProjectRunConfigurationManager" />
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
       <value>
@@ -1384,12 +1471,9 @@
     <option name="GENERATE_IIOP_STUBS" value="false" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
-  <component name="StarteamVcsAdapter" />
-  <component name="SvnBranchConfigurationManager" />
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
   </component>
-  <component name="VssVcs" />
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
     <option name="USER_DEFINED_CONFIGS">
@@ -1418,6 +1502,5 @@
       <SOURCES />
     </library>
   </component>
-  <component name="uidesigner-configuration" />
 </project>
 
