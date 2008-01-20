@@ -10,7 +10,7 @@
             <s:decorate id="${componentProperty.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
 <#if isDate(componentProperty)>
-				<rich:calendar id=${componentProperty.name}"
+				<rich:calendar id="${componentProperty.name}"
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
 </#if>
