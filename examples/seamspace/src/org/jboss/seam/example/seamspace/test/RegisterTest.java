@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 public class RegisterTest extends SeamTest
 {
-   //@Test
+   @Test
    public void testRegister() throws Exception
    {
       String cid = new FacesRequest() 
@@ -29,7 +29,7 @@ public class RegisterTest extends SeamTest
             setValue("#{newMember.firstName}", "Shane");
             setValue("#{newMember.lastName}", "Bryzak");
             setValue("#{newMember.memberName}", "shane123");
-            setValue("#{newMember.username}", "sbryzak");
+            setValue("#{register.username}", "sbryzak");
             setValue("#{register.password}", "secret");
             setValue("#{register.confirm}", "secret");
             setValue("#{register.gender}", "Male");
