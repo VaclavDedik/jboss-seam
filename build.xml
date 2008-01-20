@@ -877,6 +877,7 @@
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
+					<propertyref name="jbas5.pom" />
 					<propertyref name="testng.jvmargs"/>
 				</propertyset>
 			</ant>
@@ -886,6 +887,7 @@
 	<target name="downloadDependenciesSources" description="Download source jars for all dependencies" depends="init">
 		<dependenciesWithSources id="core" scope="compile" pom="${core.pom}" />
 		<dependenciesWithSources id="debug" scope="compile" pom="${debug.pom}" />
+		<dependenciesWithSources id="jbas5" scope="compile" pom="${jbas5.pom}" />
 		<dependenciesWithSources id="gen" scope="compile" pom="${gen.pom}" />
 		<dependenciesWithSources id="ioc" scope="compile" pom="${ioc.pom}" />
 		<dependenciesWithSources id="mail" scope="compile" pom="${mail.pom}" />
@@ -913,6 +915,7 @@
 	        classpathref="seam-gen.path"/>
 		<dependencies id="core" scope="compile" pom="${core.pom}" />
 		<dependencies id="debug" scope="compile" pom="${debug.pom}" />
+		<dependencies id="jbas5" scope="compile" pom="${jbas5.pom}" />
 		<dependencies id="gen" scope="compile" pom="${gen.pom}" />
 		<dependencies id="ioc" scope="compile" pom="${ioc.pom}" />
 		<dependencies id="mail" scope="compile" pom="${mail.pom}" />
