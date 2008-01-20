@@ -608,6 +608,25 @@ public class Identity implements Serializable
    {
       this.jaasConfigName = jaasConfigName;
    }
+   
+   synchronized void runAs(RunAsOperation operation)
+   {
+      Principal savedPrincipal = getPrincipal();
+      Subject savedSubject = getSubject();
+      
+      try
+      {
+         principal = operation.getPrincipal();
+         subject = operation.getSubject();
+         
+         operation.execute();
+      }
+      finally
+      {
+         principal = savedPrincipal;
+         subject = savedSubject;
+      }
+   }
 
    public void checkEntityPermission(Object entity, EntityAction action)
    {      

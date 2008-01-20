@@ -11,6 +11,8 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.security.auth.Subject;
+
 import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.StatefulSession;
@@ -118,6 +120,8 @@ public class RuleBasedIdentity extends Identity
       
       if (securityContext == null) return false;      
       
+      synchronizeContext();
+      
       List<FactHandle> handles = new ArrayList<FactHandle>();
 
       PermissionCheck check = new PermissionCheck(name, action);
@@ -196,18 +200,12 @@ public class RuleBasedIdentity extends Identity
    @Override
    public boolean addRole(String role)
    {
-      if (super.addRole(role)) 
+      if (super.addRole(role))
       {
-         StatefulSession securityContext = getSecurityContext();
-         
-         if (securityContext != null)
-         {
-            getSecurityContext().insert(new Role(role));
-            getSecurityContext().fireAllRules();
-            return true;
-         }
+         synchronizeContext();
+         return true;
       }
-
+      
       return false;
    }
    
@@ -215,24 +213,56 @@ public class RuleBasedIdentity extends Identity
    @Override
    public void removeRole(String role)
    {
-      StatefulSession securityContext = getSecurityContext();      
-      
-      if (securityContext != null)
+      super.removeRole(role);
+      synchronizeContext();
+   }
+   
+   /**
+    *  Synchronizes the state of the security context with that of the subject
+    */
+   private void synchronizeContext()
+   {
+      for ( Group sg : getSubject().getPrincipals(Group.class) )      
       {
-         Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class)); 
-         while (iter.hasNext()) 
+         if ( ROLES_GROUP.equals( sg.getName() ) )
          {
-            Role r = iter.next();
-            if (r.getName().equals(role))
+            Enumeration e = sg.members();
+            while (e.hasMoreElements())
             {
-               FactHandle fh = getSecurityContext().getFactHandle(r);
-               getSecurityContext().retract(fh);
-               break;
+               Principal role = (Principal) e.nextElement();
+
+               boolean found = false;
+               Iterator<Role> iter = getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
+               while (iter.hasNext()) 
+               {
+                  Role r = iter.next();
+                  if (r.getName().equals(role.getName()))
+                  {
+                     FactHandle fh = getSecurityContext().getFactHandle(r);
+                     found = true;
+                     break;
+                  }
+               }
+               
+               if (!found)
+               {
+                  getSecurityContext().insert(new Role(role.getName()));
+               }
+               
             }
          }
+      }    
+      
+      Iterator<Role> iter = getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
+      while (iter.hasNext()) 
+      {
+         Role r = iter.next();
+         if (!super.hasRole(r.getName()))
+         {
+            FactHandle fh = getSecurityContext().getFactHandle(r);
+            getSecurityContext().retract(fh);
+         }
       }
-         
-      super.removeRole(role);
    }
    
    
