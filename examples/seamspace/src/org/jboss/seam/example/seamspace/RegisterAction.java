@@ -1,9 +1,10 @@
 package org.jboss.seam.example.seamspace;
 
+import static org.jboss.seam.ScopeType.CONVERSATION;
+
 import java.util.Date;
 
 import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.Begin;
@@ -14,14 +15,16 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.RunAsOperation;
 import org.jboss.seam.security.management.IdentityManager;
 import org.jboss.seam.security.management.JpaIdentityStore;
 
-@Stateful
+@Scope(CONVERSATION)
 @Name("register")
-public class RegisterAction implements Register
+public class RegisterAction
 {
    @In(required = false) @Out
    private Member newMember;
@@ -95,13 +98,22 @@ public class RegisterAction implements Register
 
    @End
    public void uploadPicture() 
-   {      
-      identityManager.createAccount(username, password);
-      identityManager.grantRole(username, "user");
-      
+   {  
       newMember.setMemberSince(new Date());      
-      entityManager.persist(newMember);
+      entityManager.persist(newMember);      
       
+      new RunAsOperation() {
+         @Override
+         public String[] getRoles() {
+            return new String[] { "admin" };
+         }
+         
+         public void execute() {
+            identityManager.createAccount(username, password);
+            identityManager.grantRole(username, "user");            
+         }         
+      }.run();
+            
       newAccount.setMember(newMember);
       newAccount = entityManager.merge(newAccount);
 
