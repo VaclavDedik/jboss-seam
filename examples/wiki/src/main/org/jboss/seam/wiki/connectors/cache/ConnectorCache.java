@@ -70,6 +70,7 @@ public abstract class ConnectorCache<T, K> {
 
                 // Meanwhile, update the timestamp so that the next caller doesn't also start asynchronous updating
                 // .. we expect to be finished with that before the next caller runs into a cache timeout again!
+                cacheKey.setAccessTimestamp(currentTime);
                 cacheKey.setUpdateTimestamp(currentTime);
 
             } else {
