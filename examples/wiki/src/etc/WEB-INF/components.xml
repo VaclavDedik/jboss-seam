@@ -116,6 +116,8 @@
             <value>messages_flash</value>
             <value>messages_docPager</value>
             <value>messages_faqBrowser</value>
+            <value>messages_jiraIssueList</value>
+            <value>messages_jiraConnector</value>
         </core:bundle-names>
     </core:resource-loader>
 
