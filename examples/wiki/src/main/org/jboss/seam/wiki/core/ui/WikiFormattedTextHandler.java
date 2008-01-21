@@ -156,7 +156,10 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
                     log.debug("found macro: " + macro);
 
                     URL faceletURL = getPluginURL(macro.getName(), ctx);
-                    if (faceletURL == null) return null;
+                    if (faceletURL == null) {
+                        log.debug("macro has no plugin facelets file: " + macro.getName());
+                        return null;
+                    }
 
                     log.debug("setting current macro in EVENT context before including facelets file");
                     Contexts.getEventContext().set(UIWikiFormattedText.CURRENT_MACRO_EVENT_VARIABLE, macro);

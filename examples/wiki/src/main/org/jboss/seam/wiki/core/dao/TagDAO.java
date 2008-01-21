@@ -58,7 +58,7 @@ public class TagDAO {
     public List<WikiFile> findWikFiles(WikiDirectory startDir, WikiFile ignoreFile, final String tag,
                                        WikiNode.SortableProperty orderBy, boolean orderAscending) {
 
-        if (tag == null || tag.length() == 0) return Collections.emptyList();
+        if (tag == null || tag.length() == 0) return Collections.EMPTY_LIST;
 
         StringBuilder queryString = new StringBuilder();
 

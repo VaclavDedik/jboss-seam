@@ -21,6 +21,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.Date;
 import java.util.List;
+import java.util.Iterator;
 
 /**
  * DAO for feeds.
@@ -224,11 +225,25 @@ public class FeedDAO {
     public void purgeOldFeedEntries(Date olderThan) {
         log.debug("cleaning up feed entries older than: " + olderThan);
         // Clean up _all_ feed entries that are older than N days
-        int result = restrictedEntityManager.createQuery("delete from FeedEntry fe where fe.publishedDate < :oldestDate")
-                .setParameter("oldestDate", olderThan).executeUpdate();
-        log.debug("cleaned up " + result + " outdated feed entries");
+        List<Feed> feedsWithOutdatedEntries =
+                restrictedEntityManager
+                    .createQuery("select distinct f from FeedEntry fe, WikiFeed f join f.feedEntries allFe " +
+                                 " where fe = allFe and fe.publishedDate < :oldestDate")
+                    .setParameter("oldestDate", olderThan)
+                    .getResultList();
+        for (Feed feed : feedsWithOutdatedEntries) {
+            log.debug("feed has outdated entries: " + feed);
+            Iterator<FeedEntry> it = feed.getFeedEntries().iterator();
+            while (it.hasNext()) {
+                FeedEntry feedEntry = it.next();
+                if (feedEntry.getPublishedDate().compareTo(olderThan) < 0) {
+                    log.debug("removing outdated feed entry: " + feedEntry);
+                    it.remove(); // Unlink from feed
+                    restrictedEntityManager.remove(feedEntry);
+                }
+            }
+        }
     }
-
 
 
 }
