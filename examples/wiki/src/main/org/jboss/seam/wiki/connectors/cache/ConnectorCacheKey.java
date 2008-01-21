@@ -55,4 +55,8 @@ public class ConnectorCacheKey<K> implements Serializable {
     public int hashCode() {
         return keyValue.hashCode();
     }
+
+    public String toString() {
+        return keyValue.toString();
+    }
 }

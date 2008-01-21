@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * @author Christian Bauer
  */
-public class JiraConnector extends DBUnitSeamTest {
+public class JiraConnectorTest extends DBUnitSeamTest {
 
     protected void prepareDBUnitOperations() {
         beforeTestOperations.add(

@@ -1,0 +1,84 @@
+<wiki:plugin
+       xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:a="https://ajax4jsf.dev.java.net/ajax"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <s:div styleClass="feedAggregator box">
+
+        <s:div styleClass="boxHeader">
+            <h:outputText value="#{preferences.get('FeedAggregator', currentMacro).title}"/>
+        </s:div>
+
+        <div class="boxContent">
+            <h:dataTable value="#{feedAggregator.feedEntries}" var="feDTO"
+                         rendered="#{not empty feedAggregator.feedEntries and feedAggregator.feedEntries.size() > 0}"
+                         styleClass="datatable feedAggregatorTable"
+                         columnClasses="feedEntryColumn"
+                         rowClasses="rowOdd, rowEven"
+                         cellpadding="0" cellspacing="0" border="0">
+
+                <h:column>
+                    <s:div styleClass="feedEntryInfo smallFont">
+
+                        <s:span rendered="#{not preferences.get('FeedAggregator', currentMacro).hideDate}">
+                            <h:outputText value="#{feDTO.feedEntry.publishedDate}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                            <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+                        </s:span>
+
+                        <s:span styleClass="undecoratedLink"
+                                rendered="#{not preferences.get('FeedAggregator', currentMacro).hideAuthor}">
+                            <h:outputText value=",&#160;#{messages['feedAggregator.label.By']}&#160;"/>
+                            <h:outputText styleClass="feedEntryAuthor" value="#{feDTO.feedEntry.author}"/>
+                        </s:span>
+
+                        <s:span styleClass="undecoratedLink"
+                                rendered="#{not preferences.get('FeedAggregator', currentMacro).hideFeedInfo}">
+                            (<h:outputLink value="#{feDTO.feed.link}">
+                                <h:outputText value="#{feDTO.feed.title}"/>
+                            </h:outputLink>)
+                        </s:span>
+
+                    </s:div>
+
+                    <s:div styleClass="feedEntryTitle undecoratedLink"
+                           rendered="#{not preferences.get('FeedAggregator', currentMacro).hideTitle}">
+                        <h:outputLink target="_top" value="#{feDTO.feedEntry.link}">
+                            <h:outputText escape="false" value="#{feDTO.feedEntry.titleStripped}"/>
+                        </h:outputLink>
+                    </s:div>
+
+                    <s:div styleClass="feedEntryBody" rendered="#{not preferences.get('FeedAggregator', currentMacro).hideDescription}">
+                        <h:outputText escape="false"
+                                      value="#{wiki:truncateStringOnWordBoundary(feDTO.feedEntry.descriptionValueStrippedNoNewlines,
+                                                                   preferences.get('FeedAggregator', currentMacro).truncateDescription)}"/>
+
+                        <h:outputLink target="_top" styleClass="feedEntryBodyMoreLink"
+                                      value="#{feDTO.feedEntry.link}"
+                                      rendered="#{wiki:length(feDTO.feedEntry.descriptionValueStrippedNoNewlines)
+                                                  > preferences.get('FeedAggregator', currentMacro).truncateDescription}">
+                            &#160;#{messages['feedAggregator.label.More']}
+                        </h:outputLink>
+                    </s:div>
+
+                </h:column>
+
+            </h:dataTable>
+
+        </div>
+
+        <s:div styleClass="feedAggregatorEmpty"
+               rendered="#{empty feedAggregator.feedEntries or feedAggregator.feedEntries.size() == 0}">
+            <h:outputText value="#{messages['feedAggregator.label.NoEntriesFound']}"/>
+        </s:div>
+
+        <div class="boxFooter"/>
+
+    </s:div>
+
+</wiki:plugin>

@@ -68,12 +68,19 @@
     <PREFERENCE PREF_ID = "190" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraIssueList" PROPERTY_NAME = "title" STRING_VALUE = "JIRA Issues" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "191" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraIssueList" PROPERTY_NAME = "truncateSummary" STRING_VALUE = "[NULL]" LONG_VALUE = "35" BOOLEAN_VALUE = "[NULL]"/>
 
+    <PREFERENCE PREF_ID = "200" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedAggregator" PROPERTY_NAME = "title" STRING_VALUE = "Aggregated Feeds" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "201" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedAggregator" PROPERTY_NAME = "truncateDescription" STRING_VALUE = "[NULL]" LONG_VALUE = "100" BOOLEAN_VALUE = "[NULL]"/>
+
     <!-- CONNECTORS -->
 
     <PREFERENCE PREF_ID = "300" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraConnector" PROPERTY_NAME = "connectionTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "15" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "301" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraConnector" PROPERTY_NAME = "replyTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "10" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "302" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraConnector" PROPERTY_NAME = "issueListCacheUpdateTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "600" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "303" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraConnector" PROPERTY_NAME = "issueListCacheIdleTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "36000" BOOLEAN_VALUE = "[NULL]"/>
+
+    <PREFERENCE PREF_ID = "310" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedConnector" PROPERTY_NAME = "connectionTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "30" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "311" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedConnector" PROPERTY_NAME = "feedCacheUpdateTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "600" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "312" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedConnector" PROPERTY_NAME = "feedCacheIdleTimeoutSeconds" STRING_VALUE = "[NULL]" LONG_VALUE = "36000" BOOLEAN_VALUE = "[NULL]"/>
 
     <ROLES ROLE_ID = "1" OBJ_VERSION = "0" DISPLAY_NAME = "Administrator" NAME = "admin" ACCESS_LEVEL = "1000" CREATED_ON = "2006-06-27 13:45:00"/>
     <ROLES ROLE_ID = "2" OBJ_VERSION = "0" DISPLAY_NAME = "Guest" NAME = "guest" ACCESS_LEVEL = "0" CREATED_ON = "2006-06-27 13:45:00"/>
@@ -254,9 +261,9 @@
     <WIKI_FILE
         NODE_ID="8" FILE_REVISION="0"/>
     <WIKI_DOCUMENT
-        NODE_ID="8" CONTENT="Testdocument Three"
+        NODE_ID="8" CONTENT="Testdocument Three&#xA;&#xA;&lt;div class=&quot;homepageNews&quot;>&#xA;[&lt;=feedAggregator[truncateDescription=250][numberOfFeedEntries=10][urls=http://rss.slashdot.org/Slashdot/slashdot http://feeds.engadget.com/weblogsinc/engadget]]&#xA;&lt;/div>&#xA;"
         HEADER="[NULL]" FOOTER="[NULL]"
-        HEADER_MACROS="[NULL]" CONTENT_MACROS="[NULL]" FOOTER_MACROS="[NULL]"
+        HEADER_MACROS="[NULL]" CONTENT_MACROS="feedAggregator" FOOTER_MACROS="[NULL]"
         NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
     <WIKI_TAG FILE_ID="8" TAG="Tag One"/>
     <WIKI_TAG FILE_ID="8" TAG="Tag Two"/>
@@ -270,7 +277,7 @@
     <WIKI_FILE
         NODE_ID="9" FILE_REVISION="0"/>
     <WIKI_DOCUMENT
-        NODE_ID="9" CONTENT="Testdocument Four&#xA;&#xA;[&lt;=jiraIssueList[url=http://jira.jboss.com/jira][username=myusername][password=mypassword][filterId=12311591][numberOfIssues=10]]"
+        NODE_ID="9" CONTENT="Testdocument Four&#xA;&#xA;[&lt;=jiraIssueList[url=http://jira.jboss.com/jira][username=myusername][password=mypassword][filterId=12311591][numberOfIssues=10]]&#xA;"
         HEADER="[NULL]" FOOTER="[NULL]"
         HEADER_MACROS="[NULL]" CONTENT_MACROS="jiraIssueList" FOOTER_MACROS="[NULL]"
         NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>

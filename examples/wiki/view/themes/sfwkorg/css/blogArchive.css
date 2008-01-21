@@ -8,7 +8,7 @@
 }
 
 .blogArchiveFooter {
-    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
+    background: #ede8db url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
     padding-top: 5px;
     padding-bottom: 10px;
     padding-left: 15px;

@@ -17,6 +17,9 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
 
+/*
+TODO: This implementation of Comparable is not consistent with equals()!
+ */
 public class PreferenceEntity implements Comparable, Serializable {
 
     Log log = Logging.getLog(PreferenceEntity.class);
@@ -180,6 +183,9 @@ public class PreferenceEntity implements Comparable, Serializable {
         return "PreferenceEntity: " + getClazz().getName() + " properties: " + getProperties().size();
     }
 
+    /*
+    TODO: This implementation of Comparable is not consistent with equals()!
+     */
     public class Property implements Comparable, Serializable {
 
         private Field field;

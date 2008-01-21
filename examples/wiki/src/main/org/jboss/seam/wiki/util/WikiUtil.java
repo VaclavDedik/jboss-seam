@@ -66,6 +66,25 @@ public class WikiUtil {
         return string.substring(0, length-1) + appendString;
     }
 
+    public static String truncateStringOnWordBoundary(String string, int length) {
+        if (string.length() <= length) return string;
+
+        char [] chars = string.toCharArray();
+        StringBuffer buffer = new StringBuffer();
+        String result = "";
+        int lastWhitespace = 0;
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == ' ') lastWhitespace = i;
+            buffer.append(chars[i]);
+
+            if (i >= length) {
+                result = buffer.substring(0, lastWhitespace);
+                break;
+            }
+        }
+        return result;
+    }
+
     public static String concat(String a, String b) {
         return a + b;
     }

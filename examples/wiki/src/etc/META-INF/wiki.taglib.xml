@@ -55,6 +55,12 @@
     </function>
 
     <function>
+        <function-name>truncateStringOnWordBoundary</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String truncateStringOnWordBoundary(java.lang.String,int)</function-signature>
+    </function>
+
+    <function>
         <function-name>concat</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String concat(java.lang.String,java.lang.String)</function-signature>

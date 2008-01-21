@@ -47,7 +47,9 @@
                     </div>
 
                     <div class="teaserTitle undecoratedLink">
-                        <h:outputLink target="_top" value="#{fe.link}">#{fe.title}</h:outputLink>
+                        <h:outputLink target="_top" value="#{fe.link}">
+                            <h:outputText escape="false" value="#{fe.titleStripped}"/>
+                        </h:outputLink>
                     </div>
 
                     <s:fragment rendered="#{fe.teaserMarkerPresent}">
@@ -59,7 +61,7 @@
 
                     <s:fragment rendered="#{not fe.teaserMarkerPresent}">
                         <h:outputText styleClass="teaserBody"
-                                      value="#{wiki:truncateString(fe.descriptionValueStripped, preferences.get('FeedTeasers', currentMacro).truncateDescription, '')}"/>
+                                      value="#{wiki:truncateStringOnWordBoundary(fe.descriptionValueStripped, preferences.get('FeedTeasers', currentMacro).truncateDescription)}"/>
 
                         <h:outputLink target="_top" styleClass="teaserBody"
                                       value="#{fe.link}"

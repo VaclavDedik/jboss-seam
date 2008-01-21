@@ -76,7 +76,7 @@ public class JiraIssueListPreferences implements Serializable {
         visibility = {PreferenceVisibility.SYSTEM, PreferenceVisibility.INSTANCE},
         editorIncludeName = "NumberRange"
     )
-    @Range(min = 10l, max = 5000l)
+    @Range(min = 10l, max = 100l)
     @NotNull
     private Long truncateSummary;
 

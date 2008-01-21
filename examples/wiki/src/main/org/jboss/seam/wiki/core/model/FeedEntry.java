@@ -17,6 +17,9 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "FEEDENTRY_TYPE", length = 255)
 @DiscriminatorValue("EXTERNAL")
+/*
+TODO: This implementation of Comparable is not consistent with equals()!
+ */
 public class FeedEntry implements Serializable, Comparable {
 
     public static final String END_TEASER_MACRO = "endTeaser";
@@ -78,6 +81,10 @@ public class FeedEntry implements Serializable, Comparable {
         return title;
     }
 
+    public String getTitleStripped() {
+        return stripHTMLTags(title);
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -126,6 +133,10 @@ public class FeedEntry implements Serializable, Comparable {
         return stripHTMLTags(getDescriptionValue());
     }
 
+    public String getDescriptionValueStrippedNoNewlines() {
+        return stripHTMLTags(getDescriptionValue()).replaceAll("(\n|\r)", " ");
+    }
+
     public boolean isTeaserMarkerPresent() {
         return getDescriptionValueStripped().contains(END_TEASER_MARKER);
     }
@@ -169,6 +180,7 @@ public class FeedEntry implements Serializable, Comparable {
     }
 
     private String stripHTMLTags(String original) {
+        // Hm, that should be enough to make stuff XSS-safe?
         return original.replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
     }
 

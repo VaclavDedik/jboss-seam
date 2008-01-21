@@ -22,6 +22,9 @@ import java.text.SimpleDateFormat;
 })
 @Entity
 @Table(name = "PREFERENCE")
+/*
+TODO: This implementation of Comparable MIGHT not be consistent with equals()!
+ */
 public class WikiPreferenceValue implements PreferenceValue, Serializable, Comparable {
 
     @Id

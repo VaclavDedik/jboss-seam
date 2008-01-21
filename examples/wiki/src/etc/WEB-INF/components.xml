@@ -118,6 +118,8 @@
             <value>messages_faqBrowser</value>
             <value>messages_jiraIssueList</value>
             <value>messages_jiraConnector</value>
+            <value>messages_feedAggregator</value>
+            <value>messages_feedConnector</value>
         </core:bundle-names>
     </core:resource-loader>
 
