@@ -35,7 +35,7 @@ Tests
   - jpa
   - hibernate
   
-Test seam-gen
+Test seam-gen & JBDS
 -------------
 * export the following tables to MySQL:
 
@@ -64,6 +64,16 @@ CREATE TABLE `Vehicle` (
 * run "seam new-action new-form restart"
   - test both generated pages
   - run the unit tests in eclipse using the TestNG plugin 
+* Create a new war project in JBDS
+  - Reverse engineer entities from MySQL
+  - Test generated pages (check hot deployment of Seam components, html)
+  - Test running unit tests from Eclipse
+* Create a new ear project in JBDS
+  - Reverse engineer entities from MySQL
+  - Test generated pages (check hot deployment of Seam components, html)
+  - Test running unit tests from Eclipse
+
+
 
 Tag CVS
 -------
