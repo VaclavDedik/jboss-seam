@@ -30,6 +30,7 @@
     
     <fileset id="lib" dir="${lib.dir}">
         <include name="*.jar" />
+        <exclude name="jboss-seam-jbas5.jar" />
     </fileset>
     
     <path id="build.classpath">

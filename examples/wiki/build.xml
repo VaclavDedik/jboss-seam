@@ -71,6 +71,7 @@
             <include name="*.jar" />
         	<!-- Don't use that Hibernate either... -->
             <exclude name="hibernate*.jar"/>
+        	<exclude name="jboss-seam-jbas5.jar" />
         </fileset>
         <fileset dir="${local.lib.dir}">
             <!-- This has the Hibernate we want -->
