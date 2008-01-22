@@ -264,13 +264,6 @@
       <artifactId>jboss-embedded-api</artifactId>
       <optional>true</optional>
     </dependency>
-    
-    <!-- Temporary to provide workaround for  -->
-    <dependency>
-      <groupId>jboss</groupId>
-      <artifactId>jboss-kernel</artifactId>
-      <optional>true</optional>
-    </dependency>
 
     <dependency>
       <groupId>quartz</groupId>
