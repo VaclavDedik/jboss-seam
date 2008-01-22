@@ -13,6 +13,7 @@
 	<!-- Add icefaces -->
 
 	<property name="example.tmp.lib.dir" value="${basedir}/lib" />
+	<property name="clean.extra" value="${example.tmp.lib.dir}"/>
 
 	<!-- Datasource -->
 	<property name="example.ds" value="seam-icefaces-ds.xml" />
@@ -22,8 +23,6 @@
 	<fileset id="war.lib.extras" dir="${example.tmp.lib.dir}">
 		<include name="*.jar" />
 	</fileset>
-
-        <property name="clean.extra" value="${example.tmp.lib.dir}"/>
 
 	<target name="copyextradependencies">
 		<artifact:dependencies filesetId="icefaces.fileset" versionsId="icefaces.versions">
