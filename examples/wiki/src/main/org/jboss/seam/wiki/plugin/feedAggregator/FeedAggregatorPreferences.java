@@ -55,6 +55,14 @@ public class FeedAggregatorPreferences {
     private Long truncateDescription;
 
     @PreferenceProperty(
+        description = "#{messages['feedAggregator.preferences.AggregateId']}",
+        visibility = {PreferenceVisibility.INSTANCE},
+        editorIncludeName = "NumberRange"
+    )
+    @Length(min = 0, max = 255)
+    private String aggregateId;
+
+    @PreferenceProperty(
         description = "#{messages['feedAggregator.preferences.HideDate']}",
         visibility = {PreferenceVisibility.INSTANCE}
     )
@@ -98,6 +106,10 @@ public class FeedAggregatorPreferences {
 
     public Long getTruncateDescription() {
         return truncateDescription;
+    }
+
+    public String getAggregateId() {
+        return aggregateId;
     }
 
     public Boolean getHideDate() {

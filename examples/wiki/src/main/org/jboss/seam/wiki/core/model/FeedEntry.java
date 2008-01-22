@@ -42,6 +42,12 @@ public class FeedEntry implements Serializable, Comparable {
     @Length(min = 3, max = 1024)
     private String title;
 
+    @Transient
+    private String titlePrefix = "";
+
+    @Transient
+    private String titleSuffix = "";
+
     @Column(name = "AUTHOR", nullable = false)
     @Length(min = 3, max = 255)
     private String author;
@@ -79,6 +85,22 @@ public class FeedEntry implements Serializable, Comparable {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getTitlePrefix() {
+        return titlePrefix;
+    }
+
+    public void setTitlePrefix(String titlePrefix) {
+        this.titlePrefix = titlePrefix;
+    }
+
+    public String getTitleSuffix() {
+        return titleSuffix;
+    }
+
+    public void setTitleSuffix(String titleSuffix) {
+        this.titleSuffix = titleSuffix;
     }
 
     public String getTitleStripped() {

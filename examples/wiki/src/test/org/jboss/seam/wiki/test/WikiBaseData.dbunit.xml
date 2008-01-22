@@ -262,7 +262,7 @@
     <WIKI_FILE
         NODE_ID="8" FILE_REVISION="0"/>
     <WIKI_DOCUMENT
-        NODE_ID="8" CONTENT="Testdocument Three&#xA;&#xA;&lt;div class=&quot;homepageNews&quot;>&#xA;[&lt;=feedAggregator[truncateDescription=250][numberOfFeedEntries=10][urls=http://rss.slashdot.org/Slashdot/slashdot http://feeds.engadget.com/weblogsinc/engadget]]&#xA;&lt;/div>&#xA;"
+        NODE_ID="8" CONTENT="Testdocument Three&#xA;&#xA;&lt;div class=&quot;homepageNews&quot;>&#xA;[&lt;=feedAggregator[truncateDescription=250][numberOfFeedEntries=10][aggregateId=My Aggregated Feed][urls=http://rss.slashdot.org/Slashdot/slashdot http://feeds.engadget.com/weblogsinc/engadget]]&#xA;&lt;/div>&#xA;"
         HEADER="[NULL]" FOOTER="[NULL]"
         HEADER_MACROS="[NULL]" CONTENT_MACROS="feedAggregator" FOOTER_MACROS="[NULL]"
         NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>

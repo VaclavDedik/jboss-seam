@@ -280,6 +280,7 @@ blockquote blockquote blockquote blockquote {
     border-bottom: 1px solid #b6b6b6;
     padding-left: 0;
     padding-bottom: 5px;
+    text-align: right;
 }
 
 .homepageNews .boxContent {
@@ -292,6 +293,10 @@ blockquote blockquote blockquote blockquote {
     background: none;
     border: none;
     padding-left: 0;
+}
+
+.homepageNews .feedAggregatorSubscribe {
+    font-size: 110%;
 }
 
 .homepageNews .feedEntryColumn {

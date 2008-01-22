@@ -23,6 +23,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.net.URL;
 
 /**
  * @author Christian Bauer
@@ -42,8 +43,8 @@ public class FeedConnectorTest extends DBUnitSeamTest {
             protected void renderResponse() throws Exception {
                 FeedAggregatorDAO dao = (FeedAggregatorDAO)getInstance(FeedAggregatorDAO.class);
 
-                String[] feedURLs = {
-                    "http://foo", "http://bar", "http:WrongURL"
+                URL[] feedURLs = {
+                    new URL("http://foo"), new URL("http://bar")
                 };
 
                 List<FeedEntryDTO> dtos = dao.getLatestFeedEntries(30, feedURLs);

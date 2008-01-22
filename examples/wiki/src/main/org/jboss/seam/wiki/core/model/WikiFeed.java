@@ -39,6 +39,13 @@ public class WikiFeed extends Feed implements Serializable {
     }
 
     public String getURL() {
-        return directory.getWikiURL().length() > 0 ?  "/"+directory.getWikiURL() : "";
+        if (directory.getWikiURL().length() >0) {
+            if (directory.getArea().getWikiname().equals(directory.getWikiname())) {
+                return "/Area/"+directory.getArea().getWikiname();
+            } else {
+                return "/Area/"+directory.getArea().getWikiname() + "/Node/" + directory.getWikiname();
+            }
+        }
+        return ""; // Root, no area or node
     }
 }

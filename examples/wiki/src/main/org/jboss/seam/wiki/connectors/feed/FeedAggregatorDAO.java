@@ -7,11 +7,13 @@
 package org.jboss.seam.wiki.connectors.feed;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.log.Log;
 
 import java.util.*;
 import java.io.Serializable;
+import java.net.URL;
 
 /**
  * @author Christian Bauer
@@ -27,16 +29,23 @@ public class FeedAggregatorDAO implements Serializable {
     @In("feedConnectorCache")
     FeedConnector feedConnector;
 
-    public List<FeedEntryDTO> getLatestFeedEntries(int numberOfFeedEntries, String[] feedURLs) {
+    @In
+    FeedAggregateCache feedAggregateCache;
+
+    public List<FeedEntryDTO> getLatestFeedEntries(int numberOfFeedEntries, URL[] feedURLs) {
+        return getLatestFeedEntries(numberOfFeedEntries, feedURLs, null);
+    }
+
+    public List<FeedEntryDTO> getLatestFeedEntries(int numberOfFeedEntries, URL[] feedURLs, String aggregateId) {
         if (feedURLs == null) return Collections.EMPTY_LIST;
 
         List<FeedEntryDTO> feedEntries = new ArrayList<FeedEntryDTO>();
 
-        for (String feedURL : feedURLs) {
+        for (URL feedURL : feedURLs) {
             // For each feed, get the feed entries and put them in a sorted collection,
             // so we get overall sorting
             log.debug("retrieving feed entries from connector for feed URL: " + feedURL);
-            List<FeedEntryDTO> result = feedConnector.getFeedEntries(feedURL);
+            List<FeedEntryDTO> result = feedConnector.getFeedEntries(feedURL.toString());
             log.debug("retrieved feed entries: " + result.size());
             feedEntries.addAll(result);
             log.debug("number of aggregated feed entries so far: " + feedEntries.size());
@@ -55,6 +64,12 @@ public class FeedAggregatorDAO implements Serializable {
                 }
             }
         );
+
+        if (aggregateId != null) {
+            log.debug("caching aggregated feed entries under id: " + aggregateId);
+            // Cache the result for later requests through FeedServlet (by aggregateId)
+            feedAggregateCache.put(aggregateId, feedEntries);
+        }
 
         return feedEntries.size() > numberOfFeedEntries
                 ? new ArrayList<FeedEntryDTO>(feedEntries).subList(0, numberOfFeedEntries)

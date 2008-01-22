@@ -32,10 +32,10 @@
         <to last="true">/wiki.seam?nodeId=$1</to>
      </rule>
 
-    <!-- /service/Feed/atom (/Foo) (/Bar) /Feed/atom (/Comments/exclude/) (Tag/foobar) -->
+    <!-- /service/Feed/atom (/Area/Foo) (/Node/Bar) (/Comments/exclude/) (/Tag/foobar) (/Aggregate/My Aggregate) -->
     <rule>
-        <from casesensitive="true">^/service/Feed/atom(?:/([A-Z0-9]+[A-Za-z0-9]*))?(?:/([A-Z0-9]+[A-Za-z0-9]*))?(?:/Comments/([a-z]+))?(?:/Tag/(.+))?$</from>
-        <to last="true">/servlets/feeds/atom.seam?areaName=$1&amp;nodeName=$2&amp;comments=$3&amp;tag=$4</to>
+        <from casesensitive="true">^/service/Feed/atom(?:/Area/([A-Z0-9]+[A-Za-z0-9]*))?(?:/Node/([A-Z0-9]+[A-Za-z0-9]*))?(?:/Comments/([a-z]+))?(?:/Tag/(.+))?(?:/Aggregate/(.+))?$</from>
+        <to last="true">/servlets/feeds/atom.seam?areaName=$1&amp;nodeName=$2&amp;comments=$3&amp;tag=$4&amp;aggregate=$5</to>
     </rule>
 
     <!-- /service/File/123 -->

@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -96,6 +97,15 @@ public class WikiUtil {
                 accessLevels.indexOf(new Role.AccessLevel(accessLevel, null))
                );
     }
+    
+    public static String renderAggregateFeedURL(String aggregateId) {
+        if (aggregateId == null) return "";
+        StringBuilder url = new StringBuilder();
+        url.append(Component.getInstance("basePath"))
+            .append("/service/Feed/atom/Aggregate/")
+            .append(aggregateId);
+        return url.toString();
+    }
 
     public static String renderFeedURL(Feed feed, String tag, String comments) {
         if (feed == null || feed.getId() == null) return "";
@@ -153,6 +163,14 @@ public class WikiUtil {
     public static String encodeURL(String string) {
         try {
             return URLEncoder.encode(string, "UTF-8");
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    public static String decodeURL(String string) {
+        try {
+            return URLDecoder.decode(string, "UTF-8");
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

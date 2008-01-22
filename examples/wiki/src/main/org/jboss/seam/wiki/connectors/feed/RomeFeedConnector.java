@@ -73,7 +73,11 @@ public class RomeFeedConnector implements FeedConnector {
                 SyndEntry syndEntry = (SyndEntry)o;
                 FeedEntry fe = convertSyndEntry(syndEntry);
 
-                // Linking it in our model makes it persistable
+                // Append some information on the title
+                fe.setTitlePrefix("(" + feed.getTitle() + ") ");
+                //fe.setTitleSuffix(" (" + fe.getAuthor() + ")");
+
+                // Linking it in our model makes it persistable/cachable
                 feed.getFeedEntries().add(fe);
 
                 // Now project them so the client has a unified view without iterating collections of Feeds
@@ -121,7 +125,8 @@ public class RomeFeedConnector implements FeedConnector {
         if (syndEntry.getDescription() != null) {
             SyndContent description = syndEntry.getDescription();
 
-            feedEntry.setDescriptionType(description.getType());
+            // TODO: Hardcode 'html', otherwise the ROME stuff craps out and kills Firefox feed renderer...
+            feedEntry.setDescriptionType("html");
             feedEntry.setDescriptionValue(description.getValue());
         }
 

@@ -18,6 +18,8 @@ import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeFactory;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.Preferences;
+import org.jboss.seam.wiki.connectors.feed.FeedAggregateCache;
+import org.jboss.seam.wiki.connectors.feed.FeedEntryDTO;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
@@ -79,17 +81,8 @@ public class FeedServlet extends HttpServlet {
         String feedIdParam = request.getParameter("feedId");
         String areaNameParam = request.getParameter("areaName");
         String nodeNameParam = request.getParameter("nodeName");
+        String aggregateParam = request.getParameter("aggregate");
         log.debug(">>> feed request id: '" + feedIdParam + "' area name: '" + areaNameParam + "' node name: '" + nodeNameParam + "'");
-        log.debug("full request URL: " + request.getRequestURL().toString());
-        if (log.isDebugEnabled()) {
-            Map<String,String[]> params = (Map<String,String[]>)request.getParameterMap();
-            for (Map.Entry<String, String[]> entry : params.entrySet()) {
-                log.debug("request param: " + entry.getKey());
-                for (String s : entry.getValue()) {
-                    log.debug("value: '" +s + "'");
-                }
-            }
-        }
 
         // Feed type
         String pathInfo = request.getPathInfo();
@@ -120,6 +113,7 @@ public class FeedServlet extends HttpServlet {
         }
 
         // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
+        // and that would allow us to break up this gigantic if/then/else clause easily...
         UserTransaction userTx = null;
         boolean startedTx = false;
         try {
@@ -132,8 +126,26 @@ public class FeedServlet extends HttpServlet {
             Feed feed = null;
 
             // Find the feed, depending on variations of request parameters
-            if (feedIdParam != null && feedIdParam.length() >0) {
+            if (aggregateParam != null && aggregateParam.length() > 0) {
+
+                log.debug("trying to retrieve aggregated feed from cache: " + aggregateParam);
+
+                FeedAggregateCache aggregateCache = (FeedAggregateCache)Component.getInstance(FeedAggregateCache.class);
+                List<FeedEntryDTO> result = aggregateCache.get(aggregateParam);
+                if (result != null) {
+                    feed = new Feed();
+                    feed.setAuthor(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed"));
+                    feed.setTitle(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed") + ": " + aggregateParam);
+                    feed.setPublishedDate(new Date());
+                    feed.setLink( ((WikiPreferences) Preferences.getInstance("Wiki")).getBaseUrl() );
+                    for (FeedEntryDTO feedEntryDTO : result) {
+                        feed.getFeedEntries().add(feedEntryDTO.getFeedEntry());
+                    }
+                }
+
+            } else if (feedIdParam != null && feedIdParam.length() >0) {
                 try {
+
                     log.debug("trying to retrieve feed for id: " + feedIdParam);
                     Long feedId = Long.valueOf(feedIdParam);
                     FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
@@ -142,6 +154,8 @@ public class FeedServlet extends HttpServlet {
                     log.debug("feed identifier couldn't be converted to java.lang.Long");
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
                 }
+
+
             } else if (areaNameParam != null && areaNameParam.matches("^[A-Z0-9]+.*")) {
                 log.debug("trying to retrieve area: " + areaNameParam);
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)Component.getInstance(WikiNodeDAO.class);
@@ -189,8 +203,18 @@ public class FeedServlet extends HttpServlet {
                 }
             }
 
+            // TODO: Refactor this mess a little
             log.debug("finally rendering feed");
-            SyndFeed syndFeed = createSyndFeed(request.getRequestURL().toString(), syndFeedType,  feed, currentAccessLevel, tag, comments);
+            SyndFeed syndFeed =
+                    createSyndFeed(
+                        request.getRequestURL().toString(),
+                        syndFeedType,
+                        feed,
+                        currentAccessLevel,
+                        tag,
+                        comments,
+                        aggregateParam
+                    );
 
             // Write feed to output
             response.setContentType(syndFeedType.contentType);
@@ -214,16 +238,26 @@ public class FeedServlet extends HttpServlet {
     }
 
     public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {
-        return createSyndFeed(baseURI, syndFeedType, feed, currentAccessLevel, null, Comments.include);
+        return createSyndFeed(baseURI, syndFeedType, feed, currentAccessLevel, null, Comments.include, null);
     }
 
-    public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel, String tag, Comments comments) {
+    public SyndFeed createSyndFeed(String baseURI,
+                                   SyndFeedType syndFeedType,
+                                   Feed feed,
+                                   Integer currentAccessLevel,
+                                   String tag,
+                                   Comments comments,
+                                   String aggregateParam) {
 
         WikiPreferences prefs = (WikiPreferences) Preferences.getInstance("Wiki");
 
         // Create feed
         SyndFeed syndFeed = new SyndFeedImpl();
-        syndFeed.setUri(baseURI + "?feedId=" + feed.getId());
+        String feedUri =
+                feed.getId() != null
+                    ? "?feedId="+feed.getId()
+                    : "?aggregate="+WikiUtil.encodeURL(aggregateParam);
+        syndFeed.setUri(baseURI + feedUri);
         syndFeed.setFeedType(syndFeedType.feedType);
         syndFeed.setTitle(prefs.getFeedTitlePrefix() + feed.getTitle());
         if (tag != null) {
@@ -251,7 +285,7 @@ public class FeedServlet extends HttpServlet {
 
             SyndEntry syndEntry;
             syndEntry = new SyndEntryImpl();
-            syndEntry.setTitle(entry.getTitle());
+            syndEntry.setTitle(entry.getTitlePrefix() + entry.getTitle() + entry.getTitleSuffix());
             syndEntry.setLink(entry.getLink());
             syndEntry.setUri(entry.getLink());
             syndEntry.setAuthor(entry.getAuthor());

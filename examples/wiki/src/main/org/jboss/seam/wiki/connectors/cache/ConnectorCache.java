@@ -38,12 +38,12 @@ public abstract class ConnectorCache<T, K> {
         List<T> result = Collections.EMPTY_LIST;
 
         if (cacheKey == null) {
-            log.debug("cache miss, retrieving it from connector, asynchronously: " + isCacheMissResolvedAsynchronously());
+            log.debug("cache miss, retrieving it from connector, asynchronously: " + isFirstCacheMissResolvedAsynchronously());
 
             // The following operations modify the structure of the cache map, which is ok because this
             // method is synchronized by Seam. The write triggered (later) by the AysncUpdater is not
             // synchronized, but we never modify the structure of the cache map then, only now.
-            if (isCacheMissResolvedAsynchronously()) {
+            if (getAsyncUpdater() != null && isFirstCacheMissResolvedAsynchronously()) {
 
                 // Write an empty list into the cache
                 write(key, Collections.EMPTY_LIST, currentTime);
@@ -59,22 +59,26 @@ public abstract class ConnectorCache<T, K> {
             }
 
         } else {
-            log.debug("cache hit, checking age of cached entry");
+            log.debug("cache hit");
 
-            // Check updateTimestamp of cached entry
-            if (currentTime - cacheKey.getUpdateTimestamp() > (getUpdateTimeoutSeconds()*1000) ) {
-                log.debug("cached entry is older than maximum cache time, refreshing...");
+            if (getUpdateTimeoutSeconds() != 0) {
 
-                // Start asynchronous updating, might take a while - but should never take longer than cache timeout!
-                getAsyncUpdater().updateCacheAsynchronously(this, cacheKey);
+                log.debug("checking age of cached entry against update timeout");
+                // Check updateTimestamp of cached entry
+                if (currentTime - cacheKey.getUpdateTimestamp() > (getUpdateTimeoutSeconds()*1000) ) {
+                    log.debug("cached entry is older than maximum cache time, refreshing...");
 
-                // Meanwhile, update the timestamp so that the next caller doesn't also start asynchronous updating
-                // .. we expect to be finished with that before the next caller runs into a cache timeout again!
-                cacheKey.setAccessTimestamp(currentTime);
-                cacheKey.setUpdateTimestamp(currentTime);
+                    // Start asynchronous updating, might take a while - but should never take longer than cache timeout!
+                    getAsyncUpdater().updateCacheAsynchronously(this, cacheKey);
 
-            } else {
-                log.debug("cached entry is still inside maximum cache time");
+                    // Meanwhile, update the timestamp so that the next caller doesn't also start asynchronous updating
+                    // .. we expect to be finished with that before the next caller runs into a cache timeout again!
+                    cacheKey.setAccessTimestamp(currentTime);
+                    cacheKey.setUpdateTimestamp(currentTime);
+
+                } else {
+                    log.debug("cached entry is still inside maximum cache time");
+                }
             }
 
             // Read the value from the cache
@@ -116,17 +120,17 @@ public abstract class ConnectorCache<T, K> {
         return (ConnectorCacheAsyncUpdater<T, K>) Component.getInstance(getAsyncUpdaterClass());
     };
 
-    private ConnectorCacheKey<K> findKey(ConnectorCacheKey<K> key) {
+    protected ConnectorCacheKey<K> findKey(ConnectorCacheKey<K> key) {
         for (ConnectorCacheKey keyOfMap : cache.keySet()) {
             if (keyOfMap.equals(key)) return keyOfMap;
         }
         return null;
     }
 
-    protected abstract long getUpdateTimeoutSeconds();
+    protected long getUpdateTimeoutSeconds() { return 0; }
     protected abstract long getIdleTimeoutSeconds();
-    protected abstract Class<? extends ConnectorCacheAsyncUpdater<T, K>> getAsyncUpdaterClass();
-    protected boolean isCacheMissResolvedAsynchronously() { return true; }
+    protected Class<? extends ConnectorCacheAsyncUpdater<T, K>> getAsyncUpdaterClass() { return null; };
+    protected boolean isFirstCacheMissResolvedAsynchronously() { return true; }
     protected List<T> udpateCacheSynchronously(ConnectorCache<T, K> cache, ConnectorCacheKey<K> key) {
         return Collections.EMPTY_LIST;
     };
