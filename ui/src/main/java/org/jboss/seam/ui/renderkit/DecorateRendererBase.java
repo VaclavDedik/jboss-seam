@@ -10,7 +10,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ui.component.UIDecorate;
 import org.jboss.seam.ui.util.Decoration;
 import org.jboss.seam.ui.util.HTML;
-import org.jboss.seam.ui.util.JSF;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 
 public class DecorateRendererBase extends RendererBase

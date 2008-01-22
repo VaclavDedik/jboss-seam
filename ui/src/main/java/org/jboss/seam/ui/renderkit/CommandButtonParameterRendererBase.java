@@ -16,7 +16,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
 import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.ui.component.UIConversationPropagation;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 
 /**

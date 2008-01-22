@@ -9,6 +9,8 @@ import javax.faces.component.UIParameter;
 
 public class UrlBuilder
 {
+   private static final String URL_ENCODING = "UTF-8";
+   
    private String url;
 
    private String fragment;
@@ -40,7 +42,7 @@ public class UrlBuilder
    
    protected String urlEncode(String value) throws UnsupportedEncodingException
    {
-      return characterEncoding == null ? URLEncoder.encode(value) : URLEncoder.encode(value,
+      return characterEncoding == null ? URLEncoder.encode(value, URL_ENCODING) : URLEncoder.encode(value,
                characterEncoding);
    }
 

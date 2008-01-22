@@ -40,7 +40,7 @@ import javax.faces.el.ValueBinding;
 	 * If isolated, any references to html ids will be resolved only within
 			this naming container
 	 * Setter for isolated
-	 * @param isolated - new value
+	 * @param __isolated - new value
 	 */
 	 public void setIsolated( boolean  __isolated ){
 		this._isolated = __isolated;
@@ -73,6 +73,7 @@ import javax.faces.el.ValueBinding;
 // Component family.
 	public static final String COMPONENT_FAMILY = "org.ajax4jsf.LoadStyle";
 
+	@Override
 	public String getFamily() {
 		return COMPONENT_FAMILY;
 	}
