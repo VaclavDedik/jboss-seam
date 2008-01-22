@@ -31,7 +31,6 @@
 		<sequential>
 			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}">
 				<pom file="@{pom}" />
-				<remoterepository refid="local.repository" />
 			</artifact:dependencies>
 		</sequential>
 	</macrodef>
@@ -43,7 +42,6 @@
 		<sequential>
 			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" sourcesFilesetId="@{scope}.@{id}.source.fileset">
 				<pom file="@{pom}" />
-				<remoterepository refid="local.repository" />
 			</artifact:dependencies>
 		</sequential>
 	</macrodef>
@@ -108,14 +106,6 @@
 				</remoteRepository>
 				<attach file="@{attachment}" classifier="bin" type="zip"/>
 			</artifact:deploy>
-		</sequential>
-	</macrodef>
-
-	<macrodef name="deployLocal">
-		<attribute name="pom" default="" />
-		<attribute name="jar" default="" />
-		<sequential>
-			<deploy pom="@{pom}" jar="@{jar}" repositoryId="local.repository" />
 		</sequential>
 	</macrodef>
 
