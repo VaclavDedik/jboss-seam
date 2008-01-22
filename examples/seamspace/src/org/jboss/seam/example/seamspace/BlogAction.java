@@ -57,6 +57,8 @@ public class BlogAction
    @Factory("comment") @Restrict @Begin(join = true)
    public void createComment()
    {      
+      System.out.println("Params - blogId: " + blogId + " name: " + name);
+      
       comment = new BlogComment();
       comment.setCommentor(authenticatedMember);
       

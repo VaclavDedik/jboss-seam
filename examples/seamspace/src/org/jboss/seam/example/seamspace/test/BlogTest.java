@@ -4,7 +4,7 @@ import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
 public class BlogTest extends SeamTest
-{
+{   
    @Test
    public void testCreateBlog() throws Exception
    {
@@ -86,13 +86,18 @@ public class BlogTest extends SeamTest
          }
       }.run();   
       
-      String cid = new FacesRequest()
+      String cid = new FacesRequest("/comment.xhtml")
       {
+         @Override
+         protected void beforeRequest()
+         {
+            setPageParameter("name", "Mr_Smiley");
+            setPageParameter("blogId", "1");
+         }         
+         
          @Override
          protected void invokeApplication() throws Exception
          {
-            setParameter("name", "Mr_Smiley");
-            setParameter("blogId", "1");
             assert invokeAction("#{blog.createComment}") == null;
             
             assert getValue("#{comment}") != null;
