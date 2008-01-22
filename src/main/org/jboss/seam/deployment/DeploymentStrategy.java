@@ -115,7 +115,7 @@ public abstract class DeploymentStrategy
    
    private Scanner getScannerFromResource()
    {
-      // Load scanner.properties from the classpath, try to 
+      // Load seam-scanner.properties from the classpath, try to 
       // load any scanners specified there
       try 
       {
