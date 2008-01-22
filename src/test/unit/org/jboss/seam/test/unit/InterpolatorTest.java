@@ -1,7 +1,6 @@
 package org.jboss.seam.test.unit;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.jboss.seam.core.Interpolator;

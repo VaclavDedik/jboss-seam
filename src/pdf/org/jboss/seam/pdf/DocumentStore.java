@@ -12,7 +12,6 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.pdf.DocumentData.DocumentType;
 import org.jboss.seam.ui.util.Faces;
 
 @Name("org.jboss.seam.pdf.documentStore")

@@ -3,7 +3,6 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.pageflow.Pageflow;
 /**

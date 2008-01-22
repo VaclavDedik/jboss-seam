@@ -190,6 +190,7 @@ public abstract class DBUnitSeamTest extends SeamTest {
             }
         }
 
+        @Override
         public String toString() {
             // TODO: This is not pretty because DBUnit's DatabaseOperation doesn't implement toString() properly
             return operation.getClass() + " with dataset: " + dataSetLocation;
@@ -268,6 +269,7 @@ public abstract class DBUnitSeamTest extends SeamTest {
         // TODO: DBUnit/HSQL bugfix
         // http://www.carbonfive.com/community/archives/2005/07/dbunit_hsql_and.html
         config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new DefaultDataTypeFactory() {
+           @Override
             public DataType createDataType(int sqlType, String sqlTypeName)
               throws DataTypeException {
                if (sqlType == Types.BOOLEAN) {

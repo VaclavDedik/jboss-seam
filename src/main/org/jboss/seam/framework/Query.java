@@ -257,7 +257,7 @@ public abstract class Query<T, E>
    /**
     * Return the ejbql to used in a count query (for calculating number of
     * results)
-    * @return
+    * @return String The ejbql query
     */
    protected String getCountEjbql()
    {

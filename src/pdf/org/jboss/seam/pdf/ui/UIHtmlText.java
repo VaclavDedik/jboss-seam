@@ -3,7 +3,6 @@ package org.jboss.seam.pdf.ui;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.List;
 
 import javax.faces.FacesException;
 import javax.faces.component.ValueHolder;
@@ -13,7 +12,6 @@ import javax.faces.convert.Converter;
 
 import org.jboss.seam.ui.util.JSF;
 
-import com.lowagie.text.Element;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
 import com.lowagie.text.html.simpleparser.StyleSheet;

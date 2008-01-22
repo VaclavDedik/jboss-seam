@@ -11,8 +11,6 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.security.auth.Subject;
-
 import org.drools.FactHandle;
 import org.drools.RuleBase;
 import org.drools.StatefulSession;
@@ -240,7 +238,6 @@ public class RuleBasedIdentity extends Identity
                      Role r = iter.next();
                      if (r.getName().equals(role.getName()))
                      {
-                        FactHandle fh = getSecurityContext().getFactHandle(r);
                         found = true;
                         break;
                      }

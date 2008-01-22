@@ -551,7 +551,7 @@ public class Base64
         
         // Isolate options
         int gzip           = (options & GZIP);
-        int dontBreakLines = (options & DONT_BREAK_LINES);
+        //int dontBreakLines = (options & DONT_BREAK_LINES);
         
         try
         {
@@ -975,7 +975,7 @@ public class Base64
         if( bytes != null && bytes.length >= 4 )
         {
             
-            int head = ((int)bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);       
+            int head = (bytes[0] & 0xff) | ((bytes[1] << 8) & 0xff00);       
             if( java.util.zip.GZIPInputStream.GZIP_MAGIC == head ) 
             {
                 java.io.ByteArrayInputStream  bais = null;
@@ -1310,7 +1310,7 @@ public class Base64
         private int     lineLength;
         private boolean breakLines;     // Break lines at less than 80 characters
       private int     options;        // Record options used to create the stream.
-      private byte[]  alphabet;      // Local copies to avoid extra method calls
+      //private byte[]  alphabet;      // Local copies to avoid extra method calls
       private byte[]  decodabet;    // Local copies to avoid extra method calls
         
         
@@ -1357,7 +1357,7 @@ public class Base64
             this.position     = -1;
             this.lineLength   = 0;
          this.options      = options; // Record for later, mostly to determine which alphabet to use
-         this.alphabet     = getAlphabet(options);
+         //this.alphabet     = getAlphabet(options);
          this.decodabet    = getDecodabet(options);
         }   // end constructor
         
@@ -1368,6 +1368,7 @@ public class Base64
          * @return next byte
          * @since 1.3
          */
+        @Override
         public int read() throws java.io.IOException 
         { 
             // Do we need to get data?
@@ -1496,6 +1497,7 @@ public class Base64
          * @return bytes read into array or -1 if end of stream is encountered.
          * @since 1.3
          */
+        @Override
         public int read( byte[] dest, int off, int len ) throws java.io.IOException
         {
             int i;
@@ -1547,7 +1549,7 @@ public class Base64
         private byte[]  b4; // Scratch used in a few places
         private boolean suspendEncoding;
       private int options; // Record for later
-      private byte[]  alphabet;      // Local copies to avoid extra method calls
+      //private byte[]  alphabet;      // Local copies to avoid extra method calls
       private byte[]  decodabet;    // Local copies to avoid extra method calls
         
         /**
@@ -1594,7 +1596,7 @@ public class Base64
             this.suspendEncoding = false;
             this.b4           = new byte[4];
          this.options      = options;
-         this.alphabet     = getAlphabet(options);
+         //this.alphabet     = getAlphabet(options);
          this.decodabet    = getDecodabet(options);
         }   // end constructor
         
@@ -1611,6 +1613,7 @@ public class Base64
          * @param theByte the byte to write
          * @since 1.3
          */
+        @Override
         public void write(int theByte) throws java.io.IOException
         {
             // Encoding suspended?
@@ -1672,6 +1675,7 @@ public class Base64
          * @param len max number of bytes to read into array
          * @since 1.3
          */
+        @Override
         public void write( byte[] theBytes, int off, int len ) throws java.io.IOException
         {
             // Encoding suspended?

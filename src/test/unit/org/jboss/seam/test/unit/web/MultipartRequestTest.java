@@ -2,7 +2,6 @@ package org.jboss.seam.test.unit.web;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.HashSet;
 
 import javax.servlet.FilterChain;
