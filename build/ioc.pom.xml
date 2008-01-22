@@ -51,7 +51,9 @@
       <artifactId>javassist</artifactId>
     </dependency>
 
-    <dependency>
+   <!-- Microcontainer stuff isn't done -->
+
+    <!-- <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-jmx</artifactId>
       <optional>true</optional>
@@ -64,16 +66,18 @@
     </dependency>
 
     <dependency>
-      <groupId>jboss</groupId>
+      <groupId>org.jboss.microcontainer</groupId>
       <artifactId>jboss-kernel</artifactId>
       <optional>true</optional>
     </dependency>
-
+    
     <dependency>
-      <groupId>jboss.jboss-aop</groupId>
-      <artifactId>jboss-aop</artifactId>
+      <groupId>jboss</groupId>
+      <artifactId>jbossxb</artifactId>
       <optional>true</optional>
     </dependency>
+    
+    -->
 
     <dependency>
       <groupId>javax.persistence</groupId>
@@ -92,12 +96,6 @@
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>jboss</groupId>
-      <artifactId>jbossxb</artifactId>
-      <optional>true</optional>
     </dependency>
 
   </dependencies>

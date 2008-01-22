@@ -690,9 +690,9 @@
       </dependency>
 
       <dependency>
-        <groupId>jboss</groupId>
+        <groupId>org.jboss.microcontainer</groupId>
         <artifactId>jboss-kernel</artifactId>
-        <version>2.0.0.Beta</version>
+        <version>2.0.0.Beta9</version>
         <exclusions>
           <exclusion>
             <groupId>apache-httpclient</groupId>

@@ -206,7 +206,12 @@
 	</target>
 
 	<target name="compileioc" depends="initioc, select-compiler">
-		<compile classesdir="${classes.ioc.dir}" srcdir="${src.ioc.dir}" classpath="compile.ioc.path" />
+		<javac source="1.5" target="1.5" destdir="${classes.ioc.dir}" srcdir="${src.ioc.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on">
+			<classpath>
+				<path refid="compile.ioc.path" />
+			</classpath>
+			<exclude name="org/jboss/seam/ioc/microcontainer/**/*" />
+		</javac>
 	</target>
 
 	<target name="jarioc" depends="compileioc" description="Build the distribution .jar file for the IOC package">
