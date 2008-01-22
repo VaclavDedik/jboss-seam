@@ -20,7 +20,11 @@
 			<groupId>org.jboss.seam</groupId>
 			<artifactId>jboss-seam</artifactId>
 		</dependency>
-		
+      <dependency>
+         <groupId>org.jboss</groupId>
+         <artifactId>jboss-vfs</artifactId>
+      </dependency>
+
 	</dependencies>
 
 </project>
