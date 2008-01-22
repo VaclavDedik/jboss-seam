@@ -465,7 +465,6 @@
 
 	<!-- Compile the source code, directly into the jar -->
 	<target name="compile" depends="init, select-compiler">
-            <echo>lib is ${lib.dir}</echo>
 		<javac classpathref="build.classpath" destdir="${jar.dir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" >
 			<src path="${src.java.dir}" />
 		</javac>
