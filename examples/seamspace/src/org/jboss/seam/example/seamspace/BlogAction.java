@@ -5,36 +5,27 @@ import static org.jboss.seam.ScopeType.CONVERSATION;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.Restrict;
 
-@Stateful
+@Scope(CONVERSATION)
 @Name("blog")
-public class BlogAction implements BlogLocal
+public class BlogAction
 {    
-   @RequestParameter
    private String name;   
-   
-   @RequestParameter
    private Integer blogId;
    
    @In
    private EntityManager entityManager;
-   
-   @In(required = false)
-   Member selectedMember;   
    
    @In(required = false) @Out(required = false)
    private MemberBlog selectedBlog;
@@ -102,6 +93,23 @@ public class BlogAction implements BlogLocal
       entityManager.persist(selectedBlog);
    }
    
-   @Remove @Destroy
-   public void destroy() { }     
+   public String getName()
+   {
+      return name;
+   }
+   
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+   
+   public Integer getBlogId()
+   {
+      return blogId;
+   }
+   
+   public void setBlogId(Integer blogId)
+   {
+      this.blogId = blogId;
+   }
 }

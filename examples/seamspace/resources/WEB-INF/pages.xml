@@ -19,8 +19,8 @@
     <page view-id="/comment.xhtml" login-required="true">
       <restrict/>
       
-      <param name="name" value="#{selectedMember.memberName}"/>
-      <param name="blogId" value="#{selectedBlog.blogId}"/>
+      <param name="name" value="#{blog.name}"/>
+      <param name="blogId" value="#{blog.blogId}"/>
       
       <navigation from-action="#{blog.saveComment}">
         <redirect view-id="/blogentry.xhtml"/>
@@ -57,6 +57,8 @@
     </page>   
     
     <page view-id="/blogentry.xhtml">
+      <param name="name" value="#{blog.name}"/>
+      <param name="blogId" value="#{blog.blogId}"/>
 
     </page>
     
