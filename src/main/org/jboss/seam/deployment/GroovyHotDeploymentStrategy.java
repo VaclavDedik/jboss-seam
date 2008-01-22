@@ -64,19 +64,6 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
    }
    
    @Override
-   public ClassLoader getScannableClassLoader()
-   {
-      if (classLoader != null)
-      {
-         return classLoader.getParent();
-      }
-      else
-      {
-         return null;
-      }
-   }
-   
-   @Override
    public Set<Class<Object>> getScannedComponentClasses()
    {
       Set<Class<Object>> set = new HashSet<Class<Object>>();

@@ -36,12 +36,6 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    {
       return classLoader;
    }
-   
-   @Override
-   public String[] getResourceNames()
-   {
-      return RESOURCE_NAMES;
-   }
 
    /**
     * Get all scanned and handled annotated components known to this strategy
@@ -65,6 +59,12 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    public Set<Package> getScannedNamespaces()
    {
       return namespaceDeploymentHandler.getPackages();
+   }
+   
+   @Override
+   public void scan()
+   {
+      getScanner().scanResources(RESOURCE_NAMES);
    }
    
 }

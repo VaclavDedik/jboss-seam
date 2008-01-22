@@ -32,25 +32,18 @@ public class URLScanner extends AbstractScanner
       super(deploymentStrategy);
    }
    
-   public void scanClassLoader()
+   public void scanDirectories(File[] directories)
    {
-      Set<String> paths = new HashSet<String>();
-      for ( URL url: getURLsFromClassLoader() )
+      for (File directory : directories)
       {
-         String urlPath = url.getFile();
-         if ( urlPath.endsWith("/") )
-         {
-            urlPath = urlPath.substring( 0, urlPath.length()-1 );
-         }
-         paths.add( urlPath );
+         handleDirectory(directory, null);
       }
-      handle(paths);
    }
    
-   public void scanResources()
+   public void scanResources(String[] resources)
    {
       Set<String> paths = new HashSet<String>();
-      for (String resourceName : getDeploymentStrategy().getResourceNames())
+      for (String resourceName : resources)
       {
          try
          {
@@ -109,18 +102,6 @@ public class URLScanner extends AbstractScanner
          {
             log.warn("could not read entries", ioe);
          }
-      }
-   }
-
-   private URL[] getURLsFromClassLoader()
-   {
-      if (getDeploymentStrategy().getScannableClassLoader() instanceof URLClassLoader)
-      {
-         return ( (URLClassLoader) getDeploymentStrategy().getScannableClassLoader()).getURLs();
-      }
-      else
-      {
-         return new URL[0];
       }
    }
 

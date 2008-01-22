@@ -1,5 +1,7 @@
 package org.jboss.seam.deployment;
 
+import java.io.File;
+
 /**
  * The Scanner is used to find resources to be processed by Seam
  * 
@@ -11,22 +13,18 @@ package org.jboss.seam.deployment;
 public interface Scanner
 {
    /**
-    * Scan the "scannable" classloader.
+    * Recursively scan directories
     * 
-    * Method should scan the {@link DeploymentStrategy#getScannableClassLoader()}
-    * and pass all found resources to {@link DeploymentStrategy#handle(String)}
-    * to be processed by any registered deployment handlers
+    * @param directories An array of the roots of the directory trees to scan
     */
-   public void scanClassLoader();
+   public void scanDirectories(File[] directories);
    
    /**
-    * Scan any classloader containing the given resource.
+    * Scan for structures which contain any of the given resources in their root
     * 
-    * Method should scan any classloader containing {@link DeploymentStrategy#getResourceNames()}
-    * and pass all found resources to {@link DeploymentStrategy#handle(String)}
-    * to be processed by any registered deployment handlers 
+    * @param resources The resources to scan for
     */
-   public void scanResources();
+   public void scanResources(String[] resources);
    
    /**
     * Get the deployment strategy this scanner is used by

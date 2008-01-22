@@ -103,12 +103,6 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    {
       return hotDeployClassLoader;
    }
-
-   @Override
-   public String[] getResourceNames()
-   {
-      return null;
-   }
    
    /**
     * Get all Components which the strategy has scanned and handled
@@ -116,5 +110,12 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    public Set<Class<Object>> getScannedComponentClasses()
    {
       return componentDeploymentHandler.getClasses();
+   }
+
+   @Override
+   public void scan()
+   {
+      getScanner().scanDirectories(getHotDeploymentPaths());
+      
    }
 }

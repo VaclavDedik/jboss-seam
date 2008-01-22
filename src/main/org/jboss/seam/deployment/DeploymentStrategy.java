@@ -37,25 +37,8 @@ public abstract class DeploymentStrategy
    /**
     * Do the scan for resources
     * 
-    * If {@link #getResourceNames()} are specified, then {@link Scanner#scanResources()}
-    * will be used, otherwise {@link Scanner#scanClassLoader()} will be used.
     */
-   public void scan()
-   {
-      if (getResourceNames() == null)
-      {
-         getScanner().scanClassLoader();
-      }
-      else
-      {
-         getScanner().scanResources();
-      }
-   }
-
-   /**
-    * Get the resource names which this {@link DeploymentStrategy} will scan for.
-    */
-   public abstract String[] getResourceNames();
+   public abstract void scan();
    
    /**
     * Get the scanner being used
@@ -73,17 +56,6 @@ public abstract class DeploymentStrategy
     * Get the classloader to use
     */
    public abstract ClassLoader getClassLoader();
-   
-   /**
-    * Sometimes the main classloader cannot be scanned, so a scannable 
-    * classloader can be provided
-    * 
-    * By default the classloader specified in {@link #getClassLoader()}
-    */
-   public ClassLoader getScannableClassLoader()
-   {
-      return getClassLoader();
-   }
 
    /**
     * Get (or modify) any registered {@link DeploymentHandler}s
