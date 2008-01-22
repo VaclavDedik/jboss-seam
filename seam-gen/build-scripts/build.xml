@@ -130,6 +130,7 @@
                                 <include name="jsf-facelets.jar" />
                                 <include name="jboss-seam-*.jar" />
                                 <exclude name="jboss-seam-gen.jar" />
+                        		<exclude name="jboss-seam-jbas5.jar" />
                         </fileset>
                 </copy>
                 <copy todir="${war.dir}/WEB-INF/classes">

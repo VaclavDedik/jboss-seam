@@ -5,7 +5,6 @@
             xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:bpm="http://jboss.com/products/seam/bpm"
             xmlns:security="http://jboss.com/products/seam/security"
-            xmlns:identity-management="http://jboss.com/products/seam/security/management"
             xmlns:mail="http://jboss.com/products/seam/mail"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
@@ -14,7 +13,6 @@
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd
                  http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.0.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
-                 http://jboss.com/products/seam/security/management http://jboss.com/products/seam/identity-management-2.0.xsd
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.0.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
 
@@ -26,9 +24,7 @@
     
    <persistence:managed-persistence-context name="entityManager"
                                      auto-create="true"
-                      persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>
-                      
-   <identity-management:jpa-identity-store name="identityStore" account-class="@modelPackage@.UserAccount"/>                          
+                      persistence-unit-jndi-name="java:/@projectName@EntityManagerFactory"/>                          
 
    <drools:rule-base name="securityRules">
        <drools:rule-files>
