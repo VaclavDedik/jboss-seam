@@ -48,14 +48,79 @@ public class VFSScanner extends AbstractScanner
       super(deploymentStrategy);
    }
 
+   /**
+    * Get the virtual file root.
+    *
+    * @param url the root URL
+    * @param parentDepth level of parent depth
+    * @return actual virtual file from url param
+    * @throws IOException for any error
+    */
+   protected static VirtualFile getRoot(URL url, int parentDepth) throws IOException
+   {
+      boolean trace = log.isTraceEnabled();
+
+      if (trace)
+         log.trace("Root url: " + url);
+
+      String urlString = url.toString();
+      int p = urlString.indexOf(":");
+      String file = urlString.substring(p + 1);
+      URL vfsurl = null;
+      String relative;
+      File fp = new File(file);
+      if (trace)
+         log.trace("File: " + fp);
+
+      if (fp.exists())
+      {
+         vfsurl = fp.getParentFile().toURL();
+         relative = fp.getName();
+      }
+      else
+      {
+         File curr = fp;
+         relative = fp.getName();
+         while ((curr = curr.getParentFile()) != null)
+         {
+            if (curr.exists())
+            {
+               vfsurl = curr.toURL();
+               break;
+            }
+            else
+            {
+               relative = curr.getName() + "/" + relative;
+            }
+         }
+      }
+
+      if (trace)
+         log.trace("URL: " + vfsurl + ", relative: " + relative);
+
+      VirtualFile top = VFS.getRoot(vfsurl);
+      top = top.getChild(relative);
+      while(parentDepth > 0)
+      {
+         if (top == null)
+            throw new IllegalArgumentException("Null parent: " + vfsurl);
+         top = top.getParent();
+         parentDepth--;
+      }
+      return top;
+   }
+
    public void scanDirectories(File[] directories)
    {
       for (File dir : directories)
       {
          try
          {
-            VirtualFile root = VFS.getRoot(dir.toURI());
-            handleRoot(root);
+            VirtualFile root = getRoot(dir.toURL(), 0);
+            if (root != null)
+               handleRoot(root);
+            else if (log.isTraceEnabled())
+               log.trace("Null root: " + dir);
          }
          catch (IOException e)
          {
@@ -74,8 +139,11 @@ public class VFSScanner extends AbstractScanner
             while (urlEnum.hasMoreElements())
             {
                URL url = urlEnum.nextElement();
-               VirtualFile root = VFS.getRoot(url);
-               handleRoot(root);
+               VirtualFile root = getRoot(url, resourceName.lastIndexOf('/') > 0 ? 2 : 1);
+               if (root != null)
+                  handleRoot(root);
+               else if (log.isTraceEnabled())
+                  log.trace("Null root: " + url);
             }
          }
          catch (IOException ioe)
@@ -93,12 +161,19 @@ public class VFSScanner extends AbstractScanner
     */
    protected void handleRoot(VirtualFile file) throws IOException
    {
-      List<VirtualFile> children = file.getChildrenRecursively();
-      for (VirtualFile child : children)
+      if (file.isLeaf())
       {
-         if (child.isLeaf())
+         getDeploymentStrategy().handle(file.getPathName());
+      }
+      else
+      {
+         List<VirtualFile> children = file.getChildrenRecursively();
+         for (VirtualFile child : children)
          {
-            getDeploymentStrategy().handle(child.getPathName());
+            if (child.isLeaf())
+            {
+               getDeploymentStrategy().handle(child.getPathName());
+            }
          }
       }
    }
