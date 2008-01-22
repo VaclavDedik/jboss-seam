@@ -657,13 +657,7 @@
       <dependency>
         <groupId>org.jboss.seam.embedded</groupId>
         <artifactId>jboss-embedded-api</artifactId>
-        <version>beta3-SNAPSHOT</version>
-      </dependency>
-      
-      <dependency>
-        <groupId>org.jboss.embedded</groupId>
-        <artifactId>jboss-embedded-api</artifactId>
-        <version>beta2</version>
+        <version>beta3</version>
       </dependency>
 
       <dependency>

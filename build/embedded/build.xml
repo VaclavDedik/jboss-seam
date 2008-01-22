@@ -14,6 +14,7 @@
 	
 	<property name="shaded.embedded.jars.dir" value="${tmp.dir}/embedded"/>
 	<property name="embedded.jars.dir" value="${embedded.dir}/output/lib/embedded-jboss/lib" />
+	<property name="embedded.dist.zip" value="${embedded.dir}/embedded-jboss-${embedded.version}.zip" />
 
 	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
 	<artifact:remoteRepository id="offline.repository.jboss.org" url="file:///${offline.repository.jboss.org}" />
@@ -78,5 +79,17 @@
 			<authentication username="${username}" password="${password}" />
 		</deploy>
 	</target>
+   
+   <target name="deployEmbeddedRelease" depends="initdav, shadeEmbedded">
+   	  <echo>Using Jars from ${embedded.jars.dir}</echo>
+      <deploy pom="${embedded.poms.dir}/shaded/jboss-embedded.pom.xml" jar="${shaded.embedded.jars.dir}/jboss-embedded.jar" repositoryId="offline.repository.jboss.org" unique="false"/>
+      <deploy pom="${embedded.poms.dir}/shaded/jboss-embedded-all.pom.xml" jar="${shaded.embedded.jars.dir}/jboss-embedded-all.jar"  repositoryId="offline.repository.jboss.org"  unique="false"/>
+      <deploy pom="${embedded.poms.dir}/shaded/hibernate-all.pom.xml" jar="${shaded.embedded.jars.dir}/hibernate-all.jar"  repositoryId="offline.repository.jboss.org"  unique="false"/>
+      <deploy pom="${embedded.poms.dir}/shaded/thirdparty-all.pom.xml" jar="${shaded.embedded.jars.dir}/thirdparty-all.jar"  repositoryId="offline.repository.jboss.org"  unique="false"/>
+      <deployWithAttachment pom="${embedded.poms.dir}/jboss-embedded.pom.xml" jar="${embedded.jars.dir}/jboss-embedded.jar" repositoryId="offline.repository.jboss.org" attachment="${embedded.dist.zip}"  unique="false"/>
+      <deploy pom="${embedded.poms.dir}/jboss-embedded-all.pom.xml" jar="${embedded.jars.dir}/jboss-embedded-all.jar"  repositoryId="offline.repository.jboss.org"  unique="false"/>
+      <deploy pom="${embedded.poms.dir}/hibernate-all.pom.xml" jar="${embedded.jars.dir}/hibernate-all.jar"  repositoryId="offline.repository.jboss.org"  unique="false"/>
+      <deploy pom="${embedded.poms.dir}/thirdparty-all.pom.xml" jar="${embedded.jars.dir}/thirdparty-all.jar"  repositoryId="offline.repository.jboss.org"  unique="false"/>
+   </target>
 	
 </project>
