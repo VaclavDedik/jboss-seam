@@ -455,6 +455,7 @@
 		<copy todir="${dist.lib.dir}">
 			<fileset dir="${lib.dir}">
 				<include name="**/*.jar" />
+				<exclude name="jboss-seam-jbas5.jar" />
 			</fileset>
 		</copy>
 
@@ -931,6 +932,7 @@
 			<path refid="compile.pdf.path" />
 			<path refid="compile.remoting.path" />
 			<path refid="compile.ui.path" />
+			<path refid="compile.jbas5.path" />
 		</eclipseClasspath>
 	</target>
 

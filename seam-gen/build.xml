@@ -599,6 +599,7 @@
                 <exclude name="ajax4jsf*.jar" if="icefaces.property"/>
                 <exclude name="richfaces*.jar" if="icefaces.property"/>
             	<exclude name="jboss-container.jar" />
+                <exclude name="jboss-seam-jbas5.jar" />
             	<exclude name="test/jboss-deplyers.jar" />
             	<exclude name="test/jboss-embedded-api.jar" />
             </fileset>
