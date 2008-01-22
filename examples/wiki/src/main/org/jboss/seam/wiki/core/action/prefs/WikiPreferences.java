@@ -118,6 +118,12 @@ public class WikiPreferences implements Serializable {
     private Long purgeFeedEntriesAfterDays;
 
     @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.wiki.ShowSiteFeedInMenu']}",
+        visibility = PreferenceVisibility.SYSTEM
+    )
+    private Boolean showSiteFeedInMenu;
+
+    @PreferenceProperty(
         description = "#{messages['lacewiki.preferences.wiki.AtSymbolReplacement']}",
         visibility = PreferenceVisibility.SYSTEM,
         editorIncludeName = "AdaptiveTextInput"
@@ -210,6 +216,10 @@ public class WikiPreferences implements Serializable {
 
     public Long getPurgeFeedEntriesAfterDays() {
         return purgeFeedEntriesAfterDays;
+    }
+
+    public Boolean getShowSiteFeedInMenu() {
+        return showSiteFeedInMenu;
     }
 
     public String getAtSymbolReplacement() {

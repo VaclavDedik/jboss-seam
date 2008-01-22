@@ -34,7 +34,7 @@
                         <s:span styleClass="undecoratedLink"
                                 rendered="#{not preferences.get('FeedAggregator', currentMacro).hideAuthor}">
                             <h:outputText value=",&#160;#{messages['feedAggregator.label.By']}&#160;"/>
-                            <h:outputText styleClass="feedEntryAuthor" value="#{feDTO.feedEntry.author}"/>
+                            <h:outputText styleClass="feedEntryAuthor" value="#{wiki:escapeAtSymbol(feDTO.feedEntry.author)}"/>
                         </s:span>
 
                         <s:span styleClass="undecoratedLink"
@@ -49,13 +49,13 @@
                     <s:div styleClass="feedEntryTitle undecoratedLink"
                            rendered="#{not preferences.get('FeedAggregator', currentMacro).hideTitle}">
                         <h:outputLink target="_top" value="#{feDTO.feedEntry.link}">
-                            <h:outputText escape="false" value="#{feDTO.feedEntry.titleStripped}"/>
+                            <h:outputText escape="false" value="#{wiki:escapeAtSymbol(feDTO.feedEntry.titleStripped)}"/>
                         </h:outputLink>
                     </s:div>
 
                     <s:div styleClass="feedEntryBody" rendered="#{not preferences.get('FeedAggregator', currentMacro).hideDescription}">
                         <h:outputText escape="false"
-                                      value="#{wiki:truncateStringOnWordBoundary(feDTO.feedEntry.descriptionValueStrippedNoNewlines,
+                                      value="#{wiki:truncateStringOnWordBoundary(wiki:escapeAtSymbol(feDTO.feedEntry.descriptionValueStrippedNoNewlines),
                                                                    preferences.get('FeedAggregator', currentMacro).truncateDescription)}"/>
 
                         <h:outputLink target="_top" styleClass="feedEntryBodyMoreLink"
