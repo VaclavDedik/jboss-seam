@@ -91,8 +91,8 @@ public class BlogTest extends SeamTest
          @Override
          protected void beforeRequest()
          {
-            setPageParameter("name", "Mr_Smiley");
-            setPageParameter("blogId", "1");
+            setParameter("name", "Mr_Smiley");
+            setParameter("blogId", "1");
          }         
          
          @Override
