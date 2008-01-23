@@ -31,8 +31,16 @@ public abstract class AbstractDeploymentHandler implements DeploymentHandler
     */
    protected ClassFile getClassFile(String name, ClassLoader classLoader) throws IOException 
    {
+      if (name == null)
+      {
+         throw new NullPointerException("name cannot be null");
+      }
       InputStream stream = classLoader.getResourceAsStream(name);
-      DataInputStream dstream = new DataInputStream(stream); 
+      if (stream == null)
+      {
+         throw new IllegalStateException("Cannot load " + name + " from " + classLoader + " using getResourceAsStream()");
+      }
+      DataInputStream dstream = new DataInputStream(stream);
 
       try 
       { 
