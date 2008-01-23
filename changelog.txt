@@ -1,6 +1,92 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.1.CR2
+
+** Bug
+    * [JBSEAM-1853] - Wiki diff is broken
+    * [JBSEAM-1883] - Deleting a tree of wiki nodes does not update the Lucene index
+    * [JBSEAM-1986] - entityQuery.getResultCount() fails if there is a join fetch in the ejbql
+    * [JBSEAM-2083] - RichFaces - No active conversation context 
+    * [JBSEAM-2112] - required parameters cause ValidatorException on postbacks
+    * [JBSEAM-2139] - Exception redirect not propagating messages
+    * [JBSEAM-2152] - Exception thrown from method expression causing re-evaluation as value expression
+    * [JBSEAM-2186] - RichFaces loses skin with login-required="true" in pages.xml
+    * [JBSEAM-2247] - Error in resources-weblogic92/WEB-INF/web.xml included with jpa example
+    * [JBSEAM-2256] - CLONE -EmptyStackException in Transaction.java
+    * [JBSEAM-2281] - When using incremental hot deploy Events are fired more than once
+    * [JBSEAM-2299] - Seam Generate Entities creates edit field for @Version annotated fields
+    * [JBSEAM-2316] - EntityHome#getEntityClass() returns EntityManager.class rather than entity class
+    * [JBSEAM-2335] - Page Parameters: incorrect validation code in org.jboss.seam.navigation.Pages
+    * [JBSEAM-2336] - Startup attribute for factory methods in components.xml
+    * [JBSEAM-2345] - pages-2.0.xsd handling of <Navigation> doesn't allow standard rules and a null-accepting implicit rule
+    * [JBSEAM-2357] - EL.EL_CONTEXT is not thread safe
+    * [JBSEAM-2370] - seamdiscs tests fails
+    * [JBSEAM-2376] - eclipseclasspath task broken for windows 
+    * [JBSEAM-2378] - SpringELResolver should use EL.EL_RESOLVER instead of EL.EL_CONTEXT
+    * [JBSEAM-2391] - s:link Enhanced EL support issue
+    * [JBSEAM-2396] - <s:decorate tag outputs styleClass attribut to html as styleClass="" instead of class="" and thus generating incorrect output
+    * [JBSEAM-2425] - seam-gen / RF 3.1.3 simpleTogglePanel float clearing
+    * [JBSEAM-2426] - seam-gen components.xml templates have incorrect event id for notLoggedIn redirect
+    * [JBSEAM-2439] - Exception rules in pages.xml redirect to a 404 page if redirect destination isn't in web root.
+    * [JBSEAM-2445] - MalformedURLException from Scanner.java
+    * [JBSEAM-2453] - RegisterTest.testRegister failing
+    * [JBSEAM-2454] - Pages raises event "org.jboss.seam.notLoggedIn", Documentation uses "org.jboss.seam.security.notLoggedIn"
+    * [JBSEAM-2458] - UIAttachment uses incorrect field name to get document type
+    * [JBSEAM-2460] - getValidator incorrectly references converterId in Param.java
+    * [JBSEAM-2461] - startup attribute missing from components-2.0.xsd for component
+    * [JBSEAM-2462] - attribute namefor meldware-user administrator property is wrong in XSD
+    * [JBSEAM-2470] - core.jar needed for Drools support in seam-gen projects
+    * [JBSEAM-2472] - a:support should use ajaxSingle="true" for validation
+    * [JBSEAM-2495] - Register fails on seamspace
+    * [JBSEAM-2498] - seam-gen generate-entities  java.lang.ClassNotFoundException:
+
+** Feature Request
+    * [JBSEAM-620] - Make the booking work on WLS 10.0 Preview
+    * [JBSEAM-1475] - Incorporate ICEFaces in seam-gen
+    * [JBSEAM-1743] - Clipboard functionality
+    * [JBSEAM-1863] - Pager plugin for previous/next document in a directory
+    * [JBSEAM-2136] - Fragment/anchor support for wiki links
+    * [JBSEAM-2164] - Improve exception chaining in SeamLoginModule
+    * [JBSEAM-2304] - Possibility to inject enums as part of components.xml-config
+    * [JBSEAM-2328] - Profile photos in Forum
+    * [JBSEAM-2366] - allow configuration of content-disposition for PDFs
+    * [JBSEAM-2384] - PDF Templating
+    * [JBSEAM-2395] - Remove Hiberate Dependency
+    * [JBSEAM-2397] - Implement trash feature for WikiFiles
+    * [JBSEAM-2406] - Hide email addresses in forum when user is not logged in always
+    * [JBSEAM-2414] - Render swing components to PDF
+    * [JBSEAM-2421] - Forgot password feature
+    * [JBSEAM-2442] - Event notification of conversation-timeout
+    * [JBSEAM-2451] - Feed aggregator
+    * [JBSEAM-2457] - Wiki URLs for feeds
+    * [JBSEAM-2467] - add supported-locale elements to faces-config.xml
+    * [JBSEAM-2477] - Have a feed where comments are filtered out for usage in aggregation sites
+    * [JBSEAM-2486] - FAQ browser plugin
+    * [JBSEAM-2488] - Make scanner pluggable
+    * [JBSEAM-2502] - Create JIRA plugin
+
+** Patch
+    * [JBSEAM-2511] - Syntax error in seam-gen output for date componentProperty
+
+** Task
+    * [JBSEAM-1734] - Document behavior of s:link and @DataModel
+    * [JBSEAM-2089] - Document deploying Seam apps to WLS
+    * [JBSEAM-2091] - Update oc4j docs for new dependencies
+    * [JBSEAM-2294] - Tests for nestedbooking example
+    * [JBSEAM-2349] - Upgrade to JBoss Embedded Beta 3
+    * [JBSEAM-2363] - Workspace management and JSF navigation(681)
+    * [JBSEAM-2387] - Rename hibernate2 example
+    * [JBSEAM-2398] - word repeat on Jboss Seam Documentation
+    * [JBSEAM-2400] - Location of .drl files in deployed applications
+    * [JBSEAM-2409] - Remove SLASH from seam text grammar
+    * [JBSEAM-2411] - Create a JPA weblogic 10.0 examples resource and build scripts.
+    * [JBSEAM-2412] - Upgrade to RichFaces 3.1.3.GA
+    * [JBSEAM-2446] - Document how to set up the classpath and directory structure for Seam integration testing with Embedded JBoss
+    * [JBSEAM-2459] - Document to use hot deployment feature, SeamFilter needs to be activated
+    * [JBSEAM-2476] - Verify and attempt to use EAR/WAR ANTLR lib rather than weblogic 10's lib for examples in reference doc
+    * [JBSEAM-2506] - Remove standalone EM/EMF test example from documentation
+    * [JBSEAM-2521] - Strip identity management out of seam-gen
 
 
 Release Notes - JBoss Seam - Version 2.0.1.CR1
