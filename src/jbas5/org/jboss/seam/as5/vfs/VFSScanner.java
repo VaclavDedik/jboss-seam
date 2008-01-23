@@ -160,23 +160,25 @@ public class VFSScanner extends AbstractScanner
    /**
     * Handle virtual file root.
     *
-    * @param file the virtual file root
+    * @param root the virtual file root
     * @throws IOException for any error
     */
-   protected void handleRoot(VirtualFile file) throws IOException
+   protected void handleRoot(VirtualFile root) throws IOException
    {
-      if (file.isLeaf())
+      if (root.isLeaf())
       {
-         getDeploymentStrategy().handle(file.getPathName());
+         getDeploymentStrategy().handle(root.getPathName());
       }
       else
       {
-         List<VirtualFile> children = file.getChildrenRecursively();
+         String rootPathName = root.getPathName();
+         int rootPathNameLength = rootPathName.length() + 1; // past last '/'
+         List<VirtualFile> children = root.getChildrenRecursively();
          for (VirtualFile child : children)
          {
             if (child.isLeaf())
             {
-               getDeploymentStrategy().handle(child.getPathName());
+               getDeploymentStrategy().handle(child.getPathName().substring(rootPathNameLength));
             }
          }
       }
