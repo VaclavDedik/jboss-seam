@@ -30,7 +30,6 @@
     
     <fileset id="lib" dir="${lib.dir}">
         <include name="*.jar" />
-        <exclude name="jboss-seam-jbas5.jar" />
     </fileset>
     
     <path id="build.classpath">
@@ -185,7 +184,6 @@
                 <include name="jsf-facelets.jar" />
                 <include name="jboss-seam-*.jar" />
                 <exclude name="jboss-seam-gen.jar" />
-            	<exclude name="jboss-seam-jbas5.jar" />
                 <include name="drools-*.jar"/>
                 <include name="core.jar"/>
                 <include name="janino*.jar"/>

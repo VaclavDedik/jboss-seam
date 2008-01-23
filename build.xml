@@ -259,7 +259,7 @@
 	</target>
 
 	<target name="jarjbas5" depends="compilejbas5" description="Build the distribution .jar file for the JBAS5 integration package">
-		<archive classesdir="${classes.jbas5.dir}" module="jboss-seam-jbas5" pom="${jbas5.pom}"  srcdir="${src.jbas5.dir}"/>
+		<archive classesdir="${classes.jbas5.dir}" module="jboss-seam-jbas5" pom="${jbas5.pom}"  srcdir="${src.jbas5.dir}" outputdir="${lib.dir}/interop" />
 	</target>
 
 	<!-- ########################### GEN TARGETS ###########################-->
@@ -430,6 +430,7 @@
 		<copysource destdir="${dist.src.remoting.dir}" srcdir="${src.remoting.dir}" />
 		<copysource destdir="${dist.src.mail.dir}" srcdir="${src.mail.dir}" />
 		<copysource destdir="${dist.src.debug.dir}" srcdir="${src.debug.dir}" />
+		<copysource destdir="${dist.src.jbas5.dir}" srcdir="${src.jbas5.dir}" />
 		<copysource destdir="${dist.src.gen.dir}" srcdir="${src.gen.dir}" />
 		<copysource destdir="${dist.src.test.dir}" srcdir="${src.test.dir}" />
 
@@ -460,7 +461,6 @@
 		<copy todir="${dist.lib.dir}">
 			<fileset dir="${lib.dir}">
 				<include name="**/*.jar" />
-				<exclude name="jboss-seam-jbas5.jar" />
 			</fileset>
 		</copy>
 
@@ -755,10 +755,11 @@
 		<attribute name="classesdir" />
 		<attribute name="pom" />
 		<attribute name="srcdir" />
+		<attribute name="outputdir" default="${lib.dir}" />
 		<sequential>
-			<mkdir dir="${lib.dir}" />
-			<mkdir dir="${lib.dir}/src" />
-			<jar jarfile="${lib.dir}/@{module}.jar" basedir="@{classesdir}">
+			<mkdir dir="@{outputdir}" />
+			<mkdir dir="@{outputdir}/src" />
+			<jar jarfile="@{outputdir}/@{module}.jar" basedir="@{classesdir}">
 				<include name="**/*.class" />
 				<exclude name="**/test/*.class" />
 				<patternset refid="meta.files" />
@@ -767,7 +768,7 @@
 					<attribute name="Implementation-Version" value="${complete.version}" />
 				</manifest>
 			</jar>
-			<jar jarfile="${lib.dir}/src/@{module}-sources.jar" basedir="@{srcdir}">
+			<jar jarfile="@{outputdir}/src/@{module}-sources.jar" basedir="@{srcdir}">
 				<include name="**/*.java" />
 				<exclude name="**/test/*.java" />
 				<patternset refid="meta.files" />
@@ -776,8 +777,8 @@
 					<attribute name="Implementation-Version" value="${complete.version}" />
 				</manifest>
 			</jar>
-			<install jar="${lib.dir}/@{module}.jar" pom="@{pom}">
-				<attach file="${lib.dir}/src/@{module}-sources.jar" classifier="sources" />
+			<install jar="@{outputdir}/@{module}.jar" pom="@{pom}">
+				<attach file="@{outputdir}/src/@{module}-sources.jar" classifier="sources" />
 			</install>
 		</sequential>
 	</macrodef>
