@@ -38,7 +38,7 @@ public abstract class AbstractDeploymentHandler implements DeploymentHandler
       InputStream stream = classLoader.getResourceAsStream(name);
       if (stream == null)
       {
-         throw new IllegalStateException("Cannot load " + name + " from " + classLoader + " using getResourceAsStream()");
+         throw new IllegalStateException("Cannot load " + name + " from " + classLoader + " (using getResourceAsStream() returned null)");
       }
       DataInputStream dstream = new DataInputStream(stream);
 
