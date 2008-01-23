@@ -94,7 +94,17 @@ public class BlogTest extends SeamTest
             setParameter("name", "Mr_Smiley");
             setParameter("blogId", "1");
          }         
-         
+
+         @Override
+         protected void renderResponse() throws Exception
+         {
+              assert getValue("#{selectedBlog}") != null;
+              assert getValue("#{selectedBlog.blogId}").equals(1);
+         }
+      }.run();
+
+      new FacesRequest("/comment.xhtml", cid)
+      {
          @Override
          protected void invokeApplication() throws Exception
          {
@@ -105,20 +115,20 @@ public class BlogTest extends SeamTest
          }
       }.run();
       
-      new FacesRequest("/comment.xhtml", cid)
-      {
-         @Override
-         protected void updateModelValues() throws Exception
-         {
-            setValue("#{comment.comment}", "I totally disagree with your blog entry!");
-         }
+       new FacesRequest("/comment.xhtml", cid)
+       {
+          @Override
+          protected void updateModelValues() throws Exception
+          {
+             setValue("#{comment.comment}", "I totally disagree with your blog entry!");
+          }
          
-         @Override
-         protected void invokeApplication() throws Exception
-         {
-            assert invokeAction("#{blog.saveComment}") == null;
-         }
-      }.run();
+          @Override
+          protected void invokeApplication() throws Exception
+          {
+             assert invokeAction("#{blog.saveComment}") == null;
+          }
+       }.run();
       
       new FacesRequest()
       {
@@ -128,6 +138,7 @@ public class BlogTest extends SeamTest
             invokeAction("#{identity.logout}");
             assert getValue("#{identity.loggedIn}").equals(false);
          }
-      }.run();        
+      }.run();    
+      
    }
 }
