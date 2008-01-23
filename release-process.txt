@@ -14,7 +14,7 @@ Updating version numbers
 Tests
 -----
 * "ant cleanall testall testreport" with validate.xml = true in build.properties, check report/junit-noframes.html
-* Sanity check the following example applications on JBoss 4.2.1
+* Sanity check the following example applications on JBoss 4.2.2
   - booking
   - dvdstore
   - jpa
@@ -59,7 +59,7 @@ CREATE TABLE `Vehicle` (
   CONSTRAINT `owner` FOREIGN KEY (`ownerUsername`) REFERENCES `person` (`username`)
 ) ENGINE=InnoDB 
 
-* run "seam setup new-project generate-entities explode"
+* run "seam setup create-project generate-entities explode"
   - test the app, at least the list and edit pages for Person
 * run "seam new-action new-form restart"
   - test both generated pages
@@ -75,9 +75,10 @@ CREATE TABLE `Vehicle` (
 
 
 
-Tag CVS
+Tag SVN
 -------
-* "cvs rtag JBoss_Seam_x_x_x_XX jboss-seam"
+* "svn copy trunk tags/JBoss_Seam_x_x_x_XX"
+* "svn commit tags/JBoss_Seam_x_x_x_XX"
 
 Build + Upload
 --------------
