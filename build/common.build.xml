@@ -129,7 +129,6 @@
 		<artifact:dependencies filesetId="seam.fileset" versionsId="seam.versions">
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="${complete.version}" />
-            <dependency groupId="org.jboss.seam" artifactId="jboss-seam-jbas5" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ioc" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-mail" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-pdf" version="${complete.version}" />
@@ -209,6 +208,38 @@
        		    <attach file="@{path}/resources/jboss-seam-@{name}-ds.xml" classifier="ds" type="xml" />
        			<remoteRepository refid="@{repositoryId}" />
        		</artifact:deploy>
+       	</sequential>
+	</macrodef>
+	
+	<macrodef name="installExample">
+		<attribute name="name" />
+       	<attribute name="path" default="${seam.dir}/examples/@{name}" />
+       	<sequential>
+           <ant dir="@{path}" target="archive" inheritall="false">
+           		<propertyset>
+					<propertyref name="initpomsdone" />
+					<propertyref name="copyseamdone" />
+					<propertyref name="copyseamdependenciesdone" />
+					<propertyref name="copyjbossembeddeddone" />
+					<propertyref name="core.pom" />
+					<propertyref name="root.pom" />
+					<propertyref name="parent.pom" />
+					<propertyref name="ui.pom" />
+					<propertyref name="remoting.pom" />
+					<propertyref name="gen.pom" />
+					<propertyref name="pdf.pom" />
+					<propertyref name="ioc.pom" />
+					<propertyref name="mail.pom" />
+					<propertyref name="debug.pom" />
+                    <propertyref name="jbas5.pom" />
+					<propertyref name="testng.jvmargs"/>
+				</propertyset>
+           	</ant>
+       		<pomfile name="example.pom" value="@{path}/pom.xml" />
+       		<artifact:install file="@{path}/dist/jboss-seam-@{name}.ear">
+       			<pom file="${example.pom}" />
+       		    <attach file="@{path}/resources/jboss-seam-@{name}-ds.xml" classifier="ds" type="xml" />
+       		</artifact:install>
        	</sequential>
 	</macrodef>
 	

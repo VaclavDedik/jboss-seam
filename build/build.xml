@@ -151,6 +151,10 @@
 		<deployExample name="${name}" repositoryId="snapshots.jboss.org"/>
 	</target>
 	
+	<target name="installExample">
+		<installExample name="${name}"/>
+	</target>
+	
 	<macrodef name="offline">
 		<attribute name="pom" />
 		<attribute name="repository" />
