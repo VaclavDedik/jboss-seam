@@ -44,7 +44,10 @@
                     <s:div styleClass="feedEntryInfo smallFont">
 
                         <s:span rendered="#{not preferences.get('FeedAggregator', currentMacro).hideDate}">
-                            <h:outputText value="#{feDTO.feedEntry.publishedDate}">
+                            <h:outputText value="#{feDTO.feedEntry.publishedDate}" rendered="#{empty feDTO.feedEntry.updatedDate}">
+                                <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                            </h:outputText>
+                            <h:outputText value="#{feDTO.feedEntry.updatedDate}" rendered="#{not empty feDTO.feedEntry.updatedDate}">
                                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                             </h:outputText>
                             <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>

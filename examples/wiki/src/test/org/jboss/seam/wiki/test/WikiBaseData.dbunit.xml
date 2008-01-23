@@ -24,7 +24,7 @@
 
     <PREFERENCE PREF_ID = "20" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "minorRevisionEnabled" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
     <PREFERENCE PREF_ID = "21" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "regularEditAreaRows" STRING_VALUE = "[NULL]" LONG_VALUE = "15" BOOLEAN_VALUE = "[NULL]"/>
-    <PREFERENCE PREF_ID = "22" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "regularEditAreaColumns" STRING_VALUE = "[NULL]" LONG_VALUE = "65" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "22" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "DocEditor" PROPERTY_NAME = "regularEditAreaColumns" STRING_VALUE = "[NULL]" LONG_VALUE = "60" BOOLEAN_VALUE = "[NULL]"/>
 
     <PREFERENCE PREF_ID = "30" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "UserManagement" PROPERTY_NAME = "activationCodeSalt" STRING_VALUE = "MySecretSalt123" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "31" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "UserManagement" PROPERTY_NAME = "passwordRegex" STRING_VALUE = "^[0-9A-Za-z]{6,15}" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
@@ -41,7 +41,8 @@
 
     <PREFERENCE PREF_ID = "110" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "numberOfItems" STRING_VALUE = "[NULL]" LONG_VALUE = "5" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "111" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "showUsernames" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "true"/>
-    <PREFERENCE PREF_ID = "112" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "documentTitleLength" STRING_VALUE = "[NULL]" LONG_VALUE = "20" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "112" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "documentTitleLength" STRING_VALUE = "[NULL]" LONG_VALUE = "50" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "113" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "LastModifiedDocuments" PROPERTY_NAME = "title" STRING_VALUE = "Last Site Updates" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
 
     <PREFERENCE PREF_ID = "120" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Blog" PROPERTY_NAME = "pageSize" STRING_VALUE = "[NULL]" LONG_VALUE = "5" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "121" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Blog" PROPERTY_NAME = "archiveSubscribeIcon" STRING_VALUE = "[NULL]" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "false"/>
@@ -231,7 +232,7 @@
         NODE_ID="6" FILE_REVISION="3"/>
     <WIKI_DOCUMENT
         NODE_ID="6"
-        CONTENT="Testdocument One with some plugins:&#xA;&#xA;[&lt;=docPager]&#xA;&#xA;&lt;table>&#xA;&lt;tr>&#xA;&lt;td style=&quot;vertical-align:top; padding-right: 20px; width:60%&quot;>&#xA;[&lt;=feedTeasers[feed=1]]&#xA;&lt;br/>&#xA;[&lt;=lastModifiedDocuments[documentTitleLength=10][showUsernames=true]]&#xA;&lt;br/>&#xA;[&lt;=tags[linkToCurrentDocument=false]]&#xA;&lt;br/>&#xA;[&lt;=dirMenu[title=Test Menu]]&#xA;&lt;/td>&#xA;&lt;td>&#xA;[&lt;=userProfile]&#xA;&lt;/td>&#xA;&lt;/tr>&#xA;&lt;/table>&#xA;&#xA;And some images/attachments:&#xA;&#xA;[=>BBB|Test Image]&#xA;&#xA;[=>BBB|Test Upload]&#xA;&#xA;"
+        CONTENT="Testdocument One with some plugins:&#xA;&#xA;[&lt;=docPager]&#xA;&#xA;&lt;table>&#xA;&lt;tr>&#xA;&lt;td style=&quot;vertical-align:top; padding-right: 20px; width:60%&quot;>&#xA;[&lt;=feedTeasers[feed=1]]&#xA;&lt;br/>&#xA;[&lt;=lastModifiedDocuments[documentTitleLength=60][showUsernames=true]]&#xA;&lt;br/>&#xA;[&lt;=tags[linkToCurrentDocument=false]]&#xA;&lt;br/>&#xA;[&lt;=dirMenu[title=Test Menu]]&#xA;&lt;/td>&#xA;&lt;td style=&quot;vertical-align:top;&quot;>&#xA;[&lt;=userProfile]&#xA;&lt;/td>&#xA;&lt;/tr>&#xA;&lt;/table>&#xA;&#xA;And some images/attachments:&#xA;&#xA;[=>BBB|Test Image]&#xA;&#xA;[=>BBB|Test Upload]&#xA;&#xA;"
         HEADER="[&lt;=headerMacro1]&#xA;[&lt;=headerMacro2]" FOOTER="[&lt;=footerMacro1]&#xA;[&lt;=footerMacro2]&#xA;"
         HEADER_MACROS="headerMacro1 headerMacro2" CONTENT_MACROS="docPager feedTeasers lastModifiedDocuments tags dirMenu userProfile" FOOTER_MACROS="footerMacro1 footerMacro2"
         NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>

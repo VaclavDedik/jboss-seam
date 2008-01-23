@@ -237,7 +237,7 @@
         // ###################### Design #################################
 
         function pulsate(query) {
-            var blinkCount = 4*2;
+            var blinkCount = 2*2;
             do {
                 jQuery(query)['fade'+(blinkCount%2==0?'Out':'In')]('fast');
             } while (--blinkCount);
@@ -385,11 +385,24 @@
         <s:div id="messageBoxContainer">
             <s:div id="messageBox" styleClass="messageBox" rendered="#{!empty facesMessages.currentGlobalMessages}">
                 <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
-                    <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0">
-                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/info.gif"
-                                        width="18" height="18" styleClass="messageBoxImage infoImage"/>
-                        <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
+
+                    <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
+                                 rendered="#{message.severity.ordinal == 0}">
+                            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/info.gif"
+                                            width="18" height="18"
+                                            styleClass="messageBoxImage infoImage"/>
+                            <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
                     </h:panelGrid>
+
+                    <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
+                                 rendered="#{message.severity.ordinal > 0}">
+                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/attention.gif"
+                                        rendered="#{message.severity.ordinal > 0}"
+                                        width="18" height="18"
+                                        styleClass="messageBoxImage attentionImage"/>
+                        <h:outputText styleClass="attentionMessage" value="#{message.summary}"/>
+                    </h:panelGrid>
+
                 </ui:repeat>
                 <script type="text/javascript">jQuery(function() {
                     jQuery("#messageBoxContainer").css("margin-top", "10px").css("margin-bottom", "10px");

@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.plugin.lastmodified;
 
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Range;
+import org.hibernate.validator.Length;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.annotations.PreferenceProperty;
 import org.jboss.seam.wiki.preferences.annotations.Preferences;
@@ -10,6 +11,15 @@ import java.io.Serializable;
 
 @Preferences(name = "LastModifiedDocuments", description = "#{messages['lastModifiedDocuments.preferences.Name']}")
 public class LastModifiedDocumentsPreferences implements Serializable {
+
+    @PreferenceProperty(
+        description = "#{messages['lastModifiedDocuments.preferences.Title']}",
+        visibility = {PreferenceVisibility.SYSTEM, PreferenceVisibility.INSTANCE},
+        editorIncludeName = "AdaptiveTextInput"
+    )
+    @Length(min = 0, max = 255)
+    @NotNull
+    private String title;
 
     @PreferenceProperty(
         description = "#{messages['lastModifiedDocuments.preferences.NumberOfItems']}",
@@ -35,6 +45,10 @@ public class LastModifiedDocumentsPreferences implements Serializable {
     @Range(min = 5l, max = 100l)
     @NotNull
     private Long documentTitleLength;
+
+    public String getTitle() {
+        return title;
+    }
 
     public Long getNumberOfItems() {
         return numberOfItems;

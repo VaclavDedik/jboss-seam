@@ -203,6 +203,8 @@ public class FeedDAO {
     public void updateFeedEntry(WikiDirectory parentDir, WikiNode node, FeedEntry feedEntry, boolean pushOnSiteFeed) {
         log.debug("updating feed entry: " + feedEntry.getId());
 
+        feedEntry.setUpdatedDate(new Date());
+
         // Link feed entry with all feeds (there might be new feeds since this feed entry was created)
         List<WikiFeed> feeds = findParentFeeds(parentDir, pushOnSiteFeed);
         for (Feed feed : feeds) {

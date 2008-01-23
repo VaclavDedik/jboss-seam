@@ -434,11 +434,10 @@ b.rtop b.r4, b.rbottom b.r4 {
     vertical-align: text-top;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
 }
 
 .attentionMessage {
+    font-weight: bold;
 	color: #666;
 }
 
@@ -652,6 +651,10 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .wrapWhitespace {
     white-space: normal;
+}
+
+.noWrapWhitespace {
+    white-space: nowrap;
 }
 
 /* Pager
@@ -938,8 +941,8 @@ b.rtop b.r4, b.rbottom b.r4 {
     padding-left: 10px;
     padding-right: 10px;
     background-color: white;
-    margin-left: 80px;
-    margin-right: 80px;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 /* Box on page
@@ -1069,16 +1072,18 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .directorySelectControl {
     text-align: left;
-    width: 40%
+    white-space: nowrap;
 }
 
 .directoryClipboard {
     text-align: right;
-    width: 40%
+    white-space: nowrap;
 }
 
 .directoryTrash {
     text-align: right;
+    white-space: nowrap;
+    width: 125px;
 }
 
 .directoryPathTable {

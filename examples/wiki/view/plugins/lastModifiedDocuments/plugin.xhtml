@@ -10,32 +10,35 @@
     <s:div styleClass="box lastModifiedDocuments">
 
         <s:div styleClass="boxHeader">
-            #{messages['lastModifiedDocuments.label.Last']}
-            #{preferences.get('LastModifiedDocuments', currentMacro).numberOfItems}
-            #{messages['lastModifiedDocuments.label.ModifiedDocuments']}
+            <h:outputText value="#{preferences.get('LastModifiedDocuments', currentMacro).title}"/>
         </s:div>
 
         <div class="boxContent">
 
             <h:dataTable value="#{lastModifiedDocuments.listOfDocuments}" var="doc"
                          styleClass="datatable lastModifiedDocumentsTable"
-                         columnClasses="onePercentColumn alignLeft lastModifiedColumn, defaultColumn alignLeft"
+                         columnClasses="defaultColumn alignLeft lastModifiedColumn"
                          rowClasses="rowOdd,rowEven"
                          cellpadding="0" cellspacing="0" border="0">
                 <h:column>
-                    <h:outputText value="#{doc.lastModifiedOn}"
-                                  rendered="#{!empty doc.lastModifiedOn}">
-                        <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
-                    </h:outputText>
-                    <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
-                    <h:outputText value=" (#{doc.lastModifiedBy.username})"
-                                  rendered="#{!empty doc.lastModifiedBy and preferences.get('LastModifiedDocuments', currentMacro).showUsernames}">
-                    </h:outputText>
-                </h:column>
-                <h:column>
-                    <h:outputLink target="_top" value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
-                        <h:outputText value="#{wiki:truncateString(doc.name, preferences.get('LastModifiedDocuments', currentMacro).documentTitleLength, '...')}"/>
-                    </h:outputLink>
+                    
+                    <s:div styleClass="lastModifiedAuthorDate smallFont">
+                        <h:outputText value="(#{doc.lastModifiedBy.username})&#160;"
+                                      rendered="#{!empty doc.lastModifiedBy and preferences.get('LastModifiedDocuments', currentMacro).showUsernames}">
+                        </h:outputText>
+                        <h:outputText value="#{doc.lastModifiedOn}"
+                                      rendered="#{!empty doc.lastModifiedOn}">
+                            <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
+                        </h:outputText>
+                        <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+                    </s:div>
+
+                    <s:div styleClass="lastModifiedTitle wrapWhitespace">
+                        <h:outputLink target="_top" value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
+                            <h:outputText value="#{wiki:truncateString(doc.name, preferences.get('LastModifiedDocuments', currentMacro).documentTitleLength, '...')}"/>
+                        </h:outputLink>
+                    </s:div>
+
                 </h:column>
             </h:dataTable>
 

@@ -22,6 +22,7 @@ import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.faces.application.FacesMessage;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import java.util.*;
 
@@ -416,7 +417,7 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
                     if (pastedName.length() > 245) {
                         getFacesMessages().addToControlFromResourceBundleOrDefault(
                             "name",
-                            SEVERITY_ERROR,
+                            SEVERITY_WARN,
                             "lacewiki.msg.Clipboard.DuplicatePasteNameFailure",
                             "The name '{0}' was already in use in this area and is too long to be renamed, skipping paste.",
                             pastedName

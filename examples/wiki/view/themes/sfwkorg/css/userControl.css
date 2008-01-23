@@ -43,9 +43,16 @@
     display: inline;
 }
 
-.resetPasswordRequestForm .form {
-    margin:-10px;
+.resetPasswordRequestForm {
+    display: inline;
 }
 
-.resetPasswordRequestForm .form .formFields {
+.resetPasswordRequestFormFields {
+}
+
+.resetPasswordRequestFormFields .entry .label {
+    white-space: nowrap;
+}
+
+.resetPasswordRequestFormControls {
 }

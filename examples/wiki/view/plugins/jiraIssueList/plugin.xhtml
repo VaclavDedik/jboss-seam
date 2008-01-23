@@ -19,8 +19,8 @@
                          rendered="#{not empty jiraIssueList.issues and jiraIssueList.issues.size() > 0}"
                          styleClass="datatable jiraIssueListTable"
                          columnClasses="onePercentColumn alignCenter priorityColumn,
-                                        defaultColumn alignLeft summaryColumn,
-                                        tenPercentColumn alignLeft rightBorder componentsColumn"
+                                        defaultColumn alignLeft summaryColumn wrapWhitespace,
+                                        tenPercentColumn alignLeft componentsColumn"
                          rowClasses="rowOdd, rowEven"
                          cellpadding="0" cellspacing="0" border="0">
 
@@ -41,6 +41,7 @@
                         <h:outputText rendered="#{i.componentNames.indexOf(comp) &lt; i.componentNames.size()-1}"
                                       value=",&#160; "/>
                     </ui:repeat>
+                    <h:outputText value="&#160;" rendered="#{empty i.componentNames}"/>
                 </h:column>
 
 

@@ -65,7 +65,7 @@ public class PreferenceEditor implements Serializable {
 
                 facesMessages.addToControlFromResourceBundleOrDefault(
                     "preferenceValidationErrors",
-                    FacesMessage.SEVERITY_ERROR,
+                    FacesMessage.SEVERITY_WARN,
                     "preferenceValueValidationFailed." + preferenceEntity.getEntityName() + "." + entry.getKey().getFieldName(),
                     preferenceEntity.getDescription() + " - '" + entry.getKey().getDescription() + "': " + validationError.getMessage());
             }

@@ -85,7 +85,7 @@ public class UserPasswordReset implements Serializable {
         User user = getUserForEmail(username, email);
         if (user == null) {
             facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 "lacewiki.msg.resetPassword.NotValid",
                 "Your account and e-mail address information didn't match, please try again to reset your password."
             );
@@ -116,7 +116,7 @@ public class UserPasswordReset implements Serializable {
             );
 
         } catch (Exception ex) {
-            facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send password reset email: " + ex.getMessage());
+            facesMessages.add(FacesMessage.SEVERITY_WARN, "Couldn't send password reset email: " + ex.getMessage());
         }
     }
 
@@ -158,7 +158,7 @@ public class UserPasswordReset implements Serializable {
         Contexts.getSessionContext().remove(RESET_PASSWORD_OF_USER);
 
         facesMessages.addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_ERROR,
+            FacesMessage.SEVERITY_INFO,
             "lacewiki.msg.resetPassword.Complete",
             "Successfully reset password of account '{0}', please log in.",
             persistentUser.getUsername()
@@ -176,7 +176,7 @@ public class UserPasswordReset implements Serializable {
         if (getPassword() == null || getPassword().length() == 0 ||
             getPasswordControl() == null || getPasswordControl().length() == 0) {
             facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 "lacewiki.msg.PasswordOrPasswordControlEmpty",
                 "Please enter your password twice!"
             );
@@ -189,7 +189,7 @@ public class UserPasswordReset implements Serializable {
         Matcher matcher = Pattern.compile(prefs.getPasswordRegex()).matcher(getPassword());
         if (!matcher.find()) {
             facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 "lacewiki.msg.PasswordDoesntMatchPattern",
                 "Password does not match the pattern: {0}",
                 prefs.getPasswordRegex()
@@ -202,7 +202,7 @@ public class UserPasswordReset implements Serializable {
     public boolean passwordMatchesControl() {
         if (!password.equals(passwordControl) ) {
             facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 "lacewiki.msg.PasswordControlNoMatch",
                 "The passwords don't match."
             );

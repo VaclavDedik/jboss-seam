@@ -175,7 +175,7 @@ public class UserHome extends EntityHome<User> {
 
             } else {
                 facesMessages.addFromResourceBundleOrDefault(
-                    FacesMessage.SEVERITY_ERROR,
+                    FacesMessage.SEVERITY_WARN,
                     "lacewiki.msg.userHome.WrongPortraitImageType",
                     "The file type '{0}' is not supported, the portrait was not updated.",
                     uploader.getUpload().getContentType()
@@ -342,7 +342,7 @@ public class UserHome extends EntityHome<User> {
             getPasswordControl() == null || getPasswordControl().length() == 0) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "passwordControl",
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 "lacewiki.msg.PasswordOrPasswordControlEmpty",
                 "Please enter your password twice!"
             );
@@ -356,7 +356,7 @@ public class UserHome extends EntityHome<User> {
         if (!matcher.find()) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "password",
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 "lacewiki.msg.PasswordDoesntMatchPattern",
                 "Password does not match the pattern: {0}",
                 prefs.getPasswordRegex()
@@ -370,7 +370,7 @@ public class UserHome extends EntityHome<User> {
         if (password == null || passwordControl == null || !password.equals(passwordControl) ) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "passwordControl",
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 "lacewiki.msg.PasswordControlNoMatch",
                 "The passwords don't match."
             );
@@ -384,7 +384,7 @@ public class UserHome extends EntityHome<User> {
         if ( foundUser != null && foundUser != getInstance() ) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "username",
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 "lacewiki.msg.UsernameExists",
                 "A user with that name already exists."
             );

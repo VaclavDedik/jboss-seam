@@ -56,11 +56,20 @@ public class FeedAggregatorDAO implements Serializable {
             // Sort by date of feed entry ascending
             new Comparator<FeedEntryDTO>() {
                 public int compare(FeedEntryDTO a, FeedEntryDTO b) {
-                    if (a.getFeedEntry().getPublishedDate().getTime() >
-                        b.getFeedEntry().getPublishedDate().getTime()) return -1;
+                    if (a.getFeedEntry().getUpdatedDate() != null && b.getFeedEntry().getUpdatedDate() != null) {
+                        if (a.getFeedEntry().getUpdatedDate().getTime() >
+                            b.getFeedEntry().getUpdatedDate().getTime()) return -1;
 
-                    return (a.getFeedEntry().getPublishedDate().getTime() ==
-                            b.getFeedEntry().getPublishedDate().getTime() ? 0 : 1);
+                        return (a.getFeedEntry().getUpdatedDate().getTime() ==
+                                b.getFeedEntry().getUpdatedDate().getTime() ? 0 : 1);
+
+                    } else {
+                        if (a.getFeedEntry().getPublishedDate().getTime() >
+                            b.getFeedEntry().getPublishedDate().getTime()) return -1;
+
+                        return (a.getFeedEntry().getPublishedDate().getTime() ==
+                                b.getFeedEntry().getPublishedDate().getTime() ? 0 : 1);
+                    }
                 }
             }
         );

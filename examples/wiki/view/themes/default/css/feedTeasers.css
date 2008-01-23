@@ -3,12 +3,11 @@
 }
 
 .teaserTitle {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .teaserAuthorDate {
-    float: right;
     text-align: right;
 }
 

@@ -20,6 +20,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
+import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import java.util.Date;
 import java.util.List;
@@ -314,7 +315,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         } else {
             getFacesMessages().addToControlFromResourceBundleOrDefault(
                 "name",
-                SEVERITY_ERROR,
+                SEVERITY_WARN,
                 "lacewiki.entity.DuplicateName",
                 "This name is already used, please change it"
             );

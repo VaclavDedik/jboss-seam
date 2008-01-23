@@ -48,7 +48,7 @@ public class WikiTextEditor implements Serializable {
             // TODO: Needs to use resource bundle, how?
             FacesMessages.instance().addToControl(
                 textEditorId + "TextArea",
-                FacesMessage.SEVERITY_ERROR,
+                FacesMessage.SEVERITY_WARN,
                 e.getFacesMessage().getSummary()
             );
         }

@@ -12,7 +12,7 @@
             <h:outputText value="#{messages['lacewiki.label.tagEdit.Tags']}:"/>
         </div>
         <div class="input">
-            <h:inputText id="tagsInput" styleClass="ajaxSupport" tabindex="1" size="70" maxlength="1024" required="false" value="#{home.tagString}">
+            <h:inputText id="tagsInput" styleClass="ajaxSupport" tabindex="1" size="55" maxlength="1024" required="false" value="#{home.tagString}">
                 <a:support event="onchange" reRender="popularTagsList" oncomplete="onAjaxRequestComplete()"/>
             </h:inputText>
         </div>
