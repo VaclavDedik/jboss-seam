@@ -50,7 +50,7 @@ public class EditMacros extends DBUnitSeamTest {
                 for (WikiMacro wikiMacro : docHome.getInstance().getContentMacros()) {
                     if (wikiMacro.getName().equals("lastModifiedDocuments")) {
                         assert wikiMacro.getParams().size()==2;
-                        assert wikiMacro.getParams().get("documentTitleLength").equals("10");
+                        assert wikiMacro.getParams().get("documentTitleLength").equals("60");
                         assert wikiMacro.getParams().get("showUsernames").equals("true");
                         macroFound = true;
                     }

@@ -60,7 +60,7 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
                         if (macro.getName().equals("lastModifiedDocuments")) {
                             LastModifiedDocumentsPreferences lmdPrefs =
                                     (LastModifiedDocumentsPreferences)Preferences.getInstance("LastModifiedDocuments", "currentMacro");
-                            assert lmdPrefs.getDocumentTitleLength().equals(10l);
+                            assert lmdPrefs.getDocumentTitleLength().equals(60l);
                         }
 
                         return null;
