@@ -431,9 +431,9 @@
 			<include name="*.jar" />
 		</fileset>
 		<fileset dir="${lib.dir}">
-			<!-- Don't include seam-ui or jbas5 integration-->
+			<!-- Don't include seam-ui or interop modules -->
 			<exclude name="jboss-seam-ui.jar" />
-			<exclude name="jboss-seam-jbas5.jar" />
+			<exclude name="interop/**/*" />
 		</fileset>
 		<path path="${eejb.conf.dir}" />
 		<path refid="test.classpath.extras" />
