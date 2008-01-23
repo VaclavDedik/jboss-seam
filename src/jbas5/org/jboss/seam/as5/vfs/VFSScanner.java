@@ -58,10 +58,8 @@ public class VFSScanner extends AbstractScanner
     */
    protected static VirtualFile getRoot(URL url, int parentDepth) throws IOException
    {
-      boolean trace = log.isTraceEnabled();
 
-      if (trace)
-         log.trace("Root url: " + url);
+      log.trace("Root url: " + url);
 
       String urlString = url.toString();
       // TODO - this should go away once we figure out why -exp.war is part of CL resources
@@ -73,8 +71,8 @@ public class VFSScanner extends AbstractScanner
       URL vfsurl = null;
       String relative;
       File fp = new File(file);
-      if (trace)
-         log.trace("File: " + fp);
+      
+      log.trace("File: " + fp);
 
       if (fp.exists())
       {
@@ -99,8 +97,7 @@ public class VFSScanner extends AbstractScanner
          }
       }
 
-      if (trace)
-         log.trace("URL: " + vfsurl + ", relative: " + relative);
+      log.trace("URL: " + vfsurl + ", relative: " + relative);
 
       VirtualFile top = VFS.getRoot(vfsurl);
       top = top.getChild(relative);
@@ -112,8 +109,7 @@ public class VFSScanner extends AbstractScanner
          parentDepth--;
       }
 
-      if (trace)
-         log.trace("Top: " + top);
+      log.trace("Top: " + top);
 
       return top;
    }
@@ -127,7 +123,7 @@ public class VFSScanner extends AbstractScanner
             VirtualFile root = getRoot(dir.toURL(), 0);
             if (root != null)
                handleRoot(root);
-            else if (log.isTraceEnabled())
+            else
                log.trace("Null root: " + dir);
          }
          catch (IOException e)
@@ -150,7 +146,7 @@ public class VFSScanner extends AbstractScanner
                VirtualFile root = getRoot(url, resourceName.lastIndexOf('/') > 0 ? 2 : 1);
                if (root != null)
                   handleRoot(root);
-               else if (log.isTraceEnabled())
+               else
                   log.trace("Null root: " + url);
             }
          }
