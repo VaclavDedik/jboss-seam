@@ -64,6 +64,10 @@ public class VFSScanner extends AbstractScanner
          log.trace("Root url: " + url);
 
       String urlString = url.toString();
+      // TODO - this should go away once we figure out why -exp.war is part of CL resources
+      if (urlString.startsWith("vfs") == false)
+         return null;
+
       int p = urlString.indexOf(":");
       String file = urlString.substring(p + 1);
       URL vfsurl = null;
@@ -107,6 +111,10 @@ public class VFSScanner extends AbstractScanner
          top = top.getParent();
          parentDepth--;
       }
+
+      if (trace)
+         log.trace("Top: " + top);
+
       return top;
    }
 
