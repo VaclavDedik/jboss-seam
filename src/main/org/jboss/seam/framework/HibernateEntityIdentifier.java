@@ -3,13 +3,14 @@ package org.jboss.seam.framework;
 import java.io.Serializable;
 
 import org.hibernate.Session;
+import org.jboss.seam.persistence.HibernatePersistenceProvider;
 
 public class HibernateEntityIdentifier extends Identifier<Session>
 {
 
    public HibernateEntityIdentifier(Object entity, Session session)
    {
-      super(entity.getClass(), session.getIdentifier(entity));
+      super(HibernatePersistenceProvider.instance().getBeanClass(entity), session.getIdentifier(entity));
    }
    
    public HibernateEntityIdentifier(Class clazz, Object id)
