@@ -3,7 +3,6 @@ package org.jboss.seam.framework;
 import javax.persistence.EntityManager;
 import javax.transaction.SystemException;
 
-import org.jboss.seam.Entity;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.transaction.Transaction;
 
@@ -11,7 +10,8 @@ public class EntityIdentifier extends Identifier<EntityManager>
 {
    public EntityIdentifier(Object entity, EntityManager entityManager)
    {
-      super(Entity.forClass(entity.getClass()).getBeanClass(), PersistenceProvider.instance().getId(entity, entityManager));
+      super(PersistenceProvider.instance().getBeanClass(entity), PersistenceProvider.instance().getId(entity, entityManager));
+      
    }
    
    public EntityIdentifier(Class clazz, Object id)
