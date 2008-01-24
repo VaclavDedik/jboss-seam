@@ -575,12 +575,6 @@ public class Pages
 //    TODO - Deprecated, remove for next major release
       Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
       Events.instance().raiseEvent(Identity.EVENT_NOT_LOGGED_IN);
-      
-      FacesMessages.instance().addFromResourceBundleOrDefault( 
-            FacesMessage.SEVERITY_WARN, 
-            "org.jboss.seam.NotLoggedIn", 
-            "Please log in first" 
-         );
    }
 
    public static String toString(Object returnValue)

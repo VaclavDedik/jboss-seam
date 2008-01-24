@@ -114,6 +114,16 @@ public class FacesSecurityEvents extends Selector
                getLoginSuccessfulMessage(), 
                Identity.instance().getUsername());
    }
+   
+   @Observer(Identity.EVENT_NOT_LOGGED_IN)
+   public void addNotLoggedInMessage()
+   {      
+      FacesMessages.instance().addFromResourceBundleOrDefault( 
+            FacesMessage.SEVERITY_WARN, 
+            "org.jboss.seam.NotLoggedIn", 
+            "Please log in first" 
+         );      
+   }
 
    public Severity getLoginSuccessfulMessageSeverity()
    {
