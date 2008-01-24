@@ -65,15 +65,20 @@ import org.jboss.seam.util.Reflections;
  * @author Gavin King
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
-public class BaseSeamTest
+public class AbstractSeamTest
 {
 
    private Application application;
    private MockServletContext servletContext;
-   private SeamPhaseListener phases;
+   private static SeamPhaseListener phases;
    private MockHttpSession session;
    private Map<String, Map> conversationViewRootAttributes;
    private Filter seamFilter;
+   
+   static 
+   {
+      phases = new SeamPhaseListener();
+   }
 
    protected boolean isSessionInvalid()
    {
@@ -115,22 +120,6 @@ public class BaseSeamTest
    public Object lookup(String name)
    {
       return Contexts.lookupInStatefulContexts(name);
-   }
-
-   /**
-    * @deprecated use FacesRequest or NonFacesRequest
-    * @author Gavin King
-    */
-   public abstract class Script extends Request
-   {
-      public Script()
-      {
-      }
-
-      public Script(String conversationId)
-      {
-         super(conversationId);
-      }
    }
 
    public abstract class ComponentTest
@@ -371,15 +360,6 @@ public class BaseSeamTest
       }
 
       /**
-       * Override to set up any request parameters for the request.
-       * 
-       * @deprecated use beforeRequest()
-       */
-      protected void setup()
-      {
-      }
-
-      /**
        * Make some assertions, after the end of the request.
        */
       protected void afterRequest()
@@ -392,7 +372,6 @@ public class BaseSeamTest
        */
       protected void beforeRequest()
       {
-         setup();
       }
 
       /**
@@ -410,22 +389,6 @@ public class BaseSeamTest
          {
             // TODO: not working right now, 'cos no mock navigation handler!
             return getFacesContext().getViewRoot().getViewId();
-         }
-      }
-
-      /**
-       * @deprecated use validateValue()
-       */
-      protected void validate(Class modelClass, String property, Object value)
-      {
-         ClassValidator validator = Validators.instance().getValidator(modelClass);
-         InvalidValue[] ivs = validator.getPotentialInvalidValues(property, value);
-         if (ivs.length > 0)
-         {
-            validationFailed = true;
-            FacesMessage message = FacesMessages.createFacesMessage(FacesMessage.SEVERITY_WARN, ivs[0].getMessage());
-            FacesContext.getCurrentInstance().addMessage(property, /* TODO */message);
-            FacesContext.getCurrentInstance().renderResponse();
          }
       }
 
@@ -917,12 +880,6 @@ public class BaseSeamTest
       ServletLifecycle.endSession(session);
       session = null;
    }
-
-   public void init() throws Exception
-   {
-      startSeam();
-      setupClass();
-   }
    
    /**
     * Boot Seam. Can be used at class, test group or suite level (e.g.
@@ -960,7 +917,6 @@ public class BaseSeamTest
    {
       servletContext = (MockServletContext) ServletLifecycle.getServletContext();
       application = new SeamApplication(new MockApplication());
-      phases = new SeamPhaseListener();
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();
       
@@ -978,12 +934,6 @@ public class BaseSeamTest
    {
       seamFilter.destroy();
       conversationViewRootAttributes = null;
-   }
-
-   public void cleanup() throws Exception
-   {
-      cleanupClass();
-      stopSeam();
    }
 
    protected Filter createSeamFilter() throws ServletException

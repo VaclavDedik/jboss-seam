@@ -1,4 +1,4 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.integration;
 
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Import;
@@ -10,14 +10,6 @@ import org.testng.annotations.Test;
 public class ImportTest
     extends SeamTest
 {
-
-    @Override
-    protected void startJbossEmbeddedIfNecessary() 
-          throws org.jboss.deployers.spi.DeploymentException,
-                 java.io.IOException 
-    {
-       // don't deploy
-    }
     
     @Test
     public void testImport() 

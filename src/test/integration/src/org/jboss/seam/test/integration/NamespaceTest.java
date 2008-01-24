@@ -1,4 +1,4 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.integration;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;

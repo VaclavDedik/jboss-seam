@@ -8,8 +8,10 @@ package org.jboss.seam.mock;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 /**
  * Provides BaseSeamTest functionality for TestNG integration tests.
@@ -18,7 +20,7 @@ import org.testng.annotations.BeforeMethod;
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  * @author Mike Youngstrom
  */
-public class SeamTest extends BaseSeamTest
+public class SeamTest extends AbstractSeamTest
 {
    
    @BeforeMethod
@@ -34,105 +36,33 @@ public class SeamTest extends BaseSeamTest
    {
       super.end();
    }
-
+   
    @Override
    @BeforeClass
-   public void init() throws Exception
+   public void setupClass() throws Exception
    {
-      super.init();
+      super.setupClass();
    }
-
+   
    @Override
    @AfterClass
-   public void cleanup() throws Exception
+   public void cleanupClass() throws Exception
    {
-      super.cleanup();
+      super.cleanupClass();
+   }
+   
+   @Override
+   @BeforeSuite
+   public void startSeam() throws Exception
+   {
+      super.startSeam();
+   }
+   
+   @Override
+   @AfterSuite
+   protected void stopSeam() throws Exception
+   {
+      super.stopSeam();
    }
 
-   /**
-    * A pass through to BaseSeamTest.FacesRequest. 
-    * 
-    * Deprecated, use BaseSeamTest.FacesRequest instead
-    */
-   public class FacesRequest extends BaseSeamTest.FacesRequest
-   {
-
-      public FacesRequest()
-      {
-         super();
-      }
-
-      public FacesRequest(String viewId, String conversationId)
-      {
-         super(viewId, conversationId);
-      }
-
-      public FacesRequest(String viewId)
-      {
-         super(viewId);
-      }
-
-   }
-
-   /**
-    * A pass through to BaseSeamTest.NonFacesRequest.
-    * 
-    * Deprecated, use BaseSeamTest.NonFacesRequest instead
-    */
-   public class NonFacesRequest extends BaseSeamTest.NonFacesRequest
-   {
-
-      public NonFacesRequest()
-      {
-         super();
-      }
-
-      public NonFacesRequest(String viewId, String conversationId)
-      {
-         super(viewId, conversationId);
-      }
-
-      public NonFacesRequest(String viewId)
-      {
-         super(viewId);
-      }
-
-   }
-
-   /**
-    * A pass through to BaseSeamTest.Request.
-    * 
-    * Deprecated, use BaseSeamTest.Request instead
-    */
-   public abstract class Request extends BaseSeamTest.Request
-   {
-
-      public Request()
-      {
-         super();
-      }
-
-      public Request(String conversationId)
-      {
-         super(conversationId);
-      }
-
-   }
-
-   /**
-    * @deprecated Use BaseSeamTest.FacesRequest or BaseSeamTest.NonFacesRequest instead
-    */
-   public abstract class Script extends BaseSeamTest.Script
-   {
-
-      public Script()
-      {
-         super();
-      }
-
-      public Script(String conversationId)
-      {
-         super(conversationId);
-      }
-   }
 }

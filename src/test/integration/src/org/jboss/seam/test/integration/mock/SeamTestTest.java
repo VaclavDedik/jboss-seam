@@ -1,4 +1,4 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.integration.mock;
 
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;

@@ -1,4 +1,4 @@
-package org.jboss.seam.test.integration;
+package org.jboss.seam.test.integration.mock;
 
 import java.beans.FeatureDescriptor;
 import java.util.Iterator;

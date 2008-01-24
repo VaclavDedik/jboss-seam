@@ -1,4 +1,5 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.integration.databinding;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -17,19 +18,17 @@ import java.util.Set;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 
-import org.jboss.deployers.spi.DeploymentException;
 import org.jboss.seam.faces.DataModels;
 import org.jboss.seam.jsf.ArrayDataModel;
 import org.jboss.seam.jsf.MapDataModel;
 import org.jboss.seam.jsf.SetDataModel;
 import org.jboss.seam.mock.SeamTest;
+import org.jboss.seam.test.integration.Foo;
+import org.jboss.seam.test.integration.Person;
 import org.testng.annotations.Test;
 
 public class DataModelTest extends SeamTest
 {
-   
-   @Override
-   protected void startJbossEmbeddedIfNecessary() throws DeploymentException, IOException {}
    
    @Test
    public void testDataModels() throws Exception
@@ -317,6 +316,7 @@ public class DataModelTest extends SeamTest
          protected void renderResponse() throws Exception
          {
             Object people = getValue("#{peopleList}");
+            System.out.println(people);
             assert people instanceof DataModel;
             DataModel dataModel = (DataModel) people;
             assert dataModel.getRowCount() == 4;

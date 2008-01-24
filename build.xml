@@ -378,7 +378,7 @@
 		<replace file="${webroot.dir}/seam-examples.html" token="http://localhost:8080" value="" />
 	</target>
 
-	<target name="testall" depends="testcore,build,compiletest, copylib" description="Run the core unit tests and all example tests">
+	<target name="testall" depends="test,build, copylib" description="Run the core unit tests and all example tests">
 		<testexample name="booking" />
 		<testexample name="nestedbooking" />
 		<testexample name="dvdstore" />
@@ -627,7 +627,7 @@
 	</target>
 
 
-	<target name="testcore" depends="inittestcore,compiletest" description="Run the core tests">
+	<target name="unittest" depends="inittestcore,compiletest" description="Run the Unit tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
 		<testng>
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
@@ -641,9 +641,17 @@
 			</classpath>
 			<xmlfileset dir="${classes.test.dir}" includes="**/testng.xml" />
 		</testng>
-		<testexample name="integration" path="${seam.dir}/src/test/integration" message=""/>
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	</target>
+	
+	<target name="test" depends="unittest, integrationtest" description="Run Seam Unit Tests and the Seam (core) Integration Tests"/>
+	
+	<target name="integrationtest" description="Run the Seam (core) Inteegration Tests">
+		<testexample name="integration" path="${seam.dir}/src/test/integration" message=""/>
+	</target>
+	
+	<!-- Deprecated -->
+	<target name="testcore" depends="test" />
 
 	<target name="testreport" description="Create a pretty report">
 		<mkdir dir="${report.dir}" />

@@ -4,7 +4,22 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.wiki.test.util;
+package org.jboss.seam.mock;
+
+import static org.jboss.seam.mock.AbstractDBUnitSeamTest.Database.HSQL;
+import static org.jboss.seam.mock.AbstractDBUnitSeamTest.Database.MYSQL;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.sql.DataSource;
 
 import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.DatabaseConnection;
@@ -16,28 +31,8 @@ import org.dbunit.dataset.datatype.DataTypeException;
 import org.dbunit.dataset.datatype.DefaultDataTypeFactory;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.operation.DatabaseOperation;
-import org.jboss.seam.log.Log;
+import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.mock.AbstractSeamTest;
-import org.jboss.seam.mock.SeamTest;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Parameters;
-
-import javax.sql.DataSource;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Utility for integration testing with Seam and DBUnit datasets.
@@ -97,114 +92,101 @@ import java.util.List;
  *
  * @author Christian Bauer
  */
-public abstract class DBUnitSeamTest extends AbstractSeamTest {
+public abstract class AbstractDBUnitSeamTest extends AbstractSeamTest 
+{
 
-    public enum Database {
-        hsql, mysql
+    public enum Database 
+    {
+        HSQL, MYSQL
     }
 
-    private Log log = Logging.getLog(DBUnitSeamTest.class);
-
-    protected String datasourceJndiName;
-    protected String binaryDir;
-    protected Database database;
+    private LogProvider log = Logging.getLogProvider(DBUnitSeamTest.class);
+    
+    private String datasourceJndiName;
+    private String binaryDir;
+    private Database database = HSQL;
     protected List<DataSetOperation> beforeTestOperations = new ArrayList<DataSetOperation>();
     protected List<DataSetOperation> afterTestOperations = new ArrayList<DataSetOperation>();
 
-    protected DBUnitSeamTest() {}
+    protected AbstractDBUnitSeamTest() 
+    {
+    }
 
-    protected DBUnitSeamTest(String datasourceJndiName) {
+    protected AbstractDBUnitSeamTest(String datasourceJndiName) 
+    {
         this.datasourceJndiName = datasourceJndiName;
     }
 
-    @BeforeClass
-    public void logTest() {
-        log.info("Executing test class: " + getClass().getName());
-    }
-
-    @BeforeClass
-    @Parameters("datasourceJndiName")
-    public void setDatasourceJndiName(String datasourceJndiName) {
+    public void setDatasourceJndiName(String datasourceJndiName) 
+    {
         this.datasourceJndiName = datasourceJndiName;
     }
 
-    @BeforeClass
-    @Parameters("binaryDir")
-    public void setBinaryDir(String binaryDir) {
+    public void setBinaryDir(String binaryDir) 
+    {
         this.binaryDir = binaryDir;
     }
 
-    @BeforeClass
-    @Parameters("database")
-    public void setDatabase(String database) {
-        this.database = Database.valueOf(database);
+    public void setDatabase(String database) 
+    {
+       if (database != null)
+       {
+          this.database = Database.valueOf(database.toUpperCase());
+       }
     }
 
     @Override
-    @BeforeClass
-    public void setupClass() throws Exception {
+    public void setupClass() throws Exception 
+    {
         super.setupClass();
         prepareDBUnitOperations();
     }
-    
-    @Override
-    @AfterClass
-    public void cleanupClass() throws Exception
-    {
-        super.cleanupClass();
-    }
-    
-    @Override
-    @BeforeSuite
-    public void startSeam() throws Exception
-    {
-        super.startSeam();
-    }
-    
-    @Override
-    @AfterSuite
-    public void stopSeam() throws Exception
-    {
-        super.stopSeam();
-    }
-    
 
-    @BeforeMethod
     @Override
-    public void begin() {
+    public void begin() 
+    {
         super.begin();
         executeOperations(beforeTestOperations);
     }
-
-    @AfterMethod
+    
     @Override
-    public void end() {
+    public void end() 
+    {
         super.end();
         executeOperations(afterTestOperations);
     }
 
-    private void executeOperations(List<DataSetOperation> list) {
+    private void executeOperations(List<DataSetOperation> list) 
+    {
         IDatabaseConnection con = null;
-        try {
+        try 
+        {
             con = getConnection();
             disableReferentialIntegrity(con);
-            for (DataSetOperation op : list) {
-                log.debug("executing DBUnit operation: " + op);
+            for (DataSetOperation op : list) 
+            {
                 op.execute(con);
             }
             enableReferentialIntegrity(con);
-        } finally {
-            if (con != null) {
-                try {
+        } 
+        finally 
+        {
+            if (con != null) 
+            {
+                try 
+                {
                     con.close();
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) 
+                {
                     ex.printStackTrace(System.err);
                 }
             }
         }
     }
 
-    protected class DataSetOperation {
+    protected class DataSetOperation 
+    {
         String dataSetLocation;
         ReplacementDataSet dataSet;
         DatabaseOperation operation;
@@ -213,45 +195,58 @@ public abstract class DBUnitSeamTest extends AbstractSeamTest {
          * Defaults to <tt>DatabaseOperation.CLEAN_INSERT</tt>
          * @param dataSetLocation location of DBUnit dataset
          */
-        public DataSetOperation(String dataSetLocation){
+        public DataSetOperation(String dataSetLocation)
+        {
             this(dataSetLocation, DatabaseOperation.CLEAN_INSERT);
         }
 
-        public DataSetOperation(String dataSetLocation, DatabaseOperation operation) {
+        public DataSetOperation(String dataSetLocation, DatabaseOperation operation) 
+        {
             log.info(">>> Preparing dataset: " + dataSetLocation + " <<<");
 
             // Load the base dataset file
             InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation);
-            try {
+            try 
+            {
                 this.dataSet = new ReplacementDataSet( new FlatXmlDataSet(input) );
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) 
+            {
                 throw new RuntimeException(ex);
             }
             this.dataSet.addReplacementObject("[NULL]", null);
-            if (binaryDir != null) {
+            if (binaryDir != null) 
+            {
                 this.dataSet.addReplacementSubstring("[BINARY_DIR]", getBinaryDirFullpath().toString());
             }
             this.operation = operation;
             this.dataSetLocation = dataSetLocation;
         }
 
-        public IDataSet getDataSet() {
+        public IDataSet getDataSet() 
+        {
             return dataSet;
         }
 
-        public DatabaseOperation getOperation() {
+        public DatabaseOperation getOperation() 
+        {
             return operation;
         }
 
-        public void execute(IDatabaseConnection connection) {
-            try {
+        public void execute(IDatabaseConnection connection) 
+        {
+            try 
+            {
                 this.operation.execute(connection, dataSet);
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) 
+            {
                 throw new RuntimeException(ex);
             }
         }
 
-        public String toString() {
+        public String toString() 
+        {
             // TODO: This is not pretty because DBUnit's DatabaseOperation doesn't implement toString() properly
             return operation.getClass() + " with dataset: " + dataSetLocation;
         }
@@ -267,8 +262,10 @@ public abstract class DBUnitSeamTest extends AbstractSeamTest {
      *
      * @return a DBUnit database connection (wrapped)
      */
-    protected IDatabaseConnection getConnection() {
-        try {
+    protected IDatabaseConnection getConnection() 
+    {
+        try 
+        {
             DataSource datasource = ((DataSource)getInitialContext().lookup(datasourceJndiName));
 
             // Get a JDBC connection from JNDI datasource
@@ -276,7 +273,9 @@ public abstract class DBUnitSeamTest extends AbstractSeamTest {
             IDatabaseConnection dbUnitCon = new DatabaseConnection(con);
             editConfig(dbUnitCon.getConfig());
             return dbUnitCon;
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) 
+        {
             throw new RuntimeException(ex);
         }
     }
@@ -290,14 +289,21 @@ public abstract class DBUnitSeamTest extends AbstractSeamTest {
      *
      * @param con A DBUnit connection wrapper, which is used afterwards for dataset operations
      */
-    protected void disableReferentialIntegrity(IDatabaseConnection con) {
-        try {
-            if (database.equals(Database.hsql)) {
+    protected void disableReferentialIntegrity(IDatabaseConnection con) 
+    {
+        try 
+        {
+            if (database.equals(HSQL)) 
+            {
                 con.getConnection().prepareStatement("set referential_integrity FALSE").execute(); // HSQL DB
-            } else if (database.equals(Database.mysql)) {
+            }
+            else if (database.equals(MYSQL)) 
+            {
                 con.getConnection().prepareStatement("set foreign_key_checks=0").execute(); // MySQL > 4.1.1
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) 
+        {
             throw new RuntimeException(ex);
         }
     }
@@ -312,12 +318,17 @@ public abstract class DBUnitSeamTest extends AbstractSeamTest {
      */
     protected void enableReferentialIntegrity(IDatabaseConnection con) {
         try {
-            if (database.equals(Database.hsql)) {
+            if (database.equals(HSQL)) 
+            {
                 con.getConnection().prepareStatement("set referential_integrity TRUE").execute();  // HSQL DB
-            } else if (database.equals(Database.mysql)) {
+            }
+            else if (database.equals(MYSQL)) 
+            {
                 con.getConnection().prepareStatement("set foreign_key_checks=1").execute(); // MySQL > 4.1.1
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) 
+        {
             throw new RuntimeException(ex);
         }
     }
@@ -330,14 +341,18 @@ public abstract class DBUnitSeamTest extends AbstractSeamTest {
      *
      * @param config A DBUnit <tt>DatabaseConfig</tt> object for setting properties and features
      */
-    protected void editConfig(DatabaseConfig config) {
-        if (database.equals(Database.hsql)) {
+    protected void editConfig(DatabaseConfig config) 
+    {
+        if (database.equals(HSQL)) {
             // DBUnit/HSQL bugfix
             // http://www.carbonfive.com/community/archives/2005/07/dbunit_hsql_and.html
-            config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new DefaultDataTypeFactory() {
+            config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new DefaultDataTypeFactory() 
+            {
                 public DataType createDataType(int sqlType, String sqlTypeName)
-                  throws DataTypeException {
-                   if (sqlType == Types.BOOLEAN) {
+                  throws DataTypeException 
+                  {
+                   if (sqlType == Types.BOOLEAN) 
+                   {
                       return DataType.BOOLEAN;
                     }
                    return super.createDataType(sqlType, sqlTypeName);
@@ -352,29 +367,34 @@ public abstract class DBUnitSeamTest extends AbstractSeamTest {
      *
      * @return URL full absolute path of the binary directory
      */
-    protected URL getBinaryDirFullpath() {
+    protected URL getBinaryDirFullpath() 
+    {
         if (binaryDir == null) {
             throw new RuntimeException("Please set binaryDir property to location of binary test files");
         }
         return getResourceURL(binaryDir);
     }
 
-    protected URL getResourceURL(String resource) {
+    protected URL getResourceURL(String resource) 
+    {
         URL url = Thread.currentThread().getContextClassLoader().getResource(resource);
-        if (url == null) {
+        if (url == null) 
+        {
             throw new RuntimeException("Could not find resource with classloader: " + resource);
         }
         return url;
     }
 
-    protected byte[] getBinaryFile(String filename) throws Exception {
+    protected byte[] getBinaryFile(String filename) throws Exception 
+    {
         File file = new File(getResourceURL(binaryDir + "/" + filename).toURI());
         InputStream is = new FileInputStream(file);
 
         // Get the size of the file
         long length = file.length();
 
-        if (length > Integer.MAX_VALUE) {
+        if (length > Integer.MAX_VALUE) 
+        {
             // File is too large
         }
 
@@ -385,12 +405,14 @@ public abstract class DBUnitSeamTest extends AbstractSeamTest {
         int offset = 0;
         int numRead;
         while (offset < bytes.length
-               && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+               && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) 
+        {
             offset += numRead;
         }
 
         // Ensure all the bytes have been read in
-        if (offset < bytes.length) {
+        if (offset < bytes.length) 
+        {
             throw new IOException("Could not completely read file "+file.getName());
         }
     

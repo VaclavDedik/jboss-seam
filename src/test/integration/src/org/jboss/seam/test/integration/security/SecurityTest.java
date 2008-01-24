@@ -1,4 +1,4 @@
-package org.jboss.seam.test.unit;
+package org.jboss.seam.test.integration.security;
 
 import java.util.HashMap;
 
@@ -11,7 +11,7 @@ import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
 import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.mock.BaseSeamTest;
+import org.jboss.seam.mock.AbstractSeamTest;
 import org.jboss.seam.mock.MockLoginModule;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -24,7 +24,7 @@ import org.testng.annotations.Test;
  * 
  * @author Shane Bryzak
  */
-public class SecurityTest extends BaseSeamTest
+public class SecurityTest extends AbstractSeamTest
 {     
    private Configuration createMockJAASConfiguration()
    {
