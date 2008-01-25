@@ -733,7 +733,9 @@
                         default behavior of a session bean component. ie. method invocations should take place in a
                         transaction, and if no transaction exists when the method is called, a transaction will be
                         started just for that method. This annotation may be applied at either class or method level.
-                       <emphasis>Do not use this annotations on EJB 3.0 components, use <literal>@TransactionAttribute</literal>!</emphasis>
+                    </para>
+                    <para>
+                       <emphasis>Do not use this annotation on EJB 3.0 components, use <literal>@TransactionAttribute</literal>!</emphasis>
                     </para>
                 </listitem>
             </varlistentry>
@@ -742,10 +744,36 @@
                     <literal>@ApplicationException</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Transactional]]></programlisting>
+                    <programlisting><![CDATA[@ApplicationException]]></programlisting>
                     <para> 
-                    TDB
+                       Synonym for javax.ejb.ApplicationException, for use in a
+                       pre Java EE 5 environment.  Applied to an exception to 
+                       denote that it is an application exception and should be 
+                       reported to the client directly(i.e., unwrapped).
                     </para>
+                    <para>   
+                       <emphasis>Do not use this 
+                       annotation on EJB 3.0 components, use 
+                      <literal>@javax.ejb.ApplicationException</literal> instead</emphasis>.
+                    </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                <literal>rollback</literal> &#8212; by default 
+                                <literal>false</literal>, if <literal>true</literal>
+                                this exception should set the transaction to 
+                                rollback only 
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                <literal>end</literal> &#8212; by default 
+                                <literal>false</literal>, if <literal>true</literal>
+                                this exception should end the current 
+                                long-running conversation
+                            </para>
+                        </listitem>
+                    </itemizedlist>
                 </listitem>
             </varlistentry>
             <varlistentry>
@@ -753,9 +781,17 @@
                     <literal>@Interceptors</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Transactional]]></programlisting>
+                    <programlisting><![CDATA[@Interceptors({DVDInterceptor, CDInterceptor})]]></programlisting>
                     <para> 
-                    TDB
+                       Synonym for javax.interceptors.Interceptors, for use in 
+                       a pre Java EE 5 environment. Note that this may only be 
+                       used as a meta-annotation. Declares an ordered list of 
+                       interceptors for a class or method.
+                    </para>
+                    <para>   
+                       <emphasis>Do not use this 
+                       annotations on EJB 3.0 components, use 
+                      <literal>@javax.interceptor.Interceptors</literal> instead</emphasis>.
                     </para>
                 </listitem>
             </varlistentry>
@@ -763,7 +799,7 @@
 
         <para>
            These annotations are mostly useful for JavaBean Seam components. If you use EJB 3.0 components, you
-           should use the standard <literal>@TransactionAttribute</literal> annotation.
+           should use the standard Java EE5  annotation.
         </para>
     </section>
 
