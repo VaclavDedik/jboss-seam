@@ -104,7 +104,7 @@ public class VFSScanner extends AbstractScanner
       while(parentDepth > 0)
       {
          if (top == null)
-            throw new IllegalArgumentException("Null parent: " + vfsurl);
+            throw new IllegalArgumentException("Null parent: " + vfsurl + ", relative: " + relative);
          top = top.getParent();
          parentDepth--;
       }
