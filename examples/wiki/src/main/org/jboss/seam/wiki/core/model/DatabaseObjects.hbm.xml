@@ -285,6 +285,16 @@
 
     <database-object>
         <create>
+            create index IDX_WIKI_NODE_RATING on WIKI_NODE (RATING)
+        </create>
+        <drop>
+            drop index IDX_WIKI_NODE_RATING
+        </drop>
+        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+    </database-object>
+
+    <database-object>
+        <create>
             create index IDX_WIKI_NODE_READ_ACCESS_LEVEL on WIKI_NODE (READ_ACCESS_LEVEL)
         </create>
         <drop>

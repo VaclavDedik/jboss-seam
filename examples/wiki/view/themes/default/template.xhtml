@@ -234,6 +234,19 @@
 
         // ###################### Design #################################
 
+        function highlightStars(item, range, end) {
+            for (i = 1; i &lt;= range; i++) {
+                styleClass = ".item"+item+"-rate"+i;
+                jQuery(styleClass)
+                    .attr("src", "#{themePath}/img/star_grey.gif");
+            }
+            for (i = 1; i &lt;= end; i++) {
+                styleClass = ".item"+item+"-rate"+i;
+                jQuery(styleClass)
+                    .attr("src", "#{themePath}/img/star.gif");
+            }
+        }
+
         function pulsate(query) {
             var blinkCount = 4*2;
             do {

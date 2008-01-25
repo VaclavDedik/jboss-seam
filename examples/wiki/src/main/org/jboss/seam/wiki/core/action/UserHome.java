@@ -406,6 +406,10 @@ public class UserHome extends EntityHome<User> {
         passwordMatchesControl();
     }
 
+    public long getRatingPoints() {
+        return userDAO.findRatingPoints(getInstance().getId());
+    }
+
     // ####################### PREFERENCES ##################################
 
     PreferenceEditor preferenceEditor;

@@ -7,16 +7,15 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.log.Log;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
-import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.persistence.EntityManager;

@@ -115,6 +115,42 @@ public class Commenting extends DBUnitSeamTest {
         }.run();
     }
     
+    @Test
+    public void rateComment() throws Exception {
+
+        loginMember();
+
+        new FacesRequest("/docDisplay_d.xhtml") {
+
+            protected void beforeRequest() {
+                setParameter("documentId", "6");
+            }
+
+            protected void updateModelValues() throws Exception {
+                assert getValue("#{documentHome.instance.id}").equals(6l);
+            }
+
+            protected void invokeApplication() throws Exception {
+                invokeMethod("#{commentHome.rate(11, 4)}");
+            }
+
+        }.run();
+
+        new NonFacesRequest("/docDisplay_d.xhtml") {
+
+            protected void beforeRequest() {
+                setParameter("documentId", "6");
+            }
+
+            protected void renderResponse() throws Exception {
+                WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
+                assert dao.findWikiNode(11l).getRating() == 4;
+            }
+
+        }.run();
+
+    }
+
     private void loginAdmin() throws Exception {
         new FacesRequest() {
            protected void invokeApplication() throws Exception {
@@ -126,5 +162,15 @@ public class Commenting extends DBUnitSeamTest {
         }.run();
     }
 
+    private void loginMember() throws Exception {
+        new FacesRequest() {
+           protected void invokeApplication() throws Exception {
+              setValue("#{identity.username}", "member");
+              setValue("#{identity.password}", "member");
+              invokeAction("#{identity.login}");
+              assert getValue("#{identity.loggedIn}").equals(true);
+           }
+        }.run();
+    }
 
 }

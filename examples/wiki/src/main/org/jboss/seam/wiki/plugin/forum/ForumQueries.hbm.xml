@@ -149,6 +149,7 @@
         select distinct
             doc2.NODE_ID as NODE_ID,
             doc2.OBJ_VERSION as OBJ_VERSION,
+            doc2.RATING as RATING,
             doc2.AREA_NR as AREA_NR,
             doc2.NAME as NAME,
             doc2.WIKINAME as WIKINAME,
@@ -219,5 +220,46 @@
             u.id, u.version, u.firstname, u.lastname, u.username, u.passwordHash, u.email, u.activated, u.activationCode, u.createdOn, u.lastLoginOn, u.memberHome, u.profile
 
     ]]></query>
+
+    <!-- TODO: HQL doesn't support FROM clause subselect -->
+    <sql-query name="forumPostersAndRatingPoints">
+        <return class="org.jboss.seam.wiki.core.model.User"/>
+        <return-scalar column="RATING_POINTS" type="long"/>
+        <![CDATA[
+        select
+            ur.USER_ID, ur.ACTIVATED, ur.ACTIVATION_CODE, ur.CREATED_ON, ur.EMAIL, ur.FIRSTNAME, ur.LAST_LOGIN_ON,
+            ur.LASTNAME, ur.MEMBER_HOME_WIKI_DIRECTORY_ID, ur.PASSWORDHASH, ur.USER_PROFILE_ID, ur.USERNAME, ur.OBJ_VERSION,
+            sum(ur.RATING) as RATING_POINTS
+        from
+           (select distinct
+                user2.*,
+                com2.NODE_ID,
+                com2.RATING
+            from
+                WIKI_DOCUMENT doc0
+                 inner join WIKI_FILE doc1 on doc0.NODE_ID=doc1.NODE_ID
+                  inner join WIKI_NODE doc2 on doc0.NODE_ID=doc2.NODE_ID,
+                WIKI_COMMENT com1
+                 inner join WIKI_NODE com2 on com1.NODE_ID=com2.NODE_ID
+                  inner join USERS user2 on com2.CREATED_BY_USER_ID=user2.USER_ID
+                   inner join USER_ROLE roles1 on user2.USER_ID=roles1.USER_ID
+                    inner join ROLES roles2 on roles1.ROLE_ID=roles2.ROLE_ID
+            where
+                doc2.PARENT_NODE_ID=:parentDirId
+                and (com1.NS_THREAD in
+                      (select com3.NS_THREAD from WIKI_COMMENT com3
+                         inner join WIKI_NODE com4 on com3.NODE_ID=com4.NODE_ID
+                         where com4.PARENT_NODE_ID=doc0.NODE_ID
+                      )
+                     )
+                and (roles2.NAME not in (:ignoreUserInRoles))
+                and com2.RATING<>0
+            ) as ur
+        group by
+            ur.USER_ID, ur.ACTIVATED, ur.ACTIVATION_CODE, ur.CREATED_ON, ur.EMAIL, ur.FIRSTNAME, ur.LAST_LOGIN_ON,
+            ur.LASTNAME, ur.MEMBER_HOME_WIKI_DIRECTORY_ID, ur.PASSWORDHASH, ur.USER_PROFILE_ID, ur.USERNAME,
+            ur.OBJ_VERSION
+        order by sum(ur.RATING) desc
+    ]]></sql-query>
 
 </hibernate-mapping>

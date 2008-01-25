@@ -203,34 +203,39 @@
                 <ui:param name="titlePlural" value="#{messages['lacewiki.label.commentsDisplay.Comments']}"/>
                 <ui:define name="controls">
 
-                    <s:fragment rendered="#{not commentHome.showForm and s:hasPermission('Comment', 'create', documentHome.instance)}">
+                    <h:panelGroup>
 
-                        <s:link tabindex="102"
-                                action="#{commentHome.replyTo()}"
-                                styleClass="buttonNonpersistent">
-                            <f:param name="parentCommentId" value="#{c.id}"/>
-                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
-                        </s:link>
+                        <s:fragment rendered="#{not commentHome.showForm and s:hasPermission('Comment', 'create', documentHome.instance)}">
 
-                        <s:link tabindex="102"
-                                action="#{commentHome.quote()}"
-                                styleClass="buttonNonpersistent">
-                            <f:param name="parentCommentId" value="#{c.id}"/>
-                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
-                        </s:link>
+                            <s:link tabindex="102"
+                                    action="#{commentHome.replyTo()}"
+                                    styleClass="buttonNonpersistent">
+                                <f:param name="parentCommentId" value="#{c.id}"/>
+                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
+                            </s:link>
 
-                    </s:fragment>
+                            <s:link tabindex="102"
+                                    action="#{commentHome.quote()}"
+                                    styleClass="buttonNonpersistent">
+                                <f:param name="parentCommentId" value="#{c.id}"/>
+                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
+                            </s:link>
 
-                     <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not commentHome.showForm}">
-                        <a:jsFunction name="deleteCommentId#{c.id}"
-                                      reRender="commentDisplayForm"
-                                      action="#{commentHome.remove(c.id)}"/>
-                            <h:outputLink value="#"
-                                  onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'', 'deleteCommentId#{c.id}')"
-                                  styleClass="button">
-                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
-                        </h:outputLink>
-                    </s:fragment>
+                        </s:fragment>
+
+                         <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not commentHome.showForm}">
+                            <a:jsFunction name="deleteCommentId#{c.id}"
+                                          reRender="commentDisplayForm"
+                                          action="#{commentHome.remove(c.id)}"/>
+                                <h:outputLink value="#"
+                                      onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'', 'deleteCommentId#{c.id}')"
+                                      styleClass="button">
+                                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                            </h:outputLink>
+                        </s:fragment>
+
+                    </h:panelGroup>
+
                 </ui:define>
             </ui:decorate>
             <s:fragment rendered="#{s:hasPermission('Comment', 'create', documentHome.instance)}">

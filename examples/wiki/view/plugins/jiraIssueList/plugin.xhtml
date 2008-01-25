@@ -31,7 +31,7 @@
                 <h:column>
                     <h:outputLink value="#{preferences.get('JiraIssueList', currentMacro).url}/browse/#{i.key}">
                         <h:outputText
-                                value="#{wiki:truncateString(i.summary, preferences.get('JiraIssueList', currentMacro).truncateSummary, '...')}"/>
+                                value="(#{i.key})&#160; #{wiki:truncateString(i.summary, preferences.get('JiraIssueList', currentMacro).truncateSummary, '...')}"/>
                     </h:outputLink>
                 </h:column>
 

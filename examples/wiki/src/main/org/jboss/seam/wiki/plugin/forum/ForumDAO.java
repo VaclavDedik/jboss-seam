@@ -3,10 +3,8 @@ package org.jboss.seam.wiki.plugin.forum;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiComment;
-import org.jboss.seam.wiki.core.model.WikiMenuItem;
+import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.Component;
 import org.hibernate.Session;
 import org.hibernate.ScrollableResults;
 import org.hibernate.transform.ResultTransformer;
@@ -228,6 +226,34 @@ public class ForumDAO {
             .list();
 
         return topicInfoMap;
+    }
+
+    public List<User> findPostersAndRatingPoints(Long forumId, int maxResults, List<String> excludeRoles) {
+
+        if (excludeRoles.size() == 0) {
+            excludeRoles.add("guest"); // By default, don't show guests, query requires _some_ exclude
+        }
+
+        final List<User> postersAndRatingPoints = new ArrayList<User>();
+
+        getSession(true).getNamedQuery("forumPostersAndRatingPoints")
+            .setParameter("parentDirId", forumId)
+            .setParameterList("ignoreUserInRoles", excludeRoles )
+            .setMaxResults(maxResults)
+            .setComment("Retrieving forum posters and rating points")
+            .setCacheable(true)
+            .setResultTransformer(
+                new ResultTransformer() {
+                    public Object transformTuple(Object[] result, String[] strings) {
+                        ((User)result[0]).setRatingPoints((Long)result[1]);
+                        postersAndRatingPoints.add((User)result[0]);
+                        return null;
+                    }
+                    public List transformList(List list) { return list; }
+                }
+            )
+            .list();
+        return postersAndRatingPoints;
     }
 
     private Session getSession(boolean restricted) {

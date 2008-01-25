@@ -60,34 +60,92 @@
                 <ui:param name="titlePlural" value="#{messages['forum.label.Replies']}"/>
                 <ui:define name="controls">
 
-                    <s:fragment rendered="#{not replyHome.showForm and replyHome.hasReplyPermission()}">
+                    <h:panelGrid columns="3" styleClass="forumReplyControls"
+                                 columnClasses="forumReplyRating, forumReplyStatus, forumReplyControl"
+                                 cellpadding="0" cellspacing="0" border="0">
 
-                        <s:link tabindex="102"
-                                action="#{replyHome.replyTo()}"
-                                styleClass="buttonNonpersistent">
-                            <f:param name="parentCommentId" value="#{c.id}"/>
-                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
-                        </s:link>
+                        <s:fragment>
 
-                        <s:link tabindex="102"
-                                action="#{replyHome.quote()}"
-                                styleClass="buttonNonpersistent">
-                            <f:param name="parentCommentId" value="#{c.id}"/>
-                            <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
-                        </s:link>
+                            <s:fragment rendered="#{not replyHome.showForm
+                                                    and c.rating == 0
+                                                    and not currentUser.guest
+                                                    and c.createdBy.id != currentUser.id
+                                                    and currentDocument.createdBy.id == currentUser.id}">
+                                
+                                <h:panelGrid columns="7" styleClass="commentRatingChooser"
+                                             columnClasses="label, star, star, star, star, star, star"
+                                             border="0" cellpadding="0" cellspacing="0">
+                                    <h:outputText styleClass="smallFont" value="#{messages['lacewiki.label.comment.RateThisPosting']}:&#160;"/>
+                                    <c:forEach begin="1" var="r" end="5">
+                                        <a:commandLink action="#{replyHome.rate(c.id, r)}"
+                                                       reRender="comments, messageBoxContainer"
+                                                       status="commentStatus#{c.id}">
+                                            <h:graphicImage styleClass="item#{c.id}-rate#{r}"
+                                                            onmouseover="highlightStars('#{c.id}', '5', '#{r}')"
+                                                            onmouseout="highlightStars('#{c.id}', '5', '0')"
+                                                            value="/themes/#{preferences.get('Wiki').themeName}/img/star_grey.gif"
+                                                            alt="*"
+                                                            width="16" height="16"/>
+                                        </a:commandLink>
+                                    </c:forEach>
+                                </h:panelGrid>
+                            </s:fragment>
 
-                    </s:fragment>
+                            <s:fragment rendered="#{c.rating > 0}">
+                                <h:panelGrid columns="#{c.rating + 1}" styleClass="commentRating"
+                                             columnClasses="label, star, star, star, star, star, star"
+                                             border="0" cellpadding="0" cellspacing="0">
+                                    <h:outputText styleClass="smallFont" value="#{messages['lacewiki.label.comment.Rating']}:&#160;"/>
+                                    <c:forEach begin="1" var="r" end="#{c.rating}">
+                                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/star.gif"
+                                                        width="16" height="16" alt="*"/>
+                                    </c:forEach>
+                                </h:panelGrid>
+                            </s:fragment>
 
-                     <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not replyHome.showForm}">
-                        <a:jsFunction name="deleteReplyId#{c.id}"
-                                      reRender="forumRepliesContainer"
-                                      action="#{replyHome.remove(c.id)}"/>
-                            <h:outputLink value="#"
-                                  onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'', 'deleteReplyId#{c.id}')"
-                                  styleClass="button sessionEventTrigger">
-                                <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
-                        </h:outputLink>
-                    </s:fragment>
+                        </s:fragment>
+
+                        <s:fragment>
+                            <ui:include src="../../includes/statusIndicator.xhtml">
+                                <ui:param name="statusId" value="commentStatus#{c.id}"/>
+                            </ui:include>
+                        </s:fragment>
+
+                        <s:fragment>
+
+                            <s:fragment rendered="#{not replyHome.showForm and replyHome.hasReplyPermission()}">
+
+                                <s:link tabindex="102"
+                                        action="#{replyHome.replyTo()}"
+                                        styleClass="buttonNonpersistent">
+                                    <f:param name="parentCommentId" value="#{c.id}"/>
+                                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
+                                </s:link>
+
+                                <s:link tabindex="102"
+                                        action="#{replyHome.quote()}"
+                                        styleClass="buttonNonpersistent">
+                                    <f:param name="parentCommentId" value="#{c.id}"/>
+                                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
+                                </s:link>
+
+                            </s:fragment>
+
+                             <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not replyHome.showForm}">
+                                <a:jsFunction name="deleteReplyId#{c.id}"
+                                              reRender="forumRepliesContainer"
+                                              action="#{replyHome.remove(c.id)}"/>
+                                    <h:outputLink value="#"
+                                          onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'', 'deleteReplyId#{c.id}')"
+                                          styleClass="button sessionEventTrigger">
+                                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                                </h:outputLink>
+                            </s:fragment>
+
+                        </s:fragment>
+
+                    </h:panelGrid>
+
                 </ui:define>
             </ui:decorate>
 

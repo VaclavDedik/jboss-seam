@@ -82,7 +82,7 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
 
     public String[] getPropertiesForGroupingInQueries() {
         return new String[]{
-            "version", "parent",
+            "version", "parent", "rating",
             "areaNumber", "name", "wikiname", "createdBy", "createdOn",
             "lastModifiedBy", "lastModifiedOn", "readAccessLevel", "writeAccessLevel", "writeProtected",
             "defaultFile", "description"

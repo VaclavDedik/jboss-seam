@@ -257,6 +257,30 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return "redirectToDocument";
     }
 
+    public void rate(Long commentId, int rating) {
+
+        // Only the owner of the document can rate comments of that document
+        if ( !currentUser.getId().equals(documentHome.getInstance().getCreatedBy().getId()) ) {
+            throw new AuthorizationException("You don't have permission for this operation");
+        }
+
+        // Guest can't rate
+        if (currentUser.isGuest()) {
+            throw new IllegalStateException("Guests can't rate comments");
+        }
+
+        setId(commentId);
+        if (isManaged()) {
+
+            if (getInstance().getRating() != 0)
+                return; // Already rated
+            if (getInstance().getCreatedBy().getId() == currentUser.getId())
+                return; // Can't rate my own stuff
+
+            getInstance().setRating(rating);
+        }
+    }
+
     public void cancel() {
         endConversation();
     }

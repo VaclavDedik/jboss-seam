@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Pattern;
 import org.hibernate.validator.Length;
+import org.hibernate.validator.Range;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
 import org.jboss.seam.wiki.core.search.annotations.SearchableType;
 import org.jboss.seam.wiki.core.search.PaddedIntegerBridge;
@@ -26,7 +27,7 @@ import java.util.Date;
 public abstract class WikiNode<N extends WikiNode> implements Comparable {
 
     public static enum SortableProperty {
-        name, createdOn, lastModifiedOn;
+        name, createdOn, lastModifiedOn, rating;
     }
 
     @Id
@@ -106,6 +107,10 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
     @org.hibernate.annotations.Fetch(org.hibernate.annotations.FetchMode.JOIN)
     protected WikiNode parent;
 
+    @Range(min = 0l, max = 5)
+    @Column(name = "RATING", nullable = false)
+    private int rating = 0;
+
     protected WikiNode() {}
 
     protected WikiNode(String name) {
@@ -147,6 +152,9 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
 
     public WikiNode getParent() { return parent; }
     public void setParent(WikiNode parent) { this.parent = parent; }
+
+    public int getRating() { return rating; }
+    public void setRating(int rating) { this.rating = rating; }
 
     public WikiNode getArea() {
         if (this.getParent() != null && this.getParent().getParent() == null) return this; // This is an area

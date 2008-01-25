@@ -22,6 +22,7 @@ public class ForumPreferencesSupport extends PreferencesSupport {
     public Set<PreferenceEntity> getPreferenceEntities() {
         return new HashSet<PreferenceEntity>() {{
             add( createPreferenceEntity(ForumPreferences.class) );
+            add( createPreferenceEntity(ForumTopPostersPreferences.class) );
         }};
     }
 }

@@ -64,6 +64,13 @@ public class UserDAO {
         return null;
     }
 
+    public long findRatingPoints(Long userId) {
+        return (Long)entityManager
+                .createQuery("select sum(n.rating) from WikiNode n where n.createdBy.id = :userId")
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
     public void resetNodeCreatorToAdmin(User user) {
 
         User adminUser = (User) Component.getInstance("adminUser");

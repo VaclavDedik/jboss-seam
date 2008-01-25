@@ -120,6 +120,7 @@
             <value>messages_jiraConnector</value>
             <value>messages_feedAggregator</value>
             <value>messages_feedConnector</value>
+            <value>messages_forumTopPosters</value>
         </core:bundle-names>
     </core:resource-loader>
 

@@ -1,18 +1,20 @@
 package org.jboss.seam.wiki.plugin.forum;
 
-import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.action.Pager;
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.web.RequestParameter;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.core.action.Pager;
+import org.jboss.seam.wiki.core.engine.WikiLink;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.model.User;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
 
-import java.util.*;
 import java.io.Serializable;
+import java.util.*;
 
 @Name("forumQuery")
 @Scope(ScopeType.CONVERSATION)
@@ -26,11 +28,14 @@ public class ForumQuery implements Serializable {
     private Pager pager;
 
     @In("#{preferences.get('Forum')}")
-    ForumPreferences prefs;
+    ForumPreferences forumPrefs;
+
+    @In("#{preferences.get('ForumTopPosters', currentMacro)}")
+    ForumTopPostersPreferences forumTopPostersPrefs;
 
     @RequestParameter
     public void setPage(Integer page) {
-        if (pager == null) pager = new Pager(prefs.getTopicsPerPage());
+        if (pager == null) pager = new Pager(forumPrefs.getTopicsPerPage());
         pager.setPage(page);
         Contexts.getSessionContext().set(TOPIC_PAGE, page);
     }
@@ -127,5 +132,59 @@ public class ForumQuery implements Serializable {
         topics = new ArrayList<TopicInfo>();
         topics.addAll(topicInfo.values());
     }
+
+    /* ####################### POSTERS ########################## */
+
+    private Map<Long, List<User>> forumsTopPosters = new HashMap<Long, List<User>>();
+
+    public List<User> getTopPosters() {
+        Long forumId = resolveForumId(forumTopPostersPrefs.getForumLink());
+        return forumId != null ? forumsTopPosters.get(forumId) : null;
+    }
+
+    @Observer(value = "Macro.render.forumTopPosters", create = true)
+    public void loadForumTopPosters() {
+        log.debug("loading top posters of forum: " + forumTopPostersPrefs.getForumLink());
+
+        Long forumId = resolveForumId(forumTopPostersPrefs.getForumLink());
+        if (forumId == null) {
+            log.debug("could not resolve forum id for forum start page link: " + forumTopPostersPrefs.getForumLink());
+            return;
+        }
+
+        log.debug("resolved forum id: " + forumId);
+
+        List<String> excludeRoles = new ArrayList<String>();
+        if (forumTopPostersPrefs.getExcludeRoles() != null &&
+            forumTopPostersPrefs.getExcludeRoles().length() > 0) {
+            log.debug("excluding posters with roles: " + forumTopPostersPrefs.getExcludeRoles());
+            excludeRoles = Arrays.asList(forumTopPostersPrefs.getExcludeRoles().split(" "));
+        }
+
+        log.debug("loading top " + forumTopPostersPrefs.getNumberOfPosters() + " posters of forum id: " + forumId);
+        List<User> topPosters =
+            forumDAO.findPostersAndRatingPoints(
+                forumId,
+                forumTopPostersPrefs.getNumberOfPosters().intValue(),
+                excludeRoles
+            );
+        log.debug("found top posters: " + topPosters.size());
+        forumsTopPosters.put(forumId, topPosters);
+    }
+
+    private Long resolveForumId(String forumLink) {
+        if (forumLink == null || forumLink.length() == 0) return null;
+        WikiLinkResolver resolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
+        Map<String, WikiLink> resolvedLinks = new HashMap<String, WikiLink>();
+        resolver.resolveLinkText(currentDirectory.getAreaNumber(), resolvedLinks, forumLink);
+        WikiLink resolvedLink = resolvedLinks.get(forumLink);
+        if (resolvedLink.isBroken() || resolvedLink.getFile().getId() == null) {
+            return null;
+        } else {
+            // Parent of forum start page is the forum directory
+            return resolvedLink.getFile().getParent().getId();
+        }
+    }
+
 
 }

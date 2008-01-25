@@ -726,7 +726,15 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 
 .commentControls {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.commentRating, .commentRatingChooser {
+    font-weight: bold;
+}
+
+.commentRating .label, .commentRatingChooser .label {
+    vertical-align: bottom;
 }
 
 .commentFirstLevel {

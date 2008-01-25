@@ -940,7 +940,15 @@ ul {
 }
 
 .commentControls {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.commentRating, .commentRatingChooser {
+    font-weight: bold;
+}
+
+.commentRating .label, .commentRatingChooser .label {
+    vertical-align: bottom;
 }
 
 .commentFirstLevel {

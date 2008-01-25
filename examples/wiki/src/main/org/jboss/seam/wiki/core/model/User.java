@@ -102,6 +102,9 @@ public class User implements Serializable {
     @org.hibernate.annotations.ForeignKey(name = "FK_USER_USER_PROFILE_ID")
     private UserProfile profile = new UserProfile();
 
+    @Transient
+    private long ratingPoints = 0;
+
     public User() {}
 
     public User(String firstname, String lastname,
@@ -162,6 +165,9 @@ public class User implements Serializable {
 
     public UserProfile getProfile() { return profile; }
     public void setProfile(UserProfile profile) { this.profile = profile; }
+
+    public long getRatingPoints() { return ratingPoints; }
+    public void setRatingPoints(long ratingPoints) { this.ratingPoints = ratingPoints; }
 
     // Misc methods
 
