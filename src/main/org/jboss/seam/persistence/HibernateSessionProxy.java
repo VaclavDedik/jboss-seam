@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
@@ -28,8 +29,11 @@ import org.hibernate.engine.PersistenceContext;
 import org.hibernate.engine.QueryParameters;
 import org.hibernate.engine.SessionFactoryImplementor;
 import org.hibernate.engine.SessionImplementor;
+import org.hibernate.engine.ActionQueue;
+import org.hibernate.engine.EntityEntry;
 import org.hibernate.engine.query.sql.NativeSQLQuerySpecification;
 import org.hibernate.event.EventListeners;
+import org.hibernate.event.EventSource;
 import org.hibernate.impl.CriteriaImpl;
 import org.hibernate.jdbc.Batcher;
 import org.hibernate.jdbc.JDBCContext;
@@ -44,9 +48,11 @@ import org.hibernate.type.Type;
  * DetachedCriteria casts the Session to SessionImplementor.
  * 
  * @author Gavin King
+ * @author Emmanuel Bernard
+ * FIXME: EventSource should not really be there, remove once HSearch is fixed
  *
  */
-public class HibernateSessionProxy implements Session, SessionImplementor
+public class HibernateSessionProxy implements Session, SessionImplementor, EventSource
 {
    private Session delegate;
 
@@ -405,6 +411,11 @@ public class HibernateSessionProxy implements Session, SessionImplementor
       return (SessionImplementor) delegate;
    }
 
+   private EventSource getDelegateEventSource()
+   {
+      return (EventSource) delegate;
+   }
+
    public void afterScrollOperation()
    {
       getDelegateSessionImplementor().afterScrollOperation();
@@ -619,5 +630,40 @@ public class HibernateSessionProxy implements Session, SessionImplementor
    {
       getDelegateSessionImplementor().setFetchProfile(arg0);
    }
-   
+
+	public ActionQueue getActionQueue() {
+		return getDelegateEventSource().getActionQueue();
+	}
+
+	public Object instantiate(EntityPersister entityPersister, Serializable serializable) throws HibernateException {
+		return getDelegateEventSource().instantiate( entityPersister, serializable );
+	}
+
+	public void forceFlush(EntityEntry entityEntry) throws HibernateException {
+		getDelegateEventSource().forceFlush( entityEntry );
+	}
+
+	public void merge(String s, Object o, Map map) throws HibernateException {
+		getDelegateEventSource().merge( s, o, map );
+	}
+
+	public void persist(String s, Object o, Map map) throws HibernateException {
+		getDelegateEventSource().persist( s, o, map );
+	}
+
+	public void persistOnFlush(String s, Object o, Map map) {
+		getDelegateEventSource().persistOnFlush( s, o, map );
+	}
+
+	public void refresh(Object o, Map map) throws HibernateException {
+		getDelegateEventSource().refresh( o, map );
+	}
+
+	public void saveOrUpdateCopy(String s, Object o, Map map) throws HibernateException {
+		getDelegateEventSource().saveOrUpdateCopy( s, o , map );
+	}
+
+	public void delete(String s, Object o, boolean b, Set set) {
+		getDelegateEventSource().delete( s, o, b, set );
+	}
 }

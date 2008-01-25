@@ -258,8 +258,11 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       {
          try
          {
-            return (EntityManager) FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR.newInstance( FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR.invoke(null, entityManager) );
-         }
+            return (EntityManager) FULL_TEXT_ENTITYMANAGER_PROXY_CONSTRUCTOR.newInstance(
+					FULL_TEXT_ENTITYMANAGER_CONSTRUCTOR.invoke(null, super.proxyEntityManager( entityManager) )
+					//TODO is double wrapping the right choice? ie to wrap the session?
+			);
+		 }
          catch (Exception e)
          {
             //throw new RuntimeException("could not proxy FullTextEntityManager", e);
