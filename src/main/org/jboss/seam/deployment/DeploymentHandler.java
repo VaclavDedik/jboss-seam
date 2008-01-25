@@ -17,4 +17,10 @@ public interface DeploymentHandler
     * @param classLoader The ClassLoader on which the resource was found
     */
    public void handle(String name, ClassLoader classLoader);
+   
+   /**
+    * A key used to identify the deployment handler
+    */
+   public String getName();
+   
 }

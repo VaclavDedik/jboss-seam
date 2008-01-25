@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Set;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -20,7 +21,29 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    /**
     * The default path at which hot deployable Seam components are placed
     */
-   public static final String HOT_DEPLOYMENT_DIRECTORY_PATH = "WEB-INF/dev";
+   public static final String DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH = "WEB-INF/dev";
+   
+   /**
+    * The contextual variable name this deployment strategy is made available at
+    * during Seam startup.
+    */
+   public static final String NAME = "org.jboss.seam.deployment.hotDeploymentStrategy";
+   
+   /**
+    * The key under which to list extra hot deployment directories
+    * 
+    * This can be specified as a System property or in 
+    * /META-INF/seam-deployment.properties
+    */
+   //public static final String HOT_DEPLOY_DIRECTORIES_KEY = "org.jboss.seam.deployment.hotDeploymentDirectories";
+   
+   /**
+    * The key under which to list extra deployment handlers.
+    * 
+    * This can be specified as a System property or in 
+    * /META-INF/seam-deployment.properties
+    */
+   public static final String HANDLERS_KEY = "org.jboss.seam.deployment.hotDeploymentHandlers";
    
    private ClassLoader hotDeployClassLoader;
    
@@ -37,7 +60,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    {
       initHotDeployClassLoader(classLoader, hotDeployDirectory);
       componentDeploymentHandler = new ComponentDeploymentHandler();
-      getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
+      getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);  
    }
    
    private void initHotDeployClassLoader(ClassLoader classLoader, File hotDeployDirectory)
@@ -57,6 +80,12 @@ public class HotDeploymentStrategy extends DeploymentStrategy
       {
          throw new RuntimeException(mue);
       }
+   }
+   
+   @Override
+   protected String getDeploymentHandlersKey()
+   {
+      return HANDLERS_KEY;
    }
 
    /**
@@ -118,4 +147,14 @@ public class HotDeploymentStrategy extends DeploymentStrategy
       getScanner().scanDirectories(getHotDeploymentPaths());
       
    }
+   
+   public static HotDeploymentStrategy instance()
+   {
+      if (Contexts.getEventContext().isSet(NAME))
+      {
+         return (HotDeploymentStrategy) Contexts.getEventContext().get(NAME);
+      }
+      return null;
+   }
+   
 }

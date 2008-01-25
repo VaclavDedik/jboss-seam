@@ -133,5 +133,10 @@ public class GroovyDeploymentHandler extends AbstractDeploymentHandler
    {
       return name.substring(0, name.lastIndexOf(groovyFileExtension)) + ".component.xml";
    }
+   
+   public String getName()
+   {
+      return NAME;
+   }
 
 }

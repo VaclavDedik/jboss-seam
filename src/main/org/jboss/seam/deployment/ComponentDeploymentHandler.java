@@ -105,4 +105,9 @@ public class ComponentDeploymentHandler extends AbstractDeploymentHandler
       return name.substring( 0, name.lastIndexOf(".class") ) + ".component.xml";
    }
    
+   public String getName()
+   {
+      return NAME;
+   }
+   
 }

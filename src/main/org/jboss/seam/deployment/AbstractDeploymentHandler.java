@@ -93,6 +93,10 @@ public abstract class AbstractDeploymentHandler implements DeploymentHandler
    }
    
 
-  
+   @Override
+   public String toString()
+   {
+      return getName();
+   }  
 
 }

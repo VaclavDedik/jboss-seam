@@ -74,5 +74,10 @@ public class NamespaceDeploymentHandler extends AbstractDeploymentHandler
            return null;
        }
    }
+   
+   public String getName()
+   {
+      return NAME;
+   }
 
 }

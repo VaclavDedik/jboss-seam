@@ -5,6 +5,7 @@
  */
 package org.jboss.seam.init;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,7 +76,7 @@ public class Initialization
    private Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
    private Collection<String> globalImports = new ArrayList<String>();
    
-   private StandardDeploymentStrategy deploymentStrategy;
+   private StandardDeploymentStrategy standardDeploymentStrategy;
    private HotDeploymentStrategy hotDeploymentStrategy;
    
    private Set<String> nonPropertyAttributes = new HashSet<String>();
@@ -98,8 +99,8 @@ public class Initialization
    
    public Initialization create()
    {
-      deploymentStrategy = new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader());
-      deploymentStrategy.scan();
+      standardDeploymentStrategy = new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader());
+      standardDeploymentStrategy.scan();
       addNamespaces();
       initComponentsFromXmlDocument("/WEB-INF/components.xml");
       initComponentsFromXmlDocument("/WEB-INF/events.xml"); //deprecated
@@ -552,7 +553,7 @@ public class Initialization
    public Initialization init()
    {
       log.info("initializing Seam");
-      if (deploymentStrategy == null)
+      if (standardDeploymentStrategy == null)
       {
          throw new IllegalStateException("No deployment strategy!");
       }
@@ -573,6 +574,14 @@ public class Initialization
          init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
       }
       addSpecialComponents(init);
+      
+      // Make the deployment strategies available in the contexts. This gives 
+      // access to custom deployment handlers for processing custom annotations
+      // etc.
+      
+      Contexts.getEventContext().set(StandardDeploymentStrategy.NAME, standardDeploymentStrategy);
+      Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
+      
       installComponents(init);
       
       for (String globalImport: globalImports)
@@ -647,10 +656,10 @@ public class Initialization
    
    private static File getHotDeployDirectory(ServletContext servletContext)
    {
-      String path = servletContext.getRealPath(HotDeploymentStrategy.HOT_DEPLOYMENT_DIRECTORY_PATH);
+      String path = servletContext.getRealPath(HotDeploymentStrategy.DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH);
       if (path==null) //WebLogic!
       {
-         log.debug("Could not find path for " + HotDeploymentStrategy.HOT_DEPLOYMENT_DIRECTORY_PATH);
+         log.debug("Could not find path for " + HotDeploymentStrategy.DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH);
       }
       else
       {
@@ -684,15 +693,15 @@ public class Initialization
 
    private void scanForComponents()
    {
-      for ( Class<Object> scannedClass: deploymentStrategy.getScannedComponentClasses() ) 
+      for ( Class<Object> scannedClass: standardDeploymentStrategy.getScannedComponentClasses() ) 
       {
           installScannedComponentAndRoles(scannedClass);
       }
       
       
-      for ( String name: deploymentStrategy.getScannedComponentResources() ) 
+      for ( String name: standardDeploymentStrategy.getScannedComponentResources() ) 
       {
-          installComponentsFromDescriptor( name, deploymentStrategy.getClassLoader() );              
+          installComponentsFromDescriptor( name, standardDeploymentStrategy.getClassLoader() );              
       }
    }
 
@@ -783,7 +792,7 @@ public class Initialization
 
    private void addNamespaces()
    {
-      for ( Package pkg : deploymentStrategy.getScannedNamespaces() )
+      for ( Package pkg : standardDeploymentStrategy.getScannedNamespaces() )
       {
          addNamespace(pkg);
       }
@@ -871,7 +880,7 @@ public class Initialization
    {
       try
       {
-         Reflections.classForName("org.jboss.cache.aop.PojoCache");
+         Reflections.classForName("org.jboss.cache.pojo.PojoCache");
          addComponentDescriptor( new ComponentDescriptor(PojoCache.class, true) );
       }
       catch (ClassNotFoundException e) {}
