@@ -1,6 +1,10 @@
 package org.jboss.seam.pdf;
 
-public class DocumentData {
+import java.io.Serializable;
+
+public class DocumentData 
+    implements Serializable
+{
     byte[] data;
     DocumentType documentType;
     String baseName;
