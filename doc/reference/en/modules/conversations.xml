@@ -559,61 +559,71 @@ public class EditDocumentBean implements EditDocument {
     </section>
     
     <section>
-        <title>Using an "explicit" conversation id</title>
-        <para>
-            Ordinarily, Seam generates a meaningless unique id for each conversation
-            in each session. You can customize the id value when you begin the 
-            conversation.
-        </para>
-        
-        <para>
-            This feature can be used to customize the conversation id generation
-            algorithm like so:
-        </para>
-
-        <programlisting><![CDATA[@Begin(id="#{myConversationIdGenerator.nextId}") 
-public void editHotel() { ... }]]></programlisting>
-
-        <para>
-            Or it can be used to assign a meaningful conversation id:
-        </para>
-        
-        <programlisting><![CDATA[@Begin(id="hotel#{hotel.id}") 
-public String editHotel() { ... }]]></programlisting>
-
-        <programlisting><![CDATA[@Begin(id="hotel#{hotelsDataModel.rowData.id}") 
-public String selectHotel() { ... }]]></programlisting>
-
-        <programlisting><![CDATA[@Begin(id="entry#{params['blogId']}")
-public String viewBlogEntry() { ... }]]></programlisting>
-
-        <programlisting><![CDATA[@BeginTask(id="task#{taskInstance.id}") 
-public String approveDocument() { ... }]]></programlisting>
-        
-        <para>
-            Clearly, these example result in the same conversation id every time
-            a particular hotel, blog or task is selected. So what happens if a conversation
-            with the same conversation id already exists when the new conversation
-            begins? Well, Seam detects the existing conversation and redirects
-            to that conversation without running the <literal>@Begin</literal> 
-            method again. This feature helps control the number of workspaces
-            that are created when using workspace management.
-        </para>
-
-    </section>
-    
-    <section>
         <title>Natural conversation ids</title>
         <para>
             When working with conversations that deal with persistent objects, it may be 
             desirable to use the natural business key of the object instead of the standard,
-            "surrogate" conversation id.
+            "surrogate" conversation id:
         </para>
         
+        <itemizedlist>
+            <listitem>
+               <para>
+                  <emphasis>Easy redirect to existing conversation</emphasis>
+               </para>
+               <para>
+                  It can be useful to redirect to an existing conversation if 
+                  the user requests the same operation twice. Take this example:
+               </para>
+               <quote>
+                  You are on ebay, half way through paying for an item you just 
+                  won as a Christmas present for your parents. Lets say you're
+                  sending it straight to them - you enter your payment details 
+                  but you can't remember their address. You accidentally reuse 
+                  the same browser window finding out their address. Now you 
+                  need to return to the payment for the item.
+               </quote>
+               <para>
+                  With a natural conversation its really easy to have the user
+                  rejoin the existing conversation, and pick up where they left 
+                  off - just have them to rejoin the payForItem conversation 
+                  with the itemId as the conversation id.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  <emphasis>User friendly URLs</emphasis>
+               </para>
+               
+               <para>
+                  For me this consists of a navigable 
+                  hierarchy (I can navigate by editing the url) and a meaningful
+                  URL (like this Wiki uses - so don't identify things by random 
+                  ids). For some applications user friendly URLs are less 
+                  important, of course.
+               </para>
+
+               <para>
+                  With a natural conversations, when you are building your hotel 
+                  booking system (or, of course, whatever your app is) you can 
+                  generate a URL like 
+                  <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> 
+                  (of course, whatever parameter <literal>hotel</literal> maps 
+                  to on your domain model must be unique) and with URLRewrite 
+                  easily transform this to 
+                  http://seam-hotels/book/BestWesternAntwerpen.
+               </para>
+               
+               <para>
+                  Much better!
+               </para> 
+            </listitem>
+        </itemizedlist>
+        
         <section>
-            <title>Configuration</title>        
+            <title>Creating a natural conversation</title>        
             <para>
-                Natural conversations are configured in <literal>pages.xml</literal>: 
+                Natural conversations are defined in <literal>pages.xml</literal>: 
             </para>
             
             <programlisting><![CDATA[  <conversation name="PlaceBid"
@@ -621,7 +631,7 @@ public String approveDocument() { ... }]]></programlisting>
                   parameter-value="#{auction.auctionId}"/>]]></programlisting>
                   
             <para>
-                The first thing to note from the above configuration is that the conversation
+                The first thing to note from the above definition is that the conversation
                 has a name, in this case <literal>PlaceBid</literal>.  This name uniquely
                 identifies this particular named conversation, and is used by the 
                 <literal>page</literal> definition to identify a named conversation to participate
@@ -631,8 +641,7 @@ public String approveDocument() { ... }]]></programlisting>
             <para>
                 The next attribute, <literal>parameter-name</literal> defines the request parameter 
                 that will contain the natural conversation id, in place of the default conversation 
-                id parameter (which is typically either <literal>cid</literal> or <literal>conversationId</literal>).  
-                In this example, the <literal>parameter-name</literal> is <literal>auctionId</literal>.  
+                id parameter. In this example, the <literal>parameter-name</literal> is <literal>auctionId</literal>.  
                 This means that instead of a conversation parameter like <literal>cid=123</literal> 
                 appearing in the URL for your page, it will contain <literal>auctionId=765432</literal> 
                 instead.
@@ -646,7 +655,7 @@ public String approveDocument() { ... }]]></programlisting>
             </para>
             
             <para>
-                The next step is to configure which pages will participate in the named conversation.
+                Next, we define which pages will participate in the named conversation.
                 This is done by specifying the <literal>conversation</literal> attribute for a
                 <literal>page</literal> definition:
             </para>
@@ -669,7 +678,7 @@ public String approveDocument() { ... }]]></programlisting>
             <para>
                 When starting, or redirecting to, a natural conversation there are a number
                 of options for specifying the natural conversation name.  Let's start by looking at
-                the following page configuration:
+                the following page definition:
             </para>
             
             <programlisting><![CDATA[  <page view-id="/auction.xhtml">
@@ -683,7 +692,7 @@ public String approveDocument() { ... }]]></programlisting>
             <para>
                 From here, we can see that invoking the action <literal>#{bidAction.placeBid}</literal>
                 from our auction view (by the way, all these examples are taken from the seamBay example in Seam),
-                that we will be redirected to <literal>/bid.xhtml</literal>, which as we saw previously
+                that we will be redirected to <literal>/bid.xhtml</literal>, which, as we saw previously,
                 is configured with the natural conversation <literal>PlaceBid</literal>.  The declaration for
                 our action method looks like this:                
             </para>
@@ -696,7 +705,7 @@ public String approveDocument() { ... }]]></programlisting>
                 redirection to the named conversation occurs as part of navigation rules, after the 
                 action method has already been invoked.  This is a problem when redirecting to an
                 existing conversation, as redirection needs to be occur before the action method is 
-                invoked.  To cater for this, it is necessary to specify the conversation name when
+                invoked.  Therefore it is necessary to specify the conversation name when
                 the action is invoked.  One way of doing this is by using the <literal>s:conversationName</literal>
                 tag:
             </para>
