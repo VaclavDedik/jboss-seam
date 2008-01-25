@@ -65,10 +65,11 @@ public class UserDAO {
     }
 
     public long findRatingPoints(Long userId) {
-        return (Long)entityManager
+        Object ratingPoints = entityManager
                 .createQuery("select sum(n.rating) from WikiNode n where n.createdBy.id = :userId")
                 .setParameter("userId", userId)
                 .getSingleResult();
+        return ratingPoints != null ? (Long)ratingPoints : 0;
     }
 
     public void resetNodeCreatorToAdmin(User user) {
