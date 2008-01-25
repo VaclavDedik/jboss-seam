@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.jboss.seam.log.LogProvider;
@@ -107,14 +108,21 @@ public class URLScanner extends AbstractScanner
 
    private void handleArchiveByFile(File file) throws IOException
    {
-      log.debug("archive: " + file);
-      ZipFile zip = new ZipFile(file);
-      Enumeration<? extends ZipEntry> entries = zip.entries();
-      while ( entries.hasMoreElements() )
+      try
       {
-         ZipEntry entry = entries.nextElement();
-         String name = entry.getName();
-         handleItem(name);
+         log.debug("archive: " + file);
+         ZipFile zip = new ZipFile(file);
+         Enumeration<? extends ZipEntry> entries = zip.entries();
+         while ( entries.hasMoreElements() )
+         {
+            ZipEntry entry = entries.nextElement();
+            String name = entry.getName();
+            handleItem(name);
+         }
+      }
+      catch (ZipException e)
+      {
+         throw new RuntimeException("Error handling file " + file, e);
       }
    }
 
