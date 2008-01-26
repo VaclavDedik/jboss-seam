@@ -80,15 +80,16 @@ public class SeamResourceBundle extends java.util.ResourceBundle
       List<java.util.ResourceBundle> pageBundles = getPageResourceBundles();
       List<ResourceBundle> bundles = getBundlesForCurrentLocale();
       Enumeration<String>[] enumerations = new Enumeration[bundles.size() + pageBundles.size()];
+
       int i = 0;
-      for (; i < pageBundles.size(); i++)
-      {
-         enumerations[i++] = pageBundles.get(i).getKeys();
+      for (java.util.ResourceBundle bundle: pageBundles) {
+          enumerations[i++] = bundle.getKeys();
       }
-      for (; i < bundles.size(); i++)
-      {
-         enumerations[i] = bundles.get(i).getKeys();
+       
+      for (ResourceBundle bundle: bundles) {
+          enumerations[i++] = bundle.getKeys();
       }
+
       return new EnumerationEnumeration<String>(enumerations);
    }
 
