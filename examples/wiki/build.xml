@@ -427,6 +427,8 @@
         <!-- Clean up afterwards for the next deploy run -->
         <antcall target="clean"/>
 
+        <echo message="Compiled and packaged distribution files into directory: ${wiki.dist.dir}"/>
+
     </target>
 
     <!-- ######################## TOOLS ################## -->
