@@ -541,7 +541,7 @@ public class Authenticator {
           <row>
             <entry>
               <para>
-                <literal>org.jboss.seam.security.loginSuccessful</literal>
+                <literal>org.jboss.seam.loginSuccessful</literal>
               </para>
             </entry>    
             <entry>
@@ -553,7 +553,7 @@ public class Authenticator {
           <row>
             <entry>
               <para>
-                <literal>org.jboss.seam.security.loginFailed</literal>
+                <literal>org.jboss.seam.loginFailed</literal>
               </para>
             </entry>    
             <entry>
@@ -566,7 +566,7 @@ public class Authenticator {
           <row>
             <entry>
               <para>
-                <literal>org.jboss.seam.security.NotLoggedIn</literal>
+                <literal>org.jboss.seam.NotLoggedIn</literal>
               </para>
             </entry>    
             <entry>
