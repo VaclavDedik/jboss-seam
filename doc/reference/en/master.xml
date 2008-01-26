@@ -130,7 +130,7 @@
                     <para>
                         Alternatively, Seam provides a built-in JavaScript remoting layer that lets you call 
                         components asynchronously from client-side JavaScript without the need for an intermediate 
-                        action layer. You can ever subscribe to server-side JMS topics and receive messages via AJAX
+                        action layer. You can even subscribe to server-side JMS topics and receive messages via AJAX
                         push.
                     </para>
                     <para>
@@ -192,7 +192,7 @@
                         had problems with the refresh button? The back button? With duplicate form submission?
                         With propagating messages across a post-then-redirect? Seam's conversation management 
                         solves these problems without you even needing to really think about them. They're all
-                        symptoms of the broken state management architecture has been prevalent since the 
+                        symptoms of the broken state management architecture that has been prevalent since the 
                         earliest days of the web.
                     </para>
                 </listitem>
@@ -216,7 +216,7 @@
                         You can think of it as a mechanism for aliasing contextual variables (names in the various contexts
                         bound to the current thread) to attributes of the component. Bijection allows auto-assembly of stateful
                         components by the container. It even allows a component to safely and easily manipulate the
-                        value of a context variable, just by assigning to an attribute of the component.
+                        value of a context variable, just by assigning it to an attribute of the component.
                     </para>
                 </listitem>
             </varlistentry>
