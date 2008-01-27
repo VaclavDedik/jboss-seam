@@ -985,6 +985,12 @@ public class GridEditor
 }]]></programlisting>
 
        <para>
+         Also, you can't inject a conversation scoped component into an event
+         scoped component which you bind a JSF control to. This includes Seam
+         built in components like <literal>facesMessages</literal>. 
+       </para>
+
+       <para>
           Alternatively, you can access the JSF component tree through the implicit <literal>uiComponent</literal>
           handle. The following example accesses <literal>getRowIndex()</literal>of the
           <literal>UIData</literal> component which backs the data table during iteration, it prints
