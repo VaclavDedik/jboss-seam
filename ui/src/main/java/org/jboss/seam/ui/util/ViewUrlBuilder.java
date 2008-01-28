@@ -14,9 +14,9 @@ public class ViewUrlBuilder extends UrlBuilder
 
    private Page page;
 
-   public ViewUrlBuilder(String viewId, String fragment)
+   public ViewUrlBuilder(String viewId, String fragment, boolean urlEncodeParameters)
    {
-      super(fragment, FacesContext.getCurrentInstance().getResponseWriter().getCharacterEncoding());
+      super(fragment, FacesContext.getCurrentInstance().getResponseWriter().getCharacterEncoding(), urlEncodeParameters);
       if (viewId == null)
       {
          throw new NullPointerException("viewId must not be null");
@@ -28,6 +28,12 @@ public class ViewUrlBuilder extends UrlBuilder
       setUrl(url);
       
       page = Pages.instance().getPage(viewId);
+   }
+   
+   public ViewUrlBuilder(String viewId, String fragment)
+   {
+      this(viewId, fragment, true);
+      
    }
 
    @Override

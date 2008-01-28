@@ -13,6 +13,7 @@ import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionListener;
+import javax.faces.event.PhaseEvent;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.navigation.Pages;
@@ -22,6 +23,17 @@ import org.jboss.seam.ui.util.cdk.MethodBindingToMethodExpression;
 public abstract class UISeamCommandBase extends UIOutput implements ActionSource2
 {
 
+   private static Class PORTLET_REQUEST;
+   
+   static
+   {
+      try
+      {
+         PORTLET_REQUEST = Class.forName("javax.portlet.PortletRequest");
+      }
+      catch (Exception e) {}
+   }
+   
    public abstract String getView();
 
    public String getUrl() throws UnsupportedEncodingException
@@ -34,7 +46,7 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          viewId = Pages.getViewId(getFacesContext());
       }
 
-      ViewUrlBuilder url = new ViewUrlBuilder(viewId, getFragment());
+      ViewUrlBuilder url = new ViewUrlBuilder(viewId, getFragment(), !isPortletRequest(getFacesContext()));
 
       Set<String> usedParameters = new HashSet<String>();
       for (Object child : getChildren())
@@ -201,6 +213,12 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
    public javax.faces.el.MethodBinding getAction()
    {
       return new org.jboss.seam.ui.util.cdk.MethodExpressionToMethodBinding(getActionExpression());
+   }
+   
+   private static boolean isPortletRequest(FacesContext facesContext)
+   {
+      return PORTLET_REQUEST !=null && 
+            PORTLET_REQUEST.isInstance( facesContext.getExternalContext().getRequest() );
    }
    
 }
