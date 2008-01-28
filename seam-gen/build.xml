@@ -3,6 +3,9 @@
 <project name="seam-gen" default="help" basedir="."  xmlns:artifact="urn:maven-artifact-ant">	
 	<!-- Build resources -->
 	<property name="seam.dir" value="${ant.file.seam-gen}/../../" />
+	
+	<!-- Order is important -->
+	<property file="./build.properties" />
 	<import file="${seam.dir}/build/common.build.xml" />
 	
 	<target name="init">
@@ -39,7 +42,6 @@
 	</target>
     
     <target name="init-properties" depends="init">
-	<property file="./build.properties" />
         
         <packageDirectory property="action.dir" package="action/${action.package}"/>
         <packageDirectory property="model.dir" package="model/${model.package}"/>
