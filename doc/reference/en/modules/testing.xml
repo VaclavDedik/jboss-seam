@@ -158,7 +158,7 @@ public class PaymentProcessor {
             <programlisting><![CDATA[@Name("paymentProcessor")
 @Install(precedence=MOCK)
 public class MockPaymentProcessor extends PaymentProcessor {
-    public void processPayment(Payment payment) {
+    public boolean processPayment(Payment payment) {
         return true;
     }
 }]]></programlisting>
