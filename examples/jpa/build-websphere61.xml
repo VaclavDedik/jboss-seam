@@ -3,7 +3,7 @@
 <project name="JPA Booking" default="noejb.archive" basedir=".">
 
     <!-- Naming -->
-    <property name="Name"                   value="The JPA Example for WebSphere 6.1.0.9"/>
+    <property name="Name"                   value="The JPA Example for WebSphere 6.1.0.13 + EJB3 FP"/>
     <property name="example.name"           value="jboss-seam-jpa"/>
 
     <!-- resources -->
@@ -31,7 +31,6 @@
         <!-- JSF (and related) implementation -->
         <include name="lib/jsf-api.jar"/>
         <include name="lib/jsf-impl.jar"/>
-        <include name="lib/jstl.jar"/>
         <include name="examples/jpa/lib/el-ri.jar"/>
         <include name="lib/el-api.jar" />  
         
@@ -42,14 +41,13 @@
         <include name="lib/hibernate-entitymanager.jar"/>
         <include name="lib/hibernate-validator.jar"/>
         <include name="examples/jpa/lib/jboss-archive-browsing.jar" />
-        <include name="lib/persistence-api.jar" />
         <include name="lib/cglib.jar"/>
+    	  <include name="lib/asm.jar"/>
         <include name="lib/antlr.jar" />        
     </fileset>
 	
 	<fileset id="noejb.war.extras" dir="${resources.dir}">
 		<include name="WEB-INF/classes/**/*" />
-		<include name="META-INF/*.taglib.xml" />
 	</fileset>
        
 </project>

@@ -39,6 +39,8 @@ WebLogic 10.X:
 WebSphere 6.1:
 
   * Install and run WebSphere 6.1
+  * Set a Websphere web container custom property "com.ibm.ws.webcontainer.invokefilterscompatibility" to true.  See Seam reference guide chapter for details.
+  * Set a Websphere web container custom property "prependSlashToResource" to true.  See Seam reference guide chapter for details.
   * ant websphere61
   * Deploy dist-websphere61/jboss-seam-jpa.war and specify a context_root
   * From the "Enterprise Applications" list select: "jboss-seam-jpa" --> "Manager Modules" --> "jboss-seam-jpa.war" --> "Classes loaded with application class loader first", and then Apply
