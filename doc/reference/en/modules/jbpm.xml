@@ -666,6 +666,16 @@ public void begin() { ... }]]></programlisting>
     </bpm:process-definitions>
 </bpm:jbpm>]]></programlisting>
 
+        <para>
+            As jBPM processes are persistent across application restarts, 
+            when using Seam in a production environment you won't want to
+            install the process definition every time the application starts.
+            Therefore, in a production environment, you'll need to deploy
+            the process to jBPM outside of Seam. In other words, only install
+            process definitions from <literal>components.xml</literal> when
+            developing your application.
+        </para>
+
         </section>
         
         <section>
