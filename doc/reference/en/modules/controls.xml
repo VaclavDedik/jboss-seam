@@ -90,6 +90,12 @@
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[<s:button id="cancel" value="Cancel" 
           action="#{hotelBooking.cancel}"/>]]></programlisting>
+            <para>
+               You can specify both <literal>view</literal> and <literal>action</literal>
+               on <literal>&lt;s:link /&gt;</literal>. In this case, the action 
+               will be called once the redirect to the specified view has
+               occured.
+            </para>
           </entry>
         </row>
 
@@ -833,6 +839,12 @@
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[<s:link id="register" view="/register.xhtml" 
         value="Register New User"/>]]></programlisting>
+            <para>
+               You can specify both <literal>view</literal> and <literal>action</literal>
+               on <literal>&lt;s:link /&gt;</literal>. In this case, the action 
+               will be called once the redirect to the specified view has
+               occured.
+            </para>
           </entry>
         </row>
 
