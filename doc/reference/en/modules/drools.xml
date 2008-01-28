@@ -18,7 +18,7 @@
 
         <programlisting><![CDATA[<drools:rule-base name="policyPricingRules">
     <drools:rule-files>
-        <value>policyPricingRules</value>
+        <value>policyPricingRules.drl</value>
     </drools:rule-files>
 </drools:rule-base>]]></programlisting>
 
@@ -37,7 +37,7 @@
          
         <programlisting><![CDATA[<drools:rule-base name="policyPricingRules" dsl-file="policyPricing.dsl">
     <drools:rule-files>
-        <value>policyPricingRules</value>
+        <value>policyPricingRules.drl</value>
     </drools:rule-files>
 </drools:rule-base>]]></programlisting>
 
