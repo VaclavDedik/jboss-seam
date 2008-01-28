@@ -123,3 +123,13 @@ Workarounds for OC4J 11g
   hibernate to throw an exception (discussed here for Weblogic, but the same applies to OC4J - 
   http://hibernate.org/250.html#A23).  You can also work around this by putting the hibernate 
   jars in $ORACLE_HOME/j2ee/home/applib/
+  
+WebLogic 10.3 TP
+---------------------------
+There are known issues with Weblogic's EJB3 implementation that cause Seam EJB's
+to fail when deployed.  Please refer to the Seam reference guide for additional information.
+  
+WebSphere 6.1.0.13 with EJB3 feature pack
+---------------------------
+The instructions for integration with Websphere are fairly verbose.  Please 
+refer to the Seam reference guide for additional information.
