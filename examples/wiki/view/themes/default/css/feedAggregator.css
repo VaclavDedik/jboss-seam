@@ -1,9 +1,5 @@
 .feedAggregatorTitle {
-    text-align: right;
-}
-
-.feedAggregatorSubscribe {
-    text-align: left;
+    margin-left: auto;
 }
 
 .feedEntryColumn {
@@ -11,6 +7,7 @@
 }
 
 .feedEntryTitle {
+    font-weight: bold;
     padding-top: 15px;
     padding-bottom: 15px;
 }

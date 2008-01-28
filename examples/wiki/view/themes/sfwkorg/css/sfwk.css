@@ -319,7 +319,7 @@ blockquote blockquote blockquote blockquote {
 
 .homepageNews .rowOdd td, .homepageNews .rowEven td {
     padding: 2px;
-    border-bottom: 1px solid #b6b6b6;
+/*    border-bottom: 1px solid #b6b6b6; */
 }
 
 /* -----  Footer styles  ------  */

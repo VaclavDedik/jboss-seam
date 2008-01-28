@@ -134,6 +134,10 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
             throw new IllegalStateException("Could not find parent node with id: " + parentNodeId);
         getLog().debug("initalized with parent node: " + parentNode);
 
+        // Check write access level of the parent node, if the user wants to create a new node
+        if (!Identity.instance().hasPermission("Node", "create", parentNode) )
+            throw new AuthorizationException("You don't have permission for this operation");
+
         // Default to same access permissions as parent node
         node.setWriteAccessLevel(parentNode.getWriteAccessLevel());
         node.setReadAccessLevel(parentNode.getReadAccessLevel());
@@ -165,6 +169,10 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     }
 
     public N beforeNodeEditFound(N node) {
+
+        // Check write access level of the node the user wants to edit
+        if (!Identity.instance().hasPermission("Node", "edit", node) )
+            throw new AuthorizationException("You don't have permission for this operation");
 
         writeAccessLevel = getAccessLevelsList().get(
             accessLevelsList.indexOf(

@@ -36,8 +36,9 @@
 
             <!-- Enable EHCache and register the JMX monitoring MBean -->
             <property name="hibernate.cache.provider_class" value="org.jboss.seam.wiki.util.MonitoringEHCacheProvider"/>
-            <property name="hibernate.cache.use_query_cache" value="true"/>
-            <property name="hibernate.cache.use_second_level_cache" value="true"/>
+            <!-- TODO: The cache causes lots of unexpected stale query data problems, need to investigate -->
+            <property name="hibernate.cache.use_query_cache" value="false"/>
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
 
             <property name="hibernate.ejb.classcache.org.jboss.seam.wiki.core.model.WikiNode"
                       value="read-write, WikiNode"/>

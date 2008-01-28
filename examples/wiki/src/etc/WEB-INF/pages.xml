@@ -355,42 +355,36 @@
     <page view-id="/userList_m.xhtml">
         <description>#{messages['lacewiki.label.userList.MemberList']} (#{messages['lacewiki.label.userList.Results']}: #{userSearch.rowCount})</description>
     </page>
-    
 
-
-
-
-    <page view-id="/test.xhtml">
-        <param name="foo" value="#{testBean.foo}"/>
-    </page>
 
     <exception class="javax.faces.application.ViewExpiredException">
-        <redirect view-id="/message.xhtml"> 
+        <!-- TODO: This is never thrown by JSF -->
+        <redirect view-id="/wiki.xhtml">
             <message>Your session has timed out, please try again</message>
         </redirect>
     </exception>
 
-    <!--
-    <exception class="org.jboss.seam.framework.EntityNotFoundException">
-        <end-conversation/>
-        <http-error error-code="404"/>
-    </exception>
-
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
-        <redirect view-id="/message.xhtml">
+        <redirect view-id="/wiki.xhtml">
             <message severity="WARN">#{messages['lacewiki.msg.AccessDenied']}: #{org.jboss.seam.handledException.message}</message>
         </redirect>
     </exception>
 
     <exception class="javax.persistence.OptimisticLockException">
+        <end-conversation/>
+        <!-- TODO: This fails randomly, it works only once and then we don't get the message anymore?! -->
         <redirect view-id="/message.xhtml">
-            <message>An error occured.</message>
+            <message severity="WARN">#{messages['lacewiki.msg.OptimisticLockError']}</message>
         </redirect>
     </exception>
--->
 
-    <!-- This breaks unit tests...
+    <exception class="org.jboss.seam.framework.EntityNotFoundException">
+        <end-conversation/>
+        <http-error error-code="404"/>
+    </exception>
+
+    <!-- TODO: This breaks unit tests...
     <exception>
         <redirect view-id="/message.xhtml">
             <message severity="ERROR">Exception: #{org.jboss.seam.exception.message}</message>

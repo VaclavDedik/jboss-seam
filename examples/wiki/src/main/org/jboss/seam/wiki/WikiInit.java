@@ -32,6 +32,8 @@ public class WikiInit {
     @Logger
     static Log log;
 
+    private boolean debug;
+
     @In(required = false)
     DBUnitImporter dbunitImporter;
 
@@ -64,6 +66,14 @@ public class WikiInit {
 
         log.info("unregistering Hibernate statistics MBean");
         ManagementFactory.getPlatformMBeanServer().unregisterMBean(hibernateMBeanName);
+    }
+
+    public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
     }
 
     /** Utility to debug JBoss JNDI problems */
