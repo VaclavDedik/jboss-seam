@@ -31,7 +31,8 @@ import org.jboss.seam.navigation.SafeActions;
  * This is a support component and is not processed by the CDK (doesn't appear in faces-config)
  *
  */
-public class UIAction extends UIParameter {
+public class UIAction extends UIParameter 
+{
 	
 	private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Action";
    
