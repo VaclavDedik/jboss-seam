@@ -1482,25 +1482,5 @@
       </value>
     </option>
   </component>
-  <component name="libraryTable">
-    <library name="jsf">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/myfaces-api-1.1.4.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/myfaces-impl-1.1.4.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-beanutils-1.7.0.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-codec-1.3.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-collections-3.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-digester-1.6.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-el-1.0.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-jci-core-1.0-406301.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-jci-janino-2.4.3.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-lang-2.1.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/commons-logging-api-1.0.4.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/jstl-1.1.0.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
-  </component>
 </project>
 

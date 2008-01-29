@@ -729,6 +729,10 @@ b.rtop b.r4, b.rbottom b.r4 {
     margin-bottom: 5px;
 }
 
+.commentControls form {
+    text-align:right;
+}
+
 .commentRating, .commentRatingChooser {
     font-weight: bold;
 }

@@ -943,6 +943,10 @@ ul {
     margin-bottom: 5px;
 }
 
+.commentControls form {
+    text-align:right;
+}
+
 .commentRating, .commentRatingChooser {
     font-weight: bold;
 }

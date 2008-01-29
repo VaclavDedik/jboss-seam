@@ -1,11 +1,11 @@
 package org.jboss.seam.wiki.core.ui;
 
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.web.Session;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
-import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -122,5 +122,11 @@ public class FileServlet extends HttpServlet {
 
             response.getOutputStream().flush();
         }
+
+        // If the user is not logged in, we might as well destroy the session immediately, saving some memory
+        if (!Identity.instance().isLoggedIn()) {
+            Session.instance().invalidate();
+        }
+
     }
 }

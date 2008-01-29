@@ -9,6 +9,9 @@ package org.jboss.seam.wiki.core.ui;
 import com.sun.syndication.feed.synd.*;
 import com.sun.syndication.io.SyndFeedOutput;
 import org.jboss.seam.Component;
+import org.jboss.seam.Seam;
+import org.jboss.seam.web.Session;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.*;
@@ -137,7 +140,7 @@ public class FeedServlet extends HttpServlet {
                     feed.setAuthor(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed"));
                     feed.setTitle(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed") + ": " + aggregateParam);
                     feed.setPublishedDate(new Date());
-                    feed.setLink( ((WikiPreferences) Preferences.getInstance("Wiki")).getBaseUrl() );
+                    feed.setLink( Preferences.getInstance(WikiPreferences.class).getBaseUrl() );
                     for (FeedEntryDTO feedEntryDTO : result) {
                         feed.getFeedEntries().add(feedEntryDTO.getFeedEntry());
                     }
@@ -235,6 +238,11 @@ public class FeedServlet extends HttpServlet {
             }
             throw new RuntimeException(ex);
         }
+
+        // If the user is not logged in, we might as well destroy the session immediately, saving some memory
+        if (!Identity.instance().isLoggedIn()) {
+            Session.instance().invalidate();
+        }
     }
 
     public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {
@@ -249,7 +257,7 @@ public class FeedServlet extends HttpServlet {
                                    Comments comments,
                                    String aggregateParam) {
 
-        WikiPreferences prefs = (WikiPreferences) Preferences.getInstance("Wiki");
+        WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
 
         // Create feed
         SyndFeed syndFeed = new SyndFeedImpl();
