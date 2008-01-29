@@ -1,0 +1,15 @@
+Seam 2.1 Migration Guide
+========================
+Before you get started with Seam 2.1, there are a few things you should be aware
+of. This process should not be too painful - if you get stuck, just refer back
+to the updated Seam examples.
+
+This migration guide assumes you are using Seam 2.0, if you are migrating from
+Seam 1.2, see the seam2migration guide as well.
+
+Testing
+-------
+
+SeamTest now boots Seam at the start of each suite, rather than the start of
+each class. This is much faster. See the reference manual for how to alter the
+default.
