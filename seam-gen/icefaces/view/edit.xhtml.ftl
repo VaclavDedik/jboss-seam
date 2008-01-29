@@ -55,6 +55,7 @@
             <h:commandButton id="delete${homeName}" 
                           value="Delete" 
                          action="${'#'}{${homeName}.remove}"
+                      immediate="true"
                        rendered="${'#'}{${homeName}.managed}"/>
                     
             <s:button id="done${homeName}" 

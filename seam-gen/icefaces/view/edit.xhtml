@@ -43,6 +43,7 @@
             <h:commandButton id="edit@homeName@delete" 
                           value="Delete" 
                          action="#{@homeName@.remove}"
+                      immediate="true"
                        rendered="#{@homeName@.managed}"/>
             <s:button propagation="end" 
                                id="edit@homeName@done" 
