@@ -57,7 +57,7 @@
          <title>Required custom properties</title>
          <para>There are a couple of Websphere custom properties that are required
             for Seam integration.  These properties are not needed specifically
-            for seam, but work around some issues with Websphere. These are
+            for Seam, but work around some issues with Websphere. These are
             set following the instructions here : <ulink
                url="http://www-1.ibm.com/support/docview.wss?rss=180&amp;uid=swg21284395">
             Setting web container custom properties</ulink></para>
@@ -147,7 +147,7 @@
                      change because this is not full <literal>jee5</literal>
                      implementation. </para>
                   <para> Websphere does not support <literal>Servlet
-                     2.5</literal>, it required <literal>Servlet
+                     2.5</literal>, it requires <literal>Servlet
                      2.4</literal>. For this change we need to adjust the top of
                      the <literal>web.xml</literal> file to look like the
                      following:</para>
@@ -161,7 +161,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
                              http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
                   ]]></programlisting>
-                  <para>Next you have to make some changes to the EJB references
+                  <para>Next, er have to make some changes to the EJB references
                      in the <literal>web.xml</literal>. These changes are
                      what will allow Websphere to bind the EJB2 references in
                      the web module to the the actual EJB3 beans in the EAR
@@ -220,12 +220,12 @@
     <local-home></local-home>
     <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
   </ejb-local-ref>]]></programlisting>
-                  <para>The important changes are that there is an empty
+                  <para>The important change is that there is an empty
                      <literal>local-home</literal> element for each EJB.
-                     This is the signal to Websphere so that it will make the
-                     correct bindings behind the scenes between the web module
-                     and the EJB3 beans. The <literal>ejb-link</literal>
-                     element is simply not used. </para>
+                     This tells Websphere to make the correct bindings between 
+                     the web module and the EJB3 beans. The 
+                     <literal>ejb-link</literal> element is simply not used. 
+                  </para>
                </listitem>
             </varlistentry>
             <varlistentry>
@@ -235,13 +235,13 @@
                <listitem>
                   <para>For this example we will be using the default
                      datasource that comes with Websphere. To do this change the
-                     <literal>jta-data-source</literal> element like below.</para>
+                     <literal>jta-data-source</literal> element:</para>
                   <programlisting><![CDATA[
 <jta-data-source>DefaultDatasource</jta-data-source>
                   ]]></programlisting>
                   <para>Then we need to adjust some of the hibernate
                      properties. First comment out the Glassfish properties.
-                     Next you need to add/change the properties below. </para>
+                     Next you need to add/change the properties:</para>
                   
                   
                   <programlisting><![CDATA[
@@ -257,7 +257,7 @@
                         <listitem>
                            <para>
                               <literal>hibernate.transaction.manager_lookup_class</literal>
-                              &#8212; Standard hibernate transaction
+                              &#8212; Standard Hibernate transaction
                               manager property for Websphere 6.X</para>
                         </listitem>
                         <listitem>
@@ -270,10 +270,8 @@
                               EJBContext is looked up.
                               
                               
-                              <programlisting><![CDATA[
-com.ibm.wsspi.injectionengine.InjectionException: 
-                 EJBContext may only be looked up by or injected into an EJB
-                  ]]></programlisting></para>
+                              <programlisting><![CDATA[com.ibm.wsspi.injectionengine.InjectionException: 
+                 EJBContext may only be looked up by or injected into an EJB]]></programlisting></para>
                         </listitem>
                         <listitem>
                            <para><literal>hibernate.dialect</literal>
@@ -341,8 +339,8 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
                <itemizedlist>
                   <listitem>
                      <para>JSF libraries &#8212; Websphere 6.1 comes with
-                        their own version of JSF 1.1 (Seam requires JSF 1.2). So
-                        we must add these jars to our application.
+                        its own version of JSF 1.1 (Seam requires JSF 1.2). So
+                        we must add these jars to our application:
                         <itemizedlist>
                            <listitem>
                               <para><literal>jsf-api.jar</literal>
@@ -357,7 +355,7 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
                   <listitem>
                      <para>Since Websphere is not a fully compliant
                         <literal>JEE5</literal> implementation we need to
-                        add these expression language libraries as well:
+                        add these EL libraries:
                         <itemizedlist>
                            <listitem>
                               <para><literal>el-api.jar</literal>
@@ -378,12 +376,11 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
                         the <literal>/lib</literal> of the EAR.</para>
                   </listitem>
                   <listitem>
-                     <para>Then finally by removing the
-                        <literal>log4j.jar</literal> all of the log output
-                        from our application will be added to the Websphere
-                        logging. Addition steps are required to fully
-                        configure log4j and those are outside of the scope of
-                        this document.</para>
+                     <para>Finally we remove the <literal>log4j.jar</literal> 
+                        so that all of the log output from our application will 
+                        be added to the Websphere log. Additional steps are 
+                        required to fully configure log4j and those are outside
+                        of the scope of this document.</para>
                   </listitem>
                </itemizedlist> </para>
             
@@ -397,7 +394,7 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
                default fileset that is used to populate the
                <literal>jboss-seam-jee5.jar</literal>. The primary change
                is the addition of the
-               <literal>GlassfishDerbyDialect.class</literal>.
+               <literal>GlassfishDerbyDialect.class</literal>:
                
                
                <programlisting><![CDATA[
@@ -412,7 +409,7 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
             
             <para>Next we need to add the library dependencies discussed above.
                For this add the following to bottom of the
-               <literal>ear.lib.extras</literal> fileset entry.
+               <literal>ear.lib.extras</literal> fileset entry:
                
                
                <programlisting><![CDATA[
@@ -426,7 +423,7 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
                </para>
             
             <para>Now all that is left is to execute the <literal>ant
-               archive</literal> task and your application files should be in
+               archive</literal> task and the built application will be in
                the <literal>jee5/booking/dist</literal> directory.
                </para>
          </section>
@@ -437,8 +434,8 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
          <title>Deploying the application to Websphere</title>
          
          <para>So now we have everything we need in place. All that is left is to
-            deploy it - just a few steps more ;) </para>
-         <para> For that we will use Websphere's administration console. As
+            deploy it - just a few steps more.</para>
+         <para> For this we will use Websphere's administration console. As
             before there are some tricks and tips that must be followed.</para>
          
          <para>The steps below are for the Websphere version stated above, yours
@@ -461,7 +458,7 @@ https://localhost:9043/ibm/console]]></programlisting>
                   <para>At the top of the <literal>Enterprise
                      Application</literal> table select
                      <literal>Install</literal>. Below are installation
-                     wizard pages and what needs to done on each.
+                     wizard pages and what needs to done on each:
                      <itemizedlist>
                         <listitem>
                            <para><literal>Preparing for the application
@@ -574,7 +571,7 @@ https://localhost:9043/ibm/console]]></programlisting>
                </listitem>
                <listitem id="websphere-app-adj-after-install" xreflabel="installation adjustments for jee5 example">
                   <para>Now that we have our application installed we need to
-                     make some adjustments to it before we can start it.
+                     make some adjustments to it before we can start it:
                      <itemizedlist>
                         <listitem>
                            <para>Starting from the <literal>Enterprise
@@ -593,7 +590,7 @@ https://localhost:9043/ibm/console]]></programlisting>
                         </listitem>
                         <listitem>
                            <para>Change the <literal>Class loader
-                              order</literal> combo box to say
+                              order</literal> combo box to 
                               <literal>Classes loaded with application
                               class loader first</literal>.</para>
                         </listitem>
@@ -628,11 +625,11 @@ https://localhost:9043/ibm/console]]></programlisting>
                         </listitem>
                         <listitem>
                            <para>You should verify that the change you just
-                              made has stuck. We had problems with the last
+                              made has been remembered. We have had problems with the last
                               class loader change not taking effect - even
                               after a restart. If the change did not take you
-                              will need to do it manually following these
-                              directions
+                              will need to do it manually, following these
+                              directions:
                               <itemizedlist>
                                  <listitem>
                                     <para> Open the following file in a text
