@@ -218,7 +218,7 @@ public class Lifecycle
       
       if ( Contexts.isEventContextActive() || Contexts.isApplicationContextActive() )
       {
-         throw new IllegalStateException("Please end the HttpSession via Seam.invalidateSession()");
+         throw new IllegalStateException("Please end the HttpSession via org.jboss.seam.web.Session.instance().invalidate()");
       }
       
       Context tempApplicationContext = new ApplicationContext( getApplication() );
