@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -17,9 +18,10 @@ import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.preferences.Preferences;
 
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import java.util.Date;
@@ -82,10 +84,22 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
     /* -------------------------- Additional States ------------------------------ */
 
-    private boolean edit = false;
+    private boolean editor = false;
 
-    public boolean isEdit() { return edit; }
-    public void setEdit(boolean edit) { this.edit = edit; }
+    public boolean isEditor() { return editor; }
+
+    public void initEditor() {
+        getLog().debug("initializing editor workspace");
+        this.editor = true;
+
+        // Set workspace description of the current conversation
+        String desc = getEditorWorkspaceDescription(getNodeId() == null);
+        WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
+        if (desc.length() > prefs.getWorkspaceSwitcherDescriptionLength()) {
+            desc = desc.substring(0, prefs.getWorkspaceSwitcherDescriptionLength().intValue()) + "...";
+        }
+        Conversation.instance().setDescription(desc);
+    }
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -103,7 +117,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
             return null;
         }
         getLog().debug("found instance: " + foundNode);
-        return isEdit() ? beforeNodeEditFound(afterNodeFound(foundNode)) : afterNodeFound(foundNode);
+        return isEditor() ? beforeNodeEditFound(afterNodeFound(foundNode)) : afterNodeFound(foundNode);
     }
 
     @Override
@@ -111,7 +125,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getLog().debug("creating a new instance");
         N newNode = super.createInstance();
         getLog().debug("created new instance: " + newNode);
-        return isEdit() ? beforeNodeEditNew(afterNodeCreated(newNode)) : afterNodeCreated(newNode);
+        return isEditor() ? beforeNodeEditNew(afterNodeCreated(newNode)) : afterNodeCreated(newNode);
     }
 
     /* -------------------------- Basic Subclass Callbacks ------------------------------ */
@@ -397,6 +411,8 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
      * @return NodeRemover instance
      */
     protected abstract NodeRemover getNodeRemover();
+
+    protected abstract String getEditorWorkspaceDescription(boolean create);
 
     /* -------------------------- Public Features ------------------------------ */
 

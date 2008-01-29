@@ -163,6 +163,10 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
                 getInstance().getSubject()
         );
     }
+
+    protected String getEditorWorkspaceDescription(boolean create) {
+        return "Foo";
+    }
     
     /* -------------------------- Internal Methods ------------------------------ */
 
@@ -219,7 +223,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public String newComment() {
-        setEdit(true);
+        initEditor();
         showForm = true;
         return "redirectToDocument";
     }
@@ -287,7 +291,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     public void remove(Long commentId) {
         setNodeId(commentId);
-        setEdit(true);
+        initEditor();
         if (isManaged()) {
 
             // Additional permission required besides NodeHome.remove()

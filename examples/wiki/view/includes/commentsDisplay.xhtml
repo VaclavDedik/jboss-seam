@@ -59,10 +59,9 @@
                         </s:div>
                         <s:div rendered="#{c.ownedByRegularUser}">
                             <s:span styleClass="undecoratedLink">
-                                <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-                                    <f:param name="userId" value="#{c.createdBy.id}"/>
+                                <h:outputLink value="#{wiki:renderUserInfoURL(c.createdBy)}">
                                     <h:outputText value="#{c.createdBy.fullname}"/>
-                                </s:link>
+                                </h:outputLink>
                             </s:span>
                             <s:fragment rendered="#{wiki:showEmailAddress()}">
                                 <h:outputText value="&#160;|&#160;"/>
@@ -87,12 +86,11 @@
 
                     <s:fragment rendered="#{c.ownedByRegularUser and !empty c.createdBy.profile.imageContentType}">
                         <s:span styleClass="undecoratedLink">
-                            <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-                                <f:param name="userId" value="#{c.createdBy.id}"/>
+                            <h:outputLink value="#{wiki:renderUserInfoURL(c.createdBy)}">
                                 <s:graphicImage styleClass="commentAuthorPortraitImage" value="#{c.createdBy.profile.image}">
                                     <s:transformImageSize width="30" maintainRatio="true"/>
                                 </s:graphicImage>
-                            </s:link>
+                            </h:outputLink>
                         </s:span>
                     </s:fragment>
 

@@ -106,7 +106,7 @@ public class UserPasswordReset implements Serializable {
 
             // Send confirmation email
             renderer.render("/themes/"
-                    + ((WikiPreferences) Preferences.getInstance("Wiki")).getThemeName()
+                    + Preferences.getInstance(WikiPreferences.class).getThemeName()
                     + "/mailtemplates/resetPassword.xhtml");
 
             facesMessages.addFromResourceBundleOrDefault(

@@ -9,10 +9,9 @@
         xmlns:s="http://jboss.com/products/seam/taglib">
 
     <s:div styleClass="undecoratedLink" rendered="#{wiki:isRegularUser(user)}">
-        <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-            <f:param name="userId" value="#{user.id}"/>
+        <h:outputLink value="#{wiki:renderUserInfoURL(user)}">
             <h:outputText value="#{user.fullname}"/>
-        </s:link>
+        </h:outputLink>
     </s:div>
     <s:div rendered="#{not wiki:isRegularUser(user)}">
         <h:outputText value="#{user.fullname}"/>

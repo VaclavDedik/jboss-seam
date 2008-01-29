@@ -233,7 +233,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
     */
     private void includePluginCSS(String macroName, UIComponent cmp) {
         // Try to get the CSS for it
-        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
+        WikiPreferences wikiPrefs = Preferences.getInstance(WikiPreferences.class);
         String css = "/themes/" + wikiPrefs.getThemeName() + "/css/" + macroName + ".css";
         if (ResourceLoader.instance().getResource(css) != null) {
             log.debug("including plugin CSS file from resource: " + css);

@@ -339,11 +339,11 @@ public class WikiNodeDAO {
         }
         return null;
     }
-    
+
     public List<WikiDocument> findWikiDocuments(int maxResults, WikiNode.SortableProperty orderBy, boolean orderAscending) {
 
         StringBuilder query = new StringBuilder();
-        query.append("select d from WikiDocument d where d.lastModifiedOn is not null");
+        query.append("select d from WikiDocument d where d.").append(orderBy.name()).append(" is not null");
         query.append(" order by d.").append(orderBy.name()).append(" ").append(orderAscending ? "asc" : "desc");
 
 

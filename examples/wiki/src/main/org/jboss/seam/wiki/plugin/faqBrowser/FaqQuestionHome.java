@@ -6,7 +6,6 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.action.DocumentHome;
-import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
 
@@ -142,7 +141,7 @@ public class FaqQuestionHome extends DocumentHome {
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void newQuestion() {
-        setEdit(true);
+        initEditor();
         showForm = true;
     }
 

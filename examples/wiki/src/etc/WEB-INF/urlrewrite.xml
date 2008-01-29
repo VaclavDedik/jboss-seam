@@ -17,6 +17,12 @@
         <to last="true" type="temporary-redirect">/robots.txt</to>
     </rule>
 
+    <!-- Default browser -->
+    <rule>
+        <from>.*</from>
+        <set type="session" name="skin">d</set>
+    </rule>
+
     <!-- Mobile browser -->
     <rule>
         <from>.*</from>
@@ -31,6 +37,12 @@
         <from>^/([0-9]+)\.[a-zA-z]+$</from>
         <to last="true">/wiki.seam?nodeId=$1</to>
      </rule>
+
+    <!-- /user/foo -->
+    <rule>
+        <from casesensitive="true">^/user/([a-zA-Z]?[a-zA-Z0-9]+)$</from>
+        <to last="true">/userInfo_%{session-attribute:skin}.seam?username=$1</to>
+    </rule>
 
     <!-- /service/Feed/atom (/Area/Foo) (/Node/Bar) (/Comments/exclude/) (/Tag/foobar) (/Aggregate/My Aggregate) -->
     <rule>

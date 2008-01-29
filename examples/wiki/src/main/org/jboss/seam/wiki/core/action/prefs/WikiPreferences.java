@@ -174,6 +174,15 @@ public class WikiPreferences implements Serializable {
     )
     private Boolean showTags;
 
+    @PreferenceProperty(
+        description = "#{messages['lacewiki.preferences.wiki.WorkspaceSwitcherDescriptionLength']}",
+        visibility = PreferenceVisibility.SYSTEM,
+        editorIncludeName = "NumberRange"
+    )
+    @Range(min = 3l, max = 100l)
+    @NotNull
+    private Long workspaceSwitcherDescriptionLength;
+
     public String getBaseUrl() {
         return baseUrl;
     }
@@ -250,4 +259,7 @@ public class WikiPreferences implements Serializable {
         return showTags;
     }
 
+    public Long getWorkspaceSwitcherDescriptionLength() {
+        return workspaceSwitcherDescriptionLength;
+    }
 }

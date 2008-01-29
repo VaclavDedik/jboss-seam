@@ -84,10 +84,9 @@
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.Owner']}"/>
             </f:facet>
             <s:span styleClass="undecoratedLink">
-                <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-                    <f:param name="userId" value="#{file.createdBy.id}"/>
+                <h:outputLink value="#{wiki:renderUserInfoURL(file.createdBy)}">
                     <h:outputText value="#{file.createdBy.fullname}"/>
-                </s:link>
+                </h:outputLink>
             </s:span>
         </h:column>
         <h:column>
@@ -106,10 +105,9 @@
                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
             </h:outputText>
             (<s:span styleClass="undecoratedLink">
-                <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-                    <f:param name="userId" value="#{file.lastModifiedBy.id}"/>
+                <h:outputLink value="#{wiki:renderUserInfoURL(file.lastModifiedBy)}">
                     <h:outputText value="#{file.lastModifiedBy.username}"/>
-                </s:link>
+                </h:outputLink>
             </s:span>)
         </h:column>
         <h:column rendered="#{empty file.lastModifiedOn or empty file.lastModifiedBy}">

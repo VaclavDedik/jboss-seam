@@ -1,7 +1,6 @@
 package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.faces.Redirect;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.core.Conversation;
@@ -46,7 +45,7 @@ public class TopicHome extends DocumentHome {
         super.create();
         setParentNodeId(currentDirectory.getId());
 
-        Boolean preferencesNotifyReplies = ((ForumPreferences) Preferences.getInstance("Forum")).getNotifyMeOfReplies();
+        Boolean preferencesNotifyReplies = Preferences.getInstance(ForumPreferences.class).getNotifyMeOfReplies();
         notifyReplies = preferencesNotifyReplies != null && preferencesNotifyReplies;
     }
 
@@ -199,7 +198,7 @@ public class TopicHome extends DocumentHome {
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void newTopic() {
-        setEdit(true);
+        initEditor();
         showForm = true;
     }
 

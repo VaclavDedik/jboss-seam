@@ -59,7 +59,7 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
 
                         if (macro.getName().equals("lastModifiedDocuments")) {
                             LastModifiedDocumentsPreferences lmdPrefs =
-                                    (LastModifiedDocumentsPreferences)Preferences.getInstance("LastModifiedDocuments", "currentMacro");
+                                    Preferences.getInstance(LastModifiedDocumentsPreferences.class, "currentMacro");
                             assert lmdPrefs.getDocumentTitleLength().equals(60l);
                         }
 
@@ -119,7 +119,7 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
 
                         if (macro.getName().equals("lastModifiedDocuments")) {
                             LastModifiedDocumentsPreferences lmdPrefs =
-                                    (LastModifiedDocumentsPreferences)Preferences.getInstance("LastModifiedDocuments", "currentMacro");
+                                    Preferences.getInstance(LastModifiedDocumentsPreferences.class, "currentMacro");
                             assert lmdPrefs.getDocumentTitleLength().equals(66l);
                         }
 

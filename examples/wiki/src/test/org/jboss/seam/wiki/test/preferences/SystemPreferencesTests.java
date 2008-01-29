@@ -38,7 +38,7 @@ public class SystemPreferencesTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
+                WikiPreferences wikiPrefs = Preferences.getInstance(WikiPreferences.class);
                 assert wikiPrefs.getShowDocumentCreatorHistory();
                 assert wikiPrefs.getShowTags();
                 assert wikiPrefs.getDefaultDocumentId().equals(6l);
@@ -101,7 +101,7 @@ public class SystemPreferencesTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
+                WikiPreferences wikiPrefs = Preferences.getInstance(WikiPreferences.class);
                 assert wikiPrefs.getPermlinkSuffix().equals(".newsuffix");
             }
 

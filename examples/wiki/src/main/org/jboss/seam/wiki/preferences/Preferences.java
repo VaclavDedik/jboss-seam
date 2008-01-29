@@ -100,6 +100,24 @@ public class Preferences implements Serializable {
         return Expressions.instance().createValueExpression("#{preferences.get('" + preferenceEntityName + "')}").getValue();
     }
 
+    public static <P> P getInstance(Class<P> clazz, String instanceName) {
+        return (P)getInstance(getPreferenceEntityName(clazz), instanceName);
+    }
+
+    public static <P> P getInstance(Class<P> clazz) {
+        return (P)getInstance(getPreferenceEntityName(clazz));
+    }
+
+    private static String getPreferenceEntityName(Class<?> clazz) {
+        org.jboss.seam.wiki.preferences.annotations.Preferences
+                p = clazz.getAnnotation(org.jboss.seam.wiki.preferences.annotations.Preferences.class);
+         if (p.name() != null) {
+             return p.name();
+         } else {
+             return clazz.getSimpleName();
+         }
+    }
+
     private class CacheKey implements Serializable {
         private String entityName;
         private Object user;

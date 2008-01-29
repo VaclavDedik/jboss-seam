@@ -97,6 +97,13 @@ public class WikiUtil {
                 accessLevels.indexOf(new Role.AccessLevel(accessLevel, null))
                );
     }
+
+    public static String renderUserInfoURL(User user) {
+        if (user == null || user.getUsername() == null) return "";
+        StringBuilder url = new StringBuilder();
+        url.append(Component.getInstance("basePath")).append("/user/").append(user.getUsername());
+        return url.toString();
+    }
     
     public static String renderAggregateFeedURL(String aggregateId) {
         if (aggregateId == null) return "";
@@ -122,14 +129,12 @@ public class WikiUtil {
 
     public static String renderURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
-        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
-        return wikiPrefs.isRenderPermlinks() ? renderPermURL(node) : renderWikiURL(node);
+        return Preferences.getInstance(WikiPreferences.class).isRenderPermlinks() ? renderPermURL(node) : renderWikiURL(node);
     }
 
     public static String renderPermURL(WikiNode node) {
         if (node == null || node.getId() == null) return "";
-        WikiPreferences prefs = (WikiPreferences)Preferences.getInstance("Wiki");
-        return Component.getInstance("basePath") + "/" + node.getPermURL(prefs.getPermlinkSuffix());
+        return Component.getInstance("basePath") + "/" + node.getPermURL(Preferences.getInstance(WikiPreferences.class).getPermlinkSuffix());
     }
 
     public static String renderWikiURL(WikiNode node) {
@@ -138,10 +143,9 @@ public class WikiUtil {
     }
 
     public static boolean showEmailAddress() {
-        WikiPreferences prefs = (WikiPreferences)Preferences.getInstance("Wiki");
-        if (prefs.isShowEmailToLoggedInOnly() && Identity.instance().isLoggedIn()) {
+        if (Preferences.getInstance(WikiPreferences.class).isShowEmailToLoggedInOnly() && Identity.instance().isLoggedIn()) {
             return true;
-        } else if (!prefs.isShowEmailToLoggedInOnly()) {
+        } else if (!Preferences.getInstance(WikiPreferences.class).isShowEmailToLoggedInOnly()) {
             return true;
         }
         return false;
@@ -177,15 +181,13 @@ public class WikiUtil {
     }
 
     public static String escapeEmailURL(String string) {
-        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
         return string.length() >= 7 && string.substring(0, 7).equals("mailto:")
-                ? string.replaceAll("@", wikiPrefs.getAtSymbolReplacement())
+                ? string.replaceAll("@", Preferences.getInstance(WikiPreferences.class).getAtSymbolReplacement())
                 : string;
     }
 
     public static String escapeAtSymbol(String string) {
-        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
-        return string.replaceAll("@", wikiPrefs.getAtSymbolReplacement());
+        return string.replaceAll("@", Preferences.getInstance(WikiPreferences.class).getAtSymbolReplacement());
     }
 
     public static String escapeHtml(String string, boolean convertNewlines) {

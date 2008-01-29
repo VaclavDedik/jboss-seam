@@ -226,10 +226,9 @@
                                 </h:outputText>
 
                                 <s:div rendered="#{c.ownedByRegularUser}">
-                                    <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-                                        <f:param name="userId" value="#{c.createdBy.id}"/>
+                                    <h:outputLink value="#{wiki:renderUserInfoURL(c.createdBy)}">
                                         <h:outputText value="#{c.createdBy.fullname}"/>
-                                    </s:link>
+                                    </h:outputLink>
                                     <s:fragment rendered="#{wiki:showEmailAddress()}">
                                         <br/>
                                         <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', c.createdBy.email))}">

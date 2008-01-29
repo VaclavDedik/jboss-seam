@@ -14,6 +14,7 @@ import org.jboss.seam.wiki.core.action.DirectoryHome;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.jboss.seam.faces.Redirect;
 import org.testng.annotations.Test;
@@ -27,6 +28,37 @@ public class BasicNodeOperations extends DBUnitSeamTest {
         beforeTestOperations.add(
                 new DataSetOperation("org/jboss/seam/wiki/test/HelpDocuments.dbunit.xml", DatabaseOperation.INSERT)
         );
+    }
+
+
+    @Test
+    public void editDirectory() throws Exception {
+
+        final String conversationId = new NonFacesRequest("/dirEdit_d.xhtml") {
+            protected void beforeRequest() {
+                setParameter("directoryId", "2");
+            }
+        }.run();
+
+        new FacesRequest("/dirEdit_d.xhtml") {
+
+            protected void beforeRequest() {
+                setParameter("cid", conversationId);
+            }
+
+            protected void invokeApplication() throws Exception {
+                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
+                dirHome.initEditor();
+
+                assert dirHome.getInstance().getId().equals(2l);
+                assert dirHome.isHasFeed();
+                assert dirHome.getChildDocuments().size() == 1;
+                assert dirHome.getMenuItems().size() == 0;
+                assert dirHome.getAvailableMenuItems().size() == 0;
+                assert dirHome.getChildNodes().size() == 1;
+            }
+
+        }.run();
     }
 
     @Test

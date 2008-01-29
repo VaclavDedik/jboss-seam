@@ -71,7 +71,7 @@ public class Uploading extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
 
                 UploadHome uploadHome = (UploadHome)getInstance(UploadHome.class);
-                uploadHome.setEdit(true);
+                uploadHome.initEditor();
 
                 assert uploadHome.getInstance().getFilename().equals("testupload2.zip");
                 assert uploadHome.getUploadEditor().getClass().equals(WikiUploadEditor.class);

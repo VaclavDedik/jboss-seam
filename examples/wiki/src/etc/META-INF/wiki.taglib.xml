@@ -13,6 +13,12 @@
     </function>
 
     <function>
+        <function-name>renderUserInfoURL</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String renderUserInfoURL(org.jboss.seam.wiki.core.model.User)</function-signature>
+    </function>
+
+    <function>
         <function-name>renderAggregateFeedURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderAggregateFeedURL(java.lang.String)</function-signature>

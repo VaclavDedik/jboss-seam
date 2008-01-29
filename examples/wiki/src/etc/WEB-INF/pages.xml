@@ -62,7 +62,7 @@
     <page view-id="/docEdit*" no-conversation-view-id="/wiki.xhtml">
         <param name="documentId" value="#{documentHome.nodeId}"/>
         <param name="parentDirectoryId" value="#{documentHome.parentNodeId}"/>
-        <action execute="#{documentHome.setEdit(true)}"/>
+        <action execute="#{documentHome.initEditor}"/>
         <begin-conversation flush-mode="MANUAL" join="true"/>
 
         <navigation>
@@ -92,7 +92,7 @@
     <page view-id="/dirEdit*" no-conversation-view-id="/wiki.xhtml">
         <param name="directoryId" value="#{directoryHome.nodeId}"/>
         <param name="parentDirectoryId" value="#{directoryHome.parentNodeId}"/>
-        <action execute="#{directoryHome.setEdit(true)}"/>
+        <action execute="#{directoryHome.initEditor()}"/>
         <begin-conversation flush-mode="MANUAL" join="true"/>
 
         <navigation>
@@ -142,7 +142,7 @@
     <page view-id="/uploadEdit*" no-conversation-view-id="/wiki.xhtml">
         <param name="uploadId" value="#{uploadHome.nodeId}"/>
         <param name="parentDirectoryId" value="#{uploadHome.parentNodeId}"/>
-        <action execute="#{uploadHome.setEdit(true)}"/>
+        <action execute="#{uploadHome.initEditor()}"/>
         <begin-conversation flush-mode="MANUAL" join="true"/>
 
         <navigation>
@@ -214,6 +214,7 @@
 
     <page view-id="/userInfo*">
         <param name="userId" value="#{userHome.userId}"/>
+        <param name="username" value="#{userHome.requestedUsername}"/>
     </page>
 
     <page view-id="/userList*">
@@ -280,23 +281,8 @@
     <page view-id="/docHistory_d.xhtml">
         <description>#{messages['lacewiki.label.docHistory.DocumentHistory']}</description>
     </page>
-    <page view-id="/docEdit_d.xhtml">
-        <description>#{documentHome.idDefined
-                        ? messages['lacewiki.label.docEdit.EditDocument']
-                        : messages['lacewiki.label.docEdit.CreateDocument']}</description>
-    </page>
-    <page view-id="/dirEdit_d.xhtml">
-        <description>#{directoryHome.idDefined
-                        ? messages['lacewiki.label.dirEdit.EditDirectory']
-                        : messages['lacewiki.label.dirEdit.CreateDirectory']}</description>
-    </page>
     <page view-id="/uploadCreate_d.xhtml">
         <description>#{messages['lacewiki.label.upload.UploadFile']}</description>
-    </page>
-    <page view-id="/uploadEdit_d.xhtml">
-        <description>#{uploadHome.idDefined
-                        ? messages['lacewiki.label.uploadEdit.EditFile']
-                        : messages['lacewiki.label.uploadEdit.UploadFile']}</description>
     </page>
     <page view-id="/search_d.xhtml">
         <description>#{messages['lacewiki.label.search.Search']} (#{messages['lacewiki.label.search.Results']}: #{wikiSearch.searchResult.size})</description>
@@ -320,23 +306,8 @@
     <page view-id="/docHistory_m.xhtml">
         <description>#{messages['lacewiki.label.docHistory.DocumentHistory']}</description>
     </page>
-    <page view-id="/docEdit_m.xhtml">
-        <description>#{documentHome.idDefined
-                        ? messages['lacewiki.label.docEdit.EditDocument']
-                        : messages['lacewiki.label.docEdit.CreateDocument']}</description>
-    </page>
-    <page view-id="/dirEdit_m.xhtml">
-        <description>#{directoryHome.idDefined
-                        ? messages['lacewiki.label.dirEdit.EditDirectory']
-                        : messages['lacewiki.label.dirEdit.CreateDirectory']}</description>
-    </page>
     <page view-id="/uploadCreate_m.xhtml">
         <description>#{messages['lacewiki.label.upload.UploadFile']}</description>
-    </page>
-    <page view-id="/uploadEdit_m.xhtml">
-        <description>#{uploadHome.idDefined
-                        ? messages['lacewiki.label.uploadEdit.EditFile']
-                        : messages['lacewiki.label.uploadEdit.UploadFile']}</description>
     </page>
     <page view-id="/search_m.xhtml">
         <description>#{messages['lacewiki.label.search.Search']} (#{messages['lacewiki.label.search.Results']}: #{wikiSearch.searchResult.size})</description>

@@ -197,14 +197,14 @@ public class ForumHome extends DirectoryHome {
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void newForum() {
-        setEdit(true);
+        initEditor();
         showForm = true;
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void edit(Long forumId) {
         setId(forumId);
-        setEdit(true);
+        initEditor();
         showForm = true;
     }
 

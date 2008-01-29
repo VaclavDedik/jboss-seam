@@ -472,10 +472,9 @@
                 <h:outputText value="#{messages['lacewiki.label.dirDisplay.Owner']}"/>
             </f:facet>
             <s:span styleClass="undecoratedLink" rendered="#{node.ownedByRegularUser}">
-                <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-                    <f:param name="userId" value="#{node.createdBy.id}"/>
+                <h:outputLink value="#{wiki:renderUserInfoURL(node.createdBy)}">
                     <h:outputText value="#{node.createdBy.fullname}"/>
-                </s:link>
+                </h:outputLink>
             </s:span>
             <h:outputText rendered="#{not node.ownedByRegularUser}" value="#{node.createdBy.fullname}"/>
         </h:column>
@@ -502,10 +501,9 @@
                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
             </h:outputText>
             (<s:span styleClass="undecoratedLink">
-                <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-                    <f:param name="userId" value="#{node.lastModifiedBy.id}"/>
+                <h:outputLink value="#{wiki:renderUserInfoURL(node.lastModifiedBy.createdBy)}">
                     <h:outputText value="#{node.lastModifiedBy.username}"/>
-                </s:link>
+                </h:outputLink>
             </s:span>)
         </h:column>
 

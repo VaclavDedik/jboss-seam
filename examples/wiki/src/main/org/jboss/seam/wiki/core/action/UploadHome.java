@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.international.Messages;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -161,6 +162,14 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
                 "File '{0}' has been uploaded.",
                 uploader.getFilename()
         );
+    }
+
+    protected String getEditorWorkspaceDescription(boolean create) {
+        if (create) {
+            return Messages.instance().get("lacewiki.label.uploadEdit.UploadFile");
+        } else {
+            return Messages.instance().get("lacewiki.label.uploadEdit.EditFile") + ":" + getInstance().getName();
+        }
     }
 
     /* -------------------------- Public Features ------------------------------ */

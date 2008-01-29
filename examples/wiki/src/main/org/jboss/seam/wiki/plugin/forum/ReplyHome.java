@@ -2,7 +2,6 @@ package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.AuthorizationException;
@@ -35,7 +34,7 @@ public class ReplyHome extends CommentHome {
                 )) {
             getLog().debug("sending confirmation e-mail to original poster");
             renderer.render("/themes/"
-                    + ((WikiPreferences) Preferences.getInstance("Wiki")).getThemeName()
+                    + Preferences.getInstance(WikiPreferences.class).getThemeName()
                     + "/mailtemplates/forumNotifyReply.xhtml");
         }
     }
@@ -45,7 +44,7 @@ public class ReplyHome extends CommentHome {
 
         getLog().debug("reply to document id: " + getParentNodeId());
         newComment();
-        setEdit(true);
+        initEditor();
 
         getInstance().setSubject(REPLY_PREFIX + getParentNode().getName());
 

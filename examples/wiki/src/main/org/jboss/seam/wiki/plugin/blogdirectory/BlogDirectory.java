@@ -85,8 +85,8 @@ public class BlogDirectory implements Serializable {
     // Lazier than @In, would be too many injections because of c:forEach iteration on blog entry list
     private void initializePreferences() {
         // TODO: Uhm, we have several macros that use this backend bean... that doesn't work
-        pageSize = ((BlogPreferences) Preferences.getInstance("Blog", "currentMacro")).getPageSize();
-        recentBlogEntriesCount = ((BlogPreferences) Preferences.getInstance("Blog", "currentMacro")).getRecentEntriesItems();
+        pageSize = Preferences.getInstance(BlogPreferences.class, "currentMacro").getPageSize();
+        recentBlogEntriesCount = Preferences.getInstance(BlogPreferences.class, "currentMacro").getRecentEntriesItems();
     }
 
     private void queryNumOfBlogEntries() {

@@ -1,17 +1,13 @@
 package org.jboss.seam.wiki.core.search;
 
 import org.apache.lucene.search.*;
-import org.apache.lucene.search.Filter;
 import org.hibernate.Hibernate;
-import org.hibernate.search.FullTextSession;
 import org.hibernate.search.FullTextQuery;
+import org.hibernate.search.FullTextSession;
 import org.hibernate.search.bridge.StringBridge;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.search.annotations.SearchableType;
 import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;

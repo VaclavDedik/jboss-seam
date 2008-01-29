@@ -8,6 +8,7 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.Messages;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -79,7 +80,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     public WikiDocument beforeNodeEditNew(WikiDocument doc) {
         doc = super.beforeNodeEditNew(doc);
 
-        doc.setEnableComments( ((CommentsPreferences)Preferences.getInstance("Comments")).getEnableByDefault() );
+        doc.setEnableComments( Preferences.getInstance(CommentsPreferences.class).getEnableByDefault() );
 
         return doc;
     }
@@ -181,9 +182,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
         // Feeds should not be removed by a maintenance thread: If there
         // is no activity on the site, feeds shouldn't be empty but show the last updates.
-        WikiPreferences wikiPrefs = (WikiPreferences) Preferences.getInstance("Wiki");
         Calendar oldestDate = GregorianCalendar.getInstance();
-        oldestDate.add(Calendar.DAY_OF_YEAR, -wikiPrefs.getPurgeFeedEntriesAfterDays().intValue());
+        oldestDate.add(Calendar.DAY_OF_YEAR, -Preferences.getInstance(WikiPreferences.class).getPurgeFeedEntriesAfterDays().intValue());
         feedDAO.purgeOldFeedEntries(oldestDate.getTime());
 
         // Write history log and prepare a new copy for further modification
@@ -200,9 +200,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
             historicalCopy.flatCopy(getInstance(), true);
 
             // Reset form
-            setMinorRevision(
-                ((DocumentEditorPreferences)Preferences.getInstance("DocEditor")).getMinorRevisionEnabled()
-            );
+            setMinorRevision( Preferences.getInstance(DocumentEditorPreferences.class).getMinorRevisionEnabled() );
         }
 
         return true;
@@ -248,6 +246,14 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
                 "Document '{0}' has been deleted.",
                 getInstance().getName()
         );
+    }
+
+    protected String getEditorWorkspaceDescription(boolean create) {
+        if (create) {
+            return Messages.instance().get("lacewiki.label.docEdit.CreateDocument");
+        } else {
+            return Messages.instance().get("lacewiki.label.docEdit.EditDocument") + ":" + getInstance().getName();
+        }
     }
 
     /* -------------------------- Internal Methods ------------------------------ */
@@ -342,7 +348,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     public boolean isMinorRevision() {
         // Lazily initalize preferences
         if (minorRevision == null)
-            minorRevision = ((DocumentEditorPreferences) Preferences.getInstance("DocEditor")).getMinorRevisionEnabled();
+            minorRevision = Preferences.getInstance(DocumentEditorPreferences.class).getMinorRevisionEnabled();
         return minorRevision;
     }
     public void setMinorRevision(boolean minorRevision) { this.minorRevision = minorRevision; }

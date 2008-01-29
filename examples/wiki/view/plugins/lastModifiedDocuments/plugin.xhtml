@@ -23,14 +23,27 @@
                 <h:column>
                     
                     <s:div styleClass="lastModifiedAuthorDate smallFont">
-                        <h:outputText value="(#{doc.lastModifiedBy.username})&#160;"
-                                      rendered="#{!empty doc.lastModifiedBy and preferences.get('LastModifiedDocuments', currentMacro).showUsernames}">
-                        </h:outputText>
+
+                        <s:fragment rendered="#{preferences.get('LastModifiedDocuments', currentMacro).showUsernames}">
+
+                            <s:span styleClass="undecoratedLink" rendered="#{wiki:isRegularUser(doc.lastModifiedBy)}">
+                                <h:outputLink value="#{wiki:renderUserInfoURL(doc.lastModifiedBy)}">
+                                    <h:outputText value="#{doc.lastModifiedBy.username}"/>
+                                </h:outputLink>
+                            </s:span>
+                            <s:span rendered="#{not wiki:isRegularUser(doc.lastModifiedBy)}">
+                                <h:outputText value="#{doc.lastModifiedBy.username}"/>
+                            </s:span>
+
+                            <h:outputText value="&#160;"/>
+                        </s:fragment>
+
                         <h:outputText value="#{doc.lastModifiedOn}"
                                       rendered="#{!empty doc.lastModifiedOn}">
                             <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                         </h:outputText>
                         <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
+
                     </s:div>
 
                     <s:div styleClass="lastModifiedTitle wrapWhitespace">

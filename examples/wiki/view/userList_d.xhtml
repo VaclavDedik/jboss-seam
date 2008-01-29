@@ -155,10 +155,9 @@
                     <h:outputText value="#{u.username}"/>
                 </s:fragment>
                 <s:fragment rendered="#{not u.admin and not u.guest}">
-                    <s:link view="/userInfo_#{skin}.xhtml" propagation="none">
-                        <f:param name="userId" value="#{u.id}"/>
-                        <h:outputText rendered="#{empty u.memberHome}" value="#{u.username}"/>
-                    </s:link>
+                    <h:outputLink value="#{wiki:renderUserInfoURL(u)}">
+                        <h:outputText value="#{u.username}"/>
+                    </h:outputLink>
                     <h:outputText rendered="#{!u.activated}" value="&#160;(#{messages['lacewiki.label.userList.NotActivated']})"/>
                 </s:fragment>
             </h:column>

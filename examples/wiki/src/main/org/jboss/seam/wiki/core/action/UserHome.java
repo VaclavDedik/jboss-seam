@@ -45,14 +45,6 @@ import java.util.regex.Pattern;
 @Scope(ScopeType.CONVERSATION)
 public class UserHome extends EntityHome<User> {
 
-    public Long getUserId() {
-        return (Long)getId();
-    }
-
-    public void setUserId(Long userId) {
-        setId(userId);
-    }
-
     @In
     private FacesMessages facesMessages;
 
@@ -74,6 +66,7 @@ public class UserHome extends EntityHome<User> {
     private List<Role> roles;
     private org.jboss.seam.wiki.core.model.Role defaultRole;
     private Uploader uploader;
+    private String requestedUsername;
 
     public Uploader getUploader() {
         return uploader;
@@ -81,6 +74,23 @@ public class UserHome extends EntityHome<User> {
 
     public void setUploader(Uploader uploader) {
         this.uploader = uploader;
+    }
+
+    public Long getUserId() {
+        return (Long)getId();
+    }
+
+    public void setUserId(Long userId) {
+        setId(userId);
+    }
+
+    public String getRequestedUsername() {
+        return requestedUsername;
+    }
+
+    public void setRequestedUsername(String requestedUsername) {
+        getLog().debug("######################## REQUESTED: " + requestedUsername);
+        this.requestedUsername = requestedUsername;
     }
 
     public void init() {
@@ -103,6 +113,28 @@ public class UserHome extends EntityHome<User> {
         }
     }
 
+    @Override
+    protected void initInstance() {
+       if ( isIdDefined() || (getRequestedUsername() != null && getRequestedUsername().length() >0) ) {
+          if ( !isTransactionMarkedRollback() ) {
+             setInstance( find() );
+          }
+       } else {
+          setInstance( createInstance() );
+       }
+    }
+
+    @Override
+    protected User loadInstance()  {
+        if (getRequestedUsername() != null && getRequestedUsername().length() >0) {
+            getLog().debug("################ FINDING USER: " + getRequestedUsername());
+            return userDAO.findUser(getRequestedUsername(), true, true);
+        } else {
+            return getEntityManager().find(getEntityClass(), getId());
+        }
+    }
+
+    @Override
     public String persist() {
 
         // Validate
@@ -141,7 +173,7 @@ public class UserHome extends EntityHome<User> {
 
                     // Send confirmation email
                     renderer.render("/themes/"
-                            + ((WikiPreferences) Preferences.getInstance("Wiki")).getThemeName()
+                            + Preferences.getInstance(WikiPreferences.class).getThemeName()
                             + "/mailtemplates/confirmationRegistration.xhtml");
 
                     /* For debugging
@@ -160,6 +192,7 @@ public class UserHome extends EntityHome<User> {
         }
     }
 
+    @Override
     @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
     public String update() {
 
@@ -256,6 +289,7 @@ public class UserHome extends EntityHome<User> {
         return outcome;
     }
 
+    @Override
     @Restrict("#{s:hasPermission('User', 'delete', userHome.instance)}")
     public String remove() {
 
@@ -285,6 +319,7 @@ public class UserHome extends EntityHome<User> {
 
     /* -------------------------- Messages ------------------------------ */
 
+    @Override
     protected void createdMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
@@ -294,6 +329,7 @@ public class UserHome extends EntityHome<User> {
         );
     }
 
+    @Override
     protected void updatedMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,
@@ -303,6 +339,7 @@ public class UserHome extends EntityHome<User> {
         );
     }
 
+    @Override
     protected void deletedMessage() {
         getFacesMessages().addFromResourceBundleOrDefault(
                 SEVERITY_INFO,

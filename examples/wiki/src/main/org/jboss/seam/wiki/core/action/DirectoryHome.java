@@ -195,6 +195,14 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
             "Removed syndication feed of this directory");
     }
 
+    protected String getEditorWorkspaceDescription(boolean create) {
+        if (create) {
+            return Messages.instance().get("lacewiki.label.dirEdit.CreateDirectory");
+        } else {
+            return Messages.instance().get("lacewiki.label.dirEdit.EditDirectory") + ":" + getInstance().getName();
+        }
+    }
+
     /* -------------------------- Internal Methods ------------------------------ */
 
     private void refreshChildNodes(WikiDirectory dir) {
