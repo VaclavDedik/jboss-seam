@@ -1,6 +1,33 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.1.GA
+
+** Bug
+    * [JBSEAM-1034] - Usage of jBPM core:process-definitions needs clarification
+    * [JBSEAM-1103] - Deploying Seam example app into /trunk causes ZipException
+    * [JBSEAM-1522] - @Intercept is gone but still documented
+    * [JBSEAM-2243] - org.jboss.seam.persistence.HibernateSessionProxy does not implement org.hibernate.event.EventSource
+    * [JBSEAM-2373] - Seam-gen makes /Applications/jboss-4.2.2.GA the even when JBoss home is specified as C:/jboss-4.2.1.GA
+    * [JBSEAM-2516] - Hibernate Search integration leads to CCE when using Search.createEMF
+    * [JBSEAM-2526] - org.jboss.seam.core.SeamResourceBundle::getKeys()
+    * [JBSEAM-2527] - <s:convertEntity /> doesn't detect custom object added through external hibernate.cfg.xml
+    * [JBSEAM-2532] - org.jboss.seam.pdf.DocumentData needs to be serializable
+    * [JBSEAM-2533] - Invalid security message keys in documentation
+    * [JBSEAM-2538] - Incorrect escaping of paths in seam-gen generated build.properties
+    * [JBSEAM-2543] - Typos in Seam documentation
+
+** Feature Request
+    * [JBSEAM-619] - Make the booking work on WAS EJB3 Preview
+
+** Task
+    * [JBSEAM-2151] - Document and use com.ibm.ws.webcontainer.invokefilterscompatibility with ajax4jsf in hibernate2/jpa examples
+    * [JBSEAM-2392] - document p:html
+    * [JBSEAM-2483] - Deploy Seam applications to Websphere 6.1.X and create Reference guide chapter
+    * [JBSEAM-2536] - Complete Annotations for use with Seam JavaBean components in a J2EE environment section
+    * [JBSEAM-2542] - Document semantics of s:link with view and action
+
+
 Release Notes - JBoss Seam - Version 2.0.1.CR2
 
 ** Bug
