@@ -880,7 +880,7 @@ public class Initialization
    {
       try
       {
-         Reflections.classForName("org.jboss.cache.pojo.PojoCache");
+         Reflections.classForName("org.jboss.cache.aop.PojoCache");
          addComponentDescriptor( new ComponentDescriptor(PojoCache.class, true) );
       }
       catch (ClassNotFoundException e) {}

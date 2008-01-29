@@ -210,7 +210,7 @@
       <dependency>
         <groupId>jboss</groupId>
         <artifactId>jboss-cache</artifactId>
-        <version>1.4.1.GA</version>
+        <version>1.4.1.SP8</version>
       </dependency>
 
       <dependency>
