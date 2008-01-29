@@ -501,7 +501,7 @@
                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
             </h:outputText>
             (<s:span styleClass="undecoratedLink">
-                <h:outputLink value="#{wiki:renderUserInfoURL(node.lastModifiedBy.createdBy)}">
+                <h:outputLink value="#{wiki:renderUserInfoURL(node.lastModifiedBy)}">
                     <h:outputText value="#{node.lastModifiedBy.username}"/>
                 </h:outputLink>
             </s:span>)
