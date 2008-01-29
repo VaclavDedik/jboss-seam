@@ -3,16 +3,16 @@
 
   <para>
     The Seam Security API is an optional Seam feature that provides authentication and authorization features
-    for securing both domain and page resources within your Seam project.  
+    for securing both domain and page resources within your Seam project.
   </para>
-  
+
   <sect1>
     <title>Overview</title>
-    
+
     <para>
       Seam Security provides two different modes of operation:
     </para>
-    
+
     <itemizedlist>
       <listitem>
         <para>
@@ -22,38 +22,38 @@
       </listitem>
       <listitem>
         <para>
-          <emphasis>advanced mode</emphasis> - this mode supports all the same features as the simplified mode, 
-          plus it offers rule-based security checks using JBoss Rules.        
+          <emphasis>advanced mode</emphasis> - this mode supports all the same features as the simplified mode,
+          plus it offers rule-based security checks using JBoss Rules.
         </para>
       </listitem>
     </itemizedlist>
-    
+
     <sect2>
       <title>Which mode is right for my application?</title>
-      
+
       <para>
         That all depends on the requirements of your application.  If you have minimal security requirements, for example
         if you only wish to restrict certain pages and actions to users who are logged in, or who belong to a certain role,
-        then the simplified mode will probably be sufficient.  The advantages of this is a more simplified configuration, 
+        then the simplified mode will probably be sufficient.  The advantages of this is a more simplified configuration,
         significantly less libraries to include, and a smaller memory footprint.
       </para>
-      
+
       <para>
-        If on the other hand, your application requires security checks based on contextual state or complex business rules, 
+        If on the other hand, your application requires security checks based on contextual state or complex business rules,
         then you will require the features provided by the advanced mode.
       </para>
     </sect2>
   </sect1>
-  
+
   <sect1>
     <title>Requirements</title>
-    
+
     <para>
-      If using the advanced mode features of Seam Security, the following jar files are required to be configured as modules in 
+      If using the advanced mode features of Seam Security, the following jar files are required to be configured as modules in
       <literal>application.xml</literal>.  If you are using Seam Security in simplified mode, these are <emphasis>not</emphasis>
       required:
     </para>
-    
+
     <itemizedlist>
       <listitem>
         <para>drools-compiler.jar</para>
@@ -69,25 +69,25 @@
       </listitem>
       <listitem>
         <para>mvel14.jar</para>
-      </listitem>                    
-    </itemizedlist>     
-    
+      </listitem>
+    </itemizedlist>
+
     <para>
       For web-based security, <literal>jboss-seam-ui.jar</literal> must also be included in the application's war file.
     </para>
-    
-        
+
+
   </sect1>
-  
+
   <sect1>
     <title>Disabling Security</title>
-    
+
     <para>
       In some situations it may be necessary to disable Seam Security, for example during unit tests.  This can be done by
       calling the static method <literal>Identity.setSecurityEnabled(false)</literal> to disable security checks.  Doing this
       prevents any security checks being performed for the following:
     </para>
-    
+
     <itemizedlist>
       <listitem>
         <para>Entity Security</para>
@@ -100,7 +100,7 @@
       </listitem>
       <listitem>
         <para>Page restrictions</para>
-      </listitem>      
+      </listitem>
     </itemizedlist>
   </sect1>
 
@@ -131,10 +131,10 @@
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd
-                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd">                
-        
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd">
+
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
-    
+
 </components>]]></programlisting>
 
       <para>
@@ -157,18 +157,18 @@
       <para>
         The <literal>authenticate-method</literal> property specified for <literal>identity</literal> in
         <literal>components.xml</literal> specifies which method will be used by <literal>SeamLoginModule</literal>
-        to authenticate users.  This method takes no parameters, and is expected to return a boolean indicating 
+        to authenticate users.  This method takes no parameters, and is expected to return a boolean indicating
         whether authentication is successful or not.  The user's username and password can be obtained from
         <literal>Identity.instance().getUsername()</literal> and <literal>Identity.instance().getPassword()</literal>,
         respectively.  Any roles that the user is a member of should be assigned using
-        <literal>Identity.instance().addRole()</literal>. Here's a complete example of an authentication method 
+        <literal>Identity.instance().addRole()</literal>. Here's a complete example of an authentication method
         inside a JavaBean component:
       </para>
 
       <programlisting><![CDATA[@Name("authenticator")
 public class Authenticator {
    @In EntityManager entityManager;
-   
+
    public boolean authenticate() {
       try
       {
@@ -190,9 +190,9 @@ public class Authenticator {
       {
          return false;
       }
-      
+
    }
-   
+
 }]]></programlisting>
 
       <para>
@@ -202,21 +202,21 @@ public class Authenticator {
         In this case, if the user record is not found and a <literal>NoResultException</literal> thrown, the
         authentication method returns <literal>false</literal> to indicate the authentication failed.
       </para>
-      
+
       <sect3>
         <title>Identity.addRole()</title>
-        
+
         <para>
           The <literal>Identity.addRole()</literal> method behaves differently depending on whether the current
-          session is authenticated or not.  If the session is not authenticated, then <literal>addRole()</literal> 
+          session is authenticated or not.  If the session is not authenticated, then <literal>addRole()</literal>
           should <emphasis>only</emphasis> be called during the authentication process.  When called here, the
           role name is placed into a temporary list of pre-authenticated roles.  Once authentication is successful,
           the pre-authenticated roles then become "real" roles, and calling <literal>Identity.hasRole()</literal>
           for those roles will then return true.  The following sequence diagram represents the list of pre-authenticated
           roles as a first class object to show more clearly how it fits in to the authentication process.
-        
+
         </para>
-        
+
         <mediaobject>
           <imageobject role="fo">
             <imagedata fileref="images/security-addrole.png" align="center"/>
@@ -224,37 +224,37 @@ public class Authenticator {
           <imageobject role="html">
             <imagedata fileref="../shared/images/security-addrole.png" align="center"/>
           </imageobject>
-        </mediaobject>        
-        
+        </mediaobject>
+
       </sect3>
-      
+
       <sect3>
         <title>Special Considerations</title>
-        
+
         <para>
-          When writing an authenticator method, it is important that it is kept minimal and free from 
-          any side-effects. This is because there is no guarantee as to how many times the authenticator 
+          When writing an authenticator method, it is important that it is kept minimal and free from
+          any side-effects. This is because there is no guarantee as to how many times the authenticator
           method will be called by the security API, and as such it may be invoked multiple times during
           a single request.  Because of this, any special code that should execute upon a successful or
           failed authentication should be written by implementing an event observer.  See the section on
           Security Events further down in this chapter for more information about which events are
           raised by Seam Security.
         </para>
-        
+
         <para>
           To give an example, let's say that upon a successful login that some user statistics must be
-          updated.  We would do this by writing an event observer for the 
+          updated.  We would do this by writing an event observer for the
           <literal>org.jboss.seam.security.loginSuccessful</literal> event, like this:
         </para>
-        
+
         <programlisting><![CDATA[   @In UserStats userStats;
-        
+
    @Observer("org.jboss.seam.security.loginSuccessful")
    public void updateUserStats()
    {
       userStats.setLastLoginDate(new Date());
-      userStats.incrementLoginCount();               
-   }]]></programlisting>        
+      userStats.incrementLoginCount();
+   }]]></programlisting>
       </sect3>
 
     </sect2>
@@ -265,8 +265,8 @@ public class Authenticator {
       <para>
         The <literal>Identity</literal> component provides both <literal>username</literal> and <literal>password</literal>
         properties, catering for the most common authentication scenario. These properties can be bound directly to the
-        username and password fields on a login form.  Once these properties are set, calling the 
-        <literal>identity.login()</literal> method will authenticate the user using the provided credentials.  
+        username and password fields on a login form.  Once these properties are set, calling the
+        <literal>identity.login()</literal> method will authenticate the user using the provided credentials.
         Here's an example of a simple login form:
       </para>
 
@@ -283,12 +283,12 @@ public class Authenticator {
 <div>
     <h:commandButton value="Login" action="#{identity.login}"/>
 </div>]]></programlisting>
-      
+
       <para>
         Similarly, logging out the user is done by calling <literal>#{identity.logout}</literal>. Calling this
         action will clear the security state of the currently authenticated user.
       </para>
-      
+
     </sect2>
 
     <sect2>
@@ -316,123 +316,123 @@ public class Authenticator {
       </itemizedlist>
 
     </sect2>
-    
+
     <sect2>
       <title>Handling Security Exceptions</title>
-      
+
       <para>
-        To prevent users from receiving the default error page in response to a security error, it's recommended that 
+        To prevent users from receiving the default error page in response to a security error, it's recommended that
         <literal>pages.xml</literal> is configured to redirect security errors to a more "pretty" page.  The two
         main types of exceptions thrown by the security API are:
       </para>
-      
+
       <itemizedlist>
         <listitem>
           <para>
-            <literal>NotLoggedInException</literal> - This exception is thrown if the user attempts to access a 
+            <literal>NotLoggedInException</literal> - This exception is thrown if the user attempts to access a
             restricted action or page when they are not logged in.
           </para>
-        </listitem>    
+        </listitem>
         <listitem>
           <para>
             <literal>AuthorizationException</literal> - This exception is only thrown if the user is already logged in,
             and they have attempted to access a restricted action or page for which they do not have the necessary
             privileges.
           </para>
-        </listitem>    
+        </listitem>
       </itemizedlist>
-      
+
       <para>
         In the case of a <literal>NotLoggedInException</literal>, it is recommended that the user is redirected to
         either a login or registration page so that they can log in.  For an <literal>AuthorizationException</literal>,
-        it may be useful to redirect the user to an error page. Here's an example of a <literal>pages.xml</literal> 
-        file that redirects both of these security exceptions:      
+        it may be useful to redirect the user to an error page. Here's an example of a <literal>pages.xml</literal>
+        file that redirects both of these security exceptions:
       </para>
-      
+
       <programlisting><![CDATA[<pages>
 
     ...
-    
+
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <redirect view-id="/login.xhtml">
             <message>You must be logged in to perform this action</message>
         </redirect>
     </exception>
-    
+
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
         <redirect view-id="/security_error.xhtml">
             <message>You do not have the necessary security privileges to perform this action.</message>
         </redirect>
     </exception>
-  
+
 </pages>]]></programlisting>
-      
+
       <para>
         Most web applications require even more sophisticated handling of login redirection, so
         Seam includes some special functionality for handling this problem.
       </para>
-      
+
     </sect2>
-    
+
     <sect2>
       <title>Login Redirection</title>
-      
+
       <para>
-        You can ask Seam to redirect the user to a login screen when an unauthenticated user tries 
+        You can ask Seam to redirect the user to a login screen when an unauthenticated user tries
         to access a particular view (or wildcarded view id) as follows:
       </para>
-      
+
       <programlisting><![CDATA[<pages login-view-id="/login.xhtml">
 
     <page view-id="/members/*" login-required="true"/>
-    
+
     ...
-    
+
 </pages>]]></programlisting>
 
       <para>
-        (This is less of a blunt instrument than the exception handler shown above, but should 
+        (This is less of a blunt instrument than the exception handler shown above, but should
         probably be used in conjunction with it.)
       </para>
-      
+
       <para>
         After the user logs in, we want to automatically send them back where they came from, so
-        they can retry the action that required logging in. If you add the following event listeners 
-        to <literal>components.xml</literal>, attempts to access a restricted view while not logged 
-        in will be remembered, so that upon the user successfully logging in they will be redirected 
+        they can retry the action that required logging in. If you add the following event listeners
+        to <literal>components.xml</literal>, attempts to access a restricted view while not logged
+        in will be remembered, so that upon the user successfully logging in they will be redirected
         to the originally requested view, with any page parameters that existed in the original
         request.
       </para>
-      
+
       <programlisting><![CDATA[<event type="org.jboss.seam.security.notLoggedIn">
     <action execute="#{redirect.captureCurrentView}"/>
 </event>
-    
+
 <event type="org.jboss.seam.security.postAuthenticate">
     <action execute="#{redirect.returnToCapturedView}"/>
 </event>]]></programlisting>
-      
+
       <para>
-        Note that login redirection is implemented as a conversation-scoped mechanism, so don't end 
+        Note that login redirection is implemented as a conversation-scoped mechanism, so don't end
         the conversation in your <literal>authenticate()</literal> method.
       </para>
-      
+
     </sect2>
-    
+
     <sect2>
       <title>HTTP Authentication</title>
-      
+
       <para>
-        Although not recommended for use unless absolutely necessary, Seam provides means for authenticating 
-        using either HTTP Basic or HTTP Digest (RFC 2617) methods.  To use either form of authentication, 
+        Although not recommended for use unless absolutely necessary, Seam provides means for authenticating
+        using either HTTP Basic or HTTP Digest (RFC 2617) methods.  To use either form of authentication,
         the <literal>authentication-filter</literal> component must be enabled in components.xml:
       </para>
-      
+
       <programlisting><![CDATA[
   <web:authentication-filter url-pattern="*.seam" auth-type="basic"/>
       ]]></programlisting>
-      
+
       <para>
         To enable the filter for basic authentication, set <literal>auth-type</literal> to <literal>basic</literal>,
         or for digest authentication, set it to <literal>digest</literal>.  If using digest authentication, the
@@ -442,55 +442,55 @@ public class Authenticator {
       <programlisting><![CDATA[
   <web:authentication-filter url-pattern="*.seam" auth-type="digest" key="AA3JK34aSDlkj" realm="My App"/>
       ]]></programlisting>
-      
+
       <para>
-        The <literal>key</literal> can be any String value.  The <literal>realm</literal> is the name of the 
+        The <literal>key</literal> can be any String value.  The <literal>realm</literal> is the name of the
         authentication realm that is presented to the user when they authenticate.
       </para>
-      
+
       <sect3>
         <title>Writing a Digest Authenticator</title>
-        
+
         <para>
           If using digest authentication, your authenticator class should extend the abstract class
           <literal>org.jboss.seam.security.digest.DigestAuthenticator</literal>, and use the
           <literal>validatePassword()</literal> method to validate the user's plain text password
           against the digest request.  Here is an example:
         </para>
-        
+
         <programlisting><![CDATA[
-   public boolean authenticate() 
+   public boolean authenticate()
    {
       try
-      {            
+      {
          User user = (User) entityManager.createQuery(
             "from User where username = :username")
             .setParameter("username", identity.getUsername())
             .getSingleResult();
-         
+
          return validatePassword(user.getPassword());
       }
       catch (NoResultException ex)
       {
          return false;
-      }      
-   }        
+      }
+   }
         ]]></programlisting>
       </sect3>
-            
+
     </sect2>
-        
+
     <sect2>
       <title>Advanced Authentication Features</title>
-      
+
       <para>
         This section explores some of the advanced features provided by the security API for addressing more complex
         security requirements.
       </para>
-      
+
       <sect3>
         <title>Using your container's JAAS configuration</title>
-        
+
         <para>
           If you would rather not use the simplified JAAS configuration provided by the Seam Security API, you may
           instead delegate to the default system JAAS configuration by providing a <literal>jaasConfigName</literal>
@@ -498,33 +498,33 @@ public class Authenticator {
           the <literal>other</literal> policy (which uses the <literal>UsersRolesLoginModule</literal> login module
           provided by JBoss AS), then the entry in <literal>components.xml</literal> would look like this:
         </para>
-        
-        <programlisting><![CDATA[<security:identity authenticate-method="#{authenticator.authenticate}" 
+
+        <programlisting><![CDATA[<security:identity authenticate-method="#{authenticator.authenticate}"
                       jaas-config-name="other"/>]]></programlisting>
-                     
+
       </sect3>
-      
+
     </sect2>
 
   </sect1>
-  
+
   <sect1>
     <title>Error Messages</title>
-    
+
     <para>
-      The security API produces a number of default faces messages for various security-related events.  
-      The following table lists the message keys that can be used to override these messages by specifying 
+      The security API produces a number of default faces messages for various security-related events.
+      The following table lists the message keys that can be used to override these messages by specifying
       them in a <literal>message.properties</literal> resource file.  To suppress the message, just put the
       key with an empty value in the resource file.
     </para>
-    
+
     <table>
       <title>Security Message Keys</title>
-  
+
       <tgroup cols="2">
         <colspec colnum="1" colwidth="1*" />
         <colspec colnum="2" colwidth="3*" />
-        
+
         <thead>
           <row>
             <entry align="center">
@@ -534,16 +534,16 @@ public class Authenticator {
               <para>Description</para>
             </entry>
           </row>
-        </thead>          
-  
+        </thead>
+
         <tbody>
-  
+
           <row>
             <entry>
               <para>
                 <literal>org.jboss.seam.loginSuccessful</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 This message is produced when a user successfully logs in via the security API.
@@ -555,7 +555,7 @@ public class Authenticator {
               <para>
                 <literal>org.jboss.seam.loginFailed</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 This message is produced when the login process fails, either because the user provided an
@@ -568,14 +568,14 @@ public class Authenticator {
               <para>
                 <literal>org.jboss.seam.NotLoggedIn</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 This message is produced when a user attempts to perform an action or access a page that requires
                 a security check, and the user is not currently authenticated.
               </para>
             </entry>
-          </row>          
+          </row>
         </tbody>
       </tgroup>
     </table>
@@ -586,15 +586,15 @@ public class Authenticator {
 
     <para>
       There are a number of authorization features provided by the Seam Security API for securing access to
-      components, component methods, and pages.  This section describes each of these.  An important thing to 
-      note is that if you wish to use any of the advanced features (such as rule-based permissions) then 
+      components, component methods, and pages.  This section describes each of these.  An important thing to
+      note is that if you wish to use any of the advanced features (such as rule-based permissions) then
       your <literal>components.xml</literal> must be configured to support this - see the Configuration section
       above.
     </para>
 
     <sect2>
       <title>Core concepts</title>
-      
+
       <para>
         Each of the authorization mechanisms provided by the Seam Security API are built upon the concept of a user
         being granted roles and/or permissions.  A role is a <emphasis>group</emphasis>, or <emphasis>type</emphasis>,
@@ -614,7 +614,7 @@ public class Authenticator {
 
     <sect2>
       <title>Securing components</title>
-      
+
       <para>
         Let's start by examining the simplest form of authorization, component security, starting with the
         <literal>@Restrict</literal> annotation.
@@ -632,7 +632,7 @@ public class Authenticator {
           on just the component class itself is equivalent to adding <literal>@Restrict</literal> to each of its
           methods.
         </para>
-        
+
         <para>
           An empty <literal>@Restrict</literal> implies a permission check of <literal>componentName:methodName</literal>.
           Take for example the following component method:
@@ -657,7 +657,7 @@ public class AccountAction {
     public void insert() {
       ...
     }
-    @Restrict("#{s:hasRole('admin')}") 
+    @Restrict("#{s:hasRole('admin')}")
     public void delete() {
       ...
     }
@@ -717,79 +717,79 @@ public class AccountAction {
         <para>
           If the expression specified doesn't evaluate to <literal>true</literal>, either
         </para>
-        
+
         <itemizedlist>
             <listitem>
                 <para>
-                    if the user is not logged in, a <literal>NotLoggedInException</literal> 
+                    if the user is not logged in, a <literal>NotLoggedInException</literal>
                     exception is thrown or
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    if the user is logged in, an <literal>AuthorizationException</literal> 
+                    if the user is logged in, an <literal>AuthorizationException</literal>
                     exception is thrown.
                 </para>
             </listitem>
         </itemizedlist>
-        
+
         <para>
-          It is also possible to call the <literal>hasRole()</literal> and <literal>hasPermission()</literal> 
+          It is also possible to call the <literal>hasRole()</literal> and <literal>hasPermission()</literal>
           methods directly from Java code:
-        </para>                       
+        </para>
 
         <programlisting><![CDATA[if (!Identity.instance().hasRole("admin"))
      throw new AuthorizationException("Must be admin to perform this action");
 
 if (!Identity.instance().hasPermission("customer", "create", null))
      throw new AuthorizationException("You may not create new customers");]]></programlisting>
-          
+
       </sect3>
     </sect2>
-    
+
     <sect2>
       <title>Security in the user interface</title>
-      
+
       <para>
-        One indication of a well designed user interface is that the user is not presented with options for 
-        which they don't have the necessary privileges to use.  Seam Security allows conditional rendering of 
+        One indication of a well designed user interface is that the user is not presented with options for
+        which they don't have the necessary privileges to use.  Seam Security allows conditional rendering of
         either 1) sections of a page or 2) individual controls, based upon the privileges of the user, using
         the very same EL expressions that are used for component security.
       </para>
-      
+
       <para>
-        Let's take a look at some examples of interface security.  First of all, let's pretend that we have a 
-        login form that should only be rendered if the user is not already logged in.  Using the 
+        Let's take a look at some examples of interface security.  First of all, let's pretend that we have a
+        login form that should only be rendered if the user is not already logged in.  Using the
         <literal>identity.isLoggedIn()</literal> property, we can write this:
       </para>
-      
+
       <programlisting><![CDATA[<h:form class="loginForm" rendered="#{not identity.loggedIn}">]]></programlisting>
-      
+
       <para>
-        If the user isn't logged in, then the login form will be rendered - very straight forward so far.  
+        If the user isn't logged in, then the login form will be rendered - very straight forward so far.
         Now let's pretend there is a menu on the page that contains some actions which should only be accessible
         to users in the <literal>manager</literal> role.  Here's one way that these could be written:
       </para>
-      
+
       <programlisting><![CDATA[<h:outputLink action="#{reports.listManagerReports}" rendered="#{s:hasRole('manager')}">
     Manager Reports
 </h:outputLink>]]></programlisting>
-      
+
       <para>
         This is also quite straight forward.  If the user is not a member of the <literal>manager</literal>
         role, then the outputLink will not be rendered. The <literal>rendered</literal> attribute can
-        generally be used on the control itself, or on a surrounding <literal>&lt;s:div&gt;</literal> or 
+        generally be used on the control itself, or on a surrounding <literal>&lt;s:div&gt;</literal> or
         <literal>&lt;s:span&gt;</literal> control.
       </para>
-      
+
       <para>
-        Now for something more complex.  Let's say you have a <literal>h:dataTable</literal> control on a 
+        Now for something more complex.  Let's say you have a <literal>h:dataTable</literal> control on a
         page listing records for which you may or may not wish to render action links depending on the
         user's privileges.  The <literal>s:hasPermission</literal> EL function allows us to pass in an
-        object parameter which can be used to determine whether the user has the requested permission 
+        object parameter which can be used to determine whether the user has the requested permission
         for that object or not. Here's how a dataTable with secured links might look:
       </para>
-      
+
       <programlisting><![CDATA[<h:dataTable value="#{clients}" var="cl">
     <h:column>
         <f:facet name="header">Name</f:facet>
@@ -798,7 +798,7 @@ if (!Identity.instance().hasPermission("customer", "create", null))
     <h:column>
         <f:facet name="header">City</f:facet>
         #{cl.city}
-    </h:column>   
+    </h:column>
     <h:column>
         <f:facet name="header">Action</f:facet>
         <s:link value="Modify Client" action="#{clientAction.modify}"
@@ -809,53 +809,53 @@ if (!Identity.instance().hasPermission("customer", "create", null))
 </h:dataTable>]]></programlisting>
 
     </sect2>
-    
+
     <sect2>
-      <title>Securing pages</title>      
+      <title>Securing pages</title>
       <para>
         Page security requires that the application is using a <literal>pages.xml</literal> file, however is
         extremely simple to configure.  Simply include a <literal>&lt;restrict/&gt;</literal> element within
-        the <literal>page</literal> elements that you wish to secure.  If no explicit restriction is specified 
-        by the <literal>restrict</literal> element, an implied permission of <literal>/viewId.xhtml:render</literal> 
-        will be checked when the page is accessed via a non-faces (GET) request, and a permission of 
+        the <literal>page</literal> elements that you wish to secure.  If no explicit restriction is specified
+        by the <literal>restrict</literal> element, an implied permission of <literal>/viewId.xhtml:render</literal>
+        will be checked when the page is accessed via a non-faces (GET) request, and a permission of
         <literal>/viewId.xhtml:restore</literal> will be required when any JSF postback (form submission) originates
-        from the page.  Otherwise, the specified restriction will be evaluated as a standard security expression. 
+        from the page.  Otherwise, the specified restriction will be evaluated as a standard security expression.
         Here's a couple of examples:
       </para>
-            
+
       <programlisting><![CDATA[<page view-id="/settings.xhtml">
     <restrict/>
 </page>]]></programlisting>
-        
+
       <para>
-        This page has an implied permission of <literal>/settings.xhtml:render</literal> required for non-faces 
+        This page has an implied permission of <literal>/settings.xhtml:render</literal> required for non-faces
         requests and an implied permission of <literal>/settings.xhtml:restore</literal> for faces requests.
       </para>
-        
-      <programlisting><![CDATA[<page view-id="/reports.xhtml">    
+
+      <programlisting><![CDATA[<page view-id="/reports.xhtml">
     <restrict>#{s:hasRole('admin')}</restrict>
 </page>]]></programlisting>
-      
+
       <para>
-        Both faces and non-faces requests to this page require that the user is a member of the 
+        Both faces and non-faces requests to this page require that the user is a member of the
         <literal>admin</literal> role.
       </para>
-        
+
     </sect2>
-    
+
     <sect2>
       <title>Securing Entities</title>
-      
-      <para>      
-        Seam security also makes it possible to apply security restrictions to read, insert, update and 
+
+      <para>
+        Seam security also makes it possible to apply security restrictions to read, insert, update and
         delete actions for entities.
       </para>
-        
+
       <para>
         To secure all actions for an entity class, add a <literal>@Restrict</literal> annotation on the class
         itself:
       </para>
-        
+
       <programlisting><![CDATA[@Entity
 @Name("customer")
 @Restrict
@@ -864,65 +864,65 @@ public class Customer {
 }]]></programlisting>
 
       <para>
-        If no expression is specified in the <literal>@Restrict</literal> annotation, the default security check 
+        If no expression is specified in the <literal>@Restrict</literal> annotation, the default security check
         that is performed is a permission check of <literal>entityName:action</literal>,
-        where <literal>entityName</literal> is the Seam component name of the entity (or the fully-qualified class name if no @Name is 
-        specified), and the <literal>action</literal> is either <literal>read</literal>, 
-        <literal>insert</literal>, <literal>update</literal> or <literal>delete</literal>. 
+        where <literal>entityName</literal> is the Seam component name of the entity (or the fully-qualified class name if no @Name is
+        specified), and the <literal>action</literal> is either <literal>read</literal>,
+        <literal>insert</literal>, <literal>update</literal> or <literal>delete</literal>.
       </para>
-      
+
       <para>
-        It is also possible to only restrict certain actions, by placing a <literal>@Restrict</literal> annotation 
+        It is also possible to only restrict certain actions, by placing a <literal>@Restrict</literal> annotation
         on the relevent entity lifecycle method (annotated as follows):
       </para>
-      
+
       <itemizedlist>
         <listitem>
           <para>
             <literal>@PostLoad</literal> - Called after an entity instance is loaded from the database. Use this
             method to configure a <literal>read</literal> permission.
           </para>
-        </listitem>    
+        </listitem>
         <listitem>
           <para>
             <literal>@PrePersist</literal> - Called before a new instance of the entity is inserted. Use this method
             to configure an <literal>insert</literal> permission.
           </para>
-        </listitem>  
+        </listitem>
         <listitem>
           <para>
             <literal>@PreUpdate</literal> - Called before an entity is updated. Use this method
             to configure an <literal>update</literal> permission.
           </para>
-        </listitem>         
+        </listitem>
         <listitem>
           <para>
             <literal>@PreRemove</literal> - Called before an entity is deleted. Use this method
             to configure a <literal>delete</literal> permission.
           </para>
-        </listitem>             
-      </itemizedlist>      
-      
+        </listitem>
+      </itemizedlist>
+
       <para>
         Here's an example of how an entity would be configured to perform a security check for any <literal>insert</literal>
-        operations.  Please note that the method is not required to do anything, the only important thing in regard to 
+        operations.  Please note that the method is not required to do anything, the only important thing in regard to
         security is how it is annotated:
       </para>
-      
+
       <programlisting><![CDATA[
   @PrePersist @Restrict
-  public void prePersist() {}      
+  public void prePersist() {}
    ]]></programlisting>
-      
+
       <para>
         And here's an example of an entity permission rule that checks if the authenticated user is allowed to insert
         a new <literal>MemberBlog</literal> record (from the seamspace example).  The entity for which the security
         check is being made is automatically inserted into the working memory (in this case <literal>MemberBlog</literal>):
       </para>
-      
+
       <programlisting><![CDATA[rule InsertMemberBlog
   no-loop
-  activation-group "permissions"  
+  activation-group "permissions"
 when
   check: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
   Principal(principalName : name)
@@ -938,28 +938,28 @@ end;]]></programlisting>
          <literal>Principal</literal> fact (and other places) is a variable binding - it binds the <literal>name</literal>
          property of the <literal>Principal</literal> to a variable called <literal>principalName</literal>.  Variable bindings
          allow the value to be referred to in other places, such as the following line which compares the member's username
-         to the <literal>Principal</literal> name.  For more details, please refer to the JBoss Rules documentation. 
+         to the <literal>Principal</literal> name.  For more details, please refer to the JBoss Rules documentation.
        </para>
 
        <para>
          Finally, we need to install a listener class that integrates Seam security with
          your JPA provider.
        </para>
-            
+
       <sect3>
         <title>Entity security with JPA</title>
-        
+
         <para>
           Security checks for EJB3 entity beans are performed with an <literal>EntityListener</literal>.
           You can install this listener by using the following <literal>META-INF/orm.xml</literal> file:
         </para>
-        
+
         <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
                  version="1.0">
-                 
+
     <persistence-unit-metadata>
         <persistence-unit-defaults>
             <entity-listeners>
@@ -967,93 +967,93 @@ end;]]></programlisting>
             </entity-listeners>
         </persistence-unit-defaults>
     </persistence-unit-metadata>
-    
+
 </entity-mappings>]]></programlisting>
 
       </sect3>
-      
+
       <sect3>
         <title>Entity security with Hibernate</title>
-        
+
         <para>
-          If you are using a Hibernate <literal>SessionFactory</literal> configured via Seam, you don't 
+          If you are using a Hibernate <literal>SessionFactory</literal> configured via Seam, you don't
           need to do anything special to use entity security.
         </para>
-        
+
       </sect3>
-      
+
     </sect2>
 
   </sect1>
-  
+
   <sect1>
     <title>Writing Security Rules</title>
-    
+
     <para>
       Up to this point there has been a lot of mention of permissions, but no information about how permissions
-      are actually defined or granted.  This section completes the picture, by explaining how permission 
+      are actually defined or granted.  This section completes the picture, by explaining how permission
       checks are processed, and how to implement permission checks for a Seam application.
     </para>
-    
+
     <sect2>
       <title>Permissions Overview</title>
-      
+
       <para>
-        So how does the security API know whether a user has the <literal>customer:modify</literal> permission 
+        So how does the security API know whether a user has the <literal>customer:modify</literal> permission
         for a specific customer?  Seam Security provides quite a novel method for determining user permissions,
-        based on JBoss Rules.  A couple of the advantages of using a rule engine are 1) a centralized location 
-        for the business logic that is behind each user permission, and 2) speed - JBoss Rules uses very efficient 
+        based on JBoss Rules.  A couple of the advantages of using a rule engine are 1) a centralized location
+        for the business logic that is behind each user permission, and 2) speed - JBoss Rules uses very efficient
         algorithms for evaluating large numbers of complex rules involving multiple conditions.
-      </para>            
-      
+      </para>
+
     </sect2>
-    
+
     <sect2>
       <title>Configuring a rules file</title>
-      
+
       <para>
         Seam Security expects to find a <literal>RuleBase</literal> component called <literal>securityRules</literal>
         which it uses to evaluate permission checks.  This is configured in <literal>components.xml</literal> as follows:
       </para>
-      
+
       <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
-                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.0.xsd 
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.0.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd"
-                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd">                 
-        
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd">
+
    <drools:rule-base name="securityRules">
        <drools:rule-files>
            <value>/META-INF/security.drl</value>
        </drools:rule-files>
-   </drools:rule-base>    
-   
+   </drools:rule-base>
+
 </components>]]></programlisting>
-      
+
       <para>
         Once the <literal>RuleBase</literal> component is configured, it's time to write the security rules.
       </para>
     </sect2>
-    
+
     <sect2>
       <title>Creating a security rules file</title>
       <para>
-        For this step you need to create a file called <literal>security.drl</literal> in the 
+        For this step you need to create a file called <literal>security.drl</literal> in the
         <literal>/META-INF</literal> directory of your application's jar file.  In actual fact this file can be called
         anything you want, and exist in any location as long as it is configured appropriately in
         <literal>components.xml</literal>.
       </para>
-      
+
       <para>
-        So what should the security rules file contain?  At this stage it might be a good idea to at least skim 
+        So what should the security rules file contain?  At this stage it might be a good idea to at least skim
         through the JBoss Rules documentation, however to get started here's an extremely simple example:
       </para>
-      
+
       <programlisting><![CDATA[package MyApplicationPermissions;
 
 import org.jboss.seam.security.PermissionCheck;
@@ -1066,278 +1066,278 @@ when
 then
   c.grant();
 end;]]></programlisting>
-      
+
       <para>
         Let's break this down.  The first thing we see is the package declaration.  A package in JBoss Rules
         is essentially a collection of rules.  The package name can be anything you want - it doesn't relate
         to anything else outside the scope of the rule base.
       </para>
-      
+
       <para>
         The next thing we can notice is a couple of import statements for the <literal>PermissionCheck</literal>
-        and <literal>Role</literal> classes. These imports inform the rules engine that we'll be referencing 
+        and <literal>Role</literal> classes. These imports inform the rules engine that we'll be referencing
         these classes within our rules.
       </para>
-      
+
       <para>
-        Finally we have the code for the rule.  Each rule within a package should be given a unique name (usually 
-        describing the purpose of the rule).  In this case our rule is called <literal>CanUserDeleteCustomers</literal> 
+        Finally we have the code for the rule.  Each rule within a package should be given a unique name (usually
+        describing the purpose of the rule).  In this case our rule is called <literal>CanUserDeleteCustomers</literal>
         and will be used to check whether a user is allowed to delete a customer record.
       </para>
-      
+
       <para>
         Looking at the body of the rule definition we can notice two distinct sections.  Rules have what is known
-        as a left hand side (LHS) and a right hand side (RHS).  The LHS consists of the conditional part of the 
-        rule, i.e. a list of conditions which must be satisfied for the rule to fire.  The LHS is represented by 
+        as a left hand side (LHS) and a right hand side (RHS).  The LHS consists of the conditional part of the
+        rule, i.e. a list of conditions which must be satisfied for the rule to fire.  The LHS is represented by
         the <literal>when</literal> section.  The RHS is the consequence, or action section of the rule that will
         only be fired if all of the conditions in the LHS are met.  The RHS is represented by the
         <literal>then</literal> section.  The end of the rule is denoted by the <literal>end;</literal> line.
       </para>
-      
+
       <para>
         If we look at the LHS of the rule, we see two conditions listed there.  Let's examine the first condition:
       </para>
-      
+
       <programlisting><![CDATA[c: PermissionCheck(name == "customer", action == "delete")]]></programlisting>
-      
+
       <para>
-        In plain english, this condition is stating that there must exist a <literal>PermissionCheck</literal> object 
+        In plain english, this condition is stating that there must exist a <literal>PermissionCheck</literal> object
         with a <literal>name</literal> property equal to "customer", and an <literal>action</literal> property equal
-        to "delete" within the working memory.  What is the working memory?  It is a session-scoped object that contains 
+        to "delete" within the working memory.  What is the working memory?  It is a session-scoped object that contains
         the contextual information that is required by the rules engine to make a decision about a permission check.
         Each time the <literal>hasPermission()</literal> method is called, a temporary <literal>PermissionCheck</literal>
         object, or <emphasis>Fact</emphasis>, is inserted into the working memory.  This <literal>PermissionCheck</literal>
-        corresponds exactly to the permission that is being checked, so for example if you call 
+        corresponds exactly to the permission that is being checked, so for example if you call
         <literal>hasPermission("account", "create", null)</literal> then a <literal>PermissionCheck</literal>
         object with a <literal>name</literal> equal to "account" and <literal>action</literal> equal to "create" will be
         inserted into the working memory for the duration of the permission check.
       </para>
-      
+
       <para>
         So what else is in the working memory?  Besides the short-lived temporary facts inserted during a permission
         check, there are some longer-lived objects in the working memory that stay there for the entire duration of
         a user being authenticated.  These include any <literal>java.security.Principal</literal> objects that
         are created as part of the authentication process, plus a <literal>org.jboss.seam.security.Role</literal>
-        object for each of the roles that the user is a member of.  It is also possible to insert additional 
+        object for each of the roles that the user is a member of.  It is also possible to insert additional
         long-lived facts into the working memory by calling <literal>((RuleBasedIdentity) RuleBasedIdentity.instance()).getSecurityContext().insert()</literal>,
         passing the object as a parameter.
       </para>
-      
+
       <para>
         Getting back to our simple example, we can also notice that the first line of our LHS is prefixed with
         <literal>c:</literal>.  This is a variable binding, and is used to refer back to the object that is
         matched by the condition.  Moving onto the second line of our LHS, we see this:
       </para>
-      
+
       <programlisting><![CDATA[Role(name == "admin")]]></programlisting>
-      
+
       <para>
         This condition simply states that there must be a <literal>Role</literal> object with
-        a <literal>name</literal> of "admin" within the working memory.  As mentioned, user roles are inserted 
-        into the working memory as long-lived facts.  So, putting both conditions together, this rule is essentially 
+        a <literal>name</literal> of "admin" within the working memory.  As mentioned, user roles are inserted
+        into the working memory as long-lived facts.  So, putting both conditions together, this rule is essentially
         saying "I will fire if you are checking for the <literal>customer:delete</literal> permission and the user
         is a member of the <literal>admin</literal> role".
       </para>
-      
+
       <para>
         So what is the consequence of the rule firing?  Let's take a look at the RHS of the rule:
       </para>
-      
+
       <programlisting><![CDATA[c.grant()]]></programlisting>
-      
+
       <para>
-        The RHS consists of Java code, and in this case is invoking the <literal>grant()</literal> 
-        method of the <literal>c</literal> object, which as already mentioned is a variable binding 
+        The RHS consists of Java code, and in this case is invoking the <literal>grant()</literal>
+        method of the <literal>c</literal> object, which as already mentioned is a variable binding
         for the <literal>PermissionCheck</literal> object.  Besides the <literal>name</literal> and
         <literal>action</literal> properties of the <literal>PermissionCheck</literal> object, there
         is also a <literal>granted</literal> property which is initially set to <literal>false</literal>.
-        Calling <literal>grant()</literal> on a <literal>PermissionCheck</literal> sets the 
+        Calling <literal>grant()</literal> on a <literal>PermissionCheck</literal> sets the
         <literal>granted</literal> property to <literal>true</literal>, which means that the permission
         check was successful, allowing the user to carry out whatever action the permission check was
         intended for.
       </para>
-      
+
       <sect3>
         <title>Wildcard permission checks</title>
-        
+
         <para>
-          It is possible to implement a wildcard permission check (which allows all actions for a given permission 
+          It is possible to implement a wildcard permission check (which allows all actions for a given permission
           name), by omitting the <literal>action</literal> constraint for the <literal>PermissionCheck</literal> in
           your rule, like this:
         </para>
-        
+
         <programlisting><![CDATA[rule CanDoAnythingToCustomersIfYouAreAnAdmin
 when
   c: PermissionCheck(name == "customer")
   Role(name == "admin")
 then
   c.grant();
-end;        
+end;
         ]]></programlisting>
-        
+
         <para>
           This rule allows users with the <literal>admin</literal> role to perform <emphasis>any</emphasis> action for
           any <literal>customer</literal> permission check.
         </para>
       </sect3>
-      
+
     </sect2>
-    
+
   </sect1>
-  
+
   <sect1>
     <title>SSL Security</title>
-    
+
     <para>
       Seam includes basic support for serving sensitive pages via the HTTPS protocol.  This is easily
       configured by specifying a <literal>scheme</literal> for the page in <literal>pages.xml</literal>.
       The following example shows how the view <literal>/login.xhtml</literal> is configured to use
       HTTPS:
     </para>
-    
+
     <programlisting><![CDATA[<page view-id="/login.xhtml" scheme="https"/>]]></programlisting>
-    
+
     <para>
-      This configuration is automatically extended to both <literal>s:link</literal> and 
+      This configuration is automatically extended to both <literal>s:link</literal> and
       <literal>s:button</literal> JSF controls, which (when specifying the <literal>view</literal>)
-      will also render the link using the correct protocol.  Based on the previous example, the following 
+      will also render the link using the correct protocol.  Based on the previous example, the following
       link will use the HTTPS protocol because <literal>/login.xhtml</literal> is configured to use it:
     </para>
-    
+
     <programlisting><![CDATA[<s:link view="/login.xhtml" value="Login"/>]]></programlisting>
-    
+
     <para>
-      Browsing directly to a view when using the <emphasis>incorrect</emphasis> protocol will cause a 
+      Browsing directly to a view when using the <emphasis>incorrect</emphasis> protocol will cause a
       redirect to the same view using the <emphasis>correct</emphasis> protocol.  For example, browsing
       to a page that has <literal>scheme="https"</literal> using HTTP will cause a redirect to the same
       page using HTTPS.
     </para>
-    
+
     <para>
       It is also possible to configure a <emphasis>default scheme</emphasis> for all pages. This is useful
-      if you wish to use HTTPS for a only few pages. If no default scheme is specified then the normal 
-      behavior is to continue use the current scheme. So once the user accessed a page that required 
+      if you wish to use HTTPS for a only few pages. If no default scheme is specified then the normal
+      behavior is to continue use the current scheme. So once the user accessed a page that required
       HTTPS, then HTTPS would continue to be used after the user navigated away to other non-HTTPS pages.
-      (While this is good for security, it is not so great for performance!). To define HTTP as the 
+      (While this is good for security, it is not so great for performance!). To define HTTP as the
       default <literal>scheme</literal>, add this line to <literal>pages.xml</literal>:
     </para>
-    
+
     <programlisting><![CDATA[<page view-id="*" scheme="http" />]]></programlisting>
-    
+
     <para>
-      Of course, if <emphasis>none</emphasis> of the pages in your application use HTTPS then it is not 
+      Of course, if <emphasis>none</emphasis> of the pages in your application use HTTPS then it is not
       required to specify a default scheme.
     </para>
-  
+
     <para>
       You may configure Seam to automatically invalidate the current HTTP session each time the scheme
       changes. Just add this line to <literal>components.xml</literal>:
     </para>
-    
+
     <programlisting><![CDATA[<core:servlet-session invalidate-on-scheme-change="true"/>]]></programlisting>
-    
+
     <para>
-      This option helps make your system less vulnerable to sniffing of the session id or leakage of 
+      This option helps make your system less vulnerable to sniffing of the session id or leakage of
       sensitive data from pages using HTTPS to other pages using HTTP.
     </para>
-    
+
   </sect1>
-    
+
   <sect1>
     <title>CAPTCHA</title>
-    
+
     <para>
-      Though strictly not part of the security API, Seam provides a built-in CAPTCHA (<emphasis>C</emphasis>ompletely 
-      <emphasis>A</emphasis>utomated <emphasis>P</emphasis>ublic <emphasis>T</emphasis>uring test to tell 
-      <emphasis>C</emphasis>omputers and <emphasis>H</emphasis>umans <emphasis>A</emphasis>part) algorithm to 
+      Though strictly not part of the security API, Seam provides a built-in CAPTCHA (<emphasis>C</emphasis>ompletely
+      <emphasis>A</emphasis>utomated <emphasis>P</emphasis>ublic <emphasis>T</emphasis>uring test to tell
+      <emphasis>C</emphasis>omputers and <emphasis>H</emphasis>umans <emphasis>A</emphasis>part) algorithm to
       prevent automated processes from interacting with your application.
     </para>
-    
+
     <sect2>
       <title>Configuring the CAPTCHA Servlet</title>
       <para>
-        To get up and running, it is necessary to configure the Seam Resource Servlet, which will provide the Captcha 
+        To get up and running, it is necessary to configure the Seam Resource Servlet, which will provide the Captcha
         challenge images to your pages.  This requires the following entry in <literal>web.xml</literal>:
       </para>
-      
+
       <programlisting><![CDATA[<servlet>
     <servlet-name>Seam Resource Servlet</servlet-name>
     <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
 </servlet>
-    
+
 <servlet-mapping>
     <servlet-name>Seam Resource Servlet</servlet-name>
     <url-pattern>/seam/resource/*</url-pattern>
 </servlet-mapping>]]></programlisting>
-      
+
     </sect2>
-    
+
     <sect2>
       <title>Adding a CAPTCHA to a form</title>
-      
+
       <para>
         Adding a CAPTCHA challenge to a form is extremely easy. Here's an example:
       </para>
-      
+
       <programlisting><![CDATA[<h:graphicImage value="/seam/resource/captcha"/>
 <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true">
    <s:validate />
 </h:inputText>
 <h:message for="verifyCaptcha"/>]]></programlisting>
-      
+
       <para>
         That's all there is to it.  The <literal>graphicImage</literal> control displays the CAPTCHA challenge,
-        and the <literal>inputText</literal> receives the user's response. The response is automatically 
+        and the <literal>inputText</literal> receives the user's response. The response is automatically
         validated against the CAPTCHA when the form is submitted.
       </para>
-      
+
     </sect2>
-    
+
     <sect2>
       <title>Customising the CAPTCHA algorithm</title>
-      
+
       <para>
         You may customize the CAPTCHA algorithm by overriding the built-in component:
       </para>
-      
+
       <programlisting><![CDATA[@Name("org.jboss.seam.captcha")
 @Scope(SESSION)
 public class HitchhikersCaptcha extends Captcha
 {
    @Override @Create
-   public void init() 
+   public void init()
    {
       setChallenge("What is the answer to life, the universe and everything?");
       setCorrectResponse("42");
    }
-   
+
    @Override
    public BufferedImage renderChallenge()
    {
-       BufferedImage img = super.renderChallenge();       
+       BufferedImage img = super.renderChallenge();
        img.getGraphics().drawOval(5, 3, 60, 14); //add an obscuring decoration
        return img;
    }
 }]]></programlisting>
 
     </sect2>
-    
+
   </sect1>
-  
+
   <sect1>
     <title>Security Events</title>
-    
+
     <para>
       The following table describes a number of events (see <xref linkend="events"/>) raised by Seam Security.
     </para>
-    
+
     <table>
       <title>Security Events</title>
-  
+
       <tgroup cols="2">
         <colspec colnum="1" colwidth="1*" />
         <colspec colnum="2" colwidth="3*" />
-        
+
         <thead>
           <row>
             <entry align="center">
@@ -1347,16 +1347,16 @@ public class HitchhikersCaptcha extends Captcha
               <para>Description</para>
             </entry>
           </row>
-        </thead>        
-  
+        </thead>
+
         <tbody>
-  
+
           <row>
             <entry>
               <para>
                 <literal>org.jboss.seam.security.loginSuccessful</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised when a login attempt is successful.
@@ -1368,7 +1368,7 @@ public class HitchhikersCaptcha extends Captcha
               <para>
                 <literal>org.jboss.seam.security.loginFailed</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised when a login attempt fails.
@@ -1380,109 +1380,109 @@ public class HitchhikersCaptcha extends Captcha
               <para>
                 <literal>org.jboss.seam.security.notLoggedIn</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised when a security check fails when the user is not logged in.
               </para>
             </entry>
-          </row>     
+          </row>
           <row>
             <entry>
               <para>
                 <literal>org.jboss.seam.security.notAuthorized</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised when a security check fails when the user is logged in however doesn't have sufficient privileges.
               </para>
             </entry>
-          </row>                
+          </row>
           <row>
             <entry>
               <para>
                 <literal>org.jboss.seam.security.preAuthenticate</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised just prior to user authentication.
               </para>
             </entry>
-          </row>            
+          </row>
           <row>
             <entry>
               <para>
                 <literal>org.jboss.seam.security.postAuthenticate</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised just after user authentication.
               </para>
             </entry>
-          </row>             
+          </row>
           <row>
             <entry>
               <para>
                 <literal>org.jboss.seam.security.loggedOut</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised after the user has logged out.
               </para>
             </entry>
-          </row>            
+          </row>
           <row>
             <entry>
               <para>
                 <literal>org.jboss.seam.security.credentialsUpdated</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised when the user's credentials have been changed.
               </para>
             </entry>
-          </row>        
+          </row>
           <row>
             <entry>
               <para>
                 <literal>org.jboss.seam.security.rememberMe</literal>
               </para>
-            </entry>    
+            </entry>
             <entry>
               <para>
                 Raised when the Identity's rememberMe property is changed.
               </para>
             </entry>
-          </row>               
-         
+          </row>
+
         </tbody>
       </tgroup>
-    </table>    
-    
+    </table>
+
   </sect1>
-  
+
   <sect1>
     <title>Extending the Identity component</title>
-    
+
     <para>
       Sometimes it might be necessary to extend the Identity component if your application has
       special security requirements.  For example, users might be required to authenticate using
       a Company or Department ID, along with their usual username and password.  If permission-based
       security is required then RuleBasedIdentity should be extended, otherwise Identity should be
       extended.
-    </para>  
-    
+    </para>
+
     <para>
-      The following example shows an extended Identity component with an additional 
+      The following example shows an extended Identity component with an additional
       <literal>companyCode</literal> field.  The install precendence of <literal>APPLICATION</literal>
       ensures that this extended Identity gets installed in preference to the built-in Identity.
     </para>
-    
+
     <programlisting><![CDATA[@Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
 @Install(precedence = APPLICATION)
@@ -1493,34 +1493,34 @@ public class CustomIdentity extends Identity
    private static final LogProvider log = Logging.getLogProvider(CustomIdentity.class);
 
    private String companyCode;
-   
+
    public String getCompanyCode()
    {
       return companyCode;
    }
-   
+
    public void setCompanyCode(String companyCode)
    {
       this.companyCode = companyCode;
    }
-   
+
    @Override
    public String login()
    {
       log.info("###### CUSTOM LOGIN CALLED ######");
       return super.login();
    }
-}]]></programlisting>    
+}]]></programlisting>
 
   </sect1>
-  
+
   <sect1>
     <title>Identity Management</title>
-    
+
     <para>
       Seam Security provides an optional identity management API, which offers the following features:
     </para>
-  
+
     <itemizedlist>
       <listitem>
         <para>
@@ -1536,7 +1536,7 @@ public class CustomIdentity extends Identity
         <para>
           A hierarchical role/group membership structure, allowing roles to be members of other roles.
         </para>
-      </listitem>      
+      </listitem>
       <listitem>
         <para>
           Pluggable identity store, allowing the developer to choose their security provider, whether it be
@@ -1544,14 +1544,14 @@ public class CustomIdentity extends Identity
         </para>
       </listitem>
     </itemizedlist>
-    
+
     <para>
       The core of the identity management API is the <literal>IdentityManager</literal> component.  Before it can be
-      used however, it must be configured with an <literal>IdentityStore</literal> implementation.  The 
-      <literal>IdentityStore</literal> does the actual work of interacting with the underlying security provider, 
+      used however, it must be configured with an <literal>IdentityStore</literal> implementation.  The
+      <literal>IdentityStore</literal> does the actual work of interacting with the underlying security provider,
       whatever it may be.
     </para>
-    
+
     <mediaobject>
       <imageobject role="fo">
         <imagedata fileref="images/security-identitymanager.png" align="center"/>
@@ -1559,35 +1559,35 @@ public class CustomIdentity extends Identity
       <imageobject role="html">
         <imagedata fileref="../shared/images/security-identitymanager.png" align="center"/>
       </imageobject>
-    </mediaobject>        
-    
+    </mediaobject>
+
     <sect2>
       <title>Configuration</title>
-      
+
       <para>
-        Configuration of the <literal>IdentityManager</literal> is extremely simple, requiring only an 
+        Configuration of the <literal>IdentityManager</literal> is extremely simple, requiring only an
         <literal>IdentityStore</literal> to be configured in <literal>components.xml</literal>.
         The identity management namespace is <literal>http://jboss.com/products/seam/security/management</literal>
         and its schema location is <literal>http://jboss.com/products/seam/identity-management-2.0.xsd</literal>.
         Here's a simple example showing the configuration of a <literal>JPAIdentityStore</literal> - for the
         <literal>IdentityManager</literal> to use it, it must be named <literal>identityStore</literal>:
       </para>
-      
+
       <programlisting><![CDATA[
-  <identity-management:jpa-identity-store name="identityStore" account-class="com.acme.UserAccount"/>          
+  <identity-management:jpa-identity-store name="identityStore" account-class="com.acme.UserAccount"/>
       ]]></programlisting>
     </sect2>
-    
+
     <sect2>
       <title>JPAIdentityStore</title>
-      
+
       <para>
         <literal>JPAIdentityStore</literal> is an <literal>IdentityStore</literal> implementation that uses
         JPA as its underlying security provider.  User accounts and their role memberships are stored in a
-        self-referencing database table, for which the corresponding entity bean must extend 
+        self-referencing database table, for which the corresponding entity bean must extend
         <literal>org.jboss.seam.security.management.UserAccount</literal> to provide the following properties:
       </para>
-      
+
       <mediaobject>
         <imageobject role="fo">
           <imagedata fileref="images/security-useraccount.png" align="center"/>
@@ -1596,11 +1596,11 @@ public class CustomIdentity extends Identity
           <imagedata fileref="../shared/images/security-useraccount.png" align="center"/>
         </imageobject>
       </mediaobject>
-      
+
       <para>
         To provide a complete example, here's what the actual database tables may look like:
       </para>
-      
+
       <mediaobject>
         <imageobject role="fo">
           <imagedata fileref="images/security-useraccountschema.png" align="center"/>
@@ -1608,42 +1608,42 @@ public class CustomIdentity extends Identity
         <imageobject role="html">
           <imagedata fileref="../shared/images/security-useraccountschema.png" align="center"/>
         </imageobject>
-      </mediaobject>      
-      
+      </mediaobject>
+
       <para>
         And an example of the corresponding entity bean:
       </para>
-      
+
       <programlisting><![CDATA[@Entity @Table(name = "USER_ACCOUNT")
-public class UserAccount extends org.jboss.seam.security.management.UserAccount 
+public class UserAccount extends org.jboss.seam.security.management.UserAccount
                          implements Serializable
 {
    private Integer accountId;
    private String username;
    private String passwordHash;
-   private boolean enabled;   
+   private boolean enabled;
    private AccountType accountType;
    private Set<UserAccount> memberships;
-   
-   @Id @GeneratedValue public Integer getAccountId() { return accountId; }   
-   public void setAccountId(Integer accountId) { this.accountId = accountId; }
-   
-   @NotNull @Override public String getUsername() { return username; }  
-   @Override public void setUsername(String username) { this.username = username; }
-   
-   @Override public String getPasswordHash() { return passwordHash; }  
-   @Override public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }   
-   
-   @Override public AccountType getAccountType() { return accountType; }   
-   @Override public void setAccountType(AccountType accountType) { this.accountType = accountType; }
-   
-   @Override public boolean isEnabled() { return enabled; }
-   @Override public void setEnabled(boolean enabled) { this.enabled = enabled; }   
 
-   @ManyToMany(targetEntity = MemberAccount.class) @JoinTable(name = "ACCOUNT_MEMBERSHIP", 
+   @Id @GeneratedValue public Integer getAccountId() { return accountId; }
+   public void setAccountId(Integer accountId) { this.accountId = accountId; }
+
+   @NotNull @Override public String getUsername() { return username; }
+   @Override public void setUsername(String username) { this.username = username; }
+
+   @Override public String getPasswordHash() { return passwordHash; }
+   @Override public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+   @Override public AccountType getAccountType() { return accountType; }
+   @Override public void setAccountType(AccountType accountType) { this.accountType = accountType; }
+
+   @Override public boolean isEnabled() { return enabled; }
+   @Override public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
+   @ManyToMany(targetEntity = MemberAccount.class) @JoinTable(name = "ACCOUNT_MEMBERSHIP",
          joinColumns = @JoinColumn(name = "ACCOUNT_ID"),
          inverseJoinColumns = @JoinColumn(name = "MEMBER_OF"))
-   @Override public Set<UserAccount> getMemberships() { return memberships; } 
+   @Override public Set<UserAccount> getMemberships() { return memberships; }
    @Override public void setMemberships(Set<UserAccount> memberships) { this.memberships = memberships; }}]]></programlisting>
 
       <para>
@@ -1654,64 +1654,64 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
         discriminator between the two.  With this model, roles can be members of other roles, making it
         possible to define complex role membership hierarchies.
       </para>
-      
+
       <para>
         Once the <literal>UserAccount</literal> implementation has been created, the <literal>JPAIdentityStore</literal>
-        must be configured to use that implementation any time it performs an identity management operation.  
+        must be configured to use that implementation any time it performs an identity management operation.
         This is done by specifying the <literal>account-class</literal> property in <literal>components.xml</literal>.
         In the following example, it is configured as <literal>com.acme.UserAccount</literal>:
       </para>
-      
+
       <programlisting><![CDATA[
-  <identity-management:jpa-identity-store name="identityStore" account-class="com.acme.UserAccount"/>]]></programlisting>      
-      
+  <identity-management:jpa-identity-store name="identityStore" account-class="com.acme.UserAccount"/>]]></programlisting>
+
       <para>
         Please note that this is a required parameter, and must always be specified when using the
         <literal>JPAIdentityStore</literal>.
       </para>
-      
+
     </sect2>
-    
+
     <sect2>
       <title>Authentication with the Identity Management API</title>
-      
+
       <para>
         To authenticate using the Identity Management API, it is as simple as not specifying the
         <literal>authenticate-method</literal> property for the <literal>Identity</literal> component.
         If no <literal>authenticate-method</literal> is specified, then by default the authentication
         process (controlled by <literal>SeamLoginModule</literal>) will attempt to authenticate using
         <literal>IdentityManager</literal>'s <literal>authenticate()</literal> method, and no
-        Authenticator component is necessary. 
+        Authenticator component is necessary.
       </para>
     </sect2>
-    
+
     <sect2>
       <title>Using the IdentityManager API</title>
-      
+
       <para>
         The <literal>IdentityManager</literal> can be accessed either by injecting it into your Seam
         component as follows:
       </para>
-      
-      <programlisting><![CDATA[  @In IdentityManager identityManager;]]></programlisting>        
-      
+
+      <programlisting><![CDATA[  @In IdentityManager identityManager;]]></programlisting>
+
       <para>
         or by accessing it through its static <literal>instance()</literal> method:
       </para>
 
       <programlisting><![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]></programlisting>
-      
+
       <para>
-        The following table describes each of the methods that the <literal>IdentityManager</literal> provides:
+        The following table describes each of the methods that <literal>IdentityManager</literal> provides:
       </para>
-      
+
       <table>
         <title>Identity Management API</title>
-    
+
         <tgroup cols="2">
           <colspec colnum="1" colwidth="1*" />
           <colspec colnum="2" colwidth="3*" />
-          
+
           <thead>
             <row>
               <entry align="center">
@@ -1719,106 +1719,106 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
               </entry>
               <entry align="center">
                 <para>Returns</para>
-              </entry>              
+              </entry>
               <entry align="center">
                 <para>Description</para>
               </entry>
             </row>
-          </thead>        
-    
+          </thead>
+
           <tbody>
-    
+
             <row>
               <entry>
                 <para>
                   <literal>createAccount(String name, String password)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Creates a new user account, with the specified name and password.  Returns <literal>true</literal>
                   if successful, or <literal>false</literal> if not.
                 </para>
               </entry>
-            </row>      
-            
+            </row>
+
             <row>
               <entry>
                 <para>
                   <literal>deleteAccount(String name)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Deletes the user account with the specified name.  Returns <literal>true</literal>
                   if successful, or <literal>false</literal> if not.
                 </para>
               </entry>
-            </row>     
-            
+            </row>
+
             <row>
               <entry>
                 <para>
                   <literal>enableAccount(String name)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Enables the user account with the specified name.  Accounts that are not enabled are
-                  not able to authenticate.  Returns <literal>true</literal> if successful, or 
+                  not able to authenticate.  Returns <literal>true</literal> if successful, or
                   <literal>false</literal> if not.
                 </para>
               </entry>
-            </row> 
-            
+            </row>
+
             <row>
               <entry>
                 <para>
                   <literal>disableAccount(String name)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
-                  Disables the user account with the specified name.  Returns <literal>true</literal> if 
+                  Disables the user account with the specified name.  Returns <literal>true</literal> if
                   successful, or <literal>false</literal> if not.
                 </para>
               </entry>
-            </row>                   
+            </row>
 
             <row>
               <entry>
                 <para>
                   <literal>changePassword(String name, String password)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
-                  Changes the password for the user account with the specified name.  Returns 
+                  Changes the password for the user account with the specified name.  Returns
                   <literal>true</literal> if successful, or <literal>false</literal> if not.
                 </para>
               </entry>
@@ -1829,35 +1829,35 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                 <para>
                   <literal>isEnabled(String name)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
-                  Returns <literal>true</literal> if the specified user account is enabled, or 
+                  Returns <literal>true</literal> if the specified user account is enabled, or
                   <literal>false</literal> if it isn't.
                 </para>
               </entry>
-            </row>            
+            </row>
 
             <row>
               <entry>
                 <para>
                   <literal>grantRole(String name, String role)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Grants the specified role to the specified user account.  The role must already exist for it to
-                  be granted.  Returns <literal>true</literal> if the role is successfully granted, or 
+                  be granted.  Returns <literal>true</literal> if the role is successfully granted, or
                   <literal>false</literal> if it is already granted to the user.
                 </para>
               </entry>
@@ -1868,105 +1868,105 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                 <para>
                   <literal>revokeRole(String name, String role)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
-                  Revokes the specified role from the specified user account.  Returns <literal>true</literal> 
-                  if the specified user is a member of the role and it is successfully revoked, or 
+                  Revokes the specified role from the specified user account.  Returns <literal>true</literal>
+                  if the specified user is a member of the role and it is successfully revoked, or
                   <literal>false</literal> if the user is not a member of the role.
                 </para>
               </entry>
             </row>
-            
+
             <row>
               <entry>
                 <para>
                   <literal>accountExists(String name)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Returns <literal>true</literal> if the specified user exists, or <literal>false</literal>
                   if it doesn't.
                 </para>
               </entry>
-            </row>  
-            
+            </row>
+
             <row>
               <entry>
                 <para>
                   <literal>listUsers()</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>List</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Returns a list of all user names, sorted in alpha-numeric order.
                 </para>
               </entry>
-            </row>    
-            
+            </row>
+
             <row>
               <entry>
                 <para>
                   <literal>listUsers(String filter)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>List</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Returns a list of all user names filtered by the specified filter parameter, sorted in alpha-numeric order.
                 </para>
               </entry>
-            </row>         
-            
+            </row>
+
             <row>
               <entry>
                 <para>
                   <literal>listRoles()</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>List</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Returns a list of all role names.
                 </para>
               </entry>
-            </row>  
-            
+            </row>
+
             <row>
               <entry>
                 <para>
                   <literal>getGrantedRoles(String name)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>List</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Returns a list of the names of all the roles explicitly granted to the specified user name.
@@ -1979,12 +1979,12 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                 <para>
                   <literal>getImpliedRoles(String name)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>List</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Returns a list of the names of all the roles implicitly granted to the specified user name.
@@ -2002,12 +2002,12 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                 <para>
                   <literal>authenticate(String name, String password)</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   <literal>boolean</literal>
                 </para>
-              </entry>    
+              </entry>
               <entry>
                 <para>
                   Authenticates the specified username and password using the configured Identity Store.  Returns
@@ -2017,25 +2017,282 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                   <literal>Identity.login()</literal> must be used instead.
                 </para>
               </entry>
-            </row>  
-                                            
+            </row>
+
           </tbody>
         </tgroup>
       </table>
-      
+
+      <para>
+        Using the Identity Management API requires that the calling user has the appropriate authorization to invoke
+        its methods.  The following table describes the permission requirements for each of the methods in
+        <literal>IdentityManager</literal>.
+      </para>
+
+      <table>
+        <title>Identity Management Security Permissions</title>
+
+        <tgroup cols="2">
+          <colspec colnum="1" colwidth="1*" />
+          <colspec colnum="2" colwidth="3*" />
+
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Method</para>
+              </entry>
+              <entry align="center">
+                <para>Permission Name</para>
+              </entry>
+              <entry align="center">
+                <para>Permission Action</para>
+              </entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <literal>createAccount()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>create</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>deleteAccount()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>delete</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>enableAccount()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>update</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>disableAccount()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>update</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>changePassword()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>update</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>isEnabled()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>read</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>grantRole()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>update</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>revokeRole()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>update</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>accountExists()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>read</literal>
+                </para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para>
+                  <literal>listUsers()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>read</literal>
+                </para>
+              </entry>
+            </row>
+
+          </tbody>
+        </tgroup>
+      </table>
+
+      <para>
+        The following code listing provides an example set of security rules that grants access to all
+        Identity Management-related methods to members of the <literal>admin</literal> role:
+      </para>
+
+      <programlisting><![CDATA[rule CreateAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "seam.account", action == "create", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
+rule ReadAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "seam.account", action == "read", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
+rule UpdateAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "seam.account", action == "update", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
+rule DeleteAccount
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "seam.account", action == "delete", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end]]></programlisting>
+
     </sect2>
-    
+
     <sect2>
       <title>Seam-gen and Identity Management</title>
-      
+
       <para>
-        When creating a new project using seam-gen (see <xref linkend="gettingstarted"/>), by default the 
+        When creating a new project using seam-gen (see <xref linkend="gettingstarted"/>), by default the
         <literal>IdentityManager</literal> will be configured with a <literal>JPAIdentityStore</literal>
         and a <literal>UserAccount</literal> implementation will be generated as part of the new project.
         In addition to this, the project will include the following user management screens, allowing
         new users to be created, roles assigned, etc:
       </para>
-      
+
       <mediaobject>
         <imageobject role="fo">
           <imagedata fileref="images/security-usermanager1.png" align="center"/>
@@ -2044,11 +2301,11 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
           <imagedata fileref="../shared/images/security-usermanager1.png" align="center"/>
         </imageobject>
       </mediaobject>
-      
+
       <para>
         The user detail screen:
       </para>
-      
+
       <mediaobject>
         <imageobject role="fo">
           <imagedata fileref="images/security-usermanager2.png" align="center"/>
@@ -2056,9 +2313,9 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
         <imageobject role="html">
           <imagedata fileref="../shared/images/security-usermanager2.png" align="center"/>
         </imageobject>
-      </mediaobject>            
-      
-      
+      </mediaobject>
+
+
     </sect2>
 
   </sect1>
