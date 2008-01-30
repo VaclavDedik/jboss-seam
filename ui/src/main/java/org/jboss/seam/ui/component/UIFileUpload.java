@@ -106,7 +106,22 @@ public abstract class UIFileUpload extends UIInput
 
    public void setLocalFileName(String localFileName)
    {
-      this.localFileName = localFileName;
+      this.localFileName = extractFilename(localFileName);
+   }
+   
+   /**
+    * Workaround for IE, which includes the full path to the file.
+    */
+   private String extractFilename(String filename)
+   {
+      if (filename != null && filename.lastIndexOf("\\") > -1)
+      {
+         return filename.substring(filename.lastIndexOf("\\") + 1);
+      }
+      else
+      {
+         return filename;
+      }
    }
 
    public Integer getLocalFileSize()
