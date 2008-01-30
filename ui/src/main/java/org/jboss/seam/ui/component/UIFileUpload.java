@@ -30,6 +30,33 @@ public abstract class UIFileUpload extends UIInput
       ValueExpression dataBinding = getValueExpression("data");
       if (dataBinding != null)
       {
+         if (getLocalContentType() != null)
+         {
+            ValueExpression valueExpression = getValueExpression("contentType");
+            if (valueExpression != null) 
+            {
+               valueExpression.setValue(context.getELContext(), getLocalContentType());
+            }
+         }
+
+         if (getLocalFileName() != null)
+         {
+            ValueExpression valueExpression = getValueExpression("fileName");
+            if (valueExpression != null)
+            {
+               valueExpression.setValue(context.getELContext(), getLocalFileName());
+            }
+         }
+
+         if (getLocalFileSize() != null)
+         {
+            ValueExpression valueExpression = getValueExpression("fileSize");
+            if (valueExpression != null)
+            {
+               valueExpression.setValue(context.getELContext(), getLocalFileSize());
+            }
+         }         
+         
          Class clazz = dataBinding.getType(context.getELContext());
          if (clazz.isAssignableFrom(InputStream.class))
          {
@@ -58,33 +85,6 @@ public abstract class UIFileUpload extends UIInput
                }
             }
             dataBinding.setValue(context.getELContext(), bytes);
-         }
-         
-         if (getLocalContentType() != null)
-         {
-            ValueExpression valueExpression = getValueExpression("contentType");
-            if (valueExpression != null) 
-            {
-               valueExpression.setValue(context.getELContext(), getLocalContentType());
-            }
-         }
-
-         if (getLocalFileName() != null)
-         {
-            ValueExpression valueExpression = getValueExpression("fileName");
-            if (valueExpression != null)
-            {
-               valueExpression.setValue(context.getELContext(), getLocalFileName());
-            }
-         }
-
-         if (getLocalFileSize() != null)
-         {
-            ValueExpression valueExpression = getValueExpression("fileSize");
-            if (valueExpression != null)
-            {
-               valueExpression.setValue(context.getELContext(), getLocalFileSize());
-            }
          }
       }    
    }
