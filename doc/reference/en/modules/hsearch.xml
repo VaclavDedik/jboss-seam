@@ -34,9 +34,9 @@
     <filename>META-INF/persistence.xml</filename> or
     <filename>hibernate.cfg.xml</filename> file.</para>
 
-    <para>Hibernate Search configuration has sensible defaults for most
-    configuration parameters, Here is a description of the minimal
-    configuration to get started.</para>
+	<para>Hibernate Search configuration has sensible defaults for most
+	configuration parameters. Here is a minimal persistence unit configuration
+	to get started.</para>
 
     <programlisting>   &lt;persistence-unit name="sample"&gt;
       &lt;jta-data-source&gt;java:/DefaultDS&lt;/jta-data-source&gt;
@@ -150,7 +150,8 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
     <para>If the Java Persistence API is used, a smoother integration is
     proposed.</para>
 
-    <programlisting>@Name("search")
+    <programlisting>@Stateful
+@Name("search")
 public class FullTextSearchAction implements FullTextSearch, Serializable
 {   
    @In
@@ -174,8 +175,8 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
     same way <classname>FullTextSession</classname> extends
     <classname>Session</classname>.</para>
 
-    <para>When an EJB 3.0 Session or Message Driven Bean injection is used (ie
-    Bean using @PersistenceContext), it is not possible to replace the
+    <para>When an EJB 3.0 Session or Message Driven Bean injection is used (i.e.
+    via the @PersistenceContext annotation), it is not possible to replace the
     <classname>EntityManager</classname> interface by the
     <classname>FullTextEntityManager</classname> interface in the declaration
     statement. However, the implementation injected will be a
