@@ -155,21 +155,20 @@ public class Exceptions
             String className = exception.attributeValue("class");
             boolean logEnabled = exception.attributeValue("log") != null ? 
                   Boolean.valueOf(exception.attributeValue("log")) : true;
-            LogLevel logLevel = null;
+            LogLevel logLevel = LogLevel.error;
             try
             {
                logLevel = exception.attributeValue("logLevel") != null ?
                      LogLevel.valueOf(exception.attributeValue("logLevel")) : null;
             }
             catch (IllegalArgumentException ex)
-            {
-               logLevel = LogLevel.debug;
+            { 
                StringBuilder sb = new StringBuilder();
                sb.append("Exception handler");
                if (className != null) sb.append(" for class " + className);
                sb.append(" is configured with an invalid logLevel.  Acceptable " +
                          "values are: fatal,error,warn,info,debug,trace. " +
-                         "A default level of debug has been configured instead.");               
+                         "A default level of 'error' has been configured instead.");               
                log.warn(sb.toString());
             }
             
