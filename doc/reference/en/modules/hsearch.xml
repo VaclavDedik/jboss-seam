@@ -5,23 +5,26 @@
   <section>
     <title>Introduction</title>
 
-    <para>Full text search engines like Apache Lucene™ are a very powerful
-    technology to bring free text/efficient queries to applications. If
-    suffers several mismatches when dealing with an object domain model
-    (keeping the index up to date, mismatch between the index structure and
-    the domain model, querying mismatch...) Hibernate Search indexes your
-    domain model thanks to a few annotations, takes care of the database /
-    index synchronization and brings you back regular managed objects from
-    free text queries. Hibernate Search is using Apache Lucene under the
-    cover.</para>
+	<para>Full text search engines like Apache Lucene™ are a very powerful
+	technology that bring full text and efficient queries to applications.
+	Hibernate Search, which uses Apache Lucene under the covers, indexes your
+	domain model with the addition of a few annotations, takes care of the
+	database / index synchronization and returns regular managed objects that
+	are matched by full text queries. Keep in mind, thought, that there are
+	mismatches that arise when dealing with an object domain model over a text
+	index (keeping the index up to date, mismatch between the index structure
+	and the domain model, and querying mismatch). But the benefits of speed
+	and efficiency far outweigh these limitations.</para>
 
     <para>Hibernate Search has been designed to integrates nicely and as
     naturally as possible with JPA and Hibernate. As a natural extension,
     JBoss Seam provides an Hibernate Search integration.</para>
 
-    <para>Please refer to the <ulink url="???">Hibernate Search
-    documentation</ulink> for information specific to the Hibernate Search
-    project.</para>
+	<para>Please refer to the <ulink
+	url="http://www.hibernate.org/hib_docs/search/reference/en/html_single/">Hibernate
+	Search documentation</ulink> for information specific to the Hibernate
+	Search project.</para>
+
   </section>
 
   <section>
