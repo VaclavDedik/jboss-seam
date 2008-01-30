@@ -117,7 +117,6 @@ public class SeamPhaseListener implements PhaseListener
       }
       catch (Exception e)
       {
-         log.error("uncaught exception", e);
          try
          {
             Exceptions.instance().handle(e);

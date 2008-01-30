@@ -1,6 +1,7 @@
 package org.jboss.seam.exception;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
+import static org.jboss.seam.exception.ExceptionHandler.LogLevel;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -73,6 +74,31 @@ public class Exceptions
                   Contexts.getConversationContext().set("org.jboss.seam.handledException", cause);
                }
                eh.handle(cause);
+               
+               if (eh.isLogEnabled() && eh.getLogLevel() != null)
+               {
+                  switch (eh.getLogLevel())
+                  {
+                     case fatal: 
+                        log.fatal("uncaught exception", e);
+                        break;
+                     case error:
+                        log.error("uncaught exception", e);
+                        break;
+                     case warn:
+                        log.warn("uncaught exception", e);
+                        break;
+                     case info:
+                        log.info("uncaught exception", e);
+                        break;
+                     case debug: 
+                        log.debug("uncaught exception", e);
+                        break;
+                     case trace:
+                        log.trace("uncaught exception", e);                        
+                  }
+               }
+               
                Events.instance().raiseEvent("org.jboss.seam.exceptionHandled." + cause.getClass().getName(), cause);
                Events.instance().raiseEvent("org.jboss.seam.exceptionHandled", cause);
                return;
@@ -127,21 +153,48 @@ public class Exceptions
          for (final Element exception: elements)
          {
             String className = exception.attributeValue("class");
+            boolean logEnabled = exception.attributeValue("log") != null ? 
+                  Boolean.valueOf(exception.attributeValue("log")) : true;
+            LogLevel logLevel = null;
+            try
+            {
+               logLevel = exception.attributeValue("logLevel") != null ?
+                     LogLevel.valueOf(exception.attributeValue("logLevel")) : null;
+            }
+            catch (IllegalArgumentException ex)
+            {
+               logLevel = LogLevel.debug;
+               StringBuilder sb = new StringBuilder();
+               sb.append("Exception handler");
+               if (className != null) sb.append(" for class " + className);
+               sb.append(" is configured with an invalid logLevel.  Acceptable " +
+                         "values are: fatal,error,warn,info,debug,trace. " +
+                         "A default level of debug has been configured instead.");               
+               log.warn(sb.toString());
+            }
+            
             if (className==null)
             {
                anyhandler = createHandler(exception, Exception.class);
+               anyhandler.setLogEnabled(logEnabled);
+               anyhandler.setLogLevel(logLevel);
             }
             else
             {
                 ExceptionHandler handler = null;
 
                 try { 
-                    handler = createHandler(exception, Reflections.classForName(className));       
+                    handler = createHandler(exception, 
+                          Reflections.classForName(className));
+                    handler.setLogEnabled(logEnabled);
+                    handler.setLogLevel(logLevel);
                 } catch (ClassNotFoundException e) {
                     log.error("Can't find exception class for exception handler", e);
                 }
                if (handler!=null) exceptionHandlers.add(handler);
             }
+            
+            
          }
       }
       return anyhandler;
@@ -161,7 +214,8 @@ public class Exceptions
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   Pages.getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         return new ConfigRedirectHandler(Expressions.instance().createValueExpression(viewId, String.class), clazz, endConversation, message, severity);
+         return new ConfigRedirectHandler(Expressions.instance().createValueExpression(
+               viewId, String.class), clazz, endConversation, message, severity);
       }
       
       Element error = exception.element("http-error");
