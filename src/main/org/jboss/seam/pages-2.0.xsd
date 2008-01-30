@@ -33,6 +33,8 @@
     </xs:element>
     <xs:attributeGroup name="attlist.exception">
         <xs:attribute name="class"/>
+        <xs:attribute name="log"/>
+        <xs:attribute name="logLevel"/>
     </xs:attributeGroup>
     <xs:element name="conversation">
         <xs:complexType>
