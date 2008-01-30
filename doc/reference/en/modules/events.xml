@@ -985,6 +985,44 @@ throw new AuthorizationException("You are not allowed to do this!");
            was actually handled by an exception handler. The outermost (wrapper) exception is 
            also available, as <literal>org.jboss.seam.exception</literal>.
          </para>
+         
+         <sect3>
+             <title>Suppressing exception logging</title>
+             
+             <para>
+                 For the exception handlers defined in <literal>pages.xml</literal>, it is possible
+                 to declare the logging level at which the exception will be logged, or to even
+                 suppress the exception being logged altogether.  The attributes <literal>log</literal>
+                 and <literal>logLevel</literal> can be used to control exception logging.  By setting 
+                 <literal>log="false"</literal> as per the following example, then no log message will
+                 be generated when the specified exception occurs:
+             </para>
+             
+             <programlisting><![CDATA[    <exception class="org.jboss.seam.security.NotLoggedInException" log="false">
+        <redirect view-id="/register.xhtml">
+            <message severity="warn">You must be a member to use this feature</message>
+        </redirect>
+    </exception>]]></programlisting>
+    
+             <para>
+                 If the <literal>log</literal> attribute is not specified, then it defaults to <literal>true</literal>
+                 (i.e. the exception will be logged).  Alternatively, you can specify the <literal>logLevel</literal>
+                 to control at which log level the exception will be logged:             
+             </para>
+
+             <programlisting><![CDATA[    <exception class="org.jboss.seam.security.NotLoggedInException" logLevel="info">
+        <redirect view-id="/register.xhtml">
+            <message severity="warn">You must be a member to use this feature</message>
+        </redirect>
+    </exception>]]></programlisting>
+    
+              <para>
+                  The acceptable values for <literal>logLevel</literal> are: <literal>fatal, error, warn, info, debug</literal> 
+                  or <literal>trace</literal>.  If the <literal>logLevel</literal> is not specified, or if an invalid value is
+                  configured, then it will default to <literal>error</literal>.              
+              </para>
+         
+         </sect3>
 
         </sect2>
         
