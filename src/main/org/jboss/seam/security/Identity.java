@@ -180,10 +180,7 @@ public class Identity implements Serializable
       if ( !evaluateExpression(expr) )
       {
          if ( !isLoggedIn() )
-         {
-//          TODO - Deprecated, remove for next major release
-            if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");            
-            
+         {           
             if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             log.debug(String.format(
                "Error evaluating expression [%s] - User not logged in", expr));
@@ -208,9 +205,6 @@ public class Identity implements Serializable
             log.debug("Login successful for: " + getUsername());
          }
 
-//       TODO - Deprecated, remove for next major release
-         if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.loginSuccessful");
-         
          if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
          return "loggedIn";
       }
@@ -270,9 +264,6 @@ public class Identity implements Serializable
       unAuthenticate();
       preAuthenticationRoles.clear();
       
-      // TODO - Deprecated, remove for next major release
-      if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.preAuthenticate");      
-      
       if (Events.exists()) Events.instance().raiseEvent(EVENT_PRE_AUTHENTICATE);
    }   
    
@@ -302,9 +293,6 @@ public class Identity implements Serializable
       
       password = null;
 
-      // TODO - Deprecated, remove for next major release
-      if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.postAuthenticate");
-      
       if (Events.exists()) Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE, this);
    }
    
@@ -344,10 +332,7 @@ public class Identity implements Serializable
       principal = null;
       unAuthenticate();
       Session.instance().invalidate();
-      if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGGED_OUT);
-      
-      // TODO - Deprecated, remove for next major release
-      if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.loggedOut");      
+      if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGGED_OUT);      
    }
 
    /**
@@ -443,10 +428,7 @@ public class Identity implements Serializable
       if ( !hasRole(role) )
       {
          if ( !isLoggedIn() )
-         {
-            // TODO - Deprecated, remove for next major release
-            if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
-            
+         {           
             if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             throw new NotLoggedInException();
          }
@@ -475,9 +457,6 @@ public class Identity implements Serializable
       {
          if ( !isLoggedIn() )
          {
-//          TODO - Deprecated, remove for next major release
-            if (Events.exists()) Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");            
-            
             if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
             throw new NotLoggedInException();
          }
