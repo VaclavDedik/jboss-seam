@@ -99,11 +99,9 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     }
 
     @Override
-    protected void checkPersistPermissions() {
+    public boolean isPersistAllowed(WikiComment node, WikiNode parent) {
         getLog().trace("checking comment persist permissions");
-        if (!Identity.instance().hasPermission("Comment", "create", documentHome.getInstance()) ) {
-            throw new AuthorizationException("You don't have permission for this operation");
-        }
+        return Identity.instance().hasPermission("Comment", "create", documentHome.getInstance());
     }
 
     /* -------------------------- Custom CUD ------------------------------ */
@@ -165,9 +163,9 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     }
 
     protected String getEditorWorkspaceDescription(boolean create) {
-        return "Foo";
+        return null;
     }
-    
+
     /* -------------------------- Internal Methods ------------------------------ */
 
     protected void endConversation() {

@@ -239,10 +239,12 @@ public class FeedServlet extends HttpServlet {
             throw new RuntimeException(ex);
         }
 
+        /* TODO: This breaks stuff...
         // If the user is not logged in, we might as well destroy the session immediately, saving some memory
         if (!Identity.instance().isLoggedIn()) {
             Session.instance().invalidate();
         }
+        */
     }
 
     public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {

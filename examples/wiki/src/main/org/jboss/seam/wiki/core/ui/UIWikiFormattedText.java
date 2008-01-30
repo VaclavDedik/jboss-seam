@@ -155,12 +155,9 @@ public class UIWikiFormattedText extends UIOutput {
                 } else {
                     // Thumbnail with link display
 
-                    // I have no idea why this needs HTML entities for the & symbol -
-                    // Firefox complains about invalid XML if an & is in an attribute
-                    // value!
                     //TODO: Make sure we really don't need this - but it messes up the comment form conversation:
                     // String thumbnailUrl = WikiUtil.renderURL(image) + "&amp;thumbnail=true&amp;cid=" + Conversation.instance().getId();
-                    String thumbnailUrl = WikiUtil.renderURL(image) + "&amp;thumbnail=true";
+                    String thumbnailUrl = WikiUtil.renderURL(image) + "?thumbnail=true";
 
                     return "<a href=\""
                             + (link.isBroken() ? link.getUrl() : WikiUtil.renderURL(image))

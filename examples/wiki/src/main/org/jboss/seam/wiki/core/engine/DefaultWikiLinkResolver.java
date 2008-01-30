@@ -128,9 +128,9 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
 
         log.debug("trying to resolve link text: " + linkText);
 
-        Matcher wikiProtocolMatcher = Pattern.compile(REGEX_WIKI_PROTOCOL).matcher(linkText);
-        Matcher knownProtocolMatcher = Pattern.compile(REGEX_KNOWN_PROTOCOL).matcher(linkText);
-        Matcher customProtocolMatcher = Pattern.compile(REGEX_CUSTOM_PROTOCOL).matcher(linkText);
+        Matcher wikiProtocolMatcher = Pattern.compile(REGEX_WIKI_PROTOCOL).matcher(linkText.trim());
+        Matcher knownProtocolMatcher = Pattern.compile(REGEX_KNOWN_PROTOCOL).matcher(linkText.trim());
+        Matcher customProtocolMatcher = Pattern.compile(REGEX_CUSTOM_PROTOCOL).matcher(linkText.trim());
 
         WikiLink wikiLink;
 

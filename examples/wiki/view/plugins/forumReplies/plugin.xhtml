@@ -28,7 +28,7 @@
 
         <s:div id="forumPostingControls" styleClass="forumPostingControls">
 
-            <h:panelGroup rendered="#{not replyHome.showForm and replyHome.hasReplyPermission()}">
+            <h:panelGroup rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
 
                 <s:link tabindex="1"
                         action="#{replyHome.replyToDocument()}"
@@ -113,7 +113,7 @@
 
                         <s:fragment>
 
-                            <s:fragment rendered="#{not replyHome.showForm and replyHome.hasReplyPermission()}">
+                            <s:fragment rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
 
                                 <s:link tabindex="102"
                                         action="#{replyHome.replyTo()}"

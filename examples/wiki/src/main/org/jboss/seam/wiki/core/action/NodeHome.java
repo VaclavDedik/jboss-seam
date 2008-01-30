@@ -95,7 +95,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         // Set workspace description of the current conversation
         String desc = getEditorWorkspaceDescription(getNodeId() == null);
         WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
-        if (desc.length() > prefs.getWorkspaceSwitcherDescriptionLength()) {
+        if (desc != null && desc.length() > prefs.getWorkspaceSwitcherDescriptionLength()) {
             desc = desc.substring(0, prefs.getWorkspaceSwitcherDescriptionLength().intValue()) + "...";
         }
         Conversation.instance().setDescription(desc);
@@ -149,7 +149,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getLog().debug("initalized with parent node: " + parentNode);
 
         // Check write access level of the parent node, if the user wants to create a new node
-        if (!Identity.instance().hasPermission("Node", "create", parentNode) )
+        if (!isPersistAllowed(node, parentNode))
             throw new AuthorizationException("You don't have permission for this operation");
 
         // Default to same access permissions as parent node
@@ -185,7 +185,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     public N beforeNodeEditFound(N node) {
 
         // Check write access level of the node the user wants to edit
-        if (!Identity.instance().hasPermission("Node", "edit", node) )
+        if (!isUpdateAllowed(node, null))
             throw new AuthorizationException("You don't have permission for this operation");
 
         writeAccessLevel = getAccessLevelsList().get(
@@ -348,23 +348,19 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
     protected void checkPersistPermissions() {
         getLog().trace("checking persist permissions");
-        if (!Identity.instance().hasPermission("Node", "create", getParentNode()) )
-            throw new AuthorizationException("You don't have permission for this operation");
-        if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()))
+        if (!isPersistAllowed(getInstance(), getParentNode()))
             throw new AuthorizationException("You don't have permission for this operation");
     }
 
     protected void checkUpdatePermissions() {
         getLog().trace("checking update permissions");
-        if (!Identity.instance().hasPermission("Node", "edit", getInstance()) )
-            throw new AuthorizationException("You don't have permission for this operation");
-        if (!Identity.instance().hasPermission("Node", "changeAccessLevel", getInstance()))
+        if (!isUpdateAllowed(getInstance(), getParentNode()))
             throw new AuthorizationException("You don't have permission for this operation");
     }
 
     protected void checkRemovePermissions() {
         getLog().trace("checking remove permissions");
-        if (!Identity.instance().hasPermission("Node", "edit", getInstance()) )
+        if (!isRemoveAllowed(getInstance(), getParentNode()))
             throw new AuthorizationException("You don't have permission for this operation");
     }
 
@@ -375,6 +371,18 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
                 "'{0}' has been moved into the trash.",
                 getInstance().getName()
         );
+    }
+
+    public boolean isPersistAllowed(N node, P parent) {
+        return Identity.instance().hasPermission("Node", "create", parent);
+    }
+
+    public boolean isUpdateAllowed(N node, P parent) {
+        return Identity.instance().hasPermission("Node", "edit", node);
+    }
+
+    public boolean isRemoveAllowed(N node, P parent) {
+        return Identity.instance().hasPermission("Node", "edit", node);
     }
 
     /* -------------------------- Optional Subclass Callbacks ------------------------------ */
@@ -412,6 +420,12 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
      */
     protected abstract NodeRemover getNodeRemover();
 
+    /**
+     * Description (i18n) of workspace switcher item.
+     *
+     * @param create true if editor is initialized to create an item, false if it's used to update an item.
+     * @return String description of workspace switcher item or <tt>null</tt> if no workspace switcher item should be shown.
+     */
     protected abstract String getEditorWorkspaceDescription(boolean create);
 
     /* -------------------------- Public Features ------------------------------ */

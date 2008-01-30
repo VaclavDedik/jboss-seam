@@ -324,8 +324,8 @@ public class WikiUtil {
     }
 
     public static boolean isRegularUser(User user) {
-        return !(user.getUsername().equals(User.ADMIN_USERNAME) ||
-                 user.getUsername().equals(User.GUEST_USERNAME));
+        return user != null &&
+               !(user.getUsername().equals(User.ADMIN_USERNAME) || user.getUsername().equals(User.GUEST_USERNAME));
     }
 
     /**

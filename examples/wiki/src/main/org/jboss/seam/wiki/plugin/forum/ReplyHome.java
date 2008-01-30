@@ -4,10 +4,11 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.action.CommentHome;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.model.WikiComment;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
@@ -64,17 +65,12 @@ public class ReplyHome extends CommentHome {
         return "redirectToDocument";
     }
 
-    /* Forum replies require write permissions on the forum directory */
-    public boolean hasReplyPermission() {
+    @Override
+    public boolean isPersistAllowed(WikiComment node, WikiNode parent) {
+        /* Forum replies require write permissions on the forum directory */
         Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
         return Identity.instance().hasPermission("Comment", "create", documentHome.getInstance())
                 && (documentHome.getParentNode().getWriteAccessLevel() <= currentAccessLevel);
-    }
-
-    protected void checkPersistPermissions() {
-        if (!hasReplyPermission()) {
-            throw new AuthorizationException("You don't have permission for this operation");
-        }
     }
 
     protected String getFeedEntryManagerName() {

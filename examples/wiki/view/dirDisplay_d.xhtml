@@ -230,7 +230,7 @@
     </s:div>
 
     <h:panelGrid columns="5" rendered="#{childNodesList.size > 0 and directoryHome.pager.numOfRecords > directoryHome.pager.pageSize}"
-                 styleClass="pager"
+                 styleClass="pager pagerTop"
                  columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
                  cellpadding="0" cellspacing="0" border="0">
 
@@ -287,10 +287,10 @@
                  headerClass="regularHeader rightBorder alignCenter"
                  columnClasses="onePercentColumn rightBorder alignCenter, onePercentColumn rightBorder alignCenter,
                                 defaultColumn rightBorder alignLeft wrapWhitespace,
-                                twentyPercentColumn rightBorder alignLeft wrapWhitespace,
                                 fifteenPercentColumn rightBorder alignLeft wrapWhitespace,
-                                fifteenPercentColumn rightBorder alignLeft wrapWhitespace,
-                                fifteenPercentColumn rightBorder alignCenter wrapWhitespace"
+                                tenPercentColumn rightBorder alignLeft wrapWhitespace,
+                                tenPercentColumn rightBorder alignLeft wrapWhitespace,
+                                twentyPercentColumn rightBorder alignCenter wrapWhitespace"
                  rowClasses="rowOdd,rowEven"
                  cellpadding="0" cellspacing="0" border="0">
         <h:column>
@@ -483,14 +483,14 @@
             <f:facet name="header">
                 <h:outputText value="#{messages['lacewiki.label.dirDisplay.ReadAccess']}"/>
             </f:facet>
-            <h:outputText value="#{wiki:truncateString(wiki:resolveAccessLevel(node.readAccessLevel).roleNames, 20, '...')}"/>
+            <h:outputText value="#{wiki:truncateString(wiki:resolveAccessLevel(node.readAccessLevel).roleNames, 15, '...')}"/>
         </h:column>
 
         <h:column>
             <f:facet name="header">
                 <h:outputText value="#{messages['lacewiki.label.dirDisplay.WriteAccess']}"/>
             </f:facet>
-            <h:outputText value="#{wiki:truncateString(wiki:resolveAccessLevel(node.writeAccessLevel).roleNames, 20, '...')}"/>
+            <h:outputText value="#{wiki:truncateString(wiki:resolveAccessLevel(node.writeAccessLevel).roleNames, 15, '...')}"/>
         </h:column>
 
         <h:column rendered="#{!empty node.lastModifiedOn and !empty node.lastModifiedBy}">
@@ -515,6 +515,57 @@
         </h:column>
 
     </h:dataTable>
+
+    <h:panelGrid columns="5" rendered="#{childNodesList.size > 0 and directoryHome.pager.numOfRecords > directoryHome.pager.pageSize}"
+                 styleClass="pager pagerBottom"
+                 columnClasses="pagerIconColumn,pagerIconColumn,pagerTextColumn,pagerIconColumn,pagerIconColumn"
+                 cellpadding="0" cellspacing="0" border="0">
+
+
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
+                rendered="#{directoryHome.pager.previousPageAvailable}">
+            <f:param name="page" value="0"/>
+            <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.first.gif" width="13" height="11"/>
+        </s:link>
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!directoryHome.pager.previousPageAvailable}"/>
+
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
+                rendered="#{directoryHome.pager.previousPageAvailable}">
+            <f:param name="page" value="#{directoryHome.pager.previousPage}"/>
+            <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.previous.gif" width="13" height="11"/>
+        </s:link>
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!directoryHome.pager.previousPageAvailable}"/>
+
+        <s:span>
+            <h:outputText value="#{messages['lacewiki.label.dirDisplay.PagerShowing']}
+                                    #{directoryHome.pager.firstRecord} #{messages['lacewiki.label.dirDisplay.PagerTo']}
+                                    #{directoryHome.pager.lastRecord} #{messages['lacewiki.label.dirDisplay.PagerOf']}
+                                    #{directoryHome.pager.numOfRecords} #{messages['lacewiki.label.dirDisplay.PagerElements']}"/>
+        </s:span>
+
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
+                rendered="#{directoryHome.pager.nextPageAvailable}">
+            <f:param name="page" value="#{directoryHome.pager.nextPage}"/>
+            <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.next.gif" width="13" height="11"/>
+        </s:link>
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!directoryHome.pager.nextPageAvailable}"/>
+
+        <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" target="_top"
+                rendered="#{directoryHome.pager.nextPageAvailable}">
+            <f:param name="page" value="#{directoryHome.pager.lastPage}"/>
+            <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
+            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.last.gif" width="13" height="11"/>
+        </s:link>
+        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+                        rendered="#{!directoryHome.pager.nextPageAvailable}"/>
+
+    </h:panelGrid>
 
 </div>
 
