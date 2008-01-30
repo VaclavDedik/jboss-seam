@@ -858,9 +858,9 @@ Seam.Remoting.unmarshalValue = function(element, refs)
 Seam.Remoting.deserializeDate = function(val)
 {
   var dte = new Date();
-  dte.setFullYear(parseInt(val.substring(0,4), 10));
-  dte.setMonth(parseInt(val.substring(4,6), 10) - 1);
-  dte.setDate(parseInt(val.substring(6,8), 10));
+  dte.setFullYear(parseInt(val.substring(0,4), 10),
+                  parseInt(val.substring(4,6), 10) - 1,
+                  parseInt(val.substring(6,8), 10));
   dte.setHours(parseInt(val.substring(8,10), 10));
   dte.setMinutes(parseInt(val.substring(10,12), 10));
   dte.setSeconds(parseInt(val.substring(12,14), 10));
