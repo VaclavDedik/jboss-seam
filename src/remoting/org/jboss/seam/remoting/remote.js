@@ -739,7 +739,7 @@ Seam.Remoting.processResult = function(result, context)
 
     var value = Seam.Remoting.unmarshalValue(valueNode.firstChild, refs);
 
-    call.callback(value, context);
+    call.callback(value, context, callId);
   }
 }
 
