@@ -305,6 +305,7 @@ public class Identity implements Serializable
    {      
       principal = null;
       subject = new Subject();
+      username = null;
    }
 
    protected LoginContext getLoginContext() throws LoginException
