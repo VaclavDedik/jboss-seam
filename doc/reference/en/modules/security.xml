@@ -1465,6 +1465,46 @@ public class HitchhikersCaptcha extends Captcha
     </table>
 
   </sect1>
+  
+  <sect1>
+    <title>Run As</title>
+    
+    <para>
+        Sometimes it may be necessary to perform certain operations with elevated privileges, such
+        as creating a new user account as an unauthenticated user.  Seam Security supports such a
+        mechanism via the <literal>RunAsOperation</literal> class.  This class allows either the
+        <literal>Principal</literal> or <literal>Subject</literal>, or the user's roles to be
+        overridden for a single set of operations.
+    </para>
+    
+    <para>
+      The following code example demonstrates how <literal>RunAsOperation</literal> is used, by
+      overriding its <literal>getRoles()</literal> method to specify a set of roles to masquerade
+      as for the duration of the operation.  The <literal>execute()</literal> method contains the
+      code that will be executed with the elevated privileges.
+    </para>
+    
+    <programlisting><![CDATA[    new RunAsOperation() {
+       @Override
+       public String[] getRoles() {
+          return new String[] { "admin" };
+       }
+       
+       public void execute() {
+          identityManager.createAccount(username, password);
+          identityManager.grantRole(username, "user");            
+       }         
+    }.run();]]></programlisting>
+    
+    <para>
+        In a similar way, the <literal>getPrincipal()</literal> or <literal>getSubject()</literal>
+        methods can also be overriden to specify the <literal>Principal</literal> and 
+        <literal>Subject</literal> instances to use for the duration of the operation.
+        Finally, the <literal>run()</literal> method is used to carry out the 
+        <literal>RunAsOperation</literal>.
+    </para>
+
+  </sect1>
 
   <sect1>
     <title>Extending the Identity component</title>
@@ -1669,6 +1709,40 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
         Please note that this is a required parameter, and must always be specified when using the
         <literal>JPAIdentityStore</literal>.
       </para>
+      
+      <sect3>
+        <title>Password hashing</title>
+        
+        <para>
+            The <literal>JPAIdentityStore</literal> stores a salted hash of the user's password, using the username
+            as the source material for salt generation.  This guarantees that two users with the same password will
+            still have different password hashes.  The method for generating a password hash is listed here for
+            convenience - it may be useful for generating password hashes for inclusion in DML scripts, etc:
+        </para>
+        
+        <programlisting><![CDATA[
+   public String hashPassword(String password, String saltPhrase)
+   {
+      try {
+         MessageDigest md = MessageDigest.getInstance("MD5");
+         
+         md.update(saltPhrase.getBytes());
+         byte[] salt = md.digest();
+         
+         md.reset();
+         md.update(password.getBytes("UTF-8"));
+         md.update(salt);
+         
+         byte[] raw = md.digest();
+         
+         return new String(Hex.encodeHex(raw));
+     } 
+     catch (Exception e) {
+         throw new RuntimeException(e);        
+     }      
+   }         
+        ]]></programlisting>
+      </sect3>
 
     </sect2>
 
