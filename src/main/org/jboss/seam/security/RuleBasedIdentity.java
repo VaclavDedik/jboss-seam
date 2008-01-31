@@ -179,7 +179,7 @@ public class RuleBasedIdentity extends Identity
    
    @SuppressWarnings("unchecked")
    @Override   
-   protected void unAuthenticate()
+   public void unAuthenticate()
    {
       StatefulSession securityContext = getSecurityContext();
       
