@@ -255,6 +255,8 @@ public class Identity implements Serializable
       }
       finally
       {
+         // Set password to null whether authentication is successful or not
+         password = null;         
          authenticating = false;
       }
    }
@@ -290,8 +292,6 @@ public class Identity implements Serializable
          }
          preAuthenticationRoles.clear();
       }
-      
-      password = null;
 
       if (Events.exists()) Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE, this);
    }

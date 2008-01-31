@@ -114,6 +114,9 @@ public class AuthenticationFilter extends AbstractFilter
       HttpServletRequest httpRequest = (HttpServletRequest) request;
       HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+      // Force session creation
+      httpRequest.getSession();
+      
       if (AUTH_TYPE_BASIC.equals(authType))
          processBasicAuth(httpRequest, httpResponse, chain);
       else if (AUTH_TYPE_DIGEST.equals(authType))
@@ -155,7 +158,7 @@ public class AuthenticationFilter extends AbstractFilter
          }         
       }
       
-      if (!identity.isLoggedIn() && !identity.isCredentialsSet())
+      if (!requireAuth && !identity.isLoggedIn() && !identity.isCredentialsSet())
       {
          requireAuth = true;
       }
@@ -184,7 +187,8 @@ public class AuthenticationFilter extends AbstractFilter
             HttpServletResponse response, FilterChain chain)
       throws IOException, ServletException
    {
-      Identity identity = (Identity) request.getSession().getAttribute( Seam.getComponentName(Identity.class) );
+      Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
+      Identity identity = (Identity) ctx.get(Identity.class);
       
       boolean requireAuth = false;    
       boolean nonceExpired = false;
