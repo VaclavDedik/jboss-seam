@@ -41,7 +41,9 @@ public class DocumentData
         return disposition;
     }
 
-    static public class DocumentType {
+    static public class DocumentType 
+        implements Serializable
+    {
         private String mimeType;
         private String extension;
 
