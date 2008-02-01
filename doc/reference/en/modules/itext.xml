@@ -48,7 +48,6 @@
                                     <emphasis>Attributes</emphasis>
                                 </para>
 
-
                                 <itemizedlist>
                                     <listitem>
                                         <para>
@@ -1466,19 +1465,9 @@
             <para> The default implementation serves PDF documents from a generic URL,
                 <literal>/seam-doc.seam</literal>. Many browsers (and users) would prefer to see URLs that contain the
                 actual PDF name like <literal>/myDocument.pdf</literal>. This capability requires some configuration. To
-                serve PDF files, all *.pdf resources should be mapped to the Seam Servlet Filter and to the
-                DocumentStoreServlet:</para>
+                serve PDF files, all *.pdf resources should be mapped to the DocumentStoreServlet:</para>
 
-            <programlisting>&lt;filter&gt;
-    &lt;filter-name&gt;Seam Servlet Filter&lt;/filter-name&gt;
-    &lt;filter-class&gt;org.jboss.seam.servlet.SeamServletFilter&lt;/filter-class&gt;
-&lt;/filter&gt;
-
-&lt;filter-mapping&gt;
-    &lt;filter-name&gt;Seam Servlet Filter&lt;/filter-name&gt;
-    &lt;url-pattern&gt;*.pdf&lt;/url-pattern&gt;
-&lt;/filter-mapping&gt;
-
+            <programlisting>
 &lt;servlet&gt;
     &lt;servlet-name&gt;Document Store Servlet&lt;/servlet-name&gt;
     &lt;servlet-class&gt;org.jboss.seam.pdf.DocumentStoreServlet&lt;/servlet-class&gt;
