@@ -78,7 +78,7 @@ public class UIStroke
     }
     
     public int joinValue(String join) {
-        if (cap == null || cap.equalsIgnoreCase("mite")) {
+        if (cap == null || cap.equalsIgnoreCase("miter")) {
             return BasicStroke.JOIN_MITER;
         } else if (cap.equalsIgnoreCase("round")) {
             return BasicStroke.JOIN_ROUND;
