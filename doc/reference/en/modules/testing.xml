@@ -380,7 +380,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
                           <literal>jboss-embedded-api</literal>
                        </entry>
                        <entry>
-                          <literal>lib/test/jboss-embedded-api.jar</literal>
+                          <literal>lib/jboss-embedded-api.jar</literal>
                        </entry>
                     </row>
                     <row>
