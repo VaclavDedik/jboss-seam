@@ -301,11 +301,18 @@ public class Identity implements Serializable
     * group from the user's subject.
     *
     */
-   public void unAuthenticate()
+   protected void unAuthenticate()
    {      
       principal = null;
-      subject = new Subject();
-      username = null;
+      
+      for ( Group sg : getSubject().getPrincipals(Group.class) )      
+      {
+         if ( ROLES_GROUP.equals( sg.getName() ) )
+         {
+            getSubject().getPrincipals().remove(sg);
+            break;
+         }
+      }
    }
 
    protected LoginContext getLoginContext() throws LoginException
