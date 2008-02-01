@@ -21,6 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.seam.Seam;
 import org.jboss.seam.contexts.Context;
@@ -43,6 +44,7 @@ import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.persistence.PersistenceContexts;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.web.ServletContexts;
 
 /**
  * Manages the Seam contexts associated with a JSF request
@@ -134,6 +136,7 @@ public class SeamPhaseListener implements PhaseListener
       if ( event.getPhaseId() == RESTORE_VIEW )
       {
          beforeRestoreView( event.getFacesContext() );
+         ServletContexts.instance().setRequest((HttpServletRequest) event.getFacesContext().getExternalContext().getRequest());
       }
       
       handleTransactionsBeforePhase(event);         
