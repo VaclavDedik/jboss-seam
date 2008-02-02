@@ -27,6 +27,11 @@ public class InterpolatorTest
         Assert.assertEquals("There are no files.", interpolator.interpolate(CHOICE_EXPR, 0));
         Assert.assertEquals("There is one file.", interpolator.interpolate(CHOICE_EXPR, 1));
         Assert.assertEquals("There are 2 files.", interpolator.interpolate(CHOICE_EXPR, 2));
+
+        // test sequences of multiple #
+        Assert.assertEquals("2", interpolator.interpolate("#0",2));
+        Assert.assertEquals("#2", interpolator.interpolate("##0",2));
+        Assert.assertEquals("##2", interpolator.interpolate("###0",2));
         
         Date date = new Date(0);
                 
