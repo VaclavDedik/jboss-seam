@@ -1882,7 +1882,9 @@ public class Component extends Model
             if ( !component.isInstance(result) )
             {
                if ( component.hasUnwrapMethod() ) return result; ///best way???
-               throw new IllegalArgumentException( "value of context variable is not an instance of the component bound to the context variable: " + name );
+               throw new IllegalArgumentException( "value of context variable is not an instance of the component bound to the context variable: " + name  +
+                        ". If you are using hot deploy, you may have attempted to hot deploy a session or " +
+                        "application-scoped component definition while using an old instance in the session.");
             }
             result = component.unwrap(result);
          }
