@@ -12,39 +12,37 @@
 <ui:define name="body">
     
     <rich:panel>
-    <f:facet name="header">Discs</f:facet>
-    	<tr:panelPartialRoot>
-	    	<tr:form>
-		    	<tr:table value="#{discs.dataModel}" var="disc" rows="#{discs.maxResults}">
-		    		<tr:column sortable="true" sortProperty="disc.name">
-		    			<f:facet name="header">
-		    				Name
-		    			</f:facet>
-		    			<s:link action="disc">
-		    				<tr:outputText value="#{disc.name}" />
-		    				<f:param name="discId" value="#{disc.id}" />
-		    			</s:link>
-		    		</tr:column>
-		    		<tr:column>
-		    			<f:facet name="header">
-		    				Artist
-		    			</f:facet>
-		    			<tr:outputText value="#{disc.artist.name}" />
-		    		</tr:column>
-		    		<f:facet name="detailStamp">
-		    			<s:div style="width: 200px">
-			    			<s:formattedText value="#{disc.description}" rendered="#{not empty disc.description}"  />
-			    			<tr:outputText value="None known" rendered="#{empty disc.description}" />
-			    		</s:div>
-		    		</f:facet>
-		    	</tr:table>
-		    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
-			    	<s:button action="disc" value="Add disc">
-			    		<f:param name="discId" value="" />
-		    		</s:button>
-			    </tr:panelButtonBar>
-	    	</tr:form>
-    	</tr:panelPartialRoot>
+   		<f:facet name="header">Discs</f:facet>
+    	<tr:form>
+	    	<tr:table value="#{discs.dataModel}" var="disc" rows="#{discs.maxResults}">
+	    		<tr:column sortable="true" sortProperty="disc.name">
+	    			<f:facet name="header">
+	    				Name
+	    			</f:facet>
+	    			<s:link action="disc">
+	    				<tr:outputText value="#{disc.name}" />
+	    				<f:param name="discId" value="#{disc.id}" />
+	    			</s:link>
+	    		</tr:column>
+	    		<tr:column>
+	    			<f:facet name="header">
+	    				Artist
+	    			</f:facet>
+	    			<tr:outputText value="#{disc.artist.name}" />
+	    		</tr:column>
+	    		<f:facet name="detailStamp">
+	    			<s:div style="width: 200px">
+		    			<s:formattedText value="#{disc.description}" rendered="#{not empty disc.description}"  />
+		    			<tr:outputText value="None known" rendered="#{empty disc.description}" />
+		    		</s:div>
+	    		</f:facet>
+	    	</tr:table>
+	    	<tr:panelButtonBar rendered="#{identity.loggedIn}">
+		    	<s:button action="disc" value="Add disc">
+		    		<f:param name="discId" value="" />
+	    		</s:button>
+		    </tr:panelButtonBar>
+    	</tr:form>
     </rich:panel>
     
 </ui:define> 
