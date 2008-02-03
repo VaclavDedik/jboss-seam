@@ -155,6 +155,12 @@
 		<installExample name="${name}"/>
 	</target>
 	
+	<target name="dependencyReport" depends="initpoms" description="Produce a dependency tree for the given module">
+		<fail unless="module" message="Must specify module e.g. core"/>
+		<maven target="-f poms/${module}.pom dependency:tree" basedir="${tmp.dir}">
+		</maven>
+	</target>
+	
 	<macrodef name="offline">
 		<attribute name="pom" />
 		<attribute name="repository" />
