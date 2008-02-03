@@ -15,8 +15,11 @@
     </para>
     
     <para>
-      Up to date version information is not included in the docs, but is provided 
-      in the <literal>/build/root.pom.xml</literal> Maven POM.  
+      Up to date version information and complete dependency information is not 
+      included in the docs, but is provided in the 
+      <literal>/dependency-report.txt</literal> which is generated from the 
+      Maven POMs stored in <literal>/build</literal>. You can generate this file
+      by running <literal>ant dependencyReport</literal>.
     </para>
     
     <section>

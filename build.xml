@@ -531,7 +531,7 @@
 		</copy>
 	</target>
 
-	<target name="extras">
+	<target name="extras" depends="dependencyReport">
 		<copy file="readme.txt" todir="${dist.dir}" />
 		<copy file="lgpl.txt" todir="${dist.dir}" />
 		<copy file="changelog.txt" todir="${dist.dir}" />
@@ -552,6 +552,7 @@
 				<![CDATA[${name}-${TODAY}]]>
 			</replacevalue>
 		</replace>
+		<copy file="dependency-report.txt" todir="${dist.dir}" />
 	</target>
 
 

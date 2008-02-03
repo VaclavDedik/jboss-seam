@@ -157,8 +157,12 @@
 	
 	<target name="dependencyReport" depends="initpoms" description="Produce a dependency tree for the given module">
 		<fail unless="module" message="Must specify module e.g. core"/>
-		<maven target="-f poms/${module}.pom dependency:tree" basedir="${tmp.dir}">
-		</maven>
+		<dependencyReport module="${module}" />
+		<echo>Dependency Tree for ${module}</echo>
+	    <echo>-----------------------------</echo>
+		<concat>
+			<fileset file="${tmp.dir}/poms/${module}-dependency-report.txt"/>
+		</concat>
 	</target>
 	
 	<macrodef name="offline">
