@@ -457,6 +457,60 @@ public class MockPaymentProcessor extends PaymentProcessor {
            </para>
            
          </section>
+         
+        <section>
+           <title>Using SeamTest with another test framework</title>
+         
+           <para>
+              Seam provides TestNG support out of the box, but you can also use
+              another test framework, such as JUnit, if you want.
+           </para>
+           
+           <para>
+              You'll need to provide an implementation of 
+              <literal>AbstractSeamTest</literal> which does the following:
+           </para>
+           
+           <itemizedlist>
+              <listitem>
+                 <para>
+                    Calls <literal>super.begin()</literal> before every test
+                    method.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.end()</literal> after every test
+                    method.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.setupClass()</literal> to setup 
+                    integration test environment. This should be called before
+                    any test methods are called.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.cleanupClass()</literal> to clean up
+                    the integration test environment.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.startSeam()</literal> to start Seam at
+                    the start of integration testing.
+                 </para>
+              </listitem>
+              <listitem>
+                 <para>
+                    Calls <literal>super.stopSeam()</literal> to cleanly shut
+                    down Seam at the end of integration testing.
+                 </para>
+              </listitem>
+           </itemizedlist>
+        </section>
         
         <section>
           <title>Integration Testing with Mock Data</title>
