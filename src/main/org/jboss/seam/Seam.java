@@ -19,6 +19,8 @@ import javax.persistence.Entity;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.faces.Converter;
+import org.jboss.seam.annotations.faces.Validator;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -62,6 +64,13 @@ public class Seam
    {
        return clazz.isAnnotationPresent(Scope.class) ?
                clazz.getAnnotation(Scope.class).value() :
+               getDefaultComponentScope(clazz);
+   }
+   
+   public static ScopeType getDefaultComponentScope(Class<?> clazz)
+   {
+       return ( clazz.isAnnotationPresent(Validator.class) || clazz.isAnnotationPresent(Converter.class) ) ?
+               ScopeType.STATELESS :
                getComponentType(clazz).getDefaultScope();
    }
    
