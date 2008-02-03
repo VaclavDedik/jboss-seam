@@ -90,6 +90,23 @@ public class WikiUtil {
         return a + b;
     }
 
+    public static String padInteger(Integer raw, int padding) {
+        String rawInteger = raw.toString();
+        StringBuilder paddedInteger = new StringBuilder( );
+        for ( int padIndex = rawInteger.length() ; padIndex < padding; padIndex++ ) {
+            paddedInteger.append('0');
+        }
+        return paddedInteger.append( rawInteger ).toString();
+    }
+
+    public static String dateAsString(Integer year, Integer month, Integer day) {
+        StringBuilder dateUrl = new StringBuilder();
+        if (year != null) dateUrl.append("/Year/").append(year);
+        if (month != null) dateUrl.append("/Month/").append(WikiUtil.padInteger(month, 2));
+        if (day != null) dateUrl.append("/Day/").append(WikiUtil.padInteger(day, 2));
+        return dateUrl.toString();
+    }
+
     // Display all roles for a particular access level
     public static Role.AccessLevel resolveAccessLevel(Integer accessLevel) {
         List<Role.AccessLevel> accessLevels = (List<Role.AccessLevel>)Component.getInstance("accessLevelsList");
@@ -119,9 +136,7 @@ public class WikiUtil {
         StringBuilder url = new StringBuilder();
         url.append(Component.getInstance("basePath")).append("/service/Feed/atom").append(feed.getURL());
         if (comments != null && comments.length() >0) {
-            try {
-                url.append("/Comments/").append(FeedServlet.Comments.valueOf(comments));
-            } catch (IllegalArgumentException ex) {}
+            url.append("/Comments/").append(FeedServlet.Comments.valueOf(comments));
         }
         if (tag != null && tag.length() >0) url.append("/Tag/").append(encodeURL(tag));
         return url.toString();

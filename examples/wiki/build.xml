@@ -155,7 +155,6 @@
                 deprecation="${javac.deprecation}"
                      nowarn="${javac.nowarn}">
             <src path="${src.java.dir}"/>
-            <exclude name="org/jboss/seam/wiki/plugin/blogdirectory/**"/>
         </javac>
 
         <!-- Copy resources (mapping files, properties, etc.) to classes -->

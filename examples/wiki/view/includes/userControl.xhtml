@@ -131,6 +131,7 @@
         <h:outputText styleClass="label" value="(#{currentUser.fullname})"/>
 
         <s:link styleClass="link" action="#{authenticator.logout}" tabindex="70"
+                propagation="none"
                 accesskey="#{messages['lacewiki.button.userControl.Logout.accesskey']}">
             <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Logout']}"/>
         </s:link>

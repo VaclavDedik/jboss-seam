@@ -166,7 +166,8 @@
     <s:div id="documentDisplayContainer"
            rendered="#{not empty documentHistory.displayedHistoricalFile}"
            styleClass="box">
-        <s:div rendered="#{documentHistory.displayedHistoricalFile.name != documentHistory.currentFile.name}">
+        <s:div styleClass="diffChangedName"
+               rendered="#{documentHistory.displayedHistoricalFile.name != documentHistory.currentFile.name}">
             <h:outputText value="Revision document name: #{documentHistory.displayedHistoricalFile.name}"/>
             <hr/>
         </s:div>

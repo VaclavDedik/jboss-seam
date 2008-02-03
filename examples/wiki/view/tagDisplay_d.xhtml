@@ -51,7 +51,8 @@
             </s:span>
 
             <s:span rendered="#{file.isInstance('WikiUpload') and s:hasPermission('Node', 'edit', file)}">
-                <s:link id="editFile" value="#{wiki:truncateString(file.name, 30, '...')}" tabindex="2" view="/uploadEdit_#{skin}.xhtml">
+                <s:link id="editFile" value="#{wiki:truncateString(file.name, 30, '...')}" propagation="none"
+                        tabindex="2" view="/uploadEdit_#{skin}.xhtml">
                     <f:param name="uploadId" value="#{file.id}"/>
                     <f:param name="parentDirectoryId" value="#{file.parent.id}"/>
                 </s:link>
@@ -71,7 +72,7 @@
             </f:facet>
             <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.dir.gif"
                             width="18" height="20" style="vertical-align: middle; margin-right: 5px;"/>
-            <s:link value="#{wiki:truncateString(file.parent.name, 20, '...')}"
+            <s:link value="#{wiki:truncateString(file.parent.name, 20, '...')}" propagation="none"
                     view="/dirDisplay_#{skin}.xhtml"
                     rendered="#{s:hasPermission('Node','read',file.parent)}" tabindex="1">
                 <f:param name="directoryId" value="#{file.parent.id}"/>

@@ -1,170 +1,214 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.WikiNode;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
-import org.hibernate.transform.Transformers;
-import org.hibernate.transform.AliasToBeanResultTransformer;
+import org.hibernate.transform.ResultTransformer;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.action.Pager;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.ArrayList;
 
+/**
+ * @author Christian Bauer
+ */
 @Name("blogDAO")
 @AutoCreate
 public class BlogDAO {
 
     @In
-    protected EntityManager restrictedEntityManager;
+    EntityManager restrictedEntityManager;
+
+    @In
+    Integer currentAccessLevel;
+
+    // Too bad, but we really need a SQL query here... better use SQL queries for ALL queries in this DAO and generalize things
+    private String[] getWikiDocumentSQLColumnNames() {
+        return new String[]{
+            "doc2.NODE_ID",
+            "doc2.OBJ_VERSION", "doc2.PARENT_NODE_ID", "doc2.RATING",
+            "doc2.AREA_NR", "doc2.NAME", "doc2.WIKINAME", "doc2.CREATED_BY_USER_ID", "doc2.CREATED_ON", "doc2.WRITE_PROTECTED",
+            "doc2.LAST_MODIFIED_BY_USER_ID", "doc2.LAST_MODIFIED_ON", "doc2.READ_ACCESS_LEVEL", "doc2.WRITE_ACCESS_LEVEL",
+            "doc1.FILE_REVISION",
+            "doc.NAME_AS_TITLE", "doc.ENABLE_COMMENTS", "doc.ENABLE_COMMENT_FORM", "doc.ENABLE_COMMENTS_ON_FEEDS",
+            "doc.HEADER", "doc.HEADER_MACROS", "doc.CONTENT", "doc.CONTENT_MACROS", "doc.FOOTER", "doc.FOOTER_MACROS"
+        };
+    }
+
+    private String getblogEntryFromClause(String tag) {
+        StringBuilder clause = new StringBuilder();
+        clause.append("from WIKI_DOCUMENT doc").append(" ");
+        clause.append("inner join WIKI_FILE doc1 on doc.NODE_ID=doc1.NODE_ID").append(" ");
+        clause.append("inner join WIKI_NODE doc2 on doc.NODE_ID=doc2.NODE_ID").append(" ");
+        if (tag != null && tag.length() > 0) clause.append("inner join WIKI_TAG t on t.FILE_ID = doc1.NODE_ID").append(" ");
+        return clause.toString();
+    }
+
+    private String getBlogEntryWhereClause(WikiDocument ignoreDoc, Integer year, Integer month, Integer day, String tag) {
+        StringBuilder clause = new StringBuilder();
+        clause.append("where doc2.PARENT_NODE_ID in").append(" (");
+        clause.append("select distinct dir1.NODE_ID from WIKI_DIRECTORY dir1, WIKI_DIRECTORY dir2").append(" ");
+        clause.append("where dir1.NS_THREAD = dir2.NS_THREAD").append(" ");
+        clause.append("and dir1.NS_LEFT between dir2.NS_LEFT and dir2.NS_RIGHT").append(" ");
+        clause.append("and dir2.NS_THREAD=:nsThread and dir2.NS_LEFT>=:nsLeft and dir2.NS_RIGHT<=:nsRight");
+        clause.append(") ");
+        clause.append("and doc.HEADER_MACROS like '%blogEntry%'").append(" ");
+        clause.append("and doc2.READ_ACCESS_LEVEL <= :currentAccessLevel").append(" ");
+        if (ignoreDoc != null && ignoreDoc.getId() != null) clause.append("and doc.NODE_ID<>:ignoreDoc").append(" ");
+        if (tag != null && tag.length()>0)                  clause.append("and t.TAG = :tag").append(" ");
+        if (year != null)   clause.append("and year(doc2.CREATED_ON) = :limitYear").append(" ");
+        if (month != null)  clause.append("and month(doc2.CREATED_ON) = :limitMonth").append(" ");
+        if (day != null)    clause.append("and day(doc2.CREATED_ON) = :limitDay").append(" ");
+        return clause.toString();
+    }
+
+    private void bindBlogEntryWhereClause(Query query, WikiDirectory startDir, WikiDocument ignoreDoc,
+                                          Integer year, Integer month, Integer day, String tag) {
+        query.setParameter("nsThread", startDir.getNodeInfo().getNsThread());
+        query.setParameter("nsLeft", startDir.getNodeInfo().getNsLeft());
+        query.setParameter("nsRight", startDir.getNodeInfo().getNsRight());
+        query.setParameter("currentAccessLevel", currentAccessLevel);
+
+        if (ignoreDoc != null && ignoreDoc.getId() != null) query.setParameter("ignoreDoc", ignoreDoc);
+        if (tag != null && tag.length()>0)                  query.setParameter("tag", tag);
+        if (year != null)   query.setParameter("limitYear", year);
+        if (month != null)  query.setParameter("limitMonth", month);
+        if (day != null)    query.setParameter("limitDay", day);
+    }
 
     public List<BlogEntry> findBlogEntriesWithCommentCount(WikiDirectory startDir,
                                                            WikiDocument ignoreDoc,
-                                                           String orderByProperty,
-                                                           boolean orderDescending,
-                                                           long firstResult,
-                                                           long maxResults,
+                                                           Pager pager,
                                                            Integer year,
                                                            Integer month,
                                                            Integer day,
-                                                           final String tag) {
+                                                           String tag) {
 
         StringBuilder queryString = new StringBuilder();
 
-        queryString.append("select d as entryDocument").append(", ");
-        queryString.append("(select count(c) from WikiComment c where c.file  = d) as commentCount").append(" ");
+        queryString.append("select").append(" ");
+        for (int i = 0; i < getWikiDocumentSQLColumnNames().length; i++) {
+            queryString.append(getWikiDocumentSQLColumnNames()[i]);
+            if (i != getWikiDocumentSQLColumnNames().length-1) queryString.append(", ");
+        }
+        queryString.append(", count(c3.NODE_ID) as COMMENT_COUNT").append(" ");
+        queryString.append(getblogEntryFromClause(tag));
+        queryString.append("left outer join WIKI_NODE c1 on doc.NODE_ID = c1.PARENT_NODE_ID").append(" ");
+        queryString.append("left outer join WIKI_COMMENT c2 on c1.NODE_ID = c2.NODE_ID").append(" ");
+        queryString.append("left outer join WIKI_COMMENT c3 on c2.NS_THREAD = c3.NS_THREAD").append(" ");
+        queryString.append(getBlogEntryWhereClause(ignoreDoc, year, month, day, tag));
 
-        queryString.append("from WikiDocument d fetch all properties where d.parent.id in").append(" ");
-        queryString.append("(");
-        queryString.append("select d1.id from ").append(startDir.getTreeSuperclassEntityName()).append(" d1, ");
-        queryString.append(startDir.getTreeSuperclassEntityName()).append(" d2 ");
-        queryString.append("where d1.nsThread = :thread and d2.nsThread = :thread").append(" ");
-        queryString.append("and d1.nsLeft between d2.nsLeft and d2.nsRight").append(" ");
-        queryString.append("and d2.nsLeft >= :startLeft and d2.nsRight <= :startRight").append(" ");
-        queryString.append(")");
+        queryString.append("group by").append(" ");
+        for (int i = 0; i < getWikiDocumentSQLColumnNames().length; i++) {
+            queryString.append(getWikiDocumentSQLColumnNames()[i]);
+            if (i != getWikiDocumentSQLColumnNames().length-1) queryString.append(", ");
+        }
+        queryString.append(" ");
+        queryString.append("order by doc2.CREATED_ON desc");
 
-        if (ignoreDoc != null && ignoreDoc.getId() != null)
-            queryString.append("and not d = :ignoreDoc").append(" ");
+        SQLQuery query = getSession().createSQLQuery(queryString.toString());
 
-        queryString.append("and not d.macros like '%blogDirectory%'").append(" ");
-        queryString.append("and not d.macros like '%feedTeasers%'").append(" ");
+        bindBlogEntryWhereClause(query, startDir, ignoreDoc, year, month, day, tag);
 
-        if (year != null) queryString.append("and year(d.createdOn) = :limitYear").append(" ");
-        if (month != null) queryString.append("and month(d.createdOn) = :limitMonth").append(" ");
-        if (day != null) queryString.append("and day(d.createdOn) = :limitDay").append(" ");
-        if (tag != null && tag.length()>0) queryString.append("and d.tags like :tag").append(" ");
+        query.setComment("Finding all blogEntry documents recursively in dir: " + startDir.getName());
+        query.addEntity(WikiDocument.class);
+        query.addScalar("COMMENT_COUNT", Hibernate.LONG);
+        query.setFirstResult( pager.getQueryFirstResult() );
+        query.setMaxResults( pager.getQueryMaxResults() );
 
-        queryString.append("order by d.").append(orderByProperty).append(" ");
-        queryString.append( orderDescending ? "desc" : "asc").append("");
-
-        Query nestedSetQuery = getSession().createQuery(queryString.toString());
-        nestedSetQuery.setParameter("thread", startDir.getNsThread());
-        nestedSetQuery.setParameter("startLeft", startDir.getNsLeft());
-        nestedSetQuery.setParameter("startRight", startDir.getNsRight());
-        if (ignoreDoc != null && ignoreDoc.getId() != null)
-            nestedSetQuery.setParameter("ignoreDoc", ignoreDoc);
-
-        if (year != null) nestedSetQuery.setParameter("limitYear", year);
-        if (month != null) nestedSetQuery.setParameter("limitMonth", month);
-        if (day != null) nestedSetQuery.setParameter("limitDay", day);
-        if (tag != null && tag.length()>0) nestedSetQuery.setParameter("tag", "%" + tag + "%");
-
-        nestedSetQuery.setFirstResult( new Long(firstResult).intValue() );
-        nestedSetQuery.setMaxResults( new Long(maxResults).intValue() );
-        nestedSetQuery.setResultTransformer(
-            new AliasToBeanResultTransformer(BlogEntry.class) {
+        query.setResultTransformer(
+            new ResultTransformer() {
                 public Object transformTuple(Object[] result, String[] aliases) {
-                    WikiDocument doc = (WikiDocument)result[0];
-                    if (tag == null || doc.isTagged(tag)) {
-                        return super.transformTuple(result, aliases);
-                    }
-                    return null;
+                    BlogEntry be = new BlogEntry();
+                    be.setEntryDocument( (WikiDocument)result[0]);
+                    be.setCommentCount( (Long)result[1] );
+                    return be;
                 }
-                public List transformList(List list) {
-                    List listWithoutNulls = new ArrayList();
-                    for (Object o : super.transformList(list)) if (o != null) listWithoutNulls.add(o);
-                    return listWithoutNulls;
-                }
+                public List transformList(List list) { return list; }
             }
         );
 
-        return (List<BlogEntry>)nestedSetQuery.list();
+        return (List<BlogEntry>)query.list();
+
     }
 
-    public Long countBlogEntries(WikiNode startNode, WikiNode ignoreNode, Integer year, Integer month, Integer day, String tag) {
-        return countBlogEntries(startNode, ignoreNode, false, false, false, year, month, day, tag).get(0).getNumOfEntries();
+    public Long countBlogEntries(WikiDirectory startDir, WikiDocument ignoreDoc, Integer year, Integer month, Integer day, String tag) {
+        return countBlogEntries(startDir, ignoreDoc, false, false, false, year, month, day, tag).get(0).getNumOfEntries();
     }
 
-    public List<BlogEntryCount> countAllBlogEntriesGroupByYearMonth(WikiNode startNode, WikiNode ignoreNode, String tag) {
-        return countBlogEntries(startNode, ignoreNode, true, true, false, null, null, null, tag);
+    public List<BlogEntryCount> countAllBlogEntriesGroupByYearMonth(WikiDirectory startDir, WikiDocument ignoreDoc, String tag) {
+        return countBlogEntries(startDir, ignoreDoc, true, true, false, null, null, null, tag);
     }
 
-    private List<BlogEntryCount> countBlogEntries(WikiNode startNode, WikiNode ignoreNode,
-                                                 boolean projectYear, boolean projectMonth, boolean projectDay,
+    private List<BlogEntryCount> countBlogEntries(WikiDirectory startDir, WikiDocument ignoreDoc,
+                                                 final boolean projectYear, final boolean projectMonth, final boolean projectDay,
                                                  Integer limitYear, Integer limitMonth, Integer limitDay,
                                                  String tag) {
 
+        // Sanity input check
+        if (projectDay && (!projectMonth || !projectYear))
+            throw new IllegalArgumentException("Can't project on day without months or year");
+        if (projectMonth && !projectYear)
+            throw new IllegalArgumentException("Can't project on month without year");
+
         StringBuilder queryString = new StringBuilder();
 
-        queryString.append("select count(n1.id) as numOfEntries");
-
-        if (projectYear) queryString.append(", ").append("year(n1.createdOn) as year");
-        if (projectMonth) queryString.append(", ").append("month(n1.createdOn) as month");
-        if (projectDay) queryString.append(", ").append("day(n1.createdOn) as day");
-
+        queryString.append("select count(doc.NODE_ID) as NUM_OF_ENTRIES").append(" ");
+        if (projectYear) queryString.append(", ").append("year(doc2.CREATED_ON) as YEAR");
+        if (projectMonth) queryString.append(", ").append("month(doc2.CREATED_ON) as MONTH");
+        if (projectDay) queryString.append(", ").append("day(doc2.CREATED_ON) as DAY");
         queryString.append(" ");
-        /*
-        queryString.append("from ").append(startNode.getTreeSuperclassEntityName()).append(" n1, ");
-        queryString.append(startNode.getTreeSuperclassEntityName()).append(" n2 ");
-        */
-        queryString.append("where n1.nsThread = :thread and n2.nsThread = :thread").append(" ");
-        queryString.append("and n1.nsLeft between n2.nsLeft and n2.nsRight").append(" ");
-        queryString.append("and n2.nsLeft > :startLeft and n2.nsRight < :startRight").append(" ");
-        queryString.append("and n2.class = :clazz").append(" ");
-        queryString.append("and not n1.macros like '%blogDirectory%'").append(" ");
 
-        if (ignoreNode.getId() != null)
-            queryString.append("and not n1 = :ignoreNode").append(" ");
+        queryString.append(getblogEntryFromClause(tag));
+        queryString.append(getBlogEntryWhereClause(ignoreDoc, limitYear, limitMonth, limitDay, tag));
 
-        if (limitYear != null) queryString.append("and year(n1.createdOn) = :limitYear").append(" ");
-        if (limitMonth!= null) queryString.append("and month(n1.createdOn) = :limitMonth").append(" ");
-        if (limitDay != null) queryString.append("and day(n1.createdOn) = :limitDay").append(" ");
-
-        if (tag != null && tag.length()>0) queryString.append("and n1.tags like :tag").append(" ");
-
-        if (projectYear || projectMonth || projectDay)  queryString.append("group by").append(" ");
-        if (projectYear)    queryString.append("year(n1.createdOn)");
-        if (projectMonth)   queryString.append(", month(n1.createdOn)");
-        if (projectDay)     queryString.append(", day(n1.createdOn)");
-        queryString.append(" ");
+        if (projectYear || projectMonth || projectDay) queryString.append("group by").append(" ");
+        if (projectYear)    queryString.append("year(doc2.CREATED_ON)");
+        if (projectMonth)   queryString.append(", month(doc2.CREATED_ON)");
+        if (projectDay)     queryString.append(", day(doc2.CREATED_ON)");
 
         if (projectYear || projectMonth || projectDay) queryString.append("order by").append(" ");
-        if (projectYear)    queryString.append("year(n1.createdOn) desc");
-        if (projectMonth)   queryString.append(", month(n1.createdOn) desc");
-        if (projectDay)     queryString.append(", day(n1.createdOn) desc");
-        queryString.append(" ");
+        if (projectYear)    queryString.append("YEAR desc");
+        if (projectMonth)   queryString.append(", MONTH desc");
+        if (projectDay)     queryString.append(", DAY desc");
 
-        Query nestedSetQuery = getSession().createQuery(queryString.toString());
-        /*
-        nestedSetQuery.setParameter("thread", startNode.getNsThread());
-        nestedSetQuery.setParameter("startLeft", startNode.getNsLeft());
-        nestedSetQuery.setParameter("startRight", startNode.getNsRight());
-        */
-        nestedSetQuery.setParameter("clazz", "DOCUMENT"); // TODO: Hibernate can't bind the discriminator? Not even with Hibernate.CLASS type...
-        if (ignoreNode.getId() != null)
-            nestedSetQuery.setParameter("ignoreNode", ignoreNode);
-        if (limitYear != null) nestedSetQuery.setParameter("limitYear", limitYear);
-        if (limitMonth!= null) nestedSetQuery.setParameter("limitMonth", limitMonth);
-        if (limitDay != null) nestedSetQuery.setParameter("limitDay", limitDay);
-        if (tag != null && tag.length()>0) nestedSetQuery.setParameter("tag", "%" + tag + "%");
+        SQLQuery query = getSession().createSQLQuery(queryString.toString());
 
-        nestedSetQuery.setResultTransformer(Transformers.aliasToBean(BlogEntryCount.class));
+        bindBlogEntryWhereClause(query, startDir, ignoreDoc, limitYear, limitMonth, limitDay, tag);
 
-        return nestedSetQuery.list();
+        query.setComment("Finding blogEntry counts");
+        query.addScalar("NUM_OF_ENTRIES", Hibernate.LONG);
+        if (projectYear)    query.addScalar("YEAR", Hibernate.INTEGER);
+        if (projectMonth)   query.addScalar("MONTH", Hibernate.INTEGER);
+        if (projectDay)     query.addScalar("DAY", Hibernate.INTEGER);
+
+        query.setResultTransformer(
+            new ResultTransformer() {
+                public Object transformTuple(Object[] result, String[] aliases) {
+                    BlogEntryCount beCount = new BlogEntryCount();
+                    beCount.setNumOfEntries( (Long)result[0] );
+                    if (projectYear)    beCount.setYear( (Integer)result[1] );
+                    if (projectMonth)   beCount.setMonth( (Integer)result[2] );
+                    if (projectDay)     beCount.setDay( (Integer)result[3] );
+                    return beCount;
+                }
+                public List transformList(List list) { return list; }
+            }
+        );
+
+        return (List<BlogEntryCount>) query.list();
     }
 
     private Session getSession() {

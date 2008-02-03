@@ -87,6 +87,13 @@
 
     <page view-id="/dirDisplay*">
         <param name="directoryId" value="#{directoryHome.nodeId}"/>
+        <navigation>
+            <rule if-outcome="removed">
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{directoryHome.nodeId}"/>
+                </redirect>
+            </rule>
+        </navigation>
     </page>
 
     <page view-id="/dirEdit*" no-conversation-view-id="/wiki.xhtml">
@@ -355,13 +362,14 @@
         <http-error error-code="404"/>
     </exception>
 
-    <!-- TODO: This breaks unit tests...
     <exception>
+        <end-conversation/>
         <redirect view-id="/message.xhtml">
-            <message severity="ERROR">Exception: #{org.jboss.seam.exception.message}</message>
+            <message severity="ERROR">
+                #{messages['lacewiki.msg.FatalError']} (#{wikiInit.adminContact})
+            </message>
         </redirect>
     </exception>
-    -->
 
 </pages>
 

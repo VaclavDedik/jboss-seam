@@ -12,16 +12,17 @@
 
         <s:div styleClass="blogArchive">
 
-            <s:div styleClass="boxHeader" rendered="#{not preferences.get('Blog').archiveSubscribeIcon}">
+            <s:div styleClass="boxHeader" rendered="#{not preferences.get('Blog', currentMacro).archiveSubscribeIcon}">
                 <h:outputText rendered="#{empty param.tag}" value="#{messages['blogArchive.label.Archive']}"/>
                 <h:outputText rendered="#{not empty param.tag}" value="#{messages['blogArchive.label.Archive']} '#{param.tag}'"/>
             </s:div>
 
-            <h:panelGrid rendered="#{preferences.get('Blog').archiveSubscribeIcon}"
+            <h:panelGrid rendered="#{preferences.get('Blog', currentMacro).archiveSubscribeIcon}"
                          columns="2" cellpadding="0" cellspacing="0" border="0"
                          styleClass="boxHeader fullWidth">
 
-                <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
+                <h:panelGrid styleClass="smallFont" rendered="#{not empty currentDirectory.feed}" columns="2"
+                             cellpadding="2" cellspacing="0" border="0">
                     <h:outputLink value="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}">
                         <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
                     </h:outputLink>
@@ -31,14 +32,14 @@
                 </h:panelGrid>
 
                 <h:outputText rendered="#{empty param.tag}" value="#{messages['blogArchive.label.Archive']}"/>
-                <h:outputText rendered="#{not empty param.tag}" value="#{messages['blogArchive.label.Archive']} '#{blogDirectory.tag}'"/>
+                <h:outputText rendered="#{not empty param.tag}" value="#{messages['blogArchive.label.Archive']} '#{param.tag}'"/>
 
             </h:panelGrid>
 
             <div class="blogArchiveSelector boxContent">
                 <select id="blogArchiveCombo" class="blogArchiveCombo"
                         onchange="top.location.href = jQuery('#blogArchiveCombo')[0].options[jQuery('#blogArchiveCombo')[0].selectedIndex].value;">
-                    <option value="#{wiki:renderURL(currentDocument)}#{blogDirectory.tagUrl}">#{messages['blogArchive.label.AllEntries']} (#{blogDirectory.totalNumOfBlogEntries})</option>
+                    <option value="#{wiki:renderURL(currentDocument)}#{blogDirectory.tagUrl}">#{messages['blogArchive.label.AllEntries']} (#{blogDirectory.pager.numOfRecords})</option>
                     <ui:repeat var="beCount" value="#{blogDirectory.blogEntryCountsByYearAndMonth}">
                         <s:fragment rendered="#{blogDirectory.dateUrl != beCount.asString}">
                             <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}">

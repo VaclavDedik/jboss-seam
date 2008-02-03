@@ -1,49 +1,34 @@
 .blogEntryHeader {
-    border-top: 1px solid #87786e;
-    border-left: 1px solid #87786e;
-    border-right: 1px solid #87786e;
-    background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 
-.blogEntryHeader div {
+.blogEntryHeader .title {
+    text-align: left;
+    line-height: 200%;
+    font-size: 115%;
+}
+
+.blogEntryHeader .dateAuthor {
     text-align: right;
     white-space: nowrap;
     font-weight: normal;
-    padding-left: 15px;
-    padding-right: 15px;
     line-height: 100%;
-}
-
-.blogEntryCreatedOn {}
-.blogEntryCreatedOnText {}
-.blogEntryCreatedBy {}
-.blogEntryCreatedByLink {
-    color: #962325;
 }
 
 .blogEntryContent {
     padding-left: 15px;
     padding-right: 15px;
     line-height: 150%;
-    text-align:justify;
+    text-align: justify;
+}
+
+.blogEntryContent .wikiHeadline1 a,
+.blogEntryContent .wikiHeadline2 a,
+.blogEntryContent .wikiHeadline3 a,
+.blogEntryContent .wikiHeadline4 a {
+    color: black;
 }
 
 .blogEntryFooter {
-    background: white url(#{themePath}/img/th.bg.gif) 0 0 repeat-x;
-    border-bottom: 1px solid #87786e;
-    border-left: 1px solid #87786e;
-    border-right: 1px solid #87786e;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    padding-left: 15px;
-    padding-right: 15px;
-    font-weight: normal;
-    color: #962325;
-	text-decoration: none;
 }
 
 .blogEntryFooterTable {}

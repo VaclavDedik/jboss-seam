@@ -263,11 +263,12 @@
             // Noop for this skin
         }
 
-        jQuery(function() {
+        function initPage() {
             $.contextMenu.defaults({
                 shadow: false,
                 menuStyle: {
-                    padding: '0'
+                    padding: '0',
+                    width: '200px'
                 },
                 itemStyle: {
                     border: 'none',
@@ -279,6 +280,11 @@
                     padding: '4px'
                 }
             });
+            wrapBoxes();
+        }
+
+        jQuery(function() {
+            initPage();
         });
 
     </script>

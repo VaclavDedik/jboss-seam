@@ -18,5 +18,9 @@
                  http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.0.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd">
 
+    <component name="wikiInit" class="org.jboss.seam.wiki.WikiInit" precedence="30">
+        <property name="adminContact">christian.bauer@gmail.com</property>
+        <property name="debug">false</property>
+    </component>
 
 </components>

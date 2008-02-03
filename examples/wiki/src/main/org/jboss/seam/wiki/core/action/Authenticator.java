@@ -7,7 +7,6 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
@@ -39,9 +38,6 @@ public class Authenticator {
 
     @In
     private Hash hashUtil;
-
-    @In
-    private Identity identity;
 
     @In("#{preferences.get('UserManagement')}")
     UserManagementPreferences prefs;
@@ -75,7 +71,7 @@ public class Authenticator {
 
     public boolean authenticate() {
 
-        User user = getUserForCredentials(identity.getUsername(), identity.getPassword());
+        User user = getUserForCredentials(Identity.instance().getUsername(), Identity.instance().getPassword());
         if (user == null) return false;
 
         setRolesAndAccessLevels(user);

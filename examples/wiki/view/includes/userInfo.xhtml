@@ -12,7 +12,7 @@
 
         <div class="boxHeader">
             <h:outputText value="#{user.fullname}"/>
-            <s:div rendered="#{wiki:showEmailAddress()}">
+            <s:div styleClass="userInfoEmail smallFont" rendered="#{wiki:showEmailAddress()}">
                 <h:outputLink value="#{wiki:escapeEmailURL(wiki:concat('mailto:', user.email))}">
                     <h:outputText value="#{wiki:escapeAtSymbol(user.email)}"/>
                 </h:outputLink>

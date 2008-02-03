@@ -316,15 +316,16 @@ ul {
     padding-right: 10px;
 }
 
+.attentionMessage {
+	color: #600;
+}
+
 .attentionImage {
     vertical-align: text-top;
     padding-left: 10px;
     padding-right: 10px;
 }
 
-.attentionMessage {
-	color: #600;
-}
 
 .messageBox .attentionImage {
     vertical-align: text-top;
@@ -1218,15 +1219,6 @@ ul {
     font-size: 115%;
 }
 
-.boxHeader a {
-    color: #962325;
-    line-height: 100%;
-    margin-left: 5px;
-    font-size: 70%;
-}
-
-.boxHeader a:hover {color: #666}
-
 .boxContent {
     background-color: #fff;
     padding: 10px;
@@ -1347,6 +1339,7 @@ ul {
     margin-top: 20px;
 }
 
+.userInfoEmail {}
 
 .userInfoDetails {
     vertical-align: top;

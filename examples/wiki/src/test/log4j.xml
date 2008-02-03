@@ -34,7 +34,7 @@
     <!-- ############### Hibernate logging ################# -->
 
     <category name="org.hibernate">
-        <priority value="WARN"/>
+        <priority value="ERROR"/>
     </category>
 
     <!--

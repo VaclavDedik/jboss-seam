@@ -259,17 +259,15 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         String outcome = super.update();
         if (outcome != null) {
             Events.instance().raiseEvent("PreferenceEditor.flushAll");
-            Events.instance().raiseEvent("Nodes.menuStructureModified");
+            Events.instance().raiseEvent("Node.updated");
         }
         return outcome;
     }
 
     public boolean isRemovable() {
-        if (!isManaged()) return false;
-        if (getNodeRemover() != null) {
-            return getNodeRemover().isRemovable(getInstance());
-        }
-        return true;
+        return isManaged() &&
+                getNodeRemover() != null &&
+                getNodeRemover().isRemovable(getInstance());
     }
 
     @Override
@@ -282,7 +280,18 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getNodeRemover().removeDependencies(getInstance());
         String outcome = super.remove();
         if (outcome != null) {
-            Events.instance().raiseEvent("Nodes.menuStructureModified");
+            Events.instance().raiseEvent("Node.removed");
+        }
+        return outcome;
+    }
+
+    public String remove(Long nodeId) {
+        getLog().debug("requested node remove with id: " + nodeId);
+        setNodeId(nodeId);
+        initEditor();
+        String outcome = remove();
+        if (outcome != null) {
+            Events.instance().raiseEvent("Node.refreshList");
         }
         return outcome;
     }
@@ -298,6 +307,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getEntityManager().flush();
         trashedMessage();
 
+        Events.instance().raiseEvent("Node.removed");
         return "removed";
     }
 
@@ -347,19 +357,19 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     }
 
     protected void checkPersistPermissions() {
-        getLog().trace("checking persist permissions");
+        getLog().debug("checking persist permissions");
         if (!isPersistAllowed(getInstance(), getParentNode()))
             throw new AuthorizationException("You don't have permission for this operation");
     }
 
     protected void checkUpdatePermissions() {
-        getLog().trace("checking update permissions");
+        getLog().debug("checking update permissions");
         if (!isUpdateAllowed(getInstance(), getParentNode()))
             throw new AuthorizationException("You don't have permission for this operation");
     }
 
     protected void checkRemovePermissions() {
-        getLog().trace("checking remove permissions");
+        getLog().debug("checking remove permissions");
         if (!isRemoveAllowed(getInstance(), getParentNode()))
             throw new AuthorizationException("You don't have permission for this operation");
     }

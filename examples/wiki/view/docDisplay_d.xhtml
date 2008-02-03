@@ -29,7 +29,7 @@
 
         <s:link id="createDoc" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.CreateDocument.accesskey']}"
-                view="/docEdit_#{skin}.xhtml"
+                view="/docEdit_#{skin}.xhtml" propagation="none"
                 rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}">
             <h:outputText escape="false" value="#{messages['lacewiki.button.CreateDocument']}"/>
             <f:param name="documentId" value=""/>
@@ -38,14 +38,14 @@
 
         <s:link id="editDoc" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.EditDocument.accesskey']}"
-                view="/docEdit_#{skin}.xhtml"
+                view="/docEdit_#{skin}.xhtml" propagation="none"
                 rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}">
             <h:outputText escape="false" value="#{messages['lacewiki.button.EditDocument']}"/>
         </s:link>
 
         <s:link id="showHistory" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.HistoryDocument.accesskey']}"
-                view="/docHistory_#{skin}.xhtml"
+                view="/docHistory_#{skin}.xhtml" propagation="none"
                 rendered="#{documentHome.historicalFilesPresent}">
             <h:outputText escape="false" value="#{messages['lacewiki.button.HistoryDocument']}"/>
             <f:param name="fileId" value="#{documentHome.nodeId}"/>
@@ -53,7 +53,7 @@
 
         <s:link id="browseDir" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.BrowseDirectory.accesskey']}"
-                view="/dirDisplay_#{skin}.xhtml">
+                view="/dirDisplay_#{skin}.xhtml" propagation="none">
             <h:outputText escape="false" value="#{messages['lacewiki.button.BrowseDirectory']}"/>
             <f:param name="directoryId" value="#{documentHome.instance.parent.id}"/>
         </s:link>
@@ -124,7 +124,7 @@
             <s:div>
                 #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
                 <ui:repeat var="tag" value="#{documentHome.instance.tagsAsList}">
-                    <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}">
+                    <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}" propagation="none">
                         <f:param value="#{tag}" name="tag"/>
                     </s:link>
 
@@ -179,7 +179,7 @@
                         <h:outputText value="(#{messages['lacewiki.label.docDisplay.InitialRevision']})"/>
                     </s:fragment>
                     &#160;
-                    <s:link view="/docHistory_#{skin}.xhtml" action="#{documentHistory.diff}">
+                    <s:link view="/docHistory_#{skin}.xhtml" action="#{documentHistory.diff}" propagation="none">
                         <h:outputText value="#{messages['lacewiki.label.docDisplay.Diff']}"/>
                         <f:param name="fileId" value="#{documentHome.instance.id}"/>
                         <f:param name="historicalFileId" value="#{hfile.historicalFileId}"/>
@@ -207,14 +207,14 @@
 
                         <s:fragment rendered="#{not commentHome.showForm and s:hasPermission('Comment', 'create', documentHome.instance)}">
 
-                            <s:link tabindex="102"
+                            <s:link tabindex="102" propagation="none"
                                     action="#{commentHome.replyTo()}"
                                     styleClass="buttonNonpersistent">
                                 <f:param name="parentCommentId" value="#{c.id}"/>
                                 <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
                             </s:link>
 
-                            <s:link tabindex="102"
+                            <s:link tabindex="102" propagation="none"
                                     action="#{commentHome.quote()}"
                                     styleClass="buttonNonpersistent">
                                 <f:param name="parentCommentId" value="#{c.id}"/>

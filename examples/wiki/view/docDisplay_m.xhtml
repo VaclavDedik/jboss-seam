@@ -17,7 +17,8 @@
 
         <s:link id="createDoc" styleClass="linkNavigation" view="/docEdit_#{skin}.xhtml"
                 accesskey="#{messages['lacewiki.button.CreateDocument.accesskey']}"
-                rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}">
+                rendered="#{s:hasPermission('Node', 'create', documentHome.instance.parent)}"
+                propagation="none">
             <h:outputText escape="false" value="#{messages['lacewiki.button.CreateDocument']}"/>
             <f:param name="documentId" value=""/>
             <f:param name="parentDirectoryId" value="#{documentHome.instance.parent.id}"/>
@@ -25,20 +26,23 @@
         &#160;
         <s:link id="editDoc" styleClass="linkNavigation" view="/docEdit_#{skin}.xhtml"
                 accesskey="#{messages['lacewiki.button.EditDocument.accesskey']}"
-                rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}">
+                rendered="#{s:hasPermission('Node', 'edit', documentHome.instance)}"
+                propagation="none">
             <h:outputText escape="false" value="#{messages['lacewiki.button.EditDocument']}"/>
         </s:link>
         &#160;
         <s:link id="showHistory" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.HistoryDocument.accesskey']}"
                 view="/docHistory_#{skin}.xhtml"
-                rendered="#{documentHome.historicalFilesPresent}">
+                rendered="#{documentHome.historicalFilesPresent}"
+                propagation="none">
             <h:outputText escape="false" value="#{messages['lacewiki.button.HistoryDocument']}"/>
             <f:param name="fileId" value="#{documentHome.nodeId}"/>
         </s:link>
         &#160;
         <s:link id="browseDir" styleClass="linkNavigation" view="/dirDisplay_#{skin}.xhtml"
-                accesskey="#{messages['lacewiki.button.BrowseDirectory.accesskey']}">
+                accesskey="#{messages['lacewiki.button.BrowseDirectory.accesskey']}"
+                propagation="none">
             <h:outputText escape="false" value="#{messages['lacewiki.button.BrowseDirectory']}"/>
             <f:param name="directoryId" value="#{documentHome.instance.parent.id}"/>
         </s:link>
@@ -176,7 +180,7 @@
         <s:div>
             #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
             <ui:repeat var="tag" value="#{documentHome.instance.tagsAsList}">
-                <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}">
+                <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}" propagation="none">
                     <f:param value="#{tag}" name="tag"/>
                 </s:link>
 

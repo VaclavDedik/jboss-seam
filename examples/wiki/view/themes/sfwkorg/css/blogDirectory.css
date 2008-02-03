@@ -1,37 +1,36 @@
-.blogEntryContainer {
-    border: 1px solid #d3d2d1;
-}
-
-.blogEntryContainer .boxFooter {
-    border: 0;
-}
 
 .blogEntryHeader {
-    background: #fff url(#{themePath}/img/th.bg.inverse.gif) 0 0 repeat-x;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 2px;
-    padding-bottom: 8px;
 }
 
-.blogEntryHeader div {
+.blogEntryHeader .title {
+    text-align: left;
+    line-height: 200%;
+    font-size: 115%;
+}
+
+.blogEntryHeader .dateAuthor {
     text-align: right;
     white-space: nowrap;
     font-weight: normal;
     line-height: 100%;
-    padding-top: 3px;
-}
-
-.blogEntryCreatedOn {}
-.blogEntryCreatedOnText {}
-.blogEntryCreatedBy {}
-.blogEntryCreatedByLink {
 }
 
 .blogEntryContent {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
     line-height: 150%;
+    text-align: justify;
+}
+
+.blogEntryContent .wikiPara {
+    margin-top: 0;
+}
+
+.blogEntryContent .wikiHeadline1 a,
+.blogEntryContent .wikiHeadline2 a,
+.blogEntryContent .wikiHeadline3 a,
+.blogEntryContent .wikiHeadline4 a {
+    color: black;
 }
 
 .blogEntryFooter {
@@ -86,6 +85,5 @@
 }
 
 .documentTags {
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-top: 10px;
 }

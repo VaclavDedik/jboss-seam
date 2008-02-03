@@ -9,19 +9,22 @@ package org.jboss.seam.wiki.plugin.blogdirectory;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.datamodel.DataModel;
+import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.action.Pager;
 import org.jboss.seam.wiki.util.WikiUtil;
-import org.jboss.seam.wiki.preferences.Preferences;
 
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * @author Christian Bauer
+ */
 @Name("blogDirectory")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.CONVERSATION)
 public class BlogDirectory implements Serializable {
 
     @In
@@ -36,7 +39,11 @@ public class BlogDirectory implements Serializable {
     @In
     WikiDocument currentDocument;
 
-    private Integer page = 0;
+    @In("#{preferences.get('Blog', currentMacro)}")
+    BlogPreferences prefs;
+
+    private Pager pager;
+
     private Integer year;
     private Integer month;
     private Integer day;
@@ -44,10 +51,14 @@ public class BlogDirectory implements Serializable {
 
     @RequestParameter
     public void setPage(Integer page) {
-        if (page != null) {
-            this.page = page;
-        }
+        if (pager == null) pager = new Pager(prefs.getPageSize());
+        pager.setPage(page);
     }
+
+    public Pager getPager() {
+        return pager;
+    }
+
     @RequestParameter
     public void setYear(Integer year) {
         this.year = year;
@@ -65,67 +76,44 @@ public class BlogDirectory implements Serializable {
         this.tag = tag;
     }
 
-    private long numOfBlogEntries;
-    private long totalNumOfBlogEntries;
     private List<BlogEntry> blogEntries;
     private List<BlogEntryCount> blogEntryCountsByYearAndMonth;
     // Need to expose this as a datamodel so Seam can convert our map to a collection of Map.Entry objects
     @DataModel
     private Map<Date, List<BlogEntry>> recentBlogEntries;
 
-    private long pageSize;
-    private long recentBlogEntriesCount;
-
-    @Create
-    public void initialize() {
-        initializePreferences();
-        refreshBlogEntries();
-    }
-
-    // Lazier than @In, would be too many injections because of c:forEach iteration on blog entry list
-    private void initializePreferences() {
-        // TODO: Uhm, we have several macros that use this backend bean... that doesn't work
-        pageSize = Preferences.getInstance(BlogPreferences.class, "currentMacro").getPageSize();
-        recentBlogEntriesCount = Preferences.getInstance(BlogPreferences.class, "currentMacro").getRecentEntriesItems();
-    }
-
-    private void queryNumOfBlogEntries() {
-        numOfBlogEntries = blogDAO.countBlogEntries(currentDirectory, currentDocument, year, month, day, tag);
-    }
-
-    private void queryBlogEntries() {
+    @Observer(value = {"PersistenceContext.filterReset"}, create = false)
+    public void loadBlogEntries() {
+        pager.setPageSize(prefs.getPageSize());
+        pager.setNumOfRecords(blogDAO.countBlogEntries(currentDirectory, currentDocument, year, month, day, tag));
+        if (pager.getNumOfRecords() == 0) {
+            blogEntries = Collections.EMPTY_LIST;
+            return;
+        }
         blogEntries =
             blogDAO.findBlogEntriesWithCommentCount(
                     currentDirectory,
                     currentDocument,
-                    "createdOn",
-                    true,
-                    page * pageSize,
-                    pageSize,
+                    pager,
                     year, month, day,
                     tag
             );
     }
 
-    private void queryBlogEntryCountsByYearAndMonth() {
+
+    @Observer(value = {"Macro.render.blogArchive", "PersistenceContext.filterReset"}, create = false)
+    public void loadBlogEntryCountsByYearAndMonth() {
         blogEntryCountsByYearAndMonth = blogDAO.countAllBlogEntriesGroupByYearMonth(currentDirectory, currentDocument, tag);
-        for (BlogEntryCount blogEntryCount : blogEntryCountsByYearAndMonth) {
-            totalNumOfBlogEntries = totalNumOfBlogEntries + blogEntryCount.getNumOfEntries();
-        }
     }
 
     @Factory(value = "recentBlogEntries")
-    @Observer("PreferenceComponent.refresh.blogRecentEntriesPreferences")
-    public void queryRecentBlogEntries() {
-        initializePreferences();
+    @Observer(value = {"Macro.render.blogRecentEntries", "PersistenceContext.filterReset"}, create = false)
+    public void loadRecentBlogEntries() {
         List<BlogEntry> recentBlogEntriesNonAggregated =
             blogDAO.findBlogEntriesWithCommentCount(
                     currentDirectory,
                     currentDocument,
-                    "createdOn",
-                    true,
-                    0,
-                    recentBlogEntriesCount,
+                    new Pager(prefs.getRecentEntriesItems()),
                     null, null, null,
                     null
             );
@@ -153,99 +141,22 @@ public class BlogDirectory implements Serializable {
         }
     }
 
-    @Observer("PreferenceComponent.refresh.blogDirectoryPreferences")
-    public void refreshBlogEntries() {
-        initializePreferences();
-        blogEntries = new ArrayList<BlogEntry>();
-        queryNumOfBlogEntries();
-        if (numOfBlogEntries != 0){
-            queryBlogEntries();
-        }
-    }
-
-    public long getTotalNumOfBlogEntries() {
-        if (blogEntryCountsByYearAndMonth == null) {
-            queryBlogEntryCountsByYearAndMonth();
-        }
-        return totalNumOfBlogEntries;
-    }
-
-    public long getNumOfBlogEntries() {
-        return numOfBlogEntries;
-    }
-
     public List<BlogEntry> getBlogEntries() {
+        if (blogEntries == null) loadBlogEntries();
         return blogEntries;
     }
 
     public List<BlogEntryCount> getBlogEntryCountsByYearAndMonth() {
-        if (blogEntryCountsByYearAndMonth == null) {
-            queryBlogEntryCountsByYearAndMonth();
-        }
+        if (blogEntryCountsByYearAndMonth == null) loadBlogEntryCountsByYearAndMonth();
         return blogEntryCountsByYearAndMonth;
     }
 
-    public int getNextPage() {
-        return page + 1;
-    }
-
-    public int getPreviousPage() {
-        return page - 1;
-    }
-
-    public int getFirstPage() {
-        return 0;
-    }
-
-    public long getFirstRow() {
-        return page * pageSize + 1;
-    }
-
-    public long getLastRow() {
-        return (page * pageSize + pageSize) > numOfBlogEntries
-                ? numOfBlogEntries
-                : page * pageSize + pageSize;
-    }
-
-    public long getLastPage() {
-        long lastPage = (numOfBlogEntries / pageSize);
-        if (numOfBlogEntries % pageSize == 0) lastPage--;
-        return lastPage;
-    }
-
-    public boolean isNextPageAvailable() {
-        return blogEntries != null && numOfBlogEntries > ((page * pageSize) + pageSize);
-    }
-
-    public boolean isPreviousPageAvailable() {
-        return blogEntries != null && page > 0;
-    }
-
     public String getDateUrl() {
-        return dateAsString(year, month, day);
+        return WikiUtil.dateAsString(year, month, day);
     }
 
     public String getTagUrl() {
         return tag != null && tag.length()>0 ? "/Tag/" + WikiUtil.encodeURL(tag) : "";
-    }
-
-    // Utilities
-
-    public static String dateAsString(Integer year, Integer month, Integer day) {
-        StringBuilder dateUrl = new StringBuilder();
-        if (year != null) dateUrl.append("/").append(year);
-        if (month != null) dateUrl.append("/").append(padInteger(month, 2));
-        if (day != null) dateUrl.append("/").append(padInteger(day, 2));
-        return dateUrl.toString();
-    }
-
-    private static String padInteger(Integer raw, int padding) {
-        String rawInteger = raw.toString();
-        StringBuilder paddedInteger = new StringBuilder( );
-        for ( int padIndex = rawInteger.length() ; padIndex < padding; padIndex++ ) {
-            paddedInteger.append('0');
-        }
-        return paddedInteger.append( rawInteger ).toString();
     }
 
 }

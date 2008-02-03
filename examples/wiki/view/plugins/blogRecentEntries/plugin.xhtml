@@ -12,15 +12,16 @@
 
         <s:div styleClass="blogRecentEntries">
 
-            <s:div styleClass="boxHeader" rendered="#{not preferences.get('Blog').recentEntriesSubscribeIcon}">
+            <s:div styleClass="boxHeader" rendered="#{not preferences.get('Blog', currentMacro).recentEntriesSubscribeIcon}">
                 <h:outputText value="#{messages['blogRecentEntries.label.RecentEntries']}"/>
             </s:div>
 
-            <h:panelGrid rendered="#{preferences.get('Blog').recentEntriesSubscribeIcon}"
+            <h:panelGrid rendered="#{preferences.get('Blog', currentMacro).recentEntriesSubscribeIcon}"
                          columns="2" cellpadding="0" cellspacing="0" border="0"
                          styleClass="boxHeader fullWidth">
 
-                <h:panelGrid rendered="#{not empty currentDirectory.feed}" columns="2" cellpadding="0" cellspacing="0" border="0">
+                <h:panelGrid styleClass="undecoratedLink smallFont" rendered="#{not empty currentDirectory.feed}" columns="2"
+                             cellpadding="2" cellspacing="0" border="0">
                     <h:outputLink
                             target="_top"
                             value="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}">
@@ -43,14 +44,14 @@
                          columnClasses="defaultColumn"
                          cellpadding="0" cellspacing="0" border="0">
                 <h:column>
-                    <div class="blogRecentEntriesDay">
+                    <div class="blogRecentEntriesDay smallFont">
                         <h:outputText value="#{dayMap.key}">
                             <f:convertDateTime pattern="dd. MMM yyyy" timeZone="#{preferences.get('Wiki').timeZone}"/>
                         </h:outputText>
                     </div>
 
                     <h:dataTable value="#{dayMap.value}" var="be"
-                                 columnClasses="blogRecentEntriesItem"
+                                 columnClasses="blogRecentEntriesItem smallFont"
                                  cellpadding="0" cellspacing="0" border="0">
                         <h:column>
                             <h:outputLink styleClass="blogRecentEntriesItemLink" target="_top" value="#{wiki:renderURL(be.entryDocument)}">

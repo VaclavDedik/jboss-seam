@@ -268,7 +268,7 @@
             jQuery(".box").removeClass("box").addClass("boxShadowed");
         }
 
-        jQuery(function() {
+        function initPage() {
             $.contextMenu.defaults({
                 shadow: false,
                 menuStyle: {
@@ -286,6 +286,10 @@
             });
 
             wrapBoxes();
+        }
+
+        jQuery(function() {
+            initPage();
         });
     </script>
 

@@ -6,15 +6,13 @@
  */
 package org.jboss.seam.wiki.core.action;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.international.Messages;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.datamodel.DataModel;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.international.Messages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.*;
@@ -23,9 +21,14 @@ import org.jboss.seam.wiki.util.WikiUtil;
 import javax.faces.application.FacesMessage;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import static javax.faces.application.FacesMessage.SEVERITY_WARN;
-import static javax.faces.application.FacesMessage.SEVERITY_ERROR;
 import java.util.*;
 
+/**
+ * TODO: This class is turning into a maintenance nightmare, split
+ * directory browser and editor functionality.
+ *
+ * @author Christian Bauer
+ */
 @Name("directoryHome")
 @Scope(ScopeType.CONVERSATION)
 public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
@@ -40,13 +43,13 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
     protected Clipboard clipboard;
 
     @In
+    @Out(scope = ScopeType.CONVERSATION) // Helps us use this home with page and conversation contexts
     protected Pager pager;
 
     /* -------------------------- Internal State ------------------------------ */
 
     private boolean hasFeed;
 
-    @DataModel(value = "childNodesList", scope = ScopeType.PAGE)
     private List<WikiNode> childNodes;
 
     private Map<WikiNode, Boolean> selectedNodes = new HashMap<WikiNode,Boolean>();
@@ -78,12 +81,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
     public WikiDirectory afterNodeFound(WikiDirectory dir) {
         super.afterNodeFound(dir);
 
-        // Hm, not pretty but we can't have a @Factory here or Seam
-        // complains that subclass has duplicate factory
-        if (!Contexts.getPageContext().isSet("childNodesList")) {
-            getLog().debug("refreshing child nodes after node found");
-            refreshChildNodes(dir);
-        }
+        getLog().debug("refreshing child nodes after node found");
+        refreshChildNodes(dir);
 
         return dir;
     }
@@ -272,11 +271,13 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
     /* -------------------------- Public Features ------------------------------ */
 
-    @Observer(value = "PersistenceContext.filterReset", create = false)
+    @Observer(value = {"PersistenceContext.filterReset", "Node.refreshList"}, create = false)
     public void refreshChildNodes() {
         if (isManaged()) {
             getLog().debug("refreshing child nodes of the current instance");
             refreshChildNodes(getInstance());
+        } else {
+            getLog().debug("not refreshing child nodes, instance is not managed: " + getInstance());
         }
     }
 
@@ -525,6 +526,28 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
         selectedNodes.clear();
         refreshChildNodes();
+    }
+
+    public boolean isRemovable(WikiNode node) {
+
+        // Check if the current directory is the trash area, delete doesn't make sense here
+        WikiDirectory trashArea = (WikiDirectory)Component.getInstance("trashArea");
+        if (trashArea.getId().equals(getInstance().getId()))
+            return false;
+
+        // Check permissions TODO: This duplicates the check
+        if (!Identity.instance().hasPermission("Node", "edit", node))
+            return false;
+
+        NodeRemover remover;
+        if (node.isInstance(WikiDocument.class)) {
+            remover = (NodeRemover) Component.getInstance(DocumentNodeRemover.class);
+        } else if (node.isInstance(WikiUpload.class)) {
+            remover = (NodeRemover) Component.getInstance(UploadNodeRemover.class);
+        } else {
+            return false;
+        }
+        return remover.isRemovable(node);
     }
 
 }

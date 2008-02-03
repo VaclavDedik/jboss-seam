@@ -23,10 +23,10 @@
         NODE_ID="301" FILE_REVISION="0"/>
     <WIKI_DOCUMENT
         NODE_ID="301"
-        HEADER="[&lt;=clearBackground]&#xA;[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]&#xA;[&lt;=faqBrowser]"
+        HEADER="[&lt;=hideControls]&#xA;[&lt;=hideComments]&#xA;[&lt;=hideTags]&#xA;[&lt;=hideCreatorHistory]&#xA;[&lt;=faqBrowser]"
         CONTENT="This is the FAQ start page."
         FOOTER="[NULL]"
-        HEADER_MACROS="clearBackground hideControls hideComments hideTags hideCreatorHistory faqBrowser"
+        HEADER_MACROS="hideControls hideComments hideTags hideCreatorHistory faqBrowser"
         CONTENT_MACROS="[NULL]"
         FOOTER_MACROS="[NULL]"
         NAME_AS_TITLE="false" ENABLE_COMMENTS="false" ENABLE_COMMENT_FORM="false" ENABLE_COMMENTS_ON_FEEDS="false"/>

@@ -37,6 +37,7 @@
 
     <!-- Wiki is in debug mode -->
     <component name="wikiInit" class="org.jboss.seam.wiki.WikiInit" precedence="30">
+        <property name="adminContact">+41 123 123 123, admin@my.address</property>
         <property name="debug">true</property>
     </component>
 

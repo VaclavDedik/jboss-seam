@@ -189,6 +189,7 @@ public class WikiPreferenceProvider implements PreferenceProvider<User, WikiMacr
     }
 
     private Set<PreferenceValue> loadUserValues(String entityName, User user) {
+        if (user.getId() == null) return Collections.EMPTY_SET;
         List<WikiPreferenceValue> values =
             entityManager.createQuery(
                             "select wp from WikiPreferenceValue wp" +

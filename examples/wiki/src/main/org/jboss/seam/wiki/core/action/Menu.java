@@ -45,7 +45,7 @@ public class Menu implements Serializable {
         return root;
     }
 
-    @Observer(value = { "Nodes.menuStructureModified", "PersistenceContext.filterReset" }, create = false)
+    @Observer(value = { "Node.updated", "Node.removed", "PersistenceContext.filterReset" }, create = false)
     public void refreshRoot() {
         log.debug("Loading menu items tree");
         root = wikiNodeDAO.findMenuItemTree(

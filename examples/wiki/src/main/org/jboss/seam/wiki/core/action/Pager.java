@@ -89,4 +89,15 @@ public class Pager implements Serializable {
         return numOfRecords != null && page > 0;
     }
 
+    public int getQueryFirstResult() {
+        return new Long(getPage() * getPageSize()).intValue();
+    }
+
+    public int getQueryMaxResults() {
+        return new Long(getPageSize()).intValue();
+    }
+
+    public String toString() {
+        return "Pager - Records: " + getNumOfRecords() + " Page size: " + getPageSize();
+    }
 }

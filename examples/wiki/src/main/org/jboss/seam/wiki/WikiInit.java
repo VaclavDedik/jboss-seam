@@ -32,6 +32,7 @@ public class WikiInit {
     @Logger
     static Log log;
 
+    private String adminContact;
     private boolean debug;
 
     @In(required = false)
@@ -55,8 +56,9 @@ public class WikiInit {
         StatisticsService mBean = new StatisticsService();
         mBean.setSessionFactoryJNDIName("SessionFactories/laceWikiSF");
         ManagementFactory.getPlatformMBeanServer().registerMBean(mBean, hibernateMBeanName);
-
+        
         Events.instance().raiseEvent("Wiki.started");
+
         log.info("Started LaceWiki");
     }
 
@@ -66,6 +68,14 @@ public class WikiInit {
 
         log.info("unregistering Hibernate statistics MBean");
         ManagementFactory.getPlatformMBeanServer().unregisterMBean(hibernateMBeanName);
+    }
+
+    public String getAdminContact() {
+        return adminContact;
+    }
+
+    public void setAdminContact(String adminContact) {
+        this.adminContact = adminContact;
     }
 
     public boolean isDebug() {

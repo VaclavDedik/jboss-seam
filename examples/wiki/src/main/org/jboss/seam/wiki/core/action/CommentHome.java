@@ -125,6 +125,31 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return null; // Prevent navigation
     }
 
+    public String remove(Long commentId) {
+        setNodeId(commentId);
+        initEditor();
+        if (isManaged()) {
+
+            // Additional permission required besides NodeHome.remove()
+            if (!Identity.instance().hasPermission("Comment", "delete", getInstance().getParent()) ) {
+                throw new AuthorizationException("You don't have permission for this operation");
+            }
+
+            // Remove feed entry before removing comment
+            feedDAO.removeFeedEntry(
+                feedDAO.findFeeds(getInstance()),
+                feedDAO.findFeedEntry(getInstance())
+            );
+
+            remove();
+            getEntityManager().clear();
+            Events.instance().raiseEvent("Comment.commentListRefresh");
+        }
+
+        return null; // Prevent navigation
+    }
+
+
     @Override
     protected NodeRemover getNodeRemover() {
         return (CommentNodeRemover)Component.getInstance(CommentNodeRemover.class);
@@ -261,6 +286,8 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     public void rate(Long commentId, int rating) {
 
+        getLog().debug("rating comment with id: " + commentId + " as " + rating);
+
         // Only the owner of the document can rate comments of that document
         if ( !currentUser.getId().equals(documentHome.getInstance().getCreatedBy().getId()) ) {
             throw new AuthorizationException("You don't have permission for this operation");
@@ -268,45 +295,26 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
         // Guest can't rate
         if (currentUser.isGuest()) {
-            throw new IllegalStateException("Guests can't rate comments");
+            throw new IllegalStateException("User interface bug, guests can't rate comments");
         }
 
         setId(commentId);
         if (isManaged()) {
 
-            if (getInstance().getRating() != 0)
-                return; // Already rated
-            if (getInstance().getCreatedBy().getId() == currentUser.getId())
-                return; // Can't rate my own stuff
+            if (getInstance().getRating() != 0) {
+                throw new IllegalStateException("User interface bug, can't rate comment that was already rated");
+            }
+            if (getInstance().getCreatedBy().getId().equals(currentUser.getId())) {
+                throw new IllegalStateException("User interface bug, a user can't rate his/her own comments");
+            }
 
             getInstance().setRating(rating);
         }
     }
 
-    public void cancel() {
+    public String cancel() {
         endConversation();
-    }
-
-    public void remove(Long commentId) {
-        setNodeId(commentId);
-        initEditor();
-        if (isManaged()) {
-
-            // Additional permission required besides NodeHome.remove()
-            if (!Identity.instance().hasPermission("Comment", "delete", getInstance().getParent()) ) {
-                throw new AuthorizationException("You don't have permission for this operation");
-            }
-
-            // Remove feed entry before removing comment
-            feedDAO.removeFeedEntry(
-                feedDAO.findFeeds(getInstance()),
-                feedDAO.findFeedEntry(getInstance())
-            );
-
-            remove();
-            getEntityManager().clear();
-            Events.instance().raiseEvent("Comment.commentListRefresh");
-        }
+        return "redirectToDocument";
     }
 
     @RequestParameter("showCommentForm")

@@ -107,6 +107,17 @@
         <url-pattern>/servlets/feeds/*</url-pattern>
     </servlet-mapping>
 
+    <!-- In-place upgrades
+    <servlet>
+        <servlet-name>Upgrade Servlet</servlet-name>
+        <servlet-class>org.jboss.seam.wiki.core.ui.UpgradeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Upgrade Servlet</servlet-name>
+        <url-pattern>/servlets/upgrade/*</url-pattern>
+    </servlet-mapping>
+    -->
+
     <!-- Misc Settings -->
 
     <!-- Session timeout: half hour (careful, large and long sessions need heap size>-->

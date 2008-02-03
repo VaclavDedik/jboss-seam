@@ -42,6 +42,8 @@ public class DisplayDirectories extends DBUnitSeamTest {
 
                 assert dirHome.getChildNodes().size() == 1;
 
+                assert dirHome.isRemovable(dirHome.getChildNodes().get(0));
+
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }
         }.run();
@@ -67,6 +69,8 @@ public class DisplayDirectories extends DBUnitSeamTest {
                 assert dir.getId().equals(4l);
 
                 assert dirHome.getChildNodes().size() == 1;
+
+                assert dirHome.isRemovable(dirHome.getChildNodes().get(0));
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }

@@ -64,7 +64,7 @@
     </h:panelGrid>
 
     <h:outputText escape="false"
-                  value="&lt;div class='forumPostingDocumentWrapper #{empty commentQuery.comments or not currentDocument.enableComments? 'noComments' : ''}'>"/>
+                  value="&lt;div class='box forumPostingDocumentWrapper #{empty commentQuery.comments or not currentDocument.enableComments? 'noComments' : ''}'>"/>
 
         <h:panelGrid columns="4" styleClass="commentHeader"
                      columnClasses="commentSubjectIcon, commentSubject, commentAuthorInfo smallFont, commentAuthorPortrait"

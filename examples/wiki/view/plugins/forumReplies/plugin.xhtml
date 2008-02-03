@@ -30,14 +30,14 @@
 
             <h:panelGroup rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
 
-                <s:link tabindex="1"
+                <s:link tabindex="1" propagation="none"
                         action="#{replyHome.replyToDocument()}"
                         accesskey="#{messages['forum.button.Reply.accesskey']}"
                         styleClass="buttonNonpersistent">
                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Reply']}"/>
                  </s:link>
 
-                <s:link tabindex="1"
+                <s:link tabindex="1" propagation="none"
                         action="#{replyHome.quoteDocument()}"
                         styleClass="buttonNonpersistent"
                         accesskey="#{messages['forum.button.Quote.accesskey']}">
@@ -51,7 +51,7 @@
     <!-- The forumPostingDocumentWrapper <div> is closed here! -->
     <h:outputText escape="false" value="&lt;/div>"/>
 
-    <s:span id="forumRepliesContainer">
+    <s:div id="forumRepliesContainer">
 
         <s:fragment rendered="#{currentDocument.enableComments}">
 
@@ -115,14 +115,14 @@
 
                             <s:fragment rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
 
-                                <s:link tabindex="102"
+                                <s:link tabindex="102" propagation="none"
                                         action="#{replyHome.replyTo()}"
                                         styleClass="buttonNonpersistent">
                                     <f:param name="parentCommentId" value="#{c.id}"/>
                                     <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
                                 </s:link>
 
-                                <s:link tabindex="102"
+                                <s:link tabindex="102" propagation="none"
                                         action="#{replyHome.quote()}"
                                         styleClass="buttonNonpersistent">
                                     <f:param name="parentCommentId" value="#{c.id}"/>
@@ -155,6 +155,6 @@
 
         </s:fragment>
 
-    </s:span>
+    </s:div>
 
 </wiki:plugin>

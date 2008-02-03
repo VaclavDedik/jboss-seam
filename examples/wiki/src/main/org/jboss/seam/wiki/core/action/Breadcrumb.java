@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Name("breadcrumbFactory")
-@Scope(ScopeType.CONVERSATION)
+@Scope(ScopeType.PAGE)
 public class Breadcrumb implements Serializable {
 
     @Logger

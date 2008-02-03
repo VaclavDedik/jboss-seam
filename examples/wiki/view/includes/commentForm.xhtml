@@ -1,4 +1,4 @@
-<s:div styleClass="box"  style="margin-top:25px"
+<s:div styleClass="box"
      xmlns="http://www.w3.org/1999/xhtml"
      xmlns:ui="http://java.sun.com/jsf/facelets"
      xmlns:h="http://java.sun.com/jsf/html"
@@ -32,7 +32,7 @@
                 </s:fragment>
 
                 <s:link tabindex="102" rendered="#{!commentHome.showForm}"
-                        action="#{commentHome.newComment()}"
+                        action="#{commentHome.newComment()}" propagation="none"
                         accesskey="#{messages['lacewiki.button.commentForm.PostComment.accesskey']}"
                         styleClass="buttonNonpersistent">
                     <h:outputText escape="false" styleClass="buttonLabel"

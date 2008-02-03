@@ -131,7 +131,7 @@ public class Commenting extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                invokeMethod("#{commentHome.rate(11, 4)}");
+                invokeMethod("#{commentHome.rate(12, 4)}");
             }
 
         }.run();
@@ -144,7 +144,7 @@ public class Commenting extends DBUnitSeamTest {
 
             protected void renderResponse() throws Exception {
                 WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
-                assert dao.findWikiNode(11l).getRating() == 4;
+                assert dao.findWikiNode(12l).getRating() == 4;
             }
 
         }.run();
