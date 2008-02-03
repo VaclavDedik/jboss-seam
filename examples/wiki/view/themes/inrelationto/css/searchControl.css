@@ -1,0 +1,38 @@
+#searchControl {
+    padding-left: 10px;
+    padding-top: 12px;
+}
+
+#searchControl .searchControlTable {
+}
+
+#searchControl .searchControlLabel{
+    color: #ffcfb8;
+    font-weight: normal;
+    font-size: 80%;
+    text-decoration: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#searchControl .searchControlInput {
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+    font-size: 85%;
+    padding: 1px;
+    width: 75px;
+    margin: 0;
+    border: 1px solid #ffb398;
+    font-family: Andale Mono, Courier New, monospace;
+}
+
+#searchControl .searchControlLink{
+    font-weight: normal;
+    font-size: 85%;
+	color: #d75525;
+	text-decoration: none;
+    padding-left: 5px;
+}
+
+#searchControl .searchControlLink:hover {
+    color: #666;
+}

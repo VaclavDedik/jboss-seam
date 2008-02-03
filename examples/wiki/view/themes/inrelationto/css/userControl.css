@@ -1,0 +1,53 @@
+.userControlPanel {
+    text-align:right;
+    font-size: 85%;
+    padding-top: 3px;
+    padding-right: 18px;
+}
+
+.loginForm {
+    display: inline;
+}
+
+.userControlPanel .label {
+    color: #FFCFB8;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.userControlPanel .link {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.userControlPanel .linkText {
+	color: #fff;
+	text-decoration: none;
+}
+
+.userControlPanel .input {
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+    font-size: 100%;
+    padding: 1px;
+    margin: 0;
+    border: 0;
+}
+
+.resetPasswordForm {
+    display: inline;
+}
+
+.resetPasswordRequestForm {
+    display: inline;
+}
+
+.resetPasswordRequestFormFields {
+}
+
+.resetPasswordRequestFormFields .entry .label {
+    white-space: nowrap;
+}
+
+.resetPasswordRequestFormControls {
+}

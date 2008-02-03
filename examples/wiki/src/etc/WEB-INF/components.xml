@@ -141,7 +141,7 @@
         <property name="templateValues">
             <value>default</value>
             <value>sfwkorg</value>
-            <!--<value>inrelationto</value>-->
+            <value>inrelationto</value>
         </property>
     </component>
 
