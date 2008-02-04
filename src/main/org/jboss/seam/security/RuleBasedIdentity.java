@@ -102,14 +102,14 @@ public class RuleBasedIdentity extends Identity
       
       if (securityContext == null) return false;      
       
-      synchronizeContext();
-      
       List<FactHandle> handles = new ArrayList<FactHandle>();
 
       PermissionCheck check = new PermissionCheck(name, action);
       
       synchronized( securityContext )
       {
+         synchronizeContext();
+         
          handles.add( securityContext.insert(check) );
          
          for (int i = 0; i < arg.length; i++)
