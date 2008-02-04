@@ -78,26 +78,10 @@ public class RuleBasedIdentity extends Identity
    protected void postAuthenticate()
    {
       super.postAuthenticate();
-      
-      StatefulSession securityContext = getSecurityContext();
 
-      if (securityContext != null)
-      {
-         // Populate the working memory with the user's principals
-         for ( Principal p : getSubject().getPrincipals() )
-         {         
-            if ( (p instanceof Group) && ROLES_GROUP.equals( ( (Group) p ).getName() ) )
-            {
-               Enumeration e = ( (Group) p ).members();
-               while ( e.hasMoreElements() )
-               {
-                  Principal role = (Principal) e.nextElement();
-                  securityContext.insert( new Role( role.getName() ) );
-               }
-            }     
-         }
-         
-         securityContext.insert(getPrincipal());
+      if (getSecurityContext() != null)
+      {         
+         getSecurityContext().insert(getPrincipal());
       }
    }
    
@@ -155,64 +139,13 @@ public class RuleBasedIdentity extends Identity
       return check.isGranted();
    }
    
-   /**
-    * Overridden version of hasRole() that checks for the existence of the role
-    * in the security context first.  If it is not found there, then the super
-    * method is invoked instead.
-    */
-   @Override
-   public boolean hasRole(String role)
-   {      
-      if (securityContext != null)
-      {
-         Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class));
-         
-         while (iter.hasNext())
-         {
-            Role r = iter.next();
-            if (r.getName().equals(role)) return true;
-         }
-      }
-      
-      return super.hasRole(role);
-   }
-   
    @SuppressWarnings("unchecked")
    @Override   
    public void unAuthenticate()
    {
-      StatefulSession securityContext = getSecurityContext();
-      
-      if (securityContext != null)
-      {
-         Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class)); 
-         while (iter.hasNext()) 
-         {
-            getSecurityContext().retract(securityContext.getFactHandle(iter.next()));
-         }
-      }
-      
       super.unAuthenticate();
-   }
-   
-   @Override
-   public boolean addRole(String role)
-   {
-      if (super.addRole(role))
-      {
-         synchronizeContext();
-         return true;
-      }
-      
-      return false;
-   }
-   
-   @SuppressWarnings("unchecked")
-   @Override
-   public void removeRole(String role)
-   {
-      super.removeRole(role);
-      synchronizeContext();
+      setSecurityContext(null);
+      initSecurityContext();
    }
    
    /**

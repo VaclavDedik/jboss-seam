@@ -239,11 +239,13 @@ public class Identity implements Serializable
       // If we're already authenticated, then don't authenticate again
       if (!isLoggedIn(false))
       {
+         principal = null;
+         subject = new Subject();
          authenticate( getLoginContext() );
       }
    }
 
-   public void authenticate(LoginContext loginContext) 
+   protected void authenticate(LoginContext loginContext) 
       throws LoginException
    {
       try
@@ -261,14 +263,22 @@ public class Identity implements Serializable
       }
    }
    
+   /**
+    * Clears any roles added by calling addRole() while not authenticated.  
+    * This method may be overridden by a subclass if different 
+    * pre-authentication logic should occur.
+    */
    protected void preAuthenticate()
-   {
-      unAuthenticate();
-      preAuthenticationRoles.clear();
-      
+   {     
+      preAuthenticationRoles.clear();      
       if (Events.exists()) Events.instance().raiseEvent(EVENT_PRE_AUTHENTICATE);
    }   
    
+   /**
+    * Extracts the principal from the subject, and populates the roles of the
+    * authenticated user.  This method may be overridden by a subclass if
+    * different post-authentication logic should occur.
+    */
    protected void postAuthenticate()
    {
       // Populate the working memory with the user's principals
@@ -301,18 +311,11 @@ public class Identity implements Serializable
     * group from the user's subject.
     *
     */
-   protected void unAuthenticate()
+   public void unAuthenticate()
    {      
       principal = null;
-      
-      for ( Group sg : getSubject().getPrincipals(Group.class) )      
-      {
-         if ( ROLES_GROUP.equals( sg.getName() ) )
-         {
-            getSubject().getPrincipals().remove(sg);
-            break;
-         }
-      }
+      subject = new Subject();
+      username = null;
    }
 
    protected LoginContext getLoginContext() throws LoginException
