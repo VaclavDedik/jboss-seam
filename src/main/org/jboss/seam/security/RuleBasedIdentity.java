@@ -57,17 +57,17 @@ public class RuleBasedIdentity extends Identity
    
    protected void initSecurityContext()
    {
-      if (securityRules==null)
+      if (getSecurityRules() == null)
       {
-         securityRules = (RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true);
+         setSecurityRules((RuleBase) Component.getInstance(RULES_COMPONENT_NAME, true));
       }
       
-      if (securityRules != null)
+      if (getSecurityRules() != null)
       {
-         securityContext = securityRules.newStatefulSession(false);
+         setSecurityContext(getSecurityRules().newStatefulSession(false));
       }
       
-      if (securityContext == null)
+      if (getSecurityContext() == null)
       {
          log.warn("no security rule base available - please install a RuleBase with the name '" +
                   RULES_COMPONENT_NAME + "' if permission checks are required.");
@@ -144,7 +144,11 @@ public class RuleBasedIdentity extends Identity
    public void unAuthenticate()
    {
       super.unAuthenticate();
-      setSecurityContext(null);
+      if (getSecurityContext() != null)
+      {
+         getSecurityContext().dispose();      
+         setSecurityContext(null);
+      }
       initSecurityContext();
    }
    
@@ -224,10 +228,10 @@ public class RuleBasedIdentity extends Identity
    public void logout()
    {
       // Explicitly destroy the security context
-      if (securityContext != null)
+      if (getSecurityContext() != null)
       {
-         securityContext.dispose();
-         securityContext = null;
+         getSecurityContext().dispose();
+         setSecurityContext(null);
       }
       
       super.logout();

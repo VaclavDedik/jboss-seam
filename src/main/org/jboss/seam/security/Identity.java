@@ -42,14 +42,11 @@ import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Session;
 
 /**
- * API for authorization and authentication via
- * Seam security. This base implementation 
- * supports role-based authorization only.
- * Subclasses may add more sophisticated 
- * permissioning mechanisms.
+ * API for authorization and authentication via Seam security. This base 
+ * implementation supports role-based authorization only. Subclasses may add 
+ * more sophisticated permissioning mechanisms.
  * 
  * @author Shane Bryzak
- *
  */
 @Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
@@ -307,9 +304,7 @@ public class Identity implements Serializable
    }
    
    /**
-    * Removes all Role objects from the security context, removes the "Roles"
-    * group from the user's subject.
-    *
+    * Resets all security state and credentials
     */
    public void unAuthenticate()
    {      
@@ -338,7 +333,7 @@ public class Identity implements Serializable
    }
 
    /**
-    * Checks if the authenticated Identity is a member of the specified role.
+    * Checks if the authenticated user is a member of the specified role.
     * 
     * @param role String The name of the role to check
     * @return boolean True if the user is a member of the specified role
@@ -360,7 +355,10 @@ public class Identity implements Serializable
    }
    
    /**
-    * Adds a role to the user's subject, and their security context
+    * Adds a role to the authenticated user.  If the user is not logged in,
+    * the role will be added to a list of roles that will be granted to the
+    * user upon successful authentication, but only during the authentication
+    * process.
     * 
     * @param role The name of the role to add
     */
@@ -391,7 +389,7 @@ public class Identity implements Serializable
    }
 
    /**
-    * Removes a role from the user's subject and their security context
+    * Removes a role from the authenticated user
     * 
     * @param role The name of the role to remove
     */
@@ -417,11 +415,11 @@ public class Identity implements Serializable
    }   
    
    /**
-    * Assert that the current authenticated Identity is a member of
+    * Checks that the current authenticated user is a member of
     * the specified role.
     * 
     * @param role String The name of the role to check
-    * @throws AuthorizationException if not a member
+    * @throws AuthorizationException if the authenticated user is not a member of the role
     */
    public void checkRole(String role)
    {
@@ -443,7 +441,7 @@ public class Identity implements Serializable
    }
 
    /**
-    * Assert that the current authenticated Identity has permission for
+    * Checks that the current authenticated user has permission for
     * the specified name and action
     * 
     * @param name String The permission name
@@ -523,8 +521,7 @@ public class Identity implements Serializable
     * @return boolean The result of the expression evaluation
     */
    protected boolean evaluateExpression(String expr) 
-   {    
-      // The following line doesn't work in MyFaces      
+   {         
       return Expressions.instance().createValueExpression(expr, Boolean.class).getValue();
    }   
    
