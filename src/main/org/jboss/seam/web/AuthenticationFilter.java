@@ -15,7 +15,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
@@ -153,12 +152,20 @@ public class AuthenticationFilter extends AbstractFilter
          // Only reauthenticate if username doesn't match Identity.username and user isn't authenticated
          if (!username.equals(identity.getUsername()) || !identity.isLoggedIn()) 
          {
-            identity.setUsername(username);
-            identity.setPassword(password);
-         }         
+            try
+            {
+               identity.setPassword(password);
+               authenticate( request, username );
+            }         
+            catch (Exception ex)
+            {
+               log.error("Error authenticating: " + ex.getMessage());
+               requireAuth = true;
+            }  
+         }
       }
       
-      if (!requireAuth && !identity.isLoggedIn() && !identity.isCredentialsSet())
+      if (!identity.isLoggedIn() && !identity.isCredentialsSet())
       {
          requireAuth = true;
       }
