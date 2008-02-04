@@ -452,6 +452,7 @@
 		<fileset dir="${lib.dir}">
 			<!-- Don't include seam-ui or interop modules -->
 			<exclude name="jboss-seam-ui.jar" />
+			<exclude name="jboss-seam-wicket.jar" />
 			<exclude name="interop/**/*" />
 		</fileset>
 		<path path="${eejb.conf.dir}" />
