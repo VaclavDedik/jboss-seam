@@ -493,7 +493,7 @@ public class Authenticator {
 
         <para>
           If you would rather not use the simplified JAAS configuration provided by the Seam Security API, you may
-          instead delegate to the default system JAAS configuration by providing a <literal>jaasConfigName</literal>
+          instead delegate to the default system JAAS configuration by providing a <literal>jaas-config-name</literal>
           property in <literal>components.xml</literal>.  For example, if you are using JBoss AS and wish to use
           the <literal>other</literal> policy (which uses the <literal>UsersRolesLoginModule</literal> login module
           provided by JBoss AS), then the entry in <literal>components.xml</literal> would look like this:
@@ -501,7 +501,12 @@ public class Authenticator {
 
         <programlisting><![CDATA[<security:identity authenticate-method="#{authenticator.authenticate}"
                       jaas-config-name="other"/>]]></programlisting>
-
+                      
+        <para>
+          Please keep in mind that doing this does not mean that your user will be authenticated in whichever
+          container your Seam application is deployed in.  It merely instructs Seam Security to authenticate
+          itself using the configured JAAS security policy.
+        </para>
       </sect3>
 
     </sect2>
@@ -1103,24 +1108,37 @@ end;]]></programlisting>
       <para>
         In plain english, this condition is stating that there must exist a <literal>PermissionCheck</literal> object
         with a <literal>name</literal> property equal to "customer", and an <literal>action</literal> property equal
-        to "delete" within the working memory.  What is the working memory?  It is a session-scoped object that contains
-        the contextual information that is required by the rules engine to make a decision about a permission check.
-        Each time the <literal>hasPermission()</literal> method is called, a temporary <literal>PermissionCheck</literal>
-        object, or <emphasis>Fact</emphasis>, is inserted into the working memory.  This <literal>PermissionCheck</literal>
-        corresponds exactly to the permission that is being checked, so for example if you call
-        <literal>hasPermission("account", "create", null)</literal> then a <literal>PermissionCheck</literal>
-        object with a <literal>name</literal> equal to "account" and <literal>action</literal> equal to "create" will be
-        inserted into the working memory for the duration of the permission check.
+        to "delete" within the working memory.
       </para>
-
+             
       <para>
-        So what else is in the working memory?  Besides the short-lived temporary facts inserted during a permission
-        check, there are some longer-lived objects in the working memory that stay there for the entire duration of
-        a user being authenticated.  These include any <literal>java.security.Principal</literal> objects that
-        are created as part of the authentication process, plus a <literal>org.jboss.seam.security.Role</literal>
-        object for each of the roles that the user is a member of.  It is also possible to insert additional
-        long-lived facts into the working memory by calling <literal>((RuleBasedIdentity) RuleBasedIdentity.instance()).getSecurityContext().insert()</literal>,
-        passing the object as a parameter.
+        So what is the working memory? Also known as a "stateful session" in Drools terminology, the working memory 
+        is a session-scoped object that contains the contextual information that is required by the rules engine to 
+        make a decision about a permission check. Each time the <literal>hasPermission()</literal> method is called, 
+        a temporary <literal>PermissionCheck</literal> object, or <emphasis>Fact</emphasis>, is inserted into the 
+        working memory.  This <literal>PermissionCheck</literal> corresponds exactly to the permission that is being 
+        checked, so for example if you call <literal>hasPermission("account", "create", null)</literal> then a 
+        <literal>PermissionCheck</literal> object with a <literal>name</literal> equal to "account" and 
+        <literal>action</literal> equal to "create" will be inserted into the working memory for the duration of the 
+        permission check.
+      </para>
+      
+      <para>
+        Besides the <literal>PermissionCheck</literal> facts, there is also a <literal>org.jboss.seam.security.Role</literal>
+        fact for each of the roles that the authenticated user is a member of.  These <literal>Role</literal> facts 
+        are synchronized with the user's authenticated roles at the beginning of every permission check.  As a consequence, 
+        any <literal>Role</literal> object that is inserted into the working memory during the course of a permission
+        check will be removed before the next permission check occurs, if the authenticated user is not a member of
+        that role.  Besides the <literal>PermissionCheck</literal> and <literal>Role</literal> facts, the working
+        memory also contains the <literal>java.security.Principal</literal> object that was created during
+        the authentication process.  
+      </para>
+      
+      <para>
+        It is also possible to insert additional long-lived facts into the working  memory by calling 
+        <literal>((RuleBasedIdentity) RuleBasedIdentity.instance()).getSecurityContext().insert()</literal>,
+        passing the object as a parameter.  The exception to this is <literal>Role</literal> objects, which as
+        already discussed are synchronized at the start of each permission check.
       </para>
 
       <para>
@@ -1132,11 +1150,11 @@ end;]]></programlisting>
       <programlisting><![CDATA[Role(name == "admin")]]></programlisting>
 
       <para>
-        This condition simply states that there must be a <literal>Role</literal> object with
-        a <literal>name</literal> of "admin" within the working memory.  As mentioned, user roles are inserted
-        into the working memory as long-lived facts.  So, putting both conditions together, this rule is essentially
-        saying "I will fire if you are checking for the <literal>customer:delete</literal> permission and the user
-        is a member of the <literal>admin</literal> role".
+        This condition simply states that there must be a <literal>Role</literal> object with a 
+        <literal>name</literal> of "admin" within the working memory.  As mentioned, user roles are inserted into 
+        the working memory at the beginning of each permission check.  So, putting both conditions together, this 
+        rule is essentially saying "I will fire if you are checking for the <literal>customer:delete</literal> 
+        permission and the user is a member of the <literal>admin</literal> role".
       </para>
 
       <para>
