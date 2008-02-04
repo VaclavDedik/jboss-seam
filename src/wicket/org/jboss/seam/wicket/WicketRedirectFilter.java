@@ -1,6 +1,7 @@
 package org.jboss.seam.wicket;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
 import java.io.IOException;
 
@@ -13,18 +14,17 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.web.AbstractFilter;
 
 /**
+ * Kill the redirect filter
  * 
- * @author Kill the redirect filter
+ * @author 
  */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.redirectFilter")
-@Install(precedence = 100, classDependencies="org.apache.wicket.Application")
+@Install(precedence = FRAMEWORK, classDependencies="org.apache.wicket.Application")
 @BypassInterceptors
-@Filter(within="org.jboss.seam.web.ajax4jsfFilter")
 public class WicketRedirectFilter extends AbstractFilter 
 {
    

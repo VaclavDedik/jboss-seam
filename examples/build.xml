@@ -173,6 +173,15 @@
 	<fileset id="seam.remoting.jar" dir="${lib.dir}">
 		<include name="jboss-seam-remoting.jar" if="seam.remoting.lib" />
 	</fileset>
+	
+	<!-- Seam Wicket integration, with required dependencies -->
+	<fileset id="seam.wicket.jar" dir="${lib.dir}">
+		<include name="jboss-seam-wicket.jar" if="seam.wicket.lib" />
+		<include name="wicket.jar" if="seam.wicket.lib" />
+		<include name="wicket-ioc.jar" if="seam.wicket.lib" />
+		<include name="slf4j-api.jar" if="seam.wicket.lib" />
+		<include name="slf4j-log4j12.jar" if="seam.wicket.lib" />
+	</fileset>
 
 	<!-- jboss-el -->
 	<fileset id="jboss-el.jar" dir="${lib.dir}">
@@ -290,6 +299,11 @@
 	<!-- Dependencies for including jboss-embedded-api.jar in ear (if classloader requires it) -->
 	<fileset id="jboss-embedded-api.jar" dir="${lib.dir}">
 		<include name="jboss-embedded-api.jar" if="jboss-embedded-api.lib" />
+	</fileset>
+	
+	<fileset id="wicket-extensions.jar" dir="${lib.dir}">
+		<include name="wicket-extensions.jar" if="wicket-extensions.lib" />
+		<include name="wicket-datetime.jar" if="wicket-extensions.lib" />
 	</fileset>
 
 
@@ -416,7 +430,12 @@
 	<path id="build.classpath">
 		<fileset dir="${lib.dir}">
 			<include name="*.jar" />
-			<exclude name="jboss-seam-*.jar" />
+			<include name="jboss-seam-wicket.jar" />
+			<exclude name="jboss-seam-debug.jar" />
+			<exclude name="jboss-seam-ui.jar" />
+			<exclude name="jboss-seam-remoting.jar" />
+			<exclude name="jboss-seam-mail.jar" />
+			<exclude name="jboss-seam-pdf.jar" />
 		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
@@ -564,6 +583,8 @@
 			<fileset refid="spring.jar" />
 			<fileset refid="jcaptcha.jar" />
 			<fileset refid="antlr.jar" />
+			<fileset refid="wicket-extensions.jar" />
+			<fileset refid="seam.wicket.jar" />
 			<mapper type="flatten" />
 		</copy>
 	</target>
@@ -752,6 +773,8 @@
 			<fileset refid="search.jar" />
 			<fileset refid="richfaces-api.jar" />
 			<fileset refid="groovy.jar" />
+			<fileset refid="wicket-extensions.jar" />
+			<fileset refid="seam.wicket.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<copy todir="${war.dir}">

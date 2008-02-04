@@ -94,6 +94,7 @@
 		<install pom="${parent.pom}" />
 		<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
 		<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
+		<pomfile name="wicket.pom" value="${build.dir}/wicket.pom.xml" />
         <pomfile name="jbas5.pom" value="${build.dir}/jbas5.pom.xml" />
 		<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
 		<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
@@ -108,6 +109,7 @@
 	<target name="copyseamdependencies" if="mavenized.property" unless="copyseamdependenciesdone" depends="initcopy, initpoms">
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="runtime" />
         <copyDependencies id="jbas5" pom="${jbas5.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="runtime" />
@@ -116,6 +118,7 @@
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
+		<copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="compile" />
         <copyDependencies id="jbas5" pom="${jbas5.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="compile" />
@@ -129,6 +132,7 @@
 		<artifact:dependencies filesetId="seam.fileset" versionsId="seam.versions">
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-wicket" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ioc" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-mail" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-pdf" version="${complete.version}" />
@@ -199,6 +203,7 @@
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
                     <propertyref name="jbas5.pom" />
+           			<propertyref name="wicket.pom" />
 					<propertyref name="testng.jvmargs"/>
 				</propertyset>
            	</ant>
@@ -231,6 +236,7 @@
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
+           			<propertyref name="wicket.pom" />
                     <propertyref name="jbas5.pom" />
 					<propertyref name="testng.jvmargs"/>
 				</propertyset>
@@ -265,6 +271,7 @@
 						<propertyref name="mail.pom" />
 						<propertyref name="debug.pom" />
                         <propertyref name="jbas5.pom" />
+	           			<propertyref name="wicket.pom" />
 						<propertyref name="testng.jvmargs"/>
 					</propertyset>
 	           	</ant>
@@ -324,6 +331,8 @@ Dependencies for Seam ${complete.version}
 		<outputDependencyReport module="mail" />
 		<outputDependencyReport module="pdf" />
 		<outputDependencyReport module="ioc" />
+		<outputDependencyReport module="wicket" />
+		<outputDependencyReport module="jbas5" />
 		<echo>Dependency Report written to ${seam.dir}/dependency-report.txt</echo>
 	</target>
 	

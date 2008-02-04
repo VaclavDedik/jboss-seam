@@ -18,6 +18,7 @@
 	<property name="classes.ioc.dir" value="${classes.dir}/iocclasses" />
 	<property name="classes.mail.dir" value="${classes.dir}/mailclasses" />
 	<property name="classes.debug.dir" value="${classes.dir}/debugclasses" />
+	<property name="classes.wicket.dir" value="${classes.dir}/wicketclasses" />
 	<property name="classes.jbas5.dir" value="${classes.dir}/jbas5classes" />
 	<property name="classes.remoting.dir" value="${classes.dir}/remotingclasses" />
 	<property name="classes.gen.dir" value="${classes.dir}/genclasses" />
@@ -33,6 +34,7 @@
 	<property name="src.ioc.dir" value="src/ioc" />
 	<property name="src.mail.dir" value="src/mail" />
 	<property name="src.debug.dir" value="src/debug" />
+	<property name="src.wicket.dir" value="src/wicket" />
 	<property name="src.jbas5.dir" value="src/jbas5" />
 	<property name="src.gen.dir" value="src/gen" />
 	<property name="src.remoting.dir" value="src/remoting" />
@@ -64,6 +66,7 @@
 	<property name="dist.src.ioc.dir" value="${dist.dir}/src/ioc" />
 	<property name="dist.src.mail.dir" value="${dist.dir}/src/mail" />
 	<property name="dist.src.debug.dir" value="${dist.dir}/src/debug" />
+	<property name="dist.src.wicket.dir" value="${dist.dir}/src/wicket" />
 	<property name="dist.src.jbas5.dir" value="${dist.dir}/src/jbas5" />
 	<property name="dist.src.gen.dir" value="${dist.dir}/src/gen" />
 	<property name="dist.src.remoting.dir" value="${dist.dir}/src/remoting" />
@@ -153,7 +156,7 @@
 		<delete dir="${lib.dir}" quiet="${quietclean}" />
 	</target>
 
-	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarjbas5" description="Build all distribution .jar files" />
+	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarjbas5,jarwicket" description="Build all distribution .jar files" />
 
 	<target name="select-compiler">
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
@@ -248,6 +251,20 @@
 		<archive classesdir="${classes.debug.dir}" module="jboss-seam-debug" pom="${debug.pom}"  srcdir="${src.debug.dir}"/>
 	</target>
 	
+	<!-- ########################### DEBUG TARGETS ###########################-->
+
+	<target name="initwicket" depends="init, jarcore">
+		<init classesdir="${classes.wicket.dir}" srcdir="${src.wicket.dir}" modulename="wicket" pom="${wicket.pom}" />
+	</target>
+
+	<target name="compilewicket" depends="initwicket, select-compiler">
+		<compile classesdir="${classes.wicket.dir}" srcdir="${src.wicket.dir}" classpath="compile.wicket.path" />
+	</target>
+
+	<target name="jarwicket" depends="compilewicket" description="Build the distribution .jar file for the Wicket Integration package">
+		<archive classesdir="${classes.wicket.dir}" module="jboss-seam-wicket" pom="${wicket.pom}"  srcdir="${src.wicket.dir}"/>
+	</target>
+	
 	<!-- ########################### JBAS5 TARGETS ###########################-->
 
 	<target name="initjbas5" depends="init, jarcore">
@@ -339,6 +356,7 @@
 		<cleanexample name="icefaces" />
 		<cleanexample name="seambay" />
 		<cleanexample name="nestedbooking" />
+		<cleanexample name="wicket" />
 	</target>
 
 	<target name="undeployall" description="Undeploy all examples">
@@ -369,6 +387,7 @@
 		<undeployexample name="icefaces" />
 		<undeployexample name="seambay" />
 		<undeployexample name="nestedbooking" />
+		<undeployexample name="wicket" />
 	</target>
 
 	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
@@ -430,6 +449,7 @@
 		<copysource destdir="${dist.src.remoting.dir}" srcdir="${src.remoting.dir}" />
 		<copysource destdir="${dist.src.mail.dir}" srcdir="${src.mail.dir}" />
 		<copysource destdir="${dist.src.debug.dir}" srcdir="${src.debug.dir}" />
+		<copysource destdir="${dist.src.wicket.dir}" srcdir="${src.wicket.dir}" />
 		<copysource destdir="${dist.src.jbas5.dir}" srcdir="${src.jbas5.dir}" />
 		<copysource destdir="${dist.src.gen.dir}" srcdir="${src.gen.dir}" />
 		<copysource destdir="${dist.src.test.dir}" srcdir="${src.test.dir}" />
@@ -506,6 +526,7 @@
 				<!--<include name="portal/**/*" />-->
 				<include name="drools/**/*" />
 				<include name="nestedbooking/**/*" />
+				<include name="wicket/**/*" />
 				<include name="remoting/chatroom/**/*" />
 				<include name="remoting/helloworld/**/*" />
 				<include name="remoting/progressbar/**/*" />
@@ -893,6 +914,7 @@
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
+					<propertyref name="wicket.pom" />
 					<propertyref name="jbas5.pom" />
 					<propertyref name="testng.jvmargs"/>
 				</propertyset>
@@ -903,6 +925,7 @@
 	<target name="downloadDependenciesSources" description="Download source jars for all dependencies" depends="init">
 		<dependenciesWithSources id="core" scope="compile" pom="${core.pom}" />
 		<dependenciesWithSources id="debug" scope="compile" pom="${debug.pom}" />
+		<dependenciesWithSources id="wicket" scope="compile" pom="${wicket.pom}" />
 		<dependenciesWithSources id="jbas5" scope="compile" pom="${jbas5.pom}" />
 		<dependenciesWithSources id="gen" scope="compile" pom="${gen.pom}" />
 		<dependenciesWithSources id="ioc" scope="compile" pom="${ioc.pom}" />
@@ -931,6 +954,7 @@
 	        classpathref="seam-gen.path"/>
 		<dependencies id="core" scope="compile" pom="${core.pom}" />
 		<dependencies id="debug" scope="compile" pom="${debug.pom}" />
+		<dependencies id="wicket" scope="compile" pom="${wicket.pom}" />
 		<dependencies id="jbas5" scope="compile" pom="${jbas5.pom}" />
 		<dependencies id="gen" scope="compile" pom="${gen.pom}" />
 		<dependencies id="ioc" scope="compile" pom="${ioc.pom}" />
@@ -948,6 +972,7 @@
 			<path refid="compile.remoting.path" />
 			<path refid="compile.ui.path" />
 			<path refid="compile.jbas5.path" />
+			<path refid="compile.wicket.path" />
 		</eclipseClasspath>
 	</target>
 
