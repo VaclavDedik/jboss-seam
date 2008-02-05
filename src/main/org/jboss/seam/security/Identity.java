@@ -64,6 +64,7 @@ public class Identity implements Serializable
    public static final String EVENT_LOGGED_OUT = "org.jboss.seam.security.loggedOut";
    public static final String EVENT_CREDENTIALS_UPDATED = "org.jboss.seam.security.credentialsUpdated";
    public static final String EVENT_REMEMBER_ME = "org.jboss.seam.security.rememberMe";
+   public static final String EVENT_ALREADY_LOGGED_IN = "org.jboss.seam.security.alreadyLoggedIn";
    
    protected static boolean securityEnabled = true;
    
@@ -192,11 +193,28 @@ public class Identity implements Serializable
       }
    }
 
+   /**
+    * Attempts to authenticate the user.  This method is distinct to the 
+    * authenticate() method in that it raises events in response to whether
+    * authentication is successful or not.  The following events may be raised
+    * by calling login():
+    * 
+    * org.jboss.seam.security.loginSuccessful - raised when authentication is successful
+    * org.jboss.seam.security.loginFailed - raised when authentication fails
+    * org.jboss.seam.security.alreadyLoggedIn - raised if the user is already authenticated
+    * 
+    * @return String returns "loggedIn" if user is authenticated, or null if not.
+    */
    public String login()
    {
       try
-      {
-         authenticate();
+      {         
+         if (!authenticate())
+         {
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_ALREADY_LOGGED_IN);
+            return "loggedIn";            
+         }
+         
          if ( log.isDebugEnabled() )
          {
             log.debug("Login successful for: " + getUsername());
@@ -230,7 +248,12 @@ public class Identity implements Serializable
       catch (LoginException ex) { }
    }
    
-   public void authenticate() 
+   /**
+    * 
+    * @return boolean true if authentication is attempted, false if it is not.
+    * @throws LoginException
+    */
+   public boolean authenticate() 
       throws LoginException
    {
       // If we're already authenticated, then don't authenticate again
@@ -239,6 +262,11 @@ public class Identity implements Serializable
          principal = null;
          subject = new Subject();
          authenticate( getLoginContext() );
+         return true;
+      }      
+      else
+      {
+         return false;
       }
    }
 
@@ -250,7 +278,7 @@ public class Identity implements Serializable
          authenticating = true;
          preAuthenticate();
          loginContext.login();
-         postAuthenticate();         
+         postAuthenticate();
       }
       finally
       {
@@ -327,9 +355,12 @@ public class Identity implements Serializable
    
    public void logout()
    {
-      unAuthenticate();
-      Session.instance().invalidate();
-      if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGGED_OUT);      
+      if (isLoggedIn(false))
+      {
+         unAuthenticate();
+         Session.instance().invalidate();
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGGED_OUT);
+      }
    }
 
    /**

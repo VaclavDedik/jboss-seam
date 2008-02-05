@@ -222,18 +222,5 @@ public class RuleBasedIdentity extends Identity
    public void setSecurityRules(RuleBase securityRules)
    {
       this.securityRules = securityRules;
-   }   
-   
-   @Override
-   public void logout()
-   {
-      // Explicitly destroy the security context
-      if (getSecurityContext() != null)
-      {
-         getSecurityContext().dispose();
-         setSecurityContext(null);
-      }
-      
-      super.logout();
-   }   
+   }    
 }

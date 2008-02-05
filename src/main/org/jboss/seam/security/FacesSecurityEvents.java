@@ -139,4 +139,14 @@ public class FacesSecurityEvents extends Selector
    {
       return "org.jboss.seam.loginSuccessful";
    }   
+   
+   @Observer(Identity.EVENT_ALREADY_LOGGED_IN)
+   public void addAlreadyLoggedInMessage()
+   {
+      FacesMessages.instance().addFromResourceBundleOrDefault (
+         FacesMessage.SEVERITY_WARN,
+         "org.jboss.seam.AlreadyLoggedIn",
+         "You are already logged in, please log out first if you wish to log in again"
+      );
+   }
 }
