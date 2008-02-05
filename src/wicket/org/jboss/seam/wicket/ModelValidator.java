@@ -47,7 +47,6 @@ public class ModelValidator implements IValidator
     */
    public void validate(IValidatable validatable)
    {
-	   System.out.println("model validator " + property + " / " + clazz);
       ClassValidator classValidator = Validators.instance().getValidator(clazz);
       InvalidValue[] invalidValues = classValidator.getPotentialInvalidValues(property, validatable.getValue());
       if (invalidValues.length > 0)
