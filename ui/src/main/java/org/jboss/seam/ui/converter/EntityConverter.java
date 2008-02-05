@@ -59,6 +59,7 @@ public class EntityConverter implements
       {
          store.setPersistenceContext(getPersistenceContext().getValue());
       }
+      store.validate();
    }
    
    @SuppressWarnings("unchecked")

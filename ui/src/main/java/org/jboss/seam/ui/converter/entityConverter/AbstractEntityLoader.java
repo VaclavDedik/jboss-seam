@@ -52,4 +52,6 @@ public abstract class AbstractEntityLoader<T> extends PersistenceController<T>
    
    protected abstract Identifier createIdentifier(Object entity);
 
+   public abstract void validate();
+
 }

@@ -46,8 +46,20 @@ public class EntityLoader extends AbstractEntityLoader<EntityManager>
       return "entityManager";
    }
    
+   @Override
+   public void validate()
+   {
+      if (getPersistenceContext() == null)
+      {
+         throw new IllegalStateException("Unable to access a persistence context. You must either have a SMPC called entityManager or configure one in components.xml");
+      }
+      
+   }
+   
    public static EntityLoader instance()
    {
       return (EntityLoader) Component.getInstance(EntityLoader.class, STATELESS);
    }
+
+
 }

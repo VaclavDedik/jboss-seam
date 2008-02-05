@@ -49,4 +49,14 @@ public class HibernateEntityLoader extends AbstractEntityLoader<Session>
    {
       return (HibernateEntityLoader) Component.getInstance(HibernateEntityLoader.class, STATELESS);
    }
+
+   @Override
+   public void validate()
+   {
+      if (getPersistenceContext() == null)
+      {
+         throw new IllegalStateException("Unable to access a Seam Managed Hibernate Session. You must either have a Seam Managed Hibernate Session called session or configure one in components.xml");
+      }
+      
+   }
 }
