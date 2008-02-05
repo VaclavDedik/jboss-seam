@@ -4,14 +4,11 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -23,7 +20,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
-import org.jboss.seam.util.EnumerationEnumeration;
 
 /**
  * A Seam filter component wrapper for the Ajax4JSF.
@@ -125,51 +121,6 @@ public class Ajax4jsfFilter extends AbstractFilter
    public void setLog4jInitFile(String log4jInitFile)
    {
       this.log4jInitFile = log4jInitFile;
-   }
-
-   private class FilterConfigWrapper implements FilterConfig
-   {
-      
-      private FilterConfig delegate;
-      private Map<String, String> parameters;
-      
-      public FilterConfigWrapper(FilterConfig filterConfig, Map<String, String> parameters)
-      {
-         delegate = filterConfig;
-         this.parameters = parameters;
-      }
-
-      public String getFilterName()
-      {
-         return delegate.getFilterName();
-      }
-
-      public String getInitParameter(String name)
-      {
-         if ( parameters.containsKey(name) )
-         {
-            return parameters.get(name);
-         }
-         else
-         {
-            return delegate.getInitParameter(name);
-         }
-      }
-
-      public Enumeration getInitParameterNames()
-      {
-         Enumeration[] enumerations = {
-                  delegate.getInitParameterNames(), 
-                  Collections.enumeration( parameters.keySet() )
-               };
-         return new EnumerationEnumeration(enumerations);
-      }
-
-      public ServletContext getServletContext()
-      {
-         return delegate.getServletContext();
-      }
-      
    }
    
 }

@@ -12,17 +12,23 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
 import org.jboss.seam.util.Strings;
 
+/**
+ * An authorization strategy for Wicket backed by Seam Security
+ * 
+ * @author pmuir
+ *
+ */
 public class SeamAuthorizationStrategy implements IAuthorizationStrategy
 {
    
    private LogProvider log = Logging.getLogProvider(SeamAuthorizationStrategy.class);
    private Class loginPage;
-   
-   public SeamAuthorizationStrategy()
-   {
-      this(null);
-   }
 
+   /**
+    * Create the strategy, specifying the page to use for login
+    * 
+    * @param loginPage
+    */
    public SeamAuthorizationStrategy(final Class loginPage)
    {
       this.loginPage = loginPage;
@@ -34,6 +40,11 @@ public class SeamAuthorizationStrategy implements IAuthorizationStrategy
       return isInstantiationAuthorized(component.getClass());
    }
 
+   /**
+    * Check whether access is allowed to the given wicket component.
+    * 
+    * Uses the @Restrict annotation to control access
+    */
    public boolean isInstantiationAuthorized(Class componentClass)
    {
       Restrict restrict = (Restrict) componentClass.getAnnotation(Restrict.class);

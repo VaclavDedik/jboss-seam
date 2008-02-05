@@ -1,8 +1,13 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+/**
+ * Implementation of BijectedAttribute for a method
+ * @author Pete Muir
+ *
+ */
 public class BijectedMethod<T extends Annotation> implements BijectedAttribute<T>
    {
       private String name;

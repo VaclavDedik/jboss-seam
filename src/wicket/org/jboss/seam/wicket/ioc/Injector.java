@@ -1,7 +1,7 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
-import static org.jboss.seam.wicket.MetaModelUtils.createProxyFactory;
-import static org.jboss.seam.wicket.MetaModelUtils.toName;
+import static org.jboss.seam.wicket.ioc.MetaModelUtils.createProxyFactory;
+import static org.jboss.seam.wicket.ioc.MetaModelUtils.toName;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,27 +12,23 @@ import java.util.Map;
 
 import javassist.util.proxy.ProxyObject;
 
-import org.jboss.seam.Component;
-import org.jboss.seam.Namespace;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.core.Init;
-import org.jboss.seam.log.LogProvider;
-import org.jboss.seam.log.Logging;
 
-
-public class InjectionSupport
+/**
+ * Controls injection for a MetaModel
+ *
+ */
+public class Injector
 {
    
    // TODO Ouch
    private static final Map<Class, Class<ProxyObject>> proxyFactories = new HashMap<Class, Class<ProxyObject>>();
    
-   private LogProvider log = Logging.getLogProvider(InjectionSupport.class);
-   
    private List<BijectedAttribute<In>> inAttributes = new ArrayList<BijectedAttribute<In>>();
    
    private MetaModel metaModel;
 
-   public InjectionSupport(MetaModel metaModel)
+   public Injector(MetaModel metaModel)
    {
       this.metaModel = metaModel;
    }

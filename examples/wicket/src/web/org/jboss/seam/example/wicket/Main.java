@@ -43,7 +43,6 @@ import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.BookingList;
 import org.jboss.seam.example.wicket.action.Hotel;
 import org.jboss.seam.example.wicket.action.HotelSearching;
-import org.jboss.seam.wicket.SimpleDataProvider;
 
 @Restrict
 public class Main extends WebPage

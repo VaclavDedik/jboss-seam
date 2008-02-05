@@ -21,5 +21,8 @@
     <transaction:ejb-transaction/>
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
+    
+    <!-- TODO Move this onto a wicekt namespace -->
+    <web:wicket-filter application-class="org.jboss.seam.example.wicket.WicketBookingApplication" />
 
 </components>

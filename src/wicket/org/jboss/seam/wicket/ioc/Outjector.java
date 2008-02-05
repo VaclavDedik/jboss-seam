@@ -1,8 +1,8 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.ScopeType.UNSPECIFIED;
-import static org.jboss.seam.wicket.MetaModelUtils.toName;
+import static org.jboss.seam.wicket.ioc.MetaModelUtils.toName;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -13,14 +13,14 @@ import org.jboss.seam.RequiredException;
 import org.jboss.seam.annotations.Out;
 
 
-public class OutjectionSupport
+public class Outjector
 {
    
    private List<BijectedAttribute<Out>> outAttributes = new ArrayList<BijectedAttribute<Out>>();
    
    private MetaModel metaModel;
 
-   public OutjectionSupport(MetaModel metaModel)
+   public Outjector(MetaModel metaModel)
    {
       this.metaModel = metaModel;
    }

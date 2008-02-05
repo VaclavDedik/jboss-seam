@@ -1,4 +1,4 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -8,6 +8,11 @@ import javassist.util.proxy.ProxyObject;
 
 import org.jboss.seam.util.ProxyFactory;
 
+/**
+ * Utilitilies relating to a MetaModel
+ * @author pmuir
+ *
+ */
 public class MetaModelUtils
 {
    

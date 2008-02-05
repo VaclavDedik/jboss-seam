@@ -1,8 +1,13 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
+/**
+ * Implementation of BijectedAttribute for a field
+ * @author Pete Muir
+ *
+ */
 public class BijectedField<T extends Annotation> implements BijectedAttribute<T>
    {
       private String name;

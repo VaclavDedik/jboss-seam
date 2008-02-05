@@ -7,6 +7,14 @@ import org.apache.wicket.util.value.ValueMap;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
 
+/**
+ * A SeamLink is like a Wicket Link, but will propagate the conversation
+ * 
+ * This will probably be replaced in the future
+ * 
+ * @author pmuir
+ *
+ */
 public abstract class SeamLink extends Link
 {
    

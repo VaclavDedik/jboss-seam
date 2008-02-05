@@ -8,13 +8,13 @@
 
     <module>
         <web>
-            <web-uri>jboss-seam-wicket.war</web-uri>
+            <web-uri>jboss-seam-wicket-booking.war</web-uri>
             <context-root>/seam-wicket</context-root>
         </web>
     </module>
     
     <module>
-        <ejb>jboss-seam-wicket.jar</ejb>
+        <ejb>jboss-seam-wicket-booking.jar</ejb>
     </module>
     
     <module>

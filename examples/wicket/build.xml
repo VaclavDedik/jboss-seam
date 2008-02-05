@@ -4,7 +4,7 @@
 
     <!-- Naming -->
     <property name="Name"                   value="Port of Seam Booking Example to use Wicket"/>
-    <property name="example.name"           value="jboss-seam-wicket"/>
+    <property name="example.name"           value="jboss-seam-wicket-booking"/>
 	
 	<property name="src.java.dir" 		    value="src/action" />
 	<property name="src.web.dir"            value="src/web" />
@@ -15,7 +15,7 @@
 	<property name="wicket-extensions.lib"  value="yes" />
 	
 	<!-- Datasource -->
-    <property name="example.ds"             value="jboss-seam-wicket-ds.xml"/>
+    <property name="example.ds"             value="jboss-seam-wicket-booking-ds.xml"/>
    
     <import file="../build.xml"/>
 	

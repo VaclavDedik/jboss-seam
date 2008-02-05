@@ -55,22 +55,6 @@ public class Register extends WebPage
          setResponsePage(Home.class);
       }
       
-      @Override
-      protected void onError()
-      {
-         super.onError();
-         System.out.println("onError");
-         System.out.println(username.getFeedbackMessage());
-      }
-      
-	}
-	
-	@Override
-	protected void onBeforeRender()
-	{
-	   super.onBeforeRender();
-	   System.out.println("onBeforeRender");
-      System.out.println(username.getFeedbackMessage());
 	}
 	
 }

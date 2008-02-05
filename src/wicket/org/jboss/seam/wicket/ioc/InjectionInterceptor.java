@@ -1,4 +1,4 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.ScopeType.UNSPECIFIED;
@@ -17,6 +17,7 @@ import org.jboss.seam.util.Reflections;
 
 import javassist.util.proxy.MethodHandler;
 
+// TODO Replace with a client side Seam interceptor
 public class InjectionInterceptor implements MethodHandler, Serializable
 {
 

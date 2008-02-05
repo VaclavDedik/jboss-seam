@@ -1,4 +1,4 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -7,8 +7,11 @@ import java.util.List;
 
 import org.jboss.seam.util.Reflections;
 
-// TODO Reimplement as Seam ClientSide Interceptor
-public class LoggerSupport
+/**
+ * Controls logging for a MetaModel
+ *
+ */
+public class Loggable
 {
    
    private List<Field> logFields = new ArrayList<Field>();
@@ -16,7 +19,7 @@ public class LoggerSupport
    
    private MetaModel metaModel;
 
-   public LoggerSupport(MetaModel metaModel)
+   public Loggable(MetaModel metaModel)
    {
       this.metaModel = metaModel;
    }

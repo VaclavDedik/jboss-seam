@@ -5,6 +5,6 @@
 
 <jboss-app>
       <loader-repository> 
-      seam.jboss.org:loader=seam-wicket
+      seam.jboss.org:loader=seam-wicket-booking
       </loader-repository> 
 </jboss-app>

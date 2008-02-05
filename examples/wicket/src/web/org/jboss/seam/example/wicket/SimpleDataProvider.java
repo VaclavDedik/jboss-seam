@@ -1,4 +1,4 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.example.wicket;
 
 import java.io.Serializable;
 

@@ -1,10 +1,15 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import org.jboss.seam.util.Reflections;
 
+/**
+ * Implementation of BijectedAttribute for a pair of methods
+ * @author Pete Muir
+ *
+ */
 public class BijectedProperty<T extends Annotation> implements BijectedAttribute<T>
    {
       

@@ -1,4 +1,4 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -7,19 +7,24 @@ import org.jboss.seam.Model;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.util.Reflections;
 
+/**
+ * MetaModel for a component
+ * @author pmuir
+ *
+ */
 public abstract class MetaModel extends Model 
 {
 
-   private InjectionSupport injectionSupport;
-   private OutjectionSupport outjectionSupport;
-   private LoggerSupport loggerSupport;
+   private Injector injectionSupport;
+   private Outjector outjectionSupport;
+   private Loggable loggerSupport;
    
    public MetaModel(Class<?> beanClass)
    {
       super(beanClass);
-      injectionSupport = new InjectionSupport(this);
-      outjectionSupport = new OutjectionSupport(this);
-      loggerSupport = new LoggerSupport(this);
+      injectionSupport = new Injector(this);
+      outjectionSupport = new Outjector(this);
+      loggerSupport = new Loggable(this);
       scan();
    }
    

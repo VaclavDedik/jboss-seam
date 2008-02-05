@@ -31,6 +31,14 @@
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="web:attlist.filter"/>
         </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="wicket-filter">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+            <xs:attributeGroup ref="web:attlist.wicketFilter"/>
+        </xs:complexType>
     </xs:element>    
         
     <xs:element name="character-encoding-filter">
@@ -71,7 +79,13 @@
     <xs:attributeGroup name="attlist.filter">
         <xs:attribute name="url-pattern" type="xs:string"/>
         <xs:attribute name="regex-url-pattern" type="xs:string"/>
-        <xs:attribute name="disabled" type="xs:string" default="false" />
+        <xs:attribute name="disabled" type="xs:boolean" default="false" />
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="attlist.wicketFilter">
+        <xs:attribute name="application-class" type="xs:string"/>
+        <xs:attribute name="application-factory-class" type="xs:string"/>
+        <xs:attribute name="detect-portlet-context" type="xs:boolean" default="false" />
     </xs:attributeGroup>
     
     <xs:attributeGroup name="attlist.multipartFilter">

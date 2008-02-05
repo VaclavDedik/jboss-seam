@@ -1,7 +1,12 @@
-package org.jboss.seam.wicket;
+package org.jboss.seam.wicket.ioc;
 
 import org.jboss.seam.contexts.Contexts;
 
+/**
+ * MetaModel for Wicket components
+ * @author pmuir
+ *
+ */
 public class WicketComponent extends MetaModel
 {
 

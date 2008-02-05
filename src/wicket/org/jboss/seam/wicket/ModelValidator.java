@@ -12,7 +12,7 @@ import org.jboss.seam.core.Validators;
 
 /**
  * 
- * An implementation of Hibernate Model Validation for Wicket
+ * Allows Hibernate Model Validation to be used in Wicket
  * 
  * @author Pete Muir
  *
@@ -23,18 +23,28 @@ public class ModelValidator implements IValidator
    private Class clazz;
    private String property;
 
+   /**
+    * Create a ModelValidator which will validate the specified property
+    */
    public ModelValidator(Class clazz, String property)
    {
       this.clazz = clazz;
       this.property = property;
    }
    
+   /**
+    * Create a model validator that will validate the property specified by the
+    * PropertyModel
+    */
    public ModelValidator(PropertyModel propertyModel)
    {
       this.clazz = propertyModel.getTarget().getClass();
       this.property = propertyModel.getPropertyExpression();
    }
    
+   /**
+    * Do the validation, normally called by Wicket
+    */
    public void validate(IValidatable validatable)
    {
 	   System.out.println("model validator " + property + " / " + clazz);
