@@ -1,6 +1,6 @@
 <!DOCTYPE page PUBLIC
-          "-//JBoss/Seam Pages Configuration DTD 2.0//EN"
-          "http://jboss.com/products/seam/pages-2.0.dtd">
+          "-//JBoss/Seam Pages Configuration DTD 2.1//EN"
+          "http://jboss.com/products/seam/pages-2.1.dtd">
 
 <page>
    <param name="artistId" value="#{artistHome.id}" converterId="javax.faces.Integer"/>

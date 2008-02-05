@@ -3,7 +3,7 @@
 	targetNamespace="http://jboss.com/products/seam/spring" xmlns:spring="http://jboss.com/products/seam/spring"
 	xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
 	<xs:import namespace="http://jboss.com/products/seam/components"
-		schemaLocation="http://jboss.com/products/seam/components-2.0.xsd" />
+		schemaLocation="http://jboss.com/products/seam/components-2.1.xsd" />
 
 	<xs:element name="context-loader">
 		<xs:complexType mixed="true">

@@ -4,10 +4,10 @@
             xmlns:persistence="http://jboss.com/products/seam/persistence"
             xmlns:spring="http://jboss.com/products/seam/spring"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.0.xsd 
-                                http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.0.xsd
-                                http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd
-                                http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-2.0.xsd">
+            xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+                                http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
+                                http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+                                http://jboss.com/products/seam/spring http://jboss.com/products/seam/spring-2.1.xsd">
 
 
     <core:manager conversation-timeout="120000" 
