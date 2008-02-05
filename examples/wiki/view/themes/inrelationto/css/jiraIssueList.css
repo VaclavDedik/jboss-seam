@@ -6,7 +6,9 @@
 
 .jiraIssueListTable .summaryColumn {}
 
-.jiraIssueListTable .componentsColumn {}
+.jiraIssueListTable .jiraIssueComponents {
+    text-align: right;
+}
 
 .jiraIssueListEmpty {
     padding: 5px;

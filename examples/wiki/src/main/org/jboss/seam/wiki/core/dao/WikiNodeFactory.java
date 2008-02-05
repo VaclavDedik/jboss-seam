@@ -63,7 +63,7 @@ public class WikiNodeFactory implements Serializable {
             return (WikiDirectory) em
                     .createQuery("select d from WikiDirectory d left join fetch d.feed where d.parent is null")
                     .setHint("org.hibernate.comment", "Loading wikiRoot")
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (RuntimeException ex) {
             throw new RuntimeException("You need to INSERT at least one parentless directory into the database", ex);
@@ -79,7 +79,7 @@ public class WikiNodeFactory implements Serializable {
                     .createQuery("select d from WikiDocument d where d.id = :id")
                     .setParameter("id", Preferences.getInstance(WikiPreferences.class).getDefaultDocumentId())
                     .setHint("org.hibernate.comment", "Loading wikiStart")
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (EntityNotFoundException ex) {
         } catch (NoResultException ex) {
@@ -101,7 +101,7 @@ public class WikiNodeFactory implements Serializable {
                     .createQuery("select d from WikiDirectory d left join fetch d.feed where d.id = :id")
                     .setParameter("id", wikiroot.getId())
                     .setHint("org.hibernate.comment", "Loading wikiRootRestricted")
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (RuntimeException ex) {
             throw new RuntimeException("You need to INSERT at least one parentless directory into the database", ex);
@@ -118,7 +118,7 @@ public class WikiNodeFactory implements Serializable {
                     .createQuery("select d from WikiDirectory d left join fetch d.feed where d.wikiname = :name and d.parent.parent is null")
                     .setParameter("name", WikiUtil.convertToWikiName(memberAreaName) )
                     .setHint("org.hibernate.comment", "Loading memberArea")
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (RuntimeException ex) {
             FacesMessages.instance().addFromResourceBundleOrDefault(
@@ -141,7 +141,7 @@ public class WikiNodeFactory implements Serializable {
                     .createQuery("select d from WikiDirectory d left join fetch d.feed where d.wikiname = :name and d.parent.parent is null")
                     .setParameter("name", WikiUtil.convertToWikiName(trashAreaName) )
                     .setHint("org.hibernate.comment", "Loading trashArea")
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (RuntimeException ex) {
             FacesMessages.instance().addFromResourceBundleOrDefault(
@@ -164,7 +164,7 @@ public class WikiNodeFactory implements Serializable {
                     .createQuery("select d from WikiDirectory d left join fetch d.feed where d.wikiname = :name and d.parent.parent is null")
                     .setParameter("name", WikiUtil.convertToWikiName(helpAreaName) )
                     .setHint("org.hibernate.comment", "Loading trashArea")
-                    .setHint("org.hibernate.cacheable", true)
+                    .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (RuntimeException ex) {
             FacesMessages.instance().addFromResourceBundleOrDefault(

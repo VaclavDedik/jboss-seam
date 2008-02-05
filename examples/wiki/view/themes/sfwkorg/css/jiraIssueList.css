@@ -6,7 +6,9 @@
 
 .jiraIssueListTable .summaryColumn {}
 
-.jiraIssueListTable .componentsColumn {}
+.jiraIssueListTable .jiraIssueComponents {
+    text-align: right;
+}
 
 .jiraIssueListEmpty {
     border-left: 1px solid #d3d2d1;

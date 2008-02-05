@@ -19,8 +19,7 @@
                          rendered="#{not empty jiraIssueList.issues and jiraIssueList.issues.size() > 0}"
                          styleClass="datatable jiraIssueListTable"
                          columnClasses="onePercentColumn alignCenter priorityColumn,
-                                        defaultColumn alignLeft summaryColumn wrapWhitespace,
-                                        tenPercentColumn alignLeft componentsColumn"
+                                        defaultColumn alignLeft summaryColumn wrapWhitespace"
                          rowClasses="rowOdd, rowEven"
                          cellpadding="0" cellspacing="0" border="0">
 
@@ -29,21 +28,22 @@
                 </h:column>
 
                 <h:column>
+
+                    <s:div styleClass="jiraIssueComponents smallFont">
+                        <ui:repeat var="comp" value="#{i.componentNames}">
+                            <h:outputText value="#{comp}"/>
+                            <h:outputText rendered="#{i.componentNames.indexOf(comp) &lt; i.componentNames.size()-1}"
+                                          value=",&#160; "/>
+                        </ui:repeat>
+                        <h:outputText value="&#160;" rendered="#{empty i.componentNames}"/>
+                    </s:div>
+
                     <h:outputLink value="#{preferences.get('JiraIssueList', currentMacro).url}/browse/#{i.key}">
                         <h:outputText
                                 value="(#{i.key})&#160; #{wiki:truncateString(i.summary, preferences.get('JiraIssueList', currentMacro).truncateSummary, '...')}"/>
                     </h:outputLink>
-                </h:column>
 
-                <h:column>
-                    <ui:repeat var="comp" value="#{i.componentNames}">
-                        <h:outputText value="#{comp}"/>
-                        <h:outputText rendered="#{i.componentNames.indexOf(comp) &lt; i.componentNames.size()-1}"
-                                      value=",&#160; "/>
-                    </ui:repeat>
-                    <h:outputText value="&#160;" rendered="#{empty i.componentNames}"/>
                 </h:column>
-
 
             </h:dataTable>
 
