@@ -47,7 +47,7 @@ public class FormInputBorder extends Border
     * @param label Label to add
     * @param component The component to wrap
     * @param model The model to attach the component to
-    * @param ajax Whether to use ajax validation
+    * @param ajaxValidate Whether to use ajax validation
     */
    public FormInputBorder(String id, String label, FormComponent component, PropertyModel model, boolean ajaxValidate)
    {

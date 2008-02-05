@@ -10,7 +10,6 @@ import javax.persistence.PersistenceContext;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
-import org.jboss.seam.security.Identity;
 
 @Stateless
 @Name("authenticator")
@@ -19,6 +18,7 @@ public class AuthenticatorAction implements Authenticator
    @PersistenceContext 
    private EntityManager em;
    
+   @SuppressWarnings("unused")
    @Out(required=false, scope = SESSION)
    private User user;
    

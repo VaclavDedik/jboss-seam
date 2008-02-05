@@ -34,7 +34,6 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.PropertyModel;
@@ -44,6 +43,7 @@ import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.BookingList;
 import org.jboss.seam.example.wicket.action.Hotel;
 import org.jboss.seam.example.wicket.action.HotelSearching;
+import org.jboss.seam.security.Identity;
 
 @Restrict
 public class Main extends WebPage
@@ -62,7 +62,9 @@ public class Main extends WebPage
    private DataView       bookedHotelDataView;
    private HotelSearchForm hotelSearchForm;
    private WebMarkupContainer hotels;
-   private Component noHotelsFound; 
+   private Component noHotelsFound;
+   
+   
    
    public Main(final PageParameters parameters)
    {
@@ -83,7 +85,7 @@ public class Main extends WebPage
          @Override
          public boolean isVisible()
          {
-            return hotelSearch.getHotels().size() == 0;
+            return Identity.instance().isLoggedIn() && hotelSearch.getHotels().size() == 0;
          }
       };
       body.add(noHotelsFound.setOutputMarkupId(true));
@@ -118,7 +120,7 @@ public class Main extends WebPage
          @Override
          public boolean isVisible()
          {
-            return hotelSearch.getHotels().size() > 0;
+            return Identity.instance().isLoggedIn() && hotelSearch.getHotels().size() > 0;
          }
          
       };
@@ -188,7 +190,7 @@ public class Main extends WebPage
          @Override
          public boolean isVisible()
          {
-            return bookings.size() > 0;
+            return Identity.instance().isLoggedIn() && bookings.size() > 0;
          }
 
       };
@@ -198,7 +200,7 @@ public class Main extends WebPage
          @Override
          public boolean isVisible()
          {
-            return bookings.size() == 0;
+            return Identity.instance().isLoggedIn() && bookings.size() == 0;
          }
       });
    }

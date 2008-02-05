@@ -18,7 +18,6 @@ package org.jboss.seam.example.wicket;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
@@ -32,10 +31,7 @@ import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.util.convert.IConverter;
-import org.apache.wicket.util.convert.converters.BooleanConverter;
 import org.apache.wicket.validation.ValidationError;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;

@@ -39,6 +39,7 @@ public class BookingListAction implements BookingList, Serializable
    @In
    private User user;
    
+   @SuppressWarnings("unused")
    @Out
    private List<Booking> bookings;
    

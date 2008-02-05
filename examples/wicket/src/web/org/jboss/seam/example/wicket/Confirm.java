@@ -39,7 +39,6 @@ public class Confirm extends WebPage
          @Override
          public void onClick()
          {
-            hotelBooking.bookHotel();
             setResponsePage(Book.class);
          }
       });

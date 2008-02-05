@@ -37,7 +37,14 @@ public class InjectionInterceptor implements MethodHandler, Serializable
 
    public Object invoke(final Object proxy, final Method method, final Method proceed, final Object[] params) throws Throwable
    {
-      return Reflections.invoke(method, getValueToInject(proxy), params);
+      if (!org.jboss.seam.web.Session.instance().isInvalid())
+      {
+         return Reflections.invoke(method, getValueToInject(proxy), params);
+      }
+      else
+      {
+         return null;
+      }
    }
    
    private Object getValueToInject(Object bean)
