@@ -10,7 +10,7 @@
 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 
-      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
 
       no-conversation-view-id="/${masterPageName}.xhtml"
 
