@@ -581,6 +581,18 @@ public class Authenticator {
               </para>
             </entry>
           </row>
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.AlreadyLoggedIn</literal>
+              </para>
+            </entry>
+            <entry>
+              <para>
+                This message is produced when a user that is already authenticated attempts to log in again.
+              </para>
+            </entry>
+          </row>          
         </tbody>
       </tgroup>
     </table>
@@ -1393,6 +1405,18 @@ public class HitchhikersCaptcha extends Captcha
               </para>
             </entry>
           </row>
+          <row>
+            <entry>
+              <para>
+                <literal>org.jboss.seam.security.alreadyLoggedIn</literal>
+              </para>
+            </entry>
+            <entry>
+              <para>
+                Raised when a user that is already authenticated attempts to log in again.
+              </para>
+            </entry>
+          </row>          
           <row>
             <entry>
               <para>
