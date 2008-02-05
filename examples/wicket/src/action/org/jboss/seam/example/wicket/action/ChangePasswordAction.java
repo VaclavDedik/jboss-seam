@@ -26,6 +26,7 @@ public class ChangePasswordAction implements ChangePassword
    @PersistenceContext
    private EntityManager em;
    
+   // TODO JBSEAM-2515
    //@In
    //private FacesMessages facesMessages;
    

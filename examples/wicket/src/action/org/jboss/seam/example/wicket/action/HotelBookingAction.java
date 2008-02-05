@@ -39,7 +39,8 @@ public class HotelBookingAction implements HotelBooking
    @In(required=false) 
    @Out(required=false)
    private Booking booking;
-     
+   
+   // TODO JBSEAM-2515
    //@In
    //private FacesMessages facesMessages;
       

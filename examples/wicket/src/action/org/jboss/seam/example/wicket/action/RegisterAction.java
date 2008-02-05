@@ -25,6 +25,7 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
+   //TODO JBSEAM-2515
    //@In
    //private FacesMessages facesMessages;
    
