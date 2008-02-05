@@ -8,14 +8,12 @@ import java.util.Locale;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.link.Link;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Conversation;
-import org.jboss.seam.core.ConversationPropagation;
-import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.HotelBooking;
+import org.jboss.seam.wicket.SeamLink;
 
 @Restrict
 public class Confirm extends WebPage 
@@ -31,35 +29,30 @@ public class Confirm extends WebPage
 	{
 	   super(parameters);
 	   Template body = new Template("body");
-	   final String cid = Conversation.instance().getId();
 	   body.add(new HotelViewPanel("hotel", booking.getHotel()));
 	   body.add(new OutputBorder("totalBorder", "Total Payment", new Label("total", DecimalFormat.getCurrencyInstance(Locale.US).format(booking.getTotal()))));
-	   body.add(new OutputBorder("checkinDateBorder", "Check in", new Label("checkinDate", new SimpleDateFormat("mm/dd/yy").format(booking.getCheckinDate()))));
-	   body.add(new OutputBorder("checkoutDateBorder", "Check out", new Label("checkoutDate", new SimpleDateFormat("mm/dd/yy").format(booking.getCheckoutDate()))));
+	   body.add(new OutputBorder("checkinDateBorder", "Check in", new Label("checkinDate", new SimpleDateFormat().format(booking.getCheckinDate()))));
+	   body.add(new OutputBorder("checkoutDateBorder", "Check out", new Label("checkoutDate", new SimpleDateFormat().format(booking.getCheckoutDate()))));
 	   body.add(new OutputBorder("creditCardNumberBorder", "Credit Card #", new Label("creditCardNumber", booking.getCreditCard())));
-	   body.add(new Link("revise")
+	   body.add(new SeamLink("revise")
       {
          @Override
          public void onClick()
          {
-            ConversationPropagation.instance().setConversationId(cid);
-            Manager.instance().restoreConversation();
             hotelBooking.bookHotel();
             setResponsePage(Book.class);
          }
       });
-      body.add(new Link("confirm")
+      body.add(new SeamLink("confirm")
       {
          @Override
          public void onClick()
          {
-            ConversationPropagation.instance().setConversationId(cid);
-            Manager.instance().restoreConversation();
             hotelBooking.confirm();
             setResponsePage(Main.class);
          }
       });
-      body.add(new Link("cancel")
+      body.add(new SeamLink("cancel")
       {
          @Override
          public void onClick()
@@ -72,5 +65,12 @@ public class Confirm extends WebPage
 	   
 	   add(body);
 	}
+	
+	@Override
+   protected void onBeforeRender()
+   {
+	   super.onBeforeRender();
+      System.out.println("cid " + Conversation.instance().getId());
+   }
 	
 }

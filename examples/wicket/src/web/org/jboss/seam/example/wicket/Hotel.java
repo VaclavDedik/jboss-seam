@@ -31,7 +31,7 @@ public class Hotel extends WebPage
 	         setResponsePage(Book.class);
 	      }
 	   });
-	   body.add(new Link("cancel")
+	   body.add(new SeamLink("cancel")
       {
          @Override
          public void onClick()

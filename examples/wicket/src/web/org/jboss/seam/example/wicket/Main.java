@@ -33,6 +33,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
+import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -223,7 +224,7 @@ public class Main extends WebPage
          add(new TextField("searchString", new PropertyModel(hotelSearch, "searchString")));
          List<Integer> pageSizes = Arrays.asList(new Integer[] { 5, 10, 20 });
          add(new DropDownChoice("pageSize", new PropertyModel(this, "pageSize"), pageSizes));
-         final Component messages = new FeedbackPanel("messages").setOutputMarkupId(true); 
+         final Component messages = new ComponentFeedbackPanel("messages", this).setOutputMarkupId(true); 
          add(messages);
          add(new IndicatingAjaxButton("submit", this)
          {

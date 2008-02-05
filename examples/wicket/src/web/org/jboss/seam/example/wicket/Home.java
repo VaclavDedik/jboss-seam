@@ -70,7 +70,7 @@ public class Home extends WebPage
          }
          catch (LoginException e)
          {
-            error(new ValidationError().setMessage("Login failed"));
+            error("Login failed");
             log.error("Login failed", e);
          }
       }

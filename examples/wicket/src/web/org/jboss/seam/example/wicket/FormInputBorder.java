@@ -30,13 +30,26 @@ public class FormInputBorder extends Border
    private ComponentFeedbackPanel feedbackPanel;
    
    /**
-    * Create a new form input border
+    * Create a new form input border which validates using ajax
     * @param id Id of border component on page
     * @param label Label to add
     * @param component The component to wrap
     * @param model The model to attach the component to
     */
    public FormInputBorder(String id, String label, FormComponent component, PropertyModel model)
+   {
+      this(id, label, component, model, true);
+   }
+   
+   /**
+    * Create a new form input border which validates
+    * @param id Id of border component on page
+    * @param label Label to add
+    * @param component The component to wrap
+    * @param model The model to attach the component to
+    * @param ajax Whether to use ajax validation
+    */
+   public FormInputBorder(String id, String label, FormComponent component, PropertyModel model, boolean ajaxValidate)
    {
       super(id);
       component.setLabel(new Model(label));
@@ -52,33 +65,37 @@ public class FormInputBorder extends Border
       add(labelComponent);
       add(component, model);
       feedbackPanel = new ComponentFeedbackPanel("message", component);
-      feedbackPanel.setOutputMarkupId(true);
+      
       add(feedbackPanel);
       component.add(new ModelValidator(model));
       
-      component.add(new AjaxFormComponentUpdatingBehavior("onblur")
+      if (ajaxValidate)
       {
-
-         @Override
-         protected void onUpdate(AjaxRequestTarget target)
+         feedbackPanel.setOutputMarkupId(true);
+         component.add(new AjaxFormComponentUpdatingBehavior("onblur")
          {
-            getFormComponent().validate();
-            target.addComponent(feedbackPanel);
-         }
-         
-         @Override
-         protected void onError(AjaxRequestTarget target, RuntimeException e)
-         {
-            target.addComponent(feedbackPanel);
-         }
-         
-         @Override
-         protected boolean getUpdateModel()
-         {
-            return true;
-         }
-         
-      });
+   
+            @Override
+            protected void onUpdate(AjaxRequestTarget target)
+            {
+               getFormComponent().validate();
+               target.addComponent(feedbackPanel);
+            }
+            
+            @Override
+            protected void onError(AjaxRequestTarget target, RuntimeException e)
+            {
+               target.addComponent(feedbackPanel);
+            }
+            
+            @Override
+            protected boolean getUpdateModel()
+            {
+               return true;
+            }
+            
+         });
+      }
    }
    
    public FormInputBorder add(FormComponent component, PropertyModel model)

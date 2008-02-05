@@ -6,6 +6,7 @@ import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.validation.EqualInputValidator;
 import org.apache.wicket.markup.html.link.PageLink;
+import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.seam.annotations.In;
@@ -54,7 +55,7 @@ public class Password extends WebPage
          FormComponent verify = new PasswordTextField("verify").setRequired(true);
          add(new FormInputBorder("passwordBorder", "Password", password , new PropertyModel(user, "password")));
          add(new FormInputBorder("verifyBorder", "Verify Password", verify, new PropertyModel(this, "verify")));
-         add(new FeedbackPanel("messages"));
+         add(new ComponentFeedbackPanel("messages", this));
          add(new EqualInputValidator(password, verify));
       }
       

@@ -5,9 +5,9 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.form.validation.EqualInputValidator;
+import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.markup.html.link.PageLink;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.example.wicket.action.User;
@@ -44,8 +44,8 @@ public class Register extends WebPage
          FormComponent verify = new PasswordTextField("verify").setRequired(true);
          add(new FormInputBorder("passwordDecorate", "Password", password , new PropertyModel(user, "password")));
          add(new FormInputBorder("verifyDecorate", "Verify Password", verify, new PropertyModel(register, "verify")));
-         add(new FeedbackPanel("messages"));
-         add(new EqualInputValidator(password, verify));
+         add(new ComponentFeedbackPanel("messages", this));
+         add(new EqualPasswordInputValidator(password, verify));
       }
       
       @Override
