@@ -130,8 +130,8 @@
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
-                "http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd
-                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd">
+                "http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd">
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
@@ -1039,10 +1039,10 @@ end;]]></programlisting>
             xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
-                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.0.xsd
-                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd
-                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd"
-                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd">
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd"
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd">
 
    <drools:rule-base name="securityRules">
        <drools:rule-files>
@@ -1650,7 +1650,7 @@ public class CustomIdentity extends Identity
         Configuration of the <literal>IdentityManager</literal> is extremely simple, requiring only an
         <literal>IdentityStore</literal> to be configured in <literal>components.xml</literal>.
         The identity management namespace is <literal>http://jboss.com/products/seam/security/management</literal>
-        and its schema location is <literal>http://jboss.com/products/seam/identity-management-2.0.xsd</literal>.
+        and its schema location is <literal>http://jboss.com/products/seam/identity-management-2.1.xsd</literal>.
         Here's a simple example showing the configuration of a <literal>JPAIdentityStore</literal> - for the
         <literal>IdentityManager</literal> to use it, it must be named <literal>identityStore</literal>:
       </para>

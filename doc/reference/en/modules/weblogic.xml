@@ -1003,7 +1003,7 @@ BUILD SUCCESSFUL]]></programlisting>
                            namespace and schema location to the top of the
                            document.</para>
                         <programlisting><![CDATA[xmlns:transaction="http://jboss.com/products/seam/transaction"]]></programlisting>
-                        <programlisting><![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.0.xsd]]></programlisting>
+                        <programlisting><![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd]]></programlisting>
                      </listitem>
                   </varlistentry>
                   <varlistentry>
