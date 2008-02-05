@@ -303,9 +303,12 @@
 	
 	<fileset id="wicket-extensions.jar" dir="${lib.dir}">
 		<include name="wicket-extensions.jar" if="wicket-extensions.lib" />
-		<include name="wicket-datetime.jar" if="wicket-extensions.lib" />
 	</fileset>
-
+	
+	<fileset id="wicket-datetime.jar" dir="${lib.dir}">
+		<include name="wicket-datetime.jar" if="wicket-datetime.lib" />
+		<include name="joda-time.jar" if="wicket-datetime.lib" />
+	</fileset>
 
 	<!-- ############################ MELDWARE ############################ -->
 	<!--
@@ -585,6 +588,7 @@
 			<fileset refid="jcaptcha.jar" />
 			<fileset refid="antlr.jar" />
 			<fileset refid="wicket-extensions.jar" />
+			<fileset refid="wicket-datetime.jar" />
 			<fileset refid="seam.wicket.jar" />
 			<mapper type="flatten" />
 		</copy>
@@ -775,6 +779,7 @@
 			<fileset refid="richfaces-api.jar" />
 			<fileset refid="groovy.jar" />
 			<fileset refid="wicket-extensions.jar" />
+			<fileset refid="wicket-datetime.jar" />
 			<fileset refid="seam.wicket.jar" />
 			<mapper type="flatten" />
 		</copy>

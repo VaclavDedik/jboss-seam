@@ -13,6 +13,7 @@
     
     <property name="seam.wicket.lib"        value="yes" />
 	<property name="wicket-extensions.lib"  value="yes" />
+    <property name="wicket-datetime.lib"  value="yes" />
 	
 	<!-- Datasource -->
     <property name="example.ds"             value="jboss-seam-wicket-booking-ds.xml"/>
