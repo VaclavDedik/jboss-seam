@@ -1478,19 +1478,19 @@
     &lt;url-pattern&gt;*.pdf&lt;/url-pattern&gt;
 &lt;/servlet-mapping&gt;</programlisting>
 
-            <para> The <literal>useExtensions</literal> option on the document store component completes the
+            <para> The <literal>use-extensions</literal> option on the document store component completes the
                 functionality by instructing the document store to generate URLs with the correct filename extension for
                 the document type being generated. </para>
 
             <programlisting>&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;
             xmlns:pdf=&quot;http://jboss.com/products/seam/pdf&quot;&gt;
-    &lt;pdf:documentStore useExtensions=&quot;true&quot; /&gt;
+    &lt;pdf:documentStore use-extensions=&quot;true&quot; /&gt;
 &lt;/components&gt;</programlisting>
 
             <para> Generated documents are stored in conversation scope and will expire when the conversation ends. At
                 that point, references to the document will be invalid. To You can specify a default view to be shown
-                when a document does not exist using the <literal>errorPage</literal> property of the documentStore. </para>
-            <programlisting>&lt;pdf:documentStore useExtensions=&quot;true&quot; errorPage=&quot;/pdfMissing.seam&quot; /&gt;</programlisting>
+                when a document does not exist using the <literal>error-page</literal> property of the documentStore. </para>
+            <programlisting>&lt;pdf:documentStore use-extensions=&quot;true&quot; error-page=&quot;/pdfMissing.seam&quot; /&gt;</programlisting>
         </section>
     </section>
 
