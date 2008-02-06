@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.contexts.Contexts;
 import static org.jboss.seam.ScopeType.SESSION;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
@@ -18,6 +19,8 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.model.*;
+
+import javax.security.auth.login.LoginException;
 
 /**
  * Need this until Drools fixes bugs and becomes usable/debuggable.
@@ -32,6 +35,19 @@ public class WikiIdentity extends Identity {
 
     private User currentUser;
     private Integer currentAccessLevel;
+
+    // TODO: Override Shanes last commit, which introduced a bug, raising an "already logged in" message 
+    public String login() {
+        try {
+            authenticate();
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
+            return "loggedIn";
+        }
+        catch (LoginException ex) {
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_FAILED, ex);
+            return null;
+        }
+    }
 
     // We don't care if a user is logged in, just check it...
     public void checkRestriction(String expr) {
