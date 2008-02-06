@@ -131,19 +131,19 @@
             <h:outputLink rendered="#{blogDirectory.pager.previousPageAvailable}" target="_top"
                           value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
-                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.first.gif" width="13" height="11"/>
+                <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
                 </div>
             </h:outputLink>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.pager.previousPageAvailable}"/>
 
             <h:outputLink rendered="#{blogDirectory.pager.previousPageAvailable}" target="_top"
                           value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.previousPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
-                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.previous.gif" width="13" height="11"/>
+                <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
                 </div>
             </h:outputLink>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.pager.previousPageAvailable}"/>
 
             <s:span>
@@ -163,19 +163,19 @@
             <h:outputLink rendered="#{blogDirectory.pager.nextPageAvailable}" target="_top"
                           value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.nextPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
-                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.next.gif" width="13" height="11"/>
+                <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
                 </div>
             </h:outputLink>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.pager.nextPageAvailable}"/>
 
             <h:outputLink rendered="#{blogDirectory.pager.nextPageAvailable}" target="_top"
                           value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.lastPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
-                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.last.gif" width="13" height="11"/>
+                <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
                 </div>
             </h:outputLink>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                             rendered="#{!blogDirectory.pager.nextPageAvailable}"/>
 
         </h:panelGrid>

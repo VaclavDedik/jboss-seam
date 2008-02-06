@@ -42,13 +42,13 @@
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
                                status="faqsSelectorFormStatus"
                                rendered="#{not faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
-                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/down.gif" width="18" height="18"/>
+                    <h:graphicImage value="#{themePath}/img/down.gif" width="18" height="18"/>
                 </a:commandLink>
                 <a:commandLink action="#{faqBrowser.hideQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
                                status="faqsSelectorFormStatus"
                                rendered="#{faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
-                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/up.gif" width="18" height="18"/>
+                    <h:graphicImage value="#{themePath}/img/up.gif" width="18" height="18"/>
                 </a:commandLink>
             </s:span>
 

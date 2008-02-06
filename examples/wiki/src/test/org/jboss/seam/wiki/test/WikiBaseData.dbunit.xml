@@ -69,7 +69,7 @@
     <PREFERENCE PREF_ID = "180" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "Forum" PROPERTY_NAME = "topicsPerPage" STRING_VALUE = "[NULL]" LONG_VALUE = "20" BOOLEAN_VALUE = "[NULL]"/>
 
     <PREFERENCE PREF_ID = "190" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraIssueList" PROPERTY_NAME = "title" STRING_VALUE = "JIRA Issues" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
-    <PREFERENCE PREF_ID = "191" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraIssueList" PROPERTY_NAME = "truncateSummary" STRING_VALUE = "[NULL]" LONG_VALUE = "35" BOOLEAN_VALUE = "[NULL]"/>
+    <PREFERENCE PREF_ID = "191" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "JiraIssueList" PROPERTY_NAME = "truncateSummary" STRING_VALUE = "[NULL]" LONG_VALUE = "80" BOOLEAN_VALUE = "[NULL]"/>
 
     <PREFERENCE PREF_ID = "200" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedAggregator" PROPERTY_NAME = "title" STRING_VALUE = "Aggregated Feeds" LONG_VALUE = "[NULL]" BOOLEAN_VALUE = "[NULL]"/>
     <PREFERENCE PREF_ID = "201" OBJ_VERSION = "0" USER_ID = "[NULL]" ENTITY_NAME = "FeedAggregator" PROPERTY_NAME = "truncateDescription" STRING_VALUE = "[NULL]" LONG_VALUE = "100" BOOLEAN_VALUE = "[NULL]"/>
@@ -267,7 +267,7 @@
     <WIKI_FILE
         NODE_ID="8" FILE_REVISION="0"/>
     <WIKI_DOCUMENT
-        NODE_ID="8" CONTENT="Testdocument Three&#xA;&#xA;&lt;div class=&quot;homepageNews&quot;>&#xA;[&lt;=feedAggregator[truncateDescription=250][numberOfFeedEntries=10][aggregateId=My Aggregated Feed][urls=http://rss.slashdot.org/Slashdot/slashdot http://feeds.engadget.com/weblogsinc/engadget]]&#xA;&lt;/div>&#xA;"
+        NODE_ID="8" CONTENT="Testdocument Three&#xA;&#xA;&lt;div class=&quot;homepageBox&quot;>&#xA;[&lt;=feedAggregator[truncateDescription=250][numberOfFeedEntries=10][aggregateId=My Aggregated Feed][urls=http://rss.slashdot.org/Slashdot/slashdot http://feeds.engadget.com/weblogsinc/engadget]]&#xA;&lt;/div>&#xA;"
         HEADER="[NULL]" FOOTER="[NULL]"
         HEADER_MACROS="[NULL]" CONTENT_MACROS="feedAggregator" FOOTER_MACROS="[NULL]"
         NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>

@@ -43,7 +43,7 @@
 
             <!-- Enable Hibernate statistics, needs SessionFactory in JNDI for JMX monitoring -->
             <property name="hibernate.generate_statistics" value="true"/>
-            <property name="hibernate.session_factory_name" value="SessionFactories/laceWikiSF"/>
+            <property name="hibernate.session_factory_name" value="SessionFactories/lacewikiSF"/>
 
             <!-- Nested Set handling through special Hibernate event listeners -->
             <property name="hibernate.ejb.event.post-insert"

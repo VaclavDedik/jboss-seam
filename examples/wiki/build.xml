@@ -24,7 +24,6 @@
 
     <property name="classes.dir"        value="${tmp.dir}/classes"/>
     <property name="testclasses.dir"    value="${tmp.dir}/testclasses"/>
-    <!-- TODO: Don't change this, IntelliJ TestNG plugin bug! http://jira.opensymphony.com/browse/TESTNG-146 -->
     <property name="test.output.dir"    value="${tmp.dir}/test-output"/>
     <property name="exploded.dir"       value="${tmp.dir}/exploded"/>
     <property name="exploded.war.dir"   value="${exploded.dir}/${project.name}.war"/>
@@ -174,11 +173,6 @@
             <fileset dir="${classes.dir}/org/jboss/seam/wiki/core/model">
                 <include name="**/*.class"/>
             </fileset>
-            <!-- TODO
-            <fileset dir="${classes.dir}/org/jboss/seam/wiki/plugin/forum">
-                <include name="ForumTopic.class"/>
-            </fileset>
-            -->
         </instrument>
 
     </target>
@@ -272,30 +266,15 @@
             <fileset dir="${src.etc.dir}/WEB-INF">
                 <patternset refid="meta.files"/>
             </fileset>
-            <!-- Override components.xml setting -->
-            <filterset>
-                <filter token="jndiPattern" value="${project.name}/#{ejbName}/local"/>
-                <filter token="seamStartsPersistenceUnit" value="true"/>
-                <filter token="ejbTransaction" value="false"/>
-            </filterset>
         </copy>
 
         <!-- ########## Configuration files (WEB-INF/classes) ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/classes">
             <fileset dir="${src.etc.dir}">
-                <include name="security.drl" />
-                <include name="messages*.properties"/>
-                <include name="*jpdl.xml"/>
-                <include name="jbpm.cfg.xml"/>
-                <include name="*.skin.properties"/>
+                <include name="i18n/messages*.properties"/>
                 <include name="ehcache.xml"/>
             </fileset>
         </copy>
-        <copy tofile="${exploded.war.dir}/WEB-INF/classes/import.sql"
-                file="${src.etc.dir}/import-${profile}.sql"
-           overwrite="true"/>
-        <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
-        <replace file="${exploded.war.dir}/WEB-INF/classes/import.sql" token="@@LF@@" value="'||char(10)||'"/>
 
         <!-- ########## Configuration files (WEB-INF/classes/META-INF) ########### -->
         <copy todir="${exploded.war.dir}/WEB-INF/classes/META-INF">
@@ -311,11 +290,6 @@
                 file="${src.etc.dir}/META-INF/components-${profile}.xml"
                 overwrite="true">
         </copy>
-
-        <!--
-        <replace file="${exploded.war.dir}/WEB-INF/classes/META-INF/persistence.xml"
-                 token="@LuceneIndexDir@" value="${lucene.indexDir}"/>
-         -->
 
     </target>
 
@@ -394,24 +368,14 @@
         <delete dir="${wiki.dist.dir}"/>
         <mkdir dir="${wiki.dist.dir}"/>
 
+        <!-- ###### WAR ###### -->
         <jar jarfile="${wiki.dist.dir}/${project.name}.war" basedir="${exploded.war.dir}"/>
 
+        <!-- ###### Datasource ###### -->
         <copy tofile="${wiki.dist.dir}/${project.name}-ds.xml"
                 file="${src.etc.dir}/${project.name}-${profile}-ds.xml"/>
 
-        <copy tofile="${wiki.dist.dir}/${project.name}-data.sql"
-                file="${src.etc.dir}/import-prod.sql"
-           overwrite="true"/>
-        <!-- Now mess with the import.sql file because Hibernate doesn't use semicolons -->
-        <replaceregexp file="${wiki.dist.dir}/${project.name}-data.sql"
-                       match="(.+)"
-                       replace="\1;"
-                       byline="true"/>
-
-        <!-- Replace @@LF@@ in import.sql with real SQL char(10) linefeed (concat)-->
-        <replace file="${wiki.dist.dir}/${project.name}-data.sql" token="@@LF@@" value="'||char(10)||'"/>
-
-        <!-- Schema -->
+        <!-- ###### Schema ###### -->
         <hibernatetool destdir="${basedir}">
             <classpath path="${exploded.war.dir}/WEB-INF/classes"/>
             <jpaconfiguration/> <!-- Use META-INF/persistence.xml -->
@@ -423,37 +387,17 @@
                 delimiter=";"
                 format="true"/>
         </hibernatetool>
+
+        <!-- ###### Startup data ###### -->
+        <copy tofile="${wiki.dist.dir}/${project.name}-data.sql"
+                file="${src.etc.dir}/production.sql"
+           overwrite="true"/>
 
         <!-- Clean up afterwards for the next deploy run -->
         <antcall target="clean"/>
 
         <echo message="Compiled and packaged distribution files into directory: ${wiki.dist.dir}"/>
 
-    </target>
-
-    <!-- ######################## TOOLS ################## -->
-
-    <target name="schemaexport" depends="clean, exploderegular, exploderesources"
-        description="Exports a generated schema to a file">
-
-        <mkdir dir="${wiki.dist.dir}"/>
-
-        <hibernatetool destdir="${basedir}">
-            <classpath path="${exploded.war.dir}/WEB-INF/classes"/>
-            <jpaconfiguration/> <!-- Use META-INF/persistence.xml -->
-            <hbm2ddl
-                drop="false"
-                create="true"
-                export="false"
-                outputfilename="${wiki.dist.dir}/${project.name}-ddl.sql"
-                delimiter=";"
-                format="true"/>
-        </hibernatetool>
-
-        <!-- Clean up afterwards for the next deploy run -->
-        <antcall target="clean"/>
-
-        <echo message="Exported DDL to file: ${wiki.dist.dir}/${project-name}-ddl.sql"/>
     </target>
 
     <!-- ######################## TESTS ################## -->
@@ -470,8 +414,7 @@
             <src path="${src.test.dir}" />
         </javac>
 
-        <!-- Copy resources (mapping files, properties, etc.) to classes -->
-        <!-- components.properties overrides settings in components.xml -->
+        <!-- ###### Copy resources (XML files, properties, etc.) to classes ###### -->
         <copy todir="${testclasses.dir}">
             <fileset dir="${src.test.dir}">
                 <patternset refid="meta.files"/>
@@ -484,7 +427,7 @@
     <target name="configuretests" depends="compiletests"
             description="Copy resources to test path (call from IDE before tests)">
 
-        <!-- ######## NEED TO COPY CLASSES TO TEST CLASSES DIRECTORY, SPLITTING DIRECTORIES NO LONGER WORKS -->
+        <!-- ###### Test classes ###### -->
         <copy todir="${testclasses.dir}">
             <fileset dir="${classes.dir}">
                 <include name="**/*"/>
@@ -497,18 +440,22 @@
                 <include name="**/*"/>
                 <!-- Handle these below -->
                 <exclude name="META-INF/persistence*.xml"/>
-                <exclude name="${project.name}-*-ds.xml"/>
-                <exclude name="import*.sql"/>
+                <exclude name="META-INF/components*.xml"/>
+                <exclude name="*-ds.xml"/>
+                <exclude name="*.sql"/>
             </fileset>
         </copy>
         <copy tofile="${testclasses.dir}/META-INF/persistence.xml"
                 file="${src.etc.dir}/META-INF/persistence-test-war.xml"
            overwrite="true"/>
+        <copy tofile="${testclasses.dir}/META-INF/components.xml"
+                file="${src.etc.dir}/META-INF/components-test.xml"
+           overwrite="true"/>
         <copy tofile="${testclasses.dir}/wiki-ds.xml"
                 file="${src.etc.dir}/wiki-test-ds.xml"
            overwrite="true"/>
 
-        <!-- ######## Test binaries ######## -->
+        <!-- ######## Test data binaries ######## -->
         <mkdir dir="${testclasses.dir}/META-INF/testbinaries"/>
         <copy todir="${testclasses.dir}/META-INF/testbinaries">
             <fileset dir="${basedir}/testbinaries">

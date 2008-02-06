@@ -37,25 +37,8 @@
     <!-- ############## END OF WIKI USER CONFIGURATION ############## -->
 
 
-    <!-- Running in regular JBoss AS, Seam starts the persistence unit -->
-    <core:init debug="false"/>
-    <persistence:entity-manager-factory name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
-
-    <!-- Some DBUnit datasets we use in unit testing - let's also use them in dev mode when the app is deployed -->
-    <component name="dbunitImporter" class="org.jboss.seam.wiki.util.DBUnitImporter" scope="APPLICATION" auto-create="true">
-        <property name="database">mysql</property>
-        <property name="datasourceJndiName">java:/wikiDatasource</property>
-        <property name="binaryDir">META-INF/testbinaries</property>
-        <property name="datasets">
-            <value>META-INF/testdata/WikiBaseData.dbunit.xml</value>
-            <value>META-INF/testdata/HelpDocuments.dbunit.xml</value>
-            <value>META-INF/testdata/DocumentFeedEntries.dbunit.xml</value>
-            <value>META-INF/testdata/UploadData.dbunit.xml</value>
-            <value>META-INF/testdata/BlogData.dbunit.xml</value>
-            <value>META-INF/testdata/ForumData.dbunit.xml</value>
-            <value>META-INF/testdata/KnowledgeBase.dbunit.xml</value>
-            <value>META-INF/testdata/FAQData.dbunit.xml</value>
-        </property>
-    </component>
+    <!-- Running tests in Embeddable JBoss -->
+    <core:init debug="false" jndi-pattern="#{ejbName}/local"/>
+    <transaction:ejb-transaction/>
 
 </components>

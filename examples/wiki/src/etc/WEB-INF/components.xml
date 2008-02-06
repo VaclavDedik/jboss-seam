@@ -3,7 +3,6 @@
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:persistence="http://jboss.com/products/seam/persistence"
             xmlns:security="http://jboss.com/products/seam/security"
-            xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:mail="http://jboss.com/products/seam/mail"
             xmlns:transaction="http://jboss.com/products/seam/transaction"
@@ -13,26 +12,9 @@
                  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
-                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.1.xsd
                  http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
-
-    <!-- ##### WIKI USER CONFIGURATION ##### -->
-
-    <mail:mail-session host="localhost" port="25"/>
-
-    <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
-    <web:redirect-filter disabled="true"/> <!-- Messes up into-conversation-redirect and is not needed -->
-    
-    <!-- ##### END OF WIKI USER CONFIGURATION ##### -->
-
-    <!-- Seam settings -->
-
-    <core:init debug="false" jndi-pattern="@jndiPattern@"/>
-
-    <!-- Enabled in embeddable JBoss container -->
-    <transaction:ejb-transaction installed="@ejbTransaction@"/>
 
     <!-- Conversation timeout: 20 minutes -->
     <core:manager concurrent-request-timeout="2000"
@@ -46,11 +28,6 @@
             <value>#{currentAccessLevel}</value>
         </persistence:parameters>
     </persistence:filter>
-
-    <!-- Use the Seam-started PU or look it up from JNDI if running in Embeddable JBoss -->
-    <persistence:entity-manager-factory installed="@seamStartsPersistenceUnit@"
-                                        name="wikiEntityManagerFactory"
-                                        persistence-unit-name="wiki"/>
 
     <component name="restrictedEntityManager" auto-create="true" scope="CONVERSATION"
                class="org.jboss.seam.wiki.core.dao.WikiManagedPersistenceContext">
@@ -103,30 +80,31 @@
 
     <core:resource-loader>
         <core:bundle-names>
-            <value>messages</value>
-            <value>messages_blogDirectory</value>
-            <value>messages_blogArchive</value>
-            <value>messages_blogRecentEntries</value>
-            <value>messages_dirMenu</value>
-            <value>messages_feedTeasers</value>
-            <value>messages_lastModifiedDocuments</value>
-            <value>messages_tags</value>
-            <value>messages_userProfile</value>
-            <value>messages_forum</value>
-            <value>messages_flash</value>
-            <value>messages_docPager</value>
-            <value>messages_faqBrowser</value>
-            <value>messages_jiraIssueList</value>
-            <value>messages_jiraConnector</value>
-            <value>messages_feedAggregator</value>
-            <value>messages_feedConnector</value>
-            <value>messages_forumTopPosters</value>
+            <value>i18n.messages</value>
+            <value>i18n.messages_blogDirectory</value>
+            <value>i18n.messages_blogArchive</value>
+            <value>i18n.messages_blogRecentEntries</value>
+            <value>i18n.messages_dirMenu</value>
+            <value>i18n.messages_feedTeasers</value>
+            <value>i18n.messages_lastModifiedDocuments</value>
+            <value>i18n.messages_tags</value>
+            <value>i18n.messages_userProfile</value>
+            <value>i18n.messages_forum</value>
+            <value>i18n.messages_flash</value>
+            <value>i18n.messages_docPager</value>
+            <value>i18n.messages_faqBrowser</value>
+            <value>i18n.messages_jiraIssueList</value>
+            <value>i18n.messages_jiraConnector</value>
+            <value>i18n.messages_feedAggregator</value>
+            <value>i18n.messages_feedConnector</value>
+            <value>i18n.messages_forumTopPosters</value>
         </core:bundle-names>
     </core:resource-loader>
 
     <!-- Misc Settings -->
 
     <web:context-filter regex-url-pattern="/(service|servlets)/.+"/>
+    <web:redirect-filter disabled="true"/> <!-- Messes up into-conversation-redirect and is not needed -->
 
     <component name="wikiUrlRewriteFilter" class="org.jboss.seam.wiki.core.ui.WikiUrlRewriteFilter" precedence="30">
         <property name="initParameters">

@@ -18,9 +18,27 @@
                  http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
+
+    <!-- ################## WIKI USER CONFIGURATION ################## -->
+
+    <!-- Base settings -->
     <component name="wikiInit" class="org.jboss.seam.wiki.WikiInit" precedence="30">
-        <property name="adminContact">christian.bauer@gmail.com</property>
+        <property name="appname">lacewiki</property>
+        <property name="adminContact">+41 123 123 123, admin@my.address</property>
         <property name="debug">false</property>
     </component>
+
+    <!-- Mailserver for notification messages -->
+    <mail:mail-session host="localhost" port="25"/>
+
+    <!-- Maximum size of file uploads -->
+    <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
+
+    <!-- ############## END OF WIKI USER CONFIGURATION ############## -->
+
+
+    <!-- Running in regular JBoss AS, Seam starts the persistence unit -->
+    <core:init debug="false"/>
+    <persistence:entity-manager-factory name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
 
 </components>

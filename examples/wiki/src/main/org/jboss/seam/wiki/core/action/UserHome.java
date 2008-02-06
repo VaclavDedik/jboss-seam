@@ -89,7 +89,7 @@ public class UserHome extends EntityHome<User> {
     }
 
     public void setRequestedUsername(String requestedUsername) {
-        getLog().debug("######################## REQUESTED: " + requestedUsername);
+        getLog().debug("requested user name: " + requestedUsername);
         this.requestedUsername = requestedUsername;
     }
 
@@ -127,8 +127,8 @@ public class UserHome extends EntityHome<User> {
     @Override
     protected User loadInstance()  {
         if (getRequestedUsername() != null && getRequestedUsername().length() >0) {
-            getLog().debug("################ FINDING USER: " + getRequestedUsername());
-            return userDAO.findUser(getRequestedUsername(), true, true);
+            getLog().debug("loading user from database: " + getRequestedUsername());
+            return userDAO.findUser(getRequestedUsername(), false, true);
         } else {
             return getEntityManager().find(getEntityClass(), getId());
         }

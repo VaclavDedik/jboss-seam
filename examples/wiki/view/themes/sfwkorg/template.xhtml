@@ -311,7 +311,7 @@
 
       <div>
           <h:outputLink value="#{preferences.get('Wiki').baseUrl}">
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="210" height="98"/>
+            <h:graphicImage value="#{themePath}/img/blank.gif" width="210" height="98"/>
           </h:outputLink>
       </div>
 
@@ -329,7 +329,7 @@
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0" styleClass="feeds"
                              rendered="#{preferences.get('Wiki').showSiteFeedInMenu}">
                     <h:outputLink styleClass="feedLink" value="#{wiki:renderFeedURL(wikiRoot.feed, null, null)}">
-                        <h:graphicImage styleClass="feedIcon" value="/themes/#{preferences.get('Wiki').themeName}/img/icon.atom.onbrown.gif" width="18" height="18"/>
+                        <h:graphicImage styleClass="feedIcon" value="#{themePath}/img/icon.atom.onbrown.gif" width="18" height="18"/>
                     </h:outputLink>
                     <h:outputLink styleClass="feedLink" value="#{wiki:renderFeedURL(wikiRoot.feed, null, null)}">
                         <span class="feedText">#{messages['lacewiki.button.SiteFeed']}</span>
@@ -381,18 +381,19 @@
         </s:div>
 
         <div style="margin-top: 25px; margin-left: 15px; margin-right: 15px; ">
-            <h2>What is happening here?</h2>
+            <h2>See Seam in action...</h2>
             <p>
-                We are building the new Seam community website publicly. You
-                are invited to contribute. Please do not link to this website at this time, the addresses and URLs
-                will change when we go live. If you find a bug or get hit by an exception, please
-                send an e-mail with a full description to <a href="mailto:christian.bauer(at)gmail.com">Christian</a>.
+                We have created two demo e-commerce applications with Seam:
+                <a href="http://seam.demo.jboss.com/home.seam">Hotel Booking</a>
+                and the <a href="http://dvdstore.demo.jboss.com/home.seam">DVD Store</a>.
+                You can find the code for these demos in the
+                <a href="http:/www.seamframework.org/Download">Seam download package</a>.
             </p>
         </div>
 
         <div style="margin-top: 25px; margin-left: 15px; margin-right: 15px; text-align:center;">
             <h:outputLink value="http://seamframework.org/Community/GetASeamIcon">
-                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/runningon_seamlogo_beige.gif"
+                <h:graphicImage value="#{themePath}/img/runningon_seamlogo_beige.gif"
                                 width="200" height="50"/>
             </h:outputLink>
         </div>
@@ -402,7 +403,7 @@
     <!-- Main Content area  -->
     <div id="rightColumn">
 
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="1" height="1"/>
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="1" height="1"/>
         <ui:include src="../../includes/breadcrumb.xhtml"/>
 
         <!-- Status messages -->
@@ -412,7 +413,7 @@
 
                     <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
                                  rendered="#{message.severity.ordinal == 0}">
-                            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/info.gif"
+                            <h:graphicImage value="#{themePath}/img/info.gif"
                                             width="18" height="18"
                                             styleClass="messageBoxImage infoImage"/>
                             <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
@@ -420,7 +421,7 @@
 
                     <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
                                  rendered="#{message.severity.ordinal > 0}">
-                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/attention.gif"
+                        <h:graphicImage value="#{themePath}/img/attention.gif"
                                         rendered="#{message.severity.ordinal > 0}"
                                         width="18" height="18"
                                         styleClass="messageBoxImage attentionImage"/>

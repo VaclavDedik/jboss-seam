@@ -32,6 +32,7 @@ public class WikiInit {
     @Logger
     static Log log;
 
+    private String appname;
     private String adminContact;
     private boolean debug;
 
@@ -42,7 +43,7 @@ public class WikiInit {
 
     @Observer("org.jboss.seam.postInitialization")
     public void initWiki() throws Exception {
-        log.info("Starting LaceWiki...");
+        log.info("Starting LaceWiki for application '"+appname+"'...");
 
         if (dbunitImporter != null) {
             log.info("Importing development test data");
@@ -52,9 +53,9 @@ public class WikiInit {
         //System.out.println(listJNDITree("java:"));
 
         log.info("registering Hibernate statistics MBean");
-        hibernateMBeanName = new ObjectName("Hibernate:type=statistics,application=laceWiki");
+        hibernateMBeanName = new ObjectName("Hibernate:type=statistics,application="+appname);
         StatisticsService mBean = new StatisticsService();
-        mBean.setSessionFactoryJNDIName("SessionFactories/laceWikiSF");
+        mBean.setSessionFactoryJNDIName("SessionFactories/"+appname+"SF");
         ManagementFactory.getPlatformMBeanServer().registerMBean(mBean, hibernateMBeanName);
         
         Events.instance().raiseEvent("Wiki.started");
@@ -68,6 +69,14 @@ public class WikiInit {
 
         log.info("unregistering Hibernate statistics MBean");
         ManagementFactory.getPlatformMBeanServer().unregisterMBean(hibernateMBeanName);
+    }
+
+    public String getAppname() {
+        return appname;
+    }
+
+    public void setAppname(String appname) {
+        this.appname = appname;
     }
 
     public String getAdminContact() {

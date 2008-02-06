@@ -83,7 +83,7 @@
                                             <h:graphicImage styleClass="item#{c.id}-rate#{r}"
                                                             onmouseover="highlightStars('#{c.id}', '5', '#{r}')"
                                                             onmouseout="highlightStars('#{c.id}', '5', '0')"
-                                                            value="/themes/#{preferences.get('Wiki').themeName}/img/star_grey.gif"
+                                                            value="#{themePath}/img/star_grey.gif"
                                                             alt="*"
                                                             width="16" height="16"/>
                                         </a:commandLink>
@@ -97,7 +97,7 @@
                                              border="0" cellpadding="0" cellspacing="0">
                                     <h:outputText styleClass="smallFont" value="#{messages['lacewiki.label.comment.Rating']}:&#160;"/>
                                     <c:forEach begin="1" var="r" end="#{c.rating}">
-                                        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/star.gif"
+                                        <h:graphicImage value="#{themePath}/img/star.gif"
                                                         width="16" height="16" alt="*"/>
                                     </c:forEach>
                                 </h:panelGrid>

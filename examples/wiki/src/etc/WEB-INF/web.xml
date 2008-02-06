@@ -4,20 +4,6 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
-    <!-- Ajax4JSF -->
-
-    <context-param>
-        <param-name>org.richfaces.SKIN</param-name>
-        <param-value>wiki</param-value>
-    </context-param>
-
-    <!--
-    <context-param>
-       <param-name>org.ajax4jsf.xmlparser.ORDER</param-name>
-       <param-value>NEKO</param-value>
-   </context-param>
-   -->
-
     <!-- Seam -->
 
     <listener>
@@ -108,6 +94,7 @@
     </servlet-mapping>
 
     <!-- In-place upgrades
+    -->
     <servlet>
         <servlet-name>Upgrade Servlet</servlet-name>
         <servlet-class>org.jboss.seam.wiki.core.ui.UpgradeServlet</servlet-class>
@@ -116,7 +103,6 @@
         <servlet-name>Upgrade Servlet</servlet-name>
         <url-pattern>/servlets/upgrade/*</url-pattern>
     </servlet-mapping>
-    -->
 
     <!-- Misc Settings -->
 

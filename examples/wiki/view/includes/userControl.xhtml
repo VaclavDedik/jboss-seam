@@ -74,13 +74,13 @@
 
 <s:div id="userControlPanel" styleClass="userControlPanel sessionEventTrigger">
 
-    <h:form id="resetPasswordForm" styleClass="resetPasswordForm" rendered="#{not empty resetPasswordOfUser}">
+    <h:form styleClass="resetPasswordForm" rendered="#{not empty resetPasswordOfUser}">
 
         <h:outputText styleClass="label" value="#{messages['lacewiki.label.resetPassword.ResetPasswordOf']} '#{resetPasswordOfUser.username}':"/>
-        <h:inputSecret styleClass="input" id="password" value="#{userPasswordReset.password}" size="8" tabindex="50"/>
+        <h:inputSecret styleClass="input" value="#{userPasswordReset.password}" size="8" tabindex="50"/>
 
         <h:outputText styleClass="label" value="#{messages['lacewiki.label.resetPassword.Repeat']}:"/>
-        <h:inputSecret styleClass="input" id="passwordControl" value="#{userPasswordReset.passwordControl}" size="8" tabindex="50"/>
+        <h:inputSecret styleClass="input" value="#{userPasswordReset.passwordControl}" size="8" tabindex="50"/>
 
         <h:commandLink styleClass="button" action="#{userPasswordReset.reset}" tabindex="50">
             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.resetPassword.Reset']}"/>

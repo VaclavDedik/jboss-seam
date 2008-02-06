@@ -71,7 +71,7 @@
 
     <h:outputLink value="#{wiki:renderFeedURL(directoryHome.instance.feed, null, null)}"
                   styleClass="linkNavigation" rendered="#{not empty directoryHome.instance.feed}">
-        <h:graphicImage styleClass="feedIcon" value="/themes/#{preferences.get('Wiki').themeName}/img/icon.atom.gif" width="18" height="18"/>
+        <h:graphicImage styleClass="feedIcon" value="#{themePath}/img/icon.atom.gif" width="18" height="18"/>
         <h:outputText value="#{messages['lacewiki.button.DirectoryFeed']}"/>
     </h:outputLink>
 
@@ -132,7 +132,7 @@
 
         <s:fragment>
             <h:panelGroup rendered="#{directoryHome.instance.id == trashArea.id and s:hasPermission('Trash', 'empty', directoryHome.instance)}">
-                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.trash.gif"
+                <h:graphicImage value="#{themePath}/img/icon.trash.gif"
                                 width="18" height="20" style="vertical-align:middle;"/>
                 <h:commandLink action="#{directoryHome.emptyTrash()}"
                                tabindex="1" styleClass="button">
@@ -222,7 +222,7 @@
                     rendered="#{!empty directoryHome.parentNode and s:hasPermission('Node','read',directoryHome.parentNode)}">
                 <f:param name="directoryId" value="#{directoryHome.parentNode.id}"/>
                 <h:panelGrid columns="2">
-                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.dirup.gif" width="18" height="20"/>
+                    <h:graphicImage value="#{themePath}/img/icon.dirup.gif" width="18" height="20"/>
                     <h:outputText value=".."/>
                 </h:panelGrid>
             </s:link>
@@ -241,18 +241,18 @@
                 rendered="#{directoryHome.pager.previousPageAvailable}">
             <f:param name="page" value="0"/>
             <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.first.gif" width="13" height="11"/>
+            <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
         </s:link>
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!directoryHome.pager.previousPageAvailable}"/>
 
         <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" propagation="none"
                 rendered="#{directoryHome.pager.previousPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.previousPage}"/>
             <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.previous.gif" width="13" height="11"/>
+            <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
         </s:link>
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!directoryHome.pager.previousPageAvailable}"/>
 
         <s:span>
@@ -266,18 +266,18 @@
                 rendered="#{directoryHome.pager.nextPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.nextPage}"/>
             <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.next.gif" width="13" height="11"/>
+            <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
         </s:link>
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!directoryHome.pager.nextPageAvailable}"/>
 
         <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" propagation="none"
                 rendered="#{directoryHome.pager.nextPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.lastPage}"/>
             <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.last.gif" width="13" height="11"/>
+            <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
         </s:link>
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!directoryHome.pager.nextPageAvailable}"/>
 
     </h:panelGrid>
@@ -308,7 +308,7 @@
                 <h:outputText value="-" rendered="#{node.isInstance('WikiDirectory')}"/>
             </s:fragment>
             <s:fragment rendered="#{clipboard.isCut(node.id)}">
-                <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.cut.gif" width="18" height="20"/>
+                <h:graphicImage value="#{themePath}/img/icon.cut.gif" width="18" height="20"/>
             </s:fragment>
         </h:column>
         <h:column>
@@ -316,34 +316,34 @@
                 <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" accesskey="." propagation="none"
                         rendered="#{!empty directoryHome.parentNode and s:hasPermission('Node','read',directoryHome.parentNode)}">
                     <f:param name="directoryId" value="#{directoryHome.parentNode.id}"/>
-                    <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.dirup.gif" width="18" height="20"/>
+                    <h:graphicImage value="#{themePath}/img/icon.dirup.gif" width="18" height="20"/>
                 </s:link>
             </f:facet>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.dir.gif"
+            <h:graphicImage value="#{themePath}/img/icon.dir.gif"
                             width="18" height="20"
                             rendered="#{node.isInstance('WikiDirectory')
                                       and node.id != trashArea.id and node.id != memberArea.id and node.id != helpArea.id}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.trash.gif"
+            <h:graphicImage value="#{themePath}/img/icon.trash.gif"
                             width="18" height="20"
                             rendered="#{node.isInstance('WikiDirectory') and node.id == trashArea.id}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.user.gif"
+            <h:graphicImage value="#{themePath}/img/icon.user.gif"
                             width="18" height="20"
                             rendered="#{node.isInstance('WikiDirectory') and node.id == memberArea.id}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.help.gif"
+            <h:graphicImage value="#{themePath}/img/icon.help.gif"
                             width="18" height="20"
                             rendered="#{node.isInstance('WikiDirectory') and node.id == helpArea.id}"/>
 
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.doc.gif"
+            <h:graphicImage value="#{themePath}/img/icon.doc.gif"
                             width="18" height="20"
                             rendered="#{node.isInstance('WikiDocument') and node.id != directoryHome.instance.defaultFile.id}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/icon.doc.default.gif"
+            <h:graphicImage value="#{themePath}/img/icon.doc.default.gif"
                             width="18" height="20"
                             rendered="#{node.isInstance('WikiDocument') and node.id == directoryHome.instance.defaultFile.id}"/>
 
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/#{uploadTypes[node.contentType].displayIcon}"
+            <h:graphicImage value="#{themePath}/img/#{uploadTypes[node.contentType].displayIcon}"
                             width="18" height="20"
                             rendered="#{node.isInstance('WikiUpload') and !empty uploadTypes[node.contentType]}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/#{uploadTypes['generic'].displayIcon}"
+            <h:graphicImage value="#{themePath}/img/#{uploadTypes['generic'].displayIcon}"
                             width="18" height="20"
                             rendered="#{node.isInstance('WikiUpload') and empty uploadTypes[node.contentType]}"/>
         </h:column>
@@ -568,18 +568,18 @@
                 rendered="#{directoryHome.pager.previousPageAvailable}">
             <f:param name="page" value="0"/>
             <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.first.gif" width="13" height="11"/>
+            <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
         </s:link>
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!directoryHome.pager.previousPageAvailable}"/>
 
         <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" propagation="none"
                 rendered="#{directoryHome.pager.previousPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.previousPage}"/>
             <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.previous.gif" width="13" height="11"/>
+            <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
         </s:link>
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!directoryHome.pager.previousPageAvailable}"/>
 
         <s:span>
@@ -593,18 +593,18 @@
                 rendered="#{directoryHome.pager.nextPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.nextPage}"/>
             <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.next.gif" width="13" height="11"/>
+            <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
         </s:link>
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!directoryHome.pager.nextPageAvailable}"/>
 
         <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" propagation="none"
                 rendered="#{directoryHome.pager.nextPageAvailable}">
             <f:param name="page" value="#{directoryHome.pager.lastPage}"/>
             <f:param name="pageSize" value="#{directoryHome.pager.pageSize}"/>
-            <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/page.last.gif" width="13" height="11"/>
+            <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
         </s:link>
-        <h:graphicImage value="/themes/#{preferences.get('Wiki').themeName}/img/blank.gif" width="13" height="11"
+        <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!directoryHome.pager.nextPageAvailable}"/>
 
     </h:panelGrid>

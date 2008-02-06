@@ -5,7 +5,6 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
 <ui:define name="screenname">
@@ -41,64 +40,37 @@
 
         <div class="formFields formBorder wideLabels">
 
-            <a:region>
             <s:decorate id="firstnameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.FirstName']}</ui:define>
-                <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}">
-                    <a:support status="userRegisterFormStatus" event="onchange" reRender="firstnameDecorate" oncomplete="onAjaxRequestComplete()"/>
-                </h:inputText>
+                <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.firstname}"/>
             </s:decorate>
-            </a:region>
 
-            <a:region>
             <s:decorate id="lastnameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.LastName']}</ui:define>
-                <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}">
-                    <a:support status="userRegisterFormStatus" event="onchange" reRender="lastnameDecorate" oncomplete="onAjaxRequestComplete()"/>
-                </h:inputText>
+                <h:inputText tabindex="1" size="40" maxlength="63" required="true" value="#{userHome.instance.lastname}"/>
             </s:decorate>
-            </a:region>
 
-            <a:region>
             <s:decorate id="emailDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.Email']}</ui:define>
-                <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true" value="#{userHome.instance.email}">
-                    <a:support status="userRegisterFormStatus" event="onchange" reRender="emailDecorate" oncomplete="onAjaxRequestComplete()"/>
-                </h:inputText>
+                <h:inputText tabindex="1" size="40" maxlength="255" required="true" value="#{userHome.instance.email}"/>
             </s:decorate>
-            </a:region>
 
-            <a:region>
             <s:decorate id="usernameDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.Username']}</ui:define>
-                <h:inputText styleClass="ajaxSupport" tabindex="1" size="16" maxlength="16" required="true" id="username" value="#{userHome.instance.username}">
-                    <a:support status="userRegisterFormStatus" event="onchange" action="#{userHome.validateUsername}"
-                               reRender="usernameDecorate" oncomplete="onAjaxRequestComplete()"/>
-                </h:inputText>
+                <h:inputText id="username" tabindex="1" size="16" maxlength="16" required="true" value="#{userHome.instance.username}"/>
             </s:decorate>
-            </a:region>
 
-            <a:region>
             <s:decorate id="passwordDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.Password']}</ui:define>
-                <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
-                               redisplay="true" value="#{userHome.password}">
-                    <a:support status="userRegisterFormStatus" event="onchange" action="#{userHome.validatePassword}"
-                               reRender="passwordDecorate" oncomplete="onAjaxRequestComplete()"/>
-                </h:inputSecret>
+                <h:inputSecret id="password" tabindex="1" size="15" maxlength="15" required="true"
+                               redisplay="true" value="#{userHome.password}"/>
             </s:decorate>
-            </a:region>
 
-            <a:region>
             <s:decorate id="passwordControlDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.RepeatPassword']}</ui:define>
-                <h:inputSecret styleClass="ajaxSupport" tabindex="1" size="15" maxlength="15"
-                               redisplay="true" value="#{userHome.passwordControl}">
-                    <a:support status="userRegisterFormStatus" event="onchange" action="#{userHome.validatePasswordControl}"
-                               reRender="passwordControlDecorate" oncomplete="onAjaxRequestComplete()"/>
-                </h:inputSecret>
+                <h:inputSecret id="passwordControl" tabindex="1" size="15" maxlength="15" required="true"
+                               redisplay="true" value="#{userHome.passwordControl}"/>
             </s:decorate>
-            </a:region>
 
             <s:decorate id="verifyCaptchaEntry" template="includes/captchaEntry.xhtml">
                 <ui:param name="statusId" value="userRegisterFormStatus"/>

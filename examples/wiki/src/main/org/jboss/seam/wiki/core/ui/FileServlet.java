@@ -123,12 +123,11 @@ public class FileServlet extends HttpServlet {
             response.getOutputStream().flush();
         }
 
-        /* TODO: This breaks stuff...
+
         // If the user is not logged in, we might as well destroy the session immediately, saving some memory
-        if (!Identity.instance().isLoggedIn()) {
+        if (request.getSession().isNew() && !Identity.instance().isLoggedIn()) {
             Session.instance().invalidate();
         }
-        */
 
     }
 }

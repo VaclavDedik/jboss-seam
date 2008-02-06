@@ -178,7 +178,7 @@ blockquote blockquote blockquote blockquote {
 #header {
 	margin: 0;
 	padding:0;
-	background-image:url(../img/hrd_bkgimage_fade_alpha.gif);
+	background-image:url(../img/hrd_bkgimage_fade.gif);
 	background-repeat:no-repeat;
 	background-color:#32332b;
 	border-bottom:1px solid #878888;
@@ -270,54 +270,56 @@ blockquote blockquote blockquote blockquote {
 
 /* -----  Homepage styles  ------  */
 
-.homepageNews {
+.homepageBox {
     font-size: 90%;
 }
 
-.homepageNews .boxHeader {
+.homepageBox .boxHeader {
     background: none;
     border: none;
     border-bottom: 1px solid #b6b6b6;
     padding-left: 0;
     padding-bottom: 5px;
     text-align: right;
+    font-size: 145%;
+    line-height: 100%;
 }
 
-.homepageNews .boxContent {
+.homepageBox .boxContent {
     background: none;
     border: none;
     padding-left: 0;
 }
 
-.homepageNews .boxFooter {
+.homepageBox .boxFooter {
     background: none;
     border: none;
     padding-left: 0;
 }
 
-.homepageNews .feedAggregatorSubscribe {
+.homepageBox .feedAggregatorSubscribe {
     font-size: 110%;
 }
 
-.homepageNews .feedEntryColumn {
+.homepageBox .feedEntryColumn {
     padding: 0;
 }
 
-.homepageNews .feedEntryTitle {
+.homepageBox .feedEntryTitle {
     margin-top: 3px;
     margin-bottom: 3px;
 }
 
-.homepageNews .feedEntryBody {
+.homepageBox .feedEntryBody {
     margin-top: 4px;
     margin-bottom: 4px;
 }
 
-.homepageNews .teaserColumn {
+.homepageBox .teaserColumn {
     border-bottom: 1px solid #b6b6b6;
 }
 
-.homepageNews .rowOdd td, .homepageNews .rowEven td {
+.homepageBox .rowOdd td, .homepageBox .rowEven td {
     padding: 2px;
 /*    border-bottom: 1px solid #b6b6b6; */
 }
