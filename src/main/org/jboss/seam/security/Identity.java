@@ -209,11 +209,13 @@ public class Identity implements Serializable
    {
       try
       {         
-         if (!authenticate())
+         if (isLoggedIn(false) && isCredentialsSet())
          {
             if (Events.exists()) Events.instance().raiseEvent(EVENT_ALREADY_LOGGED_IN);
             return "loggedIn";            
          }
+         
+         authenticate();
          
          if ( log.isDebugEnabled() )
          {
@@ -250,10 +252,9 @@ public class Identity implements Serializable
    
    /**
     * 
-    * @return boolean true if authentication is attempted, false if it is not.
     * @throws LoginException
     */
-   public boolean authenticate() 
+   public void authenticate() 
       throws LoginException
    {
       // If we're already authenticated, then don't authenticate again
@@ -262,12 +263,7 @@ public class Identity implements Serializable
          principal = null;
          subject = new Subject();
          authenticate( getLoginContext() );
-         return true;
       }      
-      else
-      {
-         return false;
-      }
    }
 
    protected void authenticate(LoginContext loginContext) 
