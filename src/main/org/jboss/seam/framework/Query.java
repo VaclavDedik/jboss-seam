@@ -26,9 +26,9 @@ import org.jboss.seam.persistence.QueryParser;
 public abstract class Query<T, E> 
       extends PersistenceController<T> //TODO: extend MutableController!
 {
-   private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s", Pattern.CASE_INSENSITIVE);
+   private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s",       Pattern.CASE_INSENSITIVE);
+   private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s",         Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
-   private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s", Pattern.CASE_INSENSITIVE);
 
    private static final Pattern ORDER_COLUMN_PATTERN = Pattern.compile("^\\w*$");
 
@@ -42,6 +42,8 @@ public abstract class Query<T, E>
    private String order;
    private String orderColumn;
    private String orderDirection;
+   
+   private String groupBy;
    
    private DataModel dataModel;
    
@@ -247,8 +249,14 @@ public abstract class Query<T, E>
             builder.append( parsedRestrictions.get(i) );
          }
       }
-         
-      if ( getOrder()!=null ) builder.append(" order by ").append( getOrder() );
+      
+      if (getGroupBy()!=null) {
+          builder.append(" group by ").append(getGroupBy());
+      }
+
+      if (getOrder()!=null) {
+          builder.append(" order by ").append( getOrder() );
+      }
       
       return builder.toString();
    }
@@ -362,6 +370,16 @@ public abstract class Query<T, E>
       refresh();
    }
 
+   
+   
+    public String getGroupBy() {
+        return groupBy;
+    }
+    
+    public void setGroupBy(String groupBy) {
+        this.groupBy = groupBy;
+    }
+    
    /**
     * The order clause of the query
     */
@@ -371,6 +389,8 @@ public abstract class Query<T, E>
 
        if (column == null) {
            return order;
+   
+       
        }
        
        String direction = getOrderDirection();

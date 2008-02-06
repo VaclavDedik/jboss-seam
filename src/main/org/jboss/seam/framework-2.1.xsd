@@ -18,12 +18,14 @@
         <xs:attribute name="ejbql" type="xs:string"/>
         <xs:attribute name="max-results" type="xs:integer"/>
         <xs:attribute name="order" type="xs:string"/>
+        <xs:attribute name="group-by" type="xs:string"/>
     </xs:attributeGroup>
     <xs:element name="restrictions" type="components:multiValuedProperty"/>
     <xs:element name="hints" type="components:mapProperty"/>
 
     <xs:element name="ejbql" type="xs:string"/>
     <xs:element name="order" type="xs:string"/>
+    <xs:element name="group-by" type="xs:string"/>
 
     <xs:element name="entity-query">
         <xs:complexType mixed="true">
@@ -31,6 +33,7 @@
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:ejbql"/>
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:order"/>
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:restrictions"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="framework:group-by"/>
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:hints"/>
             </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
@@ -47,6 +50,7 @@
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:ejbql"/>
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:order"/>
+                <xs:element minOccurs="0" maxOccurs="1" ref="framework:group-by"/>
                 <xs:element minOccurs="0" maxOccurs="1" ref="framework:restrictions"/>
             </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
