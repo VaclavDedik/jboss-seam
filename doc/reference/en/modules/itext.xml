@@ -1484,13 +1484,13 @@
 
             <programlisting>&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;
             xmlns:pdf=&quot;http://jboss.com/products/seam/pdf&quot;&gt;
-    &lt;pdf:documentStore use-extensions=&quot;true&quot; /&gt;
+    &lt;pdf:document-store use-extensions=&quot;true&quot; /&gt;
 &lt;/components&gt;</programlisting>
 
             <para> Generated documents are stored in conversation scope and will expire when the conversation ends. At
                 that point, references to the document will be invalid. To You can specify a default view to be shown
                 when a document does not exist using the <literal>error-page</literal> property of the documentStore. </para>
-            <programlisting>&lt;pdf:documentStore use-extensions=&quot;true&quot; error-page=&quot;/pdfMissing.seam&quot; /&gt;</programlisting>
+            <programlisting>&lt;pdf:document-store use-extensions=&quot;true&quot; error-page=&quot;/pdfMissing.seam&quot; /&gt;</programlisting>
         </section>
     </section>
 
