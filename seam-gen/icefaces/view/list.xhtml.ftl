@@ -97,8 +97,9 @@
             <f:facet name="header">
                 <s:link styleClass="columnHeader"
 		             id="list${property.name}LinkId"
-                             value="${property.name} ${'#'}{${listName}.order=='${property.name} asc' ? messages.down : ( ${listName}.order=='${property.name} desc' ? messages.up : '' )}">
-                    <f:param name="order" value="${'#'}{${listName}.order=='${property.name} asc' ? '${property.name} desc' : '${property.name} asc'}"/>
+		             value="${property.name} ${'#'}{${listName}.orderColumn=='${property.name}' ? (${listName}.orderDirection=='desc' ? messages.down : messages.up)  : ''}">                   
+                    <f:param name="sort" value="${property.name}" />
+                    <f:param name="dir" value="${'#'}{${listName}.orderDirection=='asc' ? 'desc' : 'asc'}"/>
                 </s:link>
             </f:facet>
             ${'#'}{${componentName}.${property.name}}&amp;nbsp;

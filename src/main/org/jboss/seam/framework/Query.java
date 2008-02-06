@@ -30,14 +30,18 @@ public abstract class Query<T, E>
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
    private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s", Pattern.CASE_INSENSITIVE);
 
-   private static final Pattern ORDER_CLAUSE_PATTERN = Pattern.compile("^[\\w\\.,\\s]*$");
+   private static final Pattern ORDER_COLUMN_PATTERN = Pattern.compile("^\\w*$");
 
-   
+   private static final String DIR_ASC = "asc";
+   private static final String DIR_DESC = "desc";
+
    private String ejbql;
    private Integer firstResult;
    private Integer maxResults;
    private List<String> restrictions = new ArrayList<String>(0);
    private String order;
+   private String orderColumn;
+   private String orderDirection;
    
    private DataModel dataModel;
    
@@ -359,20 +363,67 @@ public abstract class Query<T, E>
    }
 
    /**
-    * The order of the query
+    * The order clause of the query
     */
-   public String getOrder()
-   {
-      return order;
+   
+   public String getOrder() {
+       String column    = getOrderColumn();
+
+       if (column == null) {
+           return order;
+       }
+       
+       String direction = getOrderDirection();
+       
+       if (direction == null) {
+           return column;
+       } else {
+           return column + ' ' + direction;
+       }   
    }
 
    public void setOrder(String order)
    {      
-       if (order!= null && !ORDER_CLAUSE_PATTERN.matcher(order).find()) {
-           throw new IllegalArgumentException("invalid order clause");
-       }
        this.order = order;
        refresh();
+   }
+   
+   public String getOrderDirection() {
+       return orderDirection;
+   }
+
+   public void setOrderDirection(String orderDirection) {
+       this.orderDirection = sanitizeOrderDirection(orderDirection);
+   }
+   
+   private String sanitizeOrderDirection(String direction) {
+       if (direction == null || direction.length()==0) {
+           return null;
+       } else if (direction.equalsIgnoreCase(DIR_ASC)) {
+           return DIR_ASC;
+       } else if (direction.equalsIgnoreCase(DIR_DESC)) {
+           return DIR_DESC;
+       } else {
+           throw new IllegalArgumentException("invalid order direction");
+       }
+   }
+
+   public String getOrderColumn() {
+       return orderColumn;
+   }
+
+   public void setOrderColumn(String orderColumn) {
+       this.orderColumn = sanitizeOrderColumn(orderColumn);
+   }
+
+   private String sanitizeOrderColumn(String columnName) {
+       if (columnName == null || columnName.trim().length() == 0) {
+           return null;
+       } else if (ORDER_COLUMN_PATTERN.matcher(columnName).find()) {
+           return columnName;
+       } else {
+           throw new IllegalArgumentException("invalid order column");
+       }
    }
    
    protected List<ValueExpression> getQueryParameters()

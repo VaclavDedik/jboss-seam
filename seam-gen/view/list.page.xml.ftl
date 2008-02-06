@@ -8,7 +8,9 @@
 <#assign componentName = util.lower(entityName)>
 <#assign listName = componentName + "List">
    <param name="firstResult" value="${'#'}{${listName}.firstResult}"/>
-   <param name="order" value="${'#'}{${listName}.order}"/>
+   <param name="sort" value="${'#'}{${listName}.orderColumn}"/>
+   <param name="dir" value="${'#'}{${listName}.orderDirection}"/>
+   
    <param name="from"/>
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
