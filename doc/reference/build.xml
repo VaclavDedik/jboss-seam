@@ -7,6 +7,7 @@
    language, or you can call lang.revdiff to get a difference report for a particular
    language, compared with the English reference.
 -->
+
 <project name="ReferenceDocumentation" default="all.doc" basedir=".">
     <!-- Allow this to be overriden by others importing this project. -->
     <dirname property="imported.basedir" file="${ant.file.ReferenceDocumentation}"/>
