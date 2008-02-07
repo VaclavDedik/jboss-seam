@@ -172,7 +172,11 @@ public class VFSScanner extends AbstractScanner
       else
       {
          String rootPathName = root.getPathName();
-         int rootPathNameLength = rootPathName.length() + 1; // past last '/'
+         int rootPathNameLength = rootPathName.length();
+         // past last '/'
+         if (rootPathName.endsWith("/"))
+            rootPathNameLength++;
+
          List<VirtualFile> children = root.getChildrenRecursively();
          for (VirtualFile child : children)
          {
