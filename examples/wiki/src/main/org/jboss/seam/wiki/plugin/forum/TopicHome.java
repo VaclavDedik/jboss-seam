@@ -156,6 +156,10 @@ public class TopicHome extends DocumentHome {
         );
     }
 
+    protected String getEditorWorkspaceDescription(boolean create) {
+        return null;
+    }
+
     /* -------------------------- Internal Methods ------------------------------ */
 
     private void endConversation() {

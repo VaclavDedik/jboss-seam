@@ -84,26 +84,28 @@
                 </s:decorate>
                 </a:region>
 
-                <ui:include src="wikiTextEditor.xhtml">
-                    <ui:param name="textEditorId" value="comment"/>
-                    <ui:param name="textPreviewId" value="commentPreview"/>
-                    <ui:param name="namingContainer" value="commentForm"/>
-                    <ui:param name="statusId" value="commentFormStatus"/>
-                    <ui:param name="label" value="#{messages['lacewiki.label.commentForm.Comment']}"/>
-                    <ui:param name="valueBinding" value="#{commentHome.instance.content}"/>
-                    <ui:param name="valueMaxLength" value="32768"/>
-                    <ui:param name="valueRequired" value="true"/>
-                    <ui:param name="textEditorColumns" value="#{commentHome.instance.ownedByRegularUser ? '60' : '48'}"/>
-                    <ui:param name="textEditorRows" value="10"/>
-                </ui:include>
+                <a:region>
+                    <ui:include src="wikiTextEditor.xhtml">
+                        <ui:param name="textEditorId" value="comment"/>
+                        <ui:param name="textPreviewId" value="commentPreview"/>
+                        <ui:param name="namingContainer" value="commentForm"/>
+                        <ui:param name="statusId" value="commentFormStatus"/>
+                        <ui:param name="label" value="#{messages['lacewiki.label.commentForm.Comment']}"/>
+                        <ui:param name="valueBinding" value="#{commentHome.instance.content}"/>
+                        <ui:param name="valueMaxLength" value="32768"/>
+                        <ui:param name="valueRequired" value="true"/>
+                        <ui:param name="textEditorColumns" value="#{commentHome.instance.ownedByRegularUser ? '60' : '48'}"/>
+                        <ui:param name="textEditorRows" value="10"/>
+                    </ui:include>
 
-                <ui:include src="wikiTextPreview.xhtml">
-                    <ui:param name="textPreviewId" value="commentPreview"/>
-                    <ui:param name="valueBinding" value="#{commentHome.instance.content}"/>
-                    <ui:param name="enablePlugins" value="false"/>
-                    <ui:param name="baseDocument" value="#{currentDocument}"/>
-                    <ui:param name="baseDirectory" value="#{currentDocument.parent}"/>
-                </ui:include>
+                    <ui:include src="wikiTextPreview.xhtml">
+                        <ui:param name="textPreviewId" value="commentPreview"/>
+                        <ui:param name="valueBinding" value="#{commentHome.instance.content}"/>
+                        <ui:param name="enablePlugins" value="false"/>
+                        <ui:param name="baseDocument" value="#{currentDocument}"/>
+                        <ui:param name="baseDirectory" value="#{currentDocument.parent}"/>
+                    </ui:include>
+                </a:region>
 
                 <s:decorate id="verifyCaptchaEntry" template="captchaEntry.xhtml">
                     <ui:param name="statusId" value="commentFormStatus"/>

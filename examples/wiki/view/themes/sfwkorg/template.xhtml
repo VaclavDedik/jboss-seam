@@ -119,6 +119,44 @@
             return s.substring(s.length - suffix.length) == suffix;
         }
 
+        function formatText(textArea, formatString) {
+            var inlinePlaceholder = "{i}";
+            var blockPlaceholder = "{b}";
+            var inline = formatString.indexOf(inlinePlaceholder) != -1;
+            var block = formatString.indexOf(blockPlaceholder) != -1;
+            if (!(inline || block)) return;
+            var prefix = formatString.substring(0, formatString.indexOf(inline ? inlinePlaceholder : blockPlaceholder));
+            var suffix = formatString.substring(formatString.indexOf(inline ? inlinePlaceholder : blockPlaceholder)+3, formatString.length);
+            if (block) {
+                prefix = "\n" + prefix;
+                suffix = suffix + "\n";
+            }
+
+            if (typeof(textArea.caretPos) != "undefined" &amp;&amp; textArea.createTextRange) {
+                var caretPos = textArea.caretPos;
+                caretPos.text = caretPos.text.charAt(caretPos.text.length - 1) == ' ' ? prefix + caretPos.text + suffix + ' ' : prefix + caretPos.text + suffix;
+                caretPos.select();
+            } else if (typeof(textArea.selectionStart) != "undefined") {
+                var begin = textArea.value.substr(0, textArea.selectionStart);
+                var selection = textArea.value.substr(textArea.selectionStart, textArea.selectionEnd - textArea.selectionStart);
+                var end = textArea.value.substr(textArea.selectionEnd);
+                var newCursorPos = textArea.selectionStart;
+                var scrollPos = textArea.scrollTop;
+                textArea.value = begin + prefix + selection + suffix + end;
+                if (textArea.setSelectionRange) {
+                    if (selection.length == 0)
+                        textArea.setSelectionRange(newCursorPos + prefix.length, newCursorPos + prefix.length);
+                    else
+                        textArea.setSelectionRange(newCursorPos, newCursorPos + prefix.length + selection.length + suffix.length);
+                    textArea.focus();
+                }
+                textArea.scrollTop = scrollPos;
+            } else {
+                textArea.value += prefix + suffix;
+                textArea.focus(textArea.value.length - 1);
+            }
+        }
+
         // ###################### Popups #################################
 
         function deleteConfirmation(message, deleteFunction) {
@@ -387,7 +425,7 @@
                 <a href="http://seam.demo.jboss.com/home.seam">Hotel Booking</a>
                 and the <a href="http://dvdstore.demo.jboss.com/home.seam">DVD Store</a>.
                 You can find the code for these demos in the
-                <a href="http:/www.seamframework.org/Download">Seam download package</a>.
+                <a href="http://www.seamframework.org/Download">Seam download package</a>.
             </p>
         </div>
 

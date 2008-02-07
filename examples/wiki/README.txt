@@ -1,4 +1,4 @@
-This is not a regular "Seam example", its a standalone seam-gen project structure. The build.xml
+This is not a regular "Seam example", its a standalone project structure. The build.xml
 references the existing Seam libraries and thirdparty libs, however, to avoid duplication.
 
 RUNNING THE UNIT TESTS
@@ -30,7 +30,8 @@ INSTALLATION WITH MYSQL (development profile)
 
 - Call 'ant deploy'
 
-- Start (if you haven't done so already) JBoss AS and access http://localhost:8080/wiki/
+- Start (if you haven't done so already) JBoss AS and access http://localhost:8080/wiki/ and use the
+  default login 'admin' with password 'admin'
 
 
 INSTALLATION WITH MYSQL (production profile)
@@ -63,9 +64,6 @@ INSTALLATION WITH MYSQL (production profile)
 
 - Login as admin/admin and update the Lucene index in the 'Administration' screen
 
-NOTE: The lucene index directory is named "lacewikiIndex" and located in the current directory. This
-is the current directory from which you started the application server! If you want to change this setting,
-unpack the WAR and change the META-INF/persistence.xml configuration file.
-
-WARNING: Do not use this software in production! The database schema is not final and will change!
-No migration scripts for existing data will be provided until the software is production ready.
+NOTE: The Lucene index directory for full-text searching is named "lacewikiIndex" and located in the
+current directory. This is the current directory from which you started the application server! If you want
+to change this setting, unpack the WAR and change the META-INF/persistence.xml configuration file.

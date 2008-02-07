@@ -77,27 +77,28 @@
                         </h:inputText>
                     </s:decorate>
 
-                    <!-- TODO: Update messsage label -->
-                    <ui:include src="../../includes/wikiTextEditor.xhtml">
-                        <ui:param name="textEditorId" value="reply"/>
-                        <ui:param name="textPreviewId" value="replyPreview"/>
-                        <ui:param name="namingContainer" value="forumRepliesPlugin\\\\:replyForm"/>
-                        <ui:param name="statusId" value="replyFormStatus"/>
-                        <ui:param name="label" value="#{messages['forum.label.replyForm.Message']}"/>
-                        <ui:param name="valueBinding" value="#{replyHome.instance.content}"/>
-                        <ui:param name="valueMaxLength" value="32768"/>
-                        <ui:param name="valueRequired" value="true"/>
-                        <ui:param name="textEditorColumns" value="#{replyHome.instance.ownedByRegularUser ? '60' : '48'}"/>
-                        <ui:param name="textEditorRows" value="20"/>
-                    </ui:include>
+                    <a:region>
+                        <ui:include src="../../includes/wikiTextEditor.xhtml">
+                            <ui:param name="textEditorId" value="reply"/>
+                            <ui:param name="textPreviewId" value="replyPreview"/>
+                            <ui:param name="namingContainer" value="forumRepliesPlugin\\\\:replyForm"/>
+                            <ui:param name="statusId" value="replyFormStatus"/>
+                            <ui:param name="label" value="#{messages['forum.label.replyForm.Message']}"/>
+                            <ui:param name="valueBinding" value="#{replyHome.instance.content}"/>
+                            <ui:param name="valueMaxLength" value="32768"/>
+                            <ui:param name="valueRequired" value="true"/>
+                            <ui:param name="textEditorColumns" value="#{replyHome.instance.ownedByRegularUser ? '65' : '55'}"/>
+                            <ui:param name="textEditorRows" value="20"/>
+                        </ui:include>
 
-                    <ui:include src="../../includes/wikiTextPreview.xhtml">
-                        <ui:param name="textPreviewId" value="replyPreview"/>
-                        <ui:param name="valueBinding" value="#{replyHome.instance.content}"/>
-                        <ui:param name="enablePlugins" value="false"/>
-                        <ui:param name="baseDocument" value="#{currentDocument}"/>
-                        <ui:param name="baseDirectory" value="#{currentDocument.parent}"/>
-                    </ui:include>
+                        <ui:include src="../../includes/wikiTextPreview.xhtml">
+                            <ui:param name="textPreviewId" value="replyPreview"/>
+                            <ui:param name="valueBinding" value="#{replyHome.instance.content}"/>
+                            <ui:param name="enablePlugins" value="false"/>
+                            <ui:param name="baseDocument" value="#{currentDocument}"/>
+                            <ui:param name="baseDirectory" value="#{currentDocument.parent}"/>
+                        </ui:include>
+                    </a:region>
 
                     <s:decorate id="verifyCaptchaEntry" template="../../includes/captchaEntry.xhtml">
                         <ui:param name="statusId" value="replyFormStatus"/>

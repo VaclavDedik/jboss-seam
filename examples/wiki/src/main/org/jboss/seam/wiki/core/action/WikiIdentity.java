@@ -36,19 +36,6 @@ public class WikiIdentity extends Identity {
     private User currentUser;
     private Integer currentAccessLevel;
 
-    // TODO: Override Shanes last commit, which introduced a bug, raising an "already logged in" message 
-    public String login() {
-        try {
-            authenticate();
-            if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
-            return "loggedIn";
-        }
-        catch (LoginException ex) {
-            if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_FAILED, ex);
-            return null;
-        }
-    }
-
     // We don't care if a user is logged in, just check it...
     public void checkRestriction(String expr) {
         if (!evaluateExpression(expr)) {

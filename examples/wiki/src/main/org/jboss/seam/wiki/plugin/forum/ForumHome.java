@@ -175,6 +175,10 @@ public class ForumHome extends DirectoryHome {
                 "Removed syndication feed of this forum");
     }
 
+    protected String getEditorWorkspaceDescription(boolean create) {
+        return null;
+    }
+
     /* -------------------------- Internal Methods ------------------------------ */
 
     private void endConversation() {

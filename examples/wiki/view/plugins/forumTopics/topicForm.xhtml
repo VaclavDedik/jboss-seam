@@ -31,28 +31,30 @@
                         <h:inputText id="topicName" tabindex="1" size="60" maxlength="255" required="true" value="#{topicHome.instance.name}"/>
                     </s:decorate>
 
-                    <ui:include src="../../includes/wikiTextEditor.xhtml">
-                        <ui:param name="textEditorId" value="topic"/>
-                        <ui:param name="textPreviewId" value="topicPreview"/>
-                        <ui:param name="namingContainer" value="forumTopicsPlugin\\\\:topicForm"/>
-                        <ui:param name="statusId" value="topicFormStatus"/>
-                        <ui:param name="label" value="#{messages['forum.label.Message']}"/>
-                        <ui:param name="valueBinding" value="#{topicHome.formContent}"/>
-                        <ui:param name="valueMaxLength" value="32768"/>
-                        <ui:param name="valueRequired" value="true"/>
-                        <ui:param name="textEditorColumns" value="60"/>
-                        <ui:param name="textEditorRows" value="20"/>
-                    </ui:include>
-
-                    <s:div styleClass="marginLeft">
-                        <ui:include src="../../includes/wikiTextPreview.xhtml">
+                    <a:region>
+                        <ui:include src="../../includes/wikiTextEditor.xhtml">
+                            <ui:param name="textEditorId" value="topic"/>
                             <ui:param name="textPreviewId" value="topicPreview"/>
-                            <ui:param name="valueBinding" value="#{topicHome.instance.content}"/>
-                            <ui:param name="enablePlugins" value="false"/>
-                            <ui:param name="baseDocument" value="#{topicHome.instance}"/>
-                            <ui:param name="baseDirectory" value="#{currentDirectory}"/>
+                            <ui:param name="namingContainer" value="forumTopicsPlugin\\\\:topicForm"/>
+                            <ui:param name="statusId" value="topicFormStatus"/>
+                            <ui:param name="label" value="#{messages['forum.label.Message']}"/>
+                            <ui:param name="valueBinding" value="#{topicHome.formContent}"/>
+                            <ui:param name="valueMaxLength" value="32768"/>
+                            <ui:param name="valueRequired" value="true"/>
+                            <ui:param name="textEditorColumns" value="60"/>
+                            <ui:param name="textEditorRows" value="20"/>
                         </ui:include>
-                    </s:div>
+
+                        <s:div styleClass="marginLeft">
+                            <ui:include src="../../includes/wikiTextPreview.xhtml">
+                                <ui:param name="textPreviewId" value="topicPreview"/>
+                                <ui:param name="valueBinding" value="#{topicHome.instance.content}"/>
+                                <ui:param name="enablePlugins" value="false"/>
+                                <ui:param name="baseDocument" value="#{topicHome.instance}"/>
+                                <ui:param name="baseDirectory" value="#{currentDirectory}"/>
+                            </ui:include>
+                        </s:div>
+                    </a:region>
 
                     <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
                         <s:div styleClass="entry">
