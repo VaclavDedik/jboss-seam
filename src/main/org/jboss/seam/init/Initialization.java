@@ -215,7 +215,7 @@ public class Initialization
          NamespaceDescriptor nsInfo = namespaceMap.get(ns);
          if (nsInfo == null )
          {
-            if ( ns!=null && !ns.equals("http://jboss.com/products/seam/components") )
+            if ( ns!=null && ns.length()>0 && !ns.equals("http://jboss.com/products/seam/components") )
             {
                log.warn("namespace declared in components.xml does not resolve to a package annotated @Namespace: " + ns);
             }
