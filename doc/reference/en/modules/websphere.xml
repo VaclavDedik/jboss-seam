@@ -218,7 +218,7 @@
     <ejb-ref-name>jboss-seam-jee5/HotelSearchingAction</ejb-ref-name>       
     <ejb-ref-type>Session</ejb-ref-type>      
      <local-home></local-home> 
-    <local>org.jboss.seam.example.booking.HotelSAll of the examples and informaearching</local> 
+    <local>org.jboss.seam.example.booking.HotelSearching</local> 
   </ejb-local-ref>    
     
   <ejb-local-ref>
