@@ -423,6 +423,7 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
    <!--<include name="lib/log4j.jar" />-->
    <include name="lib/el-api.jar" />
    <include name="examples/jpa/lib/el-ri.jar" />
+   <include name="examples/jpa/lib/jboss-archive-browsing.jar" />
    <include name="lib/jsf-api.jar" />
    <include name="lib/jsf-impl.jar" />
    <include name="lib/jboss-seam.jar" />
@@ -671,6 +672,10 @@ $WebSphereInstall/$yourServerName/profiles/$yourProfileName/config/cells/
                               </itemizedlist> </para>
                         </listitem>
                      </itemizedlist> </para>
+               </listitem>
+               <listitem>
+                  <para>You should now restart the server before starting your 
+                     application.</para>
                </listitem>               
                <listitem>
                   <para>To start the application return to the
@@ -780,6 +785,10 @@ $WebSphereInstall/$yourServerName/profiles/$yourProfileName/config/cells/
                   but exchange <literal>jboss-seam-jpa</literal> for <literal>Seam Booking</literal>.
                </para>
             </listitem>
+            <listitem>
+                  <para>You should now restart the server before starting your 
+                     application.</para>
+               </listitem>
             <listitem>
                <para>Finally start the application by selecting it in the 
                   <literal>Enterprise Applications</literal> table and clicking
@@ -1402,17 +1411,13 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                      <para> Third party dependencies.  You will need to copy the
                      <literal>jboss-archive-browsing.jar</literal> from the 
                      <literal>$SEAM/examples/jpa/lib</literal> directory into the 
-                     the projects <literal>/lib</literal> directory.  You will 
-                     also need to acquire the <literal>concurrent.jar</literal> 
-                     and place it in the same directory.  You can get this from 
-                     any jboss distribution or just search for it.</para>
+                     the projects <literal>/lib</literal> directory.</para>
                      <programlisting><![CDATA[
    <!-- 3rd party and supporting jars -->
    <!--<include name="lib/log4j.jar" />-->
    <include name="lib/javassist.jar"/>
    <include name="lib/dom4j.jar" />
    <include name="lib/jboss-archive-browsing.jar" />
-   <include name="lib/concurrent.jar" />
    <include name="lib/cglib.jar"/>
    <include name="lib/asm.jar"/>
    <include name="lib/antlr.jar" />
@@ -1461,7 +1466,6 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
    <include name="lib/javassist.jar"/>
    <include name="lib/dom4j.jar" />
    <include name="lib/jboss-archive-browsing.jar" />
-   <include name="lib/concurrent.jar" />
    <include name="lib/cglib.jar"/>
    <include name="lib/asm.jar"/>
    <include name="lib/antlr.jar" />
@@ -1490,13 +1494,16 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                   ). The target of the build will be
                   <literal>dist/websphere_example.ear</literal> . </para>
             </listitem>
-            
             <listitem>
                <para>To deploy the application follow the instructions here : 
                   <xref linkend="jee5-websphere-deploy"/> but use references to
                   this project <literal>websphere_example</literal> instead of
                   <literal>jboss-seam-jee5</literal>.</para>
             </listitem>
+            <listitem>
+                  <para>You should now restart the server before starting your 
+                     application.</para>
+               </listitem>            
             <listitem>
                <para> Checkout the app at:
                <literal>http://localhost:9080/websphere_example/index.html</literal>
