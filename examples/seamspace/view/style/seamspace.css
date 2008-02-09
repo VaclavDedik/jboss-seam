@@ -509,6 +509,15 @@ input.newuser {
   cursor: pointer;  
 }
 
+input.newrole {
+  background: url(../images/btn_newrole.png) top left no-repeat;
+  height: 24px;
+  width: 80px;
+  margin: 4px 4px 4px 4px;
+  border: 0px;
+  cursor: pointer;  
+}
+
 /* General form styles */
 
 div.formRow {

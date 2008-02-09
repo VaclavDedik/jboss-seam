@@ -20,7 +20,7 @@
               
           <div class="formRow">
             <h:outputLabel for="username" value="Username" styleClass="formLabel"/>
-            <h:inputText id="username" value="#{userAction.username}" readonly="#{identityManager.accountExists(userAction.username)}"/>
+            <h:inputText id="username" value="#{userAction.username}" readonly="#{identityManager.userExists(userAction.username)}"/>
             <div class="validationError"><h:message for="username"/></div>
           </div>              
 

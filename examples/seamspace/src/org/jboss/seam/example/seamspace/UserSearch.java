@@ -34,6 +34,9 @@ public class UserSearch implements Serializable
    public String getUserRoles(String username)
    {
       List<String> roles = identityManager.getGrantedRoles(username);
+      
+      if (roles == null) return "";
+      
       StringBuilder sb = new StringBuilder();
       
       for (String role : roles)

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:rich="http://richfaces.org/rich"       
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+   
+    <ui:define name="content">
+        
+      <script type="text/javascript">
+        function confirmDelete()
+        {
+          return confirm("Are you sure you wish to delete this role? This action cannot be undone.");
+        }
+      </script>
+
+      <div id="contentMain">
+
+  	    <h2>Role Manager</h2>  
+  	    
+        <s:button action="#{roleAction.createRole}" styleClass="newrole" rendered="#{s:hasPermission('seam.account', 'create', null)}"/>
+        <s:link view="/usermanager.xhtml" value="--> Manage Users" propagation="none"/>
+  	    
+        <rich:dataTable 
+            id="threads"
+            value="#{roles}" 
+            var="role" 
+            styleClass="default"
+            columnClasses=",,enabled,action">
+            <f:facet name="header">
+              <rich:columnGroup>
+                <rich:column width="auto">
+                  User name
+                </rich:column>
+                <rich:column width="auto">
+                  Member Of
+                </rich:column>
+                <rich:column width="auto">
+                  Action
+                </rich:column>              
+              </rich:columnGroup>
+            </f:facet>            
+          <rich:column width="auto">
+            #{role}
+          </rich:column>
+          <rich:column width="auto">
+            #{roleSearch.getRoleMemberships(role)}
+          </rich:column>
+          <rich:column width="auto">
+            <s:fragment rendered="#{s:hasPermission('seam.account', 'update', null)}">
+              <s:link value="Edit" action="#{roleAction.editRole(roleSearch.selectedRole)}"/><span> | </span>
+            </s:fragment>
+            <s:link value="Delete" action="#{identityManager.deleteAccount(roleSearch.selectedRole)}"
+                    rendered="#{s:hasPermission('seam.account', 'delete', null)}"
+                    onclick="return confirmDelete()"/>                 
+          </rich:column>
+  	    </rich:dataTable>
+	    </div>
+	    
+    </ui:define>
+    
+  </ui:composition>
+</html>

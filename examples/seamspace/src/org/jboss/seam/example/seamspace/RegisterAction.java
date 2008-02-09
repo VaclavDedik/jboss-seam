@@ -52,6 +52,7 @@ public class RegisterAction
    
    private byte[] picture;
    private String pictureContentType;
+   private String pictureFileName;
    
    private boolean verified;
 
@@ -109,7 +110,7 @@ public class RegisterAction
          }
          
          public void execute() {
-            identityManager.createAccount(username, password);
+            identityManager.createUser(username, password);
             identityManager.grantRole(username, "user");            
          }         
       }.run();
@@ -193,6 +194,16 @@ public class RegisterAction
    public void setPictureContentType(String contentType)
    {
       this.pictureContentType = contentType;
+   }
+   
+   public String getPictureFileName()
+   {
+      return pictureFileName;
+   }
+   
+   public void setPictureFileName(String filename)
+   {
+      this.pictureFileName = filename;
    }
    
    public boolean isVerified()

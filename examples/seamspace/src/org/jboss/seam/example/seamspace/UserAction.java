@@ -36,12 +36,12 @@ public class UserAction
    {
       this.username = username;
       roles = identityManager.getGrantedRoles(username);
-      enabled = identityManager.isEnabled(username);
+      enabled = identityManager.isUserEnabled(username);
    }
       
    public String save()
    {
-      if (identityManager.accountExists(username))
+      if (identityManager.userExists(username))
       {
          return saveExistingUser();
       }
@@ -59,7 +59,7 @@ public class UserAction
          return "failure";
       }
       
-      boolean success = identityManager.createAccount(username, password);
+      boolean success = identityManager.createUser(username, password);
       
       if (success)
       {
@@ -70,7 +70,7 @@ public class UserAction
          
          if (!enabled)
          {
-            identityManager.disableAccount(username);   
+            identityManager.disableUser(username);   
          }
          
          Conversation.instance().end();
@@ -97,23 +97,29 @@ public class UserAction
       
       List<String> grantedRoles = identityManager.getGrantedRoles(username);
       
-      for (String role : grantedRoles)
+      if (grantedRoles != null)
       {
-         if (!roles.contains(role)) identityManager.revokeRole(username, role);
+         for (String role : grantedRoles)
+         {
+            if (!roles.contains(role)) identityManager.revokeRole(username, role);
+         }
       }
       
       for (String role : roles)
       {
-         if (!grantedRoles.contains(role)) identityManager.grantRole(username, role);
+         if (grantedRoles == null || !grantedRoles.contains(role)) 
+         {
+            identityManager.grantRole(username, role);
+         }
       }
       
       if (enabled)
       {
-         identityManager.enableAccount(username);
+         identityManager.enableUser(username);
       }
       else
       {
-         identityManager.disableAccount(username);
+         identityManager.disableUser(username);
       }
          
       Conversation.instance().end();

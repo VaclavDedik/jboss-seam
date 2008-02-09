@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
        login-view-id="/home.xhtml">
 
-    <page view-id="/home.xhtml">
+    <page view-id="/home.xhtml" action="#{identity.logout}">
         <navigation from-action="#{identity.login}">
             <rule if-outcome="loggedIn">
                 <redirect view-id="/profile.xhtml"/>
@@ -73,11 +73,31 @@
       </navigation>      
     </page>
     
+    <page view-id="/rolemanager.xhtml" action="#{roleSearch.loadRoles}">
+      <restrict>#{s:hasPermission('seam.account', 'read', null)}</restrict>    
+      
+      <navigation from-action="#{roleAction.createRole}">
+        <redirect view-id="/roledetail.xhtml"/>
+      </navigation>
+      
+      <navigation from-action="#{roleAction.editRole(roleSearch.selectedRole)}">
+        <redirect view-id="/roledetail.xhtml"/>
+      </navigation>          
+    </page>
+    
     <page view-id="/userdetail.xhtml">
         <navigation from-action="#{userAction.save}">
           <rule if-outcome="success">
-            <redirect view-id="/usermanager.xhtml"/>
+              <redirect view-id="/usermanager.xhtml"/>
           </rule>
+        </navigation>
+    </page>
+    
+    <page view-id="/roledetail.xhtml">
+        <navigation from-action="#{roleAction.save}">
+            <rule if-outcome="success">
+                <redirect view-id="/rolemanager.xhtml"/>
+            </rule>
         </navigation>
     </page>
     
@@ -111,9 +131,9 @@
     </page>
        
     <page view-id="*">
-        <navigation from-action="#{identity.logout}">
+        <!--navigation from-action="#{identity.logout}">
             <redirect view-id="/home.xhtml"/>
-        </navigation>
+        </navigation-->
         
         <navigation from-action="#{blog.createComment}">
           <redirect view-id="/comment.xhtml"/>
@@ -124,11 +144,11 @@
         </navigation>
     </page>
     
-    <exception class="org.jboss.seam.security.NotLoggedInException" log="false">
+    <!--exception class="org.jboss.seam.security.NotLoggedInException" log="false">
         <redirect view-id="/register.xhtml">
             <message severity="warn">You must be a member to use this feature</message>
         </redirect>
-    </exception>
+    </exception-->
   
     <!--exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
