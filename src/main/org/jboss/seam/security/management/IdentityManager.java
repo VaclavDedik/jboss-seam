@@ -146,7 +146,6 @@ public class IdentityManager
    
    public boolean roleExists(String name)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
       return identityStore.roleExists(name);      
    }
    
