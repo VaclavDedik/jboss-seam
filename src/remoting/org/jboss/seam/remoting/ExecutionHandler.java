@@ -186,13 +186,6 @@ public class ExecutionHandler extends BaseRequestHandler implements RequestHandl
 
         calls.add(call);
       }
-      
-      List<Element> exprElements = env.element("body").elements("eval");
-      for (Element e : exprElements)
-      {
-         Call call = new Call(e.attributeValue("id"), e.attributeValue("expr"));
-         calls.add(call);
-      }
 
       return calls;
     }

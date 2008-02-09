@@ -317,8 +317,11 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     for (Method m : type.getDeclaredMethods())
     {
-      if (m.getAnnotation(WebRemote.class) == null)
-        continue;
+      if (m.getAnnotation(WebRemote.class) == null) continue;
+
+      WebRemote webRemote = m.getAnnotation(WebRemote.class);
+      
+      String[] excludes = webRemote.exclude();
 
       // Append the return type to the source block
       appendTypeSource(out, m.getGenericReturnType(), types);
@@ -334,14 +337,12 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
       {
         appendTypeSource(out, m.getGenericParameterTypes()[i], types);
 
-        if (i > 0)
-          componentSrc.append(", ");
+        if (i > 0) componentSrc.append(", ");
         componentSrc.append("p");
         componentSrc.append(i);
       }
 
-      if (m.getGenericParameterTypes().length > 0)
-        componentSrc.append(", ");
+      if (m.getGenericParameterTypes().length > 0) componentSrc.append(", ");
       componentSrc.append("callback) {\n");
 
       componentSrc.append("    return Seam.Remoting.execute(this, \"");
@@ -350,8 +351,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
       for (int i = 0; i < m.getParameterTypes().length; i++)
       {
-        if (i > 0)
-          componentSrc.append(", ");
+        if (i > 0) componentSrc.append(", ");
         componentSrc.append("p");
         componentSrc.append(i);
       }

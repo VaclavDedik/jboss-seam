@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.remoting.WebRemote;
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.remoting.wrapper.ConversionException;
 import org.jboss.seam.remoting.wrapper.ConversionScore;
 import org.jboss.seam.remoting.wrapper.Wrapper;
@@ -25,7 +24,7 @@ public class Call
   private String id;
   private String componentName;
   private String methodName;
-  private String expression;
+  //private String expression;
 
   private List<Wrapper> params = new ArrayList<Wrapper> ();
 
@@ -47,18 +46,6 @@ public class Call
     this.componentName = componentName;
     this.methodName = methodName;
     this.context = new CallContext();
-  }
-  
-  /**
-   * 
-   * @param id
-   * @param expression
-   */
-  public Call(String id, String expression)
-  {
-     this.id = id;
-     this.expression = expression;
-     this.context = new CallContext();
   }
 
   /**
@@ -123,10 +110,6 @@ public class Call
      {
         processInvocation();
      }
-     else if (expression != null)
-     {
-        processExpression();
-     }
   }
   
   private void processInvocation()
@@ -179,11 +162,6 @@ public class Call
 
      // Invoke!
      result = m.invoke(instance, convertParams(m.getGenericParameterTypes()));     
-  }
-  
-  private void processExpression()
-  {
-     result = Expressions.instance().createValueExpression(expression).getValue();
   }
 
   /**

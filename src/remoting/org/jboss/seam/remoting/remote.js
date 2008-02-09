@@ -435,21 +435,23 @@ Seam.Remoting.serializeType = function(obj, refs)
 
 Seam.Remoting.__callId = 0;
 
-Seam.Remoting.eval = function(expression, callback)
-{
-  var callId = "" + Seam.Remoting.__callId++; 
-  var data = "<eval expr=\"";
-  data += expression;
-  data += "\" id=\"";
-  data += callId;
-  data += "\"/>";
-  var call = {data: data, id: callId, callback: callback};  
+// eval() disabled until security issues resolved.
+
+//Seam.Remoting.eval = function(expression, callback)
+//{
+//  var callId = "" + Seam.Remoting.__callId++; 
+//  var data = "<eval expr=\"";
+//  data += expression;
+//  data += "\" id=\"";
+//  data += callId;
+//  data += "\"/>";
+//  var call = {data: data, id: callId, callback: callback};  
   
-  var envelope = Seam.Remoting.createEnvelope(Seam.Remoting.createHeader(), data);
-  Seam.Remoting.pendingCalls.put(call.id, call);
+//  var envelope = Seam.Remoting.createEnvelope(Seam.Remoting.createHeader(), data);
+//  Seam.Remoting.pendingCalls.put(call.id, call);
   
-  call.asyncReq = Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
-}
+//  call.asyncReq = Seam.Remoting.sendAjaxRequest(envelope, Seam.Remoting.PATH_EXECUTE, Seam.Remoting.processResponse, false);
+//}
 
 Seam.Remoting.createCall = function(component, methodName, params, callback)
 {
