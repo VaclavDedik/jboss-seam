@@ -1847,7 +1847,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>createAccount(String name, String password)</literal>
+                  <literal>createUser(String name, String password)</literal>
                 </para>
               </entry>
               <entry>
@@ -1861,12 +1861,12 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                   if successful, or <literal>false</literal> if not.
                 </para>
               </entry>
-            </row>
+            </row>       
 
             <row>
               <entry>
                 <para>
-                  <literal>deleteAccount(String name)</literal>
+                  <literal>deleteUser(String name)</literal>
                 </para>
               </entry>
               <entry>
@@ -1881,11 +1881,49 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                 </para>
               </entry>
             </row>
+                        
+            <row>
+              <entry>
+                <para>
+                  <literal>createRole(String role)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>boolean</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Creates a new role, with the specified name.  Returns <literal>true</literal>
+                  if successful, or <literal>false</literal> if not.
+                </para>
+              </entry>
+            </row>                
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>deleteRole(String name)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>boolean</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Deletes the role with the specified name.  Returns <literal>true</literal>
+                  if successful, or <literal>false</literal> if not.
+                </para>
+              </entry>
+            </row>            
 
             <row>
               <entry>
                 <para>
-                  <literal>enableAccount(String name)</literal>
+                  <literal>enableUser(String name)</literal>
                 </para>
               </entry>
               <entry>
@@ -1905,7 +1943,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>disableAccount(String name)</literal>
+                  <literal>disableUser(String name)</literal>
                 </para>
               </entry>
               <entry>
@@ -1943,7 +1981,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>isEnabled(String name)</literal>
+                  <literal>isUserEnabled(String name)</literal>
                 </para>
               </entry>
               <entry>
@@ -1972,7 +2010,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
               </entry>
               <entry>
                 <para>
-                  Grants the specified role to the specified user account.  The role must already exist for it to
+                  Grants the specified role to the specified user or role.  The role must already exist for it to
                   be granted.  Returns <literal>true</literal> if the role is successfully granted, or
                   <literal>false</literal> if it is already granted to the user.
                 </para>
@@ -1992,7 +2030,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
               </entry>
               <entry>
                 <para>
-                  Revokes the specified role from the specified user account.  Returns <literal>true</literal>
+                  Revokes the specified role from the specified user or role.  Returns <literal>true</literal>
                   if the specified user is a member of the role and it is successfully revoked, or
                   <literal>false</literal> if the user is not a member of the role.
                 </para>
@@ -2002,7 +2040,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>accountExists(String name)</literal>
+                  <literal>userExists(String name)</literal>
                 </para>
               </entry>
               <entry>
@@ -2170,7 +2208,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>createAccount()</literal>
+                  <literal>createUser()</literal>
                 </para>
               </entry>
               <entry>
@@ -2188,7 +2226,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>deleteAccount()</literal>
+                  <literal>deleteUser()</literal>
                 </para>
               </entry>
               <entry>
@@ -2202,11 +2240,47 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                 </para>
               </entry>
             </row>
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>createRole()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>create</literal>
+                </para>
+              </entry>
+            </row>            
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>deleteRole()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.account</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>delete</literal>
+                </para>
+              </entry>
+            </row>            
 
             <row>
               <entry>
                 <para>
-                  <literal>enableAccount()</literal>
+                  <literal>enableUser()</literal>
                 </para>
               </entry>
               <entry>
@@ -2224,7 +2298,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>disableAccount()</literal>
+                  <literal>disableUser()</literal>
                 </para>
               </entry>
               <entry>
@@ -2260,7 +2334,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>isEnabled()</literal>
+                  <literal>isUserEnabled()</literal>
                 </para>
               </entry>
               <entry>
@@ -2314,7 +2388,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             <row>
               <entry>
                 <para>
-                  <literal>accountExists()</literal>
+                  <literal>userExists()</literal>
                 </para>
               </entry>
               <entry>
@@ -2327,7 +2401,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
                   <literal>read</literal>
                 </para>
               </entry>
-            </row>
+            </row>        
 
             <row>
               <entry>
