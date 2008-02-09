@@ -258,7 +258,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
     </sect2>
   </sect1>
   
-  <sect1>
+  <!--sect1>
     <title>Evaluating EL Expressions</title>
     
     <para>
@@ -287,7 +287,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
     </para>
     
     <programlisting><![CDATA[<s:remote include="customer"/>]]></programlisting>
-  </sect1>
+  </sect1-->
 
   <sect1>
     <title>Client Interfaces</title>
