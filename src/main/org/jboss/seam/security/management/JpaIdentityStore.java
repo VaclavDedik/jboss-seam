@@ -68,7 +68,7 @@ public class JpaIdentityStore implements IdentityStore
       }      
    }
    
-   public boolean createAccount(String username, String password)
+   public boolean createUser(String username, String password)
    {
       try
       {
@@ -77,7 +77,7 @@ public class JpaIdentityStore implements IdentityStore
             throw new IdentityManagementException("Could not create account, accountClass not set");
          }
          
-         if (accountExists(username))
+         if (userExists(username))
          {
             throw new IdentityManagementException("Could not create account, already exists");
          }
@@ -115,35 +115,31 @@ public class JpaIdentityStore implements IdentityStore
       }
    }
    
-   public boolean deleteAccount(String name)
+   public boolean deleteUser(String name)
    {
-      UserAccount account;
-      try
+      UserAccount account = validateAccount(name);
+      if (account == null || !account.getAccountType().equals(AccountType.user)) 
       {
-         account = validateUser(name);
-      } 
-      catch (NoSuchUserException e)
-      {
-         return false;
+         throw new NoSuchUserException("Could not delete account, no such user '" + name + "'");
       }
+      
       getEntityManager().remove(account);
       return true;
    }
    
    public boolean grantRole(String name, String role)
    {
-      UserAccount account;
+      UserAccount account = validateAccount(name);
+      if (account == null)
+      {
+         throw new NoSuchUserException("Could not grant role, no such user or role '" + name + "'");
+      }
       
-      try
+      UserAccount roleToGrant = validateAccount(role);
+      if (roleToGrant == null)
       {
-         account = validateUser(name);         
+         throw new NoSuchRoleException("Could not grant role, role '" + role + "' does not exist");
       }
-      catch (NoSuchUserException ex)
-      {
-         return false;
-      }
-            
-      UserAccount roleToGrant = validateRole(role);
       
       if (account.getMemberships() == null)
       {
@@ -162,33 +158,77 @@ public class JpaIdentityStore implements IdentityStore
    
    public boolean revokeRole(String name, String role)
    {
-      UserAccount account;
-      try
+      UserAccount account = validateAccount(name);
+      if (account == null)
       {
-         account = validateUser(name);
-      } 
-      catch (NoSuchUserException e)
-      {
-         return false;
+         throw new NoSuchUserException("Could not revoke role, no such user or role '" + name + "'");
       }
       
-      UserAccount roleToRevoke = validateRole(role);      
+      UserAccount roleToRevoke = validateAccount(role);
+      if (roleToRevoke == null)
+      {
+         throw new NoSuchRoleException("Could not revoke role, role '" + role + "' does not exist");
+      }      
+       
       boolean success = account.getMemberships().remove(roleToRevoke);
       mergeAccount(account);
       return success;
    }
    
-   public boolean enableAccount(String name)
+   public boolean createRole(String role)
    {
-      UserAccount account;
       try
       {
-         account = validateUser(name);
-      } 
-      catch (NoSuchUserException e)
+         if (accountClass == null)
+         {
+            throw new IdentityManagementException("Could not create role, accountClass not set");
+         }
+         
+         if (roleExists(role))
+         {
+            throw new IdentityManagementException("Could not create role, already exists");
+         }
+         
+         UserAccount account = accountClass.newInstance();
+         account.setAccountType(UserAccount.AccountType.role);
+         account.setUsername(role);
+         
+         persistAccount(account);
+         
+         return true;
+      }
+      catch (Exception ex)
       {
-         return false;
+         if (ex instanceof IdentityManagementException)
+         {
+            throw (IdentityManagementException) ex;
+         }
+         else
+         {
+            throw new IdentityManagementException("Could not create role", ex);
+         }
+      }      
+   }
+   
+   public boolean deleteRole(String role)
+   {      
+      UserAccount roleToDelete = validateAccount(role);
+      if (roleToDelete == null)
+      {
+         throw new NoSuchRoleException("Could not delete role, role '" + role + "' does not exist");
       }        
+      
+      getEntityManager().remove(roleToDelete);
+      return true;
+   }
+   
+   public boolean enableUser(String name)
+   {
+      UserAccount account = validateAccount(name);
+      if (account == null || !account.getAccountType().equals(AccountType.user))
+      {
+         throw new NoSuchUserException("Could not enable account, user '" + name + "' does not exist");
+      }
       
       // If it's already enabled return false
       if (account.isEnabled())
@@ -202,17 +242,13 @@ public class JpaIdentityStore implements IdentityStore
       return true;
    }
    
-   public boolean disableAccount(String name)
+   public boolean disableUser(String name)
    {
-      UserAccount account;
-      try
+      UserAccount account = validateAccount(name);
+      if (account == null || !account.getAccountType().equals(AccountType.user))
       {
-         account = validateUser(name);
-      } 
-      catch (NoSuchUserException e)
-      {
-         return false;
-      }       
+         throw new NoSuchUserException("Could not disable account, user '" + name + "' does not exist");
+      }
       
       // If it's already enabled return false
       if (!account.isEnabled())
@@ -228,63 +264,42 @@ public class JpaIdentityStore implements IdentityStore
    
    public boolean changePassword(String name, String password)
    {
-      UserAccount account;
-      try
+      UserAccount account = validateAccount(name);
+      if (account == null || !account.getAccountType().equals(AccountType.user))
       {
-         account = validateUser(name);
-         account.setPasswordHash(hashPassword(password, name));
-         mergeAccount(account);
-         return true;
-      } 
-      catch (NoSuchUserException e)
-      {
-         return false;
-      }        
-   }
-   
-   public boolean accountExists(String name)
-   {
-      UserAccount account;
-      try
-      {
-         account = validateUser(name);
-         return account != null;
-      } 
-      catch (NoSuchUserException e)
-      {
-         return false;
+         throw new NoSuchUserException("Could not change password, user '" + name + "' does not exist");
       }
+      
+      account.setPasswordHash(hashPassword(password, name));
+      mergeAccount(account);
+      return true;
    }
    
-   public boolean isEnabled(String name)
+   public boolean userExists(String name)
    {
-      UserAccount account;
-      try
-      {
-         account = validateUser(name);
-      } 
-      catch (NoSuchUserException e)
-      {
-         return false;
-      }   
-      
-      return account.isEnabled();
+      UserAccount account = validateAccount(name);
+      return account != null && account.getAccountType().equals(AccountType.user);
+   }
+   
+   public boolean roleExists(String name)
+   {
+      UserAccount role = validateAccount(name);
+      return role != null && role.getAccountType().equals(AccountType.role);
+   }
+   
+   public boolean isUserEnabled(String name)
+   {
+      UserAccount account = validateAccount(name);
+      return account != null && account.getAccountType().equals(AccountType.user)
+             && account.isEnabled();
    }
    
    public List<String> getGrantedRoles(String name)
    {
-      UserAccount account;
-      try
-      {
-         account = validateUser(name);
-      } 
-      catch (NoSuchUserException e)
-      {
-         return null;
-      }
+      UserAccount account = validateAccount(name);
+      if (account == null) throw new NoSuchUserException("No such user '" + name + "'");      
 
-      List<String> roles = new ArrayList<String>();
-      
+      List<String> roles = new ArrayList<String>();      
       if (account.getMemberships() != null)
       {
          for (UserAccount membership : account.getMemberships())
@@ -301,15 +316,8 @@ public class JpaIdentityStore implements IdentityStore
    
    public List<String> getImpliedRoles(String name)
    {
-      UserAccount account;
-      try
-      {
-         account = validateUser(name);
-      } 
-      catch (NoSuchUserException e)
-      {
-         return null;
-      }
+      UserAccount account = validateAccount(name);
+      if (account == null) throw new NoSuchUserException("No such user '" + name + "'"); 
 
       Set<String> roles = new HashSet<String>();
 
@@ -339,17 +347,7 @@ public class JpaIdentityStore implements IdentityStore
    
    public boolean authenticate(String username, String password)
    {
-      UserAccount account = null;
-      
-      try
-      {
-         account = validateUser(username);
-      }         
-      catch (NoSuchUserException ex)
-      {
-         return false;  
-      }
-      
+      UserAccount account = validateAccount(username);          
       if (account == null || !account.getAccountType().equals(AccountType.user)
             || !account.isEnabled())
       {
@@ -366,66 +364,32 @@ public class JpaIdentityStore implements IdentityStore
       return success;
    }
    
-   /**
-    * Retrieves a user UserAccount from persistent storage.  If the UserAccount does
-    * not exist, an IdentityManagementException is thrown.
-    * 
-    * @param name The user's username
-    * @return The UserAccount for the specified user
-    */
-   protected UserAccount validateUser(String name) throws NoSuchUserException
-   {      
+   protected UserAccount validateAccount(String name)       
+   {
       try
       {
-         return (UserAccount) getEntityManager().createQuery(
-            "from " + accountClass.getName() + " where username = :username and " +
-            "accountType = :accountType")
+         UserAccount account = (UserAccount) getEntityManager().createQuery(
+            "from " + accountClass.getName() + " where username = :username")
             .setParameter("username", name)
-            .setParameter("accountType", AccountType.user)
             .getSingleResult();
-      }
-      catch (NoResultException ex)
-      {
-         throw new NoSuchUserException("No such user: " + name);         
-      }
-   }
-   
-   /**
-    * Retrieves a role UserAccount from persistent storage.  If the UserAccount
-    * does not exist, an IdentityManagementException is thrown.
-    * 
-    * @param name The role name
-    * @return The UserAccount for the specific role
-    */
-   protected UserAccount validateRole(String name)
-   {      
-      try
-      {
-         // As a last ditch effort, check the db
-         UserAccount role = (UserAccount) getEntityManager().createQuery(
-            "from " + accountClass.getName() + " where username = :username and " +
-            "accountType = :accountType")
-            .setParameter("username", name)
-            .setParameter("accountType", AccountType.role)
-            .getSingleResult();
-    
-         if (!roleCache.containsKey(role.getUsername()))
+         
+         if (account.getAccountType().equals(AccountType.role) && 
+             !roleCache.containsKey(account.getUsername()))
          {
             Set<String> memberships = new HashSet<String>();
-            for (UserAccount m : role.getMemberships())
+            for (UserAccount m : account.getMemberships())
             {
                memberships.add(m.getUsername());
             }
             
-            roleCache.put(role.getUsername(), memberships);            
+            roleCache.put(account.getUsername(), memberships);  
          }
          
-         return role;
+         return account;
       }
       catch (NoResultException ex)
       {
-         roleCache.remove(name);
-         throw new IdentityManagementException("No such role: " + name);         
+         return null;        
       }      
    }
    

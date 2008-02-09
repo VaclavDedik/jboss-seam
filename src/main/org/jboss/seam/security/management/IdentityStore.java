@@ -10,18 +10,20 @@ import java.util.List;
  */
 public interface IdentityStore
 {     
-   boolean createAccount(String username, String password);
-   boolean deleteAccount(String name);
+   boolean createUser(String username, String password);
+   boolean deleteUser(String name);   
+   boolean enableUser(String name);
+   boolean disableUser(String name);   
+   boolean isUserEnabled(String name);
+   boolean changePassword(String name, String password);   
+   boolean userExists(String name);
    
+   boolean createRole(String role);
    boolean grantRole(String name, String role);
    boolean revokeRole(String name, String role);
-   
-   boolean enableAccount(String name);
-   boolean disableAccount(String name);   
-   boolean isEnabled(String name);
-   boolean changePassword(String name, String password);
-   
-   boolean accountExists(String name);
+   boolean deleteRole(String role);
+   boolean roleExists(String name);   
+
    List<String> listUsers();
    List<String> listUsers(String filter);
    List<String> listRoles();
