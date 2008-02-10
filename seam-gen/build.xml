@@ -195,7 +195,7 @@
     	
     	<property name="old.icefaces.home" value="" />
     	<input addproperty="icefaces.home.new"
-    		       message="By default, seam-gen will download the recommended  ICEFaces. If you want to use a specific version of ICEFaces, enter the path to icefaces here [${old.icefaces.home}]"
+    		       message="By default, seam-gen will download the recommended ICEFaces. If you want to use a specific version of ICEFaces, enter the path to icefaces here [${old.icefaces.home}]"
     	           defaultvalue="${old.icefaces.home}" />
 
         <condition property="richfaces.skin.new" value="">
