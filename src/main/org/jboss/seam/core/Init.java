@@ -7,6 +7,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -279,6 +280,17 @@ public class Init
       {
          return "ObserverMethod(" + method + ')';
       }
+      
+      @Override
+      public boolean equals(Object obj)
+      {
+         if (!(obj instanceof ObserverMethod)) return false;
+           
+         ObserverMethod other = (ObserverMethod) obj;
+         return this.component.equals(other.component) &&
+           Arrays.equals(this.method.getParameterTypes(), other.method.getParameterTypes()) &&
+           this.method.getName().equals(other.getMethod().getName());         
+      }
    }
    
    public static class ObserverMethodExpression
@@ -320,7 +332,12 @@ public class Init
          observerList = new ArrayList<ObserverMethod>();
          observerMethods.put(eventType, observerList);
       }
-      observerList.add( new ObserverMethod(method, component, create) );
+      
+      ObserverMethod observerMethod = new ObserverMethod(method, component, create); 
+      if (!observerList.contains(observerMethod))
+      {
+         observerList.add( observerMethod );
+      }
    }
    
    public void addObserverMethodExpression(String eventType, MethodExpression methodBinding)
