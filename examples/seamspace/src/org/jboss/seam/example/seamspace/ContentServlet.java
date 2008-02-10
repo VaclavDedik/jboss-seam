@@ -117,9 +117,10 @@ public class ContentServlet extends HttpServlet
                g2d.dispose();
    
                String formatName = "";
-               if ("image/png".equals(contentType))
+               if (contentType != null && contentType.indexOf("png") != -1)
                   formatName = "png";
-               else if ("image/jpeg".equals(contentType))
+               else if (contentType != null && (contentType.indexOf("jpg") != -1) ||
+                     contentType.indexOf("jpeg") != -1)
                   formatName = "jpeg";
    
                ImageIO.write(bImg, formatName, response.getOutputStream());
