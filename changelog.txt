@@ -1,6 +1,56 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.1.0.A1
+
+** Bug
+    * [JBSEAM-1021] - Don't log exceptions if they are handled in pages.xml
+    * [JBSEAM-1034] - Usage of jBPM core:process-definitions needs clarification
+    * [JBSEAM-1753] - Problems mixing a4j:support, @In and component binding
+    * [JBSEAM-2194] - Terrible error message for DTD not found when reading *.xml config file
+    * [JBSEAM-2195] - Converters should be created in stateless scope
+    * [JBSEAM-2243] - org.jboss.seam.persistence.HibernateSessionProxy does not implement org.hibernate.event.EventSource
+    * [JBSEAM-2271] - Remove deprecated events from Identity
+    * [JBSEAM-2302] - Query Parser adding Where clause conditions to Non Where clauses
+    * [JBSEAM-2373] - Seam-gen makes /Applications/jboss-4.2.2.GA the even when JBoss home is specified as C:/jboss-4.2.1.GA
+    * [JBSEAM-2393] - Query order by regexp fails when using lower/upper on a column
+    * [JBSEAM-2492] - Fix the injection-vulnerable order parameter in seam-gen applications
+    * [JBSEAM-2505] - ServletContexts instance returns null request during JSF request
+    * [JBSEAM-2526] - org.jboss.seam.core.SeamResourceBundle::getKeys()
+    * [JBSEAM-2527] - <s:convertEntity /> doesn't detect custom object added through external hibernate.cfg.xml
+    * [JBSEAM-2543] - Typos in Seam documentation
+    * [JBSEAM-2554] - pdf docType needs to be serializable
+    * [JBSEAM-2556] - NPE in AuthenticationFilter during Basic authentication
+
+** Feature Request
+    * [JBSEAM-619] - Make the booking work on WAS EJB3 Preview
+    * [JBSEAM-730] - Identity management API
+    * [JBSEAM-737] - run as
+    * [JBSEAM-895] - Support re-setting the principal in identity without relogin
+    * [JBSEAM-1342] - Generic Scanner usability
+    * [JBSEAM-1679] - passing callId to callback after async call
+    * [JBSEAM-2046] - Seam allows out of date pages.xml schema
+    * [JBSEAM-2071] - Introduce log attribute to exception handlers
+    * [JBSEAM-2227] - Write some docs on how to use SeamTest without TestNG
+    * [JBSEAM-2424] - Rearchitect BaseSeamTest to have one configuration per suite instead of class
+    * [JBSEAM-2497] - s:fileUpload should only store uploaded file name, not the full path
+    * [JBSEAM-2531] - Merge improved Wiki DBUnitSeamTest upstream
+    * [JBSEAM-2548] - Nicer URLs for wiki user info page
+    * [JBSEAM-2552] - Restructure UIFileUpload.processUpdates code
+    * [JBSEAM-2569] - Delete/Edit buttons on directory browser
+
+** Task
+    * [JBSEAM-1532] - include jar-versions.xml file
+    * [JBSEAM-1835] - Improve logging
+    * [JBSEAM-2151] - Document and use com.ibm.ws.webcontainer.invokefilterscompatibility with ajax4jsf in hibernate2/jpa examples
+    * [JBSEAM-2374] - Update to latest Trinidad version in seamdiscs example.
+    * [JBSEAM-2392] - document p:html
+    * [JBSEAM-2468] - Remove deprecated methods from SeamTest and BaseSeamTest
+    * [JBSEAM-2483] - Deploy Seam applications to Websphere 6.1.X and create Reference guide chapter
+    * [JBSEAM-2536] - Complete Annotations for use with Seam JavaBean components in a J2EE environment section
+    * [JBSEAM-2542] - Document semantics of s:link with view and action
+    * [JBSEAM-2555] - Upgrade to Richfaces 3.1.4
+
 Release Notes - JBoss Seam - Version 2.0.1.CR2
 
 ** Bug
