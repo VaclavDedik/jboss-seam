@@ -305,13 +305,21 @@ public class Component extends Model
 
    private void initSynchronize()
    {
+      boolean hasAnnotation = getBeanClass().isAnnotationPresent(Synchronized.class); 
+      
       synchronize = ( scope==SESSION /*&& ! beanClass.isAnnotationPresent(ReadOnly.class)*/ ) ||
-            getBeanClass().isAnnotationPresent(Synchronized.class);
+            hasAnnotation;
+            
       if (synchronize)
       {
          timeout = getBeanClass().isAnnotationPresent(Synchronized.class) ?
                getBeanClass().getAnnotation(Synchronized.class).timeout() :
                Synchronized.DEFAULT_TIMEOUT;
+      }
+      
+      if (hasAnnotation && !interceptionEnabled)
+      {
+         log.warn("Interceptors are disabled for @Synchronized component - synchronization will be disabled for: " + name);
       }
    }
    
