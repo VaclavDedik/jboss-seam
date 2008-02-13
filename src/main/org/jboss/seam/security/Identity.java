@@ -239,7 +239,7 @@ public class Identity implements Serializable
       catch (LoginException ex) { }
    }
    
-   public void authenticate() 
+   public synchronized void authenticate() 
       throws LoginException
    {
       // If we're already authenticated, then don't authenticate again
