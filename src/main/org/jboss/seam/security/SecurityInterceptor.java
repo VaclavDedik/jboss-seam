@@ -1,10 +1,14 @@
 package org.jboss.seam.security;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.annotations.intercept.InterceptorType;
+import org.jboss.seam.annotations.security.PermissionAction;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.async.AsynchronousInterceptor;
 import org.jboss.seam.intercept.AbstractInterceptor;
@@ -16,44 +20,137 @@ import org.jboss.seam.util.Strings;
  * 
  * @author Shane Bryzak
  */
-@Interceptor(stateless = true, type=InterceptorType.CLIENT, 
+@Interceptor(type=InterceptorType.CLIENT, 
          around=AsynchronousInterceptor.class)
 public class SecurityInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = -6567750187000766925L;
+   
+   private Map<Method,Restriction> restrictions = new HashMap<Method,Restriction>();
+   
+   private class Restriction
+   {
+      private String expression;
+      
+      private Object target;
+      private String action;
+            
+      public void setExpression(String expression)
+      {
+         this.expression = expression;
+      }
+      
+      public void setTarget(Object target)
+      {
+         this.target = target;
+      }
+      
+      public void setAction(String action)
+      {
+         this.action = action;
+      }
+      
+      public void check()
+      {
+         if (Identity.isSecurityEnabled())
+         {
+            if (expression != null)
+            {
+               Identity.instance().checkRestriction(expression);
+            }
+            else if (target != null && action != null)
+            {
+               // TODO implement the security check
+            }
+         }
+      }
+   }
 
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       Method interfaceMethod = invocation.getMethod();
-      //TODO: optimize this:
-      Method method = getComponent().getBeanClass()
-               .getMethod( interfaceMethod.getName(), interfaceMethod.getParameterTypes() );
-      Restrict restrict = getRestriction(method);
       
-      if ( restrict!=null && Identity.isSecurityEnabled() )
-      {
-         String expr = !Strings.isEmpty( restrict.value() ) ? 
-                  restrict.value() : createDefaultExpr(method);
-         Identity.instance().checkRestriction(expr);
-      }
+      Restriction restriction = getRestriction(interfaceMethod);
+      
+      if ( restriction != null ) restriction.check();
+
       return invocation.proceed();
    }
 
-   private Restrict getRestriction(Method method)
+   private Restriction getRestriction(Method interfaceMethod) throws Exception
    {
-      if ( method.isAnnotationPresent(Restrict.class) )
+      if (!restrictions.containsKey(interfaceMethod))
       {
-         return method.getAnnotation(Restrict.class);
-      }
-      else if ( getComponent().getBeanClass().isAnnotationPresent(Restrict.class) )
-      {
-         if ( !getComponent().isLifecycleMethod(method) )
+         synchronized(restrictions)
          {
-            return getComponent().getBeanClass().getAnnotation(Restrict.class);
+            if (!restrictions.containsKey(interfaceMethod))
+            {               
+               Method method = getComponent().getBeanClass().getMethod( 
+                     interfaceMethod.getName(), interfaceMethod.getParameterTypes() );      
+               
+               Restrict restrict = null;
+               
+               if ( method.isAnnotationPresent(Restrict.class) )
+               {
+                  restrict = method.getAnnotation(Restrict.class);
+               }
+               else if ( getComponent().getBeanClass().isAnnotationPresent(Restrict.class) )
+               {
+                  if ( !getComponent().isLifecycleMethod(method) )
+                  {
+                     restrict = getComponent().getBeanClass().getAnnotation(Restrict.class); 
+                  }
+               }
+               
+               if (restrict != null)
+               {
+                  Restriction restriction = new Restriction();
+                  restriction.setExpression(!Strings.isEmpty( restrict.value() ) ? 
+                        restrict.value() : createDefaultExpr(method));
+                  restrictions.put(interfaceMethod, restriction);
+                  return restriction;
+               }
+               
+               for (Annotation annotation : method.getAnnotations())
+               {
+                  if (annotation.annotationType().isAnnotationPresent(PermissionAction.class))
+                  {
+                     PermissionAction permissionAction = annotation.annotationType().getAnnotation(PermissionAction.class);
+                     
+                     Method valueMethod = null;
+                     for (Method m : annotation.annotationType().getDeclaredMethods())
+                     {
+                        valueMethod = m;
+                        break;
+                     }
+                     
+                     if (valueMethod != null)
+                     {
+                        Restriction restriction = new Restriction();
+                        restriction.setTarget(valueMethod.invoke(annotation));
+                        
+                        if (!"".equals(permissionAction.value()))
+                        {
+                           restriction.setAction(permissionAction.value());
+                        }
+                        else
+                        {
+                           // If the PermissionAction.value isn't set, just use the lower-case version of the annotation name
+                           restriction.setAction(annotation.annotationType().getSimpleName().toLowerCase());
+                        }
+                        restrictions.put(interfaceMethod, restriction);
+                        return restriction;
+                     }
+                  }
+               }
+               
+               restrictions.put(interfaceMethod, null);
+               return null;
+            }
          }
       }
-      return null;
+      return restrictions.get(interfaceMethod);      
    }
    
    /**
@@ -65,6 +162,7 @@ public class SecurityInterceptor extends AbstractInterceptor
     */
    private String createDefaultExpr(Method method)
    {
-      return String.format( "#{s:hasPermission('%s','%s', null)}", getComponent().getName(), method.getName() );
+      return String.format( "#{s:hasPermission('%s','%s', null)}", 
+            getComponent().getName(), method.getName() );
    }
 }
