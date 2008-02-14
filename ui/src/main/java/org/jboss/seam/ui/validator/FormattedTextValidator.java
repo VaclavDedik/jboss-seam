@@ -93,13 +93,15 @@ public class FormattedTextValidator implements javax.faces.validator.Validator,
      */
     public static String getErrorMessage(String originalText,
             RecognitionException re) {
-        int beginIndex = Math.max(re.getColumn() - 1
-                - NUMBER_OF_CONTEXT_CHARS_BEFORE, 0);
-        int endIndex = Math.min(re.getColumn() + NUMBER_OF_CONTEXT_CHARS_AFTER,
-                originalText.length());
-        String msg = re.getMessage() + " at '" + (beginIndex == 0 ? "" : "...")
-                + originalText.substring(beginIndex, endIndex)
-                + (endIndex == originalText.length() ? "" : "...") + "'";
-        return msg.replace("\n", " ").replace("\r", " ").replace("\uFFFF","[END OF TEXT]").replace("#{", "# {");
+
+        // Avoid IOOBE even if what we show is wrong, we need to figure out why the indexes are off sometimes
+        int beginIndex = Math.max(re.getColumn() - 1 - NUMBER_OF_CONTEXT_CHARS_BEFORE, 0);
+        int endIndex = Math.min(re.getColumn() + NUMBER_OF_CONTEXT_CHARS_AFTER, originalText.length());
+        String snippet = originalText.length() > 50 ? originalText.substring(0, 50) : originalText;
+        if (beginIndex > 0 && beginIndex < endIndex && endIndex > 0 && endIndex < originalText.length())
+            snippet = "..." + originalText.substring(beginIndex, endIndex) + "...";
+
+        String msg = re.getMessage() + " at '" + snippet + "'";
+        return msg.replace("\n", " ").replace("\r", " ").replace("\uFFFF","END OF TEXT").replace("#{", "# {");
     }
 }
