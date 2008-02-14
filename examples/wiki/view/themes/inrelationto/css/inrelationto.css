@@ -1407,3 +1407,193 @@ ul {
 }
 
 .userInfoEntryLink:hover {color: #666}
+
+
+/* User Control
+----------------------------------------------- */
+
+.userControlPanel {
+    text-align:right;
+    font-size: 85%;
+    padding-top: 3px;
+    padding-right: 18px;
+}
+
+.loginForm {
+    display: inline;
+}
+
+.userControlPanel .label {
+    color: #FFCFB8;
+    text-decoration: none;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.userControlPanel .link {
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+.userControlPanel .linkText {
+	color: #fff;
+	text-decoration: none;
+}
+
+.userControlPanel .input {
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+    font-size: 100%;
+    padding: 1px;
+    margin: 0;
+    border: 0;
+}
+
+.resetPasswordForm {
+    display: inline;
+}
+
+.resetPasswordRequestForm {
+    display: inline;
+}
+
+.resetPasswordRequestFormFields {
+}
+
+.resetPasswordRequestFormFields .entry .label {
+    white-space: nowrap;
+}
+
+.resetPasswordRequestFormControls {
+}
+
+
+/* Search Control
+----------------------------------------------- */
+
+#searchControl {
+    padding-left: 10px;
+    padding-top: 12px;
+}
+
+#searchControl .searchControlTable {
+}
+
+#searchControl .searchControlLabel{
+    color: #ffcfb8;
+    font-weight: normal;
+    font-size: 80%;
+    text-decoration: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#searchControl .searchControlInput {
+    background: #fff url(../img/input.bg.gif) 0 0 no-repeat;
+    font-size: 85%;
+    padding: 1px;
+    width: 75px;
+    margin: 0;
+    border: 1px solid #ffb398;
+    font-family: Andale Mono, Courier New, monospace;
+}
+
+#searchControl .searchControlLink{
+    font-weight: normal;
+    font-size: 85%;
+	color: #d75525;
+	text-decoration: none;
+    padding-left: 5px;
+}
+
+#searchControl .searchControlLink:hover {
+    color: #666;
+}
+
+
+
+/* Main Menu
+----------------------------------------------- */
+
+/* Main menu
+----------------------------------------------- */
+
+.mainMenuContainer {
+    background-color: white;
+}
+
+.mainMenuHeader {
+    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
+    height: 30px;
+    margin-top: 5px;
+}
+
+.mainMenuFooter {
+    background: #d6d5c8 url(../img/th.bg.gif) 0 0 repeat-x;
+    height: 35px;
+    margin-top: 5px;
+}
+
+#mainMenu .level1 {
+}
+
+#mainMenu .level1Body {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 10px;
+}
+
+#mainMenu .level1Marker {
+    display: none;
+}
+
+#mainMenu .level1Link {
+    font-weight: bold;
+    color: #d75525;
+    font-size: 100%;
+    text-decoration: none;
+}
+
+#mainMenu .level1Link:hover {color: #666}
+
+#mainMenu .level1Children {
+    margin-left: 10px;
+}
+
+#mainMenu .level2 {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#mainMenu .level2Marker {
+    display: none;
+}
+
+#mainMenu .level2Link {
+    font-size: 85%;
+    font-weight: bold;
+    color: #d75525;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+#mainMenu .level2Link:hover {color: #666}
+
+#mainMenu .level3 {}
+
+#mainMenu .level3Marker {
+    padding-left: 2px;
+    padding-right: 2px;
+    font-size: 80%;
+    color: #d75525;
+}
+
+#mainMenu .level3Link {
+    font-size: 80%;
+    color: #d75525;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+#mainMenu .level3Link:hover {color: #666}
+
+

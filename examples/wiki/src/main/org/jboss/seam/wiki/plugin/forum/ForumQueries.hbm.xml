@@ -181,12 +181,14 @@
         from
             WIKI_DOCUMENT doc0 inner join WIKI_FILE doc1 on doc0.NODE_ID=doc1.NODE_ID inner join WIKI_NODE doc2 on doc0.NODE_ID=doc2.NODE_ID
            left outer join WIKI_NODE c0
-           on c0.NODE_ID in (select c1.NODE_ID from WIKI_COMMENT c1 where c1.NS_THREAD in
-                                (select c2.NS_THREAD from WIKI_COMMENT c2 inner join WIKI_NODE c3 on c3.NODE_ID = c2.NODE_ID where c3.PARENT_NODE_ID = doc0.NODE_ID)
-                            )
-           and c0.CREATED_ON = (select max(c5.CREATED_ON) from WIKI_COMMENT c4 inner join WIKI_NODE c5 on c4.NODE_ID = c5.NODE_ID where c4.NS_THREAD in
-                                    (select c6.NS_THREAD from WIKI_COMMENT c6 inner join WIKI_NODE c7 on c6.NODE_ID = c7.NODE_ID where c7.PARENT_NODE_ID = doc0.NODE_ID)
-                                )
+            on c0.NODE_ID = (
+                select ct3.NODE_ID from WIKI_COMMENT ct
+                  inner join WIKI_NODE ct1 on ct.NODE_ID = ct1.NODE_ID
+                  inner join WIKI_COMMENT ct2 on ct2.NS_THREAD in (ct.NS_THREAD)
+                  inner join WIKI_NODE ct3 on ct2.NODE_ID = ct3.NODE_ID
+                where ct1.PARENT_NODE_ID = doc0.NODE_ID order by ct3.CREATED_ON desc
+                limit 1
+            )
         where
             doc2.PARENT_NODE_ID = :parentNodeId
             and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')

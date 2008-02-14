@@ -9,20 +9,6 @@
 <!-- TODO: Most of this Javascript could be made generic and not rendered for each and every
      text editor on the page (luckily we usually have just one)... -->
 
-<script type="text/javascript" src="#{basePath}/seam/resource/remoting/interface.js?wikiTextEditor"></script>
-<script type="text/javascript">
-    Seam.Remoting.getContext().setConversationId('#{conversation.id}');
-
-    /* Set text area resize on backing bean */
-    var wikiTextEditor = Seam.Component.getInstance("wikiTextEditor");
-    function storeTextAreaRows(editorId, textAreaRows) {
-        /* TODO: Causes seam/hibernate passivation version mismatch errors if followed by an AJAX request, disabled.
-        wikiTextEditor.setTextAreaRows(editorId, textAreaRows, noopCallback);
-        */
-    }
-    function noopCallback() {}
-</script>
-
 <s:div styleClass="entry" id="#{textEditorId}TextEditor">
 
     <script type="text/javascript">
@@ -37,9 +23,6 @@
                 onResize: function(size) {
                     jQuery("##{namingContainer}\\:#{textEditorId}TextArea").css({ height: size.height-15 + "px" });
                     jQuery("##{namingContainer}\\:#{textEditorId}TextArea").css({ width: size.width-10 + "px" });
-                },
-                onStop: function() {
-                    storeTextAreaRows('#{textEditorId}', jQuery("##{namingContainer}\\:#{textEditorId}TextArea").attr('rows'));
                 }
             });
             jQuery("##{namingContainer}\\:#{textEditorId}TextEditResizeHandle").show();

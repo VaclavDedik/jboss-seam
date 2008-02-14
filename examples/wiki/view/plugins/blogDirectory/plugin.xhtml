@@ -58,13 +58,13 @@
                         <s:div rendered="#{preferences.get('Wiki').showTags and not blogEntry.entryDocument.macroPresent('hideTags') and not empty blogEntry.entryDocument.tags}"
                                styleClass="documentTags undecoratedLink">
                             <s:div>
-                                <h:outputText rendered="#{blogEntry.tags.size()==1}" value="#{messages['blogDirectory.label.Tag']}:&#160;"/>
-                                <h:outputText rendered="#{blogEntry.tags.size()>1}" value="#{messages['blogDirectory.label.Tags']}:&#160;"/>
-                                <ui:repeat var="tag" value="#{blogEntry.tagsAsList}">
+                                <h:outputText rendered="#{blogEntry.entryDocument.tags.size()==1}" value="#{messages['blogDirectory.label.Tag']}:&#160;"/>
+                                <h:outputText rendered="#{blogEntry.entryDocument.tags.size()>1}" value="#{messages['blogDirectory.label.Tags']}:&#160;"/>
+                                <ui:repeat var="tag" value="#{blogEntry.entryDocument.tagsAsList}">
                                     <h:outputLink value="#{wiki:renderTagURL(tag)}">
                                         <h:outputText value="#{tag}"/>
                                     </h:outputLink>
-                                    <h:outputText rendered="#{not wiki:isLastItemInList(blogEntry.tagsAsList, tag)}" value="&#160;|&#160;"/>
+                                    <h:outputText rendered="#{not wiki:isLastItemInList(blogEntry.entryDocument.tagsAsList, tag)}" value="&#160;|&#160;"/>
                                 </ui:repeat>
                             </s:div>
                         </s:div>
