@@ -1,5 +1,6 @@
 package org.jboss.seam.faces;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage.Severity;
@@ -33,6 +34,10 @@ public abstract class Navigator
       }
    }
 
+   protected void redirectExternal(String url) {
+       FacesManager.instance().redirectToExternalURL(url);
+   }
+   
    /**
     * Redirect to the view id.
     */

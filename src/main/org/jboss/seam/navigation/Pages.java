@@ -1365,8 +1365,7 @@ public class Pages
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         rule.addNavigationHandler( new RenderNavigationHandler(viewId == null ? null : 
-            Expressions.instance().createValueExpression(viewId, String.class), message, severity, control) );
+         rule.addNavigationHandler( new RenderNavigationHandler(stringValueExpressionFor(viewId), message, severity, control) );
       }
       
       Element redirect = element.element("redirect");
@@ -1379,6 +1378,8 @@ public class Pages
             params.add( parseParam(child) );
          }
          final String viewId = redirect.attributeValue("view-id");
+         final String url    = redirect.attributeValue("url");
+
          Element messageElement = redirect.element("message");
          String control = messageElement==null ? null : messageElement.attributeValue("for");
          String message = messageElement==null ? null : messageElement.getTextTrim();
@@ -1386,8 +1387,9 @@ public class Pages
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         rule.addNavigationHandler( new RedirectNavigationHandler(viewId == null ? null : 
-            Expressions.instance().createValueExpression(viewId, String.class), params, message, severity, control) );
+         rule.addNavigationHandler(new RedirectNavigationHandler(stringValueExpressionFor(viewId), 
+                                                                 stringValueExpressionFor(url),
+                                                                 params, message, severity, control) );
       }
       
       List<Element> childElements = element.elements("out");
@@ -1408,6 +1410,10 @@ public class Pages
          rule.getOutputs().add(output);
       }
       
+   }
+   
+   private static ValueExpression<String> stringValueExpressionFor(String expr) {
+       return (ValueExpression<String>) ((expr == null) ? expr : Expressions.instance().createValueExpression(expr, String.class));
    }
    
    public static Map<String, Severity> getFacesMessageValuesMap()

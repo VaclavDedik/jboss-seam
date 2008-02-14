@@ -135,6 +135,14 @@ public class FacesManager extends Manager
       }
    }
 
+   public void redirectToExternalURL(String url) {
+       try {
+           FacesContext.getCurrentInstance().getExternalContext().redirect(url);
+       } catch (IOException e) {
+          throw new RedirectException(e);
+       }
+   }
+   
    /**
     * Redirect to the given view id, after encoding parameters and conversation  
     * id into the request URL.
@@ -185,7 +193,7 @@ public class FacesManager extends Manager
       url = encodeConversationId(url, viewId, conversationId);
       redirect(viewId, context, url);
    }
-
+   
    private void redirect(String viewId, FacesContext context, String url)
    {
       url = Pages.instance().encodeScheme(viewId, context, url);

@@ -1,5 +1,6 @@
 package org.jboss.seam.navigation;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,14 +19,17 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 public final class RedirectNavigationHandler extends NavigationHandler
 {
    private final ValueExpression<String> viewId;
+   private final ValueExpression<String> url;
    private final List<Param> params;
    private final String message;
    private final Severity severity;
    private final String control;
 
-   public RedirectNavigationHandler(ValueExpression<String> viewId, List<Param> params, String message, Severity severity, String control)
+   public RedirectNavigationHandler(ValueExpression<String> viewId, ValueExpression<String> url,
+                                    List<Param> params, String message, Severity severity, String control)
    {
       this.viewId = viewId;
+      this.url    = url;
       this.params = params;
       this.message = message;
       this.severity = severity;
@@ -50,7 +54,12 @@ public final class RedirectNavigationHandler extends NavigationHandler
          //}
       }
       
-      redirect(viewId == null ? null : viewId.getValue(), parameters);
+      if (url != null) {
+          redirectExternal(url.getValue());
+      } else {
+          redirect(viewId == null ? null : viewId.getValue(), parameters);
+      }
+
       return true;
    }
 
