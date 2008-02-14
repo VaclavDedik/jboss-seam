@@ -13,6 +13,12 @@
     </function>
 
     <function>
+        <function-name>renderTagURL</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String renderTagURL(java.lang.String)</function-signature>
+    </function>
+
+    <function>
         <function-name>renderUserInfoURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String renderUserInfoURL(org.jboss.seam.wiki.core.model.User)</function-signature>
@@ -160,6 +166,12 @@
         <function-name>isRegularUser</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>boolean isRegularUser(org.jboss.seam.wiki.core.model.User)</function-signature>
+    </function>
+
+    <function>
+        <function-name>isLastItemInList</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean isLastItemInList(java.util.List,java.lang.Object)</function-signature>
     </function>
 
     <tag>

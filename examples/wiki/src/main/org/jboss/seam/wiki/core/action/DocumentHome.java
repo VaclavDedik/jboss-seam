@@ -36,13 +36,14 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     private DocumentHistory documentHistory;
     @In
     private FeedDAO feedDAO;
+    @In
+    private TagEditor tagEditor;
 
     /* -------------------------- Internal State ------------------------------ */
 
     private WikiDocument historicalCopy;
     private Boolean minorRevision;
     private String formContent;
-    private String tagString;
     Set<WikiFile> linkTargets;
     private boolean enabledPreview = false;
     private boolean pushOnFeeds = false;
@@ -72,6 +73,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     public WikiDocument afterNodeCreated(WikiDocument doc) {
         doc = super.afterNodeCreated(doc);
 
+        tagEditor.setTags(doc.getTags());
+
         outjectDocumentAndDirectory(doc, getParentNode());
         return doc;
     }
@@ -79,6 +82,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     @Override
     public WikiDocument beforeNodeEditNew(WikiDocument doc) {
         doc = super.beforeNodeEditNew(doc);
+
+        tagEditor.setTags(doc.getTags());
 
         doc.setEnableComments( Preferences.getInstance(CommentsPreferences.class).getEnableByDefault() );
 
@@ -88,6 +93,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     @Override
     public WikiDocument afterNodeFound(WikiDocument doc) {
         doc = super.afterNodeFound(doc);
+
+        tagEditor.setTags(doc.getTags());
 
         findHistoricalFiles(doc);
         syncMacros(doc);
@@ -100,6 +107,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     public WikiDocument beforeNodeEditFound(WikiDocument doc) {
         doc = super.beforeNodeEditFound(doc);
 
+        tagEditor.setTags(doc.getTags());
+
         // Rollback to historical revision?
         if (documentHistory != null && documentHistory.getSelectedHistoricalFile() != null) {
             getLog().debug("rolling back to revision: " + documentHistory.getSelectedHistoricalFile().getRevision());
@@ -108,7 +117,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         }
 
         isOnSiteFeed = feedDAO.isOnSiteFeed(doc);
-        tagString = doc.getTagsCommaSeparated();
 
         return doc;
     }
@@ -120,7 +128,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         // Sync document content
         syncFormContentToInstance(getParentNode());
         syncLinks();
-        syncTags();
 
         // Set createdOn date _now_
         getInstance().setCreatedOn(new Date());
@@ -159,7 +166,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         // Sync document content
         syncFormContentToInstance(getParentNode());
         syncLinks();
-        syncTags();
 
         // Update feed entries
         if (isPushOnFeeds()) {
@@ -284,10 +290,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         if (linkTargets != null) getInstance().setOutgoingLinks(linkTargets);
     }
 
-    private void syncTags() {
-        getInstance().setTagsCommaSeparated(tagString);
-    }
-
     public void syncMacros(WikiDocument doc) {
         if (doc.getHeader() != null) {
             MacroWikiTextRenderer renderer = MacroWikiTextRenderer.renderMacros(doc.getHeader());
@@ -400,16 +402,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         return historicalFiles;
     }
 
-    public String getTagString() {
-        return tagString;
+    public TagEditor getTagEditor() {
+        return tagEditor;
     }
-
-    public void setTagString(String tagString) {
-        this.tagString = tagString;
-    }
-
-    public boolean isTagInTagString(String tag) {
-        return tag != null && getTagString() != null && getTagString().contains(tag);
-    }
-
 }

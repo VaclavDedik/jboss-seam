@@ -16,10 +16,6 @@
     <h:form id="faqQuestionForm">
         <div class="form">
 
-            <ui:include src="../../includes/statusIndicator.xhtml">
-                <ui:param name="statusId" value="faqQuestionFormStatus"/>
-            </ui:include>
-
             <div class="formHead">
                 <h:outputText value="#{messages['faqBrowser.label.NewFaqQuestion']}: #{faqQuestionHome.parentNode.name}"/>
             </div>
@@ -35,7 +31,6 @@
                     <ui:param name="textEditorId" value="faqQuestion"/>
                     <ui:param name="textPreviewId" value="faqQuestionPreview"/>
                     <ui:param name="namingContainer" value="faqBrowserPlugin\\\\:faqQuestionForm"/>
-                    <ui:param name="statusId" value="faqQuestionFormStatus"/>
                     <ui:param name="label" value="#{messages['faqBrowser.label.QuestionText']}"/>
                     <ui:param name="valueBinding" value="#{faqQuestionHome.formContent}"/>
                     <ui:param name="valueMaxLength" value="32768"/>
@@ -64,7 +59,7 @@
                         <a:commandLink id="save" action="#{faqQuestionHome.persist}"
                                        eventsQueue="ajaxEventQueue"
                                        reRender="faqBrowserPluginContainer, messageBoxContainer"
-                                       status="faqQuestionFormStatus"
+                                       status="globalStatus"
                                        tabindex="1"
                                        styleClass="button saveButton sessionEventTrigger">
                             <h:outputText styleClass="buttonLabel" value="#{messages['faqBrowser.button.SaveNoKey']}"/>
@@ -73,7 +68,7 @@
                         <a:commandLink action="#{faqQuestionHome.cancel}"
                                        reRender="faqBrowserPluginContainer, messageBoxContainer"
                                        immediate="true"
-                                       status="faqQuestionFormStatus"
+                                       status="globalStatus"
                                        eventsQueue="ajaxEventQueue"
                                        tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
                             <h:outputText styleClass="buttonLabel" value="#{messages['faqBrowser.button.CancelNoKey']}"/>

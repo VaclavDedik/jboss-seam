@@ -7,8 +7,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.contexts.Contexts;
-import static org.jboss.seam.ScopeType.SESSION;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
 import static org.jboss.seam.annotations.Install.APPLICATION;
@@ -27,7 +26,7 @@ import javax.security.auth.login.LoginException;
  *
  */
 @Name("org.jboss.seam.security.identity")
-@Scope(SESSION)
+@Scope(ScopeType.SESSION)
 @BypassInterceptors
 @Install(precedence=APPLICATION)
 @AutoCreate

@@ -23,21 +23,20 @@
     function noopCallback() {}
 </script>
 
-<s:div styleClass="entry" id="#{textEditorId}TextEditor" style="margin-bottom:10px;">
+<s:div styleClass="entry" id="#{textEditorId}TextEditor">
 
     <script type="text/javascript">
-    if(!jQuery.browser.safari &amp;&amp; !jQuery.browser.msie){
-
-        /* Assign resize handle to text area */
+    if(jQuery.browser.mozilla){
         jQuery(function() {
-            jQuery("##{namingContainer}\\:#{textEditorId}TextEditDiv").Resizable({
+            jQuery("##{namingContainer}\\:#{textEditorId}TextAreaDiv").Resizable({
                 minHeight: 50,
+                minWidth: 250,
                 handlers: {
-                    s: '##{namingContainer}\\:#{textEditorId}TextEditResizeHandle'
+                    se: '##{namingContainer}\\:#{textEditorId}TextEditResizeHandle'
                 },
                 onResize: function(size) {
-                    jQuery("##{namingContainer}\\:#{textEditorId}TextArea").attr("rows", Math.floor(size.height/15));
-                    jQuery("##{namingContainer}\\:#{textEditorId}TextArea").css({ height: size.height + "px" });
+                    jQuery("##{namingContainer}\\:#{textEditorId}TextArea").css({ height: size.height-15 + "px" });
+                    jQuery("##{namingContainer}\\:#{textEditorId}TextArea").css({ width: size.width-10 + "px" });
                 },
                 onStop: function() {
                     storeTextAreaRows('#{textEditorId}', jQuery("##{namingContainer}\\:#{textEditorId}TextArea").attr('rows'));
@@ -88,53 +87,53 @@
 
         <s:validateAll>
 
-            <s:div id="#{textEditorId}TextEditDiv" styleClass="textEditResizable">
+            <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0">
 
-                <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0">
+                <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
 
-                    <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+                    <s:fragment>
+                        <select id="#{textEditorId}Formatter"
+                                onchange="formatText(
+                                            jQuery('##{namingContainer}\\:#{textEditorId}TextArea')[0],
+                                            jQuery('##{textEditorId}Formatter')[0].options[jQuery('##{textEditorId}Formatter')[0].selectedIndex].value
+                                          );
+                                          #{textEditorId}RefreshPreview();
+                                          jQuery('##{textEditorId}Formatter')[0].options[0].selected = true;">
+                            <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatSelection']}</option>
+                            <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatInline']}</option>
+                            <option value="|{i}|">#{messages['lacewiki.msg.wikiTextEditor.FormatMonospace']}</option>
+                            <option value="*{i}*">#{messages['lacewiki.msg.wikiTextEditor.FormatEmphasis']}</option>
+                            <option value="_{i}_">#{messages['lacewiki.msg.wikiTextEditor.FormatUnderline']}</option>
+                            <option value="~{i}~">#{messages['lacewiki.msg.wikiTextEditor.FormatStrikeout']}</option>
+                            <option value="^{i}^">#{messages['lacewiki.msg.wikiTextEditor.FormatSuperscript']}</option>
+                            <option value="&quot;{i}&quot;">#{messages['lacewiki.msg.wikiTextEditor.FormatQuote']}</option>
+                            <option value="[My Link=>{i}]">#{messages['lacewiki.msg.wikiTextEditor.FormatLink']}</option>
+                            <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatBlock']}</option>
+                            <option value="`{b}`">#{messages['lacewiki.msg.wikiTextEditor.FormatCodeBlock']}</option>
+                            <option value="&quot;{b}&quot;">#{messages['lacewiki.msg.wikiTextEditor.FormatQuoteBlock']}</option>
+                            <option value="= {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatUnorderedList']}</option>
+                            <option value="# {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatOrderedList']}</option>
+                            <option value="+ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline1']}</option>
+                            <option value="++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline2']}</option>
+                            <option value="+++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline3']}</option>
+                            <option value="++++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline4']}</option>
+                        </select>
 
-                        <s:fragment>
-                            <select id="#{textEditorId}Formatter"
-                                    onchange="formatText(
-                                                jQuery('##{namingContainer}\\:#{textEditorId}TextArea')[0],
-                                                jQuery('##{textEditorId}Formatter')[0].options[jQuery('##{textEditorId}Formatter')[0].selectedIndex].value
-                                              );
-                                              #{textEditorId}RefreshPreview();
-                                              jQuery('##{textEditorId}Formatter')[0].options[0].selected = true;">
-                                <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatSelection']}</option>
-                                <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatInline']}</option>
-                                <option value="|{i}|">#{messages['lacewiki.msg.wikiTextEditor.FormatMonospace']}</option>
-                                <option value="*{i}*">#{messages['lacewiki.msg.wikiTextEditor.FormatEmphasis']}</option>
-                                <option value="_{i}_">#{messages['lacewiki.msg.wikiTextEditor.FormatUnderline']}</option>
-                                <option value="~{i}~">#{messages['lacewiki.msg.wikiTextEditor.FormatStrikeout']}</option>
-                                <option value="^{i}^">#{messages['lacewiki.msg.wikiTextEditor.FormatSuperscript']}</option>
-                                <option value="&quot;{i}&quot;">#{messages['lacewiki.msg.wikiTextEditor.FormatQuote']}</option>
-                                <option value="[My Link=>{i}]">#{messages['lacewiki.msg.wikiTextEditor.FormatLink']}</option>
-                                <option value="">#{messages['lacewiki.msg.wikiTextEditor.FormatBlock']}</option>
-                                <option value="`{b}`">#{messages['lacewiki.msg.wikiTextEditor.FormatCodeBlock']}</option>
-                                <option value="&quot;{b}&quot;">#{messages['lacewiki.msg.wikiTextEditor.FormatQuoteBlock']}</option>
-                                <option value="= {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatUnorderedList']}</option>
-                                <option value="# {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatOrderedList']}</option>
-                                <option value="+ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline1']}</option>
-                                <option value="++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline2']}</option>
-                                <option value="+++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline3']}</option>
-                                <option value="++++ {b}">#{messages['lacewiki.msg.wikiTextEditor.FormatHeadline4']}</option>
-                            </select>
+                        <a:jsFunction name="#{textEditorId}RefreshPreview" status="globalStatus"
+                                      reRender="#{textEditorId}MessageLabel, #{textPreviewId}"/>
+                    </s:fragment>
 
-                            <a:jsFunction name="#{textEditorId}RefreshPreview" status="#{statusId}"
-                                          reRender="#{textEditorId}MessageLabel, #{textPreviewId}"/>
-                        </s:fragment>
+                    <ui:decorate template="helpPopupButton.xhtml">
+                        <ui:param name="label"        value="#{messages['lacewiki.button.help.Help']}"/>
+                        <ui:param name="width"        value="450"/>
+                        <ui:param name="height"       value="350"/>
+                        <ui:param name="offsetId"     value="#{namingContainer}\\\\:#{textEditorId}TextAreaDiv"/>
+                        <ui:param name="helpDocument" value="Wiki Text Markup"/>
+                     </ui:decorate>
 
-                        <ui:decorate template="helpPopupButton.xhtml">
-                            <ui:param name="label"        value="#{messages['lacewiki.button.help.Help']}"/>
-                            <ui:param name="width"        value="450"/>
-                            <ui:param name="height"       value="350"/>
-                            <ui:param name="offsetId"     value="#{namingContainer}\\\\:#{textEditorId}TextEditDiv"/>
-                            <ui:param name="helpDocument" value="Wiki Text Markup"/>
-                         </ui:decorate>
+                </h:panelGrid>
 
-                    </h:panelGrid>
+                <s:div id="#{textEditorId}TextAreaDiv" styleClass="textEditResizable">
 
                     <h:inputTextarea id="#{textEditorId}TextArea"
                                      styleClass="ajaxSupport"
@@ -148,7 +147,7 @@
                         <a:support event="onkeyup"
                                    action="#{wikiTextEditor.validate(textEditorId, valueBinding)}"
                                    reRender="#{textEditorId}MessageLabel, #{textPreviewId}"
-                                   status="#{statusId}"
+                                   status="globalStatus"
                                    ignoreDupResponses="true"
                                    requestDelay="3000"
                                    ajaxSingle="true"
@@ -157,10 +156,10 @@
                                    rendered="#{not empty textPreviewId}"/>
                     </h:inputTextarea>
 
-                </h:panelGrid>
+                    <s:div id="#{textEditorId}TextEditResizeHandle" styleClass="textEditResizeHandle" style="display:none;float:right;"/>
+                </s:div>
 
-                <s:div id="#{textEditorId}TextEditResizeHandle" styleClass="textEditResizeHandle" style="display:none;"/>
-            </s:div>
+            </h:panelGrid>
 
         </s:validateAll>
 

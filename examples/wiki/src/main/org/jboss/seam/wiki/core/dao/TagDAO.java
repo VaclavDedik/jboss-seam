@@ -28,7 +28,7 @@ public class TagDAO {
     @In
     protected EntityManager restrictedEntityManager;
 
-    public List<DisplayTagCount> findTagCounts(WikiDirectory startDir, WikiFile ignoreFile, int limit) {
+    public List<DisplayTagCount> findTagCounts(WikiDirectory startDir, WikiFile ignoreFile, int limit, long minimumCount) {
 
         StringBuilder queryString = new StringBuilder();
 
@@ -38,12 +38,14 @@ public class TagDAO {
         queryString.append("(").append(getNestedDirectoryQuery(startDir)).append(")").append(" ");
         if (ignoreFile != null && ignoreFile.getId() != null) queryString.append("and not f = :ignoreFile").append(" ");
         queryString.append("group by t").append(" ");
+        queryString.append("having count(t) >= :minimumCount").append(" ");
         queryString.append("order by count(t) desc, t asc ");
 
         Query nestedSetQuery = getSession().createQuery(queryString.toString());
         nestedSetQuery.setParameter("nsThread", startDir.getNodeInfo().getNsThread());
         nestedSetQuery.setParameter("nsLeft", startDir.getNodeInfo().getNsLeft());
         nestedSetQuery.setParameter("nsRight", startDir.getNodeInfo().getNsRight());
+        nestedSetQuery.setParameter("minimumCount", minimumCount);
         if (ignoreFile != null && ignoreFile.getId() != null)
             nestedSetQuery.setParameter("ignoreFile", ignoreFile);
         if (limit > 0) {

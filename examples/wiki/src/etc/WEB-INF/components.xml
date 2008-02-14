@@ -123,15 +123,7 @@
         </property>
     </component>
 
-    <factory name="basePath"
-             value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName
-                     }:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}"/>
-
     <factory name="themePath" scope="CONVERSATION" value="#{basePath}/themes/#{preferences.get('Wiki').themeName}"/>
-
-    <factory name="themePathGetRequest" scope="CONVERSATION"
-             value="#{servletContexts.request.scheme}://#{servletContexts.request.serverName
-                     }:#{servletContexts.request.serverPort}#{servletContexts.request.contextPath}/themes/#{preferences.get('Wiki').themeName}"/>
 
     <factory name="skin" scope="SESSION" value="d"/>
 

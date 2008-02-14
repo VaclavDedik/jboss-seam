@@ -15,10 +15,6 @@
     <h:form id="topicForm">
         <div class="form">
 
-            <ui:include src="../../includes/statusIndicator.xhtml">
-                <ui:param name="statusId" value="topicFormStatus"/>
-            </ui:include>
-
             <div class="formHead">
                 <h:outputText value="#{messages['forum.label.NewTopic']}"/>
             </div>
@@ -36,7 +32,6 @@
                             <ui:param name="textEditorId" value="topic"/>
                             <ui:param name="textPreviewId" value="topicPreview"/>
                             <ui:param name="namingContainer" value="forumTopicsPlugin\\\\:topicForm"/>
-                            <ui:param name="statusId" value="topicFormStatus"/>
                             <ui:param name="label" value="#{messages['forum.label.Message']}"/>
                             <ui:param name="valueBinding" value="#{topicHome.formContent}"/>
                             <ui:param name="valueMaxLength" value="32768"/>
@@ -84,8 +79,11 @@
                         </div>
                     </s:div>
 
+                    <ui:include src="../../includes/tagEditor.xhtml">
+                        <ui:param name="editor" value="#{topicHome.tagEditor}"/>
+                    </ui:include>
+
                     <s:decorate id="verifyCaptchaEntry" template="../../includes/captchaEntry.xhtml">
-                        <ui:param name="statusId" value="topicFormStatus"/>
                         <ui:param name="rendered" value="#{!identity.loggedIn}"/>
                     </s:decorate>
 
@@ -99,7 +97,7 @@
                             <a:commandLink id="save" action="#{topicHome.persist}"
                                            eventsQueue="ajaxEventQueue"
                                            reRender="forumTopicsPluginContainer, messageBoxContainer"
-                                           status="topicFormStatus"
+                                           status="globalStatus"
                                            tabindex="1"
                                            styleClass="button saveButton sessionEventTrigger">
                                 <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.SaveNoKey']}"/>
@@ -108,7 +106,7 @@
                             <a:commandLink action="#{topicHome.cancel}"
                                            reRender="forumTopicsPluginContainer, messageBoxContainer"
                                            immediate="true"
-                                           status="topicFormStatus"
+                                           status="globalStatus"
                                            eventsQueue="ajaxEventQueue"
                                            tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
                                 <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.CancelNoKey']}"/>

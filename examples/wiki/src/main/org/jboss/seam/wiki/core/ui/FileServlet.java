@@ -51,6 +51,14 @@ public class FileServlet extends HttpServlet {
             WikiUpload file = null;
 
             if (!"".equals(id)) {
+
+                Long fileId = null;
+                try {
+                    fileId = Long.valueOf(id);
+                } catch (NumberFormatException ex) {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "File" + id);
+                }
+
                 // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
                 UserTransaction userTx = null;
                 boolean startedTx = false;
@@ -63,7 +71,7 @@ public class FileServlet extends HttpServlet {
                     }
 
                     WikiNodeDAO wikiNodeDAO = (WikiNodeDAO)org.jboss.seam.Component.getInstance(WikiNodeDAO.class);
-                    file = wikiNodeDAO.findWikiUpload(Long.parseLong(id));
+                    file = wikiNodeDAO.findWikiUpload(fileId);
 
                     if (startedTx) userTx.commit();
                 } catch (Exception ex) {

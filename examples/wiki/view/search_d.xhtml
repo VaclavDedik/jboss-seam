@@ -27,10 +27,6 @@
     <h:form id="searchForm" styleClass="box">
         <s:div styleClass="form" id="searchControl">
 
-            <ui:include src="includes/statusIndicator.xhtml">
-                <ui:param name="statusId" value="searchFormStatus"/>
-            </ui:include>
-
             <script type="text/javascript">startSessionTimeoutCheck()</script>
 
             <a:region>
@@ -54,7 +50,7 @@
                                        var="se"
                                        label="#{se.description}"
                                        noSelectionLabel="#{messages['lacewiki.label.search.All']}"/>
-                        <a:support status="searchFormStatus" event="onchange" reRender="searchControl, searchPager, searchResult"
+                        <a:support status="globalStatus" event="onchange" reRender="searchControl, searchPager, searchResult"
                                    action="#{wikiSearch.search}" oncomplete="onAjaxRequestComplete()"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
@@ -77,14 +73,14 @@
                         <f:selectItem itemLabel="5" itemValue="5"/>
                         <f:selectItem itemLabel="15" itemValue="15"/>
                         <f:selectItem itemLabel="50" itemValue="50"/>
-                        <a:support status="searchFormStatus" event="onchange" reRender="searchControl, searchPager, searchResult"
+                        <a:support status="globalStatus" event="onchange" reRender="searchControl, searchPager, searchResult"
                                    action="#{wikiSearch.search}" oncomplete="onAjaxRequestComplete()"/>
                     </h:selectOneMenu>
                 </h:panelGrid>
 
                 <a:commandLink id="find" styleClass="buttonNonpersistent sessionEventTrigger"
                                reRender="workspaceSwitcher, searchControl, searchPager, searchResult"
-                               status="searchFormStatus"
+                               status="globalStatus"
                                action="#{wikiSearch.search()}"
                                oncomplete="onAjaxRequestComplete()"
                                tabindex="1" accesskey="#{messages['lacewiki.button.search.Find.accesskey']}">

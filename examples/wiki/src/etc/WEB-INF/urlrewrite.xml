@@ -3,10 +3,24 @@
 
 <!--
 
-    Rewrite various Wiki-like URL paths to request parameters (http://tuckey.org/urlrewrite/)
+    Rewrite nice URIs to "ugly" internal URIs. This is preparation for any RESTful service layer
+    we might want to expose later.
+
+    We basically have three kinds of GET URIs:
+
+    - Wiki document/directory URIs with either numeric identifiers (/123.lace) or area/node names such as /Foo/Bar.
+      The named URIs rely on the fact that WikiWord names for area/nodes are always starting with an uppercase letter.
+      The named URIs can have various other modifiers appended, such as /Page/3 or /Tag/Foobar. The representation is
+      always human-readable HTML.
+
+    - URIs to global information pages, such as /user/johndoe or /tag/Foo+Bar. These resources usually aggregate some
+      information. The distinction between named WikiWord URIs is the lowercase first letter. The representation
+      is always humand-readable HTML.
+
+    - URIs to services, such as feeds and downloads. These always start with /service and representations can vary, e.g.
+      binary data for image downloads or Atom XML for feeds.
 
     @author Christian Bauer
-
 -->
 <urlrewrite>
 
@@ -42,6 +56,12 @@
     <rule>
         <from casesensitive="true">^/user/([a-zA-Z]?[a-zA-Z0-9]+)$</from>
         <to last="true">/userInfo_%{session-attribute:skin}.seam?username=$1</to>
+    </rule>
+
+    <!-- /tag/Foo Bar-->
+    <rule>
+        <from casesensitive="true">^/tag/(.+)$</from>
+        <to last="true">/tagDisplay_%{session-attribute:skin}.seam?tag=$1</to>
     </rule>
 
     <!-- /service/Feed/atom (/Area/Foo) (/Node/Bar) (/Comments/exclude/) (/Tag/foobar) (/Aggregate/My Aggregate) -->

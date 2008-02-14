@@ -19,7 +19,7 @@
             <h:column>
                 <s:div styleClass="#{preferenceEntity == preferenceEditor.preferenceEntity ? 'formListSelectedItem' : 'formListItem'}">
                     <a:commandLink action="#{preferenceEditor.selectPreferenceEntity(preferenceEntity)}"
-                                   status="#{statusId}"
+                                   status="globalStatus"
                                    reRender="preferenceEntityList, preferencePropertyPanel" oncomplete="onAjaxRequestComplete()">
                             #{preferenceEntity.description}
                     </a:commandLink>

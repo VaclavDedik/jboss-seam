@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
@@ -8,6 +14,11 @@ import org.jboss.seam.annotations.Scope;
 import java.util.*;
 import java.io.Serializable;
 
+/**
+ * Holds cut/copied node identifiers in a session-scoped clipboard.
+ *
+ * @author Christian Bauer
+ */
 @Name("clipboard")
 @Scope(ScopeType.SESSION)
 @AutoCreate

@@ -16,10 +16,6 @@
 
     <div class="form">
 
-        <ui:include src="../../includes/statusIndicator.xhtml">
-            <ui:param name="statusId" value="forumFormStatus"/>
-        </ui:include>
-
         <div class="formHead">
             <h:outputText value="#{forumHome.managed ? messages['forum.label.EditForum'] : messages['forum.label.NewForum']}"/>
         </div>
@@ -29,14 +25,14 @@
             <s:decorate id="nameDecorate" template="../../includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['forum.label.ForumName']}</ui:define>
                 <h:inputText styleClass="ajaxSupport" size="40" maxlength="255" required="true" tabindex="1" value="#{forumHome.instance.name}">
-                    <a:support event="onchange" status="forumFormStatus" reRender="nameDecorate"/>
+                    <a:support event="onchange" status="globalStatus" reRender="nameDecorate"/>
                 </h:inputText>
             </s:decorate>
 
             <s:decorate id="descriptionDecorate" template="../../includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['forum.label.ForumDescription']}</ui:define>
                 <h:inputText styleClass="ajaxSupport" size="70" maxlength="512" required="false" tabindex="1" value="#{forumHome.instance.description}">
-                    <a:support event="onchange" status="forumFormStatus" reRender="descriptionDecorate"/>
+                    <a:support event="onchange" status="globalStatus" reRender="descriptionDecorate"/>
                 </h:inputText>
             </s:decorate>
 
@@ -51,7 +47,7 @@
                     <h:outputText value="#{messages['forum.label.EnableFeed']}"/>
                     <a:commandLink id="resetFeed" reRender="messageBoxContainer"
                                    action="#{forumHome.resetFeed}"
-                                   status="forumFormStatus"
+                                   status="globalStatus"
                                    rendered="#{!empty forumHome.instance.feed}"
                                    styleClass="buttonNonpersistent sessionEventTrigger">
                         <h:outputText  styleClass="buttonLabel" value="#{messages['forum.button.ResetFeed']}"/>
@@ -68,7 +64,7 @@
 
                     <a:commandLink action="#{forumHome.update}" rendered="#{forumHome.managed}"
                                    reRender="forumListPluginContainer, messageBoxContainer"
-                                   status="forumFormStatus"
+                                   status="globalStatus"
                                    tabindex="1" accesskey="#{messages['forum.button.Update.accesskey']}"
                                    styleClass="button saveButton sessionEventTrigger">
                         <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Update']}"/>
@@ -78,11 +74,11 @@
                     <s:fragment rendered="#{forumHome.removable}">
                         <a:jsFunction name="deleteForum"
                                       reRender="forumListPluginContainer, messageBoxContainer"
-                                      status="forumFormStatus"
+                                      status="globalStatus"
                                       action="#{forumHome.remove}"/>
-                        <h:outputLink value="#" tabindex="1"
+                        <h:outputLink tabindex="1"
                                       accesskey="#{messages['forum.button.Remove.accesskey']}"
-                                      onclick="deleteConfirmation('\\'#{forumHome.instance.name}\\'', 'deleteForum')"
+                                      value="javascript:deleteConfirmation('\\'#{forumHome.instance.name}\\'','deleteForum')"
                                       styleClass="button saveButton sessionEventTrigger">
                             <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Remove']}"/>
                         </h:outputLink>
@@ -90,7 +86,7 @@
 
                     <a:commandLink action="#{forumHome.persist}" rendered="#{!forumHome.managed}"
                                    reRender="forumListPluginContainer, messageBoxContainer"
-                                   status="forumFormStatus"
+                                   status="globalStatus"
                                    tabindex="1" accesskey="#{messages['forum.button.Save.accesskey']}"
                                    styleClass="button saveButton sessionEventTrigger">
                         <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Save']}"/>
@@ -99,7 +95,7 @@
                     <a:region>
                         <a:commandLink action="#{forumHome.cancel}"
                                        immediate="true"
-                                       status="forumFormStatus"
+                                       status="globalStatus"
                                        reRender="forumListPluginContainer, messageBoxContainer"
                                        tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger"
                                        accesskey="#{messages['forum.button.Cancel.accesskey']}">

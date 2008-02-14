@@ -23,16 +23,16 @@
                         <h:outputLink value="#{wiki:renderURL(currentDocument)}/Tag/#{wiki:encodeURL(tagCount.tag)}">#{tagCount.tag}</h:outputLink>
                     </s:span>
                     <s:span rendered="#{param.tag != tagCount.tag and not preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
-                        <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tagCount.tag}" propagation="none">
-                            <f:param value="#{tagCount.tag}" name="tag"/>
-                        </s:link>
+                        <h:outputLink value="#{wiki:renderTagURL(tagCount.tag)}">
+                            <h:outputText value="#{tagCount.tag}"/>
+                        </h:outputLink>
                     </s:span>
                     <s:span rendered="#{param.tag == tagCount.tag}">
                         <h:outputText value="&gt;&#160;#{tagCount.tag}&#160;&lt;"/>
                     </s:span>
                 </h:column>
                 <h:column>
-                    (#{tagCount.count})
+                    <h:outputText value="(#{tagCount.count})"/>
                 </h:column>
             </h:dataTable>
 

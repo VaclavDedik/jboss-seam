@@ -58,9 +58,10 @@
 
                         <s:span styleClass="undecoratedLink"
                                 rendered="#{not preferences.get('FeedAggregator', currentMacro).hideFeedInfo}">
-                            (<h:outputLink value="#{feDTO.feed.link}">
+                            <h:outputText value="&#160;#{messages['feedAggregator.label.On']}&#160;"/>
+                            <h:outputLink value="#{feDTO.feed.link}">
                                 <h:outputText value="#{feDTO.feed.title}"/>
-                            </h:outputLink>)
+                            </h:outputLink>
                         </s:span>
 
                     </s:div>

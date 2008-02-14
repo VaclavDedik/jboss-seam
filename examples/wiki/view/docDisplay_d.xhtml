@@ -123,13 +123,11 @@
                styleClass="documentTags undecoratedLink smallFont">
             <s:div>
                 #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
-                <ui:repeat var="tag" value="#{documentHome.instance.tagsAsList}">
-                    <s:link view="/tagDisplay_#{skin}.xhtml" value="#{tag}" propagation="none">
-                        <f:param value="#{tag}" name="tag"/>
-                    </s:link>
-
-                    <h:outputText rendered="#{documentHome.instance.tagsAsList.indexOf(tag) &lt; documentHome.instance.tagsAsList.size()-1}"
-                                  value="&#160;|&#160;"/>
+                <ui:repeat var="tag" value="#{documentHome.tagEditor.tagsAsList}">
+                    <h:outputLink value="#{wiki:renderTagURL(tag)}">
+                        <h:outputText value="#{tag}"/>
+                    </h:outputLink>
+                    <h:outputText rendered="#{not wiki:isLastItemInList(documentHome.tagEditor.tagsAsList, tag)}" value="&#160;|&#160;"/>
                 </ui:repeat>
             </s:div>
         </s:div>
@@ -226,10 +224,10 @@
                          <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not commentHome.showForm}">
                             <a:jsFunction name="deleteCommentId#{c.id}"
                                           reRender="commentDisplayForm"
+                                          status="globalStatus"
                                           action="#{commentHome.remove(c.id)}"/>
-                                <h:outputLink value="#"
-                                      onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'', 'deleteCommentId#{c.id}')"
-                                      styleClass="button">
+                                <h:outputLink value="javascript:deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'','deleteCommentId#{c.id}')"
+                                              styleClass="button">
                                     <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
                             </h:outputLink>
                         </s:fragment>

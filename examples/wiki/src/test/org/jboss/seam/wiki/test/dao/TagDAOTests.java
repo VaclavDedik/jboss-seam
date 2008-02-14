@@ -32,7 +32,7 @@ public class TagDAOTests extends DBUnitSeamTest {
                 WikiDirectory wikiRoot = (WikiDirectory)getInstance("wikiRoot");
 
                 TagDAO dao = (TagDAO)getInstance(TagDAO.class);
-                List<DisplayTagCount> tags = dao.findTagCounts(wikiRoot, null, 0);
+                List<DisplayTagCount> tags = dao.findTagCounts(wikiRoot, null, 0, 1l);
                 assert tags.size() == 3;
                 assert tags.get(0).getTag().equals("Tag One");
                 assert tags.get(0).getCount().equals(3l);
@@ -53,7 +53,7 @@ public class TagDAOTests extends DBUnitSeamTest {
                 WikiDirectory startDir = ((WikiNodeDAO)getInstance(WikiNodeDAO.class)).findWikiDirectory(4l);
 
                 TagDAO dao = (TagDAO)getInstance(TagDAO.class);
-                List<DisplayTagCount> tags = dao.findTagCounts(startDir, null, 2);
+                List<DisplayTagCount> tags = dao.findTagCounts(startDir, null, 2, 1l);
 
                 assert tags.size() == 2;
                 assert tags.get(0).getTag().equals("Tag One");

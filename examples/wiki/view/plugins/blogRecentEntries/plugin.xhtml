@@ -56,7 +56,7 @@
                         <h:column>
                             <h:outputLink styleClass="blogRecentEntriesItemLink" target="_top" value="#{wiki:renderURL(be.entryDocument)}">
                                 <h:outputText styleClass="blogRecentEntriesItemLinkText"
-                                              value="#{wiki:truncateString(be.entryDocument.name, preferences.get('Blog').recentEntriesTruncateTitle, '...')}"/>
+                                              value="#{wiki:truncateString(be.entryDocument.name, preferences.get('Blog', currentMacro).recentEntriesTruncateTitle, '...')}"/>
                             </h:outputLink>
                         </h:column>
                     </h:dataTable>

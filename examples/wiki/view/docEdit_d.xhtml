@@ -42,10 +42,6 @@
     <h:form id="docEditForm">
         <div class="form">
 
-            <ui:include src="includes/statusIndicator.xhtml">
-                <ui:param name="statusId" value="docEditFormStatus"/>
-            </ui:include>
-
             <script type="text/javascript">startSessionTimeoutCheck();</script>
 
             <script type="text/javascript">jQuery(function() {
@@ -96,7 +92,7 @@
                                 <ui:param name="fieldId" value="name"/>
                                 <ui:define name="label">#{messages['lacewiki.label.docEdit.Name']}</ui:define>
                                 <h:inputText styleClass="ajaxSupport" tabindex="1" size="65" maxlength="200" required="true" value="#{documentHome.instance.name}">
-                                    <a:support status="docEditFormStatus" event="onchange" reRender="nameDecorate, contentPreview" oncomplete="onAjaxRequestComplete()"/>
+                                    <a:support status="globalStatus" event="onchange" reRender="nameDecorate, contentPreview" oncomplete="onAjaxRequestComplete()"/>
                                 </h:inputText>
                             </s:decorate>
 
@@ -104,7 +100,7 @@
                                 <div class="label">&#160;</div>
                                 <div class="input">
                                     <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.instance.nameAsTitle}" tabindex="1">
-                                        <a:support status="docEditFormStatus" event="onchange" reRender="contentPreview" oncomplete="onAjaxRequestComplete()"/>
+                                        <a:support status="globalStatus" event="onchange" reRender="contentPreview" oncomplete="onAjaxRequestComplete()"/>
                                     </h:selectBooleanCheckbox>
                                     <h:outputText value="#{messages['lacewiki.label.docEdit.RenderNameAsTitle']}"/>
                                 </div>
@@ -123,7 +119,7 @@
                                     <div class="label">&#160;</div>
                                     <div class="input">
                                         <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.pushOnFeeds}" tabindex="1">
-                                            <a:support status="docEditFormStatus" event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged" oncomplete="onAjaxRequestComplete()"/>
+                                            <a:support status="globalStatus" event="onchange" reRender="pushOnSiteFeedSwitchUnmanaged" oncomplete="onAjaxRequestComplete()"/>
                                         </h:selectBooleanCheckbox>
                                         <h:outputText value="#{messages['lacewiki.label.docEdit.CreateOnParentFeeds']}"/>
                                     </div>
@@ -156,7 +152,7 @@
                                         <div class="label">&#160;</div>
                                         <div class="input">
                                             <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.pushOnFeeds}" tabindex="1">
-                                                <a:support status="docEditFormStatus" event="onchange" reRender="pushOnSiteFeedSwitch" oncomplete="onAjaxRequestComplete()"/>
+                                                <a:support status="globalStatus" event="onchange" reRender="pushOnSiteFeedSwitch" oncomplete="onAjaxRequestComplete()"/>
                                             </h:selectBooleanCheckbox>
                                             <h:outputText value="#{messages['lacewiki.label.docEdit.PushOnParentFeeds']}"/>
                                         </div>
@@ -180,7 +176,6 @@
                                 <ui:param name="textEditorId" value="content"/>
                                 <ui:param name="textPreviewId" value="#{documentHome.enabledPreview ? 'contentPreview' : ''}"/>
                                 <ui:param name="namingContainer" value="docEditForm"/>
-                                <ui:param name="statusId" value="docEditFormStatus"/>
                                 <ui:param name="label" value="#{messages['lacewiki.label.docEdit.Content']}"/>
                                 <ui:param name="textEditorColumns" value="#{preferences.get('DocEditor').regularEditAreaColumns}"/>
                                 <ui:param name="textEditorRows" value="#{preferences.get('DocEditor').regularEditAreaRows}"/>
@@ -194,7 +189,7 @@
                                 <div class="label">&#160;</div>
                                 <div class="input">
                                     <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.enabledPreview}" tabindex="1" id="previewSwitch">
-                                        <a:support status="docEditFormStatus"
+                                        <a:support status="globalStatus"
                                                    event="onchange"
                                                    oncomplete="onAjaxRequestComplete()"
                                                    reRender="contentPreview, docEditForm:contentTextEditor, pluginSwitch"/>
@@ -208,7 +203,7 @@
                                     <div class="label">&#160;</div>
                                     <div class="input">
                                         <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.showPluginPrefs}" tabindex="1">
-                                            <a:support status="docEditFormStatus" event="onchange" reRender="contentPreview" oncomplete="onAjaxRequestComplete()"/>
+                                            <a:support status="globalStatus" event="onchange" reRender="contentPreview" oncomplete="onAjaxRequestComplete()"/>
                                         </h:selectBooleanCheckbox>
                                         <h:outputText value="#{messages['lacewiki.label.docEdit.ShowPluginSettings']}"/>
                                     </div>
@@ -250,7 +245,7 @@
                                 </div>
                                 <div class="input">
                                     <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.instance.enableComments}" tabindex="1">
-                                        <a:support status="docEditFormStatus" event="onchange" reRender="commentFormSwitch" oncomplete="onAjaxRequestComplete()"/>
+                                        <a:support status="globalStatus" event="onchange" reRender="commentFormSwitch" oncomplete="onAjaxRequestComplete()"/>
                                     </h:selectBooleanCheckbox>
                                     <h:outputText value="#{messages['lacewiki.label.docEdit.EnableComments']}"/>
                                 </div>
@@ -279,8 +274,7 @@
                             </s:div>
 
                             <ui:include src="includes/tagEditor.xhtml">
-                                <ui:param name="namingContainer" value="docEditForm"/>
-                                <ui:param name="home" value="#{documentHome}"/>
+                                <ui:param name="editor" value="#{documentHome.tagEditor}"/>
                             </ui:include>
 
                         </div>
@@ -339,10 +333,11 @@
 
                         <s:fragment rendered="#{documentHome.removable}">
                             <a:jsFunction name="deleteDocument"
+                                          status="globalStatus"
                                           action="#{documentHome.remove}"/>
-                            <h:outputLink value="#" tabindex="1"
+                            <h:outputLink tabindex="1"
                                           accesskey="#{messages['lacewiki.button.docEdit.Delete.accesskey']}"
-                                          onclick="deleteConfirmation('\\'#{documentHome.instance.name}\\'', 'deleteDocument')"
+                                          value="javascript:deleteConfirmation('\\'#{documentHome.instance.name}\\'','deleteDocument')"
                                           styleClass="button sessionEventTrigger">
                                 <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Delete']}"/>
                             </h:outputLink>

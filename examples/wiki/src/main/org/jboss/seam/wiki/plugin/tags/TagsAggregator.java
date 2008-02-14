@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.plugin.tags;
 
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
@@ -27,9 +28,19 @@ public class TagsAggregator implements Serializable {
     @In
     WikiDocument currentDocument;
 
+    @In("#{preferences.get('Tags', currentMacro)}")
+    TagsPreferences prefs;
+
     @Factory("tagsSortedByCount")
+    @Observer(value = "Macro.render.tags", create = false)
     public void aggregateTags() {
-        tagsSortedByCount = tagDAO.findTagCounts(currentDirectory, currentDocument, 0);
+        tagsSortedByCount =
+                tagDAO.findTagCounts(
+                        currentDirectory,
+                        currentDocument,
+                        prefs.getMaxNumberOfTags() != null ? prefs.getMaxNumberOfTags().intValue() : 0,
+                        prefs.getMinimumCount() != null ? prefs.getMinimumCount() : 1l
+                );
     }
 
 }

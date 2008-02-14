@@ -31,10 +31,6 @@
         <h:form id="replyForm">
         <div class="form">
 
-            <ui:include src="../../includes/statusIndicator.xhtml">
-                <ui:param name="statusId" value="replyFormStatus"/>
-            </ui:include>
-
             <div class="formHead bottomBorder">
                 <h:outputText value="#{messages['forum.label.NewReply']}"/>
             </div>
@@ -49,7 +45,7 @@
                                 <ui:define name="label">#{messages['forum.label.replyForm.Name']}</ui:define>
                                 <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="100" required="true"
                                              id="userName" value="#{replyHome.instance.fromUserName}">
-                                    <a:support status="replyFormStatus" event="onchange" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                                    <a:support status="globalStatus" event="onchange" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
                                 </h:inputText>
                             </s:decorate>
                         </a:region>
@@ -73,7 +69,7 @@
                         <ui:define name="label">#{messages['forum.label.replyForm.Subject']}</ui:define>
                         <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true"
                                      id="subject" value="#{replyHome.instance.subject}">
-                            <a:support status="replyFormStatus" event="onchange" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
+                            <a:support status="globalStatus" event="onchange" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
                         </h:inputText>
                     </s:decorate>
 
@@ -82,7 +78,6 @@
                             <ui:param name="textEditorId" value="reply"/>
                             <ui:param name="textPreviewId" value="replyPreview"/>
                             <ui:param name="namingContainer" value="forumRepliesPlugin\\\\:replyForm"/>
-                            <ui:param name="statusId" value="replyFormStatus"/>
                             <ui:param name="label" value="#{messages['forum.label.replyForm.Message']}"/>
                             <ui:param name="valueBinding" value="#{replyHome.instance.content}"/>
                             <ui:param name="valueMaxLength" value="32768"/>
@@ -101,7 +96,6 @@
                     </a:region>
 
                     <s:decorate id="verifyCaptchaEntry" template="../../includes/captchaEntry.xhtml">
-                        <ui:param name="statusId" value="replyFormStatus"/>
                         <ui:param name="rendered" value="#{!identity.loggedIn}"/>
                     </s:decorate>
 
@@ -116,7 +110,7 @@
                             <a:commandLink id="post"
                                            action="#{replyHome.persist}" tabindex="1"
                                            reRender="documentDisplay"
-                                           status="replyFormStatus"
+                                           status="globalStatus"
                                            eventsQueue="ajaxEventQueue"
                                            oncomplete="onAjaxRequestComplete()"
                                            styleClass="button sessionEventTrigger">
@@ -126,7 +120,7 @@
                             <a:commandLink action="#{replyHome.cancel}" tabindex="1"
                                            reRender="documentDisplay"
                                            immediate="true"
-                                           status="replyFormStatus"
+                                           status="globalStatus"
                                            eventsQueue="ajaxEventQueue"
                                            oncomplete="onAjaxRequestComplete()"
                                            styleClass="buttonNonpersistent sessionEventTrigger">

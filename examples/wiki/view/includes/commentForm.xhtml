@@ -10,10 +10,6 @@
     <h:form id="commentForm" styleClass="commentForm">
         <div class="form">
 
-            <ui:include src="statusIndicator.xhtml">
-                <ui:param name="statusId" value="commentFormStatus"/>
-            </ui:include>
-
             <div class="formHead bottomBorder">
 
                 <script type="text/javascript">
@@ -54,7 +50,7 @@
                             <ui:define name="label">#{messages['lacewiki.label.commentForm.Name']}</ui:define>
                             <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="100" required="true"
                                          id="userName" value="#{commentHome.instance.fromUserName}">
-                                <a:support status="commentFormStatus" event="onchange" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                                <a:support status="globalStatus" event="onchange" reRender="userNameDecorate" oncomplete="onAjaxRequestComplete()"/>
                             </h:inputText>
                         </s:decorate>
                     </a:region>
@@ -79,7 +75,7 @@
                     <ui:define name="label">#{messages['lacewiki.label.commentForm.Subject']}</ui:define>
                     <h:inputText styleClass="ajaxSupport" tabindex="1" size="40" maxlength="255" required="true"
                                  id="subject" value="#{commentHome.instance.subject}">
-                        <a:support status="commentFormStatus" event="onchange" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
+                        <a:support status="globalStatus" event="onchange" reRender="subjectDecorate" oncomplete="onAjaxRequestComplete()"/>
                     </h:inputText>
                 </s:decorate>
                 </a:region>
@@ -89,7 +85,6 @@
                         <ui:param name="textEditorId" value="comment"/>
                         <ui:param name="textPreviewId" value="commentPreview"/>
                         <ui:param name="namingContainer" value="commentForm"/>
-                        <ui:param name="statusId" value="commentFormStatus"/>
                         <ui:param name="label" value="#{messages['lacewiki.label.commentForm.Comment']}"/>
                         <ui:param name="valueBinding" value="#{commentHome.instance.content}"/>
                         <ui:param name="valueMaxLength" value="32768"/>
@@ -108,7 +103,6 @@
                 </a:region>
 
                 <s:decorate id="verifyCaptchaEntry" template="captchaEntry.xhtml">
-                    <ui:param name="statusId" value="commentFormStatus"/>
                     <ui:param name="rendered" value="#{!identity.loggedIn}"/>
                 </s:decorate>
 
@@ -123,7 +117,7 @@
                         <a:commandLink id="post"
                                        action="#{commentHome.persist}" tabindex="1"
                                        reRender="commentDisplayForm, messageBoxContainer"
-                                       status="commentFormStatus"
+                                       status="globalStatus"
                                        eventsQueue="ajaxEventQueue"
                                        oncomplete="onAjaxRequestComplete()"
                                        styleClass="button sessionEventTrigger">

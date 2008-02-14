@@ -214,6 +214,15 @@ blockquote blockquote blockquote blockquote {
 	padding-right:20px;
 }
 
+#status {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 20px;
+    height: 25px;
+    z-index: 5000;
+}
+
 .membersAreaContainer {
     margin-top: 10px;
     margin-left: 10px;
@@ -808,18 +817,6 @@ b.rtop b.r4, b.rbottom b.r4 {
     margin-top: 10px;
 }
 
-.form .statusIndicator {
-    float: right;
-}
-
-.form .statusIndicator .statusStart {
-    background: transparent;
-}
-
-.form .statusIndicator .statusStop {
-    background: transparent;
-}
-
 .formListGridColumn {
     vertical-align: top;
     padding: 10px;
@@ -932,23 +929,15 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 
 .textEditResizable {
-    margin-bottom: 5px;
 }
 
 .wideLabels .textEditResizable {}
 
 .textEditResizeHandle {
-    width: 25px;
-    height: 10px;
-    background: #bbb url(../img/icon.resize_s.gif) 0 0 no-repeat;
-    cursor: s-resize;
-    position: absolute;
-    margin-bottom: 10px;
-    margin-left: 155px;
-}
-
-.wideLabels .textEditResizeHandle {
-    margin-left: 240px;
+    width: 15px;
+    height: 15px;
+    background: #f5f5f5 url(../img/icon.resize_se.gif) no-repeat;
+    cursor: se-resize;
 }
 
 .textPreview {

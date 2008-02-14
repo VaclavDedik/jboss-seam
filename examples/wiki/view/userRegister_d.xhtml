@@ -25,10 +25,6 @@
 <h:form id="userRegisterForm" styleClass="box">
     <div class="form">
 
-        <ui:include src="includes/statusIndicator.xhtml">
-            <ui:param name="statusId" value="userRegisterFormStatus"/>
-        </ui:include>
-
         <script type="text/javascript">startSessionTimeoutCheck()</script>
 
         <div class="formHead">
@@ -73,7 +69,6 @@
             </s:decorate>
 
             <s:decorate id="verifyCaptchaEntry" template="includes/captchaEntry.xhtml">
-                <ui:param name="statusId" value="userRegisterFormStatus"/>
                 <ui:param name="rendered" value="#{not s:hasPermission('User', 'isAdmin', currentUser)}"/>
             </s:decorate>
 

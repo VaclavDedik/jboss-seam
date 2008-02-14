@@ -35,10 +35,6 @@
     <h:form id="uploadEditForm" styleClass="box" enctype="multipart/form-data">
         <div class="form">
 
-            <ui:include src="includes/statusIndicator.xhtml">
-                <ui:param name="statusId" value="uploadEditFormStatus"/>
-            </ui:include>
-
             <script type="text/javascript">startSessionTimeoutCheck()</script>
 
             <div class="formHead">
@@ -71,7 +67,7 @@
                 <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
                     <ui:define name="label">#{messages['lacewiki.label.uploadEdit.Name']}</ui:define>
                     <h:inputText styleClass="ajaxSupport" size="50" maxlength="255" required="true" tabindex="1" value="#{uploadHome.instance.name}">
-                        <a:support status="uploadEditFormStatus" event="onchange" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                        <a:support status="globalStatus" event="onchange" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
                     </h:inputText>
                 </s:decorate>
 
@@ -120,8 +116,7 @@
                 </ui:include>
 
                 <ui:include src="includes/tagEditor.xhtml">
-                    <ui:param name="namingContainer" value="uploadEditForm"/>
-                    <ui:param name="home" value="#{uploadHome}"/>
+                    <ui:param name="editor" value="#{uploadHome.tagEditor}"/>
                 </ui:include>
 
             </div>
@@ -147,10 +142,11 @@
 
                         <s:fragment rendered="#{uploadHome.removable}">
                             <a:jsFunction name="deleteUpload"
+                                          status="globalStatus"
                                           action="#{uploadHome.remove}"/>
-                            <h:outputLink value="#" tabindex="1"
+                            <h:outputLink tabindex="1"
                                           accesskey="#{messages['lacewiki.button.uploadEdit.Delete.accesskey']}"
-                                          onclick="deleteConfirmation('\\'#{uploadHome.instance.name}\\'', 'deleteUpload')"
+                                          value="javascript:deleteConfirmation('\\'#{uploadHome.instance.name}\\'','deleteUpload')"
                                           styleClass="button sessionEventTrigger">
                                 <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.uploadEdit.Delete']}"/>
                             </h:outputLink>

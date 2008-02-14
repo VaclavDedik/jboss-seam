@@ -26,6 +26,19 @@
                                 enablePlugins="false"/>
         </s:div>
 
+        <s:div rendered="#{not empty currentDocument.tags}"
+               styleClass="documentTags undecoratedLink smallFont">
+            <s:div>
+                #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
+                <ui:repeat var="tag" value="#{currentDocument.tagsAsList}">
+                    <h:outputLink value="#{wiki:renderTagURL(tag)}">
+                        <h:outputText value="#{tag}"/>
+                    </h:outputLink>
+                    <h:outputText rendered="#{not wiki:isLastItemInList(currentDocument.tagsAsList, tag)}" value="&#160;|&#160;"/>
+                </ui:repeat>
+            </s:div>
+        </s:div>
+
         <s:div id="forumPostingControls" styleClass="forumPostingControls">
 
             <h:panelGroup rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
@@ -60,8 +73,8 @@
                 <ui:param name="titlePlural" value="#{messages['forum.label.Replies']}"/>
                 <ui:define name="controls">
 
-                    <h:panelGrid columns="3" styleClass="forumReplyControls"
-                                 columnClasses="forumReplyRating, forumReplyStatus, forumReplyControl"
+                    <h:panelGrid columns="2" styleClass="forumReplyControls"
+                                 columnClasses="forumReplyRating, forumReplyControl"
                                  cellpadding="0" cellspacing="0" border="0">
 
                         <s:fragment>
@@ -79,7 +92,7 @@
                                     <c:forEach begin="1" var="r" end="5">
                                         <a:commandLink action="#{replyHome.rate(c.id, r)}"
                                                        reRender="comments, messageBoxContainer"
-                                                       status="commentStatus#{c.id}">
+                                                       status="globalStatus">
                                             <h:graphicImage styleClass="item#{c.id}-rate#{r}"
                                                             onmouseover="highlightStars('#{c.id}', '5', '#{r}')"
                                                             onmouseout="highlightStars('#{c.id}', '5', '0')"
@@ -106,12 +119,6 @@
                         </s:fragment>
 
                         <s:fragment>
-                            <ui:include src="../../includes/statusIndicator.xhtml">
-                                <ui:param name="statusId" value="commentStatus#{c.id}"/>
-                            </ui:include>
-                        </s:fragment>
-
-                        <s:fragment>
 
                             <s:fragment rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
 
@@ -134,10 +141,10 @@
                              <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not replyHome.showForm}">
                                 <a:jsFunction name="deleteReplyId#{c.id}"
                                               reRender="forumRepliesContainer"
+                                              status="globalStatus"
                                               action="#{replyHome.remove(c.id)}"/>
-                                    <h:outputLink value="#"
-                                          onclick="deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'', 'deleteReplyId#{c.id}')"
-                                          styleClass="button sessionEventTrigger">
+                                    <h:outputLink value="javascript:deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'','deleteReplyId#{c.id}')"
+                                                  styleClass="button sessionEventTrigger">
                                         <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
                                 </h:outputLink>
                             </s:fragment>

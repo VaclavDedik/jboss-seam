@@ -48,9 +48,11 @@ public class Tagging extends DBUnitSeamTest {
 
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
-                assert docHome.getTagString().equals("Tag One");
                 assert docHome.getInstance().getTags().size() == 1;
-                docHome.setTagString(docHome.getTagString() + ", New Tag");
+                assert docHome.getInstance().getTags().contains("Tag One");
+                assert docHome.getTagEditor().getTagsAsList().contains("Tag One");
+                docHome.getTagEditor().setNewTag("New Tag");
+                docHome.getTagEditor().addNewTag();
                 assert invokeMethod("#{documentHome.update}").equals("updated");
             }
 
@@ -90,7 +92,8 @@ public class Tagging extends DBUnitSeamTest {
                 assert uploadHome.getInstance().getId().equals(30l); // Init!
 
                 assert uploadHome.getInstance().getTags().size() == 0;
-                uploadHome.setTagString("New Tag");
+                uploadHome.getTagEditor().setNewTag("New Tag");
+                uploadHome.getTagEditor().addNewTag();
                 assert invokeMethod("#{uploadHome.update}").equals("updated");
             }
 

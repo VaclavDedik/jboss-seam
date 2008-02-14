@@ -59,7 +59,8 @@ public class FeedConnectorCache
                                                  ConnectorCacheKey<FeedConnectorCacheKey> key) {
 
             List<FeedEntryDTO> result = feedConnector.getFeedEntries(key.getKeyValue().getUrl());
-            super.writeIntoCache(cache, key, result);
+            if (result.size() > 0)
+                super.writeIntoCache(cache, key, result);
         }
     }
 

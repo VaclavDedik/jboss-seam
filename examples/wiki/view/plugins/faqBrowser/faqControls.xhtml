@@ -13,7 +13,7 @@
 
         <s:div styleClass="faqBrowserPanel">
 
-        <h:panelGrid columns="5"
+        <h:panelGrid columns="4"
                      columnClasses="categoryLabel, categoryMenu, questionsControl, categoryLink, status"
                      cellpadding="0" cellspacing="0" border="0">
 
@@ -29,7 +29,7 @@
                     <s:selectItems value="#{faqBrowser.tree.wrappedChildren}"
                                    var="faqsDir"
                                    label="#{wiki:repeatString('&#160;&#183;&#160;',faqsDir.level-1)}#{wiki:truncateString(faqsDir.wrappedNode.name, 40, '...')}"/>
-                    <a:support event="onchange" status="faqsSelectorFormStatus"
+                    <a:support event="onchange" status="globalStatus"
                                action="#{faqBrowser.showQuestions}"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"/>
                 </h:selectOneMenu>
@@ -40,13 +40,13 @@
             <s:span id="faqQuestionsControl">
                 <a:commandLink action="#{faqBrowser.showQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
-                               status="faqsSelectorFormStatus"
+                               status="globalStatus"
                                rendered="#{not faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
                     <h:graphicImage value="#{themePath}/img/down.gif" width="18" height="18"/>
                 </a:commandLink>
                 <a:commandLink action="#{faqBrowser.hideQuestions}" tabindex="1"
                                reRender="faqQuestions, faqQuestionsControl, faqCategoryLink, messageBoxContainer"
-                               status="faqsSelectorFormStatus"
+                               status="globalStatus"
                                rendered="#{faqBrowser.directorySelected and not empty faqBrowser.tree and faqBrowser.tree.wrappedChildren.size() > 0}">
                     <h:graphicImage value="#{themePath}/img/up.gif" width="18" height="18"/>
                 </a:commandLink>
@@ -58,12 +58,6 @@
                         <h:outputText value="Link"/>
                     </h:outputLink>
                 </s:fragment>
-            </s:span>
-
-            <s:span>
-                <ui:include src="../../includes/statusIndicator.xhtml">
-                    <ui:param name="statusId" value="faqsSelectorFormStatus"/>
-                </ui:include>
             </s:span>
 
         </h:panelGrid>
@@ -80,7 +74,7 @@
                     <s:fragment rendered="#{s:hasPermission('Node', 'create', faqBrowser.selectedDir.wrappedNode)}">
                         <a:commandLink action="#{faqQuestionHome.newQuestion()}"
                                        reRender="faqBrowserPluginContainer, messageBoxContainer"
-                                       status="faqsSelectorFormStatus"
+                                       status="globalStatus"
                                        accesskey="#{messages['faqBrowser.button.NewQuestion.accesskey']}"
                                        tabindex="1" styleClass="buttonNonpersistent">
                             <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['faqBrowser.button.NewQuestion']}"/>

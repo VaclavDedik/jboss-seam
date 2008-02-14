@@ -28,10 +28,6 @@
 
 <div class="form">
 
-    <ui:include src="includes/statusIndicator.xhtml">
-        <ui:param name="statusId" value="historyFormStatus"/>
-    </ui:include>
-
     <script type="text/javascript">startSessionTimeoutCheck()</script>
 
     <div class="formHead">#{messages['lacewiki.label.docHistory.DocumentHistory']}: #{documentHistory.currentFile.name}</div>
@@ -101,7 +97,7 @@
                     </h:column>
 
                     <h:column>
-                        <a:commandLink id="show" status="historyFormStatus"
+                        <a:commandLink id="show" status="globalStatus"
                                        oncomplete="onAjaxRequestComplete()"
                                        action="#{documentHistory.displayHistoricalRevision}"
                                        reRender="messageBoxContainer, historyTable, diffResult, historicalPreview"

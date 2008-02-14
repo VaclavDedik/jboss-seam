@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.annotations.Name;
@@ -11,6 +17,13 @@ import java.util.Set;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * For each forum (keyed by identifier), holds a set of topic threads the user read in
+ * the current session. Used to display unread topics (topics that are newer than last
+ * login and that are not managed here).
+ *
+ * @author Christian Bauer
+ */
 @Name("forumTopicReadManager")
 @Scope(ScopeType.SESSION)
 @AutoCreate

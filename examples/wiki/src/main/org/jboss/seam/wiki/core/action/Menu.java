@@ -19,6 +19,8 @@ import java.io.Serializable;
 /**
  * Holds the nodes that are displayed in the site menu
  *
+ * TODO: Caches the menu in the session, better would be a page fragment cache.
+ *
  * @author Christian Bauer
  */
 @Name("menu")

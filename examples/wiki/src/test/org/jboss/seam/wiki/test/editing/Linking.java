@@ -17,6 +17,7 @@ import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.testng.annotations.Test;
 
+import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -241,27 +242,37 @@ public class Linking extends DBUnitSeamTest {
                 assert docHome.getInstance().getContent().equals("[=>wiki://7] and [=>wiki://8] and [=>wiki://30]");
                 assert docHome.getInstance().getOutgoingLinks().size() == 3;
 
-                docHome.getEntityManager().clear();
+            }
+
+        }.run();
+
+        new FacesRequest() {
+
+            protected void invokeApplication() throws Exception {
+                EntityManager em = (EntityManager) getInstance("restrictedEntityManager");
+
                 WikiDocument d = (WikiDocument)
-                        docHome.getEntityManager().createQuery("select d from WikiDocument d left join fetch d.incomingLinks where d.id = :id")
+                        em.createQuery("select d from WikiDocument d left join fetch d.incomingLinks where d.id = :id")
                                 .setParameter("id", 7l)
                                 .getSingleResult();
                 assert d.getIncomingLinks().size() == 1;
-                docHome.getEntityManager().clear();
+                em.clear();
+
                 d = (WikiDocument)
-                        docHome.getEntityManager().createQuery("select d from WikiDocument d left join fetch d.incomingLinks where d.id = :id")
+                        em.createQuery("select d from WikiDocument d left join fetch d.incomingLinks where d.id = :id")
                                 .setParameter("id", 8l)
                                 .getSingleResult();
                 assert d.getIncomingLinks().size() == 2;
-                docHome.getEntityManager().clear();
+                em.clear();
+
                 WikiUpload f = (WikiUpload)
-                        docHome.getEntityManager().createQuery("select f from WikiUpload f left join fetch f.incomingLinks where f.id = :id")
+                        em.createQuery("select f from WikiUpload f left join fetch f.incomingLinks where f.id = :id")
                                 .setParameter("id", 30l)
                                 .getSingleResult();
                 assert f.getIncomingLinks().size() == 1;
             }
-
         }.run();
+
     }
 
     private void checkLink(WikiLinkResolver resolver, Long fileId, String wikiText, String databaseText) {

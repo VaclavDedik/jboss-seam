@@ -31,10 +31,12 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
     @In
     Map<String, UploadType> uploadTypes;
 
+    @In
+    private TagEditor tagEditor;
+
     /* -------------------------- Internal State ------------------------------ */
 
     protected UploadEditor uploadEditor;
-    private String tagString;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -62,7 +64,16 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
         WikiUpload upload = uploader.getUpload();
         upload = super.afterNodeCreated(upload);
         initUploadEditor(upload);
+
+        tagEditor.setTags(upload.getTags());
+
         return upload;
+    }
+
+    @Override
+    public WikiUpload beforeNodeEditNew(WikiUpload upload) {
+        tagEditor.setTags(upload.getTags());
+        return super.beforeNodeEditNew(upload);
     }
 
     @Override
@@ -71,10 +82,17 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
 
         getLog().debug("initializing with existing upload '" + upload + "' and content type: " + upload.getContentType());
 
-        tagString = upload.getTagsCommaSeparated();
-
         initUploadEditor(upload);
+
+        tagEditor.setTags(upload.getTags());
+
         return upload;
+    }
+
+    @Override
+    public WikiUpload beforeNodeEditFound(WikiUpload upload) {
+        tagEditor.setTags(upload.getTags());
+        return super.beforeNodeEditFound(upload);
     }
 
     /* -------------------------- Custom CUD ------------------------------ */
@@ -84,18 +102,7 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
         // Set createdOn date _now_
         getInstance().setCreatedOn(new Date());
 
-        // Tags
-        getInstance().setTagsCommaSeparated(tagString);
-
         return uploadEditor.beforePersist();
-    }
-
-    @Override
-    protected boolean beforeUpdate() {
-        // Tags
-        getInstance().setTagsCommaSeparated(tagString);
-
-        return uploadEditor.beforeUpdate();
     }
 
     @Override
@@ -185,15 +192,7 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
         }
     }
 
-    public String getTagString() {
-        return tagString;
-    }
-
-    public void setTagString(String tagString) {
-        this.tagString = tagString;
-    }
-
-    public boolean isTagInTagString(String tag) {
-        return tag != null && getTagString() != null && getTagString().contains(tag);
+    public TagEditor getTagEditor() {
+        return tagEditor;
     }
 }

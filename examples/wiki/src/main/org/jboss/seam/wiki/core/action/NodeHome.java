@@ -41,8 +41,6 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     @In
     private UserDAO userDAO;
     @In
-    private TagDAO tagDAO;
-    @In
     private WikiDirectory wikiRoot;
     @In
     protected User currentUser;
@@ -51,7 +49,6 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
     public WikiNodeDAO getWikiNodeDAO() { return wikiNodeDAO; }
     public UserDAO getUserDAO() { return userDAO; }
-    public TagDAO getTagDAO() { return tagDAO; }
     public WikiDirectory getWikiRoot() { return wikiRoot; }
     public User getCurrentUser() { return currentUser; }
     public List<Role.AccessLevel> getAccessLevelsList() { return accessLevelsList; }
@@ -475,14 +472,6 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getInstance().setReadAccessLevel(
             readAccessLevel != null ? readAccessLevel.getAccessLevel() : Role.ADMINROLE_ACCESSLEVEL
         );
-    }
-
-    private List<DisplayTagCount> popularTags;
-
-    public List<DisplayTagCount> getPopularTags() {
-        // Load 6 most popular tags
-        if (popularTags == null) popularTags = tagDAO.findTagCounts(getWikiRoot(), null, 6);
-        return popularTags;
     }
 
 }

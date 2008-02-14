@@ -82,15 +82,22 @@ public class DocumentHistory implements Serializable {
         }
     }
 
-    public String init() {
+    public void init() {
         if (!isInitialized) {
-            if (fileId == null) return "missingParameter";
+
+            if (getFileId() == null)
+                throw new org.jboss.seam.framework.EntityNotFoundException(getFileId(), WikiDocument.class);
 
             log.debug("initializing document history with file id: " + getFileId());
 
             if (currentFile == null) {
                 log.debug("loading current file: " + getFileId());
                 currentFile = wikiNodeDAO.findWikiDocument(getFileId());
+
+                if (currentFile == null) {
+                    throw new org.jboss.seam.framework.EntityNotFoundException(getFileId(), WikiDocument.class);
+                }
+
                 if (!Identity.instance().hasPermission("Node", "read", currentFile) ) {
                     throw new AuthorizationException("You don't have permission for this operation");
                 }
@@ -99,8 +106,8 @@ public class DocumentHistory implements Serializable {
             initializeHistoricalFileList();
         }
 
+
         isInitialized = true;
-        return null;
     }
 
     public void displayHistoricalRevision() {

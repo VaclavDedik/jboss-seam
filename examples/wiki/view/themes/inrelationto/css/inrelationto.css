@@ -240,6 +240,14 @@ ul {
 	text-align: right;
 }
 
+#status {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 20px;
+    height: 25px;
+    z-index: 5000;
+}
 
 /* Header
 ----------------------------------------------- */
@@ -532,16 +540,6 @@ ul {
     margin-top: 10px;
 }
 
-.form .statusIndicator {
-    float: right;
-}
-
-.form .statusIndicator .statusStart {
-}
-
-.form .statusIndicator .statusStop {
-}
-
 .formListGridColumn {
     vertical-align: top;
     padding: 10px;
@@ -649,23 +647,18 @@ ul {
 }
 
 .textEditResizable {
-    margin-bottom: 5px;
 }
 
 .wideLabels .textEditResizable {}
 
 .textEditResizeHandle {
-    width: 25px;
-    height: 10px;
-    background: #bbb url(../img/icon.resize_s.gif) 0 0 no-repeat;
-    cursor: s-resize;
-    position: absolute;
-    margin-bottom: 10px;
-    margin-left: 155px;
+    width: 15px;
+    height: 15px;
+    background: #f5f5f5 url(../img/icon.resize_se.gif) no-repeat;
+    cursor: se-resize;
 }
 
 .wideLabels .textEditResizeHandle {
-    margin-left: 240px;
 }
 
 .textPreview {

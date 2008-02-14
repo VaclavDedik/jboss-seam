@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.plugin.tags;
 
 import org.hibernate.validator.NotNull;
+import org.hibernate.validator.Range;
 import org.jboss.seam.wiki.preferences.annotations.Preferences;
 import org.jboss.seam.wiki.preferences.annotations.PreferenceProperty;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
@@ -24,7 +25,31 @@ public class TagsPreferences {
     @NotNull
     private Boolean linkToCurrentDocument;
 
+    @PreferenceProperty(
+        description = "#{messages['tags.preferences.MaxNumberOfTags']}",
+        visibility = {PreferenceVisibility.INSTANCE},
+        editorIncludeName = "NumberRange"
+    )
+    @Range(min = 1l, max = 99l)
+    private Long maxNumberOfTags;
+
+    @PreferenceProperty(
+        description = "#{messages['tags.preferences.MinimumCount']}",
+        visibility = {PreferenceVisibility.INSTANCE},
+        editorIncludeName = "NumberRange"
+    )
+    @Range(min = 1l, max = 99l)
+    private Long minimumCount;
+
     public Boolean getLinkToCurrentDocument() {
         return linkToCurrentDocument;
+    }
+
+    public Long getMaxNumberOfTags() {
+        return maxNumberOfTags;
+    }
+
+    public Long getMinimumCount() {
+        return minimumCount;
     }
 }

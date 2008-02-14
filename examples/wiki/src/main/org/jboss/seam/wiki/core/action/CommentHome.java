@@ -227,7 +227,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         quoted.append("<blockquote>").append("\n");
         quoted.append("_").append(authorName);
         quoted.append(" ").append(Messages.instance().get("forum.label.WroteOn")).append(" ");
-        quoted.append(WikiUtil.formatDate(date)).append(":").append("_").append("<br/>\n");
+        quoted.append(WikiUtil.formatDate(date)).append(":").append("_").append("<br/>\n\n");
         quoted.append(text);
         quoted.append("\n").append("</blockquote>").append("\n\n");
         quoted.append(Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisTextPreviewUpdatesAutomatically"));

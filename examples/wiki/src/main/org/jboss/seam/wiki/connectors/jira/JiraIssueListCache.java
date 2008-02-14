@@ -64,7 +64,8 @@ public class JiraIssueListCache
                     key.getKeyValue().getPassword(),
                     key.getKeyValue().getFilterId()
                 );
-            super.writeIntoCache(cache, key, result);
+            if (result.size() >0)
+                super.writeIntoCache(cache, key, result);
         }
 
     }

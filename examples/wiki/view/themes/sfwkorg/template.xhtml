@@ -4,6 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:wiki="http://jboss.com/products/seam/wiki"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
       xmlns:s="http://jboss.com/products/seam/taglib">
 
 <f:view contentType="text/html"/>
@@ -429,11 +430,19 @@
             </p>
         </div>
 
-        <div style="margin-top: 25px; margin-left: 15px; margin-right: 15px; text-align:center;">
-            <h:outputLink value="http://seamframework.org/Community/GetASeamIcon">
-                <h:graphicImage value="#{themePath}/img/runningon_seamlogo_beige.gif"
-                                width="200" height="50"/>
-            </h:outputLink>
+        <div style="margin-top: 25px; margin-left: 15px; margin-right: 15px; ">
+            <h2>Built with Seam</h2>
+            <p>
+                You can find the full source code for this website in the
+                <a href="http://www.seamframework.org/Download">Seam package</a> in
+                the directory /examples/wiki. It is licensed under the LGPL.
+            </p>
+            <div style="text-align:center;">
+                <h:outputLink value="http://www.seamframework.org/Community/GetASeamIcon">
+                    <h:graphicImage value="#{themePath}/img/runningon_seamlogo_beige.gif"
+                                    width="200" height="50"/>
+                </h:outputLink>
+            </div>
         </div>
 
     </div>
@@ -494,10 +503,25 @@
 </div>
 
 <div id="footer" class="undecoratedLink">
-  <p> &#169; Copyright 2007, Red Hat Middleware, LLC. All rights reserved. JBoss and Seam are registered trademarks
+  <p> &#169; Copyright 2008, Red Hat Middleware, LLC. All rights reserved. JBoss and Seam are registered trademarks
       and servicemarks of <a href="http://www.redhat.com/">Red Hat, Inc</a>.
       [<a href="http://www.redhat.com/legal/privacy_statement.html">Privacy Policy</a>]</p>
 </div>
+
+<s:div id="status">
+    <a:status id="globalStatus" forceId="true">
+        <f:facet name="start">
+            <s:div styleClass="statusStart">
+                <h:graphicImage value="#{themePath}/img/statusindicator.gif" width="20" height="25"/>
+            </s:div>
+        </f:facet>
+        <f:facet name="stop">
+            <s:div styleClass="statusStop">
+                <h:graphicImage value="#{themePath}/img/blank.gif" width="20" height="25"/>
+            </s:div>
+        </f:facet>
+    </a:status>
+</s:div>
 
 </body>
 </html>

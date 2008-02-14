@@ -110,21 +110,21 @@
             <h:panelGroup styleClass="undecoratedLink"
                           rendered="#{directoryHome.childNodes.size() > 0 and directoryHome.instance.id != wikiRoot.id}">
                 <h:outputText value="#{messages['lacewiki.label.Clipboard.Select']}:&#160;"/>
-                <h:outputLink value="#" onclick="selectCheckBoxes('wikiFileSelect'); switchClipboardControl();" tabindex="1">
+                <h:outputLink value="javascript:selectCheckBoxes('wikiFileSelect'); switchClipboardControl();" tabindex="1">
                     <h:outputText value="#{messages['lacewiki.label.Clipboard.All']}"/>
                 </h:outputLink>
                 <h:outputText value="&#160;|&#160;"/>
-                <h:outputLink value="#" onclick="deselectCheckBoxes('wikiFileSelect'); switchClipboardControl();" tabindex="1">
+                <h:outputLink value="javascript:deselectCheckBoxes('wikiFileSelect'); switchClipboardControl();" tabindex="1">
                     <h:outputText value="#{messages['lacewiki.label.Clipboard.None']}"/>
                 </h:outputLink>
                 <h:outputText value="&#160;|&#160;"/>
-                <h:outputLink value="#"  tabindex="1"
-                              onclick="deselectCheckBoxes('wikiFileSelect'); selectCheckBoxes('wikiDocumentSelect'); switchClipboardControl();">
+                <h:outputLink value="javascript:deselectCheckBoxes('wikiFileSelect'); selectCheckBoxes('wikiDocumentSelect'); switchClipboardControl();"
+                              tabindex="1">
                     <h:outputText value="#{messages['lacewiki.label.Clipboard.Documents']}"/>
                 </h:outputLink>
                 <h:outputText value="&#160;|&#160;"/>
-                <h:outputLink value="#" tabindex="1"
-                              onclick="deselectCheckBoxes('wikiFileSelect'); selectCheckBoxes('wikiUploadSelect'); switchClipboardControl();">
+                <h:outputLink value="javascript:deselectCheckBoxes('wikiFileSelect'); selectCheckBoxes('wikiUploadSelect'); switchClipboardControl();"
+                              tabindex="1">
                     <h:outputText value="#{messages['lacewiki.label.Clipboard.UploadedFiles']}"/>
                 </h:outputLink>
             </h:panelGroup>
@@ -422,10 +422,10 @@
 
                             <s:fragment rendered="#{directoryHome.isRemovable(node)}">
                                 <a:jsFunction name="deleteDocumentId#{node.id}"
+                                              status="globalStatus"
                                               action="#{documentHome.remove(node.id)}"/>
                                 <li class="undecoratedLink noWrapWhitespace">
-                                    <h:outputLink value="#"
-                                          onclick="deleteConfirmation('\\'#{node.name}\\'', 'deleteDocumentId#{node.id}')">
+                                    <h:outputLink value="javascript:deleteConfirmation('\\'#{node.name}\\'','deleteDocumentId#{node.id}')">
                                         <h:outputText value="#{messages['lacewiki.button.dirDisplay.Delete']}"/>
                                     </h:outputLink>
                                 </li>
@@ -476,10 +476,10 @@
 
                             <s:fragment rendered="#{directoryHome.isRemovable(node)}">
                                 <a:jsFunction name="deleteUploadId#{node.id}"
+                                              status="globalStatus"
                                               action="#{uploadHome.remove(node.id)}"/>
                                 <li class="undecoratedLink noWrapWhitespace">
-                                    <h:outputLink value="#"
-                                          onclick="deleteConfirmation('\\'#{node.name}\\'', 'deleteUploadId#{node.id}')">
+                                    <h:outputLink value="javascript:deleteConfirmation('\\'#{node.name}\\'','deleteUploadId#{node.id}')">
                                         <h:outputText value="#{messages['lacewiki.button.dirDisplay.Delete']}"/>
                                     </h:outputLink>
                                 </li>

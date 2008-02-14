@@ -56,10 +56,6 @@
 <h:form id="adminForm" styleClass="box">
     <div class="form">
 
-        <ui:include src="includes/statusIndicator.xhtml">
-            <ui:param name="statusId" value="adminFormStatus"/>
-        </ui:include>
-
         <script type="text/javascript">startSessionTimeoutCheck()</script>
 
         <script type="text/javascript">jQuery(function() {
@@ -144,7 +140,7 @@
                         <script type="text/javascript">
                             jQuery(function(){ getIndexingProgress("#{ie.clazz.name}") });
                         </script>
-                        <a:commandLink status="adminFormStatus" id="resetSearchIndex" styleClass="button resetIndexButton sessionEventTrigger" reRender="indexStatistics"
+                        <a:commandLink status="globalStatus" id="resetSearchIndex" styleClass="button resetIndexButton sessionEventTrigger" reRender="indexStatistics"
                                        action="#{adminHome.resetSearchIndex()}" oncomplete="onAjaxRequestComplete()">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.adminHome.RebuildIndex']}"/>
                         </a:commandLink>
@@ -187,7 +183,7 @@
                     #{lp.link}
                 </h:column>
                 <h:column>
-                    <a:commandLink status="adminFormStatus" id="removeLinkProtocol"
+                    <a:commandLink status="globalStatus" id="removeLinkProtocol"
                                    styleClass="buttonNonpersistent sessionEventTrigger" reRender="linkProtocolsRegion"
                                    action="#{adminHome.removeLinkProtocol()}" oncomplete="onAjaxRequestComplete()">
                         <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Remove']}"/>
@@ -212,7 +208,7 @@
                 <div class="entry">
                     <div class="label">&#160;</div>
                     <div class="input">
-                        <a:commandLink status="adminFormStatus" id="addLinkProtocol"
+                        <a:commandLink status="globalStatus" id="addLinkProtocol"
                                        styleClass="buttonNonpersistent sessionEventTrigger" reRender="linkProtocolsRegion"
                                        action="#{adminHome.addLinkProtocol}" oncomplete="onAjaxRequestComplete()">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.Add']}"/>
@@ -229,7 +225,6 @@
             <div class="formFields">
                 <ui:include src="includes/preferencesEditor.xhtml">
                     <ui:param name="tabId" value="systemPrefsTab"/>
-                    <ui:param name="statusId" value="adminFormStatus"/>
                     <ui:param name="preferenceEntities" value="#{systemPreferenceEntities}"/>
                 </ui:include>
             </div>
@@ -243,7 +238,7 @@
             <div class="label">&#160;</div>
             <div class="input">
 
-                <a:commandLink status="adminFormStatus" id="update"
+                <a:commandLink status="globalStatus" id="update"
                                styleClass="button saveButton sessionEventTrigger" reRender="body"
                                action="#{adminHome.update}"
                                oncomplete="onAjaxRequestComplete()"

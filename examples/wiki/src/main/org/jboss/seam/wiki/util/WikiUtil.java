@@ -107,12 +107,23 @@ public class WikiUtil {
         return dateUrl.toString();
     }
 
+    public static boolean isLastItemInList(List list, Object o) {
+        return list.contains(o) && !(list.indexOf(o) < list.size()-1);
+    }
+
     // Display all roles for a particular access level
     public static Role.AccessLevel resolveAccessLevel(Integer accessLevel) {
         List<Role.AccessLevel> accessLevels = (List<Role.AccessLevel>)Component.getInstance("accessLevelsList");
         return accessLevels.get(
                 accessLevels.indexOf(new Role.AccessLevel(accessLevel, null))
                );
+    }
+
+    public static String renderTagURL(String tag) {
+        if (tag == null || tag.length() == 0) return "";
+        StringBuilder url = new StringBuilder();
+        url.append(Component.getInstance("basePath")).append("/tag/").append(encodeURL(tag));
+        return url.toString();
     }
 
     public static String renderUserInfoURL(User user) {

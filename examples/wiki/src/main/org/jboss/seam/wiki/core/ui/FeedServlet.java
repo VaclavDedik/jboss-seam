@@ -271,7 +271,7 @@ public class FeedServlet extends HttpServlet {
         syndFeed.setTitle(prefs.getFeedTitlePrefix() + feed.getTitle());
         if (tag != null) {
             syndFeed.setTitle(
-                syndFeed.getTitle() + " (" + Messages.instance().get("lacewiki.label.tagDisplay.Tag") + " '" + tag + "')"
+                syndFeed.getTitle() + " - " + Messages.instance().get("lacewiki.label.tagDisplay.Tag") + " '" + tag + "'"
             );
         }
         syndFeed.setLink(feed.getLink());

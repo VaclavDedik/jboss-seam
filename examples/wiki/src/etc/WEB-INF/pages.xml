@@ -364,11 +364,11 @@
 
     <exception>
         <end-conversation/>
-        <redirect view-id="/message.xhtml">
+        <http-error error-code="400"> <!-- We send a BAD REQUEST here because we don't want the client to retry later (Googlebot...) -->
             <message severity="ERROR">
                 #{messages['lacewiki.msg.FatalError']} (#{wikiInit.adminContact})
             </message>
-        </redirect>
+        </http-error>
     </exception>
 
 </pages>

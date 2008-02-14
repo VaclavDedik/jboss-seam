@@ -40,10 +40,6 @@
 <h:form id="directoryEditForm" styleClass="box">
 <div class="form">
 
-<ui:include src="includes/statusIndicator.xhtml">
-    <ui:param name="statusId" value="directoryEditFormStatus"/>
-</ui:include>
-
 <script type="text/javascript">startSessionTimeoutCheck()</script>
 
 <div class="formHead">
@@ -82,14 +78,14 @@
         <s:decorate id="nameDecorate" template="includes/formFieldDecorate.xhtml">
             <ui:define name="label">#{messages['lacewiki.label.dirEdit.Name']}</ui:define>
             <h:inputText styleClass="ajaxSupport" size="25" maxlength="255" required="true" tabindex="1" value="#{directoryHome.instance.name}">
-                <a:support status="directoryEditFormStatus" event="onchange" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
+                <a:support status="globalStatus" event="onchange" reRender="nameDecorate" oncomplete="onAjaxRequestComplete()"/>
             </h:inputText>
         </s:decorate>
 
         <s:decorate id="descriptionDecorate" template="includes/formFieldDecorate.xhtml">
             <ui:define name="label">#{messages['lacewiki.label.dirEdit.Description']}</ui:define>
             <h:inputText styleClass="ajaxSupport" size="50" maxlength="512" required="false" tabindex="1" value="#{directoryHome.instance.description}">
-                <a:support status="directoryEditFormStatus" event="onchange" reRender="descriptionDecorate" oncomplete="onAjaxRequestComplete()"/>
+                <a:support status="globalStatus" event="onchange" reRender="descriptionDecorate" oncomplete="onAjaxRequestComplete()"/>
             </h:inputText>
         </s:decorate>
 
@@ -133,7 +129,7 @@
                                                var="dir"
                                                label="#{wiki:truncateString(dir.name, 40, '...')}"/>
                             </h:selectOneMenu>
-                            <a:commandLink status="directoryEditFormStatus" tabindex="1"
+                            <a:commandLink status="globalStatus" tabindex="1"
                                            action="#{directoryHome.addMenuItem}"
                                            reRender="menuEditor"
                                            oncomplete="onAjaxRequestComplete()"
@@ -163,7 +159,7 @@
                         </h:column>
 
                         <h:column>
-                            <a:commandLink status="directoryEditFormStatus" tabindex="1"
+                            <a:commandLink status="globalStatus" tabindex="1"
                                            action="#{directoryHome.removeMenuItem(menuItem.directoryId)}"
                                            reRender="menuEditor"
                                            oncomplete="onAjaxRequestComplete()"
@@ -174,7 +170,7 @@
 
                         <h:column>
                             <a:commandLink rendered="#{uiComponent['directoryEditForm:menuItemTable'].rowIndex != 0}"
-                                           status="directoryEditFormStatus"
+                                           status="globalStatus"
                                            action="#{directoryHome.moveMenuItem(uiComponent['directoryEditForm:menuItemTable'].rowIndex, uiComponent['directoryEditForm:menuItemTable'].rowIndex-1)}"
                                            oncomplete="onAjaxRequestComplete()"
                                            styleClass="sessionEventTrigger" tabindex="1"
@@ -184,7 +180,7 @@
                         </h:column>
                         <h:column>
                             <a:commandLink rendered="#{uiComponent['directoryEditForm:menuItemTable'].rowIndex != uiComponent['directoryEditForm:menuItemTable'].rowCount-1}"
-                                           status="directoryEditFormStatus"
+                                           status="globalStatus"
                                            action="#{directoryHome.moveMenuItem(uiComponent['directoryEditForm:menuItemTable'].rowIndex, uiComponent['directoryEditForm:menuItemTable'].rowIndex+1)}"
                                            oncomplete="onAjaxRequestComplete()"
                                            styleClass="sessionEventTrigger" tabindex="1"
@@ -246,10 +242,11 @@
 
             <s:fragment rendered="#{directoryHome.removable}">
                 <a:jsFunction name="deleteDirectory"
+                              status="globalStatus"
                               action="#{directoryHome.remove}"/>
-                <h:outputLink value="#" tabindex="1"
+                <h:outputLink tabindex="1"
                               accesskey="#{messages['lacewiki.button.dirEdit.Delete.accesskey']}"
-                              onclick="deleteConfirmation('\\'#{directoryHome.instance.name}\\'', 'deleteDirectory')"
+                              value="javascript:deleteConfirmation('\\'#{directoryHome.instance.name}\\'','deleteDirectory')"
                               styleClass="button sessionEventTrigger">
                     <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.dirEdit.Delete']}"/>
                 </h:outputLink>

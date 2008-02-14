@@ -94,6 +94,7 @@ public abstract class WikiFile<N extends WikiFile> extends WikiNode<N> {
         return getTags().contains(tag);
     }
 
+    /* TODO: Remove this at some point, when we are sure we don't need it anymore
     public String getTagsCommaSeparated() {
         if (getTags().size() == 0) return null;
         StringBuilder tagString = new StringBuilder();
@@ -113,6 +114,7 @@ public abstract class WikiFile<N extends WikiFile> extends WikiNode<N> {
             getTags().add(s.trim());
         }
     }
+    */
 
     public abstract String getHistoricalEntityName();
 

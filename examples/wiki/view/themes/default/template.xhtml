@@ -5,6 +5,7 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:j4j="http://javascript4jsf.dev.java.net/"
       xmlns:wiki="http://jboss.com/products/seam/wiki"
+      xmlns:a="https://ajax4jsf.dev.java.net/ajax"
       xmlns:s="http://jboss.com/products/seam/taglib">
 
 <f:view contentType="text/html"/>
@@ -464,6 +465,21 @@
         </div>
     </div>
 
+</s:div>
+
+<s:div id="status">
+    <a:status id="globalStatus" forceId="true">
+        <f:facet name="start">
+            <s:div styleClass="statusStart">
+                <h:graphicImage value="#{themePath}/img/statusindicator.gif" width="20" height="25"/>
+            </s:div>
+        </f:facet>
+        <f:facet name="stop">
+            <s:div styleClass="statusStop">
+                <h:graphicImage value="#{themePath}/img/blank.gif" width="20" height="25"/>
+            </s:div>
+        </f:facet>
+    </a:status>
 </s:div>
 
 </body>
