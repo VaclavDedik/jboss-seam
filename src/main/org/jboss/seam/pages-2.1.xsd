@@ -389,11 +389,13 @@
                 <xs:element minOccurs="0" ref="pages:message"/>
                 <xs:element minOccurs="0" maxOccurs="unbounded" ref="pages:param"/>
             </xs:sequence>
-            <xs:attributeGroup ref="pages:attlist.redirect"/>
+            
+            <xs:attributeGroup ref="pages:attlist.redirect"/>  
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.redirect">
         <xs:attribute name="view-id"/>
+        <xs:attribute name="url"/>  
     </xs:attributeGroup>
     <xs:element name="http-error">
         <xs:complexType>
