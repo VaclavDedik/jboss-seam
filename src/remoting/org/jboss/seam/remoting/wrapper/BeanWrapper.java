@@ -195,7 +195,14 @@ public class BeanWrapper extends BaseWrapper implements Wrapper
     /** @todo This is a hack to get the "real" class - find out if there is
               an API method in CGLIB that can be used instead */
     if (cls.getName().contains("EnhancerByCGLIB"))
-      cls = cls.getSuperclass();
+    {
+       cls = cls.getSuperclass();
+    }
+    
+    if (cls.getName().contains("_$$_javassist_"))
+    {
+       cls=cls.getSuperclass();
+    }
     
     String componentName = Seam.getComponentName(cls);
     Component component = componentName != null ? Component.forName(componentName) : null;
