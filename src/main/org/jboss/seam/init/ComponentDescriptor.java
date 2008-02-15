@@ -8,6 +8,7 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.security.PermissionResolver;
 import org.jboss.seam.web.AbstractResource;
 
 /**
@@ -193,7 +194,12 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
     public boolean isResourceProvider()
     {
         return AbstractResource.class.isAssignableFrom(componentClass);
-    }   
+    }
+    
+    public boolean isPermissionResolver()
+    {
+       return PermissionResolver.class.isAssignableFrom(componentClass);
+    }
     
     @Override
     public String toString()

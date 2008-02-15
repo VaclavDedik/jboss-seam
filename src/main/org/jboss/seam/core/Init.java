@@ -59,6 +59,7 @@ public class Init
    private Set<String> autocreateVariables = new HashSet<String>();
    private Set<String> installedFilters = new HashSet<String>();
    private Set<String> resourceProviders = new HashSet<String>();
+   private Set<String> permissionResolvers = new HashSet<String>();
    
    private Set<String> hotDeployableComponents = new HashSet<String>();
    
@@ -455,6 +456,16 @@ public class Init
    public Set<String> getResourceProviders()
    {
       return resourceProviders;
+   }
+   
+   public void addPermissionResolver(String name)
+   {
+      permissionResolvers.add(name);
+   }
+   
+   public Set<String> getPermissionResolvers()
+   {
+      return permissionResolvers;
    }
 
    public Set<String> getHotDeployableComponents()

@@ -82,6 +82,7 @@ import org.jboss.seam.annotations.faces.Converter;
 import org.jboss.seam.annotations.faces.Validator;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.annotations.intercept.Interceptors;
+import org.jboss.seam.annotations.security.PermissionAction;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.async.AsynchronousInterceptor;
@@ -151,6 +152,7 @@ public class Component extends Model
    private String[] dependencies;
    private boolean synchronize;
    private long timeout;
+   private boolean secure;
 
    private Set<Class> businessInterfaces;
 
@@ -235,6 +237,7 @@ public class Component extends Model
       initImports(applicationContext);
       initSynchronize();
       initStartup();
+      initSecurity();
 
       checkScopeForComponentType();
       checkSynchronizedForComponentType();
@@ -1051,7 +1054,8 @@ public class Component extends Model
       {
          addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
       }
-      if ( beanClassHasAnnotation(Restrict.class) )
+      
+      if (secure)
       {
          if (beanClassHasAnnotation("javax.jws.WebService"))
          {
@@ -1060,8 +1064,31 @@ public class Component extends Model
          else
          {
             addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );            
+         }         
+      }
+   }
+   
+   private void initSecurity()
+   {
+      if ( beanClassHasAnnotation(Restrict.class) )
+      {
+         secure = true;
+      }
+      
+      if (!secure)
+      {
+         for (Method method : getBeanClass().getMethods())
+         {
+            for (Annotation annotation : method.getAnnotations())
+            {
+               if (annotation.annotationType().isAnnotationPresent(PermissionAction.class))
+               {
+                  secure = true;
+                  break;
+               }
+            }         
          }
-      }      
+      }
    }
 
    private static boolean hasAnnotation(Class clazz, Class annotationType)

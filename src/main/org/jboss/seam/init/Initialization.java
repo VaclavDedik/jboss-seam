@@ -925,6 +925,11 @@ public class Initialization
                  
                  init.addResourceProvider( componentDescriptor.getName() );
               }
+              
+              if ( componentDescriptor.isPermissionResolver() )
+              {
+                 init.addPermissionResolver( componentDescriptor.getName() );
+              }
           }
       }
 
