@@ -129,15 +129,15 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
     public N afterNodeCreated(N node) {
 
+        if (parentNodeId == null)
+            throw new IllegalStateException("Missing parentNodeId parameter");
+
         outjectCurrentLocation(node);
 
         return node;
     }
 
     public N beforeNodeEditNew(N node) {
-
-        if (parentNodeId == null)
-            throw new IllegalStateException("Missing parentNodeId parameter");
 
         getLog().debug("loading parent node with id: " + parentNodeId);
         parentNode = findParentNode(parentNodeId);

@@ -72,7 +72,7 @@
 
             <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0">
 
-                <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+                <h:panelGrid columns="3" cellpadding="0" cellspacing="0" border="0">
 
                     <s:fragment>
                         <select id="#{textEditorId}Formatter"
@@ -114,6 +114,24 @@
                         <ui:param name="helpDocument" value="Wiki Text Markup"/>
                      </ui:decorate>
 
+                    <s:fragment>
+                        <s:fragment rendered="#{not empty textPreviewId}">
+                            <h:outputLink value="#"
+                                          tabindex="1" styleClass="buttonNonpersistent noWrapWhitespace"
+                                          accesskey="#{messages['lacewiki.button.wikiTextEditor.UpdatePreview.accesskey']}"
+                                          onclick="rememberCursorPosition('##{namingContainer}\\\\:#{textEditorId}TextArea'); #{textEditorId}UpdatePreview(); return false;">
+                                <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['lacewiki.button.wikiTextEditor.UpdatePreview']}"/>
+                          </h:outputLink>
+
+                          <a:jsFunction name="#{textEditorId}UpdatePreview"
+                                        action="#{wikiTextEditor.validate(textEditorId, valueBinding)}"
+                                        status="globalStatus"
+                                        reRender="#{textEditorId}MessageLabel, #{textPreviewId}"
+                                        eventsQueue="ajaxEventQueue"
+                                        oncomplete="onAjaxRequestComplete();setRememberedCursorPosition('##{namingContainer}\\\\:#{textEditorId}TextArea');"/>
+                        </s:fragment>
+                    </s:fragment>
+
                 </h:panelGrid>
 
                 <s:div id="#{textEditorId}TextAreaDiv" styleClass="textEditResizable">
@@ -122,9 +140,7 @@
                                      styleClass="ajaxSupport"
                                      tabindex="1"
                                      cols="#{empty textEditorColumns ? '58' : textEditorColumns}"
-                                     rows="#{not empty wikiTextEditor.getTextAreaRows(textEditorId)
-                                             ? wikiTextEditor.getTextAreaRows(textEditorId)
-                                             : textEditorRows}"
+                                     rows="#{textEditorRows}"
                                      required="#{valueRequired}"
                                      value="#{valueBinding}">
                         <a:support event="onkeyup"

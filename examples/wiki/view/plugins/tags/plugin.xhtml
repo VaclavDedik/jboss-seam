@@ -36,7 +36,8 @@
                 </h:column>
             </h:dataTable>
 
-            <s:span styleClass="undecoratedLink defaultColumn" rendered="#{preferences.get('Tags', currentMacro).linkToCurrentDocument}">
+            <s:span styleClass="undecoratedLink defaultColumn"
+                    rendered="#{preferences.get('Tags', currentMacro).linkToCurrentDocument and not empty param.tag}">
                 <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
                     <h:outputText value="#{messages['tags.label.All']}"/>
                 </h:outputLink>

@@ -18,6 +18,8 @@ import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.wiki.core.ui.FeedServlet;
 
+import java.io.Serializable;
+
 /**
  * Renders outgoing URLs in a unified fashion, see urlrewrite.xml for incoming URL GET request rewriting.
  * <p>
@@ -30,7 +32,7 @@ import org.jboss.seam.wiki.core.ui.FeedServlet;
 @Name("wikiURLRenderer")
 @Scope(ScopeType.CONVERSATION)
 @AutoCreate
-public class WikiURLRenderer {
+public class WikiURLRenderer implements Serializable {
 
     @In
     String basePath;

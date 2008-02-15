@@ -8,6 +8,7 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.core.Events;
@@ -22,6 +23,8 @@ import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import javax.faces.application.FacesMessage;
+import javax.faces.validator.ValidatorException;
 import java.util.Date;
 
 @Name("commentHome")
@@ -93,7 +96,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         comment.setSubject(documentHome.getInstance().getName());
 
         // Default to help text
-        comment.setContent(Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisTextPreviewUpdatesAutomatically"));
+        comment.setContent(Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisText"));
 
         return comment;
     }
@@ -108,6 +111,9 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @Override
     public String persist() {
+
+        if (!validateContent()) return null;
+
         String outcome = super.persist();
         if (outcome != null) {
 
@@ -121,7 +127,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
             Events.instance().raiseEvent("Comment.persisted");
             endConversation();
-            return "redirectToDocumentNoConversation";
+            return "redirectToComment";
         }
         return null; // Prevent navigation
     }
@@ -194,6 +200,22 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     /* -------------------------- Internal Methods ------------------------------ */
 
+    protected boolean validateContent() {
+        FormattedTextValidator validator = new FormattedTextValidator();
+        try {
+            validator.validate(null, null, getInstance().getContent());
+        } catch (ValidatorException e) {
+            // TODO: Needs to use resource bundle, how?
+            getFacesMessages().addToControl(
+                getTextAreaId(),
+                FacesMessage.SEVERITY_WARN,
+                e.getFacesMessage().getSummary()
+            );
+            return false;
+        }
+        return true;
+    }
+
     protected void endConversation() {
         showForm = false;
         Conversation.instance().end();
@@ -231,8 +253,12 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         quoted.append(WikiUtil.formatDate(date)).append(":").append("_").append("<br/>\n\n");
         quoted.append(text);
         quoted.append("\n").append("</blockquote>").append("\n\n");
-        quoted.append(Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisTextPreviewUpdatesAutomatically"));
+        quoted.append(Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisText"));
         return quoted.toString();
+    }
+
+    protected String getTextAreaId() {
+        return "commentTextArea";
     }
 
     /* -------------------------- Public Features ------------------------------ */

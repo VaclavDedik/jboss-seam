@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.core.Conversation;
@@ -14,6 +15,8 @@ import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import javax.faces.application.FacesMessage;
+import javax.faces.validator.ValidatorException;
 
 @Name("topicHome")
 @Scope(ScopeType.CONVERSATION)
@@ -66,7 +69,7 @@ public class TopicHome extends DocumentHome {
                     }
                     @Override
                     public String getContentText() {
-                        return Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisTextPreviewUpdatesAutomatically");
+                        return Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisText");
                     }
                     @Override
                     public String[] getFooterMacrosAsString() {
@@ -85,6 +88,23 @@ public class TopicHome extends DocumentHome {
         setPushOnFeeds(true);
 
         return newTopic;
+    }
+
+    @Override
+    protected boolean preparePersist() {
+        FormattedTextValidator validator = new FormattedTextValidator();
+        try {
+            validator.validate(null, null, getInstance().getContent());
+        } catch (ValidatorException e) {
+            // TODO: Needs to use resource bundle, how?
+            getFacesMessages().addToControl(
+                "topicTextArea",
+                FacesMessage.SEVERITY_WARN,
+                e.getFacesMessage().getSummary()
+            );
+            return false;
+        }
+        return super.preparePersist();
     }
 
     @Override

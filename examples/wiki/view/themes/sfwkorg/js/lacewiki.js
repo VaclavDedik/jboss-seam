@@ -108,3 +108,31 @@ function formatText(textArea, formatString) {
     }
 }
 
+var cursorPosition;
+var scrollPosition;
+function rememberCursorPosition(textAreaId) {
+    var textArea = jQuery(textAreaId)[0];
+    if (typeof(textArea.caretPos) != "undefined" && textArea.createTextRange) {
+        cursorPosition = textArea.caretPos;
+    } else if (typeof(textArea.selectionStart) != "undefined") {
+        cursorPosition = textArea.selectionStart;
+        scrollPosition = textArea.scrollTop;
+    } else {
+        cursorPosition = textArea.value.length - 1;
+    }
+
+}
+function setRememberedCursorPosition(textAreaId) {
+    var textArea = jQuery(textAreaId)[0];
+    if(textArea.createTextRange) {
+        var range = textArea.createTextRange();
+        range.move("character", cursorPosition);
+        range.select();
+    } else if(textArea.selectionStart) {
+        textArea.focus();
+        textArea.setSelectionRange(cursorPosition, cursorPosition);
+        textArea.scrollTop = scrollPosition;
+    } else {
+        textArea.focus(cursorPosition);
+    }
+}

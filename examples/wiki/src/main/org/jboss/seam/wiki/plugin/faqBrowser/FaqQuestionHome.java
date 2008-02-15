@@ -54,7 +54,7 @@ public class FaqQuestionHome extends DocumentHome {
                     }
                     @Override
                     public String getContentText() {
-                        return Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisTextPreviewUpdatesAutomatically");
+                        return Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisText");
                     }
                     @Override
                     public void setOptions(WikiDocument newQuestion) {

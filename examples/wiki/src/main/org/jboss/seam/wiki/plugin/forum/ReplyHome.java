@@ -77,6 +77,10 @@ public class ReplyHome extends CommentHome {
         return "forumReplyFeedEntryManager";
     }
 
+    protected String getTextAreaId() {
+        return "replyTextArea";
+    }
+
     /* -------------------------- Messages ------------------------------ */
 
     protected void createdMessage() {

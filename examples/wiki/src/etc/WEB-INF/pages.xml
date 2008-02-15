@@ -30,6 +30,9 @@
             <rule if-outcome="redirectToDocumentNoConversation">
                 <redirect url="#{wikiURLRenderer.renderURL(documentHome.instance)}"/>
             </rule>
+            <rule if-outcome="redirectToComment">
+                <redirect url="#{wikiURLRenderer.renderURL(documentHome.instance)}#comment#{commentHome.instance.id}"/>
+            </rule>
         </navigation>
     </page>
 
