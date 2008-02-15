@@ -10,7 +10,6 @@ import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.ui.FeedServlet;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.faces.context.FacesContext;
@@ -117,55 +116,6 @@ public class WikiUtil {
         return accessLevels.get(
                 accessLevels.indexOf(new Role.AccessLevel(accessLevel, null))
                );
-    }
-
-    public static String renderTagURL(String tag) {
-        if (tag == null || tag.length() == 0) return "";
-        StringBuilder url = new StringBuilder();
-        url.append(Component.getInstance("basePath")).append("/tag/").append(encodeURL(tag));
-        return url.toString();
-    }
-
-    public static String renderUserInfoURL(User user) {
-        if (user == null || user.getUsername() == null) return "";
-        StringBuilder url = new StringBuilder();
-        url.append(Component.getInstance("basePath")).append("/user/").append(user.getUsername());
-        return url.toString();
-    }
-    
-    public static String renderAggregateFeedURL(String aggregateId) {
-        if (aggregateId == null) return "";
-        StringBuilder url = new StringBuilder();
-        url.append(Component.getInstance("basePath"))
-            .append("/service/Feed/atom/Aggregate/")
-            .append(aggregateId);
-        return url.toString();
-    }
-
-    public static String renderFeedURL(Feed feed, String tag, String comments) {
-        if (feed == null || feed.getId() == null) return "";
-        StringBuilder url = new StringBuilder();
-        url.append(Component.getInstance("basePath")).append("/service/Feed/atom").append(feed.getURL());
-        if (comments != null && comments.length() >0) {
-            url.append("/Comments/").append(FeedServlet.Comments.valueOf(comments));
-        }
-        if (tag != null && tag.length() >0) url.append("/Tag/").append(encodeURL(tag));
-        return url.toString();
-    }
-
-    public static String renderURL(WikiNode node) {
-        if (node == null || node.getId() == null) return "";
-        return Preferences.getInstance(WikiPreferences.class).isRenderPermlinks() ? renderPermURL(node) : renderWikiURL(node);
-    }
-
-    public static String renderPermURL(WikiNode node) {
-        if (node == null || node.getId() == null) return "";
-        return Component.getInstance("basePath") + "/" + node.getPermURL(Preferences.getInstance(WikiPreferences.class).getPermlinkSuffix());
-    }
-
-    public static String renderWikiURL(WikiNode node) {
-        if (node == null || node.getId() == null) return "";
-        return Component.getInstance("basePath") + "/" + node.getWikiURL();
     }
 
     public static boolean showEmailAddress() {

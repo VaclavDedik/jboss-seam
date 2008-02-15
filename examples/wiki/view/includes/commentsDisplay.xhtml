@@ -34,7 +34,7 @@
                              cellpadding="0" cellspacing="0" border="0">
 
                     <s:div styleClass="undecoratedLink largeFont" rendered="#{currentDocument.name != c.subject}">
-                        <h:outputLink value="#{wiki:renderURL(c)}">
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(c)}">
                             <h:outputText value="#{c.subject}"/>
                         </h:outputLink>
                     </s:div>
@@ -52,14 +52,14 @@
                             </s:span>
                             <h:outputText value="&#160;|&#160;"/>
                             <s:span styleClass="commentLink undecoratedLink">
-                                <h:outputLink value="#{wiki:renderURL(c)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(c)}">
                                     <h:outputText value="#{messages['lacewiki.label.Link']}"/>
                                 </h:outputLink>
                             </s:span>
                         </s:div>
                         <s:div rendered="#{c.ownedByRegularUser}">
                             <s:span styleClass="undecoratedLink">
-                                <h:outputLink value="#{wiki:renderUserInfoURL(c.createdBy)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(c.createdBy)}">
                                     <h:outputText value="#{c.createdBy.fullname}"/>
                                 </h:outputLink>
                             </s:span>
@@ -86,7 +86,7 @@
 
                     <s:fragment rendered="#{c.ownedByRegularUser and !empty c.createdBy.profile.imageContentType}">
                         <s:span styleClass="undecoratedLink">
-                            <h:outputLink value="#{wiki:renderUserInfoURL(c.createdBy)}">
+                            <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(c.createdBy)}">
                                 <s:graphicImage styleClass="commentAuthorPortraitImage" value="#{c.createdBy.profile.image}">
                                     <s:transformImageSize width="30" maintainRatio="true"/>
                                 </s:graphicImage>

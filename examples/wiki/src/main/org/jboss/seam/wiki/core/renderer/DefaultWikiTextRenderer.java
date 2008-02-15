@@ -1,6 +1,9 @@
-package org.jboss.seam.wiki.core.engine;
+package org.jboss.seam.wiki.core.renderer;
 
-import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
+import org.jboss.seam.wiki.core.engine.WikiLink;
+import org.jboss.seam.wiki.core.engine.WikiMacro;
+import org.jboss.seam.Component;
 
 import java.util.List;
 
@@ -11,6 +14,8 @@ import java.util.List;
  */
 public class DefaultWikiTextRenderer implements WikiTextRenderer {
 
+    protected WikiURLRenderer wikiURLRenderer = (WikiURLRenderer) Component.getInstance(WikiURLRenderer.class);
+
     public static enum Headline {
         H1, H2, H3, H4;
     }
@@ -18,7 +23,7 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     public String renderInternalLink(WikiLink internalLink) {
         return !internalLink.isBroken() ?
                 "<a href=\""
-                + WikiUtil.renderURL(internalLink.getFile())
+                + wikiURLRenderer.renderURL(internalLink.getFile())
                 + "\">"
                 + internalLink.getDescription()
                 + "</a>" : "[Broken Link]";

@@ -21,7 +21,7 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.component.UILoadStyle;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
-import org.jboss.seam.wiki.core.engine.NullWikiTextRenderer;
+import org.jboss.seam.wiki.core.renderer.NullWikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
 import org.jboss.seam.wiki.preferences.Preferences;

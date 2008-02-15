@@ -69,7 +69,7 @@
 
     </s:fragment>
 
-    <h:outputLink value="#{wiki:renderFeedURL(directoryHome.instance.feed, null, null)}"
+    <h:outputLink value="#{wikiURLRenderer.renderFeedURL(directoryHome.instance.feed, null, null)}"
                   styleClass="linkNavigation" rendered="#{not empty directoryHome.instance.feed}">
         <h:graphicImage styleClass="feedIcon" value="#{themePath}/img/icon.atom.gif" width="18" height="18"/>
         <h:outputText value="#{messages['lacewiki.button.DirectoryFeed']}"/>
@@ -364,13 +364,13 @@
                     <s:div id="directoryMenu" styleClass="contextMenu">
                         <ul>
                             <li class="undecoratedLink noWrapWhitespace">
-                                <h:outputLink value="#{wiki:renderURL(node)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(node)}">
                                     <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
                                 </h:outputLink>
                             </li>
 
                             <li class="undecoratedLink noWrapWhitespace">
-                                <h:outputLink value="#{wiki:renderURL(node)}" target="_blank">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" target="_blank">
                                     <h:outputText value="#{messages['lacewiki.button.dirDisplay.ViewNewWindow']}"/>
                                 </h:outputLink>
                             </li>
@@ -402,20 +402,20 @@
 
                 <s:fragment rendered="#{s:hasPermission('Node','read',node)}">
 
-                    <h:outputLink id="documentLink" value="#{wiki:renderURL(node)}" tabindex="1">
+                    <h:outputLink id="documentLink" value="#{wikiURLRenderer.renderURL(node)}" tabindex="1">
                         <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
                     </h:outputLink>
 
                     <s:div id="documentMenu" styleClass="contextMenu">
                         <ul>
                             <li class="undecoratedLink noWrapWhitespace">
-                                <h:outputLink value="#{wiki:renderURL(node)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(node)}">
                                     <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
                                 </h:outputLink>
                             </li>
 
                             <li class="undecoratedLink noWrapWhitespace">
-                                <h:outputLink value="#{wiki:renderURL(node)}" target="_blank">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" target="_blank">
                                     <h:outputText value="#{messages['lacewiki.button.dirDisplay.ViewNewWindow']}"/>
                                 </h:outputLink>
                             </li>
@@ -456,20 +456,20 @@
             <s:fragment rendered="#{node.isInstance('WikiUpload')}">
                 <s:fragment rendered="#{s:hasPermission('Node','read',node)}">
 
-                    <h:outputLink id="uploadLink" value="#{wiki:renderURL(node)}" tabindex="1">
+                    <h:outputLink id="uploadLink" value="#{wikiURLRenderer.renderURL(node)}" tabindex="1">
                         <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
                     </h:outputLink>
 
                     <s:div id="uploadMenu" styleClass="contextMenu">
                         <ul>
                             <li class="undecoratedLink noWrapWhitespace">
-                                <h:outputLink value="#{wiki:renderURL(node)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(node)}">
                                     <h:outputText value="#{messages['lacewiki.button.dirDisplay.View']}"/>
                                 </h:outputLink>
                             </li>
 
                             <li class="undecoratedLink noWrapWhitespace">
-                                <h:outputLink value="#{wiki:renderURL(node)}" target="_blank">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" target="_blank">
                                     <h:outputText value="#{messages['lacewiki.button.dirDisplay.ViewNewWindow']}"/>
                                 </h:outputLink>
                             </li>
@@ -514,7 +514,7 @@
                 <h:outputText value="#{messages['lacewiki.label.dirDisplay.Owner']}"/>
             </f:facet>
             <s:span styleClass="undecoratedLink" rendered="#{node.ownedByRegularUser}">
-                <h:outputLink value="#{wiki:renderUserInfoURL(node.createdBy)}">
+                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(node.createdBy)}">
                     <h:outputText value="#{node.createdBy.fullname}"/>
                 </h:outputLink>
             </s:span>
@@ -543,7 +543,7 @@
                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
             </h:outputText>
             (<s:span styleClass="undecoratedLink">
-                <h:outputLink value="#{wiki:renderUserInfoURL(node.lastModifiedBy)}">
+                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(node.lastModifiedBy)}">
                     <h:outputText value="#{node.lastModifiedBy.username}"/>
                 </h:outputLink>
             </s:span>)

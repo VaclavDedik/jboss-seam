@@ -2,13 +2,15 @@ package org.jboss.seam.wiki.core.feeds;
 
 import org.jboss.seam.wiki.core.model.FeedEntry;
 import org.jboss.seam.wiki.core.engine.*;
-import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.core.renderer.DefaultWikiTextRenderer;
+import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.In;
 import antlr.ANTLRException;
 import antlr.RecognitionException;
 
@@ -17,6 +19,9 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
 
     @Logger
     static Log log;
+
+    @In
+    protected WikiURLRenderer wikiURLRenderer;
 
     public abstract FE createFeedEntry(M source);
     public abstract void updateFeedEntry(FE feedEntry, M source);
@@ -32,7 +37,7 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
             public String renderInternalLink(WikiLink internalLink) {
                 return !internalLink.isBroken() ?
                         "<a href=\""
-                        + WikiUtil.renderURL(internalLink.getFile())
+                        + wikiURLRenderer.renderURL(internalLink.getFile())
                         + "\">"
                         + internalLink.getDescription()
                         + "</a>" : "[Broken Link]";

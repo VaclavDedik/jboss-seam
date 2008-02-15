@@ -29,13 +29,15 @@
     border: 0;
 }
 
-#searchControl .searchControlLink{
+#searchControl .searchControlButton {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     font-weight: bold;
     font-size: 75%;
 	color: #C7B299;
-	text-decoration: none;
-	padding-left: 5px;
-	padding-right: 5px;
     margin-left: 5px;
     margin-right: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    background:none;
+    border: none;
 }

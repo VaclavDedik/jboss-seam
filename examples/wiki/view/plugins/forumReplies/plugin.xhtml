@@ -31,7 +31,7 @@
             <s:div>
                 #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
                 <ui:repeat var="tag" value="#{currentDocument.tagsAsList}">
-                    <h:outputLink value="#{wiki:renderTagURL(tag)}">
+                    <h:outputLink value="#{wikiURLRenderer.renderTagURL(tag)}">
                         <h:outputText value="#{tag}"/>
                     </h:outputLink>
                     <h:outputText rendered="#{not wiki:isLastItemInList(currentDocument.tagsAsList, tag)}" value="&#160;|&#160;"/>

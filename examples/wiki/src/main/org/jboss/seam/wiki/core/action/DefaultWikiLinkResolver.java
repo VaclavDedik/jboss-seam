@@ -1,4 +1,4 @@
-package org.jboss.seam.wiki.core.engine;
+package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
@@ -7,6 +7,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.util.Map;

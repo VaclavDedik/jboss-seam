@@ -54,7 +54,7 @@
 
             <s:span id="faqCategoryLink" styleClass="undecoratedLink">
                 <s:fragment rendered="#{faqBrowser.directorySelected}">
-                    <h:outputLink value="#{wiki:renderWikiURL(currentDocument)}/Category/#{faqBrowser.selectedDir.wrappedNode.wikiname}">
+                    <h:outputLink value="#{wikiURLRenderer.renderWikiURL(currentDocument)}/Category/#{faqBrowser.selectedDir.wrappedNode.wikiname}">
                         <h:outputText value="Link"/>
                     </h:outputLink>
                 </s:fragment>
@@ -89,7 +89,7 @@
                              rowClasses="rowOdd, rowEven"
                              cellpadding="0" cellspacing="0" border="0">
                     <h:column>
-                        <h:outputLink value="#{wiki:renderURL(q)}">
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(q)}">
                             <h:outputText value="#{q.name}"/>
                         </h:outputLink>
                     </h:column>
@@ -101,7 +101,7 @@
                                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                             </h:outputText>
                             (<s:span styleClass="undecoratedLink">
-                                <h:outputLink value="#{wiki:renderUserInfoURL(q.lastModifiedBy)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(q.lastModifiedBy)}">
                                     <h:outputText value="#{q.lastModifiedBy.username}"/>
                                 </h:outputLink>
                             </s:span>)

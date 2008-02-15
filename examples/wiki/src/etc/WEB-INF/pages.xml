@@ -27,6 +27,9 @@
                     <param name="nodeId" value="#{documentHome.instance.id}"/>
                 </redirect>
             </rule>
+            <rule if-outcome="redirectToDocumentNoConversation">
+                <redirect url="#{wikiURLRenderer.renderURL(documentHome.instance)}"/>
+            </rule>
         </navigation>
     </page>
 
@@ -68,7 +71,7 @@
         <navigation>
             <rule if-outcome="exitManaged">
                 <end-conversation before-redirect="true"/>
-                <redirect view-id="/docDisplay_#{skin}"/>
+                <redirect url="#{wikiURLRenderer.renderURL(documentHome.instance)}"/>
             </rule>
             <rule if-outcome="exitUnmanaged">
                 <end-conversation before-redirect="true"/>
@@ -214,7 +217,7 @@
             </rule>
             <rule if-outcome="removed">
                 <end-conversation/>
-                <redirect view-id="/wiki.xhtml"/>
+                <redirect url="#{wikiURLRenderer.renderURL(wikiStart)}"/>
             </rule>
         </navigation>
     </page>
@@ -267,12 +270,12 @@
             <!-- Go to start page on logout because the session has been invalidated -->
             <rule if-outcome="loggedOut">
                 <end-conversation before-redirect="true"/>
-                <redirect view-id="/wiki.xhtml"/>
+                <redirect url="#{wikiURLRenderer.renderURL(wikiStart)}"/>
             </rule>
 
-            <!-- 'search' is a POST submit, turn it into a bookmarkable GET -->
+            <!-- 'search' is a POST submit, turn it into a bookmarkable nice GET -->
             <rule if-outcome="search">
-                <redirect view-id="/search_#{skin}.xhtml"/>
+                <redirect url="#{wikiURLRenderer.renderSearchURL(wikiSearch.simpleQuery)}"/>
             </rule>
 
             <rule if-outcome="error">

@@ -44,7 +44,7 @@
                             rendered="#{file.isInstance('WikiUpload') and empty uploadTypes[file.contentType]}"/>
 
             <s:span rendered="#{file.isInstance('WikiDocument')}">
-                <h:outputLink value="#{wiki:renderURL(file)}" rendered="#{s:hasPermission('Node','read',file)}" tabindex="2">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(file)}" rendered="#{s:hasPermission('Node','read',file)}" tabindex="2">
                     <h:outputText value="#{wiki:truncateString(file.name, 40, '...')}"/>
                 </h:outputLink>
                 <h:outputText value="#{file.name}" rendered="#{!s:hasPermission('Node','read',file)}"/>
@@ -59,7 +59,7 @@
                 <h:outputText value=" (#{wiki:displayFilesize(file.filesize)}, #{file.contentType})"/>
             </s:span>
             <h:panelGroup rendered="#{file.isInstance('WikiUpload') and !s:hasPermission('Node', 'edit', file)}">
-                <h:outputLink value="#{wiki:renderURL(file)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(file)}">
                     <h:outputText value="#{wiki:truncateString(file.name, 30, '...')} (#{wiki:displayFilesize(file.filesize)}, #{file.contentType})"/>
                 </h:outputLink>
             </h:panelGroup>
@@ -85,7 +85,7 @@
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.Owner']}"/>
             </f:facet>
             <s:span styleClass="undecoratedLink">
-                <h:outputLink value="#{wiki:renderUserInfoURL(file.createdBy)}">
+                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(file.createdBy)}">
                     <h:outputText value="#{file.createdBy.fullname}"/>
                 </h:outputLink>
             </s:span>
@@ -106,7 +106,7 @@
                 <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
             </h:outputText>
             (<s:span styleClass="undecoratedLink">
-                <h:outputLink value="#{wiki:renderUserInfoURL(file.lastModifiedBy)}">
+                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(file.lastModifiedBy)}">
                     <h:outputText value="#{file.lastModifiedBy.username}"/>
                 </h:outputLink>
             </s:span>)

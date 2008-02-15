@@ -10,7 +10,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.model.WikiCommentFeedEntry;
-import org.jboss.seam.wiki.util.WikiUtil;
 
 @Name("wikiCommentFeedEntryManager")
 public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, WikiCommentFeedEntry> {
@@ -19,7 +18,7 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
 
         WikiCommentFeedEntry fe = new WikiCommentFeedEntry();
 
-        fe.setLink(WikiUtil.renderURL(comment));
+        fe.setLink(wikiURLRenderer.renderURL(comment));
         fe.setTitle(getFeedEntryTitle(comment));
         fe.setAuthor(comment.getCreatedBy().getFullname());
         fe.setUpdatedDate(fe.getPublishedDate());
@@ -35,7 +34,7 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
 
     public void updateFeedEntry(WikiCommentFeedEntry fe, WikiComment comment) {
 
-        fe.setLink(WikiUtil.renderURL(comment));
+        fe.setLink(wikiURLRenderer.renderURL(comment));
         fe.setTitle(Messages.instance().get("lacewiki.label.comment.FeedEntryTitlePrefix") + " " + comment.getSubject());
         fe.setAuthor(comment.getCreatedBy().getFullname());
         fe.setUpdatedDate(comment.getLastModifiedOn());
@@ -51,7 +50,7 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
         StringBuilder desc = new StringBuilder();
         desc.append(Messages.instance().get("lacewiki.msg.comment.FeedIntro"));
         desc.append("&#160;");
-        desc.append("<a href=\"").append(WikiUtil.renderURL(comment.getParentDocument())).append("\">");
+        desc.append("<a href=\"").append(wikiURLRenderer.renderURL(comment.getParentDocument())).append("\">");
         desc.append("'").append(comment.getParentDocument().getName()).append("'");
         desc.append("</a>.");
         desc.append("<hr/>");

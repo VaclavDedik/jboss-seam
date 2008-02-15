@@ -36,7 +36,7 @@
 
                         <!-- TODO: Fix this somehow... it was an ugly hack anyway
                         <s:div rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}" styleClass="undecoratedLink">
-                            <h:outputLink target="_top" styleClass="feedTeaserComments" value="#{wiki:renderPermURL(fe.document)}#comments">
+                            <h:outputLink target="_top" styleClass="feedTeaserComments" value="#{wikiURLRenderer.renderPermURL(fe.document)}#comments">
                                 #{wiki:sizeOf(fe.document.comments)}&#160;
                                 <h:outputText value="#{wiki:sizeOf(fe.document.comments)>1
                                                      ? messages['lacewiki.label.commentsDisplay.Comments']

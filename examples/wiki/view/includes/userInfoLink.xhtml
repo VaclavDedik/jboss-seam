@@ -9,7 +9,7 @@
         xmlns:s="http://jboss.com/products/seam/taglib">
 
     <s:div styleClass="undecoratedLink" rendered="#{wiki:isRegularUser(user)}">
-        <h:outputLink value="#{wiki:renderUserInfoURL(user)}">
+        <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(user)}">
             <h:outputText value="#{user.fullname}"/>
         </h:outputLink>
     </s:div>

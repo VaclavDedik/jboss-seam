@@ -42,11 +42,11 @@
     <persistence:entity-manager-factory name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
 
     <!-- Base path for links includes port number -->
-    <factory name="basePath"
+    <factory name="basePath" scope="CONVERSATION"  auto-create="true"
              value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName
                      }:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}"/>
 
-    <factory name="themePathGetRequest" scope="CONVERSATION"
+    <factory name="themePathGetRequest" scope="CONVERSATION"  auto-create="true"
              value="#{servletContexts.request.scheme}://#{servletContexts.request.serverName
                      }:#{servletContexts.request.serverPort}#{servletContexts.request.contextPath}/themes/#{preferences.get('Wiki').themeName}"/>
 

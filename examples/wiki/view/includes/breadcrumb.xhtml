@@ -9,18 +9,18 @@
 
     <h:panelGroup styleClass="breadcrumbPanel">
 
-        <h:outputLink value="#{wiki:renderURL(wikiRoot)}" styleClass="itemLink breadcrumbRoot">
+        <h:outputLink value="#{wikiURLRenderer.renderURL(wikiRoot)}" styleClass="itemLink breadcrumbRoot">
             <h:outputText value="#{wiki:truncateString(wikiRoot.name, 25, '...')}"/>
         </h:outputLink>
         <h:outputText styleClass="itemSeparator breadcrumbRoot" value="&#183;"/>
 
         <ui:repeat var="node" value="#{breadcrumb}">
 
-            <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemLink" rendered="#{node.isInstance('WikiDirectory')}">
+            <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" styleClass="itemLink" rendered="#{node.isInstance('WikiDirectory')}">
                 <h:outputText value="#{wiki:truncateString(node.name, 25, '...')}"/>
             </h:outputLink>
 
-            <h:outputLink value="#{wiki:renderURL(node)}" styleClass="itemText" rendered="#{!node.isInstance('WikiDirectory')}">
+            <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" styleClass="itemText" rendered="#{!node.isInstance('WikiDirectory')}">
                 <h:outputText value="#{wiki:truncateString(node.name, 35, '...')}"/>
 
                 <h:outputText rendered="#{!empty param.day || !empty param.month || !empty param.year || !empty param.tag}" value="&#160;(showing"/>

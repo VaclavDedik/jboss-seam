@@ -30,7 +30,7 @@
         </h:column>
         <h:column>
             <h:panelGroup>
-                <h:outputLink value="#{wiki:renderURL(link.file)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(link.file)}">
                     <h:outputText value="#{link.file.name}"/>
                     &#160;
                     <h:outputText value="(#{link.file.filename}, #{wiki:displayFilesize(link.file.filesize)}, #{link.file.contentType})"/>

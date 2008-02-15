@@ -9,7 +9,6 @@ package org.jboss.seam.wiki.core.feeds;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDocumentFeedEntry;
-import org.jboss.seam.wiki.util.WikiUtil;
 
 @Name("wikiDocumentFeedEntryManager")
 public class WikiDocumentFeedEntryManager extends FeedEntryManager<WikiDocument, WikiDocumentFeedEntry> {
@@ -18,7 +17,7 @@ public class WikiDocumentFeedEntryManager extends FeedEntryManager<WikiDocument,
 
         WikiDocumentFeedEntry fe = new WikiDocumentFeedEntry();
 
-        fe.setLink(WikiUtil.renderURL(document));
+        fe.setLink(wikiURLRenderer.renderURL(document));
         fe.setTitle(getFeedEntryTitle(document));
         fe.setAuthor(document.getCreatedBy().getFullname());
         fe.setUpdatedDate(fe.getPublishedDate());
@@ -34,7 +33,7 @@ public class WikiDocumentFeedEntryManager extends FeedEntryManager<WikiDocument,
 
     public void updateFeedEntry(WikiDocumentFeedEntry fe, WikiDocument document) {
 
-        fe.setLink(WikiUtil.renderURL(document));
+        fe.setLink(wikiURLRenderer.renderURL(document));
         fe.setTitle(getFeedEntryTitle(document));
         fe.setAuthor(document.getCreatedBy().getFullname());
         fe.setUpdatedDate(document.getLastModifiedOn());

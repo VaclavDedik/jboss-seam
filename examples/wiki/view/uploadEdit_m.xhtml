@@ -34,7 +34,7 @@
         <s:div rendered="#{uploadHome.managed}">
             #{messages['lacewiki.label.uploadEdit.FileDetails']}:&#160;
             <h:panelGroup>
-                <h:outputLink value="#{wiki:renderURL(uploadHome.instance)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(uploadHome.instance)}">
                     <h:outputText value="#{uploadHome.instance.filename}, #{wiki:displayFilesize(uploadHome.instance.filesize)}, #{uploadHome.instance.contentType}"/>
                 </h:outputLink>
             </h:panelGroup>

@@ -27,7 +27,7 @@
                         <s:fragment rendered="#{preferences.get('LastModifiedDocuments', currentMacro).showUsernames}">
 
                             (<s:span styleClass="undecoratedLink" rendered="#{wiki:isRegularUser(doc.lastModifiedBy)}">
-                                <h:outputLink value="#{wiki:renderUserInfoURL(doc.lastModifiedBy)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(doc.lastModifiedBy)}">
                                     <h:outputText value="#{doc.lastModifiedBy.username}"/>
                                 </h:outputLink>
                             </s:span>
@@ -47,7 +47,7 @@
                     </s:div>
 
                     <s:div styleClass="lastModifiedTitle wrapWhitespace">
-                        <h:outputLink target="_top" value="#{wiki:renderURL(doc)}" styleClass="lastModifiedLink">
+                        <h:outputLink target="_top" value="#{wikiURLRenderer.renderURL(doc)}" styleClass="lastModifiedLink">
                             <h:outputText value="#{wiki:truncateString(doc.name, preferences.get('LastModifiedDocuments', currentMacro).documentTitleLength, '...')}"/>
                         </h:outputLink>
                     </s:div>

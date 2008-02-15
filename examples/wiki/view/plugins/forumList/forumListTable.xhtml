@@ -29,7 +29,7 @@
         <f:facet name="header">&#160;</f:facet>
         <h:panelGroup>
 
-            <h:outputLink styleClass="undecoratedLink" value="#{wiki:renderURL(f.forum)}" tabindex="1">
+            <h:outputLink styleClass="undecoratedLink" value="#{wikiURLRenderer.renderURL(f.forum)}" tabindex="1">
                 <h:graphicImage value="#{themePath}/img/icon.posting_unread.gif" width="22" height="26"
                                 rendered="#{f.unreadPostings}"/>
 
@@ -38,7 +38,7 @@
             </h:outputLink>
 
             <s:span styleClass="forumFeedLink undecoratedLink" rendered="#{not empty f.forum.feed}">
-                <h:outputLink value="#{wiki:renderFeedURL(f.forum.feed, null, null)}"
+                <h:outputLink value="#{wikiURLRenderer.renderFeedURL(f.forum.feed, null, null)}"
                               tabindex="1">
                     <h:graphicImage value="#{themePath}/img/icon.atom.gif" width="18" height="18"/>
                 </h:outputLink>
@@ -55,7 +55,7 @@
     <h:column>
         <f:facet name="header">#{messages['forum.label.Forum']}</f:facet>
         <s:div styleClass="undecoratedLink forumTitle extraLargeFont">
-            <h:outputLink styleClass="undecoratedLink" value="#{wiki:renderURL(f.forum)}" tabindex="1">
+            <h:outputLink styleClass="undecoratedLink" value="#{wikiURLRenderer.renderURL(f.forum)}" tabindex="1">
                 <h:outputText value="#{f.forum.name}"/>
             </h:outputLink>
         </s:div>
@@ -82,7 +82,7 @@
         <f:facet name="header">#{messages['forum.label.NewestTopic']}</f:facet>
         <s:fragment rendered="#{not empty f.lastTopic}">
             <ui:include src="lastTopicPost.xhtml">
-                <ui:param name="link"        value="#{wiki:renderURL(f.lastTopic)}"/>
+                <ui:param name="link"        value="#{wikiURLRenderer.renderURL(f.lastTopic)}"/>
                 <ui:param name="name"        value="#{f.lastTopic.name}"/>
                 <ui:param name="createdOn"   value="#{f.lastTopic.createdOn}"/>
                 <ui:param name="createdBy"   value="#{f.lastTopic.createdBy}"/>
@@ -99,7 +99,7 @@
         <f:facet name="header">#{messages['forum.label.LatestPost']}</f:facet>
         <s:fragment rendered="#{f.lastPostLastTopic}">
             <ui:include src="lastTopicPost.xhtml">
-                <ui:param name="link"        value="#{wiki:renderURL(f.lastTopic)}"/>
+                <ui:param name="link"        value="#{wikiURLRenderer.renderURL(f.lastTopic)}"/>
                 <ui:param name="name"        value="#{f.lastTopic.name}"/>
                 <ui:param name="createdOn"   value="#{f.lastTopic.createdOn}"/>
                 <ui:param name="createdBy"   value="#{f.lastTopic.createdBy}"/>
@@ -109,7 +109,7 @@
         </s:fragment>
         <s:fragment rendered="#{not empty f.lastComment and not f.lastPostLastTopic}">
             <ui:include src="lastTopicPost.xhtml">
-                <ui:param name="link"        value="#{wiki:renderURL(f.lastComment)}"/>
+                <ui:param name="link"        value="#{wikiURLRenderer.renderURL(f.lastComment)}"/>
                 <ui:param name="name"        value="#{f.lastComment.subject}"/>
                 <ui:param name="createdOn"   value="#{f.lastComment.createdOn}"/>
                 <ui:param name="createdBy"   value="#{f.lastComment.createdBy}"/>

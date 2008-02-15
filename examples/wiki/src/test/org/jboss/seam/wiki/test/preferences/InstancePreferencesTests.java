@@ -7,25 +7,17 @@
 package org.jboss.seam.wiki.test.preferences;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jboss.seam.wiki.core.action.PreferenceEditor;
 import org.jboss.seam.wiki.core.action.DocumentHome;
-import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.engine.NullWikiTextRenderer;
+import org.jboss.seam.wiki.core.renderer.NullWikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.core.ui.UIWikiFormattedText;
 import org.jboss.seam.wiki.preferences.Preferences;
-import org.jboss.seam.wiki.preferences.PreferenceValue;
-import org.jboss.seam.wiki.preferences.metamodel.PreferenceRegistry;
-import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.jboss.seam.wiki.plugin.lastmodified.LastModifiedDocumentsPreferences;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.contexts.Contexts;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 /**
  * @author Christian Bauer

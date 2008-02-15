@@ -29,7 +29,7 @@
         // ###################### Session timeout alert #################################
 
         var sessionChecker = Seam.Component.getInstance("httpSessionChecker");
-        var timeoutURL = '#{wiki:renderURL(wikiStart)}';
+        var timeoutURL = '#{wikiURLRenderer.renderURL(wikiStart)}';
         var timeoutMillis = '#{sessionTimeoutSeconds}'*1000+3000;
         var sessionTimeoutInterval = null;
 
@@ -269,10 +269,10 @@
             <ui:define name="mainMenuFooter">
                 <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0" styleClass="feeds"
                              rendered="#{preferences.get('Wiki').showSiteFeedInMenu}">
-                    <h:outputLink styleClass="feedLink" value="#{wiki:renderFeedURL(wikiRoot.feed, null, null)}">
+                    <h:outputLink styleClass="feedLink" value="#{wikiURLRenderer.renderFeedURL(wikiRoot.feed, null, null)}">
                         <h:graphicImage styleClass="feedIcon" value="#{themePath}/img/icon.atom.onbrown.gif" width="18" height="18"/>
                     </h:outputLink>
-                    <h:outputLink styleClass="feedLink" value="#{wiki:renderFeedURL(wikiRoot.feed, null, null)}">
+                    <h:outputLink styleClass="feedLink" value="#{wikiURLRenderer.renderFeedURL(wikiRoot.feed, null, null)}">
                         <span class="feedText">#{messages['lacewiki.button.SiteFeed']}</span>
                     </h:outputLink>
                 </h:panelGrid>
@@ -289,11 +289,11 @@
 
                 <s:fragment rendered="#{not empty currentDocument and not empty currentDocument.id}">
                     
-                    <h:outputLink styleClass="linkNavigation" value="#{wiki:renderPermURL(currentDocument)}" target="_top">
+                    <h:outputLink styleClass="linkNavigation" value="#{wikiURLRenderer.renderPermURL(currentDocument)}" target="_top">
                         <h:outputText value="#{messages['lacewiki.label.PermLink']}"/>
                     </h:outputLink>
 
-                    <h:outputLink styleClass="linkNavigation" value="#{wiki:renderWikiURL(currentDocument)}" target="_top">
+                    <h:outputLink styleClass="linkNavigation" value="#{wikiURLRenderer.renderWikiURL(currentDocument)}" target="_top">
                         <h:outputText value="#{messages['lacewiki.label.WikiLink']}"/>
                     </h:outputLink>
 

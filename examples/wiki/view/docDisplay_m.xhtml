@@ -117,7 +117,7 @@
                                 enablePlugins="true"/>
 
             <s:div rendered="#{documentHome.instance.nameAsTitle}">
-                <h:outputLink value="#{wiki:renderURL(currentDocument)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
                     <h1 class="documentTitle">#{documentHome.instance.name}</h1>
                 </h:outputLink>
             </s:div>
@@ -164,7 +164,7 @@
             </h:column>
             <h:column>
                 <h:panelGroup>
-                    <h:outputLink value="#{wiki:renderURL(link.file)}">
+                    <h:outputLink value="#{wikiURLRenderer.renderURL(link.file)}">
                         <h:outputText value="#{link.file.name}"/>
                         &#160;
                         <h:outputText value="(#{link.file.filename}, #{wiki:displayFilesize(link.file.filesize)}, #{link.file.contentType})"/>
@@ -180,7 +180,7 @@
         <s:div>
             #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
             <ui:repeat var="tag" value="#{documentHome.tagEditor.tagsAsList}">
-                <h:outputLink value="#{wiki:renderTagURL(tag)}">
+                <h:outputLink value="#{wikiURLRenderer.renderTagURL(tag)}">
                     <h:outputText value="#{tag}"/>
                 </h:outputLink>
                 <h:outputText rendered="#{not wiki:isLastItemInList(documentHome.tagEditor.tagsAsList, tag)}" value="&#160;|&#160;"/>
@@ -216,7 +216,7 @@
 
                             <s:div rendered="#{currentDocument.name != c.subject}">
                                 <h3>
-                                    <h:outputLink value="#{wiki:renderURL(c)}">
+                                    <h:outputLink value="#{wikiURLRenderer.renderURL(c)}">
                                         <h:outputText value="#{c.subject}"/>
                                     </h:outputLink>
                                 </h3>
@@ -228,7 +228,7 @@
                                 </h:outputText>
 
                                 <s:div rendered="#{c.ownedByRegularUser}">
-                                    <h:outputLink value="#{wiki:renderUserInfoURL(c.createdBy)}">
+                                    <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(c.createdBy)}">
                                         <h:outputText value="#{c.createdBy.fullname}"/>
                                     </h:outputLink>
                                     <s:fragment rendered="#{wiki:showEmailAddress()}">

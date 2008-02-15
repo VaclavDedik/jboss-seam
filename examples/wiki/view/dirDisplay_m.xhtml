@@ -70,7 +70,7 @@
 
     </s:fragment>
 
-    <h:outputLink value="#{wiki:renderFeedURL(directoryHome.instance.feed, null, null)}"
+    <h:outputLink value="#{wikiURLRenderer.renderFeedURL(directoryHome.instance.feed, null, null)}"
                   styleClass="linkNavigation" rendered="#{not empty directoryHome.instance.feed}">
         <h:outputText value="#{messages['lacewiki.button.DirectoryFeed']}"/>
     </h:outputLink>
@@ -161,7 +161,7 @@
         </s:span>
 
         <s:span rendered="#{node.isInstance('WikiDocument')}">
-            <h:outputLink value="#{wiki:renderURL(node)}" rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
+            <h:outputLink value="#{wikiURLRenderer.renderURL(node)}" rendered="#{s:hasPermission('Node','read',node)}" tabindex="2">
                 <h:outputText value="#{wiki:truncateString(node.name, 40, '...')}"/>
             </h:outputLink>
             <h:outputText value="#{node.name}" rendered="#{!s:hasPermission('Node','read',node)}"/>
@@ -176,7 +176,7 @@
             <h:outputText value=" (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
         </s:span>
         <h:panelGroup rendered="#{node.isInstance('WikiUpload') and !s:hasPermission('Node', 'edit', node)}">
-            <h:outputLink value="#{wiki:renderURL(node)}">
+            <h:outputLink value="#{wikiURLRenderer.renderURL(node)}">
                 <h:outputText value="#{wiki:truncateString(node.name, 30, '...')} (#{wiki:displayFilesize(node.filesize)}, #{node.contentType})"/>
             </h:outputLink>
         </h:panelGroup>

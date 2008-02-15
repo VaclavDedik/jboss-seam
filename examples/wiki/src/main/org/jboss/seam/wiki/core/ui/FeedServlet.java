@@ -232,7 +232,7 @@ public class FeedServlet extends HttpServlet {
         } catch (Exception ex) {
             try {
                 if (startedTx && userTx.getStatus() != javax.transaction.Status.STATUS_MARKED_ROLLBACK)
-                    userTx.rollback();
+                    userTx.setRollbackOnly();
             } catch (Exception rbEx) {
                 rbEx.printStackTrace();
             }

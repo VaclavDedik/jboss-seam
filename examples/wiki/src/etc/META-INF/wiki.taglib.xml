@@ -13,48 +13,6 @@
     </function>
 
     <function>
-        <function-name>renderTagURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderTagURL(java.lang.String)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderUserInfoURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderUserInfoURL(org.jboss.seam.wiki.core.model.User)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderAggregateFeedURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderAggregateFeedURL(java.lang.String)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderFeedURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderFeedURL(org.jboss.seam.wiki.core.model.Feed,java.lang.String,java.lang.String)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderPermURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderPermURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
-    </function>
-
-    <function>
-        <function-name>renderWikiURL</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String renderWikiURL(org.jboss.seam.wiki.core.model.WikiNode)</function-signature>
-    </function>
-
-    <function>
         <function-name>showEmailAddress</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>boolean showEmailAddress()</function-signature>

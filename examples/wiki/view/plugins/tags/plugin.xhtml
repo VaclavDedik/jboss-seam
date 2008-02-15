@@ -20,10 +20,10 @@
                          cellpadding="0" cellspacing="0" border="0">
                 <h:column>
                     <s:span rendered="#{param.tag != tagCount.tag and preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
-                        <h:outputLink value="#{wiki:renderURL(currentDocument)}/Tag/#{wiki:encodeURL(tagCount.tag)}">#{tagCount.tag}</h:outputLink>
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}/Tag/#{wiki:encodeURL(tagCount.tag)}">#{tagCount.tag}</h:outputLink>
                     </s:span>
                     <s:span rendered="#{param.tag != tagCount.tag and not preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
-                        <h:outputLink value="#{wiki:renderTagURL(tagCount.tag)}">
+                        <h:outputLink value="#{wikiURLRenderer.renderTagURL(tagCount.tag)}">
                             <h:outputText value="#{tagCount.tag}"/>
                         </h:outputLink>
                     </s:span>
@@ -37,7 +37,7 @@
             </h:dataTable>
 
             <s:span styleClass="undecoratedLink defaultColumn" rendered="#{preferences.get('Tags', currentMacro).linkToCurrentDocument}">
-                <h:outputLink value="#{wiki:renderURL(currentDocument)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
                     <h:outputText value="#{messages['tags.label.All']}"/>
                 </h:outputLink>
             </s:span>

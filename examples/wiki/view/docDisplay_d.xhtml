@@ -15,7 +15,7 @@
     <s:fragment rendered="#{not empty documentHome.instance.parent.feed}">
         <link rel="alternate" type="application/atom+xml"
               title="#{documentHome.instance.parent.name}"
-              href="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}"/>
+              href="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}"/>
         
     </s:fragment>
 
@@ -92,7 +92,7 @@
 
                 <s:div rendered="#{documentHome.instance.nameAsTitle}">
                     <h1 class="documentTitle">
-                        <h:outputLink value="#{wiki:renderURL(currentDocument)}">
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
                             <h:outputText value="#{documentHome.instance.name}"/>
                         </h:outputLink>
                     </h1>
@@ -124,7 +124,7 @@
             <s:div>
                 #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
                 <ui:repeat var="tag" value="#{documentHome.tagEditor.tagsAsList}">
-                    <h:outputLink value="#{wiki:renderTagURL(tag)}">
+                    <h:outputLink value="#{wikiURLRenderer.renderTagURL(tag)}">
                         <h:outputText value="#{tag}"/>
                     </h:outputLink>
                     <h:outputText rendered="#{not wiki:isLastItemInList(documentHome.tagEditor.tagsAsList, tag)}" value="&#160;|&#160;"/>
@@ -140,7 +140,7 @@
                     <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
                 <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;("/>
-                <h:outputLink value="#{wiki:renderURL(documentHome.instance.createdBy.memberHome)}"
+                <h:outputLink value="#{wikiURLRenderer.renderURL(documentHome.instance.createdBy.memberHome)}"
                               rendered="#{!empty documentHome.instance.createdBy.memberHome}">
                     <h:outputText value="#{documentHome.instance.createdBy.fullname}"/>
                 </h:outputLink>
@@ -154,7 +154,7 @@
                     <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
                 <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}&#160;("/>
-                <h:outputLink value="#{wiki:renderURL(documentHome.instance.lastModifiedBy.memberHome)}"
+                <h:outputLink value="#{wikiURLRenderer.renderURL(documentHome.instance.lastModifiedBy.memberHome)}"
                               rendered="#{!empty documentHome.instance.lastModifiedBy.memberHome}">
                     <h:outputText value="#{documentHome.instance.lastModifiedBy.fullname}"/>
                 </h:outputLink>

@@ -52,6 +52,12 @@
         <to last="true">/wiki.seam?nodeId=$1</to>
      </rule>
 
+    <!-- /search/foo -->
+    <rule>
+        <from casesensitive="true">^/search/(.+)$</from>
+        <to last="true">/search_%{session-attribute:skin}.seam?query=$1</to>
+    </rule>
+
     <!-- /user/foo -->
     <rule>
         <from casesensitive="true">^/user/([a-zA-Z]?[a-zA-Z0-9]+)$</from>

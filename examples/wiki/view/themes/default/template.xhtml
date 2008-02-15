@@ -37,7 +37,7 @@
         // ###################### Session timeout alert #################################
 
         var sessionChecker = Seam.Component.getInstance("httpSessionChecker");
-        var timeoutURL = '#{wiki:renderURL(wikiStart)}';
+        var timeoutURL = '#{wikiURLRenderer.renderURL(wikiStart)}';
         var timeoutMillis = '#{sessionTimeoutSeconds}'*1000+3000;
         var sessionTimeoutInterval = null;
 
@@ -283,7 +283,7 @@
             </ui:define>
             <ui:define name="mainMenuFooter">
                 <s:div styleClass="feeds" rendered="#{preferences.get('Wiki').showSiteFeedInMenu}">
-                    <h:outputLink value="#{wiki:renderFeedURL(wikiRoot.feed, null, null)}">
+                    <h:outputLink value="#{wikiURLRenderer.renderFeedURL(wikiRoot.feed, null, null)}">
                         <h:graphicImage value="#{themePath}/img/icon.atom.gif" width="18" height="18"/>
                         <span class="feedText">#{messages['lacewiki.button.SiteFeed']}</span>
                     </h:outputLink>

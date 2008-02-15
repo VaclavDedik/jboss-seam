@@ -21,7 +21,7 @@
                 </s:span>
 
                 <h:outputLink styleClass="level#{childWrapper.level}Link" target="_top"
-                              value="#{wiki:renderURL(childWrapper.wrappedNode)}">#{wiki:truncateString(childWrapper.wrappedNode.name, 40, '...')}</h:outputLink>
+                              value="#{wikiURLRenderer.renderURL(childWrapper.wrappedNode)}">#{wiki:truncateString(childWrapper.wrappedNode.name, 40, '...')}</h:outputLink>
 
             </h:panelGrid>
         </s:div>

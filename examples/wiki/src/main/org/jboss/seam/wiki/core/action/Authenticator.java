@@ -19,7 +19,8 @@ import org.jboss.seam.util.Base64;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
+import org.jboss.seam.wiki.core.renderer.MacroWikiTextRenderer;
+import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
@@ -130,6 +131,7 @@ public class Authenticator {
     public void createHomeDirectory(User user) {
 
         WikiNodeDAO nodeDAO = (WikiNodeDAO)Component.getInstance(WikiNodeDAO.class);
+        WikiURLRenderer urlRenderer = (WikiURLRenderer)Component.getInstance(WikiURLRenderer.class);
 
         // Create home directory
         WikiDirectory memberArea = (WikiDirectory)Component.getInstance("memberArea");
@@ -145,7 +147,7 @@ public class Authenticator {
 
         // Create feed for home directory
         WikiFeed feed = new WikiFeed();
-        feed.setLink(WikiUtil.renderURL(homeDirectory));
+        feed.setLink(urlRenderer.renderURL(homeDirectory));
         feed.setDirectory(homeDirectory);
         feed.setAuthor(homeDirectory.getCreatedBy().getFullname());
         feed.setTitle(homeDirectory.getName());

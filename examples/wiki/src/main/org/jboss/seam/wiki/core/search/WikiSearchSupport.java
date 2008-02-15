@@ -5,7 +5,8 @@ import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.search.metamodel.SearchSupport;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntityHandler;
-import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
+import org.jboss.seam.Component;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.highlight.*;
 
@@ -32,11 +33,12 @@ public class WikiSearchSupport extends SearchSupport {
                     }
 
                     public SearchHit extractHit(Query query, WikiDocument doc) throws Exception {
+                        WikiURLRenderer urlRenderer = (WikiURLRenderer) Component.getInstance(WikiURLRenderer.class);
                         return new SearchHit(
                             WikiDocument.class.getSimpleName(),
                             "icon.doc.gif",
                             escapeBestFragments(query, new NullFragmenter(), doc.getName(), 0, 0),
-                            WikiUtil.renderURL(doc),
+                            urlRenderer.renderURL(doc),
                             escapeBestFragments(query, new SimpleFragmenter(100), doc.getContent(), 5, 350)
                         );
                     }
@@ -46,12 +48,13 @@ public class WikiSearchSupport extends SearchSupport {
             add(
                 new SearchableEntityHandler<WikiComment>() {
                     public SearchHit extractHit(Query query, WikiComment comment) throws Exception {
+                        WikiURLRenderer urlRenderer = (WikiURLRenderer)Component.getInstance(WikiURLRenderer.class);
                         return new SearchHit(
                             WikiComment.class.getSimpleName(),
                             "icon.user.gif",
                             "(" + comment.getFromUserName() + ") "
                                 + escapeBestFragments(query, new NullFragmenter(), comment.getSubject(), 0, 0),
-                            WikiUtil.renderURL(comment),
+                            urlRenderer.renderURL(comment),
                             escapeBestFragments(query, new SimpleFragmenter(100), comment.getContent(), 5, 350)
                         );
                     }

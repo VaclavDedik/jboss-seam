@@ -80,7 +80,7 @@
 
                 <h:commandButton action="#{authenticator.logout}" value="#{messages['lacewiki.button.Logout']}"/>
 
-                <h:outputLink styleClass="userControlLink" value="#{wiki:renderURL(currentUser.memberHome)}"
+                <h:outputLink styleClass="userControlLink" value="#{wikiURLRenderer.renderURL(currentUser.memberHome)}"
                         rendered="#{!empty currentUser.memberHome}">#{messages['lacewiki.button.Home']}</h:outputLink>
 
             </h:panelGrid>

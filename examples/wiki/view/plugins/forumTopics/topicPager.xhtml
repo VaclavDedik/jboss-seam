@@ -12,14 +12,14 @@
                  cellpadding="0" cellspacing="0" border="0">
 
         <h:outputLink rendered="#{forumQuery.pager.previousPageAvailable}" target="_top"
-                      value="#{wiki:renderURL(currentDocument)}">
+                      value="#{wikiURLRenderer.renderURL(currentDocument)}">
                 <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
         </h:outputLink>
         <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!forumQuery.pager.previousPageAvailable}"/>
 
         <h:outputLink rendered="#{forumQuery.pager.previousPageAvailable}" target="_top"
-                      value="#{wiki:renderURL(currentDocument)}/Page/#{forumQuery.pager.previousPage}">
+                      value="#{wikiURLRenderer.renderURL(currentDocument)}/Page/#{forumQuery.pager.previousPage}">
             <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
         </h:outputLink>
         <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
@@ -33,14 +33,14 @@
         </s:span>
 
         <h:outputLink rendered="#{forumQuery.pager.nextPageAvailable}" target="_top"
-                      value="#{wiki:renderURL(currentDocument)}/Page/#{forumQuery.pager.nextPage}">
+                      value="#{wikiURLRenderer.renderURL(currentDocument)}/Page/#{forumQuery.pager.nextPage}">
             <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
         </h:outputLink>
         <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
                         rendered="#{!forumQuery.pager.nextPageAvailable}"/>
 
         <h:outputLink rendered="#{forumQuery.pager.nextPageAvailable}" target="_top"
-                      value="#{wiki:renderURL(currentDocument)}/Page/#{forumQuery.pager.lastPage}">
+                      value="#{wikiURLRenderer.renderURL(currentDocument)}/Page/#{forumQuery.pager.lastPage}">
             <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
         </h:outputLink>
         <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"

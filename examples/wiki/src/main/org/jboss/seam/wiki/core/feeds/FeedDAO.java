@@ -13,7 +13,7 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -159,9 +159,10 @@ public class FeedDAO {
     /* ############################# FEED CUD ################################ */
 
     public void createFeed(WikiDirectory dir) {
+        WikiURLRenderer urlRenderer = (WikiURLRenderer)Component.getInstance(WikiURLRenderer.class);
         WikiFeed feed = new WikiFeed();
         feed.setDirectory(dir);
-        feed.setLink(WikiUtil.renderURL(dir));
+        feed.setLink(urlRenderer.renderURL(dir));
         feed.setAuthor(dir.getCreatedBy().getFullname());
         feed.setTitle(dir.getName());
         feed.setDescription(dir.getDescription());
@@ -169,7 +170,8 @@ public class FeedDAO {
     }
 
     public void updateFeed(WikiDirectory dir) {
-        dir.getFeed().setLink(WikiUtil.renderURL(dir));
+        WikiURLRenderer urlRenderer = (WikiURLRenderer)Component.getInstance(WikiURLRenderer.class);
+        dir.getFeed().setLink(urlRenderer.renderURL(dir));
         dir.getFeed().setTitle(dir.getName());
         dir.getFeed().setAuthor(dir.getCreatedBy().getFullname());
         dir.getFeed().setDescription(dir.getDescription());

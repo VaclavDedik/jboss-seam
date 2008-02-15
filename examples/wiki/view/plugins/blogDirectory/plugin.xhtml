@@ -29,11 +29,11 @@
                             <h:outputText value="&#160;#{preferences.get('Wiki').timeZone}"/>
                             <h:outputText value=",&#160;by&#160;"/>
                             <s:span styleClass="undecoratedLink">
-                                <h:outputLink value="#{wiki:renderURL(blogEntry.entryDocument.createdBy.memberHome)}" target="_top"
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(blogEntry.entryDocument.createdBy.memberHome)}" target="_top"
                                               rendered="#{!empty blogEntry.entryDocument.createdBy.memberHome}">
                                     <h:outputText value="#{blogEntry.entryDocument.createdBy.fullname}"/>
                                 </h:outputLink>
-                                <h:outputLink value="#{wiki:renderUserInfoURL(blogEntry.entryDocument.createdBy)}" target="_top"
+                                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(blogEntry.entryDocument.createdBy)}" target="_top"
                                               rendered="#{empty blogEntry.entryDocument.createdBy.memberHome}">
                                     <h:outputText value="#{blogEntry.entryDocument.createdBy.fullname}"/>
                                 </h:outputLink>
@@ -61,7 +61,7 @@
                                 <h:outputText rendered="#{blogEntry.entryDocument.tags.size()==1}" value="#{messages['blogDirectory.label.Tag']}:&#160;"/>
                                 <h:outputText rendered="#{blogEntry.entryDocument.tags.size()>1}" value="#{messages['blogDirectory.label.Tags']}:&#160;"/>
                                 <ui:repeat var="tag" value="#{blogEntry.entryDocument.tagsAsList}">
-                                    <h:outputLink value="#{wiki:renderTagURL(tag)}">
+                                    <h:outputLink value="#{wikiURLRenderer.renderTagURL(tag)}">
                                         <h:outputText value="#{tag}"/>
                                     </h:outputLink>
                                     <h:outputText rendered="#{not wiki:isLastItemInList(blogEntry.entryDocument.tagsAsList, tag)}" value="&#160;|&#160;"/>
@@ -75,7 +75,7 @@
                         <h:panelGrid styleClass="blogEntryFooterTable" columns="5" cellpadding="0" cellspacing="0" border="0">
                             <s:div styleClass="blogEntryCommentCount undecoratedLink"
                                    rendered="#{blogEntry.commentCount > 0 and blogEntry.entryDocument.enableComments}">
-                                <h:outputLink value="#{wiki:renderPermURL(blogEntry.entryDocument)}#comments" target="_top">
+                                <h:outputLink value="#{wikiURLRenderer.renderPermURL(blogEntry.entryDocument)}#comments" target="_top">
                                     <span class="blogEntryCommentCountText">
                                         <h:outputText value="#{blogEntry.commentCount}&#160;"/>
                                         <h:outputText value="#{blogEntry.commentCount>1
@@ -86,13 +86,13 @@
                             </s:div>
                             <s:div styleClass="blogEntryCommentLink undecoratedLink"
                                    rendered="#{blogEntry.entryDocument.enableComments and blogEntry.entryDocument.enableCommentForm}">
-                                <h:outputLink target="_top" value="#{wiki:renderURL(blogEntry.entryDocument)}?showCommentForm=true#commentForm">
+                                <h:outputLink target="_top" value="#{wikiURLRenderer.renderURL(blogEntry.entryDocument)}?showCommentForm=true#commentForm">
                                     <h:outputText styleClass="blogEntryCommentLinkText" value="#{messages['lacewiki.label.commentForm.PostComment']}"/>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryAttachmentsLink undecoratedLink"
                                     rendered="#{wiki:sizeOf(wikiTextAttachments) > 0}">
-                                <h:outputLink value="#{wiki:renderPermURL(blogEntry.entryDocument)}#attachments" target="_top">
+                                <h:outputLink value="#{wikiURLRenderer.renderPermURL(blogEntry.entryDocument)}#attachments" target="_top">
                                     <span class="blogEntryAttachmentsLinkText">
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)}&#160;"/>
                                         <h:outputText value="#{wiki:sizeOf(wikiTextAttachments)>1
@@ -102,12 +102,12 @@
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryPermLink undecoratedLink">
-                                <h:outputLink value="#{wiki:renderPermURL(blogEntry.entryDocument)}" target="_top">
+                                <h:outputLink value="#{wikiURLRenderer.renderPermURL(blogEntry.entryDocument)}" target="_top">
                                     <h:outputText styleClass="blogEntryPermLinkText" value="#{messages['lacewiki.label.PermLink']}"/>
                                 </h:outputLink>
                             </s:div>
                             <s:div styleClass="blogEntryWikiLink undecoratedLink">
-                                <h:outputLink value="#{wiki:renderWikiURL(blogEntry.entryDocument)}" target="_top">
+                                <h:outputLink value="#{wikiURLRenderer.renderWikiURL(blogEntry.entryDocument)}" target="_top">
                                     <h:outputText styleClass="blogEntryWikiLinkText" value="#{messages['lacewiki.label.WikiLink']}"/>
                                 </h:outputLink>
                             </s:div>
@@ -128,7 +128,7 @@
                      cellpadding="0" cellspacing="0" border="0">
 
             <h:outputLink rendered="#{blogDirectory.pager.previousPageAvailable}" target="_top"
-                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}#{blogDirectory.tagUrl}">
+                          value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.dateUrl}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
                 </div>
@@ -137,7 +137,7 @@
                             rendered="#{!blogDirectory.pager.previousPageAvailable}"/>
 
             <h:outputLink rendered="#{blogDirectory.pager.previousPageAvailable}" target="_top"
-                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.previousPage}#{blogDirectory.tagUrl}">
+                          value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.previousPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
                 </div>
@@ -160,7 +160,7 @@
             </s:span>
 
             <h:outputLink rendered="#{blogDirectory.pager.nextPageAvailable}" target="_top"
-                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.nextPage}#{blogDirectory.tagUrl}">
+                          value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.nextPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
                 </div>
@@ -169,7 +169,7 @@
                             rendered="#{!blogDirectory.pager.nextPageAvailable}"/>
 
             <h:outputLink rendered="#{blogDirectory.pager.nextPageAvailable}" target="_top"
-                          value="#{wiki:renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.lastPage}#{blogDirectory.tagUrl}">
+                          value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.dateUrl}/Page/#{blogDirectory.pager.lastPage}#{blogDirectory.tagUrl}">
                 <div style="width:30px;">
                 <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
                 </div>

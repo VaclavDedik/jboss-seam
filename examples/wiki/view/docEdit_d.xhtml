@@ -367,7 +367,7 @@
 
                     <s:div rendered="#{documentHome.instance.nameAsTitle}">
                         <h1 class="documentTitle">
-                            <h:outputLink value="#{wiki:renderURL(currentDocument)}">
+                            <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}">
                                 <h:outputText value="#{documentHome.instance.name}"/>
                             </h:outputLink>
                         </h1>

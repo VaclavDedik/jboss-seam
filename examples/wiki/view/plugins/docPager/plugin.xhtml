@@ -11,7 +11,7 @@
                  cellpadding="0" cellspacing="0" border="0">
         <s:div styleClass="undecoratedLink">
             <s:fragment rendered="#{not empty docPager.previous}">
-                <h:outputLink value="#{wiki:renderURL(docPager.previous)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.previous)}">
                     <h:graphicImage styleClass="docPagerButton" value="#{themePath}/img/left.gif" width="18" height="18"/>
                     <h:outputText styleClass="docPagerLabel"
                                   rendered="#{not preferences.get('DocPager', currentMacro).showNames}"
@@ -24,7 +24,7 @@
         </s:div>
         <s:div styleClass="undecoratedLink">
             <s:fragment rendered="#{not empty docPager.next}">
-                <h:outputLink value="#{wiki:renderURL(docPager.next)}">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.next)}">
                     <h:outputText styleClass="docPagerLabel" 
                                   rendered="#{not preferences.get('DocPager', currentMacro).showNames}"
                                   value="#{messages['lacewiki.label.Next']}"/>

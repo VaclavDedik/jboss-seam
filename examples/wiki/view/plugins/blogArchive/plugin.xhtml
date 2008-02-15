@@ -23,10 +23,10 @@
 
                 <h:panelGrid styleClass="smallFont" rendered="#{not empty currentDirectory.feed}" columns="2"
                              cellpadding="2" cellspacing="0" border="0">
-                    <h:outputLink value="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}">
+                    <h:outputLink value="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}">
                         <h:graphicImage value="#{themePath}/img/icon.atom.ongrey.gif" width="18" height="18" alt="Atom"/>
                     </h:outputLink>
-                    <h:outputLink value="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}">
+                    <h:outputLink value="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}">
                         <h:outputText value="#{messages['blogArchive.label.Subscribe']}"/>
                     </h:outputLink>
                 </h:panelGrid>
@@ -39,15 +39,15 @@
             <div class="blogArchiveSelector boxContent">
                 <select id="blogArchiveCombo" class="blogArchiveCombo"
                         onchange="top.location.href = jQuery('#blogArchiveCombo')[0].options[jQuery('#blogArchiveCombo')[0].selectedIndex].value;">
-                    <option value="#{wiki:renderURL(currentDocument)}#{blogDirectory.tagUrl}">#{messages['blogArchive.label.AllEntries']} (#{blogDirectory.pager.numOfRecords})</option>
+                    <option value="#{wikiURLRenderer.renderURL(currentDocument)}#{blogDirectory.tagUrl}">#{messages['blogArchive.label.AllEntries']} (#{blogDirectory.pager.numOfRecords})</option>
                     <ui:repeat var="beCount" value="#{blogDirectory.blogEntryCountsByYearAndMonth}">
                         <s:fragment rendered="#{blogDirectory.dateUrl != beCount.asString}">
-                            <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}">
+                            <option value="#{wikiURLRenderer.renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}">
                                 #{messages[wiki:concat('lacewiki.label.', converters.monthNames[beCount.month])]}&#160;#{beCount.year}&#160;(#{beCount.numOfEntries})
                             </option>
                         </s:fragment>
                         <s:fragment rendered="#{blogDirectory.dateUrl == beCount.asString}">
-                            <option value="#{wiki:renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}" selected="true">
+                            <option value="#{wikiURLRenderer.renderURL(currentDocument)}#{beCount.asString}#{blogDirectory.tagUrl}" selected="true">
                                 #{messages[wiki:concat('lacewiki.label.', converters.monthNames[beCount.month])]}&#160;#{beCount.year}&#160;(#{beCount.numOfEntries})
                             </option>
                         </s:fragment>

@@ -932,7 +932,8 @@ ul {
 
 .commentText {
     padding-left: 5px;
-    padding-right: 5px;    
+    padding-right: 5px;
+    line-height: 160%;
 }
 
 .commentSignatureSeparator {
@@ -1497,15 +1498,20 @@ ul {
     font-family: Andale Mono, Courier New, monospace;
 }
 
-#searchControl .searchControlLink{
+#searchControl .searchControlButton {
+    font-family: "Lucida Sans", Arial, Helvetica, sans-serif;
     font-weight: normal;
     font-size: 85%;
 	color: #d75525;
 	text-decoration: none;
     padding-left: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    background:none;
+    border: none;
 }
 
-#searchControl .searchControlLink:hover {
+#searchControl .searchControlButton:hover {
     color: #666;
 }
 

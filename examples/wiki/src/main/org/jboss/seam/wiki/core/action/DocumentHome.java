@@ -19,7 +19,7 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.engine.MacroWikiTextRenderer;
+import org.jboss.seam.wiki.core.renderer.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.preferences.Preferences;
 

@@ -85,7 +85,7 @@
                         <div class="label">#{messages['lacewiki.label.uploadEdit.FileDetails']}:</div>
                         <div class="output">
                             <h:panelGroup>
-                                <h:outputLink value="#{wiki:renderURL(uploadHome.instance)}" styleClass="sessionEventTrigger">
+                                <h:outputLink value="#{wikiURLRenderer.renderURL(uploadHome.instance)}" styleClass="sessionEventTrigger">
                                     <h:outputText value="#{uploadHome.instance.filename}, #{wiki:displayFilesize(uploadHome.instance.filesize)}, #{uploadHome.instance.contentType}"/>
                                 </h:outputLink>
                             </h:panelGroup>

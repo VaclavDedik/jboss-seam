@@ -12,7 +12,7 @@
         <s:div styleClass="level#{childWrapper.level}Body">
             <h:outputText styleClass="level#{childWrapper.level}Marker" value="&#183;"/>
             <h:outputLink styleClass="level#{childWrapper.level}Link"
-                          value="#{wiki:renderURL(childWrapper.wrappedNode)}">#{childWrapper.wrappedNode.name}</h:outputLink>
+                          value="#{wikiURLRenderer.renderURL(childWrapper.wrappedNode)}">#{childWrapper.wrappedNode.name}</h:outputLink>
         </s:div>
         <s:div styleClass="level#{childWrapper.level}Children" style="padding-left: #{childWrapper.level*7}px;">
             <ui:include src="mainMenuItem.xhtml">

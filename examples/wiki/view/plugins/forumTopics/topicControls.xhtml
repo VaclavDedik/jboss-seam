@@ -17,7 +17,7 @@
     <script type="text/javascript">stopSessionTimeoutCheck();</script>
 
     <s:div styleClass="forumsFeedLink undecoratedLink" rendered="#{not empty currentDirectory.feed}">
-        <h:outputLink value="#{wiki:renderFeedURL(currentDirectory.feed, null, null)}"
+        <h:outputLink value="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}"
                       tabindex="1">
             <h:graphicImage value="#{themePath}/img/icon.atom.gif" width="18" height="18"/>
             <h:outputText value="#{currentDocument.name}&#160;#{messages['forum.label.Feed']}"/>
@@ -33,14 +33,14 @@
         <h:form>
         <h:panelGroup>
 
-            <h:outputLink value="#{wiki:renderURL(currentDirectory.parent)}"
+            <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.parent)}"
                           accesskey="#{messages['forum.button.ForumList.accesskey']}"
                           tabindex="1" styleClass="buttonNonpersistent">
                 <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
             </h:outputLink>
 
             <s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory)}">
-                <h:outputLink value="#{wiki:renderURL(currentDocument)}?showTopicForm=true"
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}?showTopicForm=true"
                               accesskey="#{messages['forum.button.NewTopic.accesskey']}"
                               tabindex="1" styleClass="buttonNonpersistent">
                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewTopic']}"/>

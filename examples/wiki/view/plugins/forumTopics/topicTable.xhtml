@@ -34,7 +34,7 @@
         <h:column>
             <f:facet name="header">Topic</f:facet>
 
-            <h:outputLink value="#{wiki:renderURL(t.topic)}" tabindex="1">
+            <h:outputLink value="#{wikiURLRenderer.renderURL(t.topic)}" tabindex="1">
                 <h:outputText value="#{wiki:truncateString(t.topic.name, 60, '...')}"/>
             </h:outputLink>
 
@@ -59,7 +59,7 @@
             <f:facet name="header">Last Post</f:facet>
 
             <s:fragment rendered="#{not empty t.lastComment}">
-                <h:outputLink value="#{wiki:renderURL(t.lastComment)}" tabindex="1">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(t.lastComment)}" tabindex="1">
                     <h:outputText value="#{t.lastComment.createdOn}">
                         <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                     </h:outputText>
@@ -73,7 +73,7 @@
             </s:fragment>
 
             <s:fragment rendered="#{empty t.lastComment}">
-                <h:outputLink value="#{wiki:renderURL(t.topic)}" tabindex="1">
+                <h:outputLink value="#{wikiURLRenderer.renderURL(t.topic)}" tabindex="1">
                     <h:outputText value="#{t.topic.createdOn}">
                         <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                     </h:outputText>

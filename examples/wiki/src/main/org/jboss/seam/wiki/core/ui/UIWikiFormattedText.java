@@ -18,6 +18,7 @@ import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.wiki.core.model.WikiFile;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
+import org.jboss.seam.wiki.core.renderer.DefaultWikiTextRenderer;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.faces.component.UIComponent;
@@ -103,7 +104,7 @@ public class UIWikiFormattedText extends UIOutput {
                         + (
                             internalLink.isBroken()
                                 ? internalLink.getUrl()
-                                : WikiUtil.renderURL(internalLink.getFile())
+                                : wikiURLRenderer.renderURL(internalLink.getFile())
                            )
                         + (
                             internalLink.getFragment() != null
@@ -131,7 +132,7 @@ public class UIWikiFormattedText extends UIOutput {
 
             public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
                 return "<a href=\""
-                        + WikiUtil.renderURL(baseFile)
+                        + wikiURLRenderer.renderURL(baseFile)
                         + "#attachment" + attachmentNumber
                         + "\" target=\""
                         + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")
@@ -148,7 +149,7 @@ public class UIWikiFormattedText extends UIOutput {
                     // Full size display, no thumbnail
                     //TODO: Make sure we really don't need this - but it messes up the comment form conversation:
                     //String imageUrl = WikiUtil.renderURL(image) + "&amp;cid=" + Conversation.instance().getId();
-                    String imageUrl = WikiUtil.renderURL(image);
+                    String imageUrl = wikiURLRenderer.renderURL(image);
                     return "<img src='"+ imageUrl + "'" +
                             " width='"+ image.getSizeX()+"'" +
                             " height='"+ image.getSizeY() +"'/>";
@@ -157,10 +158,10 @@ public class UIWikiFormattedText extends UIOutput {
 
                     //TODO: Make sure we really don't need this - but it messes up the comment form conversation:
                     // String thumbnailUrl = WikiUtil.renderURL(image) + "&amp;thumbnail=true&amp;cid=" + Conversation.instance().getId();
-                    String thumbnailUrl = WikiUtil.renderURL(image) + "?thumbnail=true";
+                    String thumbnailUrl = wikiURLRenderer.renderURL(image) + "?thumbnail=true";
 
                     return "<a href=\""
-                            + (link.isBroken() ? link.getUrl() : WikiUtil.renderURL(image))
+                            + (link.isBroken() ? link.getUrl() : wikiURLRenderer.renderURL(image))
                             + "\" target=\""
                             + (getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) != null ? getAttributes().get(ATTR_INTERNAL_TARGET_FRAME) : "")
                             + "\" class=\""
@@ -240,7 +241,7 @@ public class UIWikiFormattedText extends UIOutput {
             }
 
             protected String getHeadlineLink(Headline h, String headline) {
-                return "<a href=\""+WikiUtil.renderURL(baseFile)+"#"+WikiTextRenderer.HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline)+"\">"
+                return "<a href=\""+ wikiURLRenderer.renderURL(baseFile)+"#"+WikiTextRenderer.HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline)+"\">"
                         + headline
                        +"</a>";
             }

@@ -121,6 +121,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
             Events.instance().raiseEvent("Comment.persisted");
             endConversation();
+            return "redirectToDocumentNoConversation";
         }
         return null; // Prevent navigation
     }
@@ -314,7 +315,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     public String cancel() {
         endConversation();
-        return "redirectToDocument";
+        return "redirectToDocumentNoConversation";
     }
 
     @RequestParameter("showCommentForm")

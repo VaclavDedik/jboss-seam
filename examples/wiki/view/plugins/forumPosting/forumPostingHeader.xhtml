@@ -10,27 +10,27 @@
     <h:panelGrid columns="2" styleClass="forumPostingHeaderInfoControls" columnClasses="forumPostingHeaderInfo, forumPostingHeaderControls"
                  cellpadding="0" cellspacing="0" border="0">
 
-        <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}" styleClass="extraExtraLargeFont">
+        <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.defaultFile)}" styleClass="extraExtraLargeFont">
             <h:outputText value="#{messages['forum.label.Forum']}:&#160;#{currentDirectory.name}"/>
         </h:outputLink>
 
         <h:panelGroup>
 
-            <h:outputLink value="#{wiki:renderURL(currentDirectory.parent)}"
+            <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.parent)}"
                           accesskey="#{messages['forum.button.ForumList.accesskey']}"
                           tabindex="1" styleClass="buttonNonpersistent">
                 <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.ForumList']}"/>
             </h:outputLink>
 
             <s:fragment rendered="#{empty topicPage or topicPage == 0}">
-                <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}"
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.defaultFile)}"
                               accesskey="#{messages['forum.button.TopicList.accesskey']}"
                               tabindex="1" styleClass="buttonNonpersistent">
                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
                 </h:outputLink>
             </s:fragment>
             <s:fragment rendered="#{topicPage > 0}">
-                <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}/Page/#{topicPage}"
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.defaultFile)}/Page/#{topicPage}"
                               accesskey="#{messages['forum.button.TopicList.accesskey']}"
                               tabindex="1" styleClass="buttonNonpersistent">
                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.TopicList']}"/>
@@ -38,21 +38,21 @@
             </s:fragment>
 
             <s:fragment rendered="#{s:hasPermission('Node', 'create', currentDirectory) and not replyHome.showForm}">
-                <h:outputLink value="#{wiki:renderURL(currentDirectory.defaultFile)}?showTopicForm=true"
+                <h:outputLink value="#{wikiURLRenderer.renderURL(currentDirectory.defaultFile)}?showTopicForm=true"
                               accesskey="#{messages['forum.button.NewTopic.accesskey']}"
                               tabindex="1" styleClass="buttonNonpersistent">
                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewTopic']}"/>
                 </h:outputLink>
             </s:fragment>
 
-            <h:outputLink value="#{wiki:renderURL(docPager.previous)}"
+            <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.previous)}"
                           rendered="#{not empty docPager.previous and docPager.previous.id != currentDirectory.defaultFile.id}"
                           accesskey="#{messages['forum.button.PreviousPosting.accesskey']}"
                           tabindex="1" styleClass="buttonNonpersistent">
                 <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.PreviousPosting']}"/>
             </h:outputLink>
 
-            <h:outputLink value="#{wiki:renderURL(docPager.next)}"
+            <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.next)}"
                           rendered="#{not empty docPager.next and docPager.next.id != currentDirectory.defaultFile.id}"
                           accesskey="#{messages['forum.button.NextPosting.accesskey']}"
                           tabindex="1" styleClass="buttonNonpersistent">
@@ -75,7 +75,7 @@
             </s:fragment>
 
             <s:div styleClass="undecoratedLink largeFont" rendered="#{currentDocument.name != c.subject}">
-                <h:outputLink styleClass="subjectLink" value="#{wiki:renderURL(currentDocument)}">
+                <h:outputLink styleClass="subjectLink" value="#{wikiURLRenderer.renderURL(currentDocument)}">
                     <h:outputText value="#{currentDocument.name}"/>
                 </h:outputLink>
             </s:div>
@@ -90,14 +90,14 @@
                     </s:span>
                     <h:outputText value="&#160;|&#160;"/>
                     <s:span styleClass="commentLink undecoratedLink">
-                        <h:outputLink value="#{wiki:renderURL(c)}">
+                        <h:outputLink value="#{wikiURLRenderer.renderURL(c)}">
                             <h:outputText value="#{messages['lacewiki.label.Link']}"/>
                         </h:outputLink>
                     </s:span>
                 </s:div>
                 <s:div rendered="#{currentDocument.ownedByRegularUser}">
                     <s:span styleClass="undecoratedLink">
-                        <h:outputLink value="#{wiki:renderUserInfoURL(currentDocument.createdBy)}">
+                        <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(currentDocument.createdBy)}">
                             <h:outputText value="#{currentDocument.createdBy.fullname}"/>
                         </h:outputLink>
                     </s:span>
@@ -115,7 +115,7 @@
 
             <s:fragment rendered="#{currentDocument.ownedByRegularUser and !empty currentDocument.createdBy.profile.imageContentType}">
                 <s:span styleClass="undecoratedLink">
-                    <h:outputLink value="#{wiki:renderUserInfoURL(currentDocument.createdBy)}">
+                    <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(currentDocument.createdBy)}">
                         <s:graphicImage styleClass="commentAuthorPortraitImage" value="#{currentDocument.createdBy.profile.image}">
                             <s:transformImageSize width="30" maintainRatio="true"/>
                         </s:graphicImage>
