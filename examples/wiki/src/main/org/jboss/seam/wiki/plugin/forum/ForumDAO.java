@@ -22,6 +22,9 @@ public class ForumDAO {
     @In
     EntityManager restrictedEntityManager;
 
+    @In
+    Integer currentAccessLevel;
+
     public List<WikiMenuItem> findForumsMenuItems(WikiDirectory forumsDirectory) {
         return getSession(true).getNamedQuery("forumsMenuItems")
                 .setParameter("parentDir", forumsDirectory)
@@ -70,7 +73,8 @@ public class ForumDAO {
 
         // Add reply count to topic count to get total num of posts
         getSession(true).getNamedQuery("forumReplyCount")
-            .setParameter("parentDir", forumsDirectory)
+            .setParameter("parentDirId", forumsDirectory.getId())
+            .setParameter("readAccessLevel", currentAccessLevel)
             .setComment("Finding reply count for all forums")
             .setCacheable(true)
             .setResultTransformer(
@@ -107,7 +111,8 @@ public class ForumDAO {
 
         // Append last reply WikiComment
         getSession(true).getNamedQuery("forumLastReply")
-            .setParameter("parentDir", forumsDirectory)
+            .setParameter("parentDirId", forumsDirectory.getId())
+            .setParameter("readAccessLevel", currentAccessLevel)
             .setComment("Finding last replies for all forums")
             .setResultTransformer(
                 new ResultTransformer() {
@@ -184,6 +189,7 @@ public class ForumDAO {
 
         getSession(true).getNamedQuery("forumTopics")
             .setParameter("parentNodeId", forum.getId())
+            .setParameter("readAccessLevel", currentAccessLevel)
             .setComment("Retrieving forum topics")
             .setFirstResult(new Long(firstResult).intValue())
             .setMaxResults(new Long(maxResults).intValue())

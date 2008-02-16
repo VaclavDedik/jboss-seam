@@ -30,6 +30,8 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
     @Test
     public void findForumsGuest() throws Exception {
+        if (!database.equals(Database.mysql)) return;
+
         new FacesRequest() {
             protected void invokeApplication() throws Exception {
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
@@ -47,6 +49,7 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
     @Test
     public void findForumsMember() throws Exception {
+        if (!database.equals(Database.mysql)) return;
 
         loginMember();
 
@@ -69,6 +72,7 @@ public class ForumDAOTests extends DBUnitSeamTest {
 
     @Test
     public void findForumInfoMember() throws Exception {
+        if (!database.equals(Database.mysql)) return;
 
         loginMember();
 

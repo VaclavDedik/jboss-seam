@@ -38,25 +38,30 @@
             by f.id
     </query>
 
-    <query name="forumReplyCount">
+    <sql-query name="forumReplyCount">
+        <return-scalar column="FORUM_ID" type="long"/>
+        <return-scalar column="REPLY_COUNT" type="long"/>
         select
-            f.id, count(distinct c)
+            dir0.NODE_ID as FORUM_ID, count(distinct c0.NODE_ID) as REPLY_COUNT
         from
-            WikiDirectory f, WikiDocument t, WikiComment c
-        where
-            f.parent = :parentDir
-            and t.parent = f
-            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
-            and c.nodeInfo.nsThread in (select c2.nodeInfo.nsThread from WikiComment c2 where c2.parent = t)
-        group
-            by f.id
-    </query>
+            WIKI_DIRECTORY dir0
+                inner join WIKI_NODE dir1 on dir0.NODE_ID=dir1.NODE_ID
+                                          and dir1.READ_ACCESS_LEVEL &lt;= :readAccessLevel and dir1.PARENT_NODE_ID = :parentDirId
+                  inner join WIKI_NODE doc1 on doc1.PARENT_NODE_ID = dir0.NODE_ID
+                                            and doc1.READ_ACCESS_LEVEL &lt;= :readAccessLevel
+                    inner join WIKI_DOCUMENT doc0 on doc0.NODE_ID=doc1.NODE_ID
+                                                  and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
+                      inner join WIKI_NODE ct0 on ct0.PARENT_NODE_ID = doc0.NODE_ID
+                        inner join WIKI_COMMENT ct1 on ct0.NODE_ID = ct1.NODE_ID
+                          inner join WIKI_COMMENT c0 on c0.NS_THREAD in (ct1.NS_THREAD)
+        group by dir0.NODE_ID
+    </sql-query>
 
     <query name="forumLastTopic">
         select
             f.id, t
         from
-            WikiDirectory f, WikiDocument t left join fetch t.parent left join fetch t.createdBy u left join fetch u.profile
+            WikiDirectory f, WikiDocument t left join fetch t.parent
         where
             f.parent = :parentDir
             and t.parent = f
@@ -64,23 +69,61 @@
             and t.createdOn = (select max(t2.createdOn) from WikiDocument t2 where t2 = t)
     </query>
 
-    <query name="forumLastReply">
+    <sql-query name="forumLastReply">
+        <return-scalar column="FORUM_ID" type="long"/>
+        <return class="org.jboss.seam.wiki.core.model.WikiComment"/>
         select
-            f.id, c
+            dir1.NODE_ID as FORUM_ID,
+
+            c1.NODE_ID as NODE_ID,
+            c1.OBJ_VERSION as OBJ_VERSION,
+            c1.RATING as RATING,
+            c1.AREA_NR as AREA_NR,
+            c1.NAME as NAME,
+            c1.WIKINAME as WIKINAME,
+            c1.CREATED_ON as CREATED_ON,
+            c1.CREATED_BY_USER_ID as CREATED_BY_USER_ID,
+            c1.LAST_MODIFIED_ON as LAST_MODIFIED_ON,
+            c1.LAST_MODIFIED_BY_USER_ID as LAST_MODIFIED_BY_USER_ID,
+            c1.WRITE_ACCESS_LEVEL as WRITE_ACCESS_LEVEL,
+            c1.READ_ACCESS_LEVEL as READ_ACCESS_LEVEL,
+            c1.WRITE_PROTECTED as WRITE_PROTECTED,
+            c1.PARENT_NODE_ID as PARENT_NODE_ID,
+
+            c0.SUBJECT as SUBJECT,
+            c0.FROM_USER_NAME as FROM_USER_NAME,
+            c0.FROM_USER_EMAIL as FROM_USER_EMAIL,
+            c0.FROM_USER_HOMEPAGE as FROM_USER_HOMEPAGE,
+            c0.USE_WIKI_TEXT as USE_WIKI_TEXT,
+            c0.NS_LEFT as NS_LEFT,
+            c0.NS_RIGHT as NS_RIGHT,
+            c0.NS_THREAD as NS_THREAD
         from
-            WikiDirectory f, WikiDocument t, WikiComment c left join fetch c.parent left join fetch c.createdBy u left join fetch u.profile
+            WIKI_DIRECTORY dir0
+                inner join WIKI_NODE dir1
+                    on dir0.NODE_ID = dir1.NODE_ID
+                    and dir1.PARENT_NODE_ID = :parentDirId
+                    and dir1.READ_ACCESS_LEVEL &lt;= :readAccessLevel,
+             WIKI_COMMENT c0
+                inner join WIKI_NODE c1 on c0.NODE_ID = c1.NODE_ID
         where
-            f.parent = :parentDir
-            and t.parent = f
-            and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
-            and c.nodeInfo.nsThread in (select c2 from WikiComment c2 where c2.parent = t)
-            and c.createdOn = (
-                select max(c3.createdOn) from WikiDirectory f2, WikiDocument t2, WikiComment c3
-                where f2.parent = :parentDir and t2.parent = f2
-                and (t2.headerMacrosString like '%forumPosting%' or t2.headerMacrosString like '%forumStickyPosting%')
-                and c3.nodeInfo.nsThread in (select c4.nodeInfo.nsThread from WikiComment c4 where c4.parent = t2)
+            c0.NODE_ID = (
+                select ct3.NODE_ID
+                    from WIKI_COMMENT ct
+                        inner join WIKI_NODE ct1 on ct.NODE_ID = ct1.NODE_ID
+                            inner join WIKI_COMMENT ct2 on ct2.NS_THREAD in (ct.NS_THREAD)
+                                inner join WIKI_NODE ct3 on ct2.NODE_ID = ct3.NODE_ID,
+                        WIKI_NODE doc0 inner join WIKI_DOCUMENT doc1
+                            on doc0.NODE_ID = doc1.NODE_ID
+                            and (doc1.HEADER_MACROS like '%forumPosting%' or doc1.HEADER_MACROS like '%forumStickyPosting%')
+                    where
+                        doc0.PARENT_NODE_ID= dir0.NODE_ID
+                        and doc0.READ_ACCESS_LEVEL &lt;= :readAccessLevel
+                        and ct1.PARENT_NODE_ID = doc0.NODE_ID 
+                    order by ct3.CREATED_ON desc
+                    limit 1
             )
-    </query>
+    </sql-query>
 
     <query name="forumUnreadTopics"><![CDATA[
         select
@@ -136,8 +179,6 @@
         and (t.headerMacrosString like '%forumPosting%' or t.headerMacrosString like '%forumStickyPosting%')
     </query>
 
-
-    <!-- TODO: HQL doesn't support CASE...WHEN or arbitrary OUTER JOINs  -->
     <!-- TODO: We could optimize this a little if we'd also retrieve the CREATED_BY_USER_ID guy but
                we'll hit the 2nd level cache anyway or we load them in batches... -->
     <sql-query name="forumTopics">
@@ -180,17 +221,18 @@
 
         from
             WIKI_DOCUMENT doc0 inner join WIKI_FILE doc1 on doc0.NODE_ID=doc1.NODE_ID inner join WIKI_NODE doc2 on doc0.NODE_ID=doc2.NODE_ID
-           left outer join WIKI_NODE c0
-            on c0.NODE_ID = (
-                select ct3.NODE_ID from WIKI_COMMENT ct
-                  inner join WIKI_NODE ct1 on ct.NODE_ID = ct1.NODE_ID
-                  inner join WIKI_COMMENT ct2 on ct2.NS_THREAD in (ct.NS_THREAD)
-                  inner join WIKI_NODE ct3 on ct2.NODE_ID = ct3.NODE_ID
-                where ct1.PARENT_NODE_ID = doc0.NODE_ID order by ct3.CREATED_ON desc
-                limit 1
-            )
+            left outer join WIKI_NODE c0
+             on c0.NODE_ID = (
+                 select ct3.NODE_ID from WIKI_COMMENT ct
+                   inner join WIKI_NODE ct1 on ct.NODE_ID = ct1.NODE_ID
+                   inner join WIKI_COMMENT ct2 on ct2.NS_THREAD in (ct.NS_THREAD)
+                   inner join WIKI_NODE ct3 on ct2.NODE_ID = ct3.NODE_ID
+                 where ct1.PARENT_NODE_ID = doc0.NODE_ID order by ct3.CREATED_ON desc
+                 limit 1
+             )
         where
             doc2.PARENT_NODE_ID = :parentNodeId
+            and doc2.READ_ACCESS_LEVEL <= :readAccessLevel
             and (doc0.HEADER_MACROS like '%forumPosting%' or doc0.HEADER_MACROS like '%forumStickyPosting%')
         order
             by STICKY desc, LAST_POST desc
@@ -223,7 +265,6 @@
 
     ]]></query>
 
-    <!-- TODO: HQL doesn't support FROM clause subselect -->
     <sql-query name="forumPostersAndRatingPoints">
         <return class="org.jboss.seam.wiki.core.model.User"/>
         <return-scalar column="RATING_POINTS" type="long"/>

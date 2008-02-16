@@ -29,6 +29,7 @@ public class ForumQueryTests extends DBUnitSeamTest {
 
     @Test
     public void findForums() throws Exception {
+        if (!database.equals(Database.mysql)) return;
 
         loginMember();
 
