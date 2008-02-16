@@ -70,15 +70,15 @@
             <f:facet name="header">
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.InDirectory']}"/>
             </f:facet>
-            <h:graphicImage value="#{themePath}/img/icon.dir.gif"
-                            width="18" height="20" style="vertical-align: middle; margin-right: 5px;"/>
-            <s:link value="#{wiki:truncateString(file.parent.name, 20, '...')}" propagation="none"
-                    view="/dirDisplay_#{skin}.xhtml"
-                    rendered="#{s:hasPermission('Node','read',file.parent)}" tabindex="1">
-                <f:param name="directoryId" value="#{file.parent.id}"/>
-            </s:link>
+            <s:fragment rendered="#{s:hasPermission('Node','read',file.parent)}">
+                <h:graphicImage value="#{themePath}/img/icon.dir.gif"
+                                width="18" height="20" style="vertical-align: middle; margin-right: 5px;"/>
+                <h:outputLink value="#{wikiURLRenderer.renderURL(file.parent)}" tabindex="1">
+                    <h:outputText value="#{wiki:truncateString(file.parent.name, 20, '...')}"/>
+                </h:outputLink>
+            </s:fragment>
             <h:outputText value="#{wiki:truncateString(file.parent.name, 20, '...')}"
-                          rendered="#{!s:hasPermission('Node','read',file)}"/>
+                          rendered="#{!s:hasPermission('Node','read',file.parent)}"/>
         </h:column>
         <h:column>
             <f:facet name="header">

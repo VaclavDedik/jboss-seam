@@ -88,7 +88,7 @@ public class TagEditor implements Serializable {
 
     public List<DisplayTagCount> getPopularTags() {
         // Load 6 most popular tags
-        if (popularTags == null) popularTags = tagDAO.findTagCounts(wikiRoot, null, 6, 1l);
+        if (popularTags == null) popularTags = tagDAO.findTagCounts(wikiRoot, null, 12, 1l);
 
         // Filter out the ones we already have
         List<DisplayTagCount> filtered = new ArrayList<DisplayTagCount>();

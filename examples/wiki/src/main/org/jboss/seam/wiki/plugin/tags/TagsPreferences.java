@@ -41,6 +41,12 @@ public class TagsPreferences {
     @Range(min = 1l, max = 99l)
     private Long minimumCount;
 
+    @PreferenceProperty(
+        description = "#{messages['tags.preferences.Cloud']}",
+        visibility = {PreferenceVisibility.INSTANCE}
+    )
+    private Boolean cloud;
+
     public Boolean getLinkToCurrentDocument() {
         return linkToCurrentDocument;
     }
@@ -51,5 +57,9 @@ public class TagsPreferences {
 
     public Long getMinimumCount() {
         return minimumCount;
+    }
+
+    public Boolean getCloud() {
+        return cloud;
     }
 }

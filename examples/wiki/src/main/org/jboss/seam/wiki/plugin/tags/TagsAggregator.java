@@ -41,6 +41,21 @@ public class TagsAggregator implements Serializable {
                         prefs.getMaxNumberOfTags() != null ? prefs.getMaxNumberOfTags().intValue() : 0,
                         prefs.getMinimumCount() != null ? prefs.getMinimumCount() : 1l
                 );
+        for (DisplayTagCount tagCount : tagsSortedByCount) {
+            if (tagCount.getCount() < lowestTagCount) lowestTagCount = tagCount.getCount();
+            if (tagCount.getCount() > highestTagCount) highestTagCount= tagCount.getCount();
+        }
     }
 
+    private long highestTagCount = 0l;
+    private long lowestTagCount = 0l;
+    public long getHighestTagCount() {
+        return highestTagCount;
+    }
+
+    public long getLowestTagCount() {
+        return lowestTagCount;
+    }
+
+    
 }

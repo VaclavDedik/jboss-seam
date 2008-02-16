@@ -58,9 +58,12 @@ public class FeedAggregator implements Serializable {
             log.debug("aggregating under subscribable identifier: "+ aggregateId);
         }
 
+        int numberOfEntries =
+                prefs.getNumberOfFeedEntries() != null ? prefs.getNumberOfFeedEntries().intValue() : 10;
+
         feedEntries =
             feedAggregatorDAO.getLatestFeedEntries(
-                prefs.getNumberOfFeedEntries().intValue(),
+                numberOfEntries,
                 validURLs.toArray(new URL[validURLs.size()]),
                 aggregateId
             );

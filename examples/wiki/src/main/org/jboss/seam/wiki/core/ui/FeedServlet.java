@@ -231,8 +231,10 @@ public class FeedServlet extends HttpServlet {
             if (startedTx) userTx.commit();
         } catch (Exception ex) {
             try {
-                if (startedTx && userTx.getStatus() != javax.transaction.Status.STATUS_MARKED_ROLLBACK)
+                if (startedTx && userTx.getStatus() != javax.transaction.Status.STATUS_MARKED_ROLLBACK) {
+                    log.error("error serving feed, setting transaction to rollback only");
                     userTx.setRollbackOnly();
+                }
             } catch (Exception rbEx) {
                 rbEx.printStackTrace();
             }

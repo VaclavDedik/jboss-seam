@@ -898,8 +898,17 @@ b.rtop b.r4, b.rbottom b.r4 {
     text-align: left;
 }
 
+.entry .multiLineInput {
+    text-align: left;
+    margin-left: 155px;
+}
+
 .wideLabels .entry .label {
     width: 220px;
+}
+
+.wideLabels .entry .multiLineInput {
+    margin-left: 240px;
 }
 
 .errorEntry {
