@@ -567,6 +567,11 @@ public class MailListenerMDB implements MailListener {
                 <literal>&lt;h:graphicImage&gt;</literal> in your emails.
               </para>
             </listitem>
+            <listitem>
+              <para>
+                <literal>messageId</literal> &#8212; Sets the Message-ID explicitly
+              </para>
+            </listitem>
           </itemizedlist>
         </listitem>
       </varlistentry>

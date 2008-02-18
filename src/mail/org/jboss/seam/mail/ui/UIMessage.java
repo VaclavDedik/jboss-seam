@@ -1,5 +1,7 @@
 package org.jboss.seam.mail.ui;
 
+import static org.jboss.seam.util.Strings.isEmpty;
+
 import java.io.IOException;
 
 import javax.faces.FacesException;
@@ -45,6 +47,8 @@ public class UIMessage extends MailComponent
    private String urlBase;
    
    private String charset;
+   
+   private String messageId;
 
    /**
     * Get the JavaMail Session to use. If not set the default session is used
@@ -74,7 +78,23 @@ public class UIMessage extends MailComponent
    {
       if (mimeMessage == null)
       {
-         mimeMessage = new MimeMessage(getMailSession());
+         if (!isEmpty(getMessageId()))
+         {
+            mimeMessage = new MimeMessage(getMailSession())
+            {
+               
+               @Override
+               protected void updateMessageID() throws MessagingException
+               {
+                  setHeader("Message-ID", getMessageId());
+               }
+               
+            };
+         }
+         else
+         {
+            mimeMessage = new MimeMessage(getMailSession());
+         }
          Multipart root = new MimeMultipart();
          mimeMessage.setContent(root);
       }
@@ -258,6 +278,23 @@ public class UIMessage extends MailComponent
    public void setCharset(String charset)
    {
       this.charset = charset;
+   }
+   
+   public String getMessageId()
+   {
+      if (messageId == null)
+      {
+         return getString("messageId");
+      }
+      else
+      {
+         return messageId;
+      }
+   }
+   
+   public void setMessageId(String messageId)
+   {
+      this.messageId = messageId;
    }
 
 }
