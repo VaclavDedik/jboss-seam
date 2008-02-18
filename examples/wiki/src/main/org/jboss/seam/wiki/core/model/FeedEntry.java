@@ -156,11 +156,12 @@ public class FeedEntry implements Serializable, Comparable {
     }
 
     public String getDescriptionValueStrippedNoNewlines() {
+        if (getDescriptionValue() == null) return null;
         return stripHTMLTags(getDescriptionValue()).replaceAll("(\n|\r)", " ");
     }
 
     public boolean isTeaserMarkerPresent() {
-        return getDescriptionValueStripped().contains(END_TEASER_MARKER);
+        return getDescriptionValueStripped() != null && getDescriptionValueStripped().contains(END_TEASER_MARKER);
     }
 
     public String getTeaserStripped() {
@@ -202,6 +203,7 @@ public class FeedEntry implements Serializable, Comparable {
     }
 
     private String stripHTMLTags(String original) {
+        if (original == null) return null;
         // Hm, that should be enough to make stuff XSS-safe?
         return original.replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
     }

@@ -538,6 +538,20 @@ b.rtop b.r4, b.rbottom b.r4 {
     font-size: 11px;
 }
 
+.commandButtonNonpersistent {
+    font-family:  'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+    background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 0 5px 0 5px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 11px;
+    border: none;
+}
+
 /* Generic Lists
 ----------------------------------------------- */
 

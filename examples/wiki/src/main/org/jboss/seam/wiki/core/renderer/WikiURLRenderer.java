@@ -6,6 +6,7 @@
  */
 package org.jboss.seam.wiki.core.renderer;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.In;
@@ -43,7 +44,8 @@ public class WikiURLRenderer implements Serializable {
     public String renderSearchURL(String search) {
         if (search == null || search.length() == 0) return "";
         StringBuilder url = new StringBuilder();
-        url.append(basePath).append("/search/").append(encodeURL(search));
+        String skin = Component.getInstance("skin") != null ? (String)Component.getInstance("skin") : "d";
+        url.append(basePath).append("/search_").append(skin).append(".seam?query=").append(encodeURL(search));
         return url.toString();
     }
 

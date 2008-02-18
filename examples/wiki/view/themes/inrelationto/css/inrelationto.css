@@ -468,6 +468,20 @@ ul {
     font-size: 85%;
 }
 
+.commandButtonNonpersistent {
+    font-family: "Lucida Sans", Arial, Helvetica, sans-serif;
+    background: #fff url(../img/btn.nonpersistent.bg.gif) 0 0 repeat-x;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    margin: 0 5px 0 5px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 11px;
+    border: none;
+}
+
 .linkNavigation {
     text-decoration:none;
     font-size: 85%;

@@ -73,12 +73,12 @@ public class TagEditor implements Serializable {
     }
 
     public void addNewTag() {
-        if (newTag.contains("&")) {
+        if (!newTag.matches("[\\w\\s]+")) {
             facesMessages.addToControlFromResourceBundleOrDefault(
                 "newTag",
                 FacesMessage.SEVERITY_WARN,
-                "lacewiki.msg.tagEdit.TagCantContainAmpersand",
-                "Tag can not contain an ampersand."
+                "lacewiki.msg.tagEdit.TagCantContainSpecialCharacters",
+                "Tag can only contain alphanumeric characters."
             );
         } else if (newTag.length() > 0) {
             tags.add(newTag);

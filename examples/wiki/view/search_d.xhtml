@@ -78,15 +78,15 @@
                     </h:selectOneMenu>
                 </h:panelGrid>
 
-                <a:commandLink id="find" styleClass="buttonNonpersistent sessionEventTrigger"
+                <a:commandButton id="find" styleClass="commandButtonNonpersistent sessionEventTrigger"
                                reRender="workspaceSwitcher, searchControl, searchPager, searchResult"
                                status="globalStatus"
                                action="#{wikiSearch.search()}"
                                oncomplete="onAjaxRequestComplete()"
-                               tabindex="1" accesskey="#{messages['lacewiki.button.search.Find.accesskey']}">
-                    <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.search.Find']}"/>
-
-                </a:commandLink>
+                               tabindex="1"
+                               value="#{messages['lacewiki.button.search.Find']}">
+                    <s:defaultAction/>
+                </a:commandButton>
 
             </h:panelGrid>
 

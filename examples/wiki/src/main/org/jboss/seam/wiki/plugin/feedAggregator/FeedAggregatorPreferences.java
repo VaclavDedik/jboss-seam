@@ -12,6 +12,7 @@ import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.hibernate.validator.Range;
+import org.hibernate.validator.Pattern;
 
 /**
  * @author Christian Bauer
@@ -59,6 +60,7 @@ public class FeedAggregatorPreferences {
         visibility = {PreferenceVisibility.INSTANCE},
         editorIncludeName = "NumberRange"
     )
+    @Pattern(regex="^[a-zA-Z0-9]+[a-zA-Z0-9\\s]*")
     @Length(min = 0, max = 255)
     private String aggregateId;
 

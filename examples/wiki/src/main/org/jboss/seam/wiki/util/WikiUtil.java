@@ -194,6 +194,7 @@ public class WikiUtil {
 
     // TODO: Ouch...
     public static String removeMacros(String string) {
+        if (string == null) return null;
         String REGEX_MACRO = Pattern.quote("[") + "<=[a-z]{1}?[a-zA-Z0-9]+?" + Pattern.quote("]");
         return string.replaceAll(REGEX_MACRO, "");
 

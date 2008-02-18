@@ -238,6 +238,7 @@
             by STICKY desc, LAST_POST desc
     ]]></sql-query>
 
+    <!-- TODO: Optimize this with native SQL -->
     <query name="forumTopicsReplies"><![CDATA[
         select
             t.id,
