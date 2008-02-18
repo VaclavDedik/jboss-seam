@@ -21,7 +21,6 @@ import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.ui.util.JSF;
 
 import com.sun.facelets.Facelet;
-import com.sun.facelets.compiler.SAXCompiler;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.impl.DefaultResourceResolver;
 
@@ -192,7 +191,7 @@ public class FaceletsRenderer extends Renderer
     */
    protected Facelet faceletForURL(URL url) throws IOException
    {
-      return new DefaultFaceletFactory(new SAXCompiler(), new DefaultResourceResolver())
+      return new DefaultFaceletFactory(FaceletCompiler.instance(), new DefaultResourceResolver())
                .getFacelet(url);
    }
 
