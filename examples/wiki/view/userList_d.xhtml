@@ -64,8 +64,10 @@
                 </h:panelGroup>
 
                 <h:panelGroup>
-                    <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.Email']}:"/>&#160;
-                    <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="8" tabindex="1"/>
+                    <s:fragment rendered="#{wiki:showEmailAddress()}">
+                        <h:outputText styleClass="label" value="#{messages['lacewiki.label.userList.Email']}:"/>&#160;
+                        <h:inputText id="email" value="#{userSearch.exampleUser.email}" maxlength="35" size="8" tabindex="1"/>
+                    </s:fragment>
                 </h:panelGroup>
 
                 <h:panelGroup>

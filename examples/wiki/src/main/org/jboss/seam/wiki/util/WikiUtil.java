@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -119,7 +120,10 @@ public class WikiUtil {
     }
 
     public static boolean showEmailAddress() {
-        if (Preferences.getInstance(WikiPreferences.class).isShowEmailToLoggedInOnly() && Identity.instance().isLoggedIn()) {
+        Integer accessLevel = (Integer)Component.getInstance("currentAccessLevel");
+        if (Preferences.getInstance(WikiPreferences.class).isShowEmailToLoggedInOnly()
+                && Identity.instance().isLoggedIn()
+                && accessLevel == Role.ADMINROLE_ACCESSLEVEL) {
             return true;
         } else if (!Preferences.getInstance(WikiPreferences.class).isShowEmailToLoggedInOnly()) {
             return true;
@@ -311,6 +315,26 @@ public class WikiUtil {
      */
     public static boolean hasMessage(String namingContainer, String componentId) {
         return FacesContext.getCurrentInstance().getMessages(namingContainer.replaceAll("\\\\", "") + ":" + componentId).hasNext();
+    }
+
+    /**
+     * Calculate an RFC 2822 compliant message identifier from a numeric + string identifier. Given
+     * the same numeric and string identifier, the same message id will be generated.
+     */
+    public static String calculateMessageId(Long id, String s) {
+
+        WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
+        Hash hash = (Hash)Component.getInstance(Hash.class);
+        String domain;
+        try {
+            URI uri = new URI(prefs.getBaseUrl());
+            domain = uri.getHost();
+        } catch (Exception ex) {
+            throw new RuntimeException("Could not parse preferences value baseUrl into a host name", ex);
+        }
+        StringBuilder msgId = new StringBuilder();
+        msgId.append("<").append(hash.hash(id+s)).append("@").append(domain).append(">");
+        return msgId.toString();
     }
 
 }
