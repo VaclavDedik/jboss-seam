@@ -15,9 +15,12 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.UserAccount.AccountType;
 import org.jboss.seam.util.Hex;
 
@@ -30,6 +33,8 @@ import org.jboss.seam.util.Hex;
 @BypassInterceptors
 public class JpaIdentityStore implements IdentityStore
 {  
+   public static final String AUTHENTICATED_USER = "org.jboss.seam.security.management.authenticatedUser";
+   
    public static final String EVENT_ACCOUNT_CREATED = "org.jboss.seam.security.management.accountCreated"; 
    public static final String EVENT_ACCOUNT_AUTHENTICATED = "org.jboss.seam.security.management.accountAuthenticated";
    
@@ -355,13 +360,28 @@ public class JpaIdentityStore implements IdentityStore
       }
       
       boolean success = hashPassword(password, username).equals(account.getPasswordHash());
-      
+            
       if (success && Events.exists())
       {
+         if (Contexts.isEventContextActive())
+         {
+            Contexts.getEventContext().set(AUTHENTICATED_USER, account);
+         }
+         
          Events.instance().raiseEvent(EVENT_ACCOUNT_AUTHENTICATED, account);
       }
       
       return success;
+   }
+   
+   @Observer(Identity.EVENT_POST_AUTHENTICATE)
+   public void setUserAccountForSession()
+   {
+      if (Contexts.isEventContextActive() && Contexts.isSessionContextActive())
+      {
+         Contexts.getSessionContext().set(AUTHENTICATED_USER, 
+               Contexts.getEventContext().get(AUTHENTICATED_USER));
+      }
    }
    
    protected UserAccount validateAccount(String name)       

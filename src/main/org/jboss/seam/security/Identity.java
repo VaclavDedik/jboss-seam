@@ -25,6 +25,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -90,6 +91,8 @@ public class Identity implements Serializable
    
    private List<String> preAuthenticationRoles = new ArrayList<String>();
    
+   private PermissionMapper permissionMapper;
+   
    /**
     * Flag that indicates we are in the process of authenticating
     */
@@ -99,6 +102,7 @@ public class Identity implements Serializable
    public void create()
    {     
       subject = new Subject();
+      permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);
    }
    
    public static boolean isSecurityEnabled()
@@ -494,6 +498,25 @@ public class Identity implements Serializable
          }
       }
    }
+   
+   public void checkPermission(Object target, String action)
+   {
+      isLoggedIn(true);
+      
+      if ( !hasPermission(target, action) )
+      {
+         if ( !isLoggedIn() )
+         {
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_LOGGED_IN);
+            throw new NotLoggedInException();            
+         }
+         else
+         {
+            throw new AuthorizationException(String.format(
+                  "Authorization check failed for permission[%s,%s]", target, action));
+         }
+      }
+   }
 
    /**
     * Performs a permission check for the specified name and action
@@ -505,8 +528,30 @@ public class Identity implements Serializable
     */
    public boolean hasPermission(String name, String action, Object...arg)
    {      
-      return !securityEnabled;
+      if (!securityEnabled)
+      {
+         return true;
+      }
+      
+      if (arg != null)
+      {
+         return permissionMapper.resolvePermission(arg[0], action);
+      }
+      else
+      {
+         return permissionMapper.resolvePermission(name, action);
+      }
    }   
+   
+   public boolean hasPermission(Object target, String action)
+   {
+      if (!securityEnabled)
+      {
+         return true;
+      }
+      
+      return permissionMapper.resolvePermission(target, action);
+   }
    
    /**
     * Creates a callback handler that can handle a standard username/password
@@ -676,7 +721,7 @@ public class Identity implements Serializable
          {
             if (Strings.isEmpty(restrict.value()))
             {
-               checkPermission(name, action.toString(), entity);
+               checkPermission(entity, action.toString());
             }
             else
             {

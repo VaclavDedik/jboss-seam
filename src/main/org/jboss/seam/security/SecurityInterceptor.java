@@ -60,7 +60,7 @@ public class SecurityInterceptor extends AbstractInterceptor
             }
             else if (target != null && action != null)
             {
-               // TODO implement the security check
+               Identity.instance().checkPermission(target, action);
             }
          }
       }
@@ -162,7 +162,7 @@ public class SecurityInterceptor extends AbstractInterceptor
     */
    private String createDefaultExpr(Method method)
    {
-      return String.format( "#{s:hasPermission('%s','%s', null)}", 
+      return String.format( "#{s:hasPermission('%s','%s')}", 
             getComponent().getName(), method.getName() );
    }
 }

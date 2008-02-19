@@ -9,39 +9,54 @@ package org.jboss.seam.security;
  */
 public class PermissionCheck
 {
-  private String name;
-  private String action;
-  private boolean granted;
+   private Object target;
 
-  public PermissionCheck(String name, String action)
-  {
-    this.name = name;
-    this.action = action;
-    this.granted = false;
-  }
+   @Deprecated
+   private String name;
 
-  public String getName()
-  {
-    return name;
-  }
+   private String action;
+   private boolean granted;
+   
+   public PermissionCheck(Object target, String action)
+   {
+      if (target instanceof String)
+      {
+         this.name = (String) target;
+      }
+      
+      this.target = target;
+      this.action = action;
+      granted = false;
+   }
+   
+   public Object getTarget()
+   {
+      return target;
+   }   
 
-  public String getAction()
-  {
-    return action;
-  }
+   @Deprecated
+   public String getName() 
+   {
+      return name;
+   }
 
-  public void grant()
-  {
-    this.granted = true;
-  }
-  
-  public void revoke()
-  {
-     this.granted = false;
-  }
+   public String getAction() 
+   {
+      return action;
+   }
 
-  public boolean isGranted()
-  {
-    return granted;
-  }
+   public void grant() 
+   {
+      this.granted = true;
+   }
+
+   public void revoke() 
+   {
+      this.granted = false;
+   }
+
+   public boolean isGranted() 
+   {
+      return granted;
+   }
 }

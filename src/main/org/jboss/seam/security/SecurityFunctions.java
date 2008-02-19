@@ -23,4 +23,9 @@ public class SecurityFunctions
          return Identity.instance().hasPermission(name, action);
       }
    }
+   
+   public static boolean hasPermission(Object target, String action)
+   {
+      return Identity.instance().hasPermission(target, action);
+   }
 }
