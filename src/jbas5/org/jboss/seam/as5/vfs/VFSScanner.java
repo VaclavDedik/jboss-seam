@@ -104,7 +104,7 @@ public class VFSScanner extends AbstractScanner
       while(parentDepth > 0)
       {
          if (top == null)
-            throw new IllegalArgumentException("Null parent: " + vfsurl);
+            throw new IllegalArgumentException("Null parent: " + vfsurl + ", relative: " + relative);
          top = top.getParent();
          parentDepth--;
       }
@@ -172,13 +172,18 @@ public class VFSScanner extends AbstractScanner
       else
       {
          String rootPathName = root.getPathName();
-         int rootPathNameLength = rootPathName.length() + 1; // past last '/'
+         int rootPathNameLength = rootPathName.length();
          List<VirtualFile> children = root.getChildrenRecursively();
          for (VirtualFile child : children)
          {
             if (child.isLeaf())
             {
-               getDeploymentStrategy().handle(child.getPathName().substring(rootPathNameLength));
+               String name = child.getPathName();
+               // move past '/'
+               int length = rootPathNameLength;
+               if (name.charAt(length) == '/')
+                  length++;
+               getDeploymentStrategy().handle(name.substring(length));
             }
          }
       }
