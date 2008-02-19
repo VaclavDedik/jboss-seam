@@ -105,6 +105,20 @@ public class FaceletsJBossLogging
          setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
+         // These ones are in a package-scoped class
+         
+         julLogger = getPrivateStaticLogger("com.sun.facelets.compiler.CompilationManager", "log");
+         setLevel(julLogger);
+         julLogger.setFilter(conversionFilter);    
+         
+         julLogger = getPrivateStaticLogger("com.sun.facelets.tag.jsf.ComponentRule", "log");
+         setLevel(julLogger);
+         julLogger.setFilter(conversionFilter);
+         
+         julLogger = getPrivateStaticLogger("com.sun.facelets.tag.MetaRulesetImpl", "log");
+         setLevel(julLogger);
+         julLogger.setFilter(conversionFilter);
+         
       }
       catch (Exception e)
       {
@@ -112,11 +126,16 @@ public class FaceletsJBossLogging
       }
    }
    
-   private Logger getPrivateStaticLogger(Class clazz, String fieldName)
+   private Logger getPrivateStaticLogger(Class clazz, String fieldName) throws Exception 
    {
       Field field = Reflections.getField(clazz, fieldName);
       field.setAccessible(true);
-      return (Logger) Reflections.getAndWrap(field, new Object());
+      return (Logger) Reflections.get(field, new Object());
+   }
+   
+   private Logger getPrivateStaticLogger(String className, String fieldName) throws Exception
+   {
+      return getPrivateStaticLogger(Reflections.classForName(className), fieldName);
    }
    
 }
