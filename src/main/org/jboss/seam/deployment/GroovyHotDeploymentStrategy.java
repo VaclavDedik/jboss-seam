@@ -34,10 +34,6 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
    public GroovyHotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory)
    {
       super(classLoader, hotDeployDirectory);
-      if (super.getClassLoader() != null)
-      {
-         this.classLoader = new GroovyClassLoader(super.getClassLoader());
-      }
       groovyDeploymentHandler = new GroovyDeploymentHandler(DEFAULT_SCRIPT_EXTENSION);
       getDeploymentHandlers().put(GroovyDeploymentHandler.NAME, groovyDeploymentHandler);
    }
@@ -45,6 +41,10 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
    @Override
    public ClassLoader getClassLoader()
    {
+      if (classLoader == null && super.getClassLoader() != null)
+      {
+         this.classLoader = new GroovyClassLoader(super.getClassLoader());
+      }
       return classLoader;
    }
 
