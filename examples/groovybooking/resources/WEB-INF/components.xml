@@ -26,14 +26,9 @@
 
    <persistence:entity-manager-factory name="groovyEntityManagerFactory" 
                persistence-unit-name="groovy"/>
-   
-   <drools:rule-base name="securityRules">
-       <drools:rule-files><value>/security.drl</value></drools:rule-files>
-   </drools:rule-base>
-
+               
    <security:identity authenticate-method="#{authenticator.authenticate}"
-                           security-rules="#{securityRules}"
-                              remember-me="true"/>
+                      remember-me="true"/>
                               
    <event type="org.jboss.seam.security.notLoggedIn">
        <action execute="#{redirect.captureCurrentView}"/>
