@@ -436,7 +436,6 @@
 			<include name="jboss-seam-wicket.jar" />
 			<exclude name="jboss-seam-debug.jar" />
 			<exclude name="jboss-seam-ui.jar" />
-			<exclude name="jboss-seam-remoting.jar" />
 			<exclude name="jboss-seam-mail.jar" />
 			<exclude name="jboss-seam-pdf.jar" />
 		</fileset>
