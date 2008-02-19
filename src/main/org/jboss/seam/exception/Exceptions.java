@@ -80,22 +80,22 @@ public class Exceptions
                   switch (eh.getLogLevel())
                   {
                      case fatal: 
-                        log.fatal("uncaught exception", e);
+                        log.fatal("handled and logged exception", e);
                         break;
                      case error:
-                        log.error("uncaught exception", e);
+                        log.error("handled and logged exception", e);
                         break;
                      case warn:
-                        log.warn("uncaught exception", e);
+                        log.warn("handled and logged exception", e);
                         break;
                      case info:
-                        log.info("uncaught exception", e);
+                        log.info("handled and logged exception", e);
                         break;
                      case debug: 
-                        log.debug("uncaught exception", e);
+                        log.debug("handled and logged exception", e);
                         break;
                      case trace:
-                        log.trace("uncaught exception", e);                        
+                        log.trace("handled and logged exception", e);
                   }
                }
                
