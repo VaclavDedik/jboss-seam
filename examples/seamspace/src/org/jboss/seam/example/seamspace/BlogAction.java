@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.annotations.security.Insert;
 
 @Scope(CONVERSATION)
 @Name("blog")
@@ -54,11 +54,9 @@ public class BlogAction
       catch (NoResultException ex) { }
    }
    
-   @Factory("comment") @Restrict @Begin(join = true)
+   @Factory("comment") @Insert(BlogComment.class) @Begin(join = true)
    public void createComment()
-   {      
-      System.out.println("Params - blogId: " + blogId + " name: " + name);
-      
+   {            
       comment = new BlogComment();
       comment.setCommentor(authenticatedMember);
       

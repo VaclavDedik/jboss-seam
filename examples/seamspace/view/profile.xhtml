@@ -52,7 +52,7 @@
              <f:param name="name" value="#{selectedMember.memberName}"/>
            </s:link>]
           
-          <s:span rendered="#{s:hasPermission('blog', 'create', selectedMember)}">
+          <s:span rendered="#{s:hasPermission(selectedMember, 'createBlog')}">
             [<s:link action="#{blog.createEntry}" value="Create new blog entry" propagation="none"/>]
           </s:span>
         </s:div>
@@ -74,7 +74,7 @@
           
           <br class="clear"/>
         
-          <s:span rendered="#{selectedMember.memberId != authenticatedMember.memberId and s:hasPermission('friendRequest', 'create', selectedMember.friends)}">
+          <s:span rendered="#{selectedMember.memberId != authenticatedMember.memberId and s:hasPermission(selectedMember, 'createFriendRequest')}">
             [<s:link view="/friendrequest.seam" value="Send a friend request" propagation="none"/>]
           </s:span>
           
@@ -102,7 +102,7 @@
 	          </table>	          	          
 	        </ui:repeat>            
           
-          <s:span rendered="#{s:hasPermission('friendComment', 'create', selectedMember.friends)}">            
+          <s:span rendered="#{s:hasPermission(selectedMember, 'createFriendComment')}">
             [<s:link view="/friendcomment.seam" value="Add Comment"/>]
           </s:span>          
         </s:div>        

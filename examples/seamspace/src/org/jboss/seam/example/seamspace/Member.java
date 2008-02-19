@@ -217,7 +217,18 @@ public class Member implements Serializable
    
    public void setFriends(Set<MemberFriend> friends)
    {
-      this.friends = friends;
+      this.friends = friends;   
+   }
+   
+   @Transient
+   public boolean isFriend(Member member)
+   {
+      for (MemberFriend f : friends)
+      {
+         if (f.getFriend().getMemberId().equals(member.getMemberId())) return true;          
+      }
+      
+      return false;
    }
    
    @Transient

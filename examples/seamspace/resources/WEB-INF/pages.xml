@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
        login-view-id="/home.xhtml">
 
-    <page view-id="/home.xhtml" action="#{identity.logout}">
+    <page view-id="/home.xhtml">
         <navigation from-action="#{identity.login}">
             <rule if-outcome="loggedIn">
                 <redirect view-id="/profile.xhtml"/>
@@ -62,7 +62,7 @@
     </page>
     
     <page view-id="/usermanager.xhtml" action="#{userSearch.loadUsers}">
-      <restrict>#{s:hasPermission('seam.account', 'read', null)}</restrict>    
+      <restrict>#{s:hasPermission('seam.account', 'read')}</restrict>    
       
       <navigation from-action="#{userAction.createUser}">
         <redirect view-id="/userdetail.xhtml"/>
@@ -74,7 +74,7 @@
     </page>
     
     <page view-id="/rolemanager.xhtml" action="#{roleSearch.loadRoles}">
-      <restrict>#{s:hasPermission('seam.account', 'read', null)}</restrict>    
+      <restrict>#{s:hasPermission('seam.account', 'read')}</restrict>    
       
       <navigation from-action="#{roleAction.createRole}">
         <redirect view-id="/roledetail.xhtml"/>
@@ -144,17 +144,17 @@
         </navigation>
     </page>
     
-    <!--exception class="org.jboss.seam.security.NotLoggedInException" log="false">
+    <exception class="org.jboss.seam.security.NotLoggedInException" log="false">
         <redirect view-id="/register.xhtml">
             <message severity="warn">You must be a member to use this feature</message>
         </redirect>
-    </exception-->
+    </exception>
   
-    <!--exception class="org.jboss.seam.security.AuthorizationException">
+    <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
         <redirect view-id="/security_error.xhtml">
             <message severity="error">You do not have permission to do this</message>
         </redirect>
-    </exception-->
+    </exception>
 
 </pages>

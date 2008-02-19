@@ -24,7 +24,7 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
     
-    <security:identity security-rules="#{securityRules}"/>
+    <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
     
     <identity-management:jpa-identity-store name="identityStore" account-class="org.jboss.seam.example.seamspace.MemberAccount"/>    
     

@@ -39,7 +39,7 @@
   	              #{memberBlog.commentCount} Comment#{memberBlog.commentCount != 1 ? "s" : ""}
   	             </s:link>]
 	              
-	              <s:span rendered="#{s:hasPermission('blog','createComment', null)}">
+	              <s:span rendered="#{s:hasPermission('blog','createComment')}">
 	                [<s:link view="/comment.seam" value="Add Comment" propagation="none">
 	                   <f:param name="name" value="#{selectedMember.memberName}"/>
 	                   <f:param name="blogId" value="#{memberBlog.blogId}"/>

@@ -1,21 +1,41 @@
 package SeamSpacePermissions;
 
+dialect 'mvel'
+
 import java.security.Principal;
 
+import org.jboss.seam.security.management.SecurityContext;
+import org.jboss.seam.security.management.UserAccount;
 import org.jboss.seam.security.PermissionCheck;
 import org.jboss.seam.security.Role;
 
+import org.jboss.seam.example.seamspace.BlogComment;
 import org.jboss.seam.example.seamspace.Member;
+import org.jboss.seam.example.seamspace.MemberAccount;
 import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
+
+function Member getAccountMember(UserAccount account) {
+  return ((MemberAccount) account).getMember();
+}
+
+rule ViewProfile
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "/profile.xhtml", action == "render", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
 
 rule ViewImage
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "memberImage", action == "view", granted == false)
   image: MemberImage()
+  check: PermissionCheck(target == image, action == "view", granted == false)
   eval( image.getMember().getPicture() == image )
 then
   check.grant();
@@ -31,11 +51,22 @@ then
   check.grant();
 end
 
+rule CanCreateBlogComment
+  no-loop
+  activation-group "permissions"
+when
+  blog: MemberBlog()
+  check: PermissionCheck(target == blog, action == "create", granted == false)
+  Role(name == "user")
+then
+  check.grant();
+end
+
 rule CreateBlogComment
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "blog", action == "createComment", granted == false)
+  check: PermissionCheck(target == "blogComment", action == "create", granted == false)
   Role(name == "user")
 then
   check.grant();
@@ -45,9 +76,9 @@ rule CreateBlog
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "blog", action == "create", granted == false)
+  ctx: SecurityContext()
   member: Member()
-  not Member(mbrId : memberId -> (!mbrId.equals(member.getMemberId())))
+  check: PermissionCheck(target == member, action == "createBlog", granted == false, eval( member.equals(getAccountMember(ctx.userAccount))))
 then
   check.grant();
 end
@@ -56,9 +87,9 @@ rule InsertMemberBlog
   no-loop
   activation-group "permissions"  
 when
-  check: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
-  MemberBlog(member : member)
-  not Member(mbrId : memberId -> (!mbrId.equals(member.getMemberId())))
+  ctx: SecurityContext()
+  blog: MemberBlog(member : member, eval( member.equals(getAccountMember(ctx.userAccount))))
+  check: PermissionCheck(target == blog, action == "insert", granted == false)  
 then
   check.grant();
 end
@@ -67,9 +98,9 @@ rule CreateFriendComment
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "friendComment", action == "create", granted == false)
-  MemberFriend(authorized == true, f : friend)
-  not Member(mbrId : memberId -> (!mbrId.equals(f.getMemberId())))
+  ctx: SecurityContext()
+  member: Member()
+  check: PermissionCheck(target == member, action == "createFriendComment", granted == false, eval( member.isFriend(getAccountMember(ctx.userAccount))))
 then
   check.grant();
 end
@@ -78,9 +109,9 @@ rule CreateFriendRequest
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "friendRequest", action == "create", granted == false)
+  ctx: SecurityContext()
   member: Member()
-  not MemberFriend(f : friend -> (f.getMemberId().equals(member.getMemberId())))
+  check: PermissionCheck(target == member, action == "createFriendRequest", granted == false, eval( !member.isFriend(getAccountMember(ctx.userAccount))) )
 then
   check.grant();
 end
@@ -94,6 +125,12 @@ when
 then
   check.grant();
 end
+
+/*****************************************************************************************
+
+  The Following Rules are for Identity Management
+  
+******************************************************************************************/
 
 rule ReadAccount
   no-loop

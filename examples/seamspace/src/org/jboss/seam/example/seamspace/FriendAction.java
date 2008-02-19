@@ -49,7 +49,7 @@ public class FriendAction implements FriendLocal
          .getSingleResult();
                   
          Contexts.getMethodContext().set("friends", member.getFriends());
-         Identity.instance().checkRestriction("#{s:hasPermission('friendComment', 'create', friends)}");
+         Identity.instance().checkPermission(member, "createFriendComment");
 
          friendComment = new FriendComment();
          friendComment.setFriend(authenticatedMember);
@@ -79,7 +79,7 @@ public class FriendAction implements FriendLocal
          .getSingleResult();
                   
          Contexts.getMethodContext().set("friends", member.getFriends());
-         Identity.instance().checkRestriction("#{s:hasPermission('friendRequest', 'create', friends)}");
+         Identity.instance().checkPermission(member, "createFriendRequest");
 
          friendRequest = new MemberFriend();
          friendRequest.setFriend(authenticatedMember);

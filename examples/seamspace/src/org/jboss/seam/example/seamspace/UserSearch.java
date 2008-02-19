@@ -8,12 +8,15 @@ import java.util.List;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
+
 import org.jboss.seam.security.management.IdentityManager;
 
 @Name("userSearch")
 @Scope(SESSION)
+@Synchronized
 public class UserSearch implements Serializable
 {
    private static final long serialVersionUID = 8592034786339372510L;

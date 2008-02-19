@@ -50,11 +50,11 @@
             #{roleSearch.getRoleMemberships(role)}
           </rich:column>
           <rich:column width="auto">
-            <s:fragment rendered="#{s:hasPermission('seam.account', 'update', null)}">
+            <s:fragment rendered="#{s:hasPermission('seam.account', 'update')}">
               <s:link value="Edit" action="#{roleAction.editRole(roleSearch.selectedRole)}"/><span> | </span>
             </s:fragment>
             <s:link value="Delete" action="#{identityManager.deleteAccount(roleSearch.selectedRole)}"
-                    rendered="#{s:hasPermission('seam.account', 'delete', null)}"
+                    rendered="#{s:hasPermission('seam.account', 'delete')}"
                     onclick="return confirmDelete()"/>                 
           </rich:column>
   	    </rich:dataTable>
