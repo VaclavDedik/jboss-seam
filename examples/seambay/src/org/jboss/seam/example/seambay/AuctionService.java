@@ -7,9 +7,12 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.security.Identity;
 
 @Stateless
+@Name("auctionService")
 @WebService(name = "AuctionService", serviceName = "AuctionService")
 public class AuctionService implements AuctionServiceRemote
 {           
@@ -29,7 +32,7 @@ public class AuctionService implements AuctionServiceRemote
       return !Identity.instance().isLoggedIn();
    }
    
-   @WebMethod
+   @WebMethod @Restrict("#{identity.loggedIn}")
    public Category[] listCategories()
    {
       CategoryAction catAction = (CategoryAction) Component.getInstance(

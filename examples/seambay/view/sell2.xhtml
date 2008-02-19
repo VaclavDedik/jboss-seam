@@ -68,7 +68,7 @@
         
     <script type="text/javascript">
       // Make a remoting call to load the categories
-      Seam.Remoting.eval(CATEGORY_EXPR, loadCategories);
+      Seam.Component.getInstance("categoryAction").getAllCategories(loadCategories);
     </script>
   </body>
 </html>

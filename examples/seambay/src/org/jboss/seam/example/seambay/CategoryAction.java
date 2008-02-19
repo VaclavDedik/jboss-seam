@@ -9,6 +9,7 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.remoting.WebRemote;
 
 @Name("categoryAction")
 public class CategoryAction
@@ -44,6 +45,7 @@ public class CategoryAction
    
    @SuppressWarnings("unchecked")
    @Factory("allCategories")
+   @WebRemote
    public List<Category> getAllCategories()
    {
       allCategories = entityManager.createQuery("from Category").getResultList(); 
