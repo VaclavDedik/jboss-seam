@@ -179,6 +179,18 @@
       <scope>test</scope>
       <classifier>jdk15</classifier>
     </dependency>
+    
+    <!-- Dependencies for facelets jdk logging -> log4j bridge -->
+    
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>jboss</groupId>
+      <artifactId>jboss-common-logging-spi</artifactId>
+    </dependency>
 
   </dependencies>
 </project>
