@@ -19,16 +19,9 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Reflections;
 
 import com.sun.facelets.FaceletViewHandler;
-import com.sun.facelets.TemplateClient;
 import com.sun.facelets.compiler.TagLibraryConfig;
-import com.sun.facelets.el.LegacyELContext;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.tag.jsf.ComponentHandler;
-import com.sun.facelets.tag.jsf.core.ViewHandler;
-import com.sun.facelets.tag.ui.CompositionHandler;
-import com.sun.facelets.tag.ui.DecorateHandler;
-import com.sun.facelets.util.Classpath;
-import com.sun.facelets.util.DevTools;
 import com.sun.facelets.util.Resource;
 
 @Name("org.jboss.seam.ui.facelet.faceletsJBossLogging")
