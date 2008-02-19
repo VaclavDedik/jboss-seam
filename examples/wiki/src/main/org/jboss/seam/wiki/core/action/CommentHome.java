@@ -20,6 +20,7 @@ import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
+import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
@@ -281,34 +282,25 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public String replyTo() {
         if (parentCommentId == null || parentCommentId.equals(0l))
-            throw new IllegalStateException("Missing parentCommentId request parameter");
+            throw new InvalidWikiRequestException("Missing parentCommentId request parameter");
 
-        if (commentsPreferences.getThreaded()) {
-            // Override parent from @Create
-            setParentNodeId(parentCommentId);
-        }
         getLog().debug("reply to comment id: " + parentCommentId);
-        newComment();
+        String outcome = newComment();
 
-        if (commentsPreferences.getThreaded()) {
-            getInstance(); // Init
-            setReplySubject((WikiComment)getParentNode());
-        } else {
-            setReplySubject(getWikiNodeDAO().findWikiComment(parentCommentId));
-        }
-        return "redirectToDocument";
+        setParentNodeId(parentCommentId);
+        getInstance(); // Init the parent
+        setReplySubject((WikiComment)getParentNode());
+
+        return outcome;
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public String quote() {
-        replyTo();
 
-        if (commentsPreferences.getThreaded()) {
-            setQuotedContent((WikiComment)getParentNode());
-        } else {
-            setQuotedContent(getWikiNodeDAO().findWikiComment(parentCommentId));
-        }
-        return "redirectToDocument";
+        String outcome = replyTo();
+        setQuotedContent((WikiComment)getParentNode());
+
+        return outcome;
     }
 
     public void rate(Long commentId, int rating) {

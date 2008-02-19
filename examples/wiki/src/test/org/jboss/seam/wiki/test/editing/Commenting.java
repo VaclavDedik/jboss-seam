@@ -81,6 +81,62 @@ public class Commenting extends DBUnitSeamTest {
     }
 
     @Test
+    public void replyToComment() throws Exception {
+
+        new FacesRequest("/docDisplay_d.xhtml") {
+
+            protected void beforeRequest() {
+                setParameter("documentId", "6");
+                setParameter("parentCommentId", "15");
+            }
+
+            protected void updateModelValues() throws Exception {
+                assert getValue("#{documentHome.instance.id}").equals(6l);
+            }
+
+            protected void invokeApplication() throws Exception {
+
+                CommentHome commentHome = (CommentHome)getInstance(CommentHome.class);
+
+                commentHome.replyTo();
+
+                commentHome.getInstance().setFromUserName("Foo");
+                commentHome.getInstance().setFromUserHomepage("http://foo.bar");
+                commentHome.getInstance().setFromUserEmail("foo@bar.tld");
+                commentHome.getInstance().setSubject("Some Subject");
+                commentHome.getInstance().setContent("Some Content");
+
+                invokeMethod("#{commentHome.persist}");
+            }
+
+            protected void renderResponse() throws Exception {
+                CommentQuery commentQuery = (CommentQuery)getInstance(CommentQuery.class);
+                assert commentQuery.getComments().size() == 7;
+
+                assert commentQuery.getComments().get(0).getId().equals(10l);
+                assert commentQuery.getComments().get(1).getId().equals(11l);
+                assert commentQuery.getComments().get(2).getId().equals(12l);
+                assert commentQuery.getComments().get(3).getId().equals(13l);
+                assert commentQuery.getComments().get(4).getId().equals(14l);
+                assert commentQuery.getComments().get(5).getId().equals(15l);
+
+                assert commentQuery.getComments().get(6).getCreatedBy().getUsername().equals(User.GUEST_USERNAME);
+                assert commentQuery.getComments().get(6).getFromUserName().equals("Foo");
+                assert commentQuery.getComments().get(6).getFromUserHomepage().equals("http://foo.bar");
+                assert commentQuery.getComments().get(6).getFromUserEmail().equals("foo@bar.tld");
+                assert commentQuery.getComments().get(6).getSubject().equals("Some Subject");
+                assert commentQuery.getComments().get(6).getContent().equals("Some Content");
+                assert commentQuery.getComments().get(6).getParent().getId().equals(15l);
+
+                assert commentQuery.getComments().get(6).getName().matches("One\\.Comment[0-9]+");
+                assert !commentQuery.getComments().get(6).getWikiname().contains(" ");
+
+            }
+
+        }.run();
+    }
+
+    @Test
     public void deleteComment() throws Exception {
 
         loginAdmin();

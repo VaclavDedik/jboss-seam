@@ -342,7 +342,8 @@
 
 
     <exception class="javax.faces.application.ViewExpiredException">
-        <!-- TODO: This is never thrown by JSF -->
+        <!-- TODO: This is never thrown by JSF, Richfaces is the problem!-->
+        <end-conversation/>
         <redirect view-id="/wiki.xhtml">
             <message>Your session has timed out, please try again</message>
         </redirect>
@@ -368,9 +369,17 @@
         <http-error error-code="404"/>
     </exception>
 
-    <exception>
+    <exception class="org.jboss.seam.wiki.core.exception.InvalidWikiRequestException">
         <end-conversation/>
-        <http-error error-code="400"> <!-- We send a BAD REQUEST here because we don't want the client to retry later (Googlebot...) -->
+        <http-error error-code="400">
+            <message>#{org.jboss.seam.handledException.message}</message>
+        </http-error>
+    </exception>
+
+    <!-- We send a BAD REQUEST here because we don't want the client to retry later (Googlebot...) -->
+    <exception log="true" logLevel="error">
+        <end-conversation/>
+        <http-error error-code="400">
             <message severity="ERROR">
                 #{messages['lacewiki.msg.FatalError']} (#{wikiInit.adminContact})
             </message>

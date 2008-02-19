@@ -27,13 +27,25 @@ public class ReplyHome extends CommentHome {
     private Renderer renderer;
 
     @Observer(value = "Comment.persisted", create = false)
-    public void notifyOriginalPoster() {
+    public void sendNotificationMails() {
         // Triggered by superclass after reply was persisted
+
+        // Notify forum mailing list
+        String notificationMailingList =
+                Preferences.getInstance(ForumPreferences.class).getNotificationMailingList();
+        if (notificationMailingList != null) {
+            getLog().debug("sending reply notification e-mail to forum list");
+            renderer.render("/themes/"
+                    + Preferences.getInstance(WikiPreferences.class).getThemeName()
+                    + "/mailtemplates/forumNotifyReplyToList.xhtml");
+        }
+
+        // Notify original poster
         if (documentHome.getInstance().macroPresent(TopicHome.TOPIC_NOTIFY_ME_MACRO)
             && !documentHome.getInstance().getCreatedBy().getUsername().equals(
                     getInstance().getCreatedBy().getUsername()
                 )) {
-            getLog().debug("sending confirmation e-mail to original poster");
+            getLog().debug("sending reply notification e-mail to original poster");
             renderer.render("/themes/"
                     + Preferences.getInstance(WikiPreferences.class).getThemeName()
                     + "/mailtemplates/forumNotifyReply.xhtml");

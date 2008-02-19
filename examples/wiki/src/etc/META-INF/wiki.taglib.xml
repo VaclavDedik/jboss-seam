@@ -132,6 +132,12 @@
         <function-signature>boolean isLastItemInList(java.util.List,java.lang.Object)</function-signature>
     </function>
 
+    <function>
+        <function-name>calculateMessageId</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String calculateMessageId(java.lang.Long,java.lang.String)</function-signature>
+    </function>
+
     <tag>
         <tag-name>formattedText</tag-name>
 		<handler-class>org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler</handler-class> 

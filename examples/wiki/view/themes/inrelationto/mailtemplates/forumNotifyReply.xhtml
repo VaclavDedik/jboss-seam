@@ -3,11 +3,11 @@
             xmlns:h="http://java.sun.com/jsf/html"
             xmlns:f="http://java.sun.com/jsf/core"
             xmlns:wiki="http://jboss.com/products/seam/wiki">
-    <m:header name="X-Sent-From" value="SeamFramework.org" />
+    <m:header name="X-Sent-From" value="JBoss Seam" />
     <m:header name="Precedence" value="list"/>
-    <m:from name="SeamFramework.org" address="do-not-reply@jboss.com" />
+    <m:from name="Seam Wiki" address="do-not-reply@jboss.com" />
     <m:to name="#{currentDocument.createdBy.fullname}">#{currentDocument.createdBy.email}</m:to>
-    <m:subject>[SeamFramework.org Forums] #{replyHome.instance.subject}</m:subject>
+    <m:subject>[LaceWiki Forums] #{replyHome.instance.subject}</m:subject>
     <m:body>
         <html>
             <body>
@@ -16,7 +16,7 @@
             <p>
               you received a <a href="#{wikiURLRenderer.renderURL(replyHome.instance)}">response</a>
               to <a href="#{wikiURLRenderer.renderURL(currentDocument)}">your posting</a> on the
-              Seam community forum, posted by #{replyHome.instance.createdBy.fullname}:
+              LaceWiki forum, posted by #{replyHome.instance.createdBy.fullname}:
             </p>
 
             <hr/>
@@ -39,7 +39,7 @@
             <h:outputText>
 Hello #{currentDocument.createdBy.firstname},
 
-you received a response to your posting on the Seam community forum.
+you received a response to your posting on the LaceWiki forum.
 
 From: #{replyHome.instance.createdBy.fullname}
 Subject:#{replyHome.instance.subject}

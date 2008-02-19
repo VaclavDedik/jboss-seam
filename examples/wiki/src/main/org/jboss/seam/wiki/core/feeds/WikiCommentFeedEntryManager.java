@@ -18,7 +18,7 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
 
         WikiCommentFeedEntry fe = new WikiCommentFeedEntry();
 
-        fe.setLink(wikiURLRenderer.renderURL(comment));
+        fe.setLink(wikiURLRenderer.renderURL(comment, true));
         fe.setTitle(getFeedEntryTitle(comment));
         fe.setAuthor(comment.getCreatedBy().getFullname());
         fe.setUpdatedDate(fe.getPublishedDate());
@@ -34,7 +34,7 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
 
     public void updateFeedEntry(WikiCommentFeedEntry fe, WikiComment comment) {
 
-        fe.setLink(wikiURLRenderer.renderURL(comment));
+        fe.setLink(wikiURLRenderer.renderURL(comment, true));
         fe.setTitle(Messages.instance().get("lacewiki.label.comment.FeedEntryTitlePrefix") + " " + comment.getSubject());
         fe.setAuthor(comment.getCreatedBy().getFullname());
         fe.setUpdatedDate(comment.getLastModifiedOn());

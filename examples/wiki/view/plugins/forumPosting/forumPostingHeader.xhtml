@@ -45,6 +45,7 @@
                 </h:outputLink>
             </s:fragment>
 
+            <!-- TODO: Fix these http://jira.jboss.com/jira/browse/JBSEAM-2633
             <h:outputLink value="#{wikiURLRenderer.renderURL(docPager.previous)}"
                           rendered="#{not empty docPager.previous and docPager.previous.id != currentDirectory.defaultFile.id}"
                           accesskey="#{messages['forum.button.PreviousPosting.accesskey']}"
@@ -58,6 +59,7 @@
                           tabindex="1" styleClass="buttonNonpersistent">
                 <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NextPosting']}"/>
             </h:outputLink>
+            -->
 
         </h:panelGroup>
 

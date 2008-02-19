@@ -712,7 +712,9 @@ b.rtop b.r4, b.rbottom b.r4 {
 /* Comments
 -----------------------------------------------*/
 
-.commentColumn {}
+.commentColumn {
+    background-color: #fff;
+}
 
 .commentHeader {
     width: 100%;

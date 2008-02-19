@@ -14,11 +14,11 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.Preferences;
 
@@ -130,7 +130,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     public N afterNodeCreated(N node) {
 
         if (parentNodeId == null)
-            throw new IllegalStateException("Missing parentNodeId parameter");
+            throw new InvalidWikiRequestException("Missing parentNodeId parameter");
 
         outjectCurrentLocation(node);
 
@@ -142,7 +142,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getLog().debug("loading parent node with id: " + parentNodeId);
         parentNode = findParentNode(parentNodeId);
         if (parentNode == null)
-            throw new IllegalStateException("Could not find parent node with id: " + parentNodeId);
+            throw new InvalidWikiRequestException("Could not find parent node with id: " + parentNodeId);
         getLog().debug("initalized with parent node: " + parentNode);
 
         // Check write access level of the parent node, if the user wants to create a new node

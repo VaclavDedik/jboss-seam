@@ -1,6 +1,7 @@
 package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.web.RequestParameter;
@@ -8,6 +9,7 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.action.DocumentHome;
+import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
@@ -26,6 +28,9 @@ public class TopicHome extends DocumentHome {
 
     @In
     WikiDirectory currentDirectory;
+
+    @In(create = true)
+    private Renderer renderer;
 
     private boolean showForm = false;
     private boolean sticky = false;
@@ -127,6 +132,16 @@ public class TopicHome extends DocumentHome {
 
         String outcome = super.persist();
         if (outcome != null) {
+
+            // Notify forum mailing list
+            String notificationMailingList =
+                    Preferences.getInstance(ForumPreferences.class).getNotificationMailingList();
+            if (notificationMailingList != null) {
+                getLog().debug("sending topic notification e-mail to forum list");
+                renderer.render("/themes/"
+                        + Preferences.getInstance(WikiPreferences.class).getThemeName()
+                        + "/mailtemplates/forumNotifyTopicToList.xhtml");
+            }
 
             endConversation();
         }

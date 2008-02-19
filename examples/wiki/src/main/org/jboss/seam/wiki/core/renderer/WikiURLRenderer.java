@@ -42,60 +42,98 @@ public class WikiURLRenderer implements Serializable {
     WikiPreferences prefs;
 
     public String renderSearchURL(String search) {
+        return renderSearchURL(search, false);
+    }
+
+    public String renderSearchURL(String search, boolean usePrefsPath) {
         if (search == null || search.length() == 0) return "";
         StringBuilder url = new StringBuilder();
         String skin = Component.getInstance("skin") != null ? (String)Component.getInstance("skin") : "d";
-        url.append(basePath).append("/search_").append(skin).append(".seam?query=").append(encodeURL(search));
+        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append("/search_").append(skin).append(".seam?query=").append(encodeURL(search));
         return url.toString();
     }
 
     public String renderTagURL(String tag) {
+        return renderTagURL(tag, false);
+    }
+
+    public String renderTagURL(String tag, boolean usePrefsPath) {
         if (tag == null || tag.length() == 0) return "";
         StringBuilder url = new StringBuilder();
-        url.append(basePath).append("/tag/").append(encodeURL(tag));
+        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append("/tag/").append(encodeURL(tag));
         return url.toString();
     }
 
     public String renderUserInfoURL(User user) {
+        return renderUserInfoURL(user, false);
+    }
+
+    public String renderUserInfoURL(User user, boolean usePrefsPath) {
         if (user == null || user.getUsername() == null) return "";
         StringBuilder url = new StringBuilder();
-        url.append(basePath).append("/user/").append(user.getUsername());
+        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append("/user/").append(user.getUsername());
         return url.toString();
     }
 
     public String renderAggregateFeedURL(String aggregateId) {
+        return renderAggregateFeedURL(aggregateId, false);
+
+    }
+
+    public String renderAggregateFeedURL(String aggregateId, boolean usePrefsPath) {
         if (aggregateId == null) return "";
         StringBuilder url = new StringBuilder();
-        url.append(basePath)
-            .append("/service/Feed/atom/Aggregate/")
-            .append(aggregateId);
+        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append("/service/Feed/atom/Aggregate/").append(aggregateId);
         return url.toString();
     }
 
     public String renderFeedURL(Feed feed, String tag, String comments) {
+        return renderFeedURL(feed, tag, comments, false);
+    }
+
+    public String renderFeedURL(Feed feed, String tag, String comments, boolean usePrefsPath) {
         if (feed == null || feed.getId() == null) return "";
         StringBuilder url = new StringBuilder();
-        url.append(basePath).append("/service/Feed/atom").append(feed.getURL());
+        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append("/service/Feed/atom").append(feed.getURL());
         if (comments != null && comments.length() >0) {
             url.append("/Comments/").append(FeedServlet.Comments.valueOf(comments));
         }
-        if (tag != null && tag.length() >0) url.append("/Tag/").append(encodeURL(tag));
+        if (tag != null && tag.length() >0) {
+            url.append("/Tag/").append(encodeURL(tag));
+        }
         return url.toString();
     }
 
     public String renderURL(WikiNode node) {
+        return renderURL(node, false);
+    }
+
+    public String renderURL(WikiNode node, boolean usePrefsPath) {
         if (node == null || node.getId() == null) return "";
-        return prefs.isRenderPermlinks() ? renderPermURL(node) : renderWikiURL(node);
+        return prefs.isRenderPermlinks() ? renderPermURL(node, usePrefsPath) : renderWikiURL(node, usePrefsPath);
     }
 
     public String renderPermURL(WikiNode node) {
+        return renderPermURL(node, false);
+    }
+
+    public String renderPermURL(WikiNode node, boolean usePrefsPath) {
         if (node == null || node.getId() == null) return "";
-        return basePath + "/" + node.getPermURL(prefs.getPermlinkSuffix());
+        return (usePrefsPath ? prefs.getBaseUrl() : basePath) + "/" + node.getPermURL(prefs.getPermlinkSuffix());
     }
 
     public String renderWikiURL(WikiNode node) {
+        return renderWikiURL(node, false);
+    }
+
+    public String renderWikiURL(WikiNode node, boolean usePrefsPath) {
         if (node == null || node.getId() == null) return "";
-        return basePath + "/" + node.getWikiURL();
+        return (usePrefsPath ? prefs.getBaseUrl() : basePath) + "/" + node.getWikiURL();
     }
 
     private String encodeURL(String s) {
