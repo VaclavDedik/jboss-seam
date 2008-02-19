@@ -192,7 +192,7 @@ public class FaceletsRenderer extends Renderer
     */
    protected Facelet faceletForURL(URL url) throws IOException
    {
-      return new DefaultFaceletFactory(new SAXCompiler(), new DefaultResourceResolver())
+      return new DefaultFaceletFactory(FaceletCompiler.instance(), new DefaultResourceResolver())
                .getFacelet(url);
    }
 
