@@ -3,6 +3,7 @@ package org.jboss.seam.security;
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
+import java.io.Serializable;
 import java.security.Principal;
 import java.security.acl.Group;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import org.jboss.seam.security.management.UserAccount;
 @BypassInterceptors
 @Install(precedence=FRAMEWORK, classDependencies="org.drools.WorkingMemory")
 @Startup
-public class RuleBasedPermissionResolver implements PermissionResolver
+public class RuleBasedPermissionResolver implements PermissionResolver, Serializable
 {      
    public static final String RULES_COMPONENT_NAME = "securityRules";   
    
