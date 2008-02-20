@@ -40,7 +40,8 @@
 		<deployWithSources pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
 		<deployWithSources pom="${remoting.pom}" jar="${lib.dir}/jboss-seam-remoting.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-remoting-sources.jar"/>
 		<deployWithSources pom="${ui.pom}" jar="${lib.dir}/jboss-seam-ui.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-ui-sources.jar"/>
-		<deployWithSources pom="${jbas5.pom}" jar="${lib.dir}/jboss-seam-jbas5.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-jbas5-sources.jar"/>
+		<deployWithSources pom="${jbas5.pom}" jar="${lib.dir}/interop/jboss-seam-jbas5.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/interop/jboss-seam-jbas5-sources.jar"/>
+		<deployWithSources pom="${jul.pom}" jar="${lib.dir}/interop/jboss-seam-jul.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/interop/jboss-seam-jul-sources.jar"/>
 		<deployExample name="booking" repositoryId="offline.repository.jboss.org"/>
 		<deployExampleNoDs name="numberguess" repositoryId="offline.repository.jboss.org"/>
 		<deployExample name="dvd" path="${seam.dir}/examples/dvdstore" repositoryId="offline.repository.jboss.org"/>

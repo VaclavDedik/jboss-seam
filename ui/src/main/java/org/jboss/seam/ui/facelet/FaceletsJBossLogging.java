@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.interop.jul.Log4JConversionFilter;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Reflections;
@@ -67,9 +68,19 @@ public class FaceletsJBossLogging
    @Create
    public void create()
    {
+      Filter conversionFilter;
       try
       {
-         Filter conversionFilter = new org.jboss.seam.ui.facelet.Log4JConversionFilter();
+         conversionFilter = new Log4JConversionFilter();
+      }
+      catch (Exception e) 
+      {
+         // Filter isn't installed in the container
+         return;
+      }
+      try
+      {
+         
    
          java.util.logging.Logger julLogger;
    

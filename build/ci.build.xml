@@ -21,6 +21,7 @@
 		<deploySnapshot pom="${core.pom}" jar="${lib.dir}/jboss-seam.jar" srcjar="${lib.dir}/src/jboss-seam-sources.jar" />
 		<deploySnapshot pom="${debug.pom}" jar="${lib.dir}/jboss-seam-debug.jar" srcjar="${lib.dir}/src/jboss-seam-debug-sources.jar"/>
         <deploySnapshot pom="${jbas5.pom}" jar="${lib.dir}/interop/jboss-seam-jbas5.jar" srcjar="${lib.dir}/interop/src/jboss-seam-jbas5-sources.jar"/>
+		<deploySnapshot pom="${jul.pom}" jar="${lib.dir}/interop/jboss-seam-jul.jar" srcjar="${lib.dir}/interop/src/jboss-seam-jul-sources.jar"/>
 		<deploySnapshot pom="${wicket.pom}" jar="${lib.dir}/jboss-seam-wicket.jar" srcjar="${lib.dir}/src/jboss-seam-wicket-sources.jar"/>
 		<deploySnapshot pom="${gen.pom}" jar="${lib.dir}/jboss-seam-gen.jar" srcjar="${lib.dir}/src/jboss-seam-gen-sources.jar"/>
 		<deploySnapshot pom="${ioc.pom}" jar="${lib.dir}/jboss-seam-ioc.jar" srcjar="${lib.dir}/src/jboss-seam-ioc-sources.jar"/>

@@ -96,6 +96,7 @@
 		<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
 		<pomfile name="wicket.pom" value="${build.dir}/wicket.pom.xml" />
         <pomfile name="jbas5.pom" value="${build.dir}/jbas5.pom.xml" />
+		<pomfile name="jul.pom" value="${build.dir}/jul.pom.xml" />
 		<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
 		<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
 		<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
@@ -333,6 +334,7 @@ Dependencies for Seam ${complete.version}
 		<outputDependencyReport module="ioc" />
 		<outputDependencyReport module="wicket" />
 		<outputDependencyReport module="jbas5" />
+		<outputDependencyReport module="jul" />
 		<echo>Dependency Report written to ${seam.dir}/dependency-report.txt</echo>
 	</target>
 	

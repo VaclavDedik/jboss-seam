@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.seam.ui.facelet;
+package org.jboss.seam.interop.jul;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,10 +29,15 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.SimpleFormatter;
-import org.jboss.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
- * This filter is used to convert java.util.logging messages to Log4J messages.
+ * This filter is used to convert java.util.logging messages from the JUL
+ * to Log4J messages.
+ * 
+ * You need to install it onto any JUL Logger which needs bridging 
+ * using logger.setFilter();
  *
  * @author Stan Silvert
  * @author Pete Muir
@@ -47,14 +52,15 @@ public class Log4JConversionFilter implements Filter
     private Formatter formatter = new SimpleFormatter();
     
     /**
-     * If the message should be logged, convert the JDK 1.4 
+     * If the JSF RI message should be logged, convert the JDK 1.4 
      * LogRecord to a Log4J message.
      *
      * @return <code>false</code> because JDK 1.4 logging should not happen
      *         for JSF if this filter is active.
      */
     public boolean isLoggable(LogRecord record) 
-    {   
+    {
+        
         Logger logger = getLogger(record);
         
         if (record.getThrown() != null) 

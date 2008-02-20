@@ -65,6 +65,15 @@
     <param-value>.xhtml</param-value>
 </context-param>]]></programlisting>
 
+            <para>
+               If you are using facelets in JBoss AS, you'll find that facelets
+               logging is broken. Seam provides a bridge to fix this, to use it
+               copy <literal>lib/interop/jboss-seam-jul.jar</literal> to
+               <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/jsf-libs/</literal>
+               and include the <literal>jboss-seam-ui.jar</literal> in the 
+               <literal>WEB-INF/lib</literal> of your application.
+            </para>
+
         </sect2>
 
         <sect2>
