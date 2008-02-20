@@ -211,12 +211,11 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getLog().trace("linking new node with its parent node: " + getParentNode());
         getInstance().setParent(getParentNode());
 
+        // Creation metadata
+        setCreatedMetadata();
+
         // Wiki name conversion
         setWikiName();
-
-        // Set created by user
-        getLog().trace("setting created by user: " + getCurrentUser());
-        getInstance().setCreatedBy(getCurrentUser());
 
         // Set its area number (if subclass didn't already set it)
         if (getInstance().getAreaNumber() == null)
@@ -241,7 +240,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
         if (!prepareUpdate()) return null;
 
-        // Last modified metadata
+        // Modification metadata
         setLastModifiedMetadata();
 
         // Wiki name conversion
@@ -328,9 +327,15 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getInstance().setWikiname(WikiUtil.convertToWikiName(getInstance().getName()));
     }
 
+    protected void setCreatedMetadata() {
+        getLog().trace("setting created metadata");
+        getInstance().setCreatedBy(getCurrentUser());
+        getInstance().setCreatedOn(new Date());
+    }
+
     protected void setLastModifiedMetadata() {
         getLog().trace("setting last modified metadata");
-        getInstance().setLastModifiedBy(currentUser);
+        getInstance().setLastModifiedBy(getCurrentUser());
         getInstance().setLastModifiedOn(new Date());
     }
 

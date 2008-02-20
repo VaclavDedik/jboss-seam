@@ -129,9 +129,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         syncFormContentToInstance(getParentNode());
         syncLinks();
 
-        // Set createdOn date _now_
-        getInstance().setCreatedOn(new Date());
-
         // Make a copy
         historicalCopy = new WikiDocument();
         historicalCopy.flatCopy(getInstance(), true);

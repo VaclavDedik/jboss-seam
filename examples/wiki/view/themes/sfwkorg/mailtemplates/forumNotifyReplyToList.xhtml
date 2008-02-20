@@ -14,7 +14,7 @@
     <m:header name="From" value="#{replyHome.instance.createdBy.fullname} &lt;do-not-reply@jboss.com>"/>
     <m:to name="SeamFramework.org Forums List">#{preferences.get('Forum').notificationMailingList}</m:to>
 
-    <m:subject>[SeamFramework.org Forums] #{replyHome.instance.subject}</m:subject>
+    <m:subject>#{replyHome.instance.subject}</m:subject>
 
     <m:body>
         <html>
@@ -38,6 +38,7 @@
 
             <hr/>
             <h:outputLink value="#{wikiURLRenderer.renderURL(replyHome.instance)}">Click here</h:outputLink> to reply...
+            <br/>
 
             </body>
         </html>
