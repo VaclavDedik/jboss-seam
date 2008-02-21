@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>25.3.3. Packaging</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch25s03.html" title="25.3. Configuring Seam in J2EE" />
+    <link rel="prev" href="ch25s03s02.html" title="25.3.2. Boostrapping JPA in Seam" />
+    <link rel="next" href="ch25s04.html" title="25.4. Configuring Seam in Java SE, without JBoss Embedded" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>25.3.3. Packaging</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s03s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s04.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2820703"></a>25.3.3. Packaging</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		We can package our application as a WAR, in the following structure:
+	</p>
+      <pre class="programlisting">my-application.war/
+    META-INF/
+        MANIFEST.MF
+    WEB-INF/
+        web.xml
+        components.xml
+        faces-config.xml
+        lib/
+            jboss-seam.jar
+            jboss-seam-ui.jar
+            jboss-el.jar
+            jsf-facelets.jar
+            hibernate3.jar
+            hibernate-annotations.jar
+            hibernate-validator.jar
+            ...
+            my-application.jar/
+                META-INF/
+                   MANIFEST.MF
+                seam.properties
+                hibernate.cfg.xml
+                org/
+                    jboss/
+                        myapplication/
+                            User.class
+                            Login.class
+                            Register.class
+                            ...
+    login.jsp
+    register.jsp
+    ...
+</pre>
+      <p>
+		If we want to deploy Hibernate in a non-EE environment like Tomcat or TestNG, we need to do a little bit more work.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s03s02.html"><strong>Prev</strong>25.3.2. Boostrapping JPA in Seam</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s04.html"><strong>Next</strong>25.4. Configuring Seam in Java SE, without JBoss ...</a>
+      </li>
+    </ul>
+  </body>
+</html>

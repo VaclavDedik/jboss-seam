@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>32.4.3.  Building and deploying the seam-gen'd application to OC4J</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch32s04.html" title="32.4.  Deploying an application created using seam-gen to OC4J" />
+    <link rel="prev" href="ch32s04s02s02.html" title="32.4.2.2. Extra jar dependencies" />
+    <link rel="next" href="ch32s04s04.html" title="32.4.4.  Extending example with reverse engineered CRUD and Drools" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>32.4.3.  Building and deploying the seam-gen'd application to OC4J </strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch32s04s02s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch32s04s04.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2794822"></a>32.4.3.  Building and deploying the seam-gen'd application to OC4J </h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				These instructions are very similar to the ones in <a href="oc4j-app-deploy.html" title="32.3. Deploying the Seam application to OC4J">Section 32.3, “Deploying the Seam application to OC4J”</a> but with the correct references for the <code class="literal">oc4j_example</code> application.
+			</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+						Build your application by calling <code class="literal">ant</code> in the base directory of your project (ex. <code class="literal">/home/jbalunas/workspace/oc4j_example</code> ). The target of the build will be <code class="literal">dist/oc4j_example.ear</code> .
+					</p>
+          </li>
+          <li>
+            <p>
+						Copy the <code class="literal">mysql-connector.jar</code> file to the <code class="literal">$ORACLE_HOME/j2ee/home/applib</code> directory so that jdbc drivers are available.
+					</p>
+          </li>
+          <li>
+            <p>
+						<code class="literal"> $ORACLE_HOME/j2ee/home/config/data-sources.xml </code>
+					</p>
+            <pre class="programlisting">&lt;managed-data-source
+   connection-pool-name="oc4j-example-connection-pool"
+   jndi-name="jdbc/__oc4jexample"
+   name="oc4j-example-managed-data-source" /&gt;
+&lt;connection-pool
+   name="oc4j-example-connection-pool"&gt;
+   &lt;connection-factory
+      factory-class="com.mysql.jdbc.Driver"
+      user="username" 
+      password="password"
+      url="jdbc:mysql:///oc4j" /&gt;
+&lt;/connection-pool&gt;
+</pre>
+          </li>
+          <li>
+            <p>
+						<code class="literal">$ORACLE_HOME/j2ee/home/config/server.xml</code>
+					</p>
+            <pre class="programlisting">&lt;application name="oc4j_example"
+ path="../../home/applications/oc4j_example.ear"
+ parent="default"
+ start="true" /&gt;
+</pre>
+          </li>
+          <li>
+            <p>
+						<code class="literal"> $ORACLE_HOME/j2ee/home/config/default-web-site.xml </code>
+					</p>
+            <pre class="programlisting">&lt;web-app application="oc4j_example"
+ name="oc4j_example" 
+ load-on-startup="true"
+ root="/oc4j_example" /&gt;
+</pre>
+          </li>
+          <li>
+            <p>
+						Start/stop OC4J following instructions in the <code class="literal">Installation and operation of OC4J</code> section above.
+					</p>
+          </li>
+          <li>
+            <p>
+						Checkout the app at: <code class="literal">http://localhost:8888/oc4j_example</code>
+					</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch32s04s02s02.html"><strong>Prev</strong>32.4.2.2. Extra jar dependencies</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch32s04s04.html"><strong>Next</strong>32.4.4.  Extending example with reverse engineere...</a>
+      </li>
+    </ul>
+  </body>
+</html>

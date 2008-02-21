@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>32.1. Installation and operation of OC4J</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="oc4j.html" title="Chapter 32. Seam on OC4J" />
+    <link rel="prev" href="oc4j.html" title="Chapter 32. Seam on OC4J" />
+    <link rel="next" href="ch32s02.html" title="32.2.  The jee5/booking example" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>32.1. Installation and operation of OC4J</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="oc4j.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch32s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="oc4j-install-operation"></a>32.1. Installation and operation of OC4J</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			First we need to install the target container - OC4j. This chapter requires you to use OC4J 11g Technology Preview (not OC4J 10g). You can download OC4J 11g from <a href="http://www.oracle.com/technology/tech/java/oc4j/11/"> http://www.oracle.com/technology/tech/java/oc4j/11/ </a> Below are instructions to install. launch, access, and shutdown the 11g release. For further information on installing OC4J, consult the <code class="literal">readme.txt</code> distributed with OC4J, or the OC4J installation guide and release notes. 
+			</p>
+      <div class="orderedlist">
+        <ol>
+          <li>
+            <p>
+						Download and unzip OC4J
+					</p>
+          </li>
+          <li>
+            <p>
+						Make sure you have <code class="literal">$JAVA_HOME</code> and <code class="literal">$ORACLE_HOME</code> set as environment variables ( <code class="literal">$ORACLE_HOME</code> is the directory to which you unzip OC4J). For further information on installing OC4J, consult the <code class="literal">readme.txt</code> distributed with OC4J
+					</p>
+          </li>
+          <li>
+            <p>
+						Applications (ear/war) are deployed to the <code class="literal">$ORACLE_HOME/j2ee/home/applications</code> directory.
+					</p>
+            <p>
+						Note that OC4J does not support hot deployment by default. This means every time you deploy the application you must restart the server.
+					</p>
+          </li>
+          <li>
+            <p>
+						Start OC4J: <code class="literal"> $ORACLE_HOME/j2ee/home/java -jar -XX:MaxPermSize=256M oc4j.jar </code>
+					</p>
+            <p>
+						You must override the default PermGen memory settings using above command. See <a href="http://www.oracle.com/technology/tech/java/oc4j/11/oc4j-relnotes.html"> OC4J release notes </a> for details.
+					</p>
+            <p>
+						You will be asked to set the admin password if this is the first time you have started OC4J
+					</p>
+          </li>
+          <li>
+            <p>
+						Once deployed you can check out your applications at <code class="literal">http://localhost:8888/&lt;your-app-path&gt;</code>
+					</p>
+          </li>
+          <li>
+            <p>
+						You can stop the server by pressing <code class="literal">CTRL-C</code> in the console on which the server is running.
+					</p>
+          </li>
+        </ol>
+      </div>
+      <p>
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="oc4j.html"><strong>Prev</strong>Chapter 32. Seam on OC4J</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch32s02.html"><strong>Next</strong>32.2.  The jee5/booking example </a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>26.6. Annotations for exceptions</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="annotations.html" title="Chapter 26. Seam annotations" />
+    <link rel="prev" href="ch26s05.html" title="26.5. Annotations for use with Seam JavaBean components in a J2EE environment" />
+    <link rel="next" href="ch26s07.html" title="26.7. Annotations for Seam Remoting" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>26.6. Annotations for exceptions</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch26s05.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch26s07.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2887266"></a>26.6. Annotations for exceptions</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			These annotations let you specify how Seam should handle an exception that propagates out of a Seam component.
+		</p>
+      <div class="variablelist">
+        <dl>
+          <dt>
+            <a id="redirect-annotation"></a>
+            <span class="term">
+              <code class="literal">@Redirect</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Redirect(viewId="error.jsp")
+</pre>
+            <p>
+						Specifies that the annotated exception causes a browser redirect to a specified view id.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">viewId</code> — specifies the JSF view id to redirect to. You can use EL here.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">message</code> — a message to be displayed, default to the exception message.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">end</code> — specifies that the long-running conversation should end, default to <code class="literal">false</code>.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <a id="httperror-annotation"></a>
+            <span class="term">
+              <code class="literal">@HttpError</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@HttpError(errorCode=404)
+</pre>
+            <p>
+						Specifies that the annotated exception causes a HTTP error to be sent.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">errorCode</code> — the HTTP error code, default to <code class="literal">500</code>.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">message</code> — a message to be sent with the HTTP error, default to the exception message.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">end</code> — specifies that the long-running conversation should end, default to <code class="literal">false</code>.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch26s05.html"><strong>Prev</strong>26.5. Annotations for use with Seam JavaBean comp...</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch26s07.html"><strong>Next</strong>26.7. Annotations for Seam Remoting</a>
+      </li>
+    </ul>
+  </body>
+</html>

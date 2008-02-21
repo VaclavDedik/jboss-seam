@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>1.6.4. The Seam UI control library</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="booking.html" title="1.6. A complete Seam application: the Hotel Booking example" />
+    <link rel="prev" href="ch01s06s03.html" title="1.6.3. Understanding Seam conversations" />
+    <link rel="next" href="ch01s06s05.html" title="1.6.5. The Seam Debug Page" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>1.6.4. The Seam UI control library</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch01s06s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch01s06s05.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2852552"></a>1.6.4. The Seam UI control library</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				If you check inside the WAR file for the booking application, you'll find <code class="literal">seam-ui.jar</code> in the <code class="literal">WEB-INF/lib</code> directory. This package contains a number of JSF custom controls that integrate with Seam. The booking application uses the <code class="literal">&lt;s:link&gt;</code> control for navigation from the search screen to the hotel page:
+			</p>
+      <pre class="programlisting">&lt;s:link value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/&gt;
+</pre>
+      <p>
+				The use of <code class="literal">&lt;s:link&gt;</code> here allows us to attach an action listener to a HTML link without breaking the browser's "open in new window" feature. The standard JSF <code class="literal">&lt;h:commandLink&gt;</code> does not work with "open in new window". We'll see later that <code class="literal">&lt;s:link&gt;</code> also offers a number of other useful features, including conversation propagation rules.
+			</p>
+      <p>
+				The booking application uses some other Seam and RichFaces Ajax controls, especially on the <code class="literal">/book.xhtml</code> page. We won't get into the details of those controls here, but if you want to understand this code, please refer to the chapter covering Seam's functionality for JSF form validation.
+			</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch01s06s03.html"><strong>Prev</strong>1.6.3. Understanding Seam conversations</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch01s06s05.html"><strong>Next</strong>1.6.5. The Seam Debug Page</a>
+      </li>
+    </ul>
+  </body>
+</html>

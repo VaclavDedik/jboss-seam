@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>2.9.2. Install the JSF 1.2 RI</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch02s09.html" title="2.9. Using Seam with JBoss 4.0" />
+    <link rel="prev" href="ch02s09s01.html" title="2.9.1. Install JBoss 4.0" />
+    <link rel="next" href="concepts.html" title="Chapter 3. The contextual component model" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>2.9.2. Install the JSF 1.2 RI</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch02s09s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="concepts.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2814225"></a>2.9.2. Install the JSF 1.2 RI</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				The web configuration for JBoss 4.0 can be found in the <code class="literal">server/default/deploy/jbossweb-tomcat55.sar</code>. You'll need to delete <code class="literal">myfaces-api.jar</code> any <code class="literal">myfaces-impl.jar</code> from the <code class="literal">jsf-libs </code>directory. Then, you'll need to copy <code class="literal">jsf-api.jar</code>, <code class="literal">jsf-impl.jar</code>, <code class="literal">el-api.jar</code>, and <code class="literal">el-ri.jar</code> to that directory. The JSF JARs can be found in the Seam <code class="literal">lib</code> directory. The el JARs can be obtained from the Seam 1.2 release.
+			</p>
+      <p>
+				You'll also need to edit the <code class="literal">conf/web.xml</code>, replacing <code class="literal">myfaces-impl.jar</code> with <code class="literal">jsf-impl.jar</code>.
+			</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch02s09s01.html"><strong>Prev</strong>2.9.1. Install JBoss 4.0</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="concepts.html"><strong>Next</strong>Chapter 3. The contextual component model</a>
+      </li>
+    </ul>
+  </body>
+</html>

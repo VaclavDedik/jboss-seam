@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>25.3.1. Boostrapping Hibernate in Seam</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch25s03.html" title="25.3. Configuring Seam in J2EE" />
+    <link rel="prev" href="ch25s03.html" title="25.3. Configuring Seam in J2EE" />
+    <link rel="next" href="ch25s03s02.html" title="25.3.2. Boostrapping JPA in Seam" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>25.3.1. Boostrapping Hibernate in Seam</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s03s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2872241"></a>25.3.1. Boostrapping Hibernate in Seam</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		Seam will bootstrap a Hibernate <code class="literal">SessionFactory</code> from your <code class="literal">hibernate.cfg.xml</code> file if you install a built-in component:
+	</p>
+      <pre class="programlisting">&lt;persistence:hibernate-session-factory name="hibernateSessionFactory"/&gt;
+</pre>
+      <p>
+		You will also need to configure a <span class="emphasis"><em>managed session</em></span> if you want a Seam managed Hibernate <code class="literal">Session</code> to be available via injection.
+	</p>
+      <pre class="programlisting">&lt;persistence:managed-hibernate-session name="hibernateSessionFactory"
+                            session-factory="#{hibernateSessionFactory}"/&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s03.html"><strong>Prev</strong>25.3. Configuring Seam in J2EE</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s03s02.html"><strong>Next</strong>25.3.2. Boostrapping JPA in Seam</a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>30.1. Unit testing Seam components</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="testing.html" title="Chapter 30. Testing Seam applications" />
+    <link rel="prev" href="testing.html" title="Chapter 30. Testing Seam applications" />
+    <link rel="next" href="ch30s02.html" title="30.2. Integration testing Seam components" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>30.1. Unit testing Seam components</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="testing.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch30s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2812710"></a>30.1. Unit testing Seam components</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			All Seam components are POJOs. This is a great place to start if you want easy unit testing. And since Seam emphasises the use of bijection for inter-component interactions and access to contextual objects, it's very easy to test a Seam component outside of its normal runtime environment.
+		</p>
+      <p>
+			Consider the following Seam Component which creates a statement of account for a customer:
+		</p>
+      <pre class="programlisting">@Stateless
+@Scope(EVENT)
+@Name("statementOfAccount")
+public class StatementOfAccount {
+   
+   @In(create=true) EntityManager entityManager
+   
+   private double statementTotal;
+   
+   @In
+   private Customer customer;
+   
+   @Create
+   public void create() {
+      List&lt;Invoice&gt; invoices = entityManager
+         .createQuery("select invoice from Invoice invoice where invoice.customer = :customer")
+         .setParameter("customer", customer)
+         .getResultList();
+      statementTotal = calculateTotal(invoices);
+   }
+   
+   public double calculateTotal(List&lt;Invoice&gt; invoices) {
+      double total = 0.0;
+      for (Invoice invoice: invoices)
+      {
+         double += invoice.getTotal();
+      }
+      return total;
+   }
+   
+   // getter and setter for statementTotal
+   
+}
+</pre>
+      <p>
+			We could write a unit test for the calculateTotal method (which tests the business logic of the component) as follows:
+		</p>
+      <pre class="programlisting">public class StatementOfAccountTest {
+    
+    @Test
+    public testCalculateTotal {
+       List&lt;Invoice&gt; invoices = generateTestInvoices(); // A test data generator
+       double statementTotal = new StatementOfAccount().calculateTotal(invoices);
+       assert statementTotal = 123.45;
+    }   
+}
+</pre>
+      <p>
+			You'll notice we aren't testing retrieving data from or persisting data to the database; nor are we testing any functionality provided by Seam. We are just testing the logic of our POJOs. Seam components don't usually depend directly upon container infrastructure, so most unit testing as as easy as that!
+		</p>
+      <p>
+			However, if you want to test the entire application, read on.
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="testing.html"><strong>Prev</strong>Chapter 30. Testing Seam applications</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch30s02.html"><strong>Next</strong>30.2. Integration testing Seam components</a>
+      </li>
+    </ul>
+  </body>
+</html>

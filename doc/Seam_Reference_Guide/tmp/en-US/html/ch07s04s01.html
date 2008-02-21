@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>7.4.1. Installing process definitions</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch07s04.html" title="7.4. Using jPDL business process definitions" />
+    <link rel="prev" href="ch07s04.html" title="7.4. Using jPDL business process definitions" />
+    <link rel="next" href="ch07s04s02.html" title="7.4.2. Initializing actor ids" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>7.4.1. Installing process definitions</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch07s04.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch07s04s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2795168"></a>7.4.1. Installing process definitions</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				We need to install jBPM, and tell it where to find the business process definitions:
+			</p>
+      <pre class="programlisting">&lt;bpm:jbpm&gt;
+    &lt;bpm:process-definitions&gt;
+        &lt;value&gt;todo.jpdl.xml&lt;/value&gt;
+    &lt;/bpm:process-definitions&gt;
+&lt;/bpm:jbpm&gt;
+</pre>
+      <p>
+				As jBPM processes are persistent across application restarts, when using Seam in a production environment you won't want to install the process definition every time the application starts. Therefore, in a production environment, you'll need to deploy the process to jBPM outside of Seam. In other words, only install process definitions from <code class="literal">components.xml</code> when developing your application.
+			</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch07s04.html"><strong>Prev</strong>7.4. Using jPDL business process definitions</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch07s04s02.html"><strong>Next</strong>7.4.2. Initializing actor ids</a>
+      </li>
+    </ul>
+  </body>
+</html>

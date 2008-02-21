@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>6.9.5. Breadcrumbs</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch06s09.html" title="6.9. Workspace management" />
+    <link rel="prev" href="ch06s09s04.html" title="6.9.4. The conversation list" />
+    <link rel="next" href="ch06s10.html" title="6.10. Conversational components and JSF component bindings" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>6.9.5. Breadcrumbs</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s09s04.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s10.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2827565"></a>6.9.5. Breadcrumbs</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				Breadcrumbs are useful in applications which use a nested conversation model. The breadcrumbs are a list of links to conversations in the current conversation stack:
+			</p>
+      <pre class="programlisting">&lt;ui:repeat value="#{conversationStack}" var="entry"&gt;
+    &lt;h:outputText value=" | "/&gt; 
+    &lt;h:commandLink value="#{entry.description}" action="#{entry.select}"/&gt;
+&lt;/ui:repeat
+</pre>
+      <div class="mediaobject" align="center">
+        <img src="/images/breadcrumbs.png" align="middle" />
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s09s04.html"><strong>Prev</strong>6.9.4. The conversation list</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s10.html"><strong>Next</strong>6.10. Conversational components and JSF component...</a>
+      </li>
+    </ul>
+  </body>
+</html>

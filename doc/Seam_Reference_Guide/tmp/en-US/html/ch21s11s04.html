@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>21.11.4. Tuning the Polling Process</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch21s11.html" title="21.11. JMS Messaging" />
+    <link rel="prev" href="ch21s11s03.html" title="21.11.3. Unsubscribing from a Topic" />
+    <link rel="next" href="gwt.html" title="Chapter 22. Seam and the Google Web Toolkit" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>21.11.4. Tuning the Polling Process</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch21s11s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="gwt.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2861564"></a>21.11.4. Tuning the Polling Process</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				There are two parameters which you can modify to control how polling occurs. The first one is <code class="literal">Seam.Remoting.pollInterval</code>, which controls how long to wait between subsequent polls for new messages. This parameter is expressed in seconds, and its default setting is 10.
+			</p>
+      <p>
+				The second parameter is <code class="literal">Seam.Remoting.pollTimeout</code>, and is also expressed as seconds. It controls how long a request to the server should wait for a new message before timing out and sending an empty response. Its default is 0 seconds, which means that when the server is polled, if there are no messages ready for delivery then an empty response will be immediately returned.
+			</p>
+      <p>
+				Caution should be used when setting a high <code class="literal">pollTimeout</code> value; each request that has to wait for a message means that a server thread is tied up until a message is received, or until the request times out. If many such requests are being served simultaneously, it could mean a large number of threads become tied up because of this reason.
+			</p>
+      <p>
+				It is recommended that you set these options via components.xml, however they can be overridden via Javascript if desired. The following example demonstrates how to configure the polling to occur much more aggressively. You should set these parameters to suitable values for your application:
+			</p>
+      <p>
+				Via components.xml:
+			</p>
+      <pre class="programlisting">&lt;remoting:remoting poll-timeout="5" poll-interval="1"/&gt;
+</pre>
+      <p>
+				Via JavaScript:
+			</p>
+      <pre class="programlisting">// Only wait 1 second between receiving a poll response and sending the next poll request.
+Seam.Remoting.pollInterval = 1;
+  
+// Wait up to 5 seconds on the server for new messages
+Seam.Remoting.pollTimeout = 5;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch21s11s03.html"><strong>Prev</strong>21.11.3. Unsubscribing from a Topic</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="gwt.html"><strong>Next</strong>Chapter 22. Seam and the Google Web Toolkit</a>
+      </li>
+    </ul>
+  </body>
+</html>

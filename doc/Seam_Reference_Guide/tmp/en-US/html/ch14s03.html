@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>14.3. Timezones</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="i18n.html" title="Chapter 14. Internationalization and themes" />
+    <link rel="prev" href="ch14s02s03.html" title="14.2.3. Faces messages" />
+    <link rel="next" href="ch14s04.html" title="14.4. Themes" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>14.3. Timezones</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch14s02s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch14s04.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2841839"></a>14.3. Timezones</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			There is also a session-scoped instance of <code class="literal">java.util.Timezone</code>, named <code class="literal">org.jboss.seam.international.timezone</code>, and a Seam component for changing the timezone named <code class="literal">org.jboss.seam.international.timezoneSelector</code>. By default, the timezone is the default timezone of the server. Unfortunately, the JSF specification says that all dates and times should be assumed to be UTC, and displayed as UTC, unless a timezone is explicitly specified using <code class="literal">&lt;f:convertDateTime&gt;</code>. This is an extremely inconvenient default behavior.
+		</p>
+      <p>
+			Seam overrides this behavior, and defaults all dates and times to the Seam timezone. In addition, Seam provides the <code class="literal">&lt;s:convertDateTime&gt;</code> tag which always performs conversions in the Seam timezone.
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch14s02s03.html"><strong>Prev</strong>14.2.3. Faces messages</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch14s04.html"><strong>Next</strong>14.4. Themes</a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>34.5.2. Creating the AuthenticatorAction EJB</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch34s05.html" title="34.5. Changes needed for deployment to Websphere" />
+    <link rel="prev" href="ch34s05s01.html" title="34.5.1. Configuration file changes" />
+    <link rel="next" href="ch34s05s03.html" title="34.5.3. Extra jar dependencies and other changes to the build.xml" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>34.5.2. Creating the <code class="literal">AuthenticatorAction</code> EJB</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch34s05s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch34s05s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2899812"></a>34.5.2. Creating the <code class="literal">AuthenticatorAction</code> EJB</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				We want to take the existing <code class="literal">Authenticator</code> Seam POJO component and create an EJB3 out of it.
+			</p>
+      <div class="orderedlist">
+        <ol>
+          <li>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								Rename the class to <code class="literal">AuthenticatorAction</code>
+							</p>
+                </li>
+                <li>
+                  <p>
+								Add the <code class="literal">@Stateless</code> annotation to the new <code class="literal">AuthenticatorAction</code> class.
+							</p>
+                </li>
+                <li>
+                  <p>
+								Create an interface called <code class="literal">Authenticator</code> which <code class="literal">AuthenticatorAction</code> implements (EJB3 requires session beans to have a local interface). Annotate the interface with <code class="literal">@Local</code> , and add a single method with same signature as the <code class="literal">authenticate</code> in <code class="literal">AuthenticatorAction</code> .
+							</p>
+                </li>
+              </ul>
+            </div>
+            <pre class="programlisting">
+@Name("authenticator") @Stateless public class
+            AuthenticatorAction implements Authenticator {
+</pre>
+            <pre class="programlisting">
+@Local public interface Authenticator { 
+  public boolean authenticate(); 
+}
+</pre>
+          </li>
+          <li>
+            <p>
+						We've already added its reference to the <code class="literal">web.xml</code> file so are good to go.
+					</p>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch34s05s01.html"><strong>Prev</strong>34.5.1. Configuration file changes</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch34s05s03.html"><strong>Next</strong>34.5.3. Extra jar dependencies and other changes ...</a>
+      </li>
+    </ul>
+  </body>
+</html>

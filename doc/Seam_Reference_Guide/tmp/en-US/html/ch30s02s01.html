@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>30.2.1. Using mocks in integration tests</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch30s02.html" title="30.2. Integration testing Seam components" />
+    <link rel="prev" href="ch30s02.html" title="30.2. Integration testing Seam components" />
+    <link rel="next" href="ch30s03.html" title="30.3. Integration testing Seam application user interactions" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>30.2.1. Using mocks in integration tests</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch30s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch30s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2832162"></a>30.2.1. Using mocks in integration tests</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				Occasionally, we need to be able to replace the implementation of some Seam component that depends upon resources which are not available in the integration test environment. For example, suppose we have some Seam component which is a facade to some payment processing system:
+			</p>
+      <pre class="programlisting">@Name("paymentProcessor")
+public class PaymentProcessor {
+    public boolean processPayment(Payment payment) { .... }
+}
+</pre>
+      <p>
+				For integration tests, we can mock out this component as follows:
+			</p>
+      <pre class="programlisting">@Name("paymentProcessor")
+@Install(precedence=MOCK)
+public class MockPaymentProcessor extends PaymentProcessor {
+    public boolean processPayment(Payment payment) {
+        return true;
+    }
+}
+</pre>
+      <p>
+				Since the <code class="literal">MOCK</code> precedence is higher than the default precedence of application components, Seam will install the mock implementation whenever it is in the classpath. When deployed into production, the mock implementation is absent, so the real component will be installed.
+			</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch30s02.html"><strong>Prev</strong>30.2. Integration testing Seam components</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch30s03.html"><strong>Next</strong>30.3. Integration testing Seam application user i...</a>
+      </li>
+    </ul>
+  </body>
+</html>

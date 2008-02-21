@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Chapter 23. Spring Framework integration</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="index.html" title="Seam - Contextual Components" />
+    <link rel="prev" href="ch22s04.html" title="22.4. GWT Ant Targets" />
+    <link rel="next" href="ch23s01.html" title="23.1. Injecting Seam components into Spring beans" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>Chapter 23. Spring Framework integration</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch22s04.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch23s01.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="chapter" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="spring"></a>Chapter 23. Spring Framework integration</h2>
+          </div>
+        </div>
+      </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="section">
+              <a href="ch23s01.html">23.1. Injecting Seam components into Spring beans</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch23s02.html">23.2. Injecting Spring beans into Seam components</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch23s03.html">23.3. Making a Spring bean into a Seam component</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch23s04.html">23.4. Seam-scoped Spring beans</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="spring-transactions.html">23.5. Using Spring PlatformTransactionManagement</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="spring-persistence.html">23.6. Using a Seam Managed Persistence Context in Spring</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="spring-hibernate.html">23.7. Using a Seam Managed Hibernate Session in Spring</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch23s08.html">23.8. Spring Application Context as a Seam Component</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch23s09.html">23.9. Using a Spring TaskExecutor for @Asynchronous</a>
+            </span>
+          </dt>
+        </dl>
+      </div>
+      <p>
+		The Spring integration module allows easy migration of Spring-based projects to Seam and allows Spring applications to take advantage of key Seam features like conversations and Seam's more sophisticated persistence context management.
+	</p>
+      <p>
+		Note! The Spring integration code is included in the jboss-seam-ioc library. This dependency is required for all seam-spring integration techniques covered in this chapter.
+	</p>
+      <p>
+		Seam's support for Spring provides the ability to:
+	</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+				inject Seam component instances into Spring beans
+			</p>
+          </li>
+          <li>
+            <p>
+				inject Spring beans into Seam components
+			</p>
+          </li>
+          <li>
+            <p>
+				turn Spring beans into Seam components
+			</p>
+          </li>
+          <li>
+            <p>
+				allow Spring beans to live in any Seam context
+			</p>
+          </li>
+          <li>
+            <p>
+				start a spring WebApplicationContext with a Seam component
+			</p>
+          </li>
+          <li>
+            <p>
+				Support for Spring PlatformTransactionManagement
+			</p>
+          </li>
+          <li>
+            <p>
+				provides a Seam managed replacement for Spring's <code class="literal">OpenEntityManagerInViewFilter</code> and <code class="literal">OpenSessionInViewFilter</code>
+			</p>
+          </li>
+          <li>
+            <p>
+				Support for Spring <code class="literal">TaskExecutors</code> to back <code class="literal">@Asynchronous</code> calls
+			</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch22s04.html"><strong>Prev</strong>22.4. GWT Ant Targets</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch23s01.html"><strong>Next</strong>23.1. Injecting Seam components into Spring beans</a>
+      </li>
+    </ul>
+  </body>
+</html>

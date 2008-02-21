@@ -1,0 +1,772 @@
+<?xml version='1.0'?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % RH_ENTITIES SYSTEM "Common_Content/Entities.ent">
+%RH_ENTITIES;
+<!ENTITY % RH_TRANS_ENTITIES SYSTEM "Common_Content/Translatable-Entities.ent">
+%RH_TRANS_ENTITIES;
+]>
+
+<chapter id="conversations">
+	<title>Conversations and workspace management</title>
+	<para>
+		It&#39;s time to understand Seam&#39;s conversation model in more detail.
+	</para>
+	<para>
+		Historically, the notion of a Seam "conversation" came about as a merger of three different ideas:
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para>
+				The idea of a <emphasis>workspace</emphasis>, which I encountered in a project for the Victorian government in 2002. In this project I was forced to implement workspace management on top of Struts, an experience I pray never to repeat.
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				The idea of an <emphasis>application transaction</emphasis> with optimistic semantics, and the realization that existing frameworks based around a stateless architecture could not provide effective management of extended persistence contexts. (The Hibernate team is truly fed up with copping the blame for <literal>LazyInitializationException</literal>s, which are not really Hibernate&#39;s fault, but rather the fault of the extremely limiting persistence context model supported by stateless architectures such as the Spring framework or the traditional <emphasis>stateless session facade</emphasis> (anti)pattern in J2EE.)
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				The idea of a workflow <emphasis>task</emphasis>.
+			</para>
+		</listitem>
+	</itemizedlist>
+	<para>
+		By unifying these ideas and providing deep support in the framework, we have a powerful construct that lets us build richer and more efficient applications with less code than before.
+	</para>
+	<section>
+		<title>Seam&#39;s conversation model</title>
+		<para>
+			The examples we have seen so far make use of a very simple conversation model that follows these rules:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					There is always a conversation context active during the apply request values, process validations, update model values, invoke application and render response phases of the JSF request lifecycle.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					At the end of the restore view phase of the JSF request lifecycle, Seam attempts to restore any previous long-running conversation context. If none exists, Seam creates a new temporary conversation context.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					When an <literal>@Begin</literal> method is encountered, the temporary conversation context is promoted to a long running conversation.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					When an <literal>@End</literal> method is encountered, any long-running conversation context is demoted to a temporary conversation.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					At the end of the render response phase of the JSF request lifecycle, Seam stores the contents of a long running conversation context or destroys the contents of a temporary conversation context.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Any faces request (a JSF postback) will propagate the conversation context. By default, non-faces requests (GET requests, for example) do not propagate the conversation context, but see below for more information on this.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					If the JSF request lifecycle is foreshortened by a redirect, Seam transparently stores and restores the current conversation context—unless the conversation was already ended via <literal>@End(beforeRedirect=true)</literal>.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<para>
+			Seam transparently propagates the conversation context (including the temporary conversation context) across JSF postbacks and redirects. If you don&#39;t do anything special, a <emphasis>non-faces request</emphasis> (a GET request for example) will not propagate the conversation context and will be processed in a new temporary conversation. This is usually - but not always - the desired behavior.
+		</para>
+		<para>
+			If you want to propagate a Seam conversation across a non-faces request, you need to explicitly code the Seam <emphasis>conversation id</emphasis> as a request parameter:
+		</para>
+<programlisting>&lt;a href="main.jsf?conversationId=#{conversation.id}"&gt;Continue&lt;/a&gt;
+</programlisting>
+		<para>
+			Or, the more JSF-ish:
+		</para>
+<programlisting>&lt;h:outputLink value="main.jsf"&gt;
+    &lt;f:param name="conversationId" value="#{conversation.id}"/&gt;
+    &lt;h:outputText value="Continue"/&gt;
+&lt;/h:outputLink&gt;
+</programlisting>
+		<para>
+			If you use the Seam tag library, this is equivalent:
+		</para>
+<programlisting>&lt;h:outputLink value="main.jsf"&gt;
+    &lt;s:conversationId/&gt;
+    &lt;h:outputText value="Continue"/&gt;
+&lt;/h:outputLink&gt;
+</programlisting>
+		<para>
+			If you wish to disable propagation of the conversation context for a postback, a similar trick is used:
+		</para>
+<programlisting>&lt;h:commandLink action="main" value="Exit"&gt;
+    &lt;f:param name="conversationPropagation" value="none"/&gt;
+&lt;/h:commandLink&gt;
+</programlisting>
+		<para>
+			If you use the Seam tag library, this is equivalent:
+		</para>
+<programlisting>&lt;h:commandLink action="main" value="Exit"&gt;
+    &lt;s:conversationPropagation type="none"/&gt;
+&lt;/h:commandLink&gt;
+</programlisting>
+		<para>
+			Note that disabling conversation context propagation is absolutely not the same thing as ending the conversation.
+		</para>
+		<para>
+			The <literal>conversationPropagation</literal> request parameter, or the <literal>&lt;s:conversationPropagation&gt;</literal> tag may even be used to begin and end conversation, or begin a nested conversation.
+		</para>
+<programlisting>&lt;h:commandLink action="main" value="Exit"&gt;
+    &lt;s:conversationPropagation type="end"/&gt;
+&lt;/h:commandLink&gt;
+</programlisting>
+<programlisting>&lt;h:commandLink action="main" value="Select Child"&gt;
+    &lt;s:conversationPropagation type="nested"/&gt;
+&lt;/h:commandLink&gt;
+</programlisting>
+<programlisting>&lt;h:commandLink action="main" value="Select Hotel"&gt;
+    &lt;s:conversationPropagation type="begin"/&gt;
+&lt;/h:commandLink&gt;
+</programlisting>
+<programlisting>&lt;h:commandLink action="main" value="Select Hotel"&gt;
+    &lt;s:conversationPropagation type="join"/&gt;
+&lt;/h:commandLink&gt;
+</programlisting>
+		<para>
+			This conversation model makes it easy to build applications which behave correctly with respect to multi-window operation. For many applications, this is all that is needed. Some complex applications have either or both of the following additional requirements:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					A conversation spans many smaller units of user interaction, which execute serially or even concurrently. The smaller <emphasis>nested conversations</emphasis> have their own isolated set of conversation state, and also have access to the state of the outer conversation.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					The user is able to switch between many conversations within the same browser window. This feature is called <emphasis>workspace management</emphasis>.
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Nested conversations</title>
+		<para>
+			A nested conversation is created by invoking a method marked <literal>@Begin(nested=true)</literal> inside the scope of an existing conversation. A nested conversation has its own conversation context, and also has read-only access to the context of the outer conversation. (It can read the outer conversation&#39;s context variables, but not write to them.) When an <literal>@End</literal> is subsequently encountered, the nested conversation will be destroyed, and the outer conversation will resume, by "popping" the conversation stack. Conversations may be nested to any arbitrary depth.
+		</para>
+		<para>
+			Certain user activity (workspace management, or the back button) can cause the outer conversation to be resumed before the inner conversation is ended. In this case it is possible to have multiple concurrent nested conversations belonging to the same outer conversation. If the outer conversation ends before a nested conversation ends, Seam destroys all nested conversation contexts along with the outer context.
+		</para>
+		<para>
+			A conversation may be thought of as a <emphasis>continuable state</emphasis>. Nested conversations allow the application to capture a consistent continuable state at various points in a user interaction, thus insuring truly correct behavior in the face of backbuttoning and workspace management.
+		</para>
+		<para>
+			TODO: an example to show how a nested conversation prevents bad stuff happening when you backbutton.
+		</para>
+		<para>
+			Usually, if a component exists in a parent conversation of the current nested conversation, the nested conversation will use the same instance. Occasionally, it is useful to have a different instance in each nested conversation, so that the component instance that exists in the parent conversation is invisible to its child conversations. You can achieve this behavior by annotating the component <literal>@PerNestedConversation</literal>.
+		</para>
+	</section>
+	
+	<section>
+		<title>Starting conversations with GET requests</title>
+		<para>
+			JSF does not define any kind of action listener that is triggered when a page is accessed via a non-faces request (for example, a HTTP GET request). This can occur if the user bookmarks the page, or if we navigate to the page via an <literal>&lt;h:outputLink&gt;</literal>.
+		</para>
+		<para>
+			Sometimes we want to begin a conversation immediately the page is accessed. Since there is no JSF action method, we can&#39;t solve the problem in the usual way, by annotating the action with <literal>@Begin</literal>.
+		</para>
+		<para>
+			A further problem arises if the page needs some state to be fetched into a context variable. We&#39;ve already seen two ways to solve this problem. If that state is held in a Seam component, we can fetch the state in a <literal>@Create</literal> method. If not, we can define a <literal>@Factory</literal> method for the context variable.
+		</para>
+		<para>
+			If none of these options works for you, Seam lets you define a <emphasis>page action</emphasis> in the <literal>pages.xml</literal> file.
+		</para>
+<programlisting>&lt;pages&gt;
+    &lt;page view-id="/messageList.jsp" action="#{messageManager.list}"/&gt;
+    ...
+&lt;/pages&gt;
+</programlisting>
+		<para>
+			This action method is called at the beginning of the render response phase, any time the page is about to be rendered. If a page action returns a non-null outcome, Seam will process any appropriate JSF and Seam navigation rules, possibly resulting in a completely different page being rendered.
+		</para>
+		<para>
+			If <emphasis>all</emphasis> you want to do before rendering the page is begin a conversation, you could use a built-in action method that does just that:
+		</para>
+<programlisting>&lt;pages&gt;
+    &lt;page view-id="/messageList.jsp" action="#{conversation.begin}"/&gt;
+    ...
+&lt;/pages&gt;
+</programlisting>
+		<para>
+			Note that you can also call this built-in action from a JSF control, and, similarly, you can use <literal>#{conversation.end}</literal> to end conversations.
+		</para>
+		<para>
+			If you want more control, to join existing conversations or begin a nested conversion, to begin a pageflow or an atomic conversation, you should use the <literal>&lt;begin-conversation&gt;</literal> element.
+		</para>
+<programlisting>&lt;pages&gt;
+    &lt;page view-id="/messageList.jsp"&gt;
+       &lt;begin-conversation nested="true" pageflow="AddItem"/&gt;
+    &lt;page&gt;
+    ...
+&lt;/pages&gt;
+</programlisting>
+		<para>
+			There is also an <literal>&lt;end-conversation&gt;</literal> element.
+		</para>
+<programlisting>&lt;pages&gt;
+    &lt;page view-id="/home.jsp"&gt;
+       &lt;end-conversation/&gt;
+    &lt;page&gt;
+    ...
+&lt;/pages&gt;
+</programlisting>
+		<para>
+			To solve the first problem, we now have five options:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					Annotate the <literal>@Create</literal> method with <literal>@Begin</literal>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Annotate the <literal>@Factory</literal> method with <literal>@Begin</literal>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Annotate the Seam page action method with <literal>@Begin</literal>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Use <literal>&lt;begin-conversation&gt;</literal> in <literal>pages.xml</literal>.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Use <literal>#{conversation.begin}</literal> as the Seam page action method
+				</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+	
+	<section>
+		<title>Using <literal>&lt;s:link&gt;</literal> and <literal>&lt;s:button&gt;</literal></title>
+		<para>
+			JSF command links always perform a form submission via JavaScript, which breaks the web browser&#39;s "open in new window" or "open in new tab" feature. In plain JSF, you need to use an <literal>&lt;h:outputLink&gt;</literal> if you need this functionality. But there are two major limitations to <literal>&lt;h:outputLink&gt;</literal>.
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					JSF provides no way to attach an action listener to an <literal>&lt;h:outputLink&gt;</literal>.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					JSF does not propagate the selected row of a <literal>DataModel</literal> since there is no actual form submission.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<para>
+			Seam provides the notion of a <emphasis>page action</emphasis> to help solve the first problem, but this does nothing to help us with the second problem. We <emphasis>could</emphasis> work around this by using the RESTful approach of passing a request parameter and requerying for the selected object on the server side. In some cases—such as the Seam blog example application—this is indeed the best approach. The RESTful style supports bookmarking, since it does not require server-side state. In other cases, where we don&#39;t care about bookmarks, the use of <literal>@DataModel</literal> and <literal>@DataModelSelection</literal> is just so convenient and transparent!
+		</para>
+		<para>
+			To fill in this missing functionality, and to make conversation propagation even simpler to manage, Seam provides the <literal>&lt;s:link&gt;</literal> JSF tag.
+		</para>
+		<para>
+			The link may specify just the JSF view id:
+		</para>
+<programlisting>&lt;s:link view="/login.xhtml" value="Login"/&gt;
+</programlisting>
+		<para>
+			Or, it may specify an action method (in which case the action outcome determines the page that results):
+		</para>
+<programlisting>&lt;s:link action="#{login.logout}" value="Logout"/&gt;
+</programlisting>
+		<para>
+			If you specify <emphasis>both</emphasis> a JSF view id and an action method, the &#39;view&#39; will be used <emphasis>unless</emphasis> the action method returns a non-null outcome:
+		</para>
+<programlisting>&lt;s:link view="/loggedOut.xhtml"  action="#{login.logout}" value="Logout"/&gt;
+</programlisting>
+		<para>
+			The link automatically propagates the selected row of a <literal>DataModel</literal> using inside <literal>&lt;h:dataTable&gt;</literal>:
+		</para>
+<programlisting>&lt;s:link view="/hotel.xhtml" action="#{hotelSearch.selectHotel}" value="#{hotel.name}"/&gt;
+</programlisting>
+		<para>
+			You can leave the scope of an existing conversation:
+		</para>
+<programlisting>&lt;s:link view="/main.xhtml" propagation="none"/&gt;
+</programlisting>
+		<para>
+			You can begin, end, or nest conversations:
+		</para>
+<programlisting>&lt;s:link action="#{issueEditor.viewComment}" propagation="nest"/&gt;
+</programlisting>
+		<para>
+			If the link begins a conversation, you can even specify a pageflow to be used:
+		</para>
+<programlisting>&lt;s:link action="#{documentEditor.getDocument}" propagation="begin"
+        pageflow="EditDocument"/&gt;
+</programlisting>
+		<para>
+			The <literal>taskInstance</literal> attribute if for use in jBPM task lists:
+		</para>
+<programlisting>&lt;s:link action="#{documentApproval.approveOrReject}" taskInstance="#{task}"/&gt;
+</programlisting>
+		<para>
+			(See the DVD Store demo application for examples of this.)
+		</para>
+		<para>
+			Finally, if you need the "link" to be rendered as a button, use <literal>&lt;s:button&gt;</literal>:
+		</para>
+<programlisting>&lt;s:button action="#{login.logout}" value="Logout"/&gt;
+</programlisting>
+	</section>
+	
+	<section>
+		<title>Success messages</title>
+		<para>
+			It is quite common to display a message to the user indicating success or failure of an action. It is convenient to use a JSF <literal>FacesMessage</literal> for this. Unfortunately, a successful action often requires a browser redirect, and JSF does not propagate faces messages across redirects. This makes it quite difficult to display success messages in plain JSF.
+		</para>
+		<para>
+			The built in conversation-scoped Seam component named <literal>facesMessages</literal> solves this problem. (You must have the Seam redirect filter installed.)
+		</para>
+<programlisting>@Name("editDocumentAction")
+@Stateless
+public class EditDocumentBean implements EditDocument {
+    @In EntityManager em;
+    @In Document document;
+    @In FacesMessages facesMessages;
+    
+    public String update() {
+        em.merge(document);
+        facesMessages.add("Document updated");
+    }
+}
+</programlisting>
+		<para>
+			Any message added to <literal>facesMessages</literal> is used in the very next render response phase for the current conversation. This even works when there is no long-running conversation since Seam preserves even temporary conversation contexts across redirects.
+		</para>
+		<para>
+			You can even include JSF EL expressions in a faces message summary:
+		</para>
+<programlisting>facesMessages.add("Document #{document.title} was updated");
+</programlisting>
+		<para>
+			You may display the messages in the usual way, for example:
+		</para>
+<programlisting>&lt;h:messages globalOnly="true"/&gt;
+</programlisting>
+	</section>
+	
+	<section>
+		<title>Natural conversation ids</title>
+		<para>
+			When working with conversations that deal with persistent objects, it may be desirable to use the natural business key of the object instead of the standard, "surrogate" conversation id:
+		</para>
+		<para>
+			<emphasis>Easy redirect to existing conversation</emphasis>
+		</para>
+		<para>
+			It can be useful to redirect to an existing conversation if the user requests the same operation twice. Take this example: <quote> You are on ebay, half way through paying for an item you just won as a Christmas present for your parents. Lets say you&#39;re sending it straight to them - you enter your payment details but you can&#39;t remember their address. You accidentally reuse the same browser window finding out their address. Now you need to return to the payment for the item. </quote>
+		</para>
+		<para>
+			With a natural conversation its really easy to have the user rejoin the existing conversation, and pick up where they left off - just have them to rejoin the payForItem conversation with the itemId as the conversation id.
+		</para>
+		<para>
+			<emphasis>User friendly URLs</emphasis>
+		</para>
+		<para>
+			For me this consists of a navigable hierarchy (I can navigate by editing the url) and a meaningful URL (like this Wiki uses - so don&#39;t identify things by random ids). For some applications user friendly URLs are less important, of course.
+		</para>
+		<para>
+			With a natural conversations, when you are building your hotel booking system (or, of course, whatever your app is) you can generate a URL like <literal>http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</literal> (of course, whatever parameter <literal>hotel</literal> maps to on your domain model must be unique) and with URLRewrite easily transform this to http://seam-hotels/book/BestWesternAntwerpen.
+		</para>
+		<para>
+			Much better!
+		</para>
+	</section>
+	
+	<section>
+		<title>Creating a natural conversation</title>
+		<para>
+			Natural conversations are defined in <literal>pages.xml</literal>:
+		</para>
+<programlisting>  &lt;conversation name="PlaceBid"
+                  parameter-name="auctionId"
+                  parameter-value="#{auction.auctionId}"/&gt;
+</programlisting>
+		<para>
+			The first thing to note from the above definition is that the conversation has a name, in this case <literal>PlaceBid</literal>. This name uniquely identifies this particular named conversation, and is used by the <literal>page</literal> definition to identify a named conversation to participate in.
+		</para>
+		<para>
+			The next attribute, <literal>parameter-name</literal> defines the request parameter that will contain the natural conversation id, in place of the default conversation id parameter. In this example, the <literal>parameter-name</literal> is <literal>auctionId</literal>. This means that instead of a conversation parameter like <literal>cid=123</literal> appearing in the URL for your page, it will contain <literal>auctionId=765432</literal> instead.
+		</para>
+		<para>
+			The last attribute in the above configuration, <literal>parameter-value</literal>, defines an EL expression used to evaluate the value of the natural business key to use as the conversation id. In this example, the conversation id will be the primary key value of the <literal>auction</literal> instance currently in scope.
+		</para>
+		<para>
+			Next, we define which pages will participate in the named conversation. This is done by specifying the <literal>conversation</literal> attribute for a <literal>page</literal> definition:
+		</para>
+<programlisting>  &lt;page view-id="/bid.xhtml" conversation="PlaceBid" login-required="true"&gt;
+      &lt;navigation from-action="#{bidAction.confirmBid}"&gt;        
+          &lt;rule if-outcome="success"&gt;
+              &lt;redirect view-id="/auction.xhtml"&gt;
+                  &lt;param name="id" value="#{bidAction.bid.auction.auctionId}"/&gt;
+              &lt;/redirect&gt;
+          &lt;/rule&gt;        
+      &lt;/navigation&gt;
+  &lt;/page&gt;
+</programlisting>
+	</section>
+	
+	<section>
+		<title>Redirecting to a natural conversation</title>
+		<para>
+			When starting, or redirecting to, a natural conversation there are a number of options for specifying the natural conversation name. Let&#39;s start by looking at the following page definition:
+		</para>
+<programlisting>  &lt;page view-id="/auction.xhtml"&gt;
+    &lt;param name="id" value="#{auctionDetail.selectedAuctionId}"/&gt;
+       
+    &lt;navigation from-action="#{bidAction.placeBid}"&gt;
+      &lt;redirect view-id="/bid.xhtml"/&gt;
+    &lt;/navigation&gt;
+  &lt;/page&gt;
+</programlisting>
+		<para>
+			From here, we can see that invoking the action <literal>#{bidAction.placeBid}</literal> from our auction view (by the way, all these examples are taken from the seamBay example in Seam), that we will be redirected to <literal>/bid.xhtml</literal>, which, as we saw previously, is configured with the natural conversation <literal>PlaceBid</literal>. The declaration for our action method looks like this:
+		</para>
+<programlisting>   @Begin(join = true)
+   public void placeBid()
+</programlisting>
+		<para>
+			When named conversations are specified in the <literal>&lt;page/&gt;</literal> element, redirection to the named conversation occurs as part of navigation rules, after the action method has already been invoked. This is a problem when redirecting to an existing conversation, as redirection needs to be occur before the action method is invoked. Therefore it is necessary to specify the conversation name when the action is invoked. One way of doing this is by using the <literal>s:conversationName</literal> tag:
+		</para>
+<programlisting>  &lt;h:commandButton id="placeBidWithAmount" styleClass="placeBid" action="#{bidAction.placeBid}"&gt;
+    &lt;s:conversationName value="PlaceBid"/&gt;
+  &lt;/h:commandButton&gt;
+</programlisting>
+		<para>
+			Another alternative is to specify the <literal>conversationName</literal> attribute when using either <literal>s:link</literal> or <literal>s:button</literal>:
+		</para>
+<programlisting>  &lt;s:link value="Place Bid" action="#{bidAction.placeBid}" conversationName="PlaceBid"/&gt;
+</programlisting>
+	</section>
+	
+	<section>
+		<title>Workspace management</title>
+		<para>
+			Workspace management is the ability to "switch" conversations in a single window. Seam makes workspace management completely transparent at the level of the Java code. To enable workspace management, all you need to do is:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					Provide <emphasis>description</emphasis> text for each view id (when using JSF or Seam navigation rules) or page node (when using jPDL pageflows). This description text is displayed to the user by the workspace switchers.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Include one or more of the standard workspace switcher JSP or facelets fragments in your pages. The standard fragments support workspace management via a drop down menu, a list of conversations, or breadcrumbs.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<section>
+			<title>Workspace management and JSF navigation</title>
+			<para>
+				When you use JSF or Seam navigation rules, Seam switches to a conversation by restoring the current <literal>view-id</literal> for that conversation. The descriptive text for the workspace is defined in a file called <literal>pages.xml</literal> that Seam expects to find in the <literal>WEB-INF</literal> directory, right next to <literal>faces-config.xml</literal>:
+			</para>
+<programlisting>&lt;pages&gt;
+    &lt;page view-id="/main.xhtml"&gt;
+        &lt;description&gt;Search hotels: #{hotelBooking.searchString}&lt;/description&gt;
+    &lt;/page&gt;
+    &lt;page view-id="/hotel.xhtml"&gt;
+        &lt;description&gt;View hotel: #{hotel.name}&lt;/description&gt;
+    &lt;/page&gt;
+    &lt;page view-id="/book.xhtml"&gt;
+        &lt;description&gt;Book hotel: #{hotel.name}&lt;/description&gt;
+    &lt;/page&gt;
+    &lt;page view-id="/confirm.xhtml"&gt;
+        &lt;description&gt;Confirm: #{booking.description}&lt;/description&gt;
+    &lt;/page&gt;
+    &lt;/pages&gt;
+</programlisting>
+			<para>
+				Note that if this file is missing, the Seam application will continue to work perfectly! The only missing functionality will be the ability to switch workspaces.
+			</para>
+		</section>
+		
+		<section>
+			<title>Workspace management and jPDL pageflow</title>
+			<para>
+				When you use a jPDL pageflow definition, Seam switches to a conversation by restoring the current jBPM process state. This is a more flexible model since it allows the same <literal>view-id</literal> to have different descriptions depending upon the current <literal>&lt;page&gt;</literal> node. The description text is defined by the <literal>&lt;page&gt;</literal> node:
+			</para>
+<programlisting>&lt;pageflow-definition name="shopping"&gt;
+
+   &lt;start-state name="start"&gt;
+      &lt;transition to="browse"/&gt;
+   &lt;/start-state&gt;
+   
+   &lt;page name="browse" view-id="/browse.xhtml"&gt;
+      &lt;description&gt;DVD Search: #{search.searchPattern}&lt;/description&gt;
+      &lt;transition to="browse"/&gt;
+      &lt;transition name="checkout" to="checkout"/&gt;
+   &lt;/page&gt;
+   
+   &lt;page name="checkout" view-id="/checkout.xhtml"&gt;
+      &lt;description&gt;Purchase: $#{cart.total}&lt;/description&gt;
+      &lt;transition to="checkout"/&gt;
+      &lt;transition name="complete" to="complete"/&gt;
+   &lt;/page&gt;
+   
+   &lt;page name="complete" view-id="/complete.xhtml"&gt;
+      &lt;end-conversation /&gt;
+   &lt;/page&gt;
+   
+&lt;/pageflow-definition&gt;
+</programlisting>
+		</section>
+		
+		<section>
+			<title>The conversation switcher</title>
+			<para>
+				Include the following fragment in your JSP or facelets page to get a drop-down menu that lets you switch to any current conversation, or to any other page of the application:
+			</para>
+<programlisting>&lt;h:selectOneMenu value="#{switcher.conversationIdOrOutcome}"&gt;
+    &lt;f:selectItem itemLabel="Find Issues" itemValue="findIssue"/&gt;
+    &lt;f:selectItem itemLabel="Create Issue" itemValue="editIssue"/&gt;
+    &lt;f:selectItems value="#{switcher.selectItems}"/&gt;
+&lt;/h:selectOneMenu&gt;
+&lt;h:commandButton action="#{switcher.select}" value="Switch"/&gt;
+</programlisting>
+			<para>
+				In this example, we have a menu that includes an item for each conversation, together with two additional items that let the user begin a new conversation.
+			</para>
+			<para>
+				Only conversations with a description (specified in <literal>pages.xml</literal>) will be included in the drop-down menu.
+			</para>
+			<mediaobject>
+				<imageobject role="fo">
+					<imagedata align="center" fileref="/images/switcher.png" />
+				</imageobject>
+				<imageobject role="html">
+					<imagedata align="center" fileref="/images/switcher.png" />
+				</imageobject>
+			</mediaobject>
+		</section>
+		
+		<section>
+			<title>The conversation list</title>
+			<para>
+				The conversation list is very similar to the conversation switcher, except that it is displayed as a table:
+			</para>
+<programlisting>&lt;h:dataTable value="#{conversationList}" var="entry"
+        rendered="#{not empty conversationList}"&gt;
+    &lt;h:column&gt;
+        &lt;f:facet name="header"&gt;Workspace&lt;/f:facet&gt;
+        &lt;h:commandLink action="#{entry.select}" value="#{entry.description}"/&gt;
+        &lt;h:outputText value="[current]" rendered="#{entry.current}"/&gt;
+    &lt;/h:column&gt;
+    &lt;h:column&gt;
+        &lt;f:facet name="header"&gt;Activity&lt;/f:facet&gt;
+        &lt;h:outputText value="#{entry.startDatetime}"&gt;
+            &lt;f:convertDateTime type="time" pattern="hh:mm a"/&gt;
+        &lt;/h:outputText&gt;
+        &lt;h:outputText value=" - "/&gt;
+        &lt;h:outputText value="#{entry.lastDatetime}"&gt;
+            &lt;f:convertDateTime type="time" pattern="hh:mm a"/&gt;
+        &lt;/h:outputText&gt;
+    &lt;/h:column&gt;
+    &lt;h:column&gt;
+        &lt;f:facet name="header"&gt;Action&lt;/f:facet&gt;
+        &lt;h:commandButton action="#{entry.select}" value="#{msg.Switch}"/&gt;
+        &lt;h:commandButton action="#{entry.destroy}" value="#{msg.Destroy}"/&gt;
+    &lt;/h:column&gt;
+&lt;/h:dataTable&gt;
+</programlisting>
+			<para>
+				We imagine that you will want to customize this for your own application.
+			</para>
+			<mediaobject>
+				<imageobject role="fo">
+					<imagedata align="center" fileref="/images/list.png" />
+				</imageobject>
+				<imageobject role="html">
+					<imagedata align="center" fileref="/images/list.png" />
+				</imageobject>
+			</mediaobject>
+			<para>
+				Only conversations with a description will be included in the list.
+			</para>
+			<para>
+				Notice that the conversation list lets the user destroy workspaces.
+			</para>
+		</section>
+		
+		<section>
+			<title>Breadcrumbs</title>
+			<para>
+				Breadcrumbs are useful in applications which use a nested conversation model. The breadcrumbs are a list of links to conversations in the current conversation stack:
+			</para>
+<programlisting>&lt;ui:repeat value="#{conversationStack}" var="entry"&gt;
+    &lt;h:outputText value=" | "/&gt; 
+    &lt;h:commandLink value="#{entry.description}" action="#{entry.select}"/&gt;
+&lt;/ui:repeat
+</programlisting>
+			<mediaobject>
+				<imageobject role="fo">
+					<imagedata align="center" fileref="/images/breadcrumbs.png" />
+				</imageobject>
+				<imageobject role="html">
+					<imagedata align="center" fileref="/images/breadcrumbs.png" />
+				</imageobject>
+			</mediaobject>
+		</section>
+
+	</section>
+	
+	<section>
+		<title>Conversational components and JSF component bindings</title>
+		<para>
+			Conversational components have one minor limitation: they cannot be used to hold bindings to JSF components. (We generally prefer not to use this feature of JSF unless absolutely necessary, since it creates a hard dependency from application logic to the view.) On a postback request, component bindings are updated during the Restore View phase, before the Seam conversation context has been restored.
+		</para>
+		<para>
+			To work around this use an event scoped component to store the component bindings and inject it into the conversation scoped component that requires it.
+		</para>
+<programlisting>@Name("grid")
+@Scope(ScopeType.EVENT)
+public class Grid
+{
+    private HtmlPanelGrid htmlPanelGrid;
+
+    // getters and setters
+    ...
+}
+</programlisting>
+<programlisting>@Name("gridEditor")
+@Scope(ScopeType.CONVERSATION)
+public class GridEditor
+{
+    @In(required=false)
+    private Grid grid;
+    
+    ...
+}
+</programlisting>
+		<para>
+			Also, you can&#39;t inject a conversation scoped component into an event scoped component which you bind a JSF control to. This includes Seam built in components like <literal>facesMessages</literal>.
+		</para>
+		<para>
+			Alternatively, you can access the JSF component tree through the implicit <literal>uiComponent</literal> handle. The following example accesses <literal>getRowIndex()</literal>of the <literal>UIData</literal> component which backs the data table during iteration, it prints the current row number:
+		</para>
+<programlisting>
+&lt;h:dataTable id="lineItemTable" var="lineItem" value="#{orderHome.lineItems}"&gt;
+   &lt;h:column&gt;
+      Row: #{uiComponent[&#39;lineItemTable&#39;].rowIndex}
+   &lt;/h:column&gt;
+   ...
+&lt;/h:dataTable&gt;
+</programlisting>
+		<para>
+			JSF UI components are available with their client identifier in this map.
+		</para>
+	</section>
+	
+	<section>
+		<title>Concurrent calls to conversational components</title>
+		<para>
+			A general discussion of concurrent calls to Seam components can be found in <xref linkend="concurrency" />. Here we will discuss the most common situation in which you will encounter concurrency — accessing conversational components from AJAX requests. We&#39;re going to discuss the options that a Ajax client library should provide to control events originating at the client — and we&#39;ll look at the options RichFaces gives you.
+		</para>
+		<para>
+			Conversational components don&#39;t allow real concurrent access therefore Seam queues each request to process them serially. This allows each request to be executed in a deterministic fashion. However, a simple queue isn&#39;t that great — firstly, if a method is, for some reason, taking a very long time to complete, running it over and over again whenever the client generates a request is bad idea (potential for Denial of Service attacks), and, secondly, AJAX is often to used to provide a quick status update to the user, so continuing to run the action after a long time isn&#39;t useful.
+		</para>
+		<para>
+			Therefore Seam queues the action event for a period of time (the concurrent request timeout); if it can&#39;t process the event in time, it creates a temporary conversation and prints out a message to the user to let them know what&#39;s going on. It&#39;s therefore very important not to flood the server with AJAX events!
+		</para>
+		<para>
+			We can set a sensible default for the concurrent request timeout (in ms) in components.xml:
+		</para>
+<programlisting>&lt;core:manager concurrent-request-timeout="500" /&gt;
+</programlisting>
+		<para>
+			So far we&#39;ve discussed "synchronous" AJAX requests - the client tells the server that an event has occur, and then rerenders part of the page based on the result. This approach is great when the AJAX request is lightweight (the methods called are simple e.g. calculating the sum of a column of numbers). But what if we need to do a complex computation?
+		</para>
+		<para>
+			For heavy computation we should use a truly asynchronous (poll based) approach — the client sends an AJAX request to the server, which causes action to be executed asynchronously on the server (so the the response to the client is immediate); the client then polls the server for updates. This is useful when you have a long-running action for which it is important that every action executes (you don&#39;t want some to be dropped as duplicates, or to timeout).
+		</para>
+		<para>
+			<emphasis>How should we design our conversational AJAX application?</emphasis>
+		</para>
+		<para>
+			Well first, you need to decide whether you want to use the simpler "synchronous" request or whether you want to add using a poll-style approach.
+		</para>
+		<para>
+			If you go for a "synchronous" approach, then you need to make an estimate of how long your AJAX request will take to complete - is it much shorter than the concurrent request timeout? If not, you probably want to alter the concurrent request timeout for this method (as discussed above). Next you probably want a queue on the client side to prevent flooding the server with requests. If the event occurs often (e.g. a keypress, onblur of input fields) and immediate update of the client is not a priority you should set a request delay on the client side. When working out your request delay, factor in that the event may also be queued on the server side.
+		</para>
+		<para>
+			Finally, the client library may provide an option to abort unfinished duplicate requests in favor of the most recent. You need to be careful with this option as it can lead to flooding of the server with requests if the server is not able to abort the unfinished request.
+		</para>
+		<para>
+			Using a poll-style design requires less fine-tuning. You just mark your action method <literal>@Asynchronous</literal> and decide on a polling interval:
+		</para>
+<programlisting>int total;
+
+// This method is called when an event occurs on the client
+// It takes a really long time to execute
+@Asynchronous      
+public void calculateTotal() {
+   total = someReallyComplicatedCalculation();
+}
+
+// This method is called as the result of the poll
+// It&#39;s very quick to execute
+public int getTotal() {
+   return total;
+}
+</programlisting>
+		<section>
+			<title>RichFaces Ajax</title>
+			<para>
+				RichFaces Ajax is the AJAX library most commonly used with Seam, and provides all the controls discussed above:
+			</para>
+			<itemizedlist>
+				<listitem>
+					<para>
+						<literal>eventsQueue</literal> — provide a queue in which events are placed. All events are queued and requests are sent to the server serially. This is useful if the request can to the server can take some time to execute (e.g. heavy computation, retrieving information from a slow source) as the server isn&#39;t flooded.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<literal>ignoreDupResponses</literal> — ignore the response produced by the request if a more recent &#39;similar&#39; request is already in the queue. ignoreDupResponses="true" does <emphasis>not cancel</emphasis> the the processing of the request on the server side — just prevents unnecessary updates on the client side.
+					</para>
+					<para>
+						This option should be used with care with Seam&#39;s conversations as it allows multiple concurrent requests to be made.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<literal>requestDelay</literal> — defines the time (in ms.) that the request will be remain on the queue. If the request has not been processed by after this time the request will be sent (regardless of whether a response has been received) or discarded (if there is a more recent similar event on the queue).
+					</para>
+					<para>
+						This option should be used with care with Seam&#39;s conversations as it allows multiple concurrent requests to be made. You need to be sure that the delay you set (in combination with the concurrent request timeout) is longer than the action will take to execute.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						<literal>&lt;a:poll reRender="total" interval="1000" /&gt;</literal> — Polls the server, and rerenders an area as needed
+					</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+
+	</section>
+
+</chapter>
+

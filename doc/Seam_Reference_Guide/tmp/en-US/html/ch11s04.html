@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>11.4. Controller objects</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="framework.html" title="Chapter 11. The Seam Application Framework" />
+    <link rel="prev" href="ch11s03.html" title="11.3. Query objects" />
+    <link rel="next" href="drools.html" title="Chapter 12. Seam and JBoss Rules" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>11.4. Controller objects</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch11s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="drools.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2817246"></a>11.4. Controller objects</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			A totally optional part of the Seam Application Framework is the class <code class="literal">Controller</code> and its subclasses <code class="literal">EntityController</code><code class="literal">HibernateEntityController</code> and <code class="literal">BusinessProcessController</code>. These classes provide nothing more than some convenience methods for access to commonly used built-in components and methods of built-in components. They help save a few keystrokes (characters can add up!) and provide a great launchpad for new users to explore the rich functionality built in to Seam.
+		</p>
+      <p>
+			For example, here is what <code class="literal">RegisterAction</code> from the Seam registration example would look like:
+		</p>
+      <pre class="programlisting">@Stateless
+@Name("register")
+public class RegisterAction extends EntityController implements Register
+{
+
+   @In private User user;
+   
+   public String register()
+   {
+      List existing = createQuery("select u.username from User u where u.username=:username")
+         .setParameter("username", user.getUsername())
+         .getResultList();
+      
+      if ( existing.size()==0 )
+      {
+         persist(user);
+         info("Registered new user #{user.username}");
+         return "/registered.jspx";
+      }
+      else
+      {
+         addFacesMessage("User #{user.username} already exists");
+         return null;
+      }
+   }
+
+}
+</pre>
+      <p>
+			As you can see, its not an earthshattering improvement...
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch11s03.html"><strong>Prev</strong>11.3. Query objects</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="drools.html"><strong>Next</strong>Chapter 12. Seam and JBoss Rules</a>
+      </li>
+    </ul>
+  </body>
+</html>

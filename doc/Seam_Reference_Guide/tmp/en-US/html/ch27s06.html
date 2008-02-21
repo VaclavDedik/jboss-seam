@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>27.6. Security-related components</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="components.html" title="Chapter 27. Built-in Seam components" />
+    <link rel="prev" href="ch27s05.html" title="27.5. jBPM-related components" />
+    <link rel="next" href="ch27s07.html" title="27.7. JMS-related components" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>27.6. Security-related components</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch27s05.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch27s07.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2882419"></a>27.6. Security-related components</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			These components relate to web-tier security.
+		</p>
+      <div class="variablelist">
+        <dl>
+          <dt>
+            <span class="term">
+              <code class="literal">org.jboss.seam.web.userPrincipal</code>
+            </span>
+          </dt>
+          <dd>
+            <p>
+						Manager component for the current user <code class="literal">Principal</code>.
+					</p>
+          </dd>
+          <dt>
+            <span class="term">
+              <code class="literal">org.jboss.seam.web.isUserInRole</code>
+            </span>
+          </dt>
+          <dd>
+            <p>
+						Allows JSF pages to choose to render a control, depending upon the roles available to the current principal. <code class="literal">&lt;h:commandButton value="edit" rendered="#{isUserInRole['admin']}"/&gt;</code>.
+					</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch27s05.html"><strong>Prev</strong>27.5. jBPM-related components</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch27s07.html"><strong>Next</strong>27.7. JMS-related components</a>
+      </li>
+    </ul>
+  </body>
+</html>

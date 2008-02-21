@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>6.3. Starting conversations with GET requests</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="conversations.html" title="Chapter 6. Conversations and workspace management" />
+    <link rel="prev" href="ch06s02.html" title="6.2. Nested conversations" />
+    <link rel="next" href="ch06s04.html" title="6.4. Using &lt;s:link&gt; and &lt;s:button&gt;" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>6.3. Starting conversations with GET requests</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s04.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2856479"></a>6.3. Starting conversations with GET requests</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			JSF does not define any kind of action listener that is triggered when a page is accessed via a non-faces request (for example, a HTTP GET request). This can occur if the user bookmarks the page, or if we navigate to the page via an <code class="literal">&lt;h:outputLink&gt;</code>.
+		</p>
+      <p>
+			Sometimes we want to begin a conversation immediately the page is accessed. Since there is no JSF action method, we can't solve the problem in the usual way, by annotating the action with <code class="literal">@Begin</code>.
+		</p>
+      <p>
+			A further problem arises if the page needs some state to be fetched into a context variable. We've already seen two ways to solve this problem. If that state is held in a Seam component, we can fetch the state in a <code class="literal">@Create</code> method. If not, we can define a <code class="literal">@Factory</code> method for the context variable.
+		</p>
+      <p>
+			If none of these options works for you, Seam lets you define a <span class="emphasis"><em>page action</em></span> in the <code class="literal">pages.xml</code> file.
+		</p>
+      <pre class="programlisting">&lt;pages&gt;
+    &lt;page view-id="/messageList.jsp" action="#{messageManager.list}"/&gt;
+    ...
+&lt;/pages&gt;
+</pre>
+      <p>
+			This action method is called at the beginning of the render response phase, any time the page is about to be rendered. If a page action returns a non-null outcome, Seam will process any appropriate JSF and Seam navigation rules, possibly resulting in a completely different page being rendered.
+		</p>
+      <p>
+			If <span class="emphasis"><em>all</em></span> you want to do before rendering the page is begin a conversation, you could use a built-in action method that does just that:
+		</p>
+      <pre class="programlisting">&lt;pages&gt;
+    &lt;page view-id="/messageList.jsp" action="#{conversation.begin}"/&gt;
+    ...
+&lt;/pages&gt;
+</pre>
+      <p>
+			Note that you can also call this built-in action from a JSF control, and, similarly, you can use <code class="literal">#{conversation.end}</code> to end conversations.
+		</p>
+      <p>
+			If you want more control, to join existing conversations or begin a nested conversion, to begin a pageflow or an atomic conversation, you should use the <code class="literal">&lt;begin-conversation&gt;</code> element.
+		</p>
+      <pre class="programlisting">&lt;pages&gt;
+    &lt;page view-id="/messageList.jsp"&gt;
+       &lt;begin-conversation nested="true" pageflow="AddItem"/&gt;
+    &lt;page&gt;
+    ...
+&lt;/pages&gt;
+</pre>
+      <p>
+			There is also an <code class="literal">&lt;end-conversation&gt;</code> element.
+		</p>
+      <pre class="programlisting">&lt;pages&gt;
+    &lt;page view-id="/home.jsp"&gt;
+       &lt;end-conversation/&gt;
+    &lt;page&gt;
+    ...
+&lt;/pages&gt;
+</pre>
+      <p>
+			To solve the first problem, we now have five options:
+		</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+					Annotate the <code class="literal">@Create</code> method with <code class="literal">@Begin</code>
+				</p>
+          </li>
+          <li>
+            <p>
+					Annotate the <code class="literal">@Factory</code> method with <code class="literal">@Begin</code>
+				</p>
+          </li>
+          <li>
+            <p>
+					Annotate the Seam page action method with <code class="literal">@Begin</code>
+				</p>
+          </li>
+          <li>
+            <p>
+					Use <code class="literal">&lt;begin-conversation&gt;</code> in <code class="literal">pages.xml</code>.
+				</p>
+          </li>
+          <li>
+            <p>
+					Use <code class="literal">#{conversation.begin}</code> as the Seam page action method
+				</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s02.html"><strong>Prev</strong>6.2. Nested conversations</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s04.html"><strong>Next</strong>6.4. Using &lt;s:link&gt; and &lt;s:button&gt;</a>
+      </li>
+    </ul>
+  </body>
+</html>

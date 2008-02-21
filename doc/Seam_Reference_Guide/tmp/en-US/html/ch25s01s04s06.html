@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>25.1.4.6. Identity Logging</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch25s01s04.html" title="25.1.4. Seam servlet filters" />
+    <link rel="prev" href="ch25s01s04s05.html" title="25.1.4.5. RichFaces" />
+    <link rel="next" href="ch25s01s04s07.html" title="25.1.4.7. Context management for custom servlets" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>25.1.4.6. Identity Logging</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s01s04s05.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s01s04s07.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect3" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2863471"></a>25.1.4.6. Identity Logging</h4>
+          </div>
+        </div>
+      </div>
+      <p>
+		This filter adds the authenticated user name to the log4j mapped diagnostic context so that it can be included in formatted log output if desired, by adding %X{username} to the pattern.
+	</p>
+      <p>
+		By default, the logging filter will process all requests, however this behavior may be adjusted by adding a <code class="literal">&lt;web:logging-filter&gt;</code> entry to <code class="literal">components.xml</code>, as shown in this example:
+	</p>
+      <pre class="programlisting">&lt;components xmlns="http://jboss.com/products/seam/components"
+            xmlns:web="http://jboss.com/products/seam/web"&gt;
+    &lt;web:logging-filter url-pattern="*.seam"/&gt;
+&lt;/components&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s01s04s05.html"><strong>Prev</strong>25.1.4.5. RichFaces</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s01s04s07.html"><strong>Next</strong>25.1.4.7. Context management for custom servlets</a>
+      </li>
+    </ul>
+  </body>
+</html>

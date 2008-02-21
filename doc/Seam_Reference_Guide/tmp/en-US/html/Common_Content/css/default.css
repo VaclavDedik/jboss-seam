@@ -1,0 +1,93 @@
+@import url("documentation.css");
+@import url("docnav.css");
+@import url("reports.css");
+
+@import url("dirty.css");
+
+body{
+	background-color: white;
+	margin:0 auto;
+	font-family: "liberation sans", "Myriad ", "Bitstream Vera Sans","Lucida Grande", verdana, "Luxi Sans","Trebuchet MS", helvetica,verdana,arial,sans-serif;
+	font-size:12px;
+	max-width:55em;
+	padding:0em 2em;
+	color:#333;
+	line-height:150%;
+	}
+
+/*Links*/
+a:link{color:#3465a4;}
+a:visited{color:#729fcf;}
+div.longdesc-link{float:right;color:#999;}
+
+
+/*headings*/
+h1,h2,h3,h4,h5,h6{color:#554931;
+	line-height:130%;
+	margin-top:0em;
+	font-family:"liberation sans","Bitstream Vera Sans","Lucida Grande","Trebuchet MS",helvetica,verdana,arial,sans-serif;
+	background-color:transparent;
+	}
+
+h1{background: #6c614b url(../images/h1-bg.png) top left repeat-x;
+	line-height:1.2em;
+	color:white;
+	font-size:2em;
+	padding:1.5em;
+	}
+
+h2{font-size:1.6em;
+	}
+
+h3{font-size:1.3em;
+	padding-top:0em;
+	padding-bottom:0em;
+	}
+h4{font-size:1.1em;
+	padding-top:0em;
+	padding-bottom:0em;
+	}
+
+h5.formalpara {font-size:1em;
+	margin-top:2em;margin-bottom:.8em;
+	}
+
+
+/*element rules*/
+hr{border-collapse: collapse;border-style:none;border-top: 1px dotted #ccc;width:100% !important;}
+sup{color:#999;}
+
+/* web site rules */
+ul.languages, .languages li{display:inline; font-size:.9em;padding:0em;}
+.languages li a{padding:0em .5em;text-decoration: none;}
+.languages li p{display:inline;}
+.languages li a:link, .languages li a:visited{color:#444;}
+.languages li a:hover, .languages li a:focus, .languages li a:active{color:black}
+ul.languages{display:block; background-color:#eee;padding:.5em;}
+
+/*supporting stylesheets*/
+
+/*unique to the webpage only*/
+.article ul, .article li{margin:0em; padding:0em;list-style:none;}
+.books{position:relative;}
+
+
+.versions li{width:100%;clear:both; display:block;}
+a.version{font-size:2em; text-decoration:none; width:100%;display:block; padding:1em 0em .2em 0em;clear:both;}
+a.version:before{content:"Version";font-size:smaller; }
+a.version:visited, a.version:link{color:#666;}
+a.version:focus, a.version:hover{color:black;}
+.books {display:block;position:relative; clear:both; width:100%;  }
+.books li{display:block; width:200px !important; float:left !important;position:relative; clear: none  !important;}
+.books .html{width:170px;display:block;line-height:1.7em;}
+.books .pdf{position:absolute; left:170px;top:0px;font-size:smaller;line-height:2em;}
+.books .pdf:link, .books .pdf:visited{color:#555;}
+.books .pdf:hover, .books .pdf:focus{color:#000;}
+.books li a{text-decoration:none;}
+.books li a:hover{color:black}
+
+/*products*/
+.products li {display: block; width:300px; float:left;}
+.products li a{width:300px; padding:.5em 0em;}
+.products ul{clear:both;}
+

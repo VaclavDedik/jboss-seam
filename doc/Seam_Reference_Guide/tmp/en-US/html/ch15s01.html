@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>15.1. Basic fomatting</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="text.html" title="Chapter 15. Seam Text" />
+    <link rel="prev" href="text.html" title="Chapter 15. Seam Text" />
+    <link rel="next" href="ch15s02.html" title="15.2. Entering code and text with special characters" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>15.1. Basic fomatting</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="text.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch15s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2794016"></a>15.1. Basic fomatting</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			Here is a simple example:
+		</p>
+      <pre class="programlisting">It's easy to make *emphasis*, |monospace|,
+~deleted text~, super^scripts^ or _underlines_.
+</pre>
+      <p>
+			If we display this using <code class="literal">&lt;s:formattedText/&gt;</code>, we will get the following HTML produced:
+		</p>
+      <pre class="programlisting">&lt;p&gt;
+It's easy to make &lt;i&gt;emphasis&lt;/i&gt;, &lt;tt&gt;monospace&lt;/tt&gt;
+&lt;del&gt;deleted text&lt;/del&gt;, super&lt;sup&gt;scripts&lt;/sup&gt; or &lt;u&gt;underlines&lt;/u&gt;.
+&lt;/p&gt;
+</pre>
+      <p>
+			We can use a blank line to indicate a new paragraph, and <code class="literal">+</code> to indicate a heading:
+		</p>
+      <pre class="programlisting">+This is a big heading
+You /must/ have some text following a heading!
+ 
+++This is a smaller heading
+This is the first paragraph. We can split it across multiple 
+lines, but we must end it with a blank line.
+
+This is the second paragraph.
+</pre>
+      <p>
+			(Note that a simple newline is ignored, you need an additional blank line to wrap text into a new paragraph.) This is the HTML that results:
+		</p>
+      <pre class="programlisting">&lt;h1&gt;This is a big heading&lt;/h1&gt;
+&lt;p&gt;
+You &lt;i&gt;must&lt;/i&gt; have some text following a heading!
+&lt;/p&gt;
+ 
+&lt;h2&gt;This is a smaller heading&lt;/h2&gt;
+&lt;p&gt;
+This is the first paragraph. We can split it across multiple 
+lines, but we must end it with a blank line.
+&lt;/p&gt;
+
+&lt;p&gt;
+This is the second paragraph.
+&lt;/p&gt;
+</pre>
+      <p>
+			Ordered lists are created using the <code class="literal">#</code> character. Unordered lists use the <code class="literal">=</code> character:
+		</p>
+      <pre class="programlisting">An ordered list:
+        
+#first item
+#second item
+#and even the /third/ item
+
+An unordered list:
+
+=an item
+=another item
+</pre>
+      <pre class="programlisting">&lt;p&gt;
+An ordered list:
+&lt;/p&gt;
+ 
+&lt;ol&gt;       
+&lt;li&gt;first item&lt;/li&gt;
+&lt;li&gt;second item&lt;/li&gt;
+&lt;li&gt;and even the &lt;i&gt;third&lt;/i&gt; item&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;
+An unordered list:
+&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;an item&lt;/li&gt;
+&lt;li&gt;another item&lt;/li&gt;
+&lt;/ul&gt;
+</pre>
+      <p>
+			Quoted sections should be surrounded in double quotes:
+		</p>
+      <pre class="programlisting">The other guy said:
+        
+"Nyeah nyeah-nee 
+/nyeah/ nyeah!"
+
+But what do you think he means by "nyeah-nee"?
+</pre>
+      <pre class="programlisting">&lt;p&gt;
+The other guy said:
+&lt;/p&gt;
+        
+&lt;q&gt;Nyeah nyeah-nee
+&lt;i&gt;nyeah&lt;/i&gt; nyeah!&lt;/q&gt;
+
+&lt;p&gt;
+But what do you think he means by &lt;q&gt;nyeah-nee&lt;/q&gt;?
+&lt;/p&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="text.html"><strong>Prev</strong>Chapter 15. Seam Text</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch15s02.html"><strong>Next</strong>15.2. Entering code and text with special charact...</a>
+      </li>
+    </ul>
+  </body>
+</html>

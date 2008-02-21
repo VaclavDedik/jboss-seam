@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>15.2. Entering code and text with special characters</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="text.html" title="Chapter 15. Seam Text" />
+    <link rel="prev" href="ch15s01.html" title="15.1. Basic fomatting" />
+    <link rel="next" href="ch15s03.html" title="15.3. Links" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>15.2. Entering code and text with special characters</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch15s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch15s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2867769"></a>15.2. Entering code and text with special characters</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			Special characters such as <code class="literal">*</code>, <code class="literal">|</code> and <code class="literal">#</code>, along with HTML characters such as <code class="literal">&lt;</code>, <code class="literal">&gt;</code> and <code class="literal">&amp;</code> may be escaped using <code class="literal">\</code>:
+		</p>
+      <pre class="programlisting">You can write down equations like 2\*3\=6 and HTML tags
+like \&lt;body\&gt; using the escape character: \\.
+</pre>
+      <pre class="programlisting">&lt;p&gt;
+You can write down equations like 2*3=6 and HTML tags
+like &lt;body&gt; using the escape character: \.
+&lt;/p&gt;
+</pre>
+      <p>
+			And we can quote code blocks using backticks:
+		</p>
+      <pre class="programlisting">My code doesn't work:
+
+`for (int i=0; i&lt;100; i--)
+{
+    doSomething();
+}`
+
+Any ideas?
+</pre>
+      <pre class="programlisting">&lt;p&gt;
+My code doesn't work:
+&lt;/p&gt;
+
+&lt;pre&gt;for (int i=0; i&lt;100; i--)
+{
+    doSomething();
+}&lt;/pre&gt;
+
+&lt;p&gt;
+Any ideas?
+&lt;/p&gt;
+</pre>
+      <p>
+			Note that inline monospace formatting always escapes (most monospace formatted text is in fact code or tags with many special characters). So you can, for example, write:
+		</p>
+      <pre class="programlisting">This is a |&lt;tag attribute="value"/&gt;| example.
+</pre>
+      <p>
+			without escaping any of the characters inside the monospace bars. The downside is that you can't format inline monospace text in any other way (italics, underscore, and so on).
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch15s01.html"><strong>Prev</strong>15.1. Basic fomatting</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch15s03.html"><strong>Next</strong>15.3. Links</a>
+      </li>
+    </ul>
+  </body>
+</html>

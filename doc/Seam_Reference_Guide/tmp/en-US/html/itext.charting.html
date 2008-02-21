@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>16.2. Charting</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="itext.html" title="Chapter 16. iText PDF generation" />
+    <link rel="prev" href="itext.configuration.html" title="16.1.8. Configuring iText" />
+    <link rel="next" href="itext.barcodes.html" title="16.3. Bar codes" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>16.2. Charting</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="itext.configuration.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="itext.barcodes.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="itext.charting"></a>16.2. Charting</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			Charting support is also provided with <code class="literal">jboss-seam-pdf.jar</code>. Charts can be used in PDF documents or can be used as images in an HTML page. Charting requires the JFreeChart library (<code class="literal">jfreechart.jar</code> and <code class="literal">jcommon.jar</code>) to be added to the <code class="literal">WEB-INF/lib</code> directory. Three types of charts are currently supported: pie charts, bar charts and line charts.
+		</p>
+      <div class="informaltable">
+        <a id="itext.barchart"></a>
+        <table border="1">
+          <colgroup>
+            <col />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td valign="top">
+							<p>
+								<code class="literal">&lt;p:barchart&gt;</code>
+							</p>
+						</td>
+              <td valign="top">
+							<p>
+								<span class="emphasis"><em>Description</em></span>
+							</p>
+							<p>
+								Displays a bar chart.
+							</p>
+							<p>
+								<span class="emphasis"><em>Attributes</em></span>
+							</p>
+							<div class="itemizedlist"><ul><li><p>
+										<code class="literal">borderVisible</code> — Controls whether or not a border is displayed around the entire chart.
+									</p></li><li><p>
+										<code class="literal">borderPaint</code> — The color of the border, if visible;
+									</p></li><li><p>
+										<code class="literal">borderBackgroundPaint</code> — The default background color of the chart.
+									</p></li><li><p>
+										<code class="literal">borderStroke</code> —
+									</p></li><li><p>
+										<code class="literal">domainAxisLabel</code> — The text label for the domain axis.
+									</p></li><li><p>
+										<code class="literal">domainAxisPaint</code> — The color of the domain axis label.
+									</p></li><li><p>
+										<code class="literal">domainGridlinesVisible</code>— Controls whether or not gridlines for the domain axis are shown on the chart.
+									</p></li><li><p>
+										<code class="literal">domainGridlinePaint</code>— The color of the domain gridlines, if visible.
+									</p></li><li><p>
+										<code class="literal">domainGridlineStroke</code> — The stroke style of the domain gridleines, if visible.
+									</p></li><li><p>
+										<code class="literal">height</code> — The height of the chart.
+									</p></li><li><p>
+										<code class="literal">width</code> — The width of the chart.
+									</p></li><li><p>
+										<code class="literal">is3D</code> — A boolean value indicating that the chart should be rendered in 3D instead of 2D.
+									</p></li><li><p>
+										<code class="literal">legend</code> — A boolean value indicating whether or not the chart should include a legend.
+									</p></li><li><p>
+										<code class="literal">legendItemPaint</code>— The default color of the text labels in the legend.
+									</p></li><li><p>
+										<code class="literal">legendItemBackgoundPaint</code>— The background color for the legend, if different from the chart background color.
+									</p></li><li><p>
+										<code class="literal">orientation</code> — The orientation of the plot, either <code class="code">vertical</code> (the default) or <code class="code">horizontal</code>.
+									</p></li><li><p>
+										<code class="literal">plotBackgroundPaint</code>— The color of the plot background.
+									</p></li><li><p>
+										<code class="literal">plotBackgroundAlpha</code>— The alpha (transparency) level of the plot background. It should be a number between 0 (completely transparent) and 1 (completely opaque).
+									</p></li><li><p>
+										<code class="literal">plotForegroundAlpha</code>— The alpha (transparency) level of the plot. It should be a number between 0 (completely transparent) and 1 (completely opaque).
+									</p></li><li><p>
+										<code class="literal">plotOutlinePaint</code>— The color of the range gridlines, if visible.
+									</p></li><li><p>
+										<code class="literal">plotOutlineStroke</code> — The stroke style of the range gridleines, if visible.
+									</p></li><li><p>
+										<code class="literal">rangeAxisLabel</code> — The text label for the range axis.
+									</p></li><li><p>
+										<code class="literal">rangeAxisPaint</code> — The color of the range axis label.
+									</p></li><li><p>
+										<code class="literal">rangeGridlinesVisible</code>— Controls whether or not gridlines for the range axis are shown on the chart.
+									</p></li><li><p>
+										<code class="literal">rangeGridlinePaint</code>— The color of the range gridlines, if visible.
+									</p></li><li><p>
+										<code class="literal">rangeGridlineStroke</code> — The stroke style of the range gridleines, if visible.
+									</p></li><li><p>
+										<code class="literal">title</code> — The chart title text.
+									</p></li><li><p>
+										<code class="literal">titlePaint</code>— The color of the chart title text.
+									</p></li><li><p>
+										<code class="literal">titleBackgroundPaint</code>— The background color around the chart title.
+									</p></li><li><p>
+										<code class="literal">width</code> — The width of the chart.
+									</p></li></ul></div>
+							<p>
+								<span class="emphasis"><em>Usage</em></span>
+							</p>
+<pre class="programlisting">
+&lt;p:barchart title="Bar Chart" legend="true"
+            width="500" height="500"&gt;
+    &lt;p:series key="Last Year"&gt;
+        &lt;p:data columnKey="Joe" value="100" /&gt;
+        &lt;p:data columnKey="Bob" value="120" /&gt;
+    &lt;/p:series&gt;        &lt;p:series key="This Year"&gt;
+        &lt;p:data columnKey="Joe" value="125" /&gt;
+        &lt;p:data columnKey="Bob" value="115" /&gt;
+    &lt;/p:series&gt;
+&lt;/p:barchart&gt;                                
+
+</pre>
+						</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="informaltable">
+        <a id="itext.linechart"></a>
+        <table border="1">
+          <colgroup>
+            <col />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td valign="top">
+							<p>
+								<code class="literal">&lt;p:linechart&gt;</code>
+							</p>
+						</td>
+              <td valign="top">
+							<p>
+								<span class="emphasis"><em>Description</em></span>
+							</p>
+							<p>
+								Displays a line chart.
+							</p>
+							<p>
+								<span class="emphasis"><em>Attributes</em></span>
+							</p>
+							<div class="itemizedlist"><ul><li><p>
+										<code class="literal">borderVisible</code> — Controls whether or not a border is displayed around the entire chart.
+									</p></li><li><p>
+										<code class="literal">borderPaint</code> — The color of the border, if visible;
+									</p></li><li><p>
+										<code class="literal">borderBackgroundPaint</code> — The default background color of the chart.
+									</p></li><li><p>
+										<code class="literal">borderStroke</code> —
+									</p></li><li><p>
+										<code class="literal">domainAxisLabel</code> — The text label for the domain axis.
+									</p></li><li><p>
+										<code class="literal">domainAxisPaint</code> — The color of the domain axis label.
+									</p></li><li><p>
+										<code class="literal">domainGridlinesVisible</code>— Controls whether or not gridlines for the domain axis are shown on the chart.
+									</p></li><li><p>
+										<code class="literal">domainGridlinePaint</code>— The color of the domain gridlines, if visible.
+									</p></li><li><p>
+										<code class="literal">domainGridlineStroke</code> — The stroke style of the domain gridleines, if visible.
+									</p></li><li><p>
+										<code class="literal">height</code> — The height of the chart.
+									</p></li><li><p>
+										<code class="literal">width</code> — The width of the chart.
+									</p></li><li><p>
+										<code class="literal">is3D</code> — A boolean value indicating that the chart should be rendered in 3D instead of 2D.
+									</p></li><li><p>
+										<code class="literal">legend</code> — A boolean value indicating whether or not the chart should include a legend.
+									</p></li><li><p>
+										<code class="literal">legendItemPaint</code>— The default color of the text labels in the legend.
+									</p></li><li><p>
+										<code class="literal">legendItemBackgoundPaint</code>— The background color for the legend, if different from the chart background color.
+									</p></li><li><p>
+										<code class="literal">orientation</code> — The orientation of the plot, either <code class="code">vertical</code> (the default) or <code class="code">horizontal</code>.
+									</p></li><li><p>
+										<code class="literal">plotBackgroundPaint</code>— The color of the plot background.
+									</p></li><li><p>
+										<code class="literal">plotBackgroundAlpha</code>— The alpha (transparency) level of the plot background. It should be a number between 0 (completely transparent) and 1 (completely opaque).
+									</p></li><li><p>
+										<code class="literal">plotForegroundAlpha</code>— The alpha (transparency) level of the plot. It should be a number between 0 (completely transparent) and 1 (completely opaque).
+									</p></li><li><p>
+										<code class="literal">plotOutlinePaint</code>— The color of the range gridlines, if visible.
+									</p></li><li><p>
+										<code class="literal">plotOutlineStroke</code> — The stroke style of the range gridleines, if visible.
+									</p></li><li><p>
+										<code class="literal">rangeAxisLabel</code> — The text label for the range axis.
+									</p></li><li><p>
+										<code class="literal">rangeAxisPaint</code> — The color of the range axis label.
+									</p></li><li><p>
+										<code class="literal">rangeGridlinesVisible</code>— Controls whether or not gridlines for the range axis are shown on the chart.
+									</p></li><li><p>
+										<code class="literal">rangeGridlinePaint</code>— The color of the range gridlines, if visible.
+									</p></li><li><p>
+										<code class="literal">rangeGridlineStroke</code> — The stroke style of the range gridleines, if visible.
+									</p></li><li><p>
+										<code class="literal">title</code> — The chart title text.
+									</p></li><li><p>
+										<code class="literal">titlePaint</code>— The color of the chart title text.
+									</p></li><li><p>
+										<code class="literal">titleBackgroundPaint</code>— The background color around the chart title.
+									</p></li><li><p>
+										<code class="literal">width</code> — The width of the chart.
+									</p></li></ul></div>
+							<p>
+								<span class="emphasis"><em>Usage</em></span>
+							</p>
+<pre class="programlisting">&lt;p:linechart title="Line Chart"
+            width="500" height="500"&gt;
+    &lt;p:series key="Prices"&gt;
+        &lt;p:data columnKey="2003" value="7.36" /&gt;
+        &lt;p:data columnKey="2004" value="11.50" /&gt;
+        &lt;p:data columnKey="2005" value="34.625" /&gt;
+        &lt;p:data columnKey="2006" value="76.30" /&gt;
+        &lt;p:data columnKey="2007" value="85.05" /&gt;
+    &lt;/p:series&gt;
+&lt;/p:linechart&gt;
+</pre>
+						</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="informaltable">
+        <a id="itext.piechart"></a>
+        <table border="1">
+          <colgroup>
+            <col />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td valign="top">
+							<p>
+								<code class="literal">&lt;p:piechart&gt;</code>
+							</p>
+						</td>
+              <td valign="top">
+							<p>
+								<span class="emphasis"><em>Description</em></span>
+							</p>
+							<p>
+								Displays a pie chart.
+							</p>
+							<p>
+								<span class="emphasis"><em>Attributes</em></span>
+							</p>
+							<div class="itemizedlist"><ul><li><p>
+										<code class="literal">title</code>— The chart title text.
+									</p></li><li><p>
+										<code class="literal">label</code>— The default label text for pie sections.
+									</p></li><li><p>
+										<code class="literal">legend</code>— A boolean value indicating whether or not the chart should include a legend. Default value is true
+									</p></li><li><p>
+										<code class="literal">is3D</code>—A boolean value indicating that the chart should be rendered in 3D instead of 2D.
+									</p></li><li><p>
+										<code class="literal">labelLinkMargin</code>— The link margin for labels.
+									</p></li><li><p>
+										<code class="literal">labelLinkPaint</code>— The paint used for the label linking lines.
+									</p></li><li><p>
+										<code class="literal">labelLinkStroke</code>— he stroke used for the label linking lines.
+									</p></li><li><p>
+										<code class="literal">labelLinksVisible</code>— A flag that controls whether or not the label links are drawn.
+									</p></li><li><p>
+										<code class="literal">labelOutlinePaint</code>— The paint used to draw the outline of the section labels.
+									</p></li><li><p>
+										<code class="literal">labelOutlineStroke</code>— The stroke used to draw the outline of the section labels.
+									</p></li><li><p>
+										<code class="literal">labelShadowPaint</code>— The paint used to draw the shadow for the section labels.
+									</p></li><li><p>
+										<code class="literal">labelPaint</code>— The color used to draw the section labels
+									</p></li><li><p>
+										<code class="literal">labelGap</code>— The gap between the labels and the plot as a percentage of the plot width.
+									</p></li><li><p>
+										<code class="literal">labelBackgroundPaint</code>— The color used to draw the background of the section labels. If this is null, the background is not filled.
+									</p></li><li><p>
+										<code class="literal">startAngle</code>— The starting angle of the first section.
+									</p></li><li><p>
+										<code class="literal">circular</code>— A boolean value indicating that the chart should be drawn as a circle. If false, the chart is drawn as an ellipse. The default is true.
+									</p></li><li><p>
+										<code class="literal">direction</code>— The direction the pie section are drawn. One of: <code class="literal">clockwise</code> or <code class="literal">anticlockwise</code>. The default is <code class="literal">clockwise</code>.
+									</p></li><li><p>
+										<code class="literal">sectionOutlinePaint</code>— The outline paint for all sections.
+									</p></li><li><p>
+										<code class="literal">sectionOutlineStroke</code>— The outline stroke for all sections
+									</p></li><li><p>
+										<code class="literal">sectionOutlinesVisible</code>— Indicates whether an outline is drawn for each section in the plot.
+									</p></li><li><p>
+										<code class="literal">baseSectionOutlinePaint</code>— The base section outline paint.
+									</p></li><li><p>
+										<code class="literal">baseSectionPaint</code>— The base section paint.
+									</p></li><li><p>
+										<code class="literal">baseSectionOutlineStroke</code>— The base section outline stroke.
+									</p></li></ul></div>
+							<p>
+								<span class="emphasis"><em>Usage</em></span>
+							</p>
+<pre class="programlisting">
+                                
+&lt;p:piechart title="Pie Chart" circular="false" direction="anticlockwise" 
+    startAngle="30" labelGap="0.1" labelLinkPaint="red"&gt;	
+    &lt;p:series key="Prices"&gt; 
+        &lt;p:data key="2003" columnKey="2003" value="7.36" /&gt; 
+        &lt;p:data key="2004" columnKey="2004" value="11.50" /&gt; 
+        &lt;p:data key="2005" columnKey="2005" value="34.625" /&gt; 
+        &lt;p:data key="2006" columnKey="2006" value="76.30" /&gt; 
+        &lt;p:data key="2007" columnKey="2007" value="85.05" /&gt; 
+    &lt;/p:series&gt; 
+&lt;/p:piechart&gt;	                                
+                                
+
+</pre>
+						</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="informaltable">
+        <a id="itext.series"></a>
+        <table border="1">
+          <colgroup>
+            <col />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td valign="top">
+							<p>
+								<code class="literal">&lt;p:series&gt;</code>
+							</p>
+						</td>
+              <td valign="top">
+							<p>
+								<span class="emphasis"><em>Description</em></span>
+							</p>
+							<p>
+								Category data can be broken down into series. The series tag is used to categorize a set of data with a series and apply styling to the entire series.
+							</p>
+							<p>
+								<span class="emphasis"><em>Attributes</em></span>
+							</p>
+							<div class="itemizedlist"><ul><li><p>
+										<code class="literal">key</code> — The series name.
+									</p></li><li><p>
+										<code class="literal">seriesPaint</code> — The color of each item in the series
+									</p></li><li><p>
+										<code class="literal">seriesOutlinePaint</code> — The outline color for each item in the series.
+									</p></li><li><p>
+										<code class="literal">seriesOutlineStroke</code> — The stroke used to draw each item in the series.
+									</p></li><li><p>
+										<code class="literal">seriesVisible</code> — A boolean indicating if the series should be displayed.
+									</p></li><li><p>
+										<code class="literal">seriesVisibleInLegend</code> — A boolean indiciating if the series should be listed in the legend.
+									</p></li></ul></div>
+							<p>
+								<span class="emphasis"><em>Usage</em></span>
+							</p>
+<pre class="programlisting">&lt;p:series key="data1"&gt;
+    &lt;ui:repeat value="#{data.pieData1}" var="item"&gt;
+        &lt;p:data columnKey="#{item.name}" value="#{item.value}" /&gt;
+    &lt;/ui:repeat&gt;
+&lt;/p:series&gt;
+</pre>
+						</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="informaltable">
+        <a id="itext.chartdata"></a>
+        <table border="1">
+          <colgroup>
+            <col />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td valign="top">
+							<p>
+								<code class="literal">&lt;p:data&gt;</code>
+							</p>
+						</td>
+              <td valign="top">
+							<p>
+								<span class="emphasis"><em>Description</em></span>
+							</p>
+							<p>
+								The data tag describes each data point to be displayed in the graph.
+							</p>
+							<p>
+								<span class="emphasis"><em>Attributes</em></span>
+							</p>
+							<div class="itemizedlist"><ul><li><p>
+										<code class="literal">key</code> — The name of the data item.
+									</p></li><li><p>
+										<code class="literal">series</code> — The series name, when not embedded inside a <code class="code">&lt;p:series&gt;</code>.
+									</p></li><li><p>
+										<code class="literal">value</code> — The numeric data value.
+									</p></li><li><p>
+										<code class="literal">explodedPercent</code> — For pie charts, indicates how exploded a from the pie a piece is.
+									</p></li><li><p>
+										<code class="literal">sectionOutlinePaint</code> — For bar charts, the color of the section outline.
+									</p></li><li><p>
+										<code class="literal">sectionOutlineStroke</code> — For bar charts, the stroke type for the section outline.
+									</p></li><li><p>
+										<code class="literal">sectionPaint</code> — For bar charts, the color of the section.
+									</p></li></ul></div>
+							<p>
+								<span class="emphasis"><em>Usage</em></span>
+							</p>
+<pre class="programlisting">&lt;p:data key="foo" value="20" sectionPaint="#111111" 
+        explodedPercent=".2" /&gt;
+&lt;p:data key="bar" value="30" sectionPaint="#333333" /&gt;
+&lt;p:data key="baz" value="40" sectionPaint="#555555" 
+        sectionOutlineStroke="my-dot-style" /&gt;
+</pre>
+						</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="informaltable">
+        <a id="itext.color"></a>
+        <table border="1">
+          <colgroup>
+            <col />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td valign="top">
+							<p>
+								<code class="literal">&lt;p:color&gt;</code>
+							</p>
+						</td>
+              <td valign="top">
+							<p>
+								<span class="emphasis"><em>Description</em></span>
+							</p>
+							<p>
+								The color component declares a color or gradient than can be referenced when drawing filled shapes.
+							</p>
+							<p>
+								<span class="emphasis"><em>Attributes</em></span>
+							</p>
+							<div class="itemizedlist"><ul><li><p>
+										<code class="literal">color</code> — The color value. For gradient colors, this the starting color. <a href="itext.colors.html" title="16.1.7.1. Color Values">Section 16.1.7.1, “Color Values”</a>
+									</p></li><li><p>
+										<code class="literal">color2</code> — For gradient colors, this is the color that ends the gradient.
+									</p></li><li><p>
+										<code class="literal">point</code> — The co-ordinates where the gradient color begins.
+									</p></li><li><p>
+										<code class="literal">point2</code> — The co-ordinates where the gradient color ends.
+									</p></li></ul></div>
+							<p>
+								<span class="emphasis"><em>Usage</em></span>
+							</p>
+<pre class="programlisting">&lt;p:color id="foo" color="#0ff00f"/&gt;
+&lt;p:color id="bar" color="#ff00ff" color2="#00ff00" 
+                  point="50 50" point2="300 300"/&gt;
+</pre>
+						</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="informaltable">
+        <a id="itext.stroke"></a>
+        <table border="1">
+          <colgroup>
+            <col />
+            <col />
+          </colgroup>
+          <tbody>
+            <tr>
+              <td valign="top">
+							<p>
+								<code class="literal">&lt;p:stroke&gt;</code>
+							</p>
+						</td>
+              <td valign="top">
+							<p>
+								<span class="emphasis"><em>Description</em></span>
+							</p>
+							<p>
+								Describes a stroke used to draw lines in a chart.
+							</p>
+							<p>
+								<span class="emphasis"><em>Attributes</em></span>
+							</p>
+							<div class="itemizedlist"><ul><li><p>
+										<code class="literal">width</code> — The width of the stroke.
+									</p></li><li><p>
+										<code class="literal">cap</code> — The line cap type. Valid values are <code class="literal">butt</code>, <code class="literal">round</code> and <code class="literal">square</code>
+									</p></li><li><p>
+										<code class="literal">join</code> — The line join type. Valid values are <code class="literal">miter</code>, <code class="literal">round</code> and <code class="literal">bevel</code>
+									</p></li><li><p>
+										<code class="literal">miterLimit</code> — For miter joins, this value is the limit of the size of the join.
+									</p></li><li><p>
+										<code class="literal">dash</code> — The dash value sets the dash pattern to be used to draw the line. The space separated integers indicate the length of each alternating drawn and undrawn segments.
+									</p></li><li><p>
+										<code class="literal">dashPhase</code> — The dash phase indicates the offset into the dash pattern that the the line should be drawn with.
+									</p></li></ul></div>
+							<p>
+								<span class="emphasis"><em>Usage</em></span>
+							</p>
+<pre class="programlisting">&lt;p:stroke id="dot2" width="2" cap="round" join="bevel" dash="2 3" /&gt;
+</pre>
+						</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="itext.configuration.html"><strong>Prev</strong>16.1.8. Configuring iText</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="itext.barcodes.html"><strong>Next</strong>16.3. Bar codes</a>
+      </li>
+    </ul>
+  </body>
+</html>

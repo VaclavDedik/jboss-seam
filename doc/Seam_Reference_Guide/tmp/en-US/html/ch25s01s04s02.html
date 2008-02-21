@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>25.1.4.2. Conversation propagation with redirects</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch25s01s04.html" title="25.1.4. Seam servlet filters" />
+    <link rel="prev" href="ch25s01s04s01.html" title="25.1.4.1. Exception handling" />
+    <link rel="next" href="ch25s01s04s03.html" title="25.1.4.3. Multipart form submissions" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>25.1.4.2. Conversation propagation with redirects</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s01s04s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s01s04s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect3" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2862654"></a>25.1.4.2. Conversation propagation with redirects</h4>
+          </div>
+        </div>
+      </div>
+      <p>
+		This filter allows Seam to propagate the conversation context across browser redirects. It intercepts any browser redirects and adds a request parameter that specifies the Seam conversation identifier.
+	</p>
+      <p>
+		The redirect filter will process all requests by default, but this behavior can also be adjusted in <code class="literal">components.xml</code>:
+	</p>
+      <pre class="programlisting">&lt;web:redirect-filter url-pattern="*.seam"/&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s01s04s01.html"><strong>Prev</strong>25.1.4.1. Exception handling</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s01s04s03.html"><strong>Next</strong>25.1.4.3. Multipart form submissions</a>
+      </li>
+    </ul>
+  </body>
+</html>

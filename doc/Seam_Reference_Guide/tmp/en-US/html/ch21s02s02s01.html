@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>21.2.2.1. Seam.Component.newInstance()</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch21s02s02.html" title="21.2.2. Seam.Component" />
+    <link rel="prev" href="ch21s02s02.html" title="21.2.2. Seam.Component" />
+    <link rel="next" href="ch21s02s02s02.html" title="21.2.2.2. Seam.Component.getInstance()" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>21.2.2.1. Seam.Component.newInstance()</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch21s02s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch21s02s02s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2834680"></a>21.2.2.1. Seam.Component.newInstance()</h4>
+          </div>
+        </div>
+      </div>
+      <p>
+					Use this method to create a new instance of an entity or Javabean component. The object returned by this method will have the same getter/setter methods as its server-side counterpart, or alternatively if you wish you can access its fields directly. Take the following Seam entity component for example:
+				</p>
+      <pre class="programlisting">@Name("customer")
+@Entity
+public class Customer implements Serializable
+{
+  private Integer customerId;
+  private String firstName;
+  private String lastName;
+    
+  @Column public Integer getCustomerId() { 
+    return customerId; 
+  }
+    
+  public void setCustomerId(Integer customerId} { 
+    this.customerId = customerId; 
+  }
+  
+  @Column public String getFirstName() { 
+    return firstName; 
+  }
+  
+  public void setFirstName(String firstName) {
+    this.firstName = firstName; 
+  }
+  
+  @Column public String getLastName() {
+    return lastName;
+  }
+  
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+}
+</pre>
+      <p>
+					To create a client-side Customer you would write the following code:
+				</p>
+      <pre class="programlisting">var customer = Seam.Component.newInstance("customer");
+</pre>
+      <p>
+					Then from here you can set the fields of the customer object:
+				</p>
+      <pre class="programlisting">customer.setFirstName("John");
+// Or you can set the fields directly
+customer.lastName = "Smith";
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch21s02s02.html"><strong>Prev</strong>21.2.2. Seam.Component</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch21s02s02s02.html"><strong>Next</strong>21.2.2.2. Seam.Component.getInstance()</a>
+      </li>
+    </ul>
+  </body>
+</html>

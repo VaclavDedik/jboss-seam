@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>18.2.1. Configuration</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch18s02.html" title="18.2. Messaging in Seam" />
+    <link rel="prev" href="ch18s02.html" title="18.2. Messaging in Seam" />
+    <link rel="next" href="ch18s02s02.html" title="18.2.2. Sending messages" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>18.2.1. Configuration</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch18s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch18s02s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2822040"></a>18.2.1. Configuration</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		To configure Seam's infrastructure for sending JMS messages, you need to tell Seam about any topics and queues you want to send messages to, and also tell Seam where to find the <code class="literal">QueueConnectionFactory</code> and/or <code class="literal">TopicConnectionFactory</code>.
+	</p>
+      <p>
+		Seam defaults to using <code class="literal">UIL2ConnectionFactory</code> which is the usual connection factory for use with JBossMQ. If you are using some other JMS provider, you need to set one or both of <code class="literal">queueConnection.queueConnectionFactoryJndiName</code> and <code class="literal">topicConnection.topicConnectionFactoryJndiName</code> in <code class="literal">seam.properties</code>, <code class="literal">web.xml</code> or <code class="literal">components.xml</code>.
+	</p>
+      <p>
+		You also need to list topics and queues in <code class="literal">components.xml</code> to install Seam managed <code class="literal">TopicPublisher</code>s and <code class="literal">QueueSender</code>s:
+	</p>
+      <pre class="programlisting">&lt;jms:managed-topic-publisher name="stockTickerPublisher" 
+                             auto-create="true" 
+                             topic-jndi-name="topic/stockTickerTopic"/&gt;
+
+&lt;jms:managed-queue-sender name="paymentQueueSender" 
+                          auto-create="true" 
+                          queue-jndi-name="queue/paymentQueue"/&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch18s02.html"><strong>Prev</strong>18.2. Messaging in Seam</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch18s02s02.html"><strong>Next</strong>18.2.2. Sending messages</a>
+      </li>
+    </ul>
+  </body>
+</html>

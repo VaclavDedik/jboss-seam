@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>3.7. The Mutable interface and @ReadOnly</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="concepts.html" title="Chapter 3. The contextual component model" />
+    <link rel="prev" href="ch03s06.html" title="3.6. Logging" />
+    <link rel="next" href="ch03s08.html" title="3.8. Factory and manager components" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>3.7. The <code class="literal">Mutable</code> interface and <code class="literal">@ReadOnly</code></strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch03s06.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch03s08.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect1" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2855144"></a>3.7. The <code class="literal">Mutable</code> interface and <code class="literal">@ReadOnly</code></h2>
+          </div>
+        </div>
+      </div>
+      <p>
+		Many application servers feature an amazingly broken implementation of <code class="literal">HttpSession</code> clustering, where changes to the state of mutable objects bound to the session are only replicated when the application calls <code class="literal">setAttribute()</code> explicitly. This is a source of bugs that can not effectively be tested for at development time, since they will only manifest when failover occurs. Furthermore, the actual replication message contains the entire serialized object graph bound to the session attribute, which is inefficient.
+	</p>
+      <p>
+		Of course, EJB stateful session beans must perform automatic dirty checking and replication of mutable state and a sophisticated EJB container can introduce optimizations such as attribute-level replication. Unfortunately, not all Seam users have the good fortune to be working in an environment that supports EJB 3.0. So, for session and conversation scoped JavaBean and entity bean components, Seam provides an extra layer of cluster-safe state management over the top of the web container session clustering.
+	</p>
+      <p>
+		For session or conversation scoped JavaBean components, Seam automatically forces replication to occur by calling <code class="literal">setAttribute()</code> once in every request that the component was invoked by the application. Of course, this strategy is inefficient for read-mostly components. You can control this behavior by implementing the <code class="literal">org.jboss.seam.core.Mutable</code> interface, or by extending <code class="literal">org.jboss.seam.core.AbstractMutable</code>, and writing your own dirty-checking logic inside the component. For example,
+	</p>
+      <pre class="programlisting">@Name("account")
+public class Account extends AbstractMutable
+{
+    private BigDecimal balance;
+    
+    public void setBalance(BigDecimal balance)
+    {
+        setDirty(this.balance, balance);
+        this.balance = balance;
+    }
+    
+    public BigDecimal getBalance()
+    {
+        return balance;
+    }
+    
+    ...
+    
+}
+</pre>
+      <p>
+		Or, you can use the <code class="literal">@ReadOnly</code> annotation to achieve a similar effect:
+	</p>
+      <pre class="programlisting">@Name("account")
+public class Account
+{
+    private BigDecimal balance;
+    
+    public void setBalance(BigDecimal balance)
+    {
+        this.balance = balance;
+    }
+    
+    @ReadOnly
+    public BigDecimal getBalance()
+    {
+        return balance;
+    }
+    
+    ...
+    
+}
+</pre>
+      <p>
+		For session or conversation scoped entity bean components, Seam automatically forces replication to occur by calling <code class="literal">setAttribute()</code> once in every request, <span class="emphasis"><em>unless the (conversation-scoped) entity is currently associated with a Seam-managed persistence context, in which case no replication is needed</em></span>. This strategy is not necessarily efficient, so session or conversation scope entity beans should be used with care. You can always write a stateful session bean or JavaBean component to "manage" the entity bean instance. For example,
+	</p>
+      <pre class="programlisting">@Stateful
+@Name("account")
+public class AccountManager extends AbstractMutable
+{
+    private Account account; // an entity bean
+    
+    @Unwrap
+    public void getAccount()
+    {
+        return account;
+    }
+    
+    ...
+    
+}
+</pre>
+      <p>
+		Note that the <code class="literal">EntityHome</code> class in the Seam Application Framework provides a great example of managing an entity bean instance using a Seam component.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch03s06.html"><strong>Prev</strong>3.6. Logging</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch03s08.html"><strong>Next</strong>3.8. Factory and manager components</a>
+      </li>
+    </ul>
+  </body>
+</html>

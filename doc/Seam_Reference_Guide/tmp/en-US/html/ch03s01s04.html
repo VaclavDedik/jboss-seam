@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>3.1.4. Conversation context</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch03s01.html" title="3.1. Seam contexts" />
+    <link rel="prev" href="ch03s01s03.html" title="3.1.3. Page context" />
+    <link rel="next" href="ch03s01s05.html" title="3.1.5. Session context" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>3.1.4. Conversation context</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch03s01s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch03s01s05.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2800913"></a>3.1.4. Conversation context</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		The conversation context is a truly central concept in Seam. A <span class="emphasis"><em>conversation</em></span> is a unit of work from the point of view of the user. It might span several interactions with the user, several requests, and several database transactions. But to the user, a conversation solves a single problem. For example, "book hotel", "approve contract", "create order" are all conversations. You might like to think of a conversation implementing a single "use case" or "user story", but the relationship is not necessarily quite exact.
+	</p>
+      <p>
+		A conversation holds state associated with "what the user is doing now, in this window". A single user may have multiple conversations in progress at any point in time, usually in multiple windows. The conversation context allows us to ensure that state from the different conversations does not collide and cause bugs.
+	</p>
+      <p>
+		It might take you some time to get used to thinking of applications in terms of conversations. But once you get used to it, we think you'll love the notion, and never be able to not think in terms of conversations again!
+	</p>
+      <p>
+		Some conversations last for just a single request. Conversations that span multiple requests must be demarcated using annotations provided by Seam.
+	</p>
+      <p>
+		Some conversations are also <span class="emphasis"><em>tasks</em></span>. A task is a conversation that is significant in terms of a long-running business process, and has the potential to trigger a business process state transition when it is successfully completed. Seam provides a special set of annotations for task demarcation.
+	</p>
+      <p>
+		Conversations may be <span class="emphasis"><em>nested</em></span>, with one conversation taking place "inside" a wider conversation. This is an advanced feature.
+	</p>
+      <p>
+		Usually, conversation state is actually held by Seam in the servlet session between requests. Seam implements configurable <span class="emphasis"><em>conversation timeout</em></span>, automatically destroying inactive conversations, and thus ensuring that the state held by a single user login session does not grow without bound if the user abandons conversations.
+	</p>
+      <p>
+		Seam serializes processing of concurrent requests that take place in the same long-running conversation context, in the same process.
+	</p>
+      <p>
+		Alternatively, Seam may be configured to keep conversational state in the client browser.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch03s01s03.html"><strong>Prev</strong>3.1.3. Page context</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch03s01s05.html"><strong>Next</strong>3.1.5. Session context</a>
+      </li>
+    </ul>
+  </body>
+</html>

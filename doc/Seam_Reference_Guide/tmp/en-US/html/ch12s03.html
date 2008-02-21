@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>12.3. Using rules from a jBPM process definition</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="drools.html" title="Chapter 12. Seam and JBoss Rules" />
+    <link rel="prev" href="ch12s02.html" title="12.2. Using rules from a Seam component" />
+    <link rel="next" href="security.html" title="Chapter 13. Security" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>12.3. Using rules from a jBPM process definition</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch12s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="security.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2840592"></a>12.3. Using rules from a jBPM process definition</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			You can even allow a rule base to act as a jBPM action handler, decision handler, or assignment handler—in either a pageflow or business process definition.
+		</p>
+      <pre class="programlisting">&lt;decision name="approval"&gt;
+         
+    &lt;handler class="org.jboss.seam.drools.DroolsDecisionHandler"&gt;
+        &lt;workingMemoryName&gt;orderApprovalRulesWorkingMemory&lt;/workingMemoryName&gt;
+        &lt;assertObjects&gt;
+            &lt;element&gt;#{customer}&lt;/element&gt;
+            &lt;element&gt;#{order}&lt;/element&gt;
+            &lt;element&gt;#{order.lineItems}&lt;/element&gt;
+        &lt;/assertObjects&gt;
+    &lt;/handler&gt;
+    
+    &lt;transition name="approved" to="ship"&gt;
+        &lt;action class="org.jboss.seam.drools.DroolsActionHandler"&gt;
+            &lt;workingMemoryName&gt;shippingRulesWorkingMemory&lt;/workingMemoryName&gt;
+            &lt;assertObjects&gt;
+                &lt;element&gt;#{customer}&lt;/element&gt;
+                &lt;element&gt;#{order}&lt;/element&gt;
+                &lt;element&gt;#{order.lineItems}&lt;/element&gt;
+            &lt;/assertObjects&gt;
+        &lt;/action&gt;
+    &lt;/transition&gt;
+    
+    &lt;transition name="rejected" to="cancelled"/&gt;
+    
+&lt;/decision&gt;
+</pre>
+      <p>
+			The <code class="literal">&lt;assertObjects&gt;</code> element specifies EL expressions that return an object or collection of objects to be asserted as facts into the <code class="literal">WorkingMemory</code>.
+		</p>
+      <p>
+			There is also support for using Drools for jBPM task assignments:
+		</p>
+      <pre class="programlisting">&lt;task-node name="review"&gt;
+    &lt;task name="review" description="Review Order"&gt;
+        &lt;assignment handler="org.jboss.seam.drools.DroolsAssignmentHandler"&gt;
+            &lt;workingMemoryName&gt;orderApprovalRulesWorkingMemory&lt;/workingMemoryName&gt;
+            &lt;assertObjects&gt;
+                &lt;element&gt;#{actor}&lt;/element&gt;
+                &lt;element&gt;#{customer}&lt;/element&gt;
+                &lt;element&gt;#{order}&lt;/element&gt;
+                &lt;element&gt;#{order.lineItems}&lt;/element&gt;
+            &lt;/assertObjects&gt;
+        &lt;/assignment&gt;
+    &lt;/task&gt;
+    &lt;transition name="rejected" to="cancelled"/&gt;
+    &lt;transition name="approved" to="approved"/&gt;
+&lt;/task-node&gt;
+</pre>
+      <p>
+			Certain objects are available to the rules as Drools globals, namely the jBPM <code class="literal">Assignable</code>, as <code class="literal">assignable</code> and a Seam <code class="literal">Decision</code> object, as <code class="literal">decision</code>. Rules which handle decisions should call <code class="literal">decision.setOutcome("result")</code> to determine the result of the decision. Rules which perform assignments should set the actor id using the <code class="literal">Assignable</code>.
+		</p>
+      <pre class="programlisting">package org.jboss.seam.examples.shop
+
+import org.jboss.seam.drools.Decision
+
+global Decision decision
+
+rule "Approve Order For Loyal Customer"
+  when
+    Customer( loyaltyStatus == "GOLD" )
+    Order( totalAmount &lt;= 10000 )
+  then
+    decision.setOutcome("approved");
+end
+</pre>
+      <pre class="programlisting">package org.jboss.seam.examples.shop
+
+import org.jbpm.taskmgmt.exe.Assignable
+
+global Assignable assignable
+
+rule "Assign Review For Small Order"
+  when
+    Order( totalAmount &lt;= 100 )
+  then
+    assignable.setPooledActors( new String[] {"reviewers"} );
+end
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch12s02.html"><strong>Prev</strong>12.2. Using rules from a Seam component</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="security.html"><strong>Next</strong>Chapter 13. Security</a>
+      </li>
+    </ul>
+  </body>
+</html>

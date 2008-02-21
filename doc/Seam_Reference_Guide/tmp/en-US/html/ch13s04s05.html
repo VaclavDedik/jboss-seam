@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>13.4.5. Handling Security Exceptions</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch13s04.html" title="13.4. Authentication" />
+    <link rel="prev" href="ch13s04s04.html" title="13.4.4. Simplified Configuration - Summary" />
+    <link rel="next" href="ch13s04s06.html" title="13.4.6. Login Redirection" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>13.4.5. Handling Security Exceptions</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04s04.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s04s06.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2819427"></a>13.4.5. Handling Security Exceptions</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		To prevent users from receiving the default error page in response to a security error, it's recommended that <code class="literal">pages.xml</code> is configured to redirect security errors to a more "pretty" page. The two main types of exceptions thrown by the security API are:
+	</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+				<code class="literal">NotLoggedInException</code> - This exception is thrown if the user attempts to access a restricted action or page when they are not logged in.
+			</p>
+          </li>
+          <li>
+            <p>
+				<code class="literal">AuthorizationException</code> - This exception is only thrown if the user is already logged in, and they have attempted to access a restricted action or page for which they do not have the necessary privileges.
+			</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+		In the case of a <code class="literal">NotLoggedInException</code>, it is recommended that the user is redirected to either a login or registration page so that they can log in. For an <code class="literal">AuthorizationException</code>, it may be useful to redirect the user to an error page. Here's an example of a <code class="literal">pages.xml</code> file that redirects both of these security exceptions:
+	</p>
+      <pre class="programlisting">&lt;pages&gt;
+
+    ...
+
+    &lt;exception class="org.jboss.seam.security.NotLoggedInException"&gt;
+        &lt;redirect view-id="/login.xhtml"&gt;
+            &lt;message&gt;You must be logged in to perform this action&lt;/message&gt;
+        &lt;/redirect&gt;
+    &lt;/exception&gt;
+
+    &lt;exception class="org.jboss.seam.security.AuthorizationException"&gt;
+        &lt;end-conversation/&gt;
+        &lt;redirect view-id="/security_error.xhtml"&gt;
+            &lt;message&gt;You do not have the necessary security privileges to perform this action.&lt;/message&gt;
+        &lt;/redirect&gt;
+    &lt;/exception&gt;
+
+&lt;/pages&gt;
+</pre>
+      <p>
+		Most web applications require even more sophisticated handling of login redirection, so Seam includes some special functionality for handling this problem.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04s04.html"><strong>Prev</strong>13.4.4. Simplified Configuration - Summary</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s04s06.html"><strong>Next</strong>13.4.6. Login Redirection</a>
+      </li>
+    </ul>
+  </body>
+</html>

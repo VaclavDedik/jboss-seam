@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>7.1.1. The two navigation models</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch07s01.html" title="7.1. Pageflow in Seam" />
+    <link rel="prev" href="ch07s01.html" title="7.1. Pageflow in Seam" />
+    <link rel="next" href="ch07s01s02.html" title="7.1.2. Seam and the back button" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>7.1.1. The two navigation models</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch07s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch07s01s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2813628"></a>7.1.1. The two navigation models</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				The stateless model defines a mapping from a set of named, logical outcomes of an event directly to the resulting page of the view. The navigation rules are entirely oblivious to any state held by the application other than what page was the source of the event. This means that your action listener methods must sometimes make decisions about the page flow, since only they have access to the current state of the application.
+			</p>
+      <p>
+				Here is an example page flow definition using JSF navigation rules:
+			</p>
+      <pre class="programlisting">&lt;navigation-rule&gt;
+    &lt;from-view-id&gt;/numberGuess.jsp&lt;/from-view-id&gt;
+        
+    &lt;navigation-case&gt;
+        &lt;from-outcome&gt;guess&lt;/from-outcome&gt;
+        &lt;to-view-id&gt;/numberGuess.jsp&lt;/to-view-id&gt;
+        &lt;redirect/&gt;
+    &lt;/navigation-case&gt;
+
+    &lt;navigation-case&gt;
+        &lt;from-outcome&gt;win&lt;/from-outcome&gt;
+        &lt;to-view-id&gt;/win.jsp&lt;/to-view-id&gt;
+        &lt;redirect/&gt;
+    &lt;/navigation-case&gt;
+        
+    &lt;navigation-case&gt;
+        &lt;from-outcome&gt;lose&lt;/from-outcome&gt;
+        &lt;to-view-id&gt;/lose.jsp&lt;/to-view-id&gt;
+        &lt;redirect/&gt;
+    &lt;/navigation-case&gt;
+
+&lt;/navigation-rule&gt;
+</pre>
+      <p>
+				Here is the same example page flow definition using Seam navigation rules:
+			</p>
+      <pre class="programlisting">&lt;page view-id="/numberGuess.jsp"&gt;
+        
+    &lt;navigation&gt;
+        &lt;rule if-outcome="guess"&gt;
+            &lt;redirect view-id="/numberGuess.jsp"/&gt;
+        &lt;/rule&gt;
+        &lt;rule if-outcome="win"&gt;
+            &lt;redirect view-id="/win.jsp"/&gt;
+        &lt;/rule&gt;
+        &lt;rule if-outcome="lose"&gt;
+            &lt;redirect view-id="/lose.jsp"/&gt;
+        &lt;/rule&gt;
+    &lt;/navigation&gt;
+
+&lt;/page&gt;
+</pre>
+      <p>
+				If you find navigation rules overly verbose, you can return view ids directly from your action listener methods:
+			</p>
+      <pre class="programlisting">public String guess() {
+    if (guess==randomNumber) return "/win.jsp";
+    if (++guessCount==maxGuesses) return "/lose.jsp";
+    return null;
+}
+</pre>
+      <p>
+				Note that this results in a redirect. You can even specify parameters to be used in the redirect:
+			</p>
+      <pre class="programlisting">public String search() {
+    return "/searchResults.jsp?searchPattern=#{searchAction.searchPattern}";
+}
+</pre>
+      <p>
+				The stateful model defines a set of transitions between a set of named, logical application states. In this model, it is possible to express the flow of any user interaction entirely in the jPDL pageflow definition, and write action listener methods that are completely unaware of the flow of the interaction.
+			</p>
+      <p>
+				Here is an example page flow definition using jPDL:
+			</p>
+      <pre class="programlisting">&lt;pageflow-definition name="numberGuess"&gt;
+    
+   &lt;start-page name="displayGuess" view-id="/numberGuess.jsp"&gt;
+      &lt;redirect/&gt;
+      &lt;transition name="guess" to="evaluateGuess"&gt;
+      	&lt;action expression="#{numberGuess.guess}" /&gt;
+      &lt;/transition&gt;
+   &lt;/start-page&gt;
+   
+   &lt;decision name="evaluateGuess" expression="#{numberGuess.correctGuess}"&gt;
+      &lt;transition name="true" to="win"/&gt;
+      &lt;transition name="false" to="evaluateRemainingGuesses"/&gt;
+   &lt;/decision&gt;
+   
+   &lt;decision name="evaluateRemainingGuesses" expression="#{numberGuess.lastGuess}"&gt;
+      &lt;transition name="true" to="lose"/&gt;
+      &lt;transition name="false" to="displayGuess"/&gt;
+   &lt;/decision&gt;
+   
+   &lt;page name="win" view-id="/win.jsp"&gt;
+      &lt;redirect/&gt;
+      &lt;end-conversation /&gt;
+   &lt;/page&gt;
+   
+   &lt;page name="lose" view-id="/lose.jsp"&gt;
+      &lt;redirect/&gt;
+      &lt;end-conversation /&gt;
+   &lt;/page&gt;
+   
+&lt;/pageflow-definition&gt;
+</pre>
+      <div class="mediaobject" align="center">
+        <img src="/images/plugin-jbpm-numguess.png" align="middle" />
+      </div>
+      <p>
+				There are two things we notice immediately here:
+			</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+						The JSF/Seam navigation rules are <span class="emphasis"><em>much</em></span> simpler. (However, this obscures the fact that the underlying Java code is more complex.)
+					</p>
+          </li>
+          <li>
+            <p>
+						The jPDL makes the user interaction immediately understandable, without us needing to even look at the JSP or Java code.
+					</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+				In addition, the stateful model is more <span class="emphasis"><em>constrained</em></span>. For each logical state (each step in the page flow), there are a constrained set of possible transitions to other states. The stateless model is an <span class="emphasis"><em>ad hoc</em></span> model which is suitable to relatively unconstrained, freeform navigation where the user decides where he/she wants to go next, not the application.
+			</p>
+      <p>
+				The stateful/stateless navigation distinction is quite similar to the traditional view of modal/modeless interaction. Now, Seam applications are not usually modal in the simple sense of the word - indeed, avoiding application modal behavior is one of the main reasons for having conversations! However, Seam applications can be, and often are, modal at the level of a particular conversation. It is well-known that modal behavior is something to avoid as much as possible; it is very difficult to predict the order in which your users are going to want to do things! However, there is no doubt that the stateful model has its place.
+			</p>
+      <p>
+				The biggest contrast between the two models is the back-button behavior.
+			</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch07s01.html"><strong>Prev</strong>7.1. Pageflow in Seam</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch07s01s02.html"><strong>Next</strong>7.1.2. Seam and the back button</a>
+      </li>
+    </ul>
+  </body>
+</html>

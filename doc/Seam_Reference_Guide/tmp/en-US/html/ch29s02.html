@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>29.2. Projection</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="elenhancements.html" title="Chapter 29. JBoss EL" />
+    <link rel="prev" href="ch29s01s02.html" title="29.1.2. Limitations and Hints" />
+    <link rel="next" href="testing.html" title="Chapter 30. Testing Seam applications" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>29.2. Projection</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch29s01s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="testing.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2885284"></a>29.2. Projection</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			JBoss EL supports a limited projection syntax. A projection expression maps a sub-expression across a multi-valued (list, set, etc...) expression. For instance, the expression:
+		</p>
+      <pre class="programlisting">#{company.departments}
+</pre>
+      <p>
+			might return a list of departments. If you only need a list of department names, your only option is to iterate over the list to retrieve the values. JBoss EL allows this with a projection expression:
+		</p>
+      <pre class="programlisting">#{company.departments.{d|d.name}}
+</pre>
+      <p>
+			The subexpression is enclosed in braces. In this example, the expression <code class="literal">d.name</code> is evaluated for each department, using <code class="literal">d</code> as an alias to the department object. The result of this expression will be a list of String values.
+		</p>
+      <p>
+			Any valid expression can be used in an expression, so it would be perfectly valid to write the following, assuming you had a use for the lengths of all the department names in a company:
+		</p>
+      <pre class="programlisting">#{company.departments.{d|d.size()}}
+</pre>
+      <p>
+			Projections can be nested. The following expression returns the last names of every employee in every department:
+		</p>
+      <pre class="programlisting">#{company.departments.{d|d.employees.{emp|emp.lastName}}}
+</pre>
+      <p>
+			Nested projections can be slightly tricky, however. The following expression looks like it returns a list of all the employees in all the departments:
+		</p>
+      <pre class="programlisting">#{company.departments.{d|d.employees}}
+</pre>
+      <p>
+			However, it actually returns a list containing a list of the employees for each individual department. To combine the values, it is necessary to use a slightly longer expression:
+		</p>
+      <pre class="programlisting">#{company.departments.{d|d.employees.{e|e}}}
+</pre>
+      <p>
+			It is important to note that this syntax cannot be parsed by Facelets or JSP and thus cannot be used in xhtml or JSP files. We anticipate that the projection syntax will change in future versions of JBoss EL.
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch29s01s02.html"><strong>Prev</strong>29.1.2. Limitations and Hints</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="testing.html"><strong>Next</strong>Chapter 30. Testing Seam applications</a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>32.4.2.1. Configuration file changes</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch32s04s02.html" title="32.4.2. Changes needed for deployment to OC4J" />
+    <link rel="prev" href="ch32s04s02.html" title="32.4.2. Changes needed for deployment to OC4J" />
+    <link rel="next" href="ch32s04s02s02.html" title="32.4.2.2. Extra jar dependencies" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>32.4.2.1. Configuration file changes</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch32s04s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch32s04s02s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2842302"></a>32.4.2.1. Configuration file changes</h4>
+          </div>
+        </div>
+      </div>
+      <p>
+					Let's start with the configuration files:
+				</p>
+      <div class="variablelist">
+        <dl>
+          <dt>
+            <span class="term">
+              <code class="literal">build.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+										Change the default target to archive (we aren't going to cover automatic deployment to OC4J). 
+</p>
+                  <pre class="programlisting">&lt;project name="oc4j_example" default="archive" basedir="."&gt;
+</pre>
+                  <p>
+									</p>
+                </li>
+                <li>
+                  <p>
+										OC4J looks for the drools file <code class="literal">/security.drl</code> file in the root of the <code class="literal">war</code> file instead of the root of the <code class="literal">ear</code> file so we need to have the <code class="literal">build.xml</code> move it to the correct location at build time. The following must be added at the top of the <code class="literal"> &lt;target name="war" depends="compile" description="Build the distribution .war file"&gt; </code> target. 
+</p>
+                  <pre class="programlisting">&lt;copy todir="${war.dir}"&gt;
+ &lt;fileset dir="${basedir}/resources" &gt;
+    &lt;include name="*.drl" /&gt;
+ &lt;/fileset&gt;
+ &lt;/copy&gt;
+</pre>
+                  <p>
+									</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">
+              <code class="literal">resources/META-INF/persistence-dev.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+										Alter the <code class="literal">jta-data-source</code> to be <code class="literal">jdbc/__oc4jexample</code> (and use this as the <code class="literal">jndi-name</code> when creating the data source in <code class="literal">data-sources.xml</code> later during deployment).
+									</p>
+                </li>
+                <li>
+                  <p>
+										Add the properties (described in <code class="literal">jee5/booking</code> example):
+									</p>
+                  <pre class="programlisting">&lt;property name="hibernate.query.factory_class"
+   value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory" /&gt;
+&lt;property name="hibernate.transaction.manager_lookup_class"
+   value="org.hibernate.transaction.OrionTransactionManagerLookup" /&gt;
+&lt;property name="hibernate.transaction.flush_before_completion" 
+   value="true"/&gt;
+&lt;property name="hibernate.cache.provider_class" 
+   value="org.hibernate.cache.HashtableCacheProvider"/&gt;
+</pre>
+                </li>
+                <li>
+                  <p>
+										Remove the JBoss AS specific method of exposing the EntityManagerFactory:
+									</p>
+                  <pre class="programlisting">&lt;property 
+ name="jboss.entity.manager.factory.jndi.name" 
+ value="java:/oc4j_exampleEntityManagerFactory"&gt;
+</pre>
+                </li>
+                <li>
+                  <p>
+										You'll need to alter <code class="literal">persistence-prod.xml</code> as well if you want to deploy to OC4J using the prod profile.
+									</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">
+              <code class="literal">resources/META-INF/jboss-app.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <p>
+								You can delete this file as we aren't deploying to JBoss AS ( <code class="literal">jboss-app.xml</code> is used to enable classloading isolation in JBoss AS)
+							</p>
+          </dd>
+          <dt>
+            <span class="term">
+              <code class="literal">resources/*-ds.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <p>
+								You can delete these file as we aren't deploying to JBoss AS (these files define datasources in JBoss AS, in OC4J you have to edit the master <code class="literal">data-sources.xml</code> file)
+							</p>
+          </dd>
+          <dt>
+            <span class="term">
+              <code class="literal">resources/WEB-INF/components.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+										Enable container managed transaction integration - add the <code class="literal"> &lt;transaction:ejb-transaction /&gt; </code> component, and it's namespace declaration <code class="literal"> xmlns:transaction="http://jboss.com/products/seam/transaction" </code>
+									</p>
+                </li>
+                <li>
+                  <p>
+										Alter the <code class="literal">jndi-pattern</code> to <code class="literal"> java:comp/env/oc4j_example/#{ejbName}/local </code>
+									</p>
+                </li>
+                <li>
+                  <p>
+										We want to use a Seam Managed Persistence Context in our application. Unfortunately OC4J doesn't expose the EntityManagerFactory in JNDI, but Seam provides a built-in manager component. To activate add the following entry:
+									</p>
+                  <pre class="programlisting">&lt;persistence:entity-manager-factory
+ auto-create="true" 
+ name="oc4jEntityManagerFactory"
+ persistence-unit-name="oc4j_example" /&gt;
+</pre>
+                  <p>
+										We then need to tell Seam to use it, so we alter the <code class="literal">managed-persistence-context</code> injecting the Entity Manager Factory into the existing element:
+									</p>
+                  <pre class="programlisting">&lt;persistence:managed-persistence-context
+ name="entityManager"
+ auto-create="true"
+ entity-manager-factory="#{oc4jEntityManagerFactory}" /&gt;
+
+</pre>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">
+              <code class="literal">resources/WEB-INF/web.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <p>
+								You must add the Seam container managed transaction integration EJB entry below. Remember for OC4j you need to declare all your EJBs here if you modify the application further.
+							</p>
+            <pre class="programlisting">&lt;ejb-local-ref&gt;
+   &lt;ejb-ref-name&gt;
+      oc4j_example/EjbSynchronizations/local
+   &lt;/ejb-ref-name&gt;
+   &lt;ejb-ref-type&gt;Session&lt;/ejb-ref-type&gt;
+   &lt;local&gt;
+      org.jboss.seam.transaction.LocalEjbSynchronizations
+   &lt;/local&gt;
+   &lt;ejb-link&gt;EjbSynchronizations&lt;/ejb-link&gt;
+&lt;/ejb-local-ref&gt;
+</pre>
+          </dd>
+          <dt>
+            <span class="term">
+              <code class="literal">resources/META-INF/orion-application.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+										This is a file that you must create so that RichFaces and Ajax4Jsf stylesheets will work with OC4J. This file basically tells OC4J not force its own inherited URL settings.
+									</p>
+                  <pre class="programlisting">&lt;?xml version = '1.0' encoding = 'utf-8'?&gt;
+&lt;orion-application
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://xmlns.oracle.com/oracleas/schema/
+                                                            orion-application-10_0.xsd"
+        schema-major-version="10"
+        schema-minor-version="0"
+        component-classification="internal"&gt;
+
+    &lt;imported-shared-libraries&gt;
+       &lt;remove-inherited name="oracle.xml"/&gt;
+    &lt;/imported-shared-libraries&gt;
+&lt;/orion-application&gt;
+</pre>
+                </li>
+                <li>
+                  <p>
+										Now you need to tell the <code class="literal">build.xml</code> file that it needs to copy this file to the <code class="literal">ear</code> archive. Find the <code class="literal"> &lt;target name="ear" description="Build the EAR"&gt; </code> target and modify the <code class="literal"> &lt;copy todir="${ear.dir}/META-INF"&gt; </code> section to look like the following:
+									</p>
+                  <pre class="programlisting">&lt;copy todir="${ear.dir}/META-INF"&gt;
+    &lt;fileset dir="${basedir}/resources/META-INF"&gt;
+       &lt;include name="application.xml" /&gt;
+       &lt;include name="orion-application.xml"/&gt;
+       &lt;include name="jboss-app.xml" /&gt;
+    &lt;/fileset&gt;
+ &lt;/copy&gt;
+</pre>
+                </li>
+              </ul>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch32s04s02.html"><strong>Prev</strong>32.4.2. Changes needed for deployment to OC4J</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch32s04s02s02.html"><strong>Next</strong>32.4.2.2. Extra jar dependencies</a>
+      </li>
+    </ul>
+  </body>
+</html>

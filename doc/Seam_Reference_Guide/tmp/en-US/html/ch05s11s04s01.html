@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>5.11.4.1. Suppressing exception logging</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch05s11s04.html" title="5.11.4. Using XML for exception handling" />
+    <link rel="prev" href="ch05s11s04.html" title="5.11.4. Using XML for exception handling" />
+    <link rel="next" href="ch05s11s05.html" title="5.11.5. Some common exceptions" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>5.11.4.1. Suppressing exception logging</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch05s11s04.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch05s11s05.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2846856"></a>5.11.4.1. Suppressing exception logging</h4>
+          </div>
+        </div>
+      </div>
+      <p>
+					For the exception handlers defined in <code class="literal">pages.xml</code>, it is possible to declare the logging level at which the exception will be logged, or to even suppress the exception being logged altogether. The attributes <code class="literal">log</code> and <code class="literal">logLevel</code> can be used to control exception logging. By setting <code class="literal">log="false"</code> as per the following example, then no log message will be generated when the specified exception occurs:
+				</p>
+      <pre class="programlisting">    &lt;exception class="org.jboss.seam.security.NotLoggedInException" log="false"&gt;
+        &lt;redirect view-id="/register.xhtml"&gt;
+            &lt;message severity="warn"&gt;You must be a member to use this feature&lt;/message&gt;
+        &lt;/redirect&gt;
+    &lt;/exception&gt;
+</pre>
+      <p>
+					If the <code class="literal">log</code> attribute is not specified, then it defaults to <code class="literal">true</code> (i.e. the exception will be logged). Alternatively, you can specify the <code class="literal">logLevel</code> to control at which log level the exception will be logged:
+				</p>
+      <pre class="programlisting">    &lt;exception class="org.jboss.seam.security.NotLoggedInException" logLevel="info"&gt;
+        &lt;redirect view-id="/register.xhtml"&gt;
+            &lt;message severity="warn"&gt;You must be a member to use this feature&lt;/message&gt;
+        &lt;/redirect&gt;
+    &lt;/exception&gt;
+</pre>
+      <p>
+					The acceptable values for <code class="literal">logLevel</code> are: <code class="literal">fatal, error, warn, info, debug</code> or <code class="literal">trace</code>. If the <code class="literal">logLevel</code> is not specified, or if an invalid value is configured, then it will default to <code class="literal">error</code>.
+				</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch05s11s04.html"><strong>Prev</strong>5.11.4. Using XML for exception handling</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch05s11s05.html"><strong>Next</strong>5.11.5. Some common exceptions</a>
+      </li>
+    </ul>
+  </body>
+</html>

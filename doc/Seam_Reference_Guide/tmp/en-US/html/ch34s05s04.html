@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>34.5.4.  Building and deploying the seam-gen'd application to Websphere</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch34s05.html" title="34.5. Changes needed for deployment to Websphere" />
+    <link rel="prev" href="ch34s05s03.html" title="34.5.3. Extra jar dependencies and other changes to the build.xml" />
+    <link rel="next" href="dependencies.html" title="Chapter 35. Dependencies" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>34.5.4.  Building and deploying the seam-gen'd application to Websphere </strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch34s05s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="dependencies.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2900369"></a>34.5.4.  Building and deploying the seam-gen'd application to Websphere </h3>
+          </div>
+        </div>
+      </div>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+						Build your application by calling <code class="literal">ant</code> in the base directory of your project (ex. <code class="literal">/home/jbalunas/workspace/websphere_example</code> ). The target of the build will be <code class="literal">dist/websphere_example.ear</code> .
+					</p>
+          </li>
+          <li>
+            <p>
+						To deploy the application follow the instructions here : <a href="jee5-websphere-deploy.html" title="34.2.3. Deploying the application to Websphere">Section 34.2.3, “Deploying the application to Websphere”</a> but use references to this project <code class="literal">websphere_example</code> instead of <code class="literal">jboss-seam-jee5</code>.
+					</p>
+          </li>
+          <li>
+            <p>
+						Checkout the app at: <code class="literal">http://localhost:9080/websphere_example/index.html</code>
+					</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch34s05s03.html"><strong>Prev</strong>34.5.3. Extra jar dependencies and other changes ...</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="dependencies.html"><strong>Next</strong>Chapter 35. Dependencies</a>
+      </li>
+    </ul>
+  </body>
+</html>

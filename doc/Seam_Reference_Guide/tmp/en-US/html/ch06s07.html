@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>6.7. Creating a natural conversation</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="conversations.html" title="Chapter 6. Conversations and workspace management" />
+    <link rel="prev" href="ch06s06.html" title="6.6. Natural conversation ids" />
+    <link rel="next" href="ch06s08.html" title="6.8. Redirecting to a natural conversation" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>6.7. Creating a natural conversation</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s06.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s08.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2846306"></a>6.7. Creating a natural conversation</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			Natural conversations are defined in <code class="literal">pages.xml</code>:
+		</p>
+      <pre class="programlisting">  &lt;conversation name="PlaceBid"
+                  parameter-name="auctionId"
+                  parameter-value="#{auction.auctionId}"/&gt;
+</pre>
+      <p>
+			The first thing to note from the above definition is that the conversation has a name, in this case <code class="literal">PlaceBid</code>. This name uniquely identifies this particular named conversation, and is used by the <code class="literal">page</code> definition to identify a named conversation to participate in.
+		</p>
+      <p>
+			The next attribute, <code class="literal">parameter-name</code> defines the request parameter that will contain the natural conversation id, in place of the default conversation id parameter. In this example, the <code class="literal">parameter-name</code> is <code class="literal">auctionId</code>. This means that instead of a conversation parameter like <code class="literal">cid=123</code> appearing in the URL for your page, it will contain <code class="literal">auctionId=765432</code> instead.
+		</p>
+      <p>
+			The last attribute in the above configuration, <code class="literal">parameter-value</code>, defines an EL expression used to evaluate the value of the natural business key to use as the conversation id. In this example, the conversation id will be the primary key value of the <code class="literal">auction</code> instance currently in scope.
+		</p>
+      <p>
+			Next, we define which pages will participate in the named conversation. This is done by specifying the <code class="literal">conversation</code> attribute for a <code class="literal">page</code> definition:
+		</p>
+      <pre class="programlisting">  &lt;page view-id="/bid.xhtml" conversation="PlaceBid" login-required="true"&gt;
+      &lt;navigation from-action="#{bidAction.confirmBid}"&gt;        
+          &lt;rule if-outcome="success"&gt;
+              &lt;redirect view-id="/auction.xhtml"&gt;
+                  &lt;param name="id" value="#{bidAction.bid.auction.auctionId}"/&gt;
+              &lt;/redirect&gt;
+          &lt;/rule&gt;        
+      &lt;/navigation&gt;
+  &lt;/page&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s06.html"><strong>Prev</strong>6.6. Natural conversation ids</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s08.html"><strong>Next</strong>6.8. Redirecting to a natural conversation</a>
+      </li>
+    </ul>
+  </body>
+</html>

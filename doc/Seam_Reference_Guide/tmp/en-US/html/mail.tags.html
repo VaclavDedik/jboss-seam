@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>17.5. Tags</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="mail.html" title="Chapter 17. Email" />
+    <link rel="prev" href="ch17s04.html" title="17.4. Meldware" />
+    <link rel="next" href="jms.html" title="Chapter 18. Asynchronicity and messaging" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>17.5. Tags</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch17s04.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="jms.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="mail.tags"></a>17.5. Tags</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			Emails are generated using tags in the <code class="literal">http://jboss.com/products/seam/mail</code> namespace. Documents should always have the <code class="literal">message</code> tag at the root of the message. The message tag prepares Seam to generate an email.
+		</p>
+      <p>
+			The standard templating tags of facelets can be used as normal. Inside the body you can use any JSF tag; if it requires access to external resources (stylesheets, javascript) then be sure to set the <code class="literal">urlBase</code>.
+		</p>
+      <div class="variablelist">
+        <dl>
+          <dt>
+            <span class="term">&lt;m:message&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Root tag of a mail message
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">importance</code> — low, normal or high. By default normal, this sets the importance of the mail message.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">precedence</code> — sets the precedence of the message (e.g. bulk).
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">requestReadReceipt</code> — by default false, if set, a read receipt request will be will be added, with the read receipt being sent to the <code class="literal">From:</code> address.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">urlBase</code> — If set, the value is prepended to the <code class="literal">requestContextPath</code> allowing you to use components such as <code class="literal">&lt;h:graphicImage&gt;</code> in your emails.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:from&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Set's the From: address for the email. You can only have one of these per email.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">name</code> — the name the email should come from.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">address</code> — the email address the email should come from.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:replyTo&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Set's the Reply-to: address for the email. You can only have one of these per email.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">address</code> — the email address the email should come from.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:to&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Add a recipient to the email. Use multiple &lt;m:to&gt; tags for multiple recipients. This tag can be safely placed inside a repeat tag such as &lt;ui:repeat&gt;.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">name</code> — the name of the recipient.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">address</code> — the email address of the recipient.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:cc&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Add a cc recipient to the email. Use multiple &lt;m:cc&gt; tags for multiple ccs. This tag can be safely placed inside a iterator tag such as &lt;ui:repeat&gt;.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">name</code> — the name of the recipient.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">address</code> — the email address of the recipient.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:bcc&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Add a bcc recipient to the email. Use multiple &lt;m:bcc&gt; tags for multiple bccs. This tag can be safely placed inside a repeat tag such as &lt;ui:repeat&gt;.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">name</code> — the name of the recipient.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">address</code> — the email address of the recipient.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:header&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Add a header to the email (e.g. <code class="literal">X-Sent-From: JBoss Seam</code>)
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">name</code> — The name of the header to add (e.g. <code class="literal">X-Sent-From</code>).
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">value</code> — The value of the header to add (e.g. <code class="literal">JBoss Seam</code>).
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:attachment&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Add an attachment to the email.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">value</code> — The file to attach:
+							</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+										<code class="literal">String</code> — A <code class="literal">String</code> is interpreted as a path to file within the classpath
+									</p>
+                      </li>
+                      <li>
+                        <p>
+										<code class="literal">java.io.File</code> — An EL expression can reference a <code class="literal">File</code> object
+									</p>
+                      </li>
+                      <li>
+                        <p>
+										<code class="literal">java.net.URL</code> — An EL expression can reference a <code class="literal">URL</code> object
+									</p>
+                      </li>
+                      <li>
+                        <p>
+										<code class="literal">java.io.InputStream</code> — An EL expression can reference an <code class="literal">InputStream</code>. In this case both a <code class="literal">fileName</code> and a <code class="literal">contentType</code> must be specified.
+									</p>
+                      </li>
+                      <li>
+                        <p>
+										<code class="literal">byte[]</code> — An EL expression can reference an <code class="literal">byte[]</code>. In this case both a <code class="literal">fileName</code> and a <code class="literal">contentType</code> must be specified.
+									</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+								If the value attribute is ommitted:
+							</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+										If this tag contains a <code class="literal">&lt;p:document&gt;</code> tag, the document described will be generated and attached to the email. A <code class="literal">fileName</code> should be specfied.
+									</p>
+                      </li>
+                      <li>
+                        <p>
+										If this tag contains other JSF tags a HTML document will be generated from them and attached to the email. A <code class="literal">fileName</code> should be specfied.
+									</p>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">fileName</code> — Specify the file name to use for the attached file.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">contentType</code> — Specify the MIME type of the attached file
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:subject&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Set's the subject for the email.
+					</p>
+          </dd>
+          <dt>
+            <span class="term">&lt;m:body&gt;</span>
+          </dt>
+          <dd>
+            <p>
+						Set's the body for the email. Supports an <code class="literal">alternative</code> facet which, if an HTML email is generated can contain alternative text for a mail reader which doesn't support html.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">type</code> — If set to <code class="literal">plain</code> then a plain text email will be generated otherwise an HTML email is generated.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch17s04.html"><strong>Prev</strong>17.4. Meldware</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="jms.html"><strong>Next</strong>Chapter 18. Asynchronicity and messaging</a>
+      </li>
+    </ul>
+  </body>
+</html>

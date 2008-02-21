@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>13.5. Error Messages</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="security.html" title="Chapter 13. Security" />
+    <link rel="prev" href="ch13s04s08s01.html" title="13.4.8.1. Using your container's JAAS configuration" />
+    <link rel="next" href="ch13s06.html" title="13.6. Authorization" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>13.5. Error Messages</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04s08s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s06.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect1" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2794861"></a>13.5. Error Messages</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+		The security API produces a number of default faces messages for various security-related events. The following table lists the message keys that can be used to override these messages by specifying them in a <code class="literal">message.properties</code> resource file. To suppress the message, just put the key with an empty value in the resource file.
+	</p>
+      <div class="table">
+        <a id="id2832492"></a>
+        <div class="table-contents">
+          <table summary="Security Message Keys" border="1">
+            <colgroup>
+              <col />
+              <col />
+            </colgroup>
+            <thead>
+              <tr>
+                <th align="center">
+						<p>
+							Message Key
+						</p>
+					</th>
+                <th align="center">
+						<p>
+							Description
+						</p>
+					</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+						<p>
+							<code class="literal">org.jboss.seam.loginSuccessful</code>
+						</p>
+					</td>
+                <td>
+						<p>
+							This message is produced when a user successfully logs in via the security API.
+						</p>
+					</td>
+              </tr>
+              <tr>
+                <td>
+						<p>
+							<code class="literal">org.jboss.seam.loginFailed</code>
+						</p>
+					</td>
+                <td>
+						<p>
+							This message is produced when the login process fails, either because the user provided an incorrect username or password, or because authentication failed in some other way.
+						</p>
+					</td>
+              </tr>
+              <tr>
+                <td>
+						<p>
+							<code class="literal">org.jboss.seam.NotLoggedIn</code>
+						</p>
+					</td>
+                <td>
+						<p>
+							This message is produced when a user attempts to perform an action or access a page that requires a security check, and the user is not currently authenticated.
+						</p>
+					</td>
+              </tr>
+              <tr>
+                <td>
+						<p>
+							<code class="literal">org.jboss.seam.AlreadyLoggedIn</code>
+						</p>
+					</td>
+                <td>
+						<p>
+							This message is produced when a user that is already authenticated attempts to log in again.
+						</p>
+					</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <h6 xmlns="">Table 13.1. Security Message Keys</h6>
+      </div>
+      <br class="table-break" />
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04s08s01.html"><strong>Prev</strong>13.4.8.1. Using your container's JAAS configurati...</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s06.html"><strong>Next</strong>13.6. Authorization</a>
+      </li>
+    </ul>
+  </body>
+</html>

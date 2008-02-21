@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>2.8. Seam and incremental hot deployment</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="gettingstarted.html" title="Chapter 2. Getting started with Seam, using seam-gen" />
+    <link rel="prev" href="ch02s07.html" title="2.7. Deploying the application as an EAR" />
+    <link rel="next" href="ch02s09.html" title="2.9. Using Seam with JBoss 4.0" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>2.8. Seam and incremental hot deployment</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch02s07.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch02s09.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="gettingstarted-hotdeployment"></a>2.8. Seam and incremental hot deployment</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			When you deploy your Seam application as an exploded directory, you'll get some support for incremental hot deployment at development time. You need to enable debug mode in both Seam and Facelets, by adding this line to <code class="literal">components.xml</code>:
+		</p>
+      <pre class="programlisting">&lt;core:init debug="true"/&gt;
+</pre>
+      <p>
+			Now, the following files may be redeployed without requiring a full restart of the web application:
+		</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+					any facelets page
+				</p>
+          </li>
+          <li>
+            <p>
+					any <code class="literal">pages.xml</code> file
+				</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+			But if we want to change any Java code, we still need to do a full restart of the application. (In JBoss this may be accomplished by touching the top level deployment descriptor: <code class="literal">application.xml</code> for an EAR deployment, or <code class="literal">web.xml</code> for a WAR deployment.)
+		</p>
+      <p>
+			But if you really want a fast edit/compile/test cycle, Seam supports incremental redeployment of JavaBean components. To make use of this functionality, you must deploy the JavaBean components into the <code class="literal">WEB-INF/dev</code> directory, so that they will be loaded by a special Seam classloader, instead of by the WAR or EAR classloader.
+		</p>
+      <p>
+			You need to be aware of the following limitations:
+		</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+					the components must be JavaBean components, they cannot be EJB3 beans (we are working on fixing this limitation)
+				</p>
+          </li>
+          <li>
+            <p>
+					entities can never be hot-deloyed
+				</p>
+          </li>
+          <li>
+            <p>
+					components deployed via <code class="literal">components.xml</code> may not be hot-deployed
+				</p>
+          </li>
+          <li>
+            <p>
+					the hot-deployable components will not be visible to any classes deployed outside of <code class="literal">WEB-INF/dev</code>
+				</p>
+          </li>
+          <li>
+            <p>
+					Seam debug mode must be enabled and <code class="literal">jboss-seam-debug.jar</code> must be in <code class="literal">WEB-INF/lib</code>
+				</p>
+          </li>
+          <li>
+            <p>
+					You must have the Seam filter installed in web.xml
+				</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+			If you create a WAR project using seam-gen, incremental hot deployment is available out of the box for classes in the <code class="literal">src/action</code> source directory. However, seam-gen does not support incremental hot deployment for EAR projects.
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch02s07.html"><strong>Prev</strong>2.7. Deploying the application as an EAR</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch02s09.html"><strong>Next</strong>2.9. Using Seam with JBoss 4.0</a>
+      </li>
+    </ul>
+  </body>
+</html>

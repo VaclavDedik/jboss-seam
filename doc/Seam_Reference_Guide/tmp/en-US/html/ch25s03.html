@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>25.3. Configuring Seam in J2EE</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="configuration.html" title="Chapter 25. Configuring Seam and packaging Seam applications" />
+    <link rel="prev" href="ch25s02s01.html" title="25.2.1. Packaging" />
+    <link rel="next" href="ch25s03s01.html" title="25.3.1. Boostrapping Hibernate in Seam" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>25.3. Configuring Seam in J2EE</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s02s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s03s01.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect1" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2786860"></a>25.3. Configuring Seam in J2EE</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+		Seam is useful even if you're not yet ready to take the plunge into EJB 3.0. In this case you would use Hibernate3 or JPA instead of EJB 3.0 persistence, and plain JavaBeans instead of session beans. You'll miss out on some of the nice features of session beans but it will be very easy to migrate to EJB 3.0 when you're ready and, in the meantime, you'll be able to take advantage of Seam's unique declarative state management architecture.
+	</p>
+      <div class="mediaobject" align="center">
+        <img src="/images/hibernate-ee.png" align="middle" />
+      </div>
+      <p>
+		Seam JavaBean components do not provide declarative transaction demarcation like session beans do. You <span class="emphasis"><em>could</em></span> manage your transactions manually using the JTA <code class="literal">UserTransaction</code> or declaratively using Seam's <code class="literal">@Transactional</code> annotation. But most applications will just use Seam managed transactions when using Hibernate with JavaBeans.
+	</p>
+      <p>
+		The Seam distribution includes a version of the booking example application that uses Hibernate3 and JavaBeans instead of EJB3, and another version that uses JPA and JavaBeans. These example applications are ready to deploy into any J2EE application server.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s02s01.html"><strong>Prev</strong>25.2.1. Packaging</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s03s01.html"><strong>Next</strong>25.3.1. Boostrapping Hibernate in Seam</a>
+      </li>
+    </ul>
+  </body>
+</html>

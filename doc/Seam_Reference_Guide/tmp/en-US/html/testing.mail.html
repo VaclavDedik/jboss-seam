@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>30.3.4. Integration Testing Seam Mail</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch30s03.html" title="30.3. Integration testing Seam application user interactions" />
+    <link rel="prev" href="ch30s03s03.html" title="30.3.3. Integration Testing with Mock Data" />
+    <link rel="next" href="tools.html" title="Chapter 31. Seam tools" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>30.3.4. Integration Testing Seam Mail</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch30s03s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="tools.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="testing.mail"></a>30.3.4. Integration Testing Seam Mail</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				Warning! This feature is still under development.
+			</p>
+      <p>
+				It's very easy to integration test your Seam Mail:
+			</p>
+      <pre class="programlisting">public class MailTest extends SeamTest {
+    
+   @Test
+   public void testSimpleMessage() throws Exception {
+        
+      new FacesRequest() {
+
+         @Override
+         protected void updateModelValues() throws Exception {
+            setValue("#{person.firstname}", "Pete");
+            setValue("#{person.lastname}", "Muir");
+            setValue("#{person.address}", "test@example.com");
+         }
+            
+         @Override
+         protected void invokeApplication() throws Exception {
+            MimeMessage renderedMessage = getRenderedMailMessage("/simple.xhtml");
+            assert renderedMessage.getAllRecipients().length == 1;
+            InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
+            assert to.getAddress().equals("test@example.com");
+         }
+            
+      }.run();       
+   }
+}
+</pre>
+      <p>
+				We create a new <code class="literal">FacesRequest</code> as normal. Inside the invokeApplication hook we render the message using <code class="literal">getRenderedMailMessage(viewId);</code>, passing the viewId of the message to render. The method returns the rendered message on which you can do your tests. You can of course also use any of the standard JSF lifecycle methods.
+			</p>
+      <p>
+				There is no support for rendering standard JSF components so you can't test the content body of the mail message easily.
+			</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch30s03s03.html"><strong>Prev</strong>30.3.3. Integration Testing with Mock Data</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="tools.html"><strong>Next</strong>Chapter 31. Seam tools</a>
+      </li>
+    </ul>
+  </body>
+</html>

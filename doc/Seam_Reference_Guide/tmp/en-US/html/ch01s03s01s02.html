@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>1.3.1.2. The stateful session bean: MessageManagerBean.java</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch01s03s01.html" title="1.3.1. Understanding the code" />
+    <link rel="prev" href="ch01s03s01s01.html" title="1.3.1.1. The entity bean: Message.java" />
+    <link rel="next" href="ch01s03s01s03.html" title="1.3.1.3. The session bean local interface: MessageManager.java" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>1.3.1.2. The stateful session bean: <code class="literal">MessageManagerBean.java</code></strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch01s03s01s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch01s03s01s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2815408"></a>1.3.1.2. The stateful session bean: <code class="literal">MessageManagerBean.java</code></h4>
+          </div>
+        </div>
+      </div>
+      <p>
+					Just like in the previous example, we have a session bean, <code class="literal">MessageManagerBean</code>, which defines the action listener methods for the two buttons on our form. One of the buttons selects a message from the list, and displays that message. The other button deletes a message. So far, this is not so different to the previous example.
+				</p>
+      <p>
+					But <code class="literal">MessageManagerBean</code> is also responsible for fetching the list of messages the first time we navigate to the message list page. There are various ways the user could navigate to the page, and not all of them are preceded by a JSF action—the user might have bookmarked the page, for example. So the job of fetching the message list takes place in a Seam <span class="emphasis"><em>factory method</em></span>, instead of in an action listener method.
+				</p>
+      <p>
+					We want to cache the list of messages in memory between server requests, so we will make this a stateful session bean.
+				</p>
+      <div class="example">
+        <a id="id2849466"></a>
+        <div class="example-contents">
+          <div class="programlistingco">
+            <pre class="programlisting">@Stateful
+@Scope(SESSION)
+@Name("messageManager")
+public class MessageManagerBean implements Serializable, MessageManager
+{
+
+   @DataModel
+   private List&lt;Message&gt; messageList;
+   
+   @DataModelSelection
+   @Out(required=false)
+   private Message message;
+   
+   @PersistenceContext(type=EXTENDED)
+   private EntityManager em;
+   
+   @Factory("messageList")
+   public void findMessages()
+   {
+      messageList = em.createQuery("from Message msg order by msg.datetime desc")
+                      .getResultList();
+   }
+   
+   public void select()
+   {
+      message.setRead(true);
+   }
+   
+   public void delete()
+   {
+      messageList.remove(message);
+      em.remove(message);
+      message=null;
+   }
+   
+   @Remove
+   public void destroy() {}
+
+}
+</pre>
+            <div class="calloutlist">
+              <table border="0" summary="Callout list">
+                <tr>
+                  <td width="5%" valign="top" align="left">
+                    <img src="./Common_Content/images/1.png" alt="1" border="0" />
+                  </td>
+                  <td valign="top" align="left">
+                    <p>
+									The <code class="literal">@DataModel</code> annotation exposes an attibute of type <code class="literal">java.util.List</code> to the JSF page as an instance of <code class="literal">javax.faces.model.DataModel</code>. This allows us to use the list in a JSF <code class="literal">&lt;h:dataTable&gt;</code> with clickable links for each row. In this case, the <code class="literal">DataModel</code> is made available in a session context variable named <code class="literal">messageList</code>.
+								</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="5%" valign="top" align="left">
+                    <img src="./Common_Content/images/2.png" alt="2" border="0" />
+                  </td>
+                  <td valign="top" align="left">
+                    <p>
+									The <code class="literal">@DataModelSelection</code> annotation tells Seam to inject the <code class="literal">List</code> element that corresponded to the clicked link.
+								</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="5%" valign="top" align="left">
+                    <img src="./Common_Content/images/3.png" alt="3" border="0" />
+                  </td>
+                  <td valign="top" align="left">
+                    <p>
+									The <code class="literal">@Out</code> annotation then exposes the selected value directly to the page. So ever time a row of the clickable list is selected, the <code class="literal">Message</code> is injected to the attribute of the stateful bean, and the subsequently <span class="emphasis"><em>outjected</em></span> to the event context variable named <code class="literal">message</code>.
+								</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="5%" valign="top" align="left">
+                    <img src="./Common_Content/images/4.png" alt="4" border="0" />
+                  </td>
+                  <td valign="top" align="left">
+                    <p>
+									This stateful bean has an EJB3 <span class="emphasis"><em>extended persistence context</em></span>. The messages retrieved in the query remain in the managed state as long as the bean exists, so any subsequent method calls to the stateful bean can update them without needing to make any explicit call to the <code class="literal">EntityManager</code>.
+								</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="5%" valign="top" align="left">
+                    <img src="./Common_Content/images/5.png" alt="5" border="0" />
+                  </td>
+                  <td valign="top" align="left">
+                    <p>
+									The first time we navigate to the JSP page, there will be no value in the <code class="literal">messageList</code> context variable. The <code class="literal">@Factory</code> annotation tells Seam to create an instance of <code class="literal">MessageManagerBean</code> and invoke the <code class="literal">findMessages()</code> method to initialize the value. We call <code class="literal">findMessages()</code> a <span class="emphasis"><em>factory method</em></span> for <code class="literal">messages</code>.
+								</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="5%" valign="top" align="left">
+                    <img src="./Common_Content/images/6.png" alt="6" border="0" />
+                  </td>
+                  <td valign="top" align="left">
+                    <p>
+									The <code class="literal">select()</code> action listener method marks the selected <code class="literal">Message</code> as read, and updates it in the database.
+								</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="5%" valign="top" align="left">
+                    <img src="./Common_Content/images/7.png" alt="7" border="0" />
+                  </td>
+                  <td valign="top" align="left">
+                    <p>
+									The <code class="literal">delete()</code> action listener method removes the selected <code class="literal">Message</code> from the database.
+								</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="5%" valign="top" align="left">
+                    <img src="./Common_Content/images/8.png" alt="8" border="0" />
+                  </td>
+                  <td valign="top" align="left">
+                    <p>
+									All stateful session bean Seam components <span class="emphasis"><em>must</em></span> have a method with no parameters marked <code class="literal">@Remove</code> that Seam uses to remove the stateful bean when the Seam context ends, and clean up any server-side state.
+								</p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <h6 xmlns="">Example 1.11. </h6>
+      </div>
+      <br class="example-break" />
+      <p>
+					Note that this is a session-scoped Seam component. It is associated with the user login session, and all requests from a login session share the same instance of the component. (In Seam applications, we usually use session-scoped components sparingly.)
+				</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch01s03s01s01.html"><strong>Prev</strong>1.3.1.1. The entity bean: Message.java</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch01s03s01s03.html"><strong>Next</strong>1.3.1.3. The session bean local interface: Messag...</a>
+      </li>
+    </ul>
+  </body>
+</html>

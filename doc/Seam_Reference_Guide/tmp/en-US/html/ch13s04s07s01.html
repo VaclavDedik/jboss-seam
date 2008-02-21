@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>13.4.7.1. Writing a Digest Authenticator</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch13s04s07.html" title="13.4.7. HTTP Authentication" />
+    <link rel="prev" href="ch13s04s07.html" title="13.4.7. HTTP Authentication" />
+    <link rel="next" href="ch13s04s08.html" title="13.4.8. Advanced Authentication Features" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>13.4.7.1. Writing a Digest Authenticator</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04s07.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s04s08.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect3" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2847558"></a>13.4.7.1. Writing a Digest Authenticator</h4>
+          </div>
+        </div>
+      </div>
+      <p>
+		If using digest authentication, your authenticator class should extend the abstract class <code class="literal">org.jboss.seam.security.digest.DigestAuthenticator</code>, and use the <code class="literal">validatePassword()</code> method to validate the user's plain text password against the digest request. Here is an example:
+	</p>
+      <pre class="programlisting">
+   public boolean authenticate()
+   {
+      try
+      {
+         User user = (User) entityManager.createQuery(
+            "from User where username = :username")
+            .setParameter("username", identity.getUsername())
+            .getSingleResult();
+
+         return validatePassword(user.getPassword());
+      }
+      catch (NoResultException ex)
+      {
+         return false;
+      }
+   }
+
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04s07.html"><strong>Prev</strong>13.4.7. HTTP Authentication</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s04s08.html"><strong>Next</strong>13.4.8. Advanced Authentication Features</a>
+      </li>
+    </ul>
+  </body>
+</html>

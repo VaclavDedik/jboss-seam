@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>2.7. Deploying the application as an EAR</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="gettingstarted.html" title="Chapter 2. Getting started with Seam, using seam-gen" />
+    <link rel="prev" href="ch02s06.html" title="2.6. Generating an application from existing JPA/EJB3 entities" />
+    <link rel="next" href="gettingstarted-hotdeployment.html" title="2.8. Seam and incremental hot deployment" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>2.7. Deploying the application as an EAR</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch02s06.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="gettingstarted-hotdeployment.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2811110"></a>2.7. Deploying the application as an EAR</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			Finally, we want to be able to deploy the application using standard Java EE 5 packaging. First, we need to remove the exploded directory by running <code class="literal">seam unexplode</code>. To deploy the EAR, we can type <code class="literal">seam deploy</code> at the command prompt, or run the <code class="literal">deploy</code> target of the generated project build script. You can undeploy using <code class="literal">seam undeploy</code> or the <code class="literal">undeploy</code> target.
+		</p>
+      <p>
+			By default, the application will be deployed with the <span class="emphasis"><em>dev profile</em></span>. The EAR will include the <code class="literal">persistence-dev.xml</code> and <code class="literal">import-dev.sql</code> files, and the <code class="literal">myproject-dev-ds.xml</code> file will be deployed. You can change the profile, and use the <span class="emphasis"><em>prod profile</em></span>, by typing
+		</p>
+      <pre class="programlisting">seam -Dprofile=prod deploy
+</pre>
+      <p>
+			You can even define new deployment profiles for your application. Just add appropriately named files to your project—for example, <code class="literal">persistence-staging.xml</code>, <code class="literal">import-staging.sql</code> and <code class="literal">myproject-staging-ds.xml</code>—and select the name of the profile using <code class="literal">-Dprofile=staging</code>.
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch02s06.html"><strong>Prev</strong>2.6. Generating an application from existing JPA/...</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="gettingstarted-hotdeployment.html"><strong>Next</strong>2.8. Seam and incremental hot deployment</a>
+      </li>
+    </ul>
+  </body>
+</html>

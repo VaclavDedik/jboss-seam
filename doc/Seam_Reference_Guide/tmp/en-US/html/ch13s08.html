@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>13.8. SSL Security</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="security.html" title="Chapter 13. Security" />
+    <link rel="prev" href="ch13s07s03s01.html" title="13.7.3.1. Wildcard permission checks" />
+    <link rel="next" href="ch13s09.html" title="13.9. CAPTCHA" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>13.8. SSL Security</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s07s03s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s09.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect1" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2870637"></a>13.8. SSL Security</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+		Seam includes basic support for serving sensitive pages via the HTTPS protocol. This is easily configured by specifying a <code class="literal">scheme</code> for the page in <code class="literal">pages.xml</code>. The following example shows how the view <code class="literal">/login.xhtml</code> is configured to use HTTPS:
+	</p>
+      <pre class="programlisting">&lt;page view-id="/login.xhtml" scheme="https"/&gt;
+</pre>
+      <p>
+		This configuration is automatically extended to both <code class="literal">s:link</code> and <code class="literal">s:button</code> JSF controls, which (when specifying the <code class="literal">view</code>) will also render the link using the correct protocol. Based on the previous example, the following link will use the HTTPS protocol because <code class="literal">/login.xhtml</code> is configured to use it:
+	</p>
+      <pre class="programlisting">&lt;s:link view="/login.xhtml" value="Login"/&gt;
+</pre>
+      <p>
+		Browsing directly to a view when using the <span class="emphasis"><em>incorrect</em></span> protocol will cause a redirect to the same view using the <span class="emphasis"><em>correct</em></span> protocol. For example, browsing to a page that has <code class="literal">scheme="https"</code> using HTTP will cause a redirect to the same page using HTTPS.
+	</p>
+      <p>
+		It is also possible to configure a <span class="emphasis"><em>default scheme</em></span> for all pages. This is useful if you wish to use HTTPS for a only few pages. If no default scheme is specified then the normal behavior is to continue use the current scheme. So once the user accessed a page that required HTTPS, then HTTPS would continue to be used after the user navigated away to other non-HTTPS pages. (While this is good for security, it is not so great for performance!). To define HTTP as the default <code class="literal">scheme</code>, add this line to <code class="literal">pages.xml</code>:
+	</p>
+      <pre class="programlisting">&lt;page view-id="*" scheme="http" /&gt;
+</pre>
+      <p>
+		Of course, if <span class="emphasis"><em>none</em></span> of the pages in your application use HTTPS then it is not required to specify a default scheme.
+	</p>
+      <p>
+		You may configure Seam to automatically invalidate the current HTTP session each time the scheme changes. Just add this line to <code class="literal">components.xml</code>:
+	</p>
+      <pre class="programlisting">&lt;core:servlet-session invalidate-on-scheme-change="true"/&gt;
+</pre>
+      <p>
+		This option helps make your system less vulnerable to sniffing of the session id or leakage of sensitive data from pages using HTTPS to other pages using HTTP.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s07s03s01.html"><strong>Prev</strong>13.7.3.1. Wildcard permission checks</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s09.html"><strong>Next</strong>13.9. CAPTCHA</a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>23.7. Using a Seam Managed Hibernate Session in Spring</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="spring.html" title="Chapter 23. Spring Framework integration" />
+    <link rel="prev" href="spring-persistence.html" title="23.6. Using a Seam Managed Persistence Context in Spring" />
+    <link rel="next" href="ch23s08.html" title="23.8. Spring Application Context as a Seam Component" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>23.7. Using a Seam Managed Hibernate Session in Spring</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="spring-persistence.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch23s08.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="spring-hibernate"></a>23.7. Using a Seam Managed Hibernate Session in Spring</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			The Seam Spring integration also provides support for complete access to a Seam managed Hibernate session using spring's tools. This integration is very similar to the <a href="spring-persistence.html" title="23.6. Using a Seam Managed Persistence Context in Spring">JPA integration</a>.
+		</p>
+      <p>
+			Like Spring's JPA integration spring's propagation model allows only one open EntityManager per EntityManagerFactory per transaction??? to be available to spring tools. So, the Seam Session integration works by wrapping a proxy SessionFactory around a Seam managed Hibernate session context.
+		</p>
+      <pre class="programlisting">&lt;bean id="seamSessionFactory" class="org.jboss.seam.ioc.spring.SeamManagedSessionFactoryBean"&gt;
+	&lt;property name="sessionName" value="hibernateSession"/&gt;
+&lt;/bean&gt;
+</pre>
+      <p>
+			Where 'sessionName' is the name of the <code class="literal">persistence:managed-hibernate-session</code> component. This SessionFactory can then be used in any Spring provided tools. The integration also provides support for calls to <code class="literal">SessionFactory.getCurrentInstance()</code> as long as you call getCurrentInstance() on the <code class="literal">SeamManagedSessionFactory</code>.
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="spring-persistence.html"><strong>Prev</strong>23.6. Using a Seam Managed Persistence Context in...</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch23s08.html"><strong>Next</strong>23.8. Spring Application Context as a Seam Compon...</a>
+      </li>
+    </ul>
+  </body>
+</html>

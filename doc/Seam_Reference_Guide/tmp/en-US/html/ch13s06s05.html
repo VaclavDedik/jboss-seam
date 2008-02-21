@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>13.6.5. Securing Entities</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch13s06.html" title="13.6. Authorization" />
+    <link rel="prev" href="ch13s06s04.html" title="13.6.4. Securing pages" />
+    <link rel="next" href="ch13s06s05s01.html" title="13.6.5.1. Entity security with JPA" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>13.6.5. Securing Entities</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s06s04.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s06s05s01.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2869723"></a>13.6.5. Securing Entities</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		Seam security also makes it possible to apply security restrictions to read, insert, update and delete actions for entities.
+	</p>
+      <p>
+		To secure all actions for an entity class, add a <code class="literal">@Restrict</code> annotation on the class itself:
+	</p>
+      <pre class="programlisting">@Entity
+@Name("customer")
+@Restrict
+public class Customer {
+  ...
+}
+</pre>
+      <p>
+		If no expression is specified in the <code class="literal">@Restrict</code> annotation, the default security check that is performed is a permission check of <code class="literal">entityName:action</code>, where <code class="literal">entityName</code> is the Seam component name of the entity (or the fully-qualified class name if no @Name is specified), and the <code class="literal">action</code> is either <code class="literal">read</code>, <code class="literal">insert</code>, <code class="literal">update</code> or <code class="literal">delete</code>.
+	</p>
+      <p>
+		It is also possible to only restrict certain actions, by placing a <code class="literal">@Restrict</code> annotation on the relevent entity lifecycle method (annotated as follows):
+	</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+				<code class="literal">@PostLoad</code> - Called after an entity instance is loaded from the database. Use this method to configure a <code class="literal">read</code> permission.
+			</p>
+          </li>
+          <li>
+            <p>
+				<code class="literal">@PrePersist</code> - Called before a new instance of the entity is inserted. Use this method to configure an <code class="literal">insert</code> permission.
+			</p>
+          </li>
+          <li>
+            <p>
+				<code class="literal">@PreUpdate</code> - Called before an entity is updated. Use this method to configure an <code class="literal">update</code> permission.
+			</p>
+          </li>
+          <li>
+            <p>
+				<code class="literal">@PreRemove</code> - Called before an entity is deleted. Use this method to configure a <code class="literal">delete</code> permission.
+			</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+		Here's an example of how an entity would be configured to perform a security check for any <code class="literal">insert</code> operations. Please note that the method is not required to do anything, the only important thing in regard to security is how it is annotated:
+	</p>
+      <pre class="programlisting">
+  @PrePersist @Restrict
+  public void prePersist() {}
+
+</pre>
+      <p>
+		And here's an example of an entity permission rule that checks if the authenticated user is allowed to insert a new <code class="literal">MemberBlog</code> record (from the seamspace example). The entity for which the security check is being made is automatically inserted into the working memory (in this case <code class="literal">MemberBlog</code>):
+	</p>
+      <pre class="programlisting">rule InsertMemberBlog
+  no-loop
+  activation-group "permissions"
+when
+  check: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
+  Principal(principalName : name)
+  MemberBlog(member : member -&gt; (member.getUsername().equals(principalName)))
+then
+  check.grant();
+end;
+</pre>
+      <p>
+		This rule will grant the permission <code class="literal">memberBlog:insert</code> if the currently authenticated user (indicated by the <code class="literal">Principal</code> fact) has the same name as the member for which the blog entry is being created. The "<code class="literal">principalName : name</code>" structure that can be seen in the <code class="literal">Principal</code> fact (and other places) is a variable binding - it binds the <code class="literal">name</code> property of the <code class="literal">Principal</code> to a variable called <code class="literal">principalName</code>. Variable bindings allow the value to be referred to in other places, such as the following line which compares the member's username to the <code class="literal">Principal</code> name. For more details, please refer to the JBoss Rules documentation.
+	</p>
+      <p>
+		Finally, we need to install a listener class that integrates Seam security with your JPA provider.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s06s04.html"><strong>Prev</strong>13.6.4. Securing pages</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s06s05s01.html"><strong>Next</strong>13.6.5.1. Entity security with JPA</a>
+      </li>
+    </ul>
+  </body>
+</html>

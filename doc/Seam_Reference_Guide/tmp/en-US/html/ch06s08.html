@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>6.8. Redirecting to a natural conversation</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="conversations.html" title="Chapter 6. Conversations and workspace management" />
+    <link rel="prev" href="ch06s07.html" title="6.7. Creating a natural conversation" />
+    <link rel="next" href="ch06s09.html" title="6.9. Workspace management" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>6.8. Redirecting to a natural conversation</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s07.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s09.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2846439"></a>6.8. Redirecting to a natural conversation</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			When starting, or redirecting to, a natural conversation there are a number of options for specifying the natural conversation name. Let's start by looking at the following page definition:
+		</p>
+      <pre class="programlisting">  &lt;page view-id="/auction.xhtml"&gt;
+    &lt;param name="id" value="#{auctionDetail.selectedAuctionId}"/&gt;
+       
+    &lt;navigation from-action="#{bidAction.placeBid}"&gt;
+      &lt;redirect view-id="/bid.xhtml"/&gt;
+    &lt;/navigation&gt;
+  &lt;/page&gt;
+</pre>
+      <p>
+			From here, we can see that invoking the action <code class="literal">#{bidAction.placeBid}</code> from our auction view (by the way, all these examples are taken from the seamBay example in Seam), that we will be redirected to <code class="literal">/bid.xhtml</code>, which, as we saw previously, is configured with the natural conversation <code class="literal">PlaceBid</code>. The declaration for our action method looks like this:
+		</p>
+      <pre class="programlisting">   @Begin(join = true)
+   public void placeBid()
+</pre>
+      <p>
+			When named conversations are specified in the <code class="literal">&lt;page/&gt;</code> element, redirection to the named conversation occurs as part of navigation rules, after the action method has already been invoked. This is a problem when redirecting to an existing conversation, as redirection needs to be occur before the action method is invoked. Therefore it is necessary to specify the conversation name when the action is invoked. One way of doing this is by using the <code class="literal">s:conversationName</code> tag:
+		</p>
+      <pre class="programlisting">  &lt;h:commandButton id="placeBidWithAmount" styleClass="placeBid" action="#{bidAction.placeBid}"&gt;
+    &lt;s:conversationName value="PlaceBid"/&gt;
+  &lt;/h:commandButton&gt;
+</pre>
+      <p>
+			Another alternative is to specify the <code class="literal">conversationName</code> attribute when using either <code class="literal">s:link</code> or <code class="literal">s:button</code>:
+		</p>
+      <pre class="programlisting">  &lt;s:link value="Place Bid" action="#{bidAction.placeBid}" conversationName="PlaceBid"/&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s07.html"><strong>Prev</strong>6.7. Creating a natural conversation</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s09.html"><strong>Next</strong>6.9. Workspace management</a>
+      </li>
+    </ul>
+  </body>
+</html>

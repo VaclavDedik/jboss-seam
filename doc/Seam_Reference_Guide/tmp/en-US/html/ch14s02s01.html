@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>14.2.1. Defining labels</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch14s02.html" title="14.2. Labels" />
+    <link rel="prev" href="ch14s02.html" title="14.2. Labels" />
+    <link rel="next" href="ch14s02s02.html" title="14.2.2. Displaying labels" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>14.2.1. Defining labels</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch14s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch14s02s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2848010"></a>14.2.1. Defining labels</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				Seam provides a <code class="literal">java.util.ResourceBundle</code> (available to the application as a <code class="literal">org.jboss.seam.core.resourceBundle</code>). You'll need to make your internationalized labels available via this special resource bundle. By default, the resource bundle used by Seam is named <code class="literal">messages</code> and so you'll need to define your labels in files named <code class="literal">messages.properties</code>, <code class="literal">messages_en.properties</code>, <code class="literal">messages_en_AU.properties</code>, etc. These files usually belong in the <code class="literal">WEB-INF/classes</code> directory.
+			</p>
+      <p>
+				So, in <code class="literal">messages_en.properties</code>:
+			</p>
+      <pre class="programlisting">Hello=Hello
+</pre>
+      <p>
+				And in <code class="literal">messages_en_AU.properties</code>:
+			</p>
+      <pre class="programlisting">Hello=G'day
+</pre>
+      <p>
+				You can select a different name for the resource bundle by setting the Seam configuration property named <code class="literal">org.jboss.seam.core.resourceLoader.bundleNames</code>. You can even specify a list of resource bundle names to be searched (depth first) for messages.
+			</p>
+      <pre class="programlisting">&lt;core:resource-loader&gt;
+    &lt;core:bundle-names&gt;
+        &lt;value&gt;mycompany_messages&lt;/value&gt;
+        &lt;value&gt;standard_messages&lt;/value&gt;       
+    &lt;/core:bundle-names&gt;
+&lt;/core:resource-loader&gt;
+</pre>
+      <p>
+				If you want to define a message just for a particular page, you can specify it in a resource bundle with the same name as the JSF view id, with the leading <code class="literal">/</code> and trailing file extension removed. So we could put our message in <code class="literal">welcome/hello_en.properties</code> if we only needed to display the message on <code class="literal">/welcome/hello.jsp</code>.
+			</p>
+      <p>
+				You can even specify an explicit bundle name in <code class="literal">pages.xml</code>:
+			</p>
+      <pre class="programlisting">&lt;page view-id="/welcome/hello.jsp" bundle="HelloMessages"/&gt;
+</pre>
+      <p>
+				Then we could use messages defined in <code class="literal">HelloMessages.properties</code> on <code class="literal">/welcome/hello.jsp</code>.
+			</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch14s02.html"><strong>Prev</strong>14.2. Labels</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch14s02s02.html"><strong>Next</strong>14.2.2. Displaying labels</a>
+      </li>
+    </ul>
+  </body>
+</html>

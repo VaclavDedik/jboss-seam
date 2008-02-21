@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>5.8. Component-driven events</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="events.html" title="Chapter 5. Events, interceptors and exception handling" />
+    <link rel="prev" href="ch05s07.html" title="5.7. Fine-grained files for definition of navigation, page actions and parameters" />
+    <link rel="next" href="ch05s09.html" title="5.9. Contextual events" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>5.8. Component-driven events</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch05s07.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch05s09.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2828754"></a>5.8. Component-driven events</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			Seam components can interact by simply calling each others methods. Stateful components may even implement the observer/observable pattern. But to enable components to interact in a more loosely-coupled fashion than is possible when the components call each others methods directly, Seam provides <span class="emphasis"><em>component-driven events</em></span>.
+		</p>
+      <p>
+			We specify event listeners (observers) in <code class="literal">components.xml</code>.
+		</p>
+      <pre class="programlisting">&lt;components&gt;
+    &lt;event type="hello"&gt;
+        &lt;action execute="#{helloListener.sayHelloBack}"/&gt;
+        &lt;action execute="#{logger.logHello}"/&gt;
+    &lt;/event&gt;
+&lt;/components&gt;
+</pre>
+      <p>
+			Where the <span class="emphasis"><em>event type</em></span> is just an arbitrary string.
+		</p>
+      <p>
+			When an event occurs, the actions registered for that event will be called in the order they appear in <code class="literal">components.xml</code>. How does a component raise an event? Seam provides a built-in component for this.
+		</p>
+      <pre class="programlisting">@Name("helloWorld")
+public class HelloWorld {
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World!");
+        Events.instance().raiseEvent("hello");
+    }
+}
+</pre>
+      <p>
+			Or you can use an annotation.
+		</p>
+      <pre class="programlisting">@Name("helloWorld")
+public class HelloWorld {
+    @RaiseEvent("hello")
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World!");
+    }
+}
+</pre>
+      <p>
+			Notice that this event producer has no dependency upon event consumers. The event listener may now be implemented with absolutely no dependency upon the producer:
+		</p>
+      <pre class="programlisting">@Name("helloListener")
+public class HelloListener {
+    public void sayHelloBack() {
+        FacesMessages.instance().add("Hello to you too!");
+    }
+}
+</pre>
+      <p>
+			The method binding defined in <code class="literal">components.xml</code> above takes care of mapping the event to the consumer. If you don't like futzing about in the <code class="literal">components.xml</code> file, you can use an annotation instead:
+		</p>
+      <pre class="programlisting">@Name("helloListener")
+public class HelloListener {
+    @Observer("hello")
+    public void sayHelloBack() {
+        FacesMessages.instance().add("Hello to you too!");
+    }
+}
+</pre>
+      <p>
+			You might wonder why I've not mentioned anything about event objects in this discussion. In Seam, there is no need for an event object to propagate state between event producer and listener. State is held in the Seam contexts, and is shared between components. However, if you really want to pass an event object, you can:
+		</p>
+      <pre class="programlisting">@Name("helloWorld")
+public class HelloWorld {
+    private String name;
+    public void sayHello() {
+        FacesMessages.instance().add("Hello World, my name is #0.", name);
+        Events.instance().raiseEvent("hello", name);
+    }
+}
+</pre>
+      <pre class="programlisting">@Name("helloListener")
+public class HelloListener {
+    @Observer("hello")
+    public void sayHelloBack(String name) {
+        FacesMessages.instance().add("Hello #0!", name);
+    }
+}
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch05s07.html"><strong>Prev</strong>5.7. Fine-grained files for definition of navigat...</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch05s09.html"><strong>Next</strong>5.9. Contextual events</a>
+      </li>
+    </ul>
+  </body>
+</html>

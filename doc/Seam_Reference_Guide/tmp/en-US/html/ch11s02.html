@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>11.2. Home objects</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="framework.html" title="Chapter 11. The Seam Application Framework" />
+    <link rel="prev" href="ch11s01.html" title="11.1. Introduction" />
+    <link rel="next" href="ch11s03.html" title="11.3. Query objects" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>11.2. Home objects</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch11s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch11s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2848711"></a>11.2. Home objects</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			A Home object provides persistence operations for a particular entity class. Suppose we have our trusty <code class="literal">Person</code> class:
+		</p>
+      <pre class="programlisting">@Entity
+public class Person {
+    @Id private Long id;
+    private String firstName;
+    private String lastName;
+    private Country nationality;
+    
+    //getters and setters...
+}
+</pre>
+      <p>
+			We can define a <code class="literal">personHome</code> component either via configuration:
+		</p>
+      <pre class="programlisting">&lt;framework:entity-home name="personHome" entity-class="eg.Person" /&gt;
+</pre>
+      <p>
+			Or via extension:
+		</p>
+      <pre class="programlisting">@Name("personHome")
+public class PersonHome extends EntityHome&lt;Person&gt; {}
+</pre>
+      <p>
+			A Home object provides the following operations: <code class="literal">persist()</code>, <code class="literal">remove()</code>, <code class="literal">update()</code> and <code class="literal">getInstance()</code>. Before you can call the <code class="literal">remove()</code>, or <code class="literal">update()</code> operations, you must first set the identifier of the object you are interested in, using the <code class="literal">setId()</code> method.
+		</p>
+      <p>
+			We can use a Home directly from a JSF page, for example:
+		</p>
+      <pre class="programlisting">&lt;h1&gt;Create Person&lt;/h1&gt;
+&lt;h:form&gt;
+    &lt;div&gt;First name: &lt;h:inputText value="#{personHome.instance.firstName}"/&gt;&lt;/div&gt;
+    &lt;div&gt;Last name: &lt;h:inputText value="#{personHome.instance.lastName}"/&gt;&lt;/div&gt;
+    &lt;div&gt;
+        &lt;h:commandButton value="Create Person" action="#{personHome.persist}"/&gt;
+    &lt;/div&gt;
+&lt;/h:form&gt;
+</pre>
+      <p>
+			Usually, it is much nicer to be able to refer to the <code class="literal">Person</code> merely as <code class="literal">person</code>, so let's make that possible by adding a line to <code class="literal">components.xml</code>:
+		</p>
+      <pre class="programlisting">&lt;factory name="person" 
+         value="#{personHome.instance}"/&gt;
+
+&lt;framework:entity-home name="personHome" 
+                       entity-class="eg.Person" /&gt;
+</pre>
+      <p>
+			(If we are using configuration.) Or by adding a <code class="literal">@Factory</code> method to <code class="literal">PersonHome</code>:
+		</p>
+      <pre class="programlisting">@Name("personHome")
+public class PersonHome extends EntityHome&lt;Person&gt; {
+    
+    @Factory("person")
+    public Person initPerson() { return getInstance(); }
+    
+}
+</pre>
+      <p>
+			(If we are using extension.) This change simplifies our JSF page to the following:
+		</p>
+      <pre class="programlisting">&lt;h1&gt;Create Person&lt;/h1&gt;
+&lt;h:form&gt;
+    &lt;div&gt;First name: &lt;h:inputText value="#{person.firstName}"/&gt;&lt;/div&gt;
+    &lt;div&gt;Last name: &lt;h:inputText value="#{person.lastName}"/&gt;&lt;/div&gt;
+    &lt;div&gt;
+        &lt;h:commandButton value="Create Person" action="#{personHome.persist}"/&gt;
+    &lt;/div&gt;
+&lt;/h:form&gt;
+</pre>
+      <p>
+			Well, that lets us create new <code class="literal">Person</code> entries. Yes, that is all the code that is required! Now, if we want to be able to display, update and delete pre-existing <code class="literal">Person</code> entries in the database, we need to be able to pass the entry identifier to the <code class="literal">PersonHome</code>. Page parameters are a great way to do that:
+		</p>
+      <pre class="programlisting">&lt;pages&gt;
+    &lt;page view-id="/editPerson.jsp"&gt;
+        &lt;param name="personId" value="#{personHome.id}"/&gt;
+    &lt;/page&gt;
+&lt;/pages&gt;
+</pre>
+      <p>
+			Now we can add the extra operations to our JSF page:
+		</p>
+      <pre class="programlisting">&lt;h1&gt;
+    &lt;h:outputText rendered="#{!personHome.managed}" value="Create Person"/&gt;
+    &lt;h:outputText rendered="#{personHome.managed}" value="Edit Person"/&gt;
+&lt;/h1&gt;
+&lt;h:form&gt;
+    &lt;div&gt;First name: &lt;h:inputText value="#{person.firstName}"/&gt;&lt;/div&gt;
+    &lt;div&gt;Last name: &lt;h:inputText value="#{person.lastName}"/&gt;&lt;/div&gt;
+    &lt;div&gt;
+        &lt;h:commandButton value="Create Person" action="#{personHome.persist}" rendered="#{!personHome.managed}"/&gt;
+        &lt;h:commandButton value="Update Person" action="#{personHome.update}" rendered="#{personHome.managed}"/&gt;
+        &lt;h:commandButton value="Delete Person" action="#{personHome.remove}" rendered="#{personHome.managed}"/&gt;
+    &lt;/div&gt;
+&lt;/h:form&gt;
+</pre>
+      <p>
+			When we link to the page with no request parameters, the page will be displayed as a "Create Person" page. When we provide a value for the <code class="literal">personId</code> request parameter, it will be an "Edit Person" page.
+		</p>
+      <p>
+			Suppose we need to create <code class="literal">Person</code> entries with their nationality initialized. We can do that easily, via configuration:
+		</p>
+      <pre class="programlisting">&lt;factory name="person" 
+         value="#{personHome.instance}"/&gt;
+
+&lt;framework:entity-home name="personHome" 
+                       entity-class="eg.Person" 
+                       new-instance="#{newPerson}"/&gt;
+
+&lt;component name="newPerson" 
+           class="eg.Person"&gt;
+    &lt;property name="nationality"&gt;#{country}&lt;/property&gt;
+&lt;/component&gt;
+</pre>
+      <p>
+			Or by extension:
+		</p>
+      <pre class="programlisting">@Name("personHome")
+public class PersonHome extends EntityHome&lt;Person&gt; {
+    
+    @In Country country;
+    
+    @Factory("person")
+    public Person initPerson() { return getInstance(); }
+    
+    protected Person createInstance() {
+        return new Person(country);
+    }
+    
+}
+</pre>
+      <p>
+			Of course, the <code class="literal">Country</code> could be an object managed by another Home object, for example, <code class="literal">CountryHome</code>.
+		</p>
+      <p>
+			To add more sophisticated operations (association management, etc), we can just add methods to <code class="literal">PersonHome</code>.
+		</p>
+      <pre class="programlisting">@Name("personHome")
+public class PersonHome extends EntityHome&lt;Person&gt; {
+    
+    @In Country country;
+    
+    @Factory("person")
+    public Person initPerson() { return getInstance(); }
+    
+    protected Person createInstance() {
+        return new Person(country);
+    }
+    
+    public void migrate()
+    {
+        getInstance().setCountry(country);
+        update();
+    }
+    
+}
+</pre>
+      <p>
+			The Home object raises an <code class="literal">org.jboss.seam.afterTransactionSuccess</code> event when a transaction succeeds (a call to <code class="literal">persist()</code>, <code class="literal">update()</code> or <code class="literal">remove()</code> succeeds). By observing this event we can refresh our queries when the underlying entities are changed. If we only want to refresh certain queries when a particular entity is persited, updated or removed we can observe the <code class="literal">org.jboss.seam.afterTransactionSuccess.&lt;name&gt;</code> event (where <code class="literal">&lt;name&gt;</code> is the name of the entity).
+		</p>
+      <p>
+			The Home object automatically displays faces messages when an operation is successful. To customize these messages we can, again, use configuration:
+		</p>
+      <pre class="programlisting">&lt;factory name="person" 
+         value="#{personHome.instance}"/&gt;
+
+&lt;framework:entity-home name="personHome"
+                       entity-class="eg.Person"
+                       new-instance="#{newPerson}"&gt;
+    &lt;framework:created-message&gt;New person #{person.firstName} #{person.lastName} created&lt;/framework:created-message&gt;
+    &lt;framework:deleted-message&gt;Person #{person.firstName} #{person.lastName} deleted&lt;/framework:deleted-message&gt;
+    &lt;framework:updated-message&gt;Person #{person.firstName} #{person.lastName} updated&lt;/framework:updated-message&gt;
+&lt;/framework:entity-home&gt;
+
+&lt;component name="newPerson" 
+           class="eg.Person"&gt;
+    &lt;property name="nationality"&gt;#{country}&lt;/property&gt;
+&lt;/component&gt;
+</pre>
+      <p>
+			Or extension:
+		</p>
+      <pre class="programlisting">@Name("personHome")
+public class PersonHome extends EntityHome&lt;Person&gt; {
+    
+    @In Country country;
+    
+    @Factory("person")
+    public Person initPerson() { return getInstance(); }
+    
+    protected Person createInstance() {
+        return new Person(country);
+    }
+    
+    protected String getCreatedMessage() { return "New person #{person.firstName} #{person.lastName} created"; }
+    protected String getUpdatedMessage() { return "Person #{person.firstName} #{person.lastName} updated"; }
+    protected String getDeletedMessage() { return "Person #{person.firstName} #{person.lastName} deleted"; }
+    
+}
+</pre>
+      <p>
+			But the best way to specify the messages is to put them in a resource bundle known to Seam (the bundle named <code class="literal">messages</code>, by default).
+		</p>
+      <pre class="programlisting">Person_created=New person #{person.firstName} #{person.lastName} created
+Person_deleted=Person #{person.firstName} #{person.lastName} deleted
+Person_updated=Person #{person.firstName} #{person.lastName} updated
+</pre>
+      <p>
+			This enables internationalization, and keeps your code and configuration clean of presentation concerns.
+		</p>
+      <p>
+			The final step is to add validation functionality to the page, using <code class="literal">&lt;s:validateAll&gt;</code> and <code class="literal">&lt;s:decorate&gt;</code>, but I'll leave that for you to figure out.
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch11s01.html"><strong>Prev</strong>11.1. Introduction</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch11s03.html"><strong>Next</strong>11.3. Query objects</a>
+      </li>
+    </ul>
+  </body>
+</html>

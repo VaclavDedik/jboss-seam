@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>5.4. Propagating request parameters</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="events.html" title="Chapter 5. Events, interceptors and exception handling" />
+    <link rel="prev" href="ch05s03s01.html" title="5.3.1. Mapping request parameters to the model" />
+    <link rel="next" href="ch05s05.html" title="5.5. Conversion and Validation" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>5.4. Propagating request parameters</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch05s03s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch05s05.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2845358"></a>5.4. Propagating request parameters</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			If just the <code class="literal">name</code> attribute is specified then the request parameter is propagated using the <code class="literal">PAGE</code> context (it isn't mapped to model property). 
+</p>
+      <pre class="programlisting">&lt;pages&gt;
+      &lt;page view-id="/hello.jsp" action="#{helloWorld.sayHello}"&gt;
+          &lt;param name="firstName" /&gt;
+          &lt;param name="lastName" /&gt;
+      &lt;/page&gt;
+  &lt;/pages&gt;
+</pre>
+      <p>
+		</p>
+      <p>
+			Propagation of page parameters is especially useful if you want to build multi-layer master-detail CRUD pages. You can use it to "remember" which view you were previously on (e.g. when pressing the Save button), and which entity you were editing. 
+			</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+						Any <code class="literal">&lt;s:link&gt;</code> or <code class="literal">&lt;s:button&gt;</code> transparently propagates the request parameter if that parameter is listed as a page parameter for the view.
+					</p>
+          </li>
+          <li>
+            <p>
+						The value is transparently propagated with any JSF form submission for the page with the given view id. (This means that view parameters behave like <code class="literal">PAGE</code>-scoped context variables for faces requests.
+					</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+		</p>
+      <p>
+			This all sounds pretty complex, and you're probably wondering if such an exotic construct is really worth the effort. Actually, the idea is very natural once you "get it". It is definitely worth taking the time to understand this stuff. Page parameters are the most elegant way to propagate state across a non-faces request. They are especially cool for problems like search screens with bookmarkable results pages, where we would like to be able to write our application code to handle both POST and GET requests with the same code. Page parameters eliminate repetitive listing of request parameters in the view definition and make redirects much easier to code.
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch05s03s01.html"><strong>Prev</strong>5.3.1. Mapping request parameters to the model</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch05s05.html"><strong>Next</strong>5.5. Conversion and Validation</a>
+      </li>
+    </ul>
+  </body>
+</html>

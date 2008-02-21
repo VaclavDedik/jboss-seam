@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>4.1. Configuring components via property settings</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="xml.html" title="Chapter 4. Configuring Seam components" />
+    <link rel="prev" href="xml.html" title="Chapter 4. Configuring Seam components" />
+    <link rel="next" href="ch04s02.html" title="4.2. Configuring components via components.xml" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>4.1. Configuring components via property settings</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="xml.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch04s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect1" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2790622"></a>4.1. Configuring components via property settings</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+		Seam components may be provided with configuration properties either via servlet context parameters, or via a properties file named <code class="literal">seam.properties</code> in the root of the classpath.
+	</p>
+      <p>
+		The configurable Seam component must expose JavaBeans-style property setter methods for the configurable attributes. If a Seam component named <code class="literal">com.jboss.myapp.settings</code> has a setter method named <code class="literal">setLocale()</code>, we can provide a property named <code class="literal">com.jboss.myapp.settings.locale</code> in the <code class="literal">seam.properties</code> file or as a servlet context parameter, and Seam will set the value of the <code class="literal">locale</code> attribute whenever it instantiates the component.
+	</p>
+      <p>
+		The same mechanism is used to configure Seam itself. For example, to set the conversation timeout, we provide a value for <code class="literal">org.jboss.seam.core.manager.conversationTimeout</code> in <code class="literal">web.xml</code> or <code class="literal">seam.properties</code>. (There is a built-in Seam component named <code class="literal">org.jboss.seam.core.manager</code> with a setter method named <code class="literal">setConversationTimeout()</code>.)
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="xml.html"><strong>Prev</strong>Chapter 4. Configuring Seam components</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch04s02.html"><strong>Next</strong>4.2. Configuring components via components.xml</a>
+      </li>
+    </ul>
+  </body>
+</html>

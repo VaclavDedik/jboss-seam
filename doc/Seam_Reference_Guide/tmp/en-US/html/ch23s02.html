@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>23.2. Injecting Spring beans into Seam components</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="spring.html" title="Chapter 23. Spring Framework integration" />
+    <link rel="prev" href="ch23s01.html" title="23.1. Injecting Seam components into Spring beans" />
+    <link rel="next" href="ch23s03.html" title="23.3. Making a Spring bean into a Seam component" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>23.2. Injecting Spring beans into Seam components</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch23s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch23s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2861084"></a>23.2. Injecting Spring beans into Seam components</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			It is even easier to inject Spring beans into Seam component instances. Actually, there are two possible approaches:
+		</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+					inject a Spring bean using an EL expression
+				</p>
+          </li>
+          <li>
+            <p>
+					make the Spring bean a Seam component
+				</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+			We'll discuss the second option in the next section. The easiest approach is to access the Spring beans via EL.
+		</p>
+      <p>
+			The Spring <code class="literal">DelegatingVariableResolver</code> is an integration point Spring provides for integrating Spring with JSF. This <code class="literal">VariableResolver</code> makes all Spring beans available in EL by their bean id. You'll need to add the <code class="literal">DelegatingVariableResolver</code> to <code class="literal">faces-config.xml</code>:
+		</p>
+      <pre class="programlisting">&lt;application&gt;
+    &lt;variable-resolver&gt;
+        org.springframework.web.jsf.DelegatingVariableResolver
+    &lt;/variable-resolver&gt;
+&lt;/application&gt;
+</pre>
+      <p>
+			Then you can inject Spring beans using <code class="literal">@In</code>:
+		</p>
+      <pre class="programlisting">@In("#{bookingService}")
+private BookingService bookingService;
+</pre>
+      <p>
+			The use of Spring beans in EL is not limited to injection. Spring beans may be used anywhere that EL expressions are used in Seam: process and pageflow definitions, working memory assertions, etc...
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch23s01.html"><strong>Prev</strong>23.1. Injecting Seam components into Spring beans</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch23s03.html"><strong>Next</strong>23.3. Making a Spring bean into a Seam component</a>
+      </li>
+    </ul>
+  </body>
+</html>

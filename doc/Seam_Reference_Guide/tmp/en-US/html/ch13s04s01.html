@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>13.4.1. Configuration</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch13s04.html" title="13.4. Authentication" />
+    <link rel="prev" href="ch13s04.html" title="13.4. Authentication" />
+    <link rel="next" href="ch13s04s02.html" title="13.4.2. Writing an authentication method" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>13.4.1. Configuration</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s04s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2848396"></a>13.4.1. Configuration</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		The simplified authentication method uses a built-in JAAS login module, <code class="literal">SeamLoginModule</code>, which delegates authentication to one of your own Seam components. This login module is already configured inside Seam as part of a default application policy and as such does not require any additional configuration files. It allows you to write an authentication method using the entity classes that are provided by your own application. Configuring this simplified form of authentication requires the <code class="literal">identity</code> component to be configured in <code class="literal">components.xml</code>:
+	</p>
+      <pre class="programlisting">&lt;components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd"&gt;
+
+    &lt;security:identity authenticate-method="#{authenticator.authenticate}"/&gt;
+
+&lt;/components&gt;
+</pre>
+      <p>
+		If you wish to use the advanced security features such as rule-based permission checks, all you need to do is include the Drools (JBoss Rules) jars in your classpath, and add some additional configuration, described later.
+	</p>
+      <p>
+		The EL expression <code class="literal">#{authenticator.authenticate}</code> is a method binding indicating that the <code class="literal">authenticate</code> method of the <code class="literal">authenticator</code> component will be used to authenticate the user.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04.html"><strong>Prev</strong>13.4. Authentication</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s04s02.html"><strong>Next</strong>13.4.2. Writing an authentication method</a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>13.4.2. Writing an authentication method</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch13s04.html" title="13.4. Authentication" />
+    <link rel="prev" href="ch13s04s01.html" title="13.4.1. Configuration" />
+    <link rel="next" href="ch13s04s02s01.html" title="13.4.2.1. Identity.addRole()" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>13.4.2. Writing an authentication method</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s04s02s01.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2789438"></a>13.4.2. Writing an authentication method</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		The <code class="literal">authenticate-method</code> property specified for <code class="literal">identity</code> in <code class="literal">components.xml</code> specifies which method will be used by <code class="literal">SeamLoginModule</code> to authenticate users. This method takes no parameters, and is expected to return a boolean indicating whether authentication is successful or not. The user's username and password can be obtained from <code class="literal">Identity.instance().getUsername()</code> and <code class="literal">Identity.instance().getPassword()</code>, respectively. Any roles that the user is a member of should be assigned using <code class="literal">Identity.instance().addRole()</code>. Here's a complete example of an authentication method inside a JavaBean component:
+	</p>
+      <pre class="programlisting">@Name("authenticator")
+public class Authenticator {
+   @In EntityManager entityManager;
+
+   public boolean authenticate() {
+      try
+      {
+         User user = (User) entityManager.createQuery(
+            "from User where username = :username and password = :password")
+            .setParameter("username", Identity.instance().getUsername())
+            .setParameter("password", Identity.instance().getPassword())
+            .getSingleResult();
+
+         if (user.getRoles() != null)
+         {
+            for (UserRole mr : user.getRoles())
+               Identity.instance().addRole(mr.getName());
+         }
+
+         return true;
+      }
+      catch (NoResultException ex)
+      {
+         return false;
+      }
+
+   }
+
+}
+</pre>
+      <p>
+		In the above example, both <code class="literal">User</code> and <code class="literal">UserRole</code> are application-specific entity beans. The <code class="literal">roles</code> parameter is populated with the roles that the user is a member of, which should be added to the <code class="literal">Set</code> as literal string values, e.g. "admin", "user". In this case, if the user record is not found and a <code class="literal">NoResultException</code> thrown, the authentication method returns <code class="literal">false</code> to indicate the authentication failed.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s04s01.html"><strong>Prev</strong>13.4.1. Configuration</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s04s02s01.html"><strong>Next</strong>13.4.2.1. Identity.addRole()</a>
+      </li>
+    </ul>
+  </body>
+</html>

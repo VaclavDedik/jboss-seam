@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>25.1.4. Seam servlet filters</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch25s01.html" title="25.1. Basic Seam configuration" />
+    <link rel="prev" href="ch25s01s03.html" title="25.1.3. Seam Resource Servlet" />
+    <link rel="next" href="ch25s01s04s01.html" title="25.1.4.1. Exception handling" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>25.1.4. Seam servlet filters</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s01s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s01s04s01.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2859524"></a>25.1.4. Seam servlet filters</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		Seam doesn't need any servlet filters for basic operation. However, there are several features which depend upon the use of filters. To make things easier, Seam lets you add and configure servlet filters just like you would configure other built-in Seam components. To take advantage of this feature, we must first install a master filter in <code class="literal">web.xml</code>:
+	</p>
+      <pre class="programlisting">&lt;filter&gt;
+    &lt;filter-name&gt;Seam Filter&lt;/filter-name&gt;
+    &lt;filter-class&gt;org.jboss.seam.servlet.SeamFilter&lt;/filter-class&gt;
+&lt;/filter&gt;
+
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;Seam Filter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</pre>
+      <p>
+		The Seam master filter <span class="emphasis"><em>must</em></span> be the first filter specified in <code class="literal">web.xml</code>. This ensures it is run first.
+	</p>
+      <p>
+		The Seam filters share a number of common attributes, you can set these in <code class="literal">components.xml</code> in addition to any parameters discussed below:
+	</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+				<code class="literal">url-pattern</code> — Used to specify which requests are filtered, the default is all requests. <code class="literal">url-pattern</code> is a Tomcat style pattern which allows a wildcard suffix.
+			</p>
+          </li>
+          <li>
+            <p>
+				<code class="literal">regex-url-pattern</code> — Used to specify which requests are filtered, the default is all requests. <code class="literal">regex-url-pattern</code> is a true regular expression match for request path. It's worth noting when composing the regular expression that the request path does not contain the server or request context path.
+			</p>
+          </li>
+          <li>
+            <p>
+				<code class="literal">disabled</code> — Used to disable a built in filter.
+			</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+		Adding the master filter enables the following built-in filters.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch25s01s03.html"><strong>Prev</strong>25.1.3. Seam Resource Servlet</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch25s01s04s01.html"><strong>Next</strong>25.1.4.1. Exception handling</a>
+      </li>
+    </ul>
+  </body>
+</html>

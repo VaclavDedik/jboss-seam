@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>13.7.2. Configuring a rules file</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch13s07.html" title="13.7. Writing Security Rules" />
+    <link rel="prev" href="ch13s07s01.html" title="13.7.1. Permissions Overview" />
+    <link rel="next" href="ch13s07s03.html" title="13.7.3. Creating a security rules file" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>13.7.2. Configuring a rules file</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s07s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s07s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect2" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2870095"></a>13.7.2. Configuring a rules file</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+		Seam Security expects to find a <code class="literal">RuleBase</code> component called <code class="literal">securityRules</code> which it uses to evaluate permission checks. This is configured in <code class="literal">components.xml</code> as follows:
+	</p>
+      <pre class="programlisting">&lt;components xmlns="http://jboss.com/products/seam/components"
+            xmlns:core="http://jboss.com/products/seam/core"
+            xmlns:security="http://jboss.com/products/seam/security"
+            xmlns:drools="http://jboss.com/products/seam/drools"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation=
+                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd"
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd"&gt;
+
+   &lt;drools:rule-base name="securityRules"&gt;
+       &lt;drools:rule-files&gt;
+           &lt;value&gt;/META-INF/security.drl&lt;/value&gt;
+       &lt;/drools:rule-files&gt;
+   &lt;/drools:rule-base&gt;
+
+&lt;/components&gt;
+</pre>
+      <p>
+		Once the <code class="literal">RuleBase</code> component is configured, it's time to write the security rules.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch13s07s01.html"><strong>Prev</strong>13.7.1. Permissions Overview</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch13s07s03.html"><strong>Next</strong>13.7.3. Creating a security rules file</a>
+      </li>
+    </ul>
+  </body>
+</html>

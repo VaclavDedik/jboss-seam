@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Chapter 9. JSF form validation in Seam</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="index.html" title="Seam - Contextual Components" />
+    <link rel="prev" href="ch08s06.html" title="8.6. Using Hibernate filters" />
+    <link rel="next" href="groovy.html" title="Chapter 10. Groovy integration" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>Chapter 9. JSF form validation in Seam</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch08s06.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="groovy.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="chapter" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="validation"></a>Chapter 9. JSF form validation in Seam</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+		In plain JSF, validation is defined in the view:
+	</p>
+      <pre class="programlisting">&lt;h:form&gt;
+    &lt;h:messages/&gt;
+
+    &lt;div&gt;
+        Country:
+        &lt;h:inputText value="#{location.country}" required="true"&gt;
+            &lt;my:validateCountry/&gt;
+        &lt;/h:inputText&gt;
+    &lt;/div&gt;
+    
+    &lt;div&gt;
+        Zip code:
+        &lt;h:inputText value="#{location.zip}" required="true"&gt;
+            &lt;my:validateZip/&gt;
+        &lt;/h:inputText&gt;
+    &lt;/div&gt;
+
+    &lt;h:commandButton/&gt;
+&lt;/h:form&gt;
+</pre>
+      <p>
+		In practice, this approach usually violates DRY, since most "validation" actually enforces constraints that are part of the data model, and exist all the way down to the database schema definition. Seam provides support for model-based constraints defined using Hibernate Validator.
+	</p>
+      <p>
+		Let's start by defining our constraints, on our <code class="literal">Location</code> class:
+	</p>
+      <pre class="programlisting">public class Location {
+    private String country;
+    private String zip;
+    
+    @NotNull
+    @Length(max=30)
+    public String getCountry() { return country; }
+    public void setCountry(String c) { country = c; }
+
+    @NotNull
+    @Length(max=6)
+    @Pattern("^\d*$")
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}
+</pre>
+      <p>
+		Well, that's a decent first cut, but in practice it might be more elegant to use custom constraints instead of the ones built into Hibernate Validator:
+	</p>
+      <pre class="programlisting">public class Location {
+    private String country;
+    private String zip;
+    
+    @NotNull
+    @Country
+    public String getCountry() { return country; }
+    public void setCountry(String c) { country = c; }
+
+    @NotNull
+    @ZipCode
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}
+</pre>
+      <p>
+		Whichever route we take, we no longer need to specify the type of validation to be used in the JSF page. Instead, we can use <code class="literal">&lt;s:validate&gt;</code> to validate against the constraint defined on the model object.
+	</p>
+      <pre class="programlisting">&lt;h:form&gt;
+    &lt;h:messages/&gt;
+
+    &lt;div&gt;
+        Country:
+        &lt;h:inputText value="#{location.country}" required="true"&gt;
+            &lt;s:validate/&gt;
+        &lt;/h:inputText&gt;
+    &lt;/div&gt;
+    
+    &lt;div&gt;
+        Zip code:
+        &lt;h:inputText value="#{location.zip}" required="true"&gt;
+            &lt;s:validate/&gt;
+        &lt;/h:inputText&gt;
+    &lt;/div&gt;
+    
+    &lt;h:commandButton/&gt;
+
+&lt;/h:form&gt;
+</pre>
+      <p>
+		<span class="emphasis"><em>Note:</em></span> specifying <code class="literal">@NotNull</code> on the model does <span class="emphasis"><em>not</em></span> eliminate the requirement for <code class="literal">required="true"</code> to appear on the control! This is due to a limitation of the JSF validation architecture.
+	</p>
+      <p>
+		This approach <span class="emphasis"><em>defines</em></span> constraints on the model, and <span class="emphasis"><em>presents</em></span> constraint violations in the view—a significantly better design.
+	</p>
+      <p>
+		However, it is not much less verbose than what we started with, so let's try <code class="literal">&lt;s:validateAll&gt;</code>:
+	</p>
+      <pre class="programlisting">&lt;h:form&gt;
+    
+    &lt;h:messages/&gt;
+
+    &lt;s:validateAll&gt;
+
+        &lt;div&gt;
+            Country:
+            &lt;h:inputText value="#{location.country}" required="true"/&gt;
+        &lt;/div&gt;
+
+        &lt;div&gt;
+            Zip code:
+            &lt;h:inputText value="#{location.zip}" required="true"/&gt;
+        &lt;/div&gt;
+
+        &lt;h:commandButton/&gt;
+
+    &lt;/s:validateAll&gt;
+
+&lt;/h:form&gt;
+</pre>
+      <p>
+		This tag simply adds an <code class="literal">&lt;s:validate&gt;</code> to every input in the form. For a large form, it can save a lot of typing!
+	</p>
+      <p>
+		Now we need to do something about displaying feedback to the user when validation fails. Currently we are displaying all messages at the top of the form. What we would really like to do is display the message next to the field with the error (this is possible in plain JSF), highlight the field and label (this is not possible) and, for good measure, display some image next to the field (also not possible). We also want to display a little colored asterisk next to the label for each required form field.
+	</p>
+      <p>
+		That's quite a lot of functionality we need for each field of our form. We wouldn't want to have to specify higlighting and the layout of the image, message and input field for every field on the form. So, instead, we'll specify the common layout in a facelets template:
+	</p>
+      <pre class="programlisting">&lt;ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:s="http://jboss.com/products/seam/taglib"&gt;
+                 
+    &lt;div&gt;
+    
+        &lt;s:label styleClass="#{invalid?'error':''}"&gt;
+            &lt;ui:insert name="label"/&gt;
+            &lt;s:span styleClass="required" rendered="#{required}"&gt;*&lt;/s:span&gt;
+        &lt;/s:label&gt;
+        
+        &lt;span class="#{invalid?'error':''}"&gt;
+            &lt;h:graphicImage value="/img/error.gif" rendered="#{invalid}"/&gt;
+            &lt;s:validateAll&gt;
+                &lt;ui:insert/&gt;
+            &lt;/s:validateAll&gt;
+        &lt;/span&gt;
+        
+        &lt;s:message styleClass="error"/&gt;
+        
+    &lt;/div&gt;
+    
+&lt;/ui:composition&gt;
+</pre>
+      <p>
+		We can include this template for each of our form fields using <code class="literal">&lt;s:decorate&gt;</code>.
+	</p>
+      <pre class="programlisting">&lt;h:form&gt;
+
+    &lt;h:messages globalOnly="true"/&gt;
+
+    &lt;s:decorate template="edit.xhtml"&gt;
+        &lt;ui:define name="label"&gt;Country:&lt;/ui:define&gt;
+        &lt;h:inputText value="#{location.country}" required="true"/&gt;
+    &lt;/s:decorate&gt;
+    
+    &lt;s:decorate template="edit.xhtml"&gt;
+        &lt;ui:define name="label"&gt;Zip code:&lt;/ui:define&gt;
+        &lt;h:inputText value="#{location.zip}" required="true"/&gt;
+    &lt;/s:decorate&gt;
+
+    &lt;h:commandButton/&gt;
+
+&lt;/h:form&gt;
+</pre>
+      <p>
+		Finally, we can use RichFaces Ajax to display validation messages as the user is navigating around the form:
+	</p>
+      <pre class="programlisting">&lt;h:form&gt;
+
+    &lt;h:messages globalOnly="true"/&gt;
+
+    &lt;s:decorate id="countryDecoration" template="edit.xhtml"&gt;
+        &lt;ui:define name="label"&gt;Country:&lt;/ui:define&gt;
+        &lt;h:inputText value="#{location.country}" required="true"&gt;
+            &lt;a:support event="onblur" reRender="countryDecoration" bypassUpdates="true"/&gt;
+        &lt;/h:inputText&gt;
+    &lt;/s:decorate&gt;
+    
+    &lt;s:decorate id="zipDecoration" template="edit.xhtml"&gt;
+        &lt;ui:define name="label"&gt;Zip code:&lt;/ui:define&gt;
+        &lt;h:inputText value="#{location.zip}" required="true"&gt;
+            &lt;a:support event="onblur" reRender="zipDecoration" bypassUpdates="true"/&gt;
+        &lt;/h:inputText&gt;
+    &lt;/s:decorate&gt;
+
+    &lt;h:commandButton/&gt;
+
+&lt;/h:form&gt;
+</pre>
+      <p>
+		It's better style to define explicit ids for important controls on the page, especially if you want to do automated testing for the UI, using some toolkit like Selenium. If you don't provide explicit ids, JSF will generate them, but the generated values will change if you change anything on the page.
+	</p>
+      <pre class="programlisting">&lt;h:form id="form"&gt;
+
+    &lt;h:messages globalOnly="true"/&gt;
+
+    &lt;s:decorate id="countryDecoration" template="edit.xhtml"&gt;
+        &lt;ui:define name="label"&gt;Country:&lt;/ui:define&gt;
+        &lt;h:inputText id="country" value="#{location.country}" required="true"&gt;
+            &lt;a:support event="onblur" reRender="countryDecoration" bypassUpdates="true"/&gt;
+        &lt;/h:inputText&gt;
+    &lt;/s:decorate&gt;
+    
+    &lt;s:decorate id="zipDecoration" template="edit.xhtml"&gt;
+        &lt;ui:define name="label"&gt;Zip code:&lt;/ui:define&gt;
+        &lt;h:inputText id="zip" value="#{location.zip}" required="true"&gt;
+            &lt;a:support event="onblur" reRender="zipDecoration" bypassUpdates="true"/&gt;
+        &lt;/h:inputText&gt;
+    &lt;/s:decorate&gt;
+
+    &lt;h:commandButton/&gt;
+
+&lt;/h:form&gt;
+</pre>
+      <p>
+		And what if you want to specify a different message to be displayed when validation fails? You can use the Seam message bundle (and all it's goodies like el expressions inside the message, and per-view message bundles) with the Hibernate Validator:
+	</p>
+      <pre class="programlisting">public class Location {
+    private String name;
+    private String zip;
+    
+    // Getters and setters for name
+
+    @NotNull
+    @Length(max=6)
+    @ZipCode(message="#{messages['location.zipCode.invalid']}")
+    public String getZip() { return zip; }
+    public void setZip(String z) { zip = z; }
+}
+</pre>
+      <pre class="programlisting">
+location.zipCode.invalid = The zip code is not valid for #{location.name}
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch08s06.html"><strong>Prev</strong>8.6. Using Hibernate filters</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="groovy.html"><strong>Next</strong>Chapter 10. Groovy integration</a>
+      </li>
+    </ul>
+  </body>
+</html>

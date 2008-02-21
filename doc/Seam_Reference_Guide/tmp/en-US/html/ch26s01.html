@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>26.1. Annotations for component definition</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="annotations.html" title="Chapter 26. Seam annotations" />
+    <link rel="prev" href="annotations.html" title="Chapter 26. Seam annotations" />
+    <link rel="next" href="ch26s02.html" title="26.2. Annotations for bijection" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>26.1. Annotations for component definition</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="annotations.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch26s02.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2832815"></a>26.1. Annotations for component definition</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			The first group of annotations lets you define a Seam component. These annotations appear on the component class.
+		</p>
+      <div class="variablelist">
+        <dl>
+          <dt>
+            <a id="name-annotation"></a>
+            <span class="term">
+              <code class="literal">@Name</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Name("componentName")
+</pre>
+            <p>
+						Defines the Seam component name for a class. This annotation is required for all Seam components.
+					</p>
+          </dd>
+          <dt>
+            <a id="scope-annotation"></a>
+            <span class="term">
+              <code class="literal">@Scope</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Scope(ScopeType.CONVERSATION)
+</pre>
+            <p>
+						Defines the default context of the component. The possible values are defined by the <code class="literal">ScopeType</code> enumeration: <code class="literal">EVENT, PAGE, CONVERSATION, SESSION, BUSINESS_PROCESS, APPLICATION, STATELESS</code>.
+					</p>
+            <p>
+						When no scope is explicitly specified, the default depends upon the component type. For stateless session beans, the default is <code class="literal">STATELESS</code>. For entity beans and stateful session beans, the default is <code class="literal">CONVERSATION</code>. For JavaBeans, the default is <code class="literal">EVENT</code>.
+					</p>
+          </dd>
+          <dt>
+            <a id="role-annotation"></a>
+            <span class="term">
+              <code class="literal">@Role</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Role(name="roleName", scope=ScopeType.SESSION)
+</pre>
+            <p>
+						Allows a Seam component to be bound to multiple contexts variables. The <code class="literal">@Name</code>/<code class="literal">@Scope</code> annotations define a "default role". Each <code class="literal">@Role</code> annotation defines an additional role.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">name</code> — the context variable name.
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">scope</code> — the context variable scope. When no scope is explicitly specified, the default depends upon the component type, as above.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <a id="roles-annotation"></a>
+            <span class="term">
+              <code class="literal">@Roles</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Roles({
+        @Role(name="user", scope=ScopeType.CONVERSATION),
+        @Role(name="currentUser", scope=ScopeType.SESSION)
+    })
+</pre>
+            <p>
+						Allows specification of multiple additional roles.
+					</p>
+          </dd>
+          <dt>
+            <a id="intercept-annotation"></a>
+            <span class="term">
+              <code class="literal">@BypassInterceptors</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@BypassInterceptors
+</pre>
+            <p>
+						Disables Seam all interceptors on a particular component or method of a component.
+					</p>
+          </dd>
+          <dt>
+            <a id="jndiname-annotation"></a>
+            <span class="term">
+              <code class="literal">@JndiName</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@JndiName("my/jndi/name")
+</pre>
+            <p>
+						Specifies the JNDI name that Seam will use to look up the EJB component. If no JNDI name is explicitly specified, Seam will use the JNDI pattern specified by <code class="literal">org.jboss.seam.core.init.jndiPattern</code>.
+					</p>
+          </dd>
+          <dt>
+            <a id="conversational-annotation"></a>
+            <span class="term">
+              <code class="literal">@Conversational</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Conversational
+</pre>
+            <p>
+						Specifies that a conversation scope component is conversational, meaning that no method of the component may be called unless a long-running conversation is active.
+					</p>
+          </dd>
+          <dt>
+            <a id="pernestedconversation-annotation"></a>
+            <span class="term">
+              <code class="literal">@PerNestedConversation</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@PerNestedConversation
+</pre>
+            <p>
+						Limits the scope of a CONVERSATION-scoped component to just the parent conversation in which it was instantiated. The component instance will not be visible to nested child conversations, which will get their own instance.
+					</p>
+            <p>
+						Warning: this is ill-defined, since it implies that a component will be visible for some part of a request cycle, and invisible after that. It is not recommended that applications use this feature!
+					</p>
+          </dd>
+          <dt>
+            <a id="startup-annotation"></a>
+            <span class="term">
+              <code class="literal">@Startup</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Scope(APPLICATION) @Startup(depends="org.jboss.seam.bpm.jbpm")
+</pre>
+            <p>
+						Specifies that an application scope component is started immediately at initialization time. This is mainly used for certain built-in components that bootstrap critical infrastructure such as JNDI, datasources, etc.
+					</p>
+            <pre class="programlisting">@Scope(SESSION) @Startup
+</pre>
+            <p>
+						Specifies that a session scope component is started immediately at session creation time.
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">depends</code> — specifies that the named components must be started first, if they are installed.
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <a id="install-annotation"></a>
+            <span class="term">
+              <code class="literal">@Install</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Install(false)
+</pre>
+            <p>
+						Specifies whether or not a component should be installed by default. The lack of an @Install annotation indicates a component should be installed.
+					</p>
+            <pre class="programlisting">@Install(dependencies="org.jboss.seam.bpm.jbpm")
+</pre>
+            <p>
+						Specifies that a component should only be stalled if the components listed as dependencies are also installed.
+					</p>
+            <pre class="programlisting">@Install(genericDependencies=ManagedQueueSender.class)
+</pre>
+            <p>
+						Specifies that a component should only be installed if a component that is implemented by a certain class is installed. This is useful when the dependency doesn't have a single well-known name.
+					</p>
+            <pre class="programlisting">@Install(classDependencies="org.hibernate.Session")
+</pre>
+            <p>
+						Specifies that a component should only be installed if the named class is in the classpath.
+					</p>
+            <pre class="programlisting">@Install(precedence=BUILT_IN)
+</pre>
+            <p>
+						Specifies the precedence of the component. If multiple components with the same name exist, the one with the higher precedence will be installed. The defined precendence values are (in ascending order):
+					</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+								<code class="literal">BUILT_IN</code> — Precedence of all built-in Seam components
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">FRAMEWORK</code> — Precedence to use for components of frameworks which extend Seam
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">APPLICATION</code> — Predence of application components (the default precedence)
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">DEPLOYMENT</code> — Precedence to use for components which override application components in a particular deployment
+							</p>
+                </li>
+                <li>
+                  <p>
+								<code class="literal">MOCK</code> — Precedence for mock objects used in testing
+							</p>
+                </li>
+              </ul>
+            </div>
+          </dd>
+          <dt>
+            <a id="synchronized-annotation"></a>
+            <span class="term">
+              <code class="literal">@Synchronized</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@Synchronized(timeout=1000)
+</pre>
+            <p>
+						Specifies that a component is accessed concurrently by multiple clients, and that Seam should serialize requests. If a request is not able to obtain its lock on the component in the given timeout period, an exception will be raised.
+					</p>
+          </dd>
+          <dt>
+            <a id="readonly-annotation"></a>
+            <span class="term">
+              <code class="literal">@ReadOnly</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@ReadOnly
+</pre>
+            <p>
+						Specifies that a JavaBean component or component method does not require state replication at the end of the invocation.
+					</p>
+          </dd>
+          <dt>
+            <a id="autocreate-annotation"></a>
+            <span class="term">
+              <code class="literal">@AutoCreate</code>
+            </span>
+          </dt>
+          <dd>
+            <pre class="programlisting">@AutoCreate
+</pre>
+            <p>
+						Specifies that a component will be automatically created, even if the client does not specify <code class="literal">create=true</code>.
+					</p>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="annotations.html"><strong>Prev</strong>Chapter 26. Seam annotations</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch26s02.html"><strong>Next</strong>26.2. Annotations for bijection</a>
+      </li>
+    </ul>
+  </body>
+</html>

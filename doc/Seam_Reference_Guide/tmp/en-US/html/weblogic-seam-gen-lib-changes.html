@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>33.4.2.2. Library changes</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch33s04s02.html" title="33.4.2. What to change for Weblogic 10.X" />
+    <link rel="prev" href="ch33s04s02s01.html" title="33.4.2.1. Configuration file changes" />
+    <link rel="next" href="ch33s04s02s03.html" title="33.4.2.3. seam-gen development profile issue" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>33.4.2.2. Library changes</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch33s04s02s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch33s04s02s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="weblogic-seam-gen-lib-changes"></a>33.4.2.2. Library changes</h4>
+          </div>
+        </div>
+      </div>
+      <p>
+					The <code class="literal">seam-gen</code> application has very similar library dependencies as the <code class="literal">jpa</code> example above. See <a href="weblogic-jpa-diff.html" title="33.3.2. What's different with Weblogic 10.x">Section 33.3.2, “What's different with Weblogic 10.x”</a>. Below is the changes that are needed to get them in this application.
+				</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+							Missing jars — There are two libraries that <code class="literal">seam-gen</code> does not provide by default. These need to be copied into your projects <code class="literal">lib</code> directory manually. 
+							</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+										jboss-archive-browsing.jar — can be found in the <code class="literal">@SEAM_DIST/examples/jpa/lib</code> directory.
+									</p>
+                </li>
+                <li>
+                  <p>
+										el-ri.jar — is also found in the <code class="literal">@SEAM_DIST/examples/jpa/lib</code> directory.
+									</p>
+                </li>
+              </ul>
+            </div>
+            <p>
+						</p>
+          </li>
+          <li>
+            <p>
+							build.xml — Now we need to adjust the <code class="literal">build.xml</code>. Find the target <code class="literal">war</code> and add the following to the end of the target. 
+</p>
+            <pre class="programlisting">&lt;copy todir="${war.dir}/WEB-INF/lib"&gt;
+                  &lt;fileset dir="${lib.dir}"&gt;
+                     &lt;!--JSF implementation --&gt;
+                     &lt;include name="jsf-api.jar" /&gt;
+                     &lt;include name="jsf-impl.jar" /&gt;
+                     
+                     &lt;!-- Misc 3rd party --&gt;
+                     &lt;include name="commons-logging.jar" /&gt;
+                     &lt;include name="dom4j.jar" /&gt;
+                     &lt;include name="javassist.jar" /&gt;
+                     &lt;include name="cglib.jar" /&gt;
+                     &lt;include name="antlr.jar" /&gt;
+                     
+                     &lt;!-- Hibernate --&gt; 
+                     &lt;include name="hibernate.jar" /&gt;
+                     &lt;include name="hibernate-commons-annotations.jar" /&gt;
+                     &lt;include name="hibernate-annotations.jar" /&gt;
+                     &lt;include name="hibernate-entitymanager.jar" /&gt;
+                     &lt;include name="hibernate-validator.jar" /&gt;
+                     &lt;include name="jboss-archive-browsing.jar" /&gt;
+                     
+                     &lt;!-- Needed for Drools --&gt;
+                     &lt;include name="core.jar"/&gt;
+                  &lt;/fileset&gt;
+              &lt;/copy&gt;
+</pre>
+            <p>
+						</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch33s04s02s01.html"><strong>Prev</strong>33.4.2.1. Configuration file changes</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch33s04s02s03.html"><strong>Next</strong>33.4.2.3. seam-gen development profile issue</a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>34.2.3. Deploying the application to Websphere</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="jee5-websphere-section.html" title="34.2.  The jee5/booking example" />
+    <link rel="prev" href="ch34s02s02s02.html" title="34.2.2.2. Updating the build.xml file" />
+    <link rel="next" href="ch34s03.html" title="34.3.  The jpa booking example" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>34.2.3. Deploying the application to Websphere</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch34s02s02s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch34s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="jee5-websphere-deploy"></a>34.2.3. Deploying the application to Websphere</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				So now we have everything we need in place. All that is left is to deploy it - just a few steps more.
+			</p>
+      <p>
+				For this we will use Websphere's administration console. As before there are some tricks and tips that must be followed.
+			</p>
+      <p>
+				The steps below are for the Websphere version stated above, yours may be slightly different. 
+				</p>
+      <div class="orderedlist">
+        <ol>
+          <li>
+            <p>
+							Log in to the administration console 
+</p>
+            <pre class="programlisting">
+https://localhost:9043/ibm/console
+</pre>
+            <p>
+						</p>
+          </li>
+          <li>
+            <p>
+							Access the <code class="literal">Enterprise Application</code> menu option under the <code class="literal">Applications</code> top menu.
+						</p>
+          </li>
+          <li>
+            <p>
+							At the top of the <code class="literal">Enterprise Application</code> table select <code class="literal">Install</code>. Below are installation wizard pages and what needs to done on each: 
+							</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+										<code class="literal">Preparing for the application installation</code>
+										</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+													Browse to the <code class="literal">examples/jee5/booking/dist/jboss-seam-jee5.ear</code> file using the file upload widget.
+												</p>
+                      </li>
+                      <li>
+                        <p>
+													Select the <code class="literal">Next</code> button.
+												</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+									</p>
+                </li>
+                <li>
+                  <p>
+										<code class="literal">Select installation options</code>
+										</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+													Select the <code class="literal">Deploy enterprise beans</code> check box. This is needed unless you used a Websphere tool to package the application.
+												</p>
+                      </li>
+                      <li>
+                        <p>
+													Select the <code class="literal">Next</code> button.
+												</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+									</p>
+                </li>
+                <li>
+                  <p>
+										<code class="literal">Map modules to servers</code>
+										</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+													No changes needed here as we only have one server. Select the <code class="literal">Next</code> button.
+												</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+									</p>
+                </li>
+                <li>
+                  <p>
+										<code class="literal">Map EJB references to beans</code> This page will list all of the beans that we entered in the web.xml. 
+										</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+													Make sure that <code class="literal">Allow EJB reference targets to resolve automatically</code> check box is selected. This will tell Websphere to bind our EJB3 beans to the EJB references in the web module.
+												</p>
+                      </li>
+                      <li>
+                        <p>
+													Select the <code class="literal">Next</code> button.
+												</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+									</p>
+                </li>
+                <li>
+                  <p>
+										<code class="literal">Map virtual hosts for Web modules</code>
+										</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+													No changes needed here. Select the <code class="literal">Next</code> button.
+												</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+									</p>
+                </li>
+                <li>
+                  <p>
+										<code class="literal">Summary</code>
+										</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+													No changes needed here. Select the <code class="literal">Finish</code> button.
+												</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+									</p>
+                </li>
+                <li>
+                  <p>
+										<code class="literal">Installation</code>
+										</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+													Now you will see it installing and deploying your application.
+												</p>
+                      </li>
+                      <li>
+                        <p>
+													When if finishes select the <code class="literal">Save</code> link and you will be returned to the <code class="literal">Enterprise Applications</code> table.
+												</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+									</p>
+                </li>
+              </ul>
+            </div>
+            <p>
+						</p>
+          </li>
+          <li>
+            <p><a id="websphere-app-adj-after-install"></a>
+							Now that we have our application installed we need to make some adjustments to it before we can start it: 
+							</p>
+            <div class="itemizedlist">
+              <ul>
+                <li>
+                  <p>
+										Starting from the <code class="literal">Enterprise Applications</code> table select the <code class="literal">Seam Booking</code> link.
+									</p>
+                </li>
+                <li>
+                  <p>
+										Select the <code class="literal">Manage Modules</code> link.
+									</p>
+                </li>
+                <li>
+                  <p>
+										Select the <code class="literal">jboss-seam-jee5.war</code> link.
+									</p>
+                </li>
+                <li>
+                  <p>
+										Change the <code class="literal">Class loader order</code> combo box to <code class="literal">Classes loaded with application class loader first</code>.
+									</p>
+                </li>
+                <li>
+                  <p>
+										Select <code class="literal">Apply</code> and then <code class="literal">Save</code> options.
+									</p>
+                </li>
+                <li>
+                  <p>
+										Return the <code class="literal">Seam Booking</code> page.
+									</p>
+                </li>
+                <li>
+                  <p>
+										On this page select the <code class="literal">Class loading and update detection</code> link.
+									</p>
+                </li>
+                <li>
+                  <p>
+										Select the radio button for <code class="literal">Classes loaded with application class loader first</code>.
+									</p>
+                </li>
+                <li>
+                  <p>
+										Even though we are not enabling class reload you must also enter a valid number in the <code class="literal">Polling interval for updated files</code> text area (zero works fine).
+									</p>
+                </li>
+                <li>
+                  <p>
+										Select <code class="literal">Apply</code> and then <code class="literal">Save</code> options.
+									</p>
+                </li>
+                <li>
+                  <p>
+										You should verify that the change you just made has been remembered. We have had problems with the last class loader change not taking effect - even after a restart. If the change did not take you will need to do it manually, following these directions: 
+										</p>
+                  <div class="itemizedlist">
+                    <ul>
+                      <li>
+                        <p>
+													Open the following file in a text editor of your choice: 
+</p>
+                        <pre class="programlisting">
+$WebSphereInstall/$yourServerName/profiles/$yourProfileName/config/cells/
+                   $yourCellName/applications/Seam Booking.ear/deployments/
+                   Seam Booking/deployment.xml
+</pre>
+                        <p>
+												</p>
+                      </li>
+                      <li>
+                        <p>
+													Modify the following line so that <code class="literal">PARENT_FIRST</code> is now <code class="literal">PARENT_LAST</code>: 
+</p>
+                        <pre class="programlisting">
+&lt;classloader xmi:id="Classloader_#######" mode="PARENT_FIRST"/&gt;
+</pre>
+                        <p>
+												</p>
+                      </li>
+                      <li>
+                        <p>
+													Save the file and now when go to the <code class="literal">Class loading and update detection</code> page you should see <code class="literal">Classes loaded with application class loader first</code> selected.
+												</p>
+                      </li>
+                    </ul>
+                  </div>
+                  <p>
+									</p>
+                </li>
+              </ul>
+            </div>
+            <p>
+						</p>
+          </li>
+          <li>
+            <p>
+							To start the application return to the <code class="literal">Enterprise Applications</code> table and select our application in the list. Then choose the <code class="literal">Start</code> button at the top of the table.
+						</p>
+          </li>
+          <li>
+            <p>
+							You can now access the application at <code class="literal">http://localhost:9080/seam-jee5/</code> .
+						</p>
+          </li>
+        </ol>
+      </div>
+      <p>
+				</p>
+      <div class="note">
+        <h2>A note about Websphere Stateful bean timeouts</h2>
+        <p>
+						The default timeout period for a Websphere 6.1 Stateful EJB is 10 minutes. This means that you may see some EJB timeout exceptions after some idle time. It is possible to adjust the timeout of the Stateful EJBs on an individual basis, but that is beyond the scope of this document. See the Websphere documentation for details.
+					</p>
+      </div>
+      <p>
+			</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch34s02s02s02.html"><strong>Prev</strong>34.2.2.2. Updating the build.xml file</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch34s03.html"><strong>Next</strong>34.3.  The jpa booking example </a>
+      </li>
+    </ul>
+  </body>
+</html>

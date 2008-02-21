@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>32.2.2. Configuration file changes</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch32s02.html" title="32.2.  The jee5/booking example" />
+    <link rel="prev" href="ch32s02s01s02.html" title="32.2.1.2. Extra dependencies" />
+    <link rel="next" href="oc4j-build-jee5.html" title="32.2.3.  Building the jee5/booking example" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>32.2.2. Configuration file changes</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch32s02s01s02.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="oc4j-build-jee5.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2878273"></a>32.2.2. Configuration file changes</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				There are just a few changes to be made:
+			</p>
+      <div class="variablelist">
+        <dl>
+          <dt>
+            <span class="term">
+              <code class="literal">web.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <p>
+							You need to declare all your ejb's in the <code class="literal">web.xml</code> . This is a silly requirement of a number of JEE5 application servers - for example OC4J and Glassfish.
+						</p>
+            <p>
+							This is already done in the example's web.xml file, below is an example.
+						</p>
+            <pre class="programlisting">&lt;ejb-local-ref&gt;
+   &lt;ejb-ref-name&gt;
+      jboss-seam-jee5/AuthenticatorAction/local
+   &lt;/ejb-ref-name&gt;
+   &lt;ejb-ref-type&gt;Session&lt;/ejb-ref-type&gt;
+   &lt;local&gt;
+      org.jboss.seam.example.booking.Authenticator
+   &lt;/local&gt;
+   &lt;ejb-link&gt;AuthenticatorAction&lt;/ejb-link&gt;
+&lt;/ejb-local-ref&gt;
+</pre>
+          </dd>
+          <dt>
+            <span class="term">
+              <code class="literal">persistence.xml</code>
+            </span>
+          </dt>
+          <dd>
+            <p>
+							You need to provide the correct configuration for your JPA implementation. We are using Hibernate and due to OC4J bundling an old ANTLR, we need to use an alternative query factory, we also want to use the OC4J transaction manager:
+						</p>
+            <p>
+							For our example modify the <code class="literal">resources/META-INF/persistence.xml</code> file. Comment out the Glassfish properties and un-comment the OC4J properties.
+						</p>
+            <pre class="programlisting">&lt;property name="hibernate.dialect" 
+   value="org.hibernate.dialect.HSQLDialect"/&gt;
+&lt;property name="hibernate.query.factory_class" 
+   value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory"/&gt;
+&lt;property name="hibernate.transaction.manager_lookup_class" 
+   value="org.hibernate.transaction.OrionTransactionManagerLookup"/&gt;
+</pre>
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch32s02s01s02.html"><strong>Prev</strong>32.2.1.2. Extra dependencies</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="oc4j-build-jee5.html"><strong>Next</strong>32.2.3.  Building the jee5/booking example </a>
+      </li>
+    </ul>
+  </body>
+</html>

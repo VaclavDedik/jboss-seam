@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>17.1.4. Multiple messages</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch17s01.html" title="17.1. Creating a message" />
+    <link rel="prev" href="ch17s01s03.html" title="17.1.3. Multiple recipients" />
+    <link rel="next" href="ch17s01s05.html" title="17.1.5. Templating" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>17.1.4. Multiple messages</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch17s01s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch17s01s05.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2819590"></a>17.1.4. Multiple messages</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				Sometimes, however, you need to send a slightly different message to each recipient (e.g. a password reset). The best way to do this is to place the whole message inside a <code class="literal">&lt;ui:repeat&gt;</code>:
+			</p>
+      <pre class="programlisting">&lt;ui:repeat value="#{people}" var="p"&gt;
+    &lt;m:message&gt;
+        &lt;m:from name="#{person.firstname} #{person.lastname}"&gt;#{person.address}&lt;/m:from&gt;
+        &lt;m:to name="#{p.firstname}"&gt;#{p.address}&lt;/m:to&gt;
+            ...
+    &lt;/m:message&gt;
+&lt;/ui:repeat&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch17s01s03.html"><strong>Prev</strong>17.1.3. Multiple recipients</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch17s01s05.html"><strong>Next</strong>17.1.5. Templating</a>
+      </li>
+    </ul>
+  </body>
+</html>

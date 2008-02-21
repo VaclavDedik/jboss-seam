@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Chapter 7. Pageflows and business processes</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="index.html" title="Seam - Contextual Components" />
+    <link rel="prev" href="ch06s11s01.html" title="6.11.1. RichFaces Ajax" />
+    <link rel="next" href="ch07s01.html" title="7.1. Pageflow in Seam" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>Chapter 7. Pageflows and business processes</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s11s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch07s01.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="chapter" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="jbpm"></a>Chapter 7. Pageflows and business processes</h2>
+          </div>
+        </div>
+      </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="section">
+              <a href="ch07s01.html">7.1. Pageflow in Seam</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch07s01s01.html">7.1.1. The two navigation models</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s01s02.html">7.1.2. Seam and the back button</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="section">
+              <a href="ch07s02.html">7.2. Using jPDL pageflows</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch07s02s01.html">7.2.1. Installing pageflows</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s02s02.html">7.2.2. Starting pageflows</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s02s03.html">7.2.3. Page nodes and transitions</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s02s04.html">7.2.4. Controlling the flow</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s02s05.html">7.2.5. Ending the flow</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s02s06.html">7.2.6. Pageflow composition</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="section">
+              <a href="ch07s03.html">7.3. Business process management in Seam</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch07s04.html">7.4. Using jPDL business process definitions</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch07s04s01.html">7.4.1. Installing process definitions</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s04s02.html">7.4.2. Initializing actor ids</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s04s03.html">7.4.3. Initiating a business process</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s04s04.html">7.4.4. Task assignment</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s04s05.html">7.4.5. Task lists</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch07s04s06.html">7.4.6. Performing a task</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+      <p>
+		JBoss jBPM is a business process management engine for any Java SE or EE environment. jBPM lets you represent a business process or user interaction as a graph of nodes representing wait states, decisions, tasks, web pages, etc. The graph is defined using a simple, very readable, XML dialect called jPDL, and may be edited and visualised graphically using an eclipse plugin. jPDL is an extensible language, and is suitable for a range of problems, from defining web application page flow, to traditional workflow management, all the way up to orchestration of services in a SOA environment.
+	</p>
+      <p>
+		Seam applications use jBPM for two different problems:
+	</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+				Defining the pageflow involved in complex user interactions. A jPDL process definition defines the page flow for a single conversation. A Seam conversation is considered to be a relatively short-running interaction with a single user.
+			</p>
+          </li>
+          <li>
+            <p>
+				Defining the overarching business process. The business process may span multiple conversations with multiple users. Its state is persistent in the jBPM database, so it is considered long-running. Coordination of the activities of multiple users is a much more complex problem than scripting an interaction with a single user, so jBPM offers sophisticated facilities for task management and dealing with multiple concurrent paths of execution.
+			</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+		Don't get these two things confused ! They operate at very different levels or granularity. <span class="emphasis"><em>Pageflow</em></span>, <span class="emphasis"><em>conversation</em></span> and <span class="emphasis"><em>task</em></span> all refer to a single interaction with a single user. A business process spans many tasks. Futhermore, the two applications of jBPM are totally orthogonal. You can use them together or independently or not at all.
+	</p>
+      <p>
+		You don't have to know jDPL to use Seam. If you're perfectly happy defining pageflow using JSF or Seam navigation rules, and if your application is more data-driven that process-driven, you probably don't need jBPM. But we're finding that thinking of user interaction in terms of a well-defined graphical representation is helping us build more robust applications.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s11s01.html"><strong>Prev</strong>6.11.1. RichFaces Ajax</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch07s01.html"><strong>Next</strong>7.1. Pageflow in Seam</a>
+      </li>
+    </ul>
+  </body>
+</html>

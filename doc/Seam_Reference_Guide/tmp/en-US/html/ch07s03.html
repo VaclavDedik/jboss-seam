@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>7.3. Business process management in Seam</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="jbpm.html" title="Chapter 7. Pageflows and business processes" />
+    <link rel="prev" href="ch07s02s06.html" title="7.2.6. Pageflow composition" />
+    <link rel="next" href="ch07s04.html" title="7.4. Using jPDL business process definitions" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>7.3. Business process management in Seam</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch07s02s06.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch07s04.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2795048"></a>7.3. Business process management in Seam</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+			A business process is a well-defined set of tasks that must be performed by users or software systems according to well-defined rules about <span class="emphasis"><em>who</em></span> can perform a task, and <span class="emphasis"><em>when</em></span> it should be performed. Seam's jBPM integration makes it easy to display lists of tasks to users and let them manage their tasks. Seam also lets the application store state associated with the business process in the <code class="literal">BUSINESS_PROCESS</code> context, and have that state made persistent via jBPM variables.
+		</p>
+      <p>
+			A simple business process definition looks much the same as a page flow definition (<span class="emphasis"><em>One Kind of Stuff</em></span>), except that instead of <code class="literal">&lt;page&gt;</code> nodes, we have <code class="literal">&lt;task-node&gt;</code> nodes. In a long-running business process, the wait states are where the system is waiting for some user to log in and perform a task.
+		</p>
+      <pre class="programlisting">&lt;process-definition name="todo"&gt;
+   
+   &lt;start-state name="start"&gt;
+      &lt;transition to="todo"/&gt;
+   &lt;/start-state&gt;
+   
+   &lt;task-node name="todo"&gt;
+      &lt;task name="todo" description="#{todoList.description}"&gt;
+         &lt;assignment actor-id="#{actor.id}"/&gt;
+      &lt;/task&gt;
+      &lt;transition to="done"/&gt;
+   &lt;/task-node&gt;
+   
+   &lt;end-state name="done"/&gt;
+   
+&lt;/process-definition&gt;
+</pre>
+      <div class="mediaobject" align="center">
+        <img src="/images/plugin-jbpm-todo.png" align="middle" />
+      </div>
+      <p>
+			It is perfectly possible that we might have both jPDL business process definitions and jPDL pageflow definitions in the same project. If so, the relationship between the two is that a single <code class="literal">&lt;task&gt;</code> in a business process corresponds to a whole pageflow <code class="literal">&lt;pageflow-definition&gt;</code>
+		</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch07s02s06.html"><strong>Prev</strong>7.2.6. Pageflow composition</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch07s04.html"><strong>Next</strong>7.4. Using jPDL business process definitions</a>
+      </li>
+    </ul>
+  </body>
+</html>

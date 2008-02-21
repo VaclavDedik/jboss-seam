@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>6.9.2. Workspace management and jPDL pageflow</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch06s09.html" title="6.9. Workspace management" />
+    <link rel="prev" href="ch06s09s01.html" title="6.9.1. Workspace management and JSF navigation" />
+    <link rel="next" href="ch06s09s03.html" title="6.9.3. The conversation switcher" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>6.9.2. Workspace management and jPDL pageflow</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s09s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s09s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2839891"></a>6.9.2. Workspace management and jPDL pageflow</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				When you use a jPDL pageflow definition, Seam switches to a conversation by restoring the current jBPM process state. This is a more flexible model since it allows the same <code class="literal">view-id</code> to have different descriptions depending upon the current <code class="literal">&lt;page&gt;</code> node. The description text is defined by the <code class="literal">&lt;page&gt;</code> node:
+			</p>
+      <pre class="programlisting">&lt;pageflow-definition name="shopping"&gt;
+
+   &lt;start-state name="start"&gt;
+      &lt;transition to="browse"/&gt;
+   &lt;/start-state&gt;
+   
+   &lt;page name="browse" view-id="/browse.xhtml"&gt;
+      &lt;description&gt;DVD Search: #{search.searchPattern}&lt;/description&gt;
+      &lt;transition to="browse"/&gt;
+      &lt;transition name="checkout" to="checkout"/&gt;
+   &lt;/page&gt;
+   
+   &lt;page name="checkout" view-id="/checkout.xhtml"&gt;
+      &lt;description&gt;Purchase: $#{cart.total}&lt;/description&gt;
+      &lt;transition to="checkout"/&gt;
+      &lt;transition name="complete" to="complete"/&gt;
+   &lt;/page&gt;
+   
+   &lt;page name="complete" view-id="/complete.xhtml"&gt;
+      &lt;end-conversation /&gt;
+   &lt;/page&gt;
+   
+&lt;/pageflow-definition&gt;
+</pre>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch06s09s01.html"><strong>Prev</strong>6.9.1. Workspace management and JSF navigation</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s09s03.html"><strong>Next</strong>6.9.3. The conversation switcher</a>
+      </li>
+    </ul>
+  </body>
+</html>

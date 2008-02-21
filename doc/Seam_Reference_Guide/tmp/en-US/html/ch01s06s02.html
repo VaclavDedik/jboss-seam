@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>1.6.2. Overview of the booking example</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="booking.html" title="1.6. A complete Seam application: the Hotel Booking example" />
+    <link rel="prev" href="ch01s06s01.html" title="1.6.1. Introduction" />
+    <link rel="next" href="ch01s06s03.html" title="1.6.3. Understanding Seam conversations" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>1.6.2. Overview of the booking example</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch01s06s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch01s06s03.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h3 class="title"><a id="id2851547"></a>1.6.2. Overview of the booking example</h3>
+          </div>
+        </div>
+      </div>
+      <p>
+				The project structure is identical to the previous one, to install and deploy this application, please refer to <a href="try-examples.html" title="1.1. Try the examples">Section 1.1, “Try the examples”</a>. Once you've successfully started the application, you can access it by pointing your browser to <a href="http://localhost:8080/seam-booking/"><code class="literal">http://localhost:8080/seam-booking/</code></a>
+			</p>
+      <p>
+				Just nine classes (plus six session beans local interfaces) where used to implement this application. Six session bean action listeners contain all the business logic for the listed features.
+			</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+						<code class="literal">BookingListAction</code> retrieves existing bookings for the currently logged in user.
+					</p>
+          </li>
+          <li>
+            <p>
+						<code class="literal">ChangePasswordAction</code> updates the password of the currently logged in user.
+					</p>
+          </li>
+          <li>
+            <p>
+						<code class="literal">HotelBookingAction</code> implements the core functionality of the application: hotel room searching, selection, booking and booking confirmation. This functionality is implemented as a <span class="emphasis"><em>conversation</em></span>, so this is the most interesting class in the application.
+					</p>
+          </li>
+          <li>
+            <p>
+						<code class="literal">RegisterAction</code> registers a new system user.
+					</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+				Three entity beans implement the application's persistent domain model.
+			</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+						<code class="literal">Hotel</code> is an entity bean that represent a hotel
+					</p>
+          </li>
+          <li>
+            <p>
+						<code class="literal">Booking</code> is an entity bean that represents an existing booking
+					</p>
+          </li>
+          <li>
+            <p>
+						<code class="literal">User</code> is an entity bean to represents a user who can make hotel bookings
+					</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch01s06s01.html"><strong>Prev</strong>1.6.1. Introduction</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch01s06s03.html"><strong>Next</strong>1.6.3. Understanding Seam conversations</a>
+      </li>
+    </ul>
+  </body>
+</html>

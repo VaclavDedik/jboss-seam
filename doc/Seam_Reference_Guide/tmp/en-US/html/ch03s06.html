@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>3.6. Logging</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="concepts.html" title="Chapter 3. The contextual component model" />
+    <link rel="prev" href="ch03s05.html" title="3.5. Conditional installation" />
+    <link rel="next" href="ch03s07.html" title="3.7. The Mutable interface and @ReadOnly" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>3.6. Logging</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch03s05.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch03s07.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="sect1" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="id2855034"></a>3.6. Logging</h2>
+          </div>
+        </div>
+      </div>
+      <p>
+		Who is not totally fed up with seeing noisy code like this?
+	</p>
+      <pre class="programlisting">private static final Log log = LogFactory.getLog(CreateOrderAction.class);
+        
+public Order createOrder(User user, Product product, int quantity) {
+    if ( log.isDebugEnabled() ) {
+        log.debug("Creating new order for user: " + user.username() + 
+            " product: " + product.name() 
+            + " quantity: " + quantity);
+    }
+    return new Order(user, product, quantity);
+}
+</pre>
+      <p>
+		It is difficult to imagine how the code for a simple log message could possibly be more verbose. There is more lines of code tied up in logging than in the actual business logic! I remain totally astonished that the Java community has not come up with anything better in 10 years.
+	</p>
+      <p>
+		Seam provides a logging API that simplifies this code significantly:
+	</p>
+      <pre class="programlisting">@Logger private Log log;
+        
+public Order createOrder(User user, Product product, int quantity) {
+    log.debug("Creating new order for user: #0 product: #1 quantity: #2", user.username(), product.name(), quantity);
+    return new Order(user, product, quantity);
+}
+</pre>
+      <p>
+		It doesn't matter if you declare the <code class="literal">log</code> variable static or not—it will work either way, except for entity bean components which require the <code class="literal">log</code> variable to be static.
+	</p>
+      <p>
+		Note that we don't need the noisy <code class="literal">if ( log.isDebugEnabled() )</code> guard, since string concatenation happens <span class="emphasis"><em>inside</em></span> the <code class="literal">debug()</code> method. Note also that we don't usually need to specify the log category explicitly, since Seam knows what component it is injecting the <code class="literal">Log</code> into.
+	</p>
+      <p>
+		If <code class="literal">User</code> and <code class="literal">Product</code> are Seam components available in the current contexts, it gets even better:
+	</p>
+      <pre class="programlisting">@Logger private Log log;
+        
+public Order createOrder(User user, Product product, int quantity) {
+    log.debug("Creating new order for user: #{user.username} product: #{product.name} quantity: #0", quantity);
+    return new Order(user, product, quantity);
+}
+</pre>
+      <p>
+		Seam logging automagically chooses whether to send output to log4j or JDK logging. If log4j is in the classpath, Seam with use it. If it is not, Seam will use JDK logging.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch03s05.html"><strong>Prev</strong>3.5. Conditional installation</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch03s07.html"><strong>Next</strong>3.7. The Mutable interface and @ReadOnly</a>
+      </li>
+    </ul>
+  </body>
+</html>

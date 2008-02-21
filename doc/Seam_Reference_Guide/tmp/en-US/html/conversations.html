@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Chapter 6. Conversations and workspace management</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="index.html" title="Seam - Contextual Components" />
+    <link rel="prev" href="ch05s11s05.html" title="5.11.5. Some common exceptions" />
+    <link rel="next" href="ch06s01.html" title="6.1. Seam's conversation model" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>Chapter 6. Conversations and workspace management</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch05s11s05.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s01.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="chapter" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="conversations"></a>Chapter 6. Conversations and workspace management</h2>
+          </div>
+        </div>
+      </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="section">
+              <a href="ch06s01.html">6.1. Seam's conversation model</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s02.html">6.2. Nested conversations</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s03.html">6.3. Starting conversations with GET requests</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s04.html">6.4. Using <code class="literal">&lt;s:link&gt;</code> and <code class="literal">&lt;s:button&gt;</code></a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s05.html">6.5. Success messages</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s06.html">6.6. Natural conversation ids</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s07.html">6.7. Creating a natural conversation</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s08.html">6.8. Redirecting to a natural conversation</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s09.html">6.9. Workspace management</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch06s09s01.html">6.9.1. Workspace management and JSF navigation</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch06s09s02.html">6.9.2. Workspace management and jPDL pageflow</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch06s09s03.html">6.9.3. The conversation switcher</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch06s09s04.html">6.9.4. The conversation list</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch06s09s05.html">6.9.5. Breadcrumbs</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="section">
+              <a href="ch06s10.html">6.10. Conversational components and JSF component bindings</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch06s11.html">6.11. Concurrent calls to conversational components</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch06s11s01.html">6.11.1. RichFaces Ajax</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+      <p>
+		It's time to understand Seam's conversation model in more detail.
+	</p>
+      <p>
+		Historically, the notion of a Seam "conversation" came about as a merger of three different ideas:
+	</p>
+      <div class="itemizedlist">
+        <ul>
+          <li>
+            <p>
+				The idea of a <span class="emphasis"><em>workspace</em></span>, which I encountered in a project for the Victorian government in 2002. In this project I was forced to implement workspace management on top of Struts, an experience I pray never to repeat.
+			</p>
+          </li>
+          <li>
+            <p>
+				The idea of an <span class="emphasis"><em>application transaction</em></span> with optimistic semantics, and the realization that existing frameworks based around a stateless architecture could not provide effective management of extended persistence contexts. (The Hibernate team is truly fed up with copping the blame for <code class="literal">LazyInitializationException</code>s, which are not really Hibernate's fault, but rather the fault of the extremely limiting persistence context model supported by stateless architectures such as the Spring framework or the traditional <span class="emphasis"><em>stateless session facade</em></span> (anti)pattern in J2EE.)
+			</p>
+          </li>
+          <li>
+            <p>
+				The idea of a workflow <span class="emphasis"><em>task</em></span>.
+			</p>
+          </li>
+        </ul>
+      </div>
+      <p>
+		By unifying these ideas and providing deep support in the framework, we have a powerful construct that lets us build richer and more efficient applications with less code than before.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch05s11s05.html"><strong>Prev</strong>5.11.5. Some common exceptions</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch06s01.html"><strong>Next</strong>6.1. Seam's conversation model</a>
+      </li>
+    </ul>
+  </body>
+</html>

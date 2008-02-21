@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>21.7.5.2. Maps</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch21s07s05.html" title="21.7.5. Collections" />
+    <link rel="prev" href="ch21s07s05s01.html" title="21.7.5.1. Bags" />
+    <link rel="next" href="ch21s08.html" title="21.8. Debugging" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>21.7.5.2. Maps</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch21s07s05s01.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch21s08.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2808384"></a>21.7.5.2. Maps</h4>
+          </div>
+        </div>
+      </div>
+      <p>
+					As there is no native support for Maps within Javascript, a simple Map implementation is provided with the Seam Remoting framework. To create a Map which can be used as a parameter to a remote call, create a new <code class="literal">Seam.Remoting.Map</code> object:
+				</p>
+      <pre class="programlisting">var map = new Seam.Remoting.Map();
+</pre>
+      <p>
+					This Javascript implementation provides basic methods for working with Maps: <code class="literal">size()</code>, <code class="literal">isEmpty()</code>, <code class="literal">keySet()</code>, <code class="literal">values()</code>, <code class="literal">get(key)</code>, <code class="literal">put(key, value)</code>, <code class="literal">remove(key)</code> and <code class="literal">contains(key)</code>. Each of these methods are equivalent to their Java counterpart. Where the method returns a collection, such as <code class="literal">keySet()</code> and <code class="literal">values()</code>, a Javascript Array object will be returned that contains the key or value objects (respectively).
+				</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch21s07s05s01.html"><strong>Prev</strong>21.7.5.1. Bags</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch21s08.html"><strong>Next</strong>21.8. Debugging</a>
+      </li>
+    </ul>
+  </body>
+</html>

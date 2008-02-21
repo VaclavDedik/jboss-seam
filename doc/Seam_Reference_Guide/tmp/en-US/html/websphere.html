@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Chapter 34. Seam on IBM's Websphere</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="index.html" title="Seam - Contextual Components" />
+    <link rel="prev" href="ch33s04s03s03.html" title="33.4.3.3. Deploying the example" />
+    <link rel="next" href="ch34s01.html" title="34.1. Websphere environment and deployment information" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>Chapter 34. Seam on IBM's Websphere</strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch33s04s03s03.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch34s01.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="chapter" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h2 class="title"><a id="websphere"></a>Chapter 34. Seam on IBM's Websphere</h2>
+          </div>
+        </div>
+      </div>
+      <div class="toc">
+        <dl>
+          <dt>
+            <span class="section">
+              <a href="ch34s01.html">34.1. Websphere environment and deployment information</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch34s01s01.html">34.1.1. Installation versions and tips</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch34s01s02.html">34.1.2. Required custom properties</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="section">
+              <a href="jee5-websphere-section.html">34.2.  The <code class="literal">jee5/booking</code> example </a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch34s02s01.html">34.2.1. Configuration file changes</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch34s02s02.html">34.2.2. Building the <code class="literal">jee5/booking</code> example</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="jee5-websphere-deploy.html">34.2.3. Deploying the application to Websphere</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="section">
+              <a href="ch34s03.html">34.3.  The <code class="literal">jpa</code> booking example </a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch34s03s01.html">34.3.1. Building the <code class="literal">jpa</code> example</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch34s03s02.html">34.3.2. Deploying the <code class="literal">jpa</code> example</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch34s03s03.html">34.3.3. Whats different for Websphere 6.1</a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+          <dt>
+            <span class="section">
+              <a href="ch34s04.html">34.4. Deploying an application created using <code class="literal">seam-gen</code> on Websphere 6.1.0.13</a>
+            </span>
+          </dt>
+          <dt>
+            <span class="section">
+              <a href="ch34s05.html">34.5. Changes needed for deployment to Websphere</a>
+            </span>
+          </dt>
+          <dd>
+            <dl>
+              <dt>
+                <span class="section">
+                  <a href="ch34s05s01.html">34.5.1. Configuration file changes</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch34s05s02.html">34.5.2. Creating the <code class="literal">AuthenticatorAction</code> EJB</a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch34s05s03.html">34.5.3. Extra jar dependencies and other changes to the <code class="literal">build.xml</code></a>
+                </span>
+              </dt>
+              <dt>
+                <span class="section">
+                  <a href="ch34s05s04.html">34.5.4.  Building and deploying the seam-gen'd application to Websphere </a>
+                </span>
+              </dt>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+      <p>
+		Websphere 6.1.x is IBM's application server offering. The latest release is 6.1.0.13 which does not have <code class="literal">EJB3</code> or <code class="literal">JEE5</code> support. There is a recently released (Nov 07) <code class="literal">EJB3</code> feature pack which provides some support for <code class="literal">EJB3</code> and <code class="literal">JPA</code>. Currently there is no true <code class="literal">JEE5</code> offering from IBM. This causes some issues with Seam integration with applications that use EJB3.
+	</p>
+      <p>
+		First we will go over some basic information about the Websphere environment that we used for these examples. After a good deal of research and work we were able to get EJB3 applications to function correctly. We will go over the details of those steps with the jee5 example. We will also deploy the the JPA example application.
+	</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch33s04s03s03.html"><strong>Prev</strong>33.4.3.3. Deploying the example</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch34s01.html"><strong>Next</strong>34.1. Websphere environment and deployment inform...</a>
+      </li>
+    </ul>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head xmlns="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>1.2.1.6. The JSF configration: faces-config.xml</title>
+    <link rel="stylesheet" href="./Common_Content/css/default.css" type="text/css" />
+    <meta name="generator" content="DocBook XSL Stylesheets V1.72.0" />
+    <link rel="start" href="index.html" title="Seam - Contextual Components" />
+    <link rel="up" href="ch01s02s01.html" title="1.2.1. Understanding the code" />
+    <link rel="prev" href="ch01s02s01s05.html" title="1.2.1.5. The web deployment description: web.xml" />
+    <link rel="next" href="ch01s02s01s07.html" title="1.2.1.7. The EJB deployment descriptor: ejb-jar.xml" />
+  </head>
+  <body>
+    <p xmlns="http://www.w3.org/1999/xhtml" id="title">
+      <a href="http://www.redhat.com/docs">
+        <strong>1.2.1.6. The JSF configration: <code class="literal">faces-config.xml</code></strong>
+      </a>
+    </p>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch01s02s01s05.html">
+          <strong>Prev</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch01s02s01s07.html">
+          <strong>Next</strong>
+        </a>
+      </li>
+    </ul>
+    <div xmlns="http://www.w3.org/1999/xhtml" class="section" lang="en-US" xml:lang="en-US">
+      <div class="titlepage">
+        <div>
+          <div>
+            <h4 class="title"><a id="id2857449"></a>1.2.1.6. The JSF configration: <code class="literal">faces-config.xml</code></h4>
+          </div>
+        </div>
+      </div>
+      <p>
+					Most Seam applications use JSF views as the presentation layer. So usually we'll need <code class="literal">faces-config.xml</code>. In our case, we are going to use Facelets for defining our views, so we need to tell JSF to use Facelets as its templating engine.
+				</p>
+      <div class="example">
+        <a id="registration-faces-config-xml"></a>
+        <div class="example-contents">
+          <pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;faces-config version="1.2"
+              xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"&gt;
+
+    &lt;!-- Facelets support --&gt;
+    &lt;application&gt;
+        &lt;view-handler&gt;com.sun.facelets.FaceletViewHandler&lt;/view-handler&gt;
+    &lt;/application&gt;
+    
+&lt;/faces-config&gt;
+</pre>
+        </div>
+        <h6 xmlns="">Example 1.6. registration faces configuration</h6>
+      </div>
+      <br class="example-break" />
+      <p>
+					Note that we don't need any JSF managed bean declarations! Our managed beans are annotated Seam components. In Seam applications, the <code class="literal">faces-config.xml</code> is used much less often than in plain JSF.
+				</p>
+      <p>
+					In fact, once you have all the basic descriptors set up, the <span class="emphasis"><em>only</em></span> XML you need to write as you add new functionality to a Seam application is orchestration: navigation rules or jBPM process definitions. Seam takes the view that <span class="emphasis"><em>process flow</em></span> and <span class="emphasis"><em>configuration data</em></span> are the only things that truly belong in XML.
+				</p>
+      <p>
+					In this simple example, we don't even need a navigation rule, since we decided to embed the view id in our action code.
+				</p>
+    </div>
+    <ul xmlns="http://www.w3.org/1999/xhtml" class="docnav">
+      <li class="previous">
+        <a accesskey="p" href="ch01s02s01s05.html"><strong>Prev</strong>1.2.1.5. The web deployment description: web.xml</a>
+      </li>
+      <li class="up">
+        <a accesskey="u" href="#">
+          <strong>Up</strong>
+        </a>
+      </li>
+      <li class="home">
+        <a accesskey="h" href="index.html">
+          <strong>Home</strong>
+        </a>
+      </li>
+      <li class="next">
+        <a accesskey="n" href="ch01s02s01s07.html"><strong>Next</strong>1.2.1.7. The EJB deployment descriptor: ejb-jar.x...</a>
+      </li>
+    </ul>
+  </body>
+</html>
