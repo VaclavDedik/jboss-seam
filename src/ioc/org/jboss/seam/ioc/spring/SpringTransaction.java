@@ -25,6 +25,7 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -267,13 +268,24 @@ public class SpringTransaction extends AbstractUserTransaction
       @Override
       public void afterCompletion(int status)
       {
-         sync.afterCompletion(status);
+         sync.afterCompletion(convertSpringStatus(status));
       }
 
       @Override
       public void beforeCompletion()
       {
          sync.beforeCompletion();
+      }
+
+      private int convertSpringStatus(int springStatus) {
+          switch(springStatus) {
+          case TransactionSynchronization.STATUS_COMMITTED :
+              return Status.STATUS_COMMITTED;
+          case TransactionSynchronization.STATUS_ROLLED_BACK :
+              return Status.STATUS_ROLLEDBACK;
+          default :
+              return Status.STATUS_UNKNOWN;
+          }
       }
    }
 }
