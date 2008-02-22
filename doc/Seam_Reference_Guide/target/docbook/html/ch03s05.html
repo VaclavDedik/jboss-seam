@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>3.5. Conditional installation</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="concepts.html" title="Chapter 3. The contextual component model"/>
+      <link rel="prev" href="ch03s04.html" title="3.4. Lifecycle methods"/>
+      <link rel="next" href="ch03s06.html" title="3.6. Logging"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch03s04.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s06.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e3219"/>3.5. Conditional installation</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            The <code class="literal">@Install</code> annotation lets you control conditional installation of components that
+            are required in some deployment scenarios and not in others. This is useful if:
+        </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+        		    You want to mock out some infrastructural component in tests.
+        		</p>
+               </li>
+               <li>
+                  <p>
+        		    You want change the implementation of a component in certain
+        		    deployment scenarios.
+        		</p>
+               </li>
+               <li>
+                  <p>
+        		    You want to install some components only if their dependencies are
+        		    available (useful for framework authors).
+        		</p>
+               </li>
+            </ul>
+         </div>
+         <p>
+            
+            <code class="literal">@Install</code> works by letting you specify <span class="emphasis">
+               <em>precedence</em>
+            </span>
+            and <span class="emphasis">
+               <em>dependencies</em>
+            </span>. 
+        </p>
+         <p>
+            The precedence of a component is a number that Seam uses to decide which component to
+            install when there are multiple classes with the same component name in the classpath.
+            Seam will choose the component with the higher precendence. There are some predefined
+            precedence values (in ascending order):
+        </p>
+         <div class="orderedlist">
+            <ol>
+               <li>
+                  <p>
+        		    
+                     <code class="literal">BUILT_IN</code> — the lowest precedece components are
+        		    the components built in to Seam. 
+        		</p>
+               </li>
+               <li>
+                  <p>
+        		    
+                     <code class="literal">FRAMEWORK</code> — components defined by third-party 
+        		    frameworks may override built-in components, but are overridden by
+        		    application components. 
+        		</p>
+               </li>
+               <li>
+                  <p>
+        		    
+                     <code class="literal">APPLICATION</code> — the default precedence. This is 
+                    appropriate for most application components.
+        		</p>
+               </li>
+               <li>
+                  <p>
+        		    
+                     <code class="literal">DEPLOYMENT</code> — for application components which
+        		    are deployment-specific. 
+        		</p>
+               </li>
+               <li>
+                  <p>
+        		    
+                     <code class="literal">MOCK</code> — for mock objects used in testing. 
+        		</p>
+               </li>
+            </ol>
+         </div>
+         <p>
+            Suppose we have a component named <code class="literal">messageSender</code> that talks to
+            a JMS queue. 
+        </p>
+         <pre class="programlisting">@Name("messageSender") 
+public class MessageSender {
+    public void sendMessage() {
+        //do something with JMS
+    }
+}</pre>
+         <p>
+            In our unit tests, we don't have a JMS queue available, so we would like to stub
+            out this method. We'll create a <span class="emphasis">
+               <em>mock</em>
+            </span> component that exists
+            in the classpath when unit tests are running, but is never deployed with the
+            application:
+        </p>
+         <pre class="programlisting">@Name("messageSender") 
+@Install(precedence=MOCK)
+public class MockMessageSender extends MessageSender {
+    public void sendMessage() {
+        //do nothing!
+    }
+}</pre>
+         <p>
+            The <code class="literal">precedence</code> helps Seam decide which version to use when it finds
+            both components in the classpath.
+        </p>
+         <p>
+            This is nice if we are able to control exactly which classes are in the classpath. But
+            if I'm writing a reusable framework with many dependecies, I don't want to have to 
+            break that framework across many jars. I want to be able to decide which components
+            to install depending upon what other components are installed, and upon what classes
+            are available in the classpath. The <code class="literal">@Install</code> annotation also 
+            controls this functionality. Seam uses this mechanism internally to enable conditional 
+            installation of many of the built-in components. However, you probably won't need to
+            use it in your application.
+        </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch03s04.html">
+               <strong>Prev</strong>3.4. Lifecycle methods</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s06.html">
+               <strong>Next</strong>3.6. Logging</a>
+         </li>
+      </ul>
+   </body>
+</html>

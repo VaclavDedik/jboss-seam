@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>34.1.1. Installation versions and tips</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch34s01.html" title="34.1. Websphere environment and deployment information"/>
+      <link rel="prev" href="ch34s01.html" title="34.1. Websphere environment and deployment information"/>
+      <link rel="next" href="ch34s01s02.html" title="34.1.2. Required custom properties"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch34s01s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e23617"/>34.1.1. Installation versions and tips</h3>
+               </div>
+            </div>
+         </div>
+         <p>All of the examples and information in this chapter are based on
+            the the latest version of Websphere at the time of this writing.
+            </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                     <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www.ibm.com/developerworks/websphere/zones/was/">
+                     Websphere Application Server 6.1.0.13</a>
+                  </p>
+               </li>
+               <li>
+                  <p>
+                     <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www-1.ibm.com/support/docview.wss?rs=180&amp;uid=swg21287579">
+                     Feature Pack for EJB 3.0 for Websphere Application Server
+                     V6.1 (3.0.6.1.0.13)</a>
+                  </p>
+               </li>
+            </ul>
+         </div>
+         <p> </p>
+         <p>The EJB3 feature pack that we installed came with the 6.1.0.13
+            patch version of Websphere. Installing the feature pack does not
+            ensure that your server will have the proper environment for EJB3
+            applications. Be sure that as part of the installation of the feature
+            pack you follow the instructions to create a new server
+            profile with the EJB3 feature pack enabled, or augment one of your
+            existing ones.  This can also be done after the installation 
+            by running the profile managment tool.</p>
+         <div class="note">
+            <h2>A note about restarting the server</h2>
+            <p>There are times that restarting the server will be required after
+            deploying or changes the examples in this chapter. Its does not seem
+            like every change requires a restart. If you get errors or exceptions
+            after modifing a property or deploying an application try to restart
+            the server. </p>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s01.html">
+               <strong>Prev</strong>34.1. Websphere environment and deployment inform...</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch34s01s02.html">
+               <strong>Next</strong>34.1.2. Required custom properties</a>
+         </li>
+      </ul>
+   </body>
+</html>

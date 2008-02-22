@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>16.1.5. Lists</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="itext.intro.html" title="16.1. Using PDF Support"/>
+      <link rel="prev" href="itext.chapters.html" title="16.1.4. Chapters and Sections"/>
+      <link rel="next" href="itext.tables.html" title="16.1.6. Tables"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="itext.chapters.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="itext.tables.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="itext.list"/>16.1.5. Lists</h3>
+               </div>
+            </div>
+         </div>
+         <p>List structures can be displayed using the <code class="literal">p:list</code> and <code class="literal">p:listItem</code>
+                tags. Lists may contain arbitrarily-nested sublists. List items may not be used outside of a list. he
+                following document uses the <code class="literal">ui:repeat</code> tag to to display a list of values retrieved
+                from a Seam component. </p>
+         <pre class="programlisting">&lt;p:document xmlns:p="http://jboss.com/products/seam/pdf"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            title="Hello"&gt;
+   &lt;p:list style="numbered"&gt;
+      &lt;ui:repeat value="#{documents}" var="doc"&gt;
+         &lt;p:listItem&gt;#{doc.name}&lt;/p:listItem&gt;
+      &lt;/ui:repeat&gt;
+   &lt;/p:list&gt;
+&lt;/p:document&gt;</pre>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:list&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                    <code class="literal">style</code> — The ordering/bulleting style of list.
+                                            One of: <code class="literal">NUMBERED</code>, <code class="literal">LETTERED</code>,
+                                                <code class="literal">GREEK</code>, <code class="literal">ROMAN</code>,
+                                                <code class="literal">ZAPFDINGBATS</code>, <code class="literal">ZAPFDINGBATS_NUMBER</code>.
+                                            If no style is given, the list items are bulleted.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">listSymbol</code> — For bulleted lists, specifies
+                                            the bullet symbol. </p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">indent</code> — The indentation level of the
+                                        list.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">lowerCase</code> — For list styles using letters,
+                                            indicates whether the letters should be lower case.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">charNumber</code> — For ZAPFDINGBATS, indicates the
+                                            character code of the bullet character.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">numberType</code> — For ZAPFDINGBATS_NUMBER,
+                                            indicates the numbering style.</p>
+                              </li>
+                           </ul>
+                        </div>
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <pre class="programlisting">&lt;p:list style="numbered"&gt;
+  &lt;ui:repeat value="#{documents}" var="doc"&gt;
+    &lt;p:listItem&gt;#{doc.name}&lt;/p:listItem&gt;
+  &lt;/ui:repeat&gt;
+&lt;/p:list&gt;</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:listItem&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <p>
+                           <code class="literal">p:listItem</code> supports the following attributes:</p>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">alignment</code> — The alignment of the header/footer
+                                            box section. (see <a href="itext.alignment.html" title="16.1.7.2. Alignment Values">Section 16.1.7.2, “Alignment Values”</a> for alignment values)</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">alignment</code> — The alignment of the list item.
+                                            (See <a href="itext.alignment.html" title="16.1.7.2. Alignment Values">Section 16.1.7.2, “Alignment Values”</a> for possible values)</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">indentationLeft</code> — The left indentation
+                                            amount.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">indentationRight</code> — The right indentation
+                                            amount.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">listSymbol</code> — Overrides the default list
+                                            symbol for this list item.</p>
+                              </li>
+                           </ul>
+                        </div>
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <pre class="programlisting">...</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="itext.chapters.html">
+               <strong>Prev</strong>16.1.4. Chapters and Sections</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="itext.tables.html">
+               <strong>Next</strong>16.1.6. Tables</a>
+         </li>
+      </ul>
+   </body>
+</html>

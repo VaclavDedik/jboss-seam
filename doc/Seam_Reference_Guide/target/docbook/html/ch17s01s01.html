@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>17.1.1. Attachments</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch17s01.html" title="17.1. Creating a message"/>
+      <link rel="prev" href="ch17s01.html" title="17.1. Creating a message"/>
+      <link rel="next" href="ch17s01s02.html" title="17.1.2. HTML/Text alternative part"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch17s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch17s01s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e12699"/>17.1.1. Attachments</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+        Seam makes it easy to attach files to an email.  It supports most of 
+        the standard java types used when working with files.
+      </p>
+         <p>
+        If you wanted to email the <code class="literal">jboss-seam-mail.jar</code>:
+      </p>
+         <pre class="programlisting">&lt;m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar"/&gt;</pre>
+         <p>
+        Seam will load the file from the classpath, and attach it to the email.
+        By default it would be attached as <code class="literal">jboss-seam-mail.jar</code>;
+   		if you wanted it to have another name you would just add the <code class="literal">fileName</code> attribute:
+      </p>
+         <pre class="programlisting">&lt;m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar" fileName="this-is-so-cool.jar"/&gt;</pre>
+         <p>
+        You could also attach a <code class="literal">java.io.File</code>, a <code class="literal">java.net.URL</code>:
+      </p>
+         <pre class="programlisting">&lt;m:attachment value="#{numbers}"/&gt;</pre>
+         <p>
+        Or a <code class="literal">byte[]</code> or a <code class="literal">java.io.InputStream</code>:
+      </p>
+         <pre class="programlisting">&lt;m:attachment value="#{person.photo}" contentType="image/png"/&gt;</pre>
+         <p>
+        You'll notice that for a <code class="literal">byte[]</code> and a <code class="literal">java.io.InputStream</code>
+        you need to specify the MIME type of the attachment (as that 
+        information is not carried as part of the file).
+      </p>
+         <p>
+        And it gets even better, you can attach a Seam generated PDF, or any 
+        standard JSF view, just by wrapping a <code class="literal">&lt;m:attachment&gt;</code> 
+        around the normal tags you would use:
+      </p>
+         <pre class="programlisting">&lt;m:attachment fileName="tiny.pdf"&gt;
+    &lt;p:document&gt;                                                      
+        A very tiny PDF                                                                                                
+    &lt;/p:document&gt;
+&lt;/m:attachment&gt;</pre>
+         <p>
+        If you had a set of files you wanted to attach (for example a set of 
+        pictures loaded from a database) you can just use a <code class="literal">&lt;ui:repeat&gt;</code>:
+      </p>
+         <pre class="programlisting">&lt;ui:repeat value="#{people}" var="person"&gt;
+    &lt;m:attachment value="#{person.photo}" contentType="image/jpeg" fileName="#{person.firstname}_#{person.lastname}.jpg"/&gt;
+&lt;/ui:repeat&gt;</pre>
+         <p>
+        And if you want to display an attached image inline:
+      </p>
+         <pre class="programlisting">&lt;m:attachment 
+    value="#{person.photo}" 
+    contentType="image/jpeg" 
+    fileName="#{person.firstname}_#{person.lastname}.jpg" 
+    status="personPhoto" 
+    disposition="inline" /&gt;
+&lt;img src="cid:#{personPhoto.contentId}" /&gt;</pre>
+         <p>
+        You may be wondering what <code class="literal">cid:#{...}</code> does. Well, the
+        IETF specified that by putting this as the src for your image, the 
+        attachments will be looked at when trying to locate the image (the 
+        <code class="literal">Content-ID</code>'s must match) — magic!
+      </p>
+         <p>
+        You must declare the attachment before trying to access the status object.
+      </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch17s01.html">
+               <strong>Prev</strong>17.1. Creating a message</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch17s01s02.html">
+               <strong>Next</strong>17.1.2. HTML/Text alternative part</a>
+         </li>
+      </ul>
+   </body>
+</html>

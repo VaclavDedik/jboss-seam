@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>Chapter 18. Asynchronicity and messaging</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="prev" href="mail.tags.html" title="17.5. Tags"/>
+      <link rel="next" href="ch18s01.html" title="18.1. Asynchronicity"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="mail.tags.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch18s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="jms"/>Chapter 18. Asynchronicity and messaging</h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt>
+                  <span class="sect1">
+                     <a href="ch18s01.html">18.1. Asynchronicity</a>
+                  </span>
+               </dt>
+               <dd>
+                  <dl>
+                     <dt>
+                        <span class="sect2">
+                           <a href="ch18s01s01.html">18.1.1. Asynchronous methods</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="sect2">
+                           <a href="ch18s01s02.html">18.1.2. Asynchronous methods with the Quartz Dispatcher</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="sect2">
+                           <a href="ch18s01s03.html">18.1.3. Asynchronous events</a>
+                        </span>
+                     </dt>
+                  </dl>
+               </dd>
+               <dt>
+                  <span class="sect1">
+                     <a href="ch18s02.html">18.2. Messaging in Seam</a>
+                  </span>
+               </dt>
+               <dd>
+                  <dl>
+                     <dt>
+                        <span class="sect2">
+                           <a href="ch18s02s01.html">18.2.1. Configuration</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="sect2">
+                           <a href="ch18s02s02.html">18.2.2. Sending messages</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="sect2">
+                           <a href="ch18s02s03.html">18.2.3. Receiving messages using a message-driven bean</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="sect2">
+                           <a href="ch18s02s04.html">18.2.4. Receiving messages in the client</a>
+                        </span>
+                     </dt>
+                  </dl>
+               </dd>
+            </dl>
+         </div>
+         <p>
+        Seam makes it very easy to perform work asynchronously from a web request. When most people
+        think of asynchronicity in Java EE, they think of using JMS. This is certainly one way to
+        approach the problem in Seam, and is the right way when you have strict and well-defined
+        quality of service requirements. Seam makes it easy to send and recieve JMS messages using
+        Seam components.
+    </p>
+         <p>
+        But for many usecases, JMS is overkill. Seam layers a simple asynchronous method and event
+        facility over your choice of <span class="emphasis">
+               <em>dispatchers</em>
+            </span>:
+    </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                
+                     <code class="literal">java.util.concurrent.ScheduledThreadPoolExecutor</code> (by default)
+            </p>
+               </li>
+               <li>
+                  <p>
+                the EJB timer service (for EJB 3.0 environments)
+            </p>
+               </li>
+               <li>
+                  <p>
+                Quartz
+            </p>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="mail.tags.html">
+               <strong>Prev</strong>17.5. Tags</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch18s01.html">
+               <strong>Next</strong>18.1. Asynchronicity</a>
+         </li>
+      </ul>
+   </body>
+</html>

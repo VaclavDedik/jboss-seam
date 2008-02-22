@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>14.1. Locales</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="i18n.html" title="Chapter 14. Internationalization and themes"/>
+      <link rel="prev" href="i18n.html" title="Chapter 14. Internationalization and themes"/>
+      <link rel="next" href="ch14s02.html" title="14.2. Labels"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="i18n.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch14s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e9397"/>14.1. Locales</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            Each user login session has an associated instance of
+            <code class="literal">java.util.Locale</code> (available to the 
+            application as a component named 
+            <code class="literal">locale</code>). Under normal circumstances,
+            you won't need to do any special configuration to set
+            the locale. Seam just delegates to JSF to determine
+            the active locale:
+        </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>If there is a locale associated with the HTTP request
+                (the browser locale), and that locale is in the list
+                of supported locales from <code class="literal">faces-config.xml</code>, 
+                use that locale for the rest of the session.</p>
+               </li>
+               <li>
+                  <p>Otherwise, if a default locale was specified in the
+                <code class="literal">faces-config.xml</code>, use that locale 
+                for the rest of the session.</p>
+               </li>
+               <li>
+                  <p>Otherwise, use the default locale of the server.</p>
+               </li>
+            </ul>
+         </div>
+         <p>
+            It is <span class="emphasis">
+               <em>possible</em>
+            </span> to set the locale
+            manually via the Seam configuration properties
+            <code class="literal">org.jboss.seam.international.localeSelector.language</code>,
+            <code class="literal">org.jboss.seam.international.localeSelector.country</code> and
+            <code class="literal">org.jboss.seam.international.localeSelector.variant</code>, but 
+            we can't think of any good reason to ever do this.
+        </p>
+         <p>
+            It is, however, useful to allow the user to set the
+            locale manually via the application user interface.
+            Seam provides built-in functionality for overriding
+            the locale determined by the algorithm above. All
+            you have to do is add the following fragment to a 
+            form in your JSP or Facelets page:
+        </p>
+         <pre class="programlisting">&lt;h:selectOneMenu value="#{localeSelector.language}"&gt;
+    &lt;f:selectItem itemLabel="English" itemValue="en"/&gt;
+    &lt;f:selectItem itemLabel="Deutsch" itemValue="de"/&gt;
+    &lt;f:selectItem itemLabel="Francais" itemValue="fr"/&gt;
+&lt;/h:selectOneMenu&gt;
+&lt;h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/&gt;</pre>
+         <p>
+            Or, if you want a list of all supported locales from 
+            <code class="literal">faces-config.xml</code>, just use:
+        </p>
+         <pre class="programlisting">&lt;h:selectOneMenu value="#{localeSelector.localeString}"&gt;
+    &lt;f:selectItems value="#{localeSelector.supportedLocales}"/&gt;
+&lt;/h:selectOneMenu&gt;
+&lt;h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/&gt;</pre>
+         <p>
+            When this use selects an item from the drop-down, and 
+            clicks the button, the Seam and JSF locales will be 
+            overridden for the rest of the session.
+        </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="i18n.html">
+               <strong>Prev</strong>Chapter 14. Internationalization and themes</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch14s02.html">
+               <strong>Next</strong>14.2. Labels</a>
+         </li>
+      </ul>
+   </body>
+</html>

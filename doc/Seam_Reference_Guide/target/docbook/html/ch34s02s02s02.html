@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>34.2.2.2. Updating the build.xml file</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch34s02s02.html" title="34.2.2. Building the jee5/booking example"/>
+      <link rel="prev" href="ch34s02s02s01.html" title="34.2.2.1. New libraries dependencies"/>
+      <link rel="next" href="jee5-websphere-deploy.html" title="34.2.3. Deploying the application to Websphere"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s02s02s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="jee5-websphere-deploy.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h4 class="title">
+                     <a id="d0e23919"/>34.2.2.2. Updating the <code class="literal">build.xml</code> file</h4>
+               </div>
+            </div>
+         </div>
+         <p>Add the following entry to the bottom of the
+               <code class="literal">build.xml</code> file. This overrides the
+               default fileset that is used to populate the
+               <code class="literal">jboss-seam-jee5.jar</code>. The primary change
+               is the addition of the
+               <code class="literal">GlassfishDerbyDialect.class</code>:
+               
+               
+               </p>
+         <pre class="programlisting">
+   &lt;fileset id="jar.resources" dir="${resources.dir}"&gt;
+      &lt;include name="import.sql" /&gt;
+      &lt;include name="seam.properties" /&gt;
+      &lt;include name="GlassfishDerbyDialect.class" /&gt;
+      &lt;include name="META-INF/persistence.xml" /&gt;
+      &lt;include name="META-INF/ejb-jar.xml" /&gt;
+   &lt;/fileset&gt;</pre>
+         <p>
+               
+         </p>
+         <p>Next we need to add the library dependencies discussed above.
+               For this add the following to bottom of the
+               <code class="literal">ear.lib.extras</code> fileset entry:
+               
+               
+               </p>
+         <pre class="programlisting">
+   &lt;!--&lt;include name="lib/log4j.jar" /&gt;--&gt;
+   &lt;include name="lib/el-api.jar" /&gt;
+   &lt;include name="examples/jpa/lib/el-ri.jar" /&gt;
+   &lt;include name="lib/jsf-api.jar" /&gt;
+   &lt;include name="lib/jsf-impl.jar" /&gt;
+   &lt;include name="lib/jboss-seam.jar" /&gt;
+&lt;/fileset&gt;</pre>
+         <p>
+               
+         </p>
+         <p>Now all that is left is to execute the <code class="literal">ant
+               archive</code> task and the built application will be in
+               the <code class="literal">jee5/booking/dist</code> directory.
+               </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s02s02s01.html">
+               <strong>Prev</strong>34.2.2.1. New libraries dependencies</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="jee5-websphere-deploy.html">
+               <strong>Next</strong>34.2.3. Deploying the application to Websphere</a>
+         </li>
+      </ul>
+   </body>
+</html>

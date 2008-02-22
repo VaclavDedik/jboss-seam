@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>26.2. Annotations for bijection</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="annotations.html" title="Chapter 26. Seam annotations"/>
+      <link rel="prev" href="ch26s01.html" title="26.1. Annotations for component definition"/>
+      <link rel="next" href="ch26s03.html" title="26.3. Annotations for component lifecycle methods"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch26s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch26s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e16352"/>26.2. Annotations for bijection</h2>
+               </div>
+            </div>
+         </div>
+         <p> The next two annotations control bijection. These attributes occur on component instance variables or
+            property accessor methods. </p>
+         <div class="variablelist">
+            <dl>
+               <dt>
+                  <a id="in-annotation"/>
+                  <span class="term">
+                    
+                     <code class="literal">@In</code>
+                
+                  </span>
+               </dt>
+               <dd>
+                  <pre class="programlisting">@In</pre>
+                  <p> Specifies that a component attribute is to be injected from a context variable at the
+                        beginning of each component invocation. If the context variable is null, an exception will be
+                        thrown. </p>
+                  <pre class="programlisting">@In(required=false)</pre>
+                  <p> Specifies that a component attribute is to be injected from a context variable at the
+                        beginning of each component invocation. The context variable may be null. </p>
+                  <pre class="programlisting">@In(create=true)</pre>
+                  <p> Specifies that a component attribute is to be injected from a context variable at the
+                        beginning of each component invocation. If the context variable is null, an instance of the
+                        component is instantiated by Seam. </p>
+                  <pre class="programlisting">@In(value="contextVariableName")</pre>
+                  <p> Specifies the name of the context variable explicitly, instead of using the annotated
+                        instance variable name. </p>
+                  <pre class="programlisting">@In(value="#{customer.addresses['shipping']}")</pre>
+                  <p> Specifies that a component attribute is to be injected by evaluating a JSF EL expression at
+                        the beginning of each component invocation. </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">value</code> — specifies the name of the context variable. Default
+                                to the name of the component attribute. Alternatively, specifies a JSF EL expression,
+                                surrounded by <code class="literal">#{...}</code>. </p>
+                        </li>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">create</code> — specifies that Seam should instantiate the
+                                component with the same name as the context variable if the context variable is
+                                undefined (null) in all contexts. Default to false. </p>
+                        </li>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">required</code> — specifies Seam should throw an exception if the
+                                context variable is undefined in all contexts. </p>
+                        </li>
+                     </ul>
+                  </div>
+               </dd>
+               <dt>
+                  <a id="out-annotation"/>
+                  <span class="term">
+                    
+                     <code class="literal">@Out</code>
+                
+                  </span>
+               </dt>
+               <dd>
+                  <pre class="programlisting">@Out</pre>
+                  <p> Specifies that a component attribute that is a Seam component is to be outjected to its
+                        context variable at the end of the invocation. If the attribute is null, an exception is thrown. </p>
+                  <pre class="programlisting">@Out(required=false)</pre>
+                  <p> Specifies that a component attribute that is a Seam component is to be outjected to its
+                        context variable at the end of the invocation. The attribute may be null. </p>
+                  <pre class="programlisting">@Out(scope=ScopeType.SESSION)</pre>
+                  <p> Specifies that a component attribute that is <span class="emphasis">
+                        <em>not</em>
+                     </span> a Seam component type
+                        is to be outjected to a specific scope at the end of the invocation. </p>
+                  <p> Alternatively, if no scope is explicitly specified, the scope of the component with the
+                            <code class="literal">@Out</code> attribute is used (or the <code class="literal">EVENT</code> scope if the
+                        component is stateless). </p>
+                  <pre class="programlisting">@Out(value="contextVariableName")</pre>
+                  <p> Specifies the name of the context variable explicitly, instead of using the annotated
+                        instance variable name. </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">value</code> — specifies the name of the context variable. Default
+                                to the name of the component attribute. </p>
+                        </li>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">required</code> — specifies Seam should throw an exception if the
+                                component attribute is null during outjection. </p>
+                        </li>
+                     </ul>
+                  </div>
+               </dd>
+            </dl>
+         </div>
+         <p> Note that it is quite common for these annotations to occur together, for example: </p>
+         <pre class="programlisting">@In(create=true) @Out private User currentUser;</pre>
+         <p> The next annotation supports the <span class="emphasis">
+               <em>manager component</em>
+            </span> pattern, where a Seam component
+            that manages the lifecycle of an instance of some other class that is to be injected. It appears on a
+            component getter method. </p>
+         <div class="variablelist">
+            <dl>
+               <dt>
+                  <a id="unwrap-annotation"/>
+                  <span class="term">
+                    
+                     <code class="literal">@Unwrap</code>
+                
+                  </span>
+               </dt>
+               <dd>
+                  <pre class="programlisting">@Unwrap</pre>
+                  <p> Specifies that the object returned by the annotated getter method is the thing that is
+                        injected instead of the component instance itself. </p>
+               </dd>
+            </dl>
+         </div>
+         <p> The next annotation supports the <span class="emphasis">
+               <em>factory component</em>
+            </span> pattern, where a Seam component
+            is responsible for initializing the value of a context variable. This is especially useful for initializing
+            any state needed for rendering the response to a non-faces request. It appears on a component method. </p>
+         <div class="variablelist">
+            <dl>
+               <dt>
+                  <a id="factory-annotation"/>
+                  <span class="term">
+                    
+                     <code class="literal">@Factory</code>
+                
+                  </span>
+               </dt>
+               <dd>
+                  <pre class="programlisting">@Factory("processInstance") public void createProcessInstance() { ... }</pre>
+                  <p> Specifies that the method of the component is used to initialize the value of the named
+                        context variable, when the context variable has no value. This style is used with methods that
+                        return <code class="literal">void</code>. </p>
+                  <pre class="programlisting">@Factory("processInstance", scope=CONVERSATION) public ProcessInstance createProcessInstance() { ... }</pre>
+                  <p> Specifies that the method returns a value that Seam should use to initialize the value of the
+                        named context variable, when the context variable has no value. This style is used with methods
+                        that return a value. If no scope is explicitly specified, the scope of the component with the
+                            <code class="literal">@Factory</code> method is used (unless the component is stateless, in which case
+                        the <code class="literal">EVENT</code> context is used). </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">value</code> — specifies the name of the context variable. If the
+                                method is a getter method, default to the JavaBeans property name. </p>
+                        </li>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">scope</code> — specifies the scope that Seam should bind the
+                                returned value to. Only meaningful for factory methods which return a value. </p>
+                        </li>
+                        <li>
+                           <p>
+                        		
+                              <code class="literal">autoCreate</code> — specifies that this factory method should be 
+                        		automatically called whenever the variable is asked for, even if @In does not specify 
+                        		create=true. 
+                        	</p>
+                        </li>
+                     </ul>
+                  </div>
+               </dd>
+            </dl>
+         </div>
+         <p> This annotation lets you inject a <code class="literal">Log</code>: </p>
+         <div class="variablelist">
+            <dl>
+               <dt>
+                  <a id="logger-annotation"/>
+                  <span class="term">
+                    
+                     <code class="literal">@Logger</code>
+                
+                  </span>
+               </dt>
+               <dd>
+                  <pre class="programlisting">@Logger("categoryName")</pre>
+                  <p> Specifies that a component field is to be injected with an instance of
+                            <code class="literal">org.jboss.seam.log.Log</code>. For entity beans, the 
+                            field must be declared as static.</p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">value</code> — specifies the name of the log category. Default to
+                                the name of the component class. </p>
+                        </li>
+                     </ul>
+                  </div>
+               </dd>
+            </dl>
+         </div>
+         <p> The last annotation lets you inject a request parameter value: </p>
+         <div class="variablelist">
+            <dl>
+               <dt>
+                  <a id="requestparameter-annotation"/>
+                  <span class="term">
+                    
+                     <code class="literal">@RequestParameter</code>
+                
+                  </span>
+               </dt>
+               <dd>
+                  <pre class="programlisting">@RequestParameter("parameterName")</pre>
+                  <p> Specifies that a component attribute is to be injected with the value of a request parameter.
+                        Basic type conversions are performed automatically. </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>
+                                
+                              <code class="literal">value</code> — specifies the name of the request parameter.
+                                Default to the name of the component attribute. </p>
+                        </li>
+                     </ul>
+                  </div>
+               </dd>
+            </dl>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch26s01.html">
+               <strong>Prev</strong>26.1. Annotations for component definition</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch26s03.html">
+               <strong>Next</strong>26.3. Annotations for component lifecycle methods</a>
+         </li>
+      </ul>
+   </body>
+</html>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>18.1.2. Asynchronous methods with the Quartz Dispatcher</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch18s01.html" title="18.1. Asynchronicity"/>
+      <link rel="prev" href="ch18s01s01.html" title="18.1.1. Asynchronous methods"/>
+      <link rel="next" href="ch18s01s03.html" title="18.1.3. Asynchronous events"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch18s01s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch18s01s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e13442"/>18.1.2. Asynchronous methods with the Quartz Dispatcher</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+            The Quartz dispatcher (see earlier on how to install it) allows you to use the <code class="literal">@Asynchronous</code>, <code class="literal">@Duration</code>, <code class="literal">@Expiration</code>, and <code class="literal">@IntervalDuration</code> annotations as above. But it has some powerful additional features. The Quartz dispatcher supports three new annotations.
+        </p>
+         <p>The <code class="literal">@FinalExpiration</code> annotation specifies an end date for the recurring task.</p>
+         <pre class="programlisting">
+    // Defines the method in the "processor" component
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalDuration Long interval,
+                                 @FinalExpiration Date endDate, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task until endDate
+    }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    // Starts now, repeats every hour, and ends on May 10th, 2010
+    Calendar cal = Calendar.getInstance ();
+    cal.set (2010, Calendar.MAY, 10);
+    processor.schedulePayment(new Date(), 60*60*1000, cal.getTime(), payment);
+</pre>
+         <p>Note that the method returns the <code class="literal">QuartzTriggerHandle</code> object, which you can use later to stop, pause, and resume the scheduler. The <code class="literal">QuartzTriggerHandle</code> object is serializable, so you can save it into the database if you need to keep it around for extended period of time.</p>
+         <pre class="programlisting">QuartzTriggerHandle handle =
+         processor.schedulePayment(payment.getPaymentDate(), 
+                                   payment.getPaymentCron(), 
+                                   payment);
+        payment.setQuartzTriggerHandle( handle );
+        // Save payment to DB
+        
+        // later ...
+        
+        // Retrieve payment from DB
+        // Cancel the remaining scheduled tasks
+        payment.getQuartzTriggerHandle().cancel();
+</pre>
+         <p>The <code class="literal">@IntervalCron</code> annotation supports Unix cron job syntax for task scheduling. For instance, the following asynchronous method runs at 2:10pm and at 2:44pm every Wednesday in the month of March.
+        </p>
+         <pre class="programlisting">
+    // Define the method
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalCron String cron, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task
+    }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    QuartzTriggerHandle handle = 
+      processor.schedulePayment(new Date(), "0 10,44 14 ? 3 WED", payment);
+</pre>
+         <p>The <code class="literal">@IntervalBusinessDay</code> annotation supports invocation on the "nth Business Day" scenario. For instance, the following asynchronous method runs at 14:00 on the 2nd business day of each month. By default, it excludes all weekends and US federal holidays until 2010 from the business days.
+        </p>
+         <pre class="programlisting">
+    // Define the method
+    @Asynchronous
+    public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
+                                 @IntervalBusinessDay NthBusinessDay nth, 
+                                 Payment payment) 
+    { 
+        // do the repeating or long running task
+    }
+    
+    ... ...
+    
+    // Schedule the task in the business logic processing code
+    QuartzTriggerHandle handle = 
+      processor.schedulePayment(new Date(), 
+          new NthBusinessDay(2, "14:00", WEEKLY), payment);
+</pre>
+         <p>The <code class="literal">NthBusinessDay</code> object contains the configuration of the invocation trigger. You can specify more holidays (e.g., company holidays, non-US holidays etc.) via the <code class="literal">additionalHolidays</code> property.</p>
+         <pre class="programlisting">
+public class NthBusinessDay implements Serializable
+{
+      int n;
+      String fireAtTime;
+      List &lt;Date&gt; additionalHolidays;
+      BusinessDayIntervalType interval;
+      boolean excludeWeekends;
+      boolean excludeUsFederalHolidays;
+
+      public enum BusinessDayIntervalType { WEEKLY, MONTHLY, YEARLY }
+
+      public NthBusinessDay ()
+      {
+        n = 1;
+        fireAtTime = "12:00";
+        additionalHolidays = new ArrayList &lt;Date&gt; ();
+        interval = BusinessDayIntervalType.WEEKLY;
+        excludeWeekends = true;
+        excludeUsFederalHolidays = true;
+      }     
+      ... ...
+}
+</pre>
+         <p>The <code class="literal">@IntervalDuration</code>, <code class="literal">@IntervalCron</code>, and <code class="literal">@IntervalNthBusinessDay</code> annotations are mutually exclusive. If they are used in the same method, a <code class="literal">RuntimeException</code> will be thrown.</p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch18s01s01.html">
+               <strong>Prev</strong>18.1.1. Asynchronous methods</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch18s01s03.html">
+               <strong>Next</strong>18.1.3. Asynchronous events</a>
+         </li>
+      </ul>
+   </body>
+</html>

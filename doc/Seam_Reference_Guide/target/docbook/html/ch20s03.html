@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>20.3. An example web service</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="webservices.html" title="Chapter 20. Web Services"/>
+      <link rel="prev" href="ch20s02s01.html" title="20.2.1. A Recommended Strategy"/>
+      <link rel="next" href="remoting.html" title="Chapter 21. Remoting"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch20s02s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="remoting.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e13815"/>20.3. An example web service</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+      Let's walk through an example web service.  The code in this section all comes from the seamBay example
+      application in Seam's <code class="literal">/examples</code> directory, and follows the recommended strategy as
+      described in the previous section.  Let's first take a look at the web service class and one of its web 
+      service methods:
+    </p>
+         <pre class="programlisting">@Stateless
+@WebService(name = "AuctionService", serviceName = "AuctionService")
+public class AuctionService implements AuctionServiceRemote
+{           
+   @WebMethod
+   public boolean login(String username, String password)
+   {
+      Identity.instance().setUsername(username);
+      Identity.instance().setPassword(password);
+      Identity.instance().login();
+      return Identity.instance().isLoggedIn();
+   }
+   
+   // snip
+}</pre>
+         <p>
+      As you can see, our web service is a stateless session bean, and is annotated using the JWS annotations 
+      from the <code class="literal">javax.jws</code> package, as defined by JSR-181.  The <code class="literal">@WebService</code> 
+      annotation tells the container that this class implements a web service, and the <code class="literal">@WebMethod</code> 
+      annotation on the <code class="literal">login()</code> method identifies the method as a web service method.  
+      The <code class="literal">name</code> and <code class="literal">serviceName</code> attributes in the <code class="literal">@WebService</code> 
+      annotation are optional.
+    </p>
+         <p>
+      As is required by the specification, each method that is to be exposed as a web service method must also be 
+      declared in the remote interface of the web service class (when the web service is a stateless session bean).  
+      In the above example, the <code class="literal">AuctionServiceRemote</code> interface must declare the <code class="literal">login()</code> 
+      method as it is annotated as a <code class="literal">@WebMethod</code>.
+    </p>
+         <p>
+      As you can see in the above code, the web service implements a <code class="literal">login()</code> method that 
+      delegates to Seam's built-in <code class="literal">Identity</code> component.  In keeping with our recommended strategy,
+      the web service is written as a simple facade, passing off the real work to a Seam component.  This allows
+      for the greatest reuse of business logic between web services and other clients.
+    </p>
+         <p>
+      Let's look at another example.  This web service method begins a new conversation by delegating to the
+      <code class="literal">AuctionAction.createAuction()</code> method:
+    </p>
+         <pre class="programlisting">   @WebMethod
+   public void createAuction(String title, String description, int categoryId)
+   {
+      AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
+      action.createAuction();
+      action.setDetails(title, description, categoryId);
+   }</pre>
+         <p>
+      And here's the code from <code class="literal">AuctionAction</code>:
+    </p>
+         <pre class="programlisting">   @Begin
+   public void createAuction()
+   {
+      auction = new Auction();
+      auction.setAccount(authenticatedAccount);
+      auction.setStatus(Auction.STATUS_UNLISTED);        
+      durationDays = DEFAULT_AUCTION_DURATION;
+   }</pre>
+         <p>
+      From this we can see how web services can participate in long running conversations, by acting as a facade
+      and delegating the real work to a conversational Seam component.
+    </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch20s02s01.html">
+               <strong>Prev</strong>20.2.1. A Recommended Strategy</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="remoting.html">
+               <strong>Next</strong>Chapter 21. Remoting</a>
+         </li>
+      </ul>
+   </body>
+</html>

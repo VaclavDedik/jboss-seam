@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>3.3. Bijection</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="concepts.html" title="Chapter 3. The contextual component model"/>
+      <link rel="prev" href="ch03s02s10.html" title="3.2.10. Built-in components"/>
+      <link rel="next" href="ch03s04.html" title="3.4. Lifecycle methods"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch03s02s10.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s04.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e3064"/>3.3. Bijection</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            
+            <span class="emphasis">
+               <em>Dependency injection</em>
+            </span> or <span class="emphasis">
+               <em>inversion of control</em>
+            </span> is by now a familiar
+            concept to most Java developers. Dependency injection allows a component to obtain a reference to another
+            component by having the container "inject" the other component to a setter method or instance variable. In
+            all dependency injection implementations that we have seen, injection occurs when the component is
+            constructed, and the reference does not subsequently change for the lifetime of the component instance. For
+            stateless components, this is reasonable. From the point of view of a client, all instances of a particular
+            stateless component are interchangeable. On the other hand, Seam emphasizes the use of stateful components.
+            So traditional dependency injection is no longer a very useful construct. Seam introduces the notion of
+            <span class="emphasis">
+               <em>bijection</em>
+            </span> as a generalization of injection. In contrast to injection, bijection is: 
+        </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                    
+                     <span class="emphasis">
+                        <em>contextual</em>
+                     </span> - bijection is used to assemble stateful components from various
+                    different contexts (a component from a "wider" context may even have a reference to a component from
+                    a "narrower" context)
+                </p>
+               </li>
+               <li>
+                  <p>
+                    
+                     <span class="emphasis">
+                        <em>bidirectional</em>
+                     </span> - values are injected from context variables into attributes of
+                    the component being invoked, and also <span class="emphasis">
+                        <em>outjected</em>
+                     </span> from the component attributes
+                    back out to the context, allowing the component being invoked to manipulate the values of contextual
+                    variables simply by setting its own instance variables 
+                </p>
+               </li>
+               <li>
+                  <p>
+                    
+                     <span class="emphasis">
+                        <em>dynamic</em>
+                     </span> - since the value of contextual variables changes over time, and since
+                    Seam components are stateful, bijection takes place every time a component is invoked 
+                </p>
+               </li>
+            </ul>
+         </div>
+         <p> 
+            In essence, bijection lets you alias a context variable to a component instance variable, by specifying
+            that the value of the instance variable is injected, outjected, or both. Of course, we use annotations to
+            enable bijection.
+        </p>
+         <p> 
+            The <code class="literal">@In</code> annotation specifies that a value should be injected, either into an instance
+            variable: 
+        </p>
+         <pre class="programlisting">@Name("loginAction")
+@Stateless
+public class LoginAction implements Login { 
+    @In User user;
+    ... 
+}</pre>
+         <p> 
+            or into a setter method: 
+        </p>
+         <pre class="programlisting">@Name("loginAction")
+@Stateless
+public class LoginAction implements Login { 
+    User user;
+    
+    @In
+    public void setUser(User user) {
+        this.user=user;
+    }
+    
+    ... 
+}</pre>
+         <p> 
+            By default, Seam will do a priority search of all contexts, using the name of the property or instance
+            variable that is being injected. You may wish to specify the context variable name explicitly, using, for
+            example, <code class="literal">@In("currentUser")</code>. 
+        </p>
+         <p> 
+            If you want Seam to create an instance of the component when there is no existing component instance
+            bound to the named context variable, you should specify <code class="literal">@In(create=true)</code>. If the value is
+            optional (it can be null), specify <code class="literal">@In(required=false)</code>. 
+        </p>
+         <p>
+            For some components, it can be repetitive to have to specify <code class="literal">@In(create=true)</code> everywhere
+            they are used. In such cases, you can annotate the component <code class="literal">@AutoCreate</code>, and then it
+            will always be created, whenever needed, even without the explicit use of <code class="literal">create=true</code>.
+        </p>
+         <p> 
+            You can even inject the value of an expression: 
+        </p>
+         <pre class="programlisting">@Name("loginAction")
+@Stateless
+public class LoginAction implements Login { 
+    @In("#{user.username}") String username;
+    ... 
+}</pre>
+         <p>
+            Injected values are disinjected (i.e, set to <code class="literal">null</code>) immediately after method 
+            completion and outjection.
+        </p>
+         <p> 
+            (There is much more information about component lifecycle and injection in the next chapter.) 
+        </p>
+         <p> 
+            The <code class="literal">@Out</code> annotation specifies that an attribute should be outjected, either from an
+            instance variable: 
+        </p>
+         <pre class="programlisting">@Name("loginAction")
+@Stateless
+public class LoginAction implements Login { 
+    @Out User user;
+    ... 
+}</pre>
+         <p> 
+            or from a getter method: 
+        </p>
+         <pre class="programlisting">@Name("loginAction")
+@Stateless
+public class LoginAction implements Login { 
+    User user;
+    
+    @Out
+    public User getUser() {
+        return user;
+    }
+    
+    ... 
+}</pre>
+         <p> 
+            An attribute may be both injected and outjected: 
+        </p>
+         <pre class="programlisting">@Name("loginAction")
+@Stateless
+public class LoginAction implements Login { 
+    @In @Out User user;
+    ... 
+}</pre>
+         <p> 
+            or: 
+        </p>
+         <pre class="programlisting">@Name("loginAction")
+@Stateless
+public class LoginAction implements Login { 
+    User user;
+    
+    @In
+    public void setUser(User user) {
+        this.user=user;
+    }
+    
+    @Out
+    public User getUser() {
+        return user;
+    }
+    
+    ... 
+}</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch03s02s10.html">
+               <strong>Prev</strong>3.2.10. Built-in components</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s04.html">
+               <strong>Next</strong>3.4. Lifecycle methods</a>
+         </li>
+      </ul>
+   </body>
+</html>

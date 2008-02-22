@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>25.1.4.3. Multipart form submissions</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch25s01s04.html" title="25.1.4. Seam servlet filters"/>
+      <link rel="prev" href="ch25s01s04s02.html" title="25.1.4.2. Conversation propagation with redirects"/>
+      <link rel="next" href="ch25s01s04s04.html" title="25.1.4.4. Character encoding"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s01s04s02.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s01s04s04.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect3" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h4 class="title">
+                     <a id="d0e15493"/>25.1.4.3. Multipart form submissions</h4>
+               </div>
+            </div>
+         </div>
+         <p> This feature is necessary when using the Seam file upload JSF control. It detects multipart form
+                    requests and processes them according to the multipart/form-data specification (RFC-2388). To
+                    override the default settings, add the following entry to <code class="literal">components.xml</code>: </p>
+         <pre class="programlisting">&lt;web:multipart-filter create-temp-files="true" 
+                      max-request-size="1000000" 
+                      url-pattern="*.seam"/&gt;</pre>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                            
+                     <code class="literal">create-temp-files</code> — If set to <code class="literal">true</code>, uploaded
+                            files are written to a temporary file (instead of held in memory). This may be an important
+                            consideration if large file uploads are expected. The default setting is
+                            <code class="literal">false</code>. </p>
+               </li>
+               <li>
+                  <p>
+                            
+                     <code class="literal">max-request-size</code> — If the size of a file upload request
+                            (determined by reading the <code class="literal">Content-Length</code> header in the request) exceeds
+                            this value, the request will be aborted. The default setting is 0 (no size limit). </p>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s01s04s02.html">
+               <strong>Prev</strong>25.1.4.2. Conversation propagation with redirects</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s01s04s04.html">
+               <strong>Next</strong>25.1.4.4. Character encoding</a>
+         </li>
+      </ul>
+   </body>
+</html>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>4.2. Configuring components via components.xml</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="xml.html" title="Chapter 4. Configuring Seam components"/>
+      <link rel="prev" href="ch04s01.html" title="4.1. Configuring components via property settings"/>
+      <link rel="next" href="ch04s03.html" title="4.3. Fine-grained configuration files"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch04s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch04s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e3520"/>4.2. Configuring components via <code class="literal">components.xml</code>
+                  </h2>
+               </div>
+            </div>
+         </div>
+         <p> 
+                The <code class="literal">components.xml</code> file is a bit more powerful than property settings. It lets
+                you: 
+            </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p> Configure components that have been installed automatically—including both built-in
+                        components, and application components that have been annotated with the
+                        <code class="literal">@Name</code> annotation and picked up by Seam's deployment scanner. </p>
+               </li>
+               <li>
+                  <p> Install classes with no <code class="literal">@Name</code> annotation as Seam components—this
+                        is most useful for certain kinds of infrastructural components which can be installed multiple
+                        times different names (for example Seam-managed persistence contexts). </p>
+               </li>
+               <li>
+                  <p> Install components that <span class="emphasis">
+                        <em>do</em>
+                     </span> have a <code class="literal">@Name</code> annotation
+                        but are not installed by default because of an <code class="literal">@Install</code> annotation that
+                        indicates the component should not be installed. </p>
+               </li>
+               <li>
+                  <p> Override the scope of a component. </p>
+               </li>
+            </ul>
+         </div>
+         <p> 
+                A <code class="literal">components.xml</code> file may appear in one of three different places: 
+            </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>The <code class="literal">WEB-INF</code> directory of a <code class="literal">war</code>.</p>
+               </li>
+               <li>
+                  <p>The <code class="literal">META-INF</code> directory of a <code class="literal">jar</code>.</p>
+               </li>
+               <li>
+                  <p>
+                        Any directory of a <code class="literal">jar</code> that contains classes with an
+                        <code class="literal">@Name</code> annotation.
+                    </p>
+               </li>
+            </ul>
+         </div>
+         <p> 
+                Usually, Seam components are installed when the deployment scanner discovers a class with a
+                <code class="literal">@Name</code> annotation sitting in an archive with a <code class="literal">seam.properties</code>
+                file or a <code class="literal">META-INF/components.xml</code> file. (Unless the component has an 
+                <code class="literal">@Install</code> annotation indicating it should not be installed by default.) 
+                The <code class="literal">components.xml</code> file lets us handle special cases where we need
+                to override the annotations. 
+            </p>
+         <p>
+                For example, the following <code class="literal">components.xml</code> file installs jBPM: 
+            </p>
+         <pre class="programlisting">&lt;components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:bpm="http://jboss.com/products/seam/bpm"&gt;
+    &lt;bpm:jbpm/&gt;
+&lt;/components&gt;</pre>
+         <p>
+                This example does the same thing:
+            </p>
+         <pre class="programlisting">&lt;components&gt;
+    &lt;component class="org.jboss.seam.bpm.Jbpm"/&gt;
+&lt;/components&gt;</pre>
+         <p>
+                This one installs and configures two different Seam-managed persistence contexts:
+            </p>
+         <pre class="programlisting">&lt;components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+
+    &lt;persistence:managed-persistence-context name="customerDatabase"
+                       persistence-unit-jndi-name="java:/customerEntityManagerFactory"/&gt;
+        
+    &lt;persistence:managed-persistence-context name="accountingDatabase"
+                       persistence-unit-jndi-name="java:/accountingEntityManagerFactory"/&gt;            
+
+&lt;/components&gt;</pre>
+         <p>
+                As does this one:
+            </p>
+         <pre class="programlisting">&lt;components&gt;
+    &lt;component name="customerDatabase" 
+              class="org.jboss.seam.persistence.ManagedPersistenceContext"&gt;
+        &lt;property name="persistenceUnitJndiName"&gt;java:/customerEntityManagerFactory&lt;/property&gt;
+    &lt;/component&gt;
+    
+    &lt;component name="accountingDatabase"
+              class="org.jboss.seam.persistence.ManagedPersistenceContext"&gt;
+        &lt;property name="persistenceUnitJndiName"&gt;java:/accountingEntityManagerFactory&lt;/property&gt;
+    &lt;/component&gt;
+&lt;/components&gt;</pre>
+         <p>
+                This example creates a session-scoped Seam-managed persistence context (this is not recommended in
+                practice):
+            </p>
+         <pre class="programlisting">&lt;components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+
+  &lt;persistence:managed-persistence-context name="productDatabase" 
+                                          scope="session"
+                     persistence-unit-jndi-name="java:/productEntityManagerFactory"/&gt;        
+
+&lt;/components&gt;</pre>
+         <pre class="programlisting">&lt;components&gt;
+            
+    &lt;component name="productDatabase"
+              scope="session"
+              class="org.jboss.seam.persistence.ManagedPersistenceContext"&gt;
+        &lt;property name="persistenceUnitJndiName"&gt;java:/productEntityManagerFactory&lt;/property&gt;
+    &lt;/component&gt;
+
+&lt;/components&gt;</pre>
+         <p>
+                It is common to use the <code class="literal">auto-create</code> option for infrastructural
+                objects like persistence contexts, which saves you from having to explicitly
+                specify <code class="literal">create=true</code> when you use the <code class="literal">@In</code>
+                annotation.
+            </p>
+         <pre class="programlisting">&lt;components xmlns="http://jboss.com/products/seam/components" 
+            xmlns:persistence="http://jboss.com/products/seam/persistence"
+
+  &lt;persistence:managed-persistence-context name="productDatabase" 
+                                    auto-create="true"
+                     persistence-unit-jndi-name="java:/productEntityManagerFactory"/&gt;        
+
+&lt;/components&gt;</pre>
+         <pre class="programlisting">&lt;components&gt;
+            
+    &lt;component name="productDatabase"
+        auto-create="true"
+              class="org.jboss.seam.persistence.ManagedPersistenceContext"&gt;
+        &lt;property name="persistenceUnitJndiName"&gt;java:/productEntityManagerFactory&lt;/property&gt;
+    &lt;/component&gt;
+
+&lt;/components&gt;</pre>
+         <p>
+                The <code class="literal">&lt;factory&gt;</code> declaration lets you specify a value or method binding
+                expression that will be evaluated to initialize the value of a context variable when it is first
+                referenced.
+            </p>
+         <pre class="programlisting">&lt;components&gt;
+
+    &lt;factory name="contact" method="#{contactManager.loadContact}" scope="CONVERSATION"/&gt;
+
+&lt;/components&gt;</pre>
+         <p> 
+                You can create an "alias" (a second name) for a Seam component like so: 
+            </p>
+         <pre class="programlisting">&lt;components&gt;
+
+    &lt;factory name="user" value="#{actor}" scope="STATELESS"/&gt;
+
+&lt;/components&gt;</pre>
+         <p> 
+                You can even create an "alias" for a commonly used expression: 
+            </p>
+         <pre class="programlisting">&lt;components&gt;
+
+    &lt;factory name="contact" value="#{contactManager.contact}" scope="STATELESS"/&gt;
+
+&lt;/components&gt;</pre>
+         <p>
+                It is especially common to see the use of <code class="literal">auto-create="true"</code> with the
+                <code class="literal">&lt;factory&gt;</code> declaration:
+            </p>
+         <pre class="programlisting">&lt;components&gt;
+
+    &lt;factory name="session" value="#{entityManager.delegate}" scope="STATELESS" auto-create="true"/&gt;
+
+&lt;/components&gt;</pre>
+         <p> 
+                Sometimes we want to reuse the same <code class="literal">components.xml</code> file with minor changes during
+                both deployment and testing. Seam lets you place wildcards of the form <code class="literal">@wildcard@</code> in
+                the <code class="literal">components.xml</code> file which can be replaced either by your Ant build script (at
+                deployment time) or by providing a file named <code class="literal">components.properties</code> in the classpath
+                (at development time). You'll see this approach used in the Seam examples. 
+            </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch04s01.html">
+               <strong>Prev</strong>4.1. Configuring components via property settings</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch04s03.html">
+               <strong>Next</strong>4.3. Fine-grained configuration files</a>
+         </li>
+      </ul>
+   </body>
+</html>

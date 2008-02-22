@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>8.2. Seam managed transactions</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="persistence.html" title="Chapter 8. Seam and Object/Relational Mapping"/>
+      <link rel="prev" href="ch08s01.html" title="8.1. Introduction"/>
+      <link rel="next" href="ch08s02s01.html" title="8.2.1. Disabling Seam-managed transactions"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch08s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch08s02s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="persistence.seam-managed-transactions"/>8.2. Seam managed transactions</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            EJB session beans feature declarative transaction management. The EJB container is able
+            to start a transaction transparently when the bean is invoked, and end it when the
+            invocation ends. If we write a session bean method that acts as a JSF action listener, 
+            we can do all the work associated with that action in one transaction, and be sure that
+            it is committed or rolled back when we finish processing the action. This is a great feature, 
+            and all that is needed by some Seam applications.
+    	</p>
+         <p>
+            However, there is a problem with this approach. A Seam application may not perform all data
+            access for a request from a single method call to a session bean.
+    	</p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                    The request might require processing by several loosly-coupled components, each
+                    of which is called independently from the web layer. It is common to see several
+                    or even many calls per request from the web layer to EJB components in Seam.
+    			</p>
+               </li>
+               <li>
+                  <p>
+                    Rendering of the view might require lazy fetching of associations.
+                </p>
+               </li>
+            </ul>
+         </div>
+         <p>
+            The more transactions per request, the more likely we are to encounter atomicity
+            and isolation problems when our application is processing many concurrent requests.
+            Certainly, all write operations should occur in the same transaction!
+    	</p>
+         <p>
+            Hibernate users developed the <span class="emphasis">
+               <em>"open session in view"</em>
+            </span> pattern to work 
+            around this problem. In the Hibernate community, "open session in view" was historically 
+            even more important because frameworks like Spring use transaction-scoped persistence contexts. 
+            So rendering the view would cause <code class="literal">LazyInitializationException</code>s when 
+            unfetched associations were accessed.
+    	</p>
+         <p>
+            This pattern is usually implemented as a single transaction which spans the entire request. 
+            There are several problems with this implementation, the most serious being that we 
+            can never be sure that a transaction is successful until we commit it—but by the 
+            time the "open session in view" transaction is committed, the view is fully rendered, and 
+            the rendered response may already have been flushed to the client. How can we notify the 
+            user that their transaction was unsuccessful? 
+    	</p>
+         <p>
+            Seam solves both the transaction isolation problem and the association fetching problem, 
+            while working around the problems with "open session in view". The solution comes in two 
+            parts:
+    	</p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                    use an extended persistence context that is scoped to the conversation, 
+                    instead of to the transaction
+    			</p>
+               </li>
+               <li>
+                  <p>
+                    use two transactions per request; the first spans the beginning of the update model
+                    values phase until the end of the invoke application phase; the second spans the
+                    render response phase
+    			</p>
+               </li>
+            </ul>
+         </div>
+         <p>
+            In the next section, we'll tell you how to set up a conversation-scope persistence
+            context. But first we need to tell you how to enable Seam transaction management.
+            Note that you can use conversation-scoped persistence contexts without Seam
+            transaction management, and there are good reasons to use Seam transaction management
+            even when you're not using Seam-managed persistence contexts. However, the two
+            facilities were designed to work together, and work best when used together.
+    	</p>
+         <p>
+            Seam transaction management is useful even if you're using EJB 3.0 
+            container-managed persistence contexts. But it is especially useful
+            if you use Seam outside a Java EE 5 environment, or in any other
+            case where you would use a Seam-managed persistence context.
+    	</p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch08s01.html">
+               <strong>Prev</strong>8.1. Introduction</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch08s02s01.html">
+               <strong>Next</strong>8.2.1. Disabling Seam-managed transactions</a>
+         </li>
+      </ul>
+   </body>
+</html>

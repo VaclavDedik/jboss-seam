@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>21.5.2. Remote calls within the current conversation scope</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch21s05.html" title="21.5. The Context"/>
+      <link rel="prev" href="ch21s05s01.html" title="21.5.1. Setting and reading the Conversation ID"/>
+      <link rel="next" href="ch21s06.html" title="21.6. Batch Requests"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch21s05s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch21s06.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e14185"/>21.5.2. Remote calls within the current conversation scope</h3>
+               </div>
+            </div>
+         </div>
+         <p> In some circumstances it may be required to make a remote call within the scope of the
+        current view's conversation.  To do this, you must explicitly set the conversation ID to that
+        of the view before making the remote call.  This small snippet of JavaScript will set the
+        conversation ID that is used for remoting calls to the current view's conversation ID: </p>
+         <pre class="programlisting">Seam.Remoting.getContext().setConversationId( #{conversation.id} );</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch21s05s01.html">
+               <strong>Prev</strong>21.5.1. Setting and reading the Conversation ID</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch21s06.html">
+               <strong>Next</strong>21.6. Batch Requests</a>
+         </li>
+      </ul>
+   </body>
+</html>

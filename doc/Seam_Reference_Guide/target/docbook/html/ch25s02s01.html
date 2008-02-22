@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>25.2.1. Packaging</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch25s02.html" title="25.2. Configuring Seam in Java EE 5"/>
+      <link rel="prev" href="ch25s02.html" title="25.2. Configuring Seam in Java EE 5"/>
+      <link rel="next" href="ch25s03.html" title="25.3. Configuring Seam in J2EE"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s02.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e15773"/>25.2.1. Packaging</h3>
+               </div>
+            </div>
+         </div>
+         <p> Once you've packaged all this stuff together into an EAR, the archive structure will look something
+                like this: </p>
+         <pre class="programlisting">my-application.ear/
+    jboss-seam.jar
+    lib/
+        jboss-el.jar
+    META-INF/
+        MANIFEST.MF
+        application.xml
+    my-application.war/
+        META-INF/
+            MANIFEST.MF
+        WEB-INF/
+            web.xml
+            components.xml
+            faces-config.xml
+            lib/
+                jsf-facelets.jar
+                jboss-seam-ui.jar
+        login.jsp
+        register.jsp
+        ...
+    my-application.jar/
+        META-INF/
+            MANIFEST.MF
+            persistence.xml
+        seam.properties
+        org/
+            jboss/
+                myapplication/
+                    User.class
+                    Login.class
+                    LoginBean.class
+                    Register.class
+                    RegisterBean.class
+                    ...</pre>
+         <p>
+                You should declare <code class="literal">jboss-seam.jar</code> as an ejb module in <code class="literal">META-INF/application.xml</code>; 
+               <code class="literal">jboss-el.jar</code> should be placed in the EAR's lib directory (putting it in the EAR classpath.
+            </p>
+         <p> If you want to use jBPM or Drools, you must include the needed jars in the EAR's lib directory.</p>
+         <p> If you want to use facelets (our recommendation), you must include
+                <code class="literal">jsf-facelets.jar</code> in the <code class="literal">WEB-INF/lib</code> directory of the WAR. </p>
+         <p> If you want to use the Seam tag library (most Seam applications do), you must include
+                    <code class="literal">jboss-seam-ui.jar</code> in the <code class="literal">WEB-INF/lib</code> directory of the WAR. If
+                you want to use the PDF or email tag libraries, you need to put <code class="literal">jboss-seam-pdf.jar</code> or
+                    <code class="literal">jboss-seam-mail.jar</code> in <code class="literal">WEB-INF/lib</code>. </p>
+         <p> If you want to use the Seam debug page (only works for applications using facelets), you must include
+                    <code class="literal">jboss-seam-debug.jar</code> in the <code class="literal">WEB-INF/lib</code> directory of the WAR. </p>
+         <p> Seam ships with several example applications that are deployable in any Java EE container that
+                supports EJB 3.0. </p>
+         <p> I really wish that was all there was to say on the topic of configuration but unfortunately we're
+                only about a third of the way there. If you're too overwhelmed by all this tedious configuration stuff,
+                feel free to skip over the rest of this section and come back to it later. </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s02.html">
+               <strong>Prev</strong>25.2. Configuring Seam in Java EE 5</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s03.html">
+               <strong>Next</strong>25.3. Configuring Seam in J2EE</a>
+         </li>
+      </ul>
+   </body>
+</html>

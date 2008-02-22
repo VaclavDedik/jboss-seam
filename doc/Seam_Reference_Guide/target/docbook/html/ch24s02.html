@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>24.2. Configuration</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="search.html" title="Chapter 24. Hibernate Search"/>
+      <link rel="prev" href="ch24s01.html" title="24.1. Introduction"/>
+      <link rel="next" href="ch24s03.html" title="24.3. Usage"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch24s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch24s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e15223"/>24.2. Configuration</h2>
+               </div>
+            </div>
+         </div>
+         <p>Hibernate Search is configured either in the
+    <code class="filename">META-INF/persistence.xml</code> or
+    <code class="filename">hibernate.cfg.xml</code> file.</p>
+         <p>Hibernate Search configuration has sensible defaults for most
+	configuration parameters. Here is a minimal persistence unit configuration
+	to get started.</p>
+         <pre class="programlisting">   &lt;persistence-unit name="sample"&gt;
+      &lt;jta-data-source&gt;java:/DefaultDS&lt;/jta-data-source&gt;
+      &lt;properties&gt;
+         [...]
+         <span class="bold">
+               <strong>&lt;!-- use a file system based index --&gt;
+         &lt;property name="hibernate.search.default.directory_provider" 
+                   value="org.hibernate.search.store.FSDirectoryProvider"/&gt;
+         &lt;!-- directory where the indexes will be stored --&gt;
+         &lt;property name="hibernate.search.default.indexBase" 
+                   value="/Users/prod/apps/dvdstore/dvdindexes"/&gt;</strong>
+            </span>
+      &lt;/properties&gt;
+   &lt;/persistence-unit&gt;</pre>
+         <p>If you plan to target Hibernate Annotations or EntityManager 3.2.x
+    (embedded into JBoss AS 4.2.GA), you also need to configure the
+    appropriate event listeners.</p>
+         <pre class="programlisting">   &lt;persistence-unit name="sample"&gt;
+      &lt;jta-data-source&gt;java:/DefaultDS&lt;/jta-data-source&gt;
+      &lt;properties&gt;
+         [...]
+         &lt;!-- use a file system based index --&gt;
+         &lt;property name="hibernate.search.default.directory_provider" 
+                   value="org.hibernate.search.store.FSDirectoryProvider"/&gt;
+         &lt;!-- directory where the indexes will be stored --&gt;
+         &lt;property name="hibernate.search.default.indexBase" 
+                   value="/Users/prod/apps/dvdstore/dvdindexes"/&gt;
+
+         <span class="bold">
+               <strong>&lt;property name="hibernate.ejb.event.post-insert" 
+                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;
+         &lt;property name="hibernate.ejb.event.post-update" 
+                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;
+         &lt;property name="hibernate.ejb.event.post-delete" 
+                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;</strong>
+            </span>
+
+      &lt;/properties&gt;
+   &lt;/persistence-unit&gt;</pre>
+         <div class="note">
+            <h2>Note</h2>
+            <p>This step is no longer useful if Hibernate Annotation or
+      EntityManager 3.3.x are used.</p>
+         </div>
+         <p>In addition to the configuration file, the following jars have to be
+    deployed:</p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>hibernate-search.jar</p>
+               </li>
+               <li>
+                  <p>hibernate-commons-annotations.jar</p>
+               </li>
+               <li>
+                  <p>lucene-core.jar</p>
+               </li>
+            </ul>
+         </div>
+         <div class="note">
+            <h2>Note</h2>
+            <p>If you deploy those in a EAR, don't forget to update
+      <code class="filename">application.xml</code>
+            </p>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch24s01.html">
+               <strong>Prev</strong>24.1. Introduction</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch24s03.html">
+               <strong>Next</strong>24.3. Usage</a>
+         </li>
+      </ul>
+   </body>
+</html>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>10.3.2. Native .groovy file deployment at development time</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch10s03.html" title="10.3. Deployment"/>
+      <link rel="prev" href="ch10s03s01.html" title="10.3.1. Deploying Groovy code"/>
+      <link rel="next" href="ch10s03s03.html" title="10.3.3. seam-gen"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch10s03s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch10s03s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e6512"/>10.3.2. Native .groovy file deployment at development time</h3>
+               </div>
+            </div>
+         </div>
+         <p>JBoss Seam natively supports the deployment of <code class="literal">.groovy</code> files (ie without
+                compilation) in incremental hotdeployment mode (development only). This enables a very fast edit/test
+                cycle. To set up .groovy deployments, follow the configuration at <a href="gettingstarted-hotdeployment.html" title="2.8. Seam and incremental hot deployment">Section 2.8, “Seam and incremental hot deployment”</a> and deploy your Groovy code (<code class="filename">.groovy</code>
+                files) into the <code class="filename">WEB-INF/dev</code> directory. The GroovyBean components will be picked up
+                incrementally with no need to restart the application (and obviously not the application server either).</p>
+         <p>Be aware that the native .groovy file deployment suffers the same limitations as the regular Seam
+                hotdeployment:</p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>The components must be JavaBeans or GroovyBeans. They cannot be EJB3 bean</p>
+               </li>
+               <li>
+                  <p>Entities cannot be hotdeployed</p>
+               </li>
+               <li>
+                  <p>The hot-deployable components will not be visible to any classes deployed outside of
+                            <code class="literal">WEB-INF/dev</code>
+                  </p>
+               </li>
+               <li>
+                  <p>Seam debug mode must be enabled</p>
+               </li>
+            </ul>
+         </div>
+         <p/>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch10s03s01.html">
+               <strong>Prev</strong>10.3.1. Deploying Groovy code</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch10s03s03.html">
+               <strong>Next</strong>10.3.3. seam-gen</a>
+         </li>
+      </ul>
+   </body>
+</html>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>27.1. Context injection components</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="components.html" title="Chapter 27. Built-in Seam components"/>
+      <link rel="prev" href="components.html" title="Chapter 27. Built-in Seam components"/>
+      <link rel="next" href="ch27s02.html" title="27.2. Utility components"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="components.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch27s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e17547"/>27.1. Context injection components</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            The first set of built in components exist purely to support
+            injection of various contextual objects. For example, the
+            following component instance variable would have the Seam
+            session context object injected:
+        </p>
+         <pre class="programlisting">@In private Context sessionContext;</pre>
+         <div class="variablelist">
+            <dl>
+               <dt>
+                  <span class="term">
+                     <code class="literal">org.jboss.seam.core.contexts</code>
+                  </span>
+               </dt>
+               <dd>
+                  <p>
+                        Component that provides access to Seam Context objects, for
+                        example <code class="literal">org.jboss.seam.core.contexts.sessionContext['user']</code>.
+                    </p>
+               </dd>
+               <dt>
+                  <span class="term">
+                     <code class="literal">org.jboss.seam.faces.facesContext</code>
+                  </span>
+               </dt>
+               <dd>
+                  <p>
+                        Manager component for the <code class="literal">FacesContext</code> context 
+                        object (not a true Seam context)
+                    </p>
+               </dd>
+            </dl>
+         </div>
+         <p>
+            All of these components are always installed.
+        </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="components.html">
+               <strong>Prev</strong>Chapter 27. Built-in Seam components</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch27s02.html">
+               <strong>Next</strong>27.2. Utility components</a>
+         </li>
+      </ul>
+   </body>
+</html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>34.1.2. Required custom properties</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch34s01.html" title="34.1. Websphere environment and deployment information"/>
+      <link rel="prev" href="ch34s01s01.html" title="34.1.1. Installation versions and tips"/>
+      <link rel="next" href="jee5-websphere-section.html" title="34.2.  The jee5/booking example"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s01s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="jee5-websphere-section.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e23639"/>34.1.2. Required custom properties</h3>
+               </div>
+            </div>
+         </div>
+         <p>There are a couple of Websphere custom properties that are required
+            for Seam integration.  These properties are not needed specifically
+            for Seam, but work around some issues with Websphere. These are
+            set following the instructions here : <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www-1.ibm.com/support/docview.wss?rss=180&amp;uid=swg21284395">
+            Setting web container custom properties</a>
+         </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                     <code class="literal">prependSlashToResource = "true"</code>
+                  — This solves a fairly common issue with Websphere
+                  where applications are not using a leading "/" when
+                  attempting to access resources. If this is not set then a 
+                  <code class="literal">java.net.MalformedURLException</code>
+                  will be thrown. With this property set you will still see
+                  warnings, but the resources will be retrieved as expected.
+                  </p>
+                  <div class="note">
+                     <h2>Detailed can be found at:</h2>
+                     <p>
+                        <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www-1.ibm.com/support/docview.wss?uid=swg21190234">
+                     SRVE0238E: Resource paths must have a leading
+                     slash</a>
+                     </p>
+                  </div>
+                  <p> </p>
+               </li>
+               <li>
+                  <p>
+                  
+                     <code class="literal">com.ibm.ws.webcontainer.invokefilterscompatibility
+                  = "true"</code> — This solves an issue with
+                  Websphere where it throws a
+                  <code class="literal">FileNotFoundException</code> when a web
+                  application attempts to access a file resource that does not
+                  actually exist on disk. This is a common practice in modern web
+                  applications where filters or servlets are used to process
+                  resource requests like these. This issue manifests itself as
+                  failures to retrieve JavaScript, CSS, images, etc... when
+                  requesting a web page. </p>
+                  <div class="note">
+                     <h2>Detailed can be found at:</h2>
+                     <p>
+                        <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://www-1.ibm.com/support/docview.wss?uid=swg24014758">
+                     PK33090; 6.1: A filter that serves a file does not pop-up an
+                     alert message</a>
+                     </p>
+                  </div>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s01s01.html">
+               <strong>Prev</strong>34.1.1. Installation versions and tips</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="jee5-websphere-section.html">
+               <strong>Next</strong>34.2.  The jee5/booking example </a>
+         </li>
+      </ul>
+   </body>
+</html>

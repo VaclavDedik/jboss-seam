@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>23.1. Injecting Seam components into Spring beans</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="spring.html" title="Chapter 23. Spring Framework integration"/>
+      <link rel="prev" href="spring.html" title="Chapter 23. Spring Framework integration"/>
+      <link rel="next" href="ch23s02.html" title="23.2. Injecting Spring beans into Seam components"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="spring.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch23s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e14836"/>23.1. Injecting Seam components into Spring beans</h2>
+               </div>
+            </div>
+         </div>
+         <p> Injecting Seam component instances into Spring beans is accomplished using the
+                <code class="literal">&lt;seam:instance/&gt;</code> namespace handler. To enable the Seam namespace
+            handler, the Seam namespace must be added to the Spring beans definition file:</p>
+         <pre class="programlisting">&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:seam="http://jboss.com/products/seam/spring-seam"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://jboss.com/products/seam/spring-seam
+                        http://jboss.com/products/seam/spring-seam-2.1.xsd"&gt;</pre>
+         <p> Now any Seam component may be injected into any Spring bean: </p>
+         <pre class="programlisting">&lt;bean id="someSpringBean" class="SomeSpringBeanClass" scope="prototype"&gt;
+    &lt;property name="someProperty"&gt;
+        &lt;seam:instance name="someComponent"/&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</pre>
+         <p> An EL expression may be used instead of a component name: </p>
+         <pre class="programlisting">&lt;bean id="someSpringBean" class="SomeSpringBeanClass" scope="prototype"&gt;
+    &lt;property name="someProperty"&gt;
+        &lt;seam:instance name="#{someExpression}"/&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</pre>
+         <p> Seam component instances may even be made available for injection into Spring beans by a Spring bean id. </p>
+         <pre class="programlisting">&lt;seam:instance name="someComponent" id="someSeamComponentInstance"/&gt;
+
+&lt;bean id="someSpringBean" class="SomeSpringBeanClass" scope="prototype"&gt;
+    &lt;property name="someProperty" ref="someSeamComponentInstance"&gt;
+&lt;/bean&gt;
+</pre>
+         <p>Now for the caveat!</p>
+         <p> Seam was designed from the ground up to support a stateful component model with multiple contexts. Spring
+            was not. Unlike Seam bijection, Spring injection does not occur at method invocation time. Instead,
+            injection happens only when the Spring bean is instantiated. So the instance available when the bean is
+            instantiated will be the same instance that the bean uses for the entire life of the bean. For example, if a
+            Seam <code class="literal">CONVERSATION</code>-scoped component instance is directly injected into a singleton Spring
+            bean, that singleton will hold a reference to the same instance long after the conversation is over! We call
+            this problem <span class="emphasis">
+               <em>scope impedance</em>
+            </span>. Seam bijection ensures that scope impedance is maintained
+            naturally as an invocation flows through the system. In Spring, we need to inject a proxy of the Seam
+            component, and resolve the reference when the proxy is invoked.</p>
+         <p>The <code class="literal">&lt;seam:instance/&gt;</code> tag lets us automatically proxy the Seam component.</p>
+         <pre class="programlisting">&lt;seam:instance id="seamManagedEM" name="someManagedEMComponent" proxy="true"/&gt;
+
+&lt;bean id="someSpringBean" class="SomeSpringBeanClass"&gt;
+    &lt;property name="entityManager" ref="seamManagedEM"&gt;
+&lt;/bean&gt;</pre>
+         <p> This example shows one way to use a Seam-managed persistence context from a Spring bean. (For a more robust
+            way to use Seam-managed persistence contexts as a replacement for the Spring
+                <code class="literal">OpenEntityManagerInView</code> filter see section on
+                <a href="spring-persistence.html" title="23.6. Using a Seam Managed Persistence Context in Spring">Using a Seam Managed Persistence Context in Spring</a>)</p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="spring.html">
+               <strong>Prev</strong>Chapter 23. Spring Framework integration</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch23s02.html">
+               <strong>Next</strong>23.2. Injecting Spring beans into Seam components</a>
+         </li>
+      </ul>
+   </body>
+</html>

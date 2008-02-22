@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>33.3.2. What's different with Weblogic 10.x</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch33s03.html" title="33.3.  The jpa booking example"/>
+      <link rel="prev" href="ch33s03s01s03.html" title="33.3.1.3. Deploying the example"/>
+      <link rel="next" href="ch33s04.html" title="33.4.  Deploying an application created using seam-gen on Weblogic 10.x"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch33s03s01s03.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch33s04.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="weblogic-jpa-diff"/>33.3.2. What's different with Weblogic 10.x</h3>
+               </div>
+            </div>
+         </div>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>Between the the Weblogic 10.x and 9.2 examples there are
+                  several differences:
+                  </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>
+                           
+                              <code class="literal">META-INF/persistence.xml</code>
+                           — The 9.2 version is configured to use the
+                           <code class="literal">PointBase</code> database and a
+                           pre-installed datasource. The 10.x version uses
+                           the <code class="literal">hsql</code> database and a
+                           custom datasource.</p>
+                        </li>
+                        <li>
+                           <p>
+                              <a id="weblogic.xml"/>
+                           
+                              <code class="literal">WEB-INF/weblogic.xml</code>
+                           — This file and its contents solve an issue
+                           with an older version of the
+                           <code class="literal">ANTLR</code> libraries that
+                           Weblogic 10.x uses internally. OC4J have the same
+                           issue as well. </p>
+                           <pre class="programlisting">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;weblogic-web-app
+xmlns="http://www.bea.com/ns/weblogic/90"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.bea.com/ns/weblogic/90 
+                    http://www.bea.com/ns/weblogic/90/weblogic-web-app.xsd"&gt;
+
+   &lt;container-descriptor&gt;
+      &lt;prefer-web-inf-classes&gt;true&lt;/prefer-web-inf-classes&gt;
+   &lt;/container-descriptor&gt;
+&lt;/weblogic-web-app&gt;</pre>
+                           <p>This file make Weblogic use classes and
+                           libraries in the web application before other
+                           libraries in the classpath. Without this change
+                           hibernate is required to use a older, slower query
+                           factory by setting the following property in the
+                           <code class="literal">META-INF/persistence.xml</code>
+                           file. </p>
+                           <pre class="programlisting">&lt;property name="hibernate.query.factory_class" 
+      value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory"/&gt;</pre>
+                        </li>
+                        <li>
+                           <p>
+                           
+                              <code class="literal">WEB-INF/components.xml</code>
+                           — In the Weblogic 10.x version JPA entity
+                           transactions is enabled by adding:
+                           
+                           
+                           </p>
+                           <pre class="programlisting">&lt;transaction:entity-transaction entity-manager="#{em}"/&gt;</pre>
+                           <p>
+                           
+                           </p>
+                        </li>
+                     </ul>
+                  </div>
+                  <p> </p>
+               </li>
+               <li>
+                  <p>Between the Weblogic 10.x version and the JBoss version
+                  there are more changes. Here is the rundown:
+                  </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>
+                           
+                              <code class="literal">META-INF/persistence.xml</code>
+                           — Except for datasource name the WebLogic
+                           version sets:
+                           </p>
+                           <pre class="programlisting">&lt;property name="hibernate.transaction.manager_lookup_class" 
+      value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/&gt;</pre>
+                           <p>
+                           
+                           </p>
+                        </li>
+                        <li>
+                           <p>
+                              <code class="literal">WEB-INF/jboss-web.xml</code>
+                           — The JBoss version uses this instead of
+                           <code class="literal">weblogic.xml</code>
+                           </p>
+                        </li>
+                        <li>
+                           <p>
+                              <code class="literal">WEB-INF/lib</code> — The
+                           Weblogic version requires several library
+                           packages because they are not included as they are
+                           with JBoss AS. These are primarily for hibernate,
+                           JSF-RI support and their dependencies.
+                           </p>
+                           <div class="itemizedlist">
+                              <ul>
+                                 <li>
+                                    <p> To use Hibernate as your JPA provider
+                                    you need the following jars:
+                                    </p>
+                                    <div class="itemizedlist">
+                                       <ul>
+                                          <li>
+                                             
+                                             <code class="literal">hibernate.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">hibernate-annotations.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">hibernate-entitymanager.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">hibernate-validator.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">jboss-common-core.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">commons-logging.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">commons-collections.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">jboss-archive-browsing.jar</code>
+                                             
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <p> </p>
+                                 </li>
+                                 <li>
+                                    <p>Seam requires JSF 1.2 and these are
+                                    jars needed for that. Weblogic 10.3.TP
+                                    does not ship JSF libraries installed by
+                                    default.
+                                    </p>
+                                    <div class="itemizedlist">
+                                       <ul>
+                                          <li>
+                                             
+                                             <code class="literal">jsf-api.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">jsf-impl.jar</code>
+                                             
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <p> </p>
+                                 </li>
+                                 <li>
+                                    <p>Various third party jars that
+                                    Weblogic needs:
+                                    </p>
+                                    <div class="itemizedlist">
+                                       <ul>
+                                          <li>
+                                             
+                                             <code class="literal">antlr.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">cglib.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">asm.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">dom4j.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">el-ri.jar</code>
+                                             
+                                          </li>
+                                          <li>
+                                             
+                                             <code class="literal">javassist.jar</code>
+                                             
+                                          </li>
+                                       </ul>
+                                    </div>
+                                    <p> </p>
+                                 </li>
+                              </ul>
+                           </div>
+                           <p> </p>
+                        </li>
+                     </ul>
+                  </div>
+                  <p> </p>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch33s03s01s03.html">
+               <strong>Prev</strong>33.3.1.3. Deploying the example</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch33s04.html">
+               <strong>Next</strong>33.4.  Deploying an application created using
+   ...</a>
+         </li>
+      </ul>
+   </body>
+</html>

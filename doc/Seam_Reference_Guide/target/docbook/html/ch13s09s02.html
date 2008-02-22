@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>13.9.2. Adding a CAPTCHA to a form</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch13s09.html" title="13.9. CAPTCHA"/>
+      <link rel="prev" href="ch13s09s01.html" title="13.9.1. Configuring the CAPTCHA Servlet"/>
+      <link rel="next" href="ch13s09s03.html" title="13.9.3. Customising the CAPTCHA algorithm"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch13s09s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch13s09s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e8205"/>13.9.2. Adding a CAPTCHA to a form</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+        Adding a CAPTCHA challenge to a form is extremely easy. Here's an example:
+      </p>
+         <pre class="programlisting">&lt;h:graphicImage value="/seam/resource/captcha"/&gt;
+&lt;h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true"&gt;
+   &lt;s:validate /&gt;
+&lt;/h:inputText&gt;
+&lt;h:message for="verifyCaptcha"/&gt;</pre>
+         <p>
+        That's all there is to it.  The <code class="literal">graphicImage</code> control displays the CAPTCHA challenge,
+        and the <code class="literal">inputText</code> receives the user's response. The response is automatically
+        validated against the CAPTCHA when the form is submitted.
+      </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch13s09s01.html">
+               <strong>Prev</strong>13.9.1. Configuring the CAPTCHA Servlet</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch13s09s03.html">
+               <strong>Next</strong>13.9.3. Customising the CAPTCHA algorithm</a>
+         </li>
+      </ul>
+   </body>
+</html>

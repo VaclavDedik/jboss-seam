@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>13.6.1. Core concepts</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch13s06.html" title="13.6. Authorization"/>
+      <link rel="prev" href="ch13s06.html" title="13.6. Authorization"/>
+      <link rel="next" href="ch13s06s02.html" title="13.6.2. Securing components"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch13s06.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch13s06s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e7461"/>13.6.1. Core concepts</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+        Each of the authorization mechanisms provided by the Seam Security API are built upon the concept of a user
+        being granted roles and/or permissions.  A role is a <span class="emphasis">
+               <em>group</em>
+            </span>, or <span class="emphasis">
+               <em>type</em>
+            </span>,
+        of user that may have been granted certain privileges for performing one or more specific actions within an
+        application. A permission on the other hand is a privilege (sometimes once-off) for performing a single,
+        specific action.  It is entirely possible to build an application using nothing but permissions, however
+        roles offer a higher level of convenience when granting privileges to groups of users.
+      </p>
+         <p>
+        Roles are simple, consisting of only a name such as "admin", "user", "customer", etc.  Permissions consist of
+        both a name and an action, and are represented within this documentation in the form <code class="literal">name:action</code>,
+        for example <code class="literal">customer:delete</code>, or <code class="literal">customer:insert</code>.
+      </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch13s06.html">
+               <strong>Prev</strong>13.6. Authorization</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch13s06s02.html">
+               <strong>Next</strong>13.6.2. Securing components</a>
+         </li>
+      </ul>
+   </body>
+</html>

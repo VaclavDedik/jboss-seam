@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>1.9. A RESTful Seam application: the Blog example</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="tutorial.html" title="Chapter 1. Seam Tutorial"/>
+      <link rel="prev" href="hibernate.html" title="1.8. An example of Seam with Hibernate: the Hibernate Booking example"/>
+      <link rel="next" href="ch01s09s01.html" title="1.9.1. Using &#34;pull&#34;-style MVC"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="hibernate.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch01s09s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="blog"/>1.9. A RESTful Seam application: the Blog example</h2>
+               </div>
+            </div>
+         </div>
+         <p> Seam makes it very easy to implement applications which keep state on the server-side. However,
+            server-side state is not always appropriate, especially in for functionality that serves up
+                <span class="emphasis">
+               <em>content</em>
+            </span>. For this kind of problem we often need to let the user bookmark pages and
+            have a relatively stateless server, so that any page can be accessed at any time, via the bookmark. The Blog
+            example shows how to a implement RESTful application using Seam. Every page of the application can be
+            bookmarked, including the search results page. </p>
+         <div class="screenshot">
+            <div class="mediaobject" align="center">
+               <img src="/images/blog.png" align="middle"/>
+            </div>
+         </div>
+         <p> The Blog example demonstrates the use of "pull"-style MVC, where instead of using action listener methods
+            to retrieve data and prepare the data for the view, the view pulls data from components as it is being
+            rendered. </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="hibernate.html">
+               <strong>Prev</strong>1.8. An example of Seam with Hibernate: the Hiber...</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch01s09s01.html">
+               <strong>Next</strong>1.9.1. Using "pull"-style MVC</a>
+         </li>
+      </ul>
+   </body>
+</html>

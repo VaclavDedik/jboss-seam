@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>13.4.3. Writing a login form</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch13s04.html" title="13.4. Authentication"/>
+      <link rel="prev" href="ch13s04s02s02.html" title="13.4.2.2. Special Considerations"/>
+      <link rel="next" href="ch13s04s04.html" title="13.4.4. Simplified Configuration - Summary"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch13s04s02s02.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch13s04s04.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e7192"/>13.4.3. Writing a login form</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+        The <code class="literal">Identity</code> component provides both <code class="literal">username</code> and <code class="literal">password</code>
+        properties, catering for the most common authentication scenario. These properties can be bound directly to the
+        username and password fields on a login form.  Once these properties are set, calling the
+        <code class="literal">identity.login()</code> method will authenticate the user using the provided credentials.
+        Here's an example of a simple login form:
+      </p>
+         <pre class="programlisting">&lt;div&gt;
+    &lt;h:outputLabel for="name" value="Username"/&gt;
+    &lt;h:inputText id="name" value="#{identity.username}"/&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+    &lt;h:outputLabel for="password" value="Password"/&gt;
+    &lt;h:inputSecret id="password" value="#{identity.password}"/&gt;
+&lt;/div&gt;
+
+&lt;div&gt;
+    &lt;h:commandButton value="Login" action="#{identity.login}"/&gt;
+&lt;/div&gt;</pre>
+         <p>
+        Similarly, logging out the user is done by calling <code class="literal">#{identity.logout}</code>. Calling this
+        action will clear the security state of the currently authenticated user.
+      </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch13s04s02s02.html">
+               <strong>Prev</strong>13.4.2.2. Special Considerations</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch13s04s04.html">
+               <strong>Next</strong>13.4.4. Simplified Configuration - Summary</a>
+         </li>
+      </ul>
+   </body>
+</html>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>6.6. Natural conversation ids</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="conversations.html" title="Chapter 6. Conversations and workspace management"/>
+      <link rel="prev" href="ch06s05.html" title="6.5. Success messages"/>
+      <link rel="next" href="ch06s07.html" title="6.7. Creating a natural conversation"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch06s05.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch06s07.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e5089"/>6.6. Natural conversation ids</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            When working with conversations that deal with persistent objects, it may be 
+            desirable to use the natural business key of the object instead of the standard,
+            "surrogate" conversation id:
+        </p>
+         <p>
+                  
+            <span class="emphasis">
+               <em>Easy redirect to existing conversation</em>
+            </span>
+               
+         </p>
+         <p>
+                  It can be useful to redirect to an existing conversation if 
+                  the user requests the same operation twice. Take this example:
+               
+               “<span class="quote">
+                  You are on ebay, half way through paying for an item you just 
+                  won as a Christmas present for your parents. Lets say you're
+                  sending it straight to them - you enter your payment details 
+                  but you can't remember their address. You accidentally reuse 
+                  the same browser window finding out their address. Now you 
+                  need to return to the payment for the item.
+               </span>”
+       		</p>
+         <p>
+                  With a natural conversation its really easy to have the user
+                  rejoin the existing conversation, and pick up where they left 
+                  off - just have them to rejoin the payForItem conversation 
+                  with the itemId as the conversation id.
+               </p>
+         <p>
+                  
+            <span class="emphasis">
+               <em>User friendly URLs</em>
+            </span>
+               
+         </p>
+         <p>
+                  For me this consists of a navigable 
+                  hierarchy (I can navigate by editing the url) and a meaningful
+                  URL (like this Wiki uses - so don't identify things by random 
+                  ids). For some applications user friendly URLs are less 
+                  important, of course.
+               </p>
+         <p>
+                  With a natural conversations, when you are building your hotel 
+                  booking system (or, of course, whatever your app is) you can 
+                  generate a URL like 
+                  <code class="literal">http://seam-hotels/book.seam?hotel=BestWesternAntwerpen</code> 
+                  (of course, whatever parameter <code class="literal">hotel</code> maps 
+                  to on your domain model must be unique) and with URLRewrite 
+                  easily transform this to 
+                  http://seam-hotels/book/BestWesternAntwerpen.
+               </p>
+         <p>
+                  Much better!
+               </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch06s05.html">
+               <strong>Prev</strong>6.5. Success messages</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch06s07.html">
+               <strong>Next</strong>6.7. Creating a natural conversation</a>
+         </li>
+      </ul>
+   </body>
+</html>

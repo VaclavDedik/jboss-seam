@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>34.5.3. Extra jar dependencies and other changes to the build.xml</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch34s05.html" title="34.5. Changes needed for deployment to Websphere"/>
+      <link rel="prev" href="ch34s05s02.html" title="34.5.2. Creating the AuthenticatorAction EJB"/>
+      <link rel="next" href="ch34s05s04.html" title="34.5.4.  Building and deploying the seam-gen'd application to Websphere"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s05s02.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch34s05s04.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e24778"/>34.5.3. Extra jar dependencies and other changes to the
+            <code class="literal">build.xml</code>
+                  </h3>
+               </div>
+            </div>
+         </div>
+         <p> This application has similar requirements as the
+            <code class="literal">jee5/booking</code> example. </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>Change the default target to
+                  <code class="literal">archive</code> (we aren't going to cover
+                  automatic deployment to Websphere).
+                  
+                  
+                  </p>
+                  <pre class="programlisting">
+&lt;project name="websphere_example" default="archive" basedir="."&gt;</pre>
+                  <p>
+                  
+                  </p>
+               </li>
+               <li>
+                  <p>Websphere looks for the drools
+                  <code class="literal">/security.drl</code> file in the root of the
+                  <code class="literal">war</code> file instead of the root of the
+                  <code class="literal">websphere_example.jar</code> so we need
+                  to have the <code class="literal">build.xml</code> move it to the
+                  correct location at build time. The following must be added at
+                  the top of the <code class="literal"> &lt;target name="war"
+                  depends="compile" description="Build the distribution
+                  .war file"&gt; </code> target.
+                  
+                  </p>
+                  <pre class="programlisting">
+&lt;copy todir="${war.dir}"&gt;
+   &lt;fileset dir="${basedir}/resources" &gt;
+       &lt;include name="*.drl" /&gt;
+   &lt;/fileset&gt;
+&lt;/copy&gt;</pre>
+               </li>
+               <li>
+                  <p>We need to ge the
+                  <code class="literal">GlassfishDerbyDialect.class</code> into
+                  our application jar. To do that find the
+                  <code class="literal">jar</code> task and modify the top of it so that
+                  it looks like this:
+                  
+                  
+                  </p>
+                  <pre class="programlisting">
+&lt;target name="jar" depends="compile,copyclasses" 
+   description="Build the distribution .jar file"&gt;
+   &lt;copy todir="${jar.dir}"&gt;
+      &lt;fileset dir="${basedir}/resources"&gt;
+          &lt;include name="seam.properties" /&gt;
+          &lt;include name="*.drl" /&gt;
+          &lt;include name="GlassfishDerbyDialect.class" /&gt;
+      &lt;/fileset&gt;
+   &lt;/copy&gt;
+...</pre>
+                  <p>
+                  
+                  </p>
+               </li>
+               <li>
+                  <p>Next we need to get the
+                  <code class="literal">jboss-seam.jar</code> into the base of the
+                  <code class="literal">EAR</code> file. For deployment Websphere
+                  requires this jar to be in both the <code class="literal">/lib</code>
+                  directory and at the base of the <code class="literal">EAR</code>. You
+                  must add the following to the <code class="literal">archive</code>
+                  task: </p>
+                  <pre class="programlisting">
+&lt;fileset dir="${lib.dir}"&gt;
+   &lt;include name="jboss-seam.jar" /&gt;
+&lt;/fileset&gt;</pre>
+                  <p>So that the whole <code class="literal">archive</code> task looks
+                  like:</p>
+                  <pre class="programlisting">
+&lt;target name="archive" depends="jar,war,ear" 
+        description="Package the archives"&gt;
+   &lt;jar jarfile="${dist.dir}/${project.name}.jar" basedir="${jar.dir}"/&gt;
+   &lt;jar jarfile="${dist.dir}/${project.name}.war" basedir="${war.dir}"/&gt;
+   &lt;jar jarfile="${dist.dir}/${project.name}.ear"&gt;
+       &lt;fileset dir="${ear.dir}"/&gt;
+       &lt;fileset dir="${dist.dir}"&gt;
+           &lt;include name="${project.name}.jar"/&gt;
+           &lt;include name="${project.name}.war"/&gt;
+       &lt;/fileset&gt;
+       &lt;fileset dir="${lib.dir}"&gt;
+          &lt;include name="jboss-seam.jar" /&gt;
+       &lt;/fileset&gt;
+    &lt;/jar&gt;
+&lt;/target&gt;</pre>
+               </li>
+               <li>
+                  <p>Now we need to get extra jars into the 
+                  <code class="literal">build.xml</code>.  Look for the 
+                  <code class="literal">&lt;fileset dir="${basedir}"&gt;</code> section 
+                  of the task below.  Add the new includes at the bottom of 
+                  the fileset.
+                  </p>
+                  <pre class="programlisting">
+&lt;target name="ear" description="Build the EAR"&gt;
+    &lt;copy todir="${ear.dir}"&gt;
+            &lt;fileset dir="${basedir}/resources"&gt;
+                    &lt;include name="*jpdl.xml" /&gt;
+                    &lt;include name="*hibernate.cfg.xml" /&gt;
+                    &lt;include name="jbpm.cfg.xml" /&gt;
+            &lt;/fileset&gt;
+         &lt;fileset dir="${lib.dir}"&gt;
+               &lt;include name="jboss-seam.jar" /&gt;
+         &lt;/fileset&gt;
+            &lt;fileset dir="${basedir}"&gt;
+                    &lt;include name="lib/jbpm*.jar" /&gt;
+                    &lt;include name="lib/jboss-el.jar" /&gt;
+                    &lt;include name="lib/drools-*.jar"/&gt;
+                    &lt;include name="lib/core.jar"/&gt;
+                    &lt;include name="lib/janino*.jar"/&gt;
+                    &lt;include name="lib/antlr-*.jar"/&gt;
+                    &lt;include name="lib/mvel*.jar"/&gt;
+                  &lt;include name="lib/richfaces-api*.jar" /&gt;
+            &lt;/fileset&gt;
+    &lt;/copy&gt;
+    &lt;copy todir="${ear.dir}/META-INF"&gt;
+            &lt;fileset dir="${basedir}/resources/META-INF"&gt;
+                    &lt;include name="application.xml" /&gt;
+                    &lt;include name="jboss-app.xml" /&gt;
+            &lt;/fileset&gt;
+    &lt;/copy&gt;
+&lt;/target&gt;</pre>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>Hibernate dependencies</p>
+                           <pre class="programlisting">
+   &lt;!-- Hibernate and deps --&gt;
+   &lt;include name="lib/hibernate.jar"/&gt;
+   &lt;include name="lib/hibernate-commons-annotations.jar"/&gt;
+   &lt;include name="lib/hibernate-annotations.jar"/&gt;
+   &lt;include name="lib/hibernate-entitymanager.jar"/&gt;
+   &lt;include name="lib/hibernate-validator.jar"/&gt;
+   &lt;include name="lib/jboss-common-core.jar" /&gt;</pre>
+                        </li>
+                        <li>
+                           <p>JSF dependencies.  You will need to copy the 
+                     <code class="literal">el-ri.jar</code> from the 
+                     <code class="literal">$SEAM/examples/jpa/lib</code> directory.</p>
+                           <pre class="programlisting">
+   &lt;!-- jsf libs --&gt;
+   &lt;include name="lib/jsf-api.jar" /&gt;
+   &lt;include name="lib/jsf-impl.jar" /&gt;
+   &lt;include name="lib/el-api.jar" /&gt;
+   &lt;include name="lib/el-ri.jar"/&gt;</pre>
+                        </li>
+                        <li>
+                           <p> Third party dependencies.  You will need to copy the
+                     <code class="literal">jboss-archive-browsing.jar</code> from the 
+                     <code class="literal">$SEAM/examples/jpa/lib</code> directory into the 
+                     the projects <code class="literal">/lib</code> directory.  You will 
+                     also need to acquire the <code class="literal">concurrent.jar</code> 
+                     and place it in the same directory.  You can get this from 
+                     any jboss distribution or just search for it.</p>
+                           <pre class="programlisting">
+   &lt;!-- 3rd party and supporting jars --&gt;
+   &lt;!--&lt;include name="lib/log4j.jar" /&gt;--&gt;
+   &lt;include name="lib/javassist.jar"/&gt;
+   &lt;include name="lib/dom4j.jar" /&gt;
+   &lt;include name="lib/jboss-archive-browsing.jar" /&gt;
+   &lt;include name="lib/concurrent.jar" /&gt;
+   &lt;include name="lib/cglib.jar"/&gt;
+   &lt;include name="lib/asm.jar"/&gt;
+   &lt;include name="lib/antlr.jar" /&gt;
+   &lt;include name="lib/commons-logging.jar" /&gt;
+   &lt;include name="lib/commons-collections.jar" /&gt;</pre>
+                        </li>
+                        <li>
+                           <p>
+                              <code class="literal">jboss-seam.jar</code> - this is needed in
+                     both the <code class="literal">ear</code> base and 
+                        <code class="literal">/lib</code>
+                     directory.</p>
+                           <pre class="programlisting">
+   &lt;!-- seam jar --&gt;
+   &lt;include name="lib/jboss-seam.jar" /&gt;</pre>
+                        </li>
+                     </ul>
+                  </div>
+                  <p>You should end up with something like:</p>
+                  <pre class="programlisting">
+&lt;fileset dir="${basedir}"&gt;
+   &lt;include name="lib/jbpm*.jar" /&gt;
+   &lt;include name="lib/jboss-el.jar" /&gt;
+   &lt;include name="lib/drools-*.jar"/&gt;
+   &lt;include name="lib/core.jar"/&gt;
+   &lt;include name="lib/janino*.jar"/&gt;
+   &lt;include name="lib/antlr-*.jar"/&gt;
+   &lt;include name="lib/mvel*.jar"/&gt;
+   &lt;include name="lib/richfaces-api*.jar" /&gt;
+                                 
+   &lt;!-- Hibernate and deps --&gt;
+   &lt;include name="lib/hibernate.jar"/&gt;
+   &lt;include name="lib/hibernate-commons-annotations.jar"/&gt;
+   &lt;include name="lib/hibernate-annotations.jar"/&gt;
+   &lt;include name="lib/hibernate-entitymanager.jar"/&gt;
+   &lt;include name="lib/hibernate-validator.jar"/&gt;
+   &lt;include name="lib/jboss-common-core.jar" /&gt;
+               
+   &lt;!-- jsf libs --&gt;
+   &lt;include name="lib/jsf-api.jar" /&gt;
+   &lt;include name="lib/jsf-impl.jar" /&gt;
+   &lt;include name="lib/el-api.jar" /&gt;
+   &lt;include name="lib/el-ri.jar"/&gt;
+               
+   &lt;!-- 3rd party and supporting jars --&gt;
+   &lt;!--&lt;include name="lib/log4j.jar" /&gt;--&gt;
+   &lt;include name="lib/javassist.jar"/&gt;
+   &lt;include name="lib/dom4j.jar" /&gt;
+   &lt;include name="lib/jboss-archive-browsing.jar" /&gt;
+   &lt;include name="lib/concurrent.jar" /&gt;
+   &lt;include name="lib/cglib.jar"/&gt;
+   &lt;include name="lib/asm.jar"/&gt;
+   &lt;include name="lib/antlr.jar" /&gt;
+   &lt;include name="lib/commons-logging.jar" /&gt;
+   &lt;include name="lib/commons-collections.jar" /&gt;
+               
+   &lt;!-- seam jar --&gt;
+   &lt;include name="lib/jboss-seam.jar" /&gt;
+                           
+&lt;/fileset&gt;</pre>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s05s02.html">
+               <strong>Prev</strong>34.5.2. Creating the AuthenticatorAction
+        ...</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch34s05s04.html">
+               <strong>Next</strong>34.5.4.  Building and deploying the seam-gen'd ap...</a>
+         </li>
+      </ul>
+   </body>
+</html>

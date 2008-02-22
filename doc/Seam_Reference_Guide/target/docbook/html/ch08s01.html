@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>8.1. Introduction</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="persistence.html" title="Chapter 8. Seam and Object/Relational Mapping"/>
+      <link rel="prev" href="persistence.html" title="Chapter 8. Seam and Object/Relational Mapping"/>
+      <link rel="next" href="persistence.seam-managed-transactions.html" title="8.2. Seam managed transactions"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="persistence.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="persistence.seam-managed-transactions.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e5914"/>8.1. Introduction</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+        Seam grew out of the frustration of the Hibernate team with the 
+        statelessness typical of the previous generation of Java application 
+        architectures. The state management architecture of Seam was originally
+        designed to solve problems relating to persistence—in particular
+        problems associated with <span class="emphasis">
+               <em>optimistic transaction processing</em>
+            </span>.
+        Scalable online applications always use optimistic transactions. An atomic 
+        (database/JTA) level transaction should not span a user interaction unless
+        the application is designed to support only a very small number of concurrent
+        clients. But almost all interesting work involves first displaying data
+        to a user, and then, slightly later, updating the same data. So Hibernate was
+        designed to support the idea of a persistence context which spanned an
+        optimistic transaction. 
+    </p>
+         <p>
+        Unfortunately, the so-called "stateless" architectures that preceded Seam and 
+        EJB 3.0 had no construct for representing an optimistic transaction. So, instead,
+        these architectures provided persistence contexts scoped to the atomic
+        transaction. Of course, this resulted in many problems for users, and is the
+        cause of the number one user complaint about Hibernate: the dreaded 
+        <code class="literal">LazyInitializationException</code>. What we need is a construct
+        for representing an optimistic transaction in the application tier.
+    </p>
+         <p>
+        EJB 3.0 recognizes this problem, and introduces the idea of a stateful
+        component (a stateful session bean) with an <span class="emphasis">
+               <em>extended persistence 
+        context</em>
+            </span> scoped to the lifetime of the component. This is a
+        partial solution to the problem (and is a useful construct in and of 
+        itself) however there are two problems:
+    </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                The lifecycle of the stateful session bean must be managed manually
+                via code in the web tier (it turns out that this is a subtle problem
+                and much more difficult in practice than it sounds).
+            </p>
+               </li>
+               <li>
+                  <p>
+                Propagation of the persistence context between stateful components
+                in the same optimistic transaction is possible, but tricky.
+            </p>
+               </li>
+            </ul>
+         </div>
+         <p>
+        Seam solves the first problem by providing conversations, and stateful
+        session bean components scoped to the conversation. (Most conversations 
+        actually represent optimistic transactions in the data layer.) This is
+        sufficient for many simple applications (such as the Seam booking
+        demo) where persistence context propagation is not needed. For more
+        complex applications, with many loosly-interacting components in each
+        conversation, propagation of the persistence context across components
+        becomes an important issue. So Seam extends the persistence context
+        management model of EJB 3.0, to provide conversation-scoped extended
+        persistence contexts.
+    </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="persistence.html">
+               <strong>Prev</strong>Chapter 8. Seam and Object/Relational Mapping</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="persistence.seam-managed-transactions.html">
+               <strong>Next</strong>8.2. Seam managed transactions</a>
+         </li>
+      </ul>
+   </body>
+</html>

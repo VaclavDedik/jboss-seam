@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>25.1.6. Don't forget!</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch25s01.html" title="25.1. Basic Seam configuration"/>
+      <link rel="prev" href="ch25s01s05.html" title="25.1.5. Integrating Seam with your EJB container"/>
+      <link rel="next" href="ch25s02.html" title="25.2. Configuring Seam in Java EE 5"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s01s05.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e15728"/>25.1.6. Don't forget!</h3>
+               </div>
+            </div>
+         </div>
+         <p> There is one final item you need to know about. You must place a <code class="literal">seam.properties</code>,
+                    <code class="literal">META-INF/seam.properties</code> or <code class="literal">META-INF/components.xml</code> file in
+                any archive in which your Seam components are deployed (even an empty properties file will do). At
+                startup, Seam will scan any archives with <code class="literal">seam.properties</code> files for seam components. </p>
+         <p> In a web archive (WAR) file, you must place a <code class="literal">seam.properties</code> file in the
+                    <code class="literal">WEB-INF/classes</code> directory if you have any Seam components included here. </p>
+         <p> That's why all the Seam examples have an empty <code class="literal">seam.properties</code> file. You can't
+                just delete this file and expect everything to still work! </p>
+         <p> You might think this is silly and what kind of idiot framework designers would make an empty file
+                affect the behavior of their software?? Well, this is a workaround for a limitation of the
+                JVM—if we didn't use this mechanism, our next best option would be to force you to list every
+                component explicitly in <code class="literal">components.xml</code>, just like some other competing frameworks do!
+                I think you'll like our way better. </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s01s05.html">
+               <strong>Prev</strong>25.1.5. Integrating Seam with your EJB container</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s02.html">
+               <strong>Next</strong>25.2. Configuring Seam in Java EE 5</a>
+         </li>
+      </ul>
+   </body>
+</html>

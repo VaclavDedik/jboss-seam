@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>29.1.1. Usage</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch29s01.html" title="29.1. Parameterized Expressions"/>
+      <link rel="prev" href="ch29s01.html" title="29.1. Parameterized Expressions"/>
+      <link rel="next" href="ch29s01s02.html" title="29.1.2. Limitations and Hints"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch29s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch29s01s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e20870"/>29.1.1. Usage</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+            Just as in calls to method from Java, parameters are surrounded by 
+            parentheses, and separated by commas: 
+         </p>
+         <pre class="programlisting">&lt;h:commandButton action="#{hotelBooking.bookHotel(hotel, user)}" value="Book Hotel"/&gt;</pre>
+         <p> 
+            The parameters <code class="literal">hotel</code> and <code class="literal">user</code> 
+            will be evaluated as value expressions and passed to the 
+            <code class="literal">bookHotel()</code> method of the component. 
+         </p>
+         <p>
+            Any value expression may be used as a parameter: 
+         </p>
+         <pre class="programlisting">&lt;h:commandButton 
+   action="#{hotelBooking.bookHotel(hotel.id, user.username)}" 
+   value="Book Hotel"/&gt;</pre>
+         <p>
+            It's important to fully understand how this extension to EL works. 
+            When the page is rendered, the parameter <span class="emphasis">
+               <em>names</em>
+            </span> 
+            are stored (for example, <code class="literal">hotel.id</code> and 
+            <code class="literal">user.username</code>), and evaluated (as value 
+            expressions) when the page is submitted. You can't pass objects as
+            parameters! 
+         </p>
+         <p>
+            You must ensure that the parameters are available not only when the 
+            page is rendered, but also when it is submittedIf the arguments can 
+            not be resolved when the page is submitted the action method will be
+            called with <code class="literal">null</code> arguments! 
+         </p>
+         <p>
+            You can also pass literal strings using single quotes: 
+         </p>
+         <pre class="programlisting">&lt;h:commandLink action="#{printer.println('Hello world!')}" value="Hello"/&gt;</pre>
+         <p> 
+            Unified EL also supports value expressions, used to bind a field to 
+            a backing bean. Value expressions use JavaBean naming conventions 
+            and expect a getter/setter pair. Often JSF expects a value 
+            expression where only retrieval (get) is needed (e.g. the 
+            <code class="literal">rendered</code> attribute). Many objects, however, don't 
+            have appropriately named property accessors or require parameters. 
+         </p>
+         <p>
+            JBoss EL removes this restriction by allowing values to be retrieved
+            using the method syntax. For example: 
+         </p>
+         <pre class="programlisting">&lt;h:outputText value="#{person.name}" rendered="#{person.name.length() &gt; 5}" /&gt;</pre>
+         <p>
+            You can access the size of a collection in a similar manner: 
+         </p>
+         <pre class="programlisting">#{searchResults.size()}</pre>
+         <p>
+            In general any expression of the form #{obj.property} would be 
+            identical to the expression #{obj.getProperty()}. 
+         </p>
+         <p>
+            Parameters are also allowed. The following example calls the
+            <code class="literal">productsByColorMethod</code> with a literal string 
+            argument: 
+         </p>
+         <pre class="programlisting">#{controller.productsByColor('blue')}</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch29s01.html">
+               <strong>Prev</strong>29.1. Parameterized Expressions</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch29s01s02.html">
+               <strong>Next</strong>29.1.2. Limitations and Hints</a>
+         </li>
+      </ul>
+   </body>
+</html>

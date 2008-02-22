@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>3.2.10. Built-in components</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch03s02.html" title="3.2. Seam components"/>
+      <link rel="prev" href="ch03s02s09.html" title="3.2.9. Components with multiple roles"/>
+      <link rel="next" href="ch03s03.html" title="3.3. Bijection"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch03s02s09.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e3049"/>3.2.10. Built-in components</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+                Like many good frameworks, Seam eats its own dogfood and is implemented mostly as a set of built-in
+                Seam interceptors (see later) and Seam components. This makes it easy for applications to interact with
+                built-in components at runtime or even customize the basic functionality of Seam by replacing the
+                built-in components with custom implementations. The built-in components are defined in the Seam
+                namespace <code class="literal">org.jboss.seam.core</code> and the Java package of the same name.
+            </p>
+         <p> 
+                The built-in components may be injected, just like any Seam components, but they also provide
+                convenient static <code class="literal">instance()</code> methods: 
+            </p>
+         <pre class="programlisting">FacesMessages.instance().add("Welcome back, #{user.name}!");</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch03s02s09.html">
+               <strong>Prev</strong>3.2.9. Components with multiple roles</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s03.html">
+               <strong>Next</strong>3.3. Bijection</a>
+         </li>
+      </ul>
+   </body>
+</html>

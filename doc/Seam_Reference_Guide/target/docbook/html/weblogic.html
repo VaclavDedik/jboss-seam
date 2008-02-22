@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>Chapter 33. Seam on BEA's Weblogic</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="prev" href="ch32s05.html" title="32.5. Finishing up"/>
+      <link rel="next" href="ch33s01.html" title="33.1. Installation and operation of Weblogic"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch32s05.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch33s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="weblogic"/>Chapter 33. Seam on BEA's Weblogic</h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt>
+                  <span class="section">
+                     <a href="ch33s01.html">33.1. Installation and operation of Weblogic</a>
+                  </span>
+               </dt>
+               <dd>
+                  <dl>
+                     <dt>
+                        <span class="section">
+                           <a href="ch33s01s01.html">33.1.1. Installing 10.3.TP</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="section">
+                           <a href="weblogic-domain.html">33.1.2. Creating your Weblogic domain</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="section">
+                           <a href="bea_start_stop_access.html">33.1.3. How to Start/Stop/Access your domain</a>
+                        </span>
+                     </dt>
+                  </dl>
+               </dd>
+               <dt>
+                  <span class="section">
+                     <a href="ch33s02.html">33.2.  The <code class="literal">jee5/booking</code> example </a>
+                  </span>
+               </dt>
+               <dd>
+                  <dl>
+                     <dt>
+                        <span class="section">
+                           <a href="weblogic-ejb-blockers.html">33.2.1. EJB Blockers with Weblogic</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="section">
+                           <a href="ch33s02s02.html">33.2.2. The <code class="literal">jee5/booking</code> example</a>
+                        </span>
+                     </dt>
+                  </dl>
+               </dd>
+               <dt>
+                  <span class="section">
+                     <a href="ch33s03.html">33.3.  The <code class="literal">jpa</code> booking example </a>
+                  </span>
+               </dt>
+               <dd>
+                  <dl>
+                     <dt>
+                        <span class="section">
+                           <a href="ch33s03s01.html">33.3.1. Building and deploying <code class="literal">jpa</code> booking
+            example</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="section">
+                           <a href="weblogic-jpa-diff.html">33.3.2. What's different with Weblogic 10.x</a>
+                        </span>
+                     </dt>
+                  </dl>
+               </dd>
+               <dt>
+                  <span class="section">
+                     <a href="ch33s04.html">33.4.  Deploying an application created using
+         <code class="literal">seam-gen</code> on Weblogic 10.x</a>
+                  </span>
+               </dt>
+               <dd>
+                  <dl>
+                     <dt>
+                        <span class="section">
+                           <a href="ch33s04s01.html">33.4.1. Running <code class="literal">seam-gen</code> setup</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="section">
+                           <a href="ch33s04s02.html">33.4.2. What to change for Weblogic 10.X</a>
+                        </span>
+                     </dt>
+                     <dt>
+                        <span class="section">
+                           <a href="ch33s04s03.html">33.4.3. Building and Deploying your application</a>
+                        </span>
+                     </dt>
+                  </dl>
+               </dd>
+            </dl>
+         </div>
+         <p> Weblogic 10.X is BEA's JEE5 server offering, currently 10.0.MP1 is
+      their stable release, and 10.3.TP is their latest tech preview release.
+      Seam applications can be deployed and developed on Weblogic servers, and
+      this chapter will show you how. There are some known issues with the Weblogic
+      servers that will need to be worked around, and configuration changes that
+      are needed. </p>
+         <p> First step is to get Weblogic downloaded, installed and running (no
+      small feat). Then we'll talk about Seam's JEE5 example and the hurdles to
+      getting it running, and what blockers exist. After that the JPA example will
+      be modified and deployed to the server. Then finally we will create
+      <code class="literal">seam-gen</code> application and get it up and running to
+      provide a jump start to your application. </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch32s05.html">
+               <strong>Prev</strong>32.5. Finishing up</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch33s01.html">
+               <strong>Next</strong>33.1. Installation and operation of Weblogic</a>
+         </li>
+      </ul>
+   </body>
+</html>

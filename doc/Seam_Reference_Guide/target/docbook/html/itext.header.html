@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>16.1.3. Headers and Footers</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="itext.intro.html" title="16.1. Using PDF Support"/>
+      <link rel="prev" href="itext.text.html" title="16.1.2. Basic Text Elements"/>
+      <link rel="next" href="itext.chapters.html" title="16.1.4. Chapters and Sections"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="itext.text.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="itext.chapters.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="itext.header"/>16.1.3. Headers and Footers</h3>
+               </div>
+            </div>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:header&gt;</code>
+                                
+                        </p>
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:footer&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <p>The <code class="literal">p:header</code> and <code class="literal">p:footer</code> components provide
+                                    the ability to place header and footer text on each page of a generated document,
+                                    with the exception of the first page. Header and footer declarations should appear
+                                    near the top of a document. </p>
+
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">alignment</code> — The alignment of the header/footer
+                                            box section. (see <a href="itext.alignment.html" title="16.1.7.2. Alignment Values">Section 16.1.7.2, “Alignment Values”</a> for alignment values)</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">backgroundColor</code> — The background color of the
+                                            header/footer box. (see <a href="itext.colors.html" title="16.1.7.1. Color Values">Section 16.1.7.1, “Color Values”</a> for color values)
+                                        </p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">borderColor</code> — The border color of the
+                                            header/footer box. Individual border sides can be set using
+                                                <code class="literal">borderColorLeft</code>, <code class="literal">borderColorRight</code>,
+                                                <code class="literal">borderColorTop</code> and
+                                            <code class="literal">borderColorBottom</code>.(see <a href="itext.colors.html" title="16.1.7.1. Color Values">Section 16.1.7.1, “Color Values”</a> for
+                                            color values) </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">borderWidth</code> — The width of the border.
+                                            Inidvidual border sides can be specified using
+                                            <code class="literal">borderWidthLeft</code>, <code class="literal">borderWidthRight</code>,
+                                                <code class="literal">borderWidthTop</code> and
+                                            <code class="literal">borderWidthBottom</code>.</p>
+                              </li>
+                           </ul>
+                        </div>
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <pre class="programlisting">&lt;p:facet name="header"&gt;
+  &lt;p:font size="12"&gt;
+    &lt;p:footer borderWidthTop="1" borderColorTop="blue" 
+              borderWidthBottom="0" alignment="center"&gt;
+        Why Seam? [&lt;p:pageNumber /&gt;]
+    &lt;/p:footer&gt;
+  &lt;/p:font&gt;
+&lt;/f:facet&gt;</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:pageNumber&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <p>The current page number can be placed inside of a header or footer using the
+                                        <code class="literal">p:pageNumber</code> tag. The page number tag can only be used in the
+                                    context of a header or footer and can only be used once.</p>
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <pre class="programlisting">&lt;p:footer borderWidthTop="1" borderColorTop="blue" 
+          borderWidthBottom="0" alignment="center"&gt;
+    Why Seam? [&lt;p:pageNumber /&gt;]
+&lt;/p:footer&gt;</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="itext.text.html">
+               <strong>Prev</strong>16.1.2. Basic Text Elements</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="itext.chapters.html">
+               <strong>Next</strong>16.1.4. Chapters and Sections</a>
+         </li>
+      </ul>
+   </body>
+</html>

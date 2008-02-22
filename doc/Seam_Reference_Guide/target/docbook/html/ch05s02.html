@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>5.2. Page actions</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="events.html" title="Chapter 5. Events, interceptors and exception handling"/>
+      <link rel="prev" href="ch05s01.html" title="5.1. Seam events"/>
+      <link rel="next" href="ch05s03.html" title="5.3. Page parameters"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch05s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch05s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e3938"/>5.2. Page actions</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            A Seam page action is an event that occurs just before we render a page. 
+            We declare page actions in <code class="literal">WEB-INF/pages.xml</code>. We
+            can define a page action for either a particular JSF view id:
+       
+        </p>
+         <pre class="programlisting">&lt;pages&gt;
+    &lt;page view-id="/hello.jsp" action="#{helloWorld.sayHello}"/&gt;
+&lt;/pages&gt;</pre>
+         <p>
+
+         </p>
+         <p>
+            Or we can use a <code class="literal">*</code> wildcard as a suffix to the
+            <code class="literal">view-id</code> to specify an action that applies to all 
+            view ids that match the pattern:
+       
+        </p>
+         <pre class="programlisting">&lt;pages&gt;
+    &lt;page view-id="/hello/*" action="#{helloWorld.sayHello}"/&gt;
+&lt;/pages&gt;</pre>
+         <p>
+
+         </p>
+         <p>
+            If multiple wildcarded page actions match the current view-id, Seam
+            will call all the actions, in order of least-specific to most-specific.
+        </p>
+         <p>
+            The page action method can return a JSF outcome. If the outcome is
+            non-null, Seam will use the defined navigation rules to navigate to a view.
+        </p>
+         <p>
+            Furthermore, the view id mentioned in the <code class="literal">&lt;page&gt;</code>
+            element need not correspond to a real JSP or Facelets page! So, we can
+            reproduce the functionality of a traditional action-oriented framework
+            like Struts or WebWork using page actions. For example:
+        
+        </p>
+         <pre class="programlisting">TODO: translate struts action into page action</pre>
+         <p>
+
+         </p>
+         <p>
+            This is quite useful if you want to do complex things in response to non-faces
+            requests (for example, HTTP GET requests).
+        </p>
+         <p>
+            Multiple or conditional page actions my be specified using the <code class="literal">&lt;action&gt;</code>
+            tag:
+        
+        </p>
+         <pre class="programlisting">&lt;pages&gt;
+    &lt;page view-id="/hello.jsp"&gt;
+        &lt;action execute="#{helloWorld.sayHello}" if="#{not validation.failed}"/&gt;
+        &lt;action execute="#{hitCount.increment}"/&gt;
+    &lt;/page&gt;
+&lt;/pages&gt;</pre>
+         <p>
+
+         </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch05s01.html">
+               <strong>Prev</strong>5.1. Seam events</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch05s03.html">
+               <strong>Next</strong>5.3. Page parameters</a>
+         </li>
+      </ul>
+   </body>
+</html>

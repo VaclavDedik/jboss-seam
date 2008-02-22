@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>19.2. Page fragment caching</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="cache.html" title="Chapter 19. Caching"/>
+      <link rel="prev" href="ch19s01.html" title="19.1. Using JBossCache in Seam"/>
+      <link rel="next" href="webservices.html" title="Chapter 20. Web Services"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch19s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="webservices.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e13703"/>19.2. Page fragment caching</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            The most interesting user of JBossCache is the <code class="literal">&lt;s:cache&gt;</code>
+            tag, Seam's solution to the problem of page fragment caching in JSF.
+            <code class="literal">&lt;s:cache&gt;</code> uses <code class="literal">pojoCache</code> internally,
+            so you need to follow the steps listed above before you can use it. (Put the jars 
+            in the EAR, wade through the scary configuration options, etc.)
+        </p>
+         <p>
+            
+            <code class="literal">&lt;s:cache&gt;</code> is used for caching some rendered content which
+            changes rarely. For example, the welcome page of our blog displays the recent
+            blog entries:
+        </p>
+         <pre class="programlisting">&lt;s:cache key="recentEntries-#{blog.id}" region="welcomePageFragments"&gt;
+   &lt;h:dataTable value="#{blog.recentEntries}" var="blogEntry"&gt;
+      &lt;h:column&gt;
+         &lt;h3&gt;#{blogEntry.title}&lt;/h3&gt;
+         &lt;div&gt;
+            &lt;s:formattedText value="#{blogEntry.body}"/&gt;
+         &lt;/div&gt;
+      &lt;/h:column&gt;
+   &lt;/h:dataTable&gt;
+&lt;/s:cache&gt;</pre>
+         <p>
+            The <code class="literal">key</code> let's you have multiple cached versions of each page
+            fragment. In this case, there is one cached version per blog. The 
+            <code class="literal">region</code> determines the JBossCache node that all version will
+            be stored in. Different nodes may have different expiry policies. (That's the 
+            stuff you set up using the aforementioned scary configuration options.)
+        </p>
+         <p>
+            Of course, the big problem with <code class="literal">&lt;s:cache&gt;</code> is that it 
+            is too stupid to know when the underlying data changes (for example, when the 
+            blogger posts a new entry). So you need to evict the cached fragment manually:
+        </p>
+         <pre class="programlisting">public void post() {
+    ...
+    entityManager.persist(blogEntry);
+    pojoCache.remove("welcomePageFragments", "recentEntries-" + blog.getId() );
+}</pre>
+         <p>
+            Alternatively, if it is not critical that changes are immediately visible to the
+            user, you could set a short expiry time on the JbossCache node.
+        </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch19s01.html">
+               <strong>Prev</strong>19.1. Using JBossCache in Seam</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="webservices.html">
+               <strong>Next</strong>Chapter 20. Web Services</a>
+         </li>
+      </ul>
+   </body>
+</html>

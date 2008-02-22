@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>23.4. Seam-scoped Spring beans</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="spring.html" title="Chapter 23. Spring Framework integration"/>
+      <link rel="prev" href="ch23s03.html" title="23.3. Making a Spring bean into a Seam component"/>
+      <link rel="next" href="spring-transactions.html" title="23.5. Using Spring PlatformTransactionManagement"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch23s03.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="spring-transactions.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e14963"/>23.4. Seam-scoped Spring beans</h2>
+               </div>
+            </div>
+         </div>
+         <p> The Seam integration package also lets you use Seam's contexts as Spring 2.0 style custom scopes. This
+            lets you declare any Spring bean in any of Seam's contexts. However, note once again that Spring's component
+            model was never architected to support statefulness, so please use this feature with great care. In
+            particular, clustering of session or conversation scoped Spring beans is deeply problematic, and care must
+            be taken when injecting a bean or component from a wider scope into a bean of a narrower scope.</p>
+         <p> By specifying <code class="literal">&lt;seam:configure-scopes/&gt;</code> once in a Spring bean factory
+            configuration, all of the Seam scopes will be available to Spring beans as custom scopes. To associate a
+            Spring bean with a particular Seam scope, specify the Seam scope in the <code class="literal">scope</code> attribute
+            of the bean definition. </p>
+         <pre class="programlisting">&lt;!-- Only needs to be specified once per bean factory--&gt;
+&lt;seam:configure-scopes/&gt;
+
+...
+
+&lt;bean id="someSpringBean" class="SomeSpringBeanClass" scope="seam.CONVERSATION"/&gt;</pre>
+         <p> The prefix of the scope name may be changed by specifying the <code class="literal">prefix</code> attribute in the
+                <code class="literal">configure-scopes</code> definition. (The default prefix is <code class="literal">seam.</code>) </p>
+         <p> By default an instance of a Spring Component registered in this way is not automatically created when
+		        referenced using <code class="literal">@In</code>.  To have an instance auto-created you must either specify <code class="literal">@In(create=true)</code>
+		        at the injection point to identify a specific bean to be auto created or you can use the <code class="literal">default-auto-create</code>
+		        attribute of <code class="literal">configure-scopes</code> to make all spring beans who use a seam scope auto created.</p>
+         <p> Seam-scoped Spring beans defined this way can be injected into other Spring beans without the use of
+                <code class="literal">&lt;seam:instance/&gt;</code>. However, care must be taken to ensure scope impedance
+            is maintained. The normal approach used in Spring is to specify
+            <code class="literal">&lt;aop:scoped-proxy/&gt;</code> in the bean definition. However, Seam-scoped Spring
+            beans are <span class="emphasis">
+               <em>not</em>
+            </span> compatible with <code class="literal">&lt;aop:scoped-proxy/&gt;</code>. So
+            if you need to inject a Seam-scoped Spring bean into a singleton,
+            <code class="literal">&lt;seam:instance/&gt;</code> must be used: </p>
+         <pre class="programlisting">&lt;bean id="someSpringBean" class="SomeSpringBeanClass" scope="seam.CONVERSATION"/&gt;
+
+...
+
+&lt;bean id="someSingleton"&gt;
+    &lt;property name="someSeamScopedSpringBean"&gt;
+        &lt;seam:instance name="someSpringBean" proxy="true"/&gt;
+    &lt;/property&gt;
+&lt;/bean&gt;</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch23s03.html">
+               <strong>Prev</strong>23.3. Making a Spring bean into a Seam component</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="spring-transactions.html">
+               <strong>Next</strong>23.5. Using Spring PlatformTransactionManagement</a>
+         </li>
+      </ul>
+   </body>
+</html>

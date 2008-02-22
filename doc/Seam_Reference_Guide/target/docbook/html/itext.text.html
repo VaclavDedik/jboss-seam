@@ -1,0 +1,763 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>16.1.2. Basic Text Elements</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="itext.intro.html" title="16.1. Using PDF Support"/>
+      <link rel="prev" href="itext.document.html" title="16.1.1. Creating a document"/>
+      <link rel="next" href="itext.header.html" title="16.1.3. Headers and Footers"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="itext.document.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="itext.header.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="itext.text"/>16.1.2. Basic Text Elements</h3>
+               </div>
+            </div>
+         </div>
+         <p> Useful documents will need to contain more than just text; however, the standard UI components are
+                geared towards HTML generation and are not useful for generating PDF content. Instead, Seam provides a
+                special UI components for generating suitable PDF content. Tags like
+                <code class="literal">&lt;p:image&gt;</code> and <code class="literal">&lt;p:paragraph&gt;</code> are the
+                basic foundations of simple documents. Tags like <code class="literal">&lt;p:font&gt;</code> provide style
+                information to all the content surrounging them. </p>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:paragraph&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <p> Most uses of text should be sectioned into paragraphs so that text fragments can
+                                    be flowed, formatted and styled in logical groups.</p>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">firstLineIndent</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">extraParagraphSpace</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">leading</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">multipliedLeading</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">spacingBefore</code> — The blank space to be inserted
+                                            before the element. </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">spacingAfter</code> — The blank space to be inserted
+                                            after the element.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">indentationLeft</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">indentationRight</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">keepTogether</code>
+                                        
+                                 </p>
+                              </li>
+                           </ul>
+                        </div>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <pre class="programlisting">&lt;p:paragraph alignment="justify"&gt;
+    This is a simple document.  It isn't very fancy.
+&lt;/p:paragraph&gt;</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:text&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <p> The <code class="literal">text</code> tag allows text fragments to be produced from
+                                    application data using normal JSF converter mechanisms. It is very similar to the
+                                        <code class="literal">outputText</code> tag used when rendering HTML documents. </p>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                    <code class="literal">value</code> — The value to be displayed. This will
+                                            typically be a value binding expression.</p>
+                              </li>
+                           </ul>
+                        </div>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <pre class="programlisting">&lt;p:paragraph&gt;
+    The item costs &lt;p:text value="#{product.price}"&gt;
+        &lt;f:convertNumber type="currency" currencySymbol="$"/&gt;
+    &lt;/p:text&gt;
+&lt;/p:paragraph&gt;</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:html&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <p> The <code class="literal">html</code> tag renders HTML content into the PDF.                                                                      
+                                </p>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                    <code class="literal">value</code> — The text to be displayed.</p>
+                              </li>
+                           </ul>
+                        </div>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <pre class="programlisting">
+&lt;p:html value="This is HTML with &amp;lt;b&amp;gt;some markup&amp;lt;/b&amp;gt;." /&gt;
+&lt;p:html&gt;
+    &lt;h1&gt;This is more complex HTML&lt;/h1&gt;
+    &lt;ul&gt;
+        &lt;li&gt;one&lt;/li&gt;
+        &lt;li&gt;two&lt;/li&gt;
+        &lt;li&gt;three&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/p:html&gt;
+
+&lt;p:html&gt;
+    &lt;s:formattedText value="*This* is |Seam Text| as HTML.  It's very^cool^." /&gt;
+&lt;/p:html&gt;                                    
+</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:font&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <p> The font tag defines the default font to be used for all text inside of it. </p>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                    <code class="literal">name</code> — The font name, for example:
+                                                <code class="literal">COURIER</code>, <code class="literal">HELVETICA</code>,
+                                                <code class="literal">TIMES-ROMAN</code>, <code class="literal">SYMBOL</code> or
+                                                <code class="literal">ZAPFDINGBATS</code>.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">size</code> — The point size of the font.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">style</code> — The font styles. Any combination of :
+                                                <code class="literal">NORMAL</code>, <code class="literal">BOLD</code>,
+                                            <code class="literal">ITALIC</code>, <code class="literal">OBLIQUE</code>,
+                                            <code class="literal">UNDERLINE</code>, <code class="literal">LINE-THROUGH</code>
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">encoding</code> — The character set encoding.</p>
+                              </li>
+                           </ul>
+                        </div>
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <pre class="programlisting">&lt;p:font name="courier" style="bold" size="24"&gt;
+    &lt;p:paragraph&gt;My Title&lt;/p:paragraph&gt;
+&lt;/p:font&gt;</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:newPage&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <p>
+                           <code class="literal">p:newPage</code> inserts a page break. </p>
+
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <pre class="programlisting">&lt;p:newPage /&gt;</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:image&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <p>
+                           <code class="literal">p:image</code> inserts an image into the document. Images can be be
+                                    loaded from the classpath or from the web application context using the
+                                        <code class="literal">value</code> attribute. </p>
+
+
+
+                                
+                        <p>Resources can also be dynamically generated by application code. The
+                                        <code class="literal">imageData</code> attribute can specify a value binding expression
+                                    whose value is a <code class="literal">java.awt.Image</code> object. </p>
+
+
+
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                    <code class="literal">value</code> — A resource name or a method
+                                            expression binding to an application-generated image. </p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">rotation</code> — The rotation of the image in
+                                            degrees. </p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">height</code> — The height of the image. </p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">width</code> — The width of the image. </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">alignment</code>— The alignment of the image. (see
+                                                <a href="itext.alignment.html" title="16.1.7.2. Alignment Values">Section 16.1.7.2, “Alignment Values”</a> for possible values) </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">alt</code> — Alternative text representation for the
+                                            image.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">indentationLeft</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">indentationRight</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">spacingBefore</code> — The blank space to be inserted
+                                            before the element.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">spacingAfter</code> — The blank space to be inserted
+                                            after the element.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">widthPercentage</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">initialRotation</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">dpi</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">scalePercent</code> — The scaling factor (as a
+                                            percentage) to use for the image. This can be expressed as a single
+                                            percentage value or as two percentage values representing separate x and y
+                                            scaling percentages.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">wrap</code>
+                                        
+                                 </p>
+                              </li>
+                              <li>
+                                 <p>
+                                            
+                                    <code class="literal">underlying</code>
+                                        
+                                 </p>
+                              </li>
+                           </ul>
+                        </div>
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <pre class="programlisting">&lt;p:image value="/jboss.jpg" /&gt;</pre>
+                                
+                        <pre class="programlisting">&lt;p:image value="#{images.chart}" /&gt;</pre>
+
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="informaltable">
+            <table border="1">
+               <colgroup>
+                  <col/>
+                  <col/>
+               </colgroup>
+               <tbody>
+                  <tr>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <code class="literal">&lt;p:anchor&gt;</code>
+                                
+                        </p>
+                            
+                     </td>
+                     <td valign="top">
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Description</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <p>
+                           <code class="literal">p:anchor</code> defines clickable links from a document. It supports
+                                    the following attributes:</p>
+
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Attributes</em>
+                           </span>
+                                
+                        </p>
+
+
+                                
+                        <div class="itemizedlist">
+                           <ul>
+                              <li>
+                                 <p>
+                                    <code class="literal">name</code> — The name of an in-document anchor
+                                            destination.</p>
+                              </li>
+                              <li>
+                                 <p>
+                                    <code class="literal">reference</code> — The destination the link refers
+                                            to. Links to other points in the document should begin with a "#". For
+                                            example, "#link1" to refer to an anchor postion with a
+                                            <code class="literal">name</code> of <code class="literal">link1</code>. Links may also be a
+                                            full URL to point to a resource outside of the document.</p>
+                              </li>
+                           </ul>
+                        </div>
+
+
+                                
+                        <p>
+                                    
+                           <span class="emphasis">
+                              <em>Usage</em>
+                           </span>
+                                
+                        </p>
+                                
+                        <pre class="programlisting">&lt;p:listItem&gt;&lt;p:anchor reference="#reason1"&gt;Reason 1&lt;/p:anchor&gt;&lt;/p:listItem&gt; 
+...
+&lt;p:paragraph&gt;
+    &lt;p:anchor name="reason1"&gt;It's the quickest way to get "rich"&lt;/p:anchor&gt; 
+    ... 
+&lt;/p:paragraph&gt;</pre>
+
+                            
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="itext.document.html">
+               <strong>Prev</strong>16.1.1. Creating a document</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="itext.header.html">
+               <strong>Next</strong>16.1.3. Headers and Footers</a>
+         </li>
+      </ul>
+   </body>
+</html>

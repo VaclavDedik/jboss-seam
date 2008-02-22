@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>30.3. Integration testing Seam application user interactions</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="testing.html" title="Chapter 30. Testing Seam applications"/>
+      <link rel="prev" href="ch30s02s01.html" title="30.2.1. Using mocks in integration tests"/>
+      <link rel="next" href="ch30s03s01.html" title="30.3.1. Configuration"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch30s02s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch30s03s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e21125"/>30.3. Integration testing Seam application user interactions</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            An even harder problem is emulating user interactions. A third problem is where 
+            to put our assertions. Some test frameworks let us test the whole application
+            by reproducing user interactions with the web browser. These frameworks have
+            their place, but they are not appropriate for use at development time.
+        </p>
+         <p>
+            
+            <code class="literal">SeamTest</code> lets you write <span class="emphasis">
+               <em>scripted</em>
+            </span> tests,
+            in a simulated JSF environment. The role of a scripted test is to reproduce 
+            the interaction between the view and the Seam components. In other words, you 
+            get to pretend you are the JSF implementation!
+        </p>
+         <p>
+            This approach tests everything except the view.
+        </p>
+         <p>
+            Let's consider a JSP view for the component we unit tested above:
+        </p>
+         <pre class="programlisting">&lt;html&gt;
+ &lt;head&gt;
+  &lt;title&gt;Register New User&lt;/title&gt;
+ &lt;/head&gt;
+ &lt;body&gt;
+  &lt;f:view&gt;
+   &lt;h:form&gt;
+     &lt;table border="0"&gt;
+       &lt;tr&gt;
+         &lt;td&gt;Username&lt;/td&gt;
+         &lt;td&gt;&lt;h:inputText value="#{user.username}"/&gt;&lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+         &lt;td&gt;Real Name&lt;/td&gt;
+         &lt;td&gt;&lt;h:inputText value="#{user.name}"/&gt;&lt;/td&gt;
+       &lt;/tr&gt;
+       &lt;tr&gt;
+         &lt;td&gt;Password&lt;/td&gt;
+         &lt;td&gt;&lt;h:inputSecret value="#{user.password}"/&gt;&lt;/td&gt;
+       &lt;/tr&gt;
+     &lt;/table&gt;
+     &lt;h:messages/&gt;
+     &lt;h:commandButton type="submit" value="Register" action="#{register.register}"/&gt;
+   &lt;/h:form&gt;
+  &lt;/f:view&gt;
+ &lt;/body&gt;
+&lt;/html&gt;</pre>
+         <p>
+            We want to test the registration functionality of our application (the stuff
+            that happens when the user clicks the Register button). We'll reproduce the JSF 
+            request lifecycle in an automated TestNG test:
+        </p>
+         <pre class="programlisting">public class RegisterTest extends SeamTest
+{
+   
+   @Test
+   public void testRegister() throws Exception
+   {
+            
+      new FacesRequest() {
+
+         @Override
+         protected void processValidations() throws Exception
+         {
+            validateValue("#{user.username}", "1ovthafew");
+            validateValue("#{user.name}", "Gavin King");
+            validateValue("#{user.password}", "secret");
+            assert !isValidationFailure();
+         }
+         
+         @Override
+         protected void updateModelValues() throws Exception
+         {
+            setValue("#{user.username}", "1ovthafew");
+            setValue("#{user.name}", "Gavin King");
+            setValue("#{user.password}", "secret");
+         }
+
+         @Override
+         protected void invokeApplication()
+         {
+            assert invokeMethod("#{register.register}").equals("success");
+         }
+
+         @Override
+         protected void renderResponse()
+         {
+            assert getValue("#{user.username}").equals("1ovthafew");
+            assert getValue("#{user.name}").equals("Gavin King");
+            assert getValue("#{user.password}").equals("secret");
+         }
+         
+      }.run();
+      
+   }
+
+   ...
+   
+}</pre>
+         <p>
+            Notice that we've extended <code class="literal">SeamTest</code>, which provides a 
+            Seam environment for our components, and written our test script as an 
+            anonymous class that extends <code class="literal">SeamTest.FacesRequest</code>, 
+            which provides an emulated JSF request lifecycle. (There is also a
+            <code class="literal">SeamTest.NonFacesRequest</code> for testing GET requests.)
+            We've written our code in methods which are named for the various JSF 
+            phases, to emulate the calls that JSF would make to our components. Then 
+            we've thrown in various assertions.
+        </p>
+         <p>
+            You'll find plenty of integration tests for the Seam example applications
+            which demonstrate more complex cases. There are instructions for running
+            these tests using Ant, or using the TestNG plugin for eclipse:
+        </p>
+         <div class="mediaobject" align="center">
+            <img src="/images/plugin-testng.png" align="middle"/>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch30s02s01.html">
+               <strong>Prev</strong>30.2.1. Using mocks in integration tests</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch30s03s01.html">
+               <strong>Next</strong>30.3.1. Configuration</a>
+         </li>
+      </ul>
+   </body>
+</html>

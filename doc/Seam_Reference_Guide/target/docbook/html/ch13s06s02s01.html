@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>13.6.2.1. The @Restrict annotation</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch13s06s02.html" title="13.6.2. Securing components"/>
+      <link rel="prev" href="ch13s06s02.html" title="13.6.2. Securing components"/>
+      <link rel="next" href="ch13s06s02s02.html" title="13.6.2.2. Inline restrictions"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch13s06s02.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch13s06s02s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect3" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h4 class="title">
+                     <a id="d0e7491"/>13.6.2.1. The @Restrict annotation</h4>
+               </div>
+            </div>
+         </div>
+         <p>
+          Seam components may be secured either at the method or the class level, using the <code class="literal">@Restrict</code>
+          annotation.  If both a method and it's declaring class are annotated with <code class="literal">@Restrict</code>,
+          the method restriction will take precedence (and the class restriction will not apply).  If a method
+          invocation fails a security check, then an exception will be thrown as per the contract for
+          <code class="literal">Identity.checkRestriction()</code> (see Inline Restrictions).  A <code class="literal">@Restrict</code>
+          on just the component class itself is equivalent to adding <code class="literal">@Restrict</code> to each of its
+          methods.
+        </p>
+         <p>
+          An empty <code class="literal">@Restrict</code> implies a permission check of <code class="literal">componentName:methodName</code>.
+          Take for example the following component method:
+        </p>
+         <pre class="programlisting">@Name("account")
+public class AccountAction {
+    @Restrict public void delete() {
+      ...
+    }
+}</pre>
+         <p>
+          In this example, the implied permission required to call the <code class="literal">delete()</code> method is
+          <code class="literal">account:delete</code>.  The equivalent of this would be to write
+          <code class="literal">@Restrict("#{s:hasPermission('account','delete',null)}")</code>.  Now let's look at
+          another example:
+        </p>
+         <pre class="programlisting">@Restrict @Name("account")
+public class AccountAction {
+    public void insert() {
+      ...
+    }
+    @Restrict("#{s:hasRole('admin')}")
+    public void delete() {
+      ...
+    }
+}</pre>
+         <p>
+          This time, the component class itself is annotated with <code class="literal">@Restrict</code>.  This means that
+          any methods without an overriding <code class="literal">@Restrict</code> annotation require an implicit permission check.
+          In the case of this example, the <code class="literal">insert()</code> method requires a permission of
+          <code class="literal">account:insert</code>, while the <code class="literal">delete()</code> method requires that the user is a
+          member of the <code class="literal">admin</code> role.
+        </p>
+         <p>
+          Before we go any further, let's address the <code class="literal">#{s:hasRole()}</code> expression seen in the above
+          example.  Both <code class="literal">s:hasRole</code> and <code class="literal">s:hasPermission</code> are EL functions, which
+          delegate to the correspondingly named methods of the <code class="literal">Identity</code> class. These
+          functions can be used within any EL expression throughout the entirety of the security API.
+        </p>
+         <p>
+          Being an EL expression, the value of the <code class="literal">@Restrict</code> annotation may reference any objects that
+          exist within a Seam context.  This is extremely useful when performing permission checks for a specific
+          object instance.  Look at this example:
+        </p>
+         <pre class="programlisting">@Name("account")
+public class AccountAction {
+    @In Account selectedAccount;
+    @Restrict("#{s:hasPermission('account','modify',selectedAccount)}")
+    public void modify() {
+        selectedAccount.modify();
+    }
+}</pre>
+         <p>
+          The interesting thing to note from this example is the reference to <code class="literal">selectedAccount</code>
+          seen within the <code class="literal">hasPermission()</code> function call.  The value of this variable will be
+          looked up from within the Seam context, and passed to the <code class="literal">hasPermission()</code> method
+          in <code class="literal">Identity</code>, which in this case can then determine if the user has the required
+          permission for modifying the specified <code class="literal">Account</code> object.
+        </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch13s06s02.html">
+               <strong>Prev</strong>13.6.2. Securing components</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch13s06s02s02.html">
+               <strong>Next</strong>13.6.2.2. Inline restrictions</a>
+         </li>
+      </ul>
+   </body>
+</html>

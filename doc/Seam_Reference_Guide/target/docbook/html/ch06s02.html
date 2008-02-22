@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>6.2. Nested conversations</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="conversations.html" title="Chapter 6. Conversations and workspace management"/>
+      <link rel="prev" href="ch06s01.html" title="6.1. Seam's conversation model"/>
+      <link rel="next" href="ch06s03.html" title="6.3. Starting conversations with GET requests"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch06s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch06s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e4831"/>6.2. Nested conversations</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            A nested conversation is created by invoking a method marked
+            <code class="literal">@Begin(nested=true)</code> inside the scope of an
+            existing conversation. A nested conversation has its own
+            conversation context, and also has read-only access to the
+            context of the outer conversation. (It can read the outer
+            conversation's context variables, but not write to them.)
+            When an <code class="literal">@End</code> is subsequently encountered,
+            the nested conversation will be destroyed, and the outer
+            conversation will resume, by "popping" the conversation stack.
+            Conversations may be nested to any arbitrary depth.
+        </p>
+         <p>
+            Certain user activity (workspace management, or the back button)
+            can cause the outer conversation to be resumed before the inner
+            conversation is ended. In this case it is possible to have 
+            multiple concurrent nested conversations belonging to the
+            same outer conversation. If the outer conversation ends before
+            a nested conversation ends, Seam destroys all nested conversation
+            contexts along with the outer context.
+        </p>
+         <p>
+            A conversation may be thought of as a <span class="emphasis">
+               <em>continuable state</em>
+            </span>.
+            Nested conversations allow the application to capture a consistent
+            continuable state at various points in a user interaction, thus
+            insuring truly correct behavior in the face of backbuttoning and
+            workspace management.
+        </p>
+         <p>
+            TODO: an example to show how a nested conversation prevents bad 
+            stuff happening when you backbutton.
+        </p>
+         <p>
+            Usually, if a component exists in a parent conversation of the 
+            current nested conversation, the nested conversation will use
+            the same instance. Occasionally, it is useful to have a different
+            instance in each nested conversation, so that the component 
+            instance that exists in the parent conversation is invisible to
+            its child conversations. You can achieve this behavior by 
+            annotating the component <code class="literal">@PerNestedConversation</code>.
+        </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch06s01.html">
+               <strong>Prev</strong>6.1. Seam's conversation model</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch06s03.html">
+               <strong>Next</strong>6.3. Starting conversations with GET requests</a>
+         </li>
+      </ul>
+   </body>
+</html>

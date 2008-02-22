@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>29.1. Parameterized Expressions</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="elenhancements.html" title="Chapter 29. JBoss EL"/>
+      <link rel="prev" href="elenhancements.html" title="Chapter 29. JBoss EL"/>
+      <link rel="next" href="ch29s01s01.html" title="29.1.1. Usage"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="elenhancements.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch29s01s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e20856"/>29.1. Parameterized Expressions</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+         Standard EL does not allow you to use a method with user defined 
+         parameters — of course, JSF listener methods (e.g. a 
+         <code class="literal">valueChangeListener</code>) take parameters provided by JSF. 
+      </p>
+         <p> 
+         JBoss EL removes this restriction. For example: 
+      </p>
+         <pre class="programlisting">&lt;h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/&gt;</pre>
+         <pre class="programlisting">@Name("hotelBooking")
+public class HotelBooking {
+   
+   public String bookHotel(Hotel hotel) {
+      // Book the hotel
+   }
+}</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="elenhancements.html">
+               <strong>Prev</strong>Chapter 29. JBoss EL</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch29s01s01.html">
+               <strong>Next</strong>29.1.1. Usage</a>
+         </li>
+      </ul>
+   </body>
+</html>

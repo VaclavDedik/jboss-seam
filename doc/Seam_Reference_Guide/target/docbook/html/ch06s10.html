@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>6.10. Conversational components and JSF component bindings</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="conversations.html" title="Chapter 6. Conversations and workspace management"/>
+      <link rel="prev" href="ch06s09s05.html" title="6.9.5. Breadcrumbs"/>
+      <link rel="next" href="ch06s11.html" title="6.11. Concurrent calls to conversational components"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch06s09s05.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch06s11.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e5320"/>6.10. Conversational components and JSF component bindings</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            Conversational components have one minor limitation: they cannot be used to hold bindings 
+            to JSF components. (We generally prefer not to use this feature of JSF unless absolutely
+            necessary, since it creates a hard dependency from application logic to the view.) On a 
+            postback request, component bindings are updated during the Restore View phase, 
+            before the Seam conversation context has been restored.
+        </p>
+         <p>
+            To work around this use an event scoped component to store the component bindings and inject 
+            it into the conversation scoped component that requires it.
+        </p>
+         <pre class="programlisting">@Name("grid")
+@Scope(ScopeType.EVENT)
+public class Grid
+{
+    private HtmlPanelGrid htmlPanelGrid;
+
+    // getters and setters
+    ...
+}</pre>
+         <pre class="programlisting">@Name("gridEditor")
+@Scope(ScopeType.CONVERSATION)
+public class GridEditor
+{
+    @In(required=false)
+    private Grid grid;
+    
+    ...
+}</pre>
+         <p>
+         Also, you can't inject a conversation scoped component into an event
+         scoped component which you bind a JSF control to. This includes Seam
+         built in components like <code class="literal">facesMessages</code>. 
+       </p>
+         <p>
+          Alternatively, you can access the JSF component tree through the implicit <code class="literal">uiComponent</code>
+          handle. The following example accesses <code class="literal">getRowIndex()</code>of the
+          <code class="literal">UIData</code> component which backs the data table during iteration, it prints
+          the current row number:
+       </p>
+         <pre class="programlisting">
+&lt;h:dataTable id="lineItemTable" var="lineItem" value="#{orderHome.lineItems}"&gt;
+   &lt;h:column&gt;
+      Row: #{uiComponent['lineItemTable'].rowIndex}
+   &lt;/h:column&gt;
+   ...
+&lt;/h:dataTable&gt;</pre>
+         <p>
+          JSF UI components are available with their client identifier in this map.
+       </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch06s09s05.html">
+               <strong>Prev</strong>6.9.5. Breadcrumbs</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch06s11.html">
+               <strong>Next</strong>6.11. Concurrent calls to conversational componen...</a>
+         </li>
+      </ul>
+   </body>
+</html>

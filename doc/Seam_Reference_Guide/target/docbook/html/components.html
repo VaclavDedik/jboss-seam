@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>Chapter 27. Built-in Seam components</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="prev" href="ch26s13.html" title="26.13. Annotations for integrating with the servlet container"/>
+      <link rel="next" href="ch27s01.html" title="27.1. Context injection components"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch26s13.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch27s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="chapter" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="components"/>Chapter 27. Built-in Seam components</h2>
+               </div>
+            </div>
+         </div>
+         <div class="toc">
+            <dl>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s01.html">27.1. Context injection components</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s02.html">27.2. Utility components</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s03.html">27.3. Components for internationalization and themes</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s04.html">27.4. Components for controlling conversations</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s05.html">27.5. jBPM-related components</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s06.html">27.6. Security-related components</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s07.html">27.7. JMS-related components</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="components.mail.html">27.8. Mail-related components</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s09.html">27.9. Infrastructural components</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s10.html">27.10. Miscellaneous components</a>
+                  </span>
+               </dt>
+               <dt>
+                  <span class="section">
+                     <a href="ch27s11.html">27.11. Special components</a>
+                  </span>
+               </dt>
+            </dl>
+         </div>
+         <p>
+        This chapter describes Seam's built-in components, and their
+        configuration properties. The built-in components will be created even if they
+        are not listed in your <code class="literal">components.xml</code> file, but if you need to
+        override default properties or specify more than one component of a certain type,
+        <code class="literal">components.xml</code> is used.
+    </p>
+         <p>
+        Note that you can replace any of the built in components with
+        your own implementations simply by specifying the name of one 
+        of the built in components on your own class using 
+        <code class="literal">@Name</code>.
+    </p>
+         <p>
+        Note also that even though all the built in components use a
+        qualified name, most of them are aliased to unqualified names by
+        default. These aliases specify <code class="literal">auto-create="true"</code>,
+        so you do not need to use <code class="literal">create=true</code> when
+        injecting built-in components by their unqualified name.
+    </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch26s13.html">
+               <strong>Prev</strong>26.13. Annotations for integrating with the servl...</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch27s01.html">
+               <strong>Next</strong>27.1. Context injection components</a>
+         </li>
+      </ul>
+   </body>
+</html>

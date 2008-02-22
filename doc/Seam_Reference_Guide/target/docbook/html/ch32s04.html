@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>32.4.  Deploying an application created using seam-gen to OC4J</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="oc4j.html" title="Chapter 32. Seam on OC4J"/>
+      <link rel="prev" href="oc4j-app-deploy.html" title="32.3. Deploying the Seam application to OC4J"/>
+      <link rel="next" href="ch32s04s01.html" title="32.4.1.  Generating a basic seam-gen application"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="oc4j-app-deploy.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch32s04s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e21983"/>32.4.  Deploying an application created using
+         <code class="literal">seam-gen</code> to OC4J </h2>
+               </div>
+            </div>
+         </div>
+         <p> 
+            <code class="literal">seam-gen</code> is a great tool for developers that
+         can quickly get you up and running with a full Seam application. However
+         the project that it created is configured to run on JBoss AS. This means
+         there are some extra steps needed to have it execute on OC4j. The
+         following explanation assumes you are using the command line and a
+         simple text editor, but of course you can use your favorite IDE.
+         <code class="literal">seam-gen</code> projects come with support for Eclipse
+         and Netbeans. </p>
+         <p> We will start by creating and deploying a pretty simple application
+         using <code class="literal">seam-gen</code> . Then we'll show you how easy it is
+         to use <code class="literal">seam-gen</code> and Hibernate Tools to reverse
+         engineer a database schema into a functional CRUD application.
+         <code class="literal">seam-gen</code> will create JPA entity beans, Seam
+         Application Framework components and JSF views for you. We will also add
+         Seam security using Drools. </p>
+         <p> This tutorial uses MySQL (but of course you could use any database,
+         altering the SQL and datasources as appropriate); install, configure
+         and run MySQL, then create a database with some sample data. Don't forget
+         to also download the
+         <code class="literal">mysql-connector-java-X.jar</code> for jdbc support.
+         When setting up Seam security this tutorial will assume there is a table
+         named <code class="literal">User</code> with columns
+         <code class="literal">username</code> and <code class="literal">password</code> with
+         at least one entry. Beyond that you can set up any type of sample data and
+         tables you would like. </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="oc4j-app-deploy.html">
+               <strong>Prev</strong>32.3. Deploying the Seam application to OC4J</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch32s04s01.html">
+               <strong>Next</strong>32.4.1.  Generating a basic seam-gen application
+...</a>
+         </li>
+      </ul>
+   </body>
+</html>

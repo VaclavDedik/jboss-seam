@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>34.3.2. Deploying the jpa example</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch34s03.html" title="34.3.  The jpa booking example"/>
+      <link rel="prev" href="ch34s03s01.html" title="34.3.1. Building the jpa example"/>
+      <link rel="next" href="ch34s03s03.html" title="34.3.3. Whats different for Websphere 6.1"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s03s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch34s03s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e24269"/>34.3.2. Deploying the <code class="literal">jpa</code> example</h3>
+               </div>
+            </div>
+         </div>
+         <p>This is similar to the <code class="literal">jee5</code> example at 
+               <a href="jee5-websphere-deploy.html" title="34.2.3. Deploying the application to Websphere">Section 34.2.3, “Deploying the application to Websphere”</a>, but without so many steps.
+             </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>From the <code class="literal">Enterprise Applications</code> table
+               select the <code class="literal">Install</code> button.
+               </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p>
+                              <code class="literal">Preparing for the application
+                        installation</code>
+                        
+                           </p>
+                           <div class="itemizedlist">
+                              <ul>
+                                 <li>
+                                    <p>Browse to the 
+                                 <code class="literal">examples/jpa/dist-websphere61/jboss-seam-jpa.war</code>
+                                 file using the file upload widget.
+                                 </p>
+                                 </li>
+                                 <li>
+                                    <p>In the <code class="literal">Context root</code> text box
+                                 enter <code class="literal">jboss-seam-jpa</code>.
+                                 </p>
+                                 </li>
+                                 <li>
+                                    <p>Select the <code class="literal">Next</code> button.
+                                 </p>
+                                 </li>
+                              </ul>
+                           </div>
+                           <p> </p>
+                        </li>
+                        <li>
+                           <p>Select the <code class="literal">Next</code> button for the next
+                        three pages, no changes are needed.
+                     </p>
+                        </li>
+                        <li>
+                           <p>
+                              <code class="literal">Summary</code> page
+                        </p>
+                           <div class="itemizedlist">
+                              <ul>
+                                 <li>
+                                    <p>Review the settings if you wish and select
+                                 the <code class="literal">Finish</code> button to install
+                                 the application.  When installation finished select the <code class="literal">
+                                 Save</code> link and you will be returned to the 
+                                 <code class="literal">Enterprise Applications</code> table.
+                                 </p>
+                                 </li>
+                              </ul>
+                           </div>
+                           <p> </p>
+                        </li>
+                     </ul>
+                  </div>
+                  <p>
+               
+                  </p>
+               </li>
+               <li>
+                  <p>As with the <code class="literal">jee5</code> example there are some
+                  class loader changes needed before we start the application.
+                  Follow the instructions at <a href="jee5-websphere-deploy.html#websphere-app-adj-after-install">installation adjustments for jee5 example</a>
+                  but exchange <code class="literal">jboss-seam-jpa</code> for <code class="literal">Seam Booking</code>.
+               </p>
+               </li>
+               <li>
+                  <p>Finally start the application by selecting it in the 
+                  <code class="literal">Enterprise Applications</code> table and clicking
+                  the <code class="literal">Start</code> button.
+               </p>
+               </li>
+               <li>
+                  <p>You can now access the application at the  
+                  <code class="literal">http://localhost:9080/jboss-seam-jpa/index.html</code>.
+               </p>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch34s03s01.html">
+               <strong>Prev</strong>34.3.1. Building the jpa example</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch34s03s03.html">
+               <strong>Next</strong>34.3.3. Whats different for Websphere 6.1</a>
+         </li>
+      </ul>
+   </body>
+</html>

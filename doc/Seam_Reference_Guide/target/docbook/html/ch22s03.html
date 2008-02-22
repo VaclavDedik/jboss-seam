@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>22.3. Hooking up a GWT widget to the Seam component</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="gwt.html" title="Chapter 22. Seam and the Google Web Toolkit"/>
+      <link rel="prev" href="ch22s02.html" title="22.2. Preparing your component"/>
+      <link rel="next" href="ch22s04.html" title="22.4. GWT Ant Targets"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch22s02.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch22s04.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e14726"/>22.3. Hooking up a GWT widget to the Seam component</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+      The next step, is to write a method that returns the asynchronous interface to the component.  This method
+      can be located inside the widget class, and will be used by the widget to obtain a reference to the
+      asynchronous client stub:
+    </p>
+         <pre class="programlisting">   private MyServiceAsync getService() 
+   {       
+      String endpointURL = GWT.getModuleBaseURL() + "seam/resource/gwt";      
+      
+      MyServiceAsync svc = (MyServiceAsync) GWT.create(MyService.class);
+      ((ServiceDefTarget) svc).setServiceEntryPoint(endpointURL);
+      return svc;     
+   }</pre>
+         <p>
+       The final step is to write the widget code that invokes the method on the client stub.  The following example
+       creates a simple user interface with a label, text input and a button:
+    </p>
+         <pre class="programlisting">
+public class AskQuestionWidget extends Composite
+{
+   private AbsolutePanel panel = new AbsolutePanel();
+   
+   public AskQuestionWidget() 
+   {      
+      Label lbl = new Label("OK, what do you want to know?");
+      panel.add(lbl);
+      final TextBox box = new TextBox();
+      box.setText("What is the meaning of life?");
+      panel.add(box);
+      Button ok = new Button("Ask");
+      ok.addClickListener(new ClickListener() 
+      {
+         public void onClick(Widget w)
+         {
+            ValidationUtility valid = new ValidationUtility();
+            if (!valid.isValid(box.getText())) 
+            {
+               Window.alert("A question has to end with a '?'");
+            } 
+            else 
+            {
+               askServer(box.getText());
+            } 
+         }
+      });
+      panel.add(ok);
+      
+      initWidget(panel);
+   }
+
+   private void askServer(String text)
+   {
+      getService().askIt(text, new AsyncCallback() 
+      {
+         public void onFailure(Throwable t)
+         {
+            Window.alert(t.getMessage());
+         }
+
+         public void onSuccess(Object data)
+         {
+            Window.alert((String) data);
+         }         
+      });      
+   }
+   
+   ...    
+    </pre>
+         <p>
+      When clicked, the button invokes the <code class="literal">askServer()</code> method passing the contents of the input text (in this
+      example, validation is also performed to ensure that the input is a valid question).  The <code class="literal">askServer()</code>
+      method acquires a reference to the asynchronous client stub (returned by the <code class="literal">getService()</code> method)
+      and invokes the <code class="literal">askIt()</code> method.  The result (or error message if the call fails) is shown in an alert window.      
+    </p>
+         <div class="mediaobject" align="center">
+            <img src="../shared/images/gwt-helloworld.png" align="middle"/>
+         </div>
+         <p>
+      The complete code for this example can be found in the Seam distribution in the <code class="literal">examples/remoting/gwt</code>
+      directory.
+    </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch22s02.html">
+               <strong>Prev</strong>22.2. Preparing your component</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch22s04.html">
+               <strong>Next</strong>22.4. GWT Ant Targets</a>
+         </li>
+      </ul>
+   </body>
+</html>

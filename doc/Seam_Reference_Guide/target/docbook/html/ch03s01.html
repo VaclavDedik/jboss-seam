@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>3.1. Seam contexts</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="concepts.html" title="Chapter 3. The contextual component model"/>
+      <link rel="prev" href="concepts.html" title="Chapter 3. The contextual component model"/>
+      <link rel="next" href="ch03s01s01.html" title="3.1.1. Stateless context"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="concepts.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s01s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect1" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e2621"/>3.1. Seam contexts</h2>
+               </div>
+            </div>
+         </div>
+         <p> Seam contexts are created and destroyed by the framework. The application does not control context
+            demarcation via explicit Java API calls. Context are usually implicit. In some cases, however, contexts are
+            demarcated via annotations. </p>
+         <p> The basic Seam contexts are: </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p> Stateless context </p>
+               </li>
+               <li>
+                  <p> Event (or request) context </p>
+               </li>
+               <li>
+                  <p> Page context </p>
+               </li>
+               <li>
+                  <p> Conversation context </p>
+               </li>
+               <li>
+                  <p> Session context </p>
+               </li>
+               <li>
+                  <p> Business process context </p>
+               </li>
+               <li>
+                  <p> Application context </p>
+               </li>
+            </ul>
+         </div>
+         <p> 
+            You will recognize some of these contexts from servlet and related specifications. However, two of them
+            might be new to you: <span class="emphasis">
+               <em>conversation context</em>
+            </span>, and <span class="emphasis">
+               <em>business process
+            context</em>
+            </span>. One reason state management in web applications is so fragile and error-prone is that
+            the three built-in contexts (request, session and application) are not especially meaningful from the point
+            of view of the business logic. A user login session, for example, is a fairly arbitrary construct in terms
+            of the actual application work flow. Therefore, most Seam components are scoped to the conversation or
+            business process contexts, since they are the contexts which are most meaningful in terms of the
+            application.
+        </p>
+         <p>
+            Let's look at each context in turn.
+        </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="concepts.html">
+               <strong>Prev</strong>Chapter 3. The contextual component model</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s01s01.html">
+               <strong>Next</strong>3.1.1. Stateless context</a>
+         </li>
+      </ul>
+   </body>
+</html>

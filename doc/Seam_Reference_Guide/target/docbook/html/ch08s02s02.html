@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>8.2.2. Configuring a Seam transaction manager</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="persistence.seam-managed-transactions.html" title="8.2. Seam managed transactions"/>
+      <link rel="prev" href="ch08s02s01.html" title="8.2.1. Disabling Seam-managed transactions"/>
+      <link rel="next" href="ch08s02s03.html" title="8.2.3. Transaction synchronization"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch08s02s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch08s02s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e5993"/>8.2.2. Configuring a Seam transaction manager</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+    			Seam provides a transaction management abstraction for beginning, committing, rolling back, and
+    			synchronizing with a transaction. By default Seam uses a JTA transaction component that integrates with
+    			Container Managed and programmatic EJB transactions. If you are working in a Java EE 5 environment, you
+    			should install the EJB synchronization component in <code class="literal">components.xml</code>:
+    		</p>
+         <pre class="programlisting">&lt;transaction:ejb-transaction /&gt;</pre>
+         <p>
+    			However, if you are working in a non EE 5 container, Seam will try auto detect the transaction
+    			synchronization mechanism to use. However, if Seam is unable to detect the correct transaction
+    			synchronization to use, you may find you need configure one of the following:
+    		</p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+    				   JPA RESOURCE_LOCAL transactions with the
+    				   <code class="literal">javax.persistence.EntityTransaction</code>
+    				   interface.
+    				</p>
+               </li>
+               <li>
+                  <p>
+    				   Hibernate managed transactions with the
+    				   <code class="literal">org.hibernate.Transaction</code>
+    				   interface.
+    			   </p>
+               </li>
+               <li>
+                  <p>
+    				   Spring managed transactions with the
+    				   <code class="literal">org.springframework.transaction.PlatformTransactionManager</code>
+    				   interface.
+    			   </p>
+               </li>
+               <li>
+                  <p>
+                      Explicitly disable Seam managed transactions
+                   </p>
+               </li>
+            </ul>
+         </div>
+         <p>
+    			Configure JPA RESOURCE_LOCAL transaction management by adding the following to your components.xml where
+    			<code class="literal">#{em}</code>
+    			is the name of the
+    			<code class="literal">persistence:managed-persistence-context</code>
+    			component. If your managed persistence context is named <code class="literal">entityManager</code>, you can
+				opt to leave out the <code class="literal">entity-manager</code> attribute. (see
+    			<a href="persistence.seam-managed-persistence-contexts.html" title="8.3. Seam-managed persistence contexts">Seam-managed persistence contexts</a>
+    			)
+    		</p>
+         <pre class="programlisting">&lt;transaction:entity-transaction entity-manager="#{em}"/&gt;</pre>
+         <p>
+    			To configure Hibernate managed transactions declare the following in your components.xml where
+    			<code class="literal">#{hibernateSession}</code>
+    			is the name of the project's
+    			<code class="literal">persistence:managed-hibernate-session</code>
+    			component. If your managed hibernate session is named <code class="literal">session</code>, you can
+				opt to leave out the <code class="literal">session</code> attribute. (see
+    			<a href="persistence.seam-managed-persistence-contexts.html" title="8.3. Seam-managed persistence contexts">Seam-managed persistence contexts</a>
+    			)
+    		</p>
+         <pre class="programlisting">&lt;transaction:hibernate-transaction session="#{hibernateSession}"/&gt;</pre>
+         <p>
+                To explicitly disable Seam managed transactions declare the following in your components.xml:
+              </p>
+         <pre class="programlisting">&lt;transaction:no-transaction /&gt;</pre>
+         <p>
+    			For configuring Spring managed transactions see
+    			<a href="spring-transactions.html" title="23.5. Using Spring PlatformTransactionManagement">using Spring PlatformTransactionManagement</a>
+    			.
+    		</p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch08s02s01.html">
+               <strong>Prev</strong>8.2.1. Disabling Seam-managed transactions</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch08s02s03.html">
+               <strong>Next</strong>8.2.3. Transaction synchronization</a>
+         </li>
+      </ul>
+   </body>
+</html>

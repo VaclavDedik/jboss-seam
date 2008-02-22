@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>8.3. Seam-managed persistence contexts</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="persistence.html" title="Chapter 8. Seam and Object/Relational Mapping"/>
+      <link rel="prev" href="ch08s02s03.html" title="8.2.3. Transaction synchronization"/>
+      <link rel="next" href="ch08s03s01.html" title="8.3.1. Using a Seam-managed persistence context with JPA"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch08s02s03.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch08s03s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="persistence.seam-managed-persistence-contexts"/>8.3. Seam-managed persistence contexts</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+            If you're using Seam outside of a Java EE 5 environment, you can't rely upon the
+            container to manage the persistence context lifecycle for you. Even if you are
+            in an EE 5 environment, you might have a complex application with many loosly
+            coupled components that collaborate together in the scope of a single conversation,
+            and in this case you might find that propagation of the persistence context between
+            component is tricky and error-prone.
+        </p>
+         <p>
+            In either case, you'll need to use a <span class="emphasis">
+               <em>managed persistence context</em>
+            </span> 
+            (for JPA) or a <span class="emphasis">
+               <em>managed session</em>
+            </span> (for Hibernate) in your components.
+            A Seam-managed persistence context is just a built-in Seam component that manages an
+            instance of <code class="literal">EntityManager</code> or <code class="literal">Session</code> in the
+            conversation context. You can inject it with <code class="literal">@In</code>.
+        </p>
+         <p>
+            Seam-managed persistence contexts are extremely efficient in a clustered environment.
+            Seam is able to perform an optimization that EJB 3.0 specification does not allow 
+            containers to use for container-managed extended persistence contexts. Seam supports
+            transparent failover of extended persisence contexts, without the need to replicate
+            any persistence context state between nodes. (We hope to fix this oversight in the
+            next revision of the EJB spec.)
+        </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch08s02s03.html">
+               <strong>Prev</strong>8.2.3. Transaction synchronization</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch08s03s01.html">
+               <strong>Next</strong>8.3.1. Using a Seam-managed persistence context w...</a>
+         </li>
+      </ul>
+   </body>
+</html>

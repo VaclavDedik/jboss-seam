@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>25.6.1. Packaging</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch25s06.html" title="25.6. Configuring jBPM in Seam"/>
+      <link rel="prev" href="ch25s06.html" title="25.6. Configuring jBPM in Seam"/>
+      <link rel="next" href="ch25s07.html" title="25.7. Configuring Seam in a Portal"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s06.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s07.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e16039"/>25.6.1. Packaging</h3>
+               </div>
+            </div>
+         </div>
+         <p> There is not yet any well-defined packaging format for jBPM configuration and process/pageflow
+                definition files. In the Seam examples we've decided to simply package all these files into the root of
+                the EAR. In future, we will probably design some other standard packaging format. So the EAR looks
+                something like this: </p>
+         <pre class="programlisting">my-application.ear/
+    jboss-seam.jar
+    lib/
+       jboss-el.jar
+       jbpm-3.1.jar
+    META-INF/
+        MANIFEST.MF
+        application.xml
+    my-application.war/
+        META-INF/
+            MANIFEST.MF
+        WEB-INF/
+            web.xml
+            components.xml
+            faces-config.xml
+            lib/
+                jsf-facelets.jar
+                jboss-seam-ui.jar
+        login.jsp
+        register.jsp
+        ...
+    my-application.jar/
+        META-INF/
+            MANIFEST.MF
+            persistence.xml
+        seam.properties
+        org/
+            jboss/
+                myapplication/
+                    User.class
+                    Login.class
+                    LoginBean.class
+                    Register.class
+                    RegisterBean.class
+                    ...
+    jbpm.cfg.xml
+    hibernate.cfg.xml
+    createDocument.jpdl.xml
+    editDocument.jpdl.xml
+    approveDocument.jpdl.xml
+    documentLifecycle.jpdl.xml</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s06.html">
+               <strong>Prev</strong>25.6. Configuring jBPM in Seam</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s07.html">
+               <strong>Next</strong>25.7. Configuring Seam in a Portal</a>
+         </li>
+      </ul>
+   </body>
+</html>

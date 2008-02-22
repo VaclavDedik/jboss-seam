@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>3.2.1. Stateless session beans</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch03s02.html" title="3.2. Seam components"/>
+      <link rel="prev" href="ch03s02.html" title="3.2. Seam components"/>
+      <link rel="next" href="ch03s02s02.html" title="3.2.2. Stateful session beans"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch03s02.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s02s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e2832"/>3.2.1. Stateless session beans</h3>
+               </div>
+            </div>
+         </div>
+         <p> 
+                Stateless session bean components are not able to hold state across multiple invocations. Therefore,
+                they usually work by operating upon the state of other components in the various Seam contexts. They may
+                be used as JSF action listeners, but cannot provide properties to JSF components for display. 
+            </p>
+         <p> 
+                Stateless session beans always live in the stateless context. 
+            </p>
+         <p> 
+                Stateless session beans can be accessed concurrently as a new instance is used for each request. 
+                Assigning the instance to the request is the responsibility of the EJB3 container (normally instances
+                will be allocated from a reusable pool meaning that you may find any instance variables contain data
+                from previous uses of the bean). 
+            </p>
+         <p> 
+                Stateless session beans are the least interesting kind of Seam component. 
+            </p>
+         <p>
+                Seam stateless session bean components may be instantiated using <code class="literal">Component.getInstance()</code>
+                or <code class="literal">@In(create=true)</code>. They should not be directly instantiated via JNDI lookup
+                or the <code class="literal">new</code> operator.
+            </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch03s02.html">
+               <strong>Prev</strong>3.2. Seam components</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch03s02s02.html">
+               <strong>Next</strong>3.2.2. Stateful session beans</a>
+         </li>
+      </ul>
+   </body>
+</html>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>33.2.1. EJB Blockers with Weblogic</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch33s02.html" title="33.2.  The jee5/booking example"/>
+      <link rel="prev" href="ch33s02.html" title="33.2.  The jee5/booking example"/>
+      <link rel="next" href="ch33s02s01s01.html" title="33.2.1.1. Secondary issue with the Tech Preview"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch33s02.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch33s02s01s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="weblogic-ejb-blockers"/>33.2.1. EJB Blockers with Weblogic</h3>
+               </div>
+            </div>
+         </div>
+         <p>For several releases of Weblogic there has been an issue with
+            compiling EJB's that use variable arguments in their methods. This
+            is confirmed in the Weblogic 9.X and 10.X versions. We had hoped that
+            the issue would be resolved in the tech preview release, but it is not.
+            Seam uses variable arguments in its internal EJB's and so until this
+            is fixed Seam with EJB's will not work.</p>
+         <p>The gist of the issue is that the Weblogic EJB compiler believes
+            that methods that use <code class="literal">varargs</code> are
+            <code class="literal">transient</code> and the deployment will fail with
+            exceptions like below:
+            
+            
+            </p>
+         <pre class="programlisting">java.io.IOException: Compiler failed executable.exec: 
+/home/jbalunas/bea/wlserver_10.3tp/user_projects/domains/seam_examples/servers/AdminServer
+/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/
+TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:194: modifier transient 
+not allowed here
+  public transient javax.ejb.Timer scheduleAsynchronousEvent(java.lang.String arg0,
+  java.lang.Object[] arg1)
+                                   ^
+/home/jbalunas/bea/wlserver_10.3tp/user_projects/domains/seam_examples/servers/AdminServer
+/cache/EJBCompilerCache/5yo5dk9ti3yo/org/jboss/seam/async/
+TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:275: modifier transient
+not allowed here
+  public transient javax.ejb.Timer scheduleTimedEvent(java.lang.String arg0, 
+  org.jboss.seam.async.TimerSchedule arg1, java.lang.Object[] arg2)</pre>
+         <p>
+            BEA says that this is a bug with Java specification. Sun admits the
+            issue, and provides a work around, and will not fix the core issue.
+            
+            </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                     <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://forums.bea.com/thread.jspa?threadID=300002074">
+                     BEA forum</a> — Discusses the issue and
+                     suggests waiting for a new release of 10.X</p>
+               </li>
+               <li>
+                  <p>
+                     <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://forums.bea.com/thread.jspa?messageID=300006290">
+                     BEA forum</a> — Discusses response from BEA
+                     support and that BEA is saying it is an issue with the spec
+                     with links to the bug.</p>
+               </li>
+               <li>
+                  <p>
+                     <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6516895">
+                     Sun bug report </a> — Describes details of the
+                     issue, but says that it will not be fixed.</p>
+               </li>
+            </ul>
+         </div>
+         <p> So what does that mean to us? At least for now EJB's
+            with variable arguments will not run on Weblogic. </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch33s02.html">
+               <strong>Prev</strong>33.2.  The jee5/booking example </a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch33s02s01s01.html">
+               <strong>Next</strong>33.2.1.1. Secondary issue with the Tech Preview</a>
+         </li>
+      </ul>
+   </body>
+</html>

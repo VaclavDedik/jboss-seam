@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>32.4.2.2. Extra jar dependencies</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch32s04s02.html" title="32.4.2. Changes needed for deployment to OC4J"/>
+      <link rel="prev" href="ch32s04s02s01.html" title="32.4.2.1. Configuration file changes"/>
+      <link rel="next" href="ch32s04s03.html" title="32.4.3.  Building and deploying the seam-gen'd application to OC4J"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch32s04s02s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch32s04s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h4 class="title">
+                     <a id="d0e22239"/>32.4.2.2. Extra jar dependencies</h4>
+               </div>
+            </div>
+         </div>
+         <p> This application has similar requirements as the
+               <code class="literal">jee5/booking</code> example above. </p>
+         <p> The <code class="literal">build.xml</code> must be modified to add
+               the jars listed below to the generated archive files. Look for the
+               <code class="literal">&lt;fileset dir="${basedir}"&gt;</code>
+               section below and add the imports underneath the other libraries
+               being imported. </p>
+         <pre class="programlisting">&lt;target name="ear" description="Build the EAR"&gt;
+       &lt;copy todir="${ear.dir}"&gt;
+               &lt;fileset dir="${basedir}/resources"&gt;
+                       &lt;include name="*jpdl.xml" /&gt;
+                       &lt;include name="*hibernate.cfg.xml" /&gt;
+                       &lt;include name="jbpm.cfg.xml" /&gt;
+                       &lt;include name="*.drl" /&gt;
+               &lt;/fileset&gt;
+            &lt;fileset dir="${lib.dir}"&gt;
+                  &lt;include name="jboss-seam.jar" /&gt;
+            &lt;/fileset&gt;
+               &lt;fileset dir="${basedir}"&gt;
+                       &lt;include name="lib/jbpm*.jar" /&gt;
+                       &lt;include name="lib/jboss-el.jar" /&gt;
+                       &lt;include name="lib/drools-*.jar"/&gt;
+                       &lt;include name="lib/janino*.jar"/&gt;
+                       &lt;include name="lib/antlr-*.jar"/&gt;
+                       &lt;include name="lib/mvel*.jar"/&gt;
+                     &lt;include name="lib/richfaces-api*.jar" /&gt;
+               &lt;/fileset&gt;
+       &lt;/copy&gt;
+       &lt;copy todir="${ear.dir}/META-INF"&gt;
+               &lt;fileset dir="${basedir}/resources/META-INF"&gt;
+                       &lt;include name="application.xml" /&gt;
+                       &lt;include name="jboss-app.xml" /&gt;
+               &lt;/fileset&gt;
+       &lt;/copy&gt;
+&lt;/target&gt;</pre>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>Hibernate:</p>
+                  <pre class="programlisting">&lt;include name="lib/hibernate.jar"/&gt;
+&lt;include name="lib/hibernate-annotations.jar"/&gt;
+&lt;include name="lib/hibernate-commons-annotations.jar"/&gt;
+&lt;include name="lib/hibernate-entitymanager.jar"/&gt;
+&lt;include name="lib/hibernate-search.jar"/&gt;
+&lt;include name="lib/hibernate-validator.jar"/&gt;
+&lt;include name="lib/commons-logging.jar"/&gt;
+&lt;include name="lib/commons-collections.jar"/&gt;
+&lt;include name="lib/jboss-common-core.jar"/&gt;</pre>
+               </li>
+               <li>
+                  <p> Drools — because we are using Drools to provide
+                     Seam Security rules, we need to add in Eclipse JDT compiler
+                     (you don't need this on JBoss AS; again this is due to OC4J's
+                     classloading): </p>
+                  <pre class="programlisting">&lt;include name="lib/core.jar"/&gt;</pre>
+               </li>
+               <li>
+                  <p> Third party jars — most of these are only needed
+                     because of OC4J's classloading: </p>
+                  <pre class="programlisting">&lt;include name="lib/javassist.jar"/&gt;
+&lt;include name="lib/quartz.jar"/&gt;
+&lt;include name="lib/dbunit.jar"/&gt;
+&lt;include name="lib/jboss-embedded-api.jar"/&gt;
+&lt;include name="lib/dom4j.jar"/&gt;                             
+&lt;include name="lib/lucene-core.jar"/&gt;
+&lt;include name="lib/cglib.jar"/&gt;
+&lt;include name="lib/asm.jar"/&gt;
+&lt;include name="lib/commons-beanutils.jar"/&gt;
+&lt;include name="lib/commons-digester.jar"/&gt;
+&lt;include name="lib/antlr.jar"/&gt;</pre>
+               </li>
+            </ul>
+         </div>
+         <p>You should end up with something like:</p>
+         <pre class="programlisting">&lt;fileset dir="${basedir}"&gt;
+      &lt;include name="lib/jbpm*.jar" /&gt;
+      &lt;include name="lib/jboss-el.jar" /&gt;
+      &lt;include name="lib/drools-*.jar"/&gt;
+      &lt;include name="lib/janino*.jar"/&gt;
+      &lt;include name="lib/antlr-*.jar"/&gt;
+      &lt;include name="lib/mvel*.jar"/&gt;
+      &lt;include name="lib/richfaces-api*.jar" /&gt;
+      &lt;include name="lib/hibernate.jar"/&gt;
+      &lt;include name="lib/hibernate-annotations.jar"/&gt;
+      &lt;include name="lib/hibernate-commons-annotations.jar"/&gt;
+      &lt;include name="lib/hibernate-entitymanager.jar"/&gt;
+      &lt;include name="lib/hibernate-search.jar"/&gt;
+      &lt;include name="lib/hibernate-validator.jar"/&gt;
+      &lt;include name="lib/commons-logging.jar"/&gt;
+      &lt;include name="lib/commons-collections.jar"/&gt;
+      &lt;include name="lib/jboss-common-core.jar"/&gt;
+      &lt;include name="lib/core.jar"/&gt;
+      &lt;include name="lib/javassist.jar"/&gt;
+      &lt;include name="lib/quartz.jar"/&gt;
+      &lt;include name="lib/dbunit.jar"/&gt;
+      &lt;include name="lib/jboss-embedded-api.jar"/&gt;
+      &lt;include name="lib/dom4j.jar"/&gt;                             
+      &lt;include name="lib/lucene-core.jar"/&gt;
+      &lt;include name="lib/cglib.jar"/&gt;
+      &lt;include name="lib/asm.jar"/&gt;
+      &lt;include name="lib/commons-beanutils.jar"/&gt;
+      &lt;include name="lib/commons-digester.jar"/&gt;
+      &lt;include name="lib/antlr.jar"/&gt;
+&lt;/fileset&gt;</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch32s04s02s01.html">
+               <strong>Prev</strong>32.4.2.1. Configuration file changes</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch32s04s03.html">
+               <strong>Next</strong>32.4.3.  Building and deploying the seam-gen'd ap...</a>
+         </li>
+      </ul>
+   </body>
+</html>

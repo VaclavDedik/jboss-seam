@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>29.1.2. Limitations and Hints</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch29s01.html" title="29.1. Parameterized Expressions"/>
+      <link rel="prev" href="ch29s01s01.html" title="29.1.1. Usage"/>
+      <link rel="next" href="ch29s02.html" title="29.2. Projection"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch29s01s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch29s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e20934"/>29.1.2. Limitations and Hints</h3>
+               </div>
+            </div>
+         </div>
+         <p> 
+            When using JBoss EL you should keep the following points in mind: 
+         </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                  
+                     <span class="emphasis">
+                        <em>Incompatibility with JSP 2.1</em>
+                     </span> — 
+                  JBoss EL can't currently be used with JSP 2.1 as the compiler 
+                  rejects expressions with parameters in. So, if you want to use
+                  this extension with JSF 1.2, you will need to use Facelets. 
+                  The extension works correctly with JSP 2.0. 
+               </p>
+               </li>
+               <li>
+                  <p>
+                  
+                     <span class="emphasis">
+                        <em>Use inside iterative components</em>
+                     </span> — 
+                  Components like <code class="literal">&lt;c:forEach /&gt;</code> and 
+                  <code class="literal">&lt;ui:repeat /&gt;</code>iterate over a List or 
+                  array, exposing each item in the list to nested components. 
+                  This works great if you are selecting a row using a 
+                  <code class="literal">&lt;h:commandButton /&gt;</code> or 
+                  <code class="literal">&lt;h:commandLink /&gt;</code>: 
+               </p>
+                  <pre class="programlisting">@Factory("items")
+public List&lt;Item&gt; getItems() {
+   return entityManager.createQuery("select ...").getResultList();
+}</pre>
+                  <pre class="programlisting">&lt;h:dataTable value="#{items}" var="item"&gt;
+   &lt;h:column&gt;
+      &lt;h:commandLink value="Select #{item.name}" action="#{itemSelector.select(item})" /&gt;
+   &lt;/h:column&gt;
+&lt;/h:dataTable&gt;</pre>
+                  <p>
+                  However if you want to use <code class="literal">&lt;s:link /&gt;</code>
+                  or <code class="literal">&lt;s:button /&gt;</code> you 
+                  <span class="emphasis">
+                        <em>must</em>
+                     </span> expose the items as a 
+                  <code class="literal">DataModel</code>, and use a 
+                  <code class="literal">&lt;dataTable /&gt;</code> (or equivalent from a 
+                  component set like <code class="literal">&lt;rich:dataTable /&gt;</code>
+                  ). Neither <code class="literal">&lt;s:link /&gt;</code> or 
+                  <code class="literal">&lt;s:button /&gt;</code> submit the form (and
+                  therefore produce a bookmarkable link) so a "magic" parameter
+                  is needed to recreate the item when the action method is 
+                  called. This magic parameter can only be added when a 
+                  data table backed by a <code class="literal">DataModel</code> is used.
+               </p>
+               </li>
+               <li>
+                  <p>
+                  
+                     <span class="emphasis">
+                        <em>Calling a <code class="literal">MethodExpression</code> from 
+                  Java code</em>
+                     </span> — Normally, when a 
+                  <code class="literal">MethodExpression</code> is created, the parameter 
+                  types are passed in by JSF. In the case of a method binding, 
+                  JSF assumes that there are no parameters to pass. With this
+                  extension, we can't know the parameter types until after the 
+                  expression has been evaluated. This has two minor 
+                  consequences: 
+               </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                           <p> 
+                        When you invoke a <code class="literal">MethodExpression</code> in
+                        Java code, parameters you pass may be ignored. 
+                        Parameters defined in the expression will take 
+                        precedence. 
+                     </p>
+                        </li>
+                        <li>
+                           <p>
+                        Ordinarily, it is safe to call 
+                        <code class="literal">methodExpression.getMethodInfo().getParamTypes()</code>
+                        at any time. For an expression with parameters, you must 
+                        first invoke the <code class="literal">MethodExpression</code> 
+                        before calling <code class="literal">getParamTypes()</code>. 
+                     </p>
+                        </li>
+                     </ul>
+                  </div>
+                  <p>
+                  Both of these cases are exceedingly rare and only apply when 
+                  you want to invoke the <code class="literal">MethodExpression</code> by 
+                  hand in Java code. 
+               </p>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch29s01s01.html">
+               <strong>Prev</strong>29.1.1. Usage</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch29s02.html">
+               <strong>Next</strong>29.2. Projection</a>
+         </li>
+      </ul>
+   </body>
+</html>

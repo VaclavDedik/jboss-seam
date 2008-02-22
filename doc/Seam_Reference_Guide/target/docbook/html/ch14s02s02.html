@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>14.2.2. Displaying labels</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch14s02.html" title="14.2. Labels"/>
+      <link rel="prev" href="ch14s02s01.html" title="14.2.1. Defining labels"/>
+      <link rel="next" href="ch14s02s03.html" title="14.2.3. Faces messages"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch14s02s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch14s02s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e9535"/>14.2.2. Displaying labels</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+            If you define your labels using the Seam resource bundle, you'll
+            be able to use them without having to type <code class="literal">&lt;f:loadBundle ... /&gt;</code>
+            on every page. Instead, you can simply type:
+        </p>
+         <pre class="programlisting">&lt;h:outputText value="#{messages['Hello']}"/&gt;</pre>
+         <p>
+            or:
+        </p>
+         <pre class="programlisting">&lt;h:outputText value="#{messages.Hello}"/&gt;</pre>
+         <p>
+            Even better, the messages themselves may contain EL expressions:
+        </p>
+         <pre class="programlisting">Hello=Hello, #{user.firstName} #{user.lastName}</pre>
+         <pre class="programlisting">Hello=G'day, #{user.firstName}</pre>
+         <p>
+            You can even use the messages in your code:
+        </p>
+         <pre class="programlisting">@In private Map&lt;String, String&gt; messages;</pre>
+         <pre class="programlisting">@In("#{messages['Hello']}") private String helloMessage;</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch14s02s01.html">
+               <strong>Prev</strong>14.2.1. Defining labels</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch14s02s03.html">
+               <strong>Next</strong>14.2.3. Faces messages</a>
+         </li>
+      </ul>
+   </body>
+</html>

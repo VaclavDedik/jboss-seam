@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>25.1.1. Integrating Seam with JSF and your servlet container</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch25s01.html" title="25.1. Basic Seam configuration"/>
+      <link rel="prev" href="ch25s01.html" title="25.1. Basic Seam configuration"/>
+      <link rel="next" href="ch25s01s02.html" title="25.1.2. Using facelets"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s01s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="sect2" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e15361"/>25.1.1. Integrating Seam with JSF and your servlet container</h3>
+               </div>
+            </div>
+         </div>
+         <p> Of course, you need a faces servlet! </p>
+         <pre class="programlisting">&lt;servlet&gt;
+    &lt;servlet-name&gt;Faces Servlet&lt;/servlet-name&gt;
+    &lt;servlet-class&gt;javax.faces.webapp.FacesServlet&lt;/servlet-class&gt;
+    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+&lt;/servlet&gt;
+
+&lt;servlet-mapping&gt;
+    &lt;servlet-name&gt;Faces Servlet&lt;/servlet-name&gt;
+    &lt;url-pattern&gt;*.seam&lt;/url-pattern&gt;
+&lt;/servlet-mapping&gt;</pre>
+         <p> (You can adjust the URL pattern to suit your taste.) </p>
+         <p> In addition, Seam requires the following entry in your <code class="literal">web.xml</code> file: </p>
+         <pre class="programlisting">&lt;listener&gt;
+    &lt;listener-class&gt;org.jboss.seam.servlet.SeamListener&lt;/listener-class&gt;
+&lt;/listener&gt;</pre>
+         <p> This listener is responsible for bootstrapping Seam, and for destroying session and application
+                contexts. </p>
+         <p> Some JSF implementations have a broken implementation of server-side state saving that interferes
+                with Seam's conversation propagation. If you have problems with conversation propagation during form
+                submissions, try switching to client-side state saving. You'll need this in <code class="literal">web.xml</code>: </p>
+         <pre class="programlisting">&lt;context-param&gt;
+    &lt;param-name&gt;javax.faces.STATE_SAVING_METHOD&lt;/param-name&gt;
+    &lt;param-value&gt;client&lt;/param-value&gt;
+&lt;/context-param&gt;</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch25s01.html">
+               <strong>Prev</strong>25.1. Basic Seam configuration</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch25s01s02.html">
+               <strong>Next</strong>25.1.2. Using facelets</a>
+         </li>
+      </ul>
+   </body>
+</html>

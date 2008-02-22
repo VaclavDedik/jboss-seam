@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>5.3.1. Mapping request parameters to the model</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch05s03.html" title="5.3. Page parameters"/>
+      <link rel="prev" href="ch05s03.html" title="5.3. Page parameters"/>
+      <link rel="next" href="ch05s04.html" title="5.4. Propagating request parameters"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch05s03.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch05s04.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e3991"/>5.3.1. Mapping request parameters to the model</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+                  Seam lets us provide a value binding that maps a named request parameter 
+                  to an attribute of a model object.
+              
+          </p>
+         <pre class="programlisting">&lt;pages&gt;
+      &lt;page view-id="/hello.jsp" action="#{helloWorld.sayHello}"&gt;
+          &lt;param name="firstName" value="#{person.firstName}"/&gt;
+          &lt;param name="lastName" value="#{person.lastName}"/&gt;
+      &lt;/page&gt;
+  &lt;/pages&gt;</pre>
+         <p>
+
+         </p>
+         <p>
+                  The <code class="literal">&lt;param&gt;</code> declaration is bidirectional, just
+                  like a value binding for a JSF input:
+              
+              </p>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p>
+                          When a non-faces (GET) request for the view id occurs, Seam sets 
+                          the value of the named request parameter onto the model object, 
+                          after performing appropriate type conversions.
+                      </p>
+               </li>
+               <li>
+                  <p>
+                          Any <code class="literal">&lt;s:link&gt;</code> or <code class="literal">&lt;s:button&gt;</code> 
+                          transparently includes the request parameter. The value of the parameter is 
+                          determined by evaluating the value binding during the render phase (when the 
+                          <code class="literal">&lt;s:link&gt;</code> is rendered).
+                      </p>
+               </li>
+               <li>
+                  <p>
+                          Any navigation rule with a <code class="literal">&lt;redirect/&gt;</code> to
+                          the view id transparently includes the request parameter. The value 
+                          of the parameter is determined by evaluating the value binding at
+                          the end of the invoke application phase.
+                      </p>
+               </li>
+               <li>
+                  <p>
+                          The value is transparently propagated with any JSF form submission
+                          for the page with the given view id. This means that view parameters
+                          behave like <code class="literal">PAGE</code>-scoped context variables for
+                          faces requests.
+                      </p>
+               </li>
+            </ul>
+         </div>
+         <p>
+      
+         </p>
+         <p>
+                  The essential idea behind all this is that <span class="emphasis">
+               <em>however</em>
+            </span>
+                  we get from any other page to <code class="literal">/hello.jsp</code> (or from 
+                  <code class="literal">/hello.jsp</code> back to <code class="literal">/hello.jsp</code>), 
+                  the value of the model attribute referred to in the value binding is
+                  "remembered", without the need for a conversation (or other server-side
+                  state).
+              </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch05s03.html">
+               <strong>Prev</strong>5.3. Page parameters</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch05s04.html">
+               <strong>Next</strong>5.4. Propagating request parameters</a>
+         </li>
+      </ul>
+   </body>
+</html>

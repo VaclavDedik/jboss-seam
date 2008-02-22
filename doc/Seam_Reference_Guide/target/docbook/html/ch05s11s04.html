@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>5.11.4. Using XML for exception handling</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch05s11.html" title="5.11. Managing exceptions"/>
+      <link rel="prev" href="ch05s11s03.html" title="5.11.3. Using annotations for exception handling"/>
+      <link rel="next" href="ch05s11s04s01.html" title="5.11.4.1. Suppressing exception logging"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch05s11s03.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch05s11s04s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h3 class="title">
+                     <a id="d0e4586"/>5.11.4. Using XML for exception handling</h3>
+               </div>
+            </div>
+         </div>
+         <p>
+            Since we can't add annotations to all the exception classes we are interested in,
+            Seam also lets us specify this functionality in <code class="literal">pages.xml</code>.
+        </p>
+         <pre class="programlisting">&lt;pages&gt;
+   
+   &lt;exception class="javax.persistence.EntityNotFoundException"&gt;
+      &lt;http-error error-code="404"/&gt;
+   &lt;/exception&gt;
+   
+   &lt;exception class="javax.persistence.PersistenceException"&gt;
+      &lt;end-conversation/&gt;
+      &lt;redirect view-id="/error.xhtml"&gt;
+          &lt;message&gt;Database access failed&lt;/message&gt;
+      &lt;/redirect&gt;
+   &lt;/exception&gt;
+   
+   &lt;exception&gt;
+      &lt;end-conversation/&gt;
+      &lt;redirect view-id="/error.xhtml"&gt;
+          &lt;message&gt;Unexpected failure&lt;/message&gt;
+      &lt;/redirect&gt;
+   &lt;/exception&gt;
+   
+&lt;/pages&gt;</pre>
+         <p>
+            The last <code class="literal">&lt;exception&gt;</code> declaration does not specify a class,
+            and is a catch-all for any exception for which handling is not otherwise specified
+            via annotations or in <code class="literal">pages.xml</code>.
+        </p>
+         <p>
+            You can also use EL to specify the <code class="literal">view-id</code> to redirect to.
+        </p>
+         <p>
+           You can also access the handled exception instance through EL, Seam places it in the
+           conversation context, e.g. to access the message of the exception:
+        </p>
+         <pre class="programlisting">...
+throw new AuthorizationException("You are not allowed to do this!");
+
+&lt;pages&gt;
+
+    &lt;exception class="org.jboss.seam.security.AuthorizationException"&gt;
+        &lt;end-conversation/&gt;
+        &lt;redirect view-id="/error.xhtml"&gt;
+            &lt;message severity="WARN"&gt;#{org.jboss.seam.handledException.message}&lt;/message&gt;
+        &lt;/redirect&gt;
+    &lt;/exception&gt;
+
+&lt;/pages&gt;</pre>
+         <p>
+           
+            <code class="literal">org.jboss.seam.handledException</code> holds the nested exception that
+           was actually handled by an exception handler. The outermost (wrapper) exception is 
+           also available, as <code class="literal">org.jboss.seam.exception</code>.
+         </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch05s11s03.html">
+               <strong>Prev</strong>5.11.3. Using annotations for exception handling</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch05s11s04s01.html">
+               <strong>Next</strong>5.11.4.1. Suppressing exception logging</a>
+         </li>
+      </ul>
+   </body>
+</html>

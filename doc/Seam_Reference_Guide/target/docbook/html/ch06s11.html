@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>6.11. Concurrent calls to conversational components</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="conversations.html" title="Chapter 6. Conversations and workspace management"/>
+      <link rel="prev" href="ch06s10.html" title="6.10. Conversational components and JSF component bindings"/>
+      <link rel="next" href="ch06s11s01.html" title="6.11.1. RichFaces Ajax"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch06s10.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch06s11s01.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e5351"/>6.11. Concurrent calls to conversational components</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+        A general discussion of concurrent calls to Seam components can be 
+        found in <a href="concurrency.html" title="3.1.10. Concurrency model">Section 3.1.10, “Concurrency model”</a>. Here we will discuss 
+        the most common situation in which you will encounter concurrency 
+        — accessing conversational components from AJAX requests.
+        We're going to discuss the options that a Ajax client library should
+        provide to control events originating at the client — and we'll
+        look at the options RichFaces gives you.
+      </p>
+         <p>
+        Conversational components don't allow real concurrent access therefore
+        Seam queues each request to process them serially.  This allows each
+        request to be executed in a deterministic fashion. However, a simple
+        queue isn't that great — firstly, if a method is, for some
+        reason, taking a very long time to complete, running it over and over
+        again whenever the client generates a request is bad idea (potential
+        for Denial of Service attacks), and, secondly, AJAX is often to used
+        to provide a quick status update to the user, so continuing to run the
+        action after a long time isn't useful. 
+      </p>
+         <p>
+        Therefore Seam queues the action event for a period of time (the 
+        concurrent request timeout); if it can't process the event in time, it 
+        creates a temporary conversation and prints out a message to the user to
+        let them know what's going on.  It's therefore very important not to
+        flood the server with AJAX events!
+      </p>
+         <p>
+        We can set a sensible default for the concurrent request timeout (in 
+        ms) in components.xml:
+      </p>
+         <pre class="programlisting">&lt;core:manager concurrent-request-timeout="500" /&gt;</pre>
+         <p>
+      So far we've discussed "synchronous" AJAX requests - the client tells the
+      server that an event has occur, and then rerenders part of the page based
+      on the result.  This approach is great when the AJAX request is
+      lightweight (the methods called are simple e.g. calculating the sum of a
+      column of numbers).  But what if we need to do a complex computation? 
+    </p>
+         <p>
+      For heavy computation we should use a truly asynchronous (poll based) 
+      approach — the client sends an AJAX request to the server, which
+      causes action to be executed asynchronously on the server (so the the
+      response to the client is immediate); the client then polls the server 
+      for updates.  This is useful when you have a long-running action for
+      which it is important that every action executes (you don't want some to
+      be dropped as duplicates, or to timeout).
+    </p>
+         <p>
+      
+            <span class="emphasis">
+               <em>How should we design our conversational AJAX application?</em>
+            </span>
+    
+         </p>
+         <p>
+      Well first, you need to decide whether you want to use the simpler 
+      "synchronous" request or whether you want to add using a poll-style
+      approach.
+    </p>
+         <p>
+      If you go for a "synchronous" approach, then you need to make an
+      estimate of how long your AJAX request will take to complete - is it much
+      shorter than the concurrent request timeout? If not, you probably want to
+      alter the concurrent request timeout for this method (as discussed 
+      above). Next you probably want a queue on the client side to prevent 
+      flooding the server with requests.  If the event occurs often (e.g. a 
+      keypress, onblur of input fields) and immediate update of the client is
+      not a priority you should set a request delay on the client side. When
+      working out your request delay, factor in that the event may also be
+      queued on the server side.
+    </p>
+         <p>
+      Finally, the client library may provide an option to abort unfinished
+      duplicate requests in favor of the most recent.  You need to be careful
+      with this option as it can lead to flooding of the server with requests
+      if the server is not able to abort the unfinished request.
+    </p>
+         <p>
+      Using a poll-style design requires less fine-tuning.  You just mark your
+      action method <code class="literal">@Asynchronous</code> and decide on a polling
+      interval:
+    </p>
+         <pre class="programlisting">int total;
+
+// This method is called when an event occurs on the client
+// It takes a really long time to execute
+@Asynchronous      
+public void calculateTotal() {
+   total = someReallyComplicatedCalculation();
+}
+
+// This method is called as the result of the poll
+// It's very quick to execute
+public int getTotal() {
+   return total;
+}</pre>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch06s10.html">
+               <strong>Prev</strong>6.10. Conversational components and JSF component...</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch06s11s01.html">
+               <strong>Next</strong>6.11.1. RichFaces Ajax</a>
+         </li>
+      </ul>
+   </body>
+</html>

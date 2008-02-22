@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>17.2. Receiving emails</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="mail.html" title="Chapter 17. Email"/>
+      <link rel="prev" href="ch17s01s07.html" title="17.1.7. Other Headers"/>
+      <link rel="next" href="ch17s03.html" title="17.3. Configuration"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch17s01s07.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch17s03.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h2 class="title">
+                     <a id="d0e12866"/>17.2. Receiving emails</h2>
+               </div>
+            </div>
+         </div>
+         <p>
+      If you are using EJB then you can use a MDB (Message Driven Bean) to 
+      receive email.  JBoss provides a JCA adaptor — 
+      <code class="literal">mail-ra.rar</code> — but the version distributed with
+      JBoss AS has a number of limitations (and isn't bundled in some versions)
+      therefore we recommend using the <code class="literal">mail-ra.rar</code> 
+      distributed with Seam is recommended (it's in the <code class="literal">mail</code>
+      directory in the Seam bundle).  <code class="literal">mail-ra.rar</code> should 
+      be placed in <code class="literal">$JBOSS_HOME/server/default/deploy</code>; if the
+      version of JBoss AS you use already has this file, replace it.
+    </p>
+         <p>
+      You can configure it like this:
+    </p>
+         <pre class="programlisting">@MessageDriven(activationConfig={
+    @ActivationConfigProperty(propertyName="mailServer", propertyValue="localhost"),
+    @ActivationConfigProperty(propertyName="mailFolder", propertyValue="INBOX"),
+    @ActivationConfigProperty(propertyName="storeProtocol", propertyValue="pop3"),
+    @ActivationConfigProperty(propertyName="userName", propertyValue="seam"),
+    @ActivationConfigProperty(propertyName="password", propertyValue="seam")
+})
+@ResourceAdapter("mail-ra.rar")
+@Name("mailListener")
+public class MailListenerMDB implements MailListener {
+
+    @In(create=true)
+    private OrderProcessor orderProcessor;
+
+    public void onMessage(Message message) {
+       // Process the message
+       orderProcessor.process(message.getSubject());
+    }
+   
+}</pre>
+         <p>
+      Each message received will cause <code class="literal">onMessage(Message message)</code> 
+      to be called.  Most Seam annotations will work inside a MDB but you 
+      musn't access the persistence context.
+    </p>
+         <p>
+      You can find more information on<code class="literal">mail-ra.rar</code>
+      at <a xmlns:xlink="http://www.w3.org/1999/xlink" href="http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail">http://wiki.jboss.org/wiki/Wiki.jsp?page=InboundJavaMail</a>.
+    </p>
+         <p>
+      If you aren't using JBoss AS you can still use <code class="literal">mail-ra.rar</code> 
+      or you may find your application server includes a similar adapter.
+    </p>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch17s01s07.html">
+               <strong>Prev</strong>17.1.7. Other Headers</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch17s03.html">
+               <strong>Next</strong>17.3. Configuration</a>
+         </li>
+      </ul>
+   </body>
+</html>

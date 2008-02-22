@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <title>32.2.1.2. Extra dependencies</title>
+      <link rel="stylesheet" href="css/jbossorg.css" type="text/css"/>
+      <meta name="generator" content="DocBook XSL Stylesheets V1.72.0"/>
+      <link rel="start" href="index.html" title="Seam - Contextual Components"/>
+      <link rel="up" href="ch32s02s01.html" title="32.2.1. Booking Example Dependencies"/>
+      <link rel="prev" href="ch32s02s01s01.html" title="32.2.1.1. Core Seam dependencies"/>
+      <link rel="next" href="ch32s02s02.html" title="32.2.2. Configuration file changes"/>
+   </head>
+   <body>
+      <p id="title">
+         <a href="http://www.jboss.org" class="jbossOrg_href">
+            <strong>
+						        JBoss.org	
+						</strong>
+         </a>
+         <a href="http://labs.jboss.com/projects/docs" class="commDoc_href">
+            <strong>
+						        Community Documentation	
+						</strong>
+         </a>
+      </p>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch32s02s01s01.html">
+               <strong>Prev</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch32s02s02.html">
+               <strong>Next</strong>
+            </a>
+         </li>
+      </ul>
+      <div class="section" lang="en">
+         <div class="titlepage">
+            <div>
+               <div>
+                  <h4 class="title">
+                     <a id="d0e21625"/>32.2.1.2. Extra dependencies</h4>
+               </div>
+            </div>
+         </div>
+         <div class="itemizedlist">
+            <ul>
+               <li>
+                  <p> Hibernate — of course, we decided to use
+                     Hibernate as the JPA provider (rather than TopLink
+                     Essentials which ships with OC4J). </p>
+                  <p> To use Hibernate as your JPA provider you need the
+                     following jars:
+                     </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li> 
+                           <code class="literal">hibernate.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">hibernate-annotations.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">hibernate-entitymanager.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">hibernate-validator.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">jboss-common-core.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">commons-logging.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">commons-collections.jar</code>
+                              
+                        </li>
+                     </ul>
+                  </div>
+                  <p> </p>
+               </li>
+               <li>
+                  <p> Third party jars — various jars needed for seam
+                     and this example to run.
+                     </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li> 
+                           <code class="literal">javaasist.jar</code>
+                              
+                        </li>
+                        <li> 
+                           <code class="literal">dom4j.jar</code>
+                              
+                        </li>
+                        <li> 
+                           <code class="literal">cglib.jar</code>
+                              
+                        </li>
+                        <li> 
+                           <code class="literal">asm.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">commons-beanutils.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">commons-digester.jar</code>
+                              
+                        </li>
+                        <li>
+                           <code class="literal">log4j.jar</code>
+                              — This can be left out if you are not going
+                              to configure log4j. If it is packaged but not
+                              configured logging will be hidden in oc4j.
+                              </li>
+                     </ul>
+                  </div>
+                  <p> </p>
+               </li>
+               <li>
+                  <p> Extra OC4J jars — Running Seam on most
+                     application servers (such as JBoss AS or Glassfish) you
+                     only need to include the dependencies for those bits of
+                     Seam you actually use (e.g. if you use Seam Text you need to
+                     include ANTLR); but, on OC4J, due to its "interesting"
+                     classloading you must always include them:
+                     </p>
+                  <div class="itemizedlist">
+                     <ul>
+                        <li>
+                              
+                           <code class="literal">hibernate-search.jar</code>
+                              
+                        </li>
+                        <li>
+                              
+                           <code class="literal">hibernate-common-annotations.jar</code>
+                              — needed for hibernate search
+                              </li>
+                        <li> 
+                           <code class="literal">lucene-core.jar</code>
+                              — needed for hibernate search
+                              </li>
+                        <li> 
+                           <code class="literal">antlr.jar</code>
+                              — needed for Seam Text </li>
+                        <li> 
+                           <code class="literal">jbpm-jpdl.jar</code>
+                              — needed for Seam's JBPM </li>
+                        <li> 
+                           <code class="literal">quartz.jar</code>
+                              
+                        </li>
+                        <li> 
+                           <code class="literal">dbunit.jar</code>
+                              — needed for some testing classes
+                              </li>
+                        <li>
+                              
+                           <code class="literal">jboss-embedded-api.jar</code>
+                              — needed for some testing classes
+                              </li>
+                        <li>
+                           <p> Drools — needed for Seam Security. We
+                              aren't using Seam security with Drools, but
+                              have to include it. Drools consists of 6 jars:
+                              </p>
+                           <div class="itemizedlist">
+                              <ul>
+                                 <li>
+                                       
+                                    <code class="literal">drools-core.jar</code>
+                                       
+                                 </li>
+                                 <li>
+                                       
+                                    <code class="literal">drools-compiler.jar</code>
+                                       
+                                 </li>
+                                 <li>
+                                       
+                                    <code class="literal">janino.jar</code>
+                                       
+                                 </li>
+                                 <li>
+                                       
+                                    <code class="literal">mvel141.jar</code>
+                                       
+                                 </li>
+                                 <li>
+                                       
+                                    <code class="literal">core.jar</code>
+                                       
+                                 </li>
+                                 <li>
+                                       
+                                    <code class="literal">antlr-runtime.jar</code>
+                                       
+                                 </li>
+                              </ul>
+                           </div>
+                           <p> Drools integration is not
+                              used in the example. </p>
+                        </li>
+                     </ul>
+                  </div>
+                  <p> </p>
+               </li>
+            </ul>
+         </div>
+      </div>
+      <ul class="docnav">
+         <li class="previous">
+            <a accesskey="p" href="ch32s02s01s01.html">
+               <strong>Prev</strong>32.2.1.1. Core Seam dependencies</a>
+         </li>
+         <li class="up">
+            <a accesskey="u" href="#">
+               <strong>Top of page</strong>
+            </a>
+         </li>
+         <li class="home">
+            <a accesskey="h" href="index.html">
+               <strong>Front page</strong>
+            </a>
+         </li>
+         <li class="next">
+            <a accesskey="n" href="ch32s02s02.html">
+               <strong>Next</strong>32.2.2. Configuration file changes</a>
+         </li>
+      </ul>
+   </body>
+</html>
