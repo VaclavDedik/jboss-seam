@@ -39,7 +39,7 @@
             description="Compile documentation for all languages and all formats.">
 
         <!-- TRANSLATOR: Duplicate this line for your language -->
-        <antcall target="lang.all"><param name="lang" value="en"/></antcall>
+        <antcall target="lang.all"><param name="lang" value="en-US"/></antcall>
 
     </target>
 
