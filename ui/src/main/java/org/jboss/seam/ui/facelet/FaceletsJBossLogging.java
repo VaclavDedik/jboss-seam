@@ -27,7 +27,7 @@ import com.sun.facelets.util.Resource;
 
 @Name("org.jboss.seam.ui.facelet.faceletsJBossLogging")
 @Scope(APPLICATION)
-@Install(classDependencies={"com.sun.facelets.Facelet", "org.jboss.logging.Logger", "org.apache.log4j.Logger"}, precedence=BUILT_IN)
+@Install(classDependencies={"com.sun.facelets.Facelet", "org.jboss.logging.Logger", "org.apache.log4j.Logger", "org.jboss.seam.interop.jul.Log4JConversionFilter"}, precedence=BUILT_IN)
 @Startup
 @BypassInterceptors
 public class FaceletsJBossLogging
