@@ -62,4 +62,11 @@
         <class name="org.jboss.seam.test.unit.InterpolatorTest"/>
      </classes>
    </test>
+
+   <test name="Seam Unit Tests: URL Rewrite">
+     <classes>
+        <class name="org.jboss.seam.test.unit.web.RewriteTest" />
+     </classes>
+   </test>
+
 </suite>
