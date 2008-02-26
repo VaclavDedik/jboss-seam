@@ -10,13 +10,12 @@ import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.faces.Redirect;
 import org.jboss.seam.wiki.core.action.DirectoryHome;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
-import org.jboss.seam.faces.Redirect;
 import org.testng.annotations.Test;
 
 public class BasicNodeOperations extends DBUnitSeamTest {
@@ -55,7 +54,6 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 assert dirHome.getChildDocuments().size() == 1;
                 assert dirHome.getMenuItems().size() == 0;
                 assert dirHome.getAvailableMenuItems().size() == 0;
-                assert dirHome.getChildNodes().size() == 1;
             }
 
         }.run();
@@ -132,6 +130,31 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 assert newNode.getLastModifiedOn() == null;
                 assert newNode.getTags().size() == 0;
                 assert checkDocumentInDatabase(newNode.getId());
+            }
+
+        }.run();
+    }
+
+    @Test
+    public void createDocumentTooMuchContent() throws Exception {
+
+        final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
+            protected void beforeRequest() {
+                setParameter("parentDirectoryId", "3");
+            }
+        }.run();
+
+        new FacesRequest("/docEdit_d.xhtml") {
+
+            protected void beforeRequest() {
+                setParameter("cid", conversationId);
+            }
+
+            protected void processValidations() throws Exception {
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i <= 40000; i++) builder.append("a");
+                validateValue("#{documentHome.formContent}", builder.toString());
+                assert isValidationFailure();
             }
 
         }.run();

@@ -22,6 +22,7 @@ import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.renderer.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.preferences.Preferences;
+import org.hibernate.validator.Length;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import java.util.*;
@@ -331,6 +332,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
     /* -------------------------- Public Features ------------------------------ */
 
+    // TODO: We need to duplicate this here, otherwise it will only validated on persist(): http://jira.jboss.com/jira/browse/JBSEAM-2671
+    @Length(min = 0, max = 32768)
     public String getFormContent() {
         // Load the document content and resolve links
         if (formContent == null) syncInstanceToFormContent(getParentNode());
