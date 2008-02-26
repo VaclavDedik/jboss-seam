@@ -283,6 +283,12 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-validator</artifactId>
         <version>3.0.0.GA</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
