@@ -9,7 +9,6 @@ import static org.jboss.seam.ui.util.HTML.SCRIPT_TYPE_TEXT_JAVASCRIPT;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -35,7 +34,7 @@ public abstract class CommandButtonParameterRendererBase extends RendererBase
    {
       UIComponent actionComponent = component.getParent();
       String actionComponentId = actionComponent.getClientId(context); 
-      UIForm form = getUtils().getForm(actionComponent);
+      UIComponent form = getUtils().getForm(actionComponent);
       UIParameter parameter = (UIParameter) component;
       if (getUtils().isCommandButton(actionComponent))
       { 

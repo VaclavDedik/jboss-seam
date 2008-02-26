@@ -9,7 +9,6 @@ import static org.jboss.seam.ui.util.HTML.SCRIPT_TYPE_TEXT_JAVASCRIPT;
 import java.io.IOException;
 
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIForm;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -37,7 +36,7 @@ public class DefaultActionRendererBase extends RendererBase
    {
       UIComponent actionComponent = component.getParent();
       String actionComponentId = actionComponent.getClientId(context); 
-      UIForm form = getUtils().getForm(actionComponent);
+      UIComponent form = getUtils().getForm(actionComponent);
       if (form == null)
       {
          log.warn("Must embed default action inside a form");
