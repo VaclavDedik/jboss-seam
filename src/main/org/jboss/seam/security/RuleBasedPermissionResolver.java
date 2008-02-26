@@ -29,7 +29,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.management.JpaIdentityStore;
-import org.jboss.seam.security.management.SecurityContext;
 import org.jboss.seam.security.management.UserAccount;
 
 @Name("org.jboss.seam.security.ruleBasedPermissionResolver")
@@ -241,9 +240,7 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       if (Contexts.isEventContextActive() && Contexts.isSessionContextActive() &&
             Contexts.getEventContext().isSet(JpaIdentityStore.AUTHENTICATED_USER))
       {
-         SecurityContext context = new SecurityContext();
-         context.setUserAccount((UserAccount) Contexts.getEventContext().get(JpaIdentityStore.AUTHENTICATED_USER));
-         getSecurityContext().insert(context);
+         getSecurityContext().insert(Contexts.getEventContext().get(JpaIdentityStore.AUTHENTICATED_USER));
       }
    }
 }

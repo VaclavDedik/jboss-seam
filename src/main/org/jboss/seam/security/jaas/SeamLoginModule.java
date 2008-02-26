@@ -117,7 +117,7 @@ public class SeamLoginModule implements LoginModule
       
       // Otherwise if identity management is enabled, use it.
       IdentityManager identityManager = IdentityManager.instance();
-      if (identityManager != null && identityManager.getIdentityStore() != null)
+      if (identityManager != null && identityManager.isEnabled())
       {
          Identity identity = Identity.instance();
          

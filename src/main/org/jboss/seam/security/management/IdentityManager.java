@@ -38,7 +38,8 @@ public class IdentityManager
    
    private static final LogProvider log = Logging.getLogProvider(IdentityManager.class);   
    
-   private IdentityStore identityStore;   
+   private IdentityStore userIdentityStore;
+   private IdentityStore roleIdentityStore;
    
    @Create
    public void create()
@@ -48,12 +49,22 @@ public class IdentityManager
    
    protected void initIdentityStore()
    {
-      if (identityStore == null)
+      if (userIdentityStore == null)
       {
-         identityStore = (IdentityStore) Component.getInstance(IDENTITY_STORE_COMPONENT_NAME, true);
+         userIdentityStore = (IdentityStore) Component.getInstance(IDENTITY_STORE_COMPONENT_NAME, true);
       }
       
-      if (identityStore == null)
+      if (roleIdentityStore == null)
+      {
+         roleIdentityStore = (IdentityStore) Component.getInstance(IDENTITY_STORE_COMPONENT_NAME, true);
+      }      
+
+      if (roleIdentityStore == null && userIdentityStore != null)
+      {
+         roleIdentityStore = userIdentityStore;
+      }            
+      
+      if (userIdentityStore == null || roleIdentityStore == null)
       {
          log.warn("no identity store available - please install an IdentityStore with the name '" +
                IDENTITY_STORE_COMPONENT_NAME + "' if identity management is required.");
@@ -81,78 +92,78 @@ public class IdentityManager
    public boolean createUser(String name, String password)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_CREATE);
-      return identityStore.createUser(name, password); 
+      return userIdentityStore.createUser(name, password); 
    }
    
    public boolean deleteUser(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_DELETE);
-      return identityStore.deleteUser(name);
+      return userIdentityStore.deleteUser(name);
    }
    
    public boolean enableUser(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
-      return identityStore.enableUser(name);
+      return userIdentityStore.enableUser(name);
    }
    
    public boolean disableUser(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
-      return identityStore.disableUser(name);
+      return userIdentityStore.disableUser(name);
    }
    
    public boolean changePassword(String name, String password)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
-      return identityStore.changePassword(name, password);
+      return userIdentityStore.changePassword(name, password);
    }
    
    public boolean isUserEnabled(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
-      return identityStore.isUserEnabled(name);
+      return userIdentityStore.isUserEnabled(name);
    }
    
    public boolean grantRole(String name, String role)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
-      return identityStore.grantRole(name, role);
+      return roleIdentityStore.grantRole(name, role);
    }
    
    public boolean revokeRole(String name, String role)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
-      return identityStore.revokeRole(name, role);
+      return roleIdentityStore.revokeRole(name, role);
    }
    
    public boolean createRole(String role)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_CREATE);
-      return identityStore.createRole(role);
+      return roleIdentityStore.createRole(role);
    }
    
    public boolean deleteRole(String role)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_DELETE);
-      return identityStore.deleteRole(role);
+      return roleIdentityStore.deleteRole(role);
    }
    
    public boolean userExists(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
-      return identityStore.userExists(name);
+      return userIdentityStore.userExists(name);
    }
    
    public boolean roleExists(String name)
    {
-      return identityStore.roleExists(name);      
+      return roleIdentityStore.roleExists(name);      
    }
    
    public List<String> listUsers()
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
-      List<String> users = identityStore.listUsers();      
+      List<String> users = userIdentityStore.listUsers();      
       
       Collections.sort(users, new Comparator<String>() {
          public int compare(String value1, String value2) {
@@ -166,7 +177,7 @@ public class IdentityManager
    public List<String> listUsers(String filter)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
-      List<String> users = identityStore.listUsers(filter);
+      List<String> users = userIdentityStore.listUsers(filter);
       
       Collections.sort(users, new Comparator<String>() {
          public int compare(String value1, String value2) {
@@ -179,7 +190,7 @@ public class IdentityManager
    
    public List<String> listRoles()
    {      
-      List<String> roles = identityStore.listRoles();
+      List<String> roles = roleIdentityStore.listRoles();
       
       Collections.sort(roles, new Comparator<String>() {
          public int compare(String value1, String value2) {
@@ -192,27 +203,42 @@ public class IdentityManager
    
    public List<String> getGrantedRoles(String name)
    {
-      return identityStore.getGrantedRoles(name);
+      return roleIdentityStore.getGrantedRoles(name);
    }
    
    public List<String> getImpliedRoles(String name)
    {
-      return identityStore.getImpliedRoles(name);
+      return roleIdentityStore.getImpliedRoles(name);
    }
    
    public boolean authenticate(String username, String password)
    {
-      return identityStore.authenticate(username, password);
+      return userIdentityStore.authenticate(username, password);
    }
    
-   public IdentityStore getIdentityStore()
+   public IdentityStore getUserIdentityStore()
    {
-      return identityStore;
+      return userIdentityStore;
    }
    
-   public void setIdentityStore(IdentityStore identityStore)
+   public void setIdentityStore(IdentityStore userIdentityStore)
    {
-      this.identityStore = identityStore;
+      this.userIdentityStore = userIdentityStore;
+   }
+   
+   public IdentityStore getRoleIdentityStore()
+   {
+      return roleIdentityStore;
+   }
+   
+   public void setRoleIdentityStore(IdentityStore roleIdentityStore)
+   {
+      this.roleIdentityStore = roleIdentityStore;
+   }
+   
+   public boolean isEnabled()
+   {
+      return userIdentityStore != null && roleIdentityStore != null;
    }
    
 }
