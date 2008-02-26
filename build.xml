@@ -46,7 +46,7 @@
 	<!-- Documentation -->
 	<property name="doc.dir" value="doc" />
 	<property name="doc.api.dir" value="${doc.dir}/api" />
-	<property name="doc.ref.dir" value="${doc.dir}/reference" />
+	<property name="doc.ref.dir" value="${doc.dir}/Seam_Reference_Guide" />
 	<property name="javadoc.link" value="http://java.sun.com/j2se/5.0/docs/api" />
 
 	<!-- Distribution targets -->
@@ -146,6 +146,7 @@
 		<delete dir="${report.dir}" quiet="${quietclean}" />
 		<delete dir="${coverage.dir}" quiet="${quietclean}" />
 		<delete dir="${ui.dir}/target" quiet="${quietclean}"/>
+		<delete dir="${doc.ref.dir}/target" quiet="${quietclean}" />
 		<cleanexample name="integration" path="${seam.dir}/src/test/integration" message="" />
 	</target>
 	
@@ -592,16 +593,12 @@
 	</target>
 
 	<target name="refdoc" description="Generate and copy reference documentation">
-
-		<copy todir="${doc.ref.dir}/build">
-			<fileset dir="${doc.ref.dir}" />
-		</copy>
-		<replace dir="${doc.ref.dir}/build" token="@version@" value="${complete.version}" />
-		<ant dir="${doc.ref.dir}/build" inheritall="false" target="all.doc" />
+		<maven target="compile" basedir="${doc.ref.dir}">
+			<jvmarg line="-Xms128m -Xmx512m" />
+		</maven>
 		<copy todir="${dist.ref.dir}">
-			<fileset dir="${doc.ref.dir}/build/build" />
+			<fileset dir="${doc.ref.dir}/target/docbook" />
 		</copy>
-		<delete dir="${doc.ref.dir}/build" />
 	</target>
 
 
