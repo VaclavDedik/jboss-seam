@@ -519,7 +519,6 @@
 			<fileset refid="seam.ioc.jar" />
 			<fileset refid="seam.mail.jar" />
 			<fileset refid="seam.pdf.jar" />
-			<fileset refid="seam.remoting.jar" />
 			<fileset refid="seam.ui.jar" />
 			<fileset refid="facelets.jar" />
 			<fileset refid="urlrewrite.jar" />
@@ -566,7 +565,7 @@
 	<!-- Build the exploded ear -->
 	<target name="ear">
 		<copy todir="${ear.dir}">
-			<fileset refid="seam.jar" />
+			<fileset refid="seam.jar" />		
 			<fileset refid="ear.extras" />
 			<fileset refid="ear.resources" />
 		</copy>
@@ -589,6 +588,7 @@
 			<fileset refid="wicket-extensions.jar" />
 			<fileset refid="wicket-datetime.jar" />
 			<fileset refid="seam.wicket.jar" />
+			<fileset refid="seam.remoting.jar" />			
 			<mapper type="flatten" />
 		</copy>
 	</target>
