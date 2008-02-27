@@ -16,7 +16,7 @@
             <s:fragment>
 
                     <a:commandLink action="#{directoryBrowser.showTree}" tabindex="1"
-                                   reRender="#{renderOnSelect}, directoryBrowserPath"
+                                   reRender="#{renderOnSelect}"
                                    rendered="#{not directoryBrowserSettings.treeVisible}"
                                    status="globalStatus">
                         <h:graphicImage value="#{themePath}/img/menu_right.gif" width="18" height="18"/>
