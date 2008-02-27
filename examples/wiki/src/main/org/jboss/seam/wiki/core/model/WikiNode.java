@@ -27,7 +27,7 @@ import java.util.Date;
 public abstract class WikiNode<N extends WikiNode> implements Comparable {
 
     public static enum SortableProperty {
-        name, createdOn, lastModifiedOn, rating
+        name, createdOn, createdBy, lastModifiedOn, lastModifiedBy, rating
     }
 
     @Id

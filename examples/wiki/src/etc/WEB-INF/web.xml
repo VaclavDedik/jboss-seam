@@ -4,6 +4,19 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
+    <!--
+        (This resolves the not-thrown ViewExpiredException on session timeout and JSF POSTback.)
+        I have got a lot of times to understand JSF 1.2 implementation code. As I guess from code,
+        JSF 1.2 detect ViewHandler/StateManager version from faces-config.xml DTD/XML schema name.
+        We can't switch RichFaces 3.1.x configuration files to a JSF 1.2 format, as far as it will
+        completely break JSF 1.1 compatibility. Fortunately, there is workaround for a SUN RI framework.
+        Just put into application web.xml. It will switch framework to a JSF 1.2 behavior.
+    -->
+    <context-param>
+        <param-name>com.sun.faces.disableVersionTracking</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <!-- Seam -->
 
     <listener>

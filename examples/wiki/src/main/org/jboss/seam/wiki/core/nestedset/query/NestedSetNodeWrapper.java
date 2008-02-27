@@ -51,7 +51,8 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
     Comparator<NestedSetNodeWrapper<N>> comparator;
     Long level;
     Map<String, Object> additionalProjections = new HashMap<String, Object>();
-    public boolean childrenLoaded = false;
+    Map<Long, NestedSetNodeWrapper<N>> flatTree = new LinkedHashMap<Long, NestedSetNodeWrapper<N>>();
+    Object payload;
 
     public NestedSetNodeWrapper(N wrappedNode) {
         this(
@@ -97,7 +98,6 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
 
     void setWrappedParent(NestedSetNodeWrapper<N> wrappedParent) {
         this.wrappedParent = wrappedParent;
-        childrenLoaded = true;
     }
 
     public List<NestedSetNodeWrapper<N>> getWrappedChildren() {
@@ -110,7 +110,6 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
 
     void addWrappedChild(NestedSetNodeWrapper<N> wrappedChild) {
         getWrappedChildren().add(wrappedChild);
-        childrenLoaded = true;
     }
 
     public Comparator<NestedSetNodeWrapper<N>> getComparator() {
@@ -131,6 +130,18 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
         return wrappedChildrenSorted;
     }
 
+    public Map<Long, NestedSetNodeWrapper<N>> getFlatTree() {
+        return flatTree;
+    }
+
+    public Object getPayload() {
+        return payload;
+    }
+
+    public void setPayload(Object payload) {
+        this.payload = payload;
+    }
+
     // This is needed because JSF converters for selectitems need to return an equal() instance to
     // the selected item of the selectitems collection. This sucks.
     public boolean equals(Object o) {
@@ -139,9 +150,8 @@ public class NestedSetNodeWrapper<N extends NestedSetNode> {
 
         NestedSetNodeWrapper that = (NestedSetNodeWrapper) o;
 
-        if (!wrappedNode.getId().equals(that.wrappedNode.getId())) return false;
+        return wrappedNode.getId().equals(that.wrappedNode.getId());
 
-        return true;
     }
 
     public int hashCode() {

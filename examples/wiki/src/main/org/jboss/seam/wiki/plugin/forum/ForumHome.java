@@ -17,7 +17,7 @@ import java.util.List;
 @Scope(ScopeType.CONVERSATION)
 public class ForumHome extends DirectoryHome {
 
-    @In
+    @In(create = true)
     ForumDAO forumDAO;
 
     @In

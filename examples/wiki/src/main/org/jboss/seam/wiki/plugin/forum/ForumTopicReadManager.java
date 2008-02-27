@@ -26,7 +26,6 @@ import java.util.HashSet;
  */
 @Name("forumTopicReadManager")
 @Scope(ScopeType.SESSION)
-@AutoCreate
 public class ForumTopicReadManager implements Serializable {
 
     Map<Long, Set<Long>> readTopics = new HashMap<Long, Set<Long>>();

@@ -70,7 +70,7 @@ public class JiraConnector implements JiraIssueListConnector {
             log.warn("URL is not valid: " + url);
             return null;
         } catch (Exception ex) {
-            log.error("couldn't connect to remote JIRA webservice: " + url + RPC_PATH, ex);
+            log.warn("couldn't connect to remote JIRA webservice: " + url + RPC_PATH + ", " + ex.getMessage());
             return null;
         }
     }
@@ -79,7 +79,7 @@ public class JiraConnector implements JiraIssueListConnector {
         try {
             return (Boolean) client.execute("jira1.logout", wrapLoginToken(loginToken));
         } catch (XmlRpcException rpcEx) {
-            log.error("could not logout from JIRA webservice", rpcEx);
+            log.warn("couldn't disconnect from remote JIRA webservice, " + rpcEx.getMessage());
         }
         return false;
     }

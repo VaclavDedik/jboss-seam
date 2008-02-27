@@ -89,15 +89,15 @@ public class RomeFeedConnector implements FeedConnector {
             return feedEntryDTOs;
 
         } catch (SocketTimeoutException timeoutEx) {
-            log.warn("timeout connecting to feed: " + feedURL, timeoutEx);
+            log.warn("timeout connecting to feed: " + feedURL + ", " + timeoutEx.getMessage());
         } catch (IllegalArgumentException iaEx) {
-            log.warn("could not connect to feed: " + feedURL, iaEx);
+            log.warn("could not connect to feed: " + feedURL + ", " + iaEx.getMessage());
         } catch (MalformedURLException urlEx) {
-            log.warn("URL is not valid: " + feedURL, urlEx);
+            log.warn("URL is not valid: " + feedURL + ", " + urlEx.getMessage());
         } catch (IOException ioEx) {
-            log.warn("could not connect to feed: " + feedURL, ioEx);
+            log.warn("could not connect to feed: " + feedURL + ", " + ioEx.getMessage());
         } catch (FeedException fex) {
-            log.warn("could not marshall feed data: " + feedURL, fex);
+            log.warn("could not marshall feed data: " + feedURL + ", " + fex.getMessage());
         }
         return Collections.EMPTY_LIST;
     }

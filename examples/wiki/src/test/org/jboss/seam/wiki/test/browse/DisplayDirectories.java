@@ -8,6 +8,7 @@ package org.jboss.seam.wiki.test.browse;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.action.DirectoryHome;
+import org.jboss.seam.wiki.core.action.DirectoryBrowser;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
@@ -34,15 +35,15 @@ public class DisplayDirectories extends DBUnitSeamTest {
                 WikiDocument doc = (WikiDocument)getValue("#{currentDocument}");
                 assert doc == null;
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                WikiDirectory dir = dirHome.getInstance();
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                WikiDirectory dir = browser.getInstance();
                 assert dir != null;
                 assert dir.getId().equals(2l);
                 assert dir.getArea().getId().equals(2l);
 
-                assert dirHome.getChildNodes().size() == 1;
+                assert browser.getChildNodes().size() == 1;
 
-                assert dirHome.isRemovable(dirHome.getChildNodes().get(0));
+                assert browser.isRemovable(browser.getChildNodes().get(0));
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }
@@ -63,14 +64,14 @@ public class DisplayDirectories extends DBUnitSeamTest {
                 WikiDocument doc = (WikiDocument)getValue("#{currentDocument}");
                 assert doc == null;
 
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                WikiDirectory dir = dirHome.getInstance();
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                WikiDirectory dir = browser.getInstance();
                 assert dir != null;
                 assert dir.getId().equals(4l);
 
-                assert dirHome.getChildNodes().size() == 1;
+                assert browser.getChildNodes().size() == 1;
 
-                assert dirHome.isRemovable(dirHome.getChildNodes().get(0));
+                assert browser.isRemovable(browser.getChildNodes().get(0));
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }

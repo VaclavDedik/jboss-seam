@@ -11,22 +11,24 @@ import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.transform.ResultTransformer;
-import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.action.Pager;
+import org.jboss.seam.ScopeType;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Christian Bauer
  */
 @Name("blogDAO")
-@AutoCreate
-public class BlogDAO {
+@Scope(ScopeType.CONVERSATION)
+public class BlogDAO implements Serializable {
 
     @In
     EntityManager restrictedEntityManager;

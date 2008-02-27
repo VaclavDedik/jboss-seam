@@ -98,6 +98,9 @@
             <value>i18n.messages_feedAggregator</value>
             <value>i18n.messages_feedConnector</value>
             <value>i18n.messages_forumTopPosters</value>
+            <!--
+            <value>i18n.messages_dirToc</value>
+            -->
         </core:bundle-names>
     </core:resource-loader>
 

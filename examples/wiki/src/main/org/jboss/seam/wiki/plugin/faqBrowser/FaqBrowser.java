@@ -23,13 +23,12 @@ import java.io.Serializable;
  */
 @Name("faqBrowser")
 @Scope(ScopeType.PAGE)
-@AutoCreate
 public class FaqBrowser implements Serializable {
 
     @Logger
     Log log;
 
-    @In
+    @In(create = true)
     FaqBrowserDAO faqBrowserDAO;
 
     @In

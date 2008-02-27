@@ -44,9 +44,7 @@
         <navigation>
             <rule if-outcome="exit">
                 <end-conversation before-redirect="true"/>
-                <redirect view-id="/docDisplay_#{skin}.xhtml">
-                    <param name="documentId" value="#{documentHistory.currentFile.id}"/>
-                </redirect>
+                <redirect url="#{wikiURLRenderer.renderURL(documentHistory.currentFile)}"/>
             </rule>
             <rule if-outcome="purgedHistory">
                 <end-conversation before-redirect="true"/>
@@ -92,11 +90,11 @@
     </page>
 
     <page view-id="/dirDisplay*">
-        <param name="directoryId" value="#{directoryHome.nodeId}"/>
+        <param name="directoryId" value="#{directoryBrowser.directoryId}"/>
         <navigation>
             <rule if-outcome="removed">
                 <redirect view-id="/dirDisplay_#{skin}.xhtml">
-                    <param name="directoryId" value="#{directoryHome.nodeId}"/>
+                    <param name="directoryId" value="#{directoryBrowser.directoryId}"/>
                 </redirect>
             </rule>
         </navigation>
@@ -111,7 +109,9 @@
         <navigation>
             <rule if-outcome="exitManaged">
                 <end-conversation before-redirect="true"/>
-                <redirect view-id="/dirDisplay_#{skin}.xhtml"/>
+                <redirect view-id="/dirDisplay_#{skin}.xhtml">
+                    <param name="directoryId" value="#{directoryHome.nodeId}"/>
+                </redirect>
             </rule>
             <rule if-outcome="exitUnmanaged">
                 <end-conversation before-redirect="true"/>
@@ -342,10 +342,9 @@
 
 
     <exception class="javax.faces.application.ViewExpiredException">
-        <!-- TODO: This is never thrown by JSF, Richfaces is the problem!-->
         <end-conversation/>
         <redirect view-id="/wiki.xhtml">
-            <message>Your session has timed out, please try again</message>
+            <message severity="WARN">#{messages['lacewiki.msg.SessionTimeoutOccured']}</message>
         </redirect>
     </exception>
 

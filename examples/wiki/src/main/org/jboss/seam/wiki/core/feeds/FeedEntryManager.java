@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.feeds;
 
 import org.jboss.seam.wiki.core.model.FeedEntry;
@@ -14,6 +20,9 @@ import org.jboss.seam.annotations.In;
 import antlr.ANTLRException;
 import antlr.RecognitionException;
 
+/**
+ * @author Christian Bauer
+ */
 @Scope(ScopeType.APPLICATION)
 public abstract class FeedEntryManager<M, FE extends FeedEntry> {
 

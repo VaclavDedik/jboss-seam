@@ -15,7 +15,7 @@ import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 @Scope(ScopeType.CONVERSATION)
 public class FaqQuestionHome extends DocumentHome {
 
-    @In
+    @In(create = true)
     FaqBrowser faqBrowser;
 
     private boolean showForm = false;

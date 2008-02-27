@@ -8,13 +8,13 @@ package org.jboss.seam.wiki.test.editing;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
-import org.jboss.seam.wiki.core.action.DocumentHome;
-import org.jboss.seam.wiki.core.action.DirectoryHome;
-import org.jboss.seam.wiki.core.action.UploadHome;
-import org.jboss.seam.wiki.core.action.PreferenceEditor;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
+import org.jboss.seam.wiki.core.action.PreferenceEditor;
+import org.jboss.seam.wiki.core.action.DocumentHome;
+import org.jboss.seam.wiki.core.action.DirectoryBrowser;
+import org.jboss.seam.wiki.core.action.UploadHome;
 import org.jboss.seam.wiki.preferences.PreferenceValue;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceRegistry;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
@@ -113,11 +113,11 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
 
-                assert dirHome.getChildNodes().size() == 1;
-                assert dirHome.getChildNodes().get(0).getId().equals(6l);
+                assert browser.getChildNodes().size() == 1;
+                assert browser.getChildNodes().get(0).getId().equals(6l);
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }
@@ -130,9 +130,10 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
-                dirHome.emptyTrash();
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
+
+                browser.emptyTrash();
             }
         }.run();
 
@@ -143,10 +144,10 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
 
-                assert dirHome.getChildNodes().size() == 0;
+                assert browser.getChildNodes().size() == 0;
 
                 WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 assert dao.findWikiNode(6l) == null;
@@ -208,11 +209,11 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
 
-                assert dirHome.getChildNodes().size() == 1;
-                assert dirHome.getChildNodes().get(0).getId().equals(9l);
+                assert browser.getChildNodes().size() == 1;
+                assert browser.getChildNodes().get(0).getId().equals(9l);
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }
@@ -225,9 +226,10 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
-                dirHome.emptyTrash();
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
+
+                browser.emptyTrash();
             }
         }.run();
 
@@ -238,10 +240,10 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
 
-                assert dirHome.getChildNodes().size() == 0;
+                assert browser.getChildNodes().size() == 0;
 
                 WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 assert dao.findWikiNode(9l) == null;
@@ -285,11 +287,11 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
 
-                assert dirHome.getChildNodes().size() == 1;
-                assert dirHome.getChildNodes().get(0).getId().equals(30l);
+                assert browser.getChildNodes().size() == 1;
+                assert browser.getChildNodes().get(0).getId().equals(30l);
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }
@@ -302,9 +304,10 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
-                dirHome.emptyTrash();
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
+
+                browser.emptyTrash();
             }
         }.run();
 
@@ -315,9 +318,10 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
 
-                assert dirHome.getChildNodes().size() == 0;
+                assert browser.getChildNodes().size() == 0;
 
                 WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 assert dao.findWikiNode(30l) == null;
@@ -337,12 +341,13 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(2l); // Init!
-                assert dirHome.getChildNodes().size() == 3;
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
+
+                assert browser.getChildNodes().size() == 3;
 
                 boolean found = false;
-                for (WikiNode node : dirHome.getChildNodes()) found = node.getId().equals(9l);
+                for (WikiNode node : browser.getChildNodes()) found = node.getId().equals(9l);
                 assert found;
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
@@ -370,11 +375,11 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
 
-                assert dirHome.getChildNodes().size() == 1;
-                assert dirHome.getChildNodes().get(0).getId().equals(9l);
+                assert browser.getChildNodes().size() == 1;
+                assert browser.getChildNodes().get(0).getId().equals(9l);
 
                 assert getRenderedViewId().equals("/dirDisplay_d.xhtml");
             }
@@ -387,9 +392,10 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
-                dirHome.emptyTrash();
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
+
+                browser.emptyTrash();
             }
         }.run();
 
@@ -400,10 +406,10 @@ public class TrashTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome dirHome = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert dirHome.getInstance().getId().equals(17l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(17l); // Init!
 
-                assert dirHome.getChildNodes().size() == 0;
+                assert browser.getChildNodes().size() == 0;
 
                 WikiNodeDAO dao = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 assert dao.findWikiNode(9l) == null;

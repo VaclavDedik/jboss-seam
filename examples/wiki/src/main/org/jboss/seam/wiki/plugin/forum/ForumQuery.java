@@ -53,7 +53,7 @@ public class ForumQuery implements Serializable {
     @In
     int currentAccessLevel;
 
-    @In
+    @In(create = true)
     ForumDAO forumDAO;
 
     /* ####################### FORUMS ########################## */

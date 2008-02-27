@@ -18,13 +18,13 @@
 <ui:define name="controlTwo">
 
     <s:link id="exitManaged" styleClass="linkNavigation sessionEventTrigger" rendered="#{directoryHome.managed}" action="exitManaged"
-            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
-        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
     </s:link>
 
     <s:link id="exitUnmanaged" styleClass="linkNavigation sessionEventTrigger" rendered="#{!directoryHome.managed}" action="exitUnmanaged"
-            accesskey="#{messages['lacewiki.button.ExitEditor.accesskey']}">
-        <h:outputText escape="false" value="#{messages['lacewiki.button.ExitEditor']}"/>
+            accesskey="#{messages['lacewiki.button.Close.accesskey']}">
+        <h:outputText escape="false" value="#{messages['lacewiki.button.Close']}"/>
     </s:link>
 
 </ui:define>

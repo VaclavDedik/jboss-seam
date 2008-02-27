@@ -261,6 +261,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     }
 
     public boolean isRemovable() {
+        getLog().debug("checking removability of current instance");
         return isManaged() &&
                 getNodeRemover() != null &&
                 getNodeRemover().isRemovable(getInstance());

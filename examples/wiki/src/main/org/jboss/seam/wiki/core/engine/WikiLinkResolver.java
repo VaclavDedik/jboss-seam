@@ -166,4 +166,8 @@ public interface WikiLinkResolver {
      */
     public void resolveLinkText(Long currentAreaNumber, Map<String, WikiLink> links, String linkText);
 
+    public Long resolveWikiDirectoryId(Long currentAreaNumber, String linkText);
+
+    public Long resolveWikiDocumentId(Long currentAreaNumber, String linktext);
+
 }

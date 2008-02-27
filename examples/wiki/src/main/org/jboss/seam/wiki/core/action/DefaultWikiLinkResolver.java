@@ -13,6 +13,7 @@ import org.jboss.seam.wiki.util.WikiUtil;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -227,6 +228,28 @@ public class DefaultWikiLinkResolver implements WikiLinkResolver {
             }
         }
         links.put(linkText, wikiLink);
+    }
+
+    public Long resolveWikiDirectoryId(Long currentAreaNumber, String linkText) {
+        WikiFile f = resolveWikiFile(currentAreaNumber, linkText);
+        return f != null ? f.getParent().getId() : null;
+    }
+
+    public Long resolveWikiDocumentId(Long currentAreaNumber, String linkText) {
+        WikiFile f = resolveWikiFile(currentAreaNumber, linkText);
+        return f != null ? f.getId() : null;
+    }
+
+    private WikiFile resolveWikiFile(Long currentAreaNumber, String linkText) {
+        if (linkText == null || linkText.length() == 0) return null;
+        Map<String, WikiLink> resolvedLinks = new HashMap<String, WikiLink>();
+        resolveLinkText(currentAreaNumber, resolvedLinks, linkText);
+        WikiLink resolvedLink = resolvedLinks.get(linkText);
+        if (resolvedLink.isBroken() || resolvedLink.getFile().getId() == null) {
+            return null;
+        } else {
+            return resolvedLink.getFile();
+        }
     }
 
     private Matcher getCrossAreaMatcher(String linkText) {

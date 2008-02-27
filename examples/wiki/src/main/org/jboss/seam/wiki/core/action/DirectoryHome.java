@@ -8,24 +8,25 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
-import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
+import org.jboss.seam.wiki.core.model.WikiMenuItem;
+import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.faces.application.FacesMessage;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-import static javax.faces.application.FacesMessage.SEVERITY_WARN;
 import java.util.*;
 
 /**
- * TODO: This class is turning into a maintenance nightmare, split
- * directory browser and editor functionality.
+ * Directory editor functionality.
  *
  * @author Christian Bauer
  */
@@ -33,26 +34,14 @@ import java.util.*;
 @Scope(ScopeType.CONVERSATION)
 public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
-
     /* -------------------------- Context Wiring ------------------------------ */
 
     @In
     protected FeedDAO feedDAO;
 
-    @In
-    protected Clipboard clipboard;
-
-    @In
-    @Out(scope = ScopeType.CONVERSATION) // Helps us use this home with page and conversation contexts
-    protected Pager pager;
-
     /* -------------------------- Internal State ------------------------------ */
 
     private boolean hasFeed;
-
-    private List<WikiNode> childNodes;
-
-    private Map<WikiNode, Boolean> selectedNodes = new HashMap<WikiNode,Boolean>();
 
     private List<WikiDocument> childDocuments = new ArrayList<WikiDocument>();
     private List<WikiMenuItem> menuItems = new ArrayList<WikiMenuItem>();
@@ -75,16 +64,6 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
     @Override
     protected WikiDirectory findParentNode(Long parentNodeId) {
         return getEntityManager().find(WikiDirectory.class, parentNodeId);
-    }
-
-    @Override
-    public WikiDirectory afterNodeFound(WikiDirectory dir) {
-        super.afterNodeFound(dir);
-
-        getLog().debug("refreshing child nodes after node found");
-        refreshChildNodes(dir);
-
-        return dir;
     }
 
     @Override
@@ -204,23 +183,6 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
     /* -------------------------- Internal Methods ------------------------------ */
 
-    private void refreshChildNodes(WikiDirectory dir) {
-        getLog().debug("refreshing child nodes of directory: " + dir);
-        pager.setNumOfRecords(getWikiNodeDAO().findChildrenCount(dir));
-        getLog().debug("number of children: " + pager.getNumOfRecords());
-        if (pager.getNumOfRecords() > 0) {
-            getLog().debug("loading children page from: " + pager.getNextRecord() + " size: " + pager.getPageSize());
-            childNodes =
-                    getWikiNodeDAO().findChildren(
-                            dir, WikiNode.SortableProperty.name, false,
-                            new Long(pager.getNextRecord()).intValue(),
-                            new Long(pager.getPageSize()).intValue()
-                    );
-        } else {
-            childNodes = Collections.emptyList();
-        }
-    }
-
     private void refreshAvailableMenuItems(WikiDirectory dir) {
         availableMenuItems = new TreeSet();
         availableMenuItems.addAll(getWikiNodeDAO().findChildWikiDirectories(dir));
@@ -271,32 +233,9 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
     /* -------------------------- Public Features ------------------------------ */
 
-    @Observer(value = {"PersistenceContext.filterReset", "Node.refreshList"}, create = false)
-    public void refreshChildNodes() {
-        if (isManaged()) {
-            getLog().debug("refreshing child nodes of the current instance");
-            refreshChildNodes(getInstance());
-        } else {
-            getLog().debug("not refreshing child nodes, instance is not managed: " + getInstance());
-        }
-    }
-
-    @RequestParameter
-    public void setPage(Integer page) {
-        pager.setPage(page);
-    }
-
-    public Pager getPager() {
-        return pager;
-    }
-
-    public List<WikiNode> getChildNodes() { return childNodes; }
-
     public List<WikiDocument> getChildDocuments() { return childDocuments; }
 
     public List<WikiMenuItem> getMenuItems() { return menuItems; }
-
-    public Map<WikiNode, Boolean> getSelectedNodes() { return selectedNodes; }
 
     public WikiDirectory getSelectedChildDirectory() { return selectedChildDirectory; }
     public void setSelectedChildDirectory(WikiDirectory selectedChildDirectory) { this.selectedChildDirectory = selectedChildDirectory; }
@@ -350,204 +289,6 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
             // Shift and refresh displayed list
             WikiUtil.shiftListElement(menuItems, currentPosition, newPosition);
         }
-    }
-
-    // TODO: Most of this clipboard stuff is based on the hope that nobody modifies anything while we have it in the clipboard...
-
-    public void clearClipboard() {
-        clipboard.clear();
-    }
-
-    public void copy() {
-        for (Map.Entry<WikiNode, Boolean> entry : getSelectedNodes().entrySet()) {
-            if (entry.getValue()) {
-                getLog().debug("copying to clipboard: " + entry.getKey());
-                clipboard.add(entry.getKey().getId(), false);
-            }
-        }
-        selectedNodes.clear();
-    }
-
-    @Restrict("#{s:hasPermission('Node', 'edit', directoryHome.instance)}")
-    public void cut() {
-        for (Map.Entry<WikiNode, Boolean> entry : getSelectedNodes().entrySet()) {
-            if (entry.getValue()) {
-                getLog().debug("cutting to clipboard: " + entry.getKey());
-                clipboard.add(entry.getKey().getId(), true);
-            }
-        }
-        selectedNodes.clear();
-        refreshChildNodes();
-    }
-
-    @Restrict("#{s:hasPermission('Node', 'create', directoryHome.instance)}")
-    public void paste() {
-
-        if (getInstance().getId().equals(getWikiRoot().getId())) return; // Can't paste in wiki root
-
-        // Batch the work
-        int batchSize = 2;
-        int i = 0;
-        List<Long> batchIds = new ArrayList<Long>();
-        for (Long clipboardNodeId : clipboard.getItems()) {
-            i++;
-            batchIds.add(clipboardNodeId);
-            if (i % batchSize == 0) {
-                List<WikiNode> nodesForPasteBatch = getWikiNodeDAO().findWikiNodes(batchIds);
-                pasteNodes(nodesForPasteBatch);
-                batchIds.clear();
-            }
-        }
-        // Last batch
-        if (batchIds.size() != 0) {
-            List<WikiNode> nodesForPasteBatch = getWikiNodeDAO().findWikiNodes(batchIds);
-            pasteNodes(nodesForPasteBatch);
-        }
-
-        getLog().debug("completed executing paste, refreshing...");
-
-        selectedNodes.clear();
-        clipboard.clear();
-        refreshChildNodes();
-    }
-
-    private void pasteNodes(List<WikiNode> nodes) {
-        getLog().debug("executing paste batch");
-        for (WikiNode n: nodes) {
-            getLog().debug("pasting clipboard item: " + n);
-            String pastedName = n.getName();
-
-            // Check unique name if we are not cutting and pasting into the same area
-            if (!(clipboard.isCut(n.getId()) && n.getParent().getAreaNumber().equals(getInstance().getAreaNumber()))) {
-                getLog().debug("pasting node into different area, checking wikiname");
-
-                if (!getWikiNodeDAO().isUniqueWikiname(getInstance().getAreaNumber(), WikiUtil.convertToWikiName(pastedName))) {
-                    getLog().debug("wikiname is not unique, renaming");
-                    if (pastedName.length() > 245) {
-                        getFacesMessages().addToControlFromResourceBundleOrDefault(
-                            "name",
-                            SEVERITY_WARN,
-                            "lacewiki.msg.Clipboard.DuplicatePasteNameFailure",
-                            "The name '{0}' was already in use in this area and is too long to be renamed, skipping paste.",
-                            pastedName
-                        );
-                        continue; // Jump to next loop iteration when we can't append a number to the name
-                    }
-
-                    // Now try to add "Copy 1", "Copy 2" etc. to the name until it is unique
-                    int i = 1;
-                    String attemptedName = pastedName + " " + Messages.instance().get("lacewiki.label.Clipboard.CopySuffix") + i;
-                    while (!getWikiNodeDAO().isUniqueWikiname(getInstance().getAreaNumber(), WikiUtil.convertToWikiName(attemptedName))) {
-                        attemptedName = pastedName + " " + Messages.instance().get("lacewiki.label.Clipboard.CopySuffix") + (++i);
-                    }
-                    pastedName = attemptedName;
-
-                    getFacesMessages().addToControlFromResourceBundleOrDefault(
-                        "name",
-                        SEVERITY_INFO,
-                        "lacewiki.msg.Clipboard.DuplicatePasteName",
-                        "The name '{0}' was already in use in this area, renamed item to '{1}'.",
-                        n.getName(), pastedName
-                    );
-                }
-            }
-
-            if (clipboard.isCut(n.getId())) {
-                getLog().debug("cut pasting: " + n);
-
-                // Check if the cut item was a default file for its parent
-                if ( ((WikiDirectory)n.getParent()).getDefaultFile() != null &&
-                    ((WikiDirectory)n.getParent()).getDefaultFile().getId().equals(n.getId())) {
-                    getLog().debug("cutting default file of directory: " + n.getParent());
-                    ((WikiDirectory)n.getParent()).setDefaultFile(null);
-                }
-
-                n.setName(pastedName);
-                n.setWikiname(WikiUtil.convertToWikiName(pastedName));
-                n.setParent(getInstance());
-
-                // If we cut and paste into a new area, all children must be updated as well
-                if (!getInstance().getAreaNumber().equals(n.getAreaNumber())) {
-                    n.setAreaNumber(getInstance().getAreaNumber());
-
-                    // TODO: Ugly and memory intensive, better use a database query but HQL updates are limited with joins
-                    if (n.isInstance(WikiDocument.class)) {
-                        List<WikiComment> comments = getWikiNodeDAO().findWikiCommentsFlat((WikiDocument)n, true);
-                        for (WikiComment comment : comments) {
-                            comment.setAreaNumber(n.getAreaNumber());
-                        }
-                    }
-                }
-
-            } else {
-                getLog().debug("copy pasting: " + n);
-                WikiNode newNode = n.duplicate(true);
-                newNode.setName(pastedName);
-                newNode.setWikiname(WikiUtil.convertToWikiName(pastedName));
-                newNode.setParent(getInstance());
-                newNode.setAreaNumber(getInstance().getAreaNumber());
-                newNode.setCreatedBy(getUserDAO().findUser(n.getCreatedBy().getId()));
-                if (n.getLastModifiedBy() != null) {
-                    newNode.setLastModifiedBy(getUserDAO().findUser(n.getLastModifiedBy().getId()));
-                }
-                getEntityManager().persist(newNode);
-            }
-        }
-        getLog().debug("completed executing of paste batch");
-    }
-
-    @Restrict("#{s:hasPermission('Trash', 'empty', trashArea)}")
-    public void emptyTrash() {
-        WikiDirectory trashArea = (WikiDirectory) Component.getInstance("trashArea");
-        if (!isManaged() || !trashArea.getId().equals(getInstance().getId())) return;
-
-        getLog().debug("emptying trash");
-        List<WikiNode> children = getWikiNodeDAO().findChildren(getInstance(), WikiNode.SortableProperty.name, false, 0, Integer.MAX_VALUE);
-
-        // TODO: This should be batched with a database cursor!
-        for (WikiNode child : children) {
-            getLog().debug("trashing item: " + child);
-            if (child.isInstance(WikiDocument.class)) {
-                NodeRemover documentRemover = (NodeRemover)Component.getInstance(DocumentNodeRemover.class);
-                documentRemover.removeDependencies(child);
-            } else if (child.isInstance(WikiUpload.class)) {
-                NodeRemover uploadRemover = (NodeRemover)Component.getInstance(UploadNodeRemover.class);
-                uploadRemover.removeDependencies(child);
-            }
-            getEntityManager().remove(child);
-        }
-        getEntityManager().flush();
-
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
-                "lacewiki.msg.Trash.Emptied",
-                "All items in the trash have been permanently deleted."
-        );
-
-        selectedNodes.clear();
-        refreshChildNodes();
-    }
-
-    public boolean isRemovable(WikiNode node) {
-
-        // Check if the current directory is the trash area, delete doesn't make sense here
-        WikiDirectory trashArea = (WikiDirectory)Component.getInstance("trashArea");
-        if (trashArea.getId().equals(getInstance().getId()))
-            return false;
-
-        // Check permissions TODO: This duplicates the check
-        if (!Identity.instance().hasPermission("Node", "edit", node))
-            return false;
-
-        NodeRemover remover;
-        if (node.isInstance(WikiDocument.class)) {
-            remover = (NodeRemover) Component.getInstance(DocumentNodeRemover.class);
-        } else if (node.isInstance(WikiUpload.class)) {
-            remover = (NodeRemover) Component.getInstance(UploadNodeRemover.class);
-        } else {
-            return false;
-        }
-        return remover.isRemovable(node);
     }
 
 }

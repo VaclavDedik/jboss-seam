@@ -157,7 +157,9 @@ public class NestedSetResultTransformer<N extends NestedSetNode> implements Resu
         }
         nodeWrapper.setWrappedParent(currentParent);
         currentParent.addWrappedChild(nodeWrapper);
-        log.trace("adding nested set node to tree: " + nodeWrapper);
+        log.trace("added nested set node to tree: " + nodeWrapper);
+        rootWrapper.getFlatTree().put(nodeWrapper.getWrappedNode().getId(), nodeWrapper);
+
         currentParent = nodeWrapper;
 
         return rootWrapper; // Return just something so that transformList() will be called when we are done

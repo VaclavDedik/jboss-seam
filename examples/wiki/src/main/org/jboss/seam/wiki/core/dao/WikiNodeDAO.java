@@ -582,6 +582,10 @@ public class WikiNodeDAO {
 
     }
 
+    public NestedSetNodeWrapper<WikiDirectory> findWikiDirectoryTree(WikiDirectory startDir) {
+        return findWikiDirectoryTree(startDir, null, 0l, false);
+    }
+
     public NestedSetNodeWrapper<WikiDirectory> findWikiDirectoryTree(WikiDirectory startDir, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
 
         NestedSetNodeWrapper<WikiDirectory> startNodeWrapper = new NestedSetNodeWrapper<WikiDirectory>(startDir, getComparatorWikiDirectoryName());

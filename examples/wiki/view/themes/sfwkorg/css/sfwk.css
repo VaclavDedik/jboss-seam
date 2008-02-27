@@ -624,6 +624,14 @@ b.rtop b.r4, b.rbottom b.r4 {
     font-weight: bold;
 }
 
+.datatable .sortableHeader .sortIndicator {
+    width: 8px;
+    height: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
 .datatable .regularHeader {
     white-space: nowrap;
     background: #ede8db url(../img/th.bg.gif) 0 0 repeat-x;
@@ -1079,71 +1087,128 @@ b.rtop b.r4, b.rbottom b.r4 {
 /* Directory Browser
 ----------------------------------------------- */
 
-.directoryControl {
-    width: 100%;
-    background: #fff url(../img/th.bg.inverse.gif) 0 0 repeat-x;
-    border-top: 1px solid #d3d2d1;
-    border-left: 1px solid #d3d2d1;
-    border-right: 1px solid #d3d2d1;
+.directoryBrowser {
     margin-top: 10px;
-    padding: 7px;
-    white-space: nowrap;
 }
 
-.directorySelectControl {
-    text-align: left;
-    white-space: nowrap;
-}
-
-.directoryClipboard {
-    text-align: right;
-    white-space: nowrap;
-}
-
-.directoryTrash {
-    text-align: right;
-    white-space: nowrap;
-    width: 125px;
-}
-
-.directoryPathTable {
+.directoryBrowserPathPanel {
     width: 100%;
-    background: #ede8db url(../img/th.bg.gif) 0 0 repeat-x;
-    border-top: 1px solid #d3d2d1;
-    border-left: 1px solid #d3d2d1;
-    border-right: 1px solid #d3d2d1;
+    background: #fff url(../img/th.bg.gif) 0 0 repeat-x;
+    border: 1px solid #d3d2d1;
 }
 
-.directoryPath  {
-    text-align: left;
+.directoryBrowserPathPanel .treeSwitchOpen {
+    width: 25%;
     padding-left: 5px;
-}
-
-.directoryPagerControl {
+    padding-right: 5px;
+    border-right: 1px solid #C3BBB6;
     text-align: right;
-    white-space: nowrap;
+}
+
+.directoryBrowserPathPanel .treeSwitchClosed {
+    width: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-right: 1px solid #C3BBB6;
+}
+
+.directoryBrowserPathPanel .path {
+    width: auto;
     padding: 5px;
 }
 
-.directoryPath .directoryButton {
-	font-weight: bold;
-	padding: 2px;
+.directoryBrowserPathPanel .button {
+    color: #576c74;
+    background: none;
+    padding: 2px;
 	border-style: none;
+    font-size: 85%;
+    font-weight: bold;
 }
 
-.directoryPath .directorySeparator {
-	font-weight: bold;
-	color: #888;
-	padding: 2px;
- 	border-style: none;
+.directoryBrowserPathPanel .separator {
+    font-weight: bold;
+    color: #888;
+    padding: 2px;
+    border-style: none;
 }
 
-.directoryEmpty {
-    padding: 5px;
-    border-bottom: 1px solid #d3d2d1;
+.directoryBrowserMainPanel {
+    width: 100%;
     border-left: 1px solid #d3d2d1;
     border-right: 1px solid #d3d2d1;
+    border-bottom: 1px solid #d3d2d1;
 }
+
+.directoryBrowserTreePanel {
+    vertical-align: top;
+}
+
+.directoryBrowserTreePanel.closed {
+    display: none;
+}
+
+.directoryBrowserTreePanel.open {
+    width: 25%;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-right: 1px solid #C3BBB6;
+}
+
+.directoryBrowserTree {
+    overflow-x: auto;
+}
+
+.directoryBrowserControlPanel {
+    width: 100%;
+    padding: 5px;
+    border-bottom: 1px solid #C3BBB6;
+}
+
+.directoryBrowserControlPanel .pagerSelector {
+    text-align: right;
+}
+
+.directoryBrowserControlPanel .clipboard {
+    text-align: left;
+}
+
+.directoryBrowserContentPanel {
+    vertical-align: top;
+}
+
+.directoryBrowserContentPanel .pagerTop,
+.directoryBrowserContentPanel .pagerBottom {
+    border: none;
+}
+
+.directoryBrowserContentPanel .onePercentColumn,
+.directoryBrowserContentPanel .tenPercentColumn,
+.directoryBrowserContentPanel .fifteenPercentColumn,
+.directoryBrowserContentPanel .twentyPercentColumn {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.directoryBrowserContentPanel .directoryEmpty {
+    padding: 5px;
+}
+.directoryBrowserContentPanel .directoryEmpty .icon {
+    vertical-align: middle;
+}
+
+.dirItemIcon {
+    width: 18px;
+    height: 20px;
+}
+
+.dirItemIcon.mouseOver {
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
 
 /* Form tabs
 ----------------------------------------------- */
@@ -1381,6 +1446,107 @@ b.rtop b.r4, b.rbottom b.r4 {
 }
 
 .userInfoEntryLink:hover {color: #666}
+
+
+/* Click Menu/Context Menu
+----------------------------------------------- */
+
+#root-menu-div ul {
+	border: 1px solid #C3BBB6;
+    background-color: #fff;
+}
+
+#root-menu-div li{
+	white-space:nowrap;
+    font-size: 85%;
+    margin: 0;
+    padding: 0;
+}
+
+* html #root-menu-div li{
+	height: 1.5em; /* fixing ie6 problem */
+}
+
+ul.menu, #root-menu-div ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+li.menu-separator.active{
+	background-color: transparent;
+}
+
+li.active {
+	background-color: #eae8e5;
+}
+
+.activetarget {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+* html div.menu-item {
+	display: inline; /* fixes problem in ie6 */
+}
+
+li.menumain {
+	float: left;
+	padding: 0;
+    margin: 0;
+
+}
+
+div.menu-item {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+div.menu-item a {
+    color: #576c74;
+    text-decoration: none;
+}
+
+img.menu-item-arrow{
+	position: absolute;
+	right: 4px;
+	top: 8px;
+}
+
+li.menu-separator {
+	border-bottom: 1px solid #000;
+	font-size: 0; /* for ie */
+	height: 0;
+	line-height: 0; /* for ie */
+	margin: 2px 0;
+}
+
+.contextMenuItems {
+    display: none;
+}
+
+
+/* Trees
+----------------------------------------------- */
+
+.rich-tree-node {
+    cursor: pointer;
+}
+
+.rich-tree-node-highlighted {
+    color: #576c74;
+    text-decoration: none;
+}
+
+.rich-tree-node-selected {
+    font-weight: bold;
+    border: none;
+}
+
+.directoryTreeLabel {
+    padding-top: 2px;
+    cursor: pointer;
+}
 
 
 /* User Control

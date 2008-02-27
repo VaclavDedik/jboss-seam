@@ -154,7 +154,7 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     /*
         Macro handling routines, based on the following concept:
 
-        - Persistent HEADER/CONTENT/FOOTER fields: This is the editable text, show to the user.
+        - Persistent HEADER/CONTENT/FOOTER fields: This is the editable text, shown to the user.
 
         - Persistent HEADER_MACROS/CONTENT_MACROS/FOOTER_MACROS fields: These are strings that represent
           a space-separated list of all macros (names only) the user has entered. We need this separate
@@ -316,7 +316,18 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
         }
     }
 
+    // TODO: Again, the ugly Hibernate group by bug
+    public static String[] getPropertiesForGroupingInQueries() {
+        return new String[]{
+            "id", "version", "parent", "rating",
+            "areaNumber", "name", "wikiname", "createdBy", "createdOn",
+            "lastModifiedBy", "lastModifiedOn", "readAccessLevel", "writeAccessLevel", "writeProtected",
+            "nameAsTitle", "enableComments", "enableCommentForm", "enableCommentsOnFeeds",
+            "header", "headerMacrosString", "contentMacrosString", "footer", "footerMacrosString"
+        };
+    }
+
     public String toString() {
-        return "Document (" + getId() + "): " + getName();
+        return "WikiDocument (" + getId() + "): " + getName();
     }
 }

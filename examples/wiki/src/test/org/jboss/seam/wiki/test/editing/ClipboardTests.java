@@ -7,8 +7,8 @@
 package org.jboss.seam.wiki.test.editing;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jboss.seam.wiki.core.action.DirectoryHome;
 import org.jboss.seam.wiki.core.action.Clipboard;
+import org.jboss.seam.wiki.core.action.DirectoryBrowser;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
@@ -36,13 +36,14 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
-                home.getSelectedNodes().put(doc, true);
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocument(9l);
 
-                home.copy();
+                browser.getSelectedNodes().put(doc, true);
+
+                browser.copy();
             }
 
         }.run();
@@ -54,9 +55,6 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
-
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
@@ -72,12 +70,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -91,18 +89,18 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
                 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                assert home.getChildNodes().size() == 2;
+                assert browser.getChildNodes().size() == 2;
 
                 WikiDocument doc =
-                        home.getWikiNodeDAO().findWikiDocumentInArea(home.getInstance().getAreaNumber(), "Four");
+                        browser.getWikiNodeDAO().findWikiDocumentInArea(browser.getInstance().getAreaNumber(), "Four");
 
-                assert doc.getAreaNumber().equals(home.getInstance().getAreaNumber());
+                assert doc.getAreaNumber().equals(browser.getInstance().getAreaNumber());
 
                 WikiDocument docOriginal =
-                        home.getWikiNodeDAO().findWikiDocumentInArea(2l, "Four");
+                        browser.getWikiNodeDAO().findWikiDocumentInArea(2l, "Four");
 
                 assert docOriginal.getParent().getId().equals(2l);
             }
@@ -120,13 +118,14 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                WikiUpload upload = home.getWikiNodeDAO().findWikiUpload(30l);
-                home.getSelectedNodes().put(upload, true);
+                WikiUpload upload = browser.getWikiNodeDAO().findWikiUpload(30l);
 
-                home.copy();
+                browser.getSelectedNodes().put(upload, true);
+
+                browser.copy();
             }
 
         }.run();
@@ -138,9 +137,6 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
-
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
@@ -156,12 +152,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -175,19 +171,19 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                assert home.getChildNodes().size() == 2;
+                assert browser.getChildNodes().size() == 2;
 
-                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance(), WikiNode.SortableProperty.createdOn, true);
+                List<WikiUpload> uploads = browser.getWikiNodeDAO().findWikiUploads(browser.getInstance(), WikiNode.SortableProperty.createdOn, true);
 
                 assert uploads.size() == 1;
                 assert uploads.get(0).getName().equals("Test Image");
-                assert uploads.get(0).getAreaNumber().equals(home.getInstance().getAreaNumber());
+                assert uploads.get(0).getAreaNumber().equals(browser.getInstance().getAreaNumber());
 
-                WikiDirectory originalDir = home.getWikiNodeDAO().findWikiDirectory(2l);
-                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
+                WikiDirectory originalDir = browser.getWikiNodeDAO().findWikiDirectory(2l);
+                List<WikiUpload> originalUploads = browser.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
                 assert originalUploads.size() == 2;
             }
         }.run();
@@ -204,15 +200,16 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
-                WikiUpload upload = home.getWikiNodeDAO().findWikiUpload(30l);
-                home.getSelectedNodes().put(doc, true);
-                home.getSelectedNodes().put(upload, true);
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocument(9l);
+                WikiUpload upload = browser.getWikiNodeDAO().findWikiUpload(30l);
 
-                home.copy();
+                browser.getSelectedNodes().put(doc, true);
+                browser.getSelectedNodes().put(upload, true);
+
+                browser.copy();
             }
 
         }.run();
@@ -224,9 +221,6 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
-
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 2;
@@ -242,12 +236,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -261,24 +255,24 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                assert home.getChildNodes().size() == 3;
+                assert browser.getChildNodes().size() == 3;
 
                 WikiDocument doc =
-                        home.getWikiNodeDAO().findWikiDocumentInArea(home.getInstance().getAreaNumber(), "Four");
+                        browser.getWikiNodeDAO().findWikiDocumentInArea(browser.getInstance().getAreaNumber(), "Four");
 
-                assert doc.getAreaNumber().equals(home.getInstance().getAreaNumber());
+                assert doc.getAreaNumber().equals(browser.getInstance().getAreaNumber());
 
-                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance(), WikiNode.SortableProperty.createdOn, true);
+                List<WikiUpload> uploads = browser.getWikiNodeDAO().findWikiUploads(browser.getInstance(), WikiNode.SortableProperty.createdOn, true);
 
                 assert uploads.size() == 1;
                 assert uploads.get(0).getName().equals("Test Image");
-                assert uploads.get(0).getAreaNumber().equals(home.getInstance().getAreaNumber());
+                assert uploads.get(0).getAreaNumber().equals(browser.getInstance().getAreaNumber());
 
-                WikiDirectory originalDir = home.getWikiNodeDAO().findWikiDirectory(2l);
-                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
+                WikiDirectory originalDir = browser.getWikiNodeDAO().findWikiDirectory(2l);
+                List<WikiUpload> originalUploads = browser.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
                 assert originalUploads.size() == 2;
             }
         }.run();
@@ -295,13 +289,14 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
-                home.getSelectedNodes().put(doc, true);
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocument(9l);
 
-                home.cut();
+                browser.getSelectedNodes().put(doc, true);
+
+                browser.cut();
             }
 
         }.run();
@@ -313,9 +308,6 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
-
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
@@ -331,12 +323,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -350,15 +342,15 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                assert home.getChildNodes().size() == 2;
+                assert browser.getChildNodes().size() == 2;
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocumentInArea(home.getInstance().getAreaNumber(), "Four");
-                assert doc.getAreaNumber().equals(home.getInstance().getAreaNumber());
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocumentInArea(browser.getInstance().getAreaNumber(), "Four");
+                assert doc.getAreaNumber().equals(browser.getInstance().getAreaNumber());
 
-                WikiDocument docOriginal = home.getWikiNodeDAO().findWikiDocumentInArea(2l, "Four");
+                WikiDocument docOriginal = browser.getWikiNodeDAO().findWikiDocumentInArea(2l, "Four");
                 assert docOriginal == null;
             }
         }.run();
@@ -375,13 +367,14 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                WikiUpload upload = home.getWikiNodeDAO().findWikiUpload(30l);
-                home.getSelectedNodes().put(upload, true);
+                WikiUpload upload = browser.getWikiNodeDAO().findWikiUpload(30l);
 
-                home.cut();
+                browser.getSelectedNodes().put(upload, true);
+
+                browser.cut();
             }
 
         }.run();
@@ -393,9 +386,6 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
-
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
@@ -411,12 +401,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -430,19 +420,19 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                assert home.getChildNodes().size() == 2;
+                assert browser.getChildNodes().size() == 2;
 
-                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance(), WikiNode.SortableProperty.createdOn, true);
+                List<WikiUpload> uploads = browser.getWikiNodeDAO().findWikiUploads(browser.getInstance(), WikiNode.SortableProperty.createdOn, true);
 
                 assert uploads.size() == 1;
                 assert uploads.get(0).getName().equals("Test Image");
-                assert uploads.get(0).getAreaNumber().equals(home.getInstance().getAreaNumber());
+                assert uploads.get(0).getAreaNumber().equals(browser.getInstance().getAreaNumber());
 
-                WikiDirectory originalDir = home.getWikiNodeDAO().findWikiDirectory(2l);
-                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
+                WikiDirectory originalDir = browser.getWikiNodeDAO().findWikiDirectory(2l);
+                List<WikiUpload> originalUploads = browser.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
                 assert originalUploads.size() == 1;
             }
         }.run();
@@ -459,15 +449,16 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
-                WikiUpload upload = home.getWikiNodeDAO().findWikiUpload(30l);
-                home.getSelectedNodes().put(doc, true);
-                home.getSelectedNodes().put(upload, true);
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocument(9l);
+                WikiUpload upload = browser.getWikiNodeDAO().findWikiUpload(30l);
 
-                home.cut();
+                browser.getSelectedNodes().put(doc, true);
+                browser.getSelectedNodes().put(upload, true);
+
+                browser.cut();
             }
 
         }.run();
@@ -479,9 +470,6 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
-
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 2;
@@ -498,12 +486,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -517,27 +505,27 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(4l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(4l); // Init!
 
-                assert home.getChildNodes().size() == 3;
+                assert browser.getChildNodes().size() == 3;
 
                 WikiDocument doc =
-                        home.getWikiNodeDAO().findWikiDocumentInArea(home.getInstance().getAreaNumber(), "Four");
+                        browser.getWikiNodeDAO().findWikiDocumentInArea(browser.getInstance().getAreaNumber(), "Four");
 
-                assert doc.getAreaNumber().equals(home.getInstance().getAreaNumber());
+                assert doc.getAreaNumber().equals(browser.getInstance().getAreaNumber());
 
-                List<WikiUpload> uploads = home.getWikiNodeDAO().findWikiUploads(home.getInstance(), WikiNode.SortableProperty.createdOn, true);
+                List<WikiUpload> uploads = browser.getWikiNodeDAO().findWikiUploads(browser.getInstance(), WikiNode.SortableProperty.createdOn, true);
 
                 assert uploads.size() == 1;
                 assert uploads.get(0).getName().equals("Test Image");
-                assert uploads.get(0).getAreaNumber().equals(home.getInstance().getAreaNumber());
+                assert uploads.get(0).getAreaNumber().equals(browser.getInstance().getAreaNumber());
 
-                WikiDocument docOriginal = home.getWikiNodeDAO().findWikiDocumentInArea(2l, "Four");
+                WikiDocument docOriginal = browser.getWikiNodeDAO().findWikiDocumentInArea(2l, "Four");
                 assert docOriginal == null;
 
-                WikiDirectory originalDir = home.getWikiNodeDAO().findWikiDirectory(2l);
-                List<WikiUpload> originalUploads = home.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
+                WikiDirectory originalDir = browser.getWikiNodeDAO().findWikiDirectory(2l);
+                List<WikiUpload> originalUploads = browser.getWikiNodeDAO().findWikiUploads(originalDir, WikiNode.SortableProperty.createdOn, true);
                 assert originalUploads.size() == 1;
             }
         }.run();
@@ -554,13 +542,14 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
-                home.getSelectedNodes().put(doc, true);
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocument(9l);
 
-                home.cut();
+                browser.getSelectedNodes().put(doc, true);
+
+                browser.cut();
             }
 
         }.run();
@@ -572,9 +561,6 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
-
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
@@ -590,12 +576,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -609,13 +595,13 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                assert home.getChildNodes().size() == 3;
+                assert browser.getChildNodes().size() == 3;
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocumentInArea(home.getInstance().getAreaNumber(), "Four");
-                assert doc.getAreaNumber().equals(home.getInstance().getAreaNumber());
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocumentInArea(browser.getInstance().getAreaNumber(), "Four");
+                assert doc.getAreaNumber().equals(browser.getInstance().getAreaNumber());
                 assert doc.getId().equals(9l);
             }
         }.run();
@@ -632,13 +618,14 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(9l);
-                home.getSelectedNodes().put(doc, true);
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocument(9l);
 
-                home.copy();
+                browser.getSelectedNodes().put(doc, true);
+
+                browser.copy();
             }
 
         }.run();
@@ -650,8 +637,8 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
@@ -668,12 +655,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -687,10 +674,10 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                assert home.getChildNodes().size() == 4;
+                assert browser.getChildNodes().size() == 4;
             }
         }.run();
 
@@ -706,13 +693,14 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void invokeApplication() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(3l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(3l); // Init!
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(6l);
-                home.getSelectedNodes().put(doc, true);
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocument(6l);
 
-                home.cut();
+                browser.getSelectedNodes().put(doc, true);
+
+                browser.cut();
             }
 
         }.run();
@@ -724,9 +712,6 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(3l); // Init!
-
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
 
                 assert clipboard.getItems().size() == 1;
@@ -742,12 +727,12 @@ public class ClipboardTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                home.paste();
+                browser.paste();
 
-                home.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
+                browser.getEntityManager().flush(); // TODO: ?! I think the test phase listener is wrong here not doing that...
             }
         }.run();
 
@@ -761,22 +746,22 @@ public class ClipboardTests extends DBUnitSeamTest {
                 Clipboard clipboard = (Clipboard)getInstance(Clipboard.class);
                 assert clipboard.getItems().size() == 0;
 
-                DirectoryHome home = (DirectoryHome)getInstance(DirectoryHome.class);
-                assert home.getInstance().getId().equals(2l); // Init!
+                DirectoryBrowser browser = (DirectoryBrowser)getInstance(DirectoryBrowser.class);
+                assert browser.getInstance().getId().equals(2l); // Init!
 
-                assert home.getChildNodes().size() == 4;
+                assert browser.getChildNodes().size() == 4;
 
-                WikiDocument docOriginal = home.getWikiNodeDAO().findWikiDocumentInArea(3l, "One");
+                WikiDocument docOriginal = browser.getWikiNodeDAO().findWikiDocumentInArea(3l, "One");
                 assert docOriginal == null;
 
-                WikiDirectory dirOriginal = home.getWikiNodeDAO().findWikiDirectory(3l);
+                WikiDirectory dirOriginal = browser.getWikiNodeDAO().findWikiDirectory(3l);
                 assert dirOriginal.getDefaultFile() == null;
 
-                WikiDocument doc = home.getWikiNodeDAO().findWikiDocument(6l);
+                WikiDocument doc = browser.getWikiNodeDAO().findWikiDocument(6l);
                 assert doc.getAreaNumber().equals(2l);
                 assert doc.getParent().getId().equals(2l);
 
-                List<WikiComment> comments = home.getWikiNodeDAO().findWikiCommentsFlat(doc, false);
+                List<WikiComment> comments = browser.getWikiNodeDAO().findWikiCommentsFlat(doc, false);
                 for (WikiComment comment : comments) {
                     assert comment.getAreaNumber().equals(2l);
                 }

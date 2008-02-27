@@ -3,18 +3,19 @@ package org.jboss.seam.wiki.plugin.forum;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
 import org.hibernate.Session;
-import org.hibernate.ScrollableResults;
 import org.hibernate.transform.ResultTransformer;
 
 import javax.persistence.EntityManager;
 import java.util.*;
+import java.io.Serializable;
 
 @Name("forumDAO")
-@AutoCreate
-public class ForumDAO {
+@Scope(ScopeType.CONVERSATION)
+public class ForumDAO implements Serializable {
 
     @In
     EntityManager entityManager;

@@ -106,6 +106,18 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
         }
     }
 
+    public List<Long> getPathIdentifiers() {
+        List<Long> pathIds = new ArrayList<Long>();
+        WikiDirectory current = this;
+        pathIds.add(current.getId());
+        while (current.getParent() != null && getParent().isInstance(WikiDirectory.class)){
+            current = (WikiDirectory)current.getParent();
+            pathIds.add(current.getId());
+        }
+        Collections.reverse(pathIds);
+        return pathIds;
+    }
+
     public List<WikiDirectory> getPath() {
         List<WikiDirectory> path = new ArrayList<WikiDirectory>();
         WikiDirectory current = this;
@@ -119,6 +131,6 @@ public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetN
     }
 
     public String toString() {
-        return "Directory (" + getId() + "): " + getName();
+        return "WikiDirectory (" + getId() + "): " + getName();
     }
 }

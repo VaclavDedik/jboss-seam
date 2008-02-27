@@ -32,6 +32,9 @@
     <mail:mail-session host="localhost" port="25"/>
 
     <!-- Maximum size of file uploads -->
+    <!-- If you are using MySQL, don't forget their magic stuff:
+         http://dev.mysql.com/doc/refman/5.0/en/packet-too-large.html
+    -->
     <web:multipart-filter create-temp-files="true" max-request-size="10000000" url-pattern="*.seam"/>
 
     <!-- ############## END OF WIKI USER CONFIGURATION ############## -->

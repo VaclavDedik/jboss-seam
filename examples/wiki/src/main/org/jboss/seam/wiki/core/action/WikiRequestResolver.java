@@ -8,18 +8,17 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.web.Parameters;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.web.Parameters;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.model.WikiDirectory;
+import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.search.WikiSearch;
 
 import javax.faces.application.FacesMessage;
-import java.util.Map;
 
 /**
  * Returns <tt>docDisplay</tt>, <tt>dirDisplay</tt>, or <tt>search</tt> for the resolved <tt>nodeId</tt>.
@@ -197,10 +196,10 @@ public class WikiRequestResolver {
             log.debug("displaying document: " + currentDocument);
             return "docDisplay";
         } else {
-            DirectoryHome directoryHome = (DirectoryHome)Component.getInstance(DirectoryHome.class);
-            directoryHome.setNodeId(currentDirectory.getId());
-            directoryHome.setInstance(currentDirectory);
-            directoryHome.afterNodeFound(currentDirectory);
+            DirectoryBrowser directoryBrowser = (DirectoryBrowser)Component.getInstance(DirectoryBrowser.class);
+            directoryBrowser.setDirectoryId(currentDirectory.getId());
+            directoryBrowser.setInstance(currentDirectory);
+            directoryBrowser.afterNodeFound();
             log.debug("displaying directory: " + currentDirectory);
             return "dirDisplay";
         }

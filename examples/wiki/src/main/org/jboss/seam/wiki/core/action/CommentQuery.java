@@ -1,3 +1,9 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
@@ -7,13 +13,15 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiComment;
-import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * @author Christian Bauer
+ */
 @Name("commentQuery")
 @Scope(ScopeType.CONVERSATION)
 public class CommentQuery implements Serializable {

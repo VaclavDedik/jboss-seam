@@ -24,7 +24,6 @@ import java.io.Serializable;
  */
 @Name("faqBrowserDAO")
 @Scope(ScopeType.CONVERSATION)
-@AutoCreate
 public class FaqBrowserDAO implements Serializable {
 
     @In

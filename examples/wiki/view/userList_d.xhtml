@@ -30,6 +30,10 @@
 
 <ui:define name="content">
 
+    <script type="text/javascript">jQuery(function() {
+        jQuery(".contextMenu").show().menu({offsetLeft: 20});
+    })</script>
+
     <h:form id="userSearchForm" styleClass="box">
         <div class="form" id="userSearchControl">
 
@@ -129,13 +133,12 @@
                      rendered="#{usersList.rowCount >0}"
                      styleClass="datatable topLeftBottomBorder smallFont"
                      headerClass="sortableHeader rightBorder alignCenter"
-                     columnClasses="tenPercentColumn rightBorder alignLeft,
-                                    twentyPercentColumn rightBorder alignLeft,
-                                    twentyPercentColumn rightBorder alignLeft,
-                                    twentyPercentColumn rightBorder alignLeft,
-                                    twentyPercentColumn rightBorder alignLeft,
-                                    defaultColumn rightBorder alignLeft,
-                                    tenPercentColumn rightBorder alignCenter"
+                     columnClasses="defaultColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft,
+                                    fifteenPercentColumn rightBorder alignLeft"
                      rowClasses="rowOdd,rowEven"
                      cellpadding="0" cellspacing="0" border="0">
 
@@ -149,15 +152,30 @@
                         <h:outputText value="#{messages['lacewiki.label.userList.Username']}"/>
                     </h:commandLink>
                 </f:facet>
-                <s:fragment rendered="#{u.admin or u.guest}">
-                    <h:outputText value="#{u.username}"/>
-                </s:fragment>
-                <s:fragment rendered="#{not u.admin and not u.guest}">
-                    <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(u)}">
+
+                <div class="contextMenu">
+                    <h:outputLink value="javascript://no-op">
                         <h:outputText value="#{u.username}"/>
                     </h:outputLink>
                     <h:outputText rendered="#{!u.activated}" value="&#160;(#{messages['lacewiki.label.userList.NotActivated']})"/>
-                </s:fragment>
+                    <ul>
+                        <li>
+                            <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(u)}">
+                                <h:outputText value="#{messages['lacewiki.label.userList.View']}"/>
+                            </h:outputLink>
+                        </li>
+
+                        <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
+                            <li>
+                                <s:link view="/userHome_#{skin}.xhtml" propagation="none">
+                                    <f:param name="userId" value="#{u.id}"/>
+                                    <h:outputText value="#{messages['lacewiki.label.userList.Edit']}"/>
+                                </s:link>
+                            </li>
+                        </s:fragment>
+                    </ul>
+                </div>
+
             </h:column>
 
             <h:column>
@@ -228,13 +246,6 @@
                     <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                 </h:outputText>
                 <h:outputText value="-" rendered="#{empty u.lastLoginOn}"/>
-            </h:column>
-
-            <h:column rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
-                <s:link styleClass="buttonNonpersistent" view="/userHome_#{skin}.xhtml" propagation="none">
-                    <f:param name="userId" value="#{u.id}"/>
-                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.userList.Edit']}"/>
-                </s:link>
             </h:column>
 
         </h:dataTable>

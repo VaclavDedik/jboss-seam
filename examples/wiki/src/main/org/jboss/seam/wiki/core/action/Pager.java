@@ -5,6 +5,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.core.Events;
 
 import java.io.Serializable;
 
@@ -45,8 +46,7 @@ public class Pager implements Serializable {
 
     @RequestParameter
     public void setPageSize(Long pageSize) {
-        if (pageSize != null)
-            this.pageSize = pageSize;
+        if (pageSize != null) this.pageSize = pageSize;
     }
 
     public int getNextPage() {
@@ -95,6 +95,30 @@ public class Pager implements Serializable {
 
     public int getQueryMaxResults() {
         return new Long(getPageSize()).intValue();
+    }
+
+    public boolean isSeveralPages() {
+        return getNumOfRecords() != 0 && getNumOfRecords() > getPageSize();
+    }
+
+    public void setFirstPage() {
+        setPage(getFirstPage());
+        Events.instance().raiseEvent("Pager.pageChanged");
+    }
+
+    public void setPreviousPage() {
+        setPage(getPreviousPage());
+        Events.instance().raiseEvent("Pager.pageChanged");
+    }
+
+    public void setNextPage() {
+        setPage(getNextPage());
+        Events.instance().raiseEvent("Pager.pageChanged");
+    }
+
+    public void setLastPage() {
+        setPage(new Long(getLastPage()).intValue());
+        Events.instance().raiseEvent("Pager.pageChanged");
     }
 
     public String toString() {

@@ -30,7 +30,7 @@ public class BlogDirectory implements Serializable {
     @In
     WikiNodeDAO wikiNodeDAO;
 
-    @In
+    @In(create = true)
     BlogDAO blogDAO;
 
     @In
