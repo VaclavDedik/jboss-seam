@@ -347,7 +347,7 @@ public class TrashTests extends DBUnitSeamTest {
                 assert browser.getChildNodes().size() == 3;
 
                 boolean found = false;
-                for (WikiNode node : browser.getChildNodes()) found = node.getId().equals(9l);
+                for (WikiNode node : browser.getChildNodes()) if (node.getId().equals(9l)) found = true;
                 assert found;
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
