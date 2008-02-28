@@ -15,12 +15,9 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.model.DisplayTagCount;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.WikiFile;
 
 import javax.faces.application.FacesMessage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.SortedSet;
+import java.util.*;
 import java.io.Serializable;
 
 /**
@@ -40,7 +37,7 @@ public class TagEditor implements Serializable {
     @In
     private FacesMessages facesMessages;
 
-    private SortedSet<String> tags;
+    private SortedSet<String> tags = new TreeSet<String>();
     private String newTag;
     private List<DisplayTagCount> popularTags;
 
@@ -53,7 +50,7 @@ public class TagEditor implements Serializable {
     }
 
     public List<String> getTagsAsList() {
-        return new ArrayList<String>(tags);
+        return tags != null ? new ArrayList<String>(tags) : Collections.EMPTY_LIST;
     }
 
     public String getNewTag() {

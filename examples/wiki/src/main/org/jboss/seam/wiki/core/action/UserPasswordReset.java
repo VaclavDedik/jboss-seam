@@ -30,6 +30,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * The password reset feature works as follows:
+ *
+ * - User enters username and e-mail address. The account does not have to be activated, so
+ *   the "Reset Password" functionality can also serve as "Resend Activation E-Mail".
+ *
+ * - Both username and e-mail address are checked with what we have in the database.
+ *
+ * - An activation code is generated and stored in the database for this user account.
+ *
+ * - An e-mail with the activation code is send to the users e-mail address.
+ *
+ * - If the user clicks on the activation link, the login form on the page will
+ *   switch to a password reset form. (If the activation code was correct.)
+ *
+ * - After typing in the password twice, the user account gets a new password and
+ *   we also activate it.
+ *
+ *
  * @author Christian Bauer
  */
 @Name("userPasswordReset")
@@ -155,6 +173,10 @@ public class UserPasswordReset implements Serializable {
 
         User persistentUser = userDAO.findUser(user.getId());
         persistentUser.setPasswordHash(hashUtil.hash(getPassword()));
+
+        // As a side effect, also activate the user! http://jira.jboss.com/jira/browse/JBSEAM-2687
+        persistentUser.setActivated(true);
+
         Contexts.getSessionContext().remove(RESET_PASSWORD_OF_USER);
 
         facesMessages.addFromResourceBundleOrDefault(
