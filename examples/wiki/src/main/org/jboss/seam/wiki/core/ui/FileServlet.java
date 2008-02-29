@@ -87,7 +87,6 @@ public class FileServlet extends HttpServlet {
                             log.error("could not roll back transaction: " + rbEx.getMessage());
                         }
                     }
-                    invalidateSessionIfPossible(request);
                     throw new ServletException(ex);
                 }
             }

@@ -282,10 +282,9 @@ public class FeedServlet extends HttpServlet {
                 }
             }
             throw new ServletException(ex);
-        } finally {
-            invalidateSessionIfPossible(request);
         }
 
+        invalidateSessionIfPossible(request);
     }
 
     public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {
