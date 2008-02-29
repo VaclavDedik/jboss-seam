@@ -7,7 +7,6 @@
 package org.jboss.seam.wiki.connectors.feed;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.wiki.core.model.Feed;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.log.Log;
 
@@ -16,6 +15,30 @@ import java.io.Serializable;
 import java.net.URL;
 
 /**
+ * Calls feed connector several times for several feed URLs, optionally stores the result in a cache.
+ *
+ * <p>
+ * Reads the feed information from the feed connector (or the transparent cache on top of the connector) and
+ * then aggregates the data into <tt>FeedEntryDTO</tt> instances. These instances are then again cached
+ * in the <tt>FeedAggregateCache</tt>. We basically have a DTO/DAO/Cache layer on top of the connector layer (with
+ * its own caching). However, this aggregate cache is not transparent, so if a client wants to get cached
+ * <tt>FeedEntryDTO</tt> objects, it needs to ask the <tt>FeedAggregateCache</tt> directly, not this DAO. The DAO
+ * just puts stuff <i>into</i> the cache when its loaded from the connector.
+ * </p>
+ * <p>
+ * The primary motivation behind this architecture is resolving the disconnect that exists between reading external
+ * feeds and storing them in-memory for further reading (display on pages, exposing aggregated feeds). We also need
+ * to channel parameters, that is, a page might want to render external feeds A and B. However, the connector layer
+ * can only handle a single feed at a time, so the additional aggregation layer was added to combine data from
+ * several feeds (with potentially several connector calls). 
+ * </p>
+ * <p>
+ * Finally, caching the aggregated feeds is optional. If a client asks this DAO to aggregate feed entries of
+ * several external feeds, and does not supply a cache key (the aggregateId), the result is not cached in the
+ * <tt>FeedAggregateCache</tt>. So <i>other</i> clients (which might also only know the aggregateId, not the
+ * external feed URLs) can not access the data on the <tt>FeedAggregateCache</tt>.
+ * </p>
+ *
  * @author Christian Bauer
  */
 @Name("feedAggregatorDAO")

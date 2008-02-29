@@ -36,7 +36,6 @@ public class WikiDocumentFeedEntryManager extends FeedEntryManager<WikiDocument,
         fe.setLink(wikiURLRenderer.renderURL(document, true));
         fe.setTitle(getFeedEntryTitle(document));
         fe.setAuthor(document.getCreatedBy().getFullname());
-        fe.setUpdatedDate(document.getLastModifiedOn());
 
         fe.setDescriptionValue(renderWikiText(document.getAreaNumber(), document.getFeedDescription()));
     }

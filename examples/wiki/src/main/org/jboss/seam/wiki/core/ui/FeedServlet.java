@@ -9,7 +9,7 @@ package org.jboss.seam.wiki.core.ui;
 import com.sun.syndication.feed.synd.*;
 import com.sun.syndication.io.SyndFeedOutput;
 import org.jboss.seam.Component;
-import org.jboss.seam.Seam;
+import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.web.Session;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.international.Messages;
@@ -20,6 +20,7 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeFactory;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.wiki.connectors.feed.FeedAggregateCache;
 import org.jboss.seam.wiki.connectors.feed.FeedEntryDTO;
@@ -43,6 +44,7 @@ import java.util.*;
  * read-access filtered. Optionally, requests can enable/disable comments on the feed
  * or filter by tag. It's up to the actual <tt>WikiFeedEntry</tt> instance how these
  * filters are applied.
+ * </p>
  *
  * @author Christian Bauer
  */
@@ -93,6 +95,7 @@ public class FeedServlet extends HttpServlet {
         if (!feedTypes.containsKey(pathInfo)) {
             log.debug("can not render this feed type, returning BAD REQUEST");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unsupported feed type " + pathInfo);
+            invalidateSessionIfPossible(request);
             return;
         }
         SyndFeedType syndFeedType = feedTypes.get(pathInfo);
@@ -100,10 +103,12 @@ public class FeedServlet extends HttpServlet {
         // Comments
         String commentsParam = request.getParameter("comments");
         Comments comments  = Comments.include;
-        if (commentsParam != null) {
+        if (commentsParam != null && commentsParam.length() >0) {
             try {
                 comments = Comments.valueOf(commentsParam);
-            } catch (IllegalArgumentException ex) {}
+            } catch (IllegalArgumentException ex) {
+                log.info("invalid comments request parameter: " + commentsParam);
+            }
         }
         log.debug("feed rendering handles comments: " + comments);
 
@@ -120,7 +125,7 @@ public class FeedServlet extends HttpServlet {
         UserTransaction userTx = null;
         boolean startedTx = false;
         try {
-            userTx = (UserTransaction)org.jboss.seam.Component.getInstance("org.jboss.seam.transaction.transaction");
+            userTx = Transaction.instance();
             if (userTx.getStatus() != javax.transaction.Status.STATUS_ACTIVE) {
                 startedTx = true;
                 userTx.begin();
@@ -140,6 +145,7 @@ public class FeedServlet extends HttpServlet {
                     feed.setAuthor(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed"));
                     feed.setTitle(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed") + ": " + aggregateParam);
                     feed.setPublishedDate(new Date());
+                    // We are lying here, we don't really have an alternate representation link for this resource
                     feed.setLink( Preferences.getInstance(WikiPreferences.class).getBaseUrl() );
                     for (FeedEntryDTO feedEntryDTO : result) {
                         feed.getFeedEntries().add(feedEntryDTO.getFeedEntry());
@@ -188,6 +194,7 @@ public class FeedServlet extends HttpServlet {
                 log.debug("feed not found, returning NOT FOUND");
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed");
                 if (startedTx) userTx.commit();
+                invalidateSessionIfPossible(request);
                 return;
             }
 
@@ -202,11 +209,46 @@ public class FeedServlet extends HttpServlet {
                     response.setHeader("WWW-Authenticate", "Basic realm=\"" + feed.getTitle().replace("\"", "'") + "\"");
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                     if (startedTx) userTx.commit();
+                    invalidateSessionIfPossible(request);
                     return;
                 }
             }
 
-            // TODO: Refactor this mess a little
+            String etag = null;
+            if (feed.getId() != null) {
+                log.debug("calculating etag for local feed");
+
+                // Ask the database what the latest feed entry is for that feed, then use its updated timestamp hash
+                FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
+                List<FeedEntry> result = feedDAO.findLastFeedEntries(feed.getId(), 1);
+                if (result.size() > 0)
+                    etag = calculateEtag(result.get(0).getUpdatedDate());
+
+            } else {
+                log.debug("calculating etag for aggregated feed");
+
+                // Get the first (latest) entry of the aggregated feed and use its published timestamp hash (ignoring updates!)
+                // There is a wrinkle hidden here: What if a feed entry is updated? Then the published timestamp should also
+                // be different because the "first latest" feed entry in the list is sorted by both published and updated
+                // timestamps. So even though we only use published timestamp hash as an ETag, this timestamp also changes
+                // when a feed entry is updated because the collection order changes as well.
+                if (feed.getFeedEntries().size() > 0)
+                    etag = calculateEtag(feed.getFeedEntries().iterator().next().getPublishedDate());
+            }
+            if (etag != null) {
+                log.debug("setting etag header: " + etag);
+                response.setHeader("ETag", etag);
+                String previousToken = request.getHeader("If-None-Match");
+                if (previousToken != null && previousToken.equals(etag)) {
+                    log.debug("found matching etag in request header, returning 304 Not Modified");
+                    response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
+                    if (startedTx) userTx.commit();
+                    invalidateSessionIfPossible(request);
+                    return;
+                }
+            }
+
+            // TODO: Refactor this parameter mess a little
             log.debug("finally rendering feed");
             SyndFeed syndFeed =
                     createSyndFeed(
@@ -229,23 +271,21 @@ public class FeedServlet extends HttpServlet {
             log.debug("<<< commit, rendering complete");
 
             if (startedTx) userTx.commit();
+
         } catch (Exception ex) {
-            try {
-                if (startedTx && userTx.getStatus() != javax.transaction.Status.STATUS_MARKED_ROLLBACK) {
-                    log.error("error serving feed, setting transaction to rollback only");
-                    userTx.setRollbackOnly();
+            if (startedTx && userTx != null) {
+                // We started it, so we need to roll it back
+                try {
+                    userTx.rollback();
+                } catch (Exception rbEx) {
+                    log.error("could not roll back transaction: " + rbEx.getMessage());
                 }
-            } catch (Exception rbEx) {
-                rbEx.printStackTrace();
             }
-            throw new RuntimeException(ex);
+            throw new ServletException(ex);
+        } finally {
+            invalidateSessionIfPossible(request);
         }
 
-        // If the user is not logged in, we might as well destroy the session immediately, saving some memory
-        if (request.getSession().isNew() && !Identity.instance().isLoggedIn()) {
-            log.debug("destroying session that was only created for reading the feed");
-            Session.instance().invalidate();
-        }
     }
 
     public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {
@@ -314,6 +354,19 @@ public class FeedServlet extends HttpServlet {
         syndFeed.setEntries(syndEntries);
 
         return syndFeed;
+    }
+
+    private String calculateEtag(Date date) {
+        Hash hash = new Hash();
+        return hash.hash(date.toString());
+    }
+
+    private void invalidateSessionIfPossible(HttpServletRequest request) {
+        // If the user is not logged in, we might as well destroy the session immediately, saving some memory
+        if (request.getSession().isNew() && !Identity.instance().isLoggedIn()) {
+            log.debug("destroying session that was only created for reading the feed");
+            Session.instance().invalidate();
+        }
     }
 
 }

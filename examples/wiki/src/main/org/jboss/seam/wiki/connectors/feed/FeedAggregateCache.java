@@ -6,22 +6,16 @@
  */
 package org.jboss.seam.wiki.connectors.feed;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Synchronized;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.connectors.cache.ConnectorCache;
 import org.jboss.seam.wiki.connectors.cache.ConnectorCacheKey;
-import org.jboss.seam.wiki.core.model.Feed;
-import org.jboss.seam.wiki.core.model.FeedEntry;
 
-import java.net.URL;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Collections;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Caches transient feeds.
@@ -35,6 +29,9 @@ import java.io.Serializable;
 @Synchronized
 @AutoCreate
 public class FeedAggregateCache extends ConnectorCache<FeedEntryDTO, FeedAggregateCache.FeedAggregateCacheKey> {
+
+    // The stuff in here is valid for 10 minutes
+    public static long CACHE_IDLE_TIMEOUT_SECONDS = 36000l;
 
     public void put(String aggregateId, List<FeedEntryDTO> feedEntries) {
         long currentTime = System.currentTimeMillis();
@@ -54,7 +51,7 @@ public class FeedAggregateCache extends ConnectorCache<FeedEntryDTO, FeedAggrega
     }
 
     protected long getIdleTimeoutSeconds() {
-        return 36000;
+        return CACHE_IDLE_TIMEOUT_SECONDS;
     }
 
     public static class FeedAggregateCacheKey implements Serializable {

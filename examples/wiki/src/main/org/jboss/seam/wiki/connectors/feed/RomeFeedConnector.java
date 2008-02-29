@@ -62,6 +62,7 @@ public class RomeFeedConnector implements FeedConnector {
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed syndFeed = input.build(new XmlReader(connection));
              */
+            // So we let Rome do it, whatever it uses internally seems to be safer...
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed syndFeed = input.build(new XmlReader(feedSource));
 

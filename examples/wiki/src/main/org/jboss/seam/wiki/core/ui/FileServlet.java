@@ -5,6 +5,8 @@ import org.jboss.seam.web.Session;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
+import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class FileServlet extends HttpServlet {
+
+    private static final Log log = LogFactory.getLog(FileServlet.class);
 
     private static final String DOWNLOAD_PATH = "/download.seam";
 
@@ -75,13 +79,16 @@ public class FileServlet extends HttpServlet {
 
                     if (startedTx) userTx.commit();
                 } catch (Exception ex) {
-                    try {
-                        if (startedTx && userTx.getStatus() != javax.transaction.Status.STATUS_MARKED_ROLLBACK)
-                            userTx.setRollbackOnly();
-                    } catch (Exception rbEx) {
-                        rbEx.printStackTrace();
+                    if (startedTx && userTx != null) {
+                        // We started it, so we need to roll it back
+                        try {
+                            userTx.rollback();
+                        } catch (Exception rbEx) {
+                            log.error("could not roll back transaction: " + rbEx.getMessage());
+                        }
                     }
-                    throw new RuntimeException(ex);
+                    invalidateSessionIfPossible(request);
+                    throw new ServletException(ex);
                 }
             }
 
@@ -131,11 +138,15 @@ public class FileServlet extends HttpServlet {
             response.getOutputStream().flush();
         }
 
+        invalidateSessionIfPossible(request);
+    }
 
+    private void invalidateSessionIfPossible(HttpServletRequest request) {
         // If the user is not logged in, we might as well destroy the session immediately, saving some memory
         if (request.getSession().isNew() && !Identity.instance().isLoggedIn()) {
+            log.debug("destroying session that was only created for reading the file");
             Session.instance().invalidate();
         }
-
     }
+
 }

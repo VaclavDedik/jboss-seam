@@ -118,7 +118,7 @@ public abstract class ConnectorCache<T, K> {
 
     protected ConnectorCacheAsyncUpdater<T, K> getAsyncUpdater() {
         return (ConnectorCacheAsyncUpdater<T, K>) Component.getInstance(getAsyncUpdaterClass());
-    };
+    }
 
     protected ConnectorCacheKey<K> findKey(ConnectorCacheKey<K> key) {
         for (ConnectorCacheKey keyOfMap : cache.keySet()) {
@@ -129,10 +129,10 @@ public abstract class ConnectorCache<T, K> {
 
     protected long getUpdateTimeoutSeconds() { return 0; }
     protected abstract long getIdleTimeoutSeconds();
-    protected Class<? extends ConnectorCacheAsyncUpdater<T, K>> getAsyncUpdaterClass() { return null; };
+    protected Class<? extends ConnectorCacheAsyncUpdater<T, K>> getAsyncUpdaterClass() { return null; }
     protected boolean isFirstCacheMissResolvedAsynchronously() { return true; }
     protected List<T> udpateCacheSynchronously(ConnectorCache<T, K> cache, ConnectorCacheKey<K> key) {
         return Collections.EMPTY_LIST;
-    };
+    }
 
 }

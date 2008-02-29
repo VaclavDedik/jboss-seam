@@ -138,7 +138,7 @@ public class FeedDAO {
 
     public List<FeedEntry> findLastFeedEntries(Long feedId, int maxResults) {
         return (List<FeedEntry>) restrictedEntityManager
-                .createQuery("select fe from Feed f join f.feedEntries fe where f.id = :feedId order by fe.publishedDate desc")
+                .createQuery("select fe from Feed f join f.feedEntries fe where f.id = :feedId order by fe.updatedDate desc")
                 .setParameter("feedId", feedId)
                 .setMaxResults(maxResults)
                 .getResultList();
