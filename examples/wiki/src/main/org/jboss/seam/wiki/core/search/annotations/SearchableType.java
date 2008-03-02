@@ -8,5 +8,5 @@ package org.jboss.seam.wiki.core.search.annotations;
  * @author Christian Bauer
  */
 public enum SearchableType {
-    PHRASE, PASTDATE, NUMRANGE
+    PHRASE, STRING, PASTDATE, NUMRANGE
 }

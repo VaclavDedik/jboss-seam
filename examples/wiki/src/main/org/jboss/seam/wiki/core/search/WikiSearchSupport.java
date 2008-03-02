@@ -37,7 +37,7 @@ public class WikiSearchSupport extends SearchSupport {
                         return new SearchHit(
                             WikiDocument.class.getSimpleName(),
                             "icon.doc.gif",
-                            escapeBestFragments(query, new NullFragmenter(), doc.getName(), 0, 0),
+                            "(" + doc.getCreatedBy().getFullname() + ") " + escapeBestFragments(query, new NullFragmenter(), doc.getName(), 0, 0),
                             urlRenderer.renderURL(doc),
                             escapeBestFragments(query, new SimpleFragmenter(100), doc.getContent(), 5, 350)
                         );
@@ -52,7 +52,7 @@ public class WikiSearchSupport extends SearchSupport {
                         return new SearchHit(
                             WikiComment.class.getSimpleName(),
                             "icon.user.gif",
-                            "(" + comment.getFromUserName() + ") "
+                            "(" + (comment.getCreatedBy() != null ? comment.getCreatedBy().getFullname() : comment.getFromUserName()) + ") "
                                 + escapeBestFragments(query, new NullFragmenter(), comment.getSubject(), 0, 0),
                             urlRenderer.renderURL(comment),
                             escapeBestFragments(query, new SimpleFragmenter(100), comment.getContent(), 5, 350)

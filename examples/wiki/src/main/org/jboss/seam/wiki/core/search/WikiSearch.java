@@ -109,6 +109,10 @@ public class WikiSearch implements Serializable {
                         propertySearch.getTerms().put(SearchableProperty.TERM_MATCHEXACTPHRASE, getSimpleQueryMatchExactPhrase());
                         searchEntities.add(entry.getKey());
                     }
+                    // And also simple string queries get the term
+                    if (SearchableType.STRING.equals(propertySearch.getProperty().getType())) {
+                        propertySearch.getTerms().put(SearchableProperty.TERM_INCLUDE, getSimpleQuery());
+                    }
                 }
             }
 

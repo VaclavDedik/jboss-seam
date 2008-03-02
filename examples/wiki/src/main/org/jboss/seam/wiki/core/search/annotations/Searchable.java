@@ -24,4 +24,5 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Searchable {
     String description();
     SearchableType type() default SearchableType.PHRASE;
+    String embeddedProperty() default "";
 }

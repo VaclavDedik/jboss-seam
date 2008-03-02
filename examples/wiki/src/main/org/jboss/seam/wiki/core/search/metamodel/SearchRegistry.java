@@ -110,6 +110,24 @@ public class SearchRegistry {
             searchableEntity.getProperties().add(property);
         }
 
+        // @Searchable and embedded indexed getters
+        for (Method method : getGetters(entityClass, Searchable.class, org.hibernate.search.annotations.IndexedEmbedded.class)) {
+
+            String prefix = method.getAnnotation(org.hibernate.search.annotations.IndexedEmbedded.class).prefix();
+            propertyName = prefix + method.getAnnotation(Searchable.class).embeddedProperty();
+            if (propertyName.length() == 0)
+                throw new RuntimeException("@IndexedEmbedded requires @Searchable(embeddedProperty) name on entity " + entityClass.getName());
+            propertyDescription = method.getAnnotation(Searchable.class).description();
+            type = method.getAnnotation(Searchable.class).type();
+
+            SearchableProperty property = new SearchablePropertySingle(
+                    propertyName,
+                    propertyDescription,
+                    type
+            );
+            searchableEntity.getProperties().add(property);
+        }
+
         // @Searchable fields
         for (Field field : getFields(entityClass, Searchable.class, org.hibernate.search.annotations.Field.class)) {
             indexFieldName = field.getAnnotation(org.hibernate.search.annotations.Field.class).name();
@@ -119,6 +137,24 @@ public class SearchRegistry {
 
             SearchableProperty property = new SearchablePropertySingle(
                     indexFieldName != null && indexFieldName.length() > 0? indexFieldName : propertyName,
+                    propertyDescription,
+                    type
+            );
+            searchableEntity.getProperties().add(property);
+
+        }
+
+        // @Searchable and embedded indexed fields
+        for (Field field : getFields(entityClass, Searchable.class, org.hibernate.search.annotations.IndexedEmbedded.class)) {
+            String prefix = field.getAnnotation(org.hibernate.search.annotations.IndexedEmbedded.class).prefix();
+            propertyName = prefix + field.getAnnotation(Searchable.class).embeddedProperty();
+            if (propertyName.length() == 0)
+                throw new RuntimeException("@IndexedEmbedded requires @Searchable(embeddedProperty) name on entity " + entityClass.getName());
+            propertyDescription = field.getAnnotation(Searchable.class).description();
+            type = field.getAnnotation(Searchable.class).type();
+
+            SearchableProperty property = new SearchablePropertySingle(
+                    propertyName,
                     propertyDescription,
                     type
             );

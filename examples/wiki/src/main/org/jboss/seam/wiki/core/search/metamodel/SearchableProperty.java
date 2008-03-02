@@ -102,7 +102,16 @@ public abstract class SearchableProperty implements Serializable, Comparable {
 
                 query = buildRangeQuery(fieldName, df.format(startDate.getTime()), df.format(today.getTime()));
             }
+        } else if (getType().equals(SearchableType.STRING)) {
+
+            String includeString = (String)search.getTerms().get(TERM_INCLUDE);
+            if (includeString != null && includeString.length() >0) {
+                log.debug("building include term query for field: " + fieldName);
+                query = buildTermQuery(fieldName, includeString);
+            }
         }
+
+
         return query;
     }
 

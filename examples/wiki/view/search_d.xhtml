@@ -125,6 +125,10 @@
                                 </h:selectOneMenu>
                             </s:div>
 
+                            <h:panelGrid columns="5" rendered="#{search.property.type == 'STRING'}">
+                                <h:inputText value="#{search.terms['include']}" size="32" tabindex="1"/>
+                            </h:panelGrid>
+
                         </h:column>
 
                     </h:dataTable>

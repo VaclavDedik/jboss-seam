@@ -18,6 +18,7 @@ import java.util.*;
 @Entity
 @Table(name = "USERS")
 @org.hibernate.annotations.BatchSize(size = 20)
+@org.hibernate.search.annotations.Indexed
 public class User implements Serializable {
 
     public static final String GUEST_USERNAME = "guest";
@@ -26,6 +27,7 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "USER_ID")
+    @org.hibernate.search.annotations.DocumentId(name = "userId")
     private Long id = null;
 
     @Version
@@ -56,6 +58,10 @@ public class User implements Serializable {
     @Pattern(
         regex="[a-zA-Z]?[a-zA-Z0-9]+",
         message="#{messages['lacewiki.entity.UsernameMustStartWithALetterAndOnlyContainLetters']}"
+    )
+    @org.hibernate.search.annotations.Field(
+        index = org.hibernate.search.annotations.Index.UN_TOKENIZED,
+        store = org.hibernate.search.annotations.Store.YES
     )
     private String username; // Unique and immutable
 
@@ -101,6 +107,10 @@ public class User implements Serializable {
     @JoinColumn(name = "USER_PROFILE_ID", nullable = false, unique = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_USER_USER_PROFILE_ID")
     private UserProfile profile = new UserProfile();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="createdBy")
+    @org.hibernate.search.annotations.ContainedIn
+    private Set<WikiNode> createdNodes; // Just for Lucene index updates of username @Field
 
     @Transient
     private long ratingPoints = 0;
