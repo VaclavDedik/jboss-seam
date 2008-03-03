@@ -4,11 +4,9 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.TreeSet;
-import java.util.Map.Entry;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.RequestDispatcher;
@@ -18,6 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -25,6 +24,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.Page;
+import org.jboss.seam.navigation.Pages;
 
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.rewriteFilter")
@@ -36,37 +37,23 @@ public class RewriteFilter
 {
     private static LogProvider log = Logging.getLogProvider(RewriteFilter.class);
 
-    Collection<Pattern> patterns = null; 
-
-    // need to extract this from Pages!
-    public void setPatterns(Map<String,String> patternMap) {        
-        patterns = new TreeSet<Pattern>(new Comparator<Pattern>() {
-            public int compare(Pattern p1, Pattern p2) {
-                return p2.pattern.compareTo(p1.pattern);
-            }
-        });
-                
-        for(Entry<String, String> entry: patternMap.entrySet()) {
-            patterns.add(new Pattern(entry.getValue(), entry.getKey()));
-        }
-        
-        log.info("Rewrite patterns: " + patterns);
-    }
-
     public void doFilter(ServletRequest request, 
                          ServletResponse response, 
                          FilterChain chain) 
         throws IOException, 
                ServletException 
     {
-        if (patterns != null) {
-            if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-                response = new RewritingResponse((HttpServletRequest) request,
-                        (HttpServletResponse)response,
-                        patterns);
-                process((HttpServletRequest) request, (HttpServletResponse) response);
-            }
+        List<Pattern> allPatterns = getAllPatterns();
+        
+        if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+            response = new RewritingResponse((HttpServletRequest) request,
+                    (HttpServletResponse)response,
+                    allPatterns);
+            process((HttpServletRequest) request, 
+                    (HttpServletResponse) response,
+                    allPatterns);
         }
+        
         
         if (!response.isCommitted()) {
             chain.doFilter(request, response);
@@ -76,16 +63,17 @@ public class RewriteFilter
     
     @SuppressWarnings("unchecked")
     public void process(HttpServletRequest request, 
-                        HttpServletResponse response)
+                        HttpServletResponse response, List<Pattern> patterns)
         throws IOException, 
                ServletException 
     {
         String fullPath = request.getRequestURI();
         log.info("incoming URL is " + fullPath);
+        log.info("known patterns are " + patterns);
 
         String localPath = strip(fullPath, request.getContextPath());
        
-        Rewrite rewrite = matchPatterns(localPath);
+        Rewrite rewrite = matchPatterns(localPath, patterns);
         if (rewrite!=null) {
             String newPath = rewrite.rewrite();
             
@@ -99,7 +87,7 @@ public class RewriteFilter
     }
 
 
-    private Rewrite matchPatterns(String localPath) {
+    private Rewrite matchPatterns(String localPath, List<Pattern> patterns) {
         for (Pattern pattern: patterns) {
             Rewrite rewrite = pattern.matchIncoming(localPath);
             if (rewrite!=null && rewrite.isMatch()) {
@@ -115,6 +103,25 @@ public class RewriteFilter
         } else {
             return fullPath;
         }
+    }
+    
+    
+    private List<Pattern> getAllPatterns() {
+        List<Pattern> allPatterns = new ArrayList<Pattern>();
+        
+        Pages pages = (Pages) getServletContext().getAttribute(Seam.getComponentName(Pages.class));
+        if (pages != null) {
+            Collection<String> ids = pages.getKnownViewIds();
+
+            for (String id: ids) {
+                 Page page = pages.getPage(id);
+                 allPatterns.addAll(page.getRewritePatterns());
+            }
+        } else {
+            log.warn("Pages is null for incoming request!");
+        }
+        
+        return allPatterns;
     }
 }
 

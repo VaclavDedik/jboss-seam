@@ -12,6 +12,7 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.web.Pattern;
 
 /**
  * Metadata about page actions, page parameters, action navigation,
@@ -37,6 +38,7 @@ public final class Page
    private ProcessControl processControl = new ProcessControl();
    private ConversationIdParameter conversationIdParameter;
    private String eventType;
+   private List<Pattern> rewritePatterns = new ArrayList<Pattern>();
    
    /**
     * The scheme (http/https) required by this page.
@@ -345,5 +347,35 @@ public final class Page
    {
       this.eventType = eventType;
    }
-      
+
+   
+    public List<Pattern> getRewritePatterns() {
+        return rewritePatterns;
+    }
+
+    //public void setRewritePatterns(List<String> rewritePatterns) {
+    //    this.rewritePatterns = rewritePatterns;
+    //}
+
+    public void addRewritePattern(String value) {
+        Pattern pattern = new Pattern(externalUrl(), value);
+        rewritePatterns.add(pattern);
+    }
+    
+    // XXX - not the right implementation - assumes .seam
+    private String externalUrl() {
+        String id = viewId;
+        
+        if (id.contains("*")) {
+            throw new IllegalArgumentException("rewrite patterns not allowed on wildcard page defs");
+        }
+        
+        int pos = id.lastIndexOf(".xhtml");
+        if (pos!=-1) {
+            id = id.substring(0, pos) + ".seam";
+        }
+        
+        return id;
+    }
+
 }

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -35,6 +36,7 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
@@ -65,18 +67,20 @@ import org.jboss.seam.web.Parameters;
 @BypassInterceptors
 @Name("org.jboss.seam.navigation.pages")
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
+@Startup
 public class Pages
 {   
    private static final LogProvider log = Logging.getLogProvider(Pages.class);
-   
-   private Map<String, Page> pagesByViewId = Collections.synchronizedMap( new HashMap<String, Page>() );   
-   private Map<String, List<Page>> pageStacksByViewId = Collections.synchronizedMap( new HashMap<String, List<Page>>() );   
+
    private String noConversationViewId;
    private String loginViewId;
-   private Map<String, ConversationIdParameter> conversations = Collections.synchronizedMap( new HashMap<String, ConversationIdParameter>() );
      
    private Integer httpPort;
    private Integer httpsPort;
+   
+   private Map<String, Page> pagesByViewId;  
+   private Map<String, List<Page>> pageStacksByViewId;   
+   private Map<String, ConversationIdParameter> conversations; 
    
    private String[] resources = { "/WEB-INF/pages.xml" };
  
@@ -95,19 +99,19 @@ public class Pages
    @Create
    public void initialize()
    {
-      for (String resource: resources)
-      {
-         InputStream stream = ResourceLoader.instance().getResourceAsStream(resource);      
-         if (stream==null)
-         {
-            log.info("no pages.xml file found: " + resource);
-         }
-         else
-         {
-            log.debug("reading pages.xml file: " + resource);
-            parse(stream);
-         }
-      }
+       pagesByViewId = Collections.synchronizedMap(new HashMap<String, Page>());   
+       pageStacksByViewId = Collections.synchronizedMap(new HashMap<String, List<Page>>());   
+       conversations = Collections.synchronizedMap(new HashMap<String, ConversationIdParameter>());
+
+       for (String resource: resources) {
+           InputStream stream = ResourceLoader.instance().getResourceAsStream(resource);      
+           if (stream==null) {
+               log.info("no pages.xml file found: " + resource);
+           } else {
+               log.debug("reading pages.xml file: " + resource);
+               parse(stream);
+           }
+       }
    }
    /**
     * Run any navigation rule defined in pages.xml
@@ -572,7 +576,7 @@ public class Pages
 
    protected void notLoggedIn()
    {
-//    TODO - Deprecated, remove for next major release
+      //    TODO - Deprecated, remove for next major release
       Events.instance().raiseEvent("org.jboss.seam.notLoggedIn");
       Events.instance().raiseEvent(Identity.EVENT_NOT_LOGGED_IN);
    }
@@ -1047,6 +1051,12 @@ public class Pages
       ConversationIdParameter param = conversations.get( element.attributeValue("conversation") );
       if (param != null) page.setConversationIdParameter(param);
       
+
+      List<Element> patterns = element.elements("rewrite");
+      for (Element pattern: patterns) {
+           page.addRewritePattern(pattern.attributeValue("pattern"));
+      }
+      
       Element eventElement = element.element("raise-event");
       if (eventElement!=null)
       {
@@ -1513,4 +1523,8 @@ public class Pages
             getCurrentViewId().startsWith("/debug.");
    }
    
+   
+   public Collection<String> getKnownViewIds() {
+       return pagesByViewId.keySet();
+   }
 }
