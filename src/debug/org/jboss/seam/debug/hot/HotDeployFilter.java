@@ -39,7 +39,6 @@ public class HotDeployFilter extends AbstractFilter
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException
    {
-            
       Init init = (Init) getServletContext().getAttribute( Seam.getComponentName(Init.class) );
       if ( init!=null && init.hasHotDeployableComponents() )
       {
@@ -55,7 +54,13 @@ public class HotDeployFilter extends AbstractFilter
       }
       
       //TODO: check the timestamp, for a minor optimization
-      getServletContext().removeAttribute( Seam.getComponentName(Pages.class) );
+      
+      // instead 
+      Pages pages = (Pages) getServletContext().getAttribute(Seam.getComponentName(Pages.class));
+      if (pages!= null) {
+          pages.initialize();
+      }
+      
       getServletContext().removeAttribute( Seam.getComponentName(Exceptions.class) );
       
       //TODO: is there anything we should remove from the session scope?

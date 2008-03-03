@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.el.EL;
 import org.jboss.seam.el.SeamExpressionFactory;
 
@@ -248,8 +249,11 @@ public class Expressions implements Serializable
    }*/
    
    public static Expressions instance()
-   {
-      return (Expressions) Component.getInstance(Expressions.class, ScopeType.APPLICATION);
+   { 
+       if (!Contexts.isApplicationContextActive()) {
+           return new Expressions();
+       } else {
+           return (Expressions) Component.getInstance(Expressions.class, ScopeType.APPLICATION);
+       }
    }
-   
 }
