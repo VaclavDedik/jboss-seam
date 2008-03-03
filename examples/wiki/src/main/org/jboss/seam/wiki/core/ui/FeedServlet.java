@@ -214,28 +214,29 @@ public class FeedServlet extends HttpServlet {
                 }
             }
 
-            String etag = null;
+            Date lastFeedEntryDate = null;
             if (feed.getId() != null) {
-                log.debug("calculating etag for local feed");
 
                 // Ask the database what the latest feed entry is for that feed, then use its updated timestamp hash
                 FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
                 List<FeedEntry> result = feedDAO.findLastFeedEntries(feed.getId(), 1);
-                if (result.size() > 0)
-                    etag = calculateEtag(result.get(0).getUpdatedDate());
+                if (result.size() > 0) {
+                    lastFeedEntryDate = result.get(0).getUpdatedDate();
+                }
 
             } else {
-                log.debug("calculating etag for aggregated feed");
 
                 // Get the first (latest) entry of the aggregated feed and use its published timestamp hash (ignoring updates!)
                 // There is a wrinkle hidden here: What if a feed entry is updated? Then the published timestamp should also
                 // be different because the "first latest" feed entry in the list is sorted by both published and updated
                 // timestamps. So even though we only use published timestamp hash as an ETag, this timestamp also changes
                 // when a feed entry is updated because the collection order changes as well.
-                if (feed.getFeedEntries().size() > 0)
-                    etag = calculateEtag(feed.getFeedEntries().iterator().next().getPublishedDate());
+                if (feed.getFeedEntries().size() > 0) {
+                    lastFeedEntryDate = feed.getFeedEntries().iterator().next().getPublishedDate();
+                }
             }
-            if (etag != null) {
+            if (lastFeedEntryDate != null) {
+                String etag = calculateEtag(lastFeedEntryDate);
                 log.debug("setting etag header: " + etag);
                 response.setHeader("ETag", etag);
                 String previousToken = request.getHeader("If-None-Match");
@@ -260,6 +261,13 @@ public class FeedServlet extends HttpServlet {
                         comments,
                         aggregateParam
                     );
+
+            // If we have an entry on this feed, take the last entry's update timestamp and use it as
+            // the published timestamp of the feed. The Rome library does not have a setUpdatedDate()
+            // method and abuses the published date to write <updated> into the Atom <feed> element.
+            if (lastFeedEntryDate != null) {
+                syndFeed.setPublishedDate(lastFeedEntryDate);
+            }
 
             // Write feed to output
             response.setContentType(syndFeedType.contentType);
@@ -319,6 +327,8 @@ public class FeedServlet extends HttpServlet {
         syndFeed.setAuthor(feed.getAuthor());
         if (feed.getDescription() != null && feed.getDescription().length() >0)
             syndFeed.setDescription(feed.getDescription());
+
+        // Setting the date on which the local feed was stored in the database, might be overwritten later
         syndFeed.setPublishedDate(feed.getPublishedDate());
 
         // Create feed entries

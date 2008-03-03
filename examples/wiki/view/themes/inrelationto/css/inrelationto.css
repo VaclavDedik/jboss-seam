@@ -1596,6 +1596,10 @@ li.menu-separator {
     border: none;
 }
 
+.dr-tree-h-ic-img {
+    height: 18px;
+}
+
 .directoryTreeLabel {
     padding-top: 2px;
     cursor: pointer;
