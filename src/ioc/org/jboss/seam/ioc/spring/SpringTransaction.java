@@ -17,10 +17,12 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.transaction.AbstractUserTransaction;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
@@ -28,6 +30,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 @Name("org.jboss.seam.transaction.transaction")
 @Scope(ScopeType.EVENT)
@@ -38,6 +41,8 @@ public class SpringTransaction extends AbstractUserTransaction
    private static final LogProvider log = Logging.getLogProvider(SpringTransaction.class);
 
    private ValueExpression<PlatformTransactionManager> platformTransactionManager;
+
+   private String platformTransactionManagerName;
 
    private DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
 
@@ -52,13 +57,11 @@ public class SpringTransaction extends AbstractUserTransaction
    {
       if (TransactionSynchronizationManager.isSynchronizationActive())
       {
-         TransactionSynchronizationManager
-                  .registerSynchronization(new JtaSpringSynchronizationAdapter(sync));
+         TransactionSynchronizationManager.registerSynchronization(new JtaSpringSynchronizationAdapter(sync));
       }
       else
       {
-         throw new IllegalStateException(
-                  "TransactionSynchronization not available with this Spring Transaction Manager");
+         throw new IllegalStateException("TransactionSynchronization not available with this Spring Transaction Manager");
       }
    }
 
@@ -68,16 +71,60 @@ public class SpringTransaction extends AbstractUserTransaction
       {
          throw new NotSupportedException("A Spring transaction is already active.");
       }
-      currentTransaction = platformTransactionManager.getValue().getTransaction(definition);
+      currentTransaction = getPlatformTransactionManagerRequired().getTransaction(definition);
    }
 
-   public void commit() throws RollbackException, HeuristicMixedException,
-            HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
+   /**
+    * Obtains a PlatformTransactionManager from either the name or expression
+    * specified.
+    *
+    * @return
+    */
+   protected PlatformTransactionManager getPlatformTransactionManager()
+   {
+      if (((platformTransactionManagerName == null || "".equals(platformTransactionManagerName)) && platformTransactionManager == null) || (platformTransactionManagerName != null && !"".equals(platformTransactionManagerName)) && platformTransactionManager != null)
+      {
+         throw new IllegalArgumentException("When configuring spring:spring-transaction you must specify either platformTransactionManager or platformTransactionManagerName.");
+      }
+      if ((platformTransactionManagerName == null || "".equals(platformTransactionManagerName)))
+      {
+         return platformTransactionManager.getValue();
+      }
+      BeanFactory beanFactory = findBeanFactory();
+      if (beanFactory == null)
+      {
+         log.debug("BeanFactory either not found or not yet available.");
+         return null;
+      }
+      PlatformTransactionManager ptm = (PlatformTransactionManager) beanFactory.getBean(platformTransactionManagerName);
+      return ptm;
+   }
+
+   private PlatformTransactionManager getPlatformTransactionManagerRequired() {
+      PlatformTransactionManager ptm = getPlatformTransactionManager();
+      if (ptm == null)
+      {
+         throw new IllegalStateException("Unable to find PlatformTransactionManager");
+      }
+      return ptm;
+   }
+
+   /**
+    * Attempts to find a BeanFactory and return the instance found.
+    *
+    * @return BeanFactory or null if non found.
+    */
+   protected BeanFactory findBeanFactory()
+   {
+      return WebApplicationContextUtils.getWebApplicationContext(ServletLifecycle.getServletContext());
+   }
+
+   public void commit() throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
       assertActive();
       try
       {
-         platformTransactionManager.getValue().commit(currentTransaction);
+         getPlatformTransactionManagerRequired().commit(currentTransaction);
       }
       finally
       {
@@ -87,6 +134,11 @@ public class SpringTransaction extends AbstractUserTransaction
 
    public int getStatus() throws SystemException
    {
+      PlatformTransactionManager ptm = getPlatformTransactionManager();
+      if (ptm == null)
+      {
+         return Status.STATUS_NO_TRANSACTION;
+      }
       if (TransactionSynchronizationManager.isActualTransactionActive())
       {
          TransactionStatus transaction = null;
@@ -94,7 +146,7 @@ public class SpringTransaction extends AbstractUserTransaction
          {
             if (currentTransaction == null)
             {
-               transaction = platformTransactionManager.getValue().getTransaction(definition);
+               transaction = ptm.getTransaction(definition);
                if (transaction.isNewTransaction())
                {
                   return Status.STATUS_COMMITTED;
@@ -128,7 +180,7 @@ public class SpringTransaction extends AbstractUserTransaction
          {
             if (currentTransaction == null)
             {
-               platformTransactionManager.getValue().commit(transaction);
+               ptm.commit(transaction);
             }
          }
       }
@@ -140,7 +192,7 @@ public class SpringTransaction extends AbstractUserTransaction
       assertActive();
       try
       {
-         platformTransactionManager.getValue().rollback(currentTransaction);
+         getPlatformTransactionManagerRequired().rollback(currentTransaction);
       }
       finally
       {
@@ -153,11 +205,9 @@ public class SpringTransaction extends AbstractUserTransaction
     */
    private void assertActive()
    {
-      if (!TransactionSynchronizationManager.isActualTransactionActive()
-               || currentTransaction == null)
+      if (!TransactionSynchronizationManager.isActualTransactionActive() || currentTransaction == null)
       {
-         throw new IllegalStateException("No transaction currently active that Seam started."
-                  + "Seam should only be able to committ or rollback transactions it started.");
+         throw new IllegalStateException("No transaction currently active that Seam started." + "Seam should only be able to committ or rollback transactions it started.");
       }
    }
 
@@ -168,11 +218,12 @@ public class SpringTransaction extends AbstractUserTransaction
          throw new IllegalStateException("No Spring Transaction is currently available.");
       }
       TransactionStatus transaction = null;
+      PlatformTransactionManager ptm = getPlatformTransactionManagerRequired();
       try
       {
          if (currentTransaction == null)
          {
-            transaction = platformTransactionManager.getValue().getTransaction(definition);
+            transaction = ptm.getTransaction(definition);
          }
          else
          {
@@ -184,7 +235,7 @@ public class SpringTransaction extends AbstractUserTransaction
       {
          if (currentTransaction == null)
          {
-            platformTransactionManager.getValue().commit(transaction);
+            ptm.commit(transaction);
          }
       }
    }
@@ -205,7 +256,7 @@ public class SpringTransaction extends AbstractUserTransaction
       if (joinTransaction == null)
       {
          // If not set attempt to detect if we should join or not
-         if (!(platformTransactionManager.getValue() instanceof JpaTransactionManager))
+         if (!(getPlatformTransactionManagerRequired() instanceof JpaTransactionManager))
          {
             super.enlist(entityManager);
          }
@@ -217,21 +268,30 @@ public class SpringTransaction extends AbstractUserTransaction
    }
 
    @Destroy
-   public void cleanupCurrentTransaction() {
-      if(currentTransaction != null) {
-         try {
+   public void cleanupCurrentTransaction()
+   {
+      if (currentTransaction != null)
+      {
+         try
+         {
             log.debug("Attempting to rollback left over transaction.  Should never be called.");
-            platformTransactionManager.getValue().rollback(currentTransaction);
-         } catch(Throwable e) {
-            //ignore
+            getPlatformTransactionManagerRequired().rollback(currentTransaction);
+         }
+         catch (Throwable e)
+         {
+            // ignore
          }
       }
    }
 
-   public void setPlatformTransactionManager(
-            ValueExpression<PlatformTransactionManager> platformTransactionManager)
+   public void setPlatformTransactionManager(ValueExpression<PlatformTransactionManager> platformTransactionManager)
    {
       this.platformTransactionManager = platformTransactionManager;
+   }
+
+   public void setPlatformTransactionManagerName(String platformTransactionManagerName)
+   {
+      this.platformTransactionManagerName = platformTransactionManagerName;
    }
 
    @Override
@@ -277,15 +337,17 @@ public class SpringTransaction extends AbstractUserTransaction
          sync.beforeCompletion();
       }
 
-      private int convertSpringStatus(int springStatus) {
-          switch(springStatus) {
-          case TransactionSynchronization.STATUS_COMMITTED :
-              return Status.STATUS_COMMITTED;
-          case TransactionSynchronization.STATUS_ROLLED_BACK :
-              return Status.STATUS_ROLLEDBACK;
-          default :
-              return Status.STATUS_UNKNOWN;
-          }
+      private int convertSpringStatus(int springStatus)
+      {
+         switch (springStatus)
+         {
+         case TransactionSynchronization.STATUS_COMMITTED:
+            return Status.STATUS_COMMITTED;
+         case TransactionSynchronization.STATUS_ROLLED_BACK:
+            return Status.STATUS_ROLLEDBACK;
+         default:
+            return Status.STATUS_UNKNOWN;
+         }
       }
    }
 }

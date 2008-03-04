@@ -56,6 +56,15 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
+			<xs:attribute name="platform-transaction-manager-name">
+				<xs:annotation>
+					<xs:documentation>
+						<![CDATA[
+                        	A spring bean name of a PlatformTransactionManager obtained from a BeanFactory instead of EL.
+                        ]]>
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
 			<xs:attribute name="conversation-context-required" type="xs:boolean" use="optional" default="true">
 				<xs:annotation>
 					<xs:documentation>
@@ -69,7 +78,7 @@
 				<xs:annotation>
 					<xs:documentation>
 						Should this transaction manager participate in request to join a transaction.  For JTA
-						transactions set to true. 
+						transactions set to true.
 					</xs:documentation>
 				</xs:annotation>
 			</xs:attribute>
