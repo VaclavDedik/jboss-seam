@@ -789,11 +789,11 @@
       <dependency>
         <groupId>jfree</groupId>
         <artifactId>jfreechart</artifactId>
-        <version>1.0.5</version>
+        <version>1.0.9</version>
         <exclusions>
           <exclusion>
-            <groupId>junit</groupId>
-                  <artifactId>junit</artifactId>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
