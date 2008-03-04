@@ -1,8 +1,4 @@
-<!DOCTYPE components PUBLIC
-  "-//JBoss/Seam Component Configuration DTD 2.1//EN"
-  "http://jboss.com/products/seam/components-2.1.dtd">
-
-<components>
+<components xmlns="http://jboss.com/products/seam/components">
 
     <component name="org.jboss.seam.core.init">
         <property name="jndiPattern">@jndiPattern@</property>

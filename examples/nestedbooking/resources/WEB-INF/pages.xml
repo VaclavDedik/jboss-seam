@@ -1,9 +1,6 @@
-<!DOCTYPE pages PUBLIC
-          "-//JBoss/Seam Pages Configuration DTD 2.1//EN"
-          "http://jboss.com/products/seam/pages-2.1.dtd">
-
-<pages no-conversation-view-id="/main.xhtml"
-                 login-view-id="/home.xhtml">
+<pages xmlns="http://jboss.com/products/seam/pages"
+       no-conversation-view-id="/main.xhtml"
+       login-view-id="/home.xhtml">
 
     <page view-id="/register.xhtml">
     
