@@ -29,7 +29,7 @@ import org.jboss.seam.navigation.Pages;
 
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.rewriteFilter")
-@Install(precedence = BUILT_IN, classDependencies="javax.faces.context.FacesContext")
+@Install(false)
 @BypassInterceptors
 @Filter(within="org.jboss.seam.debug.hotDeployFilter")
 public class RewriteFilter 
