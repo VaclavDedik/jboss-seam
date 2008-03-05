@@ -40,7 +40,6 @@ public class UIDocument
 
     DocumentType documentType;
 
-    String disposition;
     String type;
     String title;
     String subject;
@@ -53,12 +52,19 @@ public class UIDocument
     String margins;
     Boolean marginMirroring;
 
+    String disposition;
+    String fileName;
+    
     boolean sendRedirect = true;
 
     UISignature signatureField;
 
     public void setDisposition(String disposition) {
         this.disposition = disposition;
+    }
+    
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public void setType(String type) {
@@ -283,6 +289,11 @@ public class UIDocument
             documentData.setDisposition(dispositionValue);
         }
         
+        String fileNameValue =  (String) valueBinding(context, "fileName", fileName);
+        if (fileNameValue != null) {
+            documentData.setFilename(fileNameValue);
+        }
+
         if (sendRedirect) {
             DocumentStore store = DocumentStore.instance();
             String id = store.newId();

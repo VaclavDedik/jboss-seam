@@ -10,6 +10,7 @@ public class DocumentData
     String baseName;
 
     String disposition = "inline";
+    String fileName;
     
     public DocumentData(String baseName, DocumentType documentType, byte[] data) {
         super();
@@ -17,8 +18,8 @@ public class DocumentData
         this.documentType = documentType;
         this.baseName = baseName;
     }
-    
-     
+
+
     public byte[] getData() {
         return data;
     }
@@ -29,14 +30,23 @@ public class DocumentData
         return baseName;
     }
 
-    public String getFileName() {
-        return getBaseName() + "." + getDocumentType().getExtension();
+    
+    public void setFilename(String fileName) {
+        this.fileName = fileName;
     }
     
+    public String getFileName() {
+        if (fileName == null) {
+            return getBaseName() + "." + getDocumentType().getExtension();
+        } else {
+           return fileName;
+        }
+    }
+
     public void setDisposition(String disposition) {
         this.disposition = disposition;
     }
-    
+
     public String getDisposition() {
         return disposition;
     }
