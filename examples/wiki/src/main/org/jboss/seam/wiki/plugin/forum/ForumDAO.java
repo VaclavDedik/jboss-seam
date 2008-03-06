@@ -159,7 +159,8 @@ public class ForumDAO implements Serializable {
             .list();
 
         getSession(true).getNamedQuery(unreadRepliesQuery)
-            .setParameter("parentDir", directory)
+            .setParameter("parentDirId", directory.getId())
+            .setParameter("readAccessLevel", currentAccessLevel)
             .setParameter("lastLoginDate", lastLoginDate)
             .setComment("Finding unread replies")
             .setCacheable(true)
@@ -220,10 +221,10 @@ public class ForumDAO implements Serializable {
             .setResultTransformer(
                 new ResultTransformer() {
                     public Object transformTuple(Object[] result, String[] strings) {
-                        if (topicInfoMap.containsKey((Long)result[0])) {
-                            TopicInfo info = topicInfoMap.get( (Long)result[0] );
-                            info.setNumOfReplies((Long)result[1]);
-                            info.setLastComment((WikiComment)result[2]);
+                        if (topicInfoMap.containsKey((Long)result[1])) {
+                            TopicInfo info = topicInfoMap.get( (Long)result[1] );
+                            info.setNumOfReplies((Long)result[2]);
+                            info.setLastComment((WikiComment)result[0]);
                         }
                         return null;
                     }

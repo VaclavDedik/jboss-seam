@@ -31,6 +31,13 @@
         <to last="true" type="temporary-redirect">/robots.txt</to>
     </rule>
 
+    <!-- Disable anything that comes out of Microsoft -->
+    <rule>
+        <from>.*</from>
+        <condition name="remote-addr">65.55.210.81</condition>
+        <to last="true" type="temporary-redirect">/robots.txt</to>
+    </rule>
+
     <!-- Default browser -->
     <rule>
         <from>.*</from>

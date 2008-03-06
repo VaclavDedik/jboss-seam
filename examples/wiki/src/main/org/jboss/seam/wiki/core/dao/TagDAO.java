@@ -28,6 +28,7 @@ public class TagDAO {
     @In
     protected EntityManager restrictedEntityManager;
 
+    // TODO: This query needs to be optimized, the nested subselect with in() is not good for MySQL, needs to be a join
     public List<DisplayTagCount> findTagCounts(WikiDirectory startDir, WikiFile ignoreFile, int limit, long minimumCount) {
 
         StringBuilder queryString = new StringBuilder();

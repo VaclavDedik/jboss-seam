@@ -44,7 +44,7 @@
             <s:fragment rendered="#{preferences.get('Tags', currentMacro).cloud}">
 
                 <ui:repeat var="tagCount" value="#{tagsSortedByCount}">
-                    <s:span styleClass="tagCloudItem noWrapWhitespace" style="font-size: #{50+(100/tagsAggregator.highestTagCount*tagCount.count)}%;">
+                    <s:span styleClass="tagCloudItem noWrapWhitespace" style="font-size: #{70+(100/tagsAggregator.highestTagCount*tagCount.count)}%;">
                         <s:span rendered="#{param.tag != tagCount.tag and preferences.get('Tags', currentMacro).linkToCurrentDocument}" styleClass="undecoratedLink">
                             <h:outputLink value="#{wikiURLRenderer.renderURL(currentDocument)}/Tag/#{wiki:encodeURL(tagCount.tag)}">#{tagCount.tag}</h:outputLink>
                         </s:span>
