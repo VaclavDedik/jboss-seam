@@ -86,6 +86,7 @@ public class Initialization
        nonPropertyAttributes.add("installed");
        nonPropertyAttributes.add("scope");
        nonPropertyAttributes.add("startup");
+       nonPropertyAttributes.add("startupDepends");
        nonPropertyAttributes.add("class");
        nonPropertyAttributes.add("jndi-name");
        nonPropertyAttributes.add("precedence");
@@ -370,6 +371,9 @@ public class Initialization
       Boolean autoCreate = autocreateAttribute==null ? null : "true".equals(autocreateAttribute);
       String startupAttribute = component.attributeValue("startup");
       Boolean startup = startupAttribute==null ? null : "true".equals(startupAttribute);
+      String startupDependsAttribute = component.attributeValue("startupDepends");
+      String[] startupDepends = startupDependsAttribute==null ? new String[0] : startupDependsAttribute.split(" ");
+
       if (className != null)
       {
          Class<?> clazz = getClassUsingImports(className);
@@ -386,7 +390,7 @@ public class Initialization
             name = clazz.getAnnotation(Name.class).value();
          }
 
-         ComponentDescriptor descriptor = new ComponentDescriptor(name, clazz, scope, autoCreate, startup, jndiName, installed, precedence);
+         ComponentDescriptor descriptor = new ComponentDescriptor(name, clazz, scope, autoCreate, startup, startupDepends, jndiName, installed, precedence);
          addComponentDescriptor(descriptor);
          installedComponentClasses.add(clazz);
       }
@@ -977,6 +981,7 @@ public class Initialization
                name, 
                descriptor.getScope(), 
                descriptor.isStartup(),
+               descriptor.getStartupDependencies(),
                descriptor.getJndiName()
             );
          context.set(componentName, component);

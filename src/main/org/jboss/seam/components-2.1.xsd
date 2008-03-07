@@ -56,6 +56,7 @@
         <xs:attribute name="installed" default="true" type="xs:boolean"/>
         <xs:attribute name="auto-create" default="false" type="xs:boolean"/>
         <xs:attribute name="startup" default="false" type="xs:boolean"/>
+        <xs:attribute name="startupDepends" type="xs:string"/>
     </xs:attributeGroup>
     <xs:element name="factory">
         <xs:complexType>

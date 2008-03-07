@@ -26,13 +26,14 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
     protected Boolean installed;
     protected Boolean autoCreate;
     protected Boolean startup;
+    protected String[] startupDepends;
     protected Integer precedence;
 
     /**
      * For components.xml
      */
     public ComponentDescriptor(String name, Class<?> componentClass, ScopeType scope,
-            Boolean autoCreate, Boolean startup, String jndiName, Boolean installed, Integer precedence) 
+            Boolean autoCreate, Boolean startup, String[] startupDepends, String jndiName, Boolean installed, Integer precedence)
     {
         this.name = name;
         this.componentClass = componentClass;
@@ -42,6 +43,7 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
         this.autoCreate = autoCreate;
         this.precedence = precedence;
         this.startup = startup;
+        this.startupDepends = startupDepends;
     }
 
     /**
@@ -112,7 +114,20 @@ public class ComponentDescriptor implements Comparable<ComponentDescriptor>
         return pkg!=null && pkg.isAnnotationPresent(AutoCreate.class);
     }
 
-    public String[] getDependencies()
+    public String[] getStartupDependencies()
+    {
+        if (startupDepends != null && startupDepends.length > 0) {
+           return startupDepends;
+        }
+        Startup startup = componentClass.getAnnotation(Startup.class);
+        if (startup != null)
+        {
+            return startup.depends();
+        }
+        return new String[0];
+    }
+
+   public String[] getDependencies()
     {
         Install install = componentClass.getAnnotation(Install.class);
         if (install == null)

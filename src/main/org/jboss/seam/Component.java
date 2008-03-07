@@ -205,27 +205,28 @@ public class Component extends Model
    // only used for tests
    public Component(Class<?> clazz, String componentName)
    {
-      this(clazz, componentName, Seam.getComponentScope(clazz), false, null);
+      this(clazz, componentName, Seam.getComponentScope(clazz), false, new String[0], null);
    }
 
    // only used for tests
    public Component(Class<?> clazz, Context applicationContext)
    {
-      this( clazz, getComponentName(clazz), Seam.getComponentScope(clazz), false, null, applicationContext );
+      this( clazz, getComponentName(clazz), Seam.getComponentScope(clazz), false, new String[0], null, applicationContext );
    }
 
-   public Component(Class<?> clazz, String componentName, ScopeType componentScope, boolean startup, String jndiName)
+   public Component(Class<?> clazz, String componentName, ScopeType componentScope, boolean startup, String[] dependencies, String jndiName)
    {
-      this(clazz, componentName, componentScope, startup, jndiName, Contexts.getApplicationContext());
+      this(clazz, componentName, componentScope, startup, dependencies, jndiName, Contexts.getApplicationContext());
    }
 
-   private Component(Class<?> beanClass, String componentName, ScopeType componentScope, boolean startup, String componentJndiName, Context applicationContext)
+   private Component(Class<?> beanClass, String componentName, ScopeType componentScope, boolean startup, String[] dependencies, String componentJndiName, Context applicationContext)
    {
       super(beanClass);
       
       name = componentName;
       scope = componentScope;
       this.startup = startup;
+      this.dependencies = dependencies;
       type = Seam.getComponentType( getBeanClass() );
       interceptionEnabled = Seam.isInterceptionEnabled( getBeanClass() );
       perNestedConversation = hasAnnotation(getBeanClass(), PerNestedConversation.class);
@@ -302,7 +303,10 @@ public class Component extends Model
             throw new IllegalArgumentException("@Startup only supported for SESSION or APPLICATION scoped components: " + name);
          }
          Startup annotation = getBeanClass().getAnnotation(Startup.class);
-         dependencies = annotation==null ? new String[0] : annotation.depends();
+         if (dependencies.length == 0 && annotation != null)
+         {
+            dependencies = annotation.depends();
+         }
       }
    }
 
