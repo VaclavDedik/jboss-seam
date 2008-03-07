@@ -53,7 +53,7 @@ public abstract class IoCComponent extends Component
     */
    public IoCComponent(Class clazz, String name, ScopeType scope)
    {
-      super(clazz, name, scope, false, null);
+      super(clazz, name, scope, false, new String[0], null);
    }
 
    protected abstract String getIoCName();
