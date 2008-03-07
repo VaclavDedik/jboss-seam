@@ -102,7 +102,11 @@ public class Identity implements Serializable
    public void create()
    {     
       subject = new Subject();
-      permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);
+      
+      if (Contexts.isApplicationContextActive())
+      {
+         permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);
+      }
    }
    
    public static boolean isSecurityEnabled()
@@ -533,6 +537,8 @@ public class Identity implements Serializable
          return true;
       }
       
+      if (permissionMapper == null) return false;
+         
       if (arg != null)
       {
          return permissionMapper.resolvePermission(arg[0], action);
@@ -549,6 +555,8 @@ public class Identity implements Serializable
       {
          return true;
       }
+      
+      if (permissionMapper == null) return false;
       
       return permissionMapper.resolvePermission(target, action);
    }
