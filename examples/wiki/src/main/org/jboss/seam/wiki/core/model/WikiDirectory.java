@@ -13,17 +13,20 @@ import java.util.Collections;
 @Entity
 @Table(name = "WIKI_DIRECTORY")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_DIRECTORY_NODE_ID")
-//TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 public class WikiDirectory extends WikiNode<WikiDirectory> implements NestedSetNode<WikiDirectory>, Serializable {
 
     @Column(name = "DESCRIPTION", nullable = true)
     @Length(min = 0, max = 512)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+// This does not work, as usual. Hibernate just ignores it and gives me a proxy sometimes, leading to CCE later on
+// Maybe because I query directories with "from WikiNode where parentId", so the instrumentation of the WikiDirectory
+// subclass has no effect. 
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @org.hibernate.annotations.LazyToOne(org.hibernate.annotations.LazyToOneOption.NO_PROXY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "DEFAULT_FILE_ID", nullable = true, unique = true)
     @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_DIRECTORY_DEFAULT_FILE_ID")
-    @org.hibernate.annotations.LazyToOne(org.hibernate.annotations.LazyToOneOption.NO_PROXY)
     private WikiFile defaultFile;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "directory", cascade = CascadeType.PERSIST)
