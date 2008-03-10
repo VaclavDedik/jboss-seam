@@ -42,6 +42,7 @@
         <xs:attribute name="conversation-timeout" type="xs:integer"/>
         <xs:attribute name="conversation-id-parameter"/>
         <xs:attribute name="parent-conversation-id-parameter"/>
+        <xs:attribute name="uri-encoding"/>
     </xs:attributeGroup>
     
     <xs:element name="resource-loader">

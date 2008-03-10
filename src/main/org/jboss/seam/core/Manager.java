@@ -47,6 +47,8 @@ public class Manager
    
    public static final String REDIRECT_FROM_MANAGER = "org.jboss.seam.core.Manager";
 
+   private static final String DEFAULT_ENCODING = "UTF-8";
+
    //The id of the current conversation
    private String currentConversationId;
    private List<String> currentConversationIdStack;
@@ -64,6 +66,9 @@ public class Manager
    private String conversationIdParameter = "conversationId";
    private String parentConversationIdParameter = "parentConversationId";
 
+   private String URIEncoding = DEFAULT_ENCODING;
+   
+   
    // DONT BREAK, icefaces uses this
    public String getCurrentConversationId()
    {
@@ -822,7 +827,7 @@ public class Manager
    {
       try
       {
-         return URLEncoder.encode(String.valueOf(value),"UTF-8");
+         return URLEncoder.encode(String.valueOf(value),getUriEncoding());
       }
       catch (UnsupportedEncodingException iee)
       {
@@ -887,6 +892,14 @@ public class Manager
          //           force creation of a conversation entry
          Conversation.instance().flush();
       }
+   }
+
+   public String getUriEncoding() {
+       return URIEncoding;
+   }
+
+   public void setUriEncoding(String encoding) {
+       URIEncoding = encoding;
    }
 
 }
