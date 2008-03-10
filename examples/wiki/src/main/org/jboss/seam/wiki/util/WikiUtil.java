@@ -196,6 +196,11 @@ public class WikiUtil {
         return sb.toString();
     }
 
+    public static String removeHtml(String original) {
+        if (original == null) return null;
+        return original.replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
+    }
+
     // TODO: Ouch...
     public static String removeMacros(String string) {
         if (string == null) return null;
@@ -270,17 +275,10 @@ public class WikiUtil {
         }
     }
 
-    /**
-     * Can't use col.size() in a value binding. Why can't I call arbitrary methods, even
-     * with arguments, in a value binding? Java needs properties badly.
-     */
+    // Some null-safe operations
     public static int sizeOf(Collection col) {
         return col == null ? 0 : col.size();
     }
-
-    /**
-     * EL doesn't support a String lenth() operator.
-     */
     public static int length(String string) {
         return string == null ? 0 : string.length();
     }

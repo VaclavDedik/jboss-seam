@@ -5,6 +5,7 @@
        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
        xmlns:f="http://java.sun.com/jsf/core"
        xmlns:wiki="http://jboss.com/products/seam/wiki"
+       xmlns:stringutils="http://org.apache.commons.lang/StringUtils"
        xmlns:s="http://jboss.com/products/seam/taglib">
 
     <s:div styleClass="feedAggregator box">
@@ -69,18 +70,22 @@
                     <s:div styleClass="feedEntryTitle undecoratedLink"
                            rendered="#{not preferences.get('FeedAggregator', currentMacro).hideTitle}">
                         <h:outputLink target="_top" value="#{feDTO.feedEntry.link}">
-                            <h:outputText escape="false" value="#{wiki:escapeAtSymbol(feDTO.feedEntry.titleStripped)}"/>
+                            <h:outputText value="#{wiki:escapeAtSymbol(wiki:removeHtml(stringutils:unescapeHtml(feDTO.feedEntry.title)))}"/>
                         </h:outputLink>
                     </s:div>
 
                     <s:div styleClass="feedEntryBody" rendered="#{not preferences.get('FeedAggregator', currentMacro).hideDescription}">
-                        <h:outputText escape="false"
-                                      value="#{wiki:truncateStringOnWordBoundary(wiki:escapeAtSymbol(feDTO.feedEntry.descriptionValueStrippedNoNewlines),
-                                                                   preferences.get('FeedAggregator', currentMacro).truncateDescription)}"/>
+                        <h:outputText value="#{wiki:truncateStringOnWordBoundary(
+                                                wiki:escapeAtSymbol(
+                                                    wiki:removeHtml(
+                                                        stringutils:unescapeHtml(feDTO.feedEntry.descriptionValue)
+                                                    )
+                                                ),
+                                                preferences.get('FeedAggregator', currentMacro).truncateDescription)}"/>
 
                         <h:outputLink target="_top" styleClass="feedEntryBodyMoreLink"
                                       value="#{feDTO.feedEntry.link}"
-                                      rendered="#{wiki:length(feDTO.feedEntry.descriptionValueStrippedNoNewlines)
+                                      rendered="#{wiki:length(wiki:removeHtml(stringutils:unescapeHtml(feDTO.feedEntry.descriptionValue)))
                                                   > preferences.get('FeedAggregator', currentMacro).truncateDescription}">
                             &#160;#{messages['feedAggregator.label.More']}
                         </h:outputLink>

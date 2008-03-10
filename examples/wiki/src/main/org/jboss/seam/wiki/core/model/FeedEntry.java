@@ -22,9 +22,6 @@ TODO: This implementation of Comparable is not consistent with equals()!
  */
 public class FeedEntry implements Serializable, Comparable {
 
-    public static final String END_TEASER_MACRO = "endTeaser";
-    public static final String END_TEASER_MARKER = "[<=endTeaser]";
-
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")
     @Column(name = "FEEDENTRY_ID")
@@ -103,10 +100,6 @@ public class FeedEntry implements Serializable, Comparable {
         this.titleSuffix = titleSuffix;
     }
 
-    public String getTitleStripped() {
-        return stripHTMLTags(title);
-    }
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -151,24 +144,6 @@ public class FeedEntry implements Serializable, Comparable {
         this.descriptionValue = descriptionValue;
     }
 
-    public String getDescriptionValueStripped() {
-        return stripHTMLTags(getDescriptionValue());
-    }
-
-    public String getDescriptionValueStrippedNoNewlines() {
-        if (getDescriptionValue() == null) return null;
-        return stripHTMLTags(getDescriptionValue()).replaceAll("(\n|\r)", " ");
-    }
-
-    public boolean isTeaserMarkerPresent() {
-        return getDescriptionValueStripped() != null && getDescriptionValueStripped().contains(END_TEASER_MARKER);
-    }
-
-    public String getTeaserStripped() {
-        String stripped = getDescriptionValueStripped();
-        return isTeaserMarkerPresent() ? stripped.substring(0, stripped.indexOf(END_TEASER_MARKER)) : stripped;
-    }
-
     public int getReadAccessLevel() {
         return 0; // No restrictions
     }
@@ -200,12 +175,6 @@ public class FeedEntry implements Serializable, Comparable {
 
     public String toString() {
         return "FeedEntry (" + getId() + ")";
-    }
-
-    private String stripHTMLTags(String original) {
-        if (original == null) return null;
-        // Hm, that should be enough to make stuff XSS-safe?
-        return original.replaceAll("\\<([a-zA-Z]|/){1}?.*?\\>","");
     }
 
 }

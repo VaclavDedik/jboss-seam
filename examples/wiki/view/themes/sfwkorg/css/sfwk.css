@@ -1396,7 +1396,7 @@ b.rtop b.r4, b.rbottom b.r4 {
     color: #000;
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 0;
+    padding-top: 5px;
     padding-bottom: 5px;    
 }
 

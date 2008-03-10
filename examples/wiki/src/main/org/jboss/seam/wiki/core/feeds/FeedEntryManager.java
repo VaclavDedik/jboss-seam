@@ -52,13 +52,9 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
                         + "</a>" : "[Broken Link]";
             }
 
-            // Preserve the macro that marks the end of the teaser
+            // Remove all macros
             public String renderMacro(WikiMacro macro) {
-                if (macro.getName().equals(FeedEntry.END_TEASER_MACRO)) {
-                    return FeedEntry.END_TEASER_MARKER;
-                } else {
-                    return "";
-                }
+                return "";
             }
         }
         parser.setRenderer( new FeedRenderer() );

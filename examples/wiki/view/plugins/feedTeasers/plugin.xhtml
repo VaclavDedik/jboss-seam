@@ -34,42 +34,26 @@
                             <h:outputText styleClass="teaserAuthor" value="#{fe.author}"/>
                         </s:span>
 
-                        <!-- TODO: Fix this somehow... it was an ugly hack anyway
-                        <s:div rendered="#{fe.document.enableComments and wiki:sizeOf(fe.document.comments) > 0}" styleClass="undecoratedLink">
-                            <h:outputLink target="_top" styleClass="feedTeaserComments" value="#{wikiURLRenderer.renderPermURL(fe.document)}#comments">
-                                #{wiki:sizeOf(fe.document.comments)}&#160;
-                                <h:outputText value="#{wiki:sizeOf(fe.document.comments)>1
-                                                     ? messages['lacewiki.label.commentsDisplay.Comments']
-                                                     : messages['lacewiki.label.commentsDisplay.Comment']}"/>
-                            </h:outputLink>
-                        </s:div>
-                        -->
                     </div>
 
                     <div class="teaserTitle undecoratedLink">
                         <h:outputLink target="_top" value="#{fe.link}">
-                            <h:outputText escape="false" value="#{fe.titleStripped}"/>
+                            <h:outputText value="#{wiki:removeHtml(fe.title)}"/>
                         </h:outputLink>
                     </div>
 
-                    <s:fragment rendered="#{fe.teaserMarkerPresent}">
-                        <h:outputText styleClass="teaserBody" value="#{fe.teaserStripped}"/>
-                        <h:outputLink target="_top" styleClass="teaserBody" value="#{fe.link}">
-                             &#160;#{messages['feedTeasers.label.More']}
-                         </h:outputLink>
-                    </s:fragment>
+                    <h:outputText styleClass="teaserBody"
+                                  value="#{wiki:truncateStringOnWordBoundary(
+                                            wiki:removeHtml(fe.descriptionValue),
+                                            preferences.get('FeedTeasers', currentMacro).truncateDescription
+                                          )}"/>
 
-                    <s:fragment rendered="#{not fe.teaserMarkerPresent}">
-                        <h:outputText styleClass="teaserBody"
-                                      value="#{wiki:truncateStringOnWordBoundary(fe.descriptionValueStripped, preferences.get('FeedTeasers', currentMacro).truncateDescription)}"/>
-
-                        <h:outputLink target="_top" styleClass="teaserBody"
-                                      value="#{fe.link}"
-                                      rendered="#{wiki:length(fe.descriptionValueStripped) > preferences.get('FeedTeasers', currentMacro).truncateDescription}">
-                            &#160;#{messages['feedTeasers.label.More']}
-                        </h:outputLink>
-                    </s:fragment>
-
+                    <h:outputLink target="_top" styleClass="teaserBody"
+                                  value="#{fe.link}"
+                                  rendered="#{wiki:length(wiki:removeHtml(fe.descriptionValue))
+                                              > preferences.get('FeedTeasers', currentMacro).truncateDescription}">
+                        <h:outputText value="&#160;#{messages['feedTeasers.label.More']}"/>
+                    </h:outputLink>
 
                 </h:column>
             </h:dataTable>

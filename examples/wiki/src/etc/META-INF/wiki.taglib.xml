@@ -115,6 +115,12 @@
     </function>
 
     <function>
+        <function-name>removeHtml</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String removeHtml(java.lang.String)</function-signature>
+    </function>
+
+    <function>
         <function-name>disableFloats</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String disableFloats(java.lang.String)</function-signature>

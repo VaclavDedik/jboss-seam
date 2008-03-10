@@ -38,7 +38,7 @@
             <s:fragment rendered="#{not empty textPreviewId}">
                 <br/>
                 <h:outputText style="white-space:nowrap;"
-                              value="(#{valueMaxLength - wiki:length(valueBinding)} #{messages['lacewiki.label.wikiTextEditor.CharactersLeft']})"/>
+                              value="(#{valueMaxLength - valueBinding.length()} #{messages['lacewiki.label.wikiTextEditor.CharactersLeft']})"/>
             </s:fragment>
         </s:div>
 
