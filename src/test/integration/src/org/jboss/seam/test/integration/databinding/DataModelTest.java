@@ -171,7 +171,7 @@ public class DataModelTest extends SeamTest
       assert mapDataModel.getRowCount() == 2;
       
       // JBSEAM-1660
-      /*try 
+      try 
       {
          mapDataModel.setWrappedData(null);
       }
@@ -179,12 +179,12 @@ public class DataModelTest extends SeamTest
       {
          // Spec allows passing null
          assert false;
-      }*/
+      }
    }
    
    //JBSEAM-1659
    
-   /*@Test
+   @Test
    public void testMapDataModelSerialization() throws Exception
    {
       
@@ -213,7 +213,7 @@ public class DataModelTest extends SeamTest
       assert serializedMapDataModel.getRowIndex() == 1;
       assert map.get("0").equals(serializedMap.get("0")); 
       assert map.get("1").equals(serializedMap.get("1"));
-   }*/
+   }
    
    @Test
    public void testSetDataModel() throws IOException, ClassNotFoundException
@@ -261,7 +261,7 @@ public class DataModelTest extends SeamTest
       assert setDataModel.getRowCount() == 2;
       
       // JBSEAM-1660
-      /*try 
+      try 
       {
          setDataModel.setWrappedData(null);
       }
@@ -269,7 +269,7 @@ public class DataModelTest extends SeamTest
       {
          // Spec allows passing null
          assert false;
-      }*/
+      }
    }
    
    @Test
@@ -316,7 +316,6 @@ public class DataModelTest extends SeamTest
          protected void renderResponse() throws Exception
          {
             Object people = getValue("#{peopleList}");
-            System.out.println(people);
             assert people instanceof DataModel;
             DataModel dataModel = (DataModel) people;
             assert dataModel.getRowCount() == 4;
