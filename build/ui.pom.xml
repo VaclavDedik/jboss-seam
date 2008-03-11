@@ -83,6 +83,13 @@
     <dependency>
       <groupId>org.jboss.seam</groupId>
       <artifactId>jboss-seam-jul</artifactId>
+      <exclusions>
+         <!-- Odd, causes jdk 6 (only) build to fail if this isn't in. Some commons-logging conflict I think -->
+         <exclusion>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+         </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
