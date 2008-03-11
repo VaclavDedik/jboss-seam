@@ -1,10 +1,12 @@
 package org.jboss.seam.deployment;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Map;
 import java.util.Set;
 
 import org.jboss.seam.contexts.Contexts;
@@ -27,7 +29,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
     * The contextual variable name this deployment strategy is made available at
     * during Seam startup.
     */
-   public static final String NAME = "org.jboss.seam.deployment.hotDeploymentStrategy";
+   public static final String NAME = "hotDeploymentStrategy";
    
    /**
     * The key under which to list extra hot deployment directories
@@ -50,6 +52,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    private File[] hotDeploymentPaths;
    
    private ComponentDeploymentHandler componentDeploymentHandler;
+   private AnnotationDeploymentHandler annotationDeploymentHandler;
    
    /**
     * @param classLoader The parent classloader of the hot deployment classloader
@@ -60,7 +63,9 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    {
       initHotDeployClassLoader(classLoader, hotDeployDirectory);
       componentDeploymentHandler = new ComponentDeploymentHandler();
-      getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);  
+      getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
+      annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
+      getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
    }
    
    private void initHotDeployClassLoader(ClassLoader classLoader, File hotDeployDirectory)
@@ -141,6 +146,11 @@ public class HotDeploymentStrategy extends DeploymentStrategy
       return componentDeploymentHandler.getClasses();
    }
 
+   public Map<String, Set<Class<Object>>> getAnnotatedClasses()
+   {
+      return annotationDeploymentHandler.getClasses();
+   }
+   
    @Override
    public void scan()
    {

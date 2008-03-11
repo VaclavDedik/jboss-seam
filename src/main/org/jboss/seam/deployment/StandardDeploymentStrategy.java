@@ -1,5 +1,7 @@
 package org.jboss.seam.deployment;
 
+import java.lang.annotation.Annotation;
+import java.util.Map;
 import java.util.Set;
 
 import org.jboss.seam.contexts.Contexts;
@@ -25,7 +27,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
     * The contextual variable name this deployment strategy is made available at
     * during Seam startup.
     */
-   public static final String NAME = "org.jboss.seam.deployment.deploymentStrategy";
+   public static final String NAME = "deploymentStrategy";
    
    /**
     * The key under which to list extra deployment handlers.
@@ -37,6 +39,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
 
    private ComponentDeploymentHandler componentDeploymentHandler;
    private NamespaceDeploymentHandler namespaceDeploymentHandler;
+   private AnnotationDeploymentHandler annotationDeploymentHandler;
    
    /**
     * @param classLoader The classloader used to load and handle resources
@@ -48,6 +51,8 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
       getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
       namespaceDeploymentHandler = new NamespaceDeploymentHandler();
       getDeploymentHandlers().put(NamespaceDeploymentHandler.NAME, namespaceDeploymentHandler);
+      annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
+      getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
    }
 
    @Override
@@ -84,6 +89,11 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    public Set<Package> getScannedNamespaces()
    {
       return namespaceDeploymentHandler.getPackages();
+   }
+   
+   public Map<String, Set<Class<Object>>> getAnnotatedClasses()
+   {
+      return annotationDeploymentHandler.getClasses();
    }
    
    @Override

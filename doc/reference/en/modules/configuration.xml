@@ -884,9 +884,47 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
         </para>
         
         <para>
-            You may also want Seam to handle custom resources. For example, you
-            could use this to process classes with a custom annotation at 
-            startup. To do this, we need to write a custom deployment handler:
+            You may also want Seam to handle custom resources. A common use case
+            is to handle a specific annotation and Seam provides specific 
+            support for this. First, tell Seam which annotations to handle in
+            <literal>/META-INF/seam-deployment.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[# A comma separated list of annotation types to handle
+org.jboss.seam.deployment.annotationTypes=com.acme.Foo]]></programlisting>
+         
+        <para>
+            Then, during application startup you can get hold of all classes
+            annotated with <literal>@Foo</literal>:
+        </para>
+        
+        <programlisting><![CDATA[@Name("fooStartup")
+@Scope(APPLICATION)
+@Startup
+public class FooStartup {
+
+   @In("#{deploymentStrategy.annotatedClasses['com.acme.Foo']}")
+   private Set<Class<Object>> fooClasses;
+   
+   @In("#{hotDeploymentStrategy.annotatedClasses['com.acme.Foo']}")
+   private Set<Class<Object>> hotFooClasses;
+
+   @Create
+   public void create() {
+      for (Class clazz : fooClasses) {
+         handleClass(clazz);
+      }
+      for (Class clazz : hotFooClasses) {
+         handleClass(clazz);
+      }
+   }
+
+}]]></programlisting>
+
+        <para>    
+            You can also handle <emphasis>any</emphasis> resource. For example, 
+            you process any files with the extension <literal>.foo.xml</literal>.
+            To do this, we need to write a custom deployment handler:
         </para>
         
         <programlisting><![CDATA[public class FooDeploymentHandler implements DeploymentHandler {
@@ -941,10 +979,10 @@ org.jboss.seam.deployment.hotDeploymentHandlers=com.acme.FooDeploymentHandler]]>
 @Startup
 public class FooStartup {
 
-   @In("#{org.jboss.seam.deployment.deploymentStrategy['fooDeploymentHandler']}")
+   @In("#{deploymentStrategy['fooDeploymentHandler']}")
    private MyDeploymentHandler myDeploymentHandler;
    
-   @In("#{org.jboss.seam.deployment.hotDeploymentStrategy['fooDeploymentHandler']}")
+   @In("#{hotDeploymentStrategy['fooDeploymentHandler']}")
    private MyDeploymentHandler myHotDeploymentHandler;
 
    @Create
