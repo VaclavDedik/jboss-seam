@@ -437,10 +437,14 @@ public class Image implements Serializable
 
    private void readImage(InputStream inputStream) throws IOException
    {
+      if (inputStream == null)
+      {
+         throw new IllegalArgumentException("Image pointed to must exist (input stream must not be null)");
+      }
       ImageInputStream stream = ImageIO.createImageInputStream(inputStream);
       if (stream == null)
       {
-         throw new IllegalArgumentException("stream == null!");
+         throw new IllegalArgumentException("Error creating image input stream from image");
       }
 
       Iterator iter = ImageIO.getImageReaders(stream);
