@@ -7,6 +7,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.jboss.seam.core.Init;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -47,11 +48,7 @@ public class CacheRendererBase extends RendererBase
          else
          {
             log.debug("rendering from cache: " + key);
-            writer.write("<!-- cached content for: ");
-            writer.write(key);
-            writer.write(" -->");
             writer.write(cachedContent);
-            writer.write("<!-- end of cached content -->");
          }
       }
       else
