@@ -174,16 +174,21 @@ public class Pages
    private Page createPage(String viewId)
    {
       String resourceName = replaceExtension(viewId, ".page.xml");
-      InputStream stream = resourceName==null ? 
-            null : ResourceLoader.instance().getResourceAsStream( resourceName.substring(1) );
-      if ( stream==null ) 
-      {
+      InputStream stream = null;
+      
+      if (resourceName!=null) {
+          stream = ResourceLoader.instance().getResourceAsStream(resourceName.substring(1));
+
+          if (stream == null) {
+              stream = ResourceLoader.instance().getResourceAsStream(resourceName);
+          }
+      }
+   
+      if (stream==null) {
          Page result = new Page(viewId);
          pagesByViewId.put(viewId, result);
          return result;
-      }
-      else
-      {
+      } else {
          parse(stream, viewId);
          return getCachedPage(viewId);
       }
