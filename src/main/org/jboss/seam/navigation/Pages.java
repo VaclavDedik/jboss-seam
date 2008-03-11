@@ -169,24 +169,29 @@ public class Pages
     * Create a new Page object for a JSF view id,
     * by searching for a viewId.page.xml file.
     */
-   private Page createPage(String viewId)
-   {
-      String resourceName = replaceExtension(viewId, ".page.xml");
-      InputStream stream = resourceName==null ? 
-            null : ResourceLoader.instance().getResourceAsStream( resourceName.substring(1) );
-      if ( stream==null ) 
-      {
-         Page result = new Page(viewId);
-         pagesByViewId.put(viewId, result);
-         return result;
-      }
-      else
-      {
-         parse(stream, viewId);
-         return getCachedPage(viewId);
-      }
-   }
+    private Page createPage(String viewId)
+    {
+        String resourceName = replaceExtension(viewId, ".page.xml");
+        InputStream stream = null;
+      
+        if (resourceName!=null) {
+            stream = ResourceLoader.instance().getResourceAsStream(resourceName.substring(1));
+
+            if (stream == null) {
+                stream = ResourceLoader.instance().getResourceAsStream(resourceName);
+            }
+        }
    
+        if (stream==null) {
+            Page result = new Page(viewId);
+            pagesByViewId.put(viewId, result);
+            return result;
+        } else {
+            parse(stream, viewId);
+            return getCachedPage(viewId);
+        }
+    }
+
    private Page getCachedPage(String viewId)
    {
       Page result = pagesByViewId.get(viewId);
