@@ -872,6 +872,94 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             JBoss Portal. </para>
 
     </sect1>
+    
+    <sect1>
+        <title>Deploying custom resources</title>
+        
+        <para>
+            Seam scans all jars containing <literal>/seam.properties</literal>,
+            <literal>/META-INF/components.xml</literal> or <literal>/META-INF/seam.properties</literal>
+            on startup for resources. For example, all classes annotated with
+            <literal>@Name</literal> are registered with Seam as Seam components.
+        </para>
+        
+        <para>
+            You may also want Seam to handle custom resources. For example, you
+            could use this to process classes with a custom annotation at 
+            startup. To do this, we need to write a custom deployment handler:
+        </para>
+        
+        <programlisting><![CDATA[public class FooDeploymentHandler implements DeploymentHandler {
+        
+   private Set<InputStream> files = new HashSet<InputStream>();
+        
+   public String getName() {
+      return "fooDeploymentHandler";
+   }
+   
+   public Set<InputStream> getFiles() {
+      return files;
+   }
+   
+   public void handle(String name, ClassLoader classLoader) {
+      if (name.endsWith(".foo.xml")) {
+         files.add(classLoader.getResourceAsStream(name));
+      }
+   }
+}]]></programlisting>
+
+        <para>
+            Here we are just building a list of any files with the suffix 
+            <literal>.foo.xml</literal>. 
+        </para>
+        
+        <para>
+            Then, we need to register the deployment handler with Seam. In
+            <literal>/META-INF/seam-deployment.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[# For standard deployment
+org.jboss.seam.deployment.deploymentHandlers=com.acme.FooDeploymentHandler
+# For hot deployment
+org.jboss.seam.deployment.hotDeploymentHandlers=com.acme.FooDeploymentHandler]]></programlisting>
+
+         <para>
+             You can register multiple deployment handler using a comma 
+             separated list.
+         </para>
+         
+         <para>
+             Seam uses deployment handlers internally to install components and
+             namespaces, therefore the <literal>handle()</literal> is called too
+             early in inside Seam bootstrap to normally be useful. However, you
+             can easily access the deployment handler during an 
+             <literal>APPLICATION</literal> scoped component's startup: 
+         </para>
+         
+         <programlisting><![CDATA[@Name("fooStartup")
+@Scope(APPLICATION)
+@Startup
+public class FooStartup {
+
+   @In("#{org.jboss.seam.deployment.deploymentStrategy['fooDeploymentHandler']}")
+   private MyDeploymentHandler myDeploymentHandler;
+   
+   @In("#{org.jboss.seam.deployment.hotDeploymentStrategy['fooDeploymentHandler']}")
+   private MyDeploymentHandler myHotDeploymentHandler;
+
+   @Create
+   public void create() {
+      for (InputStream is : myDeploymentHandler.getFiles()) {
+         handleFooXml(is);
+      }
+      for (InputStream is : myHotDeploymentHandler.getFiles()) {
+         handleFooXml(is);
+      }
+   }
+
+}]]></programlisting>
+
+    </sect1>
 
     <sect1>
         <title>Configuring SFSB and Session Timeouts in JBoss AS</title>
