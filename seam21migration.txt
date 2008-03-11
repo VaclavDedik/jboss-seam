@@ -7,9 +7,17 @@ to the updated Seam examples.
 This migration guide assumes you are using Seam 2.0, if you are migrating from
 Seam 1.2, see the seam2migration guide as well.
 
+
 Testing
 -------
 
 SeamTest now boots Seam at the start of each suite, rather than the start of
 each class. This is much faster. See the reference manual for how to alter the
 default.
+
+
+Exception Handling
+------------------
+
+The caught exception is now available in EL as #{org.jboss.seam.caughtException}
+rather than #{org.jboss.seam.exception}

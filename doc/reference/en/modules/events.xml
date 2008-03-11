@@ -983,7 +983,7 @@ throw new AuthorizationException("You are not allowed to do this!");
          <para>
            <literal>org.jboss.seam.handledException</literal> holds the nested exception that
            was actually handled by an exception handler. The outermost (wrapper) exception is 
-           also available, as <literal>org.jboss.seam.exception</literal>.
+           also available, as <literal>org.jboss.seam.caughtException</literal>.
          </para>
          
          <sect3>
