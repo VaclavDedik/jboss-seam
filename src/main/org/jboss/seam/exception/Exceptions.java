@@ -50,7 +50,7 @@ public class Exceptions
    {
       if ( Contexts.isConversationContextActive() )
       {
-         Contexts.getConversationContext().set("org.jboss.seam.exception", e);
+         Contexts.getConversationContext().set("org.jboss.seam.caughtException", e);
       }
       
       //build a list of the nested exceptions

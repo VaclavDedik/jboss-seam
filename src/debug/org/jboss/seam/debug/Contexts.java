@@ -61,7 +61,7 @@ public class Contexts
 
    public Exception getException()
    {
-      return (Exception) org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.exception");
+      return (Exception) org.jboss.seam.contexts.Contexts.getConversationContext().get("org.jboss.seam.caughtException");
    }
    
    public List<Exception> getExceptionCauses()
