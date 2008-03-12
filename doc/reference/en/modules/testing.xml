@@ -456,6 +456,14 @@ public class MockPaymentProcessor extends PaymentProcessor {
               must put a <literal>seam.properties</literal> in each resource.
            </para>
            
+           <para>
+              By default, a generated project will use the 
+              <literal>java:/DefaultDS</literal> (a built in HSQL datasource in
+              Embedded JBoss) for testing. If you want to use another datasource
+              place the <literal>foo-ds.xml</literal> into 
+              <literal>bootstrap/deploy</literal> directory.
+           </para>
+           
          </section>
         
         <section>
@@ -516,6 +524,13 @@ public class MockPaymentProcessor extends PaymentProcessor {
          <programlisting>
    <![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]>
          </programlisting> 
+          
+         <para>
+            DBUnitSeamTest only works out of the box with HSQL as a datasource.
+            If you want to use another database, then you'll need to implement
+            some extra methods. Read the javadoc on 
+            <literal>DBUnitSeamTest</literal> for more.
+         </para> 
           
         </section>
         
