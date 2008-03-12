@@ -572,7 +572,7 @@ public class Identity implements Serializable
          public void handle(Callback[] callbacks) 
             throws IOException, UnsupportedCallbackException 
          {
-            for (int i=0; i<callbacks.length; i++)
+            for (int i=0; i < callbacks.length; i++)
             {
                if (callbacks[i] instanceof NameCallback)
                {
@@ -585,10 +585,9 @@ public class Identity implements Serializable
                }
                else
                {
-                  throw new UnsupportedCallbackException(callbacks[i], "Unsupported callback");
+                  log.warn("Unsupported callback " + callbacks[i]);
                }
             }
-            
          }
       };
    }
