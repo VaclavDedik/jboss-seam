@@ -4,6 +4,11 @@ import java.security.MessageDigest;
 
 import org.jboss.seam.util.Base64;
 
+/**
+ * Password hashing utility functions
+ *  
+ * @author Shane Bryzak
+ */
 public class PasswordHash
 {
    public enum Algorithm {SHA, MD5}
