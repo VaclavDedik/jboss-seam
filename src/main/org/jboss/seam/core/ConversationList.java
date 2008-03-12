@@ -1,6 +1,7 @@
 package org.jboss.seam.core;
 
 import static org.jboss.seam.ScopeType.PAGE;
+import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.util.ArrayList;
@@ -9,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -22,7 +22,7 @@ import org.jboss.seam.web.Session;
  * 
  * @author Gavin King
  */
-@Scope(ScopeType.STATELESS)
+@Scope(STATELESS)
 @Name("org.jboss.seam.core.conversationListFactory")
 @Install(precedence=BUILT_IN)
 @BypassInterceptors
