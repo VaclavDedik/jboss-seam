@@ -2,7 +2,6 @@ package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,7 +21,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.UserAccount.AccountType;
-import org.jboss.seam.util.Hex;
 
 /**
  * The default identity store implementation, uses JPA as its persistence mechanism.
@@ -37,9 +35,6 @@ public class JpaIdentityStore implements IdentityStore
    
    public static final String EVENT_ACCOUNT_CREATED = "org.jboss.seam.security.management.accountCreated"; 
    public static final String EVENT_ACCOUNT_AUTHENTICATED = "org.jboss.seam.security.management.accountAuthenticated";
-   
-   private String hashFunction = "MD5";
-   private String hashCharset = "UTF-8";
    
    private String entityManagerName = "entityManager";
    
@@ -97,7 +92,7 @@ public class JpaIdentityStore implements IdentityStore
          }
          else
          {
-            account.setPasswordHash(hashPassword(password, username));
+            account.setPasswordHash(PasswordHash.generateHash(password, username));
             account.setEnabled(true);            
          }
          
@@ -275,7 +270,7 @@ public class JpaIdentityStore implements IdentityStore
          throw new NoSuchUserException("Could not change password, user '" + name + "' does not exist");
       }
       
-      account.setPasswordHash(hashPassword(password, name));
+      account.setPasswordHash(PasswordHash.generateHash(password, name));
       mergeAccount(account);
       return true;
    }
@@ -359,7 +354,8 @@ public class JpaIdentityStore implements IdentityStore
          return false;
       }
       
-      boolean success = hashPassword(password, username).equals(account.getPasswordHash());
+      String passwordHash = PasswordHash.generateHash(password, username);
+      boolean success = passwordHash.equals(account.getPasswordHash());
             
       if (success && Events.exists())
       {
@@ -475,26 +471,5 @@ public class JpaIdentityStore implements IdentityStore
    public void setEntityManagerName(String name)
    {
       this.entityManagerName = name;
-   }      
-   
-   protected String hashPassword(String password, String saltPhrase)
-   {
-      try {
-         MessageDigest md = MessageDigest.getInstance(hashFunction);
-         
-         md.update(saltPhrase.getBytes());
-         byte[] salt = md.digest();
-         
-         md.reset();
-         md.update(password.getBytes(hashCharset));
-         md.update(salt);
-         
-         byte[] raw = md.digest();
-         
-         return new String(Hex.encodeHex(raw));
-     } 
-     catch (Exception e) {
-         throw new RuntimeException(e);        
-     }      
-   }   
+   }         
 }

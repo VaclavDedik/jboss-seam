@@ -45,6 +45,12 @@
      </classes>
    </test>
    
+   <test name="Seam Unit Tests: Password Hash">
+     <classes>
+       <class name="org.jboss.seam.test.unit.PasswordHashTest"/>
+     </classes>
+   </test>
+   
    <test name="Seam Unit Tests: Framework">
      <classes>
         <class name="org.jboss.seam.test.unit.HomeTest" />
