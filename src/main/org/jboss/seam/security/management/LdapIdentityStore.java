@@ -54,6 +54,12 @@ public class LdapIdentityStore implements IdentityStore
    private boolean roleAttributeIsDN = true;   
    
    private String roleNameAttribute = "cn";
+   
+   private String objectClassAttribute = "objectClass";
+   
+   private String roleObjectClass = "organizationalRole";
+   
+   private String userObjectClass = "person";
       
    public String getServerAddress()
    {
@@ -165,6 +171,36 @@ public class LdapIdentityStore implements IdentityStore
       this.roleNameAttribute = roleNameAttribute;
    }
    
+   public String getObjectClassAttribute()
+   {
+      return objectClassAttribute;
+   }
+   
+   public void setObjectClassAttribute(String objectClassAttribute)
+   {
+      this.objectClassAttribute = objectClassAttribute;
+   }
+   
+   public String getRoleObjectClass()
+   {
+      return roleObjectClass;
+   }
+   
+   public void setRoleObjectClass(String roleObjectClass)
+   {
+      this.roleObjectClass = roleObjectClass;
+   }
+   
+   public String getUserObjectClass()
+   {
+      return userObjectClass;
+   }
+   
+   public void setUserObjectClass(String userObjectClass)
+   {
+      this.userObjectClass = userObjectClass;
+   }
+   
    public int getFeatures()
    {
       return featureSet.getFeatures();
@@ -183,7 +219,7 @@ public class LdapIdentityStore implements IdentityStore
    protected final InitialLdapContext initialiseContext()
       throws NamingException
    {
-      return initialiseContext(bindDN, bindCredentials);
+      return initialiseContext(getBindDN(), getBindCredentials());
    }
    
    protected final InitialLdapContext initialiseContext(String principal, String credentials)
@@ -240,16 +276,16 @@ public class LdapIdentityStore implements IdentityStore
          
          Attributes roleAttribs = new BasicAttributes();
          
-         BasicAttribute roleClass = new BasicAttribute("objectClass");
-         roleClass.add("organizationalRole");
+         BasicAttribute roleClass = new BasicAttribute(getObjectClassAttribute());
+         roleClass.add(getRoleObjectClass());
          
-         BasicAttribute roleName = new BasicAttribute(roleNameAttribute);
+         BasicAttribute roleName = new BasicAttribute(getRoleNameAttribute());
          roleName.add(role);
          
          roleAttribs.put(roleClass);
          roleAttribs.put(roleName);
          
-         String roleDN = String.format("%s=%s,%s", getRoleNameAttribute(), role, roleContextDN);          
+         String roleDN = String.format("%s=%s,%s", getRoleNameAttribute(), role, getRoleContextDN() );          
          ctx.createSubcontext(roleDN, roleAttribs);
          
          return true;
@@ -273,21 +309,93 @@ public class LdapIdentityStore implements IdentityStore
       {
          ctx = initialiseContext();
                  
-         String roleDN = String.format("%s=%s,%s", getRoleNameAttribute(), role, roleContextDN);          
+         String roleDN = String.format("%s=%s,%s", getRoleNameAttribute(), role, getRoleContextDN() );          
          ctx.destroySubcontext(roleDN);         
          return true;
       }
       catch (NamingException ex)
       {
-         throw new IdentityManagementException("Failed to create role", ex);
+         throw new IdentityManagementException("Failed to delete role", ex);
       }
    }
+   
+   public boolean roleExists(String role) 
+   {      
+      InitialLdapContext ctx = null;      
+      try
+      {
+         ctx = initialiseContext();              
+         
+         int searchScope = SearchControls.SUBTREE_SCOPE;
+         int searchTimeLimit = 10000;
+         
+         String[] roleAttr = { getRoleNameAttribute() };
+                           
+         SearchControls controls = new SearchControls();
+         controls.setSearchScope(searchScope);
+         controls.setReturningAttributes(roleAttr);
+         controls.setTimeLimit(searchTimeLimit);
+         
+         // TODO make these configurable
+         String roleFilter = "(&(" + getObjectClassAttribute() + "={0})(" + getRoleNameAttribute() + "={1}))";
+         Object[] filterArgs = { getRoleObjectClass(), role};
+         
+         NamingEnumeration answer = ctx.search(getRoleContextDN(), roleFilter, filterArgs, controls);
+         while (answer.hasMore())
+         {
+            SearchResult sr = (SearchResult) answer.next();
+            Attributes attrs = sr.getAttributes();
+            Attribute user = attrs.get( getRoleNameAttribute() );
+            
+            for (int i = 0; i < user.size(); i++)
+            {
+               Object value = user.get(i);
+               if (role.equals(value)) return true;
+            }            
+         }
+         answer.close();
+
+         return false;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Error getting roles", ex);
+      }
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }
+   }   
 
    public boolean deleteUser(String name) 
    {
-      // TODO Auto-generated method stub
-      return false;
+      InitialLdapContext ctx = null;      
+      try
+      {
+         ctx = initialiseContext();
+                 
+         String userDN = getUserDN(name);          
+         ctx.destroySubcontext(userDN);         
+         return true;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to delete user", ex);
+      }
    }
+   
+   public boolean isUserEnabled(String name) 
+   {
+      // TODO implement this somehow
+      return true;
+   }   
 
    public boolean disableUser(String name) 
    {
@@ -310,7 +418,7 @@ public class LdapIdentityStore implements IdentityStore
       {
          ctx = initialiseContext();
                   
-         String roleFilter = "(uid={0})";
+         String userFilter = "(uid={0})";
                   
          // TODO make configurable
          int searchScope = SearchControls.SUBTREE_SCOPE;
@@ -324,7 +432,7 @@ public class LdapIdentityStore implements IdentityStore
          controls.setTimeLimit(searchTimeLimit);
          Object[] filterArgs = {name};
          
-         NamingEnumeration answer = ctx.search(userContextDN, roleFilter, filterArgs, controls);
+         NamingEnumeration answer = ctx.search(getUserContextDN(), userFilter, filterArgs, controls);
          while (answer.hasMore())
          {
             SearchResult sr = (SearchResult) answer.next();
@@ -334,7 +442,7 @@ public class LdapIdentityStore implements IdentityStore
             {
                Object value = roles.get(r);
                String roleName = null;
-               if (roleAttributeIsDN == true)
+               if (getRoleAttributeIsDN() == true)
                {
                   String roleDN = value.toString();
                   String[] returnAttribute = {getRoleNameAttribute()};
@@ -395,12 +503,12 @@ public class LdapIdentityStore implements IdentityStore
       // TODO Auto-generated method stub
       return false;
    }
-
-   public boolean isUserEnabled(String name) 
+   
+   public boolean revokeRole(String name, String role) 
    {
-      // TODO implement this somehow
-      return true;
-   }
+      // TODO Auto-generated method stub
+      return false;
+   }   
 
    public List<String> listRoles() 
    {
@@ -422,11 +530,10 @@ public class LdapIdentityStore implements IdentityStore
          controls.setReturningAttributes(roleAttr);
          controls.setTimeLimit(searchTimeLimit);
          
-         // TODO make these configurable
-         String roleFilter = "(objectClass={0})";
-         Object[] filterArgs = {"organizationalRole"};
+         String roleFilter = "(" + getObjectClassAttribute() + "={0})";
+         Object[] filterArgs = { getRoleObjectClass() };
          
-         NamingEnumeration answer = ctx.search(roleContextDN, roleFilter, filterArgs, controls);
+         NamingEnumeration answer = ctx.search( getRoleContextDN(), roleFilter, filterArgs, controls);
          while (answer.hasMore())
          {
             SearchResult sr = (SearchResult) answer.next();
@@ -482,10 +589,10 @@ public class LdapIdentityStore implements IdentityStore
          controls.setTimeLimit(searchTimeLimit);
          
          // TODO make these configurable
-         String userFilter = "(objectClass={0})";
-         Object[] filterArgs = {"person"};
+         String userFilter = "(" + getObjectClassAttribute() + "={0})";
+         Object[] filterArgs = { getUserObjectClass() };
          
-         NamingEnumeration answer = ctx.search(userContextDN, userFilter, filterArgs, controls);
+         NamingEnumeration answer = ctx.search(getUserContextDN(), userFilter, filterArgs, controls);
          while (answer.hasMore())
          {
             SearchResult sr = (SearchResult) answer.next();
@@ -522,17 +629,6 @@ public class LdapIdentityStore implements IdentityStore
    {
       // TODO Auto-generated method stub
       return null;
-   }
-
-   public boolean revokeRole(String name, String role) 
-   {
-      // TODO Auto-generated method stub
-      return false;
-   }
-
-   public boolean roleExists(String name) 
-   {
-      return false;
    }
 
    public boolean userExists(String name) 
