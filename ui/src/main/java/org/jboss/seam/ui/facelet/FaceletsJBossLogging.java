@@ -7,7 +7,6 @@ import java.lang.reflect.Field;
 import java.util.logging.Filter;
 import java.util.logging.Logger;
 
-import org.apache.log4j.Level;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
