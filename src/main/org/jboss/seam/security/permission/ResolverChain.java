@@ -1,4 +1,4 @@
-package org.jboss.seam.security;
+package org.jboss.seam.security.permission;
 
 import static org.jboss.seam.ScopeType.SESSION;
 

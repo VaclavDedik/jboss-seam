@@ -43,12 +43,6 @@ public interface IdentityStore
          this.features = features;
       }
       
-      public FeatureSet addFeature(int feature)
-      {
-         features |= feature;
-         return this;
-      }
-      
       public int getFeatures()
       {
          return features;

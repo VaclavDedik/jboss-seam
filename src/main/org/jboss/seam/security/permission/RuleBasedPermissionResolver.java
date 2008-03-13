@@ -1,4 +1,4 @@
-package org.jboss.seam.security;
+package org.jboss.seam.security.permission;
 
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
@@ -28,8 +28,9 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.Role;
 import org.jboss.seam.security.management.JpaIdentityStore;
-import org.jboss.seam.security.management.UserAccount;
 
 @Name("org.jboss.seam.security.ruleBasedPermissionResolver")
 @Scope(SESSION)
