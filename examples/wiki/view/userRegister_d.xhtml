@@ -58,13 +58,13 @@
 
             <s:decorate id="passwordDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.Password']}</ui:define>
-                <h:inputSecret id="password" tabindex="1" size="15" maxlength="15" required="true"
+                <h:inputSecret id="password" tabindex="1" size="18" maxlength="15" required="true"
                                redisplay="true" value="#{userHome.password}"/>
             </s:decorate>
 
             <s:decorate id="passwordControlDecorate" template="includes/formFieldDecorate.xhtml">
                 <ui:define name="label">#{messages['lacewiki.label.userRegister.RepeatPassword']}</ui:define>
-                <h:inputSecret id="passwordControl" tabindex="1" size="15" maxlength="15" required="true"
+                <h:inputSecret id="passwordControl" tabindex="1" size="18" maxlength="15" required="true"
                                redisplay="true" value="#{userHome.passwordControl}"/>
             </s:decorate>
 
