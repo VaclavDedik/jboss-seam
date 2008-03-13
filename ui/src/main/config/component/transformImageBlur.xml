@@ -7,7 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlTransformImageBlur</classname>
 		<superclass>org.jboss.seam.ui.graphicImage.UITransformImageBlur</superclass>
 		<description>
-			<![CDATA[]]>
+			<![CDATA[Nested in a s:graphicImage. Transform an image by applying a blur]]>
 		</description>
 		<tag>
 			<name>transformImageBlur</name>
@@ -20,7 +20,7 @@
 		<property>
 			<name>radius</name>
 			<classname>java.lang.String</classname>
-			<description></description>
+			<description>The radius of the blur (essentially the ammount of blur)</description>
 		</property>
 	</component>
 </components>

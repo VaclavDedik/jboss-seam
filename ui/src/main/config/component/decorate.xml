@@ -32,13 +32,13 @@
 		<property el="false">
 			<name>for</name>
 			<classname>java.lang.String</classname>
-			<description></description>
+			<description>Id of the input field to decorate</description>
 		</property>
 	    
 	    <property exist="true">	        
 	        <name>template</name>
 	        <classname>java.lang.String</classname>
-	        <description></description>
+	        <description>XHTML template to use to decorate the input field</description>
 	    </property>
 	    
 	</component>

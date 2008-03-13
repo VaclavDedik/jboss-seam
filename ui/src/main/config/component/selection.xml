@@ -7,8 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlSelection</classname>
 		<superclass>org.jboss.seam.ui.component.UISelection</superclass>
 		<description>
-			<![CDATA[
-    ]]>
+			<![CDATA[]]>
 		</description>
 		<tag>
 			<name>selection</name>

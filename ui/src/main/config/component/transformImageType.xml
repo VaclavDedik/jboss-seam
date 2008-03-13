@@ -7,7 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlTransformImageType</classname>
 		<superclass>org.jboss.seam.ui.graphicImage.UITransformImageType</superclass>
 		<description>
-			<![CDATA[]]>
+			<![CDATA[Nested in a s:graphicImage. Transform an image by changing it's type]]>
 		</description>
 		<tag>
 			<name>transformImageType</name>
@@ -20,7 +20,7 @@
 		<property>
 			<name>contentType</name>
 			<classname>java.lang.String</classname>
-			<description></description>
+			<description>The mime type of the output image</description>
 		</property>
 	</component>
 </components>

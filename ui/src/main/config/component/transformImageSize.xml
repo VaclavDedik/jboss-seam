@@ -7,7 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlTransformImageSize</classname>
 		<superclass>org.jboss.seam.ui.graphicImage.UITransformImageSize</superclass>
 		<description>
-			<![CDATA[]]>
+			<![CDATA[Nested in a s:graphicImage. Transform an image by altering the size]]>
 		</description>
 		<tag>
 			<name>transformImageSize</name>
@@ -20,22 +20,22 @@
 		<property>
 			<name>maintainRatio</name>
 			<classname>boolean</classname>
-			<description></description>
+			<description>If true, don't alter the ratio of the image. In this case only height or width should be specificed.</description>
 		</property>		
 		<property>
 			<name>width</name>
 			<classname>java.lang.Integer</classname>
-			<description></description>
+			<description>The new width of the image</description>
 		</property>  	
    		<property>
    			<name>height</name>
    			<classname>java.lang.Integer</classname>
-   			<description></description>
+   			<description>The new height of the image</description>
    		</property>
    		<property>
    			<name>factor</name>
    			<classname>java.lang.Double</classname>
-   			<description></description>
+   			<description>Change the size of the image by a fraction. If factor is specified, height, width and maintainRatio should not be specified</description>
    		</property>
 	</component>
 </components>
