@@ -394,6 +394,11 @@ C:\Projects\jboss-seam&gt;</programlisting>
             <listitem>
                <para>You must have the Seam filter installed in web.xml</para>
             </listitem>
+            
+            <listitem>
+               <para>You may see errors if the system is placed under any load and debug is enabled.</para>
+            </listitem>
+            
         </itemizedlist>
 
         <para>If you create a WAR project using seam-gen, incremental hot deployment is available out of the box for
