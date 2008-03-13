@@ -33,7 +33,6 @@ public abstract class CommandButtonParameterRendererBase extends RendererBase
          throws IOException
    {
       UIComponent actionComponent = component.getParent();
-      String actionComponentId = actionComponent.getClientId(context); 
       UIComponent form = getUtils().getForm(actionComponent);
       UIParameter parameter = (UIParameter) component;
       if (getUtils().isCommandButton(actionComponent))
@@ -46,6 +45,8 @@ public abstract class CommandButtonParameterRendererBase extends RendererBase
          {
             getLog().warn("Must set an id for the command buttons with s:conversationPropagation");
          }
+         
+         
          String functionBody = 
             "{" +
                "if (document.getElementById)" +
@@ -68,10 +69,31 @@ public abstract class CommandButtonParameterRendererBase extends RendererBase
                   "return true;" +
                "}" +
             "}";
+         
+         String functionName = "cp_" + actionComponent.getId();
+         
          String functionCode = 
-            "document.getElementById('" + actionComponentId + "').onclick = " +
-            "new Function(\"event\", \"" + functionBody + "\");"; 
+             "var " + functionName + " = " +
+             "new Function(\"event\", \"" + functionBody + "\");";
+         
          writer.write(functionCode);
+         
+         // We are either written before the HTML element (e.g. a:commandButton)
+         // In this case we can simply prepend to the existing onClick
+         
+         String existingOnClick = (String) actionComponent.getAttributes().get("onclick");
+         
+         actionComponent.getAttributes().put("onclick", functionName + "();" + existingOnClick);
+         
+         // But we also might be written after (e.g. JSF RI h:commandButton
+         // In this case we can use event capture
+         
+         String functionRegister = 
+             "if (document.getElementById('" + actionComponent.getClientId(context) + "'))" +
+             "{" +
+                 "document.getElementById('" + actionComponent.getClientId(context) + "').onclick = new Function(\"event\", \"" + functionBody + "\");" +
+             "}";
+         writer.write(functionRegister);
          writer.endElement("script");
       }
    }
