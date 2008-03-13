@@ -1016,7 +1016,8 @@
                         <listitem>
                         <para>
                             <literal>org.jboss.seam.core.init.debug</literal> &#8212; enable Seam
-                            debug mode
+                            debug mode. This should be set to false when in production. You may see
+                            errors if the system is placed under any load and debug is enabled.
                         </para>
                         </listitem>
                         <listitem>
