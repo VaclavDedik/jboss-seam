@@ -145,8 +145,9 @@
     		</listitem>
     		<listitem>
     			<para>
-                    use two transactions per request; the first spans the beginning of the update model
-                    values phase until the end of the invoke application phase; the second spans the
+                    use two transactions per request; the first spans the beginning of the restore view
+                    phase (some transaction managers begin the transaction later at the beginning of the
+                    apply request vaues phase) until the end of the invoke application phase; the second spans the
                     render response phase
     			</para>
     		</listitem>
@@ -205,21 +206,25 @@
     			   <para>
     				   JPA RESOURCE_LOCAL transactions with the
     				   <literal>javax.persistence.EntityTransaction</literal>
-    				   interface.
+    				   interface. <literal>EntityTransaction</literal> begins the transaction at the beginning
+                       of the apply request values phase.
     				</para>
     			</listitem>
     			<listitem>
     			   <para>
     				   Hibernate managed transactions with the
     				   <literal>org.hibernate.Transaction</literal>
-    				   interface.
+    				   interface. <literal>HibernateTransaction</literal> begins the transaction at the beginning
+                       of the apply request values phase.
     			   </para>
     			</listitem>
     			<listitem>
     			   <para>
     				   Spring managed transactions with the
     				   <literal>org.springframework.transaction.PlatformTransactionManager</literal>
-    				   interface.
+    				   interface. The Spring <literal>PlatformTransactionManagement</literal> manager may begin the
+                       transaction at the beginning of the apply request values phase if the 
+                       <literal>userConversationContext</literal> attribute is set.
     			   </para>
     			</listitem>
                 <listitem>
