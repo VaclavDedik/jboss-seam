@@ -10,6 +10,58 @@ import java.util.List;
  */
 public interface IdentityStore
 {     
+   public class FeatureSet 
+   {
+      public static final int FEATURE_CREATE_USER = 1;
+      public static final int FEATURE_DELETE_USER = 2;
+      public static final int FEATURE_ENABLE_USER = 4;
+      public static final int FEATURE_DISABLE_USER = 8;      
+      public static final int FEATURE_CHANGE_PASSWORD = 16;
+      
+      public static final int FEATURE_CREATE_ROLE = 32;
+      public static final int FEATURE_DELETE_ROLE = 64;
+      public static final int FEATURE_GRANT_ROLE = 128;
+      public static final int FEATURE_REVOKE_ROLE = 256;
+      
+      public static final int FEATURE_ALL_USER = FEATURE_CREATE_USER | 
+          FEATURE_DELETE_USER | 
+          FEATURE_ENABLE_USER |
+          FEATURE_DISABLE_USER |
+          FEATURE_CHANGE_PASSWORD;
+      
+      public static final int FEATURE_ALL_ROLE = FEATURE_CREATE_ROLE |
+          FEATURE_DELETE_ROLE |
+          FEATURE_GRANT_ROLE |
+          FEATURE_REVOKE_ROLE;
+          
+      public static final int FEATURE_ALL = FEATURE_ALL_USER | FEATURE_ALL_ROLE;
+      
+      private int features;
+      
+      public FeatureSet(int features)
+      {
+         this.features = features;
+      }
+      
+      public FeatureSet addFeature(int feature)
+      {
+         features |= feature;
+         return this;
+      }
+      
+      public int getFeatures()
+      {
+         return features;
+      }
+      
+      public boolean supports(int feature)
+      {
+         return (features & feature) == feature;
+      }
+   }
+   
+   boolean supportsFeature(int feature);
+   
    boolean createUser(String username, String password);
    boolean deleteUser(String name);   
    boolean enableUser(String name);

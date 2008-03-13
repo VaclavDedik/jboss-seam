@@ -36,11 +36,28 @@ public class JpaIdentityStore implements IdentityStore
    public static final String EVENT_ACCOUNT_CREATED = "org.jboss.seam.security.management.accountCreated"; 
    public static final String EVENT_ACCOUNT_AUTHENTICATED = "org.jboss.seam.security.management.accountAuthenticated";
    
+   protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
+   
    private String entityManagerName = "entityManager";
    
    private Class<? extends UserAccount> accountClass;
    
    private Map<String,Set<String>> roleCache;
+   
+   public int getFeatures()
+   {
+      return featureSet.getFeatures();
+   }
+   
+   public void setFeatures(int features)
+   {
+      featureSet = new FeatureSet(features);
+   }
+   
+   public boolean supportsFeature(int feature)
+   {
+      return featureSet.supports(feature);
+   }
    
    @Create
    public void init()

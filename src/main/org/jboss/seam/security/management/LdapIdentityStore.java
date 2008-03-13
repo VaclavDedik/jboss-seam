@@ -31,6 +31,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @BypassInterceptors
 public class LdapIdentityStore implements IdentityStore
 {
+   protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
+   
    private String serverAddress = "localhost";
    
    private int serverPort = 389;
@@ -52,7 +54,7 @@ public class LdapIdentityStore implements IdentityStore
    private boolean roleAttributeIsDN = true;   
    
    private String roleNameAttribute = "cn";
-   
+      
    public String getServerAddress()
    {
       return serverAddress;
@@ -163,6 +165,21 @@ public class LdapIdentityStore implements IdentityStore
       this.roleNameAttribute = roleNameAttribute;
    }
    
+   public int getFeatures()
+   {
+      return featureSet.getFeatures();
+   }
+   
+   public void setFeatures(int features)
+   {
+      featureSet = new FeatureSet(features);
+   }
+   
+   public boolean supportsFeature(int feature)
+   {
+      return featureSet.supports(feature);
+   }
+   
    protected final InitialLdapContext initialiseContext()
       throws NamingException
    {
@@ -251,8 +268,19 @@ public class LdapIdentityStore implements IdentityStore
 
    public boolean deleteRole(String role) 
    {
-      // TODO Auto-generated method stub
-      return false;
+      InitialLdapContext ctx = null;      
+      try
+      {
+         ctx = initialiseContext();
+                 
+         String roleDN = String.format("%s=%s,%s", getRoleNameAttribute(), role, roleContextDN);          
+         ctx.destroySubcontext(roleDN);         
+         return true;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to create role", ex);
+      }
    }
 
    public boolean deleteUser(String name) 
