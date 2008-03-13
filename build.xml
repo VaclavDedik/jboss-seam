@@ -593,7 +593,8 @@
 
 	</target>
 
-	<target name="refdoc" description="Generate and copy reference documentation">
+	<target name="refdoc" description="Generate and copy reference documentation" depends="initpoms">
+		<copy file="${docs.pom}" tofile="${doc.ref.dir}/pom.xml" overwrite="true"/>
 		<maven target="compile" basedir="${doc.ref.dir}">
 			<jvmarg line="-Xms128m -Xmx512m" />
 		</maven>
