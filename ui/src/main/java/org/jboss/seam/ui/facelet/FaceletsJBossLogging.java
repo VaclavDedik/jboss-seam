@@ -34,35 +34,6 @@ public class FaceletsJBossLogging
 {
    
    private LogProvider log = Logging.getLogProvider(FaceletsJBossLogging.class);
-
-   public static void setLevel(java.util.logging.Logger julLogger)
-   {
-       org.apache.log4j.Logger log4jLogger = 
-           org.apache.log4j.Logger.getLogger(julLogger.getName());
-
-       julLogger.setLevel(java.util.logging.Level.OFF);
-
-       if (log4jLogger.isEnabledFor(Level.FATAL))
-           julLogger.setLevel(java.util.logging.Level.SEVERE);
-
-       if (log4jLogger.isEnabledFor(Level.ERROR))
-           julLogger.setLevel(java.util.logging.Level.SEVERE);
-
-       if (log4jLogger.isEnabledFor(Level.WARN))
-           julLogger.setLevel(java.util.logging.Level.WARNING);
-
-       if (log4jLogger.isEnabledFor(Level.INFO))
-           julLogger.setLevel(java.util.logging.Level.INFO);
-
-       if (log4jLogger.isEnabledFor(Level.DEBUG)) 
-           julLogger.setLevel(java.util.logging.Level.FINE);
-
-       if (log4jLogger.isEnabledFor(Level.DEBUG))
-           julLogger.setLevel(java.util.logging.Level.FINEST);
-
-       if (log4jLogger.isEnabledFor(Level.ALL))
-           julLogger.setLevel(java.util.logging.Level.ALL);
-   }
    
    @SuppressWarnings("deprecation")
    @Create
@@ -89,45 +60,35 @@ public class FaceletsJBossLogging
          // And some aren't static, so this really is best effort
          
          julLogger = getPrivateStaticLogger(TagLibraryConfig.class, "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
          julLogger = getPrivateStaticLogger(com.sun.facelets.compiler.Compiler.class, "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
          julLogger = getPrivateStaticLogger(DefaultFaceletFactory.class, "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
          julLogger = getPrivateStaticLogger(TagLibraryConfig.class, "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
          julLogger = getPrivateStaticLogger(ComponentHandler.class, "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
          julLogger = getPrivateStaticLogger(Resource.class, "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
          julLogger = getPrivateStaticLogger(FaceletViewHandler.class, "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
          // These ones are in a package-scoped class
          
          julLogger = getPrivateStaticLogger("com.sun.facelets.compiler.CompilationManager", "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);    
          
          julLogger = getPrivateStaticLogger("com.sun.facelets.tag.jsf.ComponentRule", "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
          julLogger = getPrivateStaticLogger("com.sun.facelets.tag.MetaRulesetImpl", "log");
-         setLevel(julLogger);
          julLogger.setFilter(conversionFilter);
          
       }
