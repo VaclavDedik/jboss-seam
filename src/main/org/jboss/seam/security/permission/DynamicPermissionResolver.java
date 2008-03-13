@@ -26,6 +26,6 @@ public class DynamicPermissionResolver implements PermissionResolver, Serializab
 {   
    public boolean hasPermission(Object target, String action)
    {
-      return true;  
+      return false;  
    }
 }
