@@ -7,7 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlRemote</classname>
 		<superclass>org.jboss.seam.ui.component.UIRemote</superclass>
 		<description>
-			<![CDATA[]]>
+			<![CDATA[Write out script element for use with Seam Remoting]]>
 		</description>
 		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.RemoteRenderer</name>
@@ -26,7 +26,7 @@
 		<property>
 			<name>include</name>
 			<classname>java.lang.String</classname>
-			<description></description>
+			<description>The Seam components to include in the Seam Remoting JS interface stubs</description>
 		</property>
 	</component>
 </components>

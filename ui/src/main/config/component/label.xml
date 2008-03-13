@@ -24,7 +24,7 @@
 		<property>
 			<name>for</name>
 			<classname>java.lang.String</classname>
-			<description></description>
+			<description>Id of input component this label is for</description>
 		</property>
 	</component>
 </components>

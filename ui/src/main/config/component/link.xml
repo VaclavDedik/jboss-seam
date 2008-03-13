@@ -54,10 +54,12 @@
 		<property>
 			<name>outcome</name>
 			<classname>java.lang.String</classname>
+            <description>The outcome to use when evaluating navigation rules</description>
 		</property>
 		<property>
 			<name>disabled</name>
 			<classname>boolean</classname>
+            <description>If true, write the link as disabled in HTML</description>
 		</property>
 		<property elonly="true"  transient="true" >
 			<name>taskInstance</name>

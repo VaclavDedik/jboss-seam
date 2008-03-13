@@ -7,8 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlFragment</classname>
 		<superclass>org.jboss.seam.ui.component.UIFragment</superclass>
 		<description>
-			<![CDATA[
-    ]]>
+			<![CDATA[Surround a page fragment, allows you to apply render/not render without any html output]]>
 		</description>
 		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.FragmentRenderer</name>
