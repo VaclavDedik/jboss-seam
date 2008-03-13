@@ -1046,6 +1046,7 @@
         	<pathelement path="../lib/hibernate-commons-annotations.jar" />
         	<pathelement path="../lib/hibernate-annotations.jar" />
         	<pathelement path="../lib/hibernate-entitymanager.jar" />
+            <pathelement path="../lib/hibernate-validator.jar"/>
         	<pathelement path="../lib/commons-collections.jar" />
         	<pathelement path="../lib/commons-logging.jar" />
         	<pathelement path="../lib/javassist.jar" />
