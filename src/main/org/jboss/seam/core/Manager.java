@@ -624,6 +624,7 @@ public class Manager
     */
    public void leaveConversation()
    {
+      unlockConversation();
       initializeTemporaryConversation();
    }
 
