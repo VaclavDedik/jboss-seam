@@ -120,7 +120,7 @@ public class Remoting extends AbstractResource
 
                if (REMOTING_RESOURCE_PATH.equals(path))
                {
-                  writeResource(resource, response.getOutputStream());
+                  writeResource(resource, response);
                   if ("remote.js".equals(resource))
                   {
                      appendConfig(response.getOutputStream(), request
@@ -159,22 +159,24 @@ public class Remoting extends AbstractResource
     * @param resourceName String
     * @param out OutputStream
     */
-   private void writeResource(String resourceName, OutputStream out)
+   private void writeResource(String resourceName, HttpServletResponse response)
          throws IOException
    {
       // Only allow resource requests for .js files
       if (resourceName.endsWith(".js"))
-      {
+      {                  
          InputStream in = this.getClass().getClassLoader().getResourceAsStream(
                "org/jboss/seam/remoting/" + resourceName);
 
          if (in != null)
          {
+            response.setContentType("text/javascript");
+            
             byte[] buffer = new byte[1024];
             int read = in.read(buffer);
             while (read != -1)
             {
-               out.write(buffer, 0, read);
+               response.getOutputStream().write(buffer, 0, read);
                read = in.read(buffer);
             }
          }
