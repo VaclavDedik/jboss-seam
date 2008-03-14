@@ -150,7 +150,7 @@ public class MapDataModel extends javax.faces.model.DataModel implements
    {
       rowIndex = ois.readInt();
       data = (Map) ois.readObject();
-      entries = data == null ? null : new ArrayList( ( (Map) data ).entrySet() );
+      entries = data == null ? null : new ArrayList( data.entrySet() );
    }
    
 }
