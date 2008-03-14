@@ -312,6 +312,64 @@
 
           <entry valign="top">
             <para><emphasis>Description</emphasis></para>
+            <para><literal>&lt;s:convertAtomicBoolean&gt;</literal></para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              javax.faces.convert.Converter for java.util.concurrent.atomic.AtomicBoolean .
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:outputText value="#{item.valid}">
+  <s:convertAtomicBoolean />
+</h:outputText>]]></programlisting>
+          </entry>
+        </row>
+        <row>
+          <entry valign="top">
+            <para><literal>&lt;s:convertAtomicInteger&gt;</literal></para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              javax.faces.convert.Converter for java.util.concurrent.atomic.AtomicInteger .
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:outputText value="#{item.id}">
+  <s:convertAtomicInteger />
+</h:outputText>]]></programlisting>
+          </entry>
+        </row>
+        <row>
+          <entry valign="top">
+            <para><literal>&lt;s:convertAtomicLong&gt;</literal></para>
+          </entry>
+          <entry valign="top">
+            <para><emphasis>Description</emphasis></para>
+            <para>
+              javax.faces.convert.Converter for java.util.concurrent.atomic.AtomicLong .
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:outputText value="#{item.id}">
+  <s:convertAtomicLong />
+</h:outputText>]]></programlisting>
+          </entry>
+        </row>
+        
+        <row>
+          <entry valign="top">
             <para>
               Assigns an enum converter to the current component.  This is primarily
               useful for radio button and dropdown controls.
