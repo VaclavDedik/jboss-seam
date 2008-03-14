@@ -42,7 +42,6 @@ public class SearchRegistry {
         searchableEntitiesByName.clear();
 
         // Fire an event and let all listeners add themself into the given collection
-        // TODO: Is this smarter than PreferenceRegistry scanning approach?
         Set<SearchSupport> searchSupportComponents = new HashSet<SearchSupport>();
         Events.instance().raiseEvent("Search.addSearchSupport", searchSupportComponents);
 

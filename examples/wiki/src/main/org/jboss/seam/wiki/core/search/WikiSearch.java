@@ -1,9 +1,11 @@
 package org.jboss.seam.wiki.core.search;
 
 import org.apache.lucene.search.*;
+import org.apache.lucene.index.Term;
 import org.hibernate.Hibernate;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
+import org.hibernate.search.engine.DocumentBuilder;
 import org.hibernate.search.bridge.StringBridge;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -133,53 +135,63 @@ public class WikiSearch implements Serializable {
         BooleanQuery mainQuery = new BooleanQuery();
 
         // Get value holders filled out by UI forms and generate a Lucene query
-        Class[] indexedEntities = new Class[searchableEntities.size()];
-        int i = 0;
         for (SearchableEntity searchableEntity : searchableEntities) {
             log.debug("building query for entity: " + searchableEntity.getClazz());
             BooleanQuery entityQuery = new BooleanQuery();
 
+            // Add restriction to entity clazz
+            // We use a Hibernate Search internal constant here to limit THIS particular entity query
+            // fragment to a particular indexed persistent entity type.
+            log.debug("adding restriction to entity clazz: " + searchableEntity.getClazz().getName());
+            entityQuery.add(
+                new TermQuery(
+                    new Term(DocumentBuilder.CLASS_FIELDNAME, searchableEntity.getClazz().getName())
+                ),
+                BooleanClause.Occur.MUST
+            );
+
             // Add sub-queries for all entity properties
+            BooleanQuery allPropertiesQuery = new BooleanQuery();
             for (PropertySearch search : searches.get(searchableEntity)) {
                 log.debug("building query for property: " + search.getProperty());
-                Query query = search.getProperty().getQuery(search);
-                if (query != null) {
-                    log.debug("adding query for property to owning entity: " + query.toString());
-                    // If there is more than one searchable entity, use OR, otherwise combine properties with AND
-                    entityQuery.add(
-                        query,
-                        searchableEntities.size() > 1 ? BooleanClause.Occur.SHOULD : BooleanClause.Occur.MUST
+                Query propertiesQuery  = search.getProperty().getQuery(search);
+                if (propertiesQuery != null) {
+                    // Any property can match, except if we are searching only one entity, then all must match
+                    allPropertiesQuery.add(
+                        propertiesQuery,
+                        searchableEntities.size() == 1 ? BooleanClause.Occur.MUST : BooleanClause.Occur.SHOULD
                     );
                 }
             }
 
-            // Add to main query with or without access control filter wrapping
-            if (entityQuery.getClauses().length > 0 && searchableEntity.getHandler().isReadAccessChecked()) {
+            // But SOME of the property searches for this entity must match
+            log.debug("adding query to owning entity for properties: " + allPropertiesQuery.getClauses().length);
+            entityQuery.add(allPropertiesQuery, BooleanClause.Occur.MUST);
+
+            // Finally, figure out if this entity query needs to be read-restricted, we have indexed the readAccessLevel of it
+            if (searchableEntity.getHandler().isReadAccessChecked()) {
 
                 Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
                 StringBridge paddingBridge = new PaddedIntegerBridge();
                 Query accessLimitQuery =
                     new ConstantScoreRangeQuery(FIELD_READACCESSLVL, null, paddingBridge.objectToString(currentAccessLevel), true, true);
-                Filter accessFilter = new QueryFilter(accessLimitQuery);
+                Filter accessFilter = new QueryWrapperFilter(accessLimitQuery);
                 FilteredQuery accessFilterQuery = new FilteredQuery(entityQuery, accessFilter);
 
+                log.debug("adding filtered entity query to main query: " + accessFilterQuery);
                 mainQuery.add(accessFilterQuery, BooleanClause.Occur.SHOULD);
 
-            } else if (entityQuery.getClauses().length > 0) {
-
+            } else {
+                log.debug("adding unfiltered entity query to main query: " + entityQuery);
                 mainQuery.add(entityQuery, BooleanClause.Occur.SHOULD);
-
             }
-
-            indexedEntities[i++] = searchableEntity.getClazz();
         }
 
-
-        log.debug("search query: " + mainQuery.toString());
+        log.debug(">>>>> search query: " + mainQuery.toString());
 
         try {
 
-            FullTextQuery ftQuery = getFullTextSession().createFullTextQuery(mainQuery, indexedEntities);
+            FullTextQuery ftQuery = getFullTextSession().createFullTextQuery(mainQuery);
             ftQuery.setFirstResult(page * pageSize).setMaxResults(pageSize);
             totalCount = ftQuery.getResultSize();
             log.debug("total search hits (might be paginated next): " + totalCount);
