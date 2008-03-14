@@ -858,16 +858,6 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
     </sect1>
 
     <sect1>
-        <title>Configuring Seam in a Portal</title>
-
-        <para> To run a Seam application as a portlet, you'll need to provide certain portlet metadata
-                (<literal>portlet.xml</literal>, etc) in addition to the usual Java EE metadata. See the
-                <literal>examples/portal</literal> directory for an example of the booking demo preconfigured to run on
-            JBoss Portal. </para>
-
-    </sect1>
-
-    <sect1>
         <title>Configuring SFSB and Session Timeouts in JBoss AS</title>
 
         <para> It is very important that the timeout for Stateful Session Beans is set higher than the timeout for HTTP
