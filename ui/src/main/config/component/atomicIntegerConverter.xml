@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "https://ajax4jsf.dev.java.net/nonav/dtds/component-config.dtd" >
+<components>
+	<converter generate="false">
+		<id>org.jboss.seam.ui.AtomicIntegerConverter</id>
+		<family>org.jboss.seam.ui.AtomicIntegerConverter</family>
+		<classname>org.jboss.seam.ui.converter.AtomicIntegerConverter</classname>
+		<description>
+			<![CDATA[Converter for java.util.concurrent.atomic.AtomicInteger]]>
+		</description>
+		<tag>
+			<name>convertAtomicInteger</name>
+			<classname>org.jboss.seam.ui.taglib.AtomicIntegerTag</classname>
+			<superclass>
+				javax.faces.webapp.ConverterELTag
+			</superclass>
+		</tag>
+	</converter>	
+</components>
