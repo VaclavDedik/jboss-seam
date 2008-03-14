@@ -96,6 +96,12 @@
                will be called once the redirect to the specified view has
                occured.
             </para>
+            
+            <para>
+               The use of action listeners (including the default JSF action
+               listener) is not supported with <literal>&lt;s:link /&gt;</literal>.
+            </para>
+            
           </entry>
         </row>
 
@@ -844,6 +850,11 @@
                on <literal>&lt;s:link /&gt;</literal>. In this case, the action 
                will be called once the redirect to the specified view has
                occured.
+            </para>
+            
+            <para>
+               The use of action listeners (including the default JSF action
+               listener) is not supported with <literal>&lt;s:link /&gt;</literal>.
             </para>
           </entry>
         </row>
