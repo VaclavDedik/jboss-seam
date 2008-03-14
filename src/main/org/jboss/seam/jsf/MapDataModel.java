@@ -131,7 +131,7 @@ public class MapDataModel extends javax.faces.model.DataModel implements
    @Override
    public void setWrappedData(Object data)
    {
-      entries = new ArrayList( ( (Map) data ).entrySet() );
+      entries = data == null ? null : new ArrayList( ( (Map) data ).entrySet() );
       int rowIndex = data != null ? 0 : -1;
       setRowIndex(rowIndex);
    }

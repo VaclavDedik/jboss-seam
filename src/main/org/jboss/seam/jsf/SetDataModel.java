@@ -118,7 +118,7 @@ public class SetDataModel extends javax.faces.model.DataModel implements
    @Override
    public void setWrappedData(Object data)
    {
-      entries = new ArrayList( (Set) data );
+      entries = data == null ? null : new ArrayList( (Set) data );
       int rowIndex = data != null ? 0 : -1;
       setRowIndex(rowIndex);
    }

@@ -182,8 +182,9 @@ public class DataModelTest extends SeamTest
       }
    }
    
-   //JBSEAM-1659
-   
+   /**
+    * JBSEAM-1659
+    */ 
    @Test
    public void testMapDataModelSerialization() throws Exception
    {
