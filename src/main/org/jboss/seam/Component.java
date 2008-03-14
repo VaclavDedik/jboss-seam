@@ -1317,21 +1317,50 @@ public class Component extends Model
         }
     }
 
-   protected Object instantiateSessionBean() throws Exception, NamingException
+    protected void postConstruct(Object bean) throws Exception
+    {
+        switch(type) {
+           case JAVA_BEAN:
+              postConstructJavaBean(bean);
+              break;
+           case ENTITY_BEAN:
+              postConstructEntityBean(bean);
+              break;
+           case STATELESS_SESSION_BEAN:
+           case STATEFUL_SESSION_BEAN:
+              postConstructSessionBean(bean);
+              break;
+           case MESSAGE_DRIVEN_BEAN:
+              throw new UnsupportedOperationException("Message-driven beans may not be called: " + name);
+           default:
+              throw new IllegalStateException();
+        }
+    }
+    
+
+   protected Object instantiateSessionBean() 
+       throws Exception, 
+              NamingException
    {
       Component old = SeamInterceptor.COMPONENT.get();
       SeamInterceptor.COMPONENT.set(this);
-      try
-      {
+      try {
          Object bean = Naming.getInitialContext().lookup(jndiName);
-         return wrap( bean, new ClientSideInterceptor(bean, this) );
-      }
-      finally
-      {
+         return wrap(bean, new ClientSideInterceptor(bean, this));
+      } finally {
          SeamInterceptor.COMPONENT.set(old);
       }
    }
 
+   
+   protected void postConstructSessionBean(Object bean) 
+       throws Exception, 
+              NamingException
+   {
+        // ...
+   }
+   
+   
    protected Object instantiateEntityBean() throws Exception
    {
       Constructor constructor = getBeanClass().getConstructor(new Class[0]);
@@ -1342,25 +1371,43 @@ public class Component extends Model
       }
       Object bean = getBeanClass().newInstance();
       constructor.setAccessible(accessible);
-      initialize(bean);
       return bean;
+   }
+   
+   
+   protected void postConstructEntityBean(Object bean) 
+       throws Exception
+   {
+      initialize(bean);
    }
 
    protected Object instantiateJavaBean() throws Exception
    {
       Object bean = getBeanClass().newInstance();
-      if ( !interceptionEnabled )
-      {
-         initialize(bean);
-         callPostConstructMethod(bean);
-      }
-      else
-      {
+     
+      if (interceptionEnabled) {
          JavaBeanInterceptor interceptor = new JavaBeanInterceptor(bean, this);
          bean = wrap(bean, interceptor);
-         interceptor.postConstruct();
       }
+      
       return bean;
+   }
+   
+   
+   protected void postConstructJavaBean(Object bean) 
+       throws Exception
+   {
+      if (!interceptionEnabled) {
+         initialize(bean);
+         callPostConstructMethod(bean);
+      } else {
+         if (bean instanceof Proxy) {
+             Proxy proxy = (Proxy) bean;
+             JavaBeanInterceptor interceptor = (JavaBeanInterceptor) proxy.writeReplace();
+
+             interceptor.postConstruct();
+         }
+      }
    }
    
    public void destroy(Object bean)
@@ -1999,23 +2046,33 @@ public class Component extends Model
 
    public Object newInstance()
    {
-      if ( log.isDebugEnabled() ) log.debug("instantiating Seam component: " + name);
+      if (log.isDebugEnabled()) {
+         log.debug("instantiating Seam component: " + name);
+      }
 
       Object instance;
-      try
-      {
+      try{
          instance = instantiate();
-      }
-      catch (Exception e)
-      {
-         throw new InstantiationException("Could not instantiate Seam component: " + name, e);
-      }
+          
+         if (getScope()!=STATELESS) {
+            //put it in the context _before_ calling postconstuct or create
+            getScope().getContext().set(name, instance); 
+         }
+         
+         postConstruct(instance);
+            
+         if (getScope()!=STATELESS) {
+            callCreateMethod(instance);
+            
+            if (Events.exists()) {
+                Events.instance().raiseEvent("org.jboss.seam.postCreate." + name, instance);
+            }
+         }
+         
+      } catch (Exception e) {
+         //getScope().getContext().remove(name); 
 
-      if ( getScope()!=STATELESS )
-      {
-         getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
-         callCreateMethod(instance);
-         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postCreate." + name, instance);
+         throw new InstantiationException("Could not instantiate Seam component: " + name, e);
       }
 
       return instance;
