@@ -28,7 +28,9 @@ public class MapDataModel extends javax.faces.model.DataModel implements
    private static final long serialVersionUID = -4888962547222002402L;
    
    private int rowIndex = -1;
-   private List<Map.Entry> entries;
+   
+   private Map data;
+   private transient List<Map.Entry> entries;
    
    public MapDataModel() {}
    
@@ -131,6 +133,7 @@ public class MapDataModel extends javax.faces.model.DataModel implements
    @Override
    public void setWrappedData(Object data)
    {
+      this.data = (Map) data;
       entries = data == null ? null : new ArrayList( ( (Map) data ).entrySet() );
       int rowIndex = data != null ? 0 : -1;
       setRowIndex(rowIndex);
@@ -139,14 +142,15 @@ public class MapDataModel extends javax.faces.model.DataModel implements
    private void writeObject(ObjectOutputStream oos) throws IOException
    {
       oos.writeInt(rowIndex);
-      oos.writeObject(entries);
+      oos.writeObject(data);
    }
    
    private void readObject(ObjectInputStream ois) throws IOException,
          ClassNotFoundException
    {
       rowIndex = ois.readInt();
-      entries = (List<Map.Entry>) ois.readObject();
+      data = (Map) ois.readObject();
+      entries = data == null ? null : new ArrayList( ( (Map) data ).entrySet() );
    }
    
 }
