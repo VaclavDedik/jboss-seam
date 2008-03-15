@@ -33,7 +33,7 @@
                 <configuration>
                     <minmemory>1024m</minmemory>
                     <maxmemory>1024m</maxmemory>
-                    <sourceDocumentName>resolved.xml</sourceDocumentName>
+                    <sourceDocumentName>Seam_Reference_Guide.xml</sourceDocumentName>
                     <sourceDirectory>en-US</sourceDirectory>
                     <imageResource>
                         <directory>en-US</directory>
