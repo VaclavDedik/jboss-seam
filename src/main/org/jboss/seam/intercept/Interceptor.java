@@ -150,7 +150,7 @@ public final class Interceptor extends Reflections
          if ( annotation!=null && params.length==1 && params[0]==annotation.annotationType() )
          {
             annotationInjectorMethod = method;
-            Reflections.invokeAndWrap(method, userInterceptorClass, annotation);
+            Reflections.invokeAndWrap(method, statelessUserInterceptorInstance, annotation);
          }
          //if there is a method that takes the component, call it
          if ( params.length==1 && params[0]==Component.class )
