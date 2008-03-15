@@ -77,7 +77,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
            Component[] components = new Component[componentNames.length];
            Set<Type> types = new HashSet<Type>();
            
-           response.setContentType("text/javasript");
+           response.setContentType("text/javascript");
 
            for (int i = 0; i < componentNames.length; i++) 
            {
