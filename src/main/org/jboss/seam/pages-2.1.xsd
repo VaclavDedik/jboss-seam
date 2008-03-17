@@ -52,6 +52,7 @@
                 <xs:element ref="pages:restrict"/>
                 <xs:element ref="pages:description"/>
                 <xs:element ref="pages:param"/>
+                <xs:element ref="pages:header" />
                 <xs:element ref="pages:begin-conversation"/>
                 <xs:element ref="pages:end-conversation"/>
                 <xs:element ref="pages:start-task"/>
@@ -105,6 +106,7 @@
             <xs:attributeGroup ref="pages:attlist.param"/>
         </xs:complexType>
     </xs:element>
+
     <xs:attributeGroup name="attlist.param">
         <xs:attribute name="name"/>
         <xs:attribute name="value"/>
@@ -114,6 +116,18 @@
         <xs:attribute name="validatorId"/>
         <xs:attribute name="required" type="xs:boolean"/>
     </xs:attributeGroup>
+    
+    <xs:element name="header">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="pages:attlist.header"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:attributeGroup name="attlist.header">
+        <xs:attribute name="name" use="required"/>
+        <xs:attribute name="value" />
+    </xs:attributeGroup>
+    
     <xs:element name="action">
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.action"/>

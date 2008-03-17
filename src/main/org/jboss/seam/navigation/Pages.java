@@ -1019,6 +1019,11 @@ public class Pages
          String expr = restrict.getTextTrim();
          if ( !Strings.isEmpty(expr) ) page.setRestriction(expr);
       }
+      
+      List<Element> headers = element.elements("header");
+      for (Element header: headers) {
+         page.getHeaders().add(parseHeader(header));
+      }
    }
    
    public ConversationIdParameter getConversationIdParameter(String conversationName)
@@ -1341,6 +1346,22 @@ public class Pages
       }
       param.setRequired( "true".equals( element.attributeValue("required") ) );
       return param;
+   }
+   
+   private static Header parseHeader(Element element)
+   {
+       Header header = new Header();
+
+       String name = element.attributeValue("name");
+       header.setName(name);
+
+       String valueExpression = element.attributeValue("value");
+       if (valueExpression==null) {
+           valueExpression = element.getTextTrim();
+       }
+       header.setValue(Expressions.instance().createValueExpression(valueExpression));
+
+       return header;
    }
    
    /**

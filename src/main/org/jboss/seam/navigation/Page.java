@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
@@ -39,6 +40,7 @@ public final class Page
    private ConversationIdParameter conversationIdParameter;
    private String eventType;
    private List<Pattern> rewritePatterns = new ArrayList<Pattern>();
+   private List<Header> httpHeaders = new ArrayList<Header>();
    
    /**
     * The scheme (http/https) required by this page.
@@ -238,6 +240,8 @@ public final class Page
    public boolean preRender(FacesContext facesContext)
    {
       checkPermission(facesContext, "render");     
+     
+      sendHeaders(facesContext);
       
       boolean result = false;
       
@@ -283,6 +287,19 @@ public final class Page
       
       return result;
    }
+
+    private void sendHeaders(FacesContext facesContext) {
+        Object value = facesContext.getExternalContext().getResponse();
+        
+        if (value == null || !(value instanceof HttpServletResponse)) {
+            return;
+        }
+        
+        HttpServletResponse response = (HttpServletResponse) value;
+        for (Header header: httpHeaders) {
+            header.sendHeader(response);
+        }
+    }
    
    public List<Input> getInputs()
    {
@@ -376,6 +393,10 @@ public final class Page
         }
         
         return id;
+    }
+
+    public List<Header> getHeaders() {
+        return httpHeaders;
     }
 
 }
