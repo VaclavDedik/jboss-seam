@@ -1,7 +1,6 @@
 package org.jboss.seam.web;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
-import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import org.jboss.seam.navigation.Pages;
 
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.rewriteFilter")
-@Install(false)
+@Install(precedence=Install.BUILT_IN,value=false)
 @BypassInterceptors
 @Filter(within="org.jboss.seam.debug.hotDeployFilter")
 public class RewriteFilter 
