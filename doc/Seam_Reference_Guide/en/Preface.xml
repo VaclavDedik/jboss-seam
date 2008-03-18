@@ -279,7 +279,7 @@
 
         <mediaobject>
           <imageobject>
-            <imagedata fileref="/images/architecture.png"/>
+            <imagedata fileref="images/architecture.png"/>
           </imageobject>
         </mediaobject>
 

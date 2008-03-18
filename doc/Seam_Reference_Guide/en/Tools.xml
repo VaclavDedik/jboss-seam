@@ -20,10 +20,10 @@
          <screeninfo>Business process designer</screeninfo>
          <mediaobject>
            <imageobject role="fo">
-             <imagedata fileref="/images/bpmd.png" align="center"/>
+             <imagedata fileref="images/bpmd.png" align="center"/>
            </imageobject>
            <imageobject role="html">
-             <imagedata fileref="/images/bpmd.png" align="center"/>
+             <imagedata fileref="images/bpmd.png" align="center"/>
            </imageobject>
          </mediaobject>
        </screenshot>
@@ -42,10 +42,10 @@
          <screeninfo>Business process designer</screeninfo>
          <mediaobject>
            <imageobject role="fo">
-             <imagedata fileref="/images/bpmpfv.png" align="center"/>
+             <imagedata fileref="images/bpmpfv.png" align="center"/>
            </imageobject>
            <imageobject role="html">
-             <imagedata fileref="/shared/images/bpmpfv.png" align="center"/>
+             <imagedata fileref="images/bpmpfv.png" align="center"/>
            </imageobject>
          </mediaobject>
        </screenshot>

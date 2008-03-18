@@ -857,10 +857,10 @@ public class EditDocumentBean implements EditDocument {
        
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="/images/switcher.png" align="center"/>
+            <imagedata fileref="images/switcher.png" align="center"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="/images/switcher.png" align="center"/>
+            <imagedata fileref="images/switcher.png" align="center"/>
           </imageobject>
         </mediaobject>
 
@@ -904,10 +904,10 @@ public class EditDocumentBean implements EditDocument {
             
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="/images/list.png" align="center"/>
+            <imagedata fileref="images/list.png" align="center"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="/images/list.png" align="center"/>
+            <imagedata fileref="images/list.png" align="center"/>
           </imageobject>
         </mediaobject>
         
@@ -938,10 +938,10 @@ public class EditDocumentBean implements EditDocument {
             
             <mediaobject>
               <imageobject role="fo">
-                <imagedata fileref="/images/breadcrumbs.png" align="center"/>
+                <imagedata fileref="images/breadcrumbs.png" align="center"/>
               </imageobject>
               <imageobject role="html">
-                <imagedata fileref="/images/breadcrumbs.png" align="center"/>
+                <imagedata fileref="images/breadcrumbs.png" align="center"/>
               </imageobject>
             </mediaobject>
             

@@ -612,10 +612,10 @@
             <para><emphasis>Example</emphasis></para>
             <mediaobject>
               <imageobject role="fo">
-                <imagedata fileref="/images/controls-seamtext.png" align="center"/>
+                <imagedata fileref="images/controls-seamtext.png" align="center"/>
               </imageobject>
               <imageobject role="html">
-                <imagedata fileref="/images/controls-seamtext.png" align="center"/>
+                <imagedata fileref="images/controls-seamtext.png" align="center"/>
               </imageobject>
             </mediaobject>
           </entry>
@@ -971,10 +971,10 @@
             <para><emphasis>Example</emphasis></para>
             <mediaobject>
               <imageobject role="fo">
-                <imagedata fileref="/images/controls-selectdate.png" align="center"/>
+                <imagedata fileref="images/controls-selectdate.png" align="center"/>
               </imageobject>
               <imageobject role="html">
-                <imagedata fileref="/images/controls-selectdate.png" align="center"/>
+                <imagedata fileref="images/controls-selectdate.png" align="center"/>
               </imageobject>
             </mediaobject>
 
@@ -1088,10 +1088,10 @@
 
             <mediaobject>
               <imageobject role="fo">
-                <imagedata fileref="/images/controls-selectdatecss.png" align="center"/>
+                <imagedata fileref="images/controls-selectdatecss.png" align="center"/>
               </imageobject>
               <imageobject role="html">
-                <imagedata fileref="/images/controls-selectdatecss.png" align="center"/>
+                <imagedata fileref="images/controls-selectdatecss.png" align="center"/>
               </imageobject>
             </mediaobject>
           </entry>

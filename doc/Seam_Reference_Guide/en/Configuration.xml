@@ -427,10 +427,10 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="/images/ee5.png" align="center"/>
+                <imagedata fileref="images/ee5.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="/images/ee5.png" align="center"/>
+                <imagedata fileref="images/ee5.png" align="center"/>
             </imageobject>
         </mediaobject>
 
@@ -517,10 +517,10 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="/images/hibernate-ee.png" align="center"/>
+                <imagedata fileref="images/hibernate-ee.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="/images/hibernate-ee.png" align="center"/>
+                <imagedata fileref="images/hibernate-ee.png" align="center"/>
             </imageobject>
         </mediaobject>
 
@@ -639,10 +639,10 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="/images/testng.png" align="center"/>
+                <imagedata fileref="images/testng.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="/images/testng.png" align="center"/>
+                <imagedata fileref="images/testng.png" align="center"/>
             </imageobject>
         </mediaobject>
 
@@ -650,10 +650,10 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="/images/e-ejb3.png" align="center"/>
+                <imagedata fileref="images/e-ejb3.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="/images/e-ejb3.png" align="center"/>
+                <imagedata fileref="images/e-ejb3.png" align="center"/>
             </imageobject>
         </mediaobject>
 

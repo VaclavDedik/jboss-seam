@@ -209,10 +209,10 @@
 
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="/images/plugin-jbpm-numguess.png" align="center"/>
+            <imagedata fileref="images/plugin-jbpm-numguess.png" align="center"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="/images/plugin-jbpm-numguess.png" align="center"/>
+            <imagedata fileref="images/plugin-jbpm-numguess.png" align="center"/>
           </imageobject>
         </mediaobject>
         
@@ -632,10 +632,10 @@ public void begin() { ... }]]></programlisting>
         
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="/images/plugin-jbpm-todo.png" align="center"/>
+            <imagedata fileref="images/plugin-jbpm-todo.png" align="center"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="/images/plugin-jbpm-todo.png" align="center"/>
+            <imagedata fileref="images/plugin-jbpm-todo.png" align="center"/>
           </imageobject>
         </mediaobject>
         

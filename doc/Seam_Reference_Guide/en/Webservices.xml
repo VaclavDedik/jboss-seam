@@ -99,10 +99,10 @@
       
       <mediaobject>
         <imageobject role="fo">
-          <imagedata fileref="/images/ws-strategy.png" align="center"/>
+          <imagedata fileref="images/ws-strategy.png" align="center"/>
         </imageobject>
         <imageobject role="html">
-          <imagedata fileref="/images/ws-strategy.png" align="center"/>
+          <imagedata fileref="images/ws-strategy.png" align="center"/>
         </imageobject>
       </mediaobject>      
       

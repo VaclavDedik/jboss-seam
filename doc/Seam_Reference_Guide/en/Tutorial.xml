@@ -111,10 +111,10 @@
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="/images/registration.png" align="center"/>
+                <imagedata fileref="images/registration.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="/images/registration.png" align="center"/>
+                <imagedata fileref="images/registration.png" align="center"/>
             </imageobject>
         </mediaobject>
 
@@ -125,10 +125,10 @@
 
             <mediaobject>
                 <imageobject role="fo">
-                    <imagedata fileref="/images/register.png" align="center"/>
+                    <imagedata fileref="images/register.png" align="center"/>
                 </imageobject>
                 <imageobject role="html">
-                    <imagedata fileref="/images/register.png" align="center"/>
+                    <imagedata fileref="images/register.png" align="center"/>
                 </imageobject>
             </mediaobject>
 
@@ -761,10 +761,10 @@ public interface Register
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="/images/messages.png" align="center"/>
+                <imagedata fileref="images/messages.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="/images/messages.png" align="center"/>
+                <imagedata fileref="images/messages.png" align="center"/>
             </imageobject>
         </mediaobject>
 
@@ -1086,10 +1086,10 @@ public interface MessageManager
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="/images/todo.png" align="center"/>
+                <imagedata fileref="images/todo.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="/images/todo.png" align="center"/>
+                <imagedata fileref="images/todo.png" align="center"/>
             </imageobject>
         </mediaobject>
 
@@ -1161,10 +1161,10 @@ public interface MessageManager
 
             <mediaobject>
                 <imageobject role="fo">
-                    <imagedata fileref="/images/todo-process.png" align="center"/>
+                    <imagedata fileref="images/todo-process.png" align="center"/>
                 </imageobject>
                 <imageobject role="html">
-                    <imagedata fileref="/images/todo-process.png" align="center"/>
+                    <imagedata fileref="images/todo-process.png" align="center"/>
                 </imageobject>
             </mediaobject>
 
@@ -1449,10 +1449,10 @@ public class TodoList {
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="/images/numberguess.png" align="center"/>
+                <imagedata fileref="images/numberguess.png" align="center"/>
             </imageobject>
             <imageobject role="html">
-                <imagedata fileref="/images/numberguess.png" align="center"/>
+                <imagedata fileref="images/numberguess.png" align="center"/>
             </imageobject>
         </mediaobject>
 
@@ -1542,10 +1542,10 @@ public class TodoList {
 
             <mediaobject>
                 <imageobject role="fo">
-                    <imagedata fileref="/images/numberguess-pageflow.png" align="center"/>
+                    <imagedata fileref="images/numberguess-pageflow.png" align="center"/>
                 </imageobject>
                 <imageobject role="html">
-                    <imagedata fileref="/images/numberguess-pageflow.png" align="center"/>
+                    <imagedata fileref="images/numberguess-pageflow.png" align="center"/>
                 </imageobject>
             </mediaobject>
 
@@ -1862,10 +1862,10 @@ public class NumberGuess implements Serializable {
         <screeninfo>Booking example</screeninfo>
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="/images/booking.png" align="center"/>
+            <imagedata fileref="images/booking.png" align="center"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="/images/booking.png" align="center"/>
+            <imagedata fileref="images/booking.png" align="center"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -2413,10 +2413,10 @@ public class HotelBookingAction implements HotelBooking
 
             <mediaobject>
                 <imageobject role="fo">
-                    <imagedata fileref="/images/debug.png" align="center"/>
+                    <imagedata fileref="images/debug.png" align="center"/>
                 </imageobject>
                 <imageobject role="html">
-                    <imagedata fileref="/images/debug.png" align="center"/>
+                    <imagedata fileref="images/debug.png" align="center"/>
                 </imageobject>
             </mediaobject>
 
@@ -2436,10 +2436,10 @@ public class HotelBookingAction implements HotelBooking
         <screeninfo>DVD Store example</screeninfo>
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="/images/dvdsearch.png" align="center"/>
+            <imagedata fileref="images/dvdsearch.png" align="center"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="/images/dvdsearch.png" align="center"/>
+            <imagedata fileref="images/dvdsearch.png" align="center"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -2451,10 +2451,10 @@ public class HotelBookingAction implements HotelBooking
         <screeninfo>DVD Store example</screeninfo>
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="/images/dvdtasks.png" align="center"/>
+            <imagedata fileref="images/dvdtasks.png" align="center"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="/images/dvdtasks.png" align="center"/>
+            <imagedata fileref="images/dvdtasks.png" align="center"/>
           </imageobject>
         </mediaobject>
       </screenshot>
@@ -2487,10 +2487,10 @@ public class HotelBookingAction implements HotelBooking
         <screeninfo>Blog example</screeninfo>
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="/images/blog.png" align="center"/>
+            <imagedata fileref="images/blog.png" align="center"/>
           </imageobject>
           <imageobject role="html">
-            <imagedata fileref="/images/blog.png" align="center"/>
+            <imagedata fileref="images/blog.png" align="center"/>
           </imageobject>
         </mediaobject>
       </screenshot>
