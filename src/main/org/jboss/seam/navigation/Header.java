@@ -22,7 +22,7 @@ public class Header {
     }
     
     public void sendHeader(HttpServletResponse response) {
-        response.addHeader(name, evaluateValue());
+        sendHeader(response, name, evaluateValue());
     }
     
     private String evaluateValue() {
@@ -37,5 +37,15 @@ public class Header {
         }
         
         return result;
+    }
+    
+    
+    public static void sendHeader(HttpServletResponse response, 
+                                  String name,
+                                  String value)
+    {
+        if (response !=null && name !=null && value != null) {
+            response.addHeader(name, value);
+        }
     }
 }

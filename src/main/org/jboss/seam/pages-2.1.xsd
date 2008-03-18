@@ -100,6 +100,7 @@
         <xs:attribute name="timeout"/>
         <xs:attribute name="bundle"/>
         <xs:attribute name="conversation"/>
+        <xs:attribute name="expires" /> 
     </xs:attributeGroup>
     <xs:element name="param">
         <xs:complexType>

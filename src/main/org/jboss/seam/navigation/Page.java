@@ -1,6 +1,8 @@
 package org.jboss.seam.navigation;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,8 @@ import org.jboss.seam.web.Pattern;
  */
 public final class Page
 {
+   public static final String RFC_1123_DATE = "EEE, dd MMM yyyy HH:mm:ss zzz";
+
    private final String viewId;
    private String description;
    private Integer timeout;
@@ -42,6 +46,8 @@ public final class Page
    private List<Pattern> rewritePatterns = new ArrayList<Pattern>();
    private List<Header> httpHeaders = new ArrayList<Header>();
    
+   private Integer expires;
+
    /**
     * The scheme (http/https) required by this page.
     */
@@ -299,8 +305,20 @@ public final class Page
         for (Header header: httpHeaders) {
             header.sendHeader(response);
         }
+        
+        if (expires != null) {
+            Header.sendHeader(response, 
+                              "Expires", 
+                              rfc1123Date(new Date(System.currentTimeMillis()+expires)));
+        }
     }
    
+    private String rfc1123Date(Date when) {
+        SimpleDateFormat format = new SimpleDateFormat(RFC_1123_DATE);
+       
+        return format.format(when);
+    }
+
    public List<Input> getInputs()
    {
       return inputs;
@@ -397,6 +415,10 @@ public final class Page
 
     public List<Header> getHeaders() {
         return httpHeaders;
+    }
+
+    public void setExpires(Integer expires) {
+        this.expires = expires;   
     }
 
 }

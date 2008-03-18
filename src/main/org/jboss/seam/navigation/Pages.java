@@ -1053,10 +1053,15 @@ public class Pages
          page.setTimeout(Integer.parseInt(timeoutString));
       }
       
-      page.setNoConversationViewId( element.attributeValue("no-conversation-view-id") );
-      page.setConversationRequired( "true".equals( element.attributeValue("conversation-required") ) );
-      page.setLoginRequired( "true".equals( element.attributeValue("login-required") ) );
-      page.setScheme( element.attributeValue("scheme") );
+      page.setNoConversationViewId(element.attributeValue("no-conversation-view-id"));
+      page.setConversationRequired("true".equals(element.attributeValue("conversation-required")));
+      page.setLoginRequired("true".equals(element.attributeValue("login-required")));
+      page.setScheme(element.attributeValue("scheme"));
+      
+      String expiresValue = element.attributeValue("expires");
+      if (expiresValue != null) {
+           page.setExpires(Integer.parseInt(expiresValue));
+      }
       
       ConversationIdParameter param = conversations.get( element.attributeValue("conversation") );
       if (param != null) page.setConversationIdParameter(param);
