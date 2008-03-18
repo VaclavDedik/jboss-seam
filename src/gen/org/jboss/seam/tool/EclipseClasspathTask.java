@@ -51,8 +51,9 @@ public class EclipseClasspathTask extends Task
             
             if (new File(javadocPath).exists())
             {
+               eclipsepath += ">\r\n";
                eclipsepath += "\t\t<attributes>\n";
-               eclipsepath += "\t\t\t<attribute name=\"javadoc_location\" value=\"" + javadocPath + "!/\"/>\n";
+               eclipsepath += "\t\t\t<attribute name=\"javadoc_location\" value=\"jar:file:" + javadocPath + "!/\"/>\n";
                eclipsepath += "\t\t</attributes>\n";
                eclipsepath += "\t</classpathentry>\n";
             }
