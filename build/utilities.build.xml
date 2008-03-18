@@ -46,6 +46,17 @@
 		</sequential>
 	</macrodef>
 
+	<!--<macrodef name="dependenciesWithSourcesAndJavadoc">
+		<attribute name="id" />
+		<attribute name="scope" />
+		<attribute name="pom" />
+		<sequential>
+			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" sourcesFilesetId="@{scope}.@{id}.source.fileset" javadocFilesetId="@{scope}.@{id}.javadoc.fileset">
+				<pom file="@{pom}" />
+			</artifact:dependencies>
+		</sequential>
+	</macrodef>-->
+	
 	<macrodef name="install">
 		<attribute name="pom" default="" />
 		<attribute name="jar" default="" />

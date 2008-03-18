@@ -954,17 +954,6 @@
 		<dependenciesWithSources id="ui" scope="compile" pom="${ui.pom}" />
 	</target>
 	
-	<!--<target name="downloadDependenciesJavadoc" depends="init">
-		<dependenciesWithJavadoc id="core" scope="compile" pom="${core.pom}" />
-		<dependenciesWithJavadoc id="debug" scope="compile" pom="${debug.pom}" />
-		<dependenciesWithJavadoc id="gen" scope="compile" pom="${gen.pom}" />
-		<dependenciesWithJavadoc id="ioc" scope="compile" pom="${ioc.pom}" />
-		<dependenciesWithJavadoc id="mail" scope="compile" pom="${mail.pom}" />
-		<dependenciesWithJavadoc id="pdf" scope="compile" pom="${pdf.pom}" />
-		<dependenciesWithJavadoc id="remoting" scope="compile" pom="${remoting.pom}" />
-		<dependenciesWithjavadoc id="ui" scope="compile" pom="${ui.pom}" />
-	</target>-->
-	
 	<target name="eclipseclasspath" depends="init, jargen" description="Update eclipse classpath">
 		<path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
 
