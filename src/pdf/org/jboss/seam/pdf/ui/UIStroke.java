@@ -78,14 +78,14 @@ public class UIStroke
     }
     
     public int joinValue(String join) {
-        if (cap == null || cap.equalsIgnoreCase("miter")) {
+        if (join == null || join.equalsIgnoreCase("miter")) {
             return BasicStroke.JOIN_MITER;
-        } else if (cap.equalsIgnoreCase("round")) {
+        } else if (join.equalsIgnoreCase("round")) {
             return BasicStroke.JOIN_ROUND;
-        } else if (cap.equalsIgnoreCase("bevel")) {
+        } else if (join.equalsIgnoreCase("bevel")) {
             return BasicStroke.JOIN_BEVEL;
         }
-        throw new RuntimeException("invalid join value: " + cap);
+        throw new RuntimeException("invalid join value: " + join);
     }
     
 
