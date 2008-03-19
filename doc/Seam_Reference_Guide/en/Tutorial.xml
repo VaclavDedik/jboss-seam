@@ -111,7 +111,7 @@
 
         <mediaobject>
             <imageobject role="fo">
-                <imagedata fileref="images/registration.png" align="center"/>
+                <imagedata fileref="images/registration.png" align="center" scalefit="1"/>
             </imageobject>
             <imageobject role="html">
                 <imagedata fileref="images/registration.png" align="center"/>
@@ -141,9 +141,9 @@
                         <emphasis>validation</emphasis> declaratively, via annotations. It also needs some extra
                     annotations that define the class as a Seam component. </para>
 
-<example><title>user data</title>
-<programlistingco>
-<areaspec>
+               <example><title>user data</title>
+                  <programlistingco>
+                        <areaspec>
                             <area id="registration-entity-annotation" coords="1"/>
                             <area id="registration-name-annotation" coords="2"/>
                             <area id="registration-scope-annotation" coords="3"/>
@@ -153,7 +153,7 @@
                             <area id="registration-notnull" coords="22"/>
                             <area id="registration-id-annotation" coords="44"/>
                         </areaspec>
-<programlisting><![CDATA[@Entity
+                        <programlisting role="JAVA"><![CDATA[@Entity
 @Name("user")
 @Scope(SESSION)
 @Table(name="users")
@@ -208,7 +208,7 @@ public class User implements Serializable
    }
 
 }]]></programlisting>
-                        <calloutlist>
+                     <calloutlist>
                             <callout arearefs="registration-entity-annotation">
                                 <para> The EJB3 standard <literal>@Entity</literal> annotation indicates that the
                                         <literal>User</literal> class is an entity bean. </para>
@@ -301,7 +301,7 @@ public class User implements Serializable
                             <area id="registration-outcome" coords="25"/>
                             <area id="registration-builtin" coords="29"/>
                         </areaspec>
-                        <programlisting><![CDATA[@Stateless
+                        <programlisting role="JAVA"><![CDATA[@Stateless
 @Name("register")
 public class RegisterAction implements Register
 {
@@ -421,7 +421,7 @@ public class RegisterAction implements Register
                 <para>Naturally, our session bean needs a local interface.</para>
 
                 <example><title></title>
-                    <programlisting><![CDATA[@Local
+                    <programlisting role="JAVA"><![CDATA[@Local
 public interface Register
 {
    public String register();
@@ -449,7 +449,7 @@ public interface Register
                     Seam how to find our EJB components in JNDI: </para>
 
                 <example><title></title>
-                    <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                    <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -475,7 +475,7 @@ public interface Register
                     deployment descriptor. </para>
 
                 <example><title>web deployment descriptor config</title>
-                    <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                    <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5"
     xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -530,7 +530,7 @@ public interface Register
                         defining our views, so we need to tell JSF to use Facelets as its templating engine. </para>
 
                 <example id="registration-faces-config-xml"><title>registration faces configuration</title>
-                    <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                    <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <faces-config version="1.2"
               xmlns="http://java.sun.com/xml/ns/javaee"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -564,7 +564,7 @@ public interface Register
                 <para> The <literal>ejb-jar.xml</literal> file integrates Seam with EJB3, by attaching the
                         <literal>SeamInterceptor</literal> to all session beans in the archive. </para>
 
-                <programlisting><![CDATA[<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" 
+                <programlisting role="XML"><![CDATA[<ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" 
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
                              http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd"
@@ -594,7 +594,7 @@ public interface Register
                     datasource, and contains some vendor-specific settings. In this case, enables automatic schema
                     export at startup time. </para>
 
-                <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" 
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
@@ -620,7 +620,7 @@ public interface Register
                     JSF. In this example we use Facelets, because we think it's better than JSP.</para>
 
                 <example id="registration-simpleform"><title>registration form</title>
-                    <programlisting><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+                    <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -655,7 +655,7 @@ public interface Register
                     the contained input fields against the Hibernate Validator annotations specified on the entity bean. </para>
 
                 <example id="registration-simplepage"><title>registration page</title>
-                    <programlisting><![CDATA[<?xml version="1.0" encoding="utf-8"?>
+                    <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -2309,7 +2309,7 @@ public class HotelBookingAction implements HotelBooking
    {
       em.persist(booking);
       facesMessages.add("Thank you, #{user.name}, your confimation number " + 
-                        " for #{hotel.name} is #{booking.id}");
+                        " for #{hotel.name} is #{booki g.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
       events.raiseTransactionSuccessEvent("bookingConfirmed");
    }

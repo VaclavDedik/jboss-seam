@@ -22,7 +22,7 @@
                     <literal>@Name</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Name("componentName")]]></programlisting>
+                    <programlisting role="JAVA"><![CDATA[@Name("componentName")]]></programlisting>
                     <para> Defines the Seam component name for a class. This annotation is required for all Seam
                         components. </para>
                 </listitem>
@@ -32,7 +32,7 @@
                     <literal>@Scope</literal>
                 </term>
                 <listitem>
-                    <programlisting><![CDATA[@Scope(ScopeType.CONVERSATION)]]></programlisting>
+                    <programlisting role="JAVA"><![CDATA[@Scope(ScopeType.CONVERSATION)]]></programlisting>
                     <para> Defines the default context of the component. The possible values are defined by the
                             <literal>ScopeType</literal> enumeration: <literal>EVENT, PAGE, CONVERSATION, SESSION,
                             BUSINESS_PROCESS, APPLICATION, STATELESS</literal>. </para>
