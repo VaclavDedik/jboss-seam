@@ -3,24 +3,14 @@
 ]>
 
 <section id="Book-We_Need_Feedback">
-   <title>Help Contribute</title>
+   <title>Contribute to Seam</title>
    <para>
-      If you find a typographical error in the 
-      <citetitle>Seam Reference Guide</citetitle>, or if you have thought of a 
-      way to make this manual better, we would love to hear from you! Please 
-      submit a report in <ulink url="http://jira.jboss.com/jira/browse/JBSEAM">JIRA</ulink>
-      and component <citetitle>Documentation Issues</citetitle>.
+      Visit
+      <ulink url="http://www.seamframework.org/Community/Contribute">
+         SeamFramework.org
+      </ulink>
+      to find out how to contribute to Seam!
    </para>
-   <para>
-      If you have a suggestion for improving the documentation, try to be as
-      specific as possible when describing it. If you have found an error,
-      please include the section number and some of the surrounding text so we
-      can find it easily.
-   </para>
-   <note>
-      <title>Note</title>
-      <para>Be sure to give us your name so you can receive full credit.</para>
-   </note>
 
 </section>
 
