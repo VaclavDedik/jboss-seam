@@ -108,9 +108,6 @@
                   <!-- needed for uri-resolvers; can be ommitted if using 'current' uri scheme -->
                   <!--     could also locate the docbook dependency and inspect its version... -->
                   <docbookVersion>1.72.0</docbookVersion>
-                  <transformerParameters>
-                     <fooversion>2.1</fooversion>
-                  </transformerParameters>
                </options>
             </configuration>
          </plugin>
