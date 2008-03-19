@@ -28,6 +28,17 @@
     
     <xs:attributeGroup name="attlist.faces-security-events">
         <xs:attribute name="cookie-max-age"/>
-    </xs:attributeGroup>    
+    </xs:attributeGroup>   
+    
+    <xs:element name="jpa-identity-store">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="security:attlist.jpa-identity-store"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:attributeGroup name="attlist.jpa-identity-store">
+        <xs:attribute name="account-class" />
+    </xs:attributeGroup>     
     
 </xs:schema>
