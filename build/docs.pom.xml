@@ -4,12 +4,6 @@
 
    <modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <groupId>org.jboss</groupId>
-      <artifactId>documentation</artifactId>
-      <version>1.1-SNAPSHOT</version>
-   </parent>
-
    <groupId>org.jboss.seam.reference-guide</groupId>
    <artifactId>seam-reference-guide-${translation}</artifactId>
    <version>@seam.version@</version>
@@ -43,7 +37,90 @@
       </repository>
    </repositories>
 
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.jboss.maven.plugins</groupId>
+            <artifactId>maven-jdocbook-plugin</artifactId>
+            <version>2.1.1-SNAPSHOT</version>
+            <extensions>true</extensions>
+            <dependencies>
+               <dependency>
+                  <groupId>org.jboss.seam</groupId>
+                  <artifactId>seam-docbook-xslt</artifactId>
+                  <version>1.1.0-SNAPSHOT</version>
+               </dependency>
+               <dependency>
+                  <groupId>org.jboss.seam</groupId>
+                  <artifactId>seam-jdocbook-style</artifactId>
+                  <version>1.1.0-SNAPSHOT</version>
+                  <type>jdocbook-style</type>
+               </dependency>
+               <dependency>
+                  <groupId>org.jboss</groupId>
+                  <artifactId>jbossorg-jdocbook-style</artifactId>
+                  <version>1.1.0-SNAPSHOT</version>
+                  <type>jdocbook-style</type>
+               </dependency>
+            </dependencies>
+            <configuration>
+               <sourceDirectory>${pom.basedir}/en</sourceDirectory>
+               <sourceDocumentName>master.xml</sourceDocumentName>
+               <imageResource>
+                  <directory>${pom.basedir}/en</directory>
+                  <includes>
+                     <include>images/*.png</include>
+                  </includes>
+               </imageResource>
+               <formats>
+                  <!-- <format>
+                     <formatName>pdf</formatName>
+                     <stylesheetResource>
+                        classpath:/xslt/org/jboss/seam/main-pdf.xsl
+                     </stylesheetResource>
+                     <finalName>seam_reference.pdf</finalName>
+                  </format>-->
+                  <format>
+                     <formatName>html</formatName>
+                     <stylesheetResource>
+                        classpath:/xslt/org/jboss/seam/main-html.xsl
+                     </stylesheetResource>
+                     <finalName>index.html</finalName>
+                  </format>
+                  <format>
+                     <formatName>html_single</formatName>
+                     <stylesheetResource>
+                        classpath:/xslt/org/jboss/seam/nochunk-html.xsl
+                     </stylesheetResource>
+                     <finalName>index.html</finalName>
+                  </format>
+                  <!-- <format>
+                     <formatName>eclipse</formatName>
+                     <stylesheetResource>
+                        classpath:/xslt/org/jboss/main-eclipse.xsl
+                     </stylesheetResource>
+                     <finalName>index.html</finalName>
+                  </format>-->
+               </formats>
+               <options>
+                  <xincludeSupported>true</xincludeSupported>
+                  <xmlTransformerType>saxon</xmlTransformerType>
+                  <!-- needed for uri-resolvers; can be ommitted if using 'current' uri scheme -->
+                  <!--     could also locate the docbook dependency and inspect its version... -->
+                  <docbookVersion>1.72.0</docbookVersion>
+                  <transformerParameters>
+                     <fooversion>2.1</fooversion>
+                  </transformerParameters>
+               </options>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+
+
+
    <properties>
-      <translation>en</translation>
+      <translation>en-US</translation>
+      <version>2.0.2-SNAPSHOT</version>
    </properties>
 </project>

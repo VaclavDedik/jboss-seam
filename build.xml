@@ -602,7 +602,7 @@
 			<jvmarg line="-Xms128m -Xmx512m" />
 		</maven>
 		<copy todir="${dist.ref.dir}">
-			<fileset dir="${doc.ref.dir}/target/docbook" />
+			<fileset dir="${doc.ref.dir}/target/docbook/publish" />
 		</copy>
 	</target>
 
