@@ -141,6 +141,8 @@
                         <emphasis>validation</emphasis> declaratively, via annotations. It also needs some extra
                     annotations that define the class as a Seam component. </para>
                   <!-- Can't use code hightlighting with callouts -->
+                  <example>
+                  <title></title>
                   <programlistingco>
                         <areaspec>
                             <area id="registration-entity-annotation" coords="1"/>
@@ -259,6 +261,7 @@ public class User implements Serializable
                             </callout>
                         </calloutlist>
                     </programlistingco>
+                    </example>
                     <para> The most important things to notice in this example are the <literal>@Name</literal> and
                             <literal>@Scope</literal> annotations. These annotations establish that this class is a Seam component. </para>
                     <para> We'll see below that the properties of our <literal>User</literal> class are bound to
@@ -282,6 +285,8 @@ public class User implements Serializable
 
                 <para> This is the only really interesting code in the example! </para>
                     <!-- Can't use code hightlighting with callouts -->
+                    <example>
+                    <title></title>
                     <programlistingco>
                         <areaspec>
                             <area id="registration-stateless-annotation" coords="1"/>
@@ -386,6 +391,7 @@ public class RegisterAction implements Register
                             </callout>
                         </calloutlist>
                     </programlistingco>
+                    </example>
 
                     <para> Note that we did not explicitly specify a <literal>@Scope</literal> this time. Each Seam
                         component type has a default scope if not explicitly specified. For stateless session beans, the
@@ -411,12 +417,12 @@ public class RegisterAction implements Register
 
                 <para>Naturally, our session bean needs a local interface.</para>
 
-                
+                 <example><title></title>
                  <programlisting role="JAVA"><![CDATA[@Local
 public interface Register
 {
    public String register();
-}]]></programlisting>
+}]]></programlisting></example>
                 
 
                 <para> That's the end of the Java code. Now onto the deployment descriptors. </para>
@@ -438,7 +444,8 @@ public interface Register
                     configuration in a file called <literal>components.xml</literal>, located in the
                     <literal>WEB-INF</literal> directory. We'll use the <literal>components.xml</literal> file to tell
                     Seam how to find our EJB components in JNDI: </para>
-
+                 <example>
+                 <title></title>
                 <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
@@ -449,7 +456,7 @@ public interface Register
             
      <core:init jndi-pattern="@jndiPattern@"/>
      
-</components>]]></programlisting>
+</components>]]></programlisting></example>
 
                 <para> This code configures a property named <literal>jndiPattern</literal> of a built-in Seam component
                     named <literal>org.jboss.seam.core.init</literal>. The funny <literal>@</literal> symbols are
@@ -462,7 +469,7 @@ public interface Register
 
                 <para> The presentation layer for our mini-application will be deployed in a WAR. So we'll need a web
                     deployment descriptor. </para>
-
+                     <example><title></title>
                     <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.5"
     xmlns="http://java.sun.com/xml/ns/javaee"
@@ -502,7 +509,7 @@ public interface Register
         <session-timeout>10</session-timeout>
     </session-config>
 
-</web-app>]]></programlisting>
+</web-app>]]></programlisting></example>
                 
 
                 <para> This <literal>web.xml</literal> file configures Seam and JSF. The configuration you see here is
@@ -516,7 +523,9 @@ public interface Register
                 <para> Most Seam applications use JSF views as the presentation layer. So usually we'll need
                         <literal>faces-config.xml</literal>. In our case, we are going to use Facelets for
                         defining our views, so we need to tell JSF to use Facelets as its templating engine. </para>
-
+            
+                <example>
+                <title></title>
                     <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <faces-config version="1.2"
               xmlns="http://java.sun.com/xml/ns/javaee"
@@ -529,6 +538,7 @@ public interface Register
     </application>
     
 </faces-config>]]></programlisting>
+                </example>
                 
 
                 <para> Note that we don't need
@@ -606,7 +616,8 @@ public interface Register
                 <para> The view pages for a Seam application could be implemented using any technology that supports
                     JSF. In this example we use Facelets, because we think it's better than JSP.</para>
 
-                
+                <example>
+                <title></title>
                     <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -634,14 +645,15 @@ public interface Register
       </f:view>
    </body>
 
-</html>]]></programlisting>
+</html>]]></programlisting></example>
                 
 
                 <para> The only thing here that is specific to Seam is the
                     <literal>&lt;s:validateAll&gt;</literal> tag. This JSF component tells JSF to validate all
                     the contained input fields against the Hibernate Validator annotations specified on the entity bean. </para>
 
-                
+                <example>
+                  <title></title>
                     <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -659,7 +671,7 @@ public interface Register
 
 </html>
 ]]></programlisting>
-                
+                </example>
 
 
                 <para> This is a boring old Facelets page using some embedded EL. There is nothing specific to Seam
@@ -672,8 +684,8 @@ public interface Register
 
                 <para> Finally, since our application is deployed as an EAR, we need a deployment descriptor there, too. </para>
 
-                
-                <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                <example id="registration-application-xml"><title>registration application</title>
+                  <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <application xmlns="http://java.sun.com/xml/ns/javaee" 
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
@@ -699,7 +711,7 @@ public interface Register
     </module>
 
 </application>]]></programlisting>
-                
+                </example>
 
                 <para> This deployment descriptor links modules in the enterprise archive and binds the web application
                     to the context root <literal>/seam-registration</literal>. </para>
@@ -766,7 +778,9 @@ public interface Register
                 <para> The <literal>Message</literal> entity defines the title, text, date and time of a message, and a
                     flag indicating whether the message has been read: </para>
 
-                <programlisting role="JAVA"><![CDATA[@Entity
+                <example>
+                    <title></title>
+                    <programlisting role="JAVA"><![CDATA[@Entity
 @Name("message")
 @Scope(EVENT)
 public class Message implements Serializable
@@ -819,6 +833,7 @@ public class Message implements Serializable
    }
    
 }]]></programlisting>
+                 </example>
 
             </section>
 
@@ -839,7 +854,9 @@ public class Message implements Serializable
                 <para> We want to cache the list of messages in memory between server requests, so we will make this a
                     stateful session bean. </para>
                  <!-- Can't use code hightlighting with callouts -->
-                <programlistingco>
+                <example>
+                    <title></title>
+                    <programlistingco>
                         <areaspec>
                             <area id="messages-datamodel" coords="7"/>
                             <area id="messages-datamodelselection" coords="10"/>
@@ -939,7 +956,7 @@ public class MessageManagerBean implements Serializable, MessageManager
                             </callout>
                         </calloutlist>
                     </programlistingco>
-                
+                </example>
 
                 <para> Note that this is a session-scoped Seam component. It is associated with the user login session,
                     and all requests from a login session share the same instance of the component. (In Seam
@@ -975,8 +992,9 @@ public interface MessageManager
 
                 <para> The JSP page is a straightforward use of the JSF <literal>&lt;h:dataTable&gt;</literal>
                     component. Again, nothing specific to Seam. </para>
-
-                <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+                <example>
+                    <title></title>
+                    <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
  <head>
@@ -1020,6 +1038,7 @@ public interface MessageManager
   </f:view>
  </body>
 </html>]]></programlisting>
+                </example>
                 
 
             </section>
@@ -1082,15 +1101,17 @@ public interface MessageManager
                 JavaBeans (There was no reason to use session beans, since they do not access the database, or have any
                 other transactional behavior). Let's start with the process definition: </para>
              <!-- Can't use code hightlighting with callouts -->
-             <programlistingco>
-                 <areaspec>
-                     <area id="todo-startstate" coords="3"/>
-                     <area id="todo-tasknode" coords="7"/>
-                     <area id="todo-task" coords="8"/>
-                     <area id="todo-assignment" coords="9"/>
-                     <area id="todo-endstate" coords="14"/>
-                 </areaspec>
-                 <programlisting><![CDATA[<process-definition name="todo">
+             <example>
+                 <title></title>
+                 <programlistingco>
+                    <areaspec>
+                        <area id="todo-startstate" coords="3"/>
+                        <area id="todo-tasknode" coords="7"/>
+                        <area id="todo-task" coords="8"/>
+                        <area id="todo-assignment" coords="9"/>
+                        <area id="todo-endstate" coords="14"/>
+                    </areaspec>
+                    <programlisting><![CDATA[<process-definition name="todo">
    
    <start-state name="start">
       <transition to="todo"/>
@@ -1136,6 +1157,7 @@ public interface MessageManager
                         </callout>
                     </calloutlist>
                 </programlistingco>
+            </example>
             
 
             <para> If we view this process definition using the process definition editor provided by JBossIDE, this is
@@ -1157,8 +1179,9 @@ public interface MessageManager
             <para> The first JavaBean handles the login screen <literal>login.jsp</literal>. Its job is just to
                 initialize the jBPM actor id using the <literal>actor</literal> component. (In a real application, it
                 would also need to authenticate the user.) </para>
-
-            <programlisting role="JAVA"><![CDATA[@Name("login")
+            <example>
+               <title></title>
+               <programlisting role="JAVA"><![CDATA[@Name("login")
 public class Login {
    
    @In
@@ -1180,6 +1203,7 @@ public class Login {
       return "/todo.jsp";
    }
 }]]></programlisting>
+            </example>
             
 
             <para> Here we see the use of <literal>@In</literal> to inject the built-in <literal>Actor</literal>
@@ -1211,11 +1235,13 @@ public class Login {
             <para> The second JavaBean is responsible for starting business process instances, and ending tasks. </para>
 
             <!-- Can't use code hightlighting with callouts -->
-            <programlistingco>
-                 <areaspec>
-                     <area id="todo-description" coords="6"/>
-                     <area id="todo-createprocess-annotation" coords="15"/>
-                     <area id="todo-task-annotations" coords="18"/>
+            <example>
+               <title></title>
+               <programlistingco>
+                   <areaspec>
+                       <area id="todo-description" coords="6"/>
+                       <area id="todo-createprocess-annotation" coords="15"/>
+                       <area id="todo-task-annotations" coords="18"/>
                  </areaspec>
                  <programlisting><![CDATA[@Name("todoList")
 public class TodoList {
@@ -1254,6 +1280,7 @@ public class TodoList {
                         </callout>
                     </calloutlist>
                 </programlistingco>
+            </example>
             
 
             <para> In a more realistic example, <literal>@StartTask</literal> and <literal>@EndTask</literal> would not
@@ -1261,8 +1288,9 @@ public class TodoList {
                 complete the task. </para>
 
             <para> Finally, the meat of the application is in <literal>todo.jsp</literal>: </para>
-
-            <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+            <example>
+                <title></title>
+                <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <%@ taglib uri="http://jboss.com/products/seam/taglib" prefix="s" %>
 <html>
@@ -1327,14 +1355,16 @@ public class TodoList {
 </f:view>
 </body>
 </html>]]></programlisting>
+            </example>
             
 
             <para> Let's take this one piece at a time. </para>
 
             <para> The page renders a list of tasks, which it gets from a built-in Seam component named
                     <literal>taskInstanceList</literal>. The list is defined inside a JSF form. </para>
-
-            <programlisting role="XHTML"><![CDATA[<h:form id="list">
+            <example>
+                <title></title>
+                <programlisting role="XHTML"><![CDATA[<h:form id="list">
    <div>
       <h:outputText value="There are no todo items." rendered="#{empty taskInstanceList}"/>
       <h:dataTable value="#{taskInstanceList}" var="task" 
@@ -1343,6 +1373,7 @@ public class TodoList {
       </h:dataTable>
    </div>
 </h:form>]]></programlisting>
+            </example>
 
             <para> Each element of the list is an instance of the jBPM class <literal>TaskInstance</literal>. The
                 following code simply displays the interesting properties of each task in the list. For the description,
@@ -1440,6 +1471,8 @@ public class TodoList {
             <para> The example is implemented using one JavaBean, three JSP pages and a jPDL pageflow definition. Let's
                 begin with the pageflow: </para>
              <!-- Can't use code hightlighting with callouts -->
+             <example>
+                <title></title>
              <programlistingco>
                  <areaspec>
                      <area id="numberguess-page" coords="8"/>
@@ -1514,6 +1547,7 @@ public class TodoList {
                         </callout>
                     </calloutlist>
                 </programlistingco>
+            </example>
                 
 
             <para> Here is what the pageflow looks like in the JBoss Developer Studio pageflow editor: </para>
@@ -1531,7 +1565,9 @@ public class TodoList {
 
             <para> Here is the main page of the application, <literal>numberGuess.jspx</literal>: </para>
 
-            <programlisting role="XHTML"><![CDATA[<<?xml version="1.0"?>
+            <example>
+                <title></title>
+                <programlisting role="XHTML"><![CDATA[<<?xml version="1.0"?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
           xmlns:h="http://java.sun.com/jsf/html"
           xmlns:f="http://java.sun.com/jsf/core"
@@ -1601,14 +1637,16 @@ public class TodoList {
   </body>
   </html>
 </jsp:root>]]></programlisting>
+            </example>
             
 
             <para> Notice how the command button names the <literal>guess</literal> transition instead of calling an
                 action directly. </para>
 
             <para> The <literal>win.jspx</literal> page is predictable: </para>
-
-            <programlisting role="JSP"><![CDATA[<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
+            <example>
+                <title></title>
+                <programlisting role="JSP"><![CDATA[<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" 
           xmlns:h="http://java.sun.com/jsf/html"
           xmlns:f="http://java.sun.com/jsf/core"
           xmlns="http://www.w3.org/1999/xhtml"
@@ -1635,12 +1673,15 @@ public class TodoList {
   </html>
 </jsp:root>
 ]]></programlisting>
+            </example>
             
 
             <para> As is <literal>lose.jspx</literal> (which I can't be bothered copy/pasting). Finally, the JavaBean
                 Seam component: </para>
              <!-- Can't use code hightlighting with callouts -->
-             <programlistingco>
+             <example>
+                 <title></title>
+                 <programlistingco>
                  <areaspec>
                      <area id="numberguess-create" coords="13"/>
                  </areaspec>
@@ -1755,6 +1796,7 @@ public class NumberGuess implements Serializable {
                         </callout>
                     </calloutlist>
                 </programlistingco>
+            </example>
             
 
          
@@ -1965,6 +2007,8 @@ public class NumberGuess implements Serializable {
             <para> The search functionality is implemented using a session-scope stateful session bean, similar to the
                 one we saw in the message list example above. </para>
                 
+            <example>
+                <title></title>
              <!-- Can't use code hightlighting with callouts -->
              <programlistingco>
                  <areaspec>
@@ -2075,11 +2119,13 @@ public class HotelSearchingAction implements HotelSearching
                         </callout>
                     </calloutlist>
                 </programlistingco>
+            </example>
             
 
             <para> The main page of the application is a Facelets page. Let's look at the fragment which relates to
                 searching for hotels: </para>
-
+            <example>
+               <title></title>
              <!-- Can't use code hightlighting with callouts -->
              <programlistingco>
                  <areaspec>
@@ -2186,6 +2232,7 @@ public class HotelSearchingAction implements HotelSearching
                         </callout>
                     </calloutlist>
                 </programlistingco>
+            </example>
             
 
             <para> This page displays the search results dynamically as we type, and lets us choose a hotel and pass it
@@ -2197,7 +2244,8 @@ public class HotelSearchingAction implements HotelSearching
                 achieve a natural cache of persistent data related to the conversation. The following code example is
                 pretty long. But if you think of it as a list of scripted actions that implement the various steps of
                 the conversation, it's understandable. Read the class from top to bottom, as if it were a story. </para>
-
+            <example>
+               <title></title>
              <!-- Can't use code hightlighting with callouts -->
              <programlistingco>
                  <areaspec>
@@ -2330,6 +2378,7 @@ public class HotelBookingAction implements HotelBooking
                         </callout>
                     </calloutlist>
                 </programlistingco>
+            </example>
             
 
             <para>
@@ -2478,7 +2527,8 @@ public class HotelBookingAction implements HotelBooking
 
             <para> This snippet from the <literal>index.xhtml</literal> facelets page displays a list of recent blog
                 entries: </para>
-
+            <example>
+               <title></title>
             <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{blog.recentBlogEntries}" var="blogEntry" rows="3">
    <h:column>
       <div class="blogEntry">
@@ -2507,6 +2557,7 @@ public class HotelBookingAction implements HotelBooking
       </div>
    </h:column>
 </h:dataTable>]]></programlisting>
+</example>
             
 
             <para> If we navigate to this page from a bookmark, how does the data used by the
@@ -2514,7 +2565,8 @@ public class HotelBookingAction implements HotelBooking
                 the <literal>Blog</literal> is retrieved lazily&#8212;"pulled"&#8212;when needed, by a Seam
                 component named <literal>blog</literal>. This is the opposite flow of control to what is usual in
                 traditional web action-based frameworks like Struts. </para>
-
+             <example>
+               <title></title>
              <!-- Can't use code hightlighting with callouts -->
              <programlistingco>
                  <areaspec>
@@ -2554,6 +2606,7 @@ public class BlogService
                         </callout>
                     </calloutlist>
                 </programlistingco>
+               </example>
             
 
             <para> This is good so far, but what about bookmarking the result of form submissions, such as a search
@@ -2567,7 +2620,8 @@ public class BlogService
             <para> The blog example has a tiny form in the top right of each page that allows the user to search for
                 blog entries. This is defined in a file, <literal>menu.xhtml</literal>, included by the facelets
                 template, <literal>template.xhtml</literal>: </para>
-
+            <example>
+               <title></title>
             <programlisting role="XHTML"><![CDATA[<div id="search">
    <h:form>
       <h:inputText value="#{searchAction.searchPattern}"/>
@@ -2588,7 +2642,7 @@ public class BlogService
       <redirect/>
    </navigation-case>
 </navigation-rule>]]></programlisting>
-
+            </example>
 
             <para> Then the form would have looked like this: </para>
             
@@ -2605,13 +2659,15 @@ public class BlogService
                 <literal>http://localhost:8080/seam-blog/search.seam?searchPattern=seam</literal>. JSF does not provide
                 an easy way to do this, but Seam does. We use a Seam <emphasis>page parameter</emphasis>, defined in
                     <literal>WEB-INF/pages.xml</literal>: </para>
-
+            <example>
+            <title></title>
 		    <programlisting role="XML"><![CDATA[<pages>
    <page view-id="/search.xhtml">
       <param name="searchPattern" value="#{searchService.searchPattern}"/>
    </page>
    ...
 </pages>]]></programlisting>
+</example>
             
 
             <para> This tells Seam to include the value of <literal>#{searchService.searchPattern}</literal> as a
