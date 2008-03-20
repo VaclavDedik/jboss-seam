@@ -219,7 +219,7 @@ public class Authenticator {
 
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="images/security-addrole.png" align="center"/>
+            <imagedata fileref="images/security-addrole.png" align="center" scalefit="1"/>
           </imageobject>
           <imageobject role="html">
             <imagedata fileref="images/security-addrole.png" align="center"/>
@@ -1636,7 +1636,7 @@ public class CustomIdentity extends Identity
 
     <mediaobject>
       <imageobject role="fo">
-        <imagedata fileref="images/security-identitymanager.png" align="center"/>
+        <imagedata fileref="images/security-identitymanager.png" align="center" scalefit="1"/>
       </imageobject>
       <imageobject role="html">
         <imagedata fileref="images/security-identitymanager.png" align="center"/>
@@ -2411,7 +2411,7 @@ end]]></programlisting>
 
       <mediaobject>
         <imageobject role="fo">
-          <imagedata fileref="images/security-usermanager1.png" align="center"/>
+          <imagedata fileref="images/security-usermanager1.png" align="center" scalefit="1"/>
         </imageobject>
         <imageobject role="html">
           <imagedata fileref="images/security-usermanager1.png" align="center"/>
@@ -2424,7 +2424,7 @@ end]]></programlisting>
 
       <mediaobject>
         <imageobject role="fo">
-          <imagedata fileref="images/security-usermanager2.png" align="center"/>
+          <imagedata fileref="images/security-usermanager2.png" align="center" scalefit="1"/>
         </imageobject>
         <imageobject role="html">
           <imagedata fileref="images/security-usermanager2.png" align="center"/>

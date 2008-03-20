@@ -61,7 +61,7 @@
 <!--###################################################
                          Callouts
     ################################################### -->
-
+   <xsl:param name="callout.extensions">1</xsl:param>
     <!-- Don't use graphics, use a simple number style -->
     <xsl:param name="callout.graphics">0</xsl:param>
 
@@ -79,6 +79,6 @@
         equation before
         table before
         procedure before
-    </xsl:param>    
+    </xsl:param>
     
 </xsl:stylesheet>

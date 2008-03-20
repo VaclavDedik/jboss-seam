@@ -170,7 +170,7 @@ public class AskQuestionWidget extends Composite
     
     <mediaobject>
       <imageobject role="fo">
-        <imagedata fileref="images/gwt-helloworld.png" align="center"/>
+        <imagedata fileref="images/gwt-helloworld.png" align="center" scalefit="1"/>
       </imageobject>
       <imageobject role="html">
         <imagedata fileref="images/gwt-helloworld.png" align="center"/>

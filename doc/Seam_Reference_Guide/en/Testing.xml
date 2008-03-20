@@ -301,7 +301,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
 
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="images/plugin-testng.png" align="center"/>
+            <imagedata fileref="images/plugin-testng.png" align="center" scalefit="1"/>
           </imageobject>
           <imageobject role="html">
             <imagedata fileref="images/plugin-testng.png" align="center"/>

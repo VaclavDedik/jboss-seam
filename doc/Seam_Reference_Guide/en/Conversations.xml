@@ -904,7 +904,7 @@ public class EditDocumentBean implements EditDocument {
             
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="images/list.png" align="center"/>
+            <imagedata fileref="images/list.png" align="center" scalefit="1"/>
           </imageobject>
           <imageobject role="html">
             <imagedata fileref="images/list.png" align="center"/>
@@ -938,7 +938,7 @@ public class EditDocumentBean implements EditDocument {
             
             <mediaobject>
               <imageobject role="fo">
-                <imagedata fileref="images/breadcrumbs.png" align="center"/>
+                <imagedata fileref="images/breadcrumbs.png" align="center" scalefit="1"/>
               </imageobject>
               <imageobject role="html">
                 <imagedata fileref="images/breadcrumbs.png" align="center"/>
