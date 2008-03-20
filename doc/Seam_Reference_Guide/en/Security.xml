@@ -527,7 +527,7 @@ public class Authenticator {
       <title>Security Message Keys</title>
 
       <tgroup cols="2">
-        <colspec colnum="1" colwidth="1*" />
+        <colspec colnum="1" colwidth="2*" />
         <colspec colnum="2" colwidth="3*" />
 
         <thead>
@@ -1365,8 +1365,8 @@ public class HitchhikersCaptcha extends Captcha
       <title>Security Events</title>
 
       <tgroup cols="2">
-        <colspec colnum="1" colwidth="1*" />
-        <colspec colnum="2" colwidth="3*" />
+        <colspec colnum="1" colwidth="3*" />
+        <colspec colnum="2" colwidth="2*" />
 
         <thead>
           <row>
@@ -1824,9 +1824,10 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
       <table>
         <title>Identity Management API</title>
 
-        <tgroup cols="2">
-          <colspec colnum="1" colwidth="1*" />
-          <colspec colnum="2" colwidth="3*" />
+        <tgroup cols="3">
+          <colspec colnum="1" colwidth="2*" />
+          <colspec colnum="2" colwidth="1*" />
+          <colspec colnum="3" colwidth="3*" />
 
           <thead>
             <row>
@@ -2148,9 +2149,10 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
       <table>
         <title>Identity Management Security Permissions</title>
 
-        <tgroup cols="2">
-          <colspec colnum="1" colwidth="1*" />
-          <colspec colnum="2" colwidth="3*" />
+        <tgroup cols="3">
+          <colspec colnum="1" colwidth="2*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="2" colwidth="2*" />
 
           <thead>
             <row>
