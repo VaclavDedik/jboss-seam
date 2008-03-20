@@ -148,15 +148,17 @@
                 		<fileset dir="${lib.dir}">
                 				<include name="jboss-seam.jar" />
                 		</fileset>
-                        <fileset dir="${basedir}">
-                                <include name="lib/jbpm*.jar" />
-                                <include name="lib/jboss-el.jar" />
-                                <include name="lib/drools-*.jar"/>
-                                <include name="lib/core.jar"/>
-                                <include name="lib/janino*.jar"/>
-                                <include name="lib/antlr-*.jar"/>
-                                <include name="lib/mvel*.jar"/>
-                        		<include name="lib/richfaces-api*.jar" />
+                 </copy>
+                 <copy todir="${ear.dir}/lib">
+                        <fileset dir="${lib.dir}">
+                                <include name="jbpm*.jar" />
+                                <include name="jboss-el.jar" />
+                                <include name="drools-*.jar"/>
+                                <include name="core.jar"/>
+                                <include name="janino*.jar"/>
+                                <include name="antlr-*.jar"/>
+                                <include name="mvel*.jar"/>
+                        		<include name="richfaces-api*.jar" />
                         </fileset>
                 </copy>
                 <copy todir="${ear.dir}/META-INF">
