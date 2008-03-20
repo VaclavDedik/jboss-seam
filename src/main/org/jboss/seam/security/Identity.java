@@ -5,7 +5,6 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.security.Principal;
 import java.security.acl.Group;
 import java.util.ArrayList;
@@ -23,24 +22,19 @@ import javax.security.auth.login.LoginException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.security.permission.PermissionMapper;
-import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Session;
 
 /**
@@ -684,58 +678,5 @@ public class Identity implements Serializable
          principal = savedPrincipal;
          subject = savedSubject;
       }
-   }
-
-   public void checkEntityPermission(Object entity, EntityAction action)
-   {      
-      isLoggedIn(true);
-      
-      PersistenceProvider provider = PersistenceProvider.instance(); 
-      Class beanClass = provider.getBeanClass(entity);
-      
-      if (beanClass != null)
-      {
-         String name = Seam.getComponentName(entity.getClass());
-         if (name == null) name = beanClass.getName();  
-         
-         Method m = null;
-         switch (action)
-         {
-            case READ:
-               m = provider.getPostLoadMethod(beanClass);
-               break;
-            case INSERT:
-               m = provider.getPrePersistMethod(beanClass);
-               break;
-            case UPDATE:
-               m = provider.getPreUpdateMethod(beanClass);
-               break;
-            case DELETE:
-               m = provider.getPreRemoveMethod(beanClass);
-         }
-         
-         Restrict restrict = null;
-         
-         if (m != null && m.isAnnotationPresent(Restrict.class))
-         {
-            restrict = m.getAnnotation(Restrict.class);
-         }
-         else if (entity.getClass().isAnnotationPresent(Restrict.class))
-         {
-            restrict = entity.getClass().getAnnotation(Restrict.class);
-         }
-
-         if (restrict != null)
-         {
-            if (Strings.isEmpty(restrict.value()))
-            {
-               checkPermission(entity, action.toString());
-            }
-            else
-            {
-               checkRestriction(restrict.value());
-            }
-         }
-      }
-   }   
+   } 
 }
