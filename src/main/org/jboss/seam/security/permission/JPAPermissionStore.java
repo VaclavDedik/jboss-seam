@@ -5,6 +5,7 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Scope;
@@ -53,7 +54,27 @@ public class JPAPermissionStore implements PermissionStore
    public boolean revokePermission(String target, String action,
          String account, AccountType accountType) 
    {
-      return false;
+      try
+      {
+         EntityManager em = getEntityManager();
+         
+         AccountPermission permission = (AccountPermission) em.createQuery(
+            "from " + permissionClass.getName() +
+            " where target = :target and action = :action and account = :account " +
+            " and accountType = :accountType")
+            .setParameter("target", target)
+            .setParameter("action", "action")
+            .setParameter("account", account)
+            .setParameter("accountType", accountType)
+            .getSingleResult();
+         
+         em.remove(permission);
+         return true;
+      }
+      catch (NoResultException ex)
+      {
+         return false;
+      }
    }   
 
    public List<AccountPermission> listPermissions(String target, String action) 
