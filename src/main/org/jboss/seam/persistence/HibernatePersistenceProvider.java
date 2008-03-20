@@ -323,25 +323,25 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    }
    
    /*@Override
-   public Method getPostLoadMethod(Class beanClass)
+   public Method getPostLoadMethod(Class beanClass, EntityManager entityManager)
    {
       return null;      
    }
    
    @Override
-   public Method getPrePersistMethod(Class beanClass)
+   public Method getPrePersistMethod(Class beanClass, EntityManager entityManager)
    {
       return null;
    }
    
    @Override
-   public Method getPreUpdateMethod(Class beanClass)
+   public Method getPreUpdateMethod(Class beanClass, EntityManager entityManager)
    {
       return null;
    }
    
    @Override
-   public Method getPreRemoveMethod(Class beanClass)
+   public Method getPreRemoveMethod(Class beanClass, EntityManager entityManager)
    {
       return null;
    }*/

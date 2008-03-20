@@ -83,21 +83,20 @@ public class EntityPermissionChecker
          String name = Seam.getComponentName(entity.getClass());
          if (name == null) name = beanClass.getName();  
          
-         // TODO - replace getXXXMethod(class) with getXXXMethod(class, entityManager)
          Method m = null;
          switch (action)
          {
             case READ:
-               m = provider.getPostLoadMethod(beanClass);
+               m = provider.getPostLoadMethod(beanClass, getEntityManager());
                break;
             case INSERT:
-               m = provider.getPrePersistMethod(beanClass);
+               m = provider.getPrePersistMethod(beanClass, getEntityManager());
                break;
             case UPDATE:
-               m = provider.getPreUpdateMethod(beanClass);
+               m = provider.getPreUpdateMethod(beanClass, getEntityManager());
                break;
             case DELETE:
-               m = provider.getPreRemoveMethod(beanClass);
+               m = provider.getPreRemoveMethod(beanClass, getEntityManager());
          }
          
          Restrict restrict = null;
