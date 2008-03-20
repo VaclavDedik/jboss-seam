@@ -39,6 +39,7 @@
 		<include name="lib/cglib.jar" />
 		<include name="lib/jta.jar" />
 		<include name="lib/antlr.jar" />
+    	<include name="lib/asm.jar" />
     	<include name="examples/jpa/lib/jboss-archive-browsing.jar" />
     </fileset>
 	
