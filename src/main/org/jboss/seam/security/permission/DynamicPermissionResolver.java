@@ -17,7 +17,6 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.permission.AccountPermission.AccountType;
 
 /**
  * Resolves dynamically-assigned permissions kept in a persistent store, such as a 
@@ -32,9 +31,9 @@ import org.jboss.seam.security.permission.AccountPermission.AccountType;
 @Startup
 public class DynamicPermissionResolver implements PermissionResolver, Serializable
 {   
-   private static final String DEFAULT_PERMISSION_STORE_NAME = "permissionStore";
+   private static final String DEFAULT_PERMISSION_STORE_NAME = "accountPermissionStore";
    
-   private PermissionStore permissionStore;
+   private AccountPermissionStore permissionStore;
    
    private static final LogProvider log = Logging.getLogProvider(DynamicPermissionResolver.class);   
    
@@ -48,7 +47,7 @@ public class DynamicPermissionResolver implements PermissionResolver, Serializab
    {
       if (permissionStore == null)
       {
-         permissionStore = (PermissionStore) Component.getInstance(DEFAULT_PERMISSION_STORE_NAME, true);
+         permissionStore = (AccountPermissionStore) Component.getInstance(DEFAULT_PERMISSION_STORE_NAME, true);
       }           
       
       if (permissionStore == null)
@@ -58,12 +57,12 @@ public class DynamicPermissionResolver implements PermissionResolver, Serializab
       }
    }     
    
-   public PermissionStore getPermissionStore()
+   public AccountPermissionStore getPermissionStore()
    {
       return permissionStore;
    }
    
-   public void setPermissionStore(PermissionStore permissionStore)
+   public void setPermissionStore(AccountPermissionStore permissionStore)
    {
       this.permissionStore = permissionStore;
    }

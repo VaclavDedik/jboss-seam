@@ -10,7 +10,6 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.security.permission.AccountPermission.AccountType;
 
 /**
  * A permission store implementation that uses JPA as its persistence mechanism.
@@ -19,7 +18,7 @@ import org.jboss.seam.security.permission.AccountPermission.AccountType;
  */
 @Scope(APPLICATION)
 @BypassInterceptors
-public class JPAPermissionStore implements PermissionStore
+public class JpaAccountPermissionStore implements AccountPermissionStore
 {
    private String entityManagerName = "entityManager";
    

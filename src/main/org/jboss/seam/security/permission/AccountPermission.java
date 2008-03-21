@@ -7,9 +7,7 @@ package org.jboss.seam.security.permission;
  * @author Shane Bryzak
  */
 public abstract class AccountPermission
-{
-   public enum AccountType {user, role}
-   
+{  
    public abstract String getTarget();
    public abstract void setTarget(String target);
    
