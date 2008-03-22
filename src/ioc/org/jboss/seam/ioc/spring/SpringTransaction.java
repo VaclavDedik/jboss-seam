@@ -77,8 +77,6 @@ public class SpringTransaction extends AbstractUserTransaction
    /**
     * Obtains a PlatformTransactionManager from either the name or expression
     * specified.
-    *
-    * @return
     */
    protected PlatformTransactionManager getPlatformTransactionManager()
    {

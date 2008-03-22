@@ -15,7 +15,6 @@ public class RewritingResponse
     private static LogProvider log = Logging.getLogProvider(RewritingResponse.class);
 
     private HttpServletRequest request;
-    private HttpServletResponse response;
     private Collection<Pattern> patterns;
 
 
@@ -26,7 +25,6 @@ public class RewritingResponse
         super(response);
 
         this.request  = request;
-        this.response = response;
         this.patterns = patterns;   
     }   
     

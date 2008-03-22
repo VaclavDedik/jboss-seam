@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
-import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;

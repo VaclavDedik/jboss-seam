@@ -1,6 +1,5 @@
 package org.jboss.seam.faces;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage.Severity;

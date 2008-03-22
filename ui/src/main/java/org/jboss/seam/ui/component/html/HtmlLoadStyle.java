@@ -42,6 +42,7 @@ import javax.faces.el.ValueBinding;
 	 * Setter for isolated
 	 * @param __isolated - new value
 	 */
+	 @Override
 	 public void setIsolated( boolean  __isolated ){
 		this._isolated = __isolated;
 	 		this._isolatedSet = true;
@@ -54,6 +55,7 @@ import javax.faces.el.ValueBinding;
 	 * Getter for isolated
 	 * @return isolated value from local variable or value bindings
 	 */
+	 @Override
 	 public boolean isIsolated(  ){
 	 		 if(this._isolatedSet){
 			return this._isolated;
@@ -81,8 +83,8 @@ import javax.faces.el.ValueBinding;
 // Save state
 // ----------------------------------------------------- StateHolder Methods
 
-
-    public Object saveState(FacesContext context) {
+	@Override
+   public Object saveState(FacesContext context) {
         Object values[] = new Object[3];
         values[0] = super.saveState(context);
  	        values[1] = new Boolean(_isolated);
@@ -91,8 +93,8 @@ import javax.faces.el.ValueBinding;
      	  return values;
    }
    
-
-    public void restoreState(FacesContext context, Object state) {
+   @Override
+   public void restoreState(FacesContext context, Object state) {
         Object values[] = (Object[]) state;
         super.restoreState(context, values[0]);
  	        _isolated = ((Boolean)values[1]).booleanValue();

@@ -245,6 +245,7 @@ public abstract class AbstractDBUnitSeamTest extends AbstractSeamTest
             }
         }
 
+        @Override
         public String toString() 
         {
             // TODO: This is not pretty because DBUnit's DatabaseOperation doesn't implement toString() properly
@@ -348,6 +349,7 @@ public abstract class AbstractDBUnitSeamTest extends AbstractSeamTest
             // http://www.carbonfive.com/community/archives/2005/07/dbunit_hsql_and.html
             config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new DefaultDataTypeFactory() 
             {
+               @Override
                 public DataType createDataType(int sqlType, String sqlTypeName)
                   throws DataTypeException 
                   {

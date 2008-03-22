@@ -7,7 +7,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.core.Init;
 import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;

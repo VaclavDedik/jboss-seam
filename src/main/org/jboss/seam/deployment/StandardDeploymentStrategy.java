@@ -1,6 +1,5 @@
 package org.jboss.seam.deployment;
 
-import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.Set;
 

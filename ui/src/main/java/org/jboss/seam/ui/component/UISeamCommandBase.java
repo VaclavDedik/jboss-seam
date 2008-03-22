@@ -13,7 +13,6 @@ import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionListener;
-import javax.faces.event.PhaseEvent;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.navigation.Pages;

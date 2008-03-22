@@ -15,7 +15,7 @@ public class SeamExpressionEvaluatorTest extends SeamTest
    @Test
    public void testValueExpression() throws Exception
    {
-      String cid = new FacesRequest()
+      new FacesRequest()
       {
 
          @Override
@@ -31,7 +31,7 @@ public class SeamExpressionEvaluatorTest extends SeamTest
    @Test
    public void testMissingMethod() throws Exception
    {
-      String cid = new FacesRequest()
+      new FacesRequest()
       {
 
          @Override
