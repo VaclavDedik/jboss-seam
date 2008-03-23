@@ -28,7 +28,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
@@ -528,12 +530,30 @@ public class AbstractSeamTest
 
       protected void init()
       {
-         Cookie[] cookieArray = getCookies().toArray(new Cookie[] {});
-         request = new MockHttpServletRequest(session, getPrincipalName(), getPrincipalRoles(), cookieArray, isGetRequest() ? "GET" : "POST");
-         response = new MockHttpServletResponse();
+         request = createRequest();
+         response = createResponse();
          externalContext = new MockExternalContext(servletContext, request, response);
          facesContext = new MockFacesContext(externalContext, application);
          facesContext.setCurrent();
+      }
+
+      /**
+       * Override if you wish to customize the HttpServletRequest used in this request.
+       * You may find {@link HttpServletRequestWrapper} useful.
+       */
+      protected HttpServletRequest createRequest()
+      {
+         Cookie[] cookieArray = getCookies().toArray(new Cookie[] {});
+         return new MockHttpServletRequest(session, getPrincipalName(), getPrincipalRoles(), cookieArray, isGetRequest() ? "GET" : "POST");
+      }
+      
+      /**
+       * Override if you wish to customize the HttpServletResponse used in this request.
+       * You may find {@link HttpServletResponseWrapper} useful. 
+       */
+      protected HttpServletResponse createResponse()
+      {
+         return new MockHttpServletResponse();
       }
 
       private void setStandardJspVariables()
