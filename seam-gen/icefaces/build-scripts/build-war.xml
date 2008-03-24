@@ -337,12 +337,18 @@
     
     <target name="test" depends="buildtest" description="Run the tests">            
         <taskdef resource="testngtasks" classpath="${testng.jar}" />
-        <testng outputdir="${basedir}/test-report">
-            <classpath path="${test.dir}" />
-            <classpath path="${bootstrap.dir}" />
-            <classpath refid="build.classpath" />
-            <xmlfileset dir="${test.dir}" includes="*Test.xml" />
-        </testng>
+		<path id="test.path">
+			<path path="${test.dir}" />
+			<fileset dir="${lib.dir}/test">
+				<include name="*.jar" />
+			</fileset>
+			<path path="${bootstrap.dir}" />
+			<path refid="build.classpath" />
+		</path>
+		<testng outputdir="${basedir}/test-report">
+			<classpath refid="test.path" />
+			<xmlfileset dir="${test.dir}" includes="*Test.xml" />
+		</testng>
     </target>
     
 	<target name="freshen" description="grab fresh icefaces jars">
