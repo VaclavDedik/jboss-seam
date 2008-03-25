@@ -3,7 +3,7 @@
  * 
  * @see org.jboss.seam.security.permission.PermissionManager
  */
-@Namespace(value="http://jboss.com/products/seam/security", prefix="org.jboss.seam.security")
+@Namespace(value="http://jboss.com/products/seam/permission", prefix="org.jboss.seam.permission")
 @AutoCreate
 package org.jboss.seam.security.permission;
 
