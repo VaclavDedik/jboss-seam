@@ -132,13 +132,13 @@
             request parameter:
         </para>
         
-        <programlisting><![CDATA[<a href="main.jsf?conversationId=#{conversation.id}">Continue</a>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<a href="main.jsf?conversationId=#{conversation.id}">Continue</a>]]></programlisting>
         
         <para>
             Or, the more JSF-ish:
         </para>
         
-        <programlisting><![CDATA[<h:outputLink value="main.jsf">
+        <programlisting role="XHTML"><![CDATA[<h:outputLink value="main.jsf">
     <f:param name="conversationId" value="#{conversation.id}"/>
     <h:outputText value="Continue"/>
 </h:outputLink>]]></programlisting>
@@ -147,7 +147,7 @@
             If you use the Seam tag library, this is equivalent:
         </para>
 
-        <programlisting><![CDATA[<h:outputLink value="main.jsf">
+        <programlisting role="XHTML"><![CDATA[<h:outputLink value="main.jsf">
     <s:conversationId/>
     <h:outputText value="Continue"/>
 </h:outputLink>]]></programlisting>
@@ -157,7 +157,7 @@
             postback, a similar trick is used:
         </para>
 
-        <programlisting><![CDATA[<h:commandLink action="main" value="Exit">
+        <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Exit">
     <f:param name="conversationPropagation" value="none"/>
 </h:commandLink>]]></programlisting>
 
@@ -165,7 +165,7 @@
             If you use the Seam tag library, this is equivalent:
         </para>
 
-        <programlisting><![CDATA[<h:commandLink action="main" value="Exit">
+        <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Exit">
     <s:conversationPropagation type="none"/>
 </h:commandLink>]]></programlisting>
 
@@ -181,19 +181,19 @@
             conversation.
         </para>
 
-        <programlisting><![CDATA[<h:commandLink action="main" value="Exit">
+        <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Exit">
     <s:conversationPropagation type="end"/>
 </h:commandLink>]]></programlisting>
 
-        <programlisting><![CDATA[<h:commandLink action="main" value="Select Child">
+        <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Select Child">
     <s:conversationPropagation type="nested"/>
 </h:commandLink>]]></programlisting>
 
-        <programlisting><![CDATA[<h:commandLink action="main" value="Select Hotel">
+        <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Select Hotel">
     <s:conversationPropagation type="begin"/>
 </h:commandLink>]]></programlisting>
 
-        <programlisting><![CDATA[<h:commandLink action="main" value="Select Hotel">
+        <programlisting role="XHTML"><![CDATA[<h:commandLink action="main" value="Select Hotel">
     <s:conversationPropagation type="join"/>
 </h:commandLink>]]></programlisting>
 
@@ -305,7 +305,7 @@
             file.
         </para>
         
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/messageList.jsp" action="#{messageManager.list}"/>
     ...
 </pages>]]></programlisting>
@@ -324,7 +324,7 @@
             does just that:
         </para>
         
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/messageList.jsp" action="#{conversation.begin}"/>
     ...
 </pages>]]></programlisting>
@@ -342,7 +342,7 @@
             <literal>&lt;begin-conversation&gt;</literal> element.
         </para>
 
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/messageList.jsp">
        <begin-conversation nested="true" pageflow="AddItem"/>
     <page>
@@ -354,7 +354,7 @@
             element.
         </para>
 
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/home.jsp">
        <end-conversation/>
     <page>
@@ -449,14 +449,14 @@
             The link may specify just the JSF view id:
         </para>
         
-        <programlisting><![CDATA[<s:link view="/login.xhtml" value="Login"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<s:link view="/login.xhtml" value="Login"/>]]></programlisting>
         
         <para>
             Or, it may specify an action method (in which case the action outcome determines
             the page that results):
         </para>
         
-        <programlisting><![CDATA[<s:link action="#{login.logout}" value="Logout"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<s:link action="#{login.logout}" value="Logout"/>]]></programlisting>
         
         <para>
             If you specify <emphasis>both</emphasis> a JSF view id and an action method, the
@@ -464,39 +464,39 @@
             non-null outcome:
         </para>
         
-        <programlisting><![CDATA[<s:link view="/loggedOut.xhtml"  action="#{login.logout}" value="Logout"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<s:link view="/loggedOut.xhtml"  action="#{login.logout}" value="Logout"/>]]></programlisting>
         
         <para>
             The link automatically propagates the selected row of a <literal>DataModel</literal>
             using inside <literal>&lt;h:dataTable&gt;</literal>:
         </para>
         
-        <programlisting><![CDATA[<s:link view="/hotel.xhtml" action="#{hotelSearch.selectHotel}" value="#{hotel.name}"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<s:link view="/hotel.xhtml" action="#{hotelSearch.selectHotel}" value="#{hotel.name}"/>]]></programlisting>
         
         <para>
             You can leave the scope of an existing conversation:
         </para>
         
-        <programlisting><![CDATA[<s:link view="/main.xhtml" propagation="none"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<s:link view="/main.xhtml" propagation="none"/>]]></programlisting>
         
         <para>
             You can begin, end, or nest conversations:
         </para>
         
-        <programlisting><![CDATA[<s:link action="#{issueEditor.viewComment}" propagation="nest"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<s:link action="#{issueEditor.viewComment}" propagation="nest"/>]]></programlisting>
         
         <para>
             If the link begins a conversation, you can even specify a pageflow to be used:
         </para>
         
-        <programlisting><![CDATA[<s:link action="#{documentEditor.getDocument}" propagation="begin"
+        <programlisting role="XHTML"><![CDATA[<s:link action="#{documentEditor.getDocument}" propagation="begin"
         pageflow="EditDocument"/>]]></programlisting>
         
         <para>
             The <literal>taskInstance</literal> attribute if for use in jBPM task lists:
         </para>
         
-        <programlisting><![CDATA[<s:link action="#{documentApproval.approveOrReject}" taskInstance="#{task}"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<s:link action="#{documentApproval.approveOrReject}" taskInstance="#{task}"/>]]></programlisting>
         
         <para>
             (See the DVD Store demo application for examples of this.)
@@ -506,7 +506,7 @@
             Finally, if you need the "link" to be rendered as a button, use <literal>&lt;s:button&gt;</literal>:
         </para>
         
-        <programlisting><![CDATA[<s:button action="#{login.logout}" value="Logout"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<s:button action="#{login.logout}" value="Logout"/>]]></programlisting>
         
     </section>
     
@@ -527,7 +527,7 @@
             (You must have the Seam redirect filter installed.)
         </para>
         
-        <programlisting><![CDATA[@Name("editDocumentAction")
+        <programlisting role="JAVA"><![CDATA[@Name("editDocumentAction")
 @Stateless
 public class EditDocumentBean implements EditDocument {
     @In EntityManager em;
@@ -552,13 +552,13 @@ public class EditDocumentBean implements EditDocument {
             You can even include JSF EL expressions in a faces message summary:
         </para>
         
-        <programlisting><![CDATA[facesMessages.add("Document #{document.title} was updated");]]></programlisting>
+        <programlisting role="JAVA"><![CDATA[facesMessages.add("Document #{document.title} was updated");]]></programlisting>
                 
         <para>
             You may display the messages in the usual way, for example:
         </para>
         
-        <programlisting><![CDATA[<h:messages globalOnly="true"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<h:messages globalOnly="true"/>]]></programlisting>
 
     </section>
     
@@ -627,7 +627,7 @@ public class EditDocumentBean implements EditDocument {
                 Natural conversations are defined in <literal>pages.xml</literal>: 
             </para>
             
-            <programlisting><![CDATA[  <conversation name="PlaceBid"
+            <programlisting role="XML"><![CDATA[  <conversation name="PlaceBid"
                   parameter-name="auctionId"
                   parameter-value="#{auction.auctionId}"/>]]></programlisting>
                   
@@ -661,7 +661,7 @@ public class EditDocumentBean implements EditDocument {
                 <literal>page</literal> definition:
             </para>
             
-            <programlisting><![CDATA[  <page view-id="/bid.xhtml" conversation="PlaceBid" login-required="true">
+            <programlisting role="XML"><![CDATA[  <page view-id="/bid.xhtml" conversation="PlaceBid" login-required="true">
       <navigation from-action="#{bidAction.confirmBid}">        
           <rule if-outcome="success">
               <redirect view-id="/auction.xhtml">
@@ -682,7 +682,7 @@ public class EditDocumentBean implements EditDocument {
                 the following page definition:
             </para>
             
-            <programlisting><![CDATA[  <page view-id="/auction.xhtml">
+            <programlisting role="XML"><![CDATA[  <page view-id="/auction.xhtml">
     <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
        
     <navigation from-action="#{bidAction.placeBid}">
@@ -698,7 +698,7 @@ public class EditDocumentBean implements EditDocument {
                 our action method looks like this:                
             </para>
             
-            <programlisting><![CDATA[   @Begin(join = true)
+            <programlisting role="JAVA"><![CDATA[   @Begin(join = true)
    public void placeBid()]]></programlisting>
    
             <para>
@@ -711,7 +711,7 @@ public class EditDocumentBean implements EditDocument {
                 tag:
             </para>
             
-            <programlisting><![CDATA[  <h:commandButton id="placeBidWithAmount" styleClass="placeBid" action="#{bidAction.placeBid}">
+            <programlisting role="XHTML"><![CDATA[  <h:commandButton id="placeBidWithAmount" styleClass="placeBid" action="#{bidAction.placeBid}">
     <s:conversationName value="PlaceBid"/>
   </h:commandButton>]]></programlisting>
   
@@ -720,7 +720,7 @@ public class EditDocumentBean implements EditDocument {
               using either <literal>s:link</literal> or <literal>s:button</literal>:
             </para>
             
-            <programlisting><![CDATA[  <s:link value="Place Bid" action="#{bidAction.placeBid}" conversationName="PlaceBid"/>]]></programlisting>
+            <programlisting role="XHTML"><![CDATA[  <s:link value="Place Bid" action="#{bidAction.placeBid}" conversationName="PlaceBid"/>]]></programlisting>
         
         </section>
     
@@ -765,7 +765,7 @@ public class EditDocumentBean implements EditDocument {
                 directory, right next to <literal>faces-config.xml</literal>:
             </para>
             
-            <programlisting><![CDATA[<pages>
+            <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/main.xhtml">
         <description>Search hotels: #{hotelBooking.searchString}</description>
     </page>
@@ -801,7 +801,7 @@ public class EditDocumentBean implements EditDocument {
                 node:
             </para>
             
-<programlisting><![CDATA[<pageflow-definition name="shopping">
+<programlisting role="XML"><![CDATA[<pageflow-definition name="shopping">
 
    <start-state name="start">
       <transition to="browse"/>
@@ -836,7 +836,7 @@ public class EditDocumentBean implements EditDocument {
                 current conversation, or to any other page of the application:
             </para>
             
-            <programlisting><![CDATA[<h:selectOneMenu value="#{switcher.conversationIdOrOutcome}">
+            <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{switcher.conversationIdOrOutcome}">
     <f:selectItem itemLabel="Find Issues" itemValue="findIssue"/>
     <f:selectItem itemLabel="Create Issue" itemValue="editIssue"/>
     <f:selectItems value="#{switcher.selectItems}"/>
@@ -874,7 +874,7 @@ public class EditDocumentBean implements EditDocument {
                 except that it is displayed as a table:
             </para>
             
-            <programlisting><![CDATA[<h:dataTable value="#{conversationList}" var="entry"
+            <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{conversationList}" var="entry"
         rendered="#{not empty conversationList}">
     <h:column>
         <f:facet name="header">Workspace</f:facet>
@@ -931,7 +931,7 @@ public class EditDocumentBean implements EditDocument {
                 current conversation stack:
             </para>
             
-            <programlisting><![CDATA[<ui:repeat value="#{conversationStack}" var="entry">
+            <programlisting role="XHTML"><![CDATA[<ui:repeat value="#{conversationStack}" var="entry">
     <h:outputText value=" | "/> 
     <h:commandLink value="#{entry.description}" action="#{entry.select}"/>
 </ui:repeat]]></programlisting>
@@ -964,7 +964,7 @@ public class EditDocumentBean implements EditDocument {
             it into the conversation scoped component that requires it.
         </para>
 
-        <programlisting><![CDATA[@Name("grid")
+        <programlisting role="JAVA"><![CDATA[@Name("grid")
 @Scope(ScopeType.EVENT)
 public class Grid
 {
@@ -975,7 +975,7 @@ public class Grid
 }]]></programlisting>
 
 
-        <programlisting><![CDATA[@Name("gridEditor")
+        <programlisting role="JAVA"><![CDATA[@Name("gridEditor")
 @Scope(ScopeType.CONVERSATION)
 public class GridEditor
 {
@@ -998,7 +998,7 @@ public class GridEditor
           the current row number:
        </para>
 
-        <programlisting><![CDATA[
+        <programlisting role="XHTML"><![CDATA[
 <h:dataTable id="lineItemTable" var="lineItem" value="#{orderHome.lineItems}">
    <h:column>
       Row: #{uiComponent['lineItemTable'].rowIndex}
@@ -1050,13 +1050,13 @@ public class GridEditor
         ms) in components.xml:
       </para>
       
-      <programlisting><![CDATA[<core:manager concurrent-request-timeout="500" />]]></programlisting>
+      <programlisting role="XML"><![CDATA[<core:manager concurrent-request-timeout="500" />]]></programlisting>
       <!-- TODO -->
       <!-- <para>
         We can also fine tune the concurrent request timeout for a request:
       </para>
        
-      <programlisting><![CDATA[public void getTotal() {
+      <programlisting role="JAVA"><![CDATA[public void getTotal() {
    Manager.instance().setConcurrentRequestTimeout(1000);
    return someReallyComplicatedCalculation();
 }]]></programlisting>-->
@@ -1114,7 +1114,7 @@ public class GridEditor
       interval:
     </para>
     
-    <programlisting><![CDATA[int total;
+    <programlisting role="JAVA"><![CDATA[int total;
 
 // This method is called when an event occurs on the client
 // It takes a really long time to execute

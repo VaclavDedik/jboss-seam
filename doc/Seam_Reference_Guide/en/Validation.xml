@@ -4,7 +4,7 @@
         In plain JSF, validation is defined in the view:
     </para>
     
-    <programlisting><![CDATA[<h:form>
+    <programlisting role="XHTML"><![CDATA[<h:form>
     <h:messages/>
 
     <div>
@@ -37,7 +37,7 @@
         <literal>Location</literal> class:
     </para>
 
-    <programlisting><![CDATA[public class Location {
+    <programlisting role="JAVA"><![CDATA[public class Location {
     private String country;
     private String zip;
     
@@ -59,7 +59,7 @@
         built into Hibernate Validator:
     </para>
 
-    <programlisting><![CDATA[public class Location {
+    <programlisting role="JAVA"><![CDATA[public class Location {
     private String country;
     private String zip;
     
@@ -81,7 +81,7 @@
         against the constraint defined on the model object.
     </para>
     
-    <programlisting><![CDATA[<h:form>
+    <programlisting role="XHTML"><![CDATA[<h:form>
     <h:messages/>
 
     <div>
@@ -120,7 +120,7 @@
          so let's try <literal>&lt;s:validateAll&gt;</literal>:
      </para>
 
-    <programlisting><![CDATA[<h:form>
+    <programlisting role="XHTML"><![CDATA[<h:form>
     
     <h:messages/>
 
@@ -169,7 +169,7 @@
          layout in a facelets template:
      </para>
      
-     <programlisting><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+     <programlisting role="XHTML"><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -200,7 +200,7 @@
          <literal>&lt;s:decorate&gt;</literal>.
      </para>
 
-    <programlisting><![CDATA[<h:form>
+    <programlisting role="XHTML"><![CDATA[<h:form>
 
     <h:messages globalOnly="true"/>
 
@@ -223,7 +223,7 @@
         is navigating around the form:
     </para>
 
-    <programlisting><![CDATA[<h:form>
+    <programlisting role="XHTML"><![CDATA[<h:form>
 
     <h:messages globalOnly="true"/>
 
@@ -254,7 +254,7 @@
         anything on the page.
     </para>
 
-    <programlisting><![CDATA[<h:form id="form">
+    <programlisting role="XHTML"><![CDATA[<h:form id="form">
 
     <h:messages globalOnly="true"/>
 
@@ -283,7 +283,7 @@
 		and per-view message bundles) with the Hibernate Validator:
 	</para>
 	
-<programlisting><![CDATA[public class Location {
+<programlisting role="JAVA"><![CDATA[public class Location {
     private String name;
     private String zip;
     

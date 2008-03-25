@@ -22,7 +22,7 @@
       web service classes.  This file contains the following SOAP handler configuration:
     </para>
     
-    <programlisting><![CDATA[<jaxws-config xmlns="urn:jboss:jaxws-config:2.0" 
+    <programlisting role="XML"><![CDATA[<jaxws-config xmlns="urn:jboss:jaxws-config:2.0" 
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
               xmlns:javaee="http://java.sun.com/xml/ns/javaee"
               xsi:schemaLocation="urn:jboss:jaxws-config:2.0 jaxws-config_2_0.xsd">
@@ -50,7 +50,7 @@
       and back again.  Here's an example of a web service request that contains a conversation ID:
     </para>
     
-    <programlisting><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+    <programlisting role="XML"><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
     xmlns:seam="http://seambay.example.seam.jboss.org/">
   <soapenv:Header>
     <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>2</seam:conversationId>
@@ -75,7 +75,7 @@
       able to read the conversation ID from the request. Here's an example of a response to the above request message:
     </para>
     
-    <programlisting><![CDATA[<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>
+    <programlisting role="XML"><![CDATA[<env:Envelope xmlns:env='http://schemas.xmlsoap.org/soap/envelope/'>
   <env:Header>
     <seam:conversationId xmlns:seam='http://www.jboss.org/seam/webservice'>2</seam:conversationId>
   </env:Header>
@@ -126,7 +126,7 @@
       service methods:
     </para>
     
-    <programlisting><![CDATA[@Stateless
+    <programlisting role="JAVA"><![CDATA[@Stateless
 @WebService(name = "AuctionService", serviceName = "AuctionService")
 public class AuctionService implements AuctionServiceRemote
 {           
@@ -170,7 +170,7 @@ public class AuctionService implements AuctionServiceRemote
       <literal>AuctionAction.createAuction()</literal> method:
     </para>
     
-    <programlisting><![CDATA[   @WebMethod
+    <programlisting role="JAVA"><![CDATA[   @WebMethod
    public void createAuction(String title, String description, int categoryId)
    {
       AuctionAction action = (AuctionAction) Component.getInstance(AuctionAction.class, true);
@@ -182,7 +182,7 @@ public class AuctionService implements AuctionServiceRemote
       And here's the code from <literal>AuctionAction</literal>:
     </para>
     
-    <programlisting><![CDATA[   @Begin
+    <programlisting role="JAVA"><![CDATA[   @Begin
    public void createAuction()
    {
       auction = new Auction();

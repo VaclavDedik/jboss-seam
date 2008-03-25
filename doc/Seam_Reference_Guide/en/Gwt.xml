@@ -34,20 +34,18 @@
       GWT interface <literal>com.google.gwt.user.client.rpc.RemoteService</literal>:
     </para> 
   
-    <programlisting><![CDATA[  public interface MyService extends RemoteService
-  {
+    <programlisting role="JAVA"><![CDATA[public interface MyService extends RemoteService {
     public String askIt(String question);      
-  }]]></programlisting>
+ }]]></programlisting>
   
     <para>
       The asynchronous interface should be identical, except that it also contains an additional 
       <literal>AsyncCallback</literal> parameter for each of the methods it declares:    
     </para>
     
-    <programlisting><![CDATA[  public interface MyServiceAsync extends RemoteService 
-  {
-    public void askIt(String question, AsyncCallback callback);
-  }]]></programlisting>
+    <programlisting role="JAVA"><![CDATA[public interface MyServiceAsync extends RemoteService {
+   public void askIt(String question, AsyncCallback callback);
+}]]></programlisting>
 
     <para>
       The asynchronous interface, in this example <literal>MyServiceAsync</literal>, will be implemented by GWT and
@@ -58,26 +56,24 @@
       The next step, is to create a Seam component that implements the synchronous interface:
     </para>
     
-    <programlisting><![CDATA[  @Name("org.jboss.seam.example.remoting.gwt.client.MyService")
-  public class ServiceImpl implements MyService
-  {
-    @WebRemote
-    public String askIt(String question)
-    {
-      if (!validate(question)) 
-      {
-        throw new IllegalStateException("Hey, this shouldn't happen, I checked on the client, " +
-               "but its always good to double check.");
+    <programlisting role="JAVA"><![CDATA[@Name("org.jboss.seam.example.remoting.gwt.client.MyService")
+public class ServiceImpl implements MyService {
+
+   @WebRemote
+   public String askIt(String question) {
+   
+      if (!validate(question)) {
+         throw new IllegalStateException("Hey, this shouldn't happen, I checked on the client, " +
+         "but its always good to double check.");
       }
       return "42. Its the real question that you seek now.";
-    }
+   }
    
-    public boolean validate(String q) 
-    {
+   public boolean validate(String q) {
       ValidationUtility util = new ValidationUtility();
       return util.isValid(q);
-    }
-  }]]></programlisting>
+   }
+}]]></programlisting>
 
     <para>
       The methods that should be made accessible via GWT need to be annotated with the 
@@ -94,44 +90,36 @@
       asynchronous client stub:
     </para>
     
-    <programlisting><![CDATA[   private MyServiceAsync getService() 
-   {       
-      String endpointURL = GWT.getModuleBaseURL() + "seam/resource/gwt";      
+    <programlisting role="JAVA"><![CDATA[private MyServiceAsync getService() {       
+   String endpointURL = GWT.getModuleBaseURL() + "seam/resource/gwt";      
       
-      MyServiceAsync svc = (MyServiceAsync) GWT.create(MyService.class);
-      ((ServiceDefTarget) svc).setServiceEntryPoint(endpointURL);
-      return svc;     
-   }]]></programlisting>
+   MyServiceAsync svc = (MyServiceAsync) GWT.create(MyService.class);
+   ((ServiceDefTarget) svc).setServiceEntryPoint(endpointURL);
+   return svc;     
+}]]></programlisting>
    
     <para>
        The final step is to write the widget code that invokes the method on the client stub.  The following example
        creates a simple user interface with a label, text input and a button:
     </para>
     
-    <programlisting><![CDATA[
-public class AskQuestionWidget extends Composite
-{
+    <programlisting role="JAVA"><![CDATA[
+public class AskQuestionWidget extends Composite {
    private AbsolutePanel panel = new AbsolutePanel();
    
-   public AskQuestionWidget() 
-   {      
+   public AskQuestionWidget() {      
       Label lbl = new Label("OK, what do you want to know?");
       panel.add(lbl);
       final TextBox box = new TextBox();
       box.setText("What is the meaning of life?");
       panel.add(box);
       Button ok = new Button("Ask");
-      ok.addClickListener(new ClickListener() 
-      {
-         public void onClick(Widget w)
-         {
+      ok.addClickListener(new ClickListener() {
+         public void onClick(Widget w) {
             ValidationUtility valid = new ValidationUtility();
-            if (!valid.isValid(box.getText())) 
-            {
+            if (!valid.isValid(box.getText())) {
                Window.alert("A question has to end with a '?'");
-            } 
-            else 
-            {
+            } else {
                askServer(box.getText());
             } 
          }
@@ -141,24 +129,19 @@ public class AskQuestionWidget extends Composite
       initWidget(panel);
    }
 
-   private void askServer(String text)
-   {
-      getService().askIt(text, new AsyncCallback() 
-      {
-         public void onFailure(Throwable t)
-         {
+   private void askServer(String text) {
+      getService().askIt(text, new AsyncCallback() {
+         public void onFailure(Throwable t) {
             Window.alert(t.getMessage());
          }
 
-         public void onSuccess(Object data)
-         {
+         public void onSuccess(Object data) {
             Window.alert((String) data);
          }         
       });      
    }
    
-   ...    
-    ]]></programlisting>
+   ...]]></programlisting>
     
     
     <para>
@@ -197,11 +180,11 @@ public class AskQuestionWidget extends Composite
       Then, in your ant file, place (near the top of your ant file):
     </para>
     
-    <programlisting><![CDATA[  <taskdef uri="antlib:de.samaflost.gwttasks"
-                resource="de/samaflost/gwttasks/antlib.xml"
-                classpath="./lib/gwttasks.jar"/>
+    <programlisting role="XML"><![CDATA[<taskdef uri="antlib:de.samaflost.gwttasks"
+   resource="de/samaflost/gwttasks/antlib.xml"
+   classpath="./lib/gwttasks.jar"/>
    
-  <property file="build.properties"/>]]></programlisting>
+   <property file="build.properties"/>]]></programlisting>
   
     <para>
       Create a <literal>build.properties</literal> file, which has the contents:
@@ -213,22 +196,22 @@ public class AskQuestionWidget extends Composite
       This of course should point to the directory where GWT is installed.  Then to use it, create a target:
     </para>
     
-    <programlisting><![CDATA[  <!-- the following are are handy utilities for doing GWT development.
-      To use GWT, you will of course need to download GWT seperately -->
-  <target name="gwt-compile">
+    <programlisting role="XML"><![CDATA[<!-- the following are are handy utilities for doing GWT development.
+   To use GWT, you will of course need to download GWT seperately -->
+   <target name="gwt-compile">
       <!-- in this case, we are "re homing" the gwt generated stuff, so in this case
       we can only have one GWT module - we are doing this deliberately to keep the URL short -->
       <delete>
-          <fileset dir="view"/>
+         <fileset dir="view"/>
       </delete>
       <gwt:compile outDir="build/gwt"
-          gwtHome="${gwt.home}"
-          classBase="${gwt.module.name}"
-          sourceclasspath="src"/>
+         gwtHome="${gwt.home}"
+         classBase="${gwt.module.name}"
+         sourceclasspath="src"/>
       <copy todir="view">
-          <fileset dir="build/gwt/${gwt.module.name}"/>
+         <fileset dir="build/gwt/${gwt.module.name}"/>
       </copy>
-  </target>]]></programlisting>
+   </target>]]></programlisting>
   
     <para>
       This target when called will compile the GWT application, and copy it to the specified directory (which would be
@@ -245,6 +228,4 @@ public class AskQuestionWidget extends Composite
     </para>
     
   </section>
-  
-
 </chapter>

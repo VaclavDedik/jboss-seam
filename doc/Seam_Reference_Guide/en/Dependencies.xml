@@ -908,32 +908,32 @@
      All the Seam artifacts are available in Maven:
    </para>
 
-    <programlisting><![CDATA[<dependency>
+    <programlisting role="XML"><![CDATA[<dependency>
   <groupId>org.jboss.seam</groupId>
   <artifactId>jboss-seam</artifactId>
 </dependency>]]></programlisting>
 
-<programlisting><![CDATA[<dependency>
+<programlisting role="XML"><![CDATA[<dependency>
   <groupId>org.jboss.seam</groupId>
   <artifactId>jboss-seam-ui</artifactId>
 </dependency>]]></programlisting>
 
-<programlisting><![CDATA[<dependency>
+<programlisting role="XML"><![CDATA[<dependency>
   <groupId>org.jboss.seam</groupId>
   <artifactId>jboss-seam-pdf</artifactId>
 </dependency>]]></programlisting>
 
-<programlisting><![CDATA[<dependency>
+<programlisting role="XML"><![CDATA[<dependency>
   <groupId>org.jboss.seam</groupId>
   <artifactId>jboss-seam-remoting</artifactId>
 </dependency>]]></programlisting>
 
-<programlisting><![CDATA[<dependency>
+<programlisting role="XML"><![CDATA[<dependency>
   <groupId>org.jboss.seam</groupId>
   <artifactId>jboss-seam-ioc</artifactId>
 </dependency>]]></programlisting>
 
-<programlisting><![CDATA[<dependency>
+<programlisting role="XML"><![CDATA[<dependency>
   <groupId>org.jboss.seam</groupId>
   <artifactId>jboss-seam-ioc</artifactId>
 </dependency>]]></programlisting>
@@ -943,7 +943,7 @@
     Hibernate Validator:
   </para> 
 
-<programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">

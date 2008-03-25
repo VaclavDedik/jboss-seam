@@ -125,7 +125,7 @@
         <literal>components.xml</literal>:
       </para>
 
-      <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -165,7 +165,7 @@
         inside a JavaBean component:
       </para>
 
-      <programlisting><![CDATA[@Name("authenticator")
+      <programlisting role="JAVA"><![CDATA[@Name("authenticator")
 public class Authenticator {
    @In EntityManager entityManager;
 
@@ -247,7 +247,7 @@ public class Authenticator {
           <literal>org.jboss.seam.security.loginSuccessful</literal> event, like this:
         </para>
 
-        <programlisting><![CDATA[   @In UserStats userStats;
+        <programlisting role="JAVA"><![CDATA[   @In UserStats userStats;
 
    @Observer("org.jboss.seam.security.loginSuccessful")
    public void updateUserStats()
@@ -270,7 +270,7 @@ public class Authenticator {
         Here's an example of a simple login form:
       </para>
 
-      <programlisting><![CDATA[<div>
+      <programlisting role="XHTML"><![CDATA[<div>
     <h:outputLabel for="name" value="Username"/>
     <h:inputText id="name" value="#{identity.username}"/>
 </div>
@@ -349,7 +349,7 @@ public class Authenticator {
         file that redirects both of these security exceptions:
       </para>
 
-      <programlisting><![CDATA[<pages>
+      <programlisting role="XML"><![CDATA[<pages>
 
     ...
 
@@ -383,7 +383,7 @@ public class Authenticator {
         to access a particular view (or wildcarded view id) as follows:
       </para>
 
-      <programlisting><![CDATA[<pages login-view-id="/login.xhtml">
+      <programlisting role="XML"><![CDATA[<pages login-view-id="/login.xhtml">
 
     <page view-id="/members/*" login-required="true"/>
 
@@ -405,7 +405,7 @@ public class Authenticator {
         request.
       </para>
 
-      <programlisting><![CDATA[<event type="org.jboss.seam.security.notLoggedIn">
+      <programlisting role="XML"><![CDATA[<event type="org.jboss.seam.security.notLoggedIn">
     <action execute="#{redirect.captureCurrentView}"/>
 </event>
 
@@ -429,7 +429,7 @@ public class Authenticator {
         the <literal>authentication-filter</literal> component must be enabled in components.xml:
       </para>
 
-      <programlisting><![CDATA[
+      <programlisting role="XML"><![CDATA[
   <web:authentication-filter url-pattern="*.seam" auth-type="basic"/>
       ]]></programlisting>
 
@@ -439,7 +439,7 @@ public class Authenticator {
         <literal>key</literal> and <literal>realm</literal> must also be set:
       </para>
 
-      <programlisting><![CDATA[
+      <programlisting role="XML"><![CDATA[
   <web:authentication-filter url-pattern="*.seam" auth-type="digest" key="AA3JK34aSDlkj" realm="My App"/>
       ]]></programlisting>
 
@@ -458,7 +458,7 @@ public class Authenticator {
           against the digest request.  Here is an example:
         </para>
 
-        <programlisting><![CDATA[
+        <programlisting role="JAVA"><![CDATA[
    public boolean authenticate()
    {
       try
@@ -499,7 +499,7 @@ public class Authenticator {
           provided by JBoss AS), then the entry in <literal>components.xml</literal> would look like this:
         </para>
 
-        <programlisting><![CDATA[<security:identity authenticate-method="#{authenticator.authenticate}"
+        <programlisting role="XML"><![CDATA[<security:identity authenticate-method="#{authenticator.authenticate}"
                       jaas-config-name="other"/>]]></programlisting>
                       
         <para>
@@ -655,7 +655,7 @@ public class Authenticator {
           Take for example the following component method:
         </para>
 
-        <programlisting><![CDATA[@Name("account")
+        <programlisting role="JAVA"><![CDATA[@Name("account")
 public class AccountAction {
     @Restrict public void delete() {
       ...
@@ -669,7 +669,7 @@ public class AccountAction {
           another example:
         </para>
 
-        <programlisting><![CDATA[@Restrict @Name("account")
+        <programlisting role="JAVA"><![CDATA[@Restrict @Name("account")
 public class AccountAction {
     public void insert() {
       ...
@@ -701,7 +701,7 @@ public class AccountAction {
           object instance.  Look at this example:
         </para>
 
-        <programlisting><![CDATA[@Name("account")
+        <programlisting role="JAVA"><![CDATA[@Name("account")
 public class AccountAction {
     @In Account selectedAccount;
     @Restrict("#{s:hasPermission('account','modify',selectedAccount)}")
@@ -727,7 +727,7 @@ public class AccountAction {
           <literal>Identity.checkRestriction()</literal> to evaluate a security expression, like this:
         </para>
 
-        <programlisting><![CDATA[public void deleteCustomer() {
+        <programlisting role="JAVA"><![CDATA[public void deleteCustomer() {
     Identity.instance().checkRestriction("#{s:hasPermission('customer','delete',selectedCustomer)}");
 }]]></programlisting>
 
@@ -755,7 +755,7 @@ public class AccountAction {
           methods directly from Java code:
         </para>
 
-        <programlisting><![CDATA[if (!Identity.instance().hasRole("admin"))
+        <programlisting role="JAVA"><![CDATA[if (!Identity.instance().hasRole("admin"))
      throw new AuthorizationException("Must be admin to perform this action");
 
 if (!Identity.instance().hasPermission("customer", "create", null))
@@ -780,7 +780,7 @@ if (!Identity.instance().hasPermission("customer", "create", null))
         <literal>identity.isLoggedIn()</literal> property, we can write this:
       </para>
 
-      <programlisting><![CDATA[<h:form class="loginForm" rendered="#{not identity.loggedIn}">]]></programlisting>
+      <programlisting role="XHTML"><![CDATA[<h:form class="loginForm" rendered="#{not identity.loggedIn}">]]></programlisting>
 
       <para>
         If the user isn't logged in, then the login form will be rendered - very straight forward so far.
@@ -788,7 +788,7 @@ if (!Identity.instance().hasPermission("customer", "create", null))
         to users in the <literal>manager</literal> role.  Here's one way that these could be written:
       </para>
 
-      <programlisting><![CDATA[<h:outputLink action="#{reports.listManagerReports}" rendered="#{s:hasRole('manager')}">
+      <programlisting role="XHTML"><![CDATA[<h:outputLink action="#{reports.listManagerReports}" rendered="#{s:hasRole('manager')}">
     Manager Reports
 </h:outputLink>]]></programlisting>
 
@@ -807,7 +807,7 @@ if (!Identity.instance().hasPermission("customer", "create", null))
         for that object or not. Here's how a dataTable with secured links might look:
       </para>
 
-      <programlisting><![CDATA[<h:dataTable value="#{clients}" var="cl">
+      <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{clients}" var="cl">
     <h:column>
         <f:facet name="header">Name</f:facet>
         #{cl.name}
@@ -840,7 +840,7 @@ if (!Identity.instance().hasPermission("customer", "create", null))
         Here's a couple of examples:
       </para>
 
-      <programlisting><![CDATA[<page view-id="/settings.xhtml">
+      <programlisting role="XML"><![CDATA[<page view-id="/settings.xhtml">
     <restrict/>
 </page>]]></programlisting>
 
@@ -849,7 +849,7 @@ if (!Identity.instance().hasPermission("customer", "create", null))
         requests and an implied permission of <literal>/settings.xhtml:restore</literal> for faces requests.
       </para>
 
-      <programlisting><![CDATA[<page view-id="/reports.xhtml">
+      <programlisting role="XML"><![CDATA[<page view-id="/reports.xhtml">
     <restrict>#{s:hasRole('admin')}</restrict>
 </page>]]></programlisting>
 
@@ -873,7 +873,7 @@ if (!Identity.instance().hasPermission("customer", "create", null))
         itself:
       </para>
 
-      <programlisting><![CDATA[@Entity
+      <programlisting role="JAVA"><![CDATA[@Entity
 @Name("customer")
 @Restrict
 public class Customer {
@@ -926,7 +926,7 @@ public class Customer {
         security is how it is annotated:
       </para>
 
-      <programlisting><![CDATA[
+      <programlisting role="JAVA"><![CDATA[
   @PrePersist @Restrict
   public void prePersist() {}
    ]]></programlisting>
@@ -971,7 +971,7 @@ end;]]></programlisting>
           You can install this listener by using the following <literal>META-INF/orm.xml</literal> file:
         </para>
 
-        <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+        <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
@@ -1033,7 +1033,7 @@ end;]]></programlisting>
         which it uses to evaluate permission checks.  This is configured in <literal>components.xml</literal> as follows:
       </para>
 
-      <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:drools="http://jboss.com/products/seam/drools"
@@ -1225,7 +1225,7 @@ end;
       HTTPS:
     </para>
 
-    <programlisting><![CDATA[<page view-id="/login.xhtml" scheme="https"/>]]></programlisting>
+    <programlisting role="XML"><![CDATA[<page view-id="/login.xhtml" scheme="https"/>]]></programlisting>
 
     <para>
       This configuration is automatically extended to both <literal>s:link</literal> and
@@ -1234,7 +1234,7 @@ end;
       link will use the HTTPS protocol because <literal>/login.xhtml</literal> is configured to use it:
     </para>
 
-    <programlisting><![CDATA[<s:link view="/login.xhtml" value="Login"/>]]></programlisting>
+    <programlisting role="XHTML"><![CDATA[<s:link view="/login.xhtml" value="Login"/>]]></programlisting>
 
     <para>
       Browsing directly to a view when using the <emphasis>incorrect</emphasis> protocol will cause a
@@ -1252,7 +1252,7 @@ end;
       default <literal>scheme</literal>, add this line to <literal>pages.xml</literal>:
     </para>
 
-    <programlisting><![CDATA[<page view-id="*" scheme="http" />]]></programlisting>
+    <programlisting role="XML"><![CDATA[<page view-id="*" scheme="http" />]]></programlisting>
 
     <para>
       Of course, if <emphasis>none</emphasis> of the pages in your application use HTTPS then it is not
@@ -1264,7 +1264,7 @@ end;
       changes. Just add this line to <literal>components.xml</literal>:
     </para>
 
-    <programlisting><![CDATA[<core:servlet-session invalidate-on-scheme-change="true"/>]]></programlisting>
+    <programlisting role="XML"><![CDATA[<core:servlet-session invalidate-on-scheme-change="true"/>]]></programlisting>
 
     <para>
       This option helps make your system less vulnerable to sniffing of the session id or leakage of
@@ -1290,7 +1290,7 @@ end;
         challenge images to your pages.  This requires the following entry in <literal>web.xml</literal>:
       </para>
 
-      <programlisting><![CDATA[<servlet>
+      <programlisting role="XML"><![CDATA[<servlet>
     <servlet-name>Seam Resource Servlet</servlet-name>
     <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
 </servlet>
@@ -1309,7 +1309,7 @@ end;
         Adding a CAPTCHA challenge to a form is extremely easy. Here's an example:
       </para>
 
-      <programlisting><![CDATA[<h:graphicImage value="/seam/resource/captcha"/>
+      <programlisting role="XHTML"><![CDATA[<h:graphicImage value="/seam/resource/captcha"/>
 <h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true">
    <s:validate />
 </h:inputText>
@@ -1330,7 +1330,7 @@ end;
         You may customize the CAPTCHA algorithm by overriding the built-in component:
       </para>
 
-      <programlisting><![CDATA[@Name("org.jboss.seam.captcha")
+      <programlisting role="JAVA"><![CDATA[@Name("org.jboss.seam.captcha")
 @Scope(SESSION)
 public class HitchhikersCaptcha extends Captcha
 {
@@ -1526,7 +1526,7 @@ public class HitchhikersCaptcha extends Captcha
       code that will be executed with the elevated privileges.
     </para>
     
-    <programlisting><![CDATA[    new RunAsOperation() {
+    <programlisting role="JAVA"><![CDATA[    new RunAsOperation() {
        @Override
        public String[] getRoles() {
           return new String[] { "admin" };
@@ -1565,7 +1565,7 @@ public class HitchhikersCaptcha extends Captcha
       ensures that this extended Identity gets installed in preference to the built-in Identity.
     </para>
 
-    <programlisting><![CDATA[@Name("org.jboss.seam.security.identity")
+    <programlisting role="JAVA"><![CDATA[@Name("org.jboss.seam.security.identity")
 @Scope(SESSION)
 @Install(precedence = APPLICATION)
 @BypassInterceptors
@@ -1655,7 +1655,7 @@ public class CustomIdentity extends Identity
         <literal>IdentityManager</literal> to use it, it must be named <literal>identityStore</literal>:
       </para>
 
-      <programlisting><![CDATA[
+      <programlisting role="XML"><![CDATA[
   <identity-management:jpa-identity-store name="identityStore" account-class="com.acme.UserAccount"/>
       ]]></programlisting>
     </sect2>
@@ -1696,7 +1696,7 @@ public class CustomIdentity extends Identity
         And an example of the corresponding entity bean:
       </para>
 
-      <programlisting><![CDATA[@Entity @Table(name = "USER_ACCOUNT")
+      <programlisting role="JAVA"><![CDATA[@Entity @Table(name = "USER_ACCOUNT")
 public class UserAccount extends org.jboss.seam.security.management.UserAccount
                          implements Serializable
 {
@@ -1744,7 +1744,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
         In the following example, it is configured as <literal>com.acme.UserAccount</literal>:
       </para>
 
-      <programlisting><![CDATA[
+      <programlisting role="XML"><![CDATA[
   <identity-management:jpa-identity-store name="identityStore" account-class="com.acme.UserAccount"/>]]></programlisting>
 
       <para>
@@ -1762,7 +1762,7 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
             convenience - it may be useful for generating password hashes for inclusion in DML scripts, etc:
         </para>
         
-        <programlisting><![CDATA[
+        <programlisting role="JAVA"><![CDATA[
    public String hashPassword(String password, String saltPhrase)
    {
       try {
@@ -1809,13 +1809,13 @@ public class UserAccount extends org.jboss.seam.security.management.UserAccount
         component as follows:
       </para>
 
-      <programlisting><![CDATA[  @In IdentityManager identityManager;]]></programlisting>
+      <programlisting role="JAVA"><![CDATA[  @In IdentityManager identityManager;]]></programlisting>
 
       <para>
         or by accessing it through its static <literal>instance()</literal> method:
       </para>
 
-      <programlisting><![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]></programlisting>
+      <programlisting role="JAVA"><![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]></programlisting>
 
       <para>
         The following table describes each of the methods that <literal>IdentityManager</literal> provides:

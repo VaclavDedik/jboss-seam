@@ -44,22 +44,23 @@
         <para>
             All of these various kinds of events are mapped to Seam components via JSF EL
             method binding expressions. For a JSF event, this is defined in the JSF template:
+        </para>        
         
+        <programlisting role="XHTML"><![CDATA[<h:commandButton value="Click me!" action="#{helloWorld.sayHello}"/>]]></programlisting>
         
-        <programlisting><![CDATA[<h:commandButton value="Click me!" action="#{helloWorld.sayHello}"/>]]></programlisting>
-        
-</para>
+
 
         <para>
             For a jBPM transition event, it is specified in the jBPM process definition or
             pageflow definition:
-        
-        <programlisting><![CDATA[<start-page name="hello" view-id="/hello.jsp">
+        </para>
+                
+        <programlisting role="XML"><![CDATA[<start-page name="hello" view-id="/hello.jsp">
     <transition to="hello">
         <action expression="#{helloWorld.sayHello}"/>
     </transition>
 </start-page>]]></programlisting>
-</para>
+
         <para>
             You can find out more information about JSF events and jBPM events elsewhere. 
             Let's concentrate for now upon the two additional kinds of events defined by Seam.
@@ -73,20 +74,22 @@
             A Seam page action is an event that occurs just before we render a page. 
             We declare page actions in <literal>WEB-INF/pages.xml</literal>. We
             can define a page action for either a particular JSF view id:
+        </para>
        
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/hello.jsp" action="#{helloWorld.sayHello}"/>
 </pages>]]></programlisting>
-</para>
+
         <para>
             Or we can use a <literal>*</literal> wildcard as a suffix to the
             <literal>view-id</literal> to specify an action that applies to all 
             view ids that match the pattern:
+        </para>
        
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/hello/*" action="#{helloWorld.sayHello}"/>
 </pages>]]></programlisting>
-</para>
+
         <para>
             If multiple wildcarded page actions match the current view-id, Seam
             will call all the actions, in order of least-specific to most-specific.
@@ -102,9 +105,10 @@
             element need not correspond to a real JSP or Facelets page! So, we can
             reproduce the functionality of a traditional action-oriented framework
             like Struts or WebWork using page actions. For example:
+        </para> 
         
         <programlisting><![CDATA[TODO: translate struts action into page action]]></programlisting>
-</para> 
+
 
         <para>
             This is quite useful if you want to do complex things in response to non-faces
@@ -114,14 +118,15 @@
         <para>
             Multiple or conditional page actions my be specified using the <literal>&lt;action&gt;</literal>
             tag:
+        </para>
         
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/hello.jsp">
         <action execute="#{helloWorld.sayHello}" if="#{not validation.failed}"/>
         <action execute="#{hitCount.increment}"/>
     </page>
 </pages>]]></programlisting>
-</para>
+
 
 </section>
 	
@@ -150,17 +155,19 @@
               <para>
                   Seam lets us provide a value binding that maps a named request parameter 
                   to an attribute of a model object.
+              </para>
               
-          <programlisting><![CDATA[<pages>
+          <programlisting role="XML"><![CDATA[<pages>
       <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
           <param name="firstName" value="#{person.firstName}"/>
           <param name="lastName" value="#{person.lastName}"/>
       </page>
   </pages>]]></programlisting>
-</para>
+
               <para>
                   The <literal>&lt;param&gt;</literal> declaration is bidirectional, just
                   like a value binding for a JSF input:
+              </para>
               
               <itemizedlist>
                   <listitem>
@@ -195,7 +202,7 @@
                       </para>
                   </listitem>
               </itemizedlist>
-      </para>
+              
               <para>
                   The essential idea behind all this is that <emphasis>however</emphasis>
                   we get from any other page to <literal>/hello.jsp</literal> (or from 
@@ -215,39 +222,38 @@
                     If just the <literal>name</literal> attribute is specified then the
                     request parameter is propagated using the <literal>PAGE</literal> context
                     (it isn't mapped to model property).
-       
+                </para>       
               
-          <programlisting><![CDATA[<pages>
+          <programlisting role="XML"><![CDATA[<pages>
       <page view-id="/hello.jsp" action="#{helloWorld.sayHello}">
           <param name="firstName" />
           <param name="lastName" />
       </page>
   </pages>]]></programlisting>
   
-</para>
+
 		<para>
                   Propagation of page parameters is especially useful if you want to build multi-layer 
                   master-detail CRUD pages.  You can use it to "remember" which view you were previously
                   on (e.g. when pressing the Save button), and which entity you were editing.
-             
-               <itemizedlist>
-                  <listitem>
-                      <para>
-                          Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> 
-                          transparently propagates the request parameter if that parameter is listed
-                          as a page parameter for the view.
-                      </para>
-                  </listitem>
-                  <listitem>
-                      <para>
-                          The value is transparently propagated with any JSF form submission
-                          for the page with the given view id. (This means that view parameters
-                          behave like <literal>PAGE</literal>-scoped context variables for
-                          faces requests.
-                      </para>
-                  </listitem>
-              </itemizedlist>
-      </para>
+        </para>
+      <itemizedlist>
+         <listitem>
+             <para>
+                 Any <literal>&lt;s:link&gt;</literal> or <literal>&lt;s:button&gt;</literal> 
+                 transparently propagates the request parameter if that parameter is listed
+                 as a page parameter for the view.
+             </para>
+         </listitem>
+         <listitem>
+             <para>
+                 The value is transparently propagated with any JSF form submission
+                 for the page with the given view id. (This means that view parameters
+                 behave like <literal>PAGE</literal>-scoped context variables for
+                 faces requests.
+             </para>
+         </listitem>
+      </itemizedlist>
 	      
       <para>
 	      This all sounds pretty complex, and you're probably wondering if such an
@@ -262,41 +268,42 @@
 	      much easier to code.
       </para>
         
-            </section>
+      </section>
             
             
-            <section>
-                <title>Conversion and Validation</title>
+      <section>
+         <title>Conversion and Validation</title>
 
-            <para>
-                You can specify a JSF converter for complex model propreties:
-
-            <programlisting><![CDATA[<pages>
-    <page view-id="/calculator.jsp" action="#{calculator.calculate}">
-        <param name="x" value="#{calculator.lhs}"/>
-        <param name="y" value="#{calculator.rhs}"/>
-        <param name="op" converterId="com.my.calculator.OperatorConverter" value="#{calculator.op}"/>
-    </page>
+         <para>
+            You can specify a JSF converter for complex model propreties:
+         </para>
+         
+         <programlisting role="XML"><![CDATA[<pages>
+   <page view-id="/calculator.jsp" action="#{calculator.calculate}">
+      <param name="x" value="#{calculator.lhs}"/>
+      <param name="y" value="#{calculator.rhs}"/>
+      <param name="op" converterId="com.my.calculator.OperatorConverter" value="#{calculator.op}"/>
+   </page>
 </pages>]]></programlisting>
  
-</para>
-            <para>
-                Alternatively:
-       
-            <programlisting><![CDATA[<pages>
-    <page view-id="/calculator.jsp" action="#{calculator.calculate}">
-        <param name="x" value="#{calculator.lhs}"/>
-        <param name="y" value="#{calculator.rhs}"/>
-        <param name="op" converter="#{operatorConverter}" value="#{calculator.op}"/>
-    </page>
+         <para>
+            Alternatively:
+         </para>
+                
+         <programlisting role="XML"><![CDATA[<pages>
+   <page view-id="/calculator.jsp" action="#{calculator.calculate}">
+      <param name="x" value="#{calculator.lhs}"/>
+      <param name="y" value="#{calculator.rhs}"/>
+      <param name="op" converter="#{operatorConverter}" value="#{calculator.op}"/>
+   </page>
 </pages>]]></programlisting>
 
-</para>
-            <para>
-                JSF validators, and <literal>required="true"</literal> may
-                also be used:
-       
-            <programlisting><![CDATA[<pages>
+
+         <para>
+            JSF validators, and <literal>required="true"</literal> may
+            also be used:
+         </para>
+         <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/blog.xhtml">
         <param name="date" 
                value="#{blog.date}" 
@@ -305,11 +312,11 @@
     </page>
 </pages>]]></programlisting>
 
-</para>
-            <para>
-                Alternatively:
+         <para>
+            Alternatively:
+         </para>
   
-            <programlisting><![CDATA[<pages>
+         <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/blog.xhtml">
         <param name="date" 
                value="#{blog.date}" 
@@ -318,73 +325,72 @@
     </page>
 </pages>]]></programlisting>
 
-</para>
-            <para>
-                Even better, model-based Hibernate validator annotations are automatically
-                recognized and validated.
-            </para>
+         <para>
+            Even better, model-based Hibernate validator annotations are automatically
+            recognized and validated.
+         </para>
 
-            <para>
-                When type conversion or validation fails, a global <literal>FacesMessage</literal>
-                is added to the <literal>FacesContext</literal>.
-            </para>
+         <para>
+            When type conversion or validation fails, a global <literal>FacesMessage</literal>
+            is added to the <literal>FacesContext</literal>.
+         </para>
 
-            </section>
+      </section>
 
-        <section id="events.pageaction.navigation">
-            <title>Navigation</title>
+      <section id="events.pageaction.navigation">
+         <title>Navigation</title>
             
-            <para>
-                You can use standard JSF navigation rules defined in <literal>faces-config.xml</literal>
-                in a Seam application. However, JSF navigation rules have a number of annoying
-                limitations:
-            </para>
+         <para>
+            You can use standard JSF navigation rules defined in <literal>faces-config.xml</literal>
+            in a Seam application. However, JSF navigation rules have a number of annoying
+            limitations:
+         </para>
             
-            <itemizedlist>
-                <listitem>
-                    <para>
-                        It is not possible to specify request parameters to be used when redirecting.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        It is not possible to begin or end conversations from a rule.
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>
-                        Rules work by evaluating the return value of the action method; it is not
-                        possible to evaluate an arbitrary EL expression.
-                    </para>
-                </listitem>
-            </itemizedlist>
+         <itemizedlist>
+            <listitem>
+               <para>
+                  It is not possible to specify request parameters to be used when redirecting.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  It is not possible to begin or end conversations from a rule.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  Rules work by evaluating the return value of the action method; it is not
+                  possible to evaluate an arbitrary EL expression.
+               </para>
+            </listitem>
+         </itemizedlist>
             
-            <para>
-                A further problem is that "orchestration" logic gets scattered between <literal>pages.xml</literal>
-                and <literal>faces-config.xml</literal>. It's better to unify this logic into <literal>pages.xml</literal>.
-            </para>
+         <para>
+            A further problem is that "orchestration" logic gets scattered between <literal>pages.xml</literal>
+            and <literal>faces-config.xml</literal>. It's better to unify this logic into <literal>pages.xml</literal>.
+         </para>
             
-            <para>
-                This JSF navigation rule:
-            </para>
+         <para>
+            This JSF navigation rule:
+         </para>
             
-            <programlisting><![CDATA[<navigation-rule>
-    <from-view-id>/editDocument.xhtml</from-view-id>
+         <programlisting role="XML"><![CDATA[<navigation-rule>
+   <from-view-id>/editDocument.xhtml</from-view-id>
     
-    <navigation-case>
-        <from-action>#{documentEditor.update}</from-action>
-        <from-outcome>success</from-outcome>
-        <to-view-id>/viewDocument.xhtml</to-view-id>
-        <redirect/>
-    </navigation-case>
+   <navigation-case>
+      <from-action>#{documentEditor.update}</from-action>
+      <from-outcome>success</from-outcome>
+      <to-view-id>/viewDocument.xhtml</to-view-id>
+      <redirect/>
+   </navigation-case>
     
 </navigation-rule>]]></programlisting>
         
-            <para>
-                Can be rewritten as follows:
-            </para>
+         <para>
+            Can be rewritten as follows:
+         </para>
             
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+         <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
     
     <navigation from-action="#{documentEditor.update}">
         <rule if-outcome="success">
@@ -399,7 +405,7 @@
                 component with string-valued return values (the JSF outcomes). So Seam lets us write:
             </para>
         
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
     
     <navigation from-action="#{documentEditor.update}" 
                    evaluate="#{documentEditor.errors.size}">
@@ -414,7 +420,7 @@
                 Or even:
             </para>
         
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
     
     <navigation from-action="#{documentEditor.update}">
         <rule if="#{documentEditor.errors.empty}">
@@ -436,7 +442,7 @@
                 conversation. We can do that like this:
             </para>
 
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
     
     <navigation from-action="#{documentEditor.update}">
         <rule if="#{documentEditor.errors.empty}">
@@ -453,7 +459,7 @@
                 id as a request parameter which also makes the view bookmarkable:
             </para>
 
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
     
     <navigation from-action="#{documentEditor.update}">
         <rule if="#{documentEditor.errors.empty}">
@@ -472,7 +478,7 @@
                 outcome, but <emphasis>not</emphasis> the null outcome:
             </para>
             
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
     
     <navigation from-action="#{documentEditor.update}">
         <rule>
@@ -487,7 +493,7 @@
                 following form instead:
             </para>
             
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
     
     <navigation from-action="#{documentEditor.update}">
         <render view-id="/viewDocument.xhtml"/>
@@ -499,7 +505,7 @@
                 The view-id may be given as a JSF EL expression:
             </para>
             
-            <programlisting><![CDATA[<page view-id="/editDocument.xhtml">
+            <programlisting role="XML"><![CDATA[<page view-id="/editDocument.xhtml">
 
     <navigation>
         <rule if-outcome="success">
@@ -525,7 +531,7 @@
                 element, and the view id is implied:
             </para>
             
-            <programlisting><![CDATA[<page action="#{calculator.calculate}">
+            <programlisting role="XML"><![CDATA[<page action="#{calculator.calculate}">
     <param name="x" value="#{calculator.lhs}"/>
     <param name="y" value="#{calculator.rhs}"/>
     <param name="op" converter="#{operatorConverter}" value="#{calculator.op}"/>
@@ -550,7 +556,7 @@
                 We specify event listeners (observers) in <literal>components.xml</literal>.
             </para>
             
-        <programlisting><![CDATA[<components>
+        <programlisting role="XML"><![CDATA[<components>
     <event type="hello">
         <action execute="#{helloListener.sayHelloBack}"/>
         <action execute="#{logger.logHello}"/>
@@ -567,7 +573,7 @@
                 component raise an event? Seam provides a built-in component for this.
             </para>
             
-            <programlisting><![CDATA[@Name("helloWorld")
+            <programlisting role="JAVA"><![CDATA[@Name("helloWorld")
 public class HelloWorld {
     public void sayHello() {
         FacesMessages.instance().add("Hello World!");
@@ -579,7 +585,7 @@ public class HelloWorld {
                 Or you can use an annotation.
             </para>
 
-            <programlisting><![CDATA[@Name("helloWorld")
+            <programlisting role="JAVA"><![CDATA[@Name("helloWorld")
 public class HelloWorld {
     @RaiseEvent("hello")
     public void sayHello() {
@@ -593,7 +599,7 @@ public class HelloWorld {
                 upon the producer:
             </para>
 
-            <programlisting><![CDATA[@Name("helloListener")
+            <programlisting role="JAVA"><![CDATA[@Name("helloListener")
 public class HelloListener {
     public void sayHelloBack() {
         FacesMessages.instance().add("Hello to you too!");
@@ -607,7 +613,7 @@ public class HelloListener {
                 file, you can use an annotation instead:
             </para>
 
-            <programlisting><![CDATA[@Name("helloListener")
+            <programlisting role="JAVA"><![CDATA[@Name("helloListener")
 public class HelloListener {
     @Observer("hello")
     public void sayHelloBack() {
@@ -623,7 +629,7 @@ public class HelloListener {
                 to pass an event object, you can:
             </para>
             
-            <programlisting><![CDATA[@Name("helloWorld")
+            <programlisting role="JAVA"><![CDATA[@Name("helloWorld")
 public class HelloWorld {
     private String name;
     public void sayHello() {
@@ -632,7 +638,7 @@ public class HelloWorld {
     }
 }]]></programlisting>
 
-            <programlisting><![CDATA[@Name("helloListener")
+            <programlisting role="JAVA"><![CDATA[@Name("helloListener")
 public class HelloListener {
     @Observer("hello")
     public void sayHelloBack(String name) {
@@ -705,7 +711,7 @@ public class HelloListener {
         allowing invoking an action listener method:
       </para>
       
-      <programlisting><![CDATA[public class LoggedInInterceptor {
+      <programlisting role="JAVA"><![CDATA[public class LoggedInInterceptor {
 
    @AroundInvoke
    public Object checkLoggedIn(InvocationContext invocation) throws Exception {
@@ -732,7 +738,7 @@ public class HelloListener {
         our example, we would create an <literal>@LoggedIn</literal> annotation, as follows:
     </para>
       
-      <programlisting><![CDATA[@Target(TYPE)
+      <programlisting role="JAVA"><![CDATA[@Target(TYPE)
 @Retention(RUNTIME)
 @Interceptors(LoggedInInterceptor.class)
 public @interface LoggedIn {}]]></programlisting>
@@ -742,7 +748,7 @@ public @interface LoggedIn {}]]></programlisting>
             to apply the interceptor.
         </para>
         
-        <programlisting><![CDATA[@Stateless
+        <programlisting role="JAVA"><![CDATA[@Stateless
 @Name("changePasswordAction")
 @LoggedIn
 @Interceptors(SeamInterceptor.class)
@@ -760,7 +766,7 @@ public class ChangePasswordAction implements ChangePassword {
             classes to specify a partial order of interceptors.
         </para>
         
-<programlisting><![CDATA[@Interceptor(around={BijectionInterceptor.class,
+<programlisting role="JAVA"><![CDATA[@Interceptor(around={BijectionInterceptor.class,
                      ValidationInterceptor.class,
                      ConversationInterceptor.class},
              within=RemoveInterceptor.class)
@@ -774,7 +780,7 @@ public class LoggedInInterceptor
             functionality of EJB3:
         </para>
 
-<programlisting><![CDATA[@Interceptor(type=CLIENT)
+<programlisting role="JAVA"><![CDATA[@Interceptor(type=CLIENT)
 public class LoggedInInterceptor
 {
     ...
@@ -866,7 +872,7 @@ public class LoggedInInterceptor
             filter declared in <literal>web.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<filter>
+        <programlisting role="XML"><![CDATA[<filter>
     <filter-name>Seam Filter</filter-name>
     <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
 </filter>
@@ -894,7 +900,7 @@ public class LoggedInInterceptor
             another Seam component.
         </para>
         
-        <programlisting><![CDATA[@HttpError(errorCode=404)
+        <programlisting role="JAVA"><![CDATA[@HttpError(errorCode=404)
 public class ApplicationException extends Exception { ... }]]></programlisting>
 
         <para>
@@ -903,7 +909,7 @@ public class ApplicationException extends Exception { ... }]]></programlisting>
             rollback of the current transaction.
         </para>
         
-        <programlisting><![CDATA[@Redirect(viewId="/failure.xhtml", end=true)
+        <programlisting role="JAVA"><![CDATA[@Redirect(viewId="/failure.xhtml", end=true)
 @ApplicationException(rollback=true)
 public class UnrecoverableApplicationException extends RuntimeException { ... }]]></programlisting>
 
@@ -922,7 +928,7 @@ public class UnrecoverableApplicationException extends RuntimeException { ... }]
             current transaction.
         </para>
         
-        <programlisting><![CDATA[@Redirect(viewId="/error.xhtml", message="Unexpected error")
+        <programlisting role="JAVA"><![CDATA[@Redirect(viewId="/error.xhtml", message="Unexpected error")
 public class SystemException extends RuntimeException { ... }]]></programlisting>
 
         </section>
@@ -935,7 +941,7 @@ public class SystemException extends RuntimeException { ... }]]></programlisting
             Seam also lets us specify this functionality in <literal>pages.xml</literal>.
         </para>
         
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
    
    <exception class="javax.persistence.EntityNotFoundException">
       <http-error error-code="404"/>
@@ -972,7 +978,7 @@ public class SystemException extends RuntimeException { ... }]]></programlisting
            conversation context, e.g. to access the message of the exception:
         </para>
         
-        <programlisting><![CDATA[...
+        <programlisting role="XML"><![CDATA[...
 throw new AuthorizationException("You are not allowed to do this!");
 
 <pages>
@@ -1004,7 +1010,7 @@ throw new AuthorizationException("You are not allowed to do this!");
                  be generated when the specified exception occurs:
              </para>
              
-             <programlisting><![CDATA[    <exception class="org.jboss.seam.security.NotLoggedInException" log="false">
+             <programlisting role="XML"><![CDATA[    <exception class="org.jboss.seam.security.NotLoggedInException" log="false">
         <redirect view-id="/register.xhtml">
             <message severity="warn">You must be a member to use this feature</message>
         </redirect>
@@ -1016,7 +1022,7 @@ throw new AuthorizationException("You are not allowed to do this!");
                  to control at which log level the exception will be logged:             
              </para>
 
-             <programlisting><![CDATA[    <exception class="org.jboss.seam.security.NotLoggedInException" logLevel="info">
+             <programlisting role="XML"><![CDATA[    <exception class="org.jboss.seam.security.NotLoggedInException" logLevel="info">
         <redirect view-id="/register.xhtml">
             <message severity="warn">You must be a member to use this feature</message>
         </redirect>
@@ -1039,7 +1045,7 @@ throw new AuthorizationException("You are not allowed to do this!");
                 If you are using JPA:
             </para>
             
-            <programlisting><![CDATA[<exception class="javax.persistence.EntityNotFoundException">
+            <programlisting role="XML"><![CDATA[<exception class="javax.persistence.EntityNotFoundException">
    <redirect view-id="/error.xhtml">
       <message>Not found</message>
    </redirect>
@@ -1056,7 +1062,7 @@ throw new AuthorizationException("You are not allowed to do this!");
                 If you are using the Seam Application Framework:
             </para>
             
-            <programlisting><![CDATA[<exception class="org.jboss.seam.framework.EntityNotFoundException">
+            <programlisting role="XML"><![CDATA[<exception class="org.jboss.seam.framework.EntityNotFoundException">
    <redirect view-id="/error.xhtml">
       <message>Not found</message>
    </redirect>
@@ -1066,7 +1072,7 @@ throw new AuthorizationException("You are not allowed to do this!");
                 If you are using Seam Security:
             </para>
     
-            <programlisting><![CDATA[<exception class="org.jboss.seam.security.AuthorizationException">
+            <programlisting role="XML"><![CDATA[<exception class="org.jboss.seam.security.AuthorizationException">
    <redirect>
       <message>You don't have permission to do this</message>
    </redirect>
@@ -1082,7 +1088,7 @@ throw new AuthorizationException("You are not allowed to do this!");
                And, for JSF:
             </para>
     
-            <programlisting><![CDATA[<exception class="javax.faces.application.ViewExpiredException">
+            <programlisting role="XML"><![CDATA[<exception class="javax.faces.application.ViewExpiredException">
    <redirect view-id="/error.xhtml">
       <message>Your session has timed out, please try again</message>
    </redirect>

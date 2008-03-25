@@ -13,7 +13,7 @@
     <title>Configuration</title>
     <para> To use remoting, the Seam Resource servlet must first be configured in your <literal>web.xml</literal> file: </para>
 
-    <programlisting><![CDATA[<servlet>
+    <programlisting role="XML"><![CDATA[<servlet>
   <servlet-name>Seam Resource Servlet</servlet-name>
   <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
 </servlet>
@@ -27,7 +27,7 @@
       that must be imported. The first one contains all the client-side framework code that enables remoting
       functionality: </para>
 
-    <programlisting><![CDATA[<script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>]]></programlisting>
+    <programlisting role="XHTML"><![CDATA[<script type="text/javascript" src="seam/resource/remoting/resource/remote.js"></script>]]></programlisting>
 
     <para> The second script contains the stubs and type definitions for the components you wish to call. It is
       generated dynamically based on the local interface of your components, and includes type definitions for all of
@@ -35,13 +35,13 @@
       name of your component. For example, if you have a stateless session bean annotated with
         <literal>@Name("customerAction")</literal>, then your script tag should look like this: </para>
 
-    <programlisting><![CDATA[<script type="text/javascript" 
+    <programlisting role="XHTML"><![CDATA[<script type="text/javascript" 
           src="seam/resource/remoting/interface.js?customerAction"></script>]]></programlisting>
 
     <para> If you wish to access more than one component from the same page, then include them all as parameters of your
       script tag: </para>
 
-    <programlisting><![CDATA[<script type="text/javascript" 
+    <programlisting role="XHTML"><![CDATA[<script type="text/javascript" 
         src="seam/resource/remoting/interface.js?customerAction&accountAction"></script>]]></programlisting>
         
         
@@ -50,7 +50,7 @@
       component or class name you wish to import with a comma: 
     </para>
     
-    <programlisting><![CDATA[
+    <programlisting role="XHTML"><![CDATA[
   <s:remote include="customerAction,accountAction"/>    
     ]]></programlisting>
 
@@ -71,7 +71,7 @@
       <para> Let's step through a simple example to see how the <literal>Seam</literal> object works. First of all,
         let's create a new Seam component called <literal>helloAction</literal>. </para>
 
-      <programlisting><![CDATA[@Stateless
+      <programlisting role="JAVA"><![CDATA[@Stateless
 @Name("helloAction")
 public class HelloAction implements HelloLocal {
     public String sayHello(String name) {
@@ -82,7 +82,7 @@ public class HelloAction implements HelloLocal {
       <para>You also need to create a local interface for our new component - take special note of the
           <literal>@WebRemote</literal> annotation, as it's required to make our method accessible via remoting:</para>
 
-      <programlisting><![CDATA[@Local
+      <programlisting role="JAVA"><![CDATA[@Local
 public interface HelloLocal {
   @WebRemote
   public String sayHello(String name);
@@ -91,15 +91,15 @@ public interface HelloLocal {
       <para> That's all the server-side code we need to write. Now for our web page - create a new page and import the 
           <literal>helloAction</literal> component: </para>
 
-      <programlisting><![CDATA[<s:remote include="helloAction"/>]]></programlisting>
+      <programlisting role="XHTML"><![CDATA[<s:remote include="helloAction"/>]]></programlisting>
 
       <para> To make this a fully interactive user experience, let's add a button to our page: </para>
 
-      <programlisting><![CDATA[<button onclick="javascript:sayHello()">Say Hello</button>]]></programlisting>
+      <programlisting role="XHTML"><![CDATA[<button onclick="javascript:sayHello()">Say Hello</button>]]></programlisting>
 
       <para> We'll also need to add some more script to make our button actually do something when it's clicked: </para>
 
-      <programlisting><![CDATA[<script type="text/javascript">
+      <programlisting role="XHTML"><![CDATA[<script type="text/javascript">
   //<![CDATA[
 
   function sayHello() {
@@ -124,7 +124,7 @@ public interface HelloLocal {
         responsible for prompting the user for their name and then making a remote request. Take a look at the following
         line: </para>
 
-      <programlisting>Seam.Component.getInstance("helloAction").sayHello(name, sayHelloCallback);</programlisting>
+      <programlisting role="XHTML">Seam.Component.getInstance("helloAction").sayHello(name, sayHelloCallback);</programlisting>
 
       <para> The first section of this line, <literal>Seam.Component.getInstance("helloAction")</literal> returns a
         proxy, or "stub" for our <literal>helloAction</literal> component. We can invoke the methods of our component
@@ -159,7 +159,7 @@ public interface HelloLocal {
           method will have the same getter/setter methods as its server-side counterpart, or alternatively if you wish
           you can access its fields directly. Take the following Seam entity component for example: </para>
 
-        <programlisting>@Name("customer")
+        <programlisting role="JAVA">@Name("customer")
 @Entity
 public class Customer implements Serializable
 {
@@ -194,11 +194,11 @@ public class Customer implements Serializable
 
         <para> To create a client-side Customer you would write the following code: </para>
 
-        <programlisting>var customer = Seam.Component.newInstance("customer");</programlisting>
+        <programlisting role="XHTML">var customer = Seam.Component.newInstance("customer");</programlisting>
 
         <para> Then from here you can set the fields of the customer object: </para>
 
-        <programlisting>customer.setFirstName("John");
+        <programlisting role="XHTML">customer.setFirstName("John");
 // Or you can set the fields directly
 customer.lastName = "Smith";</programlisting>
 
@@ -216,7 +216,7 @@ customer.lastName = "Smith";</programlisting>
           to save it, we would pass it to the <literal>saveCustomer()</literal> method of our
           <literal>customerAction</literal> component: </para>
 
-        <programlisting>Seam.Component.getInstance("customerAction").saveCustomer(customer);</programlisting>
+        <programlisting role="XHTML">Seam.Component.getInstance("customerAction").saveCustomer(customer);</programlisting>
       </section>
 
       <section>
@@ -225,7 +225,7 @@ customer.lastName = "Smith";</programlisting>
         <para> Passing an object into this method will return its component name if it is a component, or
           <literal>null</literal> if it is not. </para>
 
-        <programlisting>if (Seam.Component.getComponentName(instance) == "customer")
+        <programlisting role="XHTML">if (Seam.Component.getComponentName(instance) == "customer")
   alert("Customer");
 else if (Seam.Component.getComponentName(instance) == "staff")
   alert("Staff member");</programlisting>
@@ -248,7 +248,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
           <literal>createType()</literal> method to create an instance of your type. Pass in the fully qualified Java
           class name as a parameter: </para>
 
-        <programlisting>var widget = Seam.Remoting.createType("com.acme.widgets.MyWidget");</programlisting>
+        <programlisting role="XHTML">var widget = Seam.Remoting.createType("com.acme.widgets.MyWidget");</programlisting>
       </section>
 
       <section>
@@ -272,7 +272,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
       value of the expression.  Here's an example:
     </para>
     
-    <programlisting><![CDATA[  function customersCallback(customers) {
+    <programlisting role="XHTML"><![CDATA[  function customersCallback(customers) {
     for (var i = 0; i < customers.length; i++) {
       alert("Got customer: " + customers[i].getName());
     }    
@@ -289,7 +289,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
       it is required to import the <literal>customer</literal> type:
     </para>
     
-    <programlisting><![CDATA[<s:remote include="customer"/>]]></programlisting>
+    <programlisting role="XHTML"><![CDATA[<s:remote include="customer"/>]]></programlisting>
   </section>
 
   <section>
@@ -298,12 +298,13 @@ else if (Seam.Component.getComponentName(instance) == "staff")
     <para> In the configuration section above, the interface, or "stub" for our component is imported into our page 
         either via <literal>seam/resource/remoting/interface.js</literal>: or using the <literal>s:remote</literal>
         tag:
+    </para>
 
-    <programlisting><![CDATA[<script type="text/javascript" 
+    <programlisting role="XHTML"><![CDATA[<script type="text/javascript" 
         src="seam/resource/remoting/interface.js?customerAction"></script>]]></programlisting>
         
-    <programlisting><![CDATA[<s:remote include="customerAction"/>]]></programlisting>
-</para>
+    <programlisting role="XHTML"><![CDATA[<s:remote include="customerAction"/>]]></programlisting>
+
     <para> By including this script in our page, the interface definitions for our component, plus any other components
       or types that are required to execute the methods of our component are generated and made available for the
       remoting framework to use. </para>
@@ -350,7 +351,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
         of the view before making the remote call.  This small snippet of JavaScript will set the
         conversation ID that is used for remoting calls to the current view's conversation ID: </para>
         
-      <programlisting><![CDATA[Seam.Remoting.getContext().setConversationId( #{conversation.id} );]]></programlisting>
+      <programlisting role="XHTML"><![CDATA[Seam.Remoting.getContext().setConversationId( #{conversation.id} );]]></programlisting>
     </section>
   </section>
 
@@ -420,7 +421,7 @@ else if (Seam.Component.getComponentName(instance) == "staff")
         section. In some situations you may have a component method where the exact parameter type cannot be determined,
         such as: </para>
 
-      <programlisting>@Name("myAction")
+      <programlisting role="JAVA">@Name("myAction")
 public class MyAction implements MyActionLocal {
   public void doSomethingWithObject(Object obj) {
     // code
@@ -432,7 +433,7 @@ public class MyAction implements MyActionLocal {
         referenced by any of its methods. To get around this, <literal>MyWidget</literal> needs to be explicitly
         imported: </para>
 
-      <programlisting><![CDATA[<s:remote include="myAction,myWidget"/>]]></programlisting>
+      <programlisting role="XHTML"><![CDATA[<s:remote include="myAction,myWidget"/>]]></programlisting>
 
       <para> This will then allow a <literal>myWidget</literal> object to be created with
           <literal>Seam.Component.newInstance("myWidget")</literal>, which can then be passed to
@@ -455,7 +456,7 @@ public class MyAction implements MyActionLocal {
       <para> On the client side, enums are treated the same as Strings. When setting the value for an enum parameter,
         simply use the String representation of the enum. Take the following component as an example: </para>
 
-      <programlisting>@Name("paintAction")
+      <programlisting role="JAVA">@Name("paintAction")
 public class paintAction implements paintLocal {
   public enum Color {red, green, blue, yellow, orange, purple};
 
@@ -467,7 +468,7 @@ public class paintAction implements paintLocal {
       <para> To call the <literal>paint()</literal> method with the color <literal>red</literal>, pass the parameter
         value as a String literal: </para>
 
-      <programlisting>Seam.Component.getInstance("paintAction").paint("red");</programlisting>
+      <programlisting role="XHTML">Seam.Component.getInstance("paintAction").paint("red");</programlisting>
 
       <para> The inverse is also true - that is, if a component method returns an enum parameter (or contains an enum
         field anywhere in the returned object graph) then on the client-side it will be represented as a String. </para>
@@ -494,7 +495,7 @@ public class paintAction implements paintLocal {
           the Seam Remoting framework. To create a Map which can be used as a parameter to a remote call, create a new
             <literal>Seam.Remoting.Map</literal> object: </para>
 
-        <programlisting>var map = new Seam.Remoting.Map();</programlisting>
+        <programlisting role="XHTML">var map = new Seam.Remoting.Map();</programlisting>
 
         <para> This Javascript implementation provides basic methods for working with Maps: <literal>size()</literal>,
             <literal>isEmpty()</literal>, <literal>keySet()</literal>, <literal>values()</literal>,
@@ -513,11 +514,11 @@ public class paintAction implements paintLocal {
       the packets send back and forth between the client and server in a popup window. To enable debug mode, either
       execute the <literal>setDebug()</literal> method in Javascript: </para>
 
-    <programlisting>Seam.Remoting.setDebug(true);</programlisting>
+    <programlisting role="XHTML">Seam.Remoting.setDebug(true);</programlisting>
 
     <para> Or configure it via components.xml: </para>
 
-    <programlisting>&lt;remoting:remoting debug=&quot;true&quot;/&gt;</programlisting>
+    <programlisting role="XML"><![CDATA[<remoting:remoting debug="true"/>]]></programlisting>
 
     <para> To turn off debugging, call <literal>setDebug(false)</literal>. If you want to write your own messages to the
       debug log, call <literal>Seam.Remoting.log(message)</literal>. </para>
@@ -535,7 +536,7 @@ public class paintAction implements paintLocal {
       <para> To change the message from the default "Please Wait..." to something different, set the value of
           <literal>Seam.Remoting.loadingMessage</literal>: </para>
 
-      <programlisting>Seam.Remoting.loadingMessage = "Loading..."; </programlisting>
+      <programlisting role="XHTML">Seam.Remoting.loadingMessage = "Loading..."; </programlisting>
     </section>
 
     <section>
@@ -545,7 +546,7 @@ public class paintAction implements paintLocal {
           <literal>displayLoadingMessage()</literal> and <literal>hideLoadingMessage()</literal> with functions that
         instead do nothing: </para>
 
-      <programlisting>// don't display the loading indicator
+      <programlisting role="XHTML">// don't display the loading indicator
 Seam.Remoting.displayLoadingMessage = function() {};
 Seam.Remoting.hideLoadingMessage = function() {};</programlisting>
     </section>
@@ -557,7 +558,7 @@ Seam.Remoting.hideLoadingMessage = function() {};</programlisting>
         you want. To do this override the <literal>displayLoadingMessage()</literal> and
         <literal>hideLoadingMessage()</literal> messages with your own implementation: </para>
 
-      <programlisting>  Seam.Remoting.displayLoadingMessage = function() {
+      <programlisting role="XHTML">  Seam.Remoting.displayLoadingMessage = function() {
     // Write code here to display the indicator
   };
   
@@ -585,7 +586,7 @@ Seam.Remoting.hideLoadingMessage = function() {};</programlisting>
 
     <para> For all our examples, we'll use the following <literal>Widget</literal> class: </para>
 
-    <programlisting>@Name("widget")
+    <programlisting role="JAVA">@Name("widget")
 public class Widget
 {
   private String value;
@@ -603,7 +604,7 @@ public class Widget
       <para> If your remote method returns an instance of <literal>Widget</literal>, but you don't want to expose the
           <literal>secret</literal> field because it contains sensitive information, you would constrain it like this: </para>
 
-      <programlisting>@WebRemote(exclude = {"secret"})
+      <programlisting role="JAVA">@WebRemote(exclude = {"secret"})
 public Widget getWidget(); </programlisting>
 
       <para> The value "secret" refers to the <literal>secret</literal> field of the returned object. Now, suppose that
@@ -613,7 +614,7 @@ public Widget getWidget(); </programlisting>
         value instead? We can do this by using dot notation to specify this field's path within the result's object
         graph: </para>
 
-      <programlisting>@WebRemote(exclude = {"child.secret"})
+      <programlisting role="JAVA">@WebRemote(exclude = {"child.secret"})
 public Widget getWidget();</programlisting>
 
     </section>
@@ -628,8 +629,8 @@ public Widget getWidget();</programlisting>
         <literal>secret</literal> field of the <literal>Widget</literal>s in this list the annotation would look like
         this: </para>
 
-      <programlisting>@WebRemote(exclude = {"widgetList.secret"})
-  public Widget getWidget();</programlisting>
+      <programlisting role="JAVA">@WebRemote(exclude = {"widgetList.secret"})
+public Widget getWidget();</programlisting>
 
       <para> To constrain a <literal>Map</literal>'s key or value, the notation is slightly different. Appending
           <literal>[key]</literal> after the <literal>Map</literal>'s field name will constrain the
@@ -637,7 +638,7 @@ public Widget getWidget();</programlisting>
         values. The following example demonstrates how the values of the <literal>widgetMap</literal> field have their
           <literal>secret</literal> field constrained: </para>
 
-      <programlisting>@WebRemote(exclude = {"widgetMap[value].secret"})
+      <programlisting role="JAVA">@WebRemote(exclude = {"widgetMap[value].secret"})
 public Widget getWidget(); </programlisting>
     </section>
 
@@ -649,7 +650,7 @@ public Widget getWidget(); </programlisting>
         Seam component) or the fully qualified class name (only if the object is not a Seam component) and is expressed
         using square brackets: </para>
 
-      <programlisting>@WebRemote(exclude = {"[widget].secret"})
+      <programlisting role="JAVA">@WebRemote(exclude = {"[widget].secret"})
 public Widget getWidget(); </programlisting>
 
     </section>
@@ -659,7 +660,7 @@ public Widget getWidget(); </programlisting>
 
       <para> Constraints can also be combined, to filter objects from multiple paths within the object graph: </para>
 
-      <programlisting>@WebRemote(exclude = {"widgetList.secret", "widgetMap[value].secret"})
+      <programlisting role="JAVA">@WebRemote(exclude = {"widgetList.secret", "widgetMap[value].secret"})
 public Widget getWidget();</programlisting>
     </section>
 
@@ -680,7 +681,7 @@ public Widget getWidget();</programlisting>
           <literal>org.jboss.seam.remoting.messaging.subscriptionRegistry.allowedTopics</literal> in
           <literal>seam.properties</literal>, <literal>web.xml</literal> or <literal>components.xml</literal>. </para>
 
-      <programlisting><![CDATA[<remoting:remoting poll-timeout="5" poll-interval="1"/>]]></programlisting>
+      <programlisting role="XML"><![CDATA[<remoting:remoting poll-timeout="5" poll-interval="1"/>]]></programlisting>
 
     </section>
 
@@ -689,7 +690,7 @@ public Widget getWidget();</programlisting>
 
       <para> The following example demonstrates how to subscribe to a JMS Topic: </para>
 
-      <programlisting>function subscriptionCallback(message)
+      <programlisting role="XHTML">function subscriptionCallback(message)
 {
   if (message instanceof Seam.Remoting.TextMessage)
     alert("Received message: " + message.getText());
@@ -715,7 +716,7 @@ Seam.Remoting.subscribe("topicName", subscriptionCallback);</programlisting>
       <para> To unsubscribe from a topic, call <literal>Seam.Remoting.unsubscribe()</literal> and pass in the topic
         name: </para>
 
-      <programlisting>Seam.Remoting.unsubscribe("topicName");</programlisting>
+      <programlisting role="XHTML">Seam.Remoting.unsubscribe("topicName");</programlisting>
     </section>
 
     <section>
@@ -741,11 +742,11 @@ Seam.Remoting.subscribe("topicName", subscriptionCallback);</programlisting>
 
       <para> Via components.xml: </para>
 
-      <programlisting><![CDATA[<remoting:remoting poll-timeout="5" poll-interval="1"/>]]></programlisting>    
+      <programlisting role="XML"><![CDATA[<remoting:remoting poll-timeout="5" poll-interval="1"/>]]></programlisting>    
 
       <para> Via JavaScript: </para>
 
-      <programlisting>// Only wait 1 second between receiving a poll response and sending the next poll request.
+      <programlisting role="XHTML">// Only wait 1 second between receiving a poll response and sending the next poll request.
 Seam.Remoting.pollInterval = 1;
   
 // Wait up to 5 seconds on the server for new messages

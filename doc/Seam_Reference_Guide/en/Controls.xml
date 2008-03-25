@@ -19,7 +19,7 @@
     as follows (facelets only):
   </para>
 
-  <programlisting><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"
+  <programlisting role="XHTML"><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:s="http://jboss.com/products/seam/taglib">]]></programlisting>
 
   <para>
@@ -91,7 +91,7 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:button id="cancel" value="Cancel" 
+            <programlisting role="XHTML"><![CDATA[<s:button id="cancel" value="Cancel" 
           action="#{hotelBooking.cancel}"/>]]></programlisting>
             <para>
                You can specify both <literal>view</literal> and <literal>action</literal>
@@ -140,7 +140,7 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:cache key="entry-#{blogEntry.id}" region="pageFragments">
+            <programlisting role="XHTML"><![CDATA[<s:cache key="entry-#{blogEntry.id}" region="pageFragments">
   <div class="blogEntry">
     <h3>#{blogEntry.title}</h3>
     <div>
@@ -206,7 +206,7 @@
                 </listitem>
               </itemizedlist>
               <para><emphasis>Usage</emphasis></para>
-              <programlisting><![CDATA[<h:commandButton value="Apply" action="#{personHome.update}">
+              <programlisting role="XHTML"><![CDATA[<h:commandButton value="Apply" action="#{personHome.update}">
   <s:conversationPropagation type="join" />
 </h:commandButton>]]></programlisting>
           </entry>
@@ -226,7 +226,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<h:outputText value="#{item.orderDate}">
+            <programlisting role="XHTML"><![CDATA[<h:outputText value="#{item.orderDate}">
   <s:convertDateTime type="both" dateStyle="full"/>
 </h:outputText>]]></programlisting>
           </entry>
@@ -264,7 +264,7 @@
               If your <emphasis>Managed Persistence Context</emphasis> isn't called
               <literal>entityManager</literal>, then you need to set it in components.xml:
             </para>
-            <programlisting><![CDATA[<component name="org.jboss.seam.ui.EntityConverter">
+            <programlisting role="XML"><![CDATA[<component name="org.jboss.seam.ui.EntityConverter">
   <property name="entityManager">#{em}</property>
 </component>]]></programlisting>
 
@@ -272,7 +272,7 @@
               If you are using a <emphasis>Managed Hibernate Session</emphasis> 
               then you need to set it in components.xml:
             </para>
-            <programlisting><![CDATA[<component name="org.jboss.seam.ui.EntityConverter">
+            <programlisting role="XML"><![CDATA[<component name="org.jboss.seam.ui.EntityConverter">
   <property name="session">#{hibernateSession}</property>
 </component>]]></programlisting>
 
@@ -282,18 +282,18 @@
               entity manager in components.xml:
             </para>
             
-            <programlisting><![CDATA[<component name="myEntityConverter" class="org.jboss.seam.ui.converter.EntityConverter">
+            <programlisting role="XML"><![CDATA[<component name="myEntityConverter" class="org.jboss.seam.ui.converter.EntityConverter">
   <property name="entityManager">#{em}</property>
 </component>]]></programlisting>
 
-            <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}">
+            <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{person.continent}">
   <s:selectItems value="#{continents.resultList}" var="continent" 
                  label="#{continent.name}" />
     <f:converter converterId="myEntityConverter" />
 </h:selectOneMenu>]]></programlisting>
 
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}" required="true">
+            <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{person.continent}" required="true">
   <s:selectItems value="#{continents.resultList}" var="continent" 
                  label="#{continent.name}" 
                  noSelectionLabel="Please Select..."/>
@@ -318,7 +318,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<h:selectOneMenu value="#{person.honorific}">
+            <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{person.honorific}">
   <s:selectItems value="#{honorifics}" var="honorific" 
                  label="#{honorific.label}"
                  noSelectionLabel="Please select" />
@@ -356,11 +356,11 @@
               to <literal>true</literal> if a validation error occurs.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:decorate template="edit.xhtml">
+            <programlisting role="XHTML"><![CDATA[<s:decorate template="edit.xhtml">
   <ui:define name="label">Country:</ui:define>
     <h:inputText value="#{location.country}" required="true"/>
   </s:decorate>]]></programlisting>
-    <programlisting><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    <programlisting role="XHTML"><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -414,7 +414,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<h:commandButton id="foo" value="Foo" action="#{manager.foo}">
+            <programlisting role="XHTML"><![CDATA[<h:commandButton id="foo" value="Foo" action="#{manager.foo}">
    <s:defaultAction />
 </h:commandButton>]]></programlisting>
           </entry>
@@ -436,7 +436,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:div rendered="#{selectedMember == null}">
+            <programlisting role="XHTML"><![CDATA[<s:div rendered="#{selectedMember == null}">
   Sorry, but this member does not exist.
 </s:div>]]></programlisting>
           </entry>
@@ -468,7 +468,7 @@
                 </listitem>
               </itemizedlist>
               <para><emphasis>Usage</emphasis></para>
-              <programlisting><![CDATA[<h:selectOneRadio id="radioList"
+              <programlisting role="XHTML"><![CDATA[<h:selectOneRadio id="radioList"
                   layout="lineDirection"
                   value="#{newPayment.paymentFrequency}">
   <s:convertEnum />
@@ -494,14 +494,14 @@
                an encoding type of <literal>multipart/form-data</literal>, i.e:
             </para>
 
-            <programlisting><![CDATA[<h:form enctype="multipart/form-data">]]></programlisting>
+            <programlisting role="XHTML"><![CDATA[<h:form enctype="multipart/form-data">]]></programlisting>
 
             <para>
               For multipart requests, the Seam Multipart servlet filter must also be configured
               in <literal>web.xml</literal>:
             </para>
 
-            <programlisting><![CDATA[<filter>
+            <programlisting role="XML"><![CDATA[<filter>
   <filter-name>Seam Filter</filter-name>
   <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
 </filter>
@@ -535,7 +535,7 @@
               Here's an example:
             </para>
 
-            <programlisting><![CDATA[<component class="org.jboss.seam.web.MultipartFilter">
+            <programlisting role="XML"><![CDATA[<component class="org.jboss.seam.web.MultipartFilter">
   <property name="createTempFiles">true</property>
   <property name="maxRequestSize">1000000</property>
 </component>]]></programlisting>
@@ -583,7 +583,7 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:fileUpload id="picture" data="#{register.picture}" 
+            <programlisting role="XHTML"><![CDATA[<s:fileUpload id="picture" data="#{register.picture}" 
               accept="image/png"
               contentType="#{register.pictureContentType}" />]]></programlisting>
           </entry>
@@ -608,7 +608,7 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:formattedText value="#{blog.text}"/>]]></programlisting>
+            <programlisting role="XHTML"><![CDATA[<s:formattedText value="#{blog.text}"/>]]></programlisting>
             <para><emphasis>Example</emphasis></para>
             <mediaobject>
               <imageobject role="fo">
@@ -637,7 +637,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:fragment rendered="#{auction.highBidder ne null}">
+            <programlisting role="XHTML"><![CDATA[<s:fragment rendered="#{auction.highBidder ne null}">
   Current bid:
 </s:fragment>]]></programlisting>
           </entry>
@@ -743,7 +743,7 @@
               to set your transformed image.  Transforms are applied in the order specified in the view.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:graphicImage rendered="#{auction.image ne null}"
+            <programlisting role="XHTML"><![CDATA[<s:graphicImage rendered="#{auction.image ne null}"
                 value="#{auction.image.data}">
   <s:transformImageSize width="200" maintainRatio="true"/>
 </s:graphicImage>]]></programlisting>
@@ -777,7 +777,7 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:label styleClass="label">
+            <programlisting role="XHTML"><![CDATA[<s:label styleClass="label">
   Country:
 </s:label>
 <h:inputText value="#{location.country}" required="true"/>]]></programlisting>
@@ -840,7 +840,7 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:link id="register" view="/register.xhtml" 
+            <programlisting role="XHTML"><![CDATA[<s:link id="register" view="/register.xhtml" 
         value="Register New User"/>]]></programlisting>
             <para>
                You can specify both <literal>view</literal> and <literal>action</literal>
@@ -867,7 +867,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<f:facet name="afterInvalidField">
+            <programlisting role="XHTML"><![CDATA[<f:facet name="afterInvalidField">
   <s:span>
     &#160;Error:&#160;
     <s:message/>
@@ -897,7 +897,7 @@
               </listitem>
             </itemizedlist>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:remote include="customerAction,accountAction,com.acme.MyBean"/>]]></programlisting>
+            <programlisting role="XHTML"><![CDATA[<s:remote include="customerAction,accountAction,com.acme.MyBean"/>]]></programlisting>
           </entry>
         </row>        
 
@@ -955,8 +955,8 @@
             </itemizedlist>
 
             <para><emphasis>Usage</emphasis></para>
-            <para>
-              <programlisting><![CDATA[<div class="row">
+            
+            <programlisting role="XHTML"><![CDATA[<div class="row">
   <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
   <h:inputText id="dob" value="#{user.dob}" required="true">
     <s:convertDateTime pattern="MM/dd/yyyy"/>
@@ -966,7 +966,7 @@
   </s:selectDate>
   <div class="validationError"><h:message for="dob"/></div>
 </div>]]></programlisting>
-            </para>
+            
 
             <para><emphasis>Example</emphasis></para>
             <mediaobject>
@@ -1152,7 +1152,7 @@
                </listitem>
              </itemizedlist>
              <para><emphasis>Usage</emphasis></para>
-             <programlisting><![CDATA[<h:selectOneMenu value="#{person.age}" 
+             <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{person.age}" 
                  converter="ageConverter">
   <s:selectItems value="#{ages}" var="age" label="#{age}" />
 </h:selectOneMenu>]]></programlisting>
@@ -1175,7 +1175,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:span styleClass="required" rendered="#{required}">*</s:span>]]></programlisting>
+            <programlisting role="XHTML"><![CDATA[<s:span styleClass="required" rendered="#{required}">*</s:span>]]></programlisting>
           </entry>
         </row>
 
@@ -1215,7 +1215,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<h:inputText id="userName" required="true" 
+            <programlisting role="XHTML"><![CDATA[<h:inputText id="userName" required="true" 
              value="#{customer.userName}">
   <s:validate />
 </h:inputText>
@@ -1238,7 +1238,7 @@
               None.
             </para>
             <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<s:validateAll>
+            <programlisting role="XHTML"><![CDATA[<s:validateAll>
   <div class="entry">
     <h:outputLabel for="username">Username:</h:outputLabel>
     <h:inputText id="username" value="#{user.username}" 
@@ -1297,7 +1297,7 @@
         <literal>@Converter</literal>
       </term>
       <listitem>
-        <programlisting><![CDATA[@Name("itemConverter") 
+        <programlisting role="JAVA"><![CDATA[@Name("itemConverter") 
 @BypassInterceptors 
 @Converter
 public class ItemConverter implements Converter {
@@ -1315,7 +1315,7 @@ public class ItemConverter implements Converter {
   
 }]]></programlisting>
 
-          <programlisting><![CDATA[<h:inputText value="#{shop.item}" converter="itemConverter" />]]></programlisting>
+          <programlisting role="XHTML"><![CDATA[<h:inputText value="#{shop.item}" converter="itemConverter" />]]></programlisting>
             
           <para>
             Registers the Seam component as a JSF converter.  Shown here is a 
@@ -1330,7 +1330,7 @@ public class ItemConverter implements Converter {
         <literal>@Validator</literal>
       </term>
       <listitem>
-        <programlisting><![CDATA[@Name("itemValidator") 
+        <programlisting role="JAVA"><![CDATA[@Name("itemValidator") 
 @BypassInterceptors 
 @Validator
 public class ItemValidator implements Validator {
@@ -1343,7 +1343,7 @@ public class ItemValidator implements Validator {
   
   }]]></programlisting>
          
-         <programlisting><![CDATA[<h:inputText value="#{shop.item}" validator="itemValidator" />]]></programlisting>
+         <programlisting role="XHTML"><![CDATA[<h:inputText value="#{shop.item}" validator="itemValidator" />]]></programlisting>
             <para>
               Registers the Seam component as a JSF validator.  Shown here is a 
               validator which injects another Seam component; the injected 

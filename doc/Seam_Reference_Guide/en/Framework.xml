@@ -44,7 +44,7 @@
             <literal>Person</literal> entity:
         </para>
         
-        <programlisting><![CDATA[<framework:entity-home name="personHome" 
+        <programlisting role="XML"><![CDATA[<framework:entity-home name="personHome" 
                        entity-class="eg.Person" 
                        entity-manager="#{personDatabase}">
     <framework:id>#{param.personId}</framework:id>
@@ -55,7 +55,7 @@
             your taste, you can use extension instead:
         </para>
 
-        <programlisting><![CDATA[@Stateful
+        <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("personHome")
 public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
     @RequestParameter String personId;
@@ -110,7 +110,7 @@ public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
             class. Suppose we have our trusty <literal>Person</literal> class:
         </para>
         
-        <programlisting><![CDATA[@Entity
+        <programlisting role="JAVA"><![CDATA[@Entity
 public class Person {
     @Id private Long id;
     private String firstName;
@@ -125,13 +125,13 @@ public class Person {
             configuration:
         </para>
         
-        <programlisting><![CDATA[<framework:entity-home name="personHome" entity-class="eg.Person" />]]></programlisting>
+        <programlisting role="XML"><![CDATA[<framework:entity-home name="personHome" entity-class="eg.Person" />]]></programlisting>
 
         <para>
             Or via extension:
         </para>
 
-        <programlisting><![CDATA[@Name("personHome")
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
 public class PersonHome extends EntityHome<Person> {}]]></programlisting>
 
         <para>
@@ -147,7 +147,7 @@ public class PersonHome extends EntityHome<Person> {}]]></programlisting>
             We can use a Home directly from a JSF page, for example:
         </para>
         
-        <programlisting><![CDATA[<h1>Create Person</h1>
+        <programlisting role="XHTML"><![CDATA[<h1>Create Person</h1>
 <h:form>
     <div>First name: <h:inputText value="#{personHome.instance.firstName}"/></div>
     <div>Last name: <h:inputText value="#{personHome.instance.lastName}"/></div>
@@ -162,7 +162,7 @@ public class PersonHome extends EntityHome<Person> {}]]></programlisting>
             line to <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<factory name="person" 
+        <programlisting role="XML"><![CDATA[<factory name="person" 
          value="#{personHome.instance}"/>
 
 <framework:entity-home name="personHome" 
@@ -173,7 +173,7 @@ public class PersonHome extends EntityHome<Person> {}]]></programlisting>
             Or by adding a <literal>@Factory</literal> method to <literal>PersonHome</literal>:
         </para>
         
-        <programlisting><![CDATA[@Name("personHome")
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
 public class PersonHome extends EntityHome<Person> {
     
     @Factory("person")
@@ -186,7 +186,7 @@ public class PersonHome extends EntityHome<Person> {
             This change simplifies our JSF page to the following:
         </para>
 
-        <programlisting><![CDATA[<h1>Create Person</h1>
+        <programlisting role="XHTML"><![CDATA[<h1>Create Person</h1>
 <h:form>
     <div>First name: <h:inputText value="#{person.firstName}"/></div>
     <div>Last name: <h:inputText value="#{person.lastName}"/></div>
@@ -204,7 +204,7 @@ public class PersonHome extends EntityHome<Person> {
             are a great way to do that:
         </para>
 
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/editPerson.jsp">
         <param name="personId" value="#{personHome.id}"/>
     </page>
@@ -214,7 +214,7 @@ public class PersonHome extends EntityHome<Person> {
             Now we can add the extra operations to our JSF page:
         </para>
 
-        <programlisting><![CDATA[<h1>
+        <programlisting role="XHTML"><![CDATA[<h1>
     <h:outputText rendered="#{!personHome.managed}" value="Create Person"/>
     <h:outputText rendered="#{personHome.managed}" value="Edit Person"/>
 </h1>
@@ -240,7 +240,7 @@ public class PersonHome extends EntityHome<Person> {
             nationality initialized. We can do that easily, via configuration:
         </para>
 
-        <programlisting><![CDATA[<factory name="person" 
+        <programlisting role="XML"><![CDATA[<factory name="person" 
          value="#{personHome.instance}"/>
 
 <framework:entity-home name="personHome" 
@@ -256,7 +256,7 @@ public class PersonHome extends EntityHome<Person> {
              Or by extension:
          </para>
          
-        <programlisting><![CDATA[@Name("personHome")
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
 public class PersonHome extends EntityHome<Person> {
     
     @In Country country;
@@ -280,7 +280,7 @@ public class PersonHome extends EntityHome<Person> {
             just add methods to <literal>PersonHome</literal>.
         </para>
 
-        <programlisting><![CDATA[@Name("personHome")
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
 public class PersonHome extends EntityHome<Person> {
     
     @In Country country;
@@ -316,7 +316,7 @@ public class PersonHome extends EntityHome<Person> {
             successful. To customize these messages we can, again, use configuration:
         </para>
          
-        <programlisting><![CDATA[<factory name="person" 
+        <programlisting role="XML"><![CDATA[<factory name="person" 
          value="#{personHome.instance}"/>
 
 <framework:entity-home name="personHome"
@@ -336,7 +336,7 @@ public class PersonHome extends EntityHome<Person> {
              Or extension:
          </para>
          
-        <programlisting><![CDATA[@Name("personHome")
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
 public class PersonHome extends EntityHome<Person> {
     
     @In Country country;
@@ -385,14 +385,14 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             can use a Query object. For example:
         </para>
         
-        <programlisting><![CDATA[<framework:entity-query name="people" 
+        <programlisting role="XML"><![CDATA[<framework:entity-query name="people" 
                         ejbql="select p from Person p"/>]]></programlisting>
         
         <para>
             We can use it from a JSF page:
         </para>
         
-        <programlisting><![CDATA[<h1>List of people</h1>
+        <programlisting role="XHTML"><![CDATA[<h1>List of people</h1>
 <h:dataTable value="#{people.resultList}" var="person">
     <h:column>
         <s:link view="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
@@ -405,7 +405,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             We probably need to support pagination:
         </para>
         
-        <programlisting><![CDATA[<framework:entity-query name="people" 
+        <programlisting role="XML"><![CDATA[<framework:entity-query name="people" 
                         ejbql="select p from Person p" 
                         order="lastName" 
                         max-results="20"/>]]></programlisting>
@@ -415,7 +415,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
         </para>
 
 
-        <programlisting><![CDATA[<pages>
+        <programlisting role="XML"><![CDATA[<pages>
     <page view-id="/searchPerson.jsp">
         <param name="firstResult" value="#{people.firstResult}"/>
     </page>
@@ -425,7 +425,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             The JSF code for a pagination control is a bit verbose, but manageable:
         </para>
 
-        <programlisting><![CDATA[<h1>Search for people</h1>
+        <programlisting role="XHTML"><![CDATA[<h1>Search for people</h1>
 <h:dataTable value="#{people.resultList}" var="person">
     <h:column>
         <s:link view="/editPerson.jsp" value="#{person.firstName} #{person.lastName}">
@@ -456,7 +456,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             optional "restrictions" to support this important usecase:
         </para>
 
-        <programlisting><![CDATA[<component name="examplePerson" class="Person"/>
+        <programlisting role="XML"><![CDATA[<component name="examplePerson" class="Person"/>
         
 <framework:entity-query name="people" 
                         ejbql="select p from Person p" 
@@ -472,7 +472,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             Notice the use of an "example" object.
         </para>
 
-        <programlisting><![CDATA[<h1>Search for people</h1>
+        <programlisting role="XHTML"><![CDATA[<h1>Search for people</h1>
 <h:form>
     <div>First name: <h:inputText value="#{examplePerson.firstName}"/></div>
     <div>Last name: <h:inputText value="#{examplePerson.lastName}"/></div>
@@ -492,7 +492,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 			<literal>org.jboss.seam.afterTransactionSuccess</literal> event:
 		</para>
 		
-		<programlisting><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess">
+		<programlisting role="XML"><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess">
     <action execute="#{people.refresh}" />
 </event>]]></programlisting>
 
@@ -501,7 +501,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
 			removed through <literal>PersonHome</literal>:
 		</para>
 		
-		<programlisting><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess.Person">
+		<programlisting role="XML"><![CDATA[<event type="org.jboss.seam.afterTransactionSuccess.Person">
     <action execute="#{people.refresh}" />
     </event>]]></programlisting>
        
@@ -539,7 +539,7 @@ Person_updated=Person #{person.firstName} #{person.lastName} updated]]></program
             Seam registration example would look like:
         </para>
         
-        <programlisting><![CDATA[@Stateless
+        <programlisting role="JAVA"><![CDATA[@Stateless
 @Name("register")
 public class RegisterAction extends EntityController implements Register
 {

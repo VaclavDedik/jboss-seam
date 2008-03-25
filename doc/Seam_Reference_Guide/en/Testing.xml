@@ -25,7 +25,7 @@
             account for a customer:
 		</para>
 		
-        <programlisting><![CDATA[@Stateless
+        <programlisting role="JAVA"><![CDATA[@Stateless
 @Scope(EVENT)
 @Name("statementOfAccount")
 public class StatementOfAccount {
@@ -64,7 +64,7 @@ public class StatementOfAccount {
             the business logic of the component) as follows:
         </para>
 
-        <programlisting><![CDATA[public class StatementOfAccountTest {
+        <programlisting role="JAVA"><![CDATA[public class StatementOfAccountTest {
     
     @Test
     public testCalculateTotal {
@@ -107,7 +107,7 @@ public class StatementOfAccount {
             JDK 1.5 and does not work with JDK 1.6).
         </para>
         
-<programlisting><![CDATA[public class RegisterTest extends SeamTest
+<programlisting role="JAVA"><![CDATA[public class RegisterTest extends SeamTest
 {
    
    @Test
@@ -146,7 +146,7 @@ public class StatementOfAccount {
                 Seam component which is a facade to some payment processing system:
             </para>
             
-            <programlisting><![CDATA[@Name("paymentProcessor")
+            <programlisting role="JAVA"><![CDATA[@Name("paymentProcessor")
 public class PaymentProcessor {
     public boolean processPayment(Payment payment) { .... }
 }]]></programlisting>
@@ -155,7 +155,7 @@ public class PaymentProcessor {
                 For integration tests, we can mock out this component as follows:
             </para>
             
-            <programlisting><![CDATA[@Name("paymentProcessor")
+            <programlisting role="JAVA"><![CDATA[@Name("paymentProcessor")
 @Install(precedence=MOCK)
 public class MockPaymentProcessor extends PaymentProcessor {
     public boolean processPayment(Payment payment) {
@@ -200,7 +200,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
             Let's consider a JSP view for the component we unit tested above:
         </para>
         
-        <programlisting><![CDATA[<html>
+        <programlisting role="XHTML"><![CDATA[<html>
  <head>
   <title>Register New User</title>
  </head>
@@ -234,7 +234,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
             request lifecycle in an automated TestNG test:
         </para>
 
-<programlisting><![CDATA[public class RegisterTest extends SeamTest
+<programlisting role="JAVA"><![CDATA[public class RegisterTest extends SeamTest
 {
    
    @Test
@@ -533,7 +533,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
             You need to provide a dataset for DBUnit:
          </para>
           
-          <programlisting><![CDATA[<dataset>
+          <programlisting role="XML"><![CDATA[<dataset>
    
    <ARTIST 
       id="1"
@@ -551,7 +551,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
             and tell Seam about it by overriding <literal>prepareDBUnitOperations()</literal>:
          </para>
       
-         <programlisting><![CDATA[protected void prepareDBUnitOperations() {
+         <programlisting role="JAVA"><![CDATA[protected void prepareDBUnitOperations() {
     beforeTestOperations.add(
        new DataSetOperation("my/datasets/BaseData.xml")
     );
@@ -575,7 +575,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
            setting a TestNG test parameter named <literal>datasourceJndiName</literal>:
          </para>
          
-         <programlisting>
+         <programlisting role="XML">
    <![CDATA[<parameter name="datasourceJndiName" value="java:/seamdiscsDatasource"/>]]>
          </programlisting> 
          
@@ -599,7 +599,7 @@ public class MockPaymentProcessor extends PaymentProcessor {
             It's very easy to integration test your Seam Mail:
           </para>
           
-          <programlisting><![CDATA[public class MailTest extends SeamTest {
+          <programlisting role="JAVA"><![CDATA[public class MailTest extends SeamTest {
     
    @Test
    public void testSimpleMessage() throws Exception {

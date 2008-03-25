@@ -178,7 +178,7 @@
                 in <literal>components.xml</literal>:
     		</para>
 
-    		<programlisting><![CDATA[<core:init transaction-management-enabled="false"/>
+    		<programlisting role="XML"><![CDATA[<core:init transaction-management-enabled="false"/>
         
 <transaction:no-transaction />]]></programlisting>
 
@@ -194,7 +194,7 @@
     			should install the EJB synchronization component in <literal>components.xml</literal>:
     		</para>
     	   
-    	   <programlisting><![CDATA[<transaction:ejb-transaction />]]></programlisting>
+    	   <programlisting role="XML"><![CDATA[<transaction:ejb-transaction />]]></programlisting>
     	   
     		<para>
     			However, if you are working in a non EE 5 container, Seam will try auto detect the transaction
@@ -243,7 +243,7 @@
     			<link linkend="persistence.seam-managed-persistence-contexts">Seam-managed persistence contexts</link>
     			)
     		</para>
-    		<programlisting><![CDATA[<transaction:entity-transaction entity-manager="#{em}"/>]]></programlisting>
+    		<programlisting role="XML"><![CDATA[<transaction:entity-transaction entity-manager="#{em}"/>]]></programlisting>
     		<para>
     			To configure Hibernate managed transactions declare the following in your components.xml where
     			<literal>#{hibernateSession}</literal>
@@ -254,11 +254,11 @@
     			<link linkend="persistence.seam-managed-persistence-contexts">Seam-managed persistence contexts</link>
     			)
     		</para>
-    		<programlisting><![CDATA[<transaction:hibernate-transaction session="#{hibernateSession}"/>]]></programlisting>
+    		<programlisting role="XML"><![CDATA[<transaction:hibernate-transaction session="#{hibernateSession}"/>]]></programlisting>
             <para>
                 To explicitly disable Seam managed transactions declare the following in your components.xml:
               </para>
-              <programlisting><![CDATA[<transaction:no-transaction />]]></programlisting>
+              <programlisting role="XML"><![CDATA[<transaction:no-transaction />]]></programlisting>
     		<para>
     			For configuring Spring managed transactions see
     			<link linkend="spring-transactions">using Spring PlatformTransactionManagement</link>
@@ -318,7 +318,7 @@
             we can write:
         </para>
 
-        <programlisting><![CDATA[<persistence:managed-persistence-context name="bookingDatabase" 
+        <programlisting role="XML"><![CDATA[<persistence:managed-persistence-context name="bookingDatabase" 
                                   auto-create="true"
                    persistence-unit-jndi-name="java:/EntityManagerFactories/bookingData"/>]]></programlisting>
 
@@ -335,14 +335,14 @@
             <literal>persistence.xml</literal>.
         </para>
         
-        <programlisting><![CDATA[<property name="jboss.entity.manager.factory.jndi.name" 
+        <programlisting role="XML"><![CDATA[<property name="jboss.entity.manager.factory.jndi.name" 
           value="java:/EntityManagerFactories/bookingData"/>]]></programlisting>
         
         <para>
             Now we can have our <literal>EntityManager</literal> injected using:
         </para>
 
-        <programlisting><![CDATA[@In EntityManager bookingDatabase;]]></programlisting>
+        <programlisting role="JAVA"><![CDATA[@In EntityManager bookingDatabase;]]></programlisting>
         
         <para>
             If you are using EJB3 and mark your class or method 
@@ -364,7 +364,7 @@
             Seam-managed Hibernate sessions are similar. In <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<persistence:hibernate-session-factory name="hibernateSessionFactory"/>
+        <programlisting role="XML"><![CDATA[<persistence:hibernate-session-factory name="hibernateSessionFactory"/>
 
 <persistence:managed-hibernate-session name="bookingDatabase" 
                                 auto-create="true"
@@ -375,7 +375,7 @@
             specified in <literal>hibernate.cfg.xml</literal>. 
         </para>
         
-        <programlisting><![CDATA[<session-factory name="java:/bookingSessionFactory">
+        <programlisting role="XML"><![CDATA[<session-factory name="java:/bookingSessionFactory">
     <property name="transaction.flush_before_completion">true</property>
     <property name="connection.release_mode">after_statement</property>
     <property name="transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
@@ -396,7 +396,7 @@
             JavaBean components using the following code:
         </para>
         
-        <programlisting><![CDATA[@In Session bookingDatabase;]]></programlisting>
+        <programlisting role="JAVA"><![CDATA[@In Session bookingDatabase;]]></programlisting>
 
     </section>
             
@@ -438,7 +438,7 @@
             persistence provider, but we plan to support other equivalent vendor extensions.
         </para>
         
-        <programlisting><![CDATA[@In EntityManager em; //a Seam-managed persistence context
+        <programlisting role="JAVA"><![CDATA[@In EntityManager em; //a Seam-managed persistence context
 
 @Begin(flushMode=MANUAL)
 public void beginClaimWizard() {
@@ -450,7 +450,7 @@ public void beginClaimWizard() {
             for the rest ot the conversation. We can make changes to the claim:
         </para>
         
-        <programlisting><![CDATA[public void addPartyToClaim() {
+        <programlisting role="JAVA"><![CDATA[public void addPartyToClaim() {
     Party party = ....;
     claim.addParty(party);
 }]]></programlisting>
@@ -460,7 +460,7 @@ public void beginClaimWizard() {
             the flush to occur:
         </para>
         
-        <programlisting><![CDATA[@End
+        <programlisting role="JAVA"><![CDATA[@End
 public void commitClaim() {
     em.flush();
 }]]></programlisting>
@@ -470,7 +470,7 @@ public void commitClaim() {
             from pages.xml, for example in a navigation rule:
         </para>
         
-        <programlisting><![CDATA[<begin-conversation flush-mode="MANUAL" />]]></programlisting>
+        <programlisting role="XML"><![CDATA[<begin-conversation flush-mode="MANUAL" />]]></programlisting>
 
     </section>
 
@@ -494,7 +494,7 @@ public void commitClaim() {
             following:
         </para>
         
-        <programlisting><![CDATA[@In EntityManager entityManager;
+        <programlisting role="JAVA"><![CDATA[@In EntityManager entityManager;
 
 @Create
 public void init() {
@@ -507,7 +507,7 @@ public void init() {
              delegate. First, add the following line to <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<factory name="session" 
+        <programlisting role="XML"><![CDATA[<factory name="session" 
          scope="STATELESS" 
          auto-create="true" 
          value="#{entityManager.delegate}"/>]]></programlisting>
@@ -516,7 +516,7 @@ public void init() {
             Now we can inject the session directly:
         </para>
         
-        <programlisting><![CDATA[@In Session session;
+        <programlisting role="JAVA"><![CDATA[@In Session session;
 
 @Create
 public void init() {
@@ -535,12 +535,12 @@ public void init() {
             example, this:
         </para>
         
-        <programlisting><![CDATA[User user = em.createQuery("from User where username=#{user.username}")
+        <programlisting role="JAVA"><![CDATA[User user = em.createQuery("from User where username=#{user.username}")
          .getSingleResult();]]></programlisting>
          
         <para>is equivalent to:</para>
          
-        <programlisting><![CDATA[User user = em.createQuery("from User where username=:username")
+        <programlisting role="JAVA"><![CDATA[User user = em.createQuery("from User where username=:username")
          .setParameter("username", user.getUsername())
          .getSingleResult();]]></programlisting>
          
@@ -548,7 +548,7 @@ public void init() {
             Of course, you should never, ever write it like this:
         </para>
         
-        <programlisting><![CDATA[User user = em.createQuery("from User where username=" + user.getUsername()) //BAD!
+        <programlisting role="JAVA"><![CDATA[User user = em.createQuery("from User where username=" + user.getUsername()) //BAD!
          .getSingleResult();]]></programlisting>
          
         <para>
@@ -575,7 +575,7 @@ public void init() {
             persistence provider.)
         </para>
         
-        <programlisting><![CDATA[<persistence:filter name="regionFilter">
+        <programlisting role="XML"><![CDATA[<persistence:filter name="regionFilter">
     <persistence:name>region</persistence:name>
     <persistence:parameters>
         <key>regionCode</key>

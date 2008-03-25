@@ -40,46 +40,46 @@
 	configuration parameters. Here is a minimal persistence unit configuration
 	to get started.</para>
 
-    <programlisting>   &lt;persistence-unit name="sample"&gt;
-      &lt;jta-data-source&gt;java:/DefaultDS&lt;/jta-data-source&gt;
-      &lt;properties&gt;
-         [...]
-         <emphasis role="bold">&lt;!-- use a file system based index --&gt;
-         &lt;property name="hibernate.search.default.directory_provider" 
-                   value="org.hibernate.search.store.FSDirectoryProvider"/&gt;
-         &lt;!-- directory where the indexes will be stored --&gt;
-         &lt;property name="hibernate.search.default.indexBase" 
-                   value="/Users/prod/apps/dvdstore/dvdindexes"/&gt;</emphasis>
-      &lt;/properties&gt;
-   &lt;/persistence-unit&gt;</programlisting>
+    <programlisting role="XML"><![CDATA[<persistence-unit name="sample">
+   <jta-data-source>java:/DefaultDS</jta-data-source>
+   <properties>
+      [...]
+      <!-- use a file system based index -->
+      <property name="hibernate.search.default.directory_provider" 
+         value="org.hibernate.search.store.FSDirectoryProvider"/>
+      <!-- directory where the indexes will be stored -->
+      <property name="hibernate.search.default.indexBase" 
+         value="/Users/prod/apps/dvdstore/dvdindexes"/>
+   </properties>
+</persistence-unit>]]></programlisting>
 
     <para>If you plan to target Hibernate Annotations or EntityManager 3.2.x
     (embedded into JBoss AS 4.2.GA), you also need to configure the
     appropriate event listeners.</para>
 
-    <programlisting>   &lt;persistence-unit name="sample"&gt;
-      &lt;jta-data-source&gt;java:/DefaultDS&lt;/jta-data-source&gt;
-      &lt;properties&gt;
-         [...]
-         &lt;!-- use a file system based index --&gt;
-         &lt;property name="hibernate.search.default.directory_provider" 
-                   value="org.hibernate.search.store.FSDirectoryProvider"/&gt;
-         &lt;!-- directory where the indexes will be stored --&gt;
-         &lt;property name="hibernate.search.default.indexBase" 
-                   value="/Users/prod/apps/dvdstore/dvdindexes"/&gt;
+   <programlisting role="XML"><![CDATA[<persistence-unit name="sample">
+   <jta-data-source>java:/DefaultDS</jta-data-source>
+   <properties>
+      [...]
+      <!-- use a file system based index -->
+      <property name="hibernate.search.default.directory_provider" 
+                value="org.hibernate.search.store.FSDirectoryProvider"/>
+      <!-- directory where the indexes will be stored -->
+      <property name="hibernate.search.default.indexBase" 
+                value="/Users/prod/apps/dvdstore/dvdindexes"/>
 
-         <emphasis role="bold">&lt;property name="hibernate.ejb.event.post-insert" 
-                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;
-         &lt;property name="hibernate.ejb.event.post-update" 
-                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;
-         &lt;property name="hibernate.ejb.event.post-delete" 
-                   value="org.hibernate.search.event.FullTextIndexEventListener"/&gt;</emphasis>
+      <property name="hibernate.ejb.event.post-insert" 
+                value="org.hibernate.search.event.FullTextIndexEventListener"/>
+      <property name="hibernate.ejb.event.post-update" 
+                value="org.hibernate.search.event.FullTextIndexEventListener"/>
+      <property name="hibernate.ejb.event.post-delete" 
+                value="org.hibernate.search.event.FullTextIndexEventListener"/>
 
-      &lt;/properties&gt;
-   &lt;/persistence-unit&gt;</programlisting>
+   </properties>
+</persistence-unit>]]></programlisting>
 
     <note>
-      <para>This step is no longer useful if Hibernate Annotation or
+      <para>This step is no longer necessary if Hibernate Annotation or
       EntityManager 3.3.x are used.</para>
     </note>
 
@@ -123,12 +123,11 @@
     <para>When Hibernate Search is present, JBoss Seam injects a
     <classname>FullTextSession</classname>.</para>
 
-    <programlisting>@Stateful
+    <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("search")
-public class FullTextSearchAction implements FullTextSearch, Serializable
-{   
-   @In
-   <emphasis role="bold">FullTextSession session;</emphasis>
+public class FullTextSearchAction implements FullTextSearch, Serializable {
+
+   @In FullTextSession session;
 
    public void search(String searchString) {
       org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
@@ -139,9 +138,7 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
             .list();
    }
    [...]
-}  
-
-</programlisting>
+}]]></programlisting>
 
     <note>
       <para><classname>FullTextSession</classname> extends
@@ -152,12 +149,11 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
     <para>If the Java Persistence API is used, a smoother integration is
     proposed.</para>
 
-    <programlisting>@Stateful
+    <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("search")
-public class FullTextSearchAction implements FullTextSearch, Serializable
-{   
-   @In
-   <emphasis role="bold">FullTextEntityManager em;</emphasis>
+public class FullTextSearchAction implements FullTextSearch, Serializable {
+   
+   @In FullTextEntityManager em;
 
    public void search(String searchString) {
       org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
@@ -168,7 +164,7 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
             .getResultList();
    }
    [...]
-}  </programlisting>
+}]]></programlisting>
 
     <para>When Hibernate Search is present, a
     <classname>FulltextEntityManager</classname> is injected.
@@ -185,16 +181,15 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
     <classname>FullTextEntityManager</classname> implementation: downcasting
     is then possible.</para>
 
-    <programlisting>@Stateful
+    <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("search")
-public class FullTextSearchAction implements FullTextSearch, Serializable
-{   
-   @PersistenceContext
-   EntityManager em;
+public class FullTextSearchAction implements FullTextSearch, Serializable {
+  
+   @PersistenceContext EntityManager em;
 
    public void search(String searchString) {
       org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
-      <emphasis role="bold">FullTextEntityManager ftEm = (FullTextEntityManager) em;</emphasis>
+      FullTextEntityManager ftEm = (FullTextEntityManager) em;
       javax.persistence.Query query = ftEm.createFullTextQuery(luceneQuery, Product.class);
       searchResults = query
             .setMaxResults(pageSize + 1)
@@ -202,7 +197,7 @@ public class FullTextSearchAction implements FullTextSearch, Serializable
             .getResultList();
    }
    [...]
-}  </programlisting>
+}]]></programlisting>
 
     <para></para>
 

@@ -23,9 +23,9 @@
          JBoss EL removes this restriction. For example: 
       </para>
       
-      <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
+      <programlisting role="XHTML"><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel)}" value="Book Hotel"/>]]></programlisting>
       
-      <programlisting><![CDATA[@Name("hotelBooking")
+      <programlisting role="JAVA"><![CDATA[@Name("hotelBooking")
 public class HotelBooking {
    
    public String bookHotel(Hotel hotel) {
@@ -41,7 +41,7 @@ public class HotelBooking {
             parentheses, and separated by commas: 
          </para>
          
-         <programlisting><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel, user)}" value="Book Hotel"/>]]></programlisting>
+         <programlisting role="XHTML"><![CDATA[<h:commandButton action="#{hotelBooking.bookHotel(hotel, user)}" value="Book Hotel"/>]]></programlisting>
          
          <para> 
             The parameters <literal>hotel</literal> and <literal>user</literal> 
@@ -52,7 +52,7 @@ public class HotelBooking {
             Any value expression may be used as a parameter: 
          </para>
          
-         <programlisting><![CDATA[<h:commandButton 
+         <programlisting role="XHTML"><![CDATA[<h:commandButton 
    action="#{hotelBooking.bookHotel(hotel.id, user.username)}" 
    value="Book Hotel"/>]]></programlisting>
          
@@ -76,7 +76,7 @@ public class HotelBooking {
             You can also pass literal strings using single quotes: 
          </para>
          
-         <programlisting><![CDATA[<h:commandLink action="#{printer.println('Hello world!')}" value="Hello"/>]]></programlisting>
+         <programlisting role="XHTML"><![CDATA[<h:commandLink action="#{printer.println('Hello world!')}" value="Hello"/>]]></programlisting>
          
          <para> 
             Unified EL also supports value expressions, used to bind a field to 
@@ -92,7 +92,7 @@ public class HotelBooking {
             using the method syntax. For example: 
          </para>
          
-         <programlisting><![CDATA[<h:outputText value="#{person.name}" rendered="#{person.name.length() > 5}" />]]></programlisting>
+         <programlisting role="XHTML"><![CDATA[<h:outputText value="#{person.name}" rendered="#{person.name.length() > 5}" />]]></programlisting>
          
          <para>
             You can access the size of a collection in a similar manner: 
@@ -141,11 +141,11 @@ public class HotelBooking {
                   <literal>&lt;h:commandButton /&gt;</literal> or 
                   <literal>&lt;h:commandLink /&gt;</literal>: 
                </para>
-               <programlisting><![CDATA[@Factory("items")
+               <programlisting role="JAVA"><![CDATA[@Factory("items")
 public List<Item> getItems() {
    return entityManager.createQuery("select ...").getResultList();
 }]]></programlisting>
-               <programlisting><![CDATA[<h:dataTable value="#{items}" var="item">
+               <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{items}" var="item">
    <h:column>
       <h:commandLink value="Select #{item.name}" action="#{itemSelector.select(item})" />
    </h:column>

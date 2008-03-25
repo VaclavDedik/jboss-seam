@@ -141,7 +141,7 @@
                      look like this: </para>
                   
                   
-                  <programlisting><![CDATA[
+                  <programlisting role="XML"><![CDATA[
 <core:init jndi-pattern="java:comp/env/jboss-seam-jee5/#{ejbName}" debug="true"/>
                   ]]></programlisting>
                </listitem>
@@ -160,8 +160,7 @@
                      following:</para>
                   
                   
-                  <programlisting><![CDATA[
-<?xml version="1.0" encoding="UTF-8"?>
+                  <programlisting role="XML"><![CDATA[<xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" 
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -177,7 +176,7 @@
                      below.</para>
                   
                   
-                  <programlisting><![CDATA[
+                  <programlisting role="XML"><![CDATA[
   <!-- JEE5 EJB3 names -->
   <ejb-local-ref>              
     <ejb-ref-name>jboss-seam-jee5/AuthenticatorAction</ejb-ref-name>                
@@ -243,7 +242,7 @@
                   <para>For this example we will be using the default
                      datasource that comes with Websphere. To do this change the
                      <literal>jta-data-source</literal> element:</para>
-                  <programlisting><![CDATA[
+                  <programlisting role="XML"><![CDATA[
 <jta-data-source>DefaultDatasource</jta-data-source>
                   ]]></programlisting>
                   <para>Then we need to adjust some of the hibernate
@@ -251,7 +250,7 @@
                      Next you need to add/change the properties:</para>
                   
                   
-                  <programlisting><![CDATA[
+                  <programlisting role="XML"><![CDATA[
 <!--<property name="hibernate.transaction.flush_before_completion" value="true"/>-->
 <property name="hibernate.cache.provider_class" 
                   value="org.hibernate.cache.HashtableCacheProvider"/>
@@ -402,9 +401,10 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
                <literal>jboss-seam-jee5.jar</literal>. The primary change
                is the addition of the
                <literal>GlassfishDerbyDialect.class</literal>:
+            </para>
                
                
-               <programlisting><![CDATA[
+               <programlisting role="XML"><![CDATA[
    <fileset id="jar.resources" dir="${resources.dir}">
       <include name="import.sql" />
       <include name="seam.properties" />
@@ -412,14 +412,15 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
       <include name="META-INF/persistence.xml" />
       <include name="META-INF/ejb-jar.xml" />
    </fileset>]]></programlisting>
-               </para>
+               
             
             <para>Next we need to add the library dependencies discussed above.
                For this add the following to bottom of the
                <literal>ear.lib.extras</literal> fileset entry:
+            </para>
                
                
-               <programlisting><![CDATA[
+               <programlisting role="XML"><![CDATA[
    <!--<include name="lib/log4j.jar" />-->
    <include name="lib/el-api.jar" />
    <include name="examples/jpa/lib/el-ri.jar" />
@@ -427,7 +428,7 @@ cp ../../jpa/resources-websphere61/import.sql ./resources]]></programlisting>
    <include name="lib/jsf-impl.jar" />
    <include name="lib/jboss-seam.jar" />
 </fileset>]]></programlisting>
-               </para>
+               
             
             <para>Now all that is left is to execute the <literal>ant
                archive</literal> task and the built application will be in
@@ -1055,7 +1056,7 @@ Total time: 3 minutes 5 seconds]]></programlisting>
                               linkend="jee5-websphere-section"/>:
                            </para>
                         
-                        <programlisting><![CDATA[
+                        <programlisting role="XML"><![CDATA[
 <property name="hibernate.dialect" value="GlassfishDerbyDialect"/>
 <property name="hibernate.hbm2ddl.auto" value="update"/>
 <property name="hibernate.show_sql" value="true"/>
@@ -1069,7 +1070,7 @@ Total time: 3 minutes 5 seconds]]></programlisting>
                         <para> Remove the JBoss AS specific method of exposing
                            the EntityManagerFactory: </para>
                         
-                        <programlisting><![CDATA[<property 
+                        <programlisting role="XML"><![CDATA[<property 
  name="jboss.entity.manager.factory.jndi.name" 
  value="java:/websphere_exampleEntityManagerFactory">]]></programlisting>
                      </listitem>
@@ -1146,7 +1147,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                            entry.</para>
                         
                         
-                        <programlisting><![CDATA[
+                        <programlisting role="XML"><![CDATA[
 <persistence:managed-persistence-context name="entityManager"
              auto-create="true"
              persistence-unit-jndi-name="java:/websphere_exampleEntityManagerFactory"/> ]]></programlisting>
@@ -1164,7 +1165,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                      the <literal>web.xml</literal> file to look like the
                      following:</para>
                   
-                  <programlisting><![CDATA[
+                  <programlisting role="XML"><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="2.4" 
          xmlns="http://java.sun.com/xml/ns/j2ee"
@@ -1180,7 +1181,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                      Websphere to perform the proper binding.</para>
                   
                   
-                  <programlisting><![CDATA[
+                  <programlisting role="XML"><![CDATA[
   <ejb-local-ref>              
     <ejb-ref-name>websphere_example/AuthenticatorAction</ejb-ref-name>                
     <ejb-ref-type>Session</ejb-ref-type>     
@@ -1230,12 +1231,12 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                </itemizedlist>
                
                
-               <programlisting><![CDATA[
+               <programlisting role="JAVA"><![CDATA[
 @Name("authenticator") @Stateless public class
             AuthenticatorAction implements Authenticator {]]></programlisting>
                
                
-               <programlisting><![CDATA[
+               <programlisting role="JAVA"><![CDATA[
 @Local public interface Authenticator { 
   public boolean authenticate(); 
 }]]></programlisting>
@@ -1257,11 +1258,12 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                <para>Change the default target to
                   <literal>archive</literal> (we aren't going to cover
                   automatic deployment to Websphere).
+               </para>
                   
                   
-                  <programlisting><![CDATA[
+               <programlisting role="XML"><![CDATA[
 <project name="websphere_example" default="archive" basedir=".">]]></programlisting>
-                  </para>
+                  
             </listitem>
             <listitem>
                <para>Websphere looks for the drools
@@ -1273,13 +1275,14 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                   the top of the <literal> &lt;target name="war"
                   depends="compile" description="Build the distribution
                   .war file"&gt; </literal> target.
+               </para>
                   
-                  <programlisting><![CDATA[
+                  <programlisting role="XML"><![CDATA[
 <copy todir="${war.dir}">
    <fileset dir="${basedir}/resources" >
        <include name="*.drl" />
    </fileset>
-</copy>]]></programlisting></para>
+</copy>]]></programlisting>
             </listitem>
             <listitem>
                <para>We need to ge the
@@ -1287,9 +1290,10 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                   our application jar. To do that find the
                   <literal>jar</literal> task and modify the top of it so that
                   it looks like this:
+               </para>
                   
                   
-                  <programlisting><![CDATA[
+               <programlisting role="XML"><![CDATA[
 <target name="jar" depends="compile,copyclasses" 
    description="Build the distribution .jar file">
    <copy todir="${jar.dir}">
@@ -1300,7 +1304,6 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
       </fileset>
    </copy>
 ...]]></programlisting>
-                  </para>
             </listitem>
             <listitem>
                <para>Next we need to get the
@@ -1312,7 +1315,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                   task: </para>
                
                
-               <programlisting><![CDATA[
+               <programlisting role="XML"><![CDATA[
 <fileset dir="${lib.dir}">
    <include name="jboss-seam.jar" />
 </fileset>]]></programlisting>
@@ -1320,7 +1323,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                   like:</para>
                
                
-               <programlisting><![CDATA[
+               <programlisting role="XML"><![CDATA[
 <target name="archive" depends="jar,war,ear" 
         description="Package the archives">
    <jar jarfile="${dist.dir}/${project.name}.jar" basedir="${jar.dir}"/>
@@ -1346,7 +1349,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                   </para>
                
                
-               <programlisting><![CDATA[
+               <programlisting role="XML"><![CDATA[
 <target name="ear" description="Build the EAR">
     <copy todir="${ear.dir}">
             <fileset dir="${basedir}/resources">
@@ -1378,7 +1381,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                <itemizedlist>
                   <listitem>
                      <para>Hibernate dependencies</para>
-                     <programlisting><![CDATA[
+                     <programlisting role="XML"><![CDATA[
    <!-- Hibernate and deps -->
    <include name="lib/hibernate.jar"/>
    <include name="lib/hibernate-commons-annotations.jar"/>
@@ -1391,7 +1394,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                      <para>JSF dependencies.  You will need to copy the 
                      <literal>el-ri.jar</literal> from the 
                      <literal>$SEAM/examples/jpa/lib</literal> directory.</para>
-                     <programlisting><![CDATA[
+                     <programlisting role="XML"><![CDATA[
    <!-- jsf libs -->
    <include name="lib/jsf-api.jar" />
    <include name="lib/jsf-impl.jar" />
@@ -1406,7 +1409,7 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                      also need to acquire the <literal>concurrent.jar</literal> 
                      and place it in the same directory.  You can get this from 
                      any jboss distribution or just search for it.</para>
-                     <programlisting><![CDATA[
+                     <programlisting role="XML"><![CDATA[
    <!-- 3rd party and supporting jars -->
    <!--<include name="lib/log4j.jar" />-->
    <include name="lib/javassist.jar"/>
@@ -1424,14 +1427,14 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                      both the <literal>ear</literal> base and 
                         <literal>/lib</literal>
                      directory.</para>
-                     <programlisting><![CDATA[
+                     <programlisting role="XML"><![CDATA[
    <!-- seam jar -->
    <include name="lib/jboss-seam.jar" />]]></programlisting>
                   </listitem>
                </itemizedlist>
                
                <para>You should end up with something like:</para>
-               <programlisting><![CDATA[
+               <programlisting role="XML"><![CDATA[
 <fileset dir="${basedir}">
    <include name="lib/jbpm*.jar" />
    <include name="lib/jboss-el.jar" />

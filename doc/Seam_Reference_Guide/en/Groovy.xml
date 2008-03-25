@@ -54,7 +54,7 @@
             <section>
                 <title>Entity</title>
 
-                <programlisting>    @Entity
+                <programlisting role="JAVA">    @Entity
     @Name("hotel")
     class Hotel implements Serializable
     {
@@ -109,7 +109,7 @@
                 <para>Writing Seam components in Groovy is in no way different than in Java: annotations are used to
                     mark the class as a Seam component.</para>
 
-                <programlisting>@Scope(ScopeType.SESSION)
+                <programlisting role="JAVA">@Scope(ScopeType.SESSION)
 @Name("bookingList")
 class BookingListAction implements Serializable
 {

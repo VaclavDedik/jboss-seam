@@ -56,7 +56,7 @@
             form in your JSP or Facelets page:
         </para>
         
-<programlisting><![CDATA[<h:selectOneMenu value="#{localeSelector.language}">
+<programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{localeSelector.language}">
     <f:selectItem itemLabel="English" itemValue="en"/>
     <f:selectItem itemLabel="Deutsch" itemValue="de"/>
     <f:selectItem itemLabel="Francais" itemValue="fr"/>
@@ -68,7 +68,7 @@
             <literal>faces-config.xml</literal>, just use:
         </para>
 
-        <programlisting><![CDATA[<h:selectOneMenu value="#{localeSelector.localeString}">
+        <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{localeSelector.localeString}">
     <f:selectItems value="#{localeSelector.supportedLocales}"/>
 </h:selectOneMenu>
 <h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/>]]></programlisting>
@@ -126,7 +126,7 @@
             messages.
         </para>
 
-        <programlisting><![CDATA[<core:resource-loader>
+        <programlisting role="XML"><![CDATA[<core:resource-loader>
     <core:bundle-names>
         <value>mycompany_messages</value>
         <value>standard_messages</value>       
@@ -146,7 +146,7 @@
             You can even specify an explicit bundle name in <literal>pages.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<page view-id="/welcome/hello.jsp" bundle="HelloMessages"/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[<page view-id="/welcome/hello.jsp" bundle="HelloMessages"/>]]></programlisting>
         
         <para>
             Then we could use messages defined in <literal>HelloMessages.properties</literal>
@@ -163,13 +163,13 @@
             on every page. Instead, you can simply type:
         </para>
         
-        <programlisting><![CDATA[<h:outputText value="#{messages['Hello']}"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<h:outputText value="#{messages['Hello']}"/>]]></programlisting>
         
         <para>
             or:
         </para>
         
-        <programlisting><![CDATA[<h:outputText value="#{messages.Hello}"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<h:outputText value="#{messages.Hello}"/>]]></programlisting>
         
         <para>
             Even better, the messages themselves may contain EL expressions:
@@ -182,8 +182,8 @@
             You can even use the messages in your code:
         </para>
 
-        <programlisting><![CDATA[@In private Map<String, String> messages;]]></programlisting>
-        <programlisting><![CDATA[@In("#{messages['Hello']}") private String helloMessage;]]></programlisting>
+        <programlisting role="JAVA"><![CDATA[@In private Map<String, String> messages;]]></programlisting>
+        <programlisting role="JAVA"><![CDATA[@In("#{messages['Hello']}") private String helloMessage;]]></programlisting>
 
     </section>
     
@@ -195,7 +195,7 @@
             we just described also works for faces messages:
         </para>
 
-        <programlisting><![CDATA[@Name("hello")
+        <programlisting role="JAVA"><![CDATA[@Name("hello")
 @Stateless
 public class HelloBean implements Hello {
     @In FacesMessages facesMessages;
@@ -243,7 +243,7 @@ public class HelloBean implements Hello {
             First, configure the set of supported themes:
         </para>
         
-        <programlisting><![CDATA[<theme:theme-selector cookie-enabled="true">
+        <programlisting role="XML"><![CDATA[<theme:theme-selector cookie-enabled="true">
     <theme:available-themes>
         <value>default</value>
         <value>accessible</value>
@@ -276,18 +276,18 @@ template /template.xhtml]]></programlisting>
             to theme the stylesheet in a facelets page:
         </para>
         
-        <programlisting><![CDATA[<link href="#{theme.css}" rel="stylesheet" type="text/css" />]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<link href="#{theme.css}" rel="stylesheet" type="text/css" />]]></programlisting>
         
         <para>Or, when the page definition resides in a subdirectory:</para>
         
-        <programlisting><![CDATA[<link href="#{facesContext.externalContext.requestContextPath}#{theme.css}" 
+        <programlisting role="XHTML"><![CDATA[<link href="#{facesContext.externalContext.requestContextPath}#{theme.css}" 
     rel="stylesheet" type="text/css" />]]></programlisting>
         
         <para>
             Most powerfully, facelets lets us theme the template used by a <literal>&lt;ui:composition&gt;</literal>:
         </para>
 
-        <programlisting><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+        <programlisting role="XHTML"><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -298,7 +298,7 @@ template /template.xhtml]]></programlisting>
             the user to freely switch themes:
         </para>
 
-        <programlisting><![CDATA[<h:selectOneMenu value="#{themeSelector.theme}">
+        <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{themeSelector.theme}">
     <f:selectItems value="#{themeSelector.themes}"/>
 </h:selectOneMenu>
 <h:commandButton action="#{themeSelector.select}" value="Select Theme"/>]]></programlisting>
@@ -313,7 +313,7 @@ template /template.xhtml]]></programlisting>
             <literal>cookie-enabled</literal> property in <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<theme:theme-selector cookie-enabled="true">
+        <programlisting role="XML"><![CDATA[<theme:theme-selector cookie-enabled="true">
     <theme:available-themes>
         <value>default</value>
         <value>accessible</value>

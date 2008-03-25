@@ -100,7 +100,7 @@
             rules:
         </para>
         
-        <programlisting><![CDATA[<navigation-rule>
+        <programlisting role="XML"><![CDATA[<navigation-rule>
     <from-view-id>/numberGuess.jsp</from-view-id>
         
     <navigation-case>
@@ -128,7 +128,7 @@
             rules:
         </para>
         
-        <programlisting><![CDATA[<page view-id="/numberGuess.jsp">
+        <programlisting role="XML"><![CDATA[<page view-id="/numberGuess.jsp">
         
     <navigation>
         <rule if-outcome="guess">
@@ -149,7 +149,7 @@
             directly from your action listener methods:
         </para>
         
-        <programlisting><![CDATA[public String guess() {
+        <programlisting role="JAVA"><![CDATA[public String guess() {
     if (guess==randomNumber) return "/win.jsp";
     if (++guessCount==maxGuesses) return "/lose.jsp";
     return null;
@@ -160,7 +160,7 @@
             to be used in the redirect:
         </para>
         
-        <programlisting><![CDATA[public String search() {
+        <programlisting role="JAVA"><![CDATA[public String search() {
     return "/searchResults.jsp?searchPattern=#{searchAction.searchPattern}";
 }]]></programlisting>
         
@@ -176,7 +176,7 @@
             Here is an example page flow definition using jPDL:
         </para>
         
-        <programlisting><![CDATA[<pageflow-definition name="numberGuess">
+        <programlisting role="XML"><![CDATA[<pageflow-definition name="numberGuess">
     
    <start-page name="displayGuess" view-id="/numberGuess.jsp">
       <redirect/>
@@ -294,7 +294,7 @@
 	        no longer exists:
 	    </para>
 	    
-	    <programlisting><![CDATA[<page view-id="/checkout.xhtml" 
+	    <programlisting role="XML"><![CDATA[<page view-id="/checkout.xhtml" 
         no-conversation-view-id="/main.xhtml"/>]]></programlisting>
 	    
 	    <para>
@@ -313,7 +313,7 @@
 	        setting <literal>back="enabled"</literal>.
 	    </para>
 	    
-        <programlisting><![CDATA[<page name="checkout" 
+        <programlisting role="XML"><![CDATA[<page name="checkout" 
         view-id="/checkout.xhtml" 
         back="enabled">
     <redirect/>
@@ -335,7 +335,7 @@
             goes into the pageflow definition:
         </para>
 
-        <programlisting><![CDATA[<page name="checkout" 
+        <programlisting role="XML"><![CDATA[<page name="checkout" 
         view-id="/checkout.xhtml" 
         back="enabled" 
         no-conversation-view-id="/main.xhtml">
@@ -365,7 +365,7 @@
             Seam configuration in <literal>components.xml</literal>.
         </para>
         
-        <programlisting><![CDATA[<bpm:jbpm>
+        <programlisting role="XML"><![CDATA[<bpm:jbpm>
     <bpm:pageflow-definitions>
         <value>pageflow.jpdl.xml</value>
     </bpm:pageflow-definitions>
@@ -388,12 +388,12 @@
             annotation:
         </para>
         
-        <programlisting><![CDATA[@Begin(pageflow="numberguess")
+        <programlisting role="JAVA"><![CDATA[@Begin(pageflow="numberguess")
 public void begin() { ... }]]></programlisting>
 
 		<para>Alternatively we can start a pageflow using pages.xml:</para>
 		
-		<programlisting><![CDATA[<page>
+		<programlisting role="XML"><![CDATA[<page>
         <begin-conversation pageflow="numberguess"/>
     </page>]]></programlisting>
         
@@ -413,7 +413,7 @@ public void begin() { ... }]]></programlisting>
             outcome:
         </para>
         
-        <programlisting><![CDATA[<pageflow-definition name="viewEditDocument">
+        <programlisting role="XML"><![CDATA[<pageflow-definition name="viewEditDocument">
 
     <start-state name="start">
         <transition name="documentFound" to="displayDocument"/>
@@ -443,7 +443,7 @@ public void begin() { ... }]]></programlisting>
             the system is waiting for user input:
         </para>
         
-        <programlisting><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp">
+        <programlisting role="XML"><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp">
     <redirect/>
     <transition name="guess" to="evaluateGuess">
         <action expression="#{numberGuess.guess}" />
@@ -464,7 +464,7 @@ public void begin() { ... }]]></programlisting>
             a command button or command link in <literal>numberGuess.jsp</literal>. 
         </para>
         
-        <programlisting><![CDATA[<h:commandButton type="submit" value="Guess" action="guess"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<h:commandButton type="submit" value="Guess" action="guess"/>]]></programlisting>
         
         <para>
             When the transition is triggered by clicking this button, jBPM will activate the
@@ -484,13 +484,13 @@ public void begin() { ... }]]></programlisting>
             have names. So we could slightly simplify our example pageflow and this button:
         </para>
         
-        <programlisting><![CDATA[<h:commandButton type="submit" value="Guess"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<h:commandButton type="submit" value="Guess"/>]]></programlisting>
         
         <para>
             Would fire the following un-named transition:
         </para>
         
-        <programlisting><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp">
+        <programlisting role="XML"><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp">
     <redirect/>
     <transition to="evaluateGuess">
         <action expression="#{numberGuess.guess}" />
@@ -502,9 +502,9 @@ public void begin() { ... }]]></programlisting>
             action outcome will determine the transition to be taken:
         </para>
         
-        <programlisting><![CDATA[<h:commandButton type="submit" value="Guess" action="#{numberGuess.guess}"/>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<h:commandButton type="submit" value="Guess" action="#{numberGuess.guess}"/>]]></programlisting>
         
-<programlisting><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp">
+<programlisting role="XML"><![CDATA[<page name="displayGuess" view-id="/numberGuess.jsp">
     <transition name="correctGuess" to="win"/>
     <transition name="incorrectGuess" to="evaluateGuess"/>
 </page>]]></programlisting>
@@ -525,7 +525,7 @@ public void begin() { ... }]]></programlisting>
             We do need the <literal>&lt;decision&gt;</literal> node, however:
         </para>
         
-<programlisting><![CDATA[<decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
+<programlisting role="XML"><![CDATA[<decision name="evaluateGuess" expression="#{numberGuess.correctGuess}">
     <transition name="true" to="win"/>
     <transition name="false" to="evaluateRemainingGuesses"/>
 </decision>]]></programlisting>
@@ -545,7 +545,7 @@ public void begin() { ... }]]></programlisting>
             <emphasis>both</emphasis> is encouraged.)
         </para>
         
-<programlisting><![CDATA[<page name="win" view-id="/win.jsp">
+<programlisting role="XML"><![CDATA[<page name="win" view-id="/win.jsp">
     <redirect/>
     <end-conversation/>
 </page>]]></programlisting>
@@ -556,7 +556,7 @@ public void begin() { ... }]]></programlisting>
             overarching business process.
         </para>
         
-<programlisting><![CDATA[<page name="win" view-id="/win.jsp">
+<programlisting role="XML"><![CDATA[<page name="win" view-id="/win.jsp">
     <redirect/>
     <end-task transition="success"/>
 </page>]]></programlisting>
@@ -572,7 +572,7 @@ public void begin() { ... }]]></programlisting>
                 pageflow:
             </para>
             
-<programlisting><![CDATA[<process-state name="cheat">
+<programlisting role="XML"><![CDATA[<process-state name="cheat">
     <sub-process name="cheat"/>
     <transition to="displayGuess"/>
 </process-state>]]></programlisting>
@@ -612,7 +612,7 @@ public void begin() { ... }]]></programlisting>
             system is waiting for some user to log in and perform a task.
         </para>
         
-        <programlisting><![CDATA[<process-definition name="todo">
+        <programlisting role="XML"><![CDATA[<process-definition name="todo">
    
    <start-state name="start">
       <transition to="todo"/>
@@ -660,7 +660,7 @@ public void begin() { ... }]]></programlisting>
             business process definitions:
         </para>
         
-        <programlisting><![CDATA[<bpm:jbpm>
+        <programlisting role="XML"><![CDATA[<bpm:jbpm>
     <bpm:process-definitions>
         <value>todo.jpdl.xml</value>
     </bpm:process-definitions>
@@ -689,7 +689,7 @@ public void begin() { ... }]]></programlisting>
             <literal>actor</literal>:
         </para>
         
-        <programlisting><![CDATA[@In Actor actor;
+        <programlisting role="JAVA"><![CDATA[@In Actor actor;
 
 public String login() {
     ...
@@ -708,12 +708,12 @@ public String login() {
             <literal>@CreateProcess</literal> annotation:
         </para>
         
-        <programlisting><![CDATA[@CreateProcess(definition="todo")
+        <programlisting role="JAVA"><![CDATA[@CreateProcess(definition="todo")
 public void createTodo() { ... }]]></programlisting>
 
         <para>Alternatively we can initiate a business process using pages.xml:</para>
         
-        <programlisting><![CDATA[<page>
+        <programlisting role="XML"><![CDATA[<page>
     <create-process definition="todo" />
 </page>]]></programlisting>
 
@@ -728,7 +728,7 @@ public void createTodo() { ... }]]></programlisting>
             delegate to a Seam component:
         </para>
         
-        <programlisting><![CDATA[<task name="todo" description="#{todoList.description}">
+        <programlisting role="XML"><![CDATA[<task name="todo" description="#{todoList.description}">
     <assignment actor-id="#{actor.id}"/>
 </task>]]></programlisting>
 
@@ -737,7 +737,7 @@ public void createTodo() { ... }]]></programlisting>
             We can also assign tasks to a pool:
         </para>
 
-        <programlisting><![CDATA[<task name="todo" description="#{todoList.description}">
+        <programlisting role="XML"><![CDATA[<task name="todo" description="#{todoList.description}">
     <assignment pooled-actors="employees"/>
 </task>]]></programlisting>
 
@@ -752,7 +752,7 @@ public void createTodo() { ... }]]></programlisting>
             that users may assign to themselves:
         </para>
         
-        <programlisting><![CDATA[<h:dataTable value="#{pooledTaskInstanceList}" var="task">
+        <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{pooledTaskInstanceList}" var="task">
     <h:column>
         <f:facet name="header">Description</f:facet>
         <h:outputText value="#{task.description}"/>
@@ -767,7 +767,7 @@ public void createTodo() { ... }]]></programlisting>
             a plain JSF <literal>&lt;h:commandLink&gt;</literal>:
         </para>
 
-        <programlisting><![CDATA[<h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
+        <programlisting role="XHTML"><![CDATA[<h:commandLink action="#{pooledTask.assignToCurrentActor}"> 
     <f:param name="taskId" value="#{task.id}"/>
 </h:commandLink>]]></programlisting>
 
@@ -781,7 +781,7 @@ public void createTodo() { ... }]]></programlisting>
             a particular type that are assigned to the current user:
         </para>
         
-        <programlisting><![CDATA[<h:dataTable value="#{taskInstanceListForType['todo']}" var="task">
+        <programlisting role="XHTML"><![CDATA[<h:dataTable value="#{taskInstanceListForType['todo']}" var="task">
     <h:column>
         <f:facet name="header">Description</f:facet>
         <h:outputText value="#{task.description}"/>
@@ -801,12 +801,12 @@ public void createTodo() { ... }]]></programlisting>
             or <literal>@BeginTask</literal> on the listener method:
         </para>
         
-        <programlisting><![CDATA[@StartTask
+        <programlisting role="JAVA"><![CDATA[@StartTask
 public String start() { ... }]]></programlisting>
 
         <para>Alternatively we can begin work on a task using pages.xml:</para>
         
-        <programlisting><![CDATA[<page>
+        <programlisting role="XML"><![CDATA[<page>
     <start-task />
 </page>]]></programlisting>
         
@@ -822,12 +822,12 @@ public String start() { ... }]]></programlisting>
             will signal the completion of the task:
         </para>
         
-        <programlisting><![CDATA[@EndTask(transition="completed")
+        <programlisting role="JAVA"><![CDATA[@EndTask(transition="completed")
 public String completed() { ... }]]></programlisting>
 
         <para>Alternatively we can use pages.xml:</para>
         
-        <programlisting><![CDATA[<page>
+        <programlisting role="XML"><![CDATA[<page>
     <end-task transition="completed" />
 </page>]]></programlisting>
 

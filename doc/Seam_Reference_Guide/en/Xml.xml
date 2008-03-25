@@ -95,7 +95,7 @@
                 For example, the following <literal>components.xml</literal> file installs jBPM: 
             </para>
 
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns:bpm="http://jboss.com/products/seam/bpm">
     <bpm:jbpm/>
@@ -105,7 +105,7 @@
                 This example does the same thing:
             </para>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
     <component class="org.jboss.seam.bpm.Jbpm"/>
 </components>]]></programlisting>
 
@@ -113,7 +113,7 @@
                 This one installs and configures two different Seam-managed persistence contexts:
             </para>
 
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
             xmlns:persistence="http://jboss.com/products/seam/persistence"
 
     <persistence:managed-persistence-context name="customerDatabase"
@@ -128,7 +128,7 @@
                 As does this one:
             </para>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
     <component name="customerDatabase" 
               class="org.jboss.seam.persistence.ManagedPersistenceContext">
         <property name="persistenceUnitJndiName">java:/customerEntityManagerFactory</property>
@@ -145,7 +145,7 @@
                 practice):
             </para>
 
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
             xmlns:persistence="http://jboss.com/products/seam/persistence"
 
   <persistence:managed-persistence-context name="productDatabase" 
@@ -154,7 +154,7 @@
 
 </components>]]></programlisting>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
             
     <component name="productDatabase"
               scope="session"
@@ -171,7 +171,7 @@
                 annotation.
             </para>
 
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components" 
             xmlns:persistence="http://jboss.com/products/seam/persistence"
 
   <persistence:managed-persistence-context name="productDatabase" 
@@ -180,7 +180,7 @@
 
 </components>]]></programlisting>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
             
     <component name="productDatabase"
         auto-create="true"
@@ -196,7 +196,7 @@
                 referenced.
             </para>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
 
     <factory name="contact" method="#{contactManager.loadContact}" scope="CONVERSATION"/>
 
@@ -206,7 +206,7 @@
                 You can create an "alias" (a second name) for a Seam component like so: 
             </para>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
 
     <factory name="user" value="#{actor}" scope="STATELESS"/>
 
@@ -216,7 +216,7 @@
                 You can even create an "alias" for a commonly used expression: 
             </para>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
 
     <factory name="contact" value="#{contactManager.contact}" scope="STATELESS"/>
 
@@ -227,7 +227,7 @@
                 <literal>&lt;factory&gt;</literal> declaration:
             </para>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
 
     <factory name="session" value="#{entityManager.delegate}" scope="STATELESS" auto-create="true"/>
 
@@ -258,7 +258,7 @@
                 The first option lets you define multiple components in the file: 
             </para>
 
-            <programlisting><![CDATA[<components>
+            <programlisting role="XML"><![CDATA[<components>
     <component class="com.helloworld.Hello" name="hello">
         <property name="name">#{user.name}</property>
     </component>
@@ -269,7 +269,7 @@
                 The second option only lets you define or configure one component, but is less noisy: 
             </para>
 
-            <programlisting><![CDATA[<component name="hello">
+            <programlisting role="XML"><![CDATA[<component name="hello">
     <property name="name">#{user.name}</property>
 </component>]]></programlisting>
 
@@ -292,9 +292,9 @@
 
             <programlisting><![CDATA[org.jboss.seam.core.manager.conversationTimeout 60000]]></programlisting>
 
-            <programlisting><![CDATA[<core:manager conversation-timeout="60000"/>]]></programlisting>
+            <programlisting role="XML"><![CDATA[<core:manager conversation-timeout="60000"/>]]></programlisting>
 
-            <programlisting><![CDATA[<component name="org.jboss.seam.core.manager">
+            <programlisting role="XML"><![CDATA[<component name="org.jboss.seam.core.manager">
     <property name="conversationTimeout">60000</property>
 </component>]]></programlisting>
 
@@ -304,7 +304,7 @@
 
             <programlisting><![CDATA[org.jboss.seam.bpm.jbpm.processDefinitions order.jpdl.xml, return.jpdl.xml, inventory.jpdl.xml]]></programlisting>
 
-            <programlisting><![CDATA[<bpm:jbpm>
+            <programlisting role="XML"><![CDATA[<bpm:jbpm>
     <bpm:process-definitions>
         <value>order.jpdl.xml</value>
         <value>return.jpdl.xml</value>
@@ -312,7 +312,7 @@
     </bpm:process-definitions>
 </bpm:jbpm>]]></programlisting>
 
-            <programlisting><![CDATA[<component name="org.jboss.seam.bpm.jbpm">
+            <programlisting role="XML"><![CDATA[<component name="org.jboss.seam.bpm.jbpm">
     <property name="processDefinitions">
         <value>order.jpdl.xml</value>
         <value>return.jpdl.xml</value>
@@ -324,7 +324,7 @@
                 Even maps with String-valued keys and string or primitive values are supported: 
             </para>
 
-            <programlisting><![CDATA[<component name="issueEditor">
+            <programlisting role="XML"><![CDATA[<component name="issueEditor">
     <property name="issueStatuses">
         <key>open</key> <value>open issue</value>
         <key>resolved</key> <value>issue resolved by developer</value>
@@ -340,9 +340,9 @@
             </para>
 
 
-            <programlisting><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory" rule-base="#{policyPricingRules}"/>]]></programlisting>
+            <programlisting role="XML"><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory" rule-base="#{policyPricingRules}"/>]]></programlisting>
 
-            <programlisting><![CDATA[<component name="policyPricingWorkingMemory"
+            <programlisting role="XML"><![CDATA[<component name="policyPricingWorkingMemory"
           class="org.jboss.seam.drools.ManagedWorkingMemory">
     <property name="ruleBase">#{policyPricingRules}</property>
 </component>]]></programlisting>
@@ -357,7 +357,7 @@
                 without namespaces:
             </para>
 
-            <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+            <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
             xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
@@ -375,7 +375,7 @@
 
             <para>The namespaced version looks like this:</para>
 
-            <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+            <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -407,7 +407,7 @@
                 <literal>package-info.java</literal> in the package directory.) Here is an example from the seampay demo:
             </para>
 
-            <programlisting>@Namespace(value="http://jboss.com/products/seam/examples/seampay")
+            <programlisting role="JAVA">@Namespace(value="http://jboss.com/products/seam/examples/seampay")
 package org.jboss.seam.example.seampay;
 
 import org.jboss.seam.annotations.Namespace;</programlisting>
@@ -417,7 +417,7 @@ import org.jboss.seam.annotations.Namespace;</programlisting>
                 Now we can write:
             </para>
 
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:pay="http://jboss.com/products/seam/examples/seampay"
             ... >
 
@@ -434,7 +434,7 @@ import org.jboss.seam.annotations.Namespace;</programlisting>
 
             <para>Or:</para>
 
-            <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:pay="http://jboss.com/products/seam/examples/seampay"
             ... >
 
@@ -458,7 +458,7 @@ import org.jboss.seam.annotations.Namespace;</programlisting>
                 component:
             </para>
 
-            <programlisting><![CDATA[package org.jboss.seam.example.seampay;
+            <programlisting role="JAVA"><![CDATA[package org.jboss.seam.example.seampay;
 ...
 @Name("paymentHome")
 public class PaymentController
@@ -478,7 +478,7 @@ public class PaymentController
                 In this case <literal>Payment</literal> is an entity that is being declared as a Seam component:
             </para>
 
-            <programlisting><![CDATA[package org.jboss.seam.example.seampay;
+            <programlisting role="JAVA"><![CDATA[package org.jboss.seam.example.seampay;
 ...
 @Entity
 public class Payment

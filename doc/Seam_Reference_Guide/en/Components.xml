@@ -35,7 +35,7 @@
             session context object injected:
         </para>
         
-        <programlisting><![CDATA[@In private Context sessionContext;]]></programlisting>
+        <programlisting role="JAVA"><![CDATA[@In private Context sessionContext;]]></programlisting>
     
     	<variablelist >
             <varlistentry>
@@ -1343,7 +1343,7 @@
             <literal>components.xml</literal> install and configure two Seam components:
         </para>
         
-        <programlisting><![CDATA[<component name="bookingDatabase"
+        <programlisting role="XML"><![CDATA[<component name="bookingDatabase"
           class="org.jboss.seam.persistence.ManagedPersistenceContext">
     <property name="persistenceUnitJndiName">java:/comp/emf/bookingPersistence</property>
 </component>

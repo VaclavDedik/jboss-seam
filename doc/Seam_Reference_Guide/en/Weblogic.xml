@@ -449,20 +449,21 @@ not allowed here
                      <literal>resources/META-INF/persistence.xml</literal>
                   </term>
                   <listitem>
-                     <para>
                         <itemizedlist>
                            <listitem>
                               <para>Because the tech preview version will
                                  only work with <literal>kodo</literal> or
                                  <literal>openJPA</literal> as the JPA
                                  provider you must change the provider to :
-                                 <programlisting><![CDATA[<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>]]></programlisting></para>
+                              </para>
+                              <programlisting role="XML"><![CDATA[<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>]]></programlisting>
                            </listitem>
                            <listitem>
                               <para> Next you need to change the
                                  <literal>jta-data-source</literal> to
                                  what you entered above :
-                                 <programlisting><![CDATA[<jta-data-source>seam-jee5-ds</jta-data-source>]]></programlisting></para>
+                              </para>
+                              <programlisting role="XML"><![CDATA[<jta-data-source>seam-jee5-ds</jta-data-source>]]></programlisting>
                            </listitem>
                            <listitem>
                               <para>The other properties in the file are
@@ -470,7 +471,7 @@ not allowed here
                                  <literal>openJPA</literal> but can be
                                  left in.</para>
                            </listitem>
-                        </itemizedlist> </para>
+                        </itemizedlist>
                   </listitem>
                </varlistentry>
             </variablelist>
@@ -493,11 +494,12 @@ not allowed here
                         is only needed if using the admin console to deploy.  For 
                         some reason Weblogic needs it in the <literal>WAR</literal>
                         when it scans the application.
-                        <programlisting><![CDATA[<fileset id="war.lib.extras" dir="${seam.dir}">
+                     </para>
+                     <programlisting role="XML"><![CDATA[<fileset id="war.lib.extras" dir="${seam.dir}">
    <include name="lib/jsf-api.jar" />
    <include name="lib/jsf-impl.jar" />
    <include name="lib/richfaces-api.jar" />
-</fileset>]]></programlisting></para>
+</fileset>]]></programlisting>
                   </listitem>
                </varlistentry>
             </variablelist>
@@ -621,6 +623,7 @@ TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:113:
             <listitem>
                <para>Between the the Weblogic 10.x and 9.2 examples there are
                   several differences:
+               </para>
                   <itemizedlist>
                      <listitem>
                         <para>
@@ -642,7 +645,7 @@ TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java:113:
                            issue as well. </para>
                         
                         
-                        <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+                        <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <weblogic-web-app
 xmlns="http://www.bea.com/ns/weblogic/90"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -662,33 +665,35 @@ xsi:schemaLocation="http://www.bea.com/ns/weblogic/90
                            file. </para>
                         
                         
-                        <programlisting><![CDATA[<property name="hibernate.query.factory_class" 
+                        <programlisting role="XML"><![CDATA[<property name="hibernate.query.factory_class" 
       value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory"/>]]></programlisting>
                      </listitem>
                      <listitem>
                         <para>
                            <literal>WEB-INF/components.xml</literal>
                            &#8212; In the Weblogic 10.x version JPA entity
-                           transactions is enabled by adding:
+                           transactions is enabled by adding:</para>
                            
                            
-                           <programlisting><![CDATA[<transaction:entity-transaction entity-manager="#{em}"/>]]></programlisting>
-                           </para>
+                        <programlisting role="XML"><![CDATA[<transaction:entity-transaction entity-manager="#{em}"/>]]></programlisting>
+                           
                      </listitem>
-                  </itemizedlist> </para>
+                  </itemizedlist>
             </listitem>
             <listitem>
                <para>Between the Weblogic 10.x version and the JBoss version
                   there are more changes. Here is the rundown:
+               </para>
                   <itemizedlist>
                      <listitem>
                         <para>
                            <literal>META-INF/persistence.xml</literal>
                            &#8212; Except for datasource name the WebLogic
                            version sets:
-                           <programlisting><![CDATA[<property name="hibernate.transaction.manager_lookup_class" 
-      value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/>]]></programlisting>
                            </para>
+                           <programlisting role="XML"><![CDATA[<property 
+   name="hibernate.transaction.manager_lookup_class" 
+   value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/>]]></programlisting>
                      </listitem>
                      <listitem>
                         <para><literal>WEB-INF/jboss-web.xml</literal>
@@ -701,10 +706,12 @@ xsi:schemaLocation="http://www.bea.com/ns/weblogic/90
                            packages because they are not included as they are
                            with JBoss AS. These are primarily for hibernate,
                            JSF-RI support and their dependencies.
+                        </para>
                            <itemizedlist>
                               <listitem>
                                  <para> To use Hibernate as your JPA provider
                                     you need the following jars:
+                                 </para>
                                     <itemizedlist>
                                        <listitem>
                                           <simpara>
@@ -746,13 +753,14 @@ xsi:schemaLocation="http://www.bea.com/ns/weblogic/90
                                              <literal>jboss-archive-browsing.jar</literal>
                                              </simpara>
                                        </listitem>
-                                    </itemizedlist> </para>
+                                    </itemizedlist>
                               </listitem>
                               <listitem>
                                  <para>Seam requires JSF 1.2 and these are
                                     jars needed for that. Weblogic 10.3.TP
                                     does not ship JSF libraries installed by
                                     default.
+                                 </para>
                                     <itemizedlist>
                                        <listitem>
                                           <simpara>
@@ -764,11 +772,12 @@ xsi:schemaLocation="http://www.bea.com/ns/weblogic/90
                                              <literal>jsf-impl.jar</literal>
                                              </simpara>
                                        </listitem>
-                                    </itemizedlist> </para>
+                                    </itemizedlist>
                               </listitem>
                               <listitem>
                                  <para>Various third party jars that
                                     Weblogic needs:
+                                 </para>
                                     <itemizedlist>
                                        <listitem>
                                           <simpara>
@@ -800,11 +809,11 @@ xsi:schemaLocation="http://www.bea.com/ns/weblogic/90
                                              <literal>javassist.jar</literal>
                                              </simpara>
                                        </listitem>
-                                    </itemizedlist> </para>
+                                    </itemizedlist>
                               </listitem>
-                           </itemizedlist> </para>
+                           </itemizedlist>
                      </listitem>
-                  </itemizedlist> </para>
+                  </itemizedlist>
             </listitem>
          </itemizedlist>
       </section>
@@ -918,7 +927,6 @@ BUILD SUCCESSFUL]]></programlisting>
          
          <section>
             <title>Configuration file changes</title>
-            <para>
                <variablelist>
                   <varlistentry>
                      <term> <literal>build.xml</literal>
@@ -928,8 +936,9 @@ BUILD SUCCESSFUL]]></programlisting>
                            <listitem>
                               <para>Change the default target to
                                  <literal>archive</literal>.
-                                 <programlisting><![CDATA[<project name="weblogic_example" default="archive" basedir=".">]]></programlisting>
-                                 </para>
+                                 
+                              </para>
+                              <programlisting role="XML"><![CDATA[<project name="weblogic_example" default="archive" basedir=".">]]></programlisting>
                            </listitem>
                         </itemizedlist>
                      </listitem>
@@ -953,12 +962,12 @@ BUILD SUCCESSFUL]]></programlisting>
                               <para>Change the transaction type to
                                  <literal>RESOURCE_LOCAL</literal> so
                                  that we can use JPA transactions.</para>
-                              <programlisting><![CDATA[<persistence-unit name="weblogic_example" transaction-type="RESOURCE_LOCAL">]]></programlisting>
+                              <programlisting role="XML"><![CDATA[<persistence-unit name="weblogic_example" transaction-type="RESOURCE_LOCAL">]]></programlisting>
                            </listitem>
                            <listitem>
                               <para> Add/modify the properties below for
                                  Weblogic support:</para>
-                              <programlisting><![CDATA[<property name="hibernate.cache.provider_class" 
+                              <programlisting role="XML"><![CDATA[<property name="hibernate.cache.provider_class" 
     value="org.hibernate.cache.HashtableCacheProvider"/>
 <property name="hibernate.transaction.manager_lookup_class" 
     value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/>
@@ -968,7 +977,7 @@ BUILD SUCCESSFUL]]></programlisting>
                               <para> Remove the JBoss AS specific method of
                                  exposing the EntityManagerFactory:
                                  </para>
-                              <programlisting><![CDATA[<property 
+                              <programlisting role="XML"><![CDATA[<property 
  name="jboss.entity.manager.factory.jndi.name" 
  value="java:/weblogic_exampleEntityManagerFactory">]]></programlisting>
                            </listitem>
@@ -998,12 +1007,12 @@ BUILD SUCCESSFUL]]></programlisting>
                      <listitem>
                         <para> We want to use JPA transactions so we need to add
                            the following to let Seam know. </para>
-                        <programlisting><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
+                        <programlisting role="XML"><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
                         <para>You will also need to add the transaction
                            namespace and schema location to the top of the
                            document.</para>
-                        <programlisting><![CDATA[xmlns:transaction="http://jboss.com/products/seam/transaction"]]></programlisting>
-                        <programlisting><![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd]]></programlisting>
+                        <programlisting role="XML"><![CDATA[xmlns:transaction="http://jboss.com/products/seam/transaction"]]></programlisting>
+                        <programlisting role="XML"><![CDATA[http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd]]></programlisting>
                      </listitem>
                   </varlistentry>
                   <varlistentry>
@@ -1027,7 +1036,7 @@ BUILD SUCCESSFUL]]></programlisting>
                            administration console.</para>
                      </listitem>
                   </varlistentry>
-               </variablelist> </para>
+               </variablelist>
          </section>
          <section id="weblogic-seam-gen-lib-changes">
             <title>Library changes</title>
@@ -1044,6 +1053,7 @@ BUILD SUCCESSFUL]]></programlisting>
                      <literal>seam-gen</literal> does not provide by
                      default. These need to be copied into your projects
                      <literal>lib</literal> directory manually.
+                  </para>
                      <itemizedlist>
                         <listitem>
                            <para>jboss-archive-browsing.jar &#8212; can
@@ -1056,16 +1066,16 @@ BUILD SUCCESSFUL]]></programlisting>
                               <literal>@SEAM_DIST/examples/jpa/lib</literal>
                               directory. </para>
                         </listitem>
-                     </itemizedlist> </para>
+                     </itemizedlist>
                </listitem>
                <listitem>
                   <para>build.xml &#8212; Now we need to adjust the
                      <literal>build.xml</literal>. Find the target
                      <literal>war</literal> and add the following to the end
-                     of the target.
+                     of the target.</para>
                      
                      
-                     <programlisting><![CDATA[<copy todir="${war.dir}/WEB-INF/lib">
+                     <programlisting role="XML"><![CDATA[<copy todir="${war.dir}/WEB-INF/lib">
                   <fileset dir="${lib.dir}">
                      <!--JSF implementation -->
                      <include name="jsf-api.jar" />
@@ -1090,7 +1100,6 @@ BUILD SUCCESSFUL]]></programlisting>
                      <include name="core.jar"/>
                   </fileset>
               </copy>]]></programlisting>
-                     </para>
                </listitem>
             </itemizedlist>
             
@@ -1155,9 +1164,10 @@ BUILD SUCCESSFUL]]></programlisting>
                   linkend="weblogic-domain"/> we chose to have the domain in
                development mode. This means to deploy the application all we
                need to do is copy it into the autodeploy directory.
+            </para>
                
                
-               <programlisting>cp  ./dist/weblogic_example.war /home/jbalunas/bea/user_projects/domains/seam_examples/autodeploy</programlisting></para>
+               <programlisting role="XML">cp  ./dist/weblogic_example.war /home/jbalunas/bea/user_projects/domains/seam_examples/autodeploy</programlisting>
             <para>Check out the application at the following
                <literal>http://localhost:7001/weblogic_example/</literal>
                .</para>

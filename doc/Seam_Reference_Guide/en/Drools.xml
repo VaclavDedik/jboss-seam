@@ -19,7 +19,7 @@
             this component via <literal>components.xml</literal>:
         </para>
 
-        <programlisting><![CDATA[<drools:rule-base name="policyPricingRules">
+        <programlisting role="XML"><![CDATA[<drools:rule-base name="policyPricingRules">
     <drools:rule-files>
         <value>policyPricingRules.drl</value>
     </drools:rule-files>
@@ -38,7 +38,7 @@
              definition:
          </para>
          
-        <programlisting><![CDATA[<drools:rule-base name="policyPricingRules" dsl-file="policyPricing.dsl">
+        <programlisting role="XML"><![CDATA[<drools:rule-base name="policyPricingRules" dsl-file="policyPricing.dsl">
     <drools:rule-files>
         <value>policyPricingRules.drl</value>
     </drools:rule-files>
@@ -52,7 +52,7 @@
             also configurable in <literal>components.xml</literal>:
         </para>
         
-                <programlisting><![CDATA[<drools:rule-agent name="insuranceRules" 
+                <programlisting role="XML"><![CDATA[<drools:rule-agent name="insuranceRules" 
                     configurationFile="/WEB-INF/deployedrules.properties" />]]></programlisting>
         
         <para>The properties file contains properties specific to the RulesAgent. Here is an example configuration file from the
@@ -67,11 +67,11 @@ name=insuranceconfig</programlisting>
         
         <para>It is also possible to configure the options on the component directly, bypassing the configuration file.</para>
 
-       <programlisting>&lt;drools:rule-agent name=&quot;insuranceRules&quot;
-                   url=&quot;http://localhost:8080/drools-jbrms/org.drools.brms.JBRMS/package/org.acme.insurance/fmeyer&quot;
-                   local-cache-dir=&quot;/Users/fernandomeyer/projects/jbossrules/drools-examples/drools-examples-brms/cache&quot;
-                   poll=&quot;30&quot;
-                   configuration-name=&quot;insuranceconfig&quot; /&gt;</programlisting>
+       <programlisting role="XML"><![CDATA[<drools:rule-agent name="insuranceRules"
+   url="http://localhost:8080/drools-jbrms/org.drools.brms.JBRMS/package/org.acme.insurance/fmeyer"
+   local-cache-dir="/Users/fernandomeyer/projects/jbossrules/drools-examples/drools-examples-brms/cache"
+   poll="30"
+   configuration-name="insuranceconfig" />]]></programlisting>
         
          <para>
              Next, we need to make an instance of <literal>org.drools.WorkingMemory</literal>
@@ -79,7 +79,7 @@ name=insuranceconfig</programlisting>
              accumulates facts relating to the current conversation.)
          </para>
         
-         <programlisting><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory" auto-create="true" rule-base="#{policyPricingRules}"/>]]></programlisting>
+         <programlisting role="XML"><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory" auto-create="true" rule-base="#{policyPricingRules}"/>]]></programlisting>
 
          <para>
              Notice that we gave the <literal>policyPricingWorkingMemory</literal> a
@@ -97,7 +97,7 @@ name=insuranceconfig</programlisting>
              assert facts, and fire rules:
          </para>
          
-         <programlisting><![CDATA[@In WorkingMemory policyPricingWorkingMemory;
+         <programlisting role="JAVA"><![CDATA[@In WorkingMemory policyPricingWorkingMemory;
 
 @In Policy policy;
 @In Customer customer;
@@ -120,7 +120,7 @@ public void pricePolicy() throws FactException
              process definition.
          </para>
          
-         <programlisting><![CDATA[<decision name="approval">
+         <programlisting role="XML"><![CDATA[<decision name="approval">
          
     <handler class="org.jboss.seam.drools.DroolsDecisionHandler">
         <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>
@@ -156,7 +156,7 @@ public void pricePolicy() throws FactException
              There is also support for using Drools for jBPM task assignments:
          </para>
          
-         <programlisting><![CDATA[<task-node name="review">
+         <programlisting role="XML"><![CDATA[<task-node name="review">
     <task name="review" description="Review Order">
         <assignment handler="org.jboss.seam.drools.DroolsAssignmentHandler">
             <workingMemoryName>orderApprovalRulesWorkingMemory</workingMemoryName>

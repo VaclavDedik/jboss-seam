@@ -146,7 +146,7 @@
             Now you can inject the cache into any Seam component:
         </para>
         
-        <programlisting><![CDATA[@Name("chatroom")
+        <programlisting role="JAVA"><![CDATA[@Name("chatroom")
 public class Chatroom {
     @In PojoCache pojoCache;
     
@@ -173,7 +173,7 @@ public class Chatroom {
             use <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<core:pojo-cache name="myCache" cfg-resource-name="myown/cache.xml"/>]]></programlisting>
+        <programlisting role="JAVA"><![CDATA[<core:pojo-cache name="myCache" cfg-resource-name="myown/cache.xml"/>]]></programlisting>
         
     </section>
     
@@ -194,7 +194,7 @@ public class Chatroom {
             blog entries:
         </para>
         
-        <programlisting><![CDATA[<s:cache key="recentEntries-#{blog.id}" region="welcomePageFragments">
+        <programlisting role="XHTML"><![CDATA[<s:cache key="recentEntries-#{blog.id}" region="welcomePageFragments">
    <h:dataTable value="#{blog.recentEntries}" var="blogEntry">
       <h:column>
          <h3>#{blogEntry.title}</h3>
@@ -219,7 +219,7 @@ public class Chatroom {
             blogger posts a new entry). So you need to evict the cached fragment manually:
         </para>
         
-        <programlisting><![CDATA[public void post() {
+        <programlisting role="JAVA"><![CDATA[public void post() {
     ...
     entityManager.persist(blogEntry);
     pojoCache.remove("welcomePageFragments", "recentEntries-" + blog.getId() );

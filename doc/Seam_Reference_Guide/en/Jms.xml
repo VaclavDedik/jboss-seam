@@ -43,7 +43,7 @@
             EJB 3.0, and add the following line to <literal>components.xml</literal>:
         </para>
         
-        <programlisting><![CDATA[<async:timer-service-dispatcher/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[<async:timer-service-dispatcher/>]]></programlisting>
         
         <para>
             then your asynchronous tasks will be processed by the container's EJB timer service. If 
@@ -61,7 +61,7 @@
             dispatcher.
         </para>
         
-        <programlisting><![CDATA[<async:quartz-dispatcher/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[<async:quartz-dispatcher/>]]></programlisting>
             
         <para>
             The Seam API for the default <literal>ScheduledThreadPoolExecutor</literal>, the EJB3 
@@ -85,7 +85,7 @@
             asynchronously.
         </para>
         
-        <programlisting><![CDATA[@Local
+        <programlisting role="JAVA"><![CDATA[@Local
 public interface PaymentHandler
 {
     @Asynchronous
@@ -100,7 +100,7 @@ public interface PaymentHandler
             The use of asynchronicity is transparent to the bean class:
         </para>
         
-        <programlisting><![CDATA[@Stateless
+        <programlisting role="JAVA"><![CDATA[@Stateless
 @Name("paymentHandler")
 public class PaymentHandlerBean implements PaymentHandler
 {
@@ -114,7 +114,7 @@ public class PaymentHandlerBean implements PaymentHandler
             And also transparent to the client:
         </para>
         
-        <programlisting><![CDATA[@Stateful
+        <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("paymentAction")
 public class CreatePaymentAction
 {
@@ -140,7 +140,7 @@ public class CreatePaymentAction
             <literal>@IntervalDuration</literal> annotations.
         </para>
         
-        <programlisting><![CDATA[@Local
+        <programlisting role="JAVA"><![CDATA[@Local
 public interface PaymentHandler
 {
     @Asynchronous
@@ -152,7 +152,7 @@ public interface PaymentHandler
                                         @IntervalDuration Long interval)'
 }]]></programlisting>
         
-        <programlisting><![CDATA[@Stateful
+        <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("paymentAction")
 public class CreatePaymentAction
 {
@@ -178,14 +178,14 @@ public class CreatePaymentAction
             the invocation. The <literal>Timer</literal> object shown below is the EJB3 timer when you use the EJB3 dispatcher. For the default <literal>ScheduledThreadPoolExecutor</literal>, the returned object is <literal>Future</literal> from the JDK. For the Quartz dispatcher, it returns <literal>QuartzTriggerHandle</literal>, which we will discuss in the next section.
         </para>
 
-        <programlisting><![CDATA[@Local
+        <programlisting role="JAVA"><![CDATA[@Local
 public interface PaymentHandler
 {
     @Asynchronous
     public Timer processScheduledPayment(Payment payment, @Expiration Date date);
 }]]></programlisting>
         
-        <programlisting><![CDATA[@Stateless
+        <programlisting role="JAVA"><![CDATA[@Stateless
 @Name("paymentHandler")
 public class PaymentHandlerBean implements PaymentHandler
 {
@@ -200,7 +200,7 @@ public class PaymentHandlerBean implements PaymentHandler
 
 }]]></programlisting>
         
-        <programlisting><![CDATA[@Stateful
+        <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("paymentAction")
 public class CreatePaymentAction
 {
@@ -230,7 +230,7 @@ public class CreatePaymentAction
         
         <para>The <literal>@FinalExpiration</literal> annotation specifies an end date for the recurring task.</para>
         
-        <programlisting><![CDATA[
+        <programlisting role="JAVA"><![CDATA[
     // Defines the method in the "processor" component
     @Asynchronous
     public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
@@ -252,7 +252,7 @@ public class CreatePaymentAction
 
         <para>Note that the method returns the <literal>QuartzTriggerHandle</literal> object, which you can use later to stop, pause, and resume the scheduler. The <literal>QuartzTriggerHandle</literal> object is serializable, so you can save it into the database if you need to keep it around for extended period of time.</para>
         
-        <programlisting><![CDATA[QuartzTriggerHandle handle =
+        <programlisting role="JAVA"><![CDATA[QuartzTriggerHandle handle =
          processor.schedulePayment(payment.getPaymentDate(), 
                                    payment.getPaymentCron(), 
                                    payment);
@@ -269,7 +269,7 @@ public class CreatePaymentAction
         <para>The <literal>@IntervalCron</literal> annotation supports Unix cron job syntax for task scheduling. For instance, the following asynchronous method runs at 2:10pm and at 2:44pm every Wednesday in the month of March.
         </para>
         
-        <programlisting><![CDATA[
+        <programlisting role="JAVA"><![CDATA[
     // Define the method
     @Asynchronous
     public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
@@ -289,7 +289,7 @@ public class CreatePaymentAction
         <para>The <literal>@IntervalBusinessDay</literal> annotation supports invocation on the "nth Business Day" scenario. For instance, the following asynchronous method runs at 14:00 on the 2nd business day of each month. By default, it excludes all weekends and US federal holidays until 2010 from the business days.
         </para>
         
-        <programlisting><![CDATA[
+        <programlisting role="JAVA"><![CDATA[
     // Define the method
     @Asynchronous
     public QuartzTriggerHandle schedulePayment(@Expiration Date when, 
@@ -309,7 +309,7 @@ public class CreatePaymentAction
 
         <para>The <literal>NthBusinessDay</literal> object contains the configuration of the invocation trigger. You can specify more holidays (e.g., company holidays, non-US holidays etc.) via the <literal>additionalHolidays</literal> property.</para>
         
-        <programlisting><![CDATA[
+        <programlisting role="JAVA"><![CDATA[
 public class NthBusinessDay implements Serializable
 {
       int n;
@@ -387,7 +387,7 @@ public class NthBusinessDay implements Serializable
             <literal>QueueSender</literal>s:
         </para>
         
-        <programlisting><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" 
+        <programlisting role="XML"><![CDATA[<jms:managed-topic-publisher name="stockTickerPublisher" 
                              auto-create="true" 
                              topic-jndi-name="topic/stockTickerTopic"/>
 
@@ -404,7 +404,7 @@ public class NthBusinessDay implements Serializable
             <literal>TopicSession</literal> into any component:
         </para>
         
-        <programlisting><![CDATA[@In 
+        <programlisting role="JAVA"><![CDATA[@In 
 private TopicPublisher stockTickerPublisher;   
 @In 
 private TopicSession topicSession;
@@ -422,7 +422,7 @@ public void publish(StockPrice price) {
 
         <para>Or, for working with a queue:</para>
 
-        <programlisting><![CDATA[@In
+        <programlisting role="JAVA"><![CDATA[@In
 private QueueSender paymentQueueSender;   
 @In
 private QueueSession queueSession;

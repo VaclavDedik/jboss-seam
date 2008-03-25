@@ -133,9 +133,9 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>&lt;p:document xmlns:p=&quot;http://jboss.com/products/seam/pdf&quot;&gt;                                                      
+                                <programlisting role="XHTML"><![CDATA[<p:document xmlns:p="http://jboss.com/products/seam/pdf">                                                      
   The document goes here.                                                                                             
-&lt;/p:document&gt;</programlisting>
+</p:document>]]></programlisting>
 
 
                             </entry>
@@ -234,24 +234,12 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>&lt;p:paragraph alignment=&quot;justify&quot;&gt;
+                                <programlisting role="XHTML"><![CDATA[<p:paragraph alignment="justify">
     This is a simple document.  It isn't very fancy.
-&lt;/p:paragraph&gt;</programlisting>
+</p:paragraph>]]></programlisting>
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -283,25 +271,14 @@
                                     <emphasis>Usage</emphasis>
                                 </para>
 
-                                <programlisting>&lt;p:paragraph&gt;
-    The item costs &lt;p:text value=&quot;#{product.price}&quot;&gt;
-        &lt;f:convertNumber type=&quot;currency&quot; currencySymbol=&quot;$&quot;/&gt;
-    &lt;/p:text&gt;
-&lt;/p:paragraph&gt;</programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:paragraph>
+    The item costs <p:text value="#{product.price}">
+        <f:convertNumber type="currency" currencySymbol="$"/>
+    </p:text>
+</p:paragraph>]]></programlisting>
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -331,35 +308,24 @@
                                     <emphasis>Usage</emphasis>
                                 </para>
 
-                                <programlisting>
-&lt;p:html value=&quot;This is HTML with &amp;lt;b&amp;gt;some markup&amp;lt;/b&amp;gt;.&quot; /&gt;
-&lt;p:html&gt;
-    &lt;h1&gt;This is more complex HTML&lt;/h1&gt;
-    &lt;ul&gt;
-        &lt;li&gt;one&lt;/li&gt;
-        &lt;li&gt;two&lt;/li&gt;
-        &lt;li&gt;three&lt;/li&gt;
-    &lt;/ul&gt;
-&lt;/p:html&gt;
+                                <programlisting role="XHTML"><![CDATA[
+<p:html value="This is HTML with <b>some markup</b>." />
+<p:html>
+    <h1>This is more complex HTML</h1>
+    <ul>
+        <li>one</li>
+        <li>two</li>
+        <li>three</li>
+    </ul>
+</p:html>
 
-&lt;p:html&gt;
-    &lt;s:formattedText value=&quot;*This* is |Seam Text| as HTML.  It&apos;s very^cool^.&quot; /&gt;
-&lt;/p:html&gt;                                    
-</programlisting>
+<p:html>
+    <s:formattedText value="*This* is |Seam Text| as HTML.  It's very^cool^." />
+</p:html>                                    
+]]></programlisting>
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -406,24 +372,12 @@
                                     <emphasis>Usage</emphasis>
                                 </para>
 
-                                <programlisting>&lt;p:font name=&quot;courier&quot; style=&quot;bold&quot; size=&quot;24&quot;&gt;
-    &lt;p:paragraph&gt;My Title&lt;/p:paragraph&gt;
-&lt;/p:font&gt;</programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:font name="courier" style="bold" size="24">
+    <p:paragraph>My Title</p:paragraph>
+</p:font>]]></programlisting>
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -443,22 +397,10 @@
                                     <emphasis>Usage</emphasis>
                                 </para>
 
-                                <programlisting>&lt;p:newPage /&gt;</programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:newPage />]]></programlisting>
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -584,22 +526,12 @@
                                 </para>
 
 
-                                <programlisting>&lt;p:image value=&quot;/jboss.jpg&quot; /&gt;</programlisting>
-                                <programlisting>&lt;p:image value=&quot;#{images.chart}&quot; /&gt;</programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:image value="/jboss.jpg" />]]></programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:image value="#{images.chart}" />]]></programlisting>
 
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -640,12 +572,12 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>&lt;p:listItem&gt;&lt;p:anchor reference=&quot;#reason1&quot;&gt;Reason 1&lt;/p:anchor&gt;&lt;/p:listItem&gt; 
+                                <programlisting role="XHTML"><![CDATA[<p:listItem><p:anchor reference="#reason1">Reason 1</p:anchor></p:listItem> 
 ...
-&lt;p:paragraph&gt;
-    &lt;p:anchor name=&quot;reason1&quot;&gt;It&apos;s the quickest way to get &quot;rich&quot;&lt;/p:anchor&gt; 
+<p:paragraph>
+    <p:anchor name="reason1">It's the quickest way to get "rich"</p:anchor> 
     ... 
-&lt;/p:paragraph&gt;</programlisting>
+</p:paragraph>]]></programlisting>
 
                             </entry>
                         </row>
@@ -729,29 +661,17 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>&lt;p:facet name=&quot;header&quot;&gt;
-  &lt;p:font size=&quot;12&quot;&gt;
-    &lt;p:footer borderWidthTop=&quot;1&quot; borderColorTop=&quot;blue&quot; 
-              borderWidthBottom=&quot;0&quot; alignment=&quot;center&quot;&gt;
-        Why Seam? [&lt;p:pageNumber /&gt;]
-    &lt;/p:footer&gt;
-  &lt;/p:font&gt;
-&lt;/f:facet&gt;</programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:facet name="header">
+  <p:font size="12">
+    <p:footer borderWidthTop="1" borderColorTop="blue" 
+              borderWidthBottom="0" alignment="center">
+        Why Seam? [<p:pageNumber />]
+    </p:footer>
+  </p:font>
+</f:facet>]]></programlisting>
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -768,7 +688,7 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>&lt;p:footer borderWidthTop=&quot;1&quot; borderColorTop=&quot;blue&quot; 
+                                <programlisting role="XHTML">&lt;p:footer borderWidthTop=&quot;1&quot; borderColorTop=&quot;blue&quot; 
           borderWidthBottom=&quot;0&quot; alignment=&quot;center&quot;&gt;
     Why Seam? [&lt;p:pageNumber /&gt;]
 &lt;/p:footer&gt;</programlisting>
@@ -845,35 +765,24 @@
                                     <emphasis>Usage</emphasis>
                                 </para>
 
-                                <programlisting>&lt;p:document xmlns:p=&quot;http://jboss.com/products/seam/pdf&quot;
-            title=&quot;Hello&quot;&gt;
+                                <programlisting role="XHTML"><![CDATA[<p:document xmlns:p="http://jboss.com/products/seam/pdf"
+            title="Hello">
 
-   &lt;p:chapter number=&quot;1&quot;&gt;
-      &lt;p:title&gt;&lt;p:paragraph&gt;Hello&lt;/p:paragraph&gt;&lt;/p:title&gt;
-      &lt;p:paragraph&gt;Hello #{user.name}!&lt;/p:paragraph&gt;
-   &lt;/p:chapter&gt;
+   <p:chapter number="1">
+      <p:title><p:paragraph>Hello</p:paragraph></p:title>
+      <p:paragraph>Hello #{user.name}!</p:paragraph>
+   </p:chapter>
 
-   &lt;p:chapter number=&quot;2&quot;&gt;
-      &lt;p:title&gt;&lt;p:paragraph&gt;Goodbye&lt;/p:paragraph&gt;&lt;/p:title&gt;
-      &lt;p:paragraph&gt;Goodbye #{user.name}.&lt;/p:paragraph&gt;
-   &lt;/p:chapter&gt;
+   <p:chapter number="2">
+      <p:title><p:paragraph>Goodbye</p:paragraph></p:title>
+      <p:paragraph>Goodbye #{user.name}.</p:paragraph>
+   </p:chapter>
 
-&lt;/p:document&gt; </programlisting>
+</p:document> ]]></programlisting>
 
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -905,15 +814,15 @@
                 following document uses the <literal>ui:repeat</literal> tag to to display a list of values retrieved
                 from a Seam component. </para>
 
-            <programlisting>&lt;p:document xmlns:p=&quot;http://jboss.com/products/seam/pdf&quot;
-            xmlns:ui=&quot;http://java.sun.com/jsf/facelets&quot;
-            title=&quot;Hello&quot;&gt;
-   &lt;p:list style=&quot;numbered&quot;&gt;
-      &lt;ui:repeat value=&quot;#{documents}&quot; var=&quot;doc&quot;&gt;
-         &lt;p:listItem&gt;#{doc.name}&lt;/p:listItem&gt;
-      &lt;/ui:repeat&gt;
-   &lt;/p:list&gt;
-&lt;/p:document&gt;</programlisting>
+            <programlisting role="XHTML"><![CDATA[<p:document xmlns:p="http://jboss.com/products/seam/pdf"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            title="Hello">
+   <p:list style="numbered">
+      <ui:repeat value="#{documents}" var="doc">
+         <p:listItem>#{doc.name}</p:listItem>
+      </ui:repeat>
+   </p:list>
+</p:document>]]></programlisting>
 
 
 
@@ -981,25 +890,14 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>&lt;p:list style=&quot;numbered&quot;&gt;
-  &lt;ui:repeat value=&quot;#{documents}&quot; var=&quot;doc&quot;&gt;
-    &lt;p:listItem&gt;#{doc.name}&lt;/p:listItem&gt;
-  &lt;/ui:repeat&gt;
-&lt;/p:list&gt;</programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:list style="numbered">
+  <ui:repeat value="#{documents}" var="doc">
+    <p:listItem>#{doc.name}</p:listItem>
+  </ui:repeat>
+</p:list>]]></programlisting>
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -1057,7 +955,7 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>...</programlisting>
+                                <programlisting role="XHTML">...</programlisting>
 
                             </entry>
                         </row>
@@ -1223,30 +1121,20 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>&lt;p:table columns=&quot;3&quot; headerRows=&quot;1&quot;&gt;
-  &lt;p:cell&gt;name&lt;/p:cell&gt;
-  &lt;p:cell&gt;owner&lt;/p:cell&gt;
-  &lt;p:cell&gt;size&lt;/p:cell&gt;
-  &lt;ui:repeat value=&quot;#{documents}&quot; var=&quot;doc&quot;&gt;
-    &lt;p:cell&gt;#{doc.name}&lt;/p:cell&gt;
-    &lt;p:cell&gt;#{doc.user.name}&lt;/p:cell&gt;
-    &lt;p:cell&gt;#{doc.size}&lt;/p:cell&gt;
-  &lt;/ui:repeat&gt;
-&lt;/p:table&gt;</programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:table columns="3" headerRows="1">
+  <p:cell>name</p:cell>
+  <p:cell>owner</p:cell>
+  <p:cell>size</p:cell>
+  <ui:repeat value="#{documents}" var="doc">
+    <p:cell>#{doc.name}</p:cell>
+    <p:cell>#{doc.user.name}</p:cell>
+    <p:cell>#{doc.size}</p:cell>
+  </ui:repeat>
+</p:table>]]></programlisting>
 
 
                             </entry>
                         </row>
-                    </tbody>
-                </tgroup>
-            </informaltable>
-
-            <informaltable>
-                <tgroup cols="2">
-                    <colspec colnum="1" colwidth="1*"/>
-                    <colspec colnum="2" colwidth="3*"/>
-
-                    <tbody>
                         <row>
                             <entry valign="top">
                                 <para>
@@ -1418,7 +1306,7 @@
                                 <para>
                                     <emphasis>Usage</emphasis>
                                 </para>
-                                <programlisting>&lt;p:cell&gt;...&lt;/p:cell&gt;</programlisting>
+                                <programlisting role="XHTML"><![CDATA[<p:cell>...</p:cell>]]></programlisting>
 
                             </entry>
                         </row>
@@ -1467,30 +1355,29 @@
                 actual PDF name like <literal>/myDocument.pdf</literal>. This capability requires some configuration. To
                 serve PDF files, all *.pdf resources should be mapped to the DocumentStoreServlet:</para>
 
-            <programlisting>
-&lt;servlet&gt;
-    &lt;servlet-name&gt;Document Store Servlet&lt;/servlet-name&gt;
-    &lt;servlet-class&gt;org.jboss.seam.pdf.DocumentStoreServlet&lt;/servlet-class&gt;
-&lt;/servlet&gt;
+            <programlisting role="XML"><![CDATA[<servlet>
+    <servlet-name>Document Store Servlet</servlet-name>
+    <servlet-class>org.jboss.seam.pdf.DocumentStoreServlet</servlet-class>
+</servlet>
 
-&lt;servlet-mapping&gt;
-    &lt;servlet-name&gt;Document Store Servlet&lt;/servlet-name&gt;
-    &lt;url-pattern&gt;*.pdf&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;</programlisting>
+<servlet-mapping>
+    <servlet-name>Document Store Servlet</servlet-name>
+    <url-pattern>*.pdf</url-pattern>
+</servlet-mapping>]]></programlisting>
 
             <para> The <literal>use-extensions</literal> option on the document store component completes the
                 functionality by instructing the document store to generate URLs with the correct filename extension for
                 the document type being generated. </para>
 
-            <programlisting>&lt;components xmlns=&quot;http://jboss.com/products/seam/components&quot;
-            xmlns:pdf=&quot;http://jboss.com/products/seam/pdf&quot;&gt;
-    &lt;pdf:document-store use-extensions=&quot;true&quot; /&gt;
-&lt;/components&gt;</programlisting>
+            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:pdf="http://jboss.com/products/seam/pdf">
+    <pdf:document-store use-extensions="true" />
+</components>]]></programlisting>
 
             <para> Generated documents are stored in conversation scope and will expire when the conversation ends. At
                 that point, references to the document will be invalid. To You can specify a default view to be shown
                 when a document does not exist using the <literal>error-page</literal> property of the documentStore. </para>
-            <programlisting>&lt;pdf:document-store use-extensions=&quot;true&quot; error-page=&quot;/pdfMissing.seam&quot; /&gt;</programlisting>
+            <programlisting role="XML"><![CDATA[<pdf:document-store use-extensions="true" error-page="/pdfMissing.seam" />]]></programlisting>
         </section>
     </section>
 
@@ -1696,32 +1583,19 @@
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>
-&lt;p:barchart title=&quot;Bar Chart&quot; legend=&quot;true&quot;
-            width=&quot;500&quot; height=&quot;500&quot;&gt;
-    &lt;p:series key=&quot;Last Year&quot;&gt;
-        &lt;p:data columnKey=&quot;Joe&quot; value=&quot;100&quot; /&gt;
-        &lt;p:data columnKey=&quot;Bob&quot; value=&quot;120&quot; /&gt;
-    &lt;/p:series&gt;        &lt;p:series key=&quot;This Year&quot;&gt;
-        &lt;p:data columnKey=&quot;Joe&quot; value=&quot;125&quot; /&gt;
-        &lt;p:data columnKey=&quot;Bob&quot; value=&quot;115&quot; /&gt;
-    &lt;/p:series&gt;
-&lt;/p:barchart&gt;                                
-                            </programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:barchart title="Bar Chart" legend="true"
+            width="500" height="500">
+    <p:series key="Last Year">
+        <p:data columnKey="Joe" value="100" />
+        <p:data columnKey="Bob" value="120" />
+    </p:series>        <p:series key="This Year">
+        <p:data columnKey="Joe" value="125" />
+        <p:data columnKey="Bob" value="115" />
+    </p:series>
+</p:barchart>]]></programlisting>
 
                         </entry>
                     </row>
-                </tbody>
-            </tgroup>
-        </informaltable>
-
-
-        <informaltable id="itext.linechart">
-            <tgroup cols="2">
-                <colspec colnum="1" colwidth="1*"/>
-                <colspec colnum="2" colwidth="3*"/>
-
-                <tbody>
                     <row>
                         <entry valign="top">
                             <para>
@@ -1908,29 +1782,19 @@
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>&lt;p:linechart title=&quot;Line Chart&quot;
-            width=&quot;500&quot; height=&quot;500&quot;&gt;
-    &lt;p:series key=&quot;Prices&quot;&gt;
-        &lt;p:data columnKey=&quot;2003&quot; value=&quot;7.36&quot; /&gt;
-        &lt;p:data columnKey=&quot;2004&quot; value=&quot;11.50&quot; /&gt;
-        &lt;p:data columnKey=&quot;2005&quot; value=&quot;34.625&quot; /&gt;
-        &lt;p:data columnKey=&quot;2006&quot; value=&quot;76.30&quot; /&gt;
-        &lt;p:data columnKey=&quot;2007&quot; value=&quot;85.05&quot; /&gt;
-    &lt;/p:series&gt;
-&lt;/p:linechart&gt;</programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:linechart title="Line Chart"
+            width="500" height="500">
+    <p:series key="Prices">
+        <p:data columnKey="2003" value="7.36" />
+        <p:data columnKey="2004" value="11.50" />
+        <p:data columnKey="2005" value="34.625" />
+        <p:data columnKey="2006" value="76.30" />
+        <p:data columnKey="2007" value="85.05" />
+    </p:series>
+</p:linechart>]]></programlisting>
 
                         </entry>
                     </row>
-                </tbody>
-            </tgroup>
-        </informaltable>
-
-        <informaltable id="itext.piechart">
-            <tgroup cols="2">
-                <colspec colnum="1" colwidth="1*"/>
-                <colspec colnum="2" colwidth="3*"/>
-
-                <tbody>
                     <row>
                         <entry valign="top">
                             <para>
@@ -2070,34 +1934,19 @@
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>
-                                
-&lt;p:piechart title=&quot;Pie Chart&quot; circular=&quot;false&quot; direction=&quot;anticlockwise&quot; 
-    startAngle=&quot;30&quot; labelGap=&quot;0.1&quot; labelLinkPaint=&quot;red&quot;&gt;	
-    &lt;p:series key=&quot;Prices&quot;&gt; 
-        &lt;p:data key=&quot;2003&quot; columnKey=&quot;2003&quot; value=&quot;7.36&quot; /&gt; 
-        &lt;p:data key=&quot;2004&quot; columnKey=&quot;2004&quot; value=&quot;11.50&quot; /&gt; 
-        &lt;p:data key=&quot;2005&quot; columnKey=&quot;2005&quot; value=&quot;34.625&quot; /&gt; 
-        &lt;p:data key=&quot;2006&quot; columnKey=&quot;2006&quot; value=&quot;76.30&quot; /&gt; 
-        &lt;p:data key=&quot;2007&quot; columnKey=&quot;2007&quot; value=&quot;85.05&quot; /&gt; 
-    &lt;/p:series&gt; 
-&lt;/p:piechart&gt;	                                
-                                
-                            </programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:piechart title="Pie Chart" circular="false" direction="anticlockwise" 
+    startAngle="30" labelGap="0.1" labelLinkPaint="red">	
+    <p:series key="Prices"> 
+        <p:data key="2003" columnKey="2003" value="7.36" /> 
+        <p:data key="2004" columnKey="2004" value="11.50" /> 
+        <p:data key="2005" columnKey="2005" value="34.625" /> 
+        <p:data key="2006" columnKey="2006" value="76.30" /> 
+        <p:data key="2007" columnKey="2007" value="85.05" /> 
+    </p:series> 
+</p:piechart>]]></programlisting>
 
                         </entry>
                     </row>
-                </tbody>
-            </tgroup>
-        </informaltable>
-
-
-        <informaltable id="itext.series">
-            <tgroup cols="2">
-                <colspec colnum="1" colwidth="1*"/>
-                <colspec colnum="2" colwidth="3*"/>
-
-                <tbody>
                     <row>
                         <entry valign="top">
                             <para>
@@ -2165,24 +2014,14 @@
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>&lt;p:series key=&quot;data1&quot;&gt;
-    &lt;ui:repeat value=&quot;#{data.pieData1}&quot; var=&quot;item&quot;&gt;
-        &lt;p:data columnKey=&quot;#{item.name}&quot; value=&quot;#{item.value}&quot; /&gt;
-    &lt;/ui:repeat&gt;
-&lt;/p:series&gt;</programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:series key="data1">
+    <ui:repeat value="#{data.pieData1}" var="item">
+        <p:data columnKey="#{item.name}" value="#{item.value}" />
+    </ui:repeat>
+</p:series>]]></programlisting>
 
                         </entry>
                     </row>
-                </tbody>
-            </tgroup>
-        </informaltable>
-
-        <informaltable id="itext.chartdata">
-            <tgroup cols="2">
-                <colspec colnum="1" colwidth="1*"/>
-                <colspec colnum="2" colwidth="3*"/>
-
-                <tbody>
                     <row>
                         <entry valign="top">
                             <para>
@@ -2240,26 +2079,14 @@
 
 
 
-                            <programlisting>&lt;p:data key=&quot;foo&quot; value=&quot;20&quot; sectionPaint=&quot;#111111&quot; 
-        explodedPercent=&quot;.2&quot; /&gt;
-&lt;p:data key=&quot;bar&quot; value=&quot;30&quot; sectionPaint=&quot;#333333&quot; /&gt;
-&lt;p:data key=&quot;baz&quot; value=&quot;40&quot; sectionPaint=&quot;#555555&quot; 
-        sectionOutlineStroke=&quot;my-dot-style&quot; /&gt;</programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:data key="foo" value="20" sectionPaint="#111111" 
+        explodedPercent=".2" />
+<p:data key="bar" value="30" sectionPaint="#333333" />
+<p:data key="baz" value="40" sectionPaint="#555555" 
+        sectionOutlineStroke="my-dot-style" />]]></programlisting>
 
                         </entry>
                     </row>
-                </tbody>
-            </tgroup>
-        </informaltable>
-
-
-
-        <informaltable id="itext.color">
-            <tgroup cols="2">
-                <colspec colnum="1" colwidth="1*"/>
-                <colspec colnum="2" colwidth="3*"/>
-
-                <tbody>
                     <row>
                         <entry valign="top">
                             <para>
@@ -2303,23 +2130,12 @@
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>&lt;p:color id=&quot;foo&quot; color=&quot;#0ff00f&quot;/&gt;
-&lt;p:color id=&quot;bar&quot; color=&quot;#ff00ff&quot; color2=&quot;#00ff00&quot; 
-                  point=&quot;50 50&quot; point2=&quot;300 300&quot;/&gt;  </programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:color id="foo" color="#0ff00f"/>
+<p:color id="bar" color="#ff00ff" color2="#00ff00" 
+                  point="50 50" point2="300 300"/>]]></programlisting>
 
                         </entry>
                     </row>
-                </tbody>
-            </tgroup>
-        </informaltable>
-
-
-        <informaltable id="itext.stroke">
-            <tgroup cols="2">
-                <colspec colnum="1" colwidth="1*"/>
-                <colspec colnum="2" colwidth="3*"/>
-
-                <tbody>
                     <row>
                         <entry valign="top">
                             <para>
@@ -2376,7 +2192,7 @@
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>&lt;p:stroke id=&quot;dot2&quot; width=&quot;2&quot; cap=&quot;round&quot; join=&quot;bevel&quot; dash=&quot;2 3&quot; /&gt;                            </programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:stroke id="dot2" width="2" cap="round" join="bevel" dash="2 3" />]]></programlisting>
 
                         </entry>
                     </row>
@@ -2490,13 +2306,12 @@
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>
-&lt;p:barCode type=&quot;code128&quot; 
-           barHeight=&quot;80&quot; 
-           textSize=&quot;20&quot; 
-           code=&quot;(10)45566(17)040301&quot; 
-           codeType=&quot;code128_ucc&quot; 
-           altText=&quot;My BarCode&quot; /&gt;</programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:barCode type="code128" 
+           barHeight="80" 
+           textSize="20" 
+           code="(10)45566(17)040301" 
+           codeType="code128_ucc" 
+           altText="My BarCode" />]]></programlisting>
 
                         </entry>
                     </row>
@@ -2554,9 +2369,7 @@
                             <para>
                                 <emphasis>Usage</emphasis>
                             </para>
-                            <programlisting>
-&lt;p:swing width=&quot;310&quot; height=&quot;120&quot; component=&quot;#{aButton}&quot; /&gt;
-                            </programlisting>
+                            <programlisting role="XHTML"><![CDATA[<p:swing width="310" height="120" component="#{aButton}" />]]></programlisting>
 
                         </entry>
                     </row>

@@ -195,13 +195,13 @@
                 access to several thread-bound instances of the <literal>Context</literal> interface: 
             </para>
 
-            <programlisting><![CDATA[User user = (User) Contexts.getSessionContext().get("user");]]></programlisting>
+            <programlisting role="JAVA"><![CDATA[User user = (User) Contexts.getSessionContext().get("user");]]></programlisting>
 
             <para>
                 You may also set or change the value associated with a name: 
             </para>
 
-            <programlisting><![CDATA[Contexts.getSessionContext().set("user", user);]]></programlisting>
+            <programlisting role="JAVA"><![CDATA[Contexts.getSessionContext().set("user", user);]]></programlisting>
 
             <para> 
                 Usually, however, we obtain components from a context via injection, and put component instances into
@@ -453,7 +453,7 @@
                 session bean component. We could use an annotation, as follows: 
             </para>
 
-            <programlisting><![CDATA[@Stateless
+            <programlisting role="JAVA"><![CDATA[@Stateless
 @Interceptors(SeamInterceptor.class)
 public class LoginAction implements Login { 
     ... 
@@ -463,7 +463,7 @@ public class LoginAction implements Login {
                 But a much better way is to define the interceptor in <literal>ejb-jar.xml</literal>. 
             </para>
 
-            <programlisting><![CDATA[<interceptors>
+            <programlisting role="XML"><![CDATA[<interceptors>
    <interceptor>
       <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
    </interceptor>
@@ -485,7 +485,7 @@ public class LoginAction implements Login {
                 <literal>@Name</literal> annotation: 
             </para>
 
-            <programlisting><![CDATA[@Name("loginAction")
+            <programlisting role="JAVA"><![CDATA[@Name("loginAction")
 @Stateless
 public class LoginAction implements Login { 
     ... 
@@ -520,7 +520,7 @@ public class LoginAction implements Login {
                 For very large applications, and for built-in seam components, qualified names are often used. 
             </para>
 
-            <programlisting><![CDATA[@Name("com.jboss.myapp.loginAction")
+            <programlisting role="JAVA"><![CDATA[@Name("com.jboss.myapp.loginAction")
 @Stateless
 public class LoginAction implements Login { 
     ... 
@@ -530,7 +530,7 @@ public class LoginAction implements Login {
                 We may use the qualified component name both in Java code and in JSF's expression language: 
             </para>
 
-            <programlisting><![CDATA[<h:commandButton type="submit" value="Login"
+            <programlisting role="XHTML"><![CDATA[<h:commandButton type="submit" value="Login"
                  action="#{com.jboss.myapp.loginAction.login}"/>]]></programlisting>
 
             <para> 
@@ -538,7 +538,7 @@ public class LoginAction implements Login {
                 line like this to the <literal>components.xml</literal> file: 
             </para>
 
-            <programlisting><![CDATA[<factory name="loginAction" scope="STATELESS" value="#{com.jboss.myapp.loginAction}"/>]]></programlisting>
+            <programlisting role="XML"><![CDATA[<factory name="loginAction" scope="STATELESS" value="#{com.jboss.myapp.loginAction}"/>]]></programlisting>
 
             <para> 
                 All of the built-in Seam components have qualified names, but most of them are aliased to a simple
@@ -555,7 +555,7 @@ public class LoginAction implements Login {
                 by Seam. 
             </para>
 
-            <programlisting><![CDATA[@Name("user")
+            <programlisting role="JAVA"><![CDATA[@Name("user")
 @Entity
 @Scope(SESSION)
 public class User { 
@@ -580,7 +580,7 @@ public class User {
                 us do it at the class level, and take advantage of auto-instantiation.) 
             </para>
 
-            <programlisting><![CDATA[@Name("user")
+            <programlisting role="JAVA"><![CDATA[@Name("user")
 @Entity
 @Scope(CONVERSATION)
 @Role(name="currentUser", scope=SESSION)
@@ -592,7 +592,7 @@ public class User {
                 The <literal>@Roles</literal> annotation lets us specify as many additional roles as we like.
             </para>
 
-            <programlisting><![CDATA[@Name("user")
+            <programlisting role="JAVA"><![CDATA[@Name("user")
 @Entity
 @Scope(CONVERSATION)
 @Roles({@Role(name="currentUser", scope=SESSION),
@@ -616,7 +616,7 @@ public class User {
                 The built-in components may be injected, just like any Seam components, but they also provide
                 convenient static <literal>instance()</literal> methods: 
             </para>
-            <programlisting><![CDATA[FacesMessages.instance().add("Welcome back, #{user.name}!");]]></programlisting>
+            <programlisting role="JAVA"><![CDATA[FacesMessages.instance().add("Welcome back, #{user.name}!");]]></programlisting>
         </sect2>
 
     </sect1>
@@ -670,7 +670,7 @@ public class User {
             variable: 
         </para>
 
-        <programlisting><![CDATA[@Name("loginAction")
+        <programlisting role="JAVA"><![CDATA[@Name("loginAction")
 @Stateless
 public class LoginAction implements Login { 
     @In User user;
@@ -681,7 +681,7 @@ public class LoginAction implements Login {
             or into a setter method: 
         </para>
 
-        <programlisting><![CDATA[@Name("loginAction")
+        <programlisting role="JAVA"><![CDATA[@Name("loginAction")
 @Stateless
 public class LoginAction implements Login { 
     User user;
@@ -717,7 +717,7 @@ public class LoginAction implements Login {
             You can even inject the value of an expression: 
         </para>
 
-        <programlisting><![CDATA[@Name("loginAction")
+        <programlisting role="JAVA"><![CDATA[@Name("loginAction")
 @Stateless
 public class LoginAction implements Login { 
     @In("#{user.username}") String username;
@@ -738,7 +738,7 @@ public class LoginAction implements Login {
             instance variable: 
         </para>
 
-        <programlisting><![CDATA[@Name("loginAction")
+        <programlisting role="JAVA"><![CDATA[@Name("loginAction")
 @Stateless
 public class LoginAction implements Login { 
     @Out User user;
@@ -749,7 +749,7 @@ public class LoginAction implements Login {
             or from a getter method: 
         </para>
 
-        <programlisting><![CDATA[@Name("loginAction")
+        <programlisting role="JAVA"><![CDATA[@Name("loginAction")
 @Stateless
 public class LoginAction implements Login { 
     User user;
@@ -766,7 +766,7 @@ public class LoginAction implements Login {
             An attribute may be both injected and outjected: 
         </para>
 
-        <programlisting><![CDATA[@Name("loginAction")
+        <programlisting role="JAVA"><![CDATA[@Name("loginAction")
 @Stateless
 public class LoginAction implements Login { 
     @In @Out User user;
@@ -777,7 +777,7 @@ public class LoginAction implements Login {
             or: 
         </para>
 
-        <programlisting><![CDATA[@Name("loginAction")
+        <programlisting role="JAVA"><![CDATA[@Name("loginAction")
 @Stateless
 public class LoginAction implements Login { 
     User user;
@@ -911,7 +911,7 @@ public class LoginAction implements Login {
             a JMS queue. 
         </para>
         
-        <programlisting><![CDATA[@Name("messageSender") 
+        <programlisting role="JAVA"><![CDATA[@Name("messageSender") 
 public class MessageSender {
     public void sendMessage() {
         //do something with JMS
@@ -925,7 +925,7 @@ public class MessageSender {
             application:
         </para>
         
-        <programlisting><![CDATA[@Name("messageSender") 
+        <programlisting role="JAVA"><![CDATA[@Name("messageSender") 
 @Install(precedence=MOCK)
 public class MockMessageSender extends MessageSender {
     public void sendMessage() {
@@ -958,7 +958,7 @@ public class MockMessageSender extends MessageSender {
             Who is not totally fed up with seeing noisy code like this? 
          </para>
 
-        <programlisting><![CDATA[private static final Log log = LogFactory.getLog(CreateOrderAction.class);
+        <programlisting role="JAVA"><![CDATA[private static final Log log = LogFactory.getLog(CreateOrderAction.class);
         
 public Order createOrder(User user, Product product, int quantity) {
     if ( log.isDebugEnabled() ) {
@@ -979,7 +979,7 @@ public Order createOrder(User user, Product product, int quantity) {
             Seam provides a logging API that simplifies this code significantly: 
         </para>
 
-        <programlisting><![CDATA[@Logger private Log log;
+        <programlisting role="JAVA"><![CDATA[@Logger private Log log;
         
 public Order createOrder(User user, Product product, int quantity) {
     log.debug("Creating new order for user: #0 product: #1 quantity: #2", user.username(), product.name(), quantity);
@@ -1004,7 +1004,7 @@ public Order createOrder(User user, Product product, int quantity) {
             You can use <literal>java.text.MessageFormat</literal> formatted strings:
         </para>
         
-        <programlisting><![CDATA[log.debug("The time is {0,time}", new Date());]]></programlisting>
+        <programlisting role="JAVA"><![CDATA[log.debug("The time is {0,time}", new Date());]]></programlisting>
         -->
 
         <para> 
@@ -1012,7 +1012,7 @@ public Order createOrder(User user, Product product, int quantity) {
             contexts, it gets even better: 
         </para>
 
-        <programlisting><![CDATA[@Logger private Log log;
+        <programlisting role="JAVA"><![CDATA[@Logger private Log log;
         
 public Order createOrder(User user, Product product, int quantity) {
     log.debug("Creating new order for user: #{user.username} product: #{product.name} quantity: #0", quantity);
@@ -1054,7 +1054,7 @@ public Order createOrder(User user, Product product, int quantity) {
             the component. For example, 
         </para>
 
-        <programlisting><![CDATA[@Name("account")
+        <programlisting role="JAVA"><![CDATA[@Name("account")
 public class Account extends AbstractMutable
 {
     private BigDecimal balance;
@@ -1078,7 +1078,7 @@ public class Account extends AbstractMutable
             Or, you can use the <literal>@ReadOnly</literal> annotation to achieve a similar effect: 
         </para>
 
-        <programlisting><![CDATA[@Name("account")
+        <programlisting role="JAVA"><![CDATA[@Name("account")
 public class Account
 {
     private BigDecimal balance;
@@ -1107,7 +1107,7 @@ public class Account
             entity bean instance. For example, 
         </para>
 
-        <programlisting><![CDATA[@Stateful
+        <programlisting role="JAVA"><![CDATA[@Stateful
 @Name("account")
 public class AccountManager extends AbstractMutable
 {
@@ -1149,7 +1149,7 @@ public class AccountManager extends AbstractMutable
             context by Seam:
         </para>
 
-        <programlisting><![CDATA[@Factory(scope=CONVERSATION)
+        <programlisting role="JAVA"><![CDATA[@Factory(scope=CONVERSATION)
 public List<Customer> getCustomerList() { 
     return ... ;
 } ]]></programlisting>
@@ -1159,7 +1159,7 @@ public List<Customer> getCustomerList() {
             variable itself: 
         </para>
 
-        <programlisting><![CDATA[@DataModel List<Customer> customerList;
+        <programlisting role="JAVA"><![CDATA[@DataModel List<Customer> customerList;
 
 @Factory("customerList")
 public void initCustomerList() { 
@@ -1182,7 +1182,7 @@ public void initCustomerList() {
         
 
 
-        <programlisting><![CDATA[@Name("customerList")
+        <programlisting role="JAVA"><![CDATA[@Name("customerList")
 @Scope(CONVERSATION)
 public class CustomerListManager
 {
@@ -1201,7 +1201,7 @@ public class CustomerListManager
             <literal>@Destroy</literal> method of the manager component.
         </para>
         
-        <programlisting><![CDATA[@Name("hens")
+        <programlisting role="JAVA"><![CDATA[@Name("hens")
 @Scope(APPLICATION) 
 public class HenHouse {
     

@@ -23,7 +23,7 @@
             the following HTML produced:
         </para>
         
-        <programlisting><![CDATA[<p>
+        <programlisting role="XHTML"><![CDATA[<p>
 It's easy to make <i>emphasis</i>, <tt>monospace</tt>
 <del>deleted text</del>, super<sup>scripts</sup> or <u>underlines</u>.
 </p>]]></programlisting>
@@ -47,7 +47,7 @@ This is the second paragraph.]]></programlisting>
            This is the HTML that results:
         </para>
     
-        <programlisting><![CDATA[<h1>This is a big heading</h1>
+        <programlisting role="XHTML"><![CDATA[<h1>This is a big heading</h1>
 <p>
 You <i>must</i> have some text following a heading!
 </p>
@@ -78,7 +78,7 @@ An unordered list:
 =an item
 =another item]]></programlisting>
 
-        <programlisting><![CDATA[<p>
+        <programlisting role="XHTML"><![CDATA[<p>
 An ordered list:
 </p>
  
@@ -108,7 +108,7 @@ An unordered list:
 
 But what do you think he means by "nyeah-nee"?]]></programlisting>
         
-        <programlisting><![CDATA[<p>
+        <programlisting role="XHTML"><![CDATA[<p>
 The other guy said:
 </p>
         
@@ -133,7 +133,7 @@ But what do you think he means by <q>nyeah-nee</q>?
         <programlisting><![CDATA[You can write down equations like 2\*3\=6 and HTML tags
 like \<body\> using the escape character: \\.]]></programlisting>
         
-        <programlisting><![CDATA[<p>
+        <programlisting role="XHTML"><![CDATA[<p>
 You can write down equations like 2*3=6 and HTML tags
 like &lt;body&gt; using the escape character: \.
 </p>]]></programlisting>
@@ -151,7 +151,7 @@ like &lt;body&gt; using the escape character: \.
 
 Any ideas?]]></programlisting>
 
-        <programlisting><![CDATA[<p>
+        <programlisting role="XHTML"><![CDATA[<p>
 My code doesn't work:
 </p>
 
@@ -208,14 +208,14 @@ Any ideas?
             to be safe from cross-site scripting attacks). This is useful for creating links:
         </para>
         
-        <programlisting><![CDATA[You might want to link to <a href="http://jboss.com/products/seam">something
+        <programlisting role="XHTML"><![CDATA[You might want to link to <a href="http://jboss.com/products/seam">something
 cool</a>, or even include an image: <img src="/logo.jpg"/>]]></programlisting>
         
         <para>
            And for creating tables:
         </para>
         
-        <programlisting><![CDATA[<table>
+        <programlisting role="XHTML"><![CDATA[<table>
     <tr><td>First name:</td><td>Gavin</td></tr>
     <tr><td>Last name:</td><td>King</td></tr>
 </table>]]></programlisting>

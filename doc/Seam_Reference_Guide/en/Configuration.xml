@@ -18,7 +18,7 @@
 
             <para> Of course, you need a faces servlet! </para>
 
-            <programlisting><![CDATA[<servlet>
+            <programlisting role="XML"><![CDATA[<servlet>
     <servlet-name>Faces Servlet</servlet-name>
     <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
@@ -33,7 +33,7 @@
 
             <para> In addition, Seam requires the following entry in your <literal>web.xml</literal> file: </para>
 
-            <programlisting><![CDATA[<listener>
+            <programlisting role="XML"><![CDATA[<listener>
     <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
 </listener>]]></programlisting>
 
@@ -44,7 +44,7 @@
                 with Seam's conversation propagation. If you have problems with conversation propagation during form
                 submissions, try switching to client-side state saving. You'll need this in <literal>web.xml</literal>: </para>
 
-            <programlisting><![CDATA[<context-param>
+            <programlisting role="XML"><![CDATA[<context-param>
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
     <param-value>client</param-value>
 </context-param>]]></programlisting>
@@ -57,13 +57,13 @@
             <para> If you want follow our advice and use facelets instead of JSP, add the following lines to
                     <literal>faces-config.xml</literal>: </para>
 
-            <programlisting><![CDATA[<application>
+            <programlisting role="XML"><![CDATA[<application>
     <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
 </application>]]></programlisting>
 
             <para> And the following lines to <literal>web.xml</literal>: </para>
 
-            <programlisting><![CDATA[<context-param>
+            <programlisting role="XML"><![CDATA[<context-param>
     <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
     <param-value>.xhtml</param-value>
 </context-param>]]></programlisting>
@@ -77,7 +77,7 @@
                 chapter) and some JSF UI controls. Configuring the Seam Resource Servlet requires the following entry in
                     <literal>web.xml</literal>: </para>
 
-            <programlisting><![CDATA[<servlet>
+            <programlisting role="XML"><![CDATA[<servlet>
   <servlet-name>Seam Resource Servlet</servlet-name>
   <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-class>
 </servlet>
@@ -96,7 +96,7 @@
                 servlet filters just like you would configure other built-in Seam components. To take advantage of this
                 feature, we must first install a master filter in <literal>web.xml</literal>: </para>
 
-            <programlisting><![CDATA[<filter>
+            <programlisting role="XML"><![CDATA[<filter>
     <filter-name>Seam Filter</filter-name>
     <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>
 </filter>
@@ -152,7 +152,7 @@
                     adjusted by adding a <literal>&lt;web:exception-filter&gt;</literal> entry to
                         <literal>components.xml</literal>, as shown in this example: </para>
 
-                <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+                <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:web="http://jboss.com/products/seam/web">
 
     <web:exception-filter url-pattern="*.seam"/>
@@ -171,7 +171,7 @@
                 <para> The redirect filter will process all requests by default, but this behavior can also be adjusted
                     in <literal>components.xml</literal>: </para>
 
-                <programlisting><![CDATA[<web:redirect-filter url-pattern="*.seam"/>]]></programlisting>
+                <programlisting role="XML"><![CDATA[<web:redirect-filter url-pattern="*.seam"/>]]></programlisting>
             </sect3>
 
             <sect3>
@@ -180,7 +180,7 @@
                     requests and processes them according to the multipart/form-data specification (RFC-2388). To
                     override the default settings, add the following entry to <literal>components.xml</literal>: </para>
 
-                <programlisting><![CDATA[<web:multipart-filter create-temp-files="true" 
+                <programlisting role="XML"><![CDATA[<web:multipart-filter create-temp-files="true" 
                       max-request-size="1000000" 
                       url-pattern="*.seam"/>]]></programlisting>
 
@@ -208,7 +208,7 @@
                 <para> This filter is not installed by default and requires an entry in
                     <literal>components.xml</literal> to enable it: </para>
 
-                <programlisting><![CDATA[<web:character-encoding-filter encoding="UTF-16" 
+                <programlisting role="XML"><![CDATA[<web:character-encoding-filter encoding="UTF-16" 
                                override-client="true" 
                                url-pattern="*.seam"/>]]></programlisting>
 
@@ -247,7 +247,7 @@
                 <para> To override the default settings, add the following entry to <literal>components.xml</literal>.
                     The options are the same as those specified in the RichFaces Developer Guide: </para>
 
-                <programlisting><![CDATA[<web:ajax4jsf-filter force-parser="true" 
+                <programlisting role="XML"><![CDATA[<web:ajax4jsf-filter force-parser="true" 
                      enable-cache="true" 
                      log4j-init-file="custom-log4j.xml"
                      url-pattern="*.seam"/>]]></programlisting>
@@ -289,7 +289,7 @@
                      adjusted by adding a <literal>&lt;web:logging-filter&gt;</literal> entry to
                      <literal>components.xml</literal>, as shown in this example: </para>
                  
-                <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+                <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:web="http://jboss.com/products/seam/web">
     <web:logging-filter url-pattern="*.seam"/>
 </components>]]></programlisting>
@@ -311,7 +311,7 @@
                 <para> This filter is not installed by default and requires an entry in
                     <literal>components.xml</literal> to enable it: </para>
 
-                <programlisting><![CDATA[<web:context-filter url-pattern="/media/*"/>]]></programlisting>
+                <programlisting role="XML"><![CDATA[<web:context-filter url-pattern="/media/*"/>]]></programlisting>
 
                 <para> The context filter expects to find the conversation id of any conversation context in a request
                     parameter named <literal>conversationId</literal>. You are responsible for ensuring that it gets
@@ -330,7 +330,7 @@
                     specify your filters in a <literal>web.xml</literal>). Just add the <literal>@Filter</literal>
                     annotation to your Seam component (which must implement <literal>javax.servlet.Filter</literal>): </para>
 
-                <programlisting><![CDATA[@Startup
+                <programlisting role="JAVA"><![CDATA[@Startup
 @Scope(APPLICATION)
 @Name("org.jboss.seam.web.multipartFilter")
 @BypassInterceptors
@@ -352,7 +352,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                 do this across an entire application is to add the following interceptor configuration in
                     <literal>ejb-jar.xml</literal>: </para>
 
-            <programlisting><![CDATA[<interceptors>
+            <programlisting role="XML"><![CDATA[<interceptors>
     <interceptor>
         <interceptor-class>org.jboss.seam.ejb.SeamInterceptor</interceptor-class>
     </interceptor>
@@ -374,14 +374,14 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
             <para> For JBoss AS, the following pattern is correct: </para>
 
-            <programlisting><![CDATA[<core:init jndi-name="myEarName/#{ejbName}/local" />]]></programlisting>
+            <programlisting role="XML"><![CDATA[<core:init jndi-name="myEarName/#{ejbName}/local" />]]></programlisting>
 
             <para> Where <literal>myEarName</literal> is the name of the EAR in which the bean is deployed. </para>
 
             <para> Outside the context of an EAR (when using the JBoss Embeddable EJB3 container), the following pattern
                 is the one to use: </para>
 
-            <programlisting><![CDATA[<core:init jndi-name="#{ejbName}/local" />]]></programlisting>
+            <programlisting role="XML"><![CDATA[<core:init jndi-name="#{ejbName}/local" />]]></programlisting>
 
             <para> You'll have to experiment to find the right setting for other application servers. Note that some
                 servers (such as GlassFish) require you to specify JNDI names for all EJB components explicitly (and
@@ -394,7 +394,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                 <literal>components.xml</literal> file, Seam won't know when container-managed transactions end:
             </para>
             
-            <programlisting><![CDATA[<transaction:ejb-transaction/>]]></programlisting>
+            <programlisting role="XML"><![CDATA[<transaction:ejb-transaction/>]]></programlisting>
 
         </sect2>
 
@@ -540,12 +540,12 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             <para> Seam will bootstrap a Hibernate <literal>SessionFactory</literal> from your
                     <literal>hibernate.cfg.xml</literal> file if you install a built-in component: </para>
 
-            <programlisting><![CDATA[<persistence:hibernate-session-factory name="hibernateSessionFactory"/>]]></programlisting>
+            <programlisting role="XML"><![CDATA[<persistence:hibernate-session-factory name="hibernateSessionFactory"/>]]></programlisting>
 
             <para> You will also need to configure a <emphasis>managed session</emphasis> if you want a Seam managed
                 Hibernate <literal>Session</literal> to be available via injection. </para>
 
-            <programlisting><![CDATA[<persistence:managed-hibernate-session name="hibernateSessionFactory"
+            <programlisting role="XML"><![CDATA[<persistence:managed-hibernate-session name="hibernateSessionFactory"
                             session-factory="#{hibernateSessionFactory}"/>]]></programlisting>
 
         </sect2>
@@ -556,12 +556,12 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             <para> Seam will bootstrap a JPA <literal>EntityManagerFactory</literal> from your
                 <literal>persistence.xml</literal> file if you install this built-in component: </para>
 
-            <programlisting><![CDATA[<persistence:entity-manager-factory name="entityManagerFactory"/>]]></programlisting>
+            <programlisting role="XML"><![CDATA[<persistence:entity-manager-factory name="entityManagerFactory"/>]]></programlisting>
 
             <para> You will also need to configure a <emphasis>managed persistence context</emphasis> if you want a
                 Seam managed JPA <literal>EntityManager</literal> to be available via injection. </para>
 
-            <programlisting><![CDATA[<persistence:managed-persistence-context name="entityManager"
+            <programlisting role="XML"><![CDATA[<persistence:managed-persistence-context name="entityManager"
                             entity-manager-factory="#{entityManagerFactory}"/>]]></programlisting>
 
         </sect2>
@@ -616,11 +616,11 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             how to manage transactions, since there will be no JTA available. If you're using JPA, you can tell
             Seam to use JPA resource-local transactions, ie. <literal>EntityTransaction</literal>, like so: </para>
             
-        <programlisting><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[<transaction:entity-transaction entity-manager="#{entityManager}"/>]]></programlisting>
         
         <para> If you're using Hibernate, you can tell Seam to use the Hibernate transaction API like this: </para>
             
-        <programlisting><![CDATA[<transaction:hibernate-transaction session="#{session}"/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[<transaction:hibernate-transaction session="#{session}"/>]]></programlisting>
         
         <para> Of course, you'll also need to define a datasource.</para>
         
@@ -696,14 +696,14 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                     <para> Add the Embedded JBoss listener to <literal>conf/server.xml</literal>. It should appear after
                         all other listeners in the file.</para>
 
-                    <programlisting>&lt;Listener className=&quot;org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener&quot; /&gt;</programlisting>
+                    <programlisting role="XML"><![CDATA[<Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener" />]]></programlisting>
                 </listitem>
 
                 <listitem>
                     <para>WAR file scanning should be enabled by adding a listener to
                             <literal>conf/context.xml</literal>. </para>
 
-                    <programlisting>&lt;Listener className=&quot;org.jboss.embedded.tomcat.WebinfScanner&quot; /&gt;</programlisting>
+                    <programlisting role="XML"><![CDATA[<Listener className="org.jboss.embedded.tomcat.WebinfScanner">]]></programlisting>
                 </listitem>
             </itemizedlist>
 
@@ -764,7 +764,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             built-in component. You'll also need to explicitly list your process and pageflow definitions. In
                 <literal>components.xml</literal>: </para>
 
-        <programlisting><![CDATA[<bpm:jbpm>
+        <programlisting role="XML"><![CDATA[<bpm:jbpm>
     <bpm:pageflow-definitions>
         <value>createDocument.jpdl.xml</value>
         <value>editDocument.jpdl.xml</value>
@@ -780,7 +780,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             Store demo includes example <literal>jbpm.cfg.xml</literal> and <literal>hibernate.cfg.xml</literal> files
             that will work with Seam: </para>
 
-        <programlisting><![CDATA[<jbpm-configuration>
+        <programlisting role="XML"><![CDATA[<jbpm-configuration>
 
   <jbpm-context>
     <service name="persistence">
@@ -869,7 +869,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
         <para> The default SFSB timeout can be adjusted by modifying the value of <literal>max-bean-life</literal> in
             the <literal>LRUStatefulContextCachePolicy</literal> cache configuration: </para>
 
-        <programlisting><![CDATA[<container-cache-conf>
+        <programlisting role="XML"><![CDATA[<container-cache-conf>
     <cache-policy>org.jboss.ejb.plugins.LRUStatefulContextCachePolicy</cache-policy>
     <cache-policy-conf>
         <min-capacity>50</min-capacity>
@@ -893,7 +893,7 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                 <literal>server/default/deploy/jboss-web.deployer/conf/web.xml</literal> for JBoss 4.2.x. The following
             entry in this file controls the default session timeout for all web applications: </para>
 
-        <programlisting><![CDATA[<session-config>
+        <programlisting role="XML"><![CDATA[<session-config>
     <!-- HTTP Session timeout, in minutes -->
     <session-timeout>30</session-timeout>
 </session-config>]]></programlisting>

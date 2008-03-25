@@ -315,7 +315,7 @@
                      below is an example. </para>
                   
                   
-                  <programlisting><![CDATA[<ejb-local-ref>
+                  <programlisting role="XML"><![CDATA[<ejb-local-ref>
    <ejb-ref-name>
       jboss-seam-jee5/AuthenticatorAction/local
    </ejb-ref-name>
@@ -342,7 +342,7 @@
                      un-comment the OC4J properties. </para>
                   
                   
-                  <programlisting><![CDATA[<property name="hibernate.dialect" 
+                  <programlisting role="XML"><![CDATA[<property name="hibernate.dialect" 
    value="org.hibernate.dialect.HSQLDialect"/>
 <property name="hibernate.query.factory_class" 
    value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory"/>
@@ -370,7 +370,7 @@
                      <para>It should look like the following:</para>
                      
                      
-                     <programlisting><![CDATA[<!-- add libs for oc4j (eager classloading) -->
+                     <programlisting role="XML"><![CDATA[<!-- add libs for oc4j (eager classloading) -->
 <property name="jbpm.lib" value="true"/>
 <property name="drools.lib" value="true"/>
 <property name="quartz.lib" value="true" />
@@ -419,7 +419,7 @@
                </para>
             
             
-            <programlisting><![CDATA[<managed-data-source
+            <programlisting role="XML"><![CDATA[<managed-data-source
    connection-pool-name="jee5-connection-pool"
    jndi-name="jdbc/__default"
    name="jee5-managed-data-source" />
@@ -442,7 +442,7 @@
                , add </para>
             
             
-            <programlisting><![CDATA[<application name="jboss-seam-jee5"
+            <programlisting role="XML"><![CDATA[<application name="jboss-seam-jee5"
  path="../../home/applications/jboss-seam-jee5.ear"
  parent="default" 
  start="true" />]]></programlisting>
@@ -456,7 +456,7 @@
                <literal>&lt;web-site&gt;</literal> , add </para>
             
             
-            <programlisting><![CDATA[<web-app application="jboss-seam-jee5"
+            <programlisting role="XML"><![CDATA[<web-app application="jboss-seam-jee5"
  name="jboss-seam-jee5" 
  load-on-startup="true"
  root="/seam-jee5" />]]></programlisting>
@@ -598,10 +598,8 @@ BUILD SUCCESSFUL]]></programlisting>
                            <para>Change the default target to archive (we
                               aren't going to cover automatic deployment to
                               OC4J).
-                              
-                              
-                              <programlisting><![CDATA[<project name="oc4j_example" default="archive" basedir=".">]]></programlisting>
-                              </para>
+                           </para>
+                           <programlisting role="XML"><![CDATA[<project name="oc4j_example" default="archive" basedir=".">]]></programlisting>
                         </listitem>
                         <listitem>
                            <para>OC4J looks for the drools file
@@ -616,13 +614,13 @@ BUILD SUCCESSFUL]]></programlisting>
                               depends="compile" description="Build the
                               distribution .war file"&gt; </literal>
                               target.
+                           </para> 
                               
-                              
-                              <programlisting><![CDATA[<copy todir="${war.dir}">
+                              <programlisting role="XML"><![CDATA[<copy todir="${war.dir}">
  <fileset dir="${basedir}/resources" >
     <include name="*.drl" />
  </fileset>
- </copy>]]></programlisting></para>
+ </copy>]]></programlisting>
                         </listitem>
                      </itemizedlist>
                   </listitem>
@@ -649,7 +647,7 @@ BUILD SUCCESSFUL]]></programlisting>
                               </para>
                            
                            
-                           <programlisting><![CDATA[<property name="hibernate.query.factory_class"
+                           <programlisting role="XML"><![CDATA[<property name="hibernate.query.factory_class"
    value="org.hibernate.hql.classic.ClassicQueryTranslatorFactory" />
 <property name="hibernate.transaction.manager_lookup_class"
    value="org.hibernate.transaction.OrionTransactionManagerLookup" />
@@ -663,7 +661,7 @@ BUILD SUCCESSFUL]]></programlisting>
                               exposing the EntityManagerFactory: </para>
                            
                            
-                           <programlisting><![CDATA[<property 
+                           <programlisting role="XML"><![CDATA[<property 
  name="jboss.entity.manager.factory.jndi.name" 
  value="java:/oc4j_exampleEntityManagerFactory">]]></programlisting>
                         </listitem>
@@ -728,7 +726,7 @@ BUILD SUCCESSFUL]]></programlisting>
                               entry: </para>
                            
                            
-                           <programlisting><![CDATA[<persistence:entity-manager-factory
+                           <programlisting role="XML"><![CDATA[<persistence:entity-manager-factory
  auto-create="true" 
  name="oc4jEntityManagerFactory"
  persistence-unit-name="oc4j_example" />]]></programlisting>
@@ -739,7 +737,7 @@ BUILD SUCCESSFUL]]></programlisting>
                               existing element: </para>
                            
                            
-                           <programlisting><![CDATA[<persistence:managed-persistence-context
+                           <programlisting role="XML"><![CDATA[<persistence:managed-persistence-context
  name="entityManager"
  auto-create="true"
  entity-manager-factory="#{oc4jEntityManagerFactory}" />]]>
@@ -758,7 +756,7 @@ BUILD SUCCESSFUL]]></programlisting>
                         modify the application further. </para>
                      
                      
-                     <programlisting><![CDATA[<ejb-local-ref>
+                     <programlisting role="XML"><![CDATA[<ejb-local-ref>
    <ejb-ref-name>
       oc4j_example/EjbSynchronizations/local
    </ejb-ref-name>
@@ -783,7 +781,7 @@ BUILD SUCCESSFUL]]></programlisting>
                               force its own inherited URL settings. </para>
                            
                            
-                           <programlisting><![CDATA[<?xml version = '1.0' encoding = 'utf-8'?>
+                           <programlisting role="XML"><![CDATA[<?xml version = '1.0' encoding = 'utf-8'?>
 <orion-application
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://xmlns.oracle.com/oracleas/schema/
@@ -810,7 +808,7 @@ BUILD SUCCESSFUL]]></programlisting>
                               </para>
                            
                            
-                           <programlisting><![CDATA[<copy todir="${ear.dir}/META-INF">
+                           <programlisting role="XML"><![CDATA[<copy todir="${ear.dir}/META-INF">
     <fileset dir="${basedir}/resources/META-INF">
        <include name="application.xml" />
        <include name="orion-application.xml"/>
@@ -834,7 +832,7 @@ BUILD SUCCESSFUL]]></programlisting>
                being imported. </para>
             
             
-            <programlisting><![CDATA[<target name="ear" description="Build the EAR">
+            <programlisting role="XML"><![CDATA[<target name="ear" description="Build the EAR">
        <copy todir="${ear.dir}">
                <fileset dir="${basedir}/resources">
                        <include name="*jpdl.xml" />
@@ -867,7 +865,7 @@ BUILD SUCCESSFUL]]></programlisting>
                   <para>Hibernate:</para>
                   
                   
-                  <programlisting><![CDATA[<include name="lib/hibernate.jar"/>
+                  <programlisting role="XML"><![CDATA[<include name="lib/hibernate.jar"/>
 <include name="lib/hibernate-annotations.jar"/>
 <include name="lib/hibernate-commons-annotations.jar"/>
 <include name="lib/hibernate-entitymanager.jar"/>
@@ -884,14 +882,14 @@ BUILD SUCCESSFUL]]></programlisting>
                      classloading): </para>
                   
                   
-                  <programlisting><![CDATA[<include name="lib/core.jar"/>]]></programlisting>
+                  <programlisting role="XML"><![CDATA[<include name="lib/core.jar"/>]]></programlisting>
                </listitem>
                <listitem>
                   <para> Third party jars &#8212; most of these are only needed
                      because of OC4J's classloading: </para>
                   
                   
-                  <programlisting><![CDATA[<include name="lib/javassist.jar"/>
+                  <programlisting role="XML"><![CDATA[<include name="lib/javassist.jar"/>
 <include name="lib/quartz.jar"/>
 <include name="lib/dbunit.jar"/>
 <include name="lib/jboss-embedded-api.jar"/>
@@ -908,7 +906,7 @@ BUILD SUCCESSFUL]]></programlisting>
             <para>You should end up with something like:</para>
             
             
-            <programlisting><![CDATA[<fileset dir="${basedir}">
+            <programlisting role="XML"><![CDATA[<fileset dir="${basedir}">
       <include name="lib/jbpm*.jar" />
       <include name="lib/jboss-el.jar" />
       <include name="lib/drools-*.jar"/>
@@ -970,7 +968,7 @@ BUILD SUCCESSFUL]]></programlisting>
                   </literal> </para>
                
                
-               <programlisting><![CDATA[<managed-data-source
+               <programlisting role="XML"><![CDATA[<managed-data-source
    connection-pool-name="oc4j-example-connection-pool"
    jndi-name="jdbc/__oc4jexample"
    name="oc4j-example-managed-data-source" />
@@ -989,7 +987,7 @@ BUILD SUCCESSFUL]]></programlisting>
                   </para>
                
                
-               <programlisting><![CDATA[<application name="oc4j_example"
+               <programlisting role="XML"><![CDATA[<application name="oc4j_example"
  path="../../home/applications/oc4j_example.ear"
  parent="default"
  start="true" />]]></programlisting>
@@ -1000,7 +998,7 @@ BUILD SUCCESSFUL]]></programlisting>
                   </literal> </para>
                
                
-               <programlisting><![CDATA[<web-app application="oc4j_example"
+               <programlisting role="XML"><![CDATA[<web-app application="oc4j_example"
  name="oc4j_example" 
  load-on-startup="true"
  root="/oc4j_example" />]]></programlisting>
@@ -1081,11 +1079,11 @@ BUILD SUCCESSFUL]]></programlisting>
                   </itemizedlist>
                   
                   
-                  <programlisting><![CDATA[@Name("authenticator") @Stateless public class
+                  <programlisting role="JAVA"><![CDATA[@Name("authenticator") @Stateless public class
             AuthenticatorAction implements Authenticator {]]></programlisting>
                   
                   
-                  <programlisting><![CDATA[@Local public interface Authenticator { 
+                  <programlisting role="JAVA"><![CDATA[@Local public interface Authenticator { 
   public boolean authenticate(); 
 }]]></programlisting>
                </listitem>
@@ -1096,13 +1094,13 @@ BUILD SUCCESSFUL]]></programlisting>
                      </para>
                   
                   
-                  <programlisting><![CDATA[@PersistenceContext private EntityManager entityManager;]]></programlisting>
+                  <programlisting role="JAVA"><![CDATA[@PersistenceContext private EntityManager entityManager;]]></programlisting>
                </listitem>
                <listitem>
                   <para>Implement authenticate:</para>
                   
                   
-                  <programlisting><![CDATA[public boolean authenticate() {
+                  <programlisting role="JAVA"><![CDATA[public boolean authenticate() {
    List <User> users = entityManager .createQuery("select u from User u where 
    u.username = #{identity.username} and 
    u.password = #{identity.password}") .getResultList();
@@ -1119,7 +1117,7 @@ BUILD SUCCESSFUL]]></programlisting>
                      <literal>web.xml</literal> : </para>
                   
                   
-                  <programlisting><![CDATA[<ejb-local-ref>
+                  <programlisting role="XML"><![CDATA[<ejb-local-ref>
    <ejb-ref-name>
       oc4j_example/AuthenticatorAction/local
    </ejb-ref-name>

@@ -29,7 +29,7 @@
       &#8212; an email is just facelet!
     </para>
     	
-    <programlisting><![CDATA[<m:message xmlns="http://www.w3.org/1999/xhtml"
+    <programlisting role="XHTML"><![CDATA[<m:message xmlns="http://www.w3.org/1999/xhtml"
     xmlns:m="http://jboss.com/products/seam/mail"
     xmlns:h="http://java.sun.com/jsf/html">
   
@@ -68,7 +68,7 @@
       have to do is ask Seam to render the view:
     </para>
     	
-    <programlisting><![CDATA[@In(create=true)
+    <programlisting role="JAVA"><![CDATA[@In(create=true)
 private Renderer renderer;
    
 public void send() {
@@ -97,7 +97,7 @@ public void send() {
         If you wanted to email the <literal>jboss-seam-mail.jar</literal>:
       </para>
    		
-   	  <programlisting><![CDATA[<m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar"/>]]></programlisting>
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar"/>]]></programlisting>
    		    	
    	  <para>
         Seam will load the file from the classpath, and attach it to the email.
@@ -105,19 +105,19 @@ public void send() {
    		if you wanted it to have another name you would just add the <literal>fileName</literal> attribute:
       </para>
    		
-   	  <programlisting><![CDATA[<m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar" fileName="this-is-so-cool.jar"/>]]></programlisting>
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment value="/WEB-INF/lib/jboss-seam-mail.jar" fileName="this-is-so-cool.jar"/>]]></programlisting>
    		
    	  <para>
         You could also attach a <literal>java.io.File</literal>, a <literal>java.net.URL</literal>:
       </para>
    		
-   	  <programlisting><![CDATA[<m:attachment value="#{numbers}"/>]]></programlisting>
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment value="#{numbers}"/>]]></programlisting>
    		
    	  <para>
         Or a <literal>byte[]</literal> or a <literal>java.io.InputStream</literal>:
       </para>
    		
-   	  <programlisting><![CDATA[<m:attachment value="#{person.photo}" contentType="image/png"/>]]></programlisting>
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment value="#{person.photo}" contentType="image/png"/>]]></programlisting>
    		
    	  <para>
         You'll notice that for a <literal>byte[]</literal> and a <literal>java.io.InputStream</literal>
@@ -131,7 +131,7 @@ public void send() {
         around the normal tags you would use:
       </para>
    		
-   	  <programlisting><![CDATA[<m:attachment fileName="tiny.pdf">
+   	  <programlisting role="XHTML"><![CDATA[<m:attachment fileName="tiny.pdf">
     <p:document>                                                      
         A very tiny PDF                                                                                                
     </p:document>
@@ -142,7 +142,7 @@ public void send() {
         pictures loaded from a database) you can just use a <literal>&lt;ui:repeat&gt;</literal>:
       </para>
 		
-	  <programlisting><![CDATA[<ui:repeat value="#{people}" var="person">
+	  <programlisting role="XHTML"><![CDATA[<ui:repeat value="#{people}" var="person">
     <m:attachment value="#{person.photo}" contentType="image/jpeg" fileName="#{person.firstname}_#{person.lastname}.jpg"/>
 </ui:repeat>]]></programlisting>
    		
@@ -150,7 +150,7 @@ public void send() {
         And if you want to display an attached image inline:
       </para>
 
-      <programlisting><![CDATA[<m:attachment 
+      <programlisting role="XHTML"><![CDATA[<m:attachment 
     value="#{person.photo}" 
     contentType="image/jpeg" 
     fileName="#{person.firstname}_#{person.lastname}.jpg" 
@@ -179,7 +179,7 @@ public void send() {
         add a plain text alternative to your email body:
       </para>
 	    	 
-	  <programlisting><![CDATA[<m:body>
+	  <programlisting role="XHTML"><![CDATA[<m:body>
     <f:facet name="alternative">Sorry, your email reader can't show our fancy email, 
 please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
 </m:body>]]></programlisting>
@@ -195,7 +195,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         inside a <literal>&lt;ui:repeat&gt;</literal>:
       </para>
 	    	 
-	  <programlisting><![CDATA[<ui:repeat value="#{allUsers} var="user">
+	  <programlisting role="XHTML"><![CDATA[<ui:repeat value="#{allUsers} var="user">
     <m:to name="#{user.firstname} #{user.lastname}" address="#{user.emailAddress}" />
 </ui:repeat>]]></programlisting>
 
@@ -210,7 +210,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         place the whole message inside a <literal>&lt;ui:repeat&gt;</literal>:
       </para>
 	    	
-	  <programlisting><![CDATA[<ui:repeat value="#{people}" var="p">
+	  <programlisting role="XHTML"><![CDATA[<ui:repeat value="#{people}" var="p">
     <m:message>
         <m:from name="#{person.firstname} #{person.lastname}">#{person.address}</m:from>
         <m:to name="#{p.firstname}">#{p.address}</m:to>
@@ -232,7 +232,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         Our <literal>template.xhtml</literal> contains:
       </para>
 	    	
-	  <programlisting><![CDATA[<m:message>
+	  <programlisting role="XHTML"><![CDATA[<m:message>
    <m:from name="Seam" address="do-not-reply@jboss.com" />
    <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
    <m:subject>#{subject}</m:subject>
@@ -249,7 +249,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         Our <literal>templating.xhtml</literal> contains:
       </para>
 	    	
-      <programlisting><![CDATA[<ui:param name="subject" value="Templating with Seam Mail"/>
+      <programlisting role="XHTML"><![CDATA[<ui:param name="subject" value="Templating with Seam Mail"/>
 <ui:define name="body">
     <p>This example demonstrates that you can easily use <i>facelets templating</i> in email!</p>
 </ui:define>]]></programlisting>
@@ -282,7 +282,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         template:
       </para>
       
-	  <programlisting><![CDATA[<m:message charset="UTF-8">
+	  <programlisting role="XHTML"><![CDATA[<m:message charset="UTF-8">
    ...
 </m:message>]]></programlisting>
 
@@ -292,7 +292,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         your pages by setting encoding of the template:
       </para> 
     
-      <programlisting><![CDATA[<?xml version="1.0" encoding="UTF-8"?>]]></programlisting>
+      <programlisting role="XHTML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>]]></programlisting>
     </section>
 	    
 	<section>
@@ -305,7 +305,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         receipt:
       </para>
 	    	
-	  <programlisting><![CDATA[<m:message xmlns:m="http://jboss.com/products/seam/mail"
+	  <programlisting role="XHTML"><![CDATA[<m:message xmlns:m="http://jboss.com/products/seam/mail"
     importance="low"
     requestReadReceipt="true"/>]]></programlisting>
    
@@ -314,7 +314,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
         <literal>&lt;m:header&gt;</literal> tag:
       </para>
 	    	
-      <programlisting><![CDATA[<m:header name="X-Sent-From" value="JBoss Seam"/>]]></programlisting>
+      <programlisting role="XHTML"><![CDATA[<m:header name="X-Sent-From" value="JBoss Seam"/>]]></programlisting>
 	    	
     </section>
 
@@ -338,7 +338,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
       You can configure it like this:
     </para>
       
-	<programlisting><![CDATA[@MessageDriven(activationConfig={
+	<programlisting role="JAVA"><![CDATA[@MessageDriven(activationConfig={
     @ActivationConfigProperty(propertyName="mailServer", propertyValue="localhost"),
     @ActivationConfigProperty(propertyName="mailFolder", propertyValue="INBOX"),
     @ActivationConfigProperty(propertyName="storeProtocol", propertyValue="pop3"),
@@ -426,7 +426,7 @@ public class MailListenerMDB implements MailListener {
           describes the service in more detail.
         </para>
 		        
-        <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
     xmlns:core="http://jboss.com/products/seam/core"
     xmlns:mail="http://jboss.com/products/seam/mail">
         
@@ -450,7 +450,7 @@ public class MailListenerMDB implements MailListener {
           smtp server:
         </para>
 	      	 	
-        <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
     xmlns:core="http://jboss.com/products/seam/core"
     xmlns:mail="http://jboss.com/products/seam/mail">
         
@@ -486,7 +486,7 @@ public class MailListenerMDB implements MailListener {
       <literal>meldware</literal> component:
     </para>
 		
-    <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+    <programlisting role="XHTML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
     xmlns:core="http://jboss.com/products/seam/core"
     xmlns:mail="http://jboss.com/products/seam/mail">
               
