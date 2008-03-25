@@ -151,22 +151,22 @@ public class PersistenceProvider
       return Entity.forClass(bean.getClass()).getBeanClass();
    }
    
-   public Method getPostLoadMethod(Class beanClass)
+   public Method getPostLoadMethod(Class beanClass, EntityManager entityManager)
    {
       return Entity.forClass(beanClass).getPostLoadMethod();      
    }
    
-   public Method getPrePersistMethod(Class beanClass)
+   public Method getPrePersistMethod(Class beanClass, EntityManager entityManager)
    {
       return Entity.forClass(beanClass).getPrePersistMethod();
    }
    
-   public Method getPreUpdateMethod(Class beanClass)
+   public Method getPreUpdateMethod(Class beanClass, EntityManager entityManager)
    {
       return Entity.forClass(beanClass).getPreUpdateMethod();
    }
    
-   public Method getPreRemoveMethod(Class beanClass)
+   public Method getPreRemoveMethod(Class beanClass, EntityManager entityManager)
    {
       return Entity.forClass(beanClass).getPreRemoveMethod();
    }

@@ -626,58 +626,5 @@ public class Identity implements Serializable
          principal = savedPrincipal;
          subject = savedSubject;
       }
-   }
-
-   public void checkEntityPermission(Object entity, EntityAction action)
-   {      
-      isLoggedIn(true);
-      
-      PersistenceProvider provider = PersistenceProvider.instance(); 
-      Class beanClass = provider.getBeanClass(entity);
-      
-      if (beanClass != null)
-      {
-         String name = Seam.getComponentName(entity.getClass());
-         if (name == null) name = beanClass.getName();  
-         
-         Method m = null;
-         switch (action)
-         {
-            case READ:
-               m = provider.getPostLoadMethod(beanClass);
-               break;
-            case INSERT:
-               m = provider.getPrePersistMethod(beanClass);
-               break;
-            case UPDATE:
-               m = provider.getPreUpdateMethod(beanClass);
-               break;
-            case DELETE:
-               m = provider.getPreRemoveMethod(beanClass);
-         }
-         
-         Restrict restrict = null;
-         
-         if (m != null && m.isAnnotationPresent(Restrict.class))
-         {
-            restrict = m.getAnnotation(Restrict.class);
-         }
-         else if (entity.getClass().isAnnotationPresent(Restrict.class))
-         {
-            restrict = entity.getClass().getAnnotation(Restrict.class);
-         }
-
-         if (restrict != null)
-         {
-            if (Strings.isEmpty(restrict.value()))
-            {
-               checkPermission(name, action.toString(), entity);
-            }
-            else
-            {
-               checkRestriction(restrict.value());
-            }
-         }
-      }
-   }   
+   } 
 }

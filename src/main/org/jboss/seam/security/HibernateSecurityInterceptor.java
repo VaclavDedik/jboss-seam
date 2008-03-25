@@ -30,10 +30,8 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
    public boolean onLoad(Object entity, Serializable id, Object[] state,
                       String[] propertyNames, Type[] types)
    {
-      if (Identity.isSecurityEnabled())
-      {
-         Identity.instance().checkEntityPermission(entity, READ);
-      }
+      EntityPermissionChecker.instance().checkEntityPermission(entity, READ);
+      
       return wrappedInterceptor != null ? 
                wrappedInterceptor.onLoad(entity, id, state, propertyNames, types) : 
                false;
@@ -43,10 +41,8 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
    public void onDelete(Object entity, Serializable id, Object[] state, 
                         String[] propertyNames, Type[] types)
    {
-      if (Identity.isSecurityEnabled())
-      {
-         Identity.instance().checkEntityPermission(entity, DELETE);
-      }
+      EntityPermissionChecker.instance().checkEntityPermission(entity, DELETE);
+      
       if (wrappedInterceptor != null)
          wrappedInterceptor.onDelete(entity, id, state, propertyNames, types);
    }
@@ -55,10 +51,8 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState,
                    Object[] previousState, String[] propertyNames, Type[] types)
    {
-      if (Identity.isSecurityEnabled())
-      {
-         Identity.instance().checkEntityPermission(entity, UPDATE);
-      }
+      EntityPermissionChecker.instance().checkEntityPermission(entity, UPDATE);
+      
       return wrappedInterceptor != null ? 
                wrappedInterceptor.onFlushDirty(entity, id, currentState, 
                         previousState, propertyNames, types) : false;
@@ -68,10 +62,8 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
    public boolean onSave(Object entity, Serializable id, Object[] state,
                       String[] propertyNames, Type[] types)
    {
-      if (Identity.isSecurityEnabled())
-      {
-         Identity.instance().checkEntityPermission(entity, INSERT);
-      }
+      EntityPermissionChecker.instance().checkEntityPermission(entity, INSERT);
+      
       return wrappedInterceptor != null ? 
                wrappedInterceptor.onSave(entity, id, state, propertyNames, types) : 
                false;

@@ -21,36 +21,24 @@ public class EntitySecurityListener
    @PostLoad
    public void postLoad(Object entity)
    {
-      if (Identity.isSecurityEnabled())
-      {
-         Identity.instance().checkEntityPermission(entity, READ);
-      }
+      EntityPermissionChecker.instance().checkEntityPermission(entity, READ);
    }
    
    @PrePersist
    public void prePersist(Object entity)
    { 
-      if (Identity.isSecurityEnabled())
-      {
-         Identity.instance().checkEntityPermission(entity, INSERT);
-      }
+      EntityPermissionChecker.instance().checkEntityPermission(entity, INSERT);
    }
    
    @PreUpdate
    public void preUpdate(Object entity)
    {
-      if (Identity.isSecurityEnabled())
-      {
-         Identity.instance().checkEntityPermission(entity, UPDATE);
-      }
+      EntityPermissionChecker.instance().checkEntityPermission(entity, UPDATE);
    }
    
    @PreRemove
    public void preRemove(Object entity)
    {
-      if (Identity.isSecurityEnabled())
-      {
-         Identity.instance().checkEntityPermission(entity, DELETE);
-      }
+      EntityPermissionChecker.instance().checkEntityPermission(entity, DELETE);
    }
 }

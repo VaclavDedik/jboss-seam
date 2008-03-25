@@ -4,6 +4,7 @@ import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -15,6 +16,11 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.TransientObjectException;
+import org.hibernate.ejb.event.Callback;
+import org.hibernate.ejb.event.EJB3PostLoadEventListener;
+import org.hibernate.ejb.event.EntityCallbackHandler;
+import org.hibernate.engine.SessionImplementor;
+import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.type.VersionType;
 import org.jboss.seam.ScopeType;
@@ -322,29 +328,98 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       }
    }
    
-   /*@Override
-   public Method getPostLoadMethod(Class beanClass)
+   /**
+    * A nasty hack until we get a nicer method in Hibernate to use instead
+    * 
+    * TODO fix this once Hibernate exposes an API method to return the callback method/s for a
+    * given bean class
+    * 
+    * @param entityManager
+    * @return
+    */
+   private EntityCallbackHandler getCallbackHandler(EntityManager entityManager)
    {
+      PostLoadEventListener[] listeners = ((SessionImplementor) getSession(entityManager))
+      .getListeners().getPostLoadEventListeners();
+   
+      for (PostLoadEventListener listener : listeners)
+      {
+         if (listener instanceof EJB3PostLoadEventListener)
+         {
+            try
+            {
+               Field callbackHandlerField = EJB3PostLoadEventListener.class.getField("callbackHandler");
+               return (EntityCallbackHandler) callbackHandlerField.get(listener);
+            }
+            catch (Exception ex)
+            {
+               throw new RuntimeException(ex);
+            }
+         }
+      }   
+      return null;
+   }
+   
+   /**
+    * More nastiness
+    * 
+    * @param handler
+    * @param fieldName
+    * @return
+    */
+   private Callback[] getCallbacks(EntityCallbackHandler handler, String fieldName, Class beanClass)
+   {
+      try
+      {
+         Field f = EntityCallbackHandler.class.getField(fieldName);
+         HashMap<Class,Callback[]> callbacks = (HashMap<Class,Callback[]>) f.get(handler);
+         return callbacks.get(beanClass);
+      }
+      catch (Exception ex)
+      {
+         throw new RuntimeException(ex);
+      }
+   }
+   
+   private Method getCallbackMethod(EntityManager entityManager, Class beanClass, String callbackFieldName)
+   {
+      Callback[] callbacks = getCallbacks(getCallbackHandler(entityManager), callbackFieldName, beanClass);
+      
+      if (callbacks != null)
+      {
+         for (Callback cb : callbacks)
+         {
+            return cb.getCallbackMethod();
+         }
+      }
+         
       return null;      
    }
    
    @Override
-   public Method getPrePersistMethod(Class beanClass)
+   public Method getPostLoadMethod(Class beanClass, EntityManager entityManager)
    {
-      return null;
+      return getCallbackMethod(entityManager, beanClass, "postLoads");
+   }
+   
+   
+   @Override
+   public Method getPrePersistMethod(Class beanClass, EntityManager entityManager)
+   {
+      return getCallbackMethod(entityManager, beanClass, "preCreates");
    }
    
    @Override
-   public Method getPreUpdateMethod(Class beanClass)
+   public Method getPreUpdateMethod(Class beanClass, EntityManager entityManager)
    {
-      return null;
+      return getCallbackMethod(entityManager, beanClass, "preUpdates");
    }
    
    @Override
-   public Method getPreRemoveMethod(Class beanClass)
+   public Method getPreRemoveMethod(Class beanClass, EntityManager entityManager)
    {
-      return null;
-   }*/
+      return getCallbackMethod(entityManager, beanClass, "preRemoves");
+   }
    
    private Session getSession(EntityManager entityManager)
    {
