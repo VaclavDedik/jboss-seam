@@ -3,7 +3,7 @@
  * 
  * @see org.jboss.seam.security.management.IdentityManager
  */
-@Namespace(value="http://jboss.com/products/seam/security", prefix="org.jboss.seam.security")
+@Namespace(value="http://jboss.com/products/seam/security/management", prefix="org.jboss.seam.security.management")
 @AutoCreate
 package org.jboss.seam.security.management;
 
