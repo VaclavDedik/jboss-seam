@@ -427,50 +427,6 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
         </sect2>
 
     </sect1>
-    
-    <sect1 id="alt-jpa-providers">
-        <title>Using Alternate JPA Providers</title>
-        
-        <para> Seam comes packaged and configured with Hibernate as the primary JPA provider.
-        This helps with the <emphasis>Configuration by Exception</emphasis> concept.
-        If you require using a different JPA provider you must tell <literal>seam</literal>
-        about it.
-        </para>
-        
-        <para>This can be be done in one of two ways:
-            <itemizedlist>
-                <listitem>
-                    <para>Update your application's <literal>components.xml</literal>
-                    so that the generic <literal>PersistenceProvider</literal> takes
-                    precedence over the hibernate version.  Simply add the following
-                    to the file:
-                    <programlisting><![CDATA[<component name="org.jboss.seam.persistence.persistenceProvider" 
-           class="org.jboss.seam.persistence.PersistenceProvider"
-           scope="stateless">
-</component>]]></programlisting>
-                    </para>
-                </listitem>
-                <listitem>
-                    <para>If you want to take advantage of your JPA providers 
-                    non-standard features you will need to write you own implementation of
-                    the <literal>PersistenceProvider</literal>.  Use 
-                    <literal>HibernatePersistenceProvider</literal> as a starting 
-                    point (don't forget to provide it to the community :).  Then you
-                    will need to tell <literal>seam</literal> to use it as before.
-                    <programlisting><![CDATA[<component name="org.jboss.seam.persistence.persistenceProvider" 
-           class="org.your.package.YourPersistenceProvider">
-</component>]]></programlisting>
-                    
-                    </para>
-                </listitem>            
-            </itemizedlist>            
-        </para>
-        <para>All that is left is updating the <literal>persistence.xml</literal>
-            file with the correct provider class, and what ever properties it 
-            needs.  Don't forget to package your new provider's jar files in the 
-            application if they are needed.
-        </para>
-    </sect1>
 
     <sect1>
         <title>Configuring Seam in Java EE 5</title>

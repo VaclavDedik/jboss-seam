@@ -484,8 +484,7 @@ public void commitClaim() {
             API via the <literal>getDelegate()</literal> method. Naturally, the most interesting
             vendor is Hibernate, and the most powerful delegate interface is
             <literal>org.hibernate.Session</literal>. You'd be nuts to use anything else. Trust
-            me, I'm not biased at all.  For configuring alternate JPA providers see
-            <link linkend="alt-jpa-providers">Using Alternate JPA Providers</link>
+            me, I'm not biased at all.
         </para>
         
         <para>
