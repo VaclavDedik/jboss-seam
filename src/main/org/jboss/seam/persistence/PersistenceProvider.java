@@ -171,4 +171,30 @@ public class PersistenceProvider
       return Entity.forClass(beanClass).getPreRemoveMethod();
    }
    
+   @Deprecated
+   public Method getPreRemoveMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPreRemoveMethod();
+   }
+   
+   @Deprecated
+   public Method getPostLoadMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPostLoadMethod();      
+   }
+   
+   @Deprecated
+   public Method getPrePersistMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPrePersistMethod();
+   }
+   
+   @Deprecated
+   public Method getPreUpdateMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPreUpdateMethod();
+   }
+   
+
+   
 }
