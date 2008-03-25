@@ -337,9 +337,9 @@ public class HibernatePersistenceProvider extends PersistenceProvider
     * @param entityManager
     * @return
     */
-   private EntityCallbackHandler getCallbackHandler(EntityManager entityManager)
+   private EntityCallbackHandler getCallbackHandler(Session session)
    {
-      PostLoadEventListener[] listeners = ((SessionImplementor) getSession(entityManager))
+      PostLoadEventListener[] listeners = ((SessionImplementor) session)
       .getListeners().getPostLoadEventListeners();
    
       for (PostLoadEventListener listener : listeners)
@@ -371,9 +371,18 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    {
       try
       {
-         Field f = EntityCallbackHandler.class.getField(fieldName);
-         HashMap<Class,Callback[]> callbacks = (HashMap<Class,Callback[]>) f.get(handler);
-         return callbacks.get(beanClass);
+         Field f = EntityCallbackHandler.class.getDeclaredField(fieldName);
+         boolean isAccessible = f.isAccessible();
+         try
+         {
+            f.setAccessible(true);
+            HashMap<Class,Callback[]> callbacks = (HashMap<Class,Callback[]>) f.get(handler);
+            return callbacks.get(beanClass);
+         }
+         finally
+         {
+            f.setAccessible(isAccessible);
+         }
       }
       catch (Exception ex)
       {
@@ -381,9 +390,26 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       }
    }
    
-   private Method getCallbackMethod(EntityManager entityManager, Class beanClass, String callbackFieldName)
+   private Method getCallbackMethod(Object persistenceContext, Class beanClass, String callbackFieldName)
    {
-      Callback[] callbacks = getCallbacks(getCallbackHandler(entityManager), callbackFieldName, beanClass);
+      EntityCallbackHandler callbackHandler = null;
+      
+      if (persistenceContext instanceof EntityManager)
+      {
+         callbackHandler = getCallbackHandler(getSession((EntityManager) persistenceContext));
+      }
+      else if (persistenceContext instanceof Session)
+      {
+         callbackHandler = getCallbackHandler((Session) persistenceContext);
+      }
+      
+      if (callbackHandler == null)
+      {
+         throw new RuntimeException("Could not determine callback handler for persistence context " +
+               persistenceContext);         
+      }
+      
+      Callback[] callbacks = getCallbacks(callbackHandler, callbackFieldName, beanClass);
       
       if (callbacks != null)
       {
@@ -396,30 +422,30 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       return null;      
    }
    
-   @Override
-   public Method getPostLoadMethod(Class beanClass, EntityManager entityManager)
+   /*@Override
+   public Method getPostLoadMethod(Class beanClass, Object persistenceContext)
    {
-      return getCallbackMethod(entityManager, beanClass, "postLoads");
+      return getCallbackMethod(persistenceContext, beanClass, "postLoads");
    }
    
    
    @Override
-   public Method getPrePersistMethod(Class beanClass, EntityManager entityManager)
+   public Method getPrePersistMethod(Class beanClass, Object persistenceContext)
    {
-      return getCallbackMethod(entityManager, beanClass, "preCreates");
+      return getCallbackMethod(persistenceContext, beanClass, "preCreates");
    }
    
    @Override
-   public Method getPreUpdateMethod(Class beanClass, EntityManager entityManager)
+   public Method getPreUpdateMethod(Class beanClass, Object persistenceContext)
    {
-      return getCallbackMethod(entityManager, beanClass, "preUpdates");
+      return getCallbackMethod(persistenceContext, beanClass, "preUpdates");
    }
    
    @Override
-   public Method getPreRemoveMethod(Class beanClass, EntityManager entityManager)
+   public Method getPreRemoveMethod(Class beanClass, Object persistenceContext)
    {
-      return getCallbackMethod(entityManager, beanClass, "preRemoves");
-   }
+      return getCallbackMethod(persistenceContext, beanClass, "preRemoves");
+   }*/
    
    private Session getSession(EntityManager entityManager)
    {
