@@ -396,6 +396,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       return null;      
    }
    
+   /*
    @Override
    public Method getPostLoadMethod(Class beanClass, EntityManager entityManager)
    {
@@ -419,7 +420,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    public Method getPreRemoveMethod(Class beanClass, EntityManager entityManager)
    {
       return getCallbackMethod(entityManager, beanClass, "preRemoves");
-   }
+   }*/
    
    private Session getSession(EntityManager entityManager)
    {
