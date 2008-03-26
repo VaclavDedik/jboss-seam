@@ -4,9 +4,8 @@ dialect 'mvel'
 
 import java.security.Principal;
 
-import org.jboss.seam.security.management.SecurityContext;
 import org.jboss.seam.security.management.UserAccount;
-import org.jboss.seam.security.PermissionCheck;
+import org.jboss.seam.security.permission.PermissionCheck;
 import org.jboss.seam.security.Role;
 
 import org.jboss.seam.example.seamspace.BlogComment;
@@ -15,10 +14,6 @@ import org.jboss.seam.example.seamspace.MemberAccount;
 import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
-
-function Member getAccountMember(UserAccount account) {
-  return ((MemberAccount) account).getMember();
-}
 
 rule ViewProfile
   no-loop
@@ -76,9 +71,9 @@ rule CreateBlog
   no-loop
   activation-group "permissions"
 when
-  ctx: SecurityContext()
-  member: Member()
-  check: PermissionCheck(target == member, action == "createBlog", granted == false, eval( member.equals(getAccountMember(ctx.userAccount))))
+  mbr: Member()
+  acct: MemberAccount(member == mbr)
+  check: PermissionCheck(target == mbr, action == "createBlog", granted == false)
 then
   check.grant();
 end
@@ -87,8 +82,8 @@ rule InsertMemberBlog
   no-loop
   activation-group "permissions"  
 when
-  ctx: SecurityContext()
-  blog: MemberBlog(member : member, eval( member.equals(getAccountMember(ctx.userAccount))))
+  acct: MemberAccount()
+  blog: MemberBlog(member == acct.member)
   check: PermissionCheck(target == blog, action == "insert", granted == false)  
 then
   check.grant();
@@ -98,9 +93,9 @@ rule CreateFriendComment
   no-loop
   activation-group "permissions"
 when
-  ctx: SecurityContext()
-  member: Member()
-  check: PermissionCheck(target == member, action == "createFriendComment", granted == false, eval( member.isFriend(getAccountMember(ctx.userAccount))))
+  acct: MemberAccount()
+  member: Member() //friends contains acct.member)
+  check: PermissionCheck(target == member, action == "createFriendComment", granted == false)
 then
   check.grant();
 end
@@ -109,9 +104,9 @@ rule CreateFriendRequest
   no-loop
   activation-group "permissions"
 when
-  ctx: SecurityContext()
-  member: Member()
-  check: PermissionCheck(target == member, action == "createFriendRequest", granted == false, eval( !member.isFriend(getAccountMember(ctx.userAccount))) )
+  acct: MemberAccount()
+  member: Member() //friends not contains acct.member)
+  check: PermissionCheck(target == member, action == "createFriendRequest", granted == false)
 then
   check.grant();
 end

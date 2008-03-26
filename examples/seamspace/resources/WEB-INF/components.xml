@@ -13,7 +13,7 @@
                  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.1.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd
-                 http://jboss.com/products/seam/security/management http://jboss.com/products/seam/identity-management-2.1.xsd
+                 http://jboss.com/products/seam/security/management http://jboss.com/products/seam/security-2.1.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.1.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd
                  http://jboss.com/products/seam/captcha http://jboss.com/products/seam/captcha-2.1.xsd">
@@ -26,8 +26,22 @@
     
     <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
     
-    <identity-management:jpa-identity-store name="identityStore" account-class="org.jboss.seam.example.seamspace.MemberAccount"/>    
+    <identity-management:jpa-identity-store name="identityStore" account-class="org.jboss.seam.example.seamspace.MemberAccount"/>
     
+    <!--security:ldap-identity-store name="identityStore" 
+      server-address="60.241.32.50"
+      principal-DN-prefix="uid="
+      principal-DN-suffix=",ou=Person,dc=bryzak,dc=com"
+      bind-DN="cn=Manager,dc=bryzak,dc=com"
+      bind-credentials="secret"
+      user-context-DN="ou=Person,dc=bryzak,dc=com"
+      role-context-DN="ou=Roles,dc=bryzak,dc=com"
+      user-role-attribute="roles"
+      role-name-attribute="cn"
+      /-->
+      
+    <security:jpa-permission-store name="accountPermissionStore" permission-class="org.jboss.seam.example.seamspace.Permission"/>
+       
     <drools:rule-base name="securityRules">
        <drools:rule-files>
            <value>/META-INF/security-rules.drl</value>

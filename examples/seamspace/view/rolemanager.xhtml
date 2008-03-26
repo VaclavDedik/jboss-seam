@@ -53,9 +53,9 @@
             <s:fragment rendered="#{s:hasPermission('seam.account', 'update')}">
               <s:link value="Edit" action="#{roleAction.editRole(roleSearch.selectedRole)}"/><span> | </span>
             </s:fragment>
-            <s:link value="Delete" action="#{identityManager.deleteAccount(roleSearch.selectedRole)}"
+            <s:link value="Delete" action="#{identityManager.deleteRole(roleSearch.selectedRole)}"
                     rendered="#{s:hasPermission('seam.account', 'delete')}"
-                    onclick="return confirmDelete()"/>                 
+                    onclick="return confirmDelete()"/>              
           </rich:column>
   	    </rich:dataTable>
 	    </div>
