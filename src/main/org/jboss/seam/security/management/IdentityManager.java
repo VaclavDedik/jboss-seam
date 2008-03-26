@@ -91,9 +91,14 @@ public class IdentityManager
    
    public boolean createUser(String name, String password)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_CREATE);
-      return userIdentityStore.createUser(name, password); 
+      return createUser(name, password, null, null);
    }
+
+   public boolean createUser(String name, String password, String firstname, String lastname)
+   {
+      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_CREATE);
+      return userIdentityStore.createUser(name, password, firstname, lastname); 
+   }   
    
    public boolean deleteUser(String name)
    {

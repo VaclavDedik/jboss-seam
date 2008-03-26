@@ -2,6 +2,7 @@ package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +46,32 @@ public class JpaIdentityStore implements IdentityStore
    
    private Map<String,Set<String>> roleCache;
    
+   private Field firstNameField;
+   private Field lastNameField;
+   
+   private String firstNameFieldName;   
+   private String lastNameFieldName;
+   
+   public String getFirstNameField()
+   {
+      return firstNameFieldName;
+   }
+   
+   public void setFirstNameField(String firstNameFieldName)
+   {
+      this.firstNameFieldName = firstNameFieldName;
+   }
+   
+   public String getLastNameField()
+   {
+      return lastNameFieldName;
+   }
+   
+   public void setLastNameField(String lastNameFieldName)
+   {
+      this.lastNameFieldName = lastNameFieldName;
+   }
+   
    public int getFeatures()
    {
       return featureSet.getFeatures();
@@ -64,6 +91,32 @@ public class JpaIdentityStore implements IdentityStore
    public void init()
    {
       loadRoles();
+      
+      if (getFirstNameField() != null)
+      {
+         try
+         {
+            firstNameField = accountClass.getField(getFirstNameField());
+         }
+         catch (NoSuchFieldException ex)
+         {
+            throw new RuntimeException("First name field " + getFirstNameField() + " does not exist " +
+                  "in account class " + accountClass.getName(), ex);
+         }
+      }
+      
+      if (getLastNameField() != null)
+      {
+         try
+         {
+            lastNameField = accountClass.getField(getLastNameField());
+         }
+         catch (NoSuchFieldException ex)
+         {
+            throw new RuntimeException("Last name field " + getLastNameField() + " does not exist " +
+                  "in account class " + accountClass.getName(), ex);
+         }
+      }      
    }
    
    protected void loadRoles()
@@ -86,7 +139,21 @@ public class JpaIdentityStore implements IdentityStore
       }      
    }
    
-   public boolean createUser(String username, String password)
+   private void setFieldValue(Field field, Object instance, Object value) throws Exception
+   {
+      boolean accessible = field.isAccessible();
+      try
+      {
+         field.setAccessible(true);
+         field.set(instance, value);
+      }
+      finally
+      {
+         field.setAccessible(accessible);
+      }
+   }
+   
+   public boolean createUser(String username, String password, String firstname, String lastname)
    {
       try
       {
@@ -103,6 +170,9 @@ public class JpaIdentityStore implements IdentityStore
          UserAccount account = accountClass.newInstance();
          account.setAccountType(UserAccount.AccountType.user);
          account.setUsername(username);
+         
+         if (firstNameField != null) setFieldValue(firstNameField, account, firstname);         
+         if (lastNameField != null) setFieldValue(lastNameField, account, lastname);
          
          if (password == null)
          {
@@ -130,7 +200,12 @@ public class JpaIdentityStore implements IdentityStore
          {
             throw new IdentityManagementException("Could not create account", ex);
          }
-      }
+      }      
+   }
+   
+   public boolean createUser(String username, String password)
+   {
+      return createUser(username, password, null, null);
    }
    
    public boolean deleteUser(String name)

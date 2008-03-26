@@ -51,15 +51,30 @@ public class LdapIdentityStore implements IdentityStore
    
    private String userRoleAttribute = "roles";
    
-   private boolean roleAttributeIsDN = true;   
+   private boolean roleAttributeIsDN = true;
+   
+   private String userNameAttribute = "uid";
+   
+   private String userPasswordAttribute = "userPassword";
+   
+   private String firstNameAttribute = null;
+   
+   private String lastNameAttribute = "sn";
+   
+   private String fullNameAttribute = "cn";
    
    private String roleNameAttribute = "cn";
    
    private String objectClassAttribute = "objectClass";
    
-   private String roleObjectClass = "organizationalRole";
+   private String[] roleObjectClasses = { "organizationalRole" };
    
-   private String userObjectClass = "person";
+   private String[] userObjectClasses = { "person", "uidObject" };
+   
+   /**
+    * Time limit for LDAP searches, in milliseconds
+    */
+   private int searchTimeLimit = 10000;
       
    public String getServerAddress()
    {
@@ -171,6 +186,56 @@ public class LdapIdentityStore implements IdentityStore
       this.roleNameAttribute = roleNameAttribute;
    }
    
+   public String getUserNameAttribute()
+   {
+      return userNameAttribute;
+   }
+   
+   public void setUserNameAttribute(String userNameAttribute)
+   {
+      this.userNameAttribute = userNameAttribute;
+   }
+   
+   public String getUserPasswordAttribute()
+   {
+      return userPasswordAttribute;
+   }
+   
+   public void setUserPasswordAttribute(String userPasswordAttribute)
+   {
+      this.userPasswordAttribute = userPasswordAttribute;
+   }
+   
+   public String getFirstNameAttribute()
+   {
+      return firstNameAttribute;
+   }
+   
+   public void setFirstNameAttribute(String firstNameAttribute)
+   {
+      this.firstNameAttribute = firstNameAttribute;
+   }
+   
+   public String getLastNameAttribute()
+   {
+      return lastNameAttribute;
+   }
+   
+   public void setLastNameAttribute(String lastNameAttribute)
+   {
+      this.lastNameAttribute = lastNameAttribute;
+   }
+   
+   public String getFullNameAttribute()
+   {
+      return fullNameAttribute;
+   }
+   
+   public void setFullNameAttribute(String fullNameAttribute)
+   {
+      this.fullNameAttribute = fullNameAttribute;
+   }
+   
    public String getObjectClassAttribute()
    {
       return objectClassAttribute;
@@ -181,24 +246,34 @@ public class LdapIdentityStore implements IdentityStore
       this.objectClassAttribute = objectClassAttribute;
    }
    
-   public String getRoleObjectClass()
+   public String[] getRoleObjectClasses()
    {
-      return roleObjectClass;
+      return roleObjectClasses;
    }
    
-   public void setRoleObjectClass(String roleObjectClass)
+   public void setRoleObjectClass(String[] roleObjectClasses)
    {
-      this.roleObjectClass = roleObjectClass;
+      this.roleObjectClasses = roleObjectClasses;
    }
    
-   public String getUserObjectClass()
+   public String[] getUserObjectClasses()
    {
-      return userObjectClass;
+      return userObjectClasses;
    }
    
-   public void setUserObjectClass(String userObjectClass)
+   public void setUserObjectClasses(String[] userObjectClasses)
    {
-      this.userObjectClass = userObjectClass;
+      this.userObjectClasses = userObjectClasses;
+   }
+   
+   public int getSearchTimeLimit()
+   {
+      return searchTimeLimit;
+   }
+   
+   public void setSearchTimeLimit(int searchTimeLimit)
+   {
+      this.searchTimeLimit = searchTimeLimit;
    }
    
    public int getFeatures()
@@ -277,7 +352,10 @@ public class LdapIdentityStore implements IdentityStore
          Attributes roleAttribs = new BasicAttributes();
          
          BasicAttribute roleClass = new BasicAttribute(getObjectClassAttribute());
-         roleClass.add(getRoleObjectClass());
+         for (String objectClass : getRoleObjectClasses())
+         {
+            roleClass.add(objectClass);
+         }
          
          BasicAttribute roleName = new BasicAttribute(getRoleNameAttribute());
          roleName.add(role);
@@ -295,11 +373,67 @@ public class LdapIdentityStore implements IdentityStore
          throw new IdentityManagementException("Failed to create role", ex);
       }
    }
+   
+   public boolean createUser(String username, String password, String firstname, String lastname)
+   {
+      InitialLdapContext ctx = null;      
+      try
+      {
+         ctx = initialiseContext();
+         
+         Attributes userAttribs = new BasicAttributes();
+         
+         BasicAttribute userClass = new BasicAttribute(getObjectClassAttribute());
+         for (String objectClass : getUserObjectClasses())
+         {
+            userClass.add(objectClass);
+         }
+         
+         BasicAttribute usernameAttrib = new BasicAttribute(getUserNameAttribute());
+         usernameAttrib.add(username);
+         
+         BasicAttribute passwordAttrib = new BasicAttribute(getUserPasswordAttribute());
+         passwordAttrib.add(PasswordHash.generateHash(password));
+         
+         userAttribs.put(userClass);
+         userAttribs.put(usernameAttrib);
+         userAttribs.put(passwordAttrib);
+         
+         if (getFirstNameAttribute() != null && firstname != null)
+         {
+            BasicAttribute firstNameAttrib = new BasicAttribute(getFirstNameAttribute());
+            firstNameAttrib.add(firstname);
+            userAttribs.put(firstNameAttrib);
+         }
+         
+         if (getLastNameAttribute() != null && lastname != null)
+         {
+            BasicAttribute lastNameAttrib = new BasicAttribute(getLastNameAttribute());
+            lastNameAttrib.add(lastname);
+            userAttribs.put(lastNameAttrib);
+         }
+         
+         if (getFullNameAttribute() != null && firstname != null && lastname != null)
+         {
+            BasicAttribute fullNameAttrib = new BasicAttribute(getFullNameAttribute());
+            fullNameAttrib.add(firstname + " " + lastname);
+            userAttribs.put(fullNameAttrib);
+         }
+         
+         String userDN = String.format("%s=%s,%s", getUserNameAttribute(), username, getUserContextDN() );          
+         ctx.createSubcontext(userDN, userAttribs);
+         
+         return true;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to create user", ex);
+      }      
+   }
 
    public boolean createUser(String username, String password) 
    {
-      // TODO Auto-generated method stub
-      return false;
+      return createUser(username, password, null, null);
    }
 
    public boolean deleteRole(String role) 
@@ -336,9 +470,8 @@ public class LdapIdentityStore implements IdentityStore
          controls.setReturningAttributes(roleAttr);
          controls.setTimeLimit(searchTimeLimit);
          
-         // TODO make these configurable
          String roleFilter = "(&(" + getObjectClassAttribute() + "={0})(" + getRoleNameAttribute() + "={1}))";
-         Object[] filterArgs = { getRoleObjectClass(), role};
+         Object[] filterArgs = { getRoleObjectClasses(), role};
          
          NamingEnumeration answer = ctx.search(getRoleContextDN(), roleFilter, filterArgs, controls);
          while (answer.hasMore())
@@ -418,18 +551,17 @@ public class LdapIdentityStore implements IdentityStore
       {
          ctx = initialiseContext();
                   
-         String userFilter = "(uid={0})";
+         String userFilter = "(" + getUserNameAttribute() + "={0})";
                   
          // TODO make configurable
          int searchScope = SearchControls.SUBTREE_SCOPE;
-         int searchTimeLimit = 10000;
          
          String[] roleAttr = { getUserRoleAttribute() };
                   
          SearchControls controls = new SearchControls();
          controls.setSearchScope(searchScope);
          controls.setReturningAttributes(roleAttr);
-         controls.setTimeLimit(searchTimeLimit);
+         controls.setTimeLimit(getSearchTimeLimit());
          Object[] filterArgs = {name};
          
          NamingEnumeration answer = ctx.search(getUserContextDN(), userFilter, filterArgs, controls);
@@ -438,37 +570,40 @@ public class LdapIdentityStore implements IdentityStore
             SearchResult sr = (SearchResult) answer.next();
             Attributes attrs = sr.getAttributes();
             Attribute roles = attrs.get( getUserRoleAttribute() );
-            for (int r = 0; r < roles.size(); r++)
+            if (roles != null)
             {
-               Object value = roles.get(r);
-               String roleName = null;
-               if (getRoleAttributeIsDN() == true)
+               for (int r = 0; r < roles.size(); r++)
                {
-                  String roleDN = value.toString();
-                  String[] returnAttribute = {getRoleNameAttribute()};
-                  try
+                  Object value = roles.get(r);
+                  String roleName = null;
+                  if (getRoleAttributeIsDN() == true)
                   {
-                     Attributes result2 = ctx.getAttributes(roleDN, returnAttribute);
-                     Attribute roles2 = result2.get(getRoleNameAttribute());
-                     if( roles2 != null )
+                     String roleDN = value.toString();
+                     String[] returnAttribute = {getRoleNameAttribute()};
+                     try
                      {
-                        for(int m = 0; m < roles2.size(); m ++)
+                        Attributes result2 = ctx.getAttributes(roleDN, returnAttribute);
+                        Attribute roles2 = result2.get(getRoleNameAttribute());
+                        if( roles2 != null )
                         {
-                           roleName = (String) roles2.get(m);
-                           userRoles.add(roleName);
+                           for(int m = 0; m < roles2.size(); m ++)
+                           {
+                              roleName = (String) roles2.get(m);
+                              userRoles.add(roleName);
+                           }
                         }
                      }
+                     catch (NamingException ex)
+                     {
+                        throw new IdentityManagementException("Failed to query roles", ex);
+                     }
                   }
-                  catch (NamingException ex)
+                  else
                   {
-                     throw new IdentityManagementException("Failed to query roles", ex);
+                     // The role attribute value is the role name
+                     roleName = value.toString();
+                     userRoles.add(roleName);
                   }
-               }
-               else
-               {
-                  // The role attribute value is the role name
-                  roleName = value.toString();
-                  userRoles.add(roleName);
                }
             }
          }
@@ -521,19 +656,29 @@ public class LdapIdentityStore implements IdentityStore
          
          // TODO make configurable
          int searchScope = SearchControls.SUBTREE_SCOPE;
-         int searchTimeLimit = 10000;
          
          String[] roleAttr = { getRoleNameAttribute() };
                            
          SearchControls controls = new SearchControls();
          controls.setSearchScope(searchScope);
          controls.setReturningAttributes(roleAttr);
-         controls.setTimeLimit(searchTimeLimit);
+         controls.setTimeLimit(getSearchTimeLimit());
          
-         String roleFilter = "(" + getObjectClassAttribute() + "={0})";
-         Object[] filterArgs = { getRoleObjectClass() };
+         StringBuilder roleFilter = new StringBuilder();
          
-         NamingEnumeration answer = ctx.search( getRoleContextDN(), roleFilter, filterArgs, controls);
+         Object[] filterArgs = new Object[getRoleObjectClasses().length];
+         for (int i = 0; i < getRoleObjectClasses().length; i++)
+         {
+            roleFilter.append("(");
+            roleFilter.append(getObjectClassAttribute());
+            roleFilter.append("={");
+            roleFilter.append(i);
+            roleFilter.append("})");
+            filterArgs[i] = getRoleObjectClasses()[i];
+         }         
+         
+         NamingEnumeration answer = ctx.search( getRoleContextDN(), roleFilter.toString(), 
+               filterArgs, controls);
          while (answer.hasMore())
          {
             SearchResult sr = (SearchResult) answer.next();
@@ -577,27 +722,33 @@ public class LdapIdentityStore implements IdentityStore
          
          // TODO make configurable
          int searchScope = SearchControls.SUBTREE_SCOPE;
-         int searchTimeLimit = 10000;
          
-         // TODO make configurable
-         String userAttrName = "uid";
-         String[] userAttr = {userAttrName};
+         String[] userAttr = {getUserNameAttribute()};
                            
          SearchControls controls = new SearchControls();
          controls.setSearchScope(searchScope);
          controls.setReturningAttributes(userAttr);
-         controls.setTimeLimit(searchTimeLimit);
+         controls.setTimeLimit(getSearchTimeLimit());
+                  
+         StringBuilder userFilter = new StringBuilder();
          
-         // TODO make these configurable
-         String userFilter = "(" + getObjectClassAttribute() + "={0})";
-         Object[] filterArgs = { getUserObjectClass() };
+         Object[] filterArgs = new Object[getUserObjectClasses().length];
+         for (int i = 0; i < getUserObjectClasses().length; i++)
+         {
+            userFilter.append("(");
+            userFilter.append(getObjectClassAttribute());
+            userFilter.append("={");
+            userFilter.append(i);
+            userFilter.append("})");
+            filterArgs[i] = getUserObjectClasses()[i];
+         }            
          
-         NamingEnumeration answer = ctx.search(getUserContextDN(), userFilter, filterArgs, controls);
+         NamingEnumeration answer = ctx.search(getUserContextDN(), userFilter.toString(), filterArgs, controls);
          while (answer.hasMore())
          {
             SearchResult sr = (SearchResult) answer.next();
             Attributes attrs = sr.getAttributes();
-            Attribute user = attrs.get(userAttrName);
+            Attribute user = attrs.get(getUserNameAttribute());
             
             for (int i = 0; i < user.size(); i++)
             {

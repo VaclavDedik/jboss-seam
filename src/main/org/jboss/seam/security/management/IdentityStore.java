@@ -57,6 +57,7 @@ public interface IdentityStore
    boolean supportsFeature(int feature);
    
    boolean createUser(String username, String password);
+   boolean createUser(String username, String password, String firstname, String lastname);
    boolean deleteUser(String name);   
    boolean enableUser(String name);
    boolean disableUser(String name);   
