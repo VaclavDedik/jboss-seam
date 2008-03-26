@@ -10,7 +10,7 @@
          <map keyClass="java.lang.String" valueClass="java.lang.String">
             <entry>
                <key>jboss.bind.address</key>
-               <value>0.0.0.0</value>
+               <value>127.0.0.1</value>
             </entry>
             <entry>
                <key>com.arjuna.ats.arjuna.common.propertiesFile</key>
