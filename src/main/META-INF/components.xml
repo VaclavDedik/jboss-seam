@@ -15,6 +15,7 @@
   <import>org.jboss.seam.jms</import>
   <import>org.jboss.seam.mail</import>
   <import>org.jboss.seam.security</import>
+  <import>org.jboss.seam.security.management</import>  
   <import>org.jboss.seam.captcha</import>
   
 </components>

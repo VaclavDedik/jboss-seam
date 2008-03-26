@@ -14,11 +14,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.UserAccount.AccountType;
@@ -28,6 +31,8 @@ import org.jboss.seam.security.management.UserAccount.AccountType;
  * 
  * @author Shane Bryzak
  */
+@Name("org.jboss.seam.security.management.jpaIdentityStore")
+@Install(value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
 public class JpaIdentityStore implements IdentityStore
@@ -89,6 +94,11 @@ public class JpaIdentityStore implements IdentityStore
    @Create
    public void init()
    {
+      if (entityManager == null)
+      {
+         entityManager = Expressions.instance().createValueExpression("#{entityManager}", EntityManager.class);
+      }
+      
       loadRoles();
       
       if (getFirstNameField() != null)

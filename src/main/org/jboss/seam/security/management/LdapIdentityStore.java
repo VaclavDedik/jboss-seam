@@ -19,6 +19,8 @@ import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import javax.naming.ldap.InitialLdapContext;
 
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
@@ -27,6 +29,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
  * 
  * @author Shane Bryzak
  */
+@Name("org.jboss.seam.security.management.ldapIdentityStore")
+@Install(value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
 public class LdapIdentityStore implements IdentityStore

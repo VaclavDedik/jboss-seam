@@ -24,11 +24,10 @@ import org.jboss.seam.security.Identity;
  * @author Shane Bryzak
  */
 @Scope(APPLICATION)
-@Name("org.jboss.seam.security.identityManager")
+@Name("org.jboss.seam.security.management.identityManager")
 @Install(precedence = BUILT_IN)
 public class IdentityManager
 {
-   public static final String IDENTITY_STORE_COMPONENT_NAME = "identityStore";
    public static final String ACCOUNT_PERMISSION_NAME = "seam.account";
    
    public static final String PERMISSION_CREATE = "create";
@@ -38,7 +37,7 @@ public class IdentityManager
    
    private static final LogProvider log = Logging.getLogProvider(IdentityManager.class);   
    
-   private IdentityStore userIdentityStore;
+   private IdentityStore identityStore;
    private IdentityStore roleIdentityStore;
    
    @Create
@@ -48,26 +47,16 @@ public class IdentityManager
    }
    
    protected void initIdentityStore()
-   {
-      if (userIdentityStore == null)
+   {    
+      if (roleIdentityStore == null && identityStore != null)
       {
-         userIdentityStore = (IdentityStore) Component.getInstance(IDENTITY_STORE_COMPONENT_NAME, true);
-      }
-      
-      if (roleIdentityStore == null)
-      {
-         roleIdentityStore = (IdentityStore) Component.getInstance(IDENTITY_STORE_COMPONENT_NAME, true);
-      }      
-
-      if (roleIdentityStore == null && userIdentityStore != null)
-      {
-         roleIdentityStore = userIdentityStore;
+         roleIdentityStore = identityStore;
       }            
       
-      if (userIdentityStore == null || roleIdentityStore == null)
+      if (identityStore == null || roleIdentityStore == null)
       {
-         log.warn("no identity store available - please install an IdentityStore with the name '" +
-               IDENTITY_STORE_COMPONENT_NAME + "' if identity management is required.");
+         log.warn("no identity store available - please configure an identityStore if identity " +
+               "management is required.");
       }
    }  
    
@@ -97,37 +86,37 @@ public class IdentityManager
    public boolean createUser(String name, String password, String firstname, String lastname)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_CREATE);
-      return userIdentityStore.createUser(name, password, firstname, lastname); 
+      return identityStore.createUser(name, password, firstname, lastname); 
    }   
    
    public boolean deleteUser(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_DELETE);
-      return userIdentityStore.deleteUser(name);
+      return identityStore.deleteUser(name);
    }
    
    public boolean enableUser(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
-      return userIdentityStore.enableUser(name);
+      return identityStore.enableUser(name);
    }
    
    public boolean disableUser(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
-      return userIdentityStore.disableUser(name);
+      return identityStore.disableUser(name);
    }
    
    public boolean changePassword(String name, String password)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
-      return userIdentityStore.changePassword(name, password);
+      return identityStore.changePassword(name, password);
    }
    
    public boolean isUserEnabled(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
-      return userIdentityStore.isUserEnabled(name);
+      return identityStore.isUserEnabled(name);
    }
    
    public boolean grantRole(String name, String role)
@@ -157,7 +146,7 @@ public class IdentityManager
    public boolean userExists(String name)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
-      return userIdentityStore.userExists(name);
+      return identityStore.userExists(name);
    }
    
    public boolean roleExists(String name)
@@ -168,7 +157,7 @@ public class IdentityManager
    public List<String> listUsers()
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
-      List<String> users = userIdentityStore.listUsers();      
+      List<String> users = identityStore.listUsers();      
       
       Collections.sort(users, new Comparator<String>() {
          public int compare(String value1, String value2) {
@@ -182,7 +171,7 @@ public class IdentityManager
    public List<String> listUsers(String filter)
    {
       Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
-      List<String> users = userIdentityStore.listUsers(filter);
+      List<String> users = identityStore.listUsers(filter);
       
       Collections.sort(users, new Comparator<String>() {
          public int compare(String value1, String value2) {
@@ -218,17 +207,17 @@ public class IdentityManager
    
    public boolean authenticate(String username, String password)
    {
-      return userIdentityStore.authenticate(username, password);
+      return identityStore.authenticate(username, password);
    }
    
-   public IdentityStore getUserIdentityStore()
+   public IdentityStore getIdentityStore()
    {
-      return userIdentityStore;
+      return identityStore;
    }
    
-   public void setIdentityStore(IdentityStore userIdentityStore)
+   public void setIdentityStore(IdentityStore identityStore)
    {
-      this.userIdentityStore = userIdentityStore;
+      this.identityStore = identityStore;
    }
    
    public IdentityStore getRoleIdentityStore()
@@ -243,7 +232,7 @@ public class IdentityManager
    
    public boolean isEnabled()
    {
-      return userIdentityStore != null && roleIdentityStore != null;
+      return identityStore != null && roleIdentityStore != null;
    }
    
 }
