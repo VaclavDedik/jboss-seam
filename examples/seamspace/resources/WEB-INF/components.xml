@@ -26,9 +26,11 @@
     
     <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
     
-    <identity-management:jpa-identity-store name="identityStore" account-class="org.jboss.seam.example.seamspace.MemberAccount"/>
+    <identity-management:jpa-identity-store account-class="org.jboss.seam.example.seamspace.MemberAccount"/>
     
-    <!--security:ldap-identity-store name="identityStore" 
+    <identity-management:identity-manager identity-store="#{jpaIdentityStore}"/>
+    
+    <!--identity-management:ldap-identity-store name="identityStore" 
       server-address="60.241.32.50"
       principal-DN-prefix="uid="
       principal-DN-suffix=",ou=Person,dc=bryzak,dc=com"
@@ -38,6 +40,7 @@
       role-context-DN="ou=Roles,dc=bryzak,dc=com"
       user-role-attribute="roles"
       role-name-attribute="cn"
+      user-object-classes="person,uidObject"
       /-->
       
     <security:jpa-permission-store name="accountPermissionStore" permission-class="org.jboss.seam.example.seamspace.Permission"/>
