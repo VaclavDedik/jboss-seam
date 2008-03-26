@@ -9,16 +9,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.el.ValueExpression;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.UserAccount.AccountType;
 
@@ -38,7 +39,7 @@ public class JpaIdentityStore implements IdentityStore
    
    protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
    
-   private String entityManagerName = "entityManager";
+   private ValueExpression entityManager;  
    
    private Class<? extends UserAccount> accountClass;
    
@@ -67,7 +68,7 @@ public class JpaIdentityStore implements IdentityStore
    
    protected void loadRoles()
    {
-      List<? extends UserAccount> roles = getEntityManager().createQuery(
+      List<? extends UserAccount> roles = lookupEntityManager().createQuery(
             "from " + accountClass.getName() + " where enabled = true and accountType = :accountType")
             .setParameter("accountType", UserAccount.AccountType.role)
             .getResultList();
@@ -140,7 +141,7 @@ public class JpaIdentityStore implements IdentityStore
          throw new NoSuchUserException("Could not delete account, no such user '" + name + "'");
       }
       
-      getEntityManager().remove(account);
+      lookupEntityManager().remove(account);
       return true;
    }
    
@@ -235,7 +236,7 @@ public class JpaIdentityStore implements IdentityStore
          throw new NoSuchRoleException("Could not delete role, role '" + role + "' does not exist");
       }        
       
-      getEntityManager().remove(roleToDelete);
+      lookupEntityManager().remove(roleToDelete);
       return true;
    }
    
@@ -401,7 +402,7 @@ public class JpaIdentityStore implements IdentityStore
    {
       try
       {
-         UserAccount account = (UserAccount) getEntityManager().createQuery(
+         UserAccount account = (UserAccount) lookupEntityManager().createQuery(
             "from " + accountClass.getName() + " where username = :username")
             .setParameter("username", name)
             .getSingleResult();
@@ -428,7 +429,7 @@ public class JpaIdentityStore implements IdentityStore
    
    public List<String> listUsers()
    {
-      return getEntityManager().createQuery(
+      return lookupEntityManager().createQuery(
             "select username from " + accountClass.getName() + 
             " where accountType = :accountType")
             .setParameter("accountType", AccountType.user)
@@ -437,7 +438,7 @@ public class JpaIdentityStore implements IdentityStore
    
    public List<String> listUsers(String filter)
    {
-      return getEntityManager().createQuery(
+      return lookupEntityManager().createQuery(
             "select username from " + accountClass.getName() + 
             " where accountType = :accountType and lower(username) like :username")
             .setParameter("accountType", AccountType.user)
@@ -448,7 +449,7 @@ public class JpaIdentityStore implements IdentityStore
 
    public List<String> listRoles()
    {
-      return getEntityManager().createQuery(
+      return lookupEntityManager().createQuery(
             "select username from " + accountClass.getName() + 
             " where accountType = :accountType")
             .setParameter("accountType", AccountType.role)
@@ -457,12 +458,12 @@ public class JpaIdentityStore implements IdentityStore
    
    protected void persistAccount(UserAccount account)
    {
-      getEntityManager().persist(account);
+      lookupEntityManager().persist(account);
    }
    
    protected UserAccount mergeAccount(UserAccount account)
    {
-      return getEntityManager().merge(account);
+      return lookupEntityManager().merge(account);
    }
    
    public Class<? extends UserAccount> getAccountClass()
@@ -475,18 +476,18 @@ public class JpaIdentityStore implements IdentityStore
       this.accountClass = accountClass;
    }   
    
-   private EntityManager getEntityManager()
+   private EntityManager lookupEntityManager()
    {
-      return (EntityManager) Component.getInstance(entityManagerName);
+      return (EntityManager) entityManager.getValue(Expressions.instance().getELContext());
    }
    
-   public String getEntityManagerName()
+   public ValueExpression getEntityManager()
    {
-      return entityManagerName;
+      return entityManager;
    }
    
-   public void setEntityManagerName(String name)
+   public void setEntityManager(ValueExpression expression)
    {
-      this.entityManagerName = name;
+      this.entityManager = expression;
    }         
 }
