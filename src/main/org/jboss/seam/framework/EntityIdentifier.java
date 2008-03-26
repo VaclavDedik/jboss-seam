@@ -10,7 +10,7 @@ public class EntityIdentifier extends Identifier<EntityManager>
 {
    public EntityIdentifier(Object entity, EntityManager entityManager)
    {
-      super(PersistenceProvider.instance().getBeanClass(entity), PersistenceProvider.instance().getId(entity, entityManager));
+      super(PersistenceProvider.instance().getBeanClass(entityManager, entity), PersistenceProvider.instance().getId(entity, entityManager));
       
    }
    
