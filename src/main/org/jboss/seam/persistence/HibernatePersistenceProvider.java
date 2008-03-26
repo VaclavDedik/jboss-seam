@@ -1,4 +1,5 @@
 package org.jboss.seam.persistence;
+import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
 import java.lang.reflect.Constructor;
@@ -23,6 +24,7 @@ import org.hibernate.engine.SessionImplementor;
 import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.type.VersionType;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
@@ -40,11 +42,11 @@ import org.jboss.seam.log.Logging;
  * @author Pete Muir
  *
  */
-@Name("org.jboss.seam.persistence.persistenceProvider")
+@Name("org.jboss.seam.persistence.hibernatePersistenceProvider")
 @Scope(ScopeType.STATELESS)
 @BypassInterceptors
 @Install(precedence=FRAMEWORK, classDependencies={"org.hibernate.Session", "javax.persistence.EntityManager"})
-public class HibernatePersistenceProvider extends PersistenceProvider
+public class HibernatePersistenceProvider extends AbstractPersistenceProvider
 {
    
    private static Log log = Logging.getLog(HibernatePersistenceProvider.class);
@@ -121,10 +123,6 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       {
          return proxySession( (Session) delegate );
       }
-      catch (NotHibernateException nhe)
-      {
-         return super.proxyDelegate(delegate);
-      }
       catch (Exception e)
       {
          throw new RuntimeException("could not proxy delegate", e);
@@ -134,27 +132,13 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public void setFlushModeManual(EntityManager entityManager)
    {
-       try
-       {
-          getSession(entityManager).setFlushMode(FlushMode.MANUAL);
-       }
-       catch (NotHibernateException nhe)
-       {
-          super.setFlushModeManual(entityManager);
-       }
+       getSession(entityManager).setFlushMode(FlushMode.MANUAL);
    }
    
    @Override
    public boolean isDirty(EntityManager entityManager)
    {
-       try
-       {
-          return getSession(entityManager).isDirty();
-       }
-       catch (NotHibernateException nhe)
-       {
-          return super.isDirty(entityManager);
-       }
+       return getSession(entityManager).isDirty();
    }
    
    @Override
@@ -163,10 +147,6 @@ public class HibernatePersistenceProvider extends PersistenceProvider
        try
        {
           return getSession(entityManager).getIdentifier(bean);
-       }
-       catch (NotHibernateException nhe)
-       {
-          return super.getId(bean, entityManager);
        }
        catch (TransientObjectException e) 
        {
@@ -177,63 +157,32 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public Object getVersion(Object bean, EntityManager entityManager) 
    {
-       try
-       {
-          return getVersion( bean, getSession(entityManager) );
-       }
-       catch (NotHibernateException nhe)
-       {
-          return super.getVersion(bean, entityManager);
-       }
+       return getVersion( bean, getSession(entityManager) );
    }
    
    @Override
    public void checkVersion(Object bean, EntityManager entityManager, Object oldVersion, Object version)
    {
-       try
-       {
-          checkVersion(bean, getSession(entityManager), oldVersion, version);
-       }
-       catch (NotHibernateException nhe)
-       {
-          super.checkVersion(bean, entityManager, oldVersion, version);
-       }
+       checkVersion(bean, getSession(entityManager), oldVersion, version);
    }
    
    @Override
    public void enableFilter(Filter f, EntityManager entityManager)
    {
-      try
+      org.hibernate.Filter filter = getSession(entityManager).enableFilter( f.getName() );
+      for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
       {
-         org.hibernate.Filter filter = getSession(entityManager).enableFilter( f.getName() );
-         for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
-         {
-            filter.setParameter( me.getKey(), me.getValue().getValue() );
-         }
-         filter.validate();
+         filter.setParameter( me.getKey(), me.getValue().getValue() );
       }
-      catch (NotHibernateException nhe)
-      {
-         super.enableFilter(f, entityManager);
-      }
-
    }
    
    @Override
    public boolean registerSynchronization(Synchronization sync, EntityManager entityManager)
    {
-      try
-      {
-         //TODO: just make sure that a Hibernate JPA EntityTransaction
-         //      delegates to the Hibernate Session transaction
-         getSession(entityManager).getTransaction().registerSynchronization(sync);
-         return true;
-      }
-      catch (NotHibernateException nhe)
-      {
-         return super.registerSynchronization(sync, entityManager);
-      }
-
+      //TODO: just make sure that a Hibernate JPA EntityTransaction
+      //      delegates to the Hibernate Session transaction
+      getSession(entityManager).getTransaction().registerSynchronization(sync);
+      return true;
    }
 
    @Override
@@ -243,10 +192,6 @@ public class HibernatePersistenceProvider extends PersistenceProvider
       {
          return getSession(entityManager).getEntityName(bean);
       } 
-      catch (NotHibernateException nhe)
-      {
-         return super.getName(bean, entityManager);
-      }
       catch (TransientObjectException e) 
       {
          return super.getName(bean, entityManager);
@@ -424,23 +369,12 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    
    private Session getSession(EntityManager entityManager)
    {
-      Object delegate = entityManager.getDelegate();
-      if ( delegate instanceof Session )
-      {
-         return (Session) delegate;
-      }
-      else
-      {
-         throw new NotHibernateException();
-      }
+      return (Session) entityManager.getDelegate(); 
    }
    
-   /**
-    * Occurs when Hibernate is in the classpath, but this particular
-    * EntityManager is not from Hibernate
-    * 
-    * @author Gavin King
-    *
-    */
-   static class NotHibernateException extends IllegalArgumentException {}
+   public static HibernatePersistenceProvider instance()
+   {
+      return (HibernatePersistenceProvider) Component.getInstance(HibernatePersistenceProvider.class, STATELESS);
+   }
+   
 }

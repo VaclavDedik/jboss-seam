@@ -92,7 +92,7 @@ public class EntityManagerProxy implements EntityManager, Serializable
 
    public Object getDelegate()
    {
-      return PersistenceProvider.instance().proxyDelegate( delegate.getDelegate() );
+      return PersistenceProvider.instance().proxyDelegate( delegate, delegate.getDelegate() );
    }
 
    public FlushModeType getFlushMode()

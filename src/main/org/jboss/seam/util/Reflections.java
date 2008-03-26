@@ -326,19 +326,31 @@ public class Reflections
       }
       for (Class c = clazz; c != Object.class; c = c.getSuperclass())
       {
-         if (name.equals(c.getName()))
-         {
-            return true;
-         }
-      }
-      for (Class c : clazz.getInterfaces())
-      {
-         if (name.equals(c.getName()))
+         if (instanceOf(c, name))
          {
             return true;
          }
       }
       return false;
+   }
+   
+   private static boolean instanceOf(Class clazz, String name)
+   {  
+      if (name.equals(clazz.getName()))
+      {
+         return true;
+      }
+      else
+      {
+         boolean found = false;
+         Class[] interfaces = clazz.getInterfaces();
+         for (int i = 0; i < interfaces.length && !found; i++)
+         {
+            found = instanceOf(interfaces[i], name);
+         }
+         return found;
+      }
+      
    }
 
 }
