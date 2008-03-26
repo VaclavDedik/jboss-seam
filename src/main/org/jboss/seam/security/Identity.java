@@ -212,7 +212,7 @@ public class Identity implements Serializable
    {
       try
       {         
-         if (isLoggedIn(false) && isCredentialsSet())
+         if (isLoggedIn(false))
          {
             if (Events.exists()) Events.instance().raiseEvent(EVENT_ALREADY_LOGGED_IN);
             return "loggedIn";            
