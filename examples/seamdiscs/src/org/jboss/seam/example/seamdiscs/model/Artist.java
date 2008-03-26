@@ -1,5 +1,6 @@
 package org.jboss.seam.example.seamdiscs.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,6 +24,11 @@ public class Artist
    private List<Disc> discs;
    
    private String description;
+   
+   public Artist()
+   {
+      this.discs = new ArrayList<Disc>();
+   }
 
    public Integer getId()
    {
