@@ -2,6 +2,7 @@ package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import org.jboss.seam.security.management.IdentityManager;
  */
 @Name("org.jboss.seam.security.userAction")
 @Scope(CONVERSATION)
-public class UserAction
+public class UserAction implements Serializable
 {
    private String firstname;
    private String lastname;

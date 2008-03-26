@@ -3,6 +3,7 @@ package org.jboss.seam.security.permission;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.jboss.seam.Component;
@@ -19,7 +20,7 @@ import org.jboss.seam.security.Identity;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.security.permissionManager")
 @Install(precedence = BUILT_IN)
-public class PermissionManager
+public class PermissionManager implements Serializable
 {
    public static final String ACCOUNT_PERMISSION_STORE_COMPONENT_NAME = "accountPermissionStore";
    public static final String ACL_PERMISSION_STORE_COMPONENT_NAME = "aclPermissionStore";

@@ -3,6 +3,7 @@ package org.jboss.seam.security.management;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,7 +27,7 @@ import org.jboss.seam.security.Identity;
 @Scope(APPLICATION)
 @Name("org.jboss.seam.security.management.identityManager")
 @Install(precedence = BUILT_IN)
-public class IdentityManager
+public class IdentityManager implements Serializable
 {
    public static final String ACCOUNT_PERMISSION_NAME = "seam.account";
    

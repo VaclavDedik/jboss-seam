@@ -2,6 +2,7 @@ package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +34,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @Install(value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
-public class LdapIdentityStore implements IdentityStore
+public class LdapIdentityStore implements IdentityStore, Serializable
 {
    protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
    

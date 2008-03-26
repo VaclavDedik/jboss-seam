@@ -3,6 +3,7 @@ package org.jboss.seam.security.permission;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ import org.jboss.seam.core.Init;
 @Install(precedence = BUILT_IN)
 @BypassInterceptors
 @Startup
-public class PermissionMapper
+public class PermissionMapper implements Serializable
 {
    private Map<Class,Map<String,String>> resolverChains = new HashMap<Class,Map<String,String>>();
    

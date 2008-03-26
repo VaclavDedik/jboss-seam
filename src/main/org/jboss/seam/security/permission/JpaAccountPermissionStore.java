@@ -2,6 +2,7 @@ package org.jboss.seam.security.permission;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -18,7 +19,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
  */
 @Scope(APPLICATION)
 @BypassInterceptors
-public class JpaAccountPermissionStore implements AccountPermissionStore
+public class JpaAccountPermissionStore implements AccountPermissionStore, Serializable
 {
    private String entityManagerName = "entityManager";
    

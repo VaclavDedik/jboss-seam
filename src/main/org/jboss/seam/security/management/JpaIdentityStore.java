@@ -2,6 +2,7 @@ package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ import org.jboss.seam.security.management.UserAccount.AccountType;
 @Install(value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
-public class JpaIdentityStore implements IdentityStore
+public class JpaIdentityStore implements IdentityStore, Serializable
 {  
    public static final String AUTHENTICATED_USER = "org.jboss.seam.security.management.authenticatedUser";
    
