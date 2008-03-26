@@ -19,7 +19,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.UserAccount.AccountType;
