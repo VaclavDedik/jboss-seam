@@ -58,8 +58,8 @@ public class HibernateEntityQuery<E> extends Query<Session, E>
    @Transactional
    public boolean isNextExists()
    {
-      return resultList!=null && 
-            resultList.size() > getMaxResults();
+       return resultList!=null && getMaxResults()!=null &&
+              resultList.size() > getMaxResults();
    }
    
    @Transactional

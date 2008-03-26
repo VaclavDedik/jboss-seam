@@ -44,8 +44,8 @@ public class EntityQuery<E> extends Query<EntityManager, E>
    @Transactional
    public boolean isNextExists()
    {
-      return resultList!=null && 
-            resultList.size() > getMaxResults();
+       return resultList!=null && getMaxResults()!=null &&
+              resultList.size() > getMaxResults();
    }
 
 
