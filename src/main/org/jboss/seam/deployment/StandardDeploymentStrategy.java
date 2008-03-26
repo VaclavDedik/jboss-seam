@@ -37,6 +37,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    public static final String HANDLERS_KEY = "org.jboss.seam.deployment.deploymentHandlers";
 
    private ComponentDeploymentHandler componentDeploymentHandler;
+   private ComponentsXmlDeploymentHandler componentsXmlDeploymentHandler;
    private NamespaceDeploymentHandler namespaceDeploymentHandler;
    private AnnotationDeploymentHandler annotationDeploymentHandler;
    
@@ -48,6 +49,8 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
       this.classLoader = Thread.currentThread().getContextClassLoader();
       componentDeploymentHandler = new ComponentDeploymentHandler();
       getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
+      componentsXmlDeploymentHandler = new ComponentsXmlDeploymentHandler();
+      getDeploymentHandlers().put(ComponentsXmlDeploymentHandler.NAME, componentsXmlDeploymentHandler);
       namespaceDeploymentHandler = new NamespaceDeploymentHandler();
       getDeploymentHandlers().put(NamespaceDeploymentHandler.NAME, namespaceDeploymentHandler);
       annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
@@ -79,7 +82,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
     */
    public Set<String> getScannedComponentResources()
    {
-      return componentDeploymentHandler.getResources();
+      return componentsXmlDeploymentHandler.getResources();
    }
    
    /**

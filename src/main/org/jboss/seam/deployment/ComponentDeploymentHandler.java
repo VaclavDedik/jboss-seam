@@ -13,10 +13,9 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
 /**
- * The {@link ComponentDeploymentHandler} process Seam components, both 
- * annotated with {@link org.jboss.seam.annotations.Name} and specified in
- * components.xml 
- * 
+ * The {@link ComponentDeploymentHandler} process Seam's component annotated 
+ * with {@link org.jboss.seam.annotations.Name} 
+ *  
  * @author Pete Muir
  *
  */
@@ -30,13 +29,10 @@ public class ComponentDeploymentHandler extends AbstractDeploymentHandler
    private static final LogProvider log = Logging.getLogProvider(ComponentDeploymentHandler.class);
 
    protected Set<Class<Object>> classes;
-
-   private Set<String> resources;
    
    public ComponentDeploymentHandler()
    {
       classes = new HashSet<Class<Object>>();
-      resources = new HashSet<String>();
    }
 
    /**
@@ -45,14 +41,6 @@ public class ComponentDeploymentHandler extends AbstractDeploymentHandler
    public Set<Class<Object>> getClasses()
    {
       return Collections.unmodifiableSet(classes);
-   }
-   
-   /**
-    * Get paths to components.xml files
-    */
-   public Set<String> getResources() 
-   {
-       return Collections.unmodifiableSet(resources);
    }
 
    /**
@@ -74,7 +62,6 @@ public class ComponentDeploymentHandler extends AbstractDeploymentHandler
                log.trace("found component class: " + name);
                classes.add( (Class<Object>) classLoader.loadClass(classname) );
             }
-            
          }
          catch (ClassNotFoundException cnfe) 
          {
@@ -88,16 +75,7 @@ public class ComponentDeploymentHandler extends AbstractDeploymentHandler
          {
             log.debug("could not load classfile: " + classname, ioe);
          }
-      }
-      else if (name.endsWith(".component.xml") || name.endsWith("/components.xml")) 
-      {
-          // we want to skip over known meta-directories since Seam will auto-load these without a scan
-          if (!name.startsWith("WEB-INF/") && !name.startsWith("META-INF/")) 
-          {
-              resources.add(name);
-          }           
-      }
-           
+      }    
    }
   
    private static String componentFilename(String name)
