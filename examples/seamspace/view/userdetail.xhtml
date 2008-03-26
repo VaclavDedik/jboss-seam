@@ -17,6 +17,18 @@
   	    <h:messages globalOnly="true"/>
   	    
   	    <h:form>
+  	    
+          <div class="formRow">
+            <h:outputLabel for="firstname" value="First name" styleClass="formLabel"/>
+            <h:inputText id="firstname" value="#{userAction.firstname}" readonly="#{identityManager.userExists(userAction.username)}"/>
+            <div class="validationError"><h:message for="firstname"/></div>
+          </div>  
+          
+          <div class="formRow">
+            <h:outputLabel for="lastname" value="Last name" styleClass="formLabel"/>
+            <h:inputText id="lastname" value="#{userAction.lastname}" readonly="#{identityManager.userExists(userAction.username)}"/>
+            <div class="validationError"><h:message for="lastname"/></div>
+          </div>            
               
           <div class="formRow">
             <h:outputLabel for="username" value="Username" styleClass="formLabel"/>
