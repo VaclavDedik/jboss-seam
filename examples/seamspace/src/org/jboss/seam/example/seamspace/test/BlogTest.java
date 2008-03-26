@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 
 public class BlogTest extends SeamTest
 {   
-   @Test
+   //@Test
    public void testCreateBlog() throws Exception
    {
       // Log in first
@@ -71,7 +71,7 @@ public class BlogTest extends SeamTest
       }.run();      
    }
    
-   @Test
+   //@Test
    public void testCreateComment() throws Exception
    {
       new FacesRequest()
