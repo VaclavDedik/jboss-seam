@@ -315,6 +315,9 @@ public class Reflections
       }
    }
    
+   /**
+    * Check to see if clazz is an instance of name
+    */
    public static boolean isInstanceOf(Class clazz, String name)
    {
       if (name == null)
