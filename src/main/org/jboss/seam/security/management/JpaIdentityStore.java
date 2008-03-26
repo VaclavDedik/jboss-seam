@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.el.ValueExpression;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -21,6 +20,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.UserAccount.AccountType;
 
@@ -40,7 +40,7 @@ public class JpaIdentityStore implements IdentityStore
    
    protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
    
-   private ValueExpression entityManager;  
+   private ValueExpression<EntityManager> entityManager;  
    
    private Class<? extends UserAccount> accountClass;
    
@@ -553,7 +553,7 @@ public class JpaIdentityStore implements IdentityStore
    
    private EntityManager lookupEntityManager()
    {
-      return (EntityManager) entityManager.getValue(Expressions.instance().getELContext());
+      return entityManager.getValue();
    }
    
    public ValueExpression getEntityManager()
