@@ -957,46 +957,44 @@ public class Component extends Model
 
    private List<Interceptor> newSort(List<Interceptor> list)
    {
-      
-      List<SortItem<Interceptor>> sortable = new ArrayList<SortItem<Interceptor>>();
-      
-      for (final Interceptor i : list)
+      List<SortItem<Interceptor>> siList = new ArrayList<SortItem<Interceptor>>();
+      Map<Class<?>,SortItem<Interceptor>> ht = new HashMap<Class<?>,SortItem<Interceptor>>();
+
+      for (Interceptor i : list)
       {
-         
-         
-         sortable.add(new SortItem<Interceptor>()
-         {
-            
-            Class<?> clazz = i.getUserInterceptorClass();
-            org.jboss.seam.annotations.intercept.Interceptor interceptor = clazz.getAnnotation(org.jboss.seam.annotations.intercept.Interceptor.class);
-
-            @Override
-            public List<Class> getAround()
-            {
-               return Arrays.asList(interceptor.around());
-            }
-
-            @Override
-            protected Interceptor getObject()
-            {
-               return i;
-            }
-
-            @Override
-            public List<Class> getWithin()
-            {
-               return Arrays.asList(interceptor.within());
-            }
-            
-            @Override
-            public Class getKey()
-            {
-               return clazz;
-            }
-            
-         });
+         SortItem<Interceptor> si = new SortItem<Interceptor>(i);
+         siList.add(si);
+         ht.put( i.getUserInterceptorClass(), si );
       }
-      return new Sorter<Interceptor>().sort(sortable);
+
+      for (SortItem<Interceptor> si : siList)
+      {
+         Class<?> clazz = si.getObj().getUserInterceptorClass();
+         if ( clazz.isAnnotationPresent(org.jboss.seam.annotations.intercept.Interceptor.class) )
+         {
+            org.jboss.seam.annotations.intercept.Interceptor interceptorAnn = clazz.getAnnotation(org.jboss.seam.annotations.intercept.Interceptor.class);
+            for (Class<?> cl : Arrays.asList( interceptorAnn.around() ) )
+            {
+               SortItem<Interceptor> sortItem = ht.get(cl);
+               if (sortItem!=null) si.getAround().add( sortItem );
+            }
+            for (Class<?> cl : Arrays.asList( interceptorAnn.within() ) )
+            {
+               SortItem<Interceptor> sortItem = ht.get(cl);
+               if (sortItem!=null) si.getWithin().add( sortItem );
+            }
+         }
+      }
+
+      Sorter<Interceptor> sList = new Sorter<Interceptor>();
+      siList = sList.sort(siList);
+
+      list.clear();
+      for (SortItem<Interceptor> si : siList)
+      {
+         list.add( si.getObj() );
+      }
+      return list ;
    }
 
    private void initDefaultInterceptors()

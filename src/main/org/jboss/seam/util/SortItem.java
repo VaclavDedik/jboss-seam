@@ -3,42 +3,31 @@ package org.jboss.seam.util;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public abstract class SortItem<T>
+public class SortItem<T> 
 {
    
-   private List<SortItem> around = new ArrayList<SortItem>();
-   private List<SortItem> within = new ArrayList<SortItem>();
+	private T obj;
+	private List<SortItem> around = new ArrayList<SortItem>();
+	private List<SortItem> within = new ArrayList<SortItem>();
+	
+	public SortItem(T obj)
+   {
+		this.obj = obj;
+	}
+   
+	public T getObj()
+   {
+		return obj;
+	}
 
-   final List<SortItem> getAroundSortItems()
+	public List<SortItem> getAround()
    {
-      return around;
-   }
+		return around;
+	}
    
-   final List<SortItem> getWithinSortItems()
+	public List<SortItem> getWithin()
    {
-      return within;
-   }
-
-   public Object getKey()
-   {
-      return getObject().hashCode();
-   }
-   
-   protected abstract T getObject();
-   
-   public boolean isAddable()
-   {
-      return true;
-   }
-   
-   public abstract List<? extends Object> getAround();
-   public abstract List<? extends Object> getWithin();
-   
-   @Override
-   public String toString()
-   {
-      return getObject().toString() + " within [" + getWithin() + "] around [" + getAround() + "]";
-   }
+		return within;
+	}
    
 }
