@@ -996,10 +996,7 @@ public class Component extends Model
             
          });
       }
-      log.info(getName() + " unsorted interceptors: " + sortable);
-      List<Interceptor> temp = new Sorter<Interceptor>().sort(sortable);
-      log.info(getName() + " sorted interceptors: " + temp);
-      return temp;
+      return new Sorter<Interceptor>().sort(sortable);
    }
 
    private void initDefaultInterceptors()
