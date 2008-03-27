@@ -235,4 +235,10 @@ public class EntityQuery<E> extends Query<EntityManager, E>
       }
    }
 
+   @Override
+   protected boolean isPersistenceContextOpen(EntityManager persistenceContext)
+   {
+      return persistenceContext.isOpen();
+   }
+   
 }

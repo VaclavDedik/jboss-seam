@@ -216,4 +216,10 @@ public class EntityHome<E> extends Home<EntityManager, E>
       }
    }
    
+   @Override
+   protected boolean isPersistenceContextOpen(EntityManager persistenceContext)
+   {
+      return persistenceContext.isOpen();
+   }
+   
 }

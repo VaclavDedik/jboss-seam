@@ -201,5 +201,11 @@ public class HibernateEntityQuery<E> extends Query<Session, E>
    {
       this.fetchSize = fetchSize;
    }
+   
+   @Override
+   protected boolean isPersistenceContextOpen(Session persistenceContext)
+   {
+      return persistenceContext.isOpen();
+   }
 
 }
