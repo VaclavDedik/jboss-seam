@@ -1,7 +1,6 @@
-Seam Hibernate Portlet Example
-==============================
-This is a port of the Booking example to Hibernate3 with JavaBeans
-for the actions. This example is preconfigured to work as a portlet 
-in JBoss Portal 2.4+
+Using Seam with Portal
+----------------------
 
-THIS EXAMPLE IS CURRENTLY UNMAINTAINED
+Seam is compatible with the portlet environment through the use of the JBoss 
+Portlet Bridge. More information can be found at
+http://labs.jboss.com/portletbridge</ulink>
