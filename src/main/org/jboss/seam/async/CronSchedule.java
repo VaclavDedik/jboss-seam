@@ -43,7 +43,5 @@ public class CronSchedule extends Schedule
       super(duration, expiration, finalExpiration);
       this.cron = cron;
    }
-
-   CronSchedule() {}
    
 }

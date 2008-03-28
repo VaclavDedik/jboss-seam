@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.async.AbstractDispatcher;
 import org.jboss.seam.async.CronSchedule;
 import org.jboss.seam.async.Dispatcher;
+import org.jboss.seam.async.Schedule;
 import org.jboss.seam.async.TimerSchedule;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
@@ -108,7 +109,7 @@ public class Events
     * @param schedule the schedule object, specific to the dispatcher strategy
     * @param parameters parameters to be passes to the listener method
     */
-   public void raiseTimedEvent(String type, Object schedule, Object... parameters)
+   public void raiseTimedEvent(String type, Schedule schedule, Object... parameters)
    {
       getDispatcher().scheduleTimedEvent(type, schedule, parameters);
    }

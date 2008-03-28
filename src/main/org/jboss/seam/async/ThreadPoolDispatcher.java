@@ -45,7 +45,7 @@ public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedu
    public Future scheduleInvocation(InvocationContext invocation, Component component)
    {
       return scheduleWithExecutorService( 
-               (TimerSchedule) createSchedule(invocation), 
+               createTimerSchedule(invocation), 
                new RunnableAsynchronous( new AsynchronousInvocation(invocation, component) ) 
             );
    }

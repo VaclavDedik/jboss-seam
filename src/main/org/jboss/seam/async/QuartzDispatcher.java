@@ -100,7 +100,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    {
       return scheduleWithQuartzServiceAndWrapExceptions( createSchedule(invocation), new AsynchronousInvocation(invocation, component) );
    }
-      
+
    private static Date calculateDelayedDate (long delay)
    {
       Date now = new Date ();
@@ -245,6 +245,8 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
    {
       return scheduler;
    }
+   
+
 
    public static QuartzDispatcher instance()
    {

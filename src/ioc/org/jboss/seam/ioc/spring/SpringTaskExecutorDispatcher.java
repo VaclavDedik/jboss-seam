@@ -28,7 +28,7 @@ import org.springframework.core.task.TaskExecutor;
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.async.dispatcher")
 @Install(value=false, precedence=BUILT_IN)
-public class SpringTaskExecutorDispatcher<T, S> extends AbstractDispatcher<T, S>
+public class SpringTaskExecutorDispatcher<T, S extends Schedule> extends AbstractDispatcher<T, S>
 {
 
    private ValueExpression<Dispatcher<T, S>> scheduleDispatcher;

@@ -56,19 +56,19 @@ public class TimerSchedule extends Schedule
       this.intervalDuration = intervalDuration;
    }
 
-   TimerSchedule(Long duration, Date expiration, Long intervalDuration)
+   public TimerSchedule(Long duration, Date expiration, Long intervalDuration)
    {
       super(duration, expiration);
       this.intervalDuration = intervalDuration;
    }
 
-   TimerSchedule(Long duration, Date expiration, Long intervalDuration, Date finalExpiration)
+   public TimerSchedule(Long duration, Date expiration, Long intervalDuration, Date finalExpiration)
    {
       super(duration, expiration, finalExpiration);
       this.intervalDuration = intervalDuration;
    }
 
-   TimerSchedule() {}
+   private TimerSchedule() {}
    
    
    

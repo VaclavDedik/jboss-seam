@@ -11,7 +11,7 @@ import org.jboss.seam.intercept.InvocationContext;
  *
  * @param <T> the type of the timer object
  */
-public interface Dispatcher<T, S>
+public interface Dispatcher<T, S extends Schedule>
 {
    /**
     * Schedule an asynchronous method call, examining annotations
