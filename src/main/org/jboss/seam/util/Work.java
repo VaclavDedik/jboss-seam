@@ -1,5 +1,6 @@
 package org.jboss.seam.util;
 
+import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
 import org.jboss.seam.log.LogProvider;
@@ -47,7 +48,7 @@ public abstract class Work<T>
       }
       catch (Exception e)
       {
-         if (begin) 
+         if (begin && userTransaction.getStatus() != Status.STATUS_NO_TRANSACTION) 
          {
             log.debug("rolling back transaction");
             userTransaction.rollback();
