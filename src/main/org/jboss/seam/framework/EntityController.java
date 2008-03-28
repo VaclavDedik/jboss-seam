@@ -82,4 +82,10 @@ public class EntityController extends PersistenceController<EntityManager>
       getEntityManager().remove(entity);
    }
    
+   @Override
+   protected boolean isPersistenceContextOpen(EntityManager persistenceContext)
+   {
+      return persistenceContext.isOpen();
+   }
+   
 }

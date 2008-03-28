@@ -119,4 +119,10 @@ public class HibernateEntityHome<E> extends Home<Session, E>
       }
    }
    
+   @Override
+   protected boolean isPersistenceContextOpen(Session persistenceContext)
+   {
+      return persistenceContext.isOpen();
+   }
+   
 }
