@@ -232,6 +232,20 @@
                      the web module and the EJB3 beans. The 
                      <literal>ejb-link</literal> element is simply not used. 
                   </para>
+                  <para>Note also that <literal>EjbSynchronizations</literal> is
+                  a built-in Seam EJB and not part of the Hotel Booking example. This
+                  means that if your application's <literal>components.xml</literal> 
+                  specifies <literal>transaction:ejb-transaction</literal>
+                  , then you must include:</para>
+                  <programlisting role="XML"><![CDATA[
+  <ejb-local-ref>
+    <ejb-ref-name>myapp/EjbSynchronizations</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local-home></local-home>
+    <local>org.jboss.seam.transaction.LocalEjbSynchronizations</local>
+  </ejb-local-ref>]]></programlisting>
+                  <para>in your web.xml. If you don't include it, you'll get the following error:</para>
+                  <programlisting>Name comp/env/myapp/EjbSynchronizations not found in context java:</programlisting>
                </listitem>
             </varlistentry>
             <varlistentry>
