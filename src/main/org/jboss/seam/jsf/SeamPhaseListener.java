@@ -151,18 +151,28 @@ public class SeamPhaseListener implements PhaseListener
 
       FacesContext facesContext = event.getFacesContext();
       
-      if ( event.getPhaseId() == RESTORE_VIEW || event.getPhaseId() == RENDER_RESPONSE )
+      boolean notInitialised=false;
+
+      if ( event.getPhaseId() == RESTORE_VIEW )
       {
          beforeRestoreView(facesContext);
+      }
+      if ( event.getPhaseId() == RENDER_RESPONSE && !Contexts.isApplicationContextActive() ) 
+      {
+          beforeRestoreView(facesContext);
+          notInitialised = true;
       }
       
       //delegate to subclass:
       handleTransactionsBeforePhase(event);
       
-      if ( event.getPhaseId() == RENDER_RESPONSE )
+      if (event.getPhaseId() == RENDER_RESPONSE) 
       {
-         afterRestoreView(facesContext);         
-         beforeRenderResponse( event.getFacesContext() );
+         if (notInitialised) 
+         {
+            afterRestoreView(facesContext);
+         }
+         beforeRenderResponse(event.getFacesContext());
       }
    }
 
@@ -242,46 +252,47 @@ public class SeamPhaseListener implements PhaseListener
    
    private void afterPortletPhase(PhaseEvent event)
    {
-      FacesContext facesContext = event.getFacesContext();
-      
-      if ( event.getPhaseId() == RESTORE_VIEW )
+      Object portletPhase = event.getFacesContext().getExternalContext().getRequestMap().get("javax.portlet.faces.phase");
+
+      if (event.getPhaseId() == RESTORE_VIEW) 
       {
-         afterRestoreView(facesContext);
+         afterRestoreView(event.getFacesContext());
       }
-      else if ( event.getPhaseId() == INVOKE_APPLICATION )
+      else if (event.getPhaseId() == INVOKE_APPLICATION) 
       {
          afterInvokeApplication();
       }
-      else if ( event.getPhaseId() == PROCESS_VALIDATIONS )
+      else if (event.getPhaseId() == PROCESS_VALIDATIONS) 
       {
-         afterProcessValidations(facesContext);
+         afterProcessValidations(event.getFacesContext());
       }
-      
+
       FacesMessages.afterPhase();
-      
-      //delegate to subclass:
+
+      // delegate to subclass:
       handleTransactionsAfterPhase(event);
-            
-      if ( event.getPhaseId() == RENDER_RESPONSE )
+
+      if (event.getPhaseId() == RENDER_RESPONSE) 
       {
-         //writeConversationIdToResponse( facesContext.getExternalContext().getResponse() );
-         afterRenderResponse(facesContext);
+         // writeConversationIdToResponse(
+         // facesContext.getExternalContext().getResponse() );
+         afterRenderResponse(event.getFacesContext());
       }
-      else if ( event.getPhaseId() == INVOKE_APPLICATION || facesContext.getRenderResponse() || facesContext.getResponseComplete() )
+      else if ( (null != portletPhase && "ActionPhase".equals(portletPhase.toString()) )
+             && (event.getPhaseId() == INVOKE_APPLICATION
+                     || event.getFacesContext().getRenderResponse() 
+                     || event.getFacesContext().getResponseComplete()) )
       {
-         Manager manager = Manager.instance();
-         manager.beforeRedirect();
-         if ( manager.isLongRunningConversation() )
+         Manager.instance().beforeRedirect();
+         if ( Manager.instance().isLongRunningConversation() ) 
          {
-            setPortletRenderParameter(
-                  facesContext.getExternalContext().getResponse(), 
-                  manager.getConversationIdParameter(), 
-                  manager.getCurrentConversationId()
-               );
+             setPortletRenderParameter(
+                   event.getFacesContext().getExternalContext().getResponse(),
+                   Manager.instance().getConversationIdParameter(),
+                     Manager.instance().getCurrentConversationId() );
          }
-         afterResponseComplete(facesContext);
+         afterResponseComplete( event.getFacesContext() );
       }
-      
    }
    
    private static void setPortletRenderParameter(Object response, String conversationIdParameter, String conversationId)

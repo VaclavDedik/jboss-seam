@@ -16,6 +16,8 @@ public class UrlBuilder
    private String fragment;
    private String characterEncoding;
    
+   private boolean urlEncodeParameters = true;
+   
    private Map<String, String> parameters;
 
    protected UrlBuilder(String fragment, String characterEncoding)
@@ -25,10 +27,22 @@ public class UrlBuilder
       this.characterEncoding = characterEncoding;
    }
    
+   public UrlBuilder(String fragment, String characterEncoding, boolean urlEncodeParameters)
+   {
+      this(fragment, characterEncoding);
+      this.urlEncodeParameters = urlEncodeParameters;
+   }
+   
    public UrlBuilder(String url, String fragment, String characterEncoding)
    {
       this(fragment, characterEncoding);
       setUrl(url);
+   }
+   
+   public UrlBuilder(String url, String fragment, String characterEncoding, boolean urlEncodeParameters)
+   {
+      this(url, fragment, characterEncoding);
+      this.urlEncodeParameters = urlEncodeParameters;
    }
    
    protected void setUrl(String url)
@@ -85,7 +99,7 @@ public class UrlBuilder
    
    public void addParameter(String name, String value) throws UnsupportedEncodingException
    {
-      parameters.put(name, urlEncode(value));
+      parameters.put(name, urlEncodeParameters ? urlEncode(value) : value);
    }
    
    public void addParameter(UIParameter parameter) throws UnsupportedEncodingException
