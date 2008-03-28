@@ -348,6 +348,8 @@ public class Pageflow extends AbstractMutable implements Serializable
                   "org.jboss.seam.endPageflow." + 
                   processInstance.getProcessDefinition().getName()
                );
+         Events.instance().raiseEvent(
+                 "org.jboss.seam.endPageflow");
       }
    }
 
@@ -411,6 +413,7 @@ public class Pageflow extends AbstractMutable implements Serializable
    protected void raiseBeginEvent(String pageflowDefinitionName)
    {
       Events.instance().raiseEvent("org.jboss.seam.beginPageflow." + pageflowDefinitionName);
+      Events.instance().raiseEvent("org.jboss.seam.beginPageflow");
    }
 
    private void storePageflowToViewRootIfNecessary()
