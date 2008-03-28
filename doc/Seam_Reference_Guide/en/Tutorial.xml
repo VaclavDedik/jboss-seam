@@ -264,7 +264,7 @@ public class User implements Serializable
                     </example>
                     <para> The most important things to notice in this example are the <literal>@Name</literal> and
                             <literal>@Scope</literal> annotations. These annotations establish that this class is a Seam component. </para>
-                    <para> We'll see below that the properties of our <literal>User</literal> class are bound to
+                    <para> We'll see below that the properties of our <literal>User</literal> class are bound
                         directly to JSF components and are populated by JSF during the update model values phase. We
                         don't need any tedious glue code to copy data back and forth between the JSP pages and the
                         entity bean domain model. </para>
@@ -337,7 +337,7 @@ public class RegisterAction implements Register
                         <calloutlist>
                             <callout arearefs="registration-stateless-annotation">
                                 <para> The EJB standard <literal>@Stateless</literal> annotation marks this class as
-                                    stateless session bean. </para>
+                                    a stateless session bean. </para>
                             </callout>
                             <callout arearefs="registration-in-annotation">
                                 <para> The <link linkend="in-annotation">
@@ -357,7 +357,7 @@ public class RegisterAction implements Register
                             <callout arearefs="registration-action-listener">
                                 <para> The action listener method uses the standard EJB3
                                     <literal>EntityManager</literal> API to interact with the database, and returns the
-                                    JSF outcome. Note that, since this is a sesson bean, a transaction is automatically
+                                    JSF outcome. Note that, since this is a session bean, a transaction is automatically
                                     begun when the <literal>register()</literal> method is called, and committed when it
                                     completes. </para>
                             </callout>
