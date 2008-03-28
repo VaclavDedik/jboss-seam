@@ -63,7 +63,7 @@ public class TimerServiceDispatcher
    public Timer scheduleInvocation(InvocationContext invocation, Component component)
    {
       return new TimerProxy( 
-              scheduleWithTimerService( (TimerSchedule) createSchedule(invocation), 
+              scheduleWithTimerService( createTimerSchedule(invocation), 
               new AsynchronousInvocation(invocation, component) ) );
       
    }
