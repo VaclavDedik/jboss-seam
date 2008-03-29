@@ -61,6 +61,11 @@ public class Pageflow extends AbstractMutable implements Serializable
    {
       return processInstance!=null;
    }
+   
+   public boolean isStarted()
+   {
+	   return getSubProcessInstance().getRootToken().getNode() != null;
+   }
 
    public ProcessInstance getProcessInstance() 
    {
