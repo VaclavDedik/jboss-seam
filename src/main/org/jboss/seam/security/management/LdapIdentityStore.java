@@ -16,6 +16,8 @@ import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
+import javax.naming.directory.DirContext;
+import javax.naming.directory.ModificationItem;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
 import javax.naming.ldap.InitialLdapContext;
@@ -36,6 +38,10 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 @BypassInterceptors
 public class LdapIdentityStore implements IdentityStore, Serializable
 {
+   // constants for LDAP syntax 1.3.6.1.4.1.1466.115.121.1.7 (boolean)
+   private static final String LDAP_BOOLEAN_TRUE = "TRUE";
+   private static final String LDAP_BOOLEAN_FALSE = "FALSE";
+   
    protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
    
    private String serverAddress = "localhost";
@@ -67,6 +73,8 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    private String lastNameAttribute = "sn";
    
    private String fullNameAttribute = "cn";
+   
+   private String enabledAttribute = null;
    
    private String roleNameAttribute = "cn";
    
@@ -241,6 +249,16 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       this.fullNameAttribute = fullNameAttribute;
    }
    
+   public String getEnabledAttribute()
+   {
+      return enabledAttribute;
+   }
+   
+   public void setEnabledAttribute(String enabledAttribute)
+   {
+      this.enabledAttribute = enabledAttribute;
+   }
+   
    public String getObjectClassAttribute()
    {
       return objectClassAttribute;
@@ -329,16 +347,43 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    {      
       String securityPrincipal = getUserDN(username);
       
+      InitialLdapContext ctx = null;
       try
       {
-         InitialLdapContext ctx = initialiseContext(securityPrincipal, password);   
-         ctx.close();
+         ctx = initialiseContext(securityPrincipal, password);
+         
+         if (getEnabledAttribute() != null)
+         {
+            Attributes attribs = ctx.getAttributes(securityPrincipal, new String[] { getEnabledAttribute() });
+            Attribute enabledAttrib = attribs.get( getEnabledAttribute() );
+            if (enabledAttrib != null)
+            {
+               for (int r = 0; r < enabledAttrib.size(); r++)
+               {
+                  Object value = enabledAttrib.get(r);
+                  if (LDAP_BOOLEAN_TRUE.equals(value)) return true;
+               }
+            }           
+            return false;
+         }
+                           
          return true;         
       }
       catch (NamingException ex)
       {
          throw new IdentityManagementException("Authentication error", ex);
       }
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }      
    }
 
    public boolean changePassword(String name, String password) 
@@ -362,11 +407,8 @@ public class LdapIdentityStore implements IdentityStore, Serializable
             roleClass.add(objectClass);
          }
          
-         BasicAttribute roleName = new BasicAttribute(getRoleNameAttribute());
-         roleName.add(role);
-         
          roleAttribs.put(roleClass);
-         roleAttribs.put(roleName);
+         roleAttribs.put(new BasicAttribute(getRoleNameAttribute(), role));
          
          String roleDN = String.format("%s=%s,%s", getRoleNameAttribute(), role, getRoleContextDN() );          
          ctx.createSubcontext(roleDN, roleAttribs);
@@ -377,6 +419,17 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       {
          throw new IdentityManagementException("Failed to create role", ex);
       }
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }      
    }
    
    public boolean createUser(String username, String password, String firstname, String lastname)
@@ -394,35 +447,28 @@ public class LdapIdentityStore implements IdentityStore, Serializable
             userClass.add(objectClass);
          }
          
-         BasicAttribute usernameAttrib = new BasicAttribute(getUserNameAttribute());
-         usernameAttrib.add(username);
-         
-         BasicAttribute passwordAttrib = new BasicAttribute(getUserPasswordAttribute());
-         passwordAttrib.add(PasswordHash.generateHash(password));
-         
          userAttribs.put(userClass);
-         userAttribs.put(usernameAttrib);
-         userAttribs.put(passwordAttrib);
+         userAttribs.put(new BasicAttribute(getUserNameAttribute(), username));
+         userAttribs.put(new BasicAttribute(getUserPasswordAttribute(), password));
          
          if (getFirstNameAttribute() != null && firstname != null)
          {
-            BasicAttribute firstNameAttrib = new BasicAttribute(getFirstNameAttribute());
-            firstNameAttrib.add(firstname);
-            userAttribs.put(firstNameAttrib);
+            userAttribs.put(new BasicAttribute(getFirstNameAttribute(), firstname));
          }
          
          if (getLastNameAttribute() != null && lastname != null)
          {
-            BasicAttribute lastNameAttrib = new BasicAttribute(getLastNameAttribute());
-            lastNameAttrib.add(lastname);
-            userAttribs.put(lastNameAttrib);
+            userAttribs.put(new BasicAttribute(getLastNameAttribute(), lastname));
          }
          
          if (getFullNameAttribute() != null && firstname != null && lastname != null)
          {
-            BasicAttribute fullNameAttrib = new BasicAttribute(getFullNameAttribute());
-            fullNameAttrib.add(firstname + " " + lastname);
-            userAttribs.put(fullNameAttrib);
+            userAttribs.put(new BasicAttribute(getFullNameAttribute(), firstname + " " + lastname));
+         }
+         
+         if (getEnabledAttribute() != null)
+         {
+            userAttribs.put(new BasicAttribute(getEnabledAttribute(), LDAP_BOOLEAN_TRUE));
          }
          
          String userDN = String.format("%s=%s,%s", getUserNameAttribute(), username, getUserContextDN() );          
@@ -433,6 +479,17 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       catch (NamingException ex)
       {
          throw new IdentityManagementException("Failed to create user", ex);
+      }      
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
       }      
    }
 
@@ -456,6 +513,17 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       {
          throw new IdentityManagementException("Failed to delete role", ex);
       }
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }      
    }
    
    public boolean roleExists(String role) 
@@ -527,24 +595,123 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       {
          throw new IdentityManagementException("Failed to delete user", ex);
       }
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }      
    }
    
    public boolean isUserEnabled(String name) 
    {
-      // TODO implement this somehow
-      return true;
+      if (getEnabledAttribute() == null) return true;      
+
+      InitialLdapContext ctx = null;      
+      try
+      {
+         ctx = initialiseContext();
+         
+         String userDN = getUserDN(name);          
+         Attributes attribs = ctx.getAttributes(userDN, new String[] { getEnabledAttribute() });
+         Attribute enabledAttrib = attribs.get( getEnabledAttribute() );
+         if (enabledAttrib != null)
+         {
+            for (int r = 0; r < enabledAttrib.size(); r++)
+            {
+               Object value = enabledAttrib.get(r);
+               if (LDAP_BOOLEAN_TRUE.equals(value)) return true;
+            }
+         }         
+
+         return false;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to delete user", ex);
+      }
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }      
    }   
 
    public boolean disableUser(String name) 
    {
-      // TODO Auto-generated method stub
-      return false;
+      if (getEnabledAttribute() == null) return false;
+      
+      InitialLdapContext ctx = null;
+      try
+      {
+         ctx = initialiseContext();
+         
+         String userDN = getUserDN(name);          
+         BasicAttribute enabledAttrib = new BasicAttribute(getEnabledAttribute(), LDAP_BOOLEAN_FALSE);
+         ModificationItem mod = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, enabledAttrib);
+         
+         ctx.modifyAttributes(userDN, new ModificationItem[] { mod });
+         return true;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to disable user", ex);
+      }      
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }
    }
 
    public boolean enableUser(String name) 
    {
-      // TODO Auto-generated method stub
-      return false;
+      if (getEnabledAttribute() == null) return false;
+      
+      InitialLdapContext ctx = null;
+      try
+      {
+         ctx = initialiseContext();
+         
+         String userDN = getUserDN(name);          
+         BasicAttribute enabledAttrib = new BasicAttribute(getEnabledAttribute(), LDAP_BOOLEAN_TRUE);
+         ModificationItem mod = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, enabledAttrib);
+         
+         ctx.modifyAttributes(userDN, new ModificationItem[] { mod });
+         return true;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to disable user", ex);
+      }      
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }
    }
 
    public List<String> getGrantedRoles(String name) 
