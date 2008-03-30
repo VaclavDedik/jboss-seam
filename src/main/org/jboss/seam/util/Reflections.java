@@ -283,9 +283,24 @@ public class Reflections
       throw new IllegalArgumentException("no such field: " + clazz.getName() + '.' + name);
    }
    
+   public static Method getMethod(Class clazz, String name)
+   {
+      for ( Class superClass = clazz; superClass!=Object.class; superClass=superClass.getSuperclass() )
+      {
+         try
+         {
+            return superClass.getDeclaredMethod(name);
+         }
+         catch (NoSuchMethodException nsme) {}
+      }
+      throw new IllegalArgumentException("no such method: " + clazz.getName() + '.' + name);
+   }
+   
    /**
     * Get all the fields which are annotated with the given annotation. Returns an empty list
     * if none are found
+    * 
+    * This method is slow
     */
    public static List<Field> getFields(Class clazz, Class annotation)
    {
@@ -302,7 +317,7 @@ public class Reflections
       }
       return fields;
    }
-
+   
    public static Method getMethod(Annotation annotation, String name)
    {
       try

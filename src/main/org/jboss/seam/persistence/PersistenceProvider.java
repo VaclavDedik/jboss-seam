@@ -9,12 +9,15 @@ import javax.persistence.OptimisticLockException;
 import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.ComponentType;
 import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.init.EjbDescriptor;
 /**
  * Abstraction layer for persistence providers (JPA implementations).
  * This class provides a working base implementation that can be
@@ -61,7 +64,7 @@ public class PersistenceProvider
     */
    public Object getId(Object bean, EntityManager entityManager)
    {
-      return Entity.forClass( bean.getClass() ).getIdentifier(bean);
+      return Entity.forBean( bean ).getIdentifier(bean);
    }
    
    /**
@@ -74,7 +77,7 @@ public class PersistenceProvider
     */
    public String getName(Object bean, EntityManager entityManager) throws IllegalArgumentException
    {
-      return Entity.forClass(bean.getClass()).getName();
+      return Entity.forBean( bean ).getName();
    }
    
    /**
@@ -84,7 +87,7 @@ public class PersistenceProvider
     */
    public Object getVersion(Object bean, EntityManager entityManager)
    {
-      return Entity.forClass( bean.getClass() ).getVersion(bean);
+      return Entity.forBean( bean ).getVersion(bean);
    }
    
    public void checkVersion(Object bean, EntityManager entityManager, Object oldVersion, Object version)
@@ -148,27 +151,51 @@ public class PersistenceProvider
     */
    public Class getBeanClass(Object bean)
    {
-      return Entity.forClass(bean.getClass()).getBeanClass();
+      return getEntityClass(bean.getClass());
    }
    
-   public Method getPostLoadMethod(Class beanClass, EntityManager entityManager)
+   public static Class getEntityClass(Class clazz)
    {
-      return Entity.forClass(beanClass).getPostLoadMethod();      
+      while (clazz != null && !Object.class.equals(clazz))
+      {
+         if (clazz.isAnnotationPresent(Entity.class))
+         {
+            return clazz;
+         }
+         else
+         {
+            EjbDescriptor ejbDescriptor = Seam.getEjbDescriptor(clazz.getName());
+            if (ejbDescriptor != null)
+            {
+               return ejbDescriptor.getBeanType() == ComponentType.ENTITY_BEAN ? clazz : null;
+            }
+            else
+            {
+               clazz = clazz.getSuperclass();
+            }
+         }
+      }
+      return null;
    }
    
-   public Method getPrePersistMethod(Class beanClass, EntityManager entityManager)
+   public Method getPostLoadMethod(Object bean, EntityManager entityManager)
    {
-      return Entity.forClass(beanClass).getPrePersistMethod();
+      return Entity.forBean(bean).getPostLoadMethod();
    }
    
-   public Method getPreUpdateMethod(Class beanClass, EntityManager entityManager)
+   public Method getPrePersistMethod(Object bean, EntityManager entityManager)
    {
-      return Entity.forClass(beanClass).getPreUpdateMethod();
+      return Entity.forBean(bean).getPrePersistMethod();
    }
    
-   public Method getPreRemoveMethod(Class beanClass, EntityManager entityManager)
+   public Method getPreUpdateMethod(Object bean, EntityManager entityManager)
    {
-      return Entity.forClass(beanClass).getPreRemoveMethod();
+      return Entity.forBean(bean).getPreUpdateMethod();
+   }
+   
+   public Method getPreRemoveMethod(Object bean, EntityManager entityManager)
+   {
+      return Entity.forBean(bean).getPreRemoveMethod();
    }
    
    @Deprecated

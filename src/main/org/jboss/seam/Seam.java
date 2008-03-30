@@ -24,6 +24,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.init.EjbDescriptor;
 import org.jboss.seam.init.DeploymentDescriptor;
+import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Session;
 
@@ -37,21 +38,27 @@ public class Seam
 {
     
    private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
-   private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
+   private static final Map<String, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<String, EjbDescriptor>();
 
-   private static EjbDescriptor getEjbDescriptor(Class clazz)
+   public static EjbDescriptor getEjbDescriptor(String className)
    {
-      EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(clazz);
+      EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(className);
       if (info != null) 
       {
           return info;
       }
       else
       {
-         Map<Class, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
+         Map<String, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor().getEjbDescriptors();
          EJB_DESCRIPTOR_CACHE.putAll(ejbDescriptors);
-         return ejbDescriptors.get(clazz);
+         return ejbDescriptors.get(className);
       }
+   }
+   
+   // TODO Better impl
+   static EjbDescriptor getEjbDescriptor(Class clazz)
+   {
+      return getEjbDescriptor(clazz.getName());
    }
   
    /**
@@ -143,36 +150,20 @@ public class Seam
    /**
     * Get the bean class from a container-generated proxy
     * class
+    * 
+    * Use PersistenceProvider.instance().getBeanClass(bean) instead
     */
+   @Deprecated
    public static Class getEntityClass(Class<?> clazz)
    {
-      while ( clazz!=null && !Object.class.equals(clazz) )
-      {
-         if ( clazz.isAnnotationPresent(Entity.class) )
-         {
-            return clazz;
-         }
-         else 
-         {
-            EjbDescriptor ejbDescriptor = EJB_DESCRIPTOR_CACHE.get(clazz);
-            if ( ejbDescriptor!=null ) 
-            {
-               return ejbDescriptor.getBeanType()==ComponentType.ENTITY_BEAN ?
-                        clazz : null;
-            }
-            else
-            {
-               clazz = clazz.getSuperclass();
-            }
-         }
-      }
-      return null;
-   }
+      return PersistenceProvider.getEntityClass(clazz);
+   } 
    
    /**
     * Is the class a container-generated proxy class for an 
     * entity bean?
     */
+   @Deprecated
    public static boolean isEntityClass(Class<?> clazz)
    {
       return getEntityClass(clazz)!=null;

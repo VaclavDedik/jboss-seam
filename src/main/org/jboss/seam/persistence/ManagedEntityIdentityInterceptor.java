@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
@@ -140,7 +139,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       return value instanceof List || 
             value instanceof Map || 
             value instanceof Set || 
-            Seam.isEntityClass( value.getClass() );
+            PersistenceProvider.getEntityClass(value.getClass()) != null;
    }
 
    private Object getFieldValue(Object bean, Field field) throws Exception

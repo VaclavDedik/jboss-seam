@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 <chapter id="security">
   <title>Security</title>
 
@@ -931,6 +933,32 @@ public class Customer {
   public void prePersist() {}
    ]]></programlisting>
 
+      <note>
+         <title>Using <literal>/META-INF/orm.xml</literal></title>
+         
+
+         <para>
+            You can also specify the call back method in <literal>/META-INF/orm.xml</literal>:
+         </para>
+
+         <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+                 version="1.0">
+
+   <entity class="Customer">
+      <pre-persist method-name="prePersist" />
+   </entity>
+
+</entity-mappings>]]></programlisting>
+
+         <para>
+            Of course, you still need to annotate the <literal>prePersist()</literal>
+            method on <literal>Customer</literal> with <literal>@Restrict</literal>
+         </para>
+      </note>
+
       <para>
         And here's an example of an entity permission rule that checks if the authenticated user is allowed to insert
         a new <literal>MemberBlog</literal> record (from the seamspace example).  The entity for which the security
@@ -990,10 +1018,11 @@ end;]]></programlisting>
       </sect3>
 
       <sect3>
-        <title>Entity security with Hibernate</title>
+        <title>Entity security with a Managed Hibernate Session</title>
 
         <para>
-          If you are using a Hibernate <literal>SessionFactory</literal> configured via Seam, you don't
+          If you are using a Hibernate <literal>SessionFactory</literal> configured via Seam,
+          and are using annotations, or <literal>orm.xml</literal>, then you don't
           need to do anything special to use entity security.
         </para>
 

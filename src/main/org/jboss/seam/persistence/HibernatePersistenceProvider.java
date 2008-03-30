@@ -4,7 +4,6 @@ import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -16,15 +15,10 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.TransientObjectException;
-import org.hibernate.ejb.event.Callback;
-import org.hibernate.ejb.event.EJB3PostLoadEventListener;
-import org.hibernate.ejb.event.EntityCallbackHandler;
-import org.hibernate.engine.SessionImplementor;
-import org.hibernate.event.PostLoadEventListener;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.type.VersionType;
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -296,7 +290,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    
    private static ClassMetadata getClassMetadata(Object value, Session session)
    {
-      Class entityClass = Seam.getEntityClass( value.getClass() );
+      Class entityClass = getEntityClass(value);
       ClassMetadata classMetadata = null;
       if (entityClass!=null)
       {
@@ -318,134 +312,18 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    @Override
    public Class getBeanClass(Object bean)
    {
-      try
-      {
-         return super.getBeanClass(bean);
-      }
-      catch (IllegalArgumentException iae)
-      {
-         return Hibernate.getClass(bean);
-      }
+      return getEntityClass(bean);
    }
    
-   /**
-    * A nasty hack until we get a nicer method in Hibernate to use instead
-    * 
-    * TODO fix this once Hibernate exposes an API method to return the callback method/s for a
-    * given bean class
-    * 
-    * @param entityManager
-    * @return
-    */
-   private EntityCallbackHandler getCallbackHandler(Session session)
+   public static Class getEntityClass(Object bean)
    {
-      PostLoadEventListener[] listeners = ((SessionImplementor) session)
-      .getListeners().getPostLoadEventListeners();
-   
-      for (PostLoadEventListener listener : listeners)
+      Class clazz = PersistenceProvider.getEntityClass(bean.getClass());
+      if (clazz == null)
       {
-         if (listener instanceof EJB3PostLoadEventListener)
-         {
-            try
-            {
-               Field callbackHandlerField = EJB3PostLoadEventListener.class.getField("callbackHandler");
-               return (EntityCallbackHandler) callbackHandlerField.get(listener);
-            }
-            catch (Exception ex)
-            {
-               throw new RuntimeException(ex);
-            }
-         }
-      }   
-      return null;
-   }
-   
-   /**
-    * More nastiness
-    * 
-    * @param handler
-    * @param fieldName
-    * @return
-    */
-   private Callback[] getCallbacks(EntityCallbackHandler handler, String fieldName, Class beanClass)
-   {
-      try
-      {
-         Field f = EntityCallbackHandler.class.getDeclaredField(fieldName);
-         boolean isAccessible = f.isAccessible();
-         try
-         {
-            f.setAccessible(true);
-            HashMap<Class,Callback[]> callbacks = (HashMap<Class,Callback[]>) f.get(handler);
-            return callbacks.get(beanClass);
-         }
-         finally
-         {
-            f.setAccessible(isAccessible);
-         }
+         clazz = Hibernate.getClass(bean);
       }
-      catch (Exception ex)
-      {
-         throw new RuntimeException(ex);
-      }
+      return clazz;
    }
-   
-   private Method getCallbackMethod(Object persistenceContext, Class beanClass, String callbackFieldName)
-   {
-      EntityCallbackHandler callbackHandler = null;
-      
-      if (persistenceContext instanceof EntityManager)
-      {
-         callbackHandler = getCallbackHandler(getSession((EntityManager) persistenceContext));
-      }
-      else if (persistenceContext instanceof Session)
-      {
-         callbackHandler = getCallbackHandler((Session) persistenceContext);
-      }
-      
-      if (callbackHandler == null)
-      {
-         throw new RuntimeException("Could not determine callback handler for persistence context " +
-               persistenceContext);         
-      }
-      
-      Callback[] callbacks = getCallbacks(callbackHandler, callbackFieldName, beanClass);
-      
-      if (callbacks != null)
-      {
-         for (Callback cb : callbacks)
-         {
-            return cb.getCallbackMethod();
-         }
-      }
-         
-      return null;      
-   }
-   
-   /*@Override
-   public Method getPostLoadMethod(Class beanClass, Object persistenceContext)
-   {
-      return getCallbackMethod(persistenceContext, beanClass, "postLoads");
-   }
-   
-   
-   @Override
-   public Method getPrePersistMethod(Class beanClass, Object persistenceContext)
-   {
-      return getCallbackMethod(persistenceContext, beanClass, "preCreates");
-   }
-   
-   @Override
-   public Method getPreUpdateMethod(Class beanClass, Object persistenceContext)
-   {
-      return getCallbackMethod(persistenceContext, beanClass, "preUpdates");
-   }
-   
-   @Override
-   public Method getPreRemoveMethod(Class beanClass, Object persistenceContext)
-   {
-      return getCallbackMethod(persistenceContext, beanClass, "preRemoves");
-   }*/
    
    private Session getSession(EntityManager entityManager)
    {
@@ -468,4 +346,9 @@ public class HibernatePersistenceProvider extends PersistenceProvider
     *
     */
    static class NotHibernateException extends IllegalArgumentException {}
+   
+   public static HibernatePersistenceProvider instance()
+   {
+       return (HibernatePersistenceProvider) Component.getInstance(HibernatePersistenceProvider.class, ScopeType.STATELESS);
+   }
 }

@@ -10,6 +10,7 @@ import java.io.Serializable;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.Interceptor;
 import org.hibernate.type.Type;
+import org.jboss.seam.Entity.NotEntityException;
 
 /**
  * Facilitates security checks for Hibernate entities
@@ -30,7 +31,14 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
    public boolean onLoad(Object entity, Serializable id, Object[] state,
                       String[] propertyNames, Type[] types)
    {
-      EntityPermissionChecker.instance().checkEntityPermission(entity, READ);
+      try
+      {
+         EntityPermissionChecker.instance().checkEntityPermission(entity, READ);
+      }
+      catch (NotEntityException e) 
+      {
+         // Not a JPA entity
+      }
       
       return wrappedInterceptor != null ? 
                wrappedInterceptor.onLoad(entity, id, state, propertyNames, types) : 
@@ -41,7 +49,14 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
    public void onDelete(Object entity, Serializable id, Object[] state, 
                         String[] propertyNames, Type[] types)
    {
-      EntityPermissionChecker.instance().checkEntityPermission(entity, DELETE);
+      try
+      {
+         EntityPermissionChecker.instance().checkEntityPermission(entity, DELETE);
+      }
+      catch (NotEntityException e) 
+      {
+         // Not a JPA entity
+      }
       
       if (wrappedInterceptor != null)
          wrappedInterceptor.onDelete(entity, id, state, propertyNames, types);
@@ -51,7 +66,14 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState,
                    Object[] previousState, String[] propertyNames, Type[] types)
    {
-      EntityPermissionChecker.instance().checkEntityPermission(entity, UPDATE);
+      try
+      {
+         EntityPermissionChecker.instance().checkEntityPermission(entity, UPDATE);
+      }
+      catch (NotEntityException e) 
+      {
+         // Not a JPA entity
+      }
       
       return wrappedInterceptor != null ? 
                wrappedInterceptor.onFlushDirty(entity, id, currentState, 
@@ -62,7 +84,14 @@ public class HibernateSecurityInterceptor extends EmptyInterceptor
    public boolean onSave(Object entity, Serializable id, Object[] state,
                       String[] propertyNames, Type[] types)
    {
-      EntityPermissionChecker.instance().checkEntityPermission(entity, INSERT);
+      try
+      {
+         EntityPermissionChecker.instance().checkEntityPermission(entity, INSERT);
+      }
+      catch (NotEntityException e) 
+      {
+         // Not a JPA entity
+      }
       
       return wrappedInterceptor != null ? 
                wrappedInterceptor.onSave(entity, id, state, propertyNames, types) : 

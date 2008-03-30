@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 
 import org.hibernate.Session;
 import org.jboss.seam.Component;
-import org.jboss.seam.Seam;
 import org.jboss.seam.persistence.HibernatePersistenceProvider;
 import org.jboss.seam.persistence.PersistenceContexts;
 import org.jboss.seam.persistence.PersistenceProvider;
@@ -152,7 +151,7 @@ class PassivatedEntity implements Serializable
 
    public static PassivatedEntity passivateEntity(Object value)
    {
-      Class entityClass = Seam.getEntityClass( value.getClass() );
+      Class entityClass = PersistenceProvider.getEntityClass(value.getClass());
       if (entityClass!=null)
       {
          for ( String persistenceContextName: PersistenceContexts.instance().getTouchedContexts() )

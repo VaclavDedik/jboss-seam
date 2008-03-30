@@ -1,6 +1,6 @@
 package org.jboss.seam.security;
 
-import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.lang.reflect.Method;
@@ -8,15 +8,12 @@ import java.lang.reflect.Method;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Strings;
 
@@ -24,83 +21,68 @@ import org.jboss.seam.util.Strings;
  * Entity permission checks
  * 
  * @author Shane Bryzak
+ * @author Pete Muir
  */
 @Name("org.jboss.seam.security.entityPermissionChecker")
-@Scope(APPLICATION)
-@Install(precedence = BUILT_IN)
+@Scope(STATELESS)
+@Install(precedence = BUILT_IN, classDependencies={"javax.persistence.EntityManager"})
 @BypassInterceptors
-@Startup
 public class EntityPermissionChecker
 {
-   private String entityManagerName = "entityManager";
-   
-   private EntityManager getEntityManager()
-   {
-      return (EntityManager) Component.getInstance(entityManagerName);
-   }
-   
-   public String getEntityManagerName()
-   {
-      return entityManagerName;
-   }
-   
-   public void setEntityManagerName(String name)
-   {
-      this.entityManagerName = name;
-   } 
-   
+
    public static EntityPermissionChecker instance()
    {
-      if ( !Contexts.isApplicationContextActive() )
+      return (EntityPermissionChecker) Component.getInstance(EntityPermissionChecker.class, STATELESS);
+   }
+   
+   protected Method getProtectedMethod(EntityAction action, Object bean, EntityManager entityManager)
+   {
+      if (bean != null)
       {
-         throw new IllegalStateException("No active application context");
+         switch (action)
+         {
+         case READ:
+            return PersistenceProvider.instance().getPostLoadMethod(bean, entityManager);
+            
+         case INSERT:
+            return PersistenceProvider.instance().getPrePersistMethod(bean, entityManager);
+            
+         case UPDATE:
+            return PersistenceProvider.instance().getPreUpdateMethod(bean, entityManager);
+            
+         case DELETE:
+            return PersistenceProvider.instance().getPreRemoveMethod(bean, entityManager);
+         }
+
       }
-
-      EntityPermissionChecker instance = (EntityPermissionChecker) Component.getInstance(
-            EntityPermissionChecker.class, ScopeType.APPLICATION);
-
-      if (instance == null)
-      {
-         throw new IllegalStateException("No EntityPermissionChecker could be created");
-      }
-
-      return instance;      
+      return null;
    }
    
    public void checkEntityPermission(Object entity, EntityAction action)
-   {      
-      if (!Identity.isSecurityEnabled()) return;
-      
-      Identity identity = Identity.instance();
-      
-      identity.isLoggedIn(true);
-      
-      PersistenceProvider provider = PersistenceProvider.instance(); 
-      Class beanClass = provider.getBeanClass(entity);
-      
-      if (beanClass != null)
+   {
+      checkEntityPermission(entity, action, getProtectedMethod(action, entity, null));
+   }
+   
+   public void checkEntityPermission(Object entity, EntityAction action, EntityManager entityManager)
+   {
+      checkEntityPermission(entity, action, getProtectedMethod(action, entity, entityManager));
+   }
+   
+   protected void checkEntityPermission(Object entity, EntityAction action, Method m)
+   {
+      if (entity != null)
       {
-         String name = Seam.getComponentName(entity.getClass());
-         if (name == null) name = beanClass.getName();  
+         if (!Identity.isSecurityEnabled())
+            return;
+   
+         Identity identity = Identity.instance();
+   
+         identity.isLoggedIn(true);
          
-         Method m = null;
-         switch (action)
-         {
-            case READ:
-               m = provider.getPostLoadMethod(beanClass, getEntityManager());
-               break;
-            case INSERT:
-               m = provider.getPrePersistMethod(beanClass, getEntityManager());
-               break;
-            case UPDATE:
-               m = provider.getPreUpdateMethod(beanClass, getEntityManager());
-               break;
-            case DELETE:
-               m = provider.getPreRemoveMethod(beanClass, getEntityManager());
-         }
+         Class beanClass = PersistenceProvider.instance().getBeanClass(entity);
          
          Restrict restrict = null;
-         
+   
          if (m != null && m.isAnnotationPresent(Restrict.class))
          {
             restrict = m.getAnnotation(Restrict.class);
@@ -109,18 +91,24 @@ public class EntityPermissionChecker
          {
             restrict = entity.getClass().getAnnotation(Restrict.class);
          }
-
+   
          if (restrict != null)
          {
             if (Strings.isEmpty(restrict.value()))
             {
-               identity.checkPermission(name, action.toString(), entity);
+               String name = Seam.getComponentName(beanClass);
+               if (name == null)
+               {
+                  name = beanClass.getName();
+               }
+               Identity.instance().checkPermission(name, action.toString(), entity);
             }
             else
             {
-               identity.checkRestriction(restrict.value());
+               Identity.instance().checkRestriction(restrict.value());
             }
          }
       }
-   }  
+   }
+   
 }

@@ -622,4 +622,9 @@ public class Identity implements Serializable
          subject = savedSubject;
       }
    } 
+   
+   public void checkEntityPermission(Object entity, EntityAction action)
+   {
+      EntityPermissionChecker.instance().checkEntityPermission(entity, action);
+   }
 }
