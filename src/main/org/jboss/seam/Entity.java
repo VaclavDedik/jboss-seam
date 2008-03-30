@@ -21,9 +21,7 @@ import org.jboss.seam.util.Reflections;
 /**
  * Metamodel class for entity classes.
  * 
- * A class will be identified as an entity class if it has an
- * 
- * @Entity annotation.
+ * A class will be identified as an entity class if it has an @Entity annotation.
  * 
  * @author Gavin King
  * 
