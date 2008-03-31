@@ -252,7 +252,7 @@ public class FacesManager extends Manager
       org.jboss.seam.pageflow.Page page = 
             Manager.instance().isLongRunningConversation() &&
             Init.instance().isJbpmInstalled() && 
-            Pageflow.instance().isInProcess() ?
+            Pageflow.instance().isInProcess() && Pageflow.instance().isStarted() ?
                   Pageflow.instance().getPage() : null;
       
       if (page==null)
