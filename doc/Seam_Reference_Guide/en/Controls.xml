@@ -611,7 +611,7 @@
             <programlisting role="XHTML"><![CDATA[<s:formattedText value="#{blog.text}"/>]]></programlisting>
             <para><emphasis>Example</emphasis></para>
             <mediaobject>
-              <imageobject role="fo">
+              <imageobject role="fo" scalefit="1">
                 <imagedata fileref="images/controls-seamtext.png" align="center"/>
               </imageobject>
               <imageobject role="html">
@@ -1088,7 +1088,7 @@
 
             <mediaobject>
               <imageobject role="fo">
-                <imagedata fileref="images/controls-selectdatecss.png" align="center"/>
+                <imagedata fileref="images/controls-selectdatecss.png" align="center" scalefit="1"/>
               </imageobject>
               <imageobject role="html">
                 <imagedata fileref="images/controls-selectdatecss.png" align="center"/>
