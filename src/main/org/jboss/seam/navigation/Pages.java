@@ -972,7 +972,7 @@ public class Pages
          throw new IllegalStateException("<conversation/> declaration already exists for [" + name + "]");
       }
       
-      ELConversationIdParameter param = new ELConversationIdParameter(name, 
+      NaturalConversationIdParameter param = new NaturalConversationIdParameter(name, 
                element.attributeValue("parameter-name"), 
                element.attributeValue("parameter-value"));
       

@@ -14,13 +14,13 @@ import org.jboss.seam.util.Id;
  *  
  * @author Shane Bryzak
  */
-public class ELConversationIdParameter implements ConversationIdParameter
+public class NaturalConversationIdParameter implements ConversationIdParameter
 {
    private String name;
    private String parameterName;
    private ValueExpression vb;
    
-   public ELConversationIdParameter(String name, String paramName, String expression)
+   public NaturalConversationIdParameter(String name, String paramName, String expression)
    {
       this.name = name;
       this.parameterName = paramName;
