@@ -1,6 +1,7 @@
 package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -33,7 +34,7 @@ import org.jboss.seam.security.management.UserAccount.AccountType;
  * @author Shane Bryzak
  */
 @Name("org.jboss.seam.security.management.jpaIdentityStore")
-@Install(value=false) 
+@Install(precedence = BUILT_IN, value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
 public class JpaIdentityStore implements IdentityStore, Serializable
@@ -190,7 +191,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          }
          else
          {
-            account.setPasswordHash(PasswordHash.generateHash(password, username));
+            account.setPasswordHash(PasswordHash.generateHash(password, getAccountSalt(account)));
             account.setEnabled(true);            
          }
          
@@ -211,6 +212,11 @@ public class JpaIdentityStore implements IdentityStore, Serializable
             throw new IdentityManagementException("Could not create account", ex);
          }
       }      
+   }
+   
+   protected String getAccountSalt(UserAccount account)
+   {
+      return account.getUsername();
    }
    
    public boolean createUser(String username, String password)
@@ -373,7 +379,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchUserException("Could not change password, user '" + name + "' does not exist");
       }
       
-      account.setPasswordHash(PasswordHash.generateHash(password, name));
+      account.setPasswordHash(PasswordHash.generateHash(password, getAccountSalt(account)));
       mergeAccount(account);
       return true;
    }
@@ -457,7 +463,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          return false;
       }
       
-      String passwordHash = PasswordHash.generateHash(password, username);
+      String passwordHash = PasswordHash.generateHash(password, getAccountSalt(account));
       boolean success = passwordHash.equals(account.getPasswordHash());
             
       if (success && Events.exists())

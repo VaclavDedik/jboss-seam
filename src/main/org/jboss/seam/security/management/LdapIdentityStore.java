@@ -1,6 +1,7 @@
 package org.jboss.seam.security.management;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import org.jboss.seam.log.Logging;
  * @author Shane Bryzak
  */
 @Name("org.jboss.seam.security.management.ldapIdentityStore")
-@Install(value=false) 
+@Install(precedence = BUILT_IN, value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
 public class LdapIdentityStore implements IdentityStore, Serializable
