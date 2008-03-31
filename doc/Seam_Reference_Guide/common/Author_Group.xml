@@ -1,84 +1,77 @@
 <?xml version="1.0" standalone="no"?>
-<!DOCTYPE authorgroup PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
-]>
 <authorgroup>
    <author>
       <firstname>Gavin</firstname>
       <surname>King</surname>
       <affiliation>
-         <orgname>Red Hat Inc.</orgname>
+         <shortaffil>Project Lead</shortaffil>              
       </affiliation>
    </author>
    <author>
       <firstname>Pete</firstname>
       <surname>Muir</surname>
-      <affiliation>
-         <orgname>Red Hat Inc.</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Norman</firstname>
       <surname>Richards</surname>
-      <affiliation>
-         <orgname>Red Hat Inc.</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Shane</firstname>
       <surname>Bryzak</surname>
-      <affiliation>
-         <orgname>Red Hat Inc.</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Michael</firstname>
       <surname>Yuan</surname>
-      <affiliation>
-         <orgname>Individual</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Mike</firstname>
       <surname>Youngstrom</surname>
-      <affiliation>
-         <orgname>Individual</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Christian</firstname>
       <surname>Bauer</surname>
-      <affiliation>
-         <orgname>Red Hat Inc.</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Jay</firstname>
       <surname>Balunas</surname>
-      <affiliation>
-         <orgname>Red Hat Inc.</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Dan</firstname>
       <surname>Allen</surname>
-      <affiliation>
-         <orgname>Individual</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Max</firstname>
       <othername>Rydahl</othername>
       <surname>Andersen</surname>
-      <affiliation>
-         <orgname>Red Hat Inc.</orgname>
-      </affiliation>
    </author>
    <author>
       <firstname>Emmanuel</firstname>
       <surname>Bernard</surname>
-      <affiliation>
-         <orgname>Red Hat Inc.</orgname>
-      </affiliation>
    </author>
-   
+   <othercredit>
+      <firstname>James</firstname>
+      <surname>Cobb</surname>
+      <affiliation>
+         <shortaffil>Graphic Design</shortaffil>
+      </affiliation>
+   </othercredit>
+   <othercredit>
+      <firstname>Cheyenne</firstname>
+      <surname>Weaver</surname>
+      <affiliation>
+         <shortaffil>Graphic Design</shortaffil>
+      </affiliation>
+   </othercredit>
+   <othercredit>
+      <firstname>Mark</firstname>
+      <surname>Newton</surname>
+   </othercredit>
+   <othercredit>
+      <firstname>Steve</firstname>
+      <surname>Ebersole</surname>
+   </othercredit>
+   <editor>
+      <firstname>Samson</firstname>
+      <surname>Kittoli</surname>
+   </editor>
 </authorgroup>
