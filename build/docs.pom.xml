@@ -42,7 +42,6 @@
          <plugin>
             <groupId>org.jboss.maven.plugins</groupId>
             <artifactId>maven-jdocbook-plugin</artifactId>
-            <version>2.1.0-SNAPSHOT</version>
             <extensions>true</extensions>
             <dependencies>
                <dependency>
@@ -53,12 +52,6 @@
                <dependency>
                   <groupId>org.jboss.seam</groupId>
                   <artifactId>seam-jdocbook-style</artifactId>
-                  <version>1.1.0-SNAPSHOT</version>
-                  <type>jdocbook-style</type>
-               </dependency>
-               <dependency>
-                  <groupId>org.jboss</groupId>
-                  <artifactId>jbossorg-jdocbook-style</artifactId>
                   <version>1.1.0-SNAPSHOT</version>
                   <type>jdocbook-style</type>
                </dependency>
@@ -94,13 +87,6 @@
                      </stylesheetResource>
                      <finalName>index.html</finalName>
                   </format>
-                  <!-- <format>
-                     <formatName>eclipse</formatName>
-                     <stylesheetResource>
-                        classpath:/xslt/org/jboss/main-eclipse.xsl
-                     </stylesheetResource>
-                     <finalName>index.html</finalName>
-                  </format>-->
                </formats>
                <options>
                   <xincludeSupported>true</xincludeSupported>
@@ -112,6 +98,15 @@
             </configuration>
          </plugin>
       </plugins>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-dependency-plugin</artifactId>
+               <version>2.0</version>
+            </plugin>
+         </plugins>
+      </pluginManagement>
    </build>
 
 
