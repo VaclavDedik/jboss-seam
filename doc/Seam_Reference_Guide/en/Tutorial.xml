@@ -154,7 +154,7 @@
                             <area id="registration-notnull" coords="22"/>
                             <area id="registration-id-annotation" coords="44"/>
                         </areaspec>
-                        <programlisting role="JAVA"><![CDATA[@Entity
+                        <programlisting><![CDATA[@Entity
 @Name("user")
 @Scope(SESSION)
 @Table(name="users")
@@ -299,7 +299,7 @@ public class User implements Serializable
                             <area id="registration-outcome" coords="25"/>
                             <area id="registration-builtin" coords="29"/>
                         </areaspec>
-                        <programlisting role="JAVA"><![CDATA[@Stateless
+                        <programlisting><![CDATA[@Stateless
 @Name("register")
 public class RegisterAction implements Register
 {
@@ -867,7 +867,7 @@ public class Message implements Serializable
                             <area id="messages-delete" coords="29"/>
                             <area id="messages-remove" coords="36"/>
                         </areaspec>
-                        <programlisting role="JAVA"><![CDATA[@Stateful
+                        <programlisting><![CDATA[@Stateful
 @Scope(SESSION)
 @Name("messageManager")
 public class MessageManagerBean implements Serializable, MessageManager
@@ -1111,7 +1111,7 @@ public interface MessageManager
                         <area id="todo-assignment" coords="9"/>
                         <area id="todo-endstate" coords="14"/>
                     </areaspec>
-                    <programlisting role="XML"><![CDATA[<process-definition name="todo">
+                    <programlisting><![CDATA[<process-definition name="todo">
    
    <start-state name="start">
       <transition to="todo"/>
@@ -1243,7 +1243,7 @@ public class Login {
                        <area id="todo-createprocess-annotation" coords="15"/>
                        <area id="todo-task-annotations" coords="18"/>
                  </areaspec>
-                 <programlisting role="JAVA"><![CDATA[@Name("todoList")
+                 <programlisting><![CDATA[@Name("todoList")
 public class TodoList {
    
    private String description;
@@ -1480,7 +1480,7 @@ public class TodoList {
                      <area id="numberguess-action" coords="11"/>
                      <area id="numberguess-decision" coords="16"/>
                  </areaspec>
-                 <programlisting role="XML"><![CDATA[<pageflow-definition 
+                 <programlisting><![CDATA[<pageflow-definition 
         xmlns="http://jboss.com/products/seam/pageflow"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://jboss.com/products/seam/pageflow 
@@ -1685,7 +1685,7 @@ public class TodoList {
                  <areaspec>
                      <area id="numberguess-create" coords="13"/>
                  </areaspec>
-                 <programlisting role="JAVA"><![CDATA[@Name("numberGuess")
+                 <programlisting><![CDATA[@Name("numberGuess")
 @Scope(ScopeType.CONVERSATION)
 public class NumberGuess implements Serializable {
    
@@ -2017,7 +2017,7 @@ public class NumberGuess implements Serializable {
                      <area id="booking-datamodel-annotation" coords="15"/>
                      <area id="booking-destroy-annotation" coords="70"/>
                  </areaspec>
-                 <programlisting role="JAVA"><![CDATA[@Stateful
+                 <programlisting><![CDATA[@Stateful
 @Name("hotelSearch")
 @Scope(ScopeType.SESSION)
 @Restrict("#{identity.loggedIn}")
@@ -2134,7 +2134,7 @@ public class HotelSearchingAction implements HotelSearching
                      <area id="booking-outputpanel-element" coords="37"/>
                      <area id="booking-link-element" coords="61"/>
                  </areaspec>
-                 <programlisting role="XHTML"><![CDATA[<div class="section">
+                 <programlisting><![CDATA[<div class="section">
   
     <span class="errors">
        <h:messages globalOnly="true"/>
@@ -2255,7 +2255,7 @@ public class HotelSearchingAction implements HotelSearching
                      <area id="booking-end-annotation" coords="72"/>
                      <area id="booking-dest-annotation" coords="85"/>
                  </areaspec>
-                 <programlisting role="JAVA"><![CDATA[@Stateful
+                 <programlisting><![CDATA[@Stateful
 @Name("hotelBooking")
 @Restrict("#{identity.loggedIn}")
 public class HotelBookingAction implements HotelBooking
@@ -2573,7 +2573,7 @@ public class HotelBookingAction implements HotelBooking
                      <area id="blog-seampc" coords="7"/>
                      <area id="blog-unwrap" coords="9"/>
                  </areaspec>
-                 <programlisting role="JAVA"><![CDATA[@Name("blog")
+                 <programlisting><![CDATA[@Name("blog")
 @Scope(ScopeType.STATELESS)
 @AutoCreate
 public class BlogService 
