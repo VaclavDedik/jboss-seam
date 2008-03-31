@@ -1,5 +1,8 @@
 package org.jboss.seam.ui.facelet;
 
+import static org.jboss.seam.ScopeType.STATELESS;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URL;
@@ -8,7 +11,6 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -21,7 +23,6 @@ import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.ui.util.JSF;
 
 import com.sun.facelets.Facelet;
-import com.sun.facelets.compiler.SAXCompiler;
 import com.sun.facelets.impl.DefaultFaceletFactory;
 import com.sun.facelets.impl.DefaultResourceResolver;
 
@@ -36,11 +37,11 @@ import com.sun.facelets.impl.DefaultResourceResolver;
  *
  */
 
-@Scope(ScopeType.STATELESS)
+@Scope(STATELESS)
 @BypassInterceptors
 @Name("org.jboss.seam.faces.renderer")
 @AutoCreate
-@Install(value = true, precedence = Install.BUILT_IN, classDependencies="com.sun.facelets.Facelet")
+@Install(value = true, precedence = BUILT_IN, classDependencies="com.sun.facelets.Facelet")
 public class FaceletsRenderer extends Renderer
 {
    /**
