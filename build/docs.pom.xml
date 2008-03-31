@@ -43,6 +43,7 @@
             <groupId>org.jboss.maven.plugins</groupId>
             <artifactId>maven-jdocbook-plugin</artifactId>
             <extensions>true</extensions>
+            <version>2.1.0-200803311251UTC-MPJDOCBOOK-8</version>
             <dependencies>
                <dependency>
                   <groupId>org.jboss.seam</groupId>
