@@ -18,6 +18,7 @@ import org.hibernate.TransientObjectException;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.type.VersionType;
 import org.jboss.seam.Component;
+import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -317,7 +318,7 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    
    public static Class getEntityClass(Object bean)
    {
-      Class clazz = PersistenceProvider.getEntityClass(bean.getClass());
+      Class clazz = Entity.forBean(bean).getBeanClass();
       if (clazz == null)
       {
          clazz = Hibernate.getClass(bean);

@@ -15,9 +15,9 @@ import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.persistence.PersistenceProvider;
 
 /**
  * A conversation context is a logical context that lasts longer than 
@@ -155,7 +155,7 @@ public class ServerConversationContext implements Context
       else
       {
          removals.remove(name);
-         if ( PersistenceProvider.getEntityClass(value.getClass()) != null )
+         if ( Seam.getEntityClass(value.getClass()) != null )
          {
             value = new EntityBean(value);
          }

@@ -15,7 +15,6 @@ import javax.persistence.Version;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.init.EjbDescriptor;
 import org.jboss.seam.init.EjbEntityDescriptor;
-import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -42,7 +41,10 @@ public class Entity extends Model
    /**
     * 
     * @param beanClass
+    *
+    * Use Entity.forBean() or Entity.forClass
     */
+   @Deprecated
    public Entity(Class<?> beanClass)
    {
       super(beanClass);
@@ -137,40 +139,12 @@ public class Entity extends Model
    {
       return name;
    }
-
+   
    public static Entity forBean(Object bean)
    {
-      if (!Contexts.isApplicationContextActive())
-      {
-         throw new IllegalStateException("No application context active");
-      }
-      
-      Class beanClass = PersistenceProvider.instance().getBeanClass(bean);
-      
-      if (beanClass == null)
-      {
-         throw new NotEntityException("Not an entity class: " + bean.getClass().getName());
-      }
-      return forBeanClass(beanClass);
+      return forClass(bean.getClass());
    }
    
-   private static Entity forBeanClass(Class beanClass)
-   {
-      String name = getModelName(beanClass);
-      Model model = (Model) Contexts.getApplicationContext().get(name);
-      if (model == null || !(model instanceof Entity))
-      {
-         Entity entity = new Entity(beanClass);
-         Contexts.getApplicationContext().set(name, entity);
-         return entity;
-      }
-      else
-      {
-         return (Entity) model;
-      }
-   }
-   
-   @Deprecated
    public static Entity forClass(Class clazz)
    {
       if (!Contexts.isApplicationContextActive())
@@ -178,13 +152,24 @@ public class Entity extends Model
          throw new IllegalStateException("No application context active");
       }
 
-      Class entityClass = PersistenceProvider.getEntityClass(clazz);
+      Class entityClass = Seam.getEntityClass(clazz);
       
       if (entityClass == null)
       {
          throw new NotEntityException("Not an entity class: " + clazz.getName());
       }
-      return forBeanClass(entityClass);
+      String name = getModelName(clazz);
+      Model model = (Model) Contexts.getApplicationContext().get(name);
+      if (model == null || !(model instanceof Entity))
+      {
+         Entity entity = new Entity(clazz);
+         Contexts.getApplicationContext().set(name, entity);
+         return entity;
+      }
+      else
+      {
+         return (Entity) model;
+      }
    }
 
    private void mergeAnnotationAndOrmXml(EjbEntityDescriptor descriptor)

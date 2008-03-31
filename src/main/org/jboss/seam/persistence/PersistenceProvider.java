@@ -9,15 +9,12 @@ import javax.persistence.OptimisticLockException;
 import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.ComponentType;
 import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.init.EjbDescriptor;
 /**
  * Abstraction layer for persistence providers (JPA implementations).
  * This class provides a working base implementation that can be
@@ -151,31 +148,7 @@ public class PersistenceProvider
     */
    public Class getBeanClass(Object bean)
    {
-      return getEntityClass(bean.getClass());
-   }
-   
-   public static Class getEntityClass(Class clazz)
-   {
-      while (clazz != null && !Object.class.equals(clazz))
-      {
-         if (clazz.isAnnotationPresent(Entity.class))
-         {
-            return clazz;
-         }
-         else
-         {
-            EjbDescriptor ejbDescriptor = Seam.getEjbDescriptor(clazz.getName());
-            if (ejbDescriptor != null)
-            {
-               return ejbDescriptor.getBeanType() == ComponentType.ENTITY_BEAN ? clazz : null;
-            }
-            else
-            {
-               clazz = clazz.getSuperclass();
-            }
-         }
-      }
-      return null;
+      return Entity.forBean(bean).getBeanClass();
    }
    
    public Method getPostLoadMethod(Object bean, EntityManager entityManager)

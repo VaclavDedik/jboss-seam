@@ -24,7 +24,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.init.EjbDescriptor;
 import org.jboss.seam.init.DeploymentDescriptor;
-import org.jboss.seam.persistence.PersistenceProvider;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.web.Session;
 
@@ -151,19 +150,35 @@ public class Seam
     * Get the bean class from a container-generated proxy
     * class
     * 
-    * Use PersistenceProvider.instance().getBeanClass(bean) instead
     */
-   @Deprecated
-   public static Class getEntityClass(Class<?> clazz)
+   public static Class getEntityClass(Class clazz)
    {
-      return PersistenceProvider.getEntityClass(clazz);
-   } 
+      while (clazz != null && !Object.class.equals(clazz))
+      {
+         if (clazz.isAnnotationPresent(Entity.class))
+         {
+            return clazz;
+         }
+         else
+         {
+            EjbDescriptor ejbDescriptor = Seam.getEjbDescriptor(clazz.getName());
+            if (ejbDescriptor != null)
+            {
+               return ejbDescriptor.getBeanType() == ComponentType.ENTITY_BEAN ? clazz : null;
+            }
+            else
+            {
+               clazz = clazz.getSuperclass();
+            }
+         }
+      }
+      return null;
+   }
    
    /**
     * Is the class a container-generated proxy class for an 
     * entity bean?
     */
-   @Deprecated
    public static boolean isEntityClass(Class<?> clazz)
    {
       return getEntityClass(clazz)!=null;

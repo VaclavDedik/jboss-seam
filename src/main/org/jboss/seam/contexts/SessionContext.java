@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.persistence.PersistenceProvider;
+import org.jboss.seam.Seam;
 
 /**
  * Session context - state associated with a user session.
@@ -48,7 +48,7 @@ public class SessionContext extends BasicContext
       {
          Object attribute = get(name);
          boolean dirty = attribute!=null && 
-               ( Contexts.isAttributeDirty(attribute) || PersistenceProvider.getEntityClass(attribute.getClass()) != null );
+               ( Contexts.isAttributeDirty(attribute) || Seam.getEntityClass(attribute.getClass()) != null );
          if ( dirty )
          {
             set(name, attribute);
