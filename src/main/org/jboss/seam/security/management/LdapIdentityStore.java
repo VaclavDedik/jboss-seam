@@ -26,6 +26,8 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * An IdentityStore implementation that integrates with a directory service.
@@ -42,6 +44,8 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    private static final String LDAP_BOOLEAN_TRUE = "TRUE";
    private static final String LDAP_BOOLEAN_FALSE = "FALSE";
    
+   private static final LogProvider log = Logging.getLogProvider(LdapIdentityStore.class);   
+   
    protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
    
    private String serverAddress = "localhost";
@@ -49,12 +53,16 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    private int serverPort = 389;
    
    private String userContextDN = "ou=Person,dc=acme,dc=com";
+      
+   private String userDNPrefix = "uid=";
    
-   private String roleContextDN = "ou=Role,dc=acme,dc=com";
+   private String userDNSuffix = ",ou=Person,dc=acme,dc=com";
    
-   private String principalDNPrefix = "uid=";
+   private String roleContextDN = "ou=Role,dc=acme,dc=com";   
    
-   private String principalDNSuffix = ",ou=Person,dc=acme,dc=com";
+   private String roleDNPrefix = "cn=";
+   
+   private String roleDNSuffix = ",ou=Roles,dc=acme,dc=com";
    
    private String bindDN = "cn=Manager,dc=acme,dc=com";
    
@@ -83,6 +91,8 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    private String[] roleObjectClasses = { "organizationalRole" };
    
    private String[] userObjectClasses = { "person", "uidObject" };
+   
+   private int searchScope = SearchControls.SUBTREE_SCOPE;
    
    /**
     * Time limit for LDAP searches, in milliseconds
@@ -129,24 +139,44 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       this.roleContextDN = roleContextDN;
    }
    
-   public String getPrincipalDNPrefix()
+   public String getUserDNPrefix()
    {
-      return principalDNPrefix;
+      return userDNPrefix;
    }
    
-   public void setPrincipalDNPrefix(String value)
+   public void setUserDNPrefix(String value)
    {
-      this.principalDNPrefix = value;
+      this.userDNPrefix = value;
    }
    
-   public String getPrincipalDNSuffix()
+   public String getUserDNSuffix()
    {
-      return principalDNSuffix;
+      return userDNSuffix;
    }
    
-   public void setPrincipalDNSuffix(String value)
+   public void setUserDNSuffix(String value)
    {
-      this.principalDNSuffix = value;
+      this.userDNSuffix = value;
+   }
+
+   public String getRoleDNPrefix()
+   {
+      return roleDNPrefix;
+   }
+   
+   public void setRoleDNPrefix(String value)
+   {
+      this.roleDNPrefix = value;
+   }
+   
+   public String getRoleDNSuffix()
+   {
+      return roleDNSuffix;
+   }
+   
+   public void setRoleDNSuffix(String value)
+   {
+      this.roleDNSuffix = value;
    }
    
    public String getBindDN()
@@ -299,6 +329,37 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       this.searchTimeLimit = searchTimeLimit;
    }
    
+   public String getSearchScope()
+   {
+      switch (searchScope)
+      {
+         case SearchControls.OBJECT_SCOPE: return "OBJECT_SCOPE";
+         case SearchControls.ONELEVEL_SCOPE : return "ONELEVEL_SCOPE";
+         case SearchControls.SUBTREE_SCOPE : return "SUBTREE_SCOPE";
+         default: return "UNKNOWN";
+      }
+   }
+   
+   public void setSearchScope(String value)
+   {
+      if ("OBJECT_SCOPE".equals(value))
+      {
+         searchScope = SearchControls.OBJECT_SCOPE;
+      }
+      else if ("ONELEVEL_SCOPE".equals(value))
+      {
+         searchScope = SearchControls.ONELEVEL_SCOPE;
+      }
+      else
+      {
+         searchScope = SearchControls.SUBTREE_SCOPE;
+         if (!"SUBTREE_SCOPE".equals(value))
+         {
+            log.warn("Invalid search scope specified (" + value + ") - search scope set to SUBTREE_SCOPE");
+         }
+      }
+   }
+   
    public int getFeatures()
    {
       return featureSet.getFeatures();
@@ -336,16 +397,21 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       
       InitialLdapContext ctx = new InitialLdapContext(env, null);
       return ctx;
-   }
+   } 
    
    protected String getUserDN(String username)
    {
-      return String.format("%s%s%s", getPrincipalDNPrefix(), username, getPrincipalDNSuffix());
+      return String.format("%s%s%s", getUserDNPrefix(), username, getUserDNSuffix());
+   }
+   
+   protected String getRoleDN(String role)
+   {
+      return String.format("%s%s%s", getRoleDNPrefix(), role, getRoleDNSuffix());
    }
       
    public boolean authenticate(String username, String password) 
    {      
-      String securityPrincipal = getUserDN(username);
+      final String securityPrincipal = getUserDN(username);
       
       InitialLdapContext ctx = null;
       try
@@ -388,8 +454,32 @@ public class LdapIdentityStore implements IdentityStore, Serializable
 
    public boolean changePassword(String name, String password) 
    {
-      // TODO Auto-generated method stub
-      return false;
+      InitialLdapContext ctx = null;      
+      try
+      {
+         ctx = initialiseContext();
+         
+         BasicAttribute passwordAttrib = new BasicAttribute(getUserPasswordAttribute(), password);
+         ModificationItem mod = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, passwordAttrib);
+         ctx.modifyAttributes(getUserDN(name), new ModificationItem[] { mod });        
+         
+         return true;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to change password", ex);
+      }
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }        
    }
 
    public boolean createRole(String role) 
@@ -410,7 +500,7 @@ public class LdapIdentityStore implements IdentityStore, Serializable
          roleAttribs.put(roleClass);
          roleAttribs.put(new BasicAttribute(getRoleNameAttribute(), role));
          
-         String roleDN = String.format("%s=%s,%s", getRoleNameAttribute(), role, getRoleContextDN() );          
+         String roleDN = getRoleDN(role);          
          ctx.createSubcontext(roleDN, roleAttribs);
          
          return true;
@@ -723,11 +813,7 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       {
          ctx = initialiseContext();
                   
-         String userFilter = "(" + getUserNameAttribute() + "={0})";
-                  
-         // TODO make configurable
-         int searchScope = SearchControls.SUBTREE_SCOPE;
-         
+         String userFilter = "(" + getUserNameAttribute() + "={0})";         
          String[] roleAttr = { getUserRoleAttribute() };
                   
          SearchControls controls = new SearchControls();
@@ -806,14 +892,97 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    }
 
    public boolean grantRole(String name, String role) 
-   {
-      // TODO Auto-generated method stub
-      return false;
+   {      
+      InitialLdapContext ctx = null;
+      try
+      {
+         ctx = initialiseContext();
+         
+         String userDN = getUserDN(name);
+                  
+         BasicAttribute roleAttrib = new BasicAttribute(getUserRoleAttribute(), 
+               getRoleAttributeIsDN() ? getRoleDN(role) : role);
+         ModificationItem mod = new ModificationItem(DirContext.ADD_ATTRIBUTE, roleAttrib);
+         
+         ctx.modifyAttributes(userDN, new ModificationItem[] { mod });
+         return true;
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to grant role", ex);
+      }      
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }
    }
    
    public boolean revokeRole(String name, String role) 
-   {
-      // TODO Auto-generated method stub
+   {      
+      InitialLdapContext ctx = null;      
+      try
+      {
+         ctx = initialiseContext();   
+         String userDN = getUserDN(name);
+         
+         Attributes roleAttribs = ctx.getAttributes(userDN, new String[] { getUserRoleAttribute() });
+         Attribute roleAttrib = roleAttribs.get( getUserRoleAttribute() );
+         if (roleAttrib != null)
+         {   
+            boolean modified = false;            
+            for (int i = roleAttrib.size() - 1; i >= 0; i--)
+            {               
+               if (getRoleAttributeIsDN())
+               {
+                  Attributes attribs = ctx.getAttributes((String) roleAttrib.get(i), 
+                        new String[] { getRoleNameAttribute() });
+                  Attribute roleNameAttrib = attribs.get( getRoleNameAttribute() );
+                  for (int j = 0; j < roleNameAttrib.size(); j++)
+                  {
+                     if (role.equals(roleNameAttrib.get(j))) 
+                     {
+                        modified = true;
+                        roleAttrib.remove(i);
+                     }
+                  }
+               }
+               else if (role.equals(roleAttrib.get(i)))
+               {
+                  modified = true;
+                  roleAttrib.remove(i);
+               }
+            }
+            
+            if (modified)
+            {
+               ModificationItem mod = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, roleAttrib);
+               ctx.modifyAttributes(userDN, new ModificationItem[] { mod });
+            }            
+         }
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Failed to grant role", ex);
+      }      
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }      
+      
       return false;
    }   
 
@@ -824,10 +993,7 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       InitialLdapContext ctx = null;      
       try
       {
-         ctx = initialiseContext();              
-         
-         // TODO make configurable
-         int searchScope = SearchControls.SUBTREE_SCOPE;
+         ctx = initialiseContext();                       
          
          String[] roleAttr = { getRoleNameAttribute() };
                            
@@ -885,16 +1051,18 @@ public class LdapIdentityStore implements IdentityStore, Serializable
 
    public List<String> listUsers() 
    {
+      return listUsers(null);
+   }
+
+   public List<String> listUsers(String filter) 
+   {
       List<String> users = new ArrayList<String>();
       
       InitialLdapContext ctx = null;      
       try
       {
          ctx = initialiseContext();              
-         
-         // TODO make configurable
-         int searchScope = SearchControls.SUBTREE_SCOPE;
-         
+       
          String[] userAttr = {getUserNameAttribute()};
                            
          SearchControls controls = new SearchControls();
@@ -925,7 +1093,18 @@ public class LdapIdentityStore implements IdentityStore, Serializable
             for (int i = 0; i < user.size(); i++)
             {
                Object value = user.get(i);
-               users.add(value.toString());
+               
+               if (filter != null)
+               {
+                  if (value.toString().toLowerCase().contains(filter.toLowerCase()))
+                  {
+                     users.add(value.toString());
+                  }
+               }
+               else
+               {               
+                  users.add(value.toString());
+               }
             }            
          }
          answer.close();
@@ -948,16 +1127,67 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       }
    }
 
-   public List<String> listUsers(String filter) 
-   {
-      // TODO Auto-generated method stub
-      return null;
-   }
-
    public boolean userExists(String name) 
    {
-      // TODO Auto-generated method stub
-      return false;
+      InitialLdapContext ctx = null;      
+      try
+      {
+         ctx = initialiseContext();              
+       
+         String[] userAttr = {getUserNameAttribute()};
+                           
+         SearchControls controls = new SearchControls();
+         controls.setSearchScope(searchScope);
+         controls.setReturningAttributes(userAttr);
+         controls.setTimeLimit(getSearchTimeLimit());
+                  
+         StringBuilder userFilter = new StringBuilder();
+         
+         Object[] filterArgs = new Object[getUserObjectClasses().length];
+         for (int i = 0; i < getUserObjectClasses().length; i++)
+         {
+            userFilter.append("(");
+            userFilter.append(getObjectClassAttribute());
+            userFilter.append("={");
+            userFilter.append(i);
+            userFilter.append("})");
+            filterArgs[i] = getUserObjectClasses()[i];
+         }            
+         
+         NamingEnumeration answer = ctx.search(getUserContextDN(), userFilter.toString(), filterArgs, controls);
+         while (answer.hasMore())
+         {
+            SearchResult sr = (SearchResult) answer.next();
+            Attributes attrs = sr.getAttributes();
+            Attribute user = attrs.get(getUserNameAttribute());
+            
+            for (int i = 0; i < user.size(); i++)
+            {
+               Object value = user.get(i);
+               if (name.equals(value))
+               {
+                  answer.close();
+                  return true;
+               }
+            }            
+         }
+         answer.close();
+         return false;         
+      }
+      catch (NamingException ex)
+      {
+         throw new IdentityManagementException("Error getting users", ex);
+      }
+      finally
+      {
+         if (ctx != null) 
+         {
+            try
+            {
+               ctx.close();
+            }
+            catch (NamingException ex) {}
+         }
+      }
    }
-
 }
