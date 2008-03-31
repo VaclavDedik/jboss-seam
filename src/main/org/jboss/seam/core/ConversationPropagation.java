@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.ConversationIdParameter;
 import org.jboss.seam.navigation.Page;
 import org.jboss.seam.navigation.Pages;
 
@@ -105,10 +106,27 @@ public class ConversationPropagation
       if ( viewId!=null )
       {
          Page page = Pages.instance().getPage(viewId);
-         conversationId = page.getConversationIdParameter().getRequestConversationId(parameters);
+                  
+         ConversationIdParameter currentConversationIdParameter = null;
+         
+         if(conversationName != null)
+         {
+             currentConversationIdParameter = Pages.instance().getConversationIdParameter(conversationName);
+             
+             if(currentConversationIdParameter == null)
+             {
+                 throw new IllegalStateException("The conversationName specified: " + conversationName + ", does not exist.");
+             }
+         }
+         else
+         {
+             currentConversationIdParameter = page.getConversationIdParameter();
+         }
+         
+         conversationId = currentConversationIdParameter.getRequestConversationId(parameters);         
          //TODO: how about the parent conversation id?
       }
-      // TODO handle conversationName 
+
    }
 
    private void restoreSyntheticConversationId(Map parameters)
