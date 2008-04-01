@@ -37,16 +37,16 @@
 
 <h3>Unhandled or wrapper exception:</h3>
 
-<pre>Top level exception : #{org.jboss.seam.exception.class.name}: #{org.jboss.seam.exception.message}
+<pre>Top level exception : #{org.jboss.seam.caughtException.class.name}: #{org.jboss.seam.caughtException.message}
 =========================================================================================================================
-<ui:repeat value="#{org.jboss.seam.exception.stackTrace}" var="stackElement">
+<ui:repeat value="#{org.jboss.seam.caughtException.stackTrace}" var="stackElement">
 #{stackElement}</ui:repeat>
 </pre>
 
-<s:fragment rendered="#{wiki:unwrap(org.jboss.seam.exception) != org.jboss.seam.exception}">
-<pre>Root cause exception: #{wiki:unwrap(org.jboss.seam.exception).class.name}: #{wiki:unwrap(org.jboss.seam.exception).message}
+<s:fragment rendered="#{wiki:unwrap(org.jboss.seam.caughtException) != org.jboss.seam.caughtException}">
+<pre>Root cause exception: #{wiki:unwrap(org.jboss.seam.caughtException).class.name}: #{wiki:unwrap(org.jboss.seam.caughtException).message}
 =========================================================================================================================
-<ui:repeat value="#{wiki:unwrap(org.jboss.seam.exception).stackTrace}" var="stackElement">
+<ui:repeat value="#{wiki:unwrap(org.jboss.seam.caughtException).stackTrace}" var="stackElement">
 #{stackElement}</ui:repeat>
 </pre>
 </s:fragment>
