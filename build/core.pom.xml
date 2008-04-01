@@ -139,7 +139,7 @@
     </dependency>
 
     <dependency>
-      <groupId>groovy</groupId>
+      <groupId>org.codehaus.groovy</groupId>
       <artifactId>groovy-all</artifactId>
       <optional>true</optional>
     </dependency>
