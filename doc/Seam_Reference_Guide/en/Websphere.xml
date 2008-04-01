@@ -975,13 +975,15 @@ $WebSphereInstall/$yourServerName/profiles/$yourProfileName/config/cells/
          are some tricky changes needed to get an EJB3 application running. This
          section will take you through the exact steps.</para>
       
-      <para>The first step is setting up <literal>seam-gen</literal> to
+      <section>
+        <title>Running <literal>seam-gen</literal> Setup</title>
+        <para>The first step is setting up <literal>seam-gen</literal> to
          construct the base project. There are several choices made below,
          specifically the datasource and hibernate values that we will adjust
          once the project is created.</para>
       
       
-      <programlisting><![CDATA[
+        <programlisting><![CDATA[
 ./seam setup
 Buildfile: build.xml
 
@@ -989,9 +991,11 @@ init:
 
 setup:
      [echo] Welcome to seam-gen :-)
-    [input] Enter your Java project workspace (the directory that contains your Seam projects) [C:/Projects] [C:/Projects]
+    [input] Enter your Java project workspace (the directory that contains your 
+Seam projects) [C:/Projects] [C:/Projects]
 /home/jbalunas/workspace
-    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] [C:/Program Files/jboss-4.2.2.GA]
+    [input] Enter your JBoss home directory [C:/Program Files/jboss-4.2.2.GA] 
+[C:/Program Files/jboss-4.2.2.GA]
 /home/jbalunas/jboss/jboss-4.2.2.GA
     [input] Enter the project name [myproject] [myproject]
 websphere_example
@@ -999,25 +1003,35 @@ websphere_example
     [input] Do you want to use ICEFaces instead of RichFaces [n] (y, [n], )
 
     [input] skipping input as property icefaces.home.new has already been set.
-    [input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, wine, deepMarine, emeraldTown, sakura, DEFAULT)
+    [input] Select a RichFaces skin [blueSky] ([blueSky], classic, ruby, wine, 
+deepMarine, emeraldTown, sakura, DEFAULT)
 
-    [input] Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [ear]  ([ear], war, )
+    [input] Is this project deployed as an EAR (with EJB components) or a WAR 
+(with no EJB support) [ear]  ([ear], war, )
 
-    [input] Enter the Java package name for your session beans [com.mydomain.websphere_example] [com.mydomain.websphere_example]
-org.jboss.seam.tutorial.websphere.action
-    [input] Enter the Java package name for your entity beans [org.jboss.seam.tutorial.websphere.action] [org.jboss.seam.tutorial.websphere.action]
-org.jboss.seam.tutorial.websphere.model
-    [input] Enter the Java package name for your test cases [org.jboss.seam.tutorial.websphere.action.test] [org.jboss.seam.tutorial.websphere.action.test]
+    [input] Enter the Java package name for your session beans [org.jboss.seam.
+tutorial.websphere.action] [org.jboss.seam.tutorial.websphere.action]
+org.jboss.seam.tutorial.websphere.action 
+    [input] Enter the Java package name for your entity beans [org.jboss.seam.
+tutorial.websphere.model] [org.jboss.seam.tutorial.websphere.model]
+org.jboss.seam.tutorial.websphere.model  
+    [input] Enter the Java package name for your test cases [org.jboss.seam.
+tutorial.websphere.action.test] [org.jboss.seam.tutorial.websphere.action.test]
 org.jboss.seam.tutorial.websphere.test
-    [input] What kind of database are you using? [hsql]  ([hsql], mysql, oracle, postgres, mssql, db2, sybase, enterprisedb, h2)
+    [input] What kind of database are you using? [hsql]  ([hsql], mysql, oracle,
+ postgres, mssql, db2, sybase, enterprisedb, h2)
 
-    [input] Enter the Hibernate dialect for your database [org.hibernate.dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]
+    [input] Enter the Hibernate dialect for your database [org.hibernate.
+dialect.HSQLDialect] [org.hibernate.dialect.HSQLDialect]
 
-    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb.jar] [lib/hsqldb.jar]
+    [input] Enter the filesystem path to the JDBC driver jar [lib/hsqldb.jar] 
+[lib/hsqldb.jar]
 
-    [input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver] [org.hsqldb.jdbcDriver]
+    [input] Enter JDBC driver class for your database [org.hsqldb.jdbcDriver] 
+[org.hsqldb.jdbcDriver]
 
-    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] [jdbc:hsqldb:.]
+    [input] Enter the JDBC URL for your database [jdbc:hsqldb:.] 
+[jdbc:hsqldb:.]
 
     [input] Enter database username [sa] [sa]
 
@@ -1027,11 +1041,14 @@ org.jboss.seam.tutorial.websphere.test
 
     [input] Enter the database catalog name (it is OK to leave this blank) [] []
 
-    [input] Are you working with tables that already exist in the database? [n]  (y, [n], )
+    [input] Are you working with tables that already exist in the database? [n]
+  (y, [n], )
 
-    [input] Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [n]  (y, [n], )
+    [input] Do you want to drop and recreate the database tables and data in 
+import.sql each time you deploy? [n]  (y, [n], )
 
-[propertyfile] Creating new property file: /rhdev/projects/jboss-seam/svn-seam_2_0/jboss-seam-2_0/seam-gen/build.properties
+[propertyfile] Creating new property file: 
+/rhdev/projects/jboss-seam/svn-seam_2_0/jboss-seam-2_0/seam-gen/build.properties
      [echo] Installing JDBC driver jar to JBoss server
      [copy] Copying 1 file to /home/jbalunas/jboss/jboss-4.2.2.GA/server/default/lib
      [echo] Type 'seam create-project' to create the new project
@@ -1520,7 +1537,8 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                </para>
             </listitem>
          </itemizedlist>
-         
+        
+      </section>
       </section>
    </section>
    
