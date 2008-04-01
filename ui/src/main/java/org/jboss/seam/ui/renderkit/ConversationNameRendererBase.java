@@ -1,5 +1,7 @@
 package org.jboss.seam.ui.renderkit;
 
+import javax.faces.component.UIComponent;
+
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.component.UIConversationName;
@@ -12,7 +14,7 @@ public class ConversationNameRendererBase extends CommandButtonParameterRenderer
 {
    
    private static LogProvider log = Logging.getLogProvider(ConversationNameRendererBase.class);
-   private static final String PARAMETER_NAME = "conversationName";
+   
 
    @Override
    protected LogProvider getLog()
@@ -21,9 +23,9 @@ public class ConversationNameRendererBase extends CommandButtonParameterRenderer
    }
 
    @Override
-   protected String getParameterName()
+   protected String getParameterName(UIComponent component)
    {
-      return PARAMETER_NAME;
+      return ((UIConversationName) component).getName();
    }
 
    @Override

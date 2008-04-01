@@ -26,7 +26,7 @@ public abstract class CommandButtonParameterRendererBase extends RendererBase
    
    protected abstract LogProvider getLog();
    
-   protected abstract String getParameterName();
+   protected abstract String getParameterName(UIComponent component);
 
    @Override
    protected void doEncodeEnd(ResponseWriter writer, FacesContext context, UIComponent component)
@@ -56,13 +56,13 @@ public abstract class CommandButtonParameterRendererBase extends RendererBase
                   "if (document.all)" +
                   "{ " + // what follows should work with NN6 but doesn't in M14"
                      "input.type = 'hidden';" +
-                     "input.name = '" + getParameterName() + "';" + 
+                     "input.name = '" + getParameterName(component) + "';" + 
                      "input.value = '" + parameter.getValue() + "';" +
                   "}" +
                   "else if (document.getElementById) " +
                   "{" +  // so here is theNN6 workaround
                      "input.setAttribute('type', 'hidden');" + 
-                     "input.setAttribute('name', '" + getParameterName() + "');" + 
+                     "input.setAttribute('name', '" + getParameterName(component) + "');" + 
                      "input.setAttribute('value', '" + parameter.getValue() + "');" +
                   "}" +
                   "form.appendChild(input);" +

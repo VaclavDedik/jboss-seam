@@ -3,6 +3,8 @@ package org.jboss.seam.ui.renderkit;
 
 
 
+import javax.faces.component.UIComponent;
+
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.component.UIConversationPropagation;
@@ -13,8 +15,8 @@ import org.jboss.seam.ui.component.UIConversationPropagation;
  */
 public class ConversationPropagationRendererBase extends CommandButtonParameterRendererBase
 {   
+   
    private static LogProvider log = Logging.getLogProvider(ConversationPropagationRendererBase.class);
-   private static final String PARAMETER_NAME = "conversationPropagation";
  
    @Override
    protected Class getComponentClass()
@@ -29,8 +31,8 @@ public class ConversationPropagationRendererBase extends CommandButtonParameterR
    }
 
    @Override
-   protected String getParameterName()
+   protected String getParameterName(UIComponent component)
    {
-      return PARAMETER_NAME;
+      return ((UIConversationPropagation) component).getName();
    }
 }
