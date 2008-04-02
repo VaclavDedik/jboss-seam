@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
 
 /**
@@ -76,7 +77,11 @@ public class BasicContext implements Context
 
    public void set(String name, Object value)
    {
-      if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
+      // We can't raise a preSetVariable event for Events itself because it doesn't exist yet...
+      if ( !Seam.getComponentName(Events.class).equals(name) && Events.exists() ) 
+      {
+         Events.instance().raiseEvent("org.jboss.seam.preSetVariable." + name);
+      }
       map.put(name, value);
       if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postSetVariable." + name);
    }

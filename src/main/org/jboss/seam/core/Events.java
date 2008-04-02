@@ -28,7 +28,7 @@ import org.jboss.seam.log.Logging;
  * @author Gavin King
  *
  */
-@Scope(ScopeType.STATELESS)
+@Scope(ScopeType.EVENT)
 @BypassInterceptors
 @Name("org.jboss.seam.core.events")
 @Install(precedence=BUILT_IN)
@@ -149,12 +149,12 @@ public class Events
    
    public static boolean exists()
    {
-      return Contexts.isApplicationContextActive() && instance()!=null;
+      return Contexts.isEventContextActive() && instance()!=null;
    }
 
    public static Events instance()
    {
-      return (Events) Component.getInstance(Events.class, ScopeType.STATELESS);
+      return (Events) Component.getInstance(Events.class, ScopeType.EVENT);
    }
    
 }
