@@ -21,9 +21,17 @@ import org.jboss.seam.ScopeType;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 /**
+ * Queries and database operations related to blog entries (mostly aggregation queries).
+ *
+ * TODO: The queries (especially since they are all SQL) should be externalized to a hbm.xml file. However,
+ * building them dynamically here is less duplication for now.
+ *
  * @author Christian Bauer
  */
 @Name("blogDAO")
@@ -90,33 +98,27 @@ public class BlogDAO implements Serializable {
         if (day != null)    query.setParameter("limitDay", day);
     }
 
-    public List<BlogEntry> findBlogEntriesWithCommentCount(WikiDirectory startDir,
+    public List<BlogEntry> findBlogEntriesInDirectory(WikiDirectory startDir,
                                                            WikiDocument ignoreDoc,
                                                            Pager pager,
                                                            Integer year,
                                                            Integer month,
                                                            Integer day,
-                                                           String tag) {
+                                                           String tag,
+                                                           boolean countComments) {
+
+        final Map<Long, BlogEntry> blogEntryMap = new HashMap<Long, BlogEntry>();
 
         StringBuilder queryString = new StringBuilder();
-
         queryString.append("select").append(" ");
         for (int i = 0; i < getWikiDocumentSQLColumnNames().length; i++) {
             queryString.append(getWikiDocumentSQLColumnNames()[i]);
             if (i != getWikiDocumentSQLColumnNames().length-1) queryString.append(", ");
         }
-        queryString.append(", count(c3.NODE_ID) as COMMENT_COUNT").append(" ");
+        queryString.append(", '0' as COMMENT_COUNT").append(" ");
         queryString.append(getblogEntryFromClause(tag));
-        queryString.append("left outer join WIKI_NODE c1 on doc.NODE_ID = c1.PARENT_NODE_ID").append(" ");
-        queryString.append("left outer join WIKI_COMMENT c2 on c1.NODE_ID = c2.NODE_ID").append(" ");
-        queryString.append("left outer join WIKI_COMMENT c3 on c2.NS_THREAD = c3.NS_THREAD").append(" ");
         queryString.append(getBlogEntryWhereClause(ignoreDoc, year, month, day, tag));
 
-        queryString.append("group by").append(" ");
-        for (int i = 0; i < getWikiDocumentSQLColumnNames().length; i++) {
-            queryString.append(getWikiDocumentSQLColumnNames()[i]);
-            if (i != getWikiDocumentSQLColumnNames().length-1) queryString.append(", ");
-        }
         queryString.append(" ");
         queryString.append("order by doc2.CREATED_ON desc");
 
@@ -135,15 +137,46 @@ public class BlogDAO implements Serializable {
                 public Object transformTuple(Object[] result, String[] aliases) {
                     BlogEntry be = new BlogEntry();
                     be.setEntryDocument( (WikiDocument)result[0]);
-                    be.setCommentCount( (Long)result[1] );
+                    blogEntryMap.put(be.getEntryDocument().getId(), be); // Put in map so we can attach comment count later
                     return be;
                 }
                 public List transformList(List list) { return list; }
             }
         );
 
-        return (List<BlogEntry>)query.list();
+        List<BlogEntry> result = (List<BlogEntry>)query.list();
 
+        if (countComments) {
+            // The risk here is that pager.getQueryMaxResults() is too large for the IN() operator of some DBs...
+            StringBuilder commentQueryString = new StringBuilder();
+            commentQueryString.append("select doc.NODE_ID as DOC_ID, count(c3.NODE_ID) as COMMENT_COUNT").append(" ");
+            commentQueryString.append("from WIKI_DOCUMENT doc").append(" ");
+            commentQueryString.append("left outer join WIKI_NODE c1 on doc.NODE_ID = c1.PARENT_NODE_ID").append(" ");
+            commentQueryString.append("left outer join WIKI_COMMENT c2 on c1.NODE_ID = c2.NODE_ID").append(" ");
+            commentQueryString.append("left outer join WIKI_COMMENT c3 on c2.NS_THREAD = c3.NS_THREAD").append(" ");
+            commentQueryString.append("where doc.NODE_ID in (:blogEntriesIds)").append(" ");
+            commentQueryString.append("group by doc.NODE_ID");
+
+            SQLQuery commentQuery = getSession().createSQLQuery(commentQueryString.toString());
+            commentQuery.setComment("Finding comment count for blog entries");
+            commentQuery.addScalar("DOC_ID");
+            commentQuery.addScalar("COMMENT_COUNT");
+            commentQuery.setParameterList("blogEntriesIds", blogEntryMap.keySet());
+
+            commentQuery.setResultTransformer(
+              new ResultTransformer() {
+                  public Object transformTuple(Object[] result, String[] aliases) {
+                      BlogEntry be = blogEntryMap.get( ((BigInteger)result[0]).longValue() );
+                      be.setCommentCount( ((BigInteger)result[1]).longValue() );
+                      return null;
+                  }
+                  public List transformList(List list) { return list; }
+              }
+            );
+            commentQuery.list();
+        }
+
+        return result;
     }
 
     public Long countBlogEntries(WikiDirectory startDir, WikiDocument ignoreDoc, Integer year, Integer month, Integer day, String tag) {

@@ -91,12 +91,13 @@ public class BlogDirectory implements Serializable {
             return;
         }
         blogEntries =
-            blogDAO.findBlogEntriesWithCommentCount(
+            blogDAO.findBlogEntriesInDirectory(
                     currentDirectory,
                     currentDocument,
                     pager,
                     year, month, day,
-                    tag
+                    tag,
+                    true
             );
     }
 
@@ -110,12 +111,12 @@ public class BlogDirectory implements Serializable {
     @Observer(value = {"Macro.render.blogRecentEntries", "PersistenceContext.filterReset"}, create = false)
     public void loadRecentBlogEntries() {
         List<BlogEntry> recentBlogEntriesNonAggregated =
-            blogDAO.findBlogEntriesWithCommentCount(
+            blogDAO.findBlogEntriesInDirectory(
                     currentDirectory,
                     currentDocument,
                     new Pager(prefs.getRecentEntriesItems()),
                     null, null, null,
-                    null
+                    null, false
             );
 
         // Now aggregate by day
