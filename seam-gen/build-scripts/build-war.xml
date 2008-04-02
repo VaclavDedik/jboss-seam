@@ -45,7 +45,7 @@
         <mkdir dir="${classes.action.dir}" />
         <mkdir dir="${dist.dir}" />
         <!-- if a .groovy file is in model or action, set groovy.present -->
-        <available property="groovy.present" value="true" file="">
+        <available property="groovy.present" value="true" file="" searchparents="true">
           <filepath>
             <fileset dir="${src.action.dir}">
               <include name="**/*.groovy"/>
