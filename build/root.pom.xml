@@ -521,9 +521,9 @@
       </dependency>
 
       <dependency>
-        <groupId>groovy</groupId>
+        <groupId>org.codehaus.groovy</groupId>
         <artifactId>groovy-all</artifactId>
-        <version>1.1-BETA-1</version>
+        <version>1.5.4</version>
         <exclusions>
           <!-- groovy-all imports a lot of stuff, would be better to just use specific bits -->
           <exclusion>
