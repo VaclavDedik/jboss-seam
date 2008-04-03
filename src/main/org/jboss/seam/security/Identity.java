@@ -60,13 +60,14 @@ public class Identity implements Serializable
    public static final String EVENT_LOGGED_OUT = "org.jboss.seam.security.loggedOut";
    public static final String EVENT_CREDENTIALS_UPDATED = "org.jboss.seam.security.credentialsUpdated";
    public static final String EVENT_REMEMBER_ME = "org.jboss.seam.security.rememberMe";
-   public static final String EVENT_ALREADY_LOGGED_IN = "org.jboss.seam.security.alreadyLoggedIn";
+   public static final String EVENT_ALREADY_LOGGED_IN = "org.jboss.seam.security.alreadyLoggedIn";   
    
    protected static boolean securityEnabled = true;
    
    public static final String ROLES_GROUP = "Roles";
    
    private static final String LOGIN_TRIED = "org.jboss.seam.security.loginTried";
+   private static final String SILENT_LOGIN = "org.jboss.seam.security.silentLogin";
    
    private static final long serialVersionUID = 3751659008033189259L;
    
@@ -211,11 +212,20 @@ public class Identity implements Serializable
    public String login()
    {
       try
-      {         
+      {            
          if (isLoggedIn(false))
          {
+            // If authentication has already occurred during this request via a silent login,
+            // and login() is explicitly called then we still want to raise the LOGIN_SUCCESSFUL event,
+            // and then return.
+            if (Contexts.isEventContextActive() && Contexts.getEventContext().isSet(SILENT_LOGIN))
+            {
+               if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
+               return "loggedIn";            
+            }            
+            
             if (Events.exists()) Events.instance().raiseEvent(EVENT_ALREADY_LOGGED_IN);
-            return "loggedIn";            
+            return "loggedIn";           
          }
          
          authenticate();
@@ -248,7 +258,14 @@ public class Identity implements Serializable
    {
       try
       {
-         if (isCredentialsSet()) authenticate();
+         if (isCredentialsSet()) 
+         {
+            authenticate();
+            if (isLoggedIn(false) && Contexts.isEventContextActive())
+            {
+               Contexts.getEventContext().set(SILENT_LOGIN, true);
+            }
+         }
       }
       catch (LoginException ex) { }
    }
