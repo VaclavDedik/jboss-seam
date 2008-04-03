@@ -191,7 +191,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          }
          else
          {
-            account.setPasswordHash(PasswordHash.generateHash(password, getAccountSalt(account)));
+            account.setPasswordHash(PasswordHash.instance().generateSaltedHash(password, getAccountSalt(account)));
             account.setEnabled(true);            
          }
          
@@ -379,7 +379,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchUserException("Could not change password, user '" + name + "' does not exist");
       }
       
-      account.setPasswordHash(PasswordHash.generateHash(password, getAccountSalt(account)));
+      account.setPasswordHash(PasswordHash.instance().generateSaltedHash(password, getAccountSalt(account)));
       mergeAccount(account);
       return true;
    }
@@ -463,7 +463,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          return false;
       }
       
-      String passwordHash = PasswordHash.generateHash(password, getAccountSalt(account));
+      String passwordHash = PasswordHash.instance().generateSaltedHash(password, getAccountSalt(account));
       boolean success = passwordHash.equals(account.getPasswordHash());
             
       if (success && Events.exists())

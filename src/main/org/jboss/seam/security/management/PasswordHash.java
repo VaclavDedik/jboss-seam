@@ -1,7 +1,16 @@
 package org.jboss.seam.security.management;
 
+import static org.jboss.seam.ScopeType.STATELESS;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
+
 import java.security.MessageDigest;
 
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.util.Base64;
 
 /**
@@ -9,31 +18,36 @@ import org.jboss.seam.util.Base64;
  *  
  * @author Shane Bryzak
  */
+@Scope(STATELESS)
+@Name("org.jboss.seam.security.management.passwordHash")
+@Install(precedence = BUILT_IN)
+@BypassInterceptors
 public class PasswordHash
 {
-   public enum Algorithm {SHA, MD5}
+   public static final String ALGORITHM_MD5 = "MD5";
+   public static final String ALGORITHM_SHA = "SHA";
+      
+   private static final String DEFAULT_ALGORITHM = ALGORITHM_MD5;
    
-   private static final Algorithm DEFAULT_ALGORITHM = Algorithm.MD5;
-   
-   public static String generateHash(String password)
+   public String generateHash(String password)
    {
       return generateHash(password, DEFAULT_ALGORITHM);
    }
    
-   public static String generateHash(String password, Algorithm algorithm)
+   public String generateHash(String password, String algorithm)
    {
-      return generateHash(password, algorithm, null);
+      return generateSaltedHash(password, null, algorithm);
    }
    
-   public static String generateHash(String password, String saltPhrase)
+   public String generateSaltedHash(String password, String saltPhrase)
    {
-      return generateHash(password, DEFAULT_ALGORITHM, saltPhrase);
+      return generateSaltedHash(password, saltPhrase, DEFAULT_ALGORITHM);
    }
    
-   public static String generateHash(String password, Algorithm algorithm, String saltPhrase)
+   public String generateSaltedHash(String password, String saltPhrase, String algorithm)
    {
       try {        
-         MessageDigest md = MessageDigest.getInstance(algorithm.name());
+         MessageDigest md = MessageDigest.getInstance(algorithm);
                   
          if (saltPhrase != null)
          {
@@ -55,5 +69,10 @@ public class PasswordHash
      catch (Exception e) {
          throw new RuntimeException(e);        
      } 
+   }
+   
+   public static PasswordHash instance()
+   {
+      return (PasswordHash) Component.getInstance(PasswordHash.class, ScopeType.STATELESS);
    }
 }
