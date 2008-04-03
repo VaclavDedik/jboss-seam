@@ -34,7 +34,7 @@ public class LinkProtocol {
     private String prefix;
 
     @Column(name = "LINK", nullable = false)
-    @Length(min = 3, max = 1000)
+    @Length(min = 3, max = 1023)
     private String link;
 
     public LinkProtocol() {}

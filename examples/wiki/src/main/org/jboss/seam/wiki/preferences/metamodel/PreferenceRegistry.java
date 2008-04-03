@@ -1,13 +1,10 @@
 package org.jboss.seam.wiki.preferences.metamodel;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.wiki.preferences.PreferenceVisibility;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 
 import java.util.*;
 
@@ -18,6 +15,12 @@ public class PreferenceRegistry {
     @Logger
     static Log log;
 
+    @In(
+        value="#{deploymentStrategy.annotatedClasses['org.jboss.seam.wiki.preferences.annotations.Preferences']}",
+        required = false
+    )
+    Set<Class> preferencesClasses;
+
     Set<PreferenceEntity> preferenceEntities = new HashSet<PreferenceEntity>();
     Map<String, PreferenceEntity> preferenceEntitiesByName = new HashMap<String, PreferenceEntity>();
 
@@ -26,36 +29,33 @@ public class PreferenceRegistry {
     Set<PreferenceEntity> preferenceEntitiesInstance = new HashSet<PreferenceEntity>();
 
     @Observer("Wiki.started")
-    public void scanForPreferencesSupportComponents() {
-
+    public void create() {
         log.debug("initializing preferences registry");
 
-        // Fire an event and let all listeners add themself into the given collection
-        Set<PreferencesSupport> preferencesSupportComponents = new HashSet<PreferencesSupport>();
-        Events.instance().raiseEvent("Preferences.addPreferencesSupport", preferencesSupportComponents);
+        if (preferencesClasses == null)
+            throw new RuntimeException("Add @Preferences annotation to META-INF/seam-deployment.properties");
 
-        log.debug("found preferences support components: " + preferencesSupportComponents.size());
+        for (Class preferencesClass : preferencesClasses) {
+            PreferenceEntity preferenceEntity = new PreferenceEntity(preferencesClass);
 
-        for (PreferencesSupport component : preferencesSupportComponents) {
+            log.debug("adding '" + preferenceEntity.getEntityName() + "', " + preferenceEntity);
 
-            for (PreferenceEntity preferenceEntity : component.getPreferenceEntities()) {
-                log.debug("adding '" + preferenceEntity.getEntityName() + "', " + preferenceEntity);
-
-                if (preferenceEntitiesByName.containsKey(preferenceEntity.getEntityName())) {
-                    throw new RuntimeException("Duplicate preference entity name: " + preferenceEntity.getEntityName());
-                }
-
-                preferenceEntities.add(preferenceEntity);
-                preferenceEntitiesByName.put(preferenceEntity.getEntityName(), preferenceEntity);
-
-                if (preferenceEntity.isSystemPropertiesVisible())
-                    preferenceEntitiesSystem.add(preferenceEntity);
-                if (preferenceEntity.isUserPropertiesVisible())
-                    preferenceEntitiesUser.add(preferenceEntity);
-                if (preferenceEntity.isInstancePropertiesVisible())
-                    preferenceEntitiesInstance.add(preferenceEntity);
+            if (preferenceEntitiesByName.containsKey(preferenceEntity.getEntityName())) {
+                throw new RuntimeException("Duplicate preference entity name: " + preferenceEntity.getEntityName());
             }
+
+            preferenceEntities.add(preferenceEntity);
+            preferenceEntitiesByName.put(preferenceEntity.getEntityName(), preferenceEntity);
+
+            if (preferenceEntity.isSystemPropertiesVisible())
+                preferenceEntitiesSystem.add(preferenceEntity);
+            if (preferenceEntity.isUserPropertiesVisible())
+                preferenceEntitiesUser.add(preferenceEntity);
+            if (preferenceEntity.isInstancePropertiesVisible())
+                preferenceEntitiesInstance.add(preferenceEntity);
         }
+
+
     }
 
     public Set<PreferenceEntity> getPreferenceEntities() {

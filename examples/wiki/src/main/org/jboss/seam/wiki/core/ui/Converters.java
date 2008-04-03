@@ -10,7 +10,6 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
@@ -99,68 +98,6 @@ public class Converters {
                 return null;
             }
         }
-    }
-
-
-    @Name("treeNodeAdapter")
-    public static class TreeNodeAdapter {
-
-        /* TODO: Fixme or deleteme
-        @Factory(value = "writableDirectoryTree", scope = ScopeType.CONVERSATION, autoCreate = true)
-        public TreeNode loadWritableDirectoryTree() {
-            Directory wikiroot = (Directory) Component.getInstance("restrictedWikiRoot");
-            return new WikiTreeNode(wikiroot, true);
-        }
-        @Factory(value = "readableDirectoryTree", scope = ScopeType.CONVERSATION, autoCreate = true)
-        public TreeNode loadReadableDirectoryTree() {
-            Directory wikiroot = (Directory) Component.getInstance("restrictedWikiRoot");
-            return new WikiTreeNode(wikiroot, false);
-        }
-        class WikiTreeNode implements TreeNode {
-            boolean onlyWritableChildren;
-            private Node wikiNode;
-            private Map<Object, TreeNode> childrenMap = new LinkedHashMap<Object,TreeNode>();
-
-            public WikiTreeNode(Node wikiNode, boolean onlyWritableChildren) {
-                if (wikiNode != null) {
-                    this.wikiNode = wikiNode;
-                    this.onlyWritableChildren = onlyWritableChildren;
-                    for (Node childNode : wikiNode.getChildren()) {
-                        if (!WikiUtil.isDirectory(childNode)) continue;
-                        if (onlyWritableChildren && !Identity.instance().hasPermission("Node", "edit", childNode)) continue;
-                        childrenMap.put(childNode.getId(), new WikiTreeNode(childNode, onlyWritableChildren));
-                    }
-                }
-            }
-            public Object getData() { return wikiNode; }
-            public void setData(Object node) { this.wikiNode = (Node)node; }
-
-            public boolean isLeaf() {
-                return childrenMap.size() == 0;
-            }
-            public Iterator getChildren() {
-                return childrenMap.entrySet().iterator();
-            }
-            public TreeNode getChild(Object identifier) {
-                return childrenMap.get( identifier );
-            }
-            public void addChild(Object identifier, TreeNode treeNode) {
-                childrenMap.put(identifier, treeNode);
-            }
-            public void removeChild(Object identifier) {
-                // Immutable
-            }
-
-            public TreeNode getParent() {
-                return new WikiTreeNode(wikiNode.getParent(), onlyWritableChildren);
-            }
-
-            public void setParent(TreeNode treeNode) {
-                // Immutable
-            }
-        }
-        */
-
     }
 
 }

@@ -15,6 +15,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import javax.faces.application.FacesMessage;
 
 /**
+ * Overrides the "login failed" message and turns it into a WARN (we don't want INFO here).
+ *
  * @author Christian Bauer
  */
 @Name("org.jboss.seam.security.facesSecurityEvents")

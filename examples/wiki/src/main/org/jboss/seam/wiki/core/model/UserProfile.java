@@ -28,11 +28,11 @@ public class UserProfile {
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
     private Date createdOn = new Date();
 
-    @Length(min = 0, max = 1000)
+    @Length(min = 0, max = 1023)
     @Column(name = "BIO", nullable = true)
     private String bio;
 
-    @Length(min = 0, max = 1000)
+    @Length(min = 0, max = 1023)
     @Column(name = "WEBSITE", nullable = true)
     private String website;
 
@@ -40,11 +40,11 @@ public class UserProfile {
     @Column(name = "LOCATION", nullable = true)
     private String location;
 
-    @Length(min = 0, max = 1000)
+    @Length(min = 0, max = 1023)
     @Column(name = "OCCUPATION", nullable = true)
     private String occupation;
 
-    @Length(min = 0, max = 1000)
+    @Length(min = 0, max = 1023)
     @Column(name = "SIGNATURE", nullable = true)
     private String signature;
 

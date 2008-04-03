@@ -58,7 +58,7 @@ public class UserManagementPreferences implements Serializable {
         visibility = PreferenceVisibility.SYSTEM,
         editorIncludeName = "AdaptiveTextInput"
     )
-    @Length(min = 0, max = 1024)
+    @Length(min = 0, max = 1023)
     private String homepageDefaultContent;
 
     public String getActivationCodeSalt() {

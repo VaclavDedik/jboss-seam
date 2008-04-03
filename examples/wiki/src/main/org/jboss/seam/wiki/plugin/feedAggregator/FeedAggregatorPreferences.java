@@ -34,7 +34,7 @@ public class FeedAggregatorPreferences {
         visibility = {PreferenceVisibility.INSTANCE},
         editorIncludeName = "AdaptiveTextInput"
     )
-    @Length(min = 0, max = 4000)
+    @Length(min = 0, max = 4096)
     private String urls;
 
     @PreferenceProperty(

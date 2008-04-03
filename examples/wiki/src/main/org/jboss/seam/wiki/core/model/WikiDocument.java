@@ -31,24 +31,24 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     private boolean enableCommentsOnFeeds = true;
 
     @Column(name = "HEADER", nullable = true)
-    @Length(min = 0, max = 4000)
+    @Length(min = 0, max = 1023)
     private String header;
-    @Column(name = "HEADER_MACROS", nullable = true, length = 4000)
+    @Column(name = "HEADER_MACROS", nullable = true, length = 1023)
     private String headerMacrosString;
 
     @Column(name = "CONTENT", nullable = false)
-    @Length(min = 0, max = 32768)
+    @Length(min = 0, max = 32767)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     @Searchable(description = "Content")
     private String content;
-    @Column(name = "CONTENT_MACROS", nullable = true, length = 4000)
+    @Column(name = "CONTENT_MACROS", nullable = true, length = 1023)
     private String contentMacrosString;
 
     @Column(name = "FOOTER", nullable = true)
-    @Length(min = 0, max = 4000)
+    @Length(min = 0, max = 1023)
     private String footer;
-    @Column(name = "FOOTER_MACROS", nullable = true, length = 4000)
+    @Column(name = "FOOTER_MACROS", nullable = true, length = 1023)
     private String footerMacrosString;
 
     public WikiDocument() {

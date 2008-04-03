@@ -39,10 +39,34 @@
 
     <!-- ############## END OF WIKI USER CONFIGURATION ############## -->
 
-
     <!-- Running in regular JBoss AS, Seam starts the persistence unit -->
     <core:init debug="false"/>
-    <persistence:entity-manager-factory name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
+
+    <!-- Wiki persistence unit, relies on cache manager backend for Hibernate 2nd level cache -->
+    <persistence:entity-manager-factory name="wikiEntityManagerFactory"
+                                        persistence-unit-name="wiki"
+                                        startupDepends="ehCacheManager"/>
+
+    <!-- Wiki page fragment cache, relies on cache manager backend -->
+    <component name="pageFragmentCache"
+               class="org.jboss.seam.wiki.core.cache.PageFragmentCache"
+               startup="true" startupDepends="ehCacheManager"
+               scope="APPLICATION"/>
+
+    <!-- Wiki cache manager backend -->
+    <component name="ehCacheManager"
+               class="org.jboss.seam.wiki.core.cache.EHCacheManager"
+               startup="true"
+               scope="APPLICATION"/>
+
+    <!-- Base path for links includes port number -->
+    <factory name="basePath" scope="CONVERSATION"  auto-create="true"
+             value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName
+                     }:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}"/>
+
+    <factory name="themePathGetRequest" scope="CONVERSATION"  auto-create="true"
+             value="#{servletContexts.request.scheme}://#{servletContexts.request.serverName
+                     }:#{servletContexts.request.serverPort}#{servletContexts.request.contextPath}/themes/#{preferences.get('Wiki').themeName}"/>
 
     <!-- Some DBUnit datasets we use in unit testing - let's also use them in dev mode when the app is deployed -->
     <component name="dbunitImporter" class="org.jboss.seam.wiki.util.DBUnitImporter" scope="APPLICATION" auto-create="true">
@@ -60,14 +84,5 @@
             <value>META-INF/testdata/FAQData.dbunit.xml</value>
         </property>
     </component>
-
-    <!-- Base path for links includes port number -->
-    <factory name="basePath" scope="CONVERSATION"  auto-create="true"
-             value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName
-                     }:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}"/>
-
-    <factory name="themePathGetRequest" scope="CONVERSATION"  auto-create="true"
-             value="#{servletContexts.request.scheme}://#{servletContexts.request.serverName
-                     }:#{servletContexts.request.serverPort}#{servletContexts.request.contextPath}/themes/#{preferences.get('Wiki').themeName}"/>
 
 </components>

@@ -11,7 +11,7 @@
         <properties>
 
             <!-- MySQL also requires changes to AllTests.tng.xml and wiki-test-ds.xml
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+            <property name="hibernate.dialect" value="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
             -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
 
@@ -50,10 +50,6 @@
                       value="org.jboss.seam.wiki.core.nestedset.listener.NestedSetPostInsertEventListener"/>
             <property name="hibernate.ejb.event.post-delete"
                       value="org.jboss.seam.wiki.core.nestedset.listener.NestedSetPostDeleteEventListener"/>
-            <!--
-            <property name="hibernate.ejb.event.flush-entity"
-                      value="org.jboss.seam.wiki.core.nestedset.NestedSetFlushEntityEventListener"/>
-              -->
 
         </properties>
 

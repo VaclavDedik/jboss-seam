@@ -10,6 +10,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.faces.context.FacesContext;
@@ -292,7 +293,8 @@ public class WikiUtil {
     }
 
     public static String formatDate(Date date) {
-        SimpleDateFormat fmt = new SimpleDateFormat("MMM dd, yyyy hh:mm aaa");
+        // TODO: Exceptional date formatting here...
+        SimpleDateFormat fmt = new SimpleDateFormat("MMM dd, yyyy HH:mm");
         return fmt.format(date);
     }
 
@@ -333,6 +335,14 @@ public class WikiUtil {
         StringBuilder msgId = new StringBuilder();
         msgId.append("<").append(hash.hash(id+s)).append("@").append(domain).append(">");
         return msgId.toString();
+    }
+
+    public static String macroCacheKey(WikiDocument currentDocument, WikiMacro macro) {
+        Hash hash = (Hash)Component.getInstance(Hash.class);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(currentDocument.getId()).append(macro.hashCode()).append(macro.getParams().hashCode());
+        return macro.getName() + "-" + hash.hash(builder.toString());
     }
 
 }

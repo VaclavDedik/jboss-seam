@@ -54,7 +54,7 @@ public class WikiPreferenceValue implements PreferenceValue, Serializable, Compa
             @Column( name="DOUBLE_VALUE"),
             @Column( name="TIMESTAMP_VALUE"),
             @Column( name="BOOLEAN_VALUE"),
-            @Column( name="STRING_VALUE", length = 1024)
+            @Column( name="STRING_VALUE", length = 1023)
         }
 	)
     private Object value;

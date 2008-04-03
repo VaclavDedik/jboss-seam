@@ -39,10 +39,25 @@
 
     <!-- ############## END OF WIKI USER CONFIGURATION ############## -->
 
-
     <!-- Running in regular JBoss AS, Seam starts the persistence unit -->
     <core:init debug="false"/>
-    <persistence:entity-manager-factory name="wikiEntityManagerFactory" persistence-unit-name="wiki"/>
+
+    <!-- Wiki persistence unit, relies on cache manager backend for Hibernate 2nd level cache -->
+    <persistence:entity-manager-factory name="wikiEntityManagerFactory"
+                                        persistence-unit-name="wiki"
+                                        startupDepends="ehCacheManager"/>
+
+    <!-- Wiki page fragment cache, relies on cache manager backend -->
+    <component name="pageFragmentCache"
+               class="org.jboss.seam.wiki.core.cache.PageFragmentCache"
+               startup="true" startupDepends="ehCacheManager"
+               scope="APPLICATION"/>
+
+    <!-- Wiki cache manager backend -->
+    <component name="ehCacheManager"
+               class="org.jboss.seam.wiki.core.cache.EHCacheManager"
+               startup="true"
+               scope="APPLICATION"/>
 
     <!-- Base path for links includes port number -->
     <factory name="basePath" scope="CONVERSATION"  auto-create="true"

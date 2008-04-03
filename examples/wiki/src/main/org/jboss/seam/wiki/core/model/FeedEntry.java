@@ -32,11 +32,11 @@ public class FeedEntry implements Serializable, Comparable {
     protected int version = 0;
 
     @Column(name = "LINK", nullable = false)
-    @Length(min = 3, max = 1024)
+    @Length(min = 3, max = 1023)
     private String link;
 
     @Column(name = "TITLE", nullable = false)
-    @Length(min = 3, max = 1024)
+    @Length(min = 3, max = 1023)
     private String title;
 
     @Transient
@@ -60,7 +60,7 @@ public class FeedEntry implements Serializable, Comparable {
     private String descriptionType;
 
     @Column(name = "DESCRIPTION_VALUE", nullable = false)
-    @Length(min = 1, max = 32768)
+    @Length(min = 1, max = 32767)
     private String descriptionValue;
 
     public FeedEntry() {}

@@ -280,6 +280,7 @@
         <copy todir="${exploded.war.dir}/WEB-INF/classes/META-INF">
             <fileset dir="${src.etc.dir}/META-INF">
                 <include name="*.taglib.xml"/>
+                <include name="*.properties"/>
             </fileset>
         </copy>
         <copy tofile="${exploded.war.dir}/WEB-INF/classes/META-INF/persistence.xml"

@@ -46,71 +46,6 @@
         <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
     </database-object>
 
-    <!--
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY drop constraint FK_FEED_FEEDENTRY_FEED_ID;
-            alter table FEED_FEEDENTRY add constraint FK_FEED_FEEDENTRY_FEED_ID foreign key (FEED_ID) references FEED on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY drop constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID;
-            alter table FEED_FEEDENTRY add constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID foreign key (FEEDENTRY_ID) references FEEDENTRY on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table WIKI_DIRECTORY drop constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID;
-            alter table WIKI_DIRECTORY add constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID foreign key (DEFAULT_FILE_ID) references WIKI_FILE on delete set null;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USERS drop constraint FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID;
-            alter table USERS add constraint FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID foreign key (MEMBER_HOME_WIKI_DIRECTORY_ID) references WIKI_DIRECTORY on delete set null;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USER_ROLE drop constraint USER_ROLE_USER_ID;
-            alter table USER_ROLE add constraint USER_ROLE_USER_ID foreign key (USER_ID) references USERS on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USER_ROLE drop constraint USER_ROLE_ROLE_ID;
-            alter table USER_ROLE add constraint USER_ROLE_ROLE_ID foreign key (ROLE_ID) references ROLES on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USERS drop constraint FK_USER_USER_PROFILE_ID;
-            alter table USERS add constraint FK_USER_USER_PROFILE_ID foreign key (USER_PROFILE_ID) references USER_PROFILE on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.HSQLDialect"/>
-    </database-object>
--->
-
     <!-- ############################### MySQL ############################### -->
 
 
@@ -119,14 +54,14 @@
             alter table WIKI_TAG drop foreign key FK_WIKI_TAG_FILE_ID;
         </create>
         <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
     <database-object>
         <create>
             alter table WIKI_TAG add constraint FK_WIKI_TAG_FILE_ID foreign key (FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
         </create>
         <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -134,14 +69,14 @@
             alter table WIKI_FILE_LINK drop foreign key FK_SOURCE_WIKI_FILE_ID;
         </create>
         <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
     <database-object>
         <create>
             alter table WIKI_FILE_LINK add constraint FK_SOURCE_WIKI_FILE_ID foreign key (SOURCE_WIKI_FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
         </create>
         <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -149,120 +84,16 @@
             alter table WIKI_FILE_LINK drop foreign key FK_TARGET_WIKI_FILE_ID;
         </create>
         <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
     <database-object>
         <create>
             alter table WIKI_FILE_LINK add constraint FK_TARGET_WIKI_FILE_ID foreign key (TARGET_WIKI_FILE_ID) references WIKI_FILE(NODE_ID) on delete cascade;
         </create>
         <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
-    <!--
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY drop foreign key FK_FEED_FEEDENTRY_FEED_ID;
-        </create><drop/><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY
-                add constraint FK_FEED_FEEDENTRY_FEED_ID foreign key (FEED_ID) references FEED (FEED_ID) on delete cascade;
-        </create><drop/><dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY drop foreign key FK_FEED_FEEDENTRY_FEEDENTRY_ID;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table FEED_FEEDENTRY
-                add constraint FK_FEED_FEEDENTRY_FEEDENTRY_ID foreign key (FEEDENTRY_ID) references FEEDENTRY (FEEDENTRY_ID) on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table WIKI_DIRECTORY drop foreign key FK_WIKI_DIRECTORY_DEFAULT_FILE_ID;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table WIKI_DIRECTORY add constraint FK_WIKI_DIRECTORY_DEFAULT_FILE_ID foreign key (DEFAULT_FILE_ID) references WIKI_FILE(NODE_ID) on delete set null;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USERS drop foreign key FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table USERS add constraint FK_USER_MEMBER_HOME_WIKI_DIRECTORY_ID foreign key (MEMBER_HOME_WIKI_DIRECTORY_ID) references WIKI_DIRECTORY(NODE_ID) on delete set null;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USER_ROLE drop foreign key USER_ROLE_USER_ID;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table USER_ROLE add constraint USER_ROLE_USER_ID foreign key (USER_ID) references USERS (USER_ID) on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USER_ROLE drop foreign key USER_ROLE_ROLE_ID;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table USER_ROLE add constraint USER_ROLE_ROLE_ID foreign key (ROLE_ID) references ROLES (ROLE_ID) on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-
-    <database-object>
-        <create>
-            alter table USERS drop foreign key FK_USER_USER_PROFILE_ID;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
-    <database-object>
-        <create>
-            alter table USERS add constraint FK_USER_USER_PROFILE_ID foreign key (USER_PROFILE_ID) references USER_PROFILE (USER_PROFILE_ID) on delete cascade;
-        </create>
-        <drop/>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-    </database-object>
--->
     <database-object>
         <create>
             create index IDX_PREFERENCE_ENTITY_NAME on PREFERENCE (ENTITY_NAME)
@@ -270,7 +101,7 @@
         <drop>
             drop index IDX_PREFERENCE_ENTITY_NAME
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -280,7 +111,7 @@
         <drop>
             drop index IDX_PREFERENCE_ENTITY_PROPERTY_NAME
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -290,7 +121,7 @@
         <drop>
             drop index IDX_WIKI_NODE_RATING
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -300,7 +131,7 @@
         <drop>
             drop index IDX_WIKI_NODE_READ_ACCESS_LEVEL
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -310,7 +141,7 @@
         <drop>
             drop index IDX_WIKI_NODE_CREATED_ON
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -320,7 +151,7 @@
         <drop>
             drop index IDX_WIKI_DIRECTORY_NS_LEFT
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -330,7 +161,7 @@
         <drop>
             drop index IDX_WIKI_DIRECTORY_NS_RIGHT
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -340,7 +171,7 @@
         <drop>
             drop index IDX_WIKI_DIRECTORY_NS_THREAD
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -350,7 +181,7 @@
         <drop>
             drop index IDX_WIKI_COMMENT_NS_LEFT
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -360,7 +191,7 @@
         <drop>
             drop index IDX_WIKI_COMMENT_NS_RIGHT
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -370,7 +201,7 @@
         <drop>
             drop index IDX_WIKI_COMMENT_NS_THREAD
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
     <database-object>
@@ -380,7 +211,7 @@
         <drop>
             drop index IDX_WIKI_DOCUMENT_HEADER_MACROS
         </drop>
-        <dialect-scope name="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+        <dialect-scope name="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
     </database-object>
 
 </hibernate-mapping>

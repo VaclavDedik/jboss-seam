@@ -82,9 +82,6 @@
             timeToIdleSeconds="120"
             timeToLiveSeconds="120"
             overflowToDisk="false"
-            maxElementsOnDisk="10000000"
-            diskPersistent="false"
-            diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"
             />
 
@@ -94,13 +91,11 @@
            overflowToDisk="false"
            timeToIdleSeconds="300"
            timeToLiveSeconds="600"
-           diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="org.hibernate.cache.UpdateTimestampsCache"
            maxElementsInMemory="1000"
            eternal="true"
-           diskPersistent="false"
            overflowToDisk="false"/>
 
     <cache name="WikiPreference"
@@ -109,7 +104,6 @@
            overflowToDisk="false"
            timeToIdleSeconds="1000"
            timeToLiveSeconds="6000"
-           diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="WikiLinkProtocol"
@@ -118,7 +112,6 @@
            overflowToDisk="false"
            timeToIdleSeconds="86400"
            timeToLiveSeconds="259200"
-           diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="WikiFeed"
@@ -127,7 +120,6 @@
            overflowToDisk="false"
            timeToIdleSeconds="86400"
            timeToLiveSeconds="259200"
-           diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="WikiFeedEntry"
@@ -136,7 +128,6 @@
            timeToIdleSeconds="86400"
            timeToLiveSeconds="259200"
            overflowToDisk="false"
-           diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="WikiFeedEntryCollection"
@@ -145,7 +136,6 @@
            overflowToDisk="false"
            timeToIdleSeconds="86400"
            timeToLiveSeconds="259200"
-           diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="WikiUser"
@@ -154,7 +144,6 @@
            overflowToDisk="false"
            timeToIdleSeconds="10000"
            timeToLiveSeconds="60000"
-           diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="WikiRole"
@@ -163,7 +152,6 @@
            overflowToDisk="false"
            timeToIdleSeconds="10000"
            timeToLiveSeconds="60000"
-           diskPersistent="false"
            memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="WikiUserRoleCollection"
@@ -172,7 +160,14 @@
            overflowToDisk="false"
            timeToIdleSeconds="10000"
            timeToLiveSeconds="60000"
-           diskPersistent="false"
+           memoryStoreEvictionPolicy="LRU"/>
+
+    <cache name="WikiPageFragmentCache"
+           maxElementsInMemory="500"
+           eternal="false"
+           overflowToDisk="false"
+           timeToIdleSeconds="1000"
+           timeToLiveSeconds="6000"
            memoryStoreEvictionPolicy="LRU"/>
 
 </ehcache>

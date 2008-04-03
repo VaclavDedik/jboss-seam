@@ -380,7 +380,10 @@
         <end-conversation/>
         <http-error error-code="400">
             <message severity="ERROR">
-                #{messages['lacewiki.msg.FatalError']} (#{wikiInit.adminContact})
+                #{messages['lacewiki.msg.FatalError']} (#{wikiInit.adminContact}):
+                '#{org.jboss.seam.handledException.class.name},
+                #{org.jboss.seam.handledException.message}
+                in #{org.jboss.seam.handledException.stackTrace[0].className}@#{org.jboss.seam.handledException.stackTrace[0].lineNumber}'
             </message>
         </http-error>
     </exception>

@@ -16,7 +16,6 @@ import java.util.Date;
 @Entity
 @Table(name = "WIKI_COMMENT")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_COMMENT_NODE_ID")
-//TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 
 @org.hibernate.search.annotations.Indexed
 @Searchable(description = "Comments")
@@ -43,11 +42,11 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
     private String fromUserEmail;
 
     @Column(name = "FROM_USER_HOMEPAGE", nullable = true)
-    @Length(min = 0, max = 1000)
+    @Length(min = 0, max = 1023)
     private String fromUserHomepage;
 
     @Column(name = "CONTENT", nullable = false)
-    @Length(min = 1, max = 32768)
+    @Length(min = 1, max = 32767)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
     @org.hibernate.search.annotations.Field(index = org.hibernate.search.annotations.Index.TOKENIZED)
     private String content;

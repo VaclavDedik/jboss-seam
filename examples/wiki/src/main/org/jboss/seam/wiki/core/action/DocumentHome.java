@@ -45,7 +45,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     private WikiDocument historicalCopy;
     private Boolean minorRevision;
     private String formContent;
-    Set<WikiFile> linkTargets;
+    private Set<WikiFile> linkTargets;
     private boolean enabledPreview = false;
     private boolean pushOnFeeds = false;
     private boolean pushOnSiteFeed = false;
@@ -333,7 +333,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     /* -------------------------- Public Features ------------------------------ */
 
     // TODO: We need to duplicate this here, otherwise it will only validated on persist(): http://jira.jboss.com/jira/browse/JBSEAM-2671
-    @Length(min = 0, max = 32768)
+    @Length(min = 0, max = 32767)
     public String getFormContent() {
         // Load the document content and resolve links
         if (formContent == null) syncInstanceToFormContent(getParentNode());
