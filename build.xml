@@ -53,7 +53,7 @@
 	<property name="dist.name" value="${name}-${complete.version}" />
 
 	<property name="dist.location" value="${basedir}/../" />
-	<property name="dist.dir" value="${dist.location}/${dist.name}" />
+	<property name="dist.dir" location="${dist.location}/${dist.name}" />
 	<property name="dist.ui.dir" value="${dist.dir}/ui" />
 	<property name="dist.doc.dir" value="${dist.dir}/doc" />
 	<property name="dist.api.dir" value="${dist.dir}/doc/api" />
@@ -76,6 +76,12 @@
 	<property name="dist.build.dir" value="${dist.dir}/build" />
 	<property name="dist.seamgen.dir" value="${dist.dir}/seam-gen" />
 	<property name="dist.ui.api.dir" value="${dist.dir}/doc/ui" />
+	
+	<condition property="in.dist.dir">
+		<equals arg1="${basedir}" arg2="${dist.dir}"/>
+	</condition>
+	
+	<echo>${basedir} : ${dist.dir}</echo>
 
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
 	<property name="webroot.dir" value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war" />
@@ -421,7 +427,7 @@
 
 	<!-- ########################## DIST TARGETS ###########################-->
 
-	<target name="cleandist" description="Cleans up the dist directory">
+	<target name="cleandist" description="Cleans up the dist directory" unless="in.dist.dir">
 		<delete dir="${dist.dir}" quiet="${quietclean}" />
 	</target>
 
