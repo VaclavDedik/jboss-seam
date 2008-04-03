@@ -53,9 +53,6 @@ spring/               Demonstrates Spring framework integration
                       
 drools/               A version of the number guessing example that
                       uses Drools with jBPM
-                      
-portal/               A port of the Seam Hibernate demo to run on
-                      JBoss Portal
                 
 remoting/helloworld/  A trivial example using Ajax
 
@@ -85,13 +82,13 @@ readme.txt in the example to see if there are any specific instructions.
 How to Build and Deploy an Example on JBoss AS
 ----------------------------------------------
 
-1. Download and unzip JBoss AS 4.2.1.GA from:
+1. Download and unzip JBoss AS 4.2.2.GA from:
    
    http://labs.jboss.com/jbossas/downloads
 
 2. Make sure you have an up to date version of Seam: 
 
-   http://labs.jboss.com/jbossseam/download
+   http://seamframework.org/Download
 
 3. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS directory (Seam uses the default profile)
@@ -102,7 +99,7 @@ How to Build and Deploy an Example on JBoss AS
    "examples/${example.name}" directory
 
 6. Start JBoss AS by typing "./run.sh" (on Linux/Unix) or "run" (on Windows) 
-   in the jboss-4.2.1.GA/bin directory
+   in the jboss-4.2.2.GA/bin directory
 
 7. Point your web browser to:
 
@@ -125,7 +122,7 @@ How to Build and Deploy the Example on Tomcat
    
 3. Make sure you have an up to date version of Seam: 
 
-   http://labs.jboss.com/jbossseam/download
+   http://seamframework.org/Download
 
 4. Edit the "build.properties" file and change tomcat.home to your 
    Tomcat directory
