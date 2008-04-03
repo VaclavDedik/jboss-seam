@@ -8,7 +8,7 @@ import org.jboss.seam.security.management.JpaIdentityStore;
 @Name("authenticationEvents")
 public class AuthenticationEvents
 {
-   @Observer(JpaIdentityStore.EVENT_ACCOUNT_AUTHENTICATED)
+   @Observer(JpaIdentityStore.EVENT_USER_AUTHENTICATED)
    public void loginSuccessful(MemberAccount account)
    {
       Contexts.getSessionContext().set("authenticatedMember", account.getMember());

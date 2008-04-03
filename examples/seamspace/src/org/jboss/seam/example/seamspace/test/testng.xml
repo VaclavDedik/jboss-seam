@@ -2,7 +2,7 @@
 
 <suite name="SeamSpace" verbose="2" parallel="false">
 
-   <test name="SeamSpace: Register">
+   <!--test name="SeamSpace: Register">
      <classes>
        <class name="org.jboss.seam.example.seamspace.test.RegisterTest"/>
      </classes>
@@ -12,6 +12,6 @@
      <classes>
        <class name="org.jboss.seam.example.seamspace.test.BlogTest"/>
      </classes>
-   </test>   
+   </test-->
 	
 </suite>

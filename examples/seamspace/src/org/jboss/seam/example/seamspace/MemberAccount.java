@@ -14,11 +14,10 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.NotNull;
-import org.jboss.seam.security.management.UserAccount;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "username"))
-public class MemberAccount extends UserAccount implements Serializable
+public class MemberAccount implements Serializable
 {
    private static final long serialVersionUID = 6368734442192368866L;
    
@@ -26,8 +25,7 @@ public class MemberAccount extends UserAccount implements Serializable
    private String username;
    private String passwordHash;
    private boolean enabled;   
-   private AccountType accountType;
-   private Set<UserAccount> memberships;
+   private Set<MemberAccount> memberships;
    private Member member;   
    
    @Id @GeneratedValue
@@ -42,50 +40,33 @@ public class MemberAccount extends UserAccount implements Serializable
    }
    
    @NotNull
-   @Override
    public String getUsername()
    {
       return username;
    }
    
-   @Override
    public void setUsername(String username)
    {
       this.username = username;
    }
    
-   @Override   
+  
    public String getPasswordHash()
    {
       return passwordHash;
    }
    
-   @Override
    public void setPasswordHash(String passwordHash)
    {
       this.passwordHash = passwordHash;      
-   }   
+   }      
    
-   @Override
-   public AccountType getAccountType()
-   {
-      return accountType;
-   }
-   
-   @Override
-   public void setAccountType(AccountType accountType)
-   {
-      this.accountType = accountType;
-   }
-   
-   @Override
    public boolean isEnabled()
    {
       return enabled;
    }
 
 
-   @Override
    public void setEnabled(boolean enabled)
    {
       this.enabled = enabled;      
@@ -96,14 +77,12 @@ public class MemberAccount extends UserAccount implements Serializable
          joinColumns = @JoinColumn(name = "AccountId"),
          inverseJoinColumns = @JoinColumn(name = "MemberOf")
       )
-   @Override
-   public Set<UserAccount> getMemberships()
+   public Set<MemberAccount> getMemberships()
    {
       return memberships;
    }
    
-   @Override
-   public void setMemberships(Set<UserAccount> memberships)
+   public void setMemberships(Set<MemberAccount> memberships)
    {
       this.memberships = memberships;
    }

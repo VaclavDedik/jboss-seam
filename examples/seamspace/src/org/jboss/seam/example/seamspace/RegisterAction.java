@@ -74,7 +74,7 @@ public class RegisterAction
       }           
    }
    
-   @Observer(JpaIdentityStore.EVENT_ACCOUNT_CREATED)
+   @Observer(JpaIdentityStore.EVENT_USER_CREATED)
    public void accountCreated(MemberAccount account)
    {
       // The user *may* have been created from the user manager screen. In that
