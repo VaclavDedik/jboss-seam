@@ -68,7 +68,7 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       
       if (getSecurityContext() == null)
       {
-         log.warn("no security rule base available - please install a RuleBase with the name '" +
+         log.debug("no security rule base available - please install a RuleBase with the name '" +
                   RULES_COMPONENT_NAME + "' if permission checks are required.");
       }
    }
