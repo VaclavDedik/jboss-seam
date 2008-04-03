@@ -1,6 +1,6 @@
 package org.jboss.seam.security.management;
 
-import static org.jboss.seam.ScopeType.APPLICATION;
+import static org.jboss.seam.ScopeType.EVENT;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
@@ -9,11 +9,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -24,9 +24,10 @@ import org.jboss.seam.security.Identity;
  * 
  * @author Shane Bryzak
  */
-@Scope(APPLICATION)
+@Scope(EVENT)
 @Name("org.jboss.seam.security.management.identityManager")
 @Install(precedence = BUILT_IN)
+@BypassInterceptors
 public class IdentityManager implements Serializable
 {
    public static final String ACCOUNT_PERMISSION_NAME = "seam.account";
@@ -49,6 +50,12 @@ public class IdentityManager implements Serializable
    
    protected void initIdentityStore()
    {    
+      // Default to JpaIdentityStore
+      if (identityStore == null)
+      {
+         identityStore = (IdentityStore) Component.getInstance(JpaIdentityStore.class, true);
+      }
+      
       if (roleIdentityStore == null && identityStore != null)
       {
          roleIdentityStore = identityStore;
@@ -63,13 +70,13 @@ public class IdentityManager implements Serializable
    
    public static IdentityManager instance()
    {
-      if ( !Contexts.isApplicationContextActive() )
+      if ( !Contexts.isEventContextActive() )
       {
-         throw new IllegalStateException("No active application context");
+         throw new IllegalStateException("No active event context");
       }
 
       IdentityManager instance = (IdentityManager) Component.getInstance(
-            IdentityManager.class, ScopeType.APPLICATION);
+            IdentityManager.class, EVENT);
 
       if (instance == null)
       {

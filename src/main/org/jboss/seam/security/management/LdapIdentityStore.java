@@ -47,7 +47,7 @@ public class LdapIdentityStore implements IdentityStore, Serializable
    
    private static final LogProvider log = Logging.getLogProvider(LdapIdentityStore.class);   
    
-   protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
+   protected FeatureSet featureSet = new FeatureSet();
    
    private String serverAddress = "localhost";
    
@@ -361,17 +361,17 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       }
    }
    
-   public int getFeatures()
+   public Set<Feature> getFeatures()
    {
       return featureSet.getFeatures();
    }
    
-   public void setFeatures(int features)
+   public void setFeatures(Set<Feature> features)
    {
       featureSet = new FeatureSet(features);
    }
    
-   public boolean supportsFeature(int feature)
+   public boolean supportsFeature(Feature feature)
    {
       return featureSet.supports(feature);
    }

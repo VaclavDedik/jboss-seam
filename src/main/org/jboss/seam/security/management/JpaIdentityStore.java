@@ -4,12 +4,13 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -21,12 +22,21 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.security.management.RoleGroups;
+import org.jboss.seam.annotations.security.management.RoleName;
+import org.jboss.seam.annotations.security.management.UserEnabled;
+import org.jboss.seam.annotations.security.management.UserFirstName;
+import org.jboss.seam.annotations.security.management.UserLastName;
+import org.jboss.seam.annotations.security.management.UserPassword;
+import org.jboss.seam.annotations.security.management.UserPrincipal;
+import org.jboss.seam.annotations.security.management.UserRoles;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.management.UserAccount.AccountType;
 
 /**
  * The default identity store implementation, uses JPA as its persistence mechanism.
@@ -41,136 +51,273 @@ public class JpaIdentityStore implements IdentityStore, Serializable
 {  
    public static final String AUTHENTICATED_USER = "org.jboss.seam.security.management.authenticatedUser";
    
-   public static final String EVENT_ACCOUNT_CREATED = "org.jboss.seam.security.management.accountCreated"; 
-   public static final String EVENT_ACCOUNT_AUTHENTICATED = "org.jboss.seam.security.management.accountAuthenticated";
+   public static final String EVENT_USER_CREATED = "org.jboss.seam.security.management.userCreated";
+   public static final String EVENT_PRE_PERSIST_USER = "org.jboss.seam.security.management.prePersistUser";
+   public static final String EVENT_USER_AUTHENTICATED = "org.jboss.seam.security.management.userAuthenticated";
    
-   protected FeatureSet featureSet = new FeatureSet(FeatureSet.FEATURE_ALL);
+   private static final LogProvider log = Logging.getLogProvider(JpaIdentityStore.class);    
+   
+   protected FeatureSet featureSet;
    
    private ValueExpression<EntityManager> entityManager;  
    
-   private Class<? extends UserAccount> accountClass;
+   private Class userClass;
+   private Class roleClass;
    
-   private Map<String,Set<String>> roleCache;
-   
-   private Field firstNameField;
-   private Field lastNameField;
-   
-   private String firstNameFieldName;   
-   private String lastNameFieldName;
-   
-   public String getFirstNameField()
+   protected final class BeanProperty
    {
-      return firstNameFieldName;
+      private Field propertyField;
+      private Method propertyGetter;
+      private Method propertySetter;
+      private Class<? extends Annotation> annotation;
+      private String name;
+      private Class propertyClass;
+      
+      private boolean isFieldProperty;
+      
+      public BeanProperty(Field propertyField, Class<? extends Annotation> annotation)
+      {
+         this.propertyField = propertyField;
+         isFieldProperty = true;
+         this.annotation = annotation;
+         this.name = propertyField.getName();
+         this.propertyClass = propertyField.getDeclaringClass();
+      }
+      
+      public BeanProperty(Method propertyMethod, Class<? extends Annotation> annotation)
+      {
+         if (!(propertyMethod.getName().startsWith("get") || (propertyMethod.getName().startsWith("is"))))
+         {
+            throw new IllegalArgumentException("Bean property method name " + propertyMethod.getClass().getName() +
+                  "." + propertyMethod.getName() + "() must start with \"get\" or \"is\".");
+         }
+         
+         if (propertyMethod.getReturnType().equals(void.class) || propertyMethod.getParameterTypes().length > 0)
+         {
+            throw new IllegalArgumentException("Bean property method " + propertyMethod.getClass().getName() +
+                  "." + propertyMethod.getName() + "() must return a value and take no parameters");
+         }
+         
+         this.propertyGetter = propertyMethod;
+         this.propertyClass = propertyMethod.getReturnType();
+         
+         String methodName = propertyMethod.getName();
+         
+         this.name = methodName.startsWith("get") ?
+               (methodName.substring(3,1).toLowerCase() + methodName.substring(4)) :
+               (methodName.substring(2,1).toLowerCase() + methodName.substring(3));
+         
+         String setterName = propertyMethod.getName().startsWith("get") ?
+               ("set" + methodName.substring(3)) : ("set" + methodName.substring(2));
+               
+         try
+         {
+            propertySetter = propertyMethod.getClass().getMethod(setterName, new Class[] {propertyMethod.getReturnType()});
+         }
+         catch (NoSuchMethodException ex)
+         {
+            throw new IllegalArgumentException("Bean property method " + propertyMethod.getClass().getName() +
+                  "." + propertyMethod.getName() + "() must have a corresponding setter method.");                  
+         }
+         
+         isFieldProperty = false;
+         this.annotation = annotation;
+      }
+      
+      public void setValue(Object bean, Object value)
+      {
+         if (isFieldProperty)
+         {
+            boolean accessible = propertyField.isAccessible();
+            try
+            {
+               propertyField.setAccessible(true);
+               propertyField.set(bean, value);   
+            }
+            catch (IllegalAccessException ex)
+            {
+               throw new RuntimeException("Exception setting bean property", ex);
+            }
+            finally
+            {
+               propertyField.setAccessible(accessible);
+            }            
+         }
+         else
+         {
+            try
+            {
+               propertySetter.invoke(bean, value);
+            }
+            catch (Exception ex)
+            {
+               throw new RuntimeException("Exception setting bean property", ex);
+            }
+         }
+      }
+      
+      public Object getValue(Object bean)
+      {
+         if (isFieldProperty)
+         {
+            boolean accessible = propertyField.isAccessible();
+            try
+            {
+               propertyField.setAccessible(true);
+               return propertyField.get(bean);
+            }
+            catch (IllegalAccessException ex)
+            {
+               throw new RuntimeException("Exception getting bean property", ex);
+            }
+            finally
+            {
+               propertyField.setAccessible(accessible);
+            }
+         }
+         else
+         {
+            try
+            {
+               return propertyGetter.invoke(bean);
+            }
+            catch (Exception ex)
+            {
+               throw new RuntimeException("Exception getting bean property", ex);
+            }
+         }
+      }
+      
+      public Class<? extends Annotation> getAnnotation()
+      {
+         return annotation;
+      }
+      
+      public String getName()
+      {
+         return name;
+      }
+      
+      public Class getPropertyClass()
+      {
+         return propertyClass;
+      }
    }
    
-   public void setFirstNameField(String firstNameFieldName)
-   {
-      this.firstNameFieldName = firstNameFieldName;
-   }
+   private BeanProperty userPrincipalProperty;
+   private BeanProperty userPasswordProperty;
+   private BeanProperty userRolesProperty;
+   private BeanProperty userEnabledProperty;
+   private BeanProperty userFirstNameProperty;
+   private BeanProperty userLastNameProperty;   
+   private BeanProperty roleNameProperty;
+   private BeanProperty roleGroupsProperty;
    
-   public String getLastNameField()
-   {
-      return lastNameFieldName;
-   }
+   private String passwordHash;
    
-   public void setLastNameField(String lastNameFieldName)
-   {
-      this.lastNameFieldName = lastNameFieldName;
-   }
-   
-   public int getFeatures()
+   public Set<Feature> getFeatures()
    {
       return featureSet.getFeatures();
    }
    
-   public void setFeatures(int features)
+   public void setFeatures(Set<Feature> features)
    {
       featureSet = new FeatureSet(features);
    }
    
-   public boolean supportsFeature(int feature)
+   public boolean supportsFeature(Feature feature)
    {
       return featureSet.supports(feature);
    }
    
    @Create
    public void init()
-   {
+   {      
+      if (userClass == null)
+      {
+         log.debug("No userClass set, JpaIdentityStore will be unavailable.");
+         return;
+      }
+      
+      if (roleClass == null)
+      {
+         log.debug("No roleClass set, JpaIdentityStore will be unavailable.");
+         return;
+      }
+      
+      if (featureSet == null)
+      {
+         featureSet = new FeatureSet();
+         featureSet.enableAll();
+      }      
+      
       if (entityManager == null)
       {
          entityManager = Expressions.instance().createValueExpression("#{entityManager}", EntityManager.class);
-      }
-      
-      loadRoles();
-      
-      if (getFirstNameField() != null)
-      {
-         try
-         {
-            firstNameField = accountClass.getField(getFirstNameField());
-         }
-         catch (NoSuchFieldException ex)
-         {
-            throw new RuntimeException("First name field " + getFirstNameField() + " does not exist " +
-                  "in account class " + accountClass.getName(), ex);
-         }
-      }
-      
-      if (getLastNameField() != null)
-      {
-         try
-         {
-            lastNameField = accountClass.getField(getLastNameField());
-         }
-         catch (NoSuchFieldException ex)
-         {
-            throw new RuntimeException("Last name field " + getLastNameField() + " does not exist " +
-                  "in account class " + accountClass.getName(), ex);
-         }
       }      
+      
+      initProperties();   
    }
    
-   protected void loadRoles()
+   private void initProperties()
    {
-      List<? extends UserAccount> roles = lookupEntityManager().createQuery(
-            "from " + accountClass.getName() + " where enabled = true and accountType = :accountType")
-            .setParameter("accountType", UserAccount.AccountType.role)
-            .getResultList();
+      userPrincipalProperty = scanForProperty(userClass, UserPrincipal.class);
+      userPasswordProperty = scanForProperty(userClass, UserPassword.class);
+      userRolesProperty = scanForProperty(userClass, UserRoles.class);
+      userEnabledProperty = scanForProperty(userClass, UserEnabled.class);
+      userFirstNameProperty = scanForProperty(userClass, UserFirstName.class);
+      userLastNameProperty = scanForProperty(userClass, UserLastName.class);
       
-      roleCache = new HashMap<String,Set<String>>();
+      roleNameProperty = scanForProperty(roleClass, RoleName.class);
+      roleGroupsProperty = scanForProperty(roleClass, RoleGroups.class);
       
-      for (UserAccount role : roles)
+      if (userPrincipalProperty == null) 
       {
-         Set<String> memberships = new HashSet<String>();
-         for (UserAccount m : role.getMemberships())
-         {
-            memberships.add(m.getUsername());
-         }
-         roleCache.put(role.getUsername(), memberships);
+         throw new RuntimeException("Invalid userClass " + userClass.getName() + 
+               " - required annotation @UserPrincipal not found on any Field or Method.");
+      }
+      
+      if (userPasswordProperty == null) 
+      {
+         throw new RuntimeException("Invalid userClass " + userClass.getName() + 
+               " - required annotation @UserPassword not found on any Field or Method.");
       }      
+      
+      if (userRolesProperty == null)
+      {
+         throw new RuntimeException("Invalid userClass " + userClass.getName() + 
+         " - required annotation @UserRoles not found on any Field or Method.");         
+      }
+      
+      if (roleNameProperty == null)
+      {
+         throw new RuntimeException("Invalid roleClass " + roleClass.getName() + 
+         " - required annotation @RoleName not found on any Field or Method.");         
+      }
    }
    
-   private void setFieldValue(Field field, Object instance, Object value) throws Exception
+   private BeanProperty scanForProperty(Class cls, Class<? extends Annotation> annotation)
    {
-      boolean accessible = field.isAccessible();
-      try
+      for (Field f : cls.getFields())
       {
-         field.setAccessible(true);
-         field.set(instance, value);
+         if (f.isAnnotationPresent(annotation)) return new BeanProperty(f, annotation);
       }
-      finally
+      
+      for (Method m : cls.getMethods())
       {
-         field.setAccessible(accessible);
+         if (m.isAnnotationPresent(annotation)) return new BeanProperty(m, annotation);
       }
+      
+      return null;
    }
    
    public boolean createUser(String username, String password, String firstname, String lastname)
    {
       try
       {
-         if (accountClass == null)
+         if (userClass == null)
          {
-            throw new IdentityManagementException("Could not create account, accountClass not set");
+            throw new IdentityManagementException("Could not create account, userClass not set");
          }
          
          if (userExists(username))
@@ -178,26 +325,31 @@ public class JpaIdentityStore implements IdentityStore, Serializable
             throw new IdentityManagementException("Could not create account, already exists");
          }
          
-         UserAccount account = accountClass.newInstance();
-         account.setAccountType(UserAccount.AccountType.user);
-         account.setUsername(username);
-         
-         if (firstNameField != null) setFieldValue(firstNameField, account, firstname);         
-         if (lastNameField != null) setFieldValue(lastNameField, account, lastname);
+         Object user = userClass.newInstance();
+
+         userPrincipalProperty.setValue(user, username);
+
+         if (userFirstNameProperty != null) userFirstNameProperty.setValue(user, firstname);         
+         if (userLastNameProperty != null) userLastNameProperty.setValue(user, lastname);
          
          if (password == null)
          {
-            account.setEnabled(false);
+            if (userEnabledProperty != null) userEnabledProperty.setValue(user, false);
          }
          else
          {
-            account.setPasswordHash(PasswordHash.instance().generateSaltedHash(password, getAccountSalt(account)));
-            account.setEnabled(true);            
+            String passwordValue = passwordHash == null ? password :
+               PasswordHash.instance().generateSaltedHash(password, getUserAccountSalt(user));
+            
+            userPasswordProperty.setValue(user, passwordValue);
+            if (userEnabledProperty != null) userEnabledProperty.setValue(user, true);
          }
          
-         persistAccount(account);
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_PRE_PERSIST_USER, user);
          
-         if (Events.exists()) Events.instance().raiseEvent(EVENT_ACCOUNT_CREATED, account);
+         persistEntity(user);
+         
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_USER_CREATED, user);
          
          return true;
       }
@@ -214,9 +366,10 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }      
    }
    
-   protected String getAccountSalt(UserAccount account)
+   protected String getUserAccountSalt(Object user)
    {
-      return account.getUsername();
+      // By default, we'll use the user's username as the password salt
+      return userPrincipalProperty.getValue(user).toString();
    }
    
    public boolean createUser(String username, String password)
@@ -226,61 +379,73 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public boolean deleteUser(String name)
    {
-      UserAccount account = validateAccount(name);
-      if (account == null || !account.getAccountType().equals(AccountType.user)) 
+      Object user = lookupUser(name);
+      if (user == null) 
       {
-         throw new NoSuchUserException("Could not delete account, no such user '" + name + "'");
+         throw new NoSuchUserException("Could not delete, user '" + name + "' does not exist");
       }
       
-      lookupEntityManager().remove(account);
+      removeEntity(user);
       return true;
    }
    
-   public boolean grantRole(String name, String role)
+   public boolean grantRole(String username, String role)
    {
-      UserAccount account = validateAccount(name);
-      if (account == null)
+      Object user = lookupUser(username);
+      if (user == null)
       {
-         throw new NoSuchUserException("Could not grant role, no such user or role '" + name + "'");
+         throw new NoSuchUserException("Could not grant role, no such user '" + username + "'");
       }
       
-      UserAccount roleToGrant = validateAccount(role);
+      Object roleToGrant = lookupRole(role);
       if (roleToGrant == null)
       {
          throw new NoSuchRoleException("Could not grant role, role '" + role + "' does not exist");
       }
       
-      if (account.getMemberships() == null)
+      Collection userRoles = (Collection) userRolesProperty.getValue(user); 
+      if (userRoles == null)
       {
-         account.setMemberships(new HashSet<UserAccount>());
+         // This should either be a Set, or a List...
+         if (Set.class.isAssignableFrom(userRolesProperty.getPropertyClass()))
+         {
+            userRoles = new HashSet();
+         }
+         else if (List.class.isAssignableFrom(userRolesProperty.getPropertyClass()))
+         {
+            userRoles = new ArrayList();
+         }
+         
+         userRolesProperty.setValue(user, userRoles);
       }
-      else if (account.getMemberships().contains(roleToGrant))
+      else if (((Collection) userRolesProperty.getValue(user)).contains(roleToGrant))
       {
          return false;
       }
 
-      account.getMemberships().add(roleToGrant);
-      mergeAccount(account);
+      ((Collection) userRolesProperty.getValue(user)).add(roleToGrant);
+      mergeEntity(user);
       
       return true;
    }
    
-   public boolean revokeRole(String name, String role)
+   public boolean revokeRole(String username, String role)
    {
-      UserAccount account = validateAccount(name);
-      if (account == null)
+      Object user = lookupUser(username);
+      if (user == null)
       {
-         throw new NoSuchUserException("Could not revoke role, no such user or role '" + name + "'");
+         throw new NoSuchUserException("Could not revoke role, no such user '" + username + "'");
       }
       
-      UserAccount roleToRevoke = validateAccount(role);
+      Object roleToRevoke = lookupRole(role);
       if (roleToRevoke == null)
       {
          throw new NoSuchRoleException("Could not revoke role, role '" + role + "' does not exist");
       }      
        
-      boolean success = account.getMemberships().remove(roleToRevoke);
-      mergeAccount(account);
+      boolean success = ((Collection) userRolesProperty.getValue(user)).remove(roleToRevoke);
+      
+      if (success) mergeEntity(user);
       return success;
    }
    
@@ -288,9 +453,9 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    {
       try
       {
-         if (accountClass == null)
+         if (roleClass == null)
          {
-            throw new IdentityManagementException("Could not create role, accountClass not set");
+            throw new IdentityManagementException("Could not create role, roleClass not set");
          }
          
          if (roleExists(role))
@@ -298,11 +463,9 @@ public class JpaIdentityStore implements IdentityStore, Serializable
             throw new IdentityManagementException("Could not create role, already exists");
          }
          
-         UserAccount account = accountClass.newInstance();
-         account.setAccountType(UserAccount.AccountType.role);
-         account.setUsername(role);
-         
-         persistAccount(account);
+         Object instance = roleClass.newInstance();         
+         roleNameProperty.setValue(instance, role);         
+         persistEntity(instance);
          
          return true;
       }
@@ -321,102 +484,111 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public boolean deleteRole(String role)
    {      
-      UserAccount roleToDelete = validateAccount(role);
+      Object roleToDelete = lookupRole(role);
       if (roleToDelete == null)
       {
          throw new NoSuchRoleException("Could not delete role, role '" + role + "' does not exist");
       }        
       
-      lookupEntityManager().remove(roleToDelete);
+      removeEntity(roleToDelete);
       return true;
    }
    
    public boolean enableUser(String name)
    {
-      UserAccount account = validateAccount(name);
-      if (account == null || !account.getAccountType().equals(AccountType.user))
+      if (userEnabledProperty == null)
       {
-         throw new NoSuchUserException("Could not enable account, user '" + name + "' does not exist");
+         log.debug("Can not enable user, no @UserEnabled property configured in userClass " + userClass.getName());
+         return false;
+      }
+      
+      Object user = lookupUser(name);
+      if (user == null)
+      {
+         throw new NoSuchUserException("Could not enable user, user '" + name + "' does not exist");
       }
       
       // If it's already enabled return false
-      if (account.isEnabled())
+      if (((Boolean) userEnabledProperty.getValue(user)) == true)
       {
          return false;
       }
       
-      account.setEnabled(true);
-      mergeAccount(account);
-      
+      userEnabledProperty.setValue(user, true);
+      mergeEntity(user);      
       return true;
    }
    
    public boolean disableUser(String name)
    {
-      UserAccount account = validateAccount(name);
-      if (account == null || !account.getAccountType().equals(AccountType.user))
+      if (userEnabledProperty == null)
       {
-         throw new NoSuchUserException("Could not disable account, user '" + name + "' does not exist");
+         log.debug("Can not disable user, no @UserEnabled property configured in userClass " + userClass.getName());
+         return false;
       }
       
-      // If it's already enabled return false
-      if (!account.isEnabled())
+      Object user = lookupUser(name);
+      if (user == null)
+      {
+         throw new NoSuchUserException("Could not disable user, user '" + name + "' does not exist");
+      }
+      
+      // If it's already disabled return false
+      if (((Boolean) userEnabledProperty.getValue(user)) == false)
       {
          return false;
-      }    
+      }          
       
-      account.setEnabled(false);
-      mergeAccount(account);
+      userEnabledProperty.setValue(user, false);
+      mergeEntity(user);
       
       return true;
    }
    
-   public boolean changePassword(String name, String password)
+   public boolean changePassword(String username, String password)
    {
-      UserAccount account = validateAccount(name);
-      if (account == null || !account.getAccountType().equals(AccountType.user))
+      Object user = lookupUser(username);
+      if (user == null)
       {
-         throw new NoSuchUserException("Could not change password, user '" + name + "' does not exist");
+         throw new NoSuchUserException("Could not change password, user '" + username + "' does not exist");
       }
       
-      account.setPasswordHash(PasswordHash.instance().generateSaltedHash(password, getAccountSalt(account)));
-      mergeAccount(account);
+      userPasswordProperty.setValue(user, PasswordHash.instance().generateSaltedHash(password, getUserAccountSalt(user)));
+      mergeEntity(user);
       return true;
    }
    
    public boolean userExists(String name)
    {
-      UserAccount account = validateAccount(name);
-      return account != null && account.getAccountType().equals(AccountType.user);
+      return lookupUser(name) != null;
    }
    
    public boolean roleExists(String name)
    {
-      UserAccount role = validateAccount(name);
-      return role != null && role.getAccountType().equals(AccountType.role);
+      return lookupRole(name) != null;
    }
    
    public boolean isUserEnabled(String name)
    {
-      UserAccount account = validateAccount(name);
-      return account != null && account.getAccountType().equals(AccountType.user)
-             && account.isEnabled();
+      Object user = lookupUser(name);
+      return user != null && (userEnabledProperty == null || (((Boolean) userEnabledProperty.getValue(user))) == true);
    }
    
    public List<String> getGrantedRoles(String name)
    {
-      UserAccount account = validateAccount(name);
-      if (account == null) throw new NoSuchUserException("No such user '" + name + "'");      
-
-      List<String> roles = new ArrayList<String>();      
-      if (account.getMemberships() != null)
+      Object user = lookupUser(name);
+      if (user == null)
       {
-         for (UserAccount membership : account.getMemberships())
+         throw new NoSuchUserException("No such user '" + name + "'");      
+      }
+
+      List<String> roles = new ArrayList<String>();
+      Collection userRoles = (Collection) userRolesProperty.getValue(user);
+      if (userRoles != null)
+      {
+         for (Object role : userRoles)
          {
-            if (membership.getAccountType().equals(UserAccount.AccountType.role))
-            {
-               roles.add(membership.getUsername());
-            }
+            roles.add((String) roleNameProperty.getValue(role));
          }
       }
       
@@ -425,55 +597,62 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public List<String> getImpliedRoles(String name)
    {
-      UserAccount account = validateAccount(name);
-      if (account == null) throw new NoSuchUserException("No such user '" + name + "'"); 
+      Object user = lookupUser(name);
+      if (user == null) 
+      {
+         throw new NoSuchUserException("No such user '" + name + "'"); 
+      }
 
       Set<String> roles = new HashSet<String>();
-
-      for (UserAccount membership : account.getMemberships())
+      Collection userRoles = (Collection) userRolesProperty.getValue(user);
+      if (userRoles != null)
       {
-         if (membership.getAccountType().equals(UserAccount.AccountType.role))
+         for (Object role : userRoles)
          {
-            addRoleAndMemberships(membership.getUsername(), roles);
+            addRoleAndMemberships((String) roleNameProperty.getValue(role), roles);
          }
-      }            
+      }
       
       return new ArrayList<String>(roles);
    }
    
    private void addRoleAndMemberships(String role, Set<String> roles)
    {
-      roles.add(role);
-      
-      for (String membership : roleCache.get(role))
-      {
-         if (!roles.contains(membership))
+      if (roles.add(role))
+      {      
+         Object instance = lookupRole(role);
+         
+         Collection groups = (Collection) roleGroupsProperty.getValue(instance);
+         
+         if (groups != null)
          {
-            addRoleAndMemberships(membership, roles);
+            for (Object group : groups)
+            {
+               addRoleAndMemberships((String) roleNameProperty.getValue(group), roles);
+            }
          }
-      }            
+      }
    }
    
    public boolean authenticate(String username, String password)
    {
-      UserAccount account = validateAccount(username);          
-      if (account == null || !account.getAccountType().equals(AccountType.user)
-            || !account.isEnabled())
+      Object user = lookupUser(username);          
+      if (user == null || (userEnabledProperty != null && ((Boolean) userEnabledProperty.getValue(user) == false)))
       {
          return false;
       }
       
-      String passwordHash = PasswordHash.instance().generateSaltedHash(password, getAccountSalt(account));
-      boolean success = passwordHash.equals(account.getPasswordHash());
+      String passwordHash = PasswordHash.instance().generateSaltedHash(password, getUserAccountSalt(user));
+      boolean success = passwordHash.equals(userPasswordProperty.getValue(user));
             
       if (success && Events.exists())
       {
          if (Contexts.isEventContextActive())
          {
-            Contexts.getEventContext().set(AUTHENTICATED_USER, account);
+            Contexts.getEventContext().set(AUTHENTICATED_USER, user);
          }
          
-         Events.instance().raiseEvent(EVENT_ACCOUNT_AUTHENTICATED, account);
+         Events.instance().raiseEvent(EVENT_USER_AUTHENTICATED, user);
       }
       
       return success;
@@ -489,28 +668,17 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }
    }
    
-   protected UserAccount validateAccount(String name)       
+   protected Object lookupUser(String username)       
    {
       try
       {
-         UserAccount account = (UserAccount) lookupEntityManager().createQuery(
-            "from " + accountClass.getName() + " where username = :username")
-            .setParameter("username", name)
+         Object user = lookupEntityManager().createQuery(
+            "select u from " + userClass.getName() + "u where " + userPrincipalProperty.getName() +
+            " = :username")
+            .setParameter("username", username)
             .getSingleResult();
          
-         if (account.getAccountType().equals(AccountType.role) && 
-             !roleCache.containsKey(account.getUsername()))
-         {
-            Set<String> memberships = new HashSet<String>();
-            for (UserAccount m : account.getMemberships())
-            {
-               memberships.add(m.getUsername());
-            }
-            
-            roleCache.put(account.getUsername(), memberships);  
-         }
-         
-         return account;
+         return user;
       }
       catch (NoResultException ex)
       {
@@ -518,21 +686,36 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }      
    }
    
+   protected Object lookupRole(String role)       
+   {
+      try
+      {
+         Object value = lookupEntityManager().createQuery(
+            "select r from " + roleClass.getName() + "r where " + roleNameProperty.getName() +
+            " = :role")
+            .setParameter("role", role)
+            .getSingleResult();
+         
+         return value;
+      }
+      catch (NoResultException ex)
+      {
+         return null;        
+      }      
+   }   
+   
    public List<String> listUsers()
    {
       return lookupEntityManager().createQuery(
-            "select username from " + accountClass.getName() + 
-            " where accountType = :accountType")
-            .setParameter("accountType", AccountType.user)
+            "select u." + userPrincipalProperty.getName() + " from " + userClass.getName() + " u")
             .getResultList();      
    }
    
    public List<String> listUsers(String filter)
    {
       return lookupEntityManager().createQuery(
-            "select username from " + accountClass.getName() + 
-            " where accountType = :accountType and lower(username) like :username")
-            .setParameter("accountType", AccountType.user)
+            "select u." + userPrincipalProperty.getName() + " from " + userClass.getName() + 
+            "u where lower(" + userPrincipalProperty.getName() + ") like :username")
             .setParameter("username", "%" + (filter != null ? filter.toLowerCase() : "") + 
                   "%")
             .getResultList();
@@ -541,31 +724,44 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    public List<String> listRoles()
    {
       return lookupEntityManager().createQuery(
-            "select username from " + accountClass.getName() + 
-            " where accountType = :accountType")
-            .setParameter("accountType", AccountType.role)
+            "select r." + roleNameProperty.getName() + " from " + roleClass.getName() + " r")
             .getResultList();      
    }   
    
-   protected void persistAccount(UserAccount account)
+   protected void persistEntity(Object entity)
    {
-      lookupEntityManager().persist(account);
+      lookupEntityManager().persist(entity);
    }
    
-   protected UserAccount mergeAccount(UserAccount account)
+   protected Object mergeEntity(Object entity)
    {
-      return lookupEntityManager().merge(account);
+      return lookupEntityManager().merge(entity);
    }
    
-   public Class<? extends UserAccount> getAccountClass()
+   protected void removeEntity(Object entity)
    {
-      return accountClass;
+      lookupEntityManager().remove(entity);
    }
    
-   public void setAccountClass(Class<? extends UserAccount> accountClass)
+   public Class getUserClass()
    {
-      this.accountClass = accountClass;
+      return userClass;
+   }
+   
+   public void setUserClass(Class userClass)
+   {
+      this.userClass = userClass;
    }   
+   
+   public Class getRoleClass()
+   {
+      return roleClass;
+   }
+   
+   public void setRoleClass(Class roleClass)
+   {
+      this.roleClass = roleClass;
+   }
    
    private EntityManager lookupEntityManager()
    {

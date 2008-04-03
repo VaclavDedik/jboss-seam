@@ -1,6 +1,10 @@
 package org.jboss.seam.security.management;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The identity store does the actual work of persisting user accounts in a
@@ -10,51 +14,57 @@ import java.util.List;
  */
 public interface IdentityStore
 {     
+   public enum Feature { createUser, deleteUser, enableUser, disableUser, changePassword, 
+      createRole, deleteRole, grantRole, revokeRole }
+   
    public class FeatureSet 
-   {
-      public static final int FEATURE_CREATE_USER = 1;
-      public static final int FEATURE_DELETE_USER = 2;
-      public static final int FEATURE_ENABLE_USER = 4;
-      public static final int FEATURE_DISABLE_USER = 8;      
-      public static final int FEATURE_CHANGE_PASSWORD = 16;
-      
-      public static final int FEATURE_CREATE_ROLE = 32;
-      public static final int FEATURE_DELETE_ROLE = 64;
-      public static final int FEATURE_GRANT_ROLE = 128;
-      public static final int FEATURE_REVOKE_ROLE = 256;
-      
-      public static final int FEATURE_ALL_USER = FEATURE_CREATE_USER | 
-          FEATURE_DELETE_USER | 
-          FEATURE_ENABLE_USER |
-          FEATURE_DISABLE_USER |
-          FEATURE_CHANGE_PASSWORD;
-      
-      public static final int FEATURE_ALL_ROLE = FEATURE_CREATE_ROLE |
-          FEATURE_DELETE_ROLE |
-          FEATURE_GRANT_ROLE |
-          FEATURE_REVOKE_ROLE;
-          
-      public static final int FEATURE_ALL = FEATURE_ALL_USER | FEATURE_ALL_ROLE;
-      
-      private int features;
-      
-      public FeatureSet(int features)
+   {                             
+      private Set<Feature> features;
+
+      public FeatureSet()
       {
-         this.features = features;
+         this(null);
       }
       
-      public int getFeatures()
+      public FeatureSet(Set<Feature> features)
+      {
+         if (features != null)
+         {
+            this.features = features;
+         }
+         else
+         {
+            this.features = new HashSet<Feature>();
+         }
+      }
+      
+      public Set<Feature> getFeatures()
       {
          return features;
       }
       
-      public boolean supports(int feature)
+      public boolean supports(Feature feature)
       {
-         return (features & feature) == feature;
+         return features.contains(feature);
+      }
+      
+      public void addFeature(Feature feature)
+      {
+         features.add(feature);
+      }
+      
+      public void removeFeature(Feature feature)
+      {
+         features.remove(feature);
+      }
+      
+      public void enableAll()
+      {
+         for (Feature f : Feature.values()) addFeature(f);
       }
    }
    
-   boolean supportsFeature(int feature);
+   boolean supportsFeature(Feature feature);
    
    boolean createUser(String username, String password);
    boolean createUser(String username, String password, String firstname, String lastname);
