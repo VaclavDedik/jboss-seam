@@ -1,6 +1,88 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.2.CR1
+
+** Feature Request
+    *  [ JBSEAM-2787 ] Add org.jboss.seam.endPageflow and org.jboss.seam.beginPageflow events
+
+** Bug
+    *  [ JBSEAM-1735 ] Pages.getStringValuesFromModel throws ConcurrentModificationException
+    *  [ JBSEAM-1887 ] Session timeout results in javax.faces.application.ViewExpiredException
+    *  [ JBSEAM-1946 ] seam 2.0's persistence:managed-persistence-context not support openjpa
+    *  [ JBSEAM-1997 ] ConversationList not refreshed when beginning a long-running conversation
+    *  [ JBSEAM-2029 ] Identity.checkEntityPermission() fails for entities mapped using orm.xml or .hbm.xml
+    *  [ JBSEAM-2042 ] quartz example doesn't report errors
+    *  [ JBSEAM-2086 ] ConcurrentModificationException in Pages.wildcardViewIds
+    *  [ JBSEAM-2186 ] RichFaces loses skin with login-required="true" in pages.xml
+    *  [ JBSEAM-2306 ] Can't create Quartz Cron job at startup
+    *  [ JBSEAM-2309 ] UserTransaction.commit() may throw a RollbackException(), in that case don't try to perform a UserTransaction.rollback()
+    *  [ JBSEAM-2359 ] ArrayIndexOutOfBoundsException in org.jboss.seam.contexts.BasicContext.getNames()
+    *  [ JBSEAM-2377 ] Conversation Switcher broken when using Explicit Conversations
+    *  [ JBSEAM-2447 ] Premature requests causes pages actions problem
+    *  [ JBSEAM-2456 ] Exception redirect when in pageflow can cause spurious additional facesmessage
+    *  [ JBSEAM-2484 ] async:quartz-dispatcher + serializied fields in an entity = java.lang.ClassNotFoundException: No ClassLoaders found
+    *  [ JBSEAM-2493 ] Problems with faces Renderer when used simultaneously from different threads
+    *  [ JBSEAM-2544 ] Exception handling for javax.persistence.OptimisticLockException fails the second time
+    *  [ JBSEAM-2554 ] pdf docType needs to be serializable
+    *  [ JBSEAM-2566 ] Interpolator cannot handle ##{expr}
+    *  [ JBSEAM-2571 ] Event observers in overridden components are still being invoked
+    *  [ JBSEAM-2574 ] Problem with jquery
+    *  [ JBSEAM-2583 ] <s:conversationPropagation type="join" /> seems not creating aq new conversation
+    *  [ JBSEAM-2588 ] s:conversationPropagation breaks a4j:commandButton
+    *  [ JBSEAM-2593 ] Cap and Join not working correctly in UIStroke
+    *  [ JBSEAM-2604 ] parsing page.xml is not thread safe
+    *  [ JBSEAM-2606 ] Natural conversation id already in use in seam-bay example
+    *  [ JBSEAM-2609 ] Locking issue for ConversationEntry when using Conversation.instance().leave()
+    *  [ JBSEAM-2615 ] POJO does not get outjected in the page context as expected
+    *  [ JBSEAM-2621 ] debug page missing url-encoding for component viewing
+    *  [ JBSEAM-2658 ] s:defaultAction only works 1 submit
+    *  [ JBSEAM-2660 ] Rename exception context variables
+    *  [ JBSEAM-2665 ] Seam 2.0.1 incompatibility with Trinidad
+    *  [ JBSEAM-2667 ] Interceptor should call annotation setter with instance, not class
+    *  [ JBSEAM-2692 ] Overriding security messages
+    *  [ JBSEAM-2693 ] Little documentation error
+    *  [ JBSEAM-2698 ] *.page.xml files not loaded in new Tomcat version
+    *  [ JBSEAM-2747 ] nextExists on EntityQuery throws exception when maxResults is not set
+    *  [ JBSEAM-2751 ] Outjected DataModel looses/forgets wrapped data
+    *  [ JBSEAM-2753 ] EclipseClasspathTask creates invalid .classpath when javadocPath exists
+    *  [ JBSEAM-2754 ] Images not being resolved
+    *  [ JBSEAM-2755 ] Images not being resized for PDF version
+    *  [ JBSEAM-2756 ] Many <programlisting>'s are overflowing
+    *  [ JBSEAM-2758 ] Update WebSphere chapter with a note about Seam specific EJB's
+    *  [ JBSEAM-2768 ] SeamDisc Example Throws Exception When Adding Disc on Artist Screen
+    *  [ JBSEAM-2773 ] JPA example on Tomcat 6.X throws a NoClassDefFoundError: org/objectweb/asm/Type
+    *  [ JBSEAM-2777 ] Can not build refdoc with 2.0.2-snapshot
+    *  [ JBSEAM-2780 ] @Stateless Framework classes not nullifying fields
+    *  [ JBSEAM-2781 ] Workaround for NPE in bootstrap/ due to jboss.remoting bug.
+
+** Task
+    *  [ JBSEAM-1567 ] Complete documentation for seam-ui
+    *  [ JBSEAM-2234 ] Documentation for "Integration Testing with Mock Data" is incomplete
+    *  [ JBSEAM-2266 ] WLS doesn't support Servlet 2.5
+    *  [ JBSEAM-2372 ] Documentation out of date for PDF support
+    *  [ JBSEAM-2491 ] Seam is still using Groovy 1.1 beta, Groovy 1.5 has been released
+    *  [ JBSEAM-2555 ] Upgrade to Richfaces 3.1.4
+    *  [ JBSEAM-2573 ] Update the seam-gen build scripts for icefaces stub project
+    *  [ JBSEAM-2625 ] Avoid rescanning taglib.xml (and logging) for Seam mail rendering
+    *  [ JBSEAM-2661 ] Upgrade to latest jfreechart
+    *  [ JBSEAM-2701 ] Update readme.txt to point to seamframework.org for more info
+    *  [ JBSEAM-2733 ] Documentation of Seam transactions misleading regarding transaction boundaries
+    *  [ JBSEAM-2734 ] Build docs from ant refdoc target
+    *  [ JBSEAM-2735 ] Move Doc's POM to build dir
+    *  [ JBSEAM-2736 ] Compile and resolve includes on chapter modules
+    *  [ JBSEAM-2737 ] Use seamframework.org style in Seam docs
+    *  [ JBSEAM-2738 ] Output html page per chapter
+    *  [ JBSEAM-2739 ] Use full version number in both PDF and HTML docs
+    *  [ JBSEAM-2757 ] Mark <programlisting> with role="" to give syntax highlighting
+    *  [ JBSEAM-2784 ] Backport of Alex's code about portlet support (From 2.1.0.A1)
+    *  [ JBSEAM-2790 ] Remove portal example
+    *  [ JBSEAM-2800 ] Upgrade to Drools 4.0.6
+
+** Patch
+    *  [ JBSEAM-2770 ] exploded-archives\{project}.ear\lib was not created if lib.dir is overridden
+    *  [ JBSEAM-2786 ] Small fixes to the text of the tutorial 
+    
 Release Notes - JBoss Seam - Version 2.0.1.GA
 
 ** Bug

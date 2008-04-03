@@ -1,21 +1,128 @@
 Seam Release Process
 ====================
 
-
 Updating version numbers
 ------------------------
-* Update the version number embedded in:
-  - readme.txt
-  - changelog.txt (insert JIRA release notes)
-  - build/default.build.properties (you're probably building locally with 
-    -SNAPSHOT as the qualifer in build.properties, comment it out when building
-    for a release)
+* Update the version information:
+  - readme.txt 
+    - one place at top including date.
+  - changelog.txt
+    - Generate a JIRA release note report for the release in "text" format
+    - Only "issue types" that have jira's will work
+        - Usually that is (Bug, Feature Request, Task, and Patch)
+        - Check all the issue types one at a time to determine final list.
+  - build/default.build.properties 
+    - Change the version numbers as needed
+    - Set the qualifier using a "." ex. ".CR1" or ".GA"
+    - Check that build.properties has the qualifier commented out for the release
 
+SVN Tagging and Checkout
+------------------------
+* Note: testing can begin prior to official tagging but a complete process should be executed on the tag prior to release. 
+* Tag the release (XX as needed)
+    -"svn copy https://svn.jboss.org/repos/seam/XX/XX https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX -m "create JBoss_Seam_x_x_x_XXX tag""
+        - ex. "svn copy https://svn.jboss.org/repos/seam/branches/Seam_2_0 https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1"
+* In a clean directory checkout the required seam source ( XX as needed)
+    - "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX seam"  
+        - ex. "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 seam"
+
+Building and Checking Diff
+--------------------------
+* Run "mkdir ../releaselogs"
+* Initial build and test suite execution
+    - run initial build to get dependencies and other requirements
+        - run "ant > ../releaselogs/x.x.x.XX.initbuild.txt"
+    - edit build.properties and un-comment "validate.xml = true"
+    - run "ant cleanall testall testreport > ../releaselogs/x.x.x.XX.testallreport.txt"
+    - check report/junit-noframes.html
+        - There should be no failures or errors.
+    - run "cp -R test-output ../releaselogs"
+    - run "cp -R test-report ../releaselogs"
+    - comment out "validate.xml = true" in build.properties
+* Create the distribution build
+    - run "ant cleanall dist > ../releaselogs/x.x.x.XX.distbuild.txt"
+    - Use the dist build for all example tests
+* Diff the zip, gz, and exploded version of the build
+    - ex. 
+        - explode the zip and gz into a tmp dir
+        - cp distribution directory into the tmp dir
+        - in tmp dir run:
+            - "diff -r ./gz/. ./zip/."
+            - "diff -r ./gz/. ./dir/."
+    - There should be no differences.
+* check that the following files/directories exist in the dist "ls -1"
+bootstrap
+build
+build.properties
+build.xml
+changelog.txt
+doc
+examples
+lgpl.txt
+lib
+mail
+readme.txt
+seam
+seam-gen
+seam-text.g
+seam.bat
+seam2migration.txt
+src
+ui
+
+* check that the following source directories exist in the dist "ls -1 src"
+debug
+gen
+ioc
+jbas5
+mail
+main
+pdf
+remoting
+test
+
+* check that the following examples exist in the dist "ls -1 examples"
+blog
+booking
+build.xml
+contactlist
+drools
+dvdstore
+groovybooking
+hibernate
+icefaces
+itext
+jee5
+jpa
+mail
+messages
+nestedbooking
+numberguess
+quartz
+readme.txt
+registration
+remoting
+seam-examples.html
+seambay
+seamdiscs
+seampay
+seamspace
+spring
+todo
+ui
+wiki
+
+* [future] jar, archive, dependency report
+* [future] directory structure report
+ 
 Tests
 -----
-* "ant cleanall testall testreport" with validate.xml = true in build.properties, check report/junit-noframes.html
+* edit the $dist/build.properties and set the jboss.home and tomcat.home
+    - JBoss AS 4.2.2.GA and Tomcat 6.X
+* Test the steps in the readme.txt
+    - this deploys the booking example on JBoss 4.2.2
+    - Sanity check the application
 * Sanity check the following example applications on JBoss 4.2.2
-  - booking
   - dvdstore
   - jpa
   - hibernate
@@ -23,17 +130,22 @@ Tests
   - contactlist
   - itext
   - mail
-  - spring
   - seamdiscs
+  - remoting/chatroom
+  - blog
 * Sanity check the following example applications on Tomcat
   - booking
   - dvdstore
+  - spring
   - jpa
   - hibernate
 * Sanity check the folowing example applications on GlassFish
   - jee5
   - jpa
   - hibernate
+* Validate /examples/seam-examples.html
+  - ant deploypresentation
+  - check for errors and spot check apps - they were already test above.
   
 Test seam-gen & JBDS
 -------------
@@ -73,84 +185,13 @@ CREATE TABLE `Vehicle` (
   - Test generated pages (check hot deployment of Seam components, html)
   - Test running unit tests from Eclipse
 
-
-
-Tag SVN
--------
-* "svn copy trunk tags/JBoss_Seam_x_x_x_XX"
-* "svn commit tags/JBoss_Seam_x_x_x_XX"
-
-Build + Upload
+Final Build + Upload
 --------------
 * run "ant cleanall dist"
-* check that the following files/directories exist in the dist "ls -1"
-
-bootstrap
-build
-build.properties
-build.xml
-changelog.txt
-doc
-examples
-lgpl.txt
-lib
-mail
-pom.xml
-readme.txt
-seam
-seam-gen
-seam-text.g
-seam.bat
-seam2migration.txt
-src
-ui
-
-* check that the following source directories exist in the dist "ls -1 src"
-
-debug
-gen
-ioc
-mail
-main
-pdf
-remoting
-test
-
-* check that the following examples exist in the dist "ls -1 examples"
-
-blog
-booking
-build.xml
-contactlist
-drools
-dvdstore
-groovybooking
-hibernate
-icefaces
-itext
-jee5
-jpa
-mail
-messages
-numberguess
-portal
-quartz
-readme.txt
-registration
-remoting
-seam-examples.html
-seambay
-seamdiscs
-seampay
-seamspace
-spring
-todo
-ui
-wiki
 
 * upload .zip and .tar.gz to upload.sf.net
 * do the sf.net file release stuff
-* Do the release proceedure for maven as described in build/readme.txt
+* Do the release procedure for maven as described in build/readme.txt
 * upload the doc directory of the dist to docs.jboss.org
   - remember to update the latest/ dir
 * update the documentation and download pages on jboss.org
@@ -161,4 +202,3 @@ Update Demos
 ------------
 This step is not needed for every point release:
 * upload the booking and dvdstore examples to demo.jboss.com
-
