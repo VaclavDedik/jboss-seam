@@ -171,11 +171,18 @@ CREATE TABLE `Vehicle` (
   CONSTRAINT `owner` FOREIGN KEY (`ownerUsername`) REFERENCES `person` (`username`)
 ) ENGINE=InnoDB 
 
-* run "seam setup create-project generate-entities explode"
-  - test the app, at least the list and edit pages for Person
-* run "seam new-action new-form restart"
-  - test both generated pages
-  - run the unit tests in eclipse using the TestNG plugin 
+* seam-gen EAR 
+  - run "seam setup create-project generate-entities explode"
+    - test the app, at least the list and edit pages for Person
+  - run "seam new-action new-form restart"
+    - test both generated pages
+    - run the unit tests in eclipse using the TestNG plugin 
+* seam-gen WAR 
+  - run "seam setup create-project generate-entities explode"
+    - test the app, at least the list and edit pages for Person
+  - run "seam new-action new-form restart"
+    - test both generated pages
+    - run the unit tests in eclipse using the TestNG plugin 
 * Create a new war project in JBDS
   - Reverse engineer entities from MySQL
   - Test generated pages (check hot deployment of Seam components, html)
