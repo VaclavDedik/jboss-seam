@@ -43,7 +43,7 @@
   
   <!-- Externalize some version numbers here -->
   <properties>
-    <version.richfaces>3.1.4.GA</version.richfaces>
+    <version.richfaces>3.2.0.GA</version.richfaces>
     <version.wicket>1.3.0-SNAPSHOT</version.wicket>
     <version.drools>4.0.6</version.drools>
   </properties>
@@ -400,9 +400,9 @@
 
       <!-- Should be 3.3.GA to be in sync with AS, but this doesn't seem to exist -->
       <dependency>
-        <groupId>jboss</groupId>
+        <groupId>javassist</groupId>
         <artifactId>javassist</artifactId>
-        <version>3.3.ga</version>
+        <version>3.3.GA</version>
       </dependency>
 
       <!-- Should be 1.0.5.GA-jboss, to be in sync with AS but doesn't exist in Maven -->
