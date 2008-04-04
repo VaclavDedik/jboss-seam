@@ -82,9 +82,6 @@
 	<property name="dist.build.dir" value="${dist.dir}/build" />
 	<property name="dist.seamgen.dir" value="${dist.dir}/seam-gen" />
 	<property name="dist.ui.api.dir" value="${dist.dir}/doc/ui" />
-
-	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
-	<property name="webroot.dir" value="${deploy.dir}/jbossweb-tomcat55.sar/ROOT.war" />
 	
 	<condition property="in.dist.dir">
 		<equals arg1="${basedir}" arg2="${dist.dir}"/>
@@ -409,13 +406,6 @@
 		<undeployexample name="seambay" />
 		<undeployexample name="nestedbooking" />
 		<undeployexample name="wicket" />
-	</target>
-
-	<target name="deploypresentation" depends="build" description="Deploy the examples used in Seam presentations">
-		<ant dir="examples/booking" target="deploy" inheritall="false" />
-		<ant dir="examples/dvdstore" target="deploy" inheritall="false" />
-		<copy file="examples/seam-examples.html" todir="${webroot.dir}" />
-		<replace file="${webroot.dir}/seam-examples.html" token="http://localhost:8080" value="" />
 	</target>
 
 	<target name="testall" depends="test,build, copylib" description="Run the core unit tests and all example tests">
