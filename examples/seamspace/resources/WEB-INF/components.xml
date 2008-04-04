@@ -3,7 +3,6 @@
             xmlns:core="http://jboss.com/products/seam/core"
             xmlns:persistence="http://jboss.com/products/seam/persistence"
             xmlns:security="http://jboss.com/products/seam/security"
-            xmlns:identity-management="http://jboss.com/products/seam/security/management"
             xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:captcha="http://jboss.com/products/seam/captcha"
             xmlns:web="http://jboss.com/products/seam/web"
@@ -13,7 +12,6 @@
                  http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.0.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.0.xsd
                  http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.0.xsd
-                 http://jboss.com/products/seam/security/management http://jboss.com/products/seam/identity-management-2.0.xsd
                  http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.0.xsd
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.0.xsd
                  http://jboss.com/products/seam/captcha http://jboss.com/products/seam/captcha-2.0.xsd">
@@ -24,10 +22,8 @@
                   concurrent-request-timeout="500"
                   conversation-id-parameter="cid"/>
     
-    <security:identity security-rules="#{securityRules}"/>
-    
-    <identity-management:jpa-identity-store name="identityStore" account-class="org.jboss.seam.example.seamspace.MemberAccount"/>    
-    
+    <security:identity security-rules="#{securityRules}" authenticate-method="#{authenticator.authenticate}"/>
+       
     <drools:rule-base name="securityRules">
        <drools:rule-files>
            <value>/META-INF/security-rules.drl</value>

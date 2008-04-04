@@ -115,40 +115,9 @@ public class SeamLoginModule implements LoginModule
          }
       }
       
-      // Otherwise if identity management is enabled, use it.
-      IdentityManager identityManager = IdentityManager.instance();
-      if (identityManager != null && identityManager.getIdentityStore() != null)
-      {
-         Identity identity = Identity.instance();
-         
-         try
-         {
-            boolean success = identityManager.authenticate(username, identity.getPassword());
-            
-            if (success)
-            {
-               for (String role : identityManager.getImpliedRoles(username))
-               {
-                  identity.addRole(role);
-               }
-            }
-            
-            return success;
-         }
-         catch (Exception ex)
-         {
-            log.error("Error invoking login method", ex);
-            LoginException le = new LoginException(ex.getMessage());
-            le.initCause(ex);
-            throw le;
-         }
-      }
-      else
-      {
-         log.error("No authentication method defined - " +
-               "please define authenticate-method for <security:identity/> in components.xml");
-         throw new LoginException("No authentication method defined");
-      }
+      log.error("No authentication method defined - " +
+          "please define authenticate-method for <security:identity/> in components.xml");
+      throw new LoginException("No authentication method defined");
 
    }
 
