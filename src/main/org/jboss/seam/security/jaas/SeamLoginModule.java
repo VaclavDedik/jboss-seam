@@ -21,7 +21,6 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.SimpleGroup;
 import org.jboss.seam.security.SimplePrincipal;
-import org.jboss.seam.security.management.IdentityManager;
 
 /**
  * Performs authentication using a Seam component
