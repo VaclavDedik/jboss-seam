@@ -34,6 +34,7 @@
 		<include name="lib/hibernate-annotations.jar" />
 		<include name="lib/hibernate-entitymanager.jar" />
 		<include name="lib/hibernate-validator.jar" />
+        <include name="lib/asm.jar" />
 		<include name="lib/javassist.jar" />
 		<include name="lib/persistence-api.jar" />
 		<include name="lib/cglib.jar" />
