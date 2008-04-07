@@ -48,18 +48,18 @@
                <dependency>
                   <groupId>org.jboss.seam</groupId>
                   <artifactId>seam-docbook-xslt</artifactId>
-                  <version>1.1.0.BETA1</version>
+                  <version>1.1.0-SNAPSHOT</version>
                </dependency>
                <dependency>
                   <groupId>org.jboss.seam</groupId>
                   <artifactId>seam-jdocbook-style</artifactId>
-                  <version>1.1.0.BETA1</version>
+                  <version>1.1.0-SNAPSHOT</version>
                   <type>jdocbook-style</type>
                </dependency>
                <dependency>
                   <groupId>org.jboss</groupId>
                   <artifactId>jbossorg-jdocbook-style</artifactId>
-                  <version>1.1.0-200803311754</version>
+                  <version>1.1.0-SNAPSHOT</version>
                   <type>jdocbook-style</type>
                </dependency>
             </dependencies>
