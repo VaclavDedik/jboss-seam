@@ -141,7 +141,7 @@
 		<sequential>
 			<java classname="org.codehaus.classworlds.Launcher" fork="true" dir="@{basedir}">
 				<classpath>
-					<fileset dir="${maven.dir}/core/boot">
+					<fileset dir="${maven.dir}/boot">
 						<include name="*.jar" />
 					</fileset>
 					<fileset dir="${maven.dir}/bin">
