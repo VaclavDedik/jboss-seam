@@ -10,20 +10,20 @@ import org.jboss.seam.annotations.Unwrap;
 public class AnimalList
 {
 
-   private List<String> animals;
+   private List<Animal> animals;
    
    @Unwrap
-   public List<String> unwrap()
+   public List<Animal> unwrap()
    {
       if (animals == null)
       {
-         animals = new ArrayList<String>();
-         animals.add("Dog");
-         animals.add("Cat");
-         animals.add("Goldfish");
-         animals.add("Rabbit");
-         animals.add("Snake");
-         animals.add("Parrot");
+         animals = new ArrayList<Animal>();
+         animals.add(Animal.CAT);
+         animals.add(Animal.DOG);
+         animals.add(Animal.GOLDFISH);
+         animals.add(Animal.PARROT);
+         animals.add(Animal.RABBIT);
+         animals.add(Animal.SNAKE);
       }
       return animals;
    }
