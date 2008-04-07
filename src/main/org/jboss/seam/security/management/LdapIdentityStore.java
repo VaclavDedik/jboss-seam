@@ -1191,4 +1191,10 @@ public class LdapIdentityStore implements IdentityStore, Serializable
          }
       }
    }
+
+   public List<String> getRoleGroups(String name)
+   {
+      // TODO Auto-generated method stub
+      return null;
+   }
 }

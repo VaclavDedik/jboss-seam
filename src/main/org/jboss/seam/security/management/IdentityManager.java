@@ -213,6 +213,11 @@ public class IdentityManager implements Serializable
       return roleIdentityStore.getImpliedRoles(name);
    }
    
+   public List<String> getRoleGroups(String name)
+   {
+      return roleIdentityStore.getRoleGroups(name);
+   }
+   
    public boolean authenticate(String username, String password)
    {
       return identityStore.authenticate(username, password);

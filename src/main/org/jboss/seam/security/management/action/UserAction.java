@@ -1,4 +1,4 @@
-package org.jboss.seam.security.management;
+package org.jboss.seam.security.management.action;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 

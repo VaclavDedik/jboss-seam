@@ -87,6 +87,7 @@ public interface IdentityStore
    
    List<String> getGrantedRoles(String name);
    List<String> getImpliedRoles(String name);
+   List<String> getRoleGroups(String name);
    
    boolean authenticate(String username, String password);
 }

@@ -104,15 +104,15 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          String methodName = propertyMethod.getName();
          
          this.name = methodName.startsWith("get") ?
-               (methodName.substring(3,1).toLowerCase() + methodName.substring(4)) :
-               (methodName.substring(2,1).toLowerCase() + methodName.substring(3));
+               (methodName.substring(3,4).toLowerCase() + methodName.substring(4)) :
+               (methodName.substring(2,3).toLowerCase() + methodName.substring(3));
          
          String setterName = propertyMethod.getName().startsWith("get") ?
                ("set" + methodName.substring(3)) : ("set" + methodName.substring(2));
                
          try
          {
-            propertySetter = propertyMethod.getClass().getMethod(setterName, new Class[] {propertyMethod.getReturnType()});
+            propertySetter = propertyMethod.getDeclaringClass().getMethod(setterName, new Class[] {propertyMethod.getReturnType()});
          }
          catch (NoSuchMethodException ex)
          {
@@ -273,25 +273,25 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       
       if (userPrincipalProperty == null) 
       {
-         throw new RuntimeException("Invalid userClass " + userClass.getName() + 
+         throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
                " - required annotation @UserPrincipal not found on any Field or Method.");
       }
       
       if (userPasswordProperty == null) 
       {
-         throw new RuntimeException("Invalid userClass " + userClass.getName() + 
+         throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
                " - required annotation @UserPassword not found on any Field or Method.");
       }      
       
       if (userRolesProperty == null)
       {
-         throw new RuntimeException("Invalid userClass " + userClass.getName() + 
+         throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
          " - required annotation @UserRoles not found on any Field or Method.");         
       }
       
       if (roleNameProperty == null)
       {
-         throw new RuntimeException("Invalid roleClass " + roleClass.getName() + 
+         throw new IdentityManagementException("Invalid roleClass " + roleClass.getName() + 
          " - required annotation @RoleName not found on any Field or Method.");         
       }
    }
@@ -595,6 +595,31 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       return roles;     
    }
    
+   public List<String> getRoleGroups(String name)
+   {
+      Object role = lookupRole(name);
+      if (role == null)
+      {
+         throw new NoSuchUserException("No such role '" + name + "'");
+      }
+
+      List<String> groups = new ArrayList<String>();
+      
+      if (roleGroupsProperty != null)
+      {
+         Collection roleGroups = (Collection) roleGroupsProperty.getValue(role);
+         if (roleGroups != null)
+         {
+            for (Object group : roleGroups)
+            {
+               groups.add((String) roleNameProperty.getValue(group));
+            }
+         }
+      }
+      
+      return groups;      
+   }
+   
    public List<String> getImpliedRoles(String name)
    {
       Object user = lookupUser(name);
@@ -622,13 +647,16 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       {      
          Object instance = lookupRole(role);
          
-         Collection groups = (Collection) roleGroupsProperty.getValue(instance);
-         
-         if (groups != null)
+         if (roleGroupsProperty != null)
          {
-            for (Object group : groups)
+            Collection groups = (Collection) roleGroupsProperty.getValue(instance);
+            
+            if (groups != null)
             {
-               addRoleAndMemberships((String) roleNameProperty.getValue(group), roles);
+               for (Object group : groups)
+               {
+                  addRoleAndMemberships((String) roleNameProperty.getValue(group), roles);
+               }
             }
          }
       }
@@ -673,7 +701,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       try
       {
          Object user = lookupEntityManager().createQuery(
-            "select u from " + userClass.getName() + "u where " + userPrincipalProperty.getName() +
+            "select u from " + userClass.getName() + " u where " + userPrincipalProperty.getName() +
             " = :username")
             .setParameter("username", username)
             .getSingleResult();
@@ -691,7 +719,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       try
       {
          Object value = lookupEntityManager().createQuery(
-            "select r from " + roleClass.getName() + "r where " + roleNameProperty.getName() +
+            "select r from " + roleClass.getName() + " r where " + roleNameProperty.getName() +
             " = :role")
             .setParameter("role", role)
             .getSingleResult();
@@ -715,7 +743,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    {
       return lookupEntityManager().createQuery(
             "select u." + userPrincipalProperty.getName() + " from " + userClass.getName() + 
-            "u where lower(" + userPrincipalProperty.getName() + ") like :username")
+            " u where lower(" + userPrincipalProperty.getName() + ") like :username")
             .setParameter("username", "%" + (filter != null ? filter.toLowerCase() : "") + 
                   "%")
             .getResultList();
