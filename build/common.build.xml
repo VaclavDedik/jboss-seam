@@ -93,6 +93,7 @@
 		<pomfile name="parent.pom" value="${build.dir}/parent.pom.xml" />
 		<install pom="${parent.pom}" />
 		<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
+		<pomfile name="core.wls.pom" value="${build.dir}/core.pom.xml" artifactName="jboss-seam-wls-compatible" />
 		<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
 		<pomfile name="wicket.pom" value="${build.dir}/wicket.pom.xml" />
         <pomfile name="jbas5.pom" value="${build.dir}/jbas5.pom.xml" />
@@ -111,7 +112,6 @@
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="runtime" />
-        <copyDependencies id="jbas5" pom="${jbas5.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="runtime" />
@@ -120,7 +120,6 @@
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="compile" />
-        <copyDependencies id="jbas5" pom="${jbas5.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="compile" />
