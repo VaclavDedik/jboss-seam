@@ -12,7 +12,12 @@
   <body>
   
     <div class="menuButtons">
-      <s:link view="/search.xhtml" value="Search Contacts"/>
+      <s:link view="/search.xhtml" value="Search Contacts">
+          <f:param name="firstName" />
+          <f:param name="lastName" />
+          <f:param name="firstResult" />
+      </s:link>
+
       <s:link view="/editContact.xhtml" value="Create New Contact">
         <f:param name="contactId"/> <!-- suppress propagation of contact id page parameter -->
       </s:link>
@@ -35,7 +40,9 @@
              <span class="name">Last Name :</span>
              <span class="value"><h:inputText value="#{exampleContact.lastName}"/></span>
            </span>
-           <h:commandButton value="Search" action="/search.xhtml"/>
+
+           
+           <h:commandButton value="Search" action="newsearch"/>
         </h:form>
       </div>
       
