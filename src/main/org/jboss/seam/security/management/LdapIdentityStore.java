@@ -1197,4 +1197,16 @@ public class LdapIdentityStore implements IdentityStore, Serializable
       // TODO Auto-generated method stub
       return null;
    }
+
+   public boolean addRoleToGroup(String role, String group)
+   {
+      // TODO Auto-generated method stub
+      return false;
+   }
+
+   public boolean removeRoleFromGroup(String role, String group)
+   {
+      // TODO Auto-generated method stub
+      return false;
+   }
 }
