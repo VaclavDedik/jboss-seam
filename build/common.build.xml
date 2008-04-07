@@ -92,7 +92,7 @@
 		<install pom="${root.pom}" />
 		<pomfile name="parent.pom" value="${build.dir}/parent.pom.xml" />
 		<install pom="${parent.pom}" />
-		<pomfile name="core.pom" value="${build.dir}/core.pom.xml" />
+		<pomfile name="core.pom" value="${build.dir}/core.pom.xml" artifactName="jboss-seam" />
 		<pomfile name="core.wls.pom" value="${build.dir}/core.pom.xml" artifactName="jboss-seam-wls-compatible" />
 		<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
 		<pomfile name="wicket.pom" value="${build.dir}/wicket.pom.xml" />
@@ -289,7 +289,7 @@
 		<attribute name="output" default="${tmp.dir}/poms/@{module}-dependency-report.txt" />
 		<sequential>
 			<maven target="-f @{pom} dependency:tree" basedir="${seam.dir}">
-				<arg line="-Doutput=@{output}" />
+				<arg line="-DoutputFile=@{output}" />
 				<arg line="-q" />
 			</maven>
 		</sequential>
