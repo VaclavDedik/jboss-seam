@@ -427,7 +427,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       mergeEntity(user);
       
       return true;
-   }
+   }   
    
    public boolean revokeRole(String username, String role)
    {
@@ -448,6 +448,59 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       if (success) mergeEntity(user);
       return success;
    }
+   
+   public boolean addRoleToGroup(String role, String group)
+   {
+      Object targetRole = lookupRole(role);
+      if (targetRole == null)
+      {
+         throw new NoSuchUserException("Could not add role to group, no such role '" + role + "'");
+      }
+      
+      Object targetGroup = lookupRole(group);
+      if (targetGroup == null)
+      {
+         throw new NoSuchRoleException("Could not grant role, group '" + group + "' does not exist");
+      }
+      
+      if (roleGroupsProperty != null)
+      {
+         Collection roleGroups = (Collection) roleGroupsProperty.getValue(targetRole); 
+         if (roleGroups == null)
+         {
+            // This should either be a Set, or a List...
+            if (Set.class.isAssignableFrom(roleGroupsProperty.getPropertyClass()))
+            {
+               roleGroups = new HashSet();
+            }
+            else if (List.class.isAssignableFrom(roleGroupsProperty.getPropertyClass()))
+            {
+               roleGroups = new ArrayList();
+            }
+            
+            roleGroupsProperty.setValue(targetRole, roleGroups);
+         }
+         else if (((Collection) roleGroupsProperty.getValue(targetRole)).contains(targetGroup))
+         {
+            return false;
+         }
+
+         ((Collection) roleGroupsProperty.getValue(targetRole)).add(targetGroup);
+         mergeEntity(targetRole);
+         
+         return true;
+      }
+      else
+      {
+         return false;
+      }
+   }
+
+   public boolean removeRoleFromGroup(String role, String group)
+   {
+      // TODO Auto-generated method stub
+      return false;
+   }      
    
    public boolean createRole(String role)
    {
@@ -804,5 +857,5 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    public void setEntityManager(ValueExpression expression)
    {
       this.entityManager = expression;
-   }         
+   }      
 }

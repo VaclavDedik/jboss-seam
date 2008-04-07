@@ -30,7 +30,8 @@ import org.jboss.seam.security.Identity;
 @BypassInterceptors
 public class IdentityManager implements Serializable
 {
-   public static final String ACCOUNT_PERMISSION_NAME = "seam.account";
+   public static final String USER_PERMISSION_NAME = "seam.user";
+   public static final String ROLE_PERMISSION_NAME = "seam.role";
    
    public static final String PERMISSION_CREATE = "create";
    public static final String PERMISSION_READ = "read";
@@ -93,67 +94,79 @@ public class IdentityManager implements Serializable
 
    public boolean createUser(String name, String password, String firstname, String lastname)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_CREATE);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_CREATE);
       return identityStore.createUser(name, password, firstname, lastname); 
    }   
    
    public boolean deleteUser(String name)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_DELETE);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_DELETE);
       return identityStore.deleteUser(name);
    }
    
    public boolean enableUser(String name)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_UPDATE);
       return identityStore.enableUser(name);
    }
    
    public boolean disableUser(String name)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_UPDATE);
       return identityStore.disableUser(name);
    }
    
    public boolean changePassword(String name, String password)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_UPDATE);
       return identityStore.changePassword(name, password);
    }
    
    public boolean isUserEnabled(String name)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_READ);
       return identityStore.isUserEnabled(name);
    }
    
    public boolean grantRole(String name, String role)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_UPDATE);
       return roleIdentityStore.grantRole(name, role);
    }
    
    public boolean revokeRole(String name, String role)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_UPDATE);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_UPDATE);
       return roleIdentityStore.revokeRole(name, role);
    }
    
    public boolean createRole(String role)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_CREATE);
+      Identity.instance().checkPermission(ROLE_PERMISSION_NAME, PERMISSION_CREATE);
       return roleIdentityStore.createRole(role);
    }
    
    public boolean deleteRole(String role)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_DELETE);
+      Identity.instance().checkPermission(ROLE_PERMISSION_NAME, PERMISSION_DELETE);
       return roleIdentityStore.deleteRole(role);
+   }
+   
+   public boolean addRoleToGroup(String role, String group)
+   {
+      Identity.instance().checkPermission(ROLE_PERMISSION_NAME, PERMISSION_UPDATE);
+      return roleIdentityStore.addRoleToGroup(role, group);
+   }
+   
+   public boolean removeRoleFromGroup(String role, String group)
+   {
+      Identity.instance().checkPermission(ROLE_PERMISSION_NAME, PERMISSION_UPDATE);
+      return roleIdentityStore.removeRoleFromGroup(role, group);      
    }
    
    public boolean userExists(String name)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_READ);
       return identityStore.userExists(name);
    }
    
@@ -164,7 +177,7 @@ public class IdentityManager implements Serializable
    
    public List<String> listUsers()
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_READ);
       List<String> users = identityStore.listUsers();      
       
       Collections.sort(users, new Comparator<String>() {
@@ -178,7 +191,7 @@ public class IdentityManager implements Serializable
    
    public List<String> listUsers(String filter)
    {
-      Identity.instance().checkPermission(ACCOUNT_PERMISSION_NAME, PERMISSION_READ);
+      Identity.instance().checkPermission(USER_PERMISSION_NAME, PERMISSION_READ);
       List<String> users = identityStore.listUsers(filter);
       
       Collections.sort(users, new Comparator<String>() {
@@ -192,6 +205,7 @@ public class IdentityManager implements Serializable
    
    public List<String> listRoles()
    {      
+      Identity.instance().checkPermission(ROLE_PERMISSION_NAME, PERMISSION_READ);
       List<String> roles = roleIdentityStore.listRoles();
       
       Collections.sort(roles, new Comparator<String>() {

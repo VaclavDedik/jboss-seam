@@ -54,7 +54,7 @@ public class RoleAction
       {
          for (String r : groups)
          {
-            identityManager.grantRole(role, r);
+            identityManager.addRoleToGroup(role, r);
          }
          
          Conversation.instance().end();
@@ -71,13 +71,13 @@ public class RoleAction
       {
          for (String r : grantedRoles)
          {
-            if (!groups.contains(r)) identityManager.revokeRole(role, r);
+            if (!groups.contains(r)) identityManager.removeRoleFromGroup(role, r);
          }
       }
       
       for (String r : groups)
       {
-         if (grantedRoles == null || !grantedRoles.contains(r)) identityManager.grantRole(role, r);
+         if (grantedRoles == null || !grantedRoles.contains(r)) identityManager.addRoleToGroup(role, r);
       }
                
       Conversation.instance().end();
