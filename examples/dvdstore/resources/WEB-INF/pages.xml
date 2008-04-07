@@ -82,4 +82,10 @@
         </redirect> 
     </exception> 
 
+    <exception class="javax.faces.application.ViewExpiredException">
+        <redirect view-id="/home.xhtml">
+            <message>The page you tried to access is no longer available.</message>
+        </redirect>
+    </exception>
+       
 </pages>
