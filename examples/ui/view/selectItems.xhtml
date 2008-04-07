@@ -74,7 +74,7 @@
 			<ui:define name="label">Pet</ui:define>
 			<ui:define name="description">The animal list is a list of Strings</ui:define>
 			<h:selectOneMenu value="#{person.pet}">
-				<s:selectItems value="#{animals}" var="animal" label="#{animal}" noSelectionLabel="Select your pet"/>
+				<s:selectItems value="#{animals}" var="animal" label="#{animal.name} (#{animal.notes})" itemValue="#{animal.notes}" noSelectionLabel="Select your pet"/>
 			</h:selectOneMenu>
 		</s:decorate>
 		

@@ -90,6 +90,8 @@ public class Person implements Serializable
    
    private String pet;
    
+   
+   
    @ManyToOne
    private Film favouriteFilm;
    
