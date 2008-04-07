@@ -116,7 +116,6 @@
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
-        <copyDependencies id="jbas5" pom="${jbas5.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ioc" pom="${ioc.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="compile" />
