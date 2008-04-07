@@ -4,7 +4,6 @@ dialect 'mvel'
 
 import java.security.Principal;
 
-import org.jboss.seam.security.management.UserAccount;
 import org.jboss.seam.security.permission.PermissionCheck;
 import org.jboss.seam.security.Role;
 
@@ -127,31 +126,21 @@ end
   
 ******************************************************************************************/
 
-rule ReadAccount
+rule ManageUsers
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "seam.account", action == "read", granted == false)
+  check: PermissionCheck(name == "seam.user", granted == false)
   Role(name == "admin")
 then
   check.grant();
 end
 
-rule UpdateAccount
+rule ManageRoles
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "seam.account", action == "update", granted == false)
-  Role(name == "admin")
-then
-  check.grant();
-end
-
-rule DeleteAccount
-  no-loop
-  activation-group "permissions"
-when
-  check: PermissionCheck(name == "seam.account", action == "delete", granted == false)
+  check: PermissionCheck(name == "seam.role", granted == false)
   Role(name == "admin")
 then
   check.grant();

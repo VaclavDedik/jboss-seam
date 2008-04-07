@@ -14,6 +14,10 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.NotNull;
+import org.jboss.seam.annotations.security.management.UserEnabled;
+import org.jboss.seam.annotations.security.management.UserPassword;
+import org.jboss.seam.annotations.security.management.UserPrincipal;
+import org.jboss.seam.annotations.security.management.UserRoles;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "username"))
@@ -25,7 +29,8 @@ public class MemberAccount implements Serializable
    private String username;
    private String passwordHash;
    private boolean enabled;   
-   private Set<MemberAccount> memberships;
+   
+   private Set<MemberRole> roles;
    private Member member;   
    
    @Id @GeneratedValue
@@ -39,7 +44,7 @@ public class MemberAccount implements Serializable
       this.accountId = accountId;
    }
    
-   @NotNull
+   @NotNull @UserPrincipal
    public String getUsername()
    {
       return username;
@@ -50,7 +55,7 @@ public class MemberAccount implements Serializable
       this.username = username;
    }
    
-  
+   @UserPassword(hash = "MD5")
    public String getPasswordHash()
    {
       return passwordHash;
@@ -61,30 +66,31 @@ public class MemberAccount implements Serializable
       this.passwordHash = passwordHash;      
    }      
    
+   @UserEnabled
    public boolean isEnabled()
    {
       return enabled;
    }
-
 
    public void setEnabled(boolean enabled)
    {
       this.enabled = enabled;      
    }   
 
-   @ManyToMany(targetEntity = MemberAccount.class)
+   @UserRoles
+   @ManyToMany(targetEntity = MemberRole.class)
    @JoinTable(name = "AccountMembership", 
          joinColumns = @JoinColumn(name = "AccountId"),
          inverseJoinColumns = @JoinColumn(name = "MemberOf")
       )
-   public Set<MemberAccount> getMemberships()
+   public Set<MemberRole> getRoles()
    {
-      return memberships;
+      return roles;
    }
    
-   public void setMemberships(Set<MemberAccount> memberships)
+   public void setRoles(Set<MemberRole> roles)
    {
-      this.memberships = memberships;
+      this.roles = roles;
    }
    
    @OneToOne

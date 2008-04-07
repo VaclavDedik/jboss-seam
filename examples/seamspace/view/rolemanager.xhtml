@@ -47,14 +47,14 @@
             #{role}
           </rich:column>
           <rich:column width="auto">
-            #{roleSearch.getRoleMemberships(role)}
+            #{roleSearch.getRoleGroups(role)}
           </rich:column>
           <rich:column width="auto">
-            <s:fragment rendered="#{s:hasPermission('seam.account', 'update')}">
+            <s:fragment rendered="#{s:hasPermission('seam.role', 'update')}">
               <s:link value="Edit" action="#{roleAction.editRole(roleSearch.selectedRole)}"/><span> | </span>
             </s:fragment>
             <s:link value="Delete" action="#{identityManager.deleteRole(roleSearch.selectedRole)}"
-                    rendered="#{s:hasPermission('seam.account', 'delete')}"
+                    rendered="#{s:hasPermission('seam.role', 'delete')}"
                     onclick="return confirmDelete()"/>              
           </rich:column>
   	    </rich:dataTable>

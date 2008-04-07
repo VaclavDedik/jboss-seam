@@ -26,7 +26,10 @@
     
     <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
     
-    <identity-management:jpa-identity-store account-class="org.jboss.seam.example.seamspace.MemberAccount"/>
+    <identity-management:jpa-identity-store 
+       user-class="org.jboss.seam.example.seamspace.MemberAccount"
+       role-class="org.jboss.seam.example.seamspace.MemberRole"
+       />
     
     <!--identity-management:identity-manager identity-store="#{ldapIdentityStore}"/-->
     

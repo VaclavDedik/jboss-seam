@@ -25,9 +25,9 @@
           </div>              
 
           <div class="formRow">            
-            <h:outputLabel for="roles" value="Member of" styleClass="formLabel"/>
+            <h:outputLabel for="groups" value="Member of" styleClass="formLabel"/>
             <div class="selectMany">
-              <h:selectManyCheckbox id="roles" value="#{roleAction.memberships}" layout="pageDirection" styleClass="roles">
+              <h:selectManyCheckbox id="groups" value="#{roleAction.groups}" layout="pageDirection" styleClass="roles">
                 <s:selectItems value="#{identityManager.listRoles()}" var="role" label="#{role}"/>
               </h:selectManyCheckbox>
             </div>
