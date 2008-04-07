@@ -318,10 +318,10 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    
    public static Class getEntityClass(Object bean)
    {
-      Class clazz = Entity.forBean(bean).getBeanClass();
+      Class clazz = Hibernate.getClass(bean);
       if (clazz == null)
       {
-         clazz = Hibernate.getClass(bean);
+         clazz = Entity.forBean(bean).getBeanClass();
       }
       return clazz;
    }
