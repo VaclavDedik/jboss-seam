@@ -185,6 +185,11 @@
 
 	<target name="jarcore" depends="compilecore" description="Build the distribution .jar file using M2 dependency management">
 		<archive classesdir="${classes.core.dir}" module="jboss-seam" pom="${core.pom}" srcdir="${src.core.dir}" />
+		<archive classesdir="${classes.core.dir}" module="jboss-seam-wls-compatible" pom="${core.wls.pom}" srcdir="${src.core.dir}"  outputdir="${lib.dir}/interop">
+			<excludes>
+				<exclude name="org/jboss/seam/async/TimerServiceDispatcher*" />
+			</excludes>
+		</archive>
 	</target>
 
 	<!-- ########################### PDF TARGETS ###########################-->
@@ -752,6 +757,7 @@
 		<attribute name="pom" />
 		<attribute name="srcdir" />
 		<attribute name="outputdir" default="${lib.dir}" />
+		<element name="excludes" optional="true"/>
 		<sequential>
 			<mkdir dir="@{outputdir}" />
 			<mkdir dir="@{outputdir}/src" />
@@ -759,6 +765,7 @@
 				<include name="**/*.class" />
 				<exclude name="**/test/*.class" />
 				<patternset refid="meta.files" />
+				<excludes />
 				<manifest>
 					<attribute name="Seam-Version" value="${complete.version}" />
 					<attribute name="Implementation-Version" value="${complete.version}" />
@@ -768,6 +775,7 @@
 				<include name="**/*.java" />
 				<exclude name="**/test/*.java" />
 				<patternset refid="meta.files" />
+				<excludes />
 				<manifest>
 					<attribute name="Seam-Version" value="${complete.version}" />
 					<attribute name="Implementation-Version" value="${complete.version}" />

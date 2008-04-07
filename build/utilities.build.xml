@@ -11,6 +11,7 @@
 	<macrodef name="pomfile">
 		<attribute name="name" />
 		<attribute name="value" />
+		<attribute name="artifactName" default=""/>
 		<attribute name="todir" default="${tmp.dir}/poms" />
 		<attribute name="tofile" default="@{todir}/@{name}" />
 		<sequential>
@@ -18,6 +19,7 @@
 			<copy file="@{value}" tofile="@{tofile}" overwrite="on" verbose="false">
 				<filterset>
 					<filter token="seam.version" value="${complete.version}" />
+					<filter token="artifact.name" value="@{artifactName}" />
 				</filterset>
 			</copy>
 			<property name="@{name}" value="@{tofile}" />
