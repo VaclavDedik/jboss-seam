@@ -472,6 +472,7 @@
 		<copy todir="${jar.dir}">
 			<fileset dir="${src.java.dir}">
 				<include name="**/*.component.xml" />
+				<include name="**/*.hbm.xml" />
 			</fileset>
 		</copy>
 	</target>
