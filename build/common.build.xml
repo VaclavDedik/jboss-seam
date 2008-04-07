@@ -282,7 +282,7 @@
 		<sequential>
 			<maven target="-f @{pom} dependency:tree" basedir="${seam.dir}">
 				<arg line="-DoutputFile=@{output}" />
-				<arg line="" />
+				<arg line="-q" />
 			</maven>
 		</sequential>
 	</macrodef>
@@ -323,9 +323,7 @@ Dependencies for Seam ${complete.version}
 		<outputDependencyReport module="mail" />
 		<outputDependencyReport module="pdf" />
 		<outputDependencyReport module="ioc" />
-		<outputDependencyReport module="wicket" />
 		<outputDependencyReport module="jbas5" />
-		<outputDependencyReport module="jul" />
 		<echo>Dependency Report written to ${seam.dir}/dependency-report.txt</echo>
 	</target>
 	
