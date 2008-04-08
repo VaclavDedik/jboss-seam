@@ -117,8 +117,8 @@ public class MailTest extends SeamTest
                 assert to.getAddress().equals("gavin@king.com");
                 assert to.getPersonal().equals("Gavin King");
                 InternetAddress from = (InternetAddress) renderedMessage.getFrom()[0];
-                assert from.getAddress().equals("peter@email.tld");
-                assert from.getPersonal().equals("Peter");
+                assert from.getAddress().equals("do-not-reply@jboss.com");
+                assert from.getPersonal().equals("Seam");
                 assert "Try out Seam!".equals(renderedMessage.getSubject());
                 MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
                 
@@ -275,7 +275,7 @@ public class MailTest extends SeamTest
                 // m:header
                 assert renderedMessage.getHeader("X-Sent-From") != null;
                 assert renderedMessage.getHeader("X-Sent-From").length == 1;
-                assert "JBoss Seam".equals(renderedMessage.getHeader("X-Sent-From")[0]);
+                assert "Seam".equals(renderedMessage.getHeader("X-Sent-From")[0]);
                 
                 MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
                 
