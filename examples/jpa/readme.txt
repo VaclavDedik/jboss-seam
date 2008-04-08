@@ -47,17 +47,17 @@ WebSphere 6.1:
   * Start the application
   * Access it at http://localhost:9080/context_root/index.html
 
-Tomcat with JBoss Embedded(the build is the same as JBoss 4.2.0 GA WAR):
+Tomcat with JBoss Embedded:
   * Install Tomcat
   * Install JBoss Embedded
-  * ant jboss
-  * Deploy dist-jboss/jboss-seam-jpa.war
+  * ant jboss-embedded
+  * Deploy dist-jboss-embedded/jboss-seam-jpa.war
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-jpa/
   
 Tomcat (5.5 or 6) without JBoss Embedded:
   * Install Tomcat
-  * Copy the lib/hsqldb.jar into $TOMCAT_HOME/common/lib (Tomcat 5.5) or $TOMCAT_HOME/lib (Tomcat 6)
+  * Copy the seam-gen/lib/hsqldb.jar into $TOMCAT_HOME/common/lib (Tomcat 5.5) or $TOMCAT_HOME/lib (Tomcat 6)
   * ant tomcat55 or ant tomcat6
   * Deploy dist-jboss/jboss-seam-jpa.war
   * Start Tomcat
