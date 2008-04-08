@@ -67,7 +67,7 @@
                <sourceDirectory>${pom.basedir}/en-US</sourceDirectory>
                <sourceDocumentName>master.xml</sourceDocumentName>
                <imageResource>
-                  <directory>${pom.basedir}/en</directory>
+                  <directory>${pom.basedir}/en-US</directory>
                   <includes>
                      <include>images/*.png</include>
                   </includes>
