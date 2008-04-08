@@ -15,7 +15,7 @@ public class Person implements Serializable
    private String firstname;
    private String lastname;
    private String address;
-   private transient InputStream photo = ResourceLoader.instance().getResourceAsStream("/no_image.png");
+   private transient InputStream photo = ResourceLoader.instance().getResourceAsStream("/seamlogo.png");
    
    @Factory("people")
    public List<Person> getPeople() {
