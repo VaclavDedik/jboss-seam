@@ -8,7 +8,6 @@ without the EJB3 container).
 JBoss AS 4.2.0:
   * Install JBoss AS 4.2.0 GA
   * ant jboss
-  * Deploy dist-jboss/jboss-seam-jpa.war
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
