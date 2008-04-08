@@ -32,7 +32,7 @@ public class RegisterAction
    
    @In
    private Identity identity;
-
+   
    /**
     * Password confirmation
     */
