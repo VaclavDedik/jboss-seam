@@ -49,6 +49,14 @@
       <param name="firstResult" 
              value="#{contacts.firstResult}"/>
 
+
+      <navigation>
+          <rule if-outcome="newsearch">
+              <redirect view-id="/search.xhtml"> 
+                 <param name="firstResult" value="0"/>
+              </redirect>
+          </rule>
+      </navigation>
    </page>
 
    <exception class="javax.persistence.PersistenceException">
