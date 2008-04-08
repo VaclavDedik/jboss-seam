@@ -69,13 +69,13 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       private Field propertyField;
       private Method propertyGetter;
       private Method propertySetter;
-      private Class<? extends Annotation> annotation;
+      private Annotation annotation;
       private String name;
       private Class propertyClass;
       
       private boolean isFieldProperty;
       
-      public BeanProperty(Field propertyField, Class<? extends Annotation> annotation)
+      public BeanProperty(Field propertyField, Annotation annotation)
       {
          this.propertyField = propertyField;
          isFieldProperty = true;
@@ -84,7 +84,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          this.propertyClass = propertyField.getDeclaringClass();
       }
       
-      public BeanProperty(Method propertyMethod, Class<? extends Annotation> annotation)
+      public BeanProperty(Method propertyMethod, Annotation annotation)
       {
          if (!(propertyMethod.getName().startsWith("get") || (propertyMethod.getName().startsWith("is"))))
          {
@@ -188,7 +188,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          }
       }
       
-      public Class<? extends Annotation> getAnnotation()
+      public Annotation getAnnotation()
       {
          return annotation;
       }
@@ -212,8 +212,6 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    private BeanProperty userLastNameProperty;   
    private BeanProperty roleNameProperty;
    private BeanProperty roleGroupsProperty;
-   
-   private String passwordHash;
    
    public Set<Feature> getFeatures()
    {
@@ -300,12 +298,18 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    {
       for (Field f : cls.getFields())
       {
-         if (f.isAnnotationPresent(annotation)) return new BeanProperty(f, annotation);
+         if (f.isAnnotationPresent(annotation)) 
+         {
+            return new BeanProperty(f, f.getAnnotation(annotation));
+         }
       }
       
       for (Method m : cls.getMethods())
       {
-         if (m.isAnnotationPresent(annotation)) return new BeanProperty(m, annotation);
+         if (m.isAnnotationPresent(annotation))
+         {
+            return new BeanProperty(m, m.getAnnotation(annotation));
+         }
       }
       
       return null;
@@ -337,11 +341,8 @@ public class JpaIdentityStore implements IdentityStore, Serializable
             if (userEnabledProperty != null) userEnabledProperty.setValue(user, false);
          }
          else
-         {
-            String passwordValue = passwordHash == null ? password :
-               PasswordHash.instance().generateSaltedHash(password, getUserAccountSalt(user));
-            
-            userPasswordProperty.setValue(user, passwordValue);
+         {            
+            userPasswordProperty.setValue(user, generatePasswordHash(password, getUserAccountSalt(user)));
             if (userEnabledProperty != null) userEnabledProperty.setValue(user, true);
          }
          
@@ -451,6 +452,8 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public boolean addRoleToGroup(String role, String group)
    {
+      if (roleGroupsProperty == null) return false;      
+      
       Object targetRole = lookupRole(role);
       if (targetRole == null)
       {
@@ -463,43 +466,53 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchRoleException("Could not grant role, group '" + group + "' does not exist");
       }
       
-      if (roleGroupsProperty != null)
-      {
-         Collection roleGroups = (Collection) roleGroupsProperty.getValue(targetRole); 
-         if (roleGroups == null)
-         {
-            // This should either be a Set, or a List...
-            if (Set.class.isAssignableFrom(roleGroupsProperty.getPropertyClass()))
-            {
-               roleGroups = new HashSet();
-            }
-            else if (List.class.isAssignableFrom(roleGroupsProperty.getPropertyClass()))
-            {
-               roleGroups = new ArrayList();
-            }
-            
-            roleGroupsProperty.setValue(targetRole, roleGroups);
-         }
-         else if (((Collection) roleGroupsProperty.getValue(targetRole)).contains(targetGroup))
-         {
-            return false;
-         }
 
-         ((Collection) roleGroupsProperty.getValue(targetRole)).add(targetGroup);
-         mergeEntity(targetRole);
+      Collection roleGroups = (Collection) roleGroupsProperty.getValue(targetRole); 
+      if (roleGroups == null)
+      {
+         // This should either be a Set, or a List...
+         if (Set.class.isAssignableFrom(roleGroupsProperty.getPropertyClass()))
+         {
+            roleGroups = new HashSet();
+         }
+         else if (List.class.isAssignableFrom(roleGroupsProperty.getPropertyClass()))
+         {
+            roleGroups = new ArrayList();
+         }
          
-         return true;
+         roleGroupsProperty.setValue(targetRole, roleGroups);
       }
-      else
+      else if (((Collection) roleGroupsProperty.getValue(targetRole)).contains(targetGroup))
       {
          return false;
       }
+
+      ((Collection) roleGroupsProperty.getValue(targetRole)).add(targetGroup);
+      mergeEntity(targetRole);
+      
+      return true;
    }
 
    public boolean removeRoleFromGroup(String role, String group)
    {
-      // TODO Auto-generated method stub
-      return false;
+      if (roleGroupsProperty == null) return false;
+      
+      Object roleToRemove = lookupRole(role);
+      if (role == null)
+      {
+         throw new NoSuchUserException("Could not remove role from group, no such role '" + role + "'");
+      }
+      
+      Object targetGroup = lookupRole(group);
+      if (targetGroup == null)
+      {
+         throw new NoSuchRoleException("Could not remove role from group, no such group '" + group + "'");
+      }      
+       
+      boolean success = ((Collection) roleGroupsProperty.getValue(roleToRemove)).remove(targetGroup);
+      
+      if (success) mergeEntity(roleToRemove);
+      return success;
    }      
    
    public boolean createRole(String role)
@@ -606,7 +619,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchUserException("Could not change password, user '" + username + "' does not exist");
       }
       
-      userPasswordProperty.setValue(user, PasswordHash.instance().generateSaltedHash(password, getUserAccountSalt(user)));
+      userPasswordProperty.setValue(user, generatePasswordHash(password, getUserAccountSalt(user)));
       mergeEntity(user);
       return true;
    }
@@ -715,6 +728,38 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }
    }
    
+   private String generatePasswordHash(String password, String salt)
+   {
+      String algorithm = ((UserPassword) userPasswordProperty.getAnnotation()).hash();
+      
+      if (algorithm == null || "".equals(algorithm))
+      {
+         if (salt == null || "".equals(salt))
+         {
+            return PasswordHash.instance().generateHash(password);
+         }
+         else
+         {
+            return PasswordHash.instance().generateSaltedHash(password, salt);
+         }
+      }
+      else if ("none".equals(algorithm))
+      {
+         return password;
+      }      
+      else
+      {
+         if (salt == null || "".equals(salt))
+         {
+            return PasswordHash.instance().generateHash(password, algorithm);
+         }
+         else
+         {
+            return PasswordHash.instance().generateSaltedHash(password, salt, algorithm);
+         }
+      }      
+   }
+   
    public boolean authenticate(String username, String password)
    {
       Object user = lookupUser(username);          
@@ -723,7 +768,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          return false;
       }
       
-      String passwordHash = PasswordHash.instance().generateSaltedHash(password, getUserAccountSalt(user));
+      String passwordHash = generatePasswordHash(password, getUserAccountSalt(user)); 
       boolean success = passwordHash.equals(userPasswordProperty.getValue(user));
             
       if (success && Events.exists())
