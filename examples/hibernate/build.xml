@@ -5,10 +5,14 @@
    <target name="jboss" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.0.GA">
      	<ant antfile="build-jboss.xml"/>
    </target>
+   
+   <target name="jboss-embedded" description="Build the JPA artifacts, and deploy to JBoss Embedded in Tomcat">
+      <ant antfile="build-jboss-embedded.xml"/>
+   </target>
 	
-	<target name="jboss.undeploy" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.0.GA">
-	     <ant antfile="build-jboss.xml" target="jbosswar.undeploy"/>
-	</target>
+   <target name="jboss.undeploy" description="Build the Hibernate Booking example artifacts, and deploy to JBoss 4.2.0.GA">
+        <ant antfile="build-jboss.xml" target="jbosswar.undeploy"/>
+   </target>
 
    <target name="jboss405" description="Build the Hibernate Booking example artifacts, suitable for deployment to JBoss 4.0.5.GA">
      	<ant antfile="build-jboss405.xml"/>
