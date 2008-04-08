@@ -71,8 +71,8 @@ rule CreateBlog
   activation-group "permissions"
 when
   mbr: Member()
-  acct: MemberAccount(member == mbr)
-  check: PermissionCheck(target == mbr, action == "createBlog", granted == false)
+  acct: MemberAccount(member.memberId == mbr.memberId)
+  check: PermissionCheck(target.memberId == mbr.memberId, action == "createBlog", granted == false)
 then
   check.grant();
 end

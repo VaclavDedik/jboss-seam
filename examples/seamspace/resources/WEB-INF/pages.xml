@@ -40,7 +40,9 @@
     
     <page view-id="/register2.xhtml">
       <navigation from-action="#{register.uploadPicture}">
-        <redirect view-id="/profile.xhtml"/>
+        <redirect view-id="/profile.xhtml">
+          <param name="name" value="#{newMember.memberName}"/>
+        </redirect>
       </navigation>
     </page>    
     
