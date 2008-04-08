@@ -802,6 +802,17 @@
 			<fileset dir="${exploded-archives.dir}/${example.name}.jar" />
 		</copy>
 	</target>
+	
+	<target name="jbosswar.archive" depends="noejb.jar,noejb.war" description="Package the archives">
+		<copy todir="${exploded-archives.dir}/${example.name}-tmp.war">
+			<fileset dir="${exploded-archives.dir}/${example.name}.war" />
+		</copy>
+		<copy todir="${exploded-archives.dir}/${example.name}-tmp.war">
+			<fileset dir="${exploded-archives.dir}/${example.name}.jar" />
+		</copy>
+		<jar jarfile="${dist.dir}/${example.name}.war" basedir="${exploded-archives.dir}/${example.name}-tmp.war" />
+		<delete dir="${exploded-archives.dir}/${example.name}-tmp.war"/>
+	</target>
 
 	<target name="jbosswar.restart" depends="jbosswar.explode" description="Restart the exploded archive">
 		<touch file="${deploy.dir}/${example.name}.war/WEB-INF/web.xml" />
