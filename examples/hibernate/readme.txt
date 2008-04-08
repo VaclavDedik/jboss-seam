@@ -45,11 +45,11 @@ Plain Tomcat (special thanks to Ralph Schaer)
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
-Tomcat with embeddable JBoss (the build is the same as JBoss 4.2.0 GA WAR):
+Tomcat with embeddable JBoss:
   * Install Tomcat
   * Install Embeddable JBoss
-  * ant jboss
-  * Deploy dist-jboss/jboss-seam-hibernate.war
+  * ant jboss-embedded
+  * Deploy dist-jboss-embedded/jboss-seam-hibernate.war
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
