@@ -11,7 +11,8 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.security.permission.AccountType;
+import org.jboss.seam.security.permission.Permission;
+import org.jboss.seam.security.permission.PermissionStore;
 
 /**
  * A permission store implementation that uses JPA as its persistence mechanism.
@@ -20,14 +21,13 @@ import org.jboss.seam.security.permission.AccountType;
  */
 @Scope(APPLICATION)
 @BypassInterceptors
-public class JpaAccountPermissionStore implements AccountPermissionStore, Serializable
+public class JpaDynamicPermissionStore implements PermissionStore, Serializable
 {
    private String entityManagerName = "entityManager";
    
-   private Class<? extends AccountPermission> permissionClass;   
+   private Class permissionClass;   
    
-   public boolean grantPermission(String target, String action, String account,
-         AccountType accountType) 
+   public boolean grantPermission(Permission permission)
    {
       try
       {
@@ -36,13 +36,12 @@ public class JpaAccountPermissionStore implements AccountPermissionStore, Serial
             throw new RuntimeException("Could not grant permission, permissionClass not set");
          }
                  
-         AccountPermission permission = permissionClass.newInstance();
-         permission.setTarget(target);
-         permission.setAction(action);
-         permission.setAccount(account);
-         permission.setAccountType(accountType);
+         Object instance = permissionClass.newInstance();
+//         instance.setTarget(permission.getTarget());
+//         instance.setAction(permission.getAction());
+//         instance.setAccount(permission.getRecipient());
 
-         getEntityManager().persist(permission);
+         getEntityManager().persist(instance);
          
          return true;
       }
@@ -52,24 +51,22 @@ public class JpaAccountPermissionStore implements AccountPermissionStore, Serial
       }   
    }
    
-   public boolean revokePermission(String target, String action,
-         String account, AccountType accountType) 
+   public boolean revokePermission(Permission permission)
    {
       try
       {
          EntityManager em = getEntityManager();
          
-         AccountPermission permission = (AccountPermission) em.createQuery(
+         Object instance = em.createQuery(
             "from " + permissionClass.getName() +
             " where target = :target and action = :action and account = :account " +
             " and accountType = :accountType")
-            .setParameter("target", target)
+            .setParameter("target", permission.getTarget())
             .setParameter("action", "action")
-            .setParameter("account", account)
-            .setParameter("accountType", accountType)
+            .setParameter("account", permission.getRecipient())
             .getSingleResult();
          
-         em.remove(permission);
+         em.remove(instance);
          return true;
       }
       catch (NoResultException ex)
@@ -78,7 +75,7 @@ public class JpaAccountPermissionStore implements AccountPermissionStore, Serial
       }
    }   
 
-   public List<AccountPermission> listPermissions(String target, String action) 
+   public List<Permission> listPermissions(Object target, String action) 
    {
       return getEntityManager().createQuery(
             "from " + permissionClass.getName() + 
@@ -88,7 +85,7 @@ public class JpaAccountPermissionStore implements AccountPermissionStore, Serial
             .getResultList();
    }
 
-   public List<AccountPermission> listPermissions(String target) 
+   public List<Permission> listPermissions(Object target) 
    {
       return getEntityManager().createQuery(
             "from " + permissionClass.getName() + " where target = :target")

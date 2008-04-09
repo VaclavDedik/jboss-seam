@@ -395,7 +395,7 @@ public class Identity implements Serializable
       {
          if ( ROLES_GROUP.equals( sg.getName() ) )
          {
-            return sg.isMember( new SimplePrincipal(role) );
+            return sg.isMember( new Role(role) );
          }
       }
       return false;
@@ -424,12 +424,12 @@ public class Identity implements Serializable
          {
             if ( ROLES_GROUP.equals( sg.getName() ) )
             {
-               return sg.addMember(new SimplePrincipal(role));
+               return sg.addMember(new Role(role));
             }
          }
                   
          SimpleGroup roleGroup = new SimpleGroup(ROLES_GROUP);
-         roleGroup.addMember(new SimplePrincipal(role));
+         roleGroup.addMember(new Role(role));
          getSubject().getPrincipals().add(roleGroup);
          return true;
       }

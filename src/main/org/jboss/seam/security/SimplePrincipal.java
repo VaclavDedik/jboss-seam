@@ -43,7 +43,7 @@ public class SimplePrincipal implements Principal, Serializable
    @Override
    public int hashCode()
    {
-      return name==null ? 0 : name.hashCode();
+      return name != null ? name.hashCode() : super.hashCode();
    }
 
    @Override

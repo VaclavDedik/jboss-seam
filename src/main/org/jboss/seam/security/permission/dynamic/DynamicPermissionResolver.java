@@ -17,12 +17,13 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.permission.AccountType;
+import org.jboss.seam.security.permission.Permission;
 import org.jboss.seam.security.permission.PermissionResolver;
+import org.jboss.seam.security.permission.PermissionStore;
 
 /**
- * Resolves dynamically-assigned permissions kept in a persistent store, such as a 
- * database.
+ * Resolves dynamically-assigned permissions, mapped to a user or a role, and kept in persistent 
+ * storage, such as a relational database.
  * 
  * @author Shane Bryzak
  */
@@ -35,7 +36,7 @@ public class DynamicPermissionResolver implements PermissionResolver, Serializab
 {   
    private static final String DEFAULT_PERMISSION_STORE_NAME = "accountPermissionStore";
    
-   private AccountPermissionStore permissionStore;
+   private PermissionStore permissionStore;
    
    private static final LogProvider log = Logging.getLogProvider(DynamicPermissionResolver.class);   
    
@@ -49,7 +50,7 @@ public class DynamicPermissionResolver implements PermissionResolver, Serializab
    {
       if (permissionStore == null)
       {
-         permissionStore = (AccountPermissionStore) Component.getInstance(DEFAULT_PERMISSION_STORE_NAME, true);
+         permissionStore = (PermissionStore) Component.getInstance(DEFAULT_PERMISSION_STORE_NAME, true);
       }           
       
       if (permissionStore == null)
@@ -59,12 +60,12 @@ public class DynamicPermissionResolver implements PermissionResolver, Serializab
       }
    }     
    
-   public AccountPermissionStore getPermissionStore()
+   public PermissionStore getPermissionStore()
    {
       return permissionStore;
    }
    
-   public void setPermissionStore(AccountPermissionStore permissionStore)
+   public void setPermissionStore(PermissionStore permissionStore)
    {
       this.permissionStore = permissionStore;
    }
@@ -83,18 +84,18 @@ public class DynamicPermissionResolver implements PermissionResolver, Serializab
          targetName = target.getClass().getName();
       }
       
-      List<AccountPermission> permissions = permissionStore.listPermissions(targetName, action);
+      List<Permission> permissions = permissionStore.listPermissions(targetName, action);
       
       String username = identity.getPrincipal().getName();
       
-      for (AccountPermission permission : permissions)
+      for (Permission permission : permissions)
       {
-         if (username.equals(permission.getAccount()) && permission.getAccountType().equals(AccountType.user))
+         if (username.equals(permission.getRecipient()))
          {
             return true;
          }
          
-         if (permission.getAccountType().equals(AccountType.role) && identity.hasRole(permission.getAccount()))
+         if (identity.hasRole(permission.getRecipient().getName()))
          {
             return true;
          }

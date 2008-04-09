@@ -3,32 +3,43 @@ package org.jboss.seam.security.permission.acl;
 import java.io.Serializable;
 import java.util.List;
 
-import org.jboss.seam.security.permission.AccountType;
+import org.jboss.seam.security.permission.Permission;
+import org.jboss.seam.security.permission.PermissionStore;
 
-public class JpaAclPermissionStore implements AclPermissionStore, Serializable
+/**
+ * ACL permission storage, using JPA
+ *  
+ * @author Shane Bryzak
+ */
+public class JpaAclPermissionStore implements PermissionStore, Serializable
 {
    private String entityManagerName = "entityManager";
    
-   private Class<? extends AclPermission> permissionClass; 
+   private Class permissionClass; 
    
    protected String getIdentifier(Object target)
    {
       return null;
    }
    
-   public boolean grantPermission(Object target, String action, String account, AccountType accountType)
+   public boolean grantPermission(Permission permission)
    {
       // TODO Auto-generated method stub
       return false;
    }
 
-   public List<AclPermission> listPermissions(Object target)
+   public List<Permission> listPermissions(Object target)
    {
       // TODO Auto-generated method stub
       return null;
    }
+   
+   public List<Permission> listPermissions(Object target, String action)
+   {
+      return null;
+   }
 
-   public boolean revokePermission(Object target, String action, String account, AccountType accountType)
+   public boolean revokePermission(Permission permission)
    {
       // TODO Auto-generated method stub
       return false;

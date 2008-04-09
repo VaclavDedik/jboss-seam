@@ -16,7 +16,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.permission.AccountType;
+import org.jboss.seam.security.permission.Permission;
+import org.jboss.seam.security.permission.PermissionStore;
 import org.jboss.seam.security.permission.PermissionResolver;
 
 @Name("org.jboss.seam.security.aclPermissionResolver")
@@ -28,7 +29,7 @@ public class AclPermissionResolver implements PermissionResolver, Serializable
 {
    private static final String DEFAULT_PERMISSION_STORE_NAME = "aclPermissionStore";
    
-   private AclPermissionStore permissionStore;
+   private PermissionStore permissionStore;
    
    private static final LogProvider log = Logging.getLogProvider(AclPermissionResolver.class);   
    
@@ -42,7 +43,7 @@ public class AclPermissionResolver implements PermissionResolver, Serializable
    {
       if (permissionStore == null)
       {
-         permissionStore = (AclPermissionStore) Component.getInstance(DEFAULT_PERMISSION_STORE_NAME, true);
+         permissionStore = (PermissionStore) Component.getInstance(DEFAULT_PERMISSION_STORE_NAME, true);
       }           
       
       if (permissionStore == null)
@@ -56,7 +57,7 @@ public class AclPermissionResolver implements PermissionResolver, Serializable
    {
       if (permissionStore == null) return false;
       
-      List<AclPermission> permissions = permissionStore.listPermissions(target);
+      List<Permission> permissions = permissionStore.listPermissions(target);
       
       Identity identity = Identity.instance();
       
@@ -64,15 +65,15 @@ public class AclPermissionResolver implements PermissionResolver, Serializable
       
       String username = identity.getPrincipal().getName();
 
-      for (AclPermission permission : permissions)
+      for (Permission permission : permissions)
       {
-         if ((username.equals(permission.getAccount()) && permission.getAccountType().equals(AccountType.user)) ||
-             (permission.getAccountType().equals(AccountType.role) && identity.hasRole(permission.getAccount())))
+         if ((username.equals(permission.getRecipient())) ||
+             (identity.hasRole(permission.getRecipient().getName())))
          {
-            if (hasPermissionFlag(target, action, permission.getPermissions()))
-            {
-               return true;
-            }
+//            if (hasPermissionFlag(target, action, permission.getPermissions()))
+//            {
+//               return true;
+//            }
          }         
       }
       

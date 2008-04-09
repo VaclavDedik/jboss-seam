@@ -16,10 +16,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.permission.acl.AclPermission;
-import org.jboss.seam.security.permission.acl.AclPermissionStore;
-import org.jboss.seam.security.permission.dynamic.AccountPermission;
-import org.jboss.seam.security.permission.dynamic.AccountPermissionStore;
+import org.jboss.seam.security.permission.PermissionStore;
 
 /**
  * Permission management component, used to grant or revoke permissions on specific objects or of
@@ -43,19 +40,19 @@ public class PermissionManager implements Serializable
    
    private static final LogProvider log = Logging.getLogProvider(PermissionManager.class);
    
-   private AccountPermissionStore accountPermissionStore;
+   private PermissionStore dynamicPermissionStore;
    
-   private AclPermissionStore aclPermissionStore;
+   private PermissionStore aclPermissionStore;
    
    @Create
    public void create()
    {
-      if (accountPermissionStore == null)
+      if (dynamicPermissionStore == null)
       {
-         accountPermissionStore = (AccountPermissionStore) Component.getInstance(ACCOUNT_PERMISSION_STORE_COMPONENT_NAME, true);
+         dynamicPermissionStore = (PermissionStore) Component.getInstance(ACCOUNT_PERMISSION_STORE_COMPONENT_NAME, true);
       }         
       
-      if (accountPermissionStore == null)
+      if (dynamicPermissionStore == null)
       {
          log.warn("no account permission store available - please install an AccountPermissionStore with the name '" +
                ACCOUNT_PERMISSION_STORE_COMPONENT_NAME + "' if account-based permission management is required.");
@@ -63,7 +60,7 @@ public class PermissionManager implements Serializable
       
       if (aclPermissionStore == null)
       {
-         aclPermissionStore = (AclPermissionStore) Component.getInstance(ACL_PERMISSION_STORE_COMPONENT_NAME);
+         aclPermissionStore = (PermissionStore) Component.getInstance(ACL_PERMISSION_STORE_COMPONENT_NAME);
       }
       
       if (aclPermissionStore == null)
@@ -91,55 +88,59 @@ public class PermissionManager implements Serializable
       return instance;
    }
    
-   public AccountPermissionStore getAccountPermissionStore()
+   public PermissionStore getDynamicPermissionStore()
    {
-      return accountPermissionStore;
+      return dynamicPermissionStore;
    }
    
-   public void setAccountPermissionStore(AccountPermissionStore accountPermissionStore)
+   public void setDynamicPermissionStore(PermissionStore dynamicPermissionStore)
    {
-      this.accountPermissionStore = accountPermissionStore;
+      this.dynamicPermissionStore = dynamicPermissionStore;
    }
    
-   public List<AccountPermission> listPermissions(String target, String action)
-   {
-      Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_READ);
-      return accountPermissionStore.listPermissions(target, action);
-   }
-   
-   public List<AccountPermission> listPermissions(String target)
+   public List<Permission> listPermissions(String target, String action)
    {
       Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_READ);
-      return accountPermissionStore.listPermissions(target);
+      return dynamicPermissionStore.listPermissions(target, action);
    }
    
-   public List<AclPermission> listPermissions(Object target)
+   public List<Permission> listPermissions(String target)
+   {
+      Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_READ);
+      return dynamicPermissionStore.listPermissions(target);
+   }
+   
+   public List<Permission> listPermissions(Object target)
    {
       Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_READ);
       return aclPermissionStore.listPermissions(target);
    }
    
-   public boolean grantPermission(String target, String action, String account, AccountType accountType)
+   public boolean grantPermission(Permission permission)
    {
       Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_GRANT);
-      return accountPermissionStore.grantPermission(target, action, account, accountType);
+      
+      if (permission.getTarget() instanceof String)
+      {
+         return dynamicPermissionStore.grantPermission(permission);
+      }
+      else
+      {
+         return aclPermissionStore.grantPermission(permission);
+      }
    }
    
-   public boolean grantPermission(Object target, String action, String account, AccountType accountType)
-   {
-      Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_GRANT);
-      return aclPermissionStore.grantPermission(target, action, account, accountType);
-   }
-   
-   public boolean revokePermission(String target, String action, String account, AccountType accountType)
-   {
-      Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_REVOKE);
-      return accountPermissionStore.revokePermission(target, action, account, accountType);
-   }
-   
-   public boolean revokePermission(Object target, String action, String account, AccountType accountType)
+   public boolean revokePermission(Permission permission)
    {
       Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_REVOKE);
-      return aclPermissionStore.revokePermission(target, action, account, accountType);
+      
+      if (permission.getTarget() instanceof String)
+      {
+         return dynamicPermissionStore.revokePermission(permission);
+      }
+      else
+      {
+         return aclPermissionStore.revokePermission(permission);
+      }
    }
 }
