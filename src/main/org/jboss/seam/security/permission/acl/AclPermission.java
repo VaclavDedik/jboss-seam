@@ -1,4 +1,6 @@
-package org.jboss.seam.security.permission;
+package org.jboss.seam.security.permission.acl;
+
+import org.jboss.seam.security.permission.AccountType;
 
 public abstract class AclPermission
 {   

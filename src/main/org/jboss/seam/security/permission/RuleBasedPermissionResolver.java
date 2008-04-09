@@ -32,6 +32,11 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.management.JpaIdentityStore;
 
+/**
+ * A permission resolver that uses a Drools rule base to perform permission checks
+ *  
+ * @author Shane Bryzak
+ */
 @Name("org.jboss.seam.security.ruleBasedPermissionResolver")
 @Scope(SESSION)
 @BypassInterceptors

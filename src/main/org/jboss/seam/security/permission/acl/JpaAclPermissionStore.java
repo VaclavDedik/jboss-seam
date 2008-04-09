@@ -1,7 +1,9 @@
-package org.jboss.seam.security.permission;
+package org.jboss.seam.security.permission.acl;
 
 import java.io.Serializable;
 import java.util.List;
+
+import org.jboss.seam.security.permission.AccountType;
 
 public class JpaAclPermissionStore implements AclPermissionStore, Serializable
 {

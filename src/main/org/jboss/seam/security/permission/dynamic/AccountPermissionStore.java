@@ -1,6 +1,8 @@
-package org.jboss.seam.security.permission;
+package org.jboss.seam.security.permission.dynamic;
 
 import java.util.List;
+
+import org.jboss.seam.security.permission.AccountType;
 
 /**
  * Persistent store for account-based (user/role) permissions

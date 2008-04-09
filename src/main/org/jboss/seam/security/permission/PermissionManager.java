@@ -16,7 +16,17 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.permission.acl.AclPermission;
+import org.jboss.seam.security.permission.acl.AclPermissionStore;
+import org.jboss.seam.security.permission.dynamic.AccountPermission;
+import org.jboss.seam.security.permission.dynamic.AccountPermissionStore;
 
+/**
+ * Permission management component, used to grant or revoke permissions on specific objects or of
+ * specific permission types to particular users or roles.
+ * 
+ * @author Shane Bryzak
+ */
 @Scope(APPLICATION)
 @Name("org.jboss.seam.security.permissionManager")
 @Install(precedence = BUILT_IN)

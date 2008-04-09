@@ -1,6 +1,8 @@
-package org.jboss.seam.security.permission;
+package org.jboss.seam.security.permission.acl;
 
 import java.util.List;
+
+import org.jboss.seam.security.permission.AccountType;
 
 /**
  * Persistent storage for ACL (instance-based) permissions

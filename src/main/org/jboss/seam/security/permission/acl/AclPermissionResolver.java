@@ -1,4 +1,4 @@
-package org.jboss.seam.security.permission;
+package org.jboss.seam.security.permission.acl;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
@@ -16,6 +16,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.permission.AccountType;
+import org.jboss.seam.security.permission.PermissionResolver;
 
 @Name("org.jboss.seam.security.aclPermissionResolver")
 @Scope(APPLICATION)

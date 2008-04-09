@@ -9,6 +9,12 @@ import java.util.List;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 
+/**
+ * A chain of permission resolvers.  Specific permission checks are generally mapped to a 
+ * particular ResolverChain for resolution. 
+ * 
+ * @author Shane Bryzak
+ */
 @Scope(SESSION)
 @BypassInterceptors
 public class ResolverChain implements Serializable

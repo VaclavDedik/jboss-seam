@@ -1,4 +1,4 @@
-package org.jboss.seam.security.permission;
+package org.jboss.seam.security.permission.dynamic;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
@@ -17,6 +17,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.permission.AccountType;
+import org.jboss.seam.security.permission.PermissionResolver;
 
 /**
  * Resolves dynamically-assigned permissions kept in a persistent store, such as a 

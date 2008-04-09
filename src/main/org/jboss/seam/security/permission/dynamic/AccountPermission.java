@@ -1,4 +1,6 @@
-package org.jboss.seam.security.permission;
+package org.jboss.seam.security.permission.dynamic;
+
+import org.jboss.seam.security.permission.AccountType;
 
 /**
  * Abstract base class for persistence of user/role permissions.  This class should be extended

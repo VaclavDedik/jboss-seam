@@ -1,4 +1,4 @@
-package org.jboss.seam.security.permission;
+package org.jboss.seam.security.permission.dynamic;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 
@@ -11,6 +11,7 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.security.permission.AccountType;
 
 /**
  * A permission store implementation that uses JPA as its persistence mechanism.
