@@ -221,15 +221,24 @@
 
                         </s:fragment>
 
-                         <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not commentHome.showForm}">
-                            <a:jsFunction name="deleteCommentId#{c.id}"
-                                          reRender="commentDisplayForm"
-                                          status="globalStatus"
-                                          action="#{commentHome.remove(c.id)}"/>
-                                <h:outputLink value="javascript:deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'','deleteCommentId#{c.id}')"
-                                              styleClass="button">
-                                    <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
-                            </h:outputLink>
+                        <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not commentHome.showForm}">
+                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                <ui:param name="label" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                                <ui:param name="jsFunctionName" value="deleteCommentId#{c.id}"/>
+                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                    .concat(' ')
+                                                                    .concat(messages['lacewiki.label.commentsDisplay.CommentThread'])
+                                                                    .concat(': \'')
+                                                                    .concat(c.subject)
+                                                                    .concat('\'?')}"/>
+                                <ui:define name="jsFunction">
+                                    <a:jsFunction name="#{jsFunctionName}"
+                                                  reRender="commentDisplayForm, messageBoxContainer"
+                                                  action="#{commentHome.remove(c.id)}"
+                                                  oncomplete="onAjaxRequestComplete()"
+                                                  status="globalStatus"/>
+                                </ui:define>
+                            </ui:decorate>
                         </s:fragment>
 
                     </h:panelGroup>

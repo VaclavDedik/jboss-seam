@@ -432,8 +432,10 @@ public class DirectoryBrowser implements Serializable {
             return false;
 
         // Check permissions TODO: This duplicates the check
-        if (!Identity.instance().hasPermission("Node", "edit", node))
+        if (!Identity.instance().hasPermission("Node", "edit", node)) {
+            log.debug("user doesn't have edit permissions for this node: " + node);
             return false;
+        }
 
         NodeRemover remover;
         if (node.isInstance(WikiDocument.class)) {
@@ -441,9 +443,11 @@ public class DirectoryBrowser implements Serializable {
         } else if (node.isInstance(WikiUpload.class)) {
             remover = (NodeRemover) Component.getInstance(UploadNodeRemover.class);
         } else {
+            log.warn("no remover found for node type: " + node);
             return false;
         }
         boolean removable = remover.isRemovable(node);
+        log.debug("remover said it's removable: " + removable);
 
         childNodesRemovability.put(node.getId(), removable);
 

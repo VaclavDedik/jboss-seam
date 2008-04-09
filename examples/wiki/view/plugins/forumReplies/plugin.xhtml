@@ -139,14 +139,23 @@
                             </s:fragment>
 
                              <s:fragment rendered="#{s:hasPermission('Comment', 'delete', currentDocument) and not replyHome.showForm}">
-                                <a:jsFunction name="deleteReplyId#{c.id}"
-                                              reRender="forumRepliesContainer"
-                                              status="globalStatus"
-                                              action="#{replyHome.remove(c.id)}"/>
-                                    <h:outputLink value="javascript:deleteConfirmation('#{messages['lacewiki.label.commentsDisplay.CommentThread']} \\'#{c.subject}\\'','deleteReplyId#{c.id}')"
-                                                  styleClass="button sessionEventTrigger">
-                                        <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
-                                </h:outputLink>
+                                 <ui:decorate template="../../includes/confirmationAction.xhtml">
+                                     <ui:param name="label" value="#{messages['lacewiki.button.commentsDisplay.RemoveComment']}"/>
+                                     <ui:param name="jsFunctionName" value="deleteReplyId#{c.id}"/>
+                                     <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                         .concat(' ')
+                                                                         .concat(messages['lacewiki.label.commentsDisplay.CommentThread'])
+                                                                         .concat(': \'')
+                                                                         .concat(c.subject)
+                                                                         .concat('\'?')}"/>
+                                     <ui:define name="jsFunction">
+                                         <a:jsFunction name="#{jsFunctionName}"
+                                                       reRender="forumRepliesContainer, messageBoxContainer"
+                                                       action="#{replyHome.remove(c.id)}"
+                                                       oncomplete="onAjaxRequestComplete()"
+                                                       status="globalStatus"/>
+                                     </ui:define>
+                                 </ui:decorate>
                             </s:fragment>
 
                         </s:fragment>

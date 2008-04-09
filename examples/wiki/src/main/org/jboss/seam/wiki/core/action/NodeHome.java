@@ -85,17 +85,23 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
     public boolean isEditor() { return editor; }
 
-    public void initEditor() {
+    public void initEditor(boolean visibleWorkspace) {
         getLog().debug("initializing editor workspace");
         this.editor = true;
 
-        // Set workspace description of the current conversation
-        String desc = getEditorWorkspaceDescription(getNodeId() == null);
-        WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
-        if (desc != null && desc.length() > prefs.getWorkspaceSwitcherDescriptionLength()) {
-            desc = desc.substring(0, prefs.getWorkspaceSwitcherDescriptionLength().intValue()) + "...";
+        if (visibleWorkspace) {
+            // Set workspace description of the current conversation
+            String desc = getEditorWorkspaceDescription(getNodeId() == null);
+            WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
+            if (desc != null && desc.length() > prefs.getWorkspaceSwitcherDescriptionLength()) {
+                desc = desc.substring(0, prefs.getWorkspaceSwitcherDescriptionLength().intValue()) + "...";
+            }
+            Conversation.instance().setDescription(desc);
         }
-        Conversation.instance().setDescription(desc);
+    }
+
+    public void initEditor() {
+        initEditor(true);
     }
 
     /* -------------------------- Basic Overrides ------------------------------ */
@@ -285,7 +291,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     public String remove(Long nodeId) {
         getLog().debug("requested node remove with id: " + nodeId);
         setNodeId(nodeId);
-        initEditor();
+        initEditor(false);
         String outcome = remove();
         if (outcome != null) {
             Events.instance().raiseEvent("Node.refreshList");

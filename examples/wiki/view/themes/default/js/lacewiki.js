@@ -39,6 +39,12 @@ function jsf(id) {
 
 // ###################### Form helpers #################################
 
+function actionConfirmation(message, actionFunctionName) {
+    if (confirm(message)) {
+        eval(actionFunctionName+"()");
+    }
+}
+
 function onAjaxRequestComplete() {
     resetSessionTimeoutCheck();
     wrapBoxes();

@@ -57,7 +57,7 @@ public class ReplyHome extends CommentHome {
 
         getLog().debug("reply to document id: " + getParentNodeId());
         newComment();
-        initEditor();
+        initEditor(false);
 
         getInstance().setSubject(REPLY_PREFIX + getParentNode().getName());
 

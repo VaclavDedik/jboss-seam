@@ -135,7 +135,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     public String remove(Long commentId) {
         setNodeId(commentId);
-        initEditor();
+        initEditor(false);
         if (isManaged()) {
 
             // Additional permission required besides NodeHome.remove()
@@ -274,7 +274,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public String newComment() {
-        initEditor();
+        initEditor(false);
         showForm = true;
         return "redirectToDocument";
     }

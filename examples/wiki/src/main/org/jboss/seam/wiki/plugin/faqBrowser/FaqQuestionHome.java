@@ -141,7 +141,7 @@ public class FaqQuestionHome extends DocumentHome {
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void newQuestion() {
-        initEditor();
+        initEditor(false);
         showForm = true;
     }
 

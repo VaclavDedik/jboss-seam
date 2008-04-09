@@ -201,14 +201,14 @@ public class ForumHome extends DirectoryHome {
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void newForum() {
-        initEditor();
+        initEditor(false);
         showForm = true;
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void edit(Long forumId) {
         setId(forumId);
-        initEditor();
+        initEditor(false);
         showForm = true;
     }
 

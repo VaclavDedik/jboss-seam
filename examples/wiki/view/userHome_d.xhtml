@@ -317,15 +317,21 @@
                 </h:commandLink>
 
                 <s:fragment rendered="#{s:hasPermission('User', 'delete', userHome.instance)}">
-                    <a:jsFunction name="deleteUser"
-                                  status="globalStatus"
-                                  action="#{userHome.remove}"/>
-                    <h:outputLink tabindex="1"
-                                  accesskey="#{messages['lacewiki.button.userHome.Delete.accesskey']}"
-                                  value="javascript:deleteConfirmation('\\'#{userHome.instance.username}\\'','deleteUser')"
-                                  styleClass="button sessionEventTrigger">
-                        <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.userHome.Delete']}"/>
-                    </h:outputLink>
+                    <ui:decorate template="includes/confirmationAction.xhtml">
+                        <ui:param name="label" value="#{messages['lacewiki.button.userHome.Delete']}"/>
+                        <ui:param name="accesskey" value="#{messages['lacewiki.button.userHome.Delete.accesskey']}"/>
+                        <ui:param name="tabindex" value="1"/>
+                        <ui:param name="linkClass" value="button sessionEventTrigger"/>
+                        <ui:param name="escapeLabel" value="false"/>
+                        <ui:param name="jsFunctionName" value="deleteUser"/>
+                        <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                            .concat(': \'').concat(userHome.instance.username).concat('\'?')}"/>
+                        <ui:define name="jsFunction">
+                            <a:jsFunction name="#{jsFunctionName}"
+                                          action="#{userHome.remove}"
+                                          status="globalStatus"/>
+                        </ui:define>
+                    </ui:decorate>
                 </s:fragment>
                 
             </div>

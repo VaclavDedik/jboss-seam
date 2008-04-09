@@ -91,6 +91,12 @@
     </function>
 
     <function>
+        <function-name>escapeJSMessage</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String escapeJSMessage(java.lang.String)</function-signature>
+    </function>
+
+    <function>
         <function-name>encodeURL</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String encodeURL(java.lang.String)</function-signature>

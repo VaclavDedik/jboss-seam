@@ -161,6 +161,10 @@ public class WikiUtil {
         }
     }
 
+    public static String escapeJSMessage(String message) {
+        return message.replaceAll("'", "\\\\'").replaceAll("\"", "\\\\\\\"");
+    }
+
     public static String escapeEmailURL(String string) {
         return string.length() >= 7 && string.substring(0, 7).equals("mailto:")
                 ? string.replaceAll("@", Preferences.getInstance(WikiPreferences.class).getAtSymbolReplacement())

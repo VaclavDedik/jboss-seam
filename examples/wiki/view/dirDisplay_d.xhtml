@@ -217,16 +217,27 @@
                                             <h:outputText value="#{messages['lacewiki.button.dirDisplay.ViewNewWindow']}"/>
                                         </h:outputLink>
                                     </li>
+
                                     <s:fragment rendered="#{directoryBrowser.isRemovable(node)}">
-                                        <a:jsFunction name="deleteDocumentId#{node.id}"
-                                                      status="globalStatus"
-                                                      action="#{documentHome.remove(node.id)}"/>
                                         <li>
-                                            <h:outputLink value="javascript:deleteConfirmation('\\'#{node.name}\\'','deleteDocumentId#{node.id}')">
-                                                <h:outputText value="#{messages['lacewiki.button.dirDisplay.Delete']}"/>
-                                            </h:outputLink>
+                                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                                <ui:param name="linkClass" value="menuItemActionLink"/>
+                                                <ui:param name="labelClass" value="menuItemActionLabel"/>
+                                                <ui:param name="label" value="#{messages['lacewiki.button.dirDisplay.Delete']}"/>
+                                                <ui:param name="jsFunctionName" value="deleteDocumentId#{node.id}"/>
+                                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                                    .concat(': \'').concat(node.name).concat('\'?')}"/>
+                                                <ui:define name="jsFunction">
+                                                    <a:jsFunction name="#{jsFunctionName}"
+                                                                  reRender="directoryBrowser, messageBoxContainer"
+                                                                  action="#{documentHome.remove(node.id)}"
+                                                                  oncomplete="onAjaxRequestComplete()"
+                                                                  status="globalStatus"/>
+                                                </ui:define>
+                                            </ui:decorate>
                                         </li>
                                     </s:fragment>
+                                    
                                     <s:fragment rendered="#{s:hasPermission('Node', 'edit', node)}">
                                         <li>
                                             <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
@@ -255,16 +266,27 @@
                                             <h:outputText value="#{messages['lacewiki.button.dirDisplay.ViewNewWindow']}"/>
                                         </h:outputLink>
                                     </li>
+
                                     <s:fragment rendered="#{directoryBrowser.isRemovable(node)}">
-                                        <a:jsFunction name="deleteUploadId#{node.id}"
-                                                      status="globalStatus"
-                                                      action="#{uploadHome.remove(node.id)}"/>
                                         <li>
-                                            <h:outputLink value="javascript:deleteConfirmation('\\'#{node.name}\\'','deleteUploadId#{node.id}')">
-                                                <h:outputText value="#{messages['lacewiki.button.dirDisplay.Delete']}"/>
-                                            </h:outputLink>
+                                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                                <ui:param name="linkClass" value="menuItemActionLink"/>
+                                                <ui:param name="labelClass" value="menuItemActionLabel"/>
+                                                <ui:param name="label" value="#{messages['lacewiki.button.dirDisplay.Delete']}"/>
+                                                <ui:param name="jsFunctionName" value="deleteUploadId#{node.id}"/>
+                                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                                    .concat(': \'').concat(node.name).concat('\'?')}"/>
+                                                <ui:define name="jsFunction">
+                                                    <a:jsFunction name="#{jsFunctionName}"
+                                                                  reRender="directoryBrowser, messageBoxContainer"
+                                                                  action="#{uploadHome.remove(node.id)}"
+                                                                  oncomplete="onAjaxRequestComplete()"
+                                                                  status="globalStatus"/>
+                                                </ui:define>
+                                            </ui:decorate>
                                         </li>
                                     </s:fragment>
+
                                     <s:fragment rendered="#{s:hasPermission('Node', 'edit', node)}">
                                         <li>
                                             <s:link view="/uploadEdit_#{skin}.xhtml" propagation="none">

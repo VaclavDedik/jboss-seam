@@ -72,16 +72,22 @@
 
 
                     <s:fragment rendered="#{forumHome.removable}">
-                        <a:jsFunction name="deleteForum"
-                                      reRender="forumListPluginContainer, messageBoxContainer"
-                                      status="globalStatus"
-                                      action="#{forumHome.remove}"/>
-                        <h:outputLink tabindex="1"
-                                      accesskey="#{messages['forum.button.Remove.accesskey']}"
-                                      value="javascript:deleteConfirmation('\\'#{forumHome.instance.name}\\'','deleteForum')"
-                                      styleClass="button saveButton sessionEventTrigger">
-                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['forum.button.Remove']}"/>
-                        </h:outputLink>
+                        <ui:decorate template="../../includes/confirmationAction.xhtml">
+                            <ui:param name="label" value="#{messages['forum.button.Remove']}"/>
+                            <ui:param name="accesskey" value="#{messages['forum.button.Remove.accesskey']}"/>
+                            <ui:param name="tabindex" value="1"/>
+                            <ui:param name="linkClass" value="button sessionEventTrigger saveButton"/>
+                            <ui:param name="escapeLabel" value="false"/>
+                            <ui:param name="jsFunctionName" value="deleteForum"/>
+                            <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                .concat(': \'').concat(forumHome.instance.name).concat('\'?')}"/>
+                            <ui:define name="jsFunction">
+                                <a:jsFunction name="#{jsFunctionName}"
+                                              reRender="forumListPluginContainer, messageBoxContainer"
+                                              action="#{forumHome.remove}"
+                                              status="globalStatus"/>
+                            </ui:define>
+                        </ui:decorate>
                     </s:fragment>
 
                     <a:commandLink action="#{forumHome.persist}" rendered="#{!forumHome.managed}"

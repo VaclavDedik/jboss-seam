@@ -332,15 +332,21 @@
                         </h:commandLink>
 
                         <s:fragment rendered="#{documentHome.removable}">
-                            <a:jsFunction name="deleteDocument"
-                                          status="globalStatus"
-                                          action="#{documentHome.remove}"/>
-                            <h:outputLink tabindex="1"
-                                          accesskey="#{messages['lacewiki.button.docEdit.Delete.accesskey']}"
-                                          value="javascript:deleteConfirmation('\\'#{documentHome.instance.name}\\'','deleteDocument')"
-                                          styleClass="button sessionEventTrigger">
-                                <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.docEdit.Delete']}"/>
-                            </h:outputLink>
+                            <ui:decorate template="includes/confirmationAction.xhtml">
+                                <ui:param name="label" value="#{messages['lacewiki.button.docEdit.Delete']}"/>
+                                <ui:param name="accesskey" value="#{messages['lacewiki.button.docEdit.Delete.accesskey']}"/>
+                                <ui:param name="tabindex" value="1"/>
+                                <ui:param name="linkClass" value="button sessionEventTrigger"/>
+                                <ui:param name="escapeLabel" value="false"/>
+                                <ui:param name="jsFunctionName" value="deleteDocument"/>
+                                <ui:param name="message" value="#{messages['lacewiki.label.AreYouSureYouWantToDelete']
+                                                                    .concat(': \'').concat(documentHome.instance.name).concat('\'?')}"/>
+                                <ui:define name="jsFunction">
+                                    <a:jsFunction name="#{jsFunctionName}"
+                                                  action="#{documentHome.remove}"
+                                                  status="globalStatus"/>
+                                </ui:define>
+                            </ui:decorate>
                         </s:fragment>
 
                     </div>

@@ -237,7 +237,7 @@ public class TopicHome extends DocumentHome {
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void newTopic() {
-        initEditor();
+        initEditor(false);
         showForm = true;
     }
 

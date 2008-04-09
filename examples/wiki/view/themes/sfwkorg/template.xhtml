@@ -62,15 +62,6 @@
 
         // ###################### Popups #################################
 
-        function deleteConfirmation(message, deleteFunction) {
-            var answer = confirm("#{messages['lacewiki.label.AreYouSureYouWantToDelete']} "
-                                  + message
-                                  + " #{messages['lacewiki.label.DeleteAllChildren']}");
-            if (answer){
-                eval(deleteFunction+"()");
-            }
-        }
-
         var fadeInPopupDialog = function(hash) {
             hash.w.fadeIn('fast',function(){ hash.o.show(); });
             jQuery(".closeDialog", hash.w).attr("accesskey", "#{messages['lacewiki.button.Cancel.accesskey']}"); // Dynamically assign accesskey to .closeDialog buttons
