@@ -21,6 +21,10 @@ import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.renderer.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
+import org.jboss.seam.wiki.core.template.TemplateRegistry;
+import org.jboss.seam.wiki.core.template.WikiDocumentTemplate;
+import org.jboss.seam.wiki.core.template.WikiDocumentEditorTemplate;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.hibernate.validator.Length;
 
@@ -52,6 +56,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     private boolean isOnSiteFeed = false;
     private List<WikiFile> historicalFiles;
     private Long numOfHistoricalFiles = 0l;
+    private String templateType;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -77,6 +82,36 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         tagEditor.setTags(doc.getTags());
 
         outjectDocumentAndDirectory(doc, getParentNode());
+
+        if (templateType != null && !templateType.equals(WikiDocumentDefaults.class.getName())) {
+            getLog().debug("using custom template class for WikiDocument defaults: " + templateType);
+            WikiDocumentDefaults defaults;
+            try {
+                Class<?> tplClass = Class.forName(templateType);
+
+                if (!TemplateRegistry.instance().getTemplateTypes().contains(tplClass)) {
+                    throw new InvalidWikiRequestException("Invalid templateType: " + templateType);
+                }
+
+                if (tplClass.getAnnotation(WikiDocumentTemplate.class).requiresTemplateInstance()) {
+                    getLog().debug("instantiating template " + tplClass.getName() + " with current document instance");
+                    defaults = (WikiDocumentDefaults)tplClass.getConstructor(WikiDocument.class).newInstance(doc);
+                } else {
+                    getLog().debug("instantiating template " + tplClass.getName() + " with no-arg constructor");
+                    defaults = (WikiDocumentDefaults)tplClass.newInstance();
+                }
+
+                if (WikiDocumentEditorTemplate.class.isAssignableFrom(tplClass)) {
+                    getLog().debug("letting template set editor defaults");
+                    ((WikiDocumentEditorTemplate)defaults).setEditorDefaults(this);
+                }
+
+            } catch (Exception ex) {
+                throw new InvalidWikiRequestException("Invalid templateType: " + templateType);
+            }
+            doc.setDefaults(defaults);
+        }
+
         return doc;
     }
 
@@ -404,5 +439,13 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
     public TagEditor getTagEditor() {
         return tagEditor;
+    }
+
+    public String getTemplateType() {
+        return templateType;
+    }
+
+    public void setTemplateType(String templateType) {
+        this.templateType = templateType;
     }
 }

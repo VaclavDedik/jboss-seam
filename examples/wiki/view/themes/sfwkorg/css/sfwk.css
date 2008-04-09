@@ -250,6 +250,12 @@ blockquote blockquote blockquote blockquote {
     margin: 0 5px 0 5px;
 }
 
+.linkNavigationMenu {
+    display: block;
+    padding: 2px 5px 2px 5px;
+    margin: 0 5px 0 5px;
+}
+
 .linkNavigation:visited {color: #576c74}
 
 .workspaceSwitcherContainer {
@@ -1481,7 +1487,6 @@ li.active {
 }
 
 .activetarget {
-    font-weight: bold;
     cursor: pointer;
 }
 

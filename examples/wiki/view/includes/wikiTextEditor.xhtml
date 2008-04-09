@@ -116,7 +116,7 @@
 
                     <s:fragment>
                         <s:fragment rendered="#{not empty textPreviewId}">
-                            <h:outputLink value="#"
+                            <h:outputLink value="javascript://no-op"
                                           tabindex="1" styleClass="buttonNonpersistent noWrapWhitespace"
                                           accesskey="#{messages['lacewiki.button.wikiTextEditor.UpdatePreview.accesskey']}"
                                           onclick="rememberCursorPosition('##{namingContainer}\\\\:#{textEditorId}TextArea'); #{textEditorId}UpdatePreview(); return false;">

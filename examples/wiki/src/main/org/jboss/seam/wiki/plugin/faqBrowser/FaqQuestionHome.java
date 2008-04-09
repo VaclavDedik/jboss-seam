@@ -4,10 +4,8 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 
@@ -41,31 +39,7 @@ public class FaqQuestionHome extends DocumentHome {
     @Override
     public WikiDocument afterNodeCreated(WikiDocument doc) {
         WikiDocument newQuestion = super.afterNodeCreated(doc);
-
-        WikiDocumentDefaults newQuestionDefaults=
-                new WikiDocumentDefaults() {
-                    @Override
-                    public String getName() {
-                        return Messages.instance().get("faqBrowser.label.NewQuestionTitle");
-                    }
-                    @Override
-                    public String[] getHeaderMacrosAsString() {
-                        return new String[] { "faqBrowser", "docPager" };
-                    }
-                    @Override
-                    public String getContentText() {
-                        return Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisText");
-                    }
-                    @Override
-                    public void setOptions(WikiDocument newQuestion) {
-                        newQuestion.setNameAsTitle(true);
-                        newQuestion.setEnableComments(true);
-                        newQuestion.setEnableCommentForm(true);
-                        newQuestion.setEnableCommentsOnFeeds(false);
-                    }
-                };
-        newQuestion.setDefaults(newQuestionDefaults);
-
+        newQuestion.setDefaults(new FaqQuestionDefaults());
         return newQuestion;
     }
 

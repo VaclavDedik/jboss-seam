@@ -493,6 +493,18 @@ ul {
     margin: 0 5px 0 5px;
 }
 
+.linkNavigationMenu {
+    display: inline;
+    text-decoration:none;
+    font-size: 85%;
+    font-weight: bold;
+    background-color: #d55121;
+    border: 1px solid #f3f4e4;
+    border-bottom: 1px solid #f3f4e4;
+    padding: 2px 5px 2px 5px;
+    margin: 0 5px 0 5px;
+}
+
 .linkTab {
     text-decoration:none;
     font-weight: bold;
@@ -525,6 +537,11 @@ ul {
 .linkNavigation:visited {color: #fff}
 .linkNavigation:hover {color: #ccc}
 .linkNavigation:active {color: #aaa}
+
+.linkNavigationMenu a:link {color: #fff}
+.linkNavigationMenu a:visited {color: #fff}
+.linkNavigationMenu a:hover {color: #ccc}
+.linkNavigationMenu a:active {color: #aaa}
 
 .feeds {
     padding: 5px;

@@ -31,14 +31,32 @@
             <h:outputText escape="false" value="#{messages['lacewiki.button.EditDirectory']}"/>
         </s:link>
 
-        <s:link id="createDoc" styleClass="linkNavigation"
-                accesskey="#{messages['lacewiki.button.NewDocument.accesskey']}"
-                view="/docEdit_#{skin}.xhtml" propagation="none"
-                rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
-            <h:outputText escape="false" value="#{messages['lacewiki.button.NewDocument']}"/>
-            <f:param name="documentId"/>
-            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
-        </s:link>
+        <s:div id="createDoc" styleClass="linkNavigationMenu"
+               rendered="#{s:hasPermission('Node', 'create', directoryBrowser.instance)}">
+            <h:outputLink value="javascript://no-op"
+                          onmouseover="jQuery(this).parent().menu();"
+                          accesskey="#{messages['lacewiki.button.NewDocument.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.NewDocument']}"/>
+            </h:outputLink><ul class="contextMenuItems">
+                <li>
+                    <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
+                        <h:outputText escape="false" value="#{messages['lacewiki.label.template.RegularWikiDocument']}"/>
+                        <f:param name="documentId" value=""/>
+                        <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+                    </s:link>
+                </li>
+                <ui:repeat var="templateType" value="#{templateRegistry.templateTypes}">
+                    <li>
+                        <s:link view="/docEdit_#{skin}.xhtml" propagation="none">
+                            <h:outputText escape="false" value="#{templateRegistry.templates[templateType]}"/>
+                            <f:param name="documentId" value=""/>
+                            <f:param name="parentDirectoryId" value="#{directoryBrowser.instance.id}"/>
+                            <f:param name="templateType" value="#{templateType.name}"/>
+                        </s:link>
+                    </li>
+                </ui:repeat>
+            </ul>
+        </s:div>
 
         <s:link id="uploadFile" styleClass="linkNavigation"
                 accesskey="#{messages['lacewiki.button.UploadFile.accesskey']}"

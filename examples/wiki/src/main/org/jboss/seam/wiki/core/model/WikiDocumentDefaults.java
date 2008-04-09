@@ -6,6 +6,22 @@ import java.util.List;
 
 public class WikiDocumentDefaults {
 
+    WikiDocument template;
+
+    public WikiDocumentDefaults() {}
+
+    public WikiDocumentDefaults(WikiDocument template) {
+        this.template = template;
+    }
+
+    public WikiDocument getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(WikiDocument template) {
+        this.template = template;
+    }
+
     public String getName() {
         return "New Document";
     }

@@ -1,23 +1,21 @@
 package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.faces.Renderer;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
-import org.jboss.seam.international.Messages;
+import org.jboss.seam.faces.Renderer;
+import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
+import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.preferences.Preferences;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import javax.faces.application.FacesMessage;
+import static javax.faces.application.FacesMessage.SEVERITY_INFO;
 import javax.faces.validator.ValidatorException;
 
 @Name("topicHome")
@@ -60,38 +58,8 @@ public class TopicHome extends DocumentHome {
     @Override
     public WikiDocument afterNodeCreated(WikiDocument doc) {
         WikiDocument newTopic = super.afterNodeCreated(doc);
-
-        WikiDocumentDefaults newTopicDefaults =
-                new WikiDocumentDefaults() {
-                    @Override
-                    public String getName() {
-                        return Messages.instance().get("forum.label.NewTopic");
-                    }
-                    @Override
-                    public String[] getHeaderMacrosAsString() {
-                        return new String[] { "clearBackground", "hideControls", "hideComments",
-                                              "hideTags", "hideCreatorHistory", "disableContentMacros", "forumPosting" };
-                    }
-                    @Override
-                    public String getContentText() {
-                        return Messages.instance().get("lacewiki.msg.wikiTextEditor.EditThisText");
-                    }
-                    @Override
-                    public String[] getFooterMacrosAsString() {
-                        return new String[] { "forumReplies" };
-                    }
-                    @Override
-                    public void setOptions(WikiDocument newTopic) {
-                        newTopic.setNameAsTitle(false);
-                        newTopic.setEnableComments(true);
-                        newTopic.setEnableCommentForm(true);
-                        newTopic.setEnableCommentsOnFeeds(true);
-                    }
-                };
-        newTopic.setDefaults(newTopicDefaults);
-
+        newTopic.setDefaults(new TopicDefaults());
         setPushOnFeeds(true);
-
         return newTopic;
     }
 

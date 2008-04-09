@@ -66,6 +66,7 @@
     <page view-id="/docEdit*" no-conversation-view-id="/wiki.xhtml">
         <param name="documentId" value="#{documentHome.nodeId}"/>
         <param name="parentDirectoryId" value="#{documentHome.parentNodeId}"/>
+        <param name="templateType" value="#{documentHome.templateType}"/>
         <action execute="#{documentHome.initEditor}"/>
         <begin-conversation flush-mode="MANUAL" join="true"/>
 

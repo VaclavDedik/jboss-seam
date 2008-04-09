@@ -1,13 +1,11 @@
 package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.international.Messages;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.DirectoryHome;
-import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.faces.application.FacesMessage;
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
@@ -68,40 +66,12 @@ public class ForumHome extends DirectoryHome {
             getEntityManager().persist(newMenuItem);
 
             // Default document is topic list
-            WikiDocumentDefaults topicListDefaults =
-                new WikiDocumentDefaults() {
-                    @Override
-                    public String getName() {
-                        return getInstance().getName() + " " + Messages.instance().get("forum.label.Forum");
-                    }
-                    @Override
-                    public String[] getHeaderMacrosAsString() {
-                        return new String[] {"clearBackground", "hideControls", "hideComments", "hideTags", "hideCreatorHistory"};
-                    }
-                    @Override
-                    public String[] getContentMacrosAsString() {
-                        return new String[] {"forumTopics"};
-                    }
-                    @Override
-                    public String getContentText() {
-                        return "";
-                    }
-                    @Override
-                    public void setOptions(WikiDocument document) {
-                        document.setAreaNumber(getInstance().getAreaNumber());
-                        document.setWikiname(WikiUtil.convertToWikiName(document.getName()));
-                        document.setNameAsTitle(true);
-                        document.setReadAccessLevel(getInstance().getReadAccessLevel());
-                        document.setWriteAccessLevel(org.jboss.seam.wiki.core.model.Role.ADMINROLE_ACCESSLEVEL);
-                        document.setEnableComments(false);
-                        document.setEnableCommentForm(false);
-                        document.setEnableCommentsOnFeeds(false);
-                        document.setCreatedBy(getCurrentUser());
-                    }
-                };
-
-            WikiDocument topicList = new WikiDocument(topicListDefaults);
-
+            WikiDocument topicListTemplate = new WikiDocument();
+            topicListTemplate.setName(getInstance().getName());
+            topicListTemplate.setCreatedBy(currentUser);
+            topicListTemplate.setAreaNumber(getInstance().getAreaNumber());
+            topicListTemplate.setReadAccessLevel(getInstance().getReadAccessLevel());
+            WikiDocument topicList = new WikiDocument(new TopicListDefaults(topicListTemplate));
             topicList.setParent(getInstance());
             getInstance().setDefaultFile(topicList);
 
