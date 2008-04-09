@@ -19,7 +19,7 @@ import org.jboss.seam.security.management.IdentityManager;
  * 
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.userAction")
+@Name("org.jboss.seam.security.management.userAction")
 @Scope(CONVERSATION)
 public class UserAction implements Serializable
 {

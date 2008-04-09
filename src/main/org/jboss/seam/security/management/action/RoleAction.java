@@ -12,7 +12,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.security.management.IdentityManager;
 
-@Name("roleAction")
+@Name("org.jboss.seam.security.management.roleAction")
 @Scope(CONVERSATION)
 public class RoleAction
 {

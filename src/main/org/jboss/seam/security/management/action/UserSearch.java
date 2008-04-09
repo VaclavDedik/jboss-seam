@@ -14,7 +14,7 @@ import org.jboss.seam.annotations.datamodel.DataModelSelection;
 
 import org.jboss.seam.security.management.IdentityManager;
 
-//@Name("userSearch")
+@Name("org.jboss.seam.security.management.userSearch")
 @Scope(SESSION)
 @Synchronized
 public class UserSearch implements Serializable

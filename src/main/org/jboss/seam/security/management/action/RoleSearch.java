@@ -12,7 +12,7 @@ import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.security.management.IdentityManager;
 
-@Name("org.jboss.seam.security.roleSearch")
+@Name("org.jboss.seam.security.management.roleSearch")
 @Scope(SESSION)
 public class RoleSearch implements Serializable
 {
