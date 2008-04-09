@@ -4,13 +4,13 @@
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
-    <xs:element name="remoting-config">
+    <xs:element name="remoting">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="remoting:attlist.remotingConfig"/>
+            <xs:attributeGroup ref="remoting:attlist.remoting"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.remotingConfig">
+    <xs:attributeGroup name="attlist.remoting">
         <xs:attribute name="poll-interval" />
         <xs:attribute name="poll-timeout" />
         <xs:attribute name="debug">
