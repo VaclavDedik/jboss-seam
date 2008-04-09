@@ -893,8 +893,8 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
             <literal>/META-INF/seam-deployment.properties</literal>:
         </para>
         
-        <programlisting><![CDATA[# A comma separated list of annotation types to handle
-org.jboss.seam.deployment.annotationTypes=com.acme.Foo]]></programlisting>
+        <programlisting><![CDATA[# A colon-separated list of annotation types to handle
+org.jboss.seam.deployment.annotationTypes=com.acme.Foo:com.acme.Bar]]></programlisting>
          
         <para>
             Then, during application startup you can get hold of all classes
