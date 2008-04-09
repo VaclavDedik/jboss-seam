@@ -24,7 +24,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.template.TemplateRegistry;
 import org.jboss.seam.wiki.core.template.WikiDocumentTemplate;
-import org.jboss.seam.wiki.core.template.WikiDocumentEditorTemplate;
+import org.jboss.seam.wiki.core.template.WikiDocumentEditorDefaults;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.hibernate.validator.Length;
 
@@ -101,9 +101,9 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
                     defaults = (WikiDocumentDefaults)tplClass.newInstance();
                 }
 
-                if (WikiDocumentEditorTemplate.class.isAssignableFrom(tplClass)) {
+                if (WikiDocumentEditorDefaults.class.isAssignableFrom(tplClass)) {
                     getLog().debug("letting template set editor defaults");
-                    ((WikiDocumentEditorTemplate)defaults).setEditorDefaults(this);
+                    ((WikiDocumentEditorDefaults)defaults).setEditorDefaults(this);
                 }
 
             } catch (Exception ex) {

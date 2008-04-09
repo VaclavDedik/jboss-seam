@@ -7,7 +7,7 @@
 package org.jboss.seam.wiki.plugin.blogdirectory;
 
 import org.jboss.seam.wiki.core.template.WikiDocumentTemplate;
-import org.jboss.seam.wiki.core.template.WikiDocumentEditorTemplate;
+import org.jboss.seam.wiki.core.template.WikiDocumentEditorDefaults;
 import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.international.Messages;
@@ -16,7 +16,7 @@ import org.jboss.seam.international.Messages;
  * @author Christian Bauer
  */
 @WikiDocumentTemplate("#{messages['blogDirectory.label.template.BlogEntry']}")
-public class BlogEntryDefaults extends WikiDocumentDefaults implements WikiDocumentEditorTemplate {
+public class BlogEntryDefaults extends WikiDocumentDefaults implements WikiDocumentEditorDefaults {
 
     @Override
     public String getName() {
