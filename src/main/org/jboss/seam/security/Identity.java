@@ -481,6 +481,7 @@ public class Identity implements Serializable
          }
          else
          {
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_AUTHORIZED);
             throw new AuthorizationException(String.format(
                   "Authorization check failed for role [%s]", role));
          }
@@ -509,6 +510,7 @@ public class Identity implements Serializable
          }
          else
          {
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_AUTHORIZED);
             throw new AuthorizationException(String.format(
                   "Authorization check failed for permission [%s,%s]", name, action));
          }
@@ -528,6 +530,7 @@ public class Identity implements Serializable
          }
          else
          {
+            if (Events.exists()) Events.instance().raiseEvent(EVENT_NOT_AUTHORIZED);
             throw new AuthorizationException(String.format(
                   "Authorization check failed for permission[%s,%s]", target, action));
          }
