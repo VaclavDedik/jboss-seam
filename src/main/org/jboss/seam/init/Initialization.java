@@ -476,7 +476,20 @@ public class Initialization
       }
       if ( !set.add(descriptor) )
       {
-         throw new IllegalStateException("Two components with the same name and precedence: " + name);
+         ComponentDescriptor other = null;
+         for (ComponentDescriptor d : set)
+         {
+            if (descriptor.compareTo(d) == 0)
+            {
+               other = d;
+               break;
+            }
+         }
+         
+         throw new IllegalStateException("Two components with the same name and precedence - " +
+               "component name: " + name + ", component classes: " + 
+               descriptor.getComponentClass().getName() + ", " +
+               (other != null ? other.getComponentClass().getName() : "<unknown>"));
       }
    }
 
