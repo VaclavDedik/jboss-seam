@@ -428,7 +428,7 @@ public abstract class GWTService extends AbstractResource
       if (contentType != null)
       {
          // The type must be plain text.
-         if (contentType.startsWith("text/plain"))
+         if (contentType.startsWith("text/plain") || contentType.startsWith("text/x-gwt-rpc"))
          {
             // And it must be UTF-8 encoded (or unspecified, in which case we
             // assume that it's either UTF-8 or ASCII).
@@ -444,7 +444,7 @@ public abstract class GWTService extends AbstractResource
       if (!contentTypeIsOkay)
       {
          throw new ServletException(
-               "Content-Type must be 'text/plain' with 'charset=utf-8' (or unspecified charset)");
+               "Content-Type must be 'text/plain' or 'text/x-gwt-rpc' with 'charset=utf-8' (or unspecified charset)");
       }
       InputStream in = request.getInputStream();
       try
