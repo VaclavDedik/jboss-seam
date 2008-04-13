@@ -1,4 +1,4 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:s="http://jboss.com/products/seam/taglib"
@@ -6,15 +6,15 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="layout/template.xhtml">
-                       
+
 <ui:define name="body">
 
     <h1>@beanName@ results</h1>
     <p>Generated query page</p>
-    
+
     <h:messages globalOnly="true" styleClass="message"/>
-    
-    <h:outputText value="No results from search" 
+
+    <h:outputText value="No results from search"
             rendered="#{empty @componentName@.resultList}"/>
     <f:subview id="results" rendered="#{not empty @componentName@.resultList}">
         <h:dataTable id="@componentName@"

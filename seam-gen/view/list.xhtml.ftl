@@ -1,7 +1,7 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<#include "../util/TypeInfo.ftl">                             
+<#include "../util/TypeInfo.ftl">
 <#assign entityName = pojo.shortName>
 <#assign componentName = util.lower(entityName)>
 <#assign listName = componentName + "List">
@@ -16,15 +16,15 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:rich="http://richfaces.org/rich"
                 template="layout/template.xhtml">
-                       
+
 <ui:define name="body">
-    
+
     <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
-    
+
     <h:form id="${componentName}Search" styleClass="edit">
-    
+
         <rich:simpleTogglePanel label="${entityName} search parameters" switchType="ajax">
-        
+
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
 <#if c2j.isComponent(property)>
@@ -48,25 +48,25 @@
 </#if>
 </#if>
 </#foreach>
-        
+
         </rich:simpleTogglePanel>
-        
+
         <div class="actionButtons">
             <h:commandButton id="search" value="Search" action="/${listPageName}.xhtml"/>
         </div>
-        
+
     </h:form>
-    
+
     <rich:panel>
         <f:facet name="header">${entityName} search results</f:facet>
     <div class="results" id="${componentName}List">
 
-    <h:outputText value="The ${componentName} search returned no results." 
+    <h:outputText value="The ${componentName} search returned no results."
                rendered="${'#'}{empty ${listName}.resultList}"/>
-               
-    <rich:dataTable id="${listName}" 
+
+    <rich:dataTable id="${listName}"
                 var="${componentName}"
-              value="${'#'}{${listName}.resultList}" 
+              value="${'#'}{${listName}.resultList}"
            rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
@@ -81,7 +81,7 @@
         <h:column>
             <f:facet name="header">
                 <s:link styleClass="columnHeader"
-                             value="${property.name} ${'#'}{${listName}.orderColumn=='${property.name}' ? (${listName}.orderDirection=='desc' ? messages.down : messages.up)  : ''}">                   
+                             value="${property.name} ${'#'}{${listName}.orderColumn=='${property.name}' ? (${listName}.orderDirection=='desc' ? messages.down : messages.up)  : ''}">
                     <f:param name="sort" value="${property.name}" />
                     <f:param name="dir" value="${'#'}{${listName}.orderDirection=='asc' ? 'desc' : 'asc'}"/>
                 </s:link>
@@ -121,16 +121,16 @@
 </#foreach>
         <h:column>
             <f:facet name="header">action</f:facet>
-            <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml" 
-                   value="Select" 
+            <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml"
+                   value="Select"
                       id="${componentName}">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
-                <f:param name="${componentName}${util.upper(componentProperty.name)}" 
+                <f:param name="${componentName}${util.upper(componentProperty.name)}"
                         value="${'#'}{${componentName}.${pojo.identifierProperty.name}.${componentProperty.name}}"/>
 </#foreach>
 <#else>
-                <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
+                <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}"
                         value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
 </#if>
             </s:link>
@@ -139,45 +139,45 @@
 
     </div>
     </rich:panel>
-    
+
     <div class="tableControl">
-      
-        <s:link view="/${listPageName}.xhtml" 
-            rendered="${'#'}{${listName}.previousExists}" 
+
+        <s:link view="/${listPageName}.xhtml"
+            rendered="${'#'}{${listName}.previousExists}"
                value="${'#'}{messages.left}${'#'}{messages.left} First Page"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
-        
-        <s:link view="/${listPageName}.xhtml" 
-            rendered="${'#'}{${listName}.previousExists}" 
+
+        <s:link view="/${listPageName}.xhtml"
+            rendered="${'#'}{${listName}.previousExists}"
                value="${'#'}{messages.left} Previous Page"
                   id="previousPage">
-            <f:param name="firstResult" 
+            <f:param name="firstResult"
                     value="${'#'}{${listName}.previousFirstResult}"/>
         </s:link>
-        
-        <s:link view="/${listPageName}.xhtml" 
-            rendered="${'#'}{${listName}.nextExists}" 
+
+        <s:link view="/${listPageName}.xhtml"
+            rendered="${'#'}{${listName}.nextExists}"
                value="Next Page ${'#'}{messages.right}"
                   id="nextPage">
-            <f:param name="firstResult" 
+            <f:param name="firstResult"
                     value="${'#'}{${listName}.nextFirstResult}"/>
         </s:link>
-        
-        <s:link view="/${listPageName}.xhtml" 
-            rendered="${'#'}{${listName}.nextExists}" 
+
+        <s:link view="/${listPageName}.xhtml"
+            rendered="${'#'}{${listName}.nextExists}"
                value="Last Page ${'#'}{messages.right}${'#'}{messages.right}"
                   id="lastPage">
-            <f:param name="firstResult" 
+            <f:param name="firstResult"
                     value="${'#'}{${listName}.lastFirstResult}"/>
         </s:link>
-        
+
     </div>
-    
+
     <s:div styleClass="actionButtons" rendered="${'#'}{empty from}">
         <s:button view="/${editPageName}.xhtml"
-                    id="create" 
+                    id="create"
                  value="Create ${componentName}">
 <#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
 <#if c2j.isComponent(pojo.identifierProperty)>
@@ -190,7 +190,7 @@
 </#if>
         </s:button>
     </s:div>
-    
+
 </ui:define>
 
 </ui:composition>

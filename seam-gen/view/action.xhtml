@@ -1,4 +1,4 @@
-<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:s="http://jboss.com/products/seam/taglib"
@@ -8,21 +8,21 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:a="http://richfaces.org/a4j"
                 template="layout/template.xhtml">
-                       
+
 <ui:define name="body">
 
     <h:messages globalOnly="true" styleClass="message"/>
 
     <rich:panel>
         <f:facet name="header">@pageName@</f:facet>
-    
+
         <h:form id="@componentName@Form">
-        
-            <h:commandButton id="@methodName@" value="@methodName@!" 
-                             action="#{@componentName@.@methodName@}"/>     			  
-        
+
+            <h:commandButton id="@methodName@" value="@methodName@!"
+                             action="#{@componentName@.@methodName@}"/>
+
         </h:form>
-        
+
     </rich:panel>
 
 </ui:define>
