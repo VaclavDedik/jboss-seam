@@ -209,7 +209,7 @@
         
         <property name="old.project.type" value="ear"/>
         <input addproperty="project.type.new" 
-                   message="Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [${old.project.type}] " 
+                   message="Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [${old.project.type}]" 
         	     validargs="ear,war"
               defaultvalue="${old.project.type}"/>
         
@@ -233,7 +233,7 @@
     	</condition>
     	<property name="database.type.default" value="hsql"/>
         <input addproperty="database.type.new" 
-                   message="What kind of database are you using? [${database.type.default}] "
+                   message="What kind of database are you using? [${database.type.default}]"
         	     validargs="hsql,mysql,oracle,postgres,mssql,db2,sybase,enterprisedb,h2"
               defaultvalue="${database.type.default}"/>
     	
@@ -403,13 +403,13 @@
                 
         <property name="old.database.exists" value="n"/>
         <input addproperty="database.exists.new" 
-                   message="Are you working with tables that already exist in the database? [${old.database.exists}] "
+                   message="Are you working with tables that already exist in the database? [${old.database.exists}]"
         	     validargs="y,n"
               defaultvalue="${old.database.exists}"/>
 
         <property name="old.database.drop" value="n"/>
         <input addproperty="database.drop.new" 
-                   message="Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [${old.database.drop}] "
+                   message="Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [${old.database.drop}]"
         	     validargs="y,n"
               defaultvalue="${old.database.drop}"/>
     	
@@ -554,7 +554,7 @@
     <target name="query-input">
         <property name="entity.name.default" value="Entity" />
         <input addproperty="entity.name" 
-               message="Enter the entity class to search for [${entity.name.default}] "
+               message="Enter the entity class to search for [${entity.name.default}]"
                defaultvalue="${entity.name}"/>
 
         <property name="entity.file" value="${project.home}/src/${model.dir}/${entity.name}.java" />
