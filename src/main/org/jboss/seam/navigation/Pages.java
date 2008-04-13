@@ -752,12 +752,19 @@ public class Pages
             }
             catch (ValidatorException ve)
             {
-               facesContext.addMessage( null, ve.getFacesMessage() );
+               if (ve.getFacesMessage() != null)
+               {
+                  facesContext.addMessage(null, ve.getFacesMessage());
+               }
+               
                validationFailed = true;
             }
             catch (ConverterException ce)
             {
-               facesContext.addMessage( null, ce.getFacesMessage() );
+               if (ce.getFacesMessage() != null)
+               {
+                  facesContext.addMessage( null, ce.getFacesMessage() );
+               }
                validationFailed = true;
             }
          }
