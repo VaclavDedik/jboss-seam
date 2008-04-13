@@ -8,18 +8,18 @@ import org.jboss.seam.faces.FacesMessages;
 
 @Name("@componentName@")
 public class @interfaceName@ {
-	
+
     @Logger private Log log;
-	
+
     @In FacesMessages facesMessages;
-    
+
     public void @methodName@()
     {
         //implement your business logic here
         log.info("@componentName@.@methodName@() action called");
         facesMessages.add("@methodName@");
     }
-	
+
    //add additional action methods
-	
+
 }

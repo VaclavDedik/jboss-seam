@@ -11,12 +11,12 @@ import @modelPackage@.@entityName@;
 public class @entityName@Home extends EntityHome<@entityName@>
 {
 
-    @RequestParameter 
+    @RequestParameter
     Long @componentName@Id;
-    
+
     @Override
-    public Object getId() 
-    { 
+    public Object getId()
+    {
         if (@componentName@Id==null)
         {
             return super.getId();
@@ -26,10 +26,10 @@ public class @entityName@Home extends EntityHome<@entityName@>
             return @componentName@Id;
         }
     }
-    
+
     @Override @Begin
     public void create() {
         super.create();
     }
- 	
+
 }

@@ -8,8 +8,8 @@ import org.jboss.seam.framework.EntityQuery;
 public class @beanName@ extends EntityQuery
 {
     @Override
-    public String getEjbql() 
-    { 
+    public String getEjbql()
+    {
         return "@query@";
     }
 
@@ -18,7 +18,7 @@ public class @beanName@ extends EntityQuery
     public void setFirstResult(Integer firstResult) {
         super.setFirstResult(firstResult);
     }
-    
+
     @Override
     public Integer getMaxResults() {
         return 25;

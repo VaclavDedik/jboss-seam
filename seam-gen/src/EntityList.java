@@ -7,8 +7,8 @@ import org.jboss.seam.framework.EntityQuery;
 public class @entityName@List extends EntityQuery
 {
     @Override
-    public String getEjbql() 
-    { 
+    public String getEjbql()
+    {
         return "select @componentName@ from @entityName@ @componentName@";
     }
 }

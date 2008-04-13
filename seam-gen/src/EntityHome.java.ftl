@@ -37,7 +37,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     {
         set${idName}( new ${entityName}Id() );
     }
-    
+
     @Override
     public boolean isIdDefined()
     {
@@ -64,7 +64,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 </#if>
         return ${componentName};
     }
-    
+
     public void wire()
     {
 <#foreach property in pojo.allPropertiesIterator>
@@ -82,7 +82,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 </#if>
 </#foreach>
     }
-    
+
     public boolean isWired()
     {
 <#foreach property in pojo.allPropertiesIterator>
@@ -93,18 +93,18 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 </#foreach>
         return true;
     }
-    
+
     public ${entityName} getDefinedInstance()
     {
         return isIdDefined() ? getInstance() : null;
     }
- 	
+
 <#foreach property in pojo.allPropertiesIterator>
 <#assign getter = pojo.getGetterSignature(property)>
 <#if c2h.isOneToManyCollection(property)>
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
     public ${pojo.importType("java.util.List")}<${childPojo.shortName}> ${getter}() {
-        return getInstance() == null ? 
+        return getInstance() == null ?
             null : new ${pojo.importType("java.util.ArrayList")}<${childPojo.shortName}>( getInstance().${getter}() );
     }
 </#if>

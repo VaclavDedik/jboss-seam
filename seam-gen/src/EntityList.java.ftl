@@ -47,22 +47,22 @@ public class ${entityName}List extends EntityQuery
 </#if>
 
     @Override
-    public String getEjbql() 
-    { 
+    public String getEjbql()
+    {
         return "select ${componentName} from ${entityName} ${componentName}";
     }
-    
+
     @Override
     public Integer getMaxResults()
     {
-    	return 25;
+      return 25;
     }
-    
+
     public ${entityName} get${entityName}()
     {
         return ${componentName};
     }
-    
+
     @Override
     public List<String> getRestrictions()
     {

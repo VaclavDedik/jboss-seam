@@ -11,9 +11,9 @@ import org.jboss.seam.security.Identity;
 public class Authenticator
 {
     @Logger Log log;
-    
+
     @In Identity identity;
-   
+
     public boolean authenticate()
     {
         log.info("authenticating #0", identity.getUsername());

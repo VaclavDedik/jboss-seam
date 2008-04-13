@@ -10,18 +10,18 @@ import org.jboss.seam.faces.FacesMessages;
 @Stateless
 @Name("@componentName@")
 public class @beanName@ implements @interfaceName@ {
-	
+
     @Logger private Log log;
-	
+
     @In FacesMessages facesMessages;
-    
+
     public void @methodName@()
     {
         //implement your business logic here
         log.info("@componentName@.@methodName@() action called");
         facesMessages.add("@methodName@");
     }
-    
+
     //add additional action methods
-    
+
 }

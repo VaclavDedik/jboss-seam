@@ -10,25 +10,25 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.faces.FacesMessages;
 import org.hibernate.validator.Length;
 
-@Stateful 
+@Stateful
 @Name("@componentName@")
 public class @beanName@ implements @interfaceName@ {
 
     @Logger private Log log;
-    
+
     @In FacesMessages facesMessages;
-    
+
     private String value;
-	
+
     public void @methodName@()
-	 {
+   {
         //implement your business logic here
         log.info("@componentName@.@methodName@() action called with: #{@componentName@.value}");
         facesMessages.add("@methodName@ #{@componentName@.value}");
-	 }
-	
-	 //add additional action methods
-	
+   }
+
+   //add additional action methods
+
     @Length(max=10)
     public String getValue()
     {
@@ -40,7 +40,7 @@ public class @beanName@ implements @interfaceName@ {
         this.value = value;
     }
 
-    @Destroy @Remove                                                                      
+    @Destroy @Remove
     public void destroy() {}
-    
+
 }
