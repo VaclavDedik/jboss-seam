@@ -211,7 +211,7 @@
         <property name="old.project.type" value="ear"/>
         <input addproperty="project.type.new" 
                    message="Is this project deployed as an EAR (with EJB components) or a WAR (with no EJB support) [${old.project.type}] " 
-        	     validargs="ear,war,"
+        	     validargs="ear,war"
               defaultvalue="${old.project.type}"/>
         
         <property name="old.action.package" value="com.mydomain.${project.name.new}"/>
