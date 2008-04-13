@@ -20,7 +20,7 @@ import org.jboss.seam.util.XML;
  */
 public class DeploymentDescriptor 
 { 
-    private static final LogProvider log = Logging.getLogProvider(Initialization.class);
+    private static final LogProvider log = Logging.getLogProvider(DeploymentDescriptor.class);
     
     private Map<Class, EjbDescriptor> ejbDescriptors = new HashMap<Class, EjbDescriptor>();
     private Class componentClass;
