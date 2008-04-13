@@ -38,16 +38,21 @@
    </section>
 
    <section>
-      <title>Setting up a new Eclipse project</title>
+      <title>Setting up a new Seam project</title>
 
-      <para>Start up Eclipse and select the Seam Perspective.</para>
+      <para>
+         Start up Eclipse and select the <emphasis>Seam</emphasis> perspective.
+      </para>
 
-      <para>Go to File -> New Seam Web Project.</para>
+      <para>
+         Go to <emphasis>File</emphasis> -> <emphasis>New</emphasis> ->
+          <emphasis>Seam Web Project</emphasis>.
+      </para>
 
       <mediaobject>
          <imageobject role="fo">
             <imagedata fileref="images/new_web_project_0.png"
-               align="center" scalefit="1" />
+               align="center" />
          </imageobject>
          <imageobject role="html">
             <imagedata fileref="images/new_web_project_0.png"
@@ -72,7 +77,7 @@
       <mediaobject>
          <imageobject role="fo">
             <imagedata fileref="images/new_server_runtime_1.png"
-               align="center" scalefit="1" />
+               align="center" />
          </imageobject>
          <imageobject role="html">
             <imagedata fileref="images/new_server_runtime_1.png"
@@ -87,7 +92,7 @@
       <mediaobject>
          <imageobject role="fo">
             <imagedata fileref="images/new_server_runtime_2.png"
-               align="center" scalefit="1" />
+               align="center"  />
          </imageobject>
          <imageobject role="html">
             <imagedata fileref="images/new_server_runtime_2.png"
@@ -104,19 +109,22 @@
       <mediaobject>
          <imageobject role="fo">
             <imagedata fileref="images/new_server_1.png" align="center"
-               scalefit="1" />
+                />
          </imageobject>
          <imageobject role="html">
             <imagedata fileref="images/new_server_1.png" align="center" />
          </imageobject>
       </mediaobject>
 
-      <para>On the next screen give the server a name, and hit finish:</para>
+      <para>
+         On the next screen give the server a name, and hit 
+         <emphasis>Finish</emphasis>:
+      </para>
 
       <mediaobject>
          <imageobject role="fo">
             <imagedata fileref="images/new_server_2.png"
-               align="center" scalefit="1" />
+               align="center"  />
          </imageobject>
          <imageobject role="html">
             <imagedata fileref="images/new_server_2.png"
@@ -127,7 +135,7 @@
       <para>
          Make sure the runtime and server you just created are selected, select
          <emphasis>Dynamic Web Project with Seam 2.0 (technology preview)</emphasis>
-         and hit next:
+         and hit <emphasis>Next</emphasis>:
       </para>
 
       <mediaobject>
@@ -143,8 +151,8 @@
 
       <para>
          The next 3 screens allow you to further customize your new project, but
-         for us the defaults are fine. So just hit next until you reach the
-         final screen.
+         for us the defaults are fine. So just hit <empahsis>Next</empahsis> 
+         until you reach the final screen.
       </para>
       
       <para>
@@ -166,18 +174,157 @@
       </mediaobject>
       
       <para>
-         Next, select your database type. You'll need to tell JBoss Tools about
-         the database.
+         The most important choice you need to make is between EAR deployment
+         and WAR deployment of your project. EAR projects support EJB 3.0 and
+         require Java EE 5. WAR projects do not support EJB 3.0, but may be
+         deployed to a J2EE environment. The packaging of a WAR is also simpler
+         to understand. If you installed an EJB3-ready application server like
+         JBoss, choose <emphasis>EAR</emphasis>. Otherwise, choose
+         <emphasis>WAR</emphasis>.  We'll assume that you've chosen a WAR 
+         deployment for the rest of the tutorial, but you can follow exactly the
+         same steps for a EAR deployment.
       </para>
+      
+      <para>
+         Next, select your database type. We'll assume you have MySQL installed,
+         with an existing schema. You'll need to tell JBoss Tools about
+         the database, select <emphasis>MySQL</emphasis> as the database, and
+         create a new connection profile. Select <emphasis>Generic JDBC 
+         Connection</emphasis>:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_connection_profile_1.png"
+               align="center"  />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_connection_profile_1.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Give it a name:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_connection_profile_2.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_connection_profile_2.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         JBoss Tools doesn't come with drivers for any databases, so you need to
+         tell JBoss Tools where the MySQL JDBC driver is. Tell it about the
+         driver by clicking <emphasis>...</emphasis>.
+      </para>
+      
+      <para>
+         Locate MySQL 5, and hit <emphasis>Add...</emphasis>:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_connection_profile_3.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_connection_profile_3.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Choose the <emphasis>MySQL JDBC Driver</emphasis> template:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_connection_profile_4.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_connection_profile_4.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Locate the jar on your computer by choosing <emphasis>Edit 
+         Jar/Zip</emphasis>:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_connection_profile_5.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_connection_profile_5.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Review the username and password used to connect, and if correct, hit
+         <emphasis>Ok</emphasis>.
+      </para>
+      
+      <para>
+         Finally, choose the newly created driver:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_connection_profile_6.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_connection_profile_6.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         If you are working with an existing data model, make sure you tell
+         JBoss Tools that the tables already exist in the database.
+      </para>
+      
+      <para>
+         Review the username and password used to connect, test the connection
+         using the <emphasis>Test Connection</emphasis> button, and if it works,
+         hit <emphasis>Finish</emphasis>:
+      </para>
+      
+      <para>
+         Finally, review the package names for your generated beans, and if you
+         are happy, click <emphasis>Finish</emphasis>:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_web_project_2.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_web_project_2.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
 
       <para>
          JBoss has sophisticated support for hot re-deployment of WARs and EARs.
          Unfortunately, due to bugs in the JVM, repeated redeployment of an
          EAR—which is common during development—eventually causes the JVM to run
          out of perm gen space. For this reason, we recommend running JBoss in a
-         JVM with a large perm gen space at development time. If you're running
-         JBoss from JBoss IDE, you can configure this in the server launch
-         configuration, under "VM arguments". We suggest the following values:
+         JVM with a large perm gen space at development time. We suggest the 
+         following values:
       </para>
 
       <programlisting>
@@ -194,108 +341,67 @@
       </programlisting>
 
       <para>
-         If you're running JBoss from the command line, you can configure the
-         JVM options in
-         <literal>bin/run.conf</literal>
-         .
+         Locate the server in the <emphasis>JBoss Server View</emphasis>, right
+         click on the server and select <emphasis>Edit Launch 
+         Configuration</emphasis>: 
       </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/server_properties_0.png"
+               align="center"  />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/server_properties_0.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Then, alter the VM arguements:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/server_properties.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/server_properties.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
 
       <para>
          If you don't want to bother with this stuff now, you don't have to—come
          back to it later, when you get your first
-         <literal>OutOfMemoryException</literal>
-         .
+         <literal>OutOfMemoryException</literal>.
       </para>
 
       <para>
-         The most important choice you need to make is between EAR deployment
-         and WAR deployment of your project. EAR projects support EJB 3.0 and
-         require Java EE 5. WAR projects do not support EJB 3.0, but may be
-         deployed to a J2EE environment. The packaging of a WAR is also simpler
-         to understand. If you installed an EJB3-ready application server like
-         JBoss, choose
-         <literal>ear</literal>
-         . Otherwise, choose
-         <literal>war</literal>
-         . We'll assume that you've chosen an EAR deployment for the rest of the
-         tutorial, but you can follow exactly the same steps for a WAR
-         deployment.
+         To start JBoss, and deploy the project, just right click on the server
+         you created, and click <emphasis>Start</emphasis>, (or 
+         <emphasis>Debug</emphasis> to start in debug mode):
       </para>
 
-      <para>
-         If you are working with an existing data model, make sure you tell
-         seam-gen that the tables already exist in the database.
-      </para>
-
-      <para>
-         This copies the Seam jars, dependent jars and the JDBC driver jar to a
-         new Eclipse project, and generates all needed resources and
-         configuration files, a facelets template file and stylesheet, along
-         with Eclipse metadata and an Ant build script. The Eclipse project will
-         be automatically deployed to an exploded directory structure in JBoss
-         AS as soon as you add the project using
-         <literal>
-            New -&gt; Project... -&gt; General -&gt; Project -&gt; Next
-         </literal>
-         , typing the
-         <literal>Project name</literal>
-         (
-         <literal>helloworld</literal>
-         in this case), and then clicking
-         <literal>Finish</literal>
-         . Do not select
-         <literal>Java Project</literal>
-         from the New Project wizard.
-      </para>
-
-      <para>
-         Go to
-         <literal>http://localhost:8080/helloworld</literal>
-         to see a welcome page. This is a facelets page,
-         <literal>view/home.xhtml</literal>
-         , using the template
-         <literal>view/layout/template.xhtml</literal>
-         . You can edit this page, or the template, in eclipse, and see the
-         results
-         <emphasis>immediately</emphasis>
-         , by clicking refresh in your browser.
-      </para>
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/start_server.png"
+               align="center"  />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/start_server.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
 
       <para>
          Don't get scared by the XML configuration documents that were generated
          into the project directory. They are mostly standard Java EE stuff, the
          stuff you need to create once and then never look at again, and they
-         are 90% the same between all Seam projects. (They are so easy to write
-         that even seam-gen can do it.)
+         are 90% the same between all Seam projects.
       </para>
 
-      <para>
-         The generated project includes three database and persistence
-         configurations. The
-         <literal>persistence-test.xml</literal>
-         and
-         <literal>import-test.sql</literal>
-         files are used when running the TestNG unit tests against HSQLDB. The
-         database schema and the test data in
-         <literal>import-test.sql</literal>
-         is always exported to the database before running tests. The
-         <literal>myproject-dev-ds.xml</literal>
-         ,
-         <literal>persistence-dev.xml</literal>
-         and
-         <literal>import-dev.sql</literal>
-         files are for use when deploying the application to your development
-         database. The schema might be exported automatically at deployment,
-         depending upon whether you told seam-gen that you are working with an
-         existing database. The
-         <literal>myproject-prod-ds.xml</literal>
-         ,
-         <literal>persistence-prod.xml</literal>
-         and
-         <literal>import-prod.sql</literal>
-         files are for use when deploying the application to your production
-         database. The schema is not exported automatically at deployment.
-      </para>
    </section>
 
    <section>
@@ -304,44 +410,113 @@
       <para>
          If you're used to traditional action-style web frameworks, you're
          probably wondering how you can create a simple web page with a
-         stateless action method in Java. If you type:
+         stateless action method in Java.
+      </para>
+      
+      <para>
+         First, select <emphasis>New</emphasis> -> <emphasis>Seam Action</emphasis>:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_action_0.png"
+               align="center"  />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_action_0.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Now, enter the name of the Seam component. JBoss Tools selects sensible
+         defaults for other fields:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_action_1.png"
+               align="center"  />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_action_1.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Finally, hit <emphasis>Finish</emphasis>.
       </para>
 
       <para>
-         Now go to
-         <literal>http://localhost:8080/helloworld/ping.seam</literal>
+         Now go to <literal>http://localhost:8080/helloworld/ping.seam</literal>
          and click the button. You can see the code behind this action by
-         looking in the project
-         <literal>src</literal>
-         directory. Put a breakpoint in the
-         <literal>ping()</literal>
-         method, and click the button again.
+         looking in the project <literal>src</literal> directory. Put a 
+         breakpoint in the <literal>ping()</literal> method, and click the 
+         button again.
       </para>
 
       <para>
-         Finally, locate the
-         <literal>PingTest.xml</literal>
-         file in the test package and run the integration tests using the TestNG
-         plugin for Eclipse. Alternatively, run the tests using
-         <literal>seam test</literal>
-         or the
-         <literal>test</literal>
-         target of the generated build.
+         Finally, open the <literal>helloworld-test</literal> project, locate
+         <literal>PingTest</literal> class, right click on it, and choose
+         <emphasis>Run As</emphasis> -> <emphasis>TestNG Test</emphasis>:
       </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/run_test.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/run_test.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
    </section>
 
    <section>
       <title>Creating a form with an action</title>
 
-      <para>The next step is to create a form. Type:</para>
+      <para>
+         The first step is to create a form. Select <emphasis>New</emphasis> -> 
+         <emphasis>Seam Form</emphasis>:
+      </para>
 
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_form_0.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_form_0.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Now, enter the name of the Seam component. JBoss Tools selects sensible
+         defaults for other fields:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/new_form_1.png"
+               align="center"  />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/new_form_1.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
  
       <para>
-         Restart the application again, and go to
-         <literal>http://localhost:8080/helloworld/hello.seam</literal>
-         . Then take a look at the generated code. Run the test. Try adding some
-         new fields to the form and Seam component (remember to restart the
-         deployment each time you change the Java code).
+         Go to <literal>http://localhost:8080/helloworld/hello.seam</literal>. 
+         Then take a look at the generated code. Run the test. Try adding some
+         new fields to the form and Seam component (note, you don't need to 
+         restart the app server each time you change the code in 
+         <literal>src/action</literal> as Seam hot reloads the component for 
+         you <xref linkend="gettingstartedwithjbosstools.hotdeployment" />).
       </para>
    </section>
 
@@ -350,56 +525,59 @@
 
       <para>
          Manually create some tables in your database. (If you need to switch to
-         a different database, just run
-         <literal>seam setup</literal>
-         again.) Now type:
+         a different database, create a new project, and select the correct
+         database). Then, select <emphasis>New</emphasis> -> 
+         <emphasis>Seam Generate Entities</emphasis>:
       </para>
 
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/generate_entities_0.png"
+               align="center" scalefit="1" />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/generate_entities_0.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         JBoss Tools gives you the option to either reverse engineer
+         entities, components and views from a database schema or to reverse
+         engineer components and views from existing JPA entities. We're going
+         to do <emphasis>Reverse engieneer from database</emphasis>.
+      </para>
      
       <para>
-         Restart the deployment, and go to
-         <literal>http://localhost:8080/helloworld</literal>
-         . You can browse the database, edit existing objects, and create new
-         objects. If you look at the generated code, you'll probably be amazed
-         how simple it is! Seam was designed so that data access code is easy to
-         write by hand, even for people who don't want to cheat by using
-         seam-gen.
+         Restart the deployment:
+      </para>
+      
+      <mediaobject>
+         <imageobject role="fo">
+            <imagedata fileref="images/restart_deployment.png"
+               align="center"  />
+         </imageobject>
+         <imageobject role="html">
+            <imagedata fileref="images/restart_deployment.png"
+               align="center" />
+         </imageobject>
+      </mediaobject>
+      
+      <para>
+         Then go to <literal>http://localhost:8080/helloworld</literal>. You can
+         browse the database, edit existing objects, and create new objects. If 
+         you look at the generated code, you'll probably be amazed how simple it
+         is! Seam was designed so that data access code is easy to write by 
+         hand, even for people who don't want to cheat by using reverse
+         engineering.
       </para>
    </section>
 
-   <section>
-      <title>Generating an application from existing JPA/EJB3 entities</title>
+   <section id="gettingstartedwithjbosstools.hotdeployment">
+      <title>Seam and incremental hot deployment with JBoss Tools</title>
 
       <para>
-         Place your existing, valid entity classes inside the
-         <literal>src/model</literal>
-         . Now type
-      </para>
-
-      <para>
-         Restart the deployment, and go to
-         <literal>http://localhost:8080/helloworld</literal>
-         .
-      </para>
-   </section>
-
-   <section>
-      <title>Seam and incremental hot deployment</title>
-
-      <para>
-         When you deploy your Seam application as an exploded directory, you'll
-         get some support for incremental hot deployment at development time.
-         You need to enable debug mode in both Seam and Facelets, by adding this
-         line to
-         <literal>components.xml</literal>
-         :
-      </para>
-
-      <programlisting role="XML"><![CDATA[<core:init debug="true">]]></programlisting>
-
-      <para>
-         Now, the following files may be redeployed without requiring a full
-         restart of the web application:
+         JBoss Tools supports incremental hot deployment of:
       </para>
 
       <itemizedlist>
@@ -409,30 +587,28 @@
 
          <listitem>
             <para>
-               any
-               <literal>pages.xml</literal>
-               file
+               any <literal>pages.xml</literal> file
             </para>
          </listitem>
       </itemizedlist>
+      
+      <para>
+         out of the box.
+      </para>
 
       <para>
          But if we want to change any Java code, we still need to do a full
-         restart of the application. (In JBoss this may be accomplished by
-         touching the top level deployment descriptor:
-         <literal>application.xml</literal>
-         for an EAR deployment, or
-         <literal>web.xml</literal>
-         for a WAR deployment.)
+         restart of the application by doing a 
+         <emphasis>Full Publish</emphasis>.
       </para>
 
       <para>
          But if you really want a fast edit/compile/test cycle, Seam supports
          incremental redeployment of JavaBean components. To make use of this
          functionality, you must deploy the JavaBean components into the
-         <literal>WEB-INF/dev</literal>
-         directory, so that they will be loaded by a special Seam classloader,
-         instead of by the WAR or EAR classloader.
+         <literal>WEB-INF/dev</literal> directory, so that they will be loaded 
+         by a special Seam classloader, instead of by the WAR or EAR 
+         classloader.
       </para>
 
       <para>You need to be aware of the following limitations:</para>
@@ -446,36 +622,37 @@
          </listitem>
 
          <listitem>
-            <para>entities can never be hot-deloyed</para>
+            <para>
+               entities can never be hot-deloyed
+            </para>
          </listitem>
 
          <listitem>
             <para>
-               components deployed via
-               <literal>components.xml</literal>
-               may not be hot-deployed
+               components deployed via <literal>components.xml</literal> may not
+               be hot-deployed
             </para>
          </listitem>
 
          <listitem>
             <para>
                the hot-deployable components will not be visible to any classes
-               deployed outside of
-               <literal>WEB-INF/dev</literal>
+               deployed outside of <literal>WEB-INF/dev</literal>
             </para>
          </listitem>
 
          <listitem>
             <para>
-               Seam debug mode must be enabled and
-               <literal>jboss-seam-debug.jar</literal>
-               must be in
+               Seam debug mode must be enabled and 
+               <literal>jboss-seam-debug.jar</literal> must be in
                <literal>WEB-INF/lib</literal>
             </para>
          </listitem>
 
          <listitem>
-            <para>You must have the Seam filter installed in web.xml</para>
+            <para>
+               You must have the Seam filter installed in web.xml
+            </para>
          </listitem>
 
          <listitem>
@@ -488,11 +665,10 @@
       </itemizedlist>
 
       <para>
-         If you create a WAR project using seam-gen, incremental hot deployment
-         is available out of the box for classes in the
-         <literal>src/action</literal>
-         source directory. However, seam-gen does not support incremental hot
-         deployment for EAR projects.
+         If you create a WAR project using JBoss Tools, incremental hot deployment
+         is available out of the box for classes in the 
+         <literal>src/action</literal> source directory. However, JBoss Tools 
+         does not support incremental hot deployment for EAR projects.
       </para>
    </section>      
 
