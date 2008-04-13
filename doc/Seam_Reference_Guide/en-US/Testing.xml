@@ -530,7 +530,9 @@ public class MockPaymentProcessor extends PaymentProcessor {
          </para>
          
          <para>
-            You need to provide a dataset for DBUnit:
+            You need to provide a dataset for DBUnit.  IMPORTANT NOTE: DBUnit supports two
+            formats for dataset files, flat and XML.  Seam's DBUnitSeamTest assumes the flat 
+            format is used, so please ensure that your dataset is in this format also.
          </para>
           
           <programlisting role="XML"><![CDATA[<dataset>
