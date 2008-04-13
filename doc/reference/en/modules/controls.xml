@@ -248,7 +248,9 @@
 
             <para>
               The converter works with any managed entity which has an <literal>@Id</literal> annotation -
-              either simple or composite.
+              either simple or composite.  The converter should be able to find the items declared in the
+              JSF controls (the currently selected, and the items available for selection), otherwise
+              you will receive a validation error.
             </para>
 
             <para><emphasis>Attributes</emphasis></para>
@@ -295,6 +297,12 @@
     <f:converter converterId="myEntityConverter" />
 </h:selectOneMenu>]]></programlisting>
 
+            <para>
+              If a page uses more than one entity manager for rendering, the
+              above standard reference to the converter is obligatory. Otherwise
+              the converter's entity loader might show unexpected behavior.
+            </para>
+
             <para><emphasis>Usage</emphasis></para>
             <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}" required="true">
   <s:selectItems value="#{continents.resultList}" var="continent" 
@@ -312,6 +320,27 @@
 
           <entry valign="top">
             <para><emphasis>Description</emphasis></para>
+
+            <para>
+              Assigns an enum converter to the current component.  This is primarily
+              useful for radio button and dropdown controls.
+            </para>
+            <para><emphasis>Attributes</emphasis></para>
+            <para>
+              None.
+            </para>
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:selectOneMenu value="#{person.honorific}">
+  <s:selectItems value="#{honorifics}" var="honorific" 
+                 label="#{honorific.label}"
+                 noSelectionLabel="Please select" />
+  <s:convertEnum />
+</h:selectOneMenu>]]></programlisting>
+          </entry>
+        </row>    
+        
+        <row>
+          <entry valign="top">            
             <para><literal>&lt;s:convertAtomicBoolean&gt;</literal></para>
           </entry>
           <entry valign="top">
@@ -365,26 +394,6 @@
             <programlisting><![CDATA[<h:outputText value="#{item.id}">
   <s:convertAtomicLong />
 </h:outputText>]]></programlisting>
-          </entry>
-        </row>
-        
-        <row>
-          <entry valign="top">
-            <para>
-              Assigns an enum converter to the current component.  This is primarily
-              useful for radio button and dropdown controls.
-            </para>
-            <para><emphasis>Attributes</emphasis></para>
-            <para>
-              None.
-            </para>
-            <para><emphasis>Usage</emphasis></para>
-            <programlisting><![CDATA[<h:selectOneMenu value="#{person.honorific}">
-  <s:selectItems value="#{honorifics}" var="honorific" 
-                 label="#{honorific.label}"
-                 noSelectionLabel="Please select" />
-  <s:convertEnum />
-</h:selectOneMenu>]]></programlisting>
           </entry>
         </row>
 
