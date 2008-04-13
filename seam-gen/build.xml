@@ -186,7 +186,7 @@
     	<property name="old.icefaces" value="n"/>
 	    <input addproperty="icefaces.new"
 	               message="Do you want to use ICEFaces instead of RichFaces [${old.icefaces}]"
-	    	     validargs="y,n,"
+	    	     validargs="y,n"
 	          defaultvalue="${old.icefaces}" />
     	
     	<condition property="icefaces.home.new" value="">
@@ -405,13 +405,13 @@
         <property name="old.database.exists" value="n"/>
         <input addproperty="database.exists.new" 
                    message="Are you working with tables that already exist in the database? [${old.database.exists}] "
-        	     validargs="y,n,"
+        	     validargs="y,n"
               defaultvalue="${old.database.exists}"/>
 
         <property name="old.database.drop" value="n"/>
         <input addproperty="database.drop.new" 
                    message="Do you want to drop and recreate the database tables and data in import.sql each time you deploy? [${old.database.drop}] "
-        	     validargs="y,n,"
+        	     validargs="y,n"
               defaultvalue="${old.database.drop}"/>
     	
     	<condition property="hibernate.default_schema.key" value="hibernate.default_schema">
