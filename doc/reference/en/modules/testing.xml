@@ -526,11 +526,13 @@ public class MockPaymentProcessor extends PaymentProcessor {
           <para>
             If you need to insert or clean data in your database before each 
             test you can use Seam's integration with DBUnit.  To do this, extend 
-            DBUnitSeamTest rather than SeamTest.
+            DBUnitSeamTest rather than SeamTest.  
          </para>
          
          <para>
-            You need to provide a dataset for DBUnit:
+            You need to provide a dataset for DBUnit.  IMPORTANT NOTE: DBUnit supports two
+            formats for dataset files, flat and XML.  Seam's DBUnitSeamTest assumes the flat 
+            format is used, so please ensure that your dataset is in this format also.
          </para>
           
           <programlisting><![CDATA[<dataset>
