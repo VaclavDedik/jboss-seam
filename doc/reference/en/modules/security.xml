@@ -499,8 +499,7 @@ public class Authenticator {
           provided by JBoss AS), then the entry in <literal>components.xml</literal> would look like this:
         </para>
 
-        <programlisting><![CDATA[<security:identity authenticate-method="#{authenticator.authenticate}"
-                      jaas-config-name="other"/>]]></programlisting>
+        <programlisting><![CDATA[<security:identity jaas-config-name="other"/>]]></programlisting>
                       
         <para>
           Please keep in mind that doing this does not mean that your user will be authenticated in whichever
