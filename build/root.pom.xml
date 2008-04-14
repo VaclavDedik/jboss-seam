@@ -165,6 +165,10 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
 
@@ -177,6 +181,11 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+          </exclusion>
+
         </exclusions>
       </dependency>
 
@@ -198,6 +207,10 @@
           <exclusion>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
+          </exclusion>
+          <exclusion>
+             <groupId>commons-digester</groupId>
+             <artifactId>commons-digester</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
