@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.security.Principal;
 
 /**
- * Base class for permissions
+ * Represents a single permission for a particular target, action and recipient combination.
  *  
  * @author Shane Bryzak
  */
@@ -14,14 +14,16 @@ public class Permission implements Serializable
    private String action;
    private Principal recipient;
    
+   public Permission(Object target, String action, Principal recipient)
+   {
+      this.target = target;
+      this.action = action;
+      this.recipient = recipient;
+   }
+   
    public Object getTarget()
    {
       return target;
-   }
-   
-   public void setTarget(Object target)
-   {
-      this.target = target;
    }
    
    public String getAction()
@@ -29,18 +31,8 @@ public class Permission implements Serializable
       return action;
    }
    
-   public void setAction(String action)
-   {
-      this.action = action;
-   }
-   
    public Principal getRecipient()
    {
       return recipient;
-   }
-   
-   public void setRecipient(Principal recipient)
-   {
-      this.recipient = recipient;
    }
 }
