@@ -82,7 +82,7 @@ import org.jboss.seam.annotations.faces.Converter;
 import org.jboss.seam.annotations.faces.Validator;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.annotations.intercept.Interceptors;
-import org.jboss.seam.annotations.security.PermissionAction;
+import org.jboss.seam.annotations.security.PermissionCheck;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.async.AsynchronousInterceptor;
@@ -1085,7 +1085,7 @@ public class Component extends Model
          {
             for (Annotation annotation : method.getAnnotations())
             {
-               if (annotation.annotationType().isAnnotationPresent(PermissionAction.class))
+               if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class))
                {
                   secure = true;
                   break;
