@@ -1,6 +1,7 @@
 package org.jboss.seam.contexts;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -68,9 +69,10 @@ class EntityBeanList extends AbstractEntityBeanCollection
        List<PassivatedEntity> newPassivatedList = new ArrayList<PassivatedEntity>(list.size());               
 
        boolean found = false;
-       for (int i=0; i<list.size(); i++) {
+       Iterator<Object> it = list.iterator();
+       for (int i=0; it.hasNext(); i++) {
            PassivatedEntity passivatedEntity = null;
-           Object value = list.get(i);
+           Object value = it.next();
            if (value != null) {
                passivatedEntity = PassivatedEntity.passivateEntity(value);
                
