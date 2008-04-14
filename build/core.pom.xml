@@ -254,6 +254,12 @@
     </dependency>
 
     <dependency>
+        <groupId>org.beanshell</groupId>
+        <artifactId>bsh</artifactId>
+        <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>org.jboss.el</groupId>
       <artifactId>jboss-el</artifactId>
     </dependency>
