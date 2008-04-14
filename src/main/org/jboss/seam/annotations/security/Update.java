@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Inherited
-@PermissionAction("update")
+@PermissionCheck("update")
 public @interface Update {
    Class value();
 }

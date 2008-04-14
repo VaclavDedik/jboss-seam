@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Inherited
-@PermissionAction("insert")
+@PermissionCheck("insert")
 public @interface Insert {
    Class value();
 }

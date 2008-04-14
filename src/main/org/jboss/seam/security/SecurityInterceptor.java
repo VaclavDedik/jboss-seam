@@ -8,7 +8,7 @@ import java.util.Map;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.annotations.intercept.InterceptorType;
-import org.jboss.seam.annotations.security.PermissionAction;
+import org.jboss.seam.annotations.security.PermissionCheck;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.async.AsynchronousInterceptor;
 import org.jboss.seam.intercept.AbstractInterceptor;
@@ -114,9 +114,9 @@ public class SecurityInterceptor extends AbstractInterceptor
                
                for (Annotation annotation : method.getAnnotations())
                {
-                  if (annotation.annotationType().isAnnotationPresent(PermissionAction.class))
+                  if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class))
                   {
-                     PermissionAction permissionAction = annotation.annotationType().getAnnotation(PermissionAction.class);
+                     PermissionCheck permissionAction = annotation.annotationType().getAnnotation(PermissionCheck.class);
                      
                      Method valueMethod = null;
                      for (Method m : annotation.annotationType().getDeclaredMethods())

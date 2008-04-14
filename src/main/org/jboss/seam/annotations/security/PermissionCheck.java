@@ -18,7 +18,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Inherited
-public @interface PermissionAction 
+public @interface PermissionCheck 
 {
    String value() default "";
 }

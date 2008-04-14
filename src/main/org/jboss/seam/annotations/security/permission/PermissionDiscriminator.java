@@ -1,5 +1,6 @@
-package org.jboss.seam.annotations.security;
+package org.jboss.seam.annotations.security.permission;
 
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -9,15 +10,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * 
- *
+ * Flags an entity field or method as representing the discriminator column in a permission table
+ * that contains permissions for both roles and users.
+ *  
  * @author Shane Bryzak
  */
-@Target({METHOD})
+@Target({METHOD,FIELD})
 @Documented
 @Retention(RUNTIME)
 @Inherited
-@PermissionCheck("delete")
-public @interface Delete {
-   Class value();
+public @interface PermissionDiscriminator
+{
+
 }

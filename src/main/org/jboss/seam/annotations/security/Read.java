@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Inherited
-@PermissionAction("read")
+@PermissionCheck("read")
 public @interface Read {
    Class value();
 }
