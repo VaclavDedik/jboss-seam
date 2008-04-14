@@ -26,7 +26,7 @@
     </outbound-rule>
 
     <outbound-rule>
-        <from>/([a-z]+).seam</from>
+        <from>/([a-z]+)\.seam</from>
         <to>/$1</to>
     </outbound-rule>
 </urlrewrite>
