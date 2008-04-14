@@ -34,7 +34,7 @@ import org.jboss.seam.security.permission.PermissionStore;
 @Startup
 public class DynamicPermissionResolver implements PermissionResolver, Serializable
 {   
-   private static final String DEFAULT_PERMISSION_STORE_NAME = "accountPermissionStore";
+   private static final String DEFAULT_PERMISSION_STORE_NAME = "jpaDynamicPermissionStore";
    
    private PermissionStore permissionStore;
    
@@ -90,7 +90,7 @@ public class DynamicPermissionResolver implements PermissionResolver, Serializab
       
       for (Permission permission : permissions)
       {
-         if (username.equals(permission.getRecipient()))
+         if (username.equals(permission.getRecipient().getName()))
          {
             return true;
          }

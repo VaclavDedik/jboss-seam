@@ -4,9 +4,6 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -62,147 +59,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    private ValueExpression<EntityManager> entityManager;  
    
    private Class userClass;
-   private Class roleClass;
-   
-   protected final class BeanProperty
-   {
-      private Field propertyField;
-      private Method propertyGetter;
-      private Method propertySetter;
-      private Annotation annotation;
-      private String name;
-      private Class propertyClass;
-      
-      private boolean isFieldProperty;
-      
-      public BeanProperty(Field propertyField, Annotation annotation)
-      {
-         this.propertyField = propertyField;
-         isFieldProperty = true;
-         this.annotation = annotation;
-         this.name = propertyField.getName();
-         this.propertyClass = propertyField.getDeclaringClass();
-      }
-      
-      public BeanProperty(Method propertyMethod, Annotation annotation)
-      {
-         if (!(propertyMethod.getName().startsWith("get") || (propertyMethod.getName().startsWith("is"))))
-         {
-            throw new IllegalArgumentException("Bean property method name " + propertyMethod.getClass().getName() +
-                  "." + propertyMethod.getName() + "() must start with \"get\" or \"is\".");
-         }
-         
-         if (propertyMethod.getReturnType().equals(void.class) || propertyMethod.getParameterTypes().length > 0)
-         {
-            throw new IllegalArgumentException("Bean property method " + propertyMethod.getClass().getName() +
-                  "." + propertyMethod.getName() + "() must return a value and take no parameters");
-         }
-         
-         this.propertyGetter = propertyMethod;
-         this.propertyClass = propertyMethod.getReturnType();
-         
-         String methodName = propertyMethod.getName();
-         
-         this.name = methodName.startsWith("get") ?
-               (methodName.substring(3,4).toLowerCase() + methodName.substring(4)) :
-               (methodName.substring(2,3).toLowerCase() + methodName.substring(3));
-         
-         String setterName = propertyMethod.getName().startsWith("get") ?
-               ("set" + methodName.substring(3)) : ("set" + methodName.substring(2));
-               
-         try
-         {
-            propertySetter = propertyMethod.getDeclaringClass().getMethod(setterName, new Class[] {propertyMethod.getReturnType()});
-         }
-         catch (NoSuchMethodException ex)
-         {
-            throw new IllegalArgumentException("Bean property method " + propertyMethod.getClass().getName() +
-                  "." + propertyMethod.getName() + "() must have a corresponding setter method.");                  
-         }
-         
-         isFieldProperty = false;
-         this.annotation = annotation;
-      }
-      
-      public void setValue(Object bean, Object value)
-      {
-         if (isFieldProperty)
-         {
-            boolean accessible = propertyField.isAccessible();
-            try
-            {
-               propertyField.setAccessible(true);
-               propertyField.set(bean, value);   
-            }
-            catch (IllegalAccessException ex)
-            {
-               throw new RuntimeException("Exception setting bean property", ex);
-            }
-            finally
-            {
-               propertyField.setAccessible(accessible);
-            }            
-         }
-         else
-         {
-            try
-            {
-               propertySetter.invoke(bean, value);
-            }
-            catch (Exception ex)
-            {
-               throw new RuntimeException("Exception setting bean property", ex);
-            }
-         }
-      }
-      
-      public Object getValue(Object bean)
-      {
-         if (isFieldProperty)
-         {
-            boolean accessible = propertyField.isAccessible();
-            try
-            {
-               propertyField.setAccessible(true);
-               return propertyField.get(bean);
-            }
-            catch (IllegalAccessException ex)
-            {
-               throw new RuntimeException("Exception getting bean property", ex);
-            }
-            finally
-            {
-               propertyField.setAccessible(accessible);
-            }
-         }
-         else
-         {
-            try
-            {
-               return propertyGetter.invoke(bean);
-            }
-            catch (Exception ex)
-            {
-               throw new RuntimeException("Exception getting bean property", ex);
-            }
-         }
-      }
-      
-      public Annotation getAnnotation()
-      {
-         return annotation;
-      }
-      
-      public String getName()
-      {
-         return name;
-      }
-      
-      public Class getPropertyClass()
-      {
-         return propertyClass;
-      }
-   }
+   private Class roleClass;   
    
    private BeanProperty userPrincipalProperty;
    private BeanProperty userPasswordProperty;
@@ -259,15 +116,15 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    private void initProperties()
    {
-      userPrincipalProperty = scanForProperty(userClass, UserPrincipal.class);
-      userPasswordProperty = scanForProperty(userClass, UserPassword.class);
-      userRolesProperty = scanForProperty(userClass, UserRoles.class);
-      userEnabledProperty = scanForProperty(userClass, UserEnabled.class);
-      userFirstNameProperty = scanForProperty(userClass, UserFirstName.class);
-      userLastNameProperty = scanForProperty(userClass, UserLastName.class);
+      userPrincipalProperty = BeanProperty.scanForProperty(userClass, UserPrincipal.class);
+      userPasswordProperty = BeanProperty.scanForProperty(userClass, UserPassword.class);
+      userRolesProperty = BeanProperty.scanForProperty(userClass, UserRoles.class);
+      userEnabledProperty = BeanProperty.scanForProperty(userClass, UserEnabled.class);
+      userFirstNameProperty = BeanProperty.scanForProperty(userClass, UserFirstName.class);
+      userLastNameProperty = BeanProperty.scanForProperty(userClass, UserLastName.class);
       
-      roleNameProperty = scanForProperty(roleClass, RoleName.class);
-      roleGroupsProperty = scanForProperty(roleClass, RoleGroups.class);
+      roleNameProperty = BeanProperty.scanForProperty(roleClass, RoleName.class);
+      roleGroupsProperty = BeanProperty.scanForProperty(roleClass, RoleGroups.class);
       
       if (userPrincipalProperty == null) 
       {
@@ -292,27 +149,6 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new IdentityManagementException("Invalid roleClass " + roleClass.getName() + 
          " - required annotation @RoleName not found on any Field or Method.");         
       }
-   }
-   
-   private BeanProperty scanForProperty(Class cls, Class<? extends Annotation> annotation)
-   {
-      for (Field f : cls.getFields())
-      {
-         if (f.isAnnotationPresent(annotation)) 
-         {
-            return new BeanProperty(f, f.getAnnotation(annotation));
-         }
-      }
-      
-      for (Method m : cls.getMethods())
-      {
-         if (m.isAnnotationPresent(annotation))
-         {
-            return new BeanProperty(m, m.getAnnotation(annotation));
-         }
-      }
-      
-      return null;
    }
    
    public boolean createUser(String username, String password, String firstname, String lastname)
