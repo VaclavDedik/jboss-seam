@@ -33,19 +33,14 @@
       <id>snapshots.jboss.org</id>
       <name>JBoss Snapshot Repository</name>
       <url>http://snapshots.jboss.org/maven2</url>
-      </repository>
-    <repository>
-      <id>wicketstuff.org</id>
-      <name>Wicket</name>
-      <url>http://wicketstuff.org/maven/repository</url>
     </repository>
   </repositories>
   
   <!-- Externalize some version numbers here -->
   <properties>
     <version.richfaces>3.1.4.GA</version.richfaces>
-    <version.wicket>1.3.0-SNAPSHOT</version.wicket>
-    <version.drools>4.0.6</version.drools>
+    <version.wicket>1.3.3</version.wicket>
+    <version.drools>4.0.4</version.drools>
   </properties>
 
   <dependencyManagement>
@@ -161,6 +156,10 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
 
@@ -189,6 +188,11 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>javax.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+          </exclusion>
+
         </exclusions>
       </dependency>
 
@@ -210,6 +214,10 @@
           <exclusion>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
+          </exclusion>
+          <exclusion>
+             <groupId>commons-digester</groupId>
+             <artifactId>commons-digester</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -276,10 +284,6 @@
           <exclusion>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>org.hibernate</groupId>
-            <artifactId>ejb3-persistence</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
