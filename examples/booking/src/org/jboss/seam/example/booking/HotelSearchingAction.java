@@ -21,40 +21,47 @@ import org.jboss.seam.annotations.security.Restrict;
 @Restrict("#{identity.loggedIn}")
 public class HotelSearchingAction implements HotelSearching
 {
+    @PersistenceContext
+    private EntityManager em;
+    
+    private String searchString;
+    private int pageSize = 10;
+    private int page;
+    private boolean nextPageAvailable;
    
-   @PersistenceContext
-   private EntityManager em;
+    @DataModel
+    private List<Hotel> hotels;
    
-   private String searchString;
-   private int pageSize = 10;
-   private int page;
-   
-   @DataModel
-   private List<Hotel> hotels;
-   
-   public void find()
-   {
-      page = 0;
-      queryHotels();
-   }
-   public void nextPage()
-   {
-      page++;
-      queryHotels();
-   }
-      
-   private void queryHotels()
-   {
-      hotels = em.createQuery("select h from Hotel h where lower(h.name) like #{pattern} or lower(h.city) like #{pattern} or lower(h.zip) like #{pattern} or lower(h.address) like #{pattern}")
-            .setMaxResults(pageSize)
-            .setFirstResult( page * pageSize )
-            .getResultList();
-   }
-   
-   public boolean isNextPageAvailable()
-   {
-      return hotels!=null && hotels.size()==pageSize;
-   }
+    public void find() 
+    {
+        page = 0;
+        queryHotels();
+    }
+
+    public void nextPage() 
+    {
+        page++;
+        queryHotels();
+    }
+    
+    private void queryHotels() {
+        List<Hotel> results = em.createQuery("select h from Hotel h where lower(h.name) like #{pattern} or lower(h.city) like #{pattern} or lower(h.zip) like #{pattern} or lower(h.address) like #{pattern}")
+                                .setMaxResults(pageSize+1)
+                                .setFirstResult(page * pageSize)
+                                .getResultList();
+        
+        nextPageAvailable = results.size() > pageSize;
+        if (nextPageAvailable) {
+            hotels = results.subList(0,pageSize);
+        } else {
+            hotels = results;
+        }
+    }
+
+    public boolean isNextPageAvailable()
+    {
+        return nextPageAvailable;
+    }
    
    public int getPageSize() {
       return pageSize;
