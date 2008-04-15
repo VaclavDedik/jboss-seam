@@ -21,5 +21,6 @@ import java.lang.annotation.Target;
 @Inherited
 public @interface PermissionDiscriminator
 {
-
+   String userValue() default "user";
+   String roleValue() default "role";
 }

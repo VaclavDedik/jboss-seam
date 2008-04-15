@@ -4,11 +4,15 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
+import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -23,8 +27,9 @@ import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.security.Role;
 import org.jboss.seam.security.management.BeanProperty;
-import org.jboss.seam.security.management.IdentityManagementException;
+import org.jboss.seam.security.management.JpaIdentityStore;
 import org.jboss.seam.security.permission.Permission;
 import org.jboss.seam.security.permission.PermissionStore;
 
@@ -45,7 +50,7 @@ public class JpaDynamicPermissionStore implements PermissionStore, Serializable
    
    private Class userPermissionClass;
    private Class rolePermissionClass;
-   
+      
    private BeanProperty userProperty;
    private BeanProperty roleProperty;
    
@@ -56,6 +61,9 @@ public class JpaDynamicPermissionStore implements PermissionStore, Serializable
    private BeanProperty roleTargetProperty;
    private BeanProperty roleActionProperty;
    
+   private String selectUserPermissionQuery;
+   private String selectRolePermissionQuery;
+
    @Create
    public void init()
    {      
@@ -71,9 +79,10 @@ public class JpaDynamicPermissionStore implements PermissionStore, Serializable
       }       
       
       initProperties();
+      buildQueries();
    }   
    
-   private void initProperties()
+   protected void initProperties()
    {
       userProperty = BeanProperty.scanForProperty(userPermissionClass, PermissionUser.class);
       targetProperty = BeanProperty.scanForProperty(userPermissionClass, PermissionTarget.class);
@@ -99,27 +108,120 @@ public class JpaDynamicPermissionStore implements PermissionStore, Serializable
       
       if (userProperty == null) 
       {
-         throw new IdentityManagementException("Invalid userPermissionClass " + userPermissionClass.getName() + 
+         throw new RuntimeException("Invalid userPermissionClass " + userPermissionClass.getName() + 
                " - required annotation @PermissionUser not found on any Field or Method.");
       }
 
-      // TODO additional validation checks for both permission classes
+      if (rolePermissionClass != null)
+      {
+         if (roleProperty == null)
+         {
+            throw new RuntimeException("Invalid rolePermissionClass " + rolePermissionClass.getName() +
+                  " - required annotation @PermissionRole not found on any Field or Method.");
+         }
+         
+         if (roleTargetProperty == null)
+         {
+            throw new RuntimeException("Invalid rolePermissionClass " + rolePermissionClass.getName() +
+                  " - required annotation @PermissionTarget not found on any Field or Method.");
+         }
+         
+         if (roleActionProperty == null)
+         {
+            throw new RuntimeException("Invalid rolePermissionClass " + rolePermissionClass.getName() +
+                  " - required annotation @PermissionAction not found on any Field or Method.");
+         }
+      }
+      else if (discriminatorProperty == null)
+      {
+         throw new RuntimeException("Invalid userPermissionClass " + rolePermissionClass.getName() +
+               " - no rolePermissionClass set and @PermissionDiscriminator annotation not found on " +
+               "any Field or Method");
+      }
    }   
+   
+   protected void buildQueries()
+   {
+      StringBuffer query = new StringBuffer();
+      query.append("select p from ");
+      query.append(userPermissionClass.getName());
+      query.append(" p where ");
+      query.append(targetProperty.getName());
+      query.append(" = :target and ");
+      query.append(actionProperty.getName());
+      query.append(" = :action and ");
+      query.append(userProperty.getName());
+      query.append(" = :recipient");
+      
+      if (rolePermissionClass == null)
+      {
+         query.append(" and ");
+         query.append(discriminatorProperty.getName());
+         query.append(" = :discriminator");         
+      }
+            
+      selectUserPermissionQuery = query.toString();
+      
+      if (rolePermissionClass != null)
+      {
+         query.setLength(0);
+         query.append("select p from ");
+         query.append(rolePermissionClass.getName());
+         query.append(" p where ");
+         query.append(roleTargetProperty.getName());
+         query.append(" = :target and ");
+         query.append(roleActionProperty.getName());
+         query.append(" = :action and ");
+         query.append(roleProperty.getName());
+         query.append(" = :recipient");
+         
+         selectRolePermissionQuery = query.toString();
+      }
+      else
+      {
+         selectRolePermissionQuery = selectUserPermissionQuery;
+      }
+   }
    
    public boolean grantPermission(Permission permission)
    {
+      boolean recipientIsRole = permission.getRecipient() instanceof Role;
+      
       try
       {
+         if (recipientIsRole)
+         {
+            if (rolePermissionClass != null)
+            {
+               Object instance = rolePermissionClass.newInstance();
+               roleTargetProperty.setValue(instance, permission.getTarget().toString());
+               roleActionProperty.setValue(instance, permission.getAction());
+               roleProperty.setValue(instance, permission.getRecipient().getName());
+               lookupEntityManager().persist(instance);
+               return true;
+            }
+            
+            if (discriminatorProperty == null)
+            {
+               throw new RuntimeException("Could not grant permission, rolePermissionClass not set");   
+            }
+         }
+         
          if (userPermissionClass == null)
          {
-            throw new RuntimeException("Could not grant permission, permissionClass not set");
+            throw new RuntimeException("Could not grant permission, userPermissionClass not set");
          }
                  
          Object instance = userPermissionClass.newInstance();
-//         instance.setTarget(permission.getTarget());
-//         instance.setAction(permission.getAction());
-//         instance.setAccount(permission.getRecipient());
-
+         targetProperty.setValue(instance, permission.getTarget().toString());
+         actionProperty.setValue(instance, permission.getAction());
+         userProperty.setValue(instance, permission.getRecipient().getName());
+         
+         if (discriminatorProperty != null)
+         {
+            discriminatorProperty.setValue(instance, getDiscriminatorValue(recipientIsRole));
+         }
+         
          lookupEntityManager().persist(instance);
          
          return true;
@@ -130,21 +232,32 @@ public class JpaDynamicPermissionStore implements PermissionStore, Serializable
       }   
    }
    
+   private String getDiscriminatorValue(boolean isRole)
+   {
+      PermissionDiscriminator discriminator = (PermissionDiscriminator) discriminatorProperty.getAnnotation();
+      return isRole ? discriminator.roleValue() : discriminator.userValue();      
+   }
+   
    public boolean revokePermission(Permission permission)
    {
+      boolean recipientIsRole = permission.getRecipient() instanceof Role;
+
+      EntityManager em = lookupEntityManager();
+      
+      Query qry = em.createQuery(recipientIsRole ? selectRolePermissionQuery :
+         selectUserPermissionQuery)
+         .setParameter("target", permission.getTarget())
+         .setParameter("action", permission.getAction())
+         .setParameter("recipient", resolvePrincipal(permission.getRecipient()));
+      
+      if (discriminatorProperty != null)
+      {
+         qry.setParameter("discriminator", getDiscriminatorValue(recipientIsRole));
+      }
+      
       try
       {
-         EntityManager em = lookupEntityManager();
-         
-         Object instance = em.createQuery(
-            "from " + userPermissionClass.getName() +
-            " where target = :target and action = :action and account = :account " +
-            " and accountType = :accountType")
-            .setParameter("target", permission.getTarget())
-            .setParameter("action", "action")
-            .setParameter("account", permission.getRecipient())
-            .getSingleResult();
-         
+         Object instance = qry.getSingleResult();        
          em.remove(instance);
          return true;
       }
@@ -153,6 +266,34 @@ public class JpaDynamicPermissionStore implements PermissionStore, Serializable
          return false;
       }
    }   
+   
+   /**
+    * If the user or role properties in the entity class refer to other entities, then this method
+    * uses JpaIdentityStore to lookup that user or role entity. 
+    * 
+    * @param recipient
+    * @return
+    */
+   protected Object resolvePrincipal(Principal recipient)
+   {
+      boolean recipientIsRole = recipient instanceof Role;
+         
+      JpaIdentityStore identityStore = (JpaIdentityStore) Component.getInstance(JpaIdentityStore.class, true);
+      
+      if (identityStore != null)
+      {
+         if (recipientIsRole && roleProperty != null && roleProperty.getPropertyClass().equals(identityStore.getRoleClass()))
+         {
+            return identityStore.lookupRole(recipient.getName());
+         }
+         else if (userProperty.getPropertyClass().equals(identityStore.getUserClass()))
+         {
+            return identityStore.lookupUser(recipient.getName());
+         }
+      }      
+      
+      return recipient.getName();
+   }
 
    public List<Permission> listPermissions(Object target, String action) 
    {
@@ -170,6 +311,12 @@ public class JpaDynamicPermissionStore implements PermissionStore, Serializable
             "from " + userPermissionClass.getName() + " where target = :target")
             .setParameter("target", target)
             .getResultList();
+   }
+   
+   public List<Permission> listPermissions(Set<Object> targets)
+   {
+      // TODO implement this method
+      return null;
    }
 
    private EntityManager lookupEntityManager()

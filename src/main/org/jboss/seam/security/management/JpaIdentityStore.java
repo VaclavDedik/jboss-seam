@@ -630,7 +630,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }
    }
    
-   protected Object lookupUser(String username)       
+   public Object lookupUser(String username)       
    {
       try
       {
@@ -648,7 +648,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }      
    }
    
-   protected Object lookupRole(String role)       
+   public Object lookupRole(String role)       
    {
       try
       {

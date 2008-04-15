@@ -2,6 +2,7 @@ package org.jboss.seam.security.permission.acl;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import org.jboss.seam.security.permission.Permission;
 import org.jboss.seam.security.permission.PermissionStore;
@@ -31,6 +32,12 @@ public class JpaAclPermissionStore implements PermissionStore, Serializable
    public List<Permission> listPermissions(Object target)
    {
       // TODO Auto-generated method stub
+      return null;
+   }
+   
+   public List<Permission> listPermissions(Set<Object> targets)
+   {
+      // TODO implement this
       return null;
    }
    
