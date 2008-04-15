@@ -652,6 +652,8 @@
                 file="${base.dir}/resources/WEB-INF/components-war.xml">
             <filterset refid="project"/>
         </copy>
+        <copy tofile="${project.home}/deployed-jars.list" 
+                file="${base.dir}/build-scripts/deployed-jars-war.list"/>
         <copy tofile="${project.home}/build.xml" 
                 file="${base.dir}/build-scripts/build-war.xml">
             <filterset refid="project"/>
@@ -697,6 +699,9 @@
     
     <target name="file-copy" depends="file-copy-war,file-copy-ear,setup-filters">
 
+        <copy tofile="${project.home}/seam-gen.properties" 
+                file="./build.properties"/>
+                
         <copy todir="${project.home}/resources">
             <fileset dir="${base.dir}/resources/">
             	<exclude name="datasource-ds.xml"/>
@@ -802,6 +807,7 @@
         <copy todir="${project.home}">
             <fileset dir="${base.dir}/build-scripts">
             	<exclude name="build*.xml"/>
+            	<exclude name="*.list"/>
             	<exclude name="debug-jboss.launch"/>
             </fileset>
             <filterset refid="project"/>
