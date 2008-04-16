@@ -31,7 +31,7 @@ public abstract class PersistenceController<T> extends Controller
    
    protected boolean isPersistenceContextOpen(T persistenceContext)
    {
-      return false;
+      return true;
    }
 
 }
