@@ -63,6 +63,7 @@ import org.jboss.seam.util.XML;
  */
 public class Initialization
 {
+   public static final String COMPONENT_NAMESPACE = "http://jboss.com/products/seam/components";
    public static final String COMPONENT_SUFFIX = ".component";
    private static final LogProvider log = Logging.getLogProvider(Initialization.class);
 
@@ -73,6 +74,7 @@ public class Initialization
    private Set<Class> installedComponentClasses = new HashSet<Class>();
    //private Set<String> importedPackages = new HashSet<String>();
    private Map<String, NamespaceDescriptor> namespaceMap = new HashMap<String, NamespaceDescriptor>();
+   private NamespacePackageResolver namespacePackageResolver = new NamespacePackageResolver();
    private Map<String, EventListenerDescriptor> eventListenerDescriptors = new HashMap<String, EventListenerDescriptor>();
    private Collection<String> globalImports = new ArrayList<String>();
    
@@ -173,116 +175,118 @@ public class Initialization
       }
    }
 
+   private List<Element> elements(Element rootElement, String name) {
+       return rootElement.elements(name);
+   }
+   
    @SuppressWarnings("unchecked")
    private void installComponentsFromXmlElements(Element rootElement, Properties replacements)
-            throws DocumentException, ClassNotFoundException
+   throws DocumentException, ClassNotFoundException
    {
-      /*List<Element> importJavaElements = rootElement.elements("import-java-package");
-      for (Element importElement : importJavaElements)
-      {
-         String pkgName = importElement.getTextTrim();
-         importedPackages.add(pkgName);
-         addNamespace( Package.getPackage(pkgName) );
-      }*/
+	   /*List<Element> importJavaElements = rootElement.elements("import-java-package");
+        for (Element importElement : importJavaElements)
+        {
+            String pkgName = importElement.getTextTrim();
+            importedPackages.add(pkgName);
+            addNamespace( Package.getPackage(pkgName) );
+        }*/
 
-      List<Element> importElements = rootElement.elements("import");
-      for (Element importElement : importElements)
-      {
-         globalImports.add( importElement.getTextTrim() );
-      }
-      
-      List<Element> componentElements = rootElement.elements("component");
-      for (Element component : componentElements)
-      {
-         installComponentFromXmlElement(component, component.attributeValue("name"), component
-                  .attributeValue("class"), replacements);
-      }
+	   for (Element importElement: elements(rootElement,"import")) {
+		   globalImports.add( importElement.getTextTrim() );
+	   }
 
-      List<Element> factoryElements = rootElement.elements("factory");
-      for (Element factory : factoryElements)
-      {
-         installFactoryFromXmlElement(factory);
-      }
+	   for (Element component: elements(rootElement,"component")) {
+		   installComponentFromXmlElement(component, 
+				   component.attributeValue("name"), 
+				   component.attributeValue("class"), 
+				   replacements);
+	   }
 
-      List<Element> elements = rootElement.elements("event");
-      for (Element event: elements)
-      {
-         installEventListenerFromXmlElement(event);
-      }
-      
-      for (Element elem : (List<Element>) rootElement.elements())
-      {
-         String ns = elem.getNamespace().getURI();
-         NamespaceDescriptor nsInfo = namespaceMap.get(ns);
-         if (nsInfo == null )
-         {
-            if ( ns!=null && ns.length()>0 && !ns.equals("http://jboss.com/products/seam/components") )
-            {
-               log.warn("namespace declared in components.xml does not resolve to a package annotated @Namespace: " + ns);
-            }
-         }
-         else
-         {
-            String name = elem.attributeValue("name");
-            String elemName = toCamelCase( elem.getName(), true );
-            
-            String className = elem.attributeValue("class");
-            if (className == null)
-            {
-               className = nsInfo.getPackage().getName() + '.' + elemName;
-            }
-            
-            try
-            {
-               //get the class implied by the namespaced XML element name
-               Class<Object> clazz = Reflections.classForName(className);
-               Name nameAnnotation = clazz.getAnnotation(Name.class);
-               
-               //if the name attribute is not explicitly specified in the XML,
-               //imply the name from the @Name annotation on the class implied
-               //by the XML element name
-               if (name == null && nameAnnotation!=null) 
-               {
-                  name = nameAnnotation.value();
-               }
-               
-               //if this class already has the @Name annotation, the XML element 
-               //is just adding configuration to the existing component, don't
-               //add another ComponentDescriptor (this is super-important to
-               //allow overriding!)
-               if ( nameAnnotation!=null && nameAnnotation.value().equals(name) )
-               {
-                  Install install = clazz.getAnnotation(Install.class);
-                  if ( install == null || install.value() )
-                  {
-                     className = null;
-                  }
-               }
-            }
-            catch (ClassNotFoundException cnfe)
-            {
-               //there is no class implied by the XML element name so the
-               //component must be defined some other way, assume that we are
-               //just adding configuration, don't add a ComponentDescriptor 
-               //TODO: this is problematic, it results in elements getting 
-               //      ignored when mis-spelled or given the wrong namespace!!
-               className = null;
-            }
+	   for (Element factory: elements(rootElement,"factory")) {
+		   installFactoryFromXmlElement(factory);
+	   }
 
-            //finally, if we could not get the name from the XML name attribute,
-            //or from an @Name annotation on the class, imply it
-            if (name == null)
-            {
-               String prefix = nsInfo.getNamespace().prefix();
-               String componentName = toCamelCase(elem.getName(), false);
-               name = Strings.isEmpty(prefix) ? 
-                     componentName : prefix + '.' + componentName;
-            }
+	   for (Element event: elements(rootElement, "event")) {
+		   installEventListenerFromXmlElement(event);
+	   }
 
-            installComponentFromXmlElement(elem, name, className, replacements);
-         }
-      }
+	   for (Element elem : (List<Element>) rootElement.elements()) {
+		   String ns = elem.getNamespace().getURI();
+		   NamespaceDescriptor nsInfo = resolveNamespace(ns);
+		   if (nsInfo == null && !ns.equals(COMPONENT_NAMESPACE)) {
+			   log.warn("namespace declared in components.xml does not resolve to a package: " + ns);
+		   } else {
+			   String name = elem.attributeValue("name");
+			   String elemName = toCamelCase(elem.getName(), true);
+
+			   String className = elem.attributeValue("class");
+			   if (className == null) {
+				   className = nsInfo.getPackageName() + '.' + elemName;
+			   }
+
+			   try {
+				   //get the class implied by the namespaced XML element name
+				   Class<Object> clazz = Reflections.classForName(className);
+				   Name nameAnnotation = clazz.getAnnotation(Name.class);
+
+				   //if the name attribute is not explicitly specified in the XML,
+				   //imply the name from the @Name annotation on the class implied
+				   //by the XML element name
+				   if (name == null && nameAnnotation!=null) {
+					   name = nameAnnotation.value();
+				   }
+
+				   //if this class already has the @Name annotation, the XML element 
+				   //is just adding configuration to the existing component, don't
+				   //add another ComponentDescriptor (this is super-important to
+				   //allow overriding!)
+				   if (nameAnnotation!=null && nameAnnotation.value().equals(name)) {
+					   Install install = clazz.getAnnotation(Install.class);
+					   if (install == null || install.value()) {
+						   className = null;
+					   }
+				   }
+			   } catch (ClassNotFoundException cnfe) {
+				   //there is no class implied by the XML element name so the
+				   //component must be defined some other way, assume that we are
+				   //just adding configuration, don't add a ComponentDescriptor 
+				   //TODO: this is problematic, it results in elements getting 
+				   //      ignored when mis-spelled or given the wrong namespace!!
+				   className = null;
+			   }
+
+			   //finally, if we could not get the name from the XML name attribute,
+			   //or from an @Name annotation on the class, imply it
+			   if (name == null) {
+				   String prefix = nsInfo.getComponentPrefix();
+				   String componentName = toCamelCase(elem.getName(), false);
+				   name = Strings.isEmpty(prefix) ? 
+						   componentName : prefix + '.' + componentName;
+			   }
+
+			   installComponentFromXmlElement(elem, name, className, replacements);
+		   }
+	   }
    }
+
+	private NamespaceDescriptor resolveNamespace(String namespace) {
+		if (Strings.isEmpty(namespace)) {
+			return null;
+		}
+		
+		NamespaceDescriptor descriptor = namespaceMap.get(namespace);	
+		if (descriptor == null) {
+			try {
+				String packageName = namespacePackageResolver.resolve(namespace);
+				descriptor = new NamespaceDescriptor(namespace, packageName);
+				namespaceMap.put(namespace, descriptor);
+			} catch (Exception e) {
+				log.warn("Could not determine java package for namespace: " + namespace, e);
+			}
+		}
+		
+		return descriptor;
+	}
 
    @SuppressWarnings("unchecked")
    private void installEventListenerFromXmlElement(Element event)
@@ -792,27 +796,26 @@ public class Initialization
 
    private void addNamespace(Package pkg)
    {
-      if (pkg != null)
-      {
-         Namespace ns = pkg.getAnnotation(Namespace.class);
-         if (ns != null)
-         {
-            log.info("Namespace: " + ns.value() + ", package: " + pkg.getName() + ", prefix: " + ns.prefix());
-            NamespaceDescriptor old = namespaceMap.put(ns.value(), new NamespaceDescriptor(ns, pkg));
-            if ( old!=null && !old.getPackage().equals(pkg) )
-            {
-               throw new IllegalStateException("two packages with the same @Namespace: " + ns.value());
-            }
-         }
-      }
+	   if (pkg != null) {
+		   Namespace ns = pkg.getAnnotation(Namespace.class);
+		   if (ns != null) {
+			   log.info("Namespace: " + ns.value() + ", package: " + pkg.getName() + 
+					   ", prefix: " + ns.prefix());
+
+			   NamespaceDescriptor old = namespaceMap.put(ns.value(), 
+					                                      new NamespaceDescriptor(ns, pkg));
+			   if (old!=null && !old.getPackageName().equals(pkg.getName())) {
+				   throw new IllegalStateException("two packages with the same @Namespace: " + ns.value());
+			   }
+		   }
+	   }
    }
 
    private void addNamespaces()
    {
-      for ( Package pkg : standardDeploymentStrategy.getScannedNamespaces() )
-      {
-         addNamespace(pkg);
-      }
+	   for (Package pkg: standardDeploymentStrategy.getScannedNamespaces()) {
+		   addNamespace(pkg);
+	   }
    }
 
    private void initPropertiesFromServletContext()

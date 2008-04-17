@@ -8,9 +8,9 @@
             <class name="org.jboss.seam.test.integration.ImportTest" />
             <class name="org.jboss.seam.test.integration.NamespaceTest" />
             <class name="org.jboss.seam.test.integration.JavaBeanEqualsTest"/>
+            <class name="org.jboss.seam.test.integration.NamespaceResolverTest" />    
         </classes>
     </test>
-   
     <test name="Seam Integration Tests: Persistence">
         <classes>
             <class name="org.jboss.seam.test.integration.EntityTest"/>

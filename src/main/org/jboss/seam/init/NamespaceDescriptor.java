@@ -4,28 +4,38 @@ import org.jboss.seam.annotations.Namespace;
 
 class NamespaceDescriptor
 {
-   private Namespace namespace;
-   private Package pkg;
+	private String namespace;
+	private String packageName;
+	private String componentPrefix;
 
-   NamespaceDescriptor(Namespace namespace, Package pkg)
-   {
-      this.namespace = namespace;
-      this.pkg = pkg;
-   }
+	NamespaceDescriptor(Namespace namespaceAnnotation, Package pkg)
+	{
+		this.namespace       = namespaceAnnotation.value();
+		this.componentPrefix = namespaceAnnotation.prefix();
+		this.packageName     = pkg.getName();
+	}
+	
+	NamespaceDescriptor(String namespace, String packageName) {
+		this.namespace       = namespace;
+		this.packageName     = packageName;
+		this.componentPrefix = "";
+	}
 
-   public Namespace getNamespace()
-   {
-      return namespace;
-   }
+	public String getNamespace() {
+		return namespace;
+	}
+	
+	public String getComponentPrefix() {
+		return componentPrefix;
+	}
 
-   public Package getPackage()
-   {
-      return pkg;
-   }
+	public String getPackageName() {
+		return packageName;
+	}
 
-   @Override
-   public String toString()
-   {
-      return "EventListenerDescriptor(" + namespace + ')';
-   }
+	@Override
+	public String toString()
+	{
+		return "NamespaceDescriptor(" + namespace + ')';
+	}
 }
