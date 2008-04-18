@@ -153,6 +153,7 @@
 				<arg line="-Dseam.version=${complete.version}" />
                 <!--<arg line="-q" />-->
 				<args />
+				<arg line="${maven.opts}" />
 				<arg line="@{target}" />
 			</java>
 		</sequential>

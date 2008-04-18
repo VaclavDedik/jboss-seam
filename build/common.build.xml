@@ -14,6 +14,8 @@
 	
 	<property name="seam.dir" value=".." />
 	
+	<property name="maven.opts" value="" />
+	
 	<property name="build.dir" value="${seam.dir}/build" />
 	<property name="tmp.dir" value="${seam.dir}/classes" />
 	<property name="lib.dir" value="${seam.dir}/lib" />
