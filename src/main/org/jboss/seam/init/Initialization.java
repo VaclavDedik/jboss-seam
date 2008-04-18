@@ -213,8 +213,10 @@ public class Initialization
 	   for (Element elem : (List<Element>) rootElement.elements()) {
 		   String ns = elem.getNamespace().getURI();
 		   NamespaceDescriptor nsInfo = resolveNamespace(ns);
-		   if (nsInfo == null && !ns.equals(COMPONENT_NAMESPACE)) {
-			   log.warn("namespace declared in components.xml does not resolve to a package: " + ns);
+		   if (nsInfo == null) {
+			   if (!ns.equals(COMPONENT_NAMESPACE)) {
+			       log.warn("namespace declared in components.xml does not resolve to a package: " + ns);
+			   }
 		   } else {
 			   String name = elem.attributeValue("name");
 			   String elemName = toCamelCase(elem.getName(), true);
@@ -263,14 +265,14 @@ public class Initialization
 				   name = Strings.isEmpty(prefix) ? 
 						   componentName : prefix + '.' + componentName;
 			   }
-
+   
 			   installComponentFromXmlElement(elem, name, className, replacements);
 		   }
 	   }
    }
 
 	private NamespaceDescriptor resolveNamespace(String namespace) {
-		if (Strings.isEmpty(namespace)) {
+		if (Strings.isEmpty(namespace) || namespace.equals(COMPONENT_NAMESPACE)) {
 			return null;
 		}
 		
@@ -358,7 +360,7 @@ public class Initialization
    @SuppressWarnings("unchecked")
    private void installComponentFromXmlElement(Element component, String name, String className,
             Properties replacements) throws ClassNotFoundException
-   {
+   {  
       String installText = component.attributeValue("installed");
       boolean installed = false;
       if (installText == null || "true".equals(replace(installText, replacements)))
@@ -473,6 +475,7 @@ public class Initialization
    private void addComponentDescriptor(ComponentDescriptor descriptor)
    {
       String name = descriptor.getName();
+      
       Set<ComponentDescriptor> set = componentDescriptors.get(name);
       if (set==null)
       {
