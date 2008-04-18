@@ -64,10 +64,10 @@
                </dependency>
             </dependencies>
             <configuration>
-               <sourceDirectory>${pom.basedir}/en-US</sourceDirectory>
+               <sourceDirectory>${pom.basedir}/en</sourceDirectory>
                <sourceDocumentName>master.xml</sourceDocumentName>
                <imageResource>
-                  <directory>${pom.basedir}/en-US</directory>
+                  <directory>${pom.basedir}/en</directory>
                   <includes>
                      <include>images/*.png</include>
                   </includes>
@@ -76,21 +76,28 @@
                   <format>
                      <formatName>pdf</formatName>
                      <stylesheetResource>
-                        classpath:/xslt/org/jboss/seam/main-pdf.xsl
+                        classpath:/xslt/org/jboss/seam/pdf.xsl
                      </stylesheetResource>
                      <finalName>seam_reference.pdf</finalName>
                   </format>
                   <format>
                      <formatName>html</formatName>
                      <stylesheetResource>
-                        classpath:/xslt/org/jboss/seam/main-html.xsl
+                        classpath:/xslt/org/jboss/seam/xhtml.xsl
                      </stylesheetResource>
                      <finalName>index.html</finalName>
                   </format>
                   <format>
                      <formatName>html_single</formatName>
                      <stylesheetResource>
-                        classpath:/xslt/org/jboss/seam/nochunk-html.xsl
+                        classpath:/xslt/org/jboss/seam/xhtml-single.xsl
+                     </stylesheetResource>
+                     <finalName>index.html</finalName>
+                  </format>
+                  <format>
+                     <formatName>eclipse</formatName>
+                     <stylesheetResource>
+                        classpath:/xslt/org/jboss/seam/eclipse.xsl
                      </stylesheetResource>
                      <finalName>index.html</finalName>
                   </format>
