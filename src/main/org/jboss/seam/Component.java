@@ -1956,30 +1956,37 @@ public class Component extends Model
       }
    }
 
-   public Object newInstance()
-   {
-      if ( log.isDebugEnabled() ) log.debug("instantiating Seam component: " + name);
-
-      Object instance;
-      try
-      {
-         instance = instantiate();
-      }
-      catch (Exception e)
-      {
-         throw new InstantiationException("Could not instantiate Seam component: " + name, e);
-      }
-
-      if ( getScope()!=STATELESS )
-      {
-         getScope().getContext().set(name, instance); //put it in the context _before_ calling the create method
-         callCreateMethod(instance);
-         if ( Events.exists() ) Events.instance().raiseEvent("org.jboss.seam.postCreate." + name, instance);
-      }
-
-      return instance;
-   }
-
+    public Object newInstance()
+    {
+        if (log.isDebugEnabled()) {
+            log.debug("instantiating Seam component: " + name);
+        }
+        
+        Object instance;
+        try {
+            instance = instantiate();
+            
+            if (getScope()!=STATELESS) {
+                //put it in the context _before_ calling the create method
+                getScope().getContext().set(name, instance); 
+                
+                callCreateMethod(instance);
+                
+                if (Events.exists()) {
+                    Events.instance().raiseEvent("org.jboss.seam.postCreate." + name, instance);
+                }
+            }
+        } catch (Exception e) {
+            if (getScope()!=STATELESS) {
+                getScope().getContext().remove(name);
+            }
+            throw new InstantiationException("Could not instantiate Seam component: " + name, e);
+        }
+        
+       
+        return instance;
+    }
+    
    private void callDefaultRemoveMethod(Object instance)
    {
       if ( hasDefaultRemoveMethod() )
