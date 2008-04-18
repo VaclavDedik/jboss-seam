@@ -61,7 +61,7 @@ public class RuleAgent
       if (poll != null) {
          properties.setProperty(org.drools.agent.RuleAgent.POLL_INTERVAL, poll);
       }
-      if (files != null) {
+      if (configName != null) {
          properties.setProperty(org.drools.agent.RuleAgent.CONFIG_NAME, configName);
       }
 
