@@ -1561,8 +1561,7 @@ public class HitchhikersCaptcha extends Captcha
        }
        
        public void execute() {
-          identityManager.createAccount(username, password);
-          identityManager.grantRole(username, "user");            
+          executePrivilegedOperation();
        }         
     }.run();]]></programlisting>
     
