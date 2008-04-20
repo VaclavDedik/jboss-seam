@@ -50,4 +50,10 @@ public class EntityLoader extends AbstractEntityLoader<EntityManager>
    {
       return (EntityLoader) Component.getInstance(EntityLoader.class, STATELESS);
    }
+   
+   @Override
+   protected boolean isPersistenceContextOpen(EntityManager persistenceContext)
+   {
+      return persistenceContext.isOpen();
+   }
 }
