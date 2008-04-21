@@ -120,9 +120,7 @@
                 </copy>         
           <copy todir="${war.dir}/WEB-INF/lib">
             <fileset dir="${lib.dir}">
-				<include name="oscache*.jar" />
-				<include name="jboss-seam-*.jar" />
-				<include name="commons-beanutils.jar" />
+				<includesfile name="deployed-jars-war.list" />
 				<exclude name="jboss-seam-gen.jar" />
 			</fileset>
 		</copy>
@@ -141,22 +139,14 @@
                                 <include name="jbpm.cfg.xml" />
                                 <include name="*.drl" />
                         </fileset>
-                		<fileset dir="${lib.dir}">
-                				<include name="jboss-seam.jar" />
-                		</fileset>
-                        <fileset dir="${basedir}">
-                                <include name="lib/jbpm*.jar" />
-                                <include name="lib/jboss-el.jar" />
-                                <include name="lib/drools-*.jar"/>
-                                <include name="lib/core.jar"/>
-                                <include name="lib/janino*.jar"/>
-                                <include name="lib/antlr-*.jar"/>
-                                <include name="lib/mvel*.jar"/>
-				                <include name="lib/icefaces*.jar" />
-				                <include name="lib/backport-util-concurrent.jar" />
-				                <include name="lib/commons-fileupload.jar"/> 	
-                                <include name="lib/commons-digester.jar"/>
-                                <exclude name="lib/icefaces-ahs.jar"/>		
+                        <fileset dir="${lib.dir}">
+                                <include name="jboss-seam.jar" />
+                        </fileset>
+                </copy>
+                <copy todir="${ear.dir}/lib">
+                        <fileset dir="${lib.dir}">
+                                <includesfile name="deployed-jars-ear.list" />
+                                <exclude name="icefaces-ahs.jar"/>		
                         </fileset>
                 </copy>
                 <copy todir="${ear.dir}/META-INF">
