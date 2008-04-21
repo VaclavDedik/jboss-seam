@@ -12,6 +12,7 @@
       body, div, span, td, th, caption { font-family: 'Trebuchet MS', Verdana, Arial, Sans-Serif; font-size: small; }
       ul, li, pre { padding: 0; margin: 0; }
       h1 { color: #090; }
+      h1 a { text-decoration: none; color: #090; }
       h2, h2 span { font-size: large; color: #339; }
       h2 a { text-decoration: none; color: #339; }
       pre { padding: 8px; margin: 10px 0; border: 1px solid #CCC; background-color: #f9f9f9;  }
@@ -52,7 +53,7 @@
    </script>
   </head>
   <body>
-    <h1>JBoss Seam Debug Page</h1>
+    <h1><h:outputLink value="#{facesContext.externalContext.request.requestURI}">JBoss Seam Debug Page</h:outputLink></h1>
     <div>
       This page allows you to view and inspect any component in any Seam context
       associated with the current session.
