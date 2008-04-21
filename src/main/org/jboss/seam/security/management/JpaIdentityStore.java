@@ -34,6 +34,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.util.AnnotatedBeanProperty;
 
 /**
  * The default identity store implementation, uses JPA as its persistence mechanism.
@@ -61,14 +62,14 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    private Class userClass;
    private Class roleClass;   
    
-   private BeanProperty userPrincipalProperty;
-   private BeanProperty userPasswordProperty;
-   private BeanProperty userRolesProperty;
-   private BeanProperty userEnabledProperty;
-   private BeanProperty userFirstNameProperty;
-   private BeanProperty userLastNameProperty;   
-   private BeanProperty roleNameProperty;
-   private BeanProperty roleGroupsProperty;
+   private AnnotatedBeanProperty<UserPrincipal> userPrincipalProperty;
+   private AnnotatedBeanProperty<UserPassword> userPasswordProperty;
+   private AnnotatedBeanProperty<UserRoles> userRolesProperty;
+   private AnnotatedBeanProperty<UserEnabled> userEnabledProperty;
+   private AnnotatedBeanProperty<UserFirstName> userFirstNameProperty;
+   private AnnotatedBeanProperty<UserLastName> userLastNameProperty;   
+   private AnnotatedBeanProperty<RoleName> roleNameProperty;
+   private AnnotatedBeanProperty<RoleGroups> roleGroupsProperty;
    
    public Set<Feature> getFeatures()
    {
@@ -116,15 +117,15 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    private void initProperties()
    {
-      userPrincipalProperty = BeanProperty.scanForProperty(userClass, UserPrincipal.class);
-      userPasswordProperty = BeanProperty.scanForProperty(userClass, UserPassword.class);
-      userRolesProperty = BeanProperty.scanForProperty(userClass, UserRoles.class);
-      userEnabledProperty = BeanProperty.scanForProperty(userClass, UserEnabled.class);
-      userFirstNameProperty = BeanProperty.scanForProperty(userClass, UserFirstName.class);
-      userLastNameProperty = BeanProperty.scanForProperty(userClass, UserLastName.class);
+      userPrincipalProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserPrincipal.class);
+      userPasswordProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserPassword.class);
+      userRolesProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserRoles.class);
+      userEnabledProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserEnabled.class);
+      userFirstNameProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserFirstName.class);
+      userLastNameProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserLastName.class);
       
-      roleNameProperty = BeanProperty.scanForProperty(roleClass, RoleName.class);
-      roleGroupsProperty = BeanProperty.scanForProperty(roleClass, RoleGroups.class);
+      roleNameProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleName.class);
+      roleGroupsProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleGroups.class);
       
       if (userPrincipalProperty == null) 
       {
@@ -410,7 +411,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchUserException("Could not enable user, user '" + name + "' does not exist");
       }
       
-      // If it's already enabled return false
+      // Can't enable an already-enabled user, return false
       if (((Boolean) userEnabledProperty.getValue(user)) == true)
       {
          return false;
@@ -435,7 +436,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          throw new NoSuchUserException("Could not disable user, user '" + name + "' does not exist");
       }
       
-      // If it's already disabled return false
+      // Can't disable an already-disabled user, return false
       if (((Boolean) userEnabledProperty.getValue(user)) == false)
       {
          return false;
@@ -646,6 +647,16 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       {
          return null;        
       }      
+   }
+   
+   public String getUserName(Object user)
+   {
+      return (String) userPrincipalProperty.getValue(user);
+   }
+   
+   public String getRoleName(Object role)
+   {
+      return (String) roleNameProperty.getValue(role);
    }
    
    public Object lookupRole(String role)       

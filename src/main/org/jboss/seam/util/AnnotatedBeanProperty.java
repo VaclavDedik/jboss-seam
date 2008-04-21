@@ -1,4 +1,4 @@
-package org.jboss.seam.security.management;
+package org.jboss.seam.util;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -10,18 +10,18 @@ import java.lang.reflect.Method;
  *  
  * @author Shane Bryzak
  */
-public class BeanProperty
+public class AnnotatedBeanProperty<T extends Annotation>
 {
    private Field propertyField;
    private Method propertyGetter;
    private Method propertySetter;
-   private Annotation annotation;
+   private T annotation;
    private String name;
    private Class propertyClass;
    
    private boolean isFieldProperty;
    
-   private BeanProperty(Field propertyField, Annotation annotation)
+   private AnnotatedBeanProperty(Field propertyField, T annotation)
    {
       this.propertyField = propertyField;
       isFieldProperty = true;
@@ -30,7 +30,7 @@ public class BeanProperty
       this.propertyClass = propertyField.getDeclaringClass();
    }
    
-   private BeanProperty(Method propertyMethod, Annotation annotation)
+   private AnnotatedBeanProperty(Method propertyMethod, T annotation)
    {
       if (!(propertyMethod.getName().startsWith("get") || (propertyMethod.getName().startsWith("is"))))
       {
@@ -134,7 +134,7 @@ public class BeanProperty
       }
    }
    
-   public Annotation getAnnotation()
+   public T getAnnotation()
    {
       return annotation;
    }
@@ -150,13 +150,13 @@ public class BeanProperty
    }
    
    
-   public static BeanProperty scanForProperty(Class cls, Class<? extends Annotation> annotation)
+   public static AnnotatedBeanProperty scanForProperty(Class cls, Class<? extends Annotation> annotation)
    {
       for (Field f : cls.getFields())
       {
          if (f.isAnnotationPresent(annotation)) 
          {
-            return new BeanProperty(f, f.getAnnotation(annotation));
+            return new AnnotatedBeanProperty(f, f.getAnnotation(annotation));
          }
       }
       
@@ -164,7 +164,7 @@ public class BeanProperty
       {
          if (m.isAnnotationPresent(annotation))
          {
-            return new BeanProperty(m, m.getAnnotation(annotation));
+            return new AnnotatedBeanProperty(m, m.getAnnotation(annotation));
          }
       }
       
