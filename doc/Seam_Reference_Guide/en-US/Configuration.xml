@@ -740,14 +740,14 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
                     <para> Add the Embedded JBoss listener to <literal>conf/server.xml</literal>. It should appear after
                         all other listeners in the file.</para>
 
-                    <programlisting role="XML"><![CDATA[<Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener" />]]></programlisting>
+                    <programlisting role="XML"><![CDATA[<Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener"/>]]></programlisting>
                 </listitem>
 
                 <listitem>
                     <para>WAR file scanning should be enabled by adding a listener to
                             <literal>conf/context.xml</literal>. </para>
 
-                    <programlisting role="XML"><![CDATA[<Listener className="org.jboss.embedded.tomcat.WebinfScanner">]]></programlisting>
+                    <programlisting role="XML"><![CDATA[<Listener className="org.jboss.embedded.tomcat.WebinfScanner"/>]]></programlisting>
                 </listitem>
             </itemizedlist>
 
