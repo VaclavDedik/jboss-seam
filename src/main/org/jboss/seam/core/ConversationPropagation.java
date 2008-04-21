@@ -101,25 +101,35 @@ public class ConversationPropagation
 
    private void restoreNaturalConversationId(Map parameters)
    {
+      //First, try to get the conversation id from the request parameter defined for the page
       String viewId = Pages.getCurrentViewId();
       if ( viewId!=null )
       {
-         Page page = Pages.instance().getPage(viewId);                           
+         Page page = Pages.instance().getPage(viewId);
          
          if(conversationName != null)
          {
-             ConversationIdParameter currentConversationIdParameter = Pages.instance().getConversationIdParameter(conversationName);            
+             ConversationIdParameter currentConversationIdParameter = Pages.instance().getConversationIdParameter(conversationName);
+             
              if(currentConversationIdParameter == null)
              {
                  throw new IllegalStateException("The conversationName specified: " + conversationName + ", does not exist.");
              }
-             conversationId = currentConversationIdParameter.getRequestConversationId(parameters);                  
+             // Try to restore the conversation from parameters (the user has specified the exact conversation to restore using f:param)
+             conversationId = currentConversationIdParameter.getRequestConversationId(parameters);
+             if (conversationId == null)
+             {
+                // Try to restore the conversation from the EL expression on the conversation definition
+                conversationId = currentConversationIdParameter.getConversationId();
+             }
          }
          else
          {
              conversationId = page.getConversationIdParameter().getRequestConversationId(parameters);
-         }
+         }         
+         //TODO: how about the parent conversation id?
       }
+
    }
 
    private void restoreSyntheticConversationId(Map parameters)
