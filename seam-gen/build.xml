@@ -676,6 +676,10 @@
 	             file="${base.dir}/resources/WEB-INF/components.xml">
 	         <filterset refid="project"/>
 	     </copy>
+        <copy tofile="${project.home}/deployed-jars-ear.list" 
+                file="${base.dir}/build-scripts/deployed-jars-ear.list"/>
+        <copy tofile="${project.home}/deployed-jars-war.list" 
+                file="${base.dir}/build-scripts/deployed-jars-ear-war.list"/>
         <copy tofile="${project.home}/build.xml" 
                 file="${base.dir}/build-scripts/build.xml">
             <filterset refid="project"/>
