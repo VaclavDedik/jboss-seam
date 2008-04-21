@@ -8,26 +8,49 @@
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
     <xs:element name="document-store">
+        <xs:annotation>
+            <xs:documentation>
+                The PDF document store is used to store rendered documents for download on a later request.
+            </xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="pdf:attlist.docstore"/>
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.docstore">
-        <xs:attribute name="error-page" type="xs:string"/>
-        <xs:attribute name="use-extensions" type="xs:string"/>
+        <xs:attribute name="error-page" type="components:string">
+            <xs:annotation>
+                <xs:documentation>
+                    When a document had expired or otherwise cannot be loaded, this page is displayed.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="use-extensions" type="components:boolean">
+            <xs:annotation>
+                <xs:documentation>
+                    Controls whether or not the URLs for documents should contain their correct file name extensions.
+                    Using file name extensions requires additional configuration in web.xml.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:attributeGroup>
 
     <xs:element name="key-store-config">
+        <xs:annotation>
+            <xs:documentation>
+                The key stores holds the encryption keys for creating signed PDF documents
+            </xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="pdf:attlist.UseExtensions"/>
+            <xs:attributeGroup ref="pdf:attlist.keystore"/>
         </xs:complexType>
     </xs:element>
-    <xs:attributeGroup name="attlist.UseExtensions">
-        <xs:attribute name="key-store" type="xs:string"/>
-        <xs:attribute name="key-store-password" type="xs:string"/>
-        <xs:attribute name="key-password" type="xs:string"/>
-        <xs:attribute name="key-alias" type="xs:string"/>
+    <xs:attributeGroup name="attlist.keystore">
+        <xs:attribute name="key-store" type="components:string"/>
+        <xs:attribute name="key-store-password" type="components:string"/>
+        <xs:attribute name="key-password" type="components:string"/>
+        <xs:attribute name="key-alias" type="components:string"/>
     </xs:attributeGroup>
 </xs:schema>

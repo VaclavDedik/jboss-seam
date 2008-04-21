@@ -5,6 +5,9 @@
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
     <xs:element name="ejb-transaction">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="components:attlist.ejbcomponent"/>
@@ -14,29 +17,38 @@
     <xs:attributeGroup name="attlist.transaction"> </xs:attributeGroup>
 
     <xs:element name="hibernate-transaction">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="transaction:attlist.HibernateTransaction"/>
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.HibernateTransaction">
-        <xs:attribute name="session" type="xs:string" use="required"/>
+        <xs:attribute name="session" type="components:string" use="required"/>
     </xs:attributeGroup>
     
     <xs:element name="entity-transaction">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="transaction:attlist.EntityTransaction"/>
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.EntityTransaction">
-        <xs:attribute name="entity-manager" type="xs:string" use="required"/>
+        <xs:attribute name="entity-manager" type="components:string" use="required"/>
     </xs:attributeGroup>
     
-     <xs:element name="no-transaction">
+    <xs:element name="no-transaction">
+        <xs:annotation>
+            <xs:documentation></xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
-
+    
 </xs:schema>
