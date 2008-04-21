@@ -118,7 +118,7 @@ public class PermissionManager implements Serializable
    
    public boolean grantPermission(Permission permission)
    {
-      Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_GRANT);
+      Identity.instance().checkPermission(permission, PERMISSION_GRANT);
       
       if (permission.getTarget() instanceof String)
       {
@@ -132,7 +132,7 @@ public class PermissionManager implements Serializable
    
    public boolean revokePermission(Permission permission)
    {
-      Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_REVOKE);
+      Identity.instance().checkPermission(permission, PERMISSION_REVOKE);
       
       if (permission.getTarget() instanceof String)
       {
