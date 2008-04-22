@@ -51,7 +51,7 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
       if (permissionStore == null)
       {
          log.warn("no permission store available - please install a PermissionStore with the name '" +
-               DEFAULT_PERMISSION_STORE_NAME + "' if dynamic permissions are required.");
+               Seam.getComponentName(JpaPermissionStore.class) + "' if dynamic permissions are required.");
       }
    }     
    
