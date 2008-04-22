@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -40,13 +39,13 @@ import org.jboss.seam.util.AnnotatedBeanProperty;
  * 
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.permission.jpaDynamicPermissionStore")
+@Name("org.jboss.seam.security.permission.jpaPermissionStore")
 @Install(precedence = BUILT_IN, value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
-public class JpaDynamicPermissionStore implements PermissionStore, Serializable
+public class JpaPermissionStore implements PermissionStore, Serializable
 {
-   private static final LogProvider log = Logging.getLogProvider(JpaDynamicPermissionStore.class); 
+   private static final LogProvider log = Logging.getLogProvider(JpaPermissionStore.class); 
    
    private ValueExpression<EntityManager> entityManager;
    

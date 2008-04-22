@@ -30,9 +30,7 @@ import org.jboss.seam.security.Identity;
 @Install(precedence=FRAMEWORK)
 @Startup
 public class PersistentPermissionResolver implements PermissionResolver, Serializable
-{   
-   private static final String DEFAULT_PERMISSION_STORE_NAME = "jpaDynamicPermissionStore";
-   
+{      
    private PermissionStore permissionStore;
    
    private static final LogProvider log = Logging.getLogProvider(PersistentPermissionResolver.class);   
@@ -47,7 +45,7 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
    {
       if (permissionStore == null)
       {
-         permissionStore = (PermissionStore) Component.getInstance(DEFAULT_PERMISSION_STORE_NAME, true);
+         permissionStore = (PermissionStore) Component.getInstance(JpaPermissionStore.class, true);
       }           
       
       if (permissionStore == null)
