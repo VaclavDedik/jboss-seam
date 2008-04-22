@@ -46,6 +46,7 @@
     	<ant antfile="build-websphere61.xml" target="clean" />
     	<ant antfile="build-tomcat55.xml" target="clean" />
     	<ant antfile="build-tomcat6.xml" target="clean" />
+        <ant antfile="build-jboss-embedded.xml" target="clean" />
    </target>
 
    <target name="all" depends="jboss, jboss405, glassfish, weblogic92, websphere61, tomcat55, tomcat6"/>
