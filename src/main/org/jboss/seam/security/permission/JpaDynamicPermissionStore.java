@@ -1,4 +1,4 @@
-package org.jboss.seam.security.permission.dynamic;
+package org.jboss.seam.security.permission;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
@@ -33,8 +33,6 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.security.management.JpaIdentityStore;
-import org.jboss.seam.security.permission.Permission;
-import org.jboss.seam.security.permission.PermissionStore;
 import org.jboss.seam.util.AnnotatedBeanProperty;
 
 /**
@@ -403,12 +401,6 @@ public class JpaDynamicPermissionStore implements PermissionStore, Serializable
    public List<Permission> listPermissions(Object target) 
    {
       return listPermissions(target, null);
-   }
-   
-   public List<Permission> listPermissions(Set<Object> targets)
-   {
-      // TODO implement this method
-      return null;
    }
 
    private EntityManager lookupEntityManager()

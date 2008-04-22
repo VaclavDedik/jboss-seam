@@ -1,4 +1,4 @@
-package org.jboss.seam.security.permission.dynamic;
+package org.jboss.seam.security.permission;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
@@ -17,9 +17,6 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.permission.Permission;
-import org.jboss.seam.security.permission.PermissionResolver;
-import org.jboss.seam.security.permission.PermissionStore;
 
 /**
  * Resolves dynamically-assigned permissions, mapped to a user or a role, and kept in persistent 
@@ -32,13 +29,13 @@ import org.jboss.seam.security.permission.PermissionStore;
 @BypassInterceptors
 @Install(precedence=FRAMEWORK)
 @Startup
-public class DynamicPermissionResolver implements PermissionResolver, Serializable
+public class PersistentPermissionResolver implements PermissionResolver, Serializable
 {   
    private static final String DEFAULT_PERMISSION_STORE_NAME = "jpaDynamicPermissionStore";
    
    private PermissionStore permissionStore;
    
-   private static final LogProvider log = Logging.getLogProvider(DynamicPermissionResolver.class);   
+   private static final LogProvider log = Logging.getLogProvider(PersistentPermissionResolver.class);   
    
    @Create
    public void create()
