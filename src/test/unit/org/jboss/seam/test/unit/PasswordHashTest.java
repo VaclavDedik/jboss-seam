@@ -8,14 +8,16 @@ public class PasswordHashTest
    @Test
    public void testMd5Hash()
    {
-      String hash = PasswordHash.instance().generateHash("secret", "MD5");
+      PasswordHash passwordHash = new PasswordHash();
+      String hash = passwordHash.generateHash("secret", "MD5");
       assert hash.equals("Xr4ilOzQ4PCOq3aQ0qbuaQ==");
    }
    
    @Test
    public void testShaHash()
    {
-      String hash = PasswordHash.instance().generateHash("secret", "SHA");
+      PasswordHash passwordHash = new PasswordHash();
+      String hash = passwordHash.generateHash("secret", "SHA");
       assert hash.equals("5en6G6MezRroT3XKqkdPOmY/BfQ=");
    }
 }
