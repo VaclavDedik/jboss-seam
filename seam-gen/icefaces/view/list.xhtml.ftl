@@ -81,7 +81,8 @@
     <ice:dataTable id="${listName}TableId" 
                   var="${componentName}"
                 value="${'#'}{${listName}.resultList}" 
-	columnClasses="allCols"
+            resizable="true"
+        columnClasses="allCols"
              rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
@@ -109,7 +110,7 @@
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if parentPojo.isComponent(parentPojo.identifierProperty)>
 <#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>
-        <ice:column id="listColumn${propertyName}${listName}Id">
+        <ice:column id="listColumn${componentProperty}${listName}Id">
             <f:facet name="header">
 <#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name + '.' + componentProperty.name>
                 <s:link styleClass="columnHeader"
