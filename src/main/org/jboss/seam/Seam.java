@@ -11,7 +11,9 @@ import static org.jboss.seam.util.EJB.STATEFUL;
 import static org.jboss.seam.util.EJB.STATELESS;
 import static org.jboss.seam.util.EJB.name;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Entity;
@@ -40,6 +42,7 @@ public class Seam
     
    private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
    private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
+   private static final Set<ClassLoader> CLASSLOADERS_LOADED = new HashSet<ClassLoader>(); 
 
    private static EjbDescriptor getEjbDescriptor(Class clazz)
    {
@@ -48,12 +51,16 @@ public class Seam
       {
           return info;
       }
-      else
+      else if (clazz.getClassLoader() == null || 
+         (clazz.getClassLoader() != null && !CLASSLOADERS_LOADED.contains(clazz.getClassLoader())))
       {
          Map<Class, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
          EJB_DESCRIPTOR_CACHE.putAll(ejbDescriptors);
+         CLASSLOADERS_LOADED.add(clazz.getClassLoader());
          return ejbDescriptors.get(clazz);
       }
+      
+      return null;      
    }
   
    /**
@@ -313,6 +320,7 @@ public class Seam
    {
       COMPONENT_NAME_CACHE.clear();
       EJB_DESCRIPTOR_CACHE.clear();
+      CLASSLOADERS_LOADED.clear();
    }
    
 }
