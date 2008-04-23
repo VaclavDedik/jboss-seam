@@ -9,6 +9,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.bpm.Jbpm;
 import org.jbpm.JbpmContext;
 
@@ -17,6 +18,7 @@ import org.jbpm.JbpmContext;
  */
 @Name("processDefinitionSwitcher")
 @Scope(ScopeType.APPLICATION)
+@Synchronized
 public class ProcessDefinitionSwitcher
 {
     static final String[] ORDER_DEFS = { 
