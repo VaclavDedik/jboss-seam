@@ -101,8 +101,8 @@
 </#if>
                           size="${size}"
                      maxlength="${column.length}"
-                         value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                          partialSubmit="true"
+                         value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                  </ice:inputText>
 </#if>
 <#else>
@@ -113,8 +113,8 @@
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
 </#if>
-                                  value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                         partialSubmit="true"
+                                  value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                  </ice:inputText>
 </#if>
                </s:decorate>
