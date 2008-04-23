@@ -5,41 +5,34 @@
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
     <xs:element name="locale-selector">
+        <xs:annotation>
+            <xs:documentation>The locale selector component</xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="international:attlist.localeSelector"/>
         </xs:complexType>
     </xs:element>
+    
     <xs:attributeGroup name="attlist.localeSelector">
-        <xs:attribute name="locale-string"/>
-        <xs:attribute name="cookie-max-age"/>
-        <xs:attribute name="cookie-enabled">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="true"/>
-                    <xs:enumeration value="false"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="locale-string" type="components:string" />
+        <xs:attribute name="cookie-max-age" type="components:int" />
+        <xs:attribute name="cookie-enabled" type="components:boolean" />
     </xs:attributeGroup>
 
     <xs:element name="time-zone-selector">
+        <xs:annotation>
+            <xs:documentation>The time zone selector component</xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="international:attlist.timeZoneSelector"/>
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.timeZoneSelector">
-        <xs:attribute name="time-zone-id"/>
-        <xs:attribute name="cookie-max-age"/>
-        <xs:attribute name="cookie-enabled">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="true"/>
-                    <xs:enumeration value="false"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="time-zone-id" type="components:string" />
+        <xs:attribute name="cookie-max-age" type="components:int" />
+        <xs:attribute name="cookie-enabled" type="components:boolean" />
     </xs:attributeGroup>
 
 </xs:schema>

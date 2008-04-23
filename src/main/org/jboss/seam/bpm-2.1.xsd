@@ -5,6 +5,9 @@
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
     <xs:element name="actor">
+        <xs:annotation>
+            <xs:documentation>The jbpm actor id</xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element minOccurs="0" maxOccurs="1" ref="bpm:id"/>
@@ -17,21 +20,27 @@
     <xs:element name="id" type="xs:string"/>
     <xs:element name="group-actor-ids" type="components:multiValuedProperty"/>
     <xs:attributeGroup name="attlist.actor">
-        <xs:attribute name="group-actor-ids"> </xs:attribute>
+        <xs:attribute name="group-actor-ids" type="components:string" />
     </xs:attributeGroup>
 
     <xs:element name="jbpm">
+        <xs:annotation>
+            <xs:documentation>Configuration for jbpm</xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element ref="bpm:process-definitions"/>
-                <xs:element ref="bpm:pageflow-definitions"/>
+                <xs:element name="process-definitions" type="components:multiValuedProperty">
+                    <xs:annotation>
+                        <xs:documentation>A list of jbpm process files</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="pageflow-definitions" type="components:multiValuedProperty"/>                
             </xs:choice>
-            <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="bpm:attlist.jbpm"/>
+            <xs:attributeGroup ref="components:attlist.component" />
+            <xs:attributeGroup ref="bpm:attlist.jbpm" />
         </xs:complexType>
     </xs:element>
-    <xs:element name="process-definitions" type="components:multiValuedProperty"/>
-    <xs:element name="pageflow-definitions" type="components:multiValuedProperty"/>
-    <xs:attributeGroup name="attlist.jbpm"> </xs:attributeGroup>
+    
+    <xs:attributeGroup name="attlist.jbpm" /> 
 
 </xs:schema>

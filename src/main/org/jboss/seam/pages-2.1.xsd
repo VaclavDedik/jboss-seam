@@ -3,7 +3,11 @@
            elementFormDefault="qualified"
            targetNamespace="http://jboss.com/products/seam/pages" 
            xmlns:pages="http://jboss.com/products/seam/pages">
+    
     <xs:element name="pages">
+        <xs:annotation>
+            <xs:documentation>The root of a pages.xml file</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -15,11 +19,16 @@
             <xs:attributeGroup ref="pages:attlist.pages"/>
         </xs:complexType>
     </xs:element>
+    
     <xs:attributeGroup name="attlist.pages">
-        <xs:attribute name="no-conversation-view-id"/>
-        <xs:attribute name="login-view-id"/>
+        <xs:attribute name="no-conversation-view-id" />
+        <xs:attribute name="login-view-id" />
     </xs:attributeGroup>
+    
     <xs:element name="exception">
+        <xs:annotation>
+            <xs:documentation>A Seam exception handler</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:sequence>
                 <xs:element minOccurs="0" ref="pages:end-conversation"/>
@@ -36,7 +45,11 @@
         <xs:attribute name="log"/>
         <xs:attribute name="logLevel"/>
     </xs:attributeGroup>
+    
     <xs:element name="conversation">
+        <xs:annotation>
+            <xs:documentation>Natural conversation configuration</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.conversation"/>
         </xs:complexType>
@@ -46,7 +59,11 @@
         <xs:attribute name="parameter-name" use="required"/>
         <xs:attribute name="parameter-value"/>
     </xs:attributeGroup>
+    
     <xs:element name="page">
+        <xs:annotation>
+            <xs:documentation>Configuration for a specific page or set up pages</xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="pages:restrict"/>
@@ -102,7 +119,11 @@
         <xs:attribute name="conversation"/>
         <xs:attribute name="expires" /> 
     </xs:attributeGroup>
+    
     <xs:element name="param">
+        <xs:annotation>
+            <xs:documentation>A page parameter</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.param"/>
         </xs:complexType>
@@ -119,6 +140,9 @@
     </xs:attributeGroup>
     
     <xs:element name="header">
+        <xs:annotation>
+            <xs:documentation>HTTP headers to be added</xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="pages:attlist.header"/>
         </xs:complexType>
@@ -130,6 +154,9 @@
     </xs:attributeGroup>
     
     <xs:element name="action">
+        <xs:annotation>
+            <xs:documentation>Page action</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.action"/>
         </xs:complexType>
@@ -138,8 +165,17 @@
         <xs:attribute name="if"/>
         <xs:attribute name="execute" use="required"/>
     </xs:attributeGroup>
-    <xs:element name="restrict" type="xs:string"/>
+    
+    <xs:element name="restrict" type="xs:string">
+        <xs:annotation>
+            <xs:documentation>Security restrictions</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    
     <xs:element name="navigation">
+        <xs:annotation>
+            <xs:documentation>Page navigation</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:choice maxOccurs="2">
                 <xs:sequence>
@@ -168,6 +204,7 @@
         <xs:attribute name="from-action"/>
         <xs:attribute name="evaluate"/>
     </xs:attributeGroup>
+    
     <xs:element name="rule">
         <xs:complexType>
             <xs:sequence>
@@ -194,7 +231,11 @@
         <xs:attribute name="if-outcome"/>
         <xs:attribute name="if"/>
     </xs:attributeGroup>
+    
     <xs:element name="raise-event">
+        <xs:annotation>
+            <xs:documentation>Event to be raised</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.raise-event"/>
         </xs:complexType>
@@ -202,7 +243,11 @@
     <xs:attributeGroup name="attlist.raise-event">
         <xs:attribute name="type" use="required"/>
     </xs:attributeGroup>
+    
     <xs:element name="begin-conversation">
+        <xs:annotation>
+            <xs:documentation>This page begins a new conversation</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.begin-conversation"/>
         </xs:complexType>
@@ -239,7 +284,11 @@
         </xs:attribute>
         <xs:attribute name="if"/>
     </xs:attributeGroup>
+    
     <xs:element name="end-conversation">
+        <xs:annotation>
+            <xs:documentation>This page ends a conversation</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.end-conversation"/>
         </xs:complexType>
@@ -255,7 +304,11 @@
         </xs:attribute>
         <xs:attribute name="if"/>
     </xs:attributeGroup>
+    
     <xs:element name="begin-task">
+        <xs:annotation>
+            <xs:documentation>Begin a BPM task</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.begin-task"/>
         </xs:complexType>
@@ -276,7 +329,11 @@
             </xs:simpleType>
         </xs:attribute>
     </xs:attributeGroup>
+    
     <xs:element name="start-task">
+        <xs:annotation>
+            <xs:documentation>Start a BPM task</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.start-task"/>
         </xs:complexType>
@@ -297,7 +354,11 @@
             </xs:simpleType>
         </xs:attribute>
     </xs:attributeGroup>
+    
     <xs:element name="end-task">
+        <xs:annotation>
+            <xs:documentation>Add a BPM task</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.end-task"/>
         </xs:complexType>
@@ -313,7 +374,11 @@
             </xs:simpleType>
         </xs:attribute>
     </xs:attributeGroup>
+    
     <xs:element name="create-process">
+        <xs:annotation>
+            <xs:documentation>Create a BPM process</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.create-process"/>
         </xs:complexType>
@@ -321,7 +386,11 @@
     <xs:attributeGroup name="attlist.create-process">
         <xs:attribute name="definition"/>
     </xs:attributeGroup>
+    
     <xs:element name="resume-process">
+        <xs:annotation>
+            <xs:documentation>Resume a BPM process instance</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.resume-process"/>
         </xs:complexType>
@@ -329,7 +398,11 @@
     <xs:attributeGroup name="attlist.resume-process">
         <xs:attribute name="process-id"/>
     </xs:attributeGroup>
+    
     <xs:element name="in">
+        <xs:annotation>
+            <xs:documentation>A page input</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.in"/>
         </xs:complexType>
@@ -358,7 +431,11 @@
         </xs:attribute>
         <xs:attribute name="value" use="required"/>
     </xs:attributeGroup>
+    
     <xs:element name="out">
+        <xs:annotation>
+            <xs:documentation>A contextual output for a navigation rule</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:attributeGroup ref="pages:attlist.out"/>
         </xs:complexType>
@@ -387,7 +464,11 @@
         </xs:attribute>
         <xs:attribute name="value" use="required"/>
     </xs:attributeGroup>
+    
     <xs:element name="render">
+        <xs:annotation>
+            <xs:documentation>Render a view</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:sequence>
                 <xs:element minOccurs="0" ref="pages:message"/>
@@ -398,7 +479,11 @@
     <xs:attributeGroup name="attlist.render">
         <xs:attribute name="view-id"/>
     </xs:attributeGroup>
+    
     <xs:element name="redirect">
+        <xs:annotation>
+            <xs:documentation>Redirect to another view or URL</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:sequence>
                 <xs:element minOccurs="0" ref="pages:message"/>
@@ -412,7 +497,11 @@
         <xs:attribute name="view-id"/>
         <xs:attribute name="url"/>  
     </xs:attributeGroup>
+    
     <xs:element name="http-error">
+        <xs:annotation>
+            <xs:documentation>Send an HTTP error code</xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:sequence>
                 <xs:element minOccurs="0" ref="pages:message"/>
@@ -423,7 +512,11 @@
     <xs:attributeGroup name="attlist.http-error">
         <xs:attribute name="error-code"/>
     </xs:attributeGroup>
+    
     <xs:element name="message">
+        <xs:annotation>
+            <xs:documentation>Add a message to the faces messages</xs:documentation>
+        </xs:annotation>
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="pages:attlist.message"/>
         </xs:complexType>
@@ -445,5 +538,10 @@
             </xs:simpleType>
         </xs:attribute>
     </xs:attributeGroup>
-    <xs:element name="description" type="xs:string"/>
+    
+    <xs:element name="description" type="xs:string">
+        <xs:annotation>
+            <xs:documentation>A page description for workflow switching</xs:documentation>
+        </xs:annotation>
+    </xs:element>
 </xs:schema>

@@ -2,6 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://jboss.com/products/seam/remoting" xmlns:remoting="http://jboss.com/products/seam/remoting"
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
+    
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
     <xs:element name="remoting">
@@ -11,16 +12,9 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.remoting">
-        <xs:attribute name="poll-interval" />
-        <xs:attribute name="poll-timeout" />
-        <xs:attribute name="debug">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="true"/>
-                    <xs:enumeration value="false"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
+        <xs:attribute name="poll-interval" type="components:int"/>
+        <xs:attribute name="poll-timeout" type="components:int" />
+        <xs:attribute name="debug" type="components:boolean" />
     </xs:attributeGroup>
    
 </xs:schema>

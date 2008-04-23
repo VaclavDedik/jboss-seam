@@ -2,6 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
     targetNamespace="http://jboss.com/products/seam/persistence" xmlns:persistence="http://jboss.com/products/seam/persistence"
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
+    
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
     <xs:element name="managed-persistence-context">
@@ -17,8 +18,8 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.ManagedPersistenceContext">
-        <xs:attribute name="entity-manager-factory"/>
-        <xs:attribute name="persistence-unit-jndi-name"/>
+        <xs:attribute name="entity-manager-factory" type="components:expressionType"/>
+        <xs:attribute name="persistence-unit-jndi-name" type="components:string"/>
     </xs:attributeGroup>
 
     <xs:element name="managed-hibernate-session">
@@ -30,16 +31,14 @@
             <xs:attributeGroup ref="components:attlist.component"/>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="filters" type="components:multiValuedProperty"/>
-    
-    <xs:element name="persistence-unit-jndi-name" type="xs:string" />
-    
     <xs:attributeGroup name="attlist.ManagedHibernateSession">
         <xs:attribute name="session-factory"/>
         <xs:attribute name="session-factory-jndi-name"/>
     </xs:attributeGroup>
-
+    
+    <xs:element name="filters" type="components:multiValuedProperty"/>
+    <xs:element name="persistence-unit-jndi-name" type="components:string" />
+    
     <xs:element name="hibernate-session-factory">
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
@@ -55,7 +54,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.HibernateSessionFactory">
-        <xs:attribute name="cfg-resource-name"/>
+        <xs:attribute name="cfg-resource-name" type="components:string"/>
     </xs:attributeGroup>
 
     <xs:element name="entity-manager-factory">
@@ -68,13 +67,13 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.EntityManagerFactory">
-        <xs:attribute name="persistence-unit-name"/>
+        <xs:attribute name="persistence-unit-name" type="components:string" />
     </xs:attributeGroup>
 
     <xs:element name="filter">
         <xs:complexType mixed="true">
             <xs:sequence>
-                <xs:element minOccurs="0" name="name" type="xs:string"/>
+                <xs:element minOccurs="0" name="name" type="components:string"/>
                 <xs:element minOccurs="0" name="parameters" type="components:mapProperty"/>
             </xs:sequence>
             <xs:attributeGroup ref="persistence:attlist.filter"/>
@@ -82,7 +81,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.filter">
-        <xs:attribute name="enabled"/>
+        <xs:attribute name="enabled" type="components:boolean" />
     </xs:attributeGroup>
 
 </xs:schema>
