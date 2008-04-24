@@ -501,21 +501,51 @@ quote {
 }
 
 input.newuser {
-  background: url(../images/btn_newuser.png) top left no-repeat;
-  height: 24px;
-  width: 80px;
+  background: url(btn_newuser.png) top left no-repeat;
+  height: 39px;
+  width: 113px;
   margin: 4px 4px 4px 4px;
   border: 0px;
   cursor: pointer;  
 }
 
 input.newrole {
-  background: url(../images/btn_newrole.png) top left no-repeat;
-  height: 24px;
-  width: 80px;
+  background: url(btn_newrole.png) top left no-repeat;
+  height: 39px;
+  width: 113px;
   margin: 4px 4px 4px 4px;
   border: 0px;
   cursor: pointer;  
+}
+
+input.manageusers {
+  display: block;
+  background: url(manage_users.png) top left no-repeat;
+  height: 88px;
+  width: 400px;
+  padding-left: 10px;
+  font-size: 19px;
+  font-weight: bold;
+  color: #333333;
+  border: 0px;
+  cursor: pointer;
+  margin-top: 30px;
+  margin-left: 90px;
+}
+
+input.manageroles {
+  display: block;
+  background: url(manage_roles.png) top left no-repeat;
+  height: 88px;
+  width: 400px;
+  padding-left: 10px;
+  font-size: 19px;
+  font-weight: bold;
+  color: #333333;
+  border: 0px;
+  cursor: pointer;  
+  margin-top: 30px;
+  margin-left: 90px;
 }
 
 /* General form styles */

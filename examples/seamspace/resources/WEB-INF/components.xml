@@ -49,7 +49,7 @@
       enabled-attribute="enabled"
       />
       
-    <security:jpa-permission-store name="accountPermissionStore" permission-class="org.jboss.seam.example.seamspace.Permission"/>
+    <security:jpa-permission-store name="permissionStore" permission-class="org.jboss.seam.example.seamspace.Permission"/>
        
     <drools:rule-base name="securityRules">
        <drools:rule-files>

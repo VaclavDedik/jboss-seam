@@ -2,8 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:rich="http://richfaces.org/rich"       
+    xmlns:f="http://java.sun.com/jsf/core"    
     xmlns:s="http://jboss.com/products/seam/taglib">
 
   <ui:composition template="template.xhtml">
@@ -22,42 +21,31 @@
   	    <h2>Role Manager</h2>  
   	    
         <s:button action="#{roleAction.createRole}" styleClass="newrole" rendered="#{s:hasPermission('seam.account', 'create', null)}"/>
-        <s:link view="/usermanager.xhtml" value="--> Manage Users" propagation="none"/>
   	    
-        <rich:dataTable 
+        <h:dataTable 
             id="threads"
             value="#{roles}" 
             var="role" 
             styleClass="default"
             columnClasses=",,enabled,action">
-            <f:facet name="header">
-              <rich:columnGroup>
-                <rich:column width="auto">
-                  User name
-                </rich:column>
-                <rich:column width="auto">
-                  Member Of
-                </rich:column>
-                <rich:column width="auto">
-                  Action
-                </rich:column>              
-              </rich:columnGroup>
-            </f:facet>            
-          <rich:column width="auto">
+          <h:column width="auto">
+            <f:facet name="header">Role</f:facet>
             #{role}
-          </rich:column>
-          <rich:column width="auto">
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">Member Of</f:facet>
             #{roleSearch.getRoleGroups(role)}
-          </rich:column>
-          <rich:column width="auto">
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">Action</f:facet>          
             <s:fragment rendered="#{s:hasPermission('seam.role', 'update')}">
               <s:link value="Edit" action="#{roleAction.editRole(roleSearch.selectedRole)}"/><span> | </span>
             </s:fragment>
             <s:link value="Delete" action="#{identityManager.deleteRole(roleSearch.selectedRole)}"
                     rendered="#{s:hasPermission('seam.role', 'delete')}"
                     onclick="return confirmDelete()"/>              
-          </rich:column>
-  	    </rich:dataTable>
+          </h:column>
+  	    </h:dataTable>
 	    </div>
 	    
     </ui:define>

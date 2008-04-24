@@ -3,7 +3,6 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:rich="http://richfaces.org/rich"       
     xmlns:s="http://jboss.com/products/seam/taglib">
 
   <ui:composition template="template.xhtml">
@@ -22,48 +21,44 @@
   	    <h2>User Manager</h2>  
   	    
         <s:button action="#{userAction.createUser}" styleClass="newuser" rendered="#{s:hasPermission('seam.account', 'create')}"/>
-        <s:link view="/rolemanager.xhtml" value="--> Manage Roles" propagation="none"/>
   	    
-        <rich:dataTable 
+        <h:dataTable 
             id="threads"
             value="#{users}" 
             var="user" 
             styleClass="default"
             columnClasses=",,enabled,action">
+          <h:column width="auto">
             <f:facet name="header">
-              <rich:columnGroup>
-                <rich:column width="auto">
-                  User name
-                </rich:column>
-                <rich:column width="auto">
-                  Member Of
-                </rich:column>
-                <rich:column width="auto">
-                  Enabled
-                </rich:column>
-                <rich:column width="auto">
-                  Action
-                </rich:column>              
-              </rich:columnGroup>
-            </f:facet>            
-          <rich:column width="auto">
+              User name
+            </f:facet>
             #{user}
-          </rich:column>
-          <rich:column width="auto">
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">
+              Member Of
+            </f:facet>
             #{userSearch.getUserRoles(user)}
-          </rich:column>
-          <rich:column width="auto">
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">
+              Enabled
+            </f:facet>
             <div class="#{identityManager.isUserEnabled(user) ? 'checkmark' : 'cross'}"/>
-          </rich:column>
-          <rich:column width="auto">
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">
+              Action
+            </f:facet>
+          
             <s:fragment rendered="#{s:hasPermission('seam.user', 'update')}">
               <s:link value="Edit" action="#{userAction.editUser(userSearch.selectedUser)}"/><span> | </span>
             </s:fragment>
             <s:link value="Delete" action="#{identityManager.deleteUser(userSearch.selectedUser)}" 
                     rendered="#{s:hasPermission('seam.user', 'delete')}"
                     onclick="return confirmDelete()"/>
-          </rich:column>
-  	    </rich:dataTable>
+          </h:column>
+  	    </h:dataTable>
 	    </div>
 	    
     </ui:define>

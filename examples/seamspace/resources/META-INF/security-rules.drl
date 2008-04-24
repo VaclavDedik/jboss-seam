@@ -14,16 +14,6 @@ import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
-rule ViewProfile
-  no-loop
-  activation-group "permissions"
-when
-  check: PermissionCheck(name == "/profile.xhtml", action == "render", granted == false)
-  Role(name == "admin")
-then
-  check.grant();
-end
-
 rule ViewImage
   no-loop
   activation-group "permissions"
