@@ -90,7 +90,7 @@ public class MockExternalContext extends ExternalContext
    @Override
    public String encodeActionURL(String url)
    {
-      return url;
+      return encodeURL(url);
    }
 
    @Override
@@ -102,7 +102,7 @@ public class MockExternalContext extends ExternalContext
    @Override
    public String encodeResourceURL(String url)
    {
-      return url;
+      return encodeURL(url);
    }
 
    @Override
@@ -530,4 +530,20 @@ public class MockExternalContext extends ExternalContext
       return response.getContentType();
    }
 
+   /**
+    * Attempt to encode the URL, falling back to
+    * an identity function if the response has
+    * not been set on this mock context. This
+    * functionality is needed in order for
+    * the ExceptionFilter to maintain the session id
+    * when url rewriting is used.
+    */
+   protected String encodeURL(String url)
+   {
+      if (response != null) {
+         String encodedUrl = response.encodeURL(url); 
+         url = (encodedUrl != null ? encodedUrl : url);
+      }
+      return url;
+   }
 }
