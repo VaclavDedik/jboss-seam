@@ -244,7 +244,7 @@ CREATE TABLE `Person` (
   `birthdate` date default NULL,
   `address` varchar(600) NOT NULL,
   PRIMARY KEY  (`username`)
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 CREATE TABLE `Vehicle` (
   `ownerUsername` varchar(10) default NULL,
@@ -255,8 +255,8 @@ CREATE TABLE `Vehicle` (
   `state` varchar(2) NOT NULL,
   PRIMARY KEY USING BTREE (`registration`,`state`),
   KEY `ownerUsername` (`ownerUsername`),
-  CONSTRAINT `owner` FOREIGN KEY (`ownerUsername`) REFERENCES `person` (`username`)
-) ENGINE=InnoDB 
+  CONSTRAINT `owner` FOREIGN KEY (`ownerUsername`) REFERENCES `Person` (`username`)
+) ENGINE=InnoDB;
 
 * seam-gen review seam-gen chapter of the reference guide
   - accurate and up to date
