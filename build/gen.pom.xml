@@ -52,6 +52,12 @@
       </dependency>
       
       <dependency>
+         <groupId>org.eclipse.equinox</groupId>
+         <artifactId>common</artifactId>
+         <scope>runtime</scope>
+      </dependency>
+      
+      <dependency>
          <groupId>org.eclipse</groupId>
          <artifactId>text</artifactId>
          <scope>runtime</scope>

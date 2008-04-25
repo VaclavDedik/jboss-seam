@@ -982,6 +982,12 @@
       </dependency>
       
       <dependency>
+         <groupId>org.eclipse.equinox</groupId>
+         <artifactId>common</artifactId>
+         <version>3.2.0-v20060303</version>
+      </dependency>
+      
+      <dependency>
          <groupId>org.eclipse.core</groupId>
          <artifactId>runtime</artifactId>
          <version>3.2.0-v20060303</version>
@@ -1003,6 +1009,10 @@
                <artifactId>preferences</artifactId>
             </exclusion>
             <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>common</artifactId>
+            </exclusion>
+            <exclusion>
                <groupId>org.eclipse.core</groupId>
                <artifactId>contenttype</artifactId>
             </exclusion>
@@ -1017,6 +1027,10 @@
             <exclusion>
                <groupId>org.eclipse.core</groupId>
                <artifactId>commands</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>common</artifactId>
             </exclusion>
          </exclusions>
       </dependency>
