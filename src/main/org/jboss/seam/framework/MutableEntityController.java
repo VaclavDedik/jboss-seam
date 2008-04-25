@@ -82,10 +82,4 @@ public class MutableEntityController extends MutableController<EntityManager>
       getEntityManager().remove(entity);
    }
    
-   @Override
-   protected boolean isPersistenceContextOpen(EntityManager persistenceContext)
-   {
-      return persistenceContext.isOpen();
-   }
-   
 }

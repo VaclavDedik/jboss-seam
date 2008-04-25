@@ -234,11 +234,5 @@ public class EntityQuery<E> extends Query<EntityManager, E>
          throw new RuntimeException("could not join transaction", se);
       }
    }
-
-   @Override
-   protected boolean isPersistenceContextOpen(EntityManager persistenceContext)
-   {
-      return persistenceContext.isOpen();
-   }
    
 }

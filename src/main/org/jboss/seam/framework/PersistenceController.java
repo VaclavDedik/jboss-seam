@@ -15,7 +15,7 @@ public abstract class PersistenceController<T> extends Controller
    
    public T getPersistenceContext()
    {
-      if (persistenceContext==null || !isPersistenceContextOpen(persistenceContext))
+      if (persistenceContext==null)
       {
          persistenceContext = (T) getComponentInstance( getPersistenceContextName() );
       }
@@ -28,10 +28,5 @@ public abstract class PersistenceController<T> extends Controller
    }
 
    protected abstract String getPersistenceContextName();
-   
-   protected boolean isPersistenceContextOpen(T persistenceContext)
-   {
-      return true;
-   }
 
 }

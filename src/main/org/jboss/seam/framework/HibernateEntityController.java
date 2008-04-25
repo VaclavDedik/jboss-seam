@@ -117,11 +117,5 @@ public class HibernateEntityController extends PersistenceController<Session>
    {
       getSession().refresh(entity);
    }
-
-   @Override
-   protected boolean isPersistenceContextOpen(Session persistenceContext)
-   {
-      return persistenceContext.isOpen();
-   }
    
 }
