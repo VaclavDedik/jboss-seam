@@ -106,11 +106,6 @@
 	<property name="javac.debug" value="true" />
 	<property name="javac.deprecation" value="false" />
 
-	<path id="classpath.emma">
-		<pathelement location="${basedir}/extras/emma/emma.jar" />
-		<pathelement location="${basedir}/extras/emma/emma_ant.jar" />
-	</path>
-
 	<fileset id="eejb.conf" dir="${eejb.conf.dir}">
 		<include name="**/*.*" />
 	</fileset>
@@ -666,7 +661,7 @@
 	</target>
 
 
-	<target name="unittest" depends="inittestcore,compiletest" description="Run the Unit tests">
+	<target name="unittest" depends="inittestcore,compiletest,getemma" description="Run the Unit tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
 		<testng>
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
@@ -674,7 +669,7 @@
 			<classpath>
 				<path path="${classes.test.core.dir}" />
 				<path path="${classes.test.dir}" />
-				<path refid="classpath.emma" />
+				<path refid="runtime.emma.path" />
 				<path refid="test.core.path" />
 				<pathelement location="${lib.dir}/jboss-seam-remoting.jar" />
 			</classpath>
@@ -715,8 +710,8 @@
 		</copy>
 	</target>
 
-	<target name="instrumentcore" depends="compilecore">
-		<taskdef resource="emma_ant.properties" classpathref="classpath.emma" />
+	<target name="instrumentcore" depends="compilecore,getemma">
+		<taskdef resource="emma_ant.properties" classpathref="runtime.emma.path" />
 		<mkdir dir="${coverage.dir}/core" />
 		<emma>
 			<instr instrpath="${classes.core.dir}" mode="overwrite" metadatafile="${coverage.dir}/coveragecore.em">
@@ -729,8 +724,8 @@
 		</emma>
 	</target>
 	
-	<target name="instrumentmail" depends="compilemail">
-		<taskdef resource="emma_ant.properties" classpathref="classpath.emma" />
+	<target name="instrumentmail" depends="compilemail,getemma">
+		<taskdef resource="emma_ant.properties" classpathref="runtime.emma.path" />
 		<mkdir dir="${coverage.dir}/mail" />
 		<emma>
 			<instr instrpath="${classes.mail.dir}" mode="overwrite" metadatafile="${coverage.dir}/coveragemail.em">
@@ -742,8 +737,8 @@
 	<!-- Deprecated -->
 	<target name="coverage" depends="instrumentcore, instrumentmail, testall, coveragereport" />
 	
-	<target name="coveragereport" description="Create the coverage report">
-		<taskdef resource="emma_ant.properties" classpathref="classpath.emma" />
+	<target name="coveragereport" depends="getemma" description="Create the coverage report">
+		<taskdef resource="emma_ant.properties" classpathref="runtime.emma.path" />
 		<emma>
 			<report depth="method">
 				<sourcepath>

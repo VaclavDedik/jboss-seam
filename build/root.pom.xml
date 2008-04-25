@@ -963,6 +963,65 @@
          <version>1.4.2</version>
       </dependency>
       
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-tools</artifactId>
+         <version>3.2.0.ga</version>
+      </dependency>
+
+      <dependency>
+         <groupId>freemarker</groupId>
+         <artifactId>freemarker</artifactId>
+         <version>2.3.8</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>hsqldb</groupId>
+         <artifactId>hsqldb</artifactId>
+         <version>1.8.0.2</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse.core</groupId>
+         <artifactId>runtime</artifactId>
+         <version>3.2.0-v20060303</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse</groupId>
+               <artifactId>osgi</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>jobs</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>registry</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.equinox</groupId>
+               <artifactId>preferences</artifactId>
+            </exclusion>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>contenttype</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.eclipse</groupId>
+         <artifactId>text</artifactId>
+         <version>3.2.0-v20060605-1400</version>
+         <exclusions>
+            <exclusion>
+               <groupId>org.eclipse.core</groupId>
+               <artifactId>commands</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      
+      
     </dependencies>
   </dependencyManagement>
   

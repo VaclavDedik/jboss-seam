@@ -465,10 +465,6 @@
 		<path refid="build.classpath.extras" />
 	</path>
 	
-	<path id="emma.classpath">
-		<fileset dir="${seam.dir}/extras/emma/*.jar" />
-	</path>
-	
 	<path id="test.classpath">			
 		<path path="${test.dir}" />
 		<fileset dir="${lib.dir}/test">
@@ -483,7 +479,6 @@
 		<path path="${eejb.conf.dir}" />
 		<path refid="test.classpath.extras" />
 		<path refid="build.classpath.extras" />
-		<path refid="emma.classpath" />
 	    <path location="${seam.dir}/src/test/resources/log4j.xml" />
 	</path>
 
@@ -912,11 +907,6 @@
 	  You can test the example by running the test target.  
 	-->
 
-	<path id="emma.classpath">
-		<pathelement location="${seam.dir}/extras/emma/emma.jar" />
-		<pathelement location="${seam.dir}/extras/emma/emma_ant.jar" />
-	</path>
-
 	<target name="validateConfiguration" description="Validate XML Configuration files">
 		<echo message="Validating configuaration files for ${Name}" />
 		<ant antfile="${build.dir}/validate.xml" target="validateConfiguration">
@@ -952,7 +942,7 @@
         </copy>
 	</target>
 
-	<target name="test" depends="buildtest, copyjbossembedded" description="Run the tests">
+	<target name="test" depends="buildtest, copyjbossembedded,getemma" description="Run the tests">
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
 		<testng outputdir="${test-report.dir}">
             <jvmarg value="-Xmx800M" />
@@ -960,13 +950,16 @@
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
 			<jvmarg value="-Djava.endorsed.dirs=${endorsed.dir}" />
 			<jvmarg value="${testng.jvmargs}" />
-			<classpath refid="test.classpath" />
+			<classpath>
+            	<path refid="test.classpath" />
+            	<path refid="runtime.emma.path" />
+            </classpath>
 			<xmlfileset dir="${src.test.dir}" includes="**/testng.xml" />
 		</testng>
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	</target>
 	
-	<target name="testclass" depends="buildtest, copyjbossembedded" description="Run a specific test">
+	<target name="testclass" depends="buildtest, copyjbossembedded,getemma" description="Run a specific test">
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
 		<testng outputdir="${test-report.dir}" testname="${className}" suitename="${className}" >
             <jvmarg value="-Xmx800M" />
@@ -974,7 +967,10 @@
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
 			<jvmarg value="-Djava.endorsed.dirs=${endorsed.dir}" />
 			<jvmarg value="${testng.jvmargs}" />
-			<classpath refid="test.classpath" />
+			<classpath>
+            	<path refid="test.classpath" />
+            	<path refid="runtime.emma.path" />
+            </classpath>
 			<classfileset dir="${test.dir}" includes="**/${className}.class"/>
 		</testng>
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>

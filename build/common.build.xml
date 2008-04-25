@@ -156,6 +156,13 @@
 		</copyInlineDependencies>
 		<property name="copyjbossembeddeddone" value="true" />
 	</target>
+	
+	<target name="getemma">
+		<inlineDependency id="emma" scope="runtime">
+			<dependency groupId="emma" artifactId="emma" version="2.0.5312" />
+			<dependency groupId="emma" artifactId="emma_ant" version="2.0.5312" />
+		</inlineDependency>
+	</target>
 
 	<macrodef name="deploySeam">
 		<attribute name="repositoryId" />
