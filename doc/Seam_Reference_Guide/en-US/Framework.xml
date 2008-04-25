@@ -55,14 +55,15 @@
             your taste, you can use extension instead:
         </para>
 
-        <programlisting role="JAVA"><![CDATA[@Stateful
+        <programlisting role="JAVA"><![CDATA[
 @Name("personHome")
-public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
-    @RequestParameter String personId;
-    @In EntityManager personDatabase;
+public class PersonHome extends EntityHome<Person> {
     
-    public Object getId() { return personId; }
-    public EntityManager getEntityManager() { return personDatabase; }
+   @In EntityManager personDatabase;
+    
+   public EntityManager getEntityManager() {
+      return personDatabase; 
+   }
     
 }]]></programlisting>
 
@@ -77,8 +78,33 @@ public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
             A second advantage is that your classes may be EJB stateful
             session beans, if you like. (They do not have to be, they 
             can be plain JavaBean components if you prefer.)  If you are using
-            JBoss AS, you'll need 4.2.2.GA or later.
+            JBoss AS, you'll need 4.2.2.GA or later:
         </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateful
+@Name("personHome")
+public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
+    
+}]]></programlisting>
+        
+        <para>
+            You can also make your classes stateless session beans. In this case
+            you <emphasis>must</emphasis> use injection to provide the
+            persistence context, even if it is called 
+            <literal>entityManager</literal>:
+        </para>
+        
+        <programlisting role="JAVA"><![CDATA[@Stateless
+@Name("personHome")
+public class PersonHome extends EntityHome<Person> implements LocalPersonHome {
+    
+   @In EntityManager entityManager;
+    
+   public EntityManager getPersistenceContext() { 
+      entityManager; 
+   }
+    
+}]]></programlisting>
         
         <para>
             At this time, the Seam Application Framework provides four main

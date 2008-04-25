@@ -50,10 +50,4 @@ public class HibernateEntityLoader extends AbstractEntityLoader<Session>
       return (HibernateEntityLoader) Component.getInstance(HibernateEntityLoader.class, STATELESS);
    }
    
-   @Override
-   protected boolean isPersistenceContextOpen(Session persistenceContext)
-   {
-      return persistenceContext.isOpen();
-   }
-   
 }
