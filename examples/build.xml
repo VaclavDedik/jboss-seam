@@ -301,6 +301,8 @@
 		<include name="jboss-embedded-api.jar" if="jboss-embedded-api.lib" />
 	</fileset>
 	
+	<!-- Dependencies for wicket -->
+	
 	<fileset id="wicket-extensions.jar" dir="${lib.dir}">
 		<include name="wicket-extensions.jar" if="wicket-extensions.lib" />
 	</fileset>
@@ -310,6 +312,27 @@
 		<include name="joda-time.jar" if="wicket-datetime.lib" />
 	</fileset>
 
+	
+	<!-- Dependencies for Trinidad -->
+	
+	<fileset id="trinidad-api.jar" dir="${lib.dir}">
+		<include name="trinidad-api.jar" if="trinidad.lib" />
+	</fileset>
+	
+	<fileset id="trinidad-impl.jar" dir="${lib.dir}">
+		<include name="trinidad-impl.jar" if="trinidad.lib" />
+	</fileset>
+	
+	<!-- Dependencies if el-ri is needed -->
+	
+	<fileset id="el-ri.jar" dir="${lib.dir}">
+		<include name="el-ri.jar" if="el-ri.lib" />
+	</fileset>
+	
+	<fileset id="jboss-common-core.jar" dir="${lib.dir}">
+		<include name="jboss-common-core.jar" if="jboss-common-core.lib" />
+	</fileset>
+	
 	<!-- ############################ MELDWARE ############################ -->
 	<!--
 	  Meldware from buni.org provides a java based mail server which Seam uses
@@ -479,7 +502,46 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 	
-	<target name="copyextradependencies" />
+	<target name="copyextradependencies" depends="gettrinidad, getelri, getjbosscommoncore"/>
+	
+	<target name="gettrinidad" if="trinidad.lib">
+		<copyInlineDependencies id="trinidad" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="org.apache.myfaces.trinidad" artifactId="trinidad-api" version="1.2.5">
+		    	<exclusion groupId="org.apache.myfaces.trinidad" artifactId="trinidad-build" />
+			    <exclusion groupId="javax.servlet" artifactId="servlet-api" />
+			    <exclusion groupId="javax.servlet.jsp" artifactId="jsp-api"/>
+			    <exclusion groupId="javax.faces" artifactId="jsf-api"/>
+			</dependency>
+			<dependency groupId="org.apache.myfaces.trinidad" artifactId="trinidad-impl" version="1.2.5">
+			    <exclusion groupId="org.apache.myfaces.trinidad" artifactId="trinidad-build" />
+			    <exclusion groupId="javax.servlet" artifactId="servlet-api" />
+			    <exclusion groupId="javax.servlet.jsp" artifactId="jsp-api"/>
+				<exclusion groupId="portlet-api" artifactId="portlet-api"/>
+			    <exclusion groupId="jstl" artifactId="jstl"/>
+				<exclusion groupId="commons-beanutils" artifactId="commons-beanutils"/>
+				<exclusion groupId="javax.faces" artifactId="jsf-api"/>
+				<exclusion groupId="com.sun.facelets" artifactId="jsf-facelets"/>
+			</dependency>
+		</copyInlineDependencies>
+	</target>
+	
+	<target name="getelri" if="el-ri.lib">
+		<copyInlineDependencies id="elri" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="javax.el" artifactId="el-ri" version="1.2" />
+		</copyInlineDependencies>
+	</target>
+	
+	<target name="getjbosscommoncore" if="jboss-common-core.lib">
+		<copyInlineDependencies id="jbosscommoncore" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="jboss" artifactId="jboss-common-core" version="2.0.2.GA">
+				<exclusion groupId="apache-xerces" artifactId="xml-apis" />
+			    <exclusion groupId="apache-httpclient" artifactId="commons-httpclient" />
+			    <exclusion groupId="oswego-concurrent" artifactId="concurrent" />
+			    <exclusion groupId="apache-slide" artifactId="webdavlib" />
+			    <exclusion groupId="jboss" artifactId="jboss-logging-spi" />
+			</dependency>
+		</copyInlineDependencies>
+	</target>
      
 	<!-- Use the Eclipse compiler, if it is available -->
 	<target name="select-compiler">
@@ -523,6 +585,8 @@
 			<fileset refid="facelets.jar" />
 			<fileset refid="urlrewrite.jar" />
 			<fileset refid="richfaces-impl.jar" />
+			<fileset refid="trinidad-impl.jar" />
+			<fileset refid="jboss-common-core.jar" />
 			<fileset refid="war.lib.extras" />
 			<mapper type="flatten" />
 		</copy>
@@ -588,7 +652,10 @@
 			<fileset refid="wicket-extensions.jar" />
 			<fileset refid="wicket-datetime.jar" />
 			<fileset refid="seam.wicket.jar" />
-			<fileset refid="seam.remoting.jar" />			
+			<fileset refid="seam.remoting.jar" />
+			<fileset refid="el-ri.jar" />
+			<fileset refid="trinidad-api.jar" />
+			<fileset refid="jboss-common-core.jar" />
 			<mapper type="flatten" />
 		</copy>
 	</target>
@@ -780,6 +847,8 @@
 			<fileset refid="wicket-extensions.jar" />
 			<fileset refid="wicket-datetime.jar" />
 			<fileset refid="seam.wicket.jar" />
+			<fileset refid="trinidad-api.jar" />
+			<fileset refid="el-ri.jar"/>
 			<mapper type="flatten" />
 		</copy>
 		<copy todir="${war.dir}">

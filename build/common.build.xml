@@ -129,7 +129,7 @@
 	</target>
 
 	<target name="copyseam" if="mavenized.property" unless="copyseamdone" depends="initcopy, initpoms">
-		<artifact:dependencies filesetId="seam.fileset" versionsId="seam.versions">
+		<copyInlineDependencies id="seam" scope="compile" todir="${lib.dir}">
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-debug" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-wicket" version="${complete.version}" />
@@ -138,16 +138,12 @@
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-pdf" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="${complete.version}" />
-		</artifact:dependencies>
-		<copy todir="${lib.dir}">
-			<fileset refid="seam.fileset" />
-			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${seam.versions}" to="flatten" />
-		</copy>
+		</copyInlineDependencies>
 		<property name="copyseamdone" value="true" />
 	</target>
 
 	<target name="copyjbossembedded" if="mavenized.property" unless="copyjbossembeddeddone" depends="initpoms, initcopy">
-		<artifact:dependencies filesetId="embeddedjboss.fileset" versionsId="embeddedjboss.versions">
+		<copyInlineDependencies id="embeddedjboss" scope="compile" todir="${lib.dir}/test">
 			<dependency groupId="org.jboss.seam.embedded" artifactId="jboss-embedded-all" version="${embedded.version}">
               <!-- Exclude the embedded api, its a dep of Seam core -->
               <exclusion groupId="org.jboss.seam.embedded" artifactId="jboss-embedded-api" />
@@ -157,11 +153,7 @@
 			
 			<remoteRepository refId="repository.jboss.org" />
 			<remoteRepository id="snapshots.jboss.org" url="http://snapshots.jboss.org/maven2" />
-		</artifact:dependencies>
-		<copy todir="${lib.dir}/test">
-			<fileset refid="embeddedjboss.fileset" />
-			<mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${embeddedjboss.versions}" to="flatten" />
-		</copy>
+		</copyInlineDependencies>
 		<property name="copyjbossembeddeddone" value="true" />
 	</target>
 

@@ -140,6 +140,12 @@ under the License.
       <url>http://my.repository.com/repo/path</url>
     </mirror>
      -->
+     <mirror>
+       <id>fake.mirror.of.central</id>
+       <mirrorOf>central</mirrorOf>
+       <name>Fake mirror of central - reroutes central to repository.jboss.org</name>
+       <url>http://repository.jboss.org/maven2</url>
+     </mirror>
   </mirrors>
   
   <!-- profiles

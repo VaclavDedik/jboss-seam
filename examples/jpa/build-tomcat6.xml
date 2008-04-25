@@ -16,6 +16,7 @@
     <property name="seam.debug.lib" value="true"/>
     <property name="facelets.lib"   value="true"/>
     <property name="richfaces.lib"   value="true"/>
+    <property name="jboss-common-core.lib" value="true" />
 
     <import file="../build.xml"/>
 
@@ -40,7 +41,6 @@
 		<include name="lib/jta.jar" />
 		<include name="lib/antlr.jar" />
     	<include name="lib/asm.jar" />
-    	<include name="examples/jpa/lib/jboss-archive-browsing.jar" />
     </fileset>
 	
 	<fileset id="noejb.war.extras" dir="${resources.dir}">

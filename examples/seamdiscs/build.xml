@@ -10,59 +10,20 @@
     <property name="seam.ui.lib"     value="yes"/>
     <property name="seam.debug.lib"  value="yes"/>
     <property name="facelets.lib"    value="yes"/>
-	<property name="richfaces.lib"    value="yes"/>
+	<property name="richfaces.lib"   value="yes"/>
+	<property name="trinidad.lib"    value="yes"/>
     
     <import file="../build.xml"/>
     
     <property name="example.tmp.lib.dir" value="${basedir}/lib" />
 	
-	<fileset id="ear.lib.extras" dir="${example.tmp.lib.dir}">
-		<include name="trinidad-api.jar"/>
-	</fileset>
-	
-	<fileset id="war.lib.extras" dir="${example.tmp.lib.dir}">
-		<include name="trinidad-impl.jar"/>
-	</fileset>
-	
 	<fileset id="war.extras" dir="${resources.dir}">
 		<include name="WEB-INF/lib/*.jar"/>
 	</fileset>
 	
-	<path id="build.classpath.extras">
-		<fileset dir="${example.tmp.lib.dir}">
-			<include name="trinidad-api.jar"/>
-		</fileset>	
-	</path>
-	
 	<patternset id="test.resources.files">
       <exclude name="import.sql" />
     </patternset>
-    
-     <target name="copyextradependencies">
-      
-      <artifact:dependencies filesetId="trinidad.fileset" versionsId="trinidad.versions" sourcesfilesetid="trinidad.sources">
-         <dependency groupId="org.apache.myfaces.trinidad" artifactId="trinidad-api" version="1.2.5">
-            <exclusion groupId="org.apache.myfaces.trinidad" artifactId="trinidad-build" />
-            <exclusion groupId="javax.servlet" artifactId="servlet-api" />
-            <exclusion groupId="javax.servlet.jsp" artifactId="jsp-api"/>
-            <exclusion groupId="javax.faces" artifactId="jsf-api"/>
-         </dependency>
-      	<dependency groupId="org.apache.myfaces.trinidad" artifactId="trinidad-impl" version="1.2.5">
-            <exclusion groupId="org.apache.myfaces.trinidad" artifactId="trinidad-build" />
-            <exclusion groupId="javax.servlet" artifactId="servlet-api" />
-            <exclusion groupId="javax.servlet.jsp" artifactId="jsp-api"/>
-      		<exclusion groupId="portlet-api" artifactId="portlet-api"/>
-            <exclusion groupId="jstl" artifactId="jstl"/>
-      		<exclusion groupId="commons-beanutils" artifactId="commons-beanutils"/>
-      		<exclusion groupId="javax.faces" artifactId="jsf-api"/>
-      		<exclusion groupId="com.sun.facelets" artifactId="jsf-facelets"/>
-         </dependency>
-      </artifact:dependencies>
-      <copy todir="${example.tmp.lib.dir}">
-         <fileset refid="trinidad.fileset" />
-         <mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${trinidad.versions}" to="flatten" />
-      </copy>
-   </target>
 	
 </project>
 

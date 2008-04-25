@@ -15,7 +15,8 @@
     <property name="seam.ui.lib"    value="true"/>
     <property name="seam.debug.lib" value="true"/>
     <property name="facelets.lib"   value="true"/>
-    <property name="richfaces.lib"   value="true"/>
+    <property name="richfaces.lib"  value="true"/>
+    <property name="el-ri.lib"      value="true"/>
 
     <import file="../build.xml"/>
 
@@ -28,7 +29,6 @@
         <include name="lib/jsf-impl.jar"/>
         <include name="lib/jsf-api.jar"/>
         <include name="lib/jstl.jar"/>
-        <include name="examples/jpa/lib/el-ri.jar"/>
         <include name="lib/el-api.jar"/>
     </fileset>
        
