@@ -7,6 +7,10 @@
 
   <ui:composition template="template.xhtml">
    
+    <ui:define name="header">
+      <link href="style/security.css" rel="stylesheet" type="text/css"/>
+    </ui:define>   
+   
     <ui:define name="content">
         
       <script type="text/javascript">
@@ -26,8 +30,11 @@
             id="threads"
             value="#{roles}" 
             var="role" 
-            styleClass="default"
-            columnClasses=",,enabled,action">
+            styleClass="security"
+            cellspacing="0"
+            headerClass="header"
+            rowClasses="odd,even"
+            columnClasses=",,action">
           <h:column width="auto">
             <f:facet name="header">Role</f:facet>
             #{role}

@@ -419,6 +419,10 @@ div.loginRow input[type='text'], div.loginRow input[type='password'] {
 	font-size: 0px;
 }
 
+.divider {
+  color: #aaaaaa;
+}
+
 div.errors {
   color: #ff0000;
   font-weight: bold;
@@ -500,54 +504,6 @@ quote {
   display: block;
 }
 
-input.newuser {
-  background: url(btn_newuser.png) top left no-repeat;
-  height: 39px;
-  width: 113px;
-  margin: 4px 4px 4px 4px;
-  border: 0px;
-  cursor: pointer;  
-}
-
-input.newrole {
-  background: url(btn_newrole.png) top left no-repeat;
-  height: 39px;
-  width: 113px;
-  margin: 4px 4px 4px 4px;
-  border: 0px;
-  cursor: pointer;  
-}
-
-input.manageusers {
-  display: block;
-  background: url(manage_users.png) top left no-repeat;
-  height: 88px;
-  width: 400px;
-  padding-left: 10px;
-  font-size: 19px;
-  font-weight: bold;
-  color: #333333;
-  border: 0px;
-  cursor: pointer;
-  margin-top: 30px;
-  margin-left: 90px;
-}
-
-input.manageroles {
-  display: block;
-  background: url(manage_roles.png) top left no-repeat;
-  height: 88px;
-  width: 400px;
-  padding-left: 10px;
-  font-size: 19px;
-  font-weight: bold;
-  color: #333333;
-  border: 0px;
-  cursor: pointer;  
-  margin-top: 30px;
-  margin-left: 90px;
-}
-
 /* General form styles */
 
 div.formRow {
@@ -600,28 +556,4 @@ div.selectMany label {
 div.formButtons {
   float: right;
   padding: 4px 8px 16px 2px;
-}
-
-div.checkmark {
-  background: url(../images/checkmark.png) top left no-repeat;
-  width: 14px;
-  height: 15px;
-  margin-left: auto;
-  margin-right: auto;    
-}
-
-div.cross {
-  background: url(../images/cross.png) top left no-repeat;
-  width: 14px;
-  height: 15px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-td.enabled {
-  text-align: center;
-}
-
-td.action {
-  text-align: right;
 }

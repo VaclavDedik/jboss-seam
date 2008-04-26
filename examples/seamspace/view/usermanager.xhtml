@@ -6,6 +6,10 @@
     xmlns:s="http://jboss.com/products/seam/taglib">
 
   <ui:composition template="template.xhtml">
+  
+    <ui:define name="header">
+      <link href="style/security.css" rel="stylesheet" type="text/css"/>
+    </ui:define>  
    
     <ui:define name="content">
         
@@ -26,7 +30,10 @@
             id="threads"
             value="#{users}" 
             var="user" 
-            styleClass="default"
+            styleClass="security"
+            cellspacing="0"
+            headerClass="header"
+            rowClasses="odd,even"
             columnClasses=",,enabled,action">
           <h:column width="auto">
             <f:facet name="header">
