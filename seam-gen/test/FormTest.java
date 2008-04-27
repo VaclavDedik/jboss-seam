@@ -6,7 +6,7 @@ import org.jboss.seam.mock.SeamTest;
 public class @interfaceName@Test extends SeamTest {
 
 	@Test
-	public void test() throws Exception {
+	public void test_@methodName@() throws Exception {
 		new FacesRequest() {
 			@Override
 			protected void updateModelValues() throws Exception {				
