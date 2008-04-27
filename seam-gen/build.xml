@@ -3,12 +3,13 @@
 <project name="seam-gen" default="help" basedir="."  xmlns:artifact="urn:maven-artifact-ant">	
 	<!-- Build resources -->
 	<property name="seam.dir" value="${ant.file.seam-gen}/../../" />
+
 	<!-- Order is important -->
 	<property file="./build.properties" />
 	<import file="${seam.dir}/build/common.build.xml" />
 	
 	<target name="init">
-            <path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
+        <path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
 
 	    <!-- taskdefs -->
 	    <taskdef name="normalizeProjectName" 
@@ -37,7 +38,7 @@
 		
 	    <taskdef name="pathFixer" 
 	             classname="org.jboss.seam.tool.FixPathTask" 
-	             classpathref="seam-gen.path"/>	
+	             classpathref="seam-gen.path"/>
 	</target>
     
     <target name="init-properties" depends="init">
@@ -194,7 +195,7 @@
     	
     	<property name="old.icefaces.home" value="" />
     	<input addproperty="icefaces.home.new"
-    		       message="By default, seam-gen will download the recommended  ICEFaces. If you want to use a specific version of ICEFaces, enter the path to icefaces here [${old.icefaces.home}]"
+    		       message="By default, seam-gen will download the recommended ICEFaces. If you want to use a specific version of ICEFaces, enter the path to icefaces here [${old.icefaces.home}]"
     	           defaultvalue="${old.icefaces.home}" />
 
         <condition property="richfaces.skin.new" value="">
@@ -501,11 +502,20 @@
         <input addproperty="component.name" message="Enter the Seam component name"/>
         
         <uppercaseProperty name="interface.name.default" value="${component.name}"/>
-        <input message="Enter the local interface name [${interface.name.default}]"
+        <condition property="interface.name.prompt" value="local interface">
+            <isset property="project.ear"/>
+        </condition>
+        <condition property="interface.name.prompt" value="bean class">
+            <isset property="project.war"/>
+        </condition>
+        <input message="Enter the ${interface.name.prompt} name [${interface.name.default}]"
            addproperty="interface.name"
           defaultvalue="${interface.name.default}"/>
         
         <uppercaseProperty name="bean.name.default" value="${component.name}Bean"/>
+        <condition property="bean.name" value="${interface.name}">
+            <isset property="project.war"/>
+        </condition>
         <input message="Enter the bean class name [${bean.name.default}]" 
             addproperty="bean.name" 
           defaultvalue="${bean.name.default}"/>
