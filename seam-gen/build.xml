@@ -3,7 +3,7 @@
 <project name="seam-gen" default="help" basedir="."  xmlns:artifact="urn:maven-artifact-ant">	
 	<!-- Build resources -->
 	<property name="seam.dir" value="${ant.file.seam-gen}/../../" />
-	
+
 	<!-- Order is important -->
 	<property file="./build.properties" />
 	<import file="${seam.dir}/build/common.build.xml" />
@@ -504,11 +504,20 @@
         <input addproperty="component.name" message="Enter the Seam component name"/>
         
         <uppercaseProperty name="interface.name.default" value="${component.name}"/>
-        <input message="Enter the local interface name [${interface.name.default}]"
+        <condition property="interface.name.prompt" value="local interface">
+            <isset property="project.ear"/>
+        </condition>
+        <condition property="interface.name.prompt" value="bean class">
+            <isset property="project.war"/>
+        </condition>
+        <input message="Enter the ${interface.name.prompt} name [${interface.name.default}]"
            addproperty="interface.name"
           defaultvalue="${interface.name.default}"/>
         
         <uppercaseProperty name="bean.name.default" value="${component.name}Bean"/>
+        <condition property="bean.name" value="${interface.name}">
+            <isset property="project.war"/>
+        </condition>
         <input message="Enter the bean class name [${bean.name.default}]" 
             addproperty="bean.name" 
           defaultvalue="${bean.name.default}"/>
@@ -1059,7 +1068,7 @@
         	<pathelement path="../lib/hibernate-commons-annotations.jar" />
         	<pathelement path="../lib/hibernate-annotations.jar" />
         	<pathelement path="../lib/hibernate-entitymanager.jar" />
-			<pathelement path="../lib/hibernate-validator.jar"/>
+            <pathelement path="../lib/hibernate-validator.jar"/>
         	<pathelement path="../lib/commons-collections.jar" />
         	<pathelement path="../lib/commons-logging.jar" />
         	<pathelement path="../lib/javassist.jar" />
