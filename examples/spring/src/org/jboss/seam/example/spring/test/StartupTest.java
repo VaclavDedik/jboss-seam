@@ -18,8 +18,6 @@ import org.jboss.seam.example.spring.Hotel;
 import org.jboss.seam.example.spring.HotelBookingAction;
 import org.jboss.seam.example.spring.User;
 import org.jboss.seam.mock.SeamTest;
-import org.jboss.seam.mock.SeamTest.FacesRequest;
-import org.jboss.seam.mock.SeamTest.NonFacesRequest;
 import org.testng.annotations.Test;
 
 public class StartupTest extends SeamTest {
@@ -28,7 +26,7 @@ public class StartupTest extends SeamTest {
 	public void testRegister() throws Exception {
 		new FacesRequest("/register.xhtml") {
 			/**
-			 * @see org.jboss.seam.mock.BaseSeamTest.Request#updateModelValues()
+			 * @see org.jboss.seam.mock.AbstractSeamTest.Request#updateModelValues()
 			 */
 			@Override
 			protected void updateModelValues() throws Exception {
@@ -38,7 +36,7 @@ public class StartupTest extends SeamTest {
 				setValue("#{register.verify}", "password");
 			}
 			/**
-			 * @see org.jboss.seam.mock.BaseSeamTest.Request#invokeApplication()
+			 * @see org.jboss.seam.mock.AbstractSeamTest.Request#invokeApplication()
 			 */
 			@Override
 			protected void invokeApplication() throws Exception {
