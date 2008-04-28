@@ -49,7 +49,7 @@ under the License.
   <localRepository>/path/to/local/repo</localRepository>
   -->
   
-  <localRepository>${env.REPOSITORY}/.m2/repository</localRepository>
+  <localRepository>${env.WORKSPACE}/.m2/repository</localRepository>
 
   <!-- interactiveMode
    | This will determine whether maven prompts you when it needs input. If set to false,
