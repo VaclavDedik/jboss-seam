@@ -22,6 +22,7 @@
 package org.jboss.seam.ui.component;
 
 import javax.faces.component.UIComponentBase;
+import javax.faces.context.FacesContext;
 
 /**
  * JSF component class
@@ -34,5 +35,9 @@ public abstract class UIFragment extends UIComponentBase {
 	
 	@SuppressWarnings("unused")
    private static final String COMPONENT_FAMILY = "org.jboss.seam.ui.Fragment";
+	
+	public static UIFragment newInstance() {
+      return (UIFragment) FacesContext.getCurrentInstance().getApplication().createComponent(COMPONENT_TYPE);
+   }
 	
 }
