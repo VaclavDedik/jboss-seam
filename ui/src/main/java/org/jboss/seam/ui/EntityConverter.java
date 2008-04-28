@@ -1,4 +1,4 @@
-package org.jboss.seam.ui.converter;
+package org.jboss.seam.ui;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
@@ -16,10 +16,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.faces.Converter;
-import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.ui.converter.entityConverter.EntityLoader;
-import org.jboss.seam.ui.converter.entityConverter.HibernateEntityLoader;
-import org.jboss.seam.ui.converter.entityConverter.AbstractEntityLoader;
 
 /**
  * Allows conversion of an entity to/from a key which can be written to a page.
@@ -36,37 +32,32 @@ public class EntityConverter implements
          javax.faces.convert.Converter, Serializable
 {
    
-   private ValueExpression entityManager;
-   private ValueExpression session;
-   private AbstractEntityLoader store;
+   private AbstractEntityLoader entityLoader;
 
+   public AbstractEntityLoader getEntityLoader()
+   {
+      return entityLoader;
+   }
+   
+   public void setEntityLoader(AbstractEntityLoader entityLoader)
+   {
+      this.entityLoader = entityLoader;
+   }
+   
    @Create
    public void create()
    {
-      if (getEntityManager() == null && getSession() != null)
+      if (entityLoader == null)
       {
-         store = HibernateEntityLoader.instance();
+         entityLoader = AbstractEntityLoader.instance();
       }
-      else
-      {
-         store = EntityLoader.instance();
-      }
-   }
-   
-   private void init()
-   {
-      if (getPersistenceContext() != null)
-      {
-         store.setPersistenceContext(getPersistenceContext().getValue());
-      }
-      store.validate();
+      entityLoader.validate();
    }
    
    @SuppressWarnings("unchecked")
    @Transactional
    public String getAsString(FacesContext facesContext, UIComponent cmp, Object value) throws ConverterException
    {
-      init();
       if (value == null)
       {
          return null;
@@ -75,51 +66,18 @@ public class EntityConverter implements
       {
          return (String) value;
       }
-      return store.put(value);
+      return entityLoader.put(value);
    }
    
 
    @Transactional
    public Object getAsObject(FacesContext facesContext, UIComponent cmp, String value) throws ConverterException
    {
-      init();
       if (value == null)
       {
          return null;
       }
-      return store.get(value);
-   }
-   
-   public ValueExpression getEntityManager()
-   {
-      return entityManager; 
-   }
-   
-   public void setEntityManager(ValueExpression entityManager)
-   {
-      this.entityManager = entityManager;
-   }
-   
-   public ValueExpression getSession()
-   {
-      return session;
-   }
-   
-   public void setSession(ValueExpression session)
-   {
-      this.session = session;
-   }
-   
-   private ValueExpression getPersistenceContext() 
-   {
-      if (getEntityManager() != null)
-      {
-         return getEntityManager();
-      }
-      else
-      {
-         return getSession();
-      }
+      return entityLoader.get(value);
    }
    
 }

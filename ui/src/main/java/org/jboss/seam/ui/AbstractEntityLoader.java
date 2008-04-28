@@ -1,5 +1,8 @@
-package org.jboss.seam.ui.converter.entityConverter;
+package org.jboss.seam.ui;
 
+import static org.jboss.seam.ScopeType.STATELESS;
+
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.Identifier;
 import org.jboss.seam.framework.PersistenceController;
@@ -9,6 +12,7 @@ import org.jboss.seam.framework.PersistenceController;
  * @author Pete Muir
  *
  */
+
 public abstract class AbstractEntityLoader<T> extends PersistenceController<T>
 {
    
@@ -20,10 +24,6 @@ public abstract class AbstractEntityLoader<T> extends PersistenceController<T>
    @Transactional
    public Object get(String key)
    {
-      if (getPersistenceContext() == null)
-      {
-         throw new IllegalStateException("Unable to get a Persistence Context to load Entity. Make sure you have an SMPC called entityManager configured in components.xml (or have correctly configured s:convertEntity to use another SMPC).");
-      }
       Identifier identifier = EntityIdentifierStore.instance().get(key);
       if (identifier != null)
       {
@@ -43,15 +43,16 @@ public abstract class AbstractEntityLoader<T> extends PersistenceController<T>
    @Transactional
    public String put(Object entity)
    {
-      if (getPersistenceContext() == null)
-      {
-         throw new IllegalStateException("Unable to get a Persistence Context to store Entity. Make sure you have an SMPC called entityManager configured in components.xml (or have correctly configured s:convertEntity to use another SMPC).");
-      }
       return EntityIdentifierStore.instance().put(createIdentifier(entity), entity);
    }
    
    protected abstract Identifier createIdentifier(Object entity);
 
    public abstract void validate();
+   
+   public static AbstractEntityLoader instance()
+   {
+      return (AbstractEntityLoader) Component.getInstance("org.jboss.seam.ui.entityLoader", STATELESS);
+   }
 
 }

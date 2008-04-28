@@ -1,4 +1,4 @@
-package org.jboss.seam.ui.converter.entityConverter;
+package org.jboss.seam.ui;
 
 import static org.jboss.seam.ScopeType.PAGE;
 import static org.jboss.seam.annotations.Install.BUILT_IN;

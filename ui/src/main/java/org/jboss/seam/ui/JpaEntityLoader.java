@@ -1,11 +1,10 @@
-package org.jboss.seam.ui.converter.entityConverter;
+package org.jboss.seam.ui;
 
 import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -19,20 +18,10 @@ import org.jboss.seam.framework.Identifier;
  */
 
 @Name("org.jboss.seam.ui.entityLoader")
-@Install(precedence=BUILT_IN)
+@Install(precedence=BUILT_IN, value=true, classDependencies="javax.persistence.EntityManager")
 @Scope(STATELESS)
-public class EntityLoader extends AbstractEntityLoader<EntityManager>
+public class JpaEntityLoader extends AbstractEntityLoader<EntityManager>
 {
-     
-   @Override
-   public EntityManager getPersistenceContext()
-   {
-      if (!super.getPersistenceContext().isOpen())
-      {
-         super.setPersistenceContext(null);
-      }
-      return super.getPersistenceContext();
-   }
 
    @Override
    protected Identifier createIdentifier(Object entity)
@@ -56,10 +45,14 @@ public class EntityLoader extends AbstractEntityLoader<EntityManager>
       
    }
    
-   public static EntityLoader instance()
+   public EntityManager getEntityManager()
    {
-      return (EntityLoader) Component.getInstance(EntityLoader.class, STATELESS);
+      return getPersistenceContext();
    }
 
-
+   public void setEntityManager(EntityManager entityManager)
+   {
+      setPersistenceContext(entityManager);
+   }
+   
 }

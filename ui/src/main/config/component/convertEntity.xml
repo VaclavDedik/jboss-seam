@@ -4,7 +4,7 @@
 	<converter generate="false" >
 		<id>org.jboss.seam.ui.EntityConverter</id>
 		<family>org.jboss.seam.ui.EntityConverter</family>
-		<classname>org.jboss.seam.ui.converter.EntityConverter</classname>
+		<classname>org.jboss.seam.ui.EntityConverter</classname>
 		<description>
 			<![CDATA[Convert an entity.]]>
 		</description>

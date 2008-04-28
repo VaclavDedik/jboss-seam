@@ -1,10 +1,9 @@
-package org.jboss.seam.ui.converter.entityConverter;
+package org.jboss.seam.ui;
 
 import static org.jboss.seam.ScopeType.STATELESS;
-import static org.jboss.seam.annotations.Install.BUILT_IN;
+import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
 import org.hibernate.Session;
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -17,21 +16,11 @@ import org.jboss.seam.framework.Identifier;
  * @author Pete Muir
  */
 
-@Name("org.jboss.seam.ui.hibernateEntityLoader")
-@Install(precedence=BUILT_IN, classDependencies="org.hibernate.Session")
+@Name("org.jboss.seam.ui.entityLoader")
+@Install(precedence=FRAMEWORK, classDependencies="org.hibernate.Session", value=false)
 @Scope(STATELESS)
 public class HibernateEntityLoader extends AbstractEntityLoader<Session>
 {
-     
-   @Override
-   public Session getPersistenceContext()
-   {
-      if (!super.getPersistenceContext().isOpen())
-      {
-         super.setPersistenceContext(null);
-      }
-      return super.getPersistenceContext();
-   }
 
    @Override
    protected Identifier createIdentifier(Object entity)
@@ -44,11 +33,6 @@ public class HibernateEntityLoader extends AbstractEntityLoader<Session>
    {
       return "session";
    }
-   
-   public static HibernateEntityLoader instance()
-   {
-      return (HibernateEntityLoader) Component.getInstance(HibernateEntityLoader.class, STATELESS);
-   }
 
    @Override
    public void validate()
@@ -59,4 +43,15 @@ public class HibernateEntityLoader extends AbstractEntityLoader<Session>
       }
       
    }
+   
+   public Session getSession()
+   {
+      return getPersistenceContext();
+   }
+   
+   public void setSession(Session session)
+   {
+      setPersistenceContext(session);
+   }
+
 }

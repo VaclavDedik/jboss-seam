@@ -21,3 +21,10 @@ Exception Handling
 
 The caught exception is now available in EL as #{org.jboss.seam.caughtException}
 rather than #{org.jboss.seam.exception}
+
+
+EntityConverter configuration
+-----------------------------
+
+If you need to configure which entity manager to use, this is now done on the 
+entity-loader component. See the documentation for details. 
