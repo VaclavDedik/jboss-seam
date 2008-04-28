@@ -411,6 +411,7 @@
         	<classpath>
             	<path refid="test.classpath" />
             	<path refid="runtime.emma.path" />
+        		<path path="${classes.dir}" />
             </classpath>
             <src path="${src.test.dir}" />
         </javac>

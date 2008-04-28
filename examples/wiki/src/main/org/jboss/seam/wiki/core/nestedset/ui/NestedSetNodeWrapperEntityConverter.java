@@ -1,7 +1,7 @@
 package org.jboss.seam.wiki.core.nestedset.ui;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.ui.converter.EntityConverter;
+import org.jboss.seam.ui.EntityConverter;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 
