@@ -75,7 +75,7 @@
 		<attribute name="jar" default="" />
 		<element name="args" implicit="true" optional="true" />
 		<sequential>
-			<artifact:install file="@{jar}" settingsFile="${maven.settings.file}">
+			<artifact:install file="@{jar}" settingsFile="${maven.settings.xml}">
 				<pom file="@{pom}" />
 				<args />
 			</artifact:install>
@@ -89,7 +89,7 @@
 		<attribute name="repositoryId" default="" />
 		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
-			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}" settingsFile="${maven.settings.file}">
+			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}" settingsFile="${maven.settings.xml}">
 				<pom file="@{pom}" />
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
@@ -105,7 +105,7 @@
 		<attribute name="repositoryId" default="" />
 		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
-			<artifact:deploy file="@{jar}" settingsFile="${maven.settings.file}">
+			<artifact:deploy file="@{jar}" settingsFile="${maven.settings.xml}">
 				<pom file="@{pom}" />
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
@@ -123,7 +123,7 @@
 		<attribute name="repositoryId" default="" />
 		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
-			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}" settingsFile="${maven.settings.file}">
+			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}" settingsFile="${maven.settings.xml}">
 				<pom file="@{pom}" />
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
