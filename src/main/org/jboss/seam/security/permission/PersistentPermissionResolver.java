@@ -24,7 +24,7 @@ import org.jboss.seam.security.Identity;
  * 
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.dynamicPermissionResolver")
+@Name("org.jboss.seam.security.persistentPermissionResolver")
 @Scope(APPLICATION)
 @BypassInterceptors
 @Install(precedence=FRAMEWORK)
@@ -33,12 +33,16 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
 {      
    private PermissionStore permissionStore;
    
+   private IdentifierPolicy identifierPolicy;
+   
    private static final LogProvider log = Logging.getLogProvider(PersistentPermissionResolver.class);   
    
    @Create
    public void create()
    {
       initPermissionStore();
+      
+      identifierPolicy = (IdentifierPolicy) Component.getInstance(IdentifierPolicy.class, true);
    }
    
    protected void initPermissionStore()
@@ -51,7 +55,7 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
       if (permissionStore == null)
       {
          log.warn("no permission store available - please install a PermissionStore with the name '" +
-               Seam.getComponentName(JpaPermissionStore.class) + "' if dynamic permissions are required.");
+               Seam.getComponentName(JpaPermissionStore.class) + "' if persistent permissions are required.");
       }
    }     
    
@@ -73,13 +77,9 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
       
       if (!identity.isLoggedIn()) return false;
       
-      String targetName = Seam.getComponentName(target.getClass());
-      if (targetName == null)
-      {
-         targetName = target.getClass().getName();
-      }
+      String identifier = identifierPolicy.getIdentifier(target);
       
-      List<Permission> permissions = permissionStore.listPermissions(targetName, action);
+      List<Permission> permissions = permissionStore.listPermissions(identifier, action);
       
       String username = identity.getPrincipal().getName();
       
