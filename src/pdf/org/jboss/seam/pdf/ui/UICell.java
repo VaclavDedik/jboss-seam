@@ -38,6 +38,7 @@ public class UICell
     Float   grayFill;
     Integer rotation;
     
+    boolean hasContent = false;
     
     public void setGrayFill(Float grayFill) {
         this.grayFill = grayFill;
@@ -278,18 +279,21 @@ public class UICell
 	}
 
 	@Override
-    public void handleAdd(Object o) {
-		if (o instanceof Phrase) {
-		    cell.setPhrase((Phrase) o);
-		} else if (o instanceof Image) {
-            cell.setImage((Image) o);
-		} else if (o instanceof Element) {
-            // calling addElement negates setPhrase, etc...
+    public void handleAdd(Object o) {	 
+	    if (!hasContent && o instanceof Image) {
+	        // added by user request, but it mages the logic here rather ugly.
+	        cell.setImage((Image) o); 
+	        
+	    } else if (o instanceof Element) {	   
+            if (cell.getImage() != null) {
+                cell.addElement(cell.getImage());
+            }
             cell.addElement((Element) o);
         } else {
             throw new RuntimeException("Can't add " + o.getClass().getName() +
                                        " to cell");
         }
+	    hasContent = true;
     }
 
 }

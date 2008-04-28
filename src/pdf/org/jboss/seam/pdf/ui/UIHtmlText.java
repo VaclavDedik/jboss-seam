@@ -12,7 +12,6 @@ import javax.faces.convert.Converter;
 
 import org.jboss.seam.ui.util.JSF;
 
-import com.lowagie.text.Paragraph;
 import com.lowagie.text.html.simpleparser.HTMLWorker;
 import com.lowagie.text.html.simpleparser.StyleSheet;
 
@@ -23,7 +22,6 @@ public class UIHtmlText
 
     private Converter converter;
     private Object localValue;
-    private Paragraph paragraph;
 
     @Override
     public boolean getRendersChildren() {
@@ -42,7 +40,6 @@ public class UIHtmlText
         JSF.renderChildren(context, this);
         context.setResponseWriter(writer);
                 
-        
         String output = stringWriter.getBuffer().toString();        
         addFromHtml(output);            
     }    
@@ -55,7 +52,7 @@ public class UIHtmlText
         if (value!=null) {
             addFromHtml(convert(context,value));
         }
-      
+                
         super.encodeEnd(context);
     }
 
@@ -63,7 +60,11 @@ public class UIHtmlText
     private void addFromHtml(String html)
         throws IOException 
     {
-        paragraph.addAll(HTMLWorker.parseToList(new StringReader(html), getStyle()));
+        for (Object o: HTMLWorker.parseToList(new StringReader(html), getStyle())) {
+            addToITextParent(o);
+        }
+
+        //paragraph.addAll(HTMLWorker.parseToList(new StringReader(html), getStyle()));
     }
 
     /**
@@ -105,23 +106,16 @@ public class UIHtmlText
     
     @Override
     public void createITextObject(FacesContext context) {
-        com.lowagie.text.Font font = getFont();
 
-        if (font == null) {
-            paragraph = new Paragraph("");
-        } else {
-            paragraph = new Paragraph("", getFont());
-        }
     }
 
     @Override
     public Object getITextObject() {
-        return paragraph;
+        return null;
     }
 
     @Override
     public void removeITextObject() {
-        paragraph = null;
     }
     
     @Override   
