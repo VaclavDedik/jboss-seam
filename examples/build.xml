@@ -37,7 +37,7 @@
 	<!-- Library directories -->
 	<property name="lib.dir" value="${seam.dir}/lib" />
 	<property name="mail.dir" value="${seam.dir}/mail" />
-	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
+	<property name="meldware.dir" value="${lib.dir}/meldware.deployable" />
 
 	<!-- Target directories -->
 	<property name="dist.dir" value="dist" />
@@ -676,7 +676,12 @@
 	</target>
 
 	<!-- Deploy meldware to JBoss AS -->
-	<target name="meldware">
+	<target name="meldware" if="deploy.meldware.mail">
+		<copyInlineDependencies id="jbosscommoncore" scope="runtime" todir="${meldware.dir}">
+			<dependency groupId="org.buni.meldware" artifactId="mail" type="ear" version="1.0M8" />
+			<dependency groupId="org.buni.meldware" artifactId="meldware" type="store" version="1.0M8" />
+			<dependency groupId="org.buni.meldware" artifactId="meldwarebase" type="sar" version="1.0M8" />
+		</copyInlineDependencies>
 		<copy todir="${deploy.dir}">
 			<fileset dir="${meldware.dir}">
 				<patternset refid="meldware.files" />
