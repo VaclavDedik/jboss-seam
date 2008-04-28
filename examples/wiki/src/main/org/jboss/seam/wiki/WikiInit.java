@@ -35,6 +35,7 @@ public class WikiInit {
     private String appname;
     private String adminContact;
     private boolean debug;
+    private boolean hibernateStatistics = true;
 
     @In(required = false)
     DBUnitImporter dbunitImporter;
@@ -43,32 +44,37 @@ public class WikiInit {
 
     @Observer("org.jboss.seam.postInitialization")
     public void initWiki() throws Exception {
-        log.info("Starting LaceWiki for application '"+appname+"'...");
+        log.info(">>>>>>>>>>>> Starting LaceWiki for application '"+appname+"'...");
 
         if (dbunitImporter != null) {
             log.info("Importing development test data");
             dbunitImporter.importDatasets();
         }
 
-        //System.out.println(listJNDITree("java:"));
-
-        log.info("registering Hibernate statistics MBean");
-        hibernateMBeanName = new ObjectName("Hibernate:type=statistics,application="+appname);
-        StatisticsService mBean = new StatisticsService();
-        mBean.setSessionFactoryJNDIName("SessionFactories/"+appname+"SF");
-        ManagementFactory.getPlatformMBeanServer().registerMBean(mBean, hibernateMBeanName);
+        if (hibernateStatistics) {
+            log.info("registering Hibernate statistics MBean");
+            hibernateMBeanName = new ObjectName("Hibernate:type=statistics,application="+appname);
+            StatisticsService mBean = new StatisticsService();
+            mBean.setSessionFactoryJNDIName("SessionFactories/"+appname+"SF");
+            ManagementFactory.getPlatformMBeanServer().registerMBean(mBean, hibernateMBeanName);
+        }
         
         Events.instance().raiseEvent("Wiki.started");
 
-        log.info("Started LaceWiki");
+        log.info("Started LaceWiki for application '"+appname+"'...");
+
+        //System.out.println(listJNDITree("java:"));
     }
 
     @Destroy
     public void shutdown() throws Exception {
-        log.info("Stopping LaceWiki");
+        log.info("<<<<<<<<<<<<< Stopping LaceWiki for application '"+appname+"'...");
 
-        log.info("unregistering Hibernate statistics MBean");
-        ManagementFactory.getPlatformMBeanServer().unregisterMBean(hibernateMBeanName);
+        if (hibernateStatistics) {
+            log.info("unregistering Hibernate statistics MBean");
+            ManagementFactory.getPlatformMBeanServer().unregisterMBean(hibernateMBeanName);
+        }
+        log.info("Stopped LaceWiki for application '"+appname+"'...");
     }
 
     public String getAppname() {
@@ -93,6 +99,14 @@ public class WikiInit {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    public boolean isHibernateStatistics() {
+        return hibernateStatistics;
+    }
+
+    public void setHibernateStatistics(boolean hibernateStatistics) {
+        this.hibernateStatistics = hibernateStatistics;
     }
 
     /** Utility to debug JBoss JNDI problems */

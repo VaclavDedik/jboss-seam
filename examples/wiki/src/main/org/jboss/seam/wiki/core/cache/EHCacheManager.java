@@ -9,7 +9,6 @@ package org.jboss.seam.wiki.core.cache;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.log.LogProvider;
@@ -42,8 +41,11 @@ public class EHCacheManager {
 
     @Create
     public void initCacheManager() {
-        log.info("initalizing EHCacheManager from /ehcache.xml");
-        manager = CacheManager.create();
+        log.info("instantiating EHCacheManager from /ehcache.xml");
+        // Do NOT use the CacheManage.create() factory methods, as they create a singleton! Our applicatoin
+        // has to have its own CacheManager instance, so that we can run several applications in the same
+        // JVM or application server.
+        manager = new CacheManager();
 
         if (isRegisterMonitoring()) {
             // Register statistics MBean of EHCache on the current MBean server
