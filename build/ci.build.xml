@@ -96,6 +96,7 @@
 				<property name="qualifier" value="-SNAPSHOT" />
 				<property name="quietclean" value="true" />
                 <property name="testng.jvmargs" value="@{testngjvmargs}" />
+				<property name="maven.settings.xml" value="${maven.settings.xml}" />
 				<properties />
 			</ant>
 		</sequential>
