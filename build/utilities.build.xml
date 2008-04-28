@@ -31,7 +31,7 @@
 		<attribute name="scope" />
 		<attribute name="pom" />
 		<sequential>
-			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" settingsFile="${maven.dir}/conf/settings.xml">
+			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" settingsFile="${maven.settings.xml}">
 				<pom file="@{pom}" />
 			</artifact:dependencies>
 		</sequential>
@@ -42,7 +42,7 @@
 		<attribute name="scope" />
 		<element name="inline" implicit="true"/>
 		<sequential>
-			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" settingsFile="${maven.dir}/conf/settings.xml">
+			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" settingsFile="${maven.settings.xml}">
 				<inline />
 			</artifact:dependencies>
 		</sequential>
@@ -53,7 +53,7 @@
 		<attribute name="scope" />
 		<attribute name="pom" />
 		<sequential>
-			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" sourcesFilesetId="@{scope}.@{id}.source.fileset" settingsFile="${maven.dir}/conf/settings.xml">
+			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" sourcesFilesetId="@{scope}.@{id}.source.fileset" settingsFile="${maven.settings.xml}">
 				<pom file="@{pom}" />
 			</artifact:dependencies>
 		</sequential>
@@ -198,7 +198,9 @@
 				<sysproperty key="classworlds.conf" value="${maven.dir}/bin/m2.conf" />
 				<sysproperty key="maven.home" value="${maven.dir}" />
 				<arg line="-Dseam.version=${complete.version}" />
+				<arg line="--settings ${maven.settings.xml}" />
                 <!--<arg line="-q" />-->
+				<arg line="-X" />
 				<args />
 				<arg line="@{target}" />
 			</java>

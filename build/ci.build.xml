@@ -10,6 +10,8 @@
 	<property name="seam.dir" value="${basedir}/../" />
 	<property name="dist.location" value="${seam.dir}/dist" />
 	<property name="dist.ref.dir" value="${dist.location}/ref" />
+	
+	<property name="maven.settings.xml" location="ci.settings.xml" />
 
 	<import file="common.build.xml" />
 	
