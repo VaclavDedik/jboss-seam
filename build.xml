@@ -44,7 +44,6 @@
 	<property name="src.unit.test.dir" value="${src.test.dir}/unit" />
 
 	<!-- Library directories -->
-	<property name="mail.dir" value="${basedir}/mail" />
 	<property name="eejb.conf.dir" value="${basedir}/bootstrap" />
 
 	<!-- Documentation -->
@@ -78,7 +77,6 @@
 	<property name="dist.eejb.conf.dir" value="${dist.dir}/bootstrap" />
 	<property name="dist.drools.dir" value="${dist.dir}/drools" />
 	<property name="dist.hibernate.dir" value="${dist.dir}/hibernate" />
-	<property name="dist.mail.dir" value="${dist.dir}/mail" />
 	<property name="dist.build.dir" value="${dist.dir}/build" />
 	<property name="dist.seamgen.dir" value="${dist.dir}/seam-gen" />
 	<property name="dist.ui.api.dir" value="${dist.dir}/doc/ui" />
@@ -481,12 +479,6 @@
 			<fileset dir="${eejb.conf.dir}">
 				<include name="**/*" />
 				<exclude name="tmp/**/*" />
-			</fileset>
-		</copy>
-
-		<copy todir="${dist.mail.dir}">
-			<fileset dir="${mail.dir}">
-				<include name="**/*.*" />
 			</fileset>
 		</copy>
 
