@@ -162,10 +162,10 @@
 	</target>
 	
 	<target name="getemma">
-		<inlineDependency id="emma" scope="runtime">
+		<inlineDependencies id="emma" scope="runtime">
 			<dependency groupId="emma" artifactId="emma" version="2.0.5312" />
 			<dependency groupId="emma" artifactId="emma_ant" version="2.0.5312" />
-		</inlineDependency>
+		</inlineDependencies>
 	</target>
 
 	<macrodef name="deploySeam">
