@@ -14,12 +14,6 @@
 	<property name="trinidad.lib"    value="yes"/>
     
     <import file="../build.xml"/>
-    
-    <property name="example.tmp.lib.dir" value="${basedir}/lib" />
-	
-	<fileset id="war.extras" dir="${resources.dir}">
-		<include name="WEB-INF/lib/*.jar"/>
-	</fileset>
 	
 	<patternset id="test.resources.files">
       <exclude name="import.sql" />
