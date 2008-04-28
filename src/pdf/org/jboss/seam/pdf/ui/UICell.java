@@ -281,6 +281,8 @@ public class UICell
     public void handleAdd(Object o) {
 		if (o instanceof Phrase) {
 		    cell.setPhrase((Phrase) o);
+		} else if (o instanceof Image) {
+            cell.setImage((Image) o);
 		} else if (o instanceof Element) {
             // calling addElement negates setPhrase, etc...
             cell.addElement((Element) o);
