@@ -30,6 +30,7 @@ public class BookingListAction
     @In
     private User user;
 
+    @SuppressWarnings("unused")
     @DataModel
     private List<Booking> bookings;
     @DataModelSelection

@@ -4,7 +4,6 @@ package org.jboss.seam.example.spring;
 import java.util.Calendar;
 import javax.faces.application.FacesMessage;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;

@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.core.Expressions;
