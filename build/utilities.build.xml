@@ -200,7 +200,6 @@
 				<arg line="-Dseam.version=${complete.version}" />
 				<arg line="--settings ${maven.settings.xml}" />
                 <!--<arg line="-q" />-->
-				<arg line="-X" />
 				<args />
 				<arg line="@{target}" />
 			</java>
