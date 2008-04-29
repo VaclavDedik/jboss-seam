@@ -10,4 +10,8 @@ public class RedirectException extends RuntimeException
       super(ioe);
    }
    
+   public RedirectException(String message)
+   {
+      super(message);
+   }
 }

@@ -158,6 +158,10 @@ public class FacesManager extends Manager
       {
          throw new IllegalStateException("attempted to redirect during RENDER_RESPONSE phase");
       }*/
+      if (viewId == null)
+      {
+         throw new RedirectException("cannot redirect to a null viewId");
+      }
       FacesContext context = FacesContext.getCurrentInstance();
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
       if (parameters!=null) 
@@ -188,6 +192,10 @@ public class FacesManager extends Manager
    @Override
    public void redirect(String viewId, String conversationId)
    {
+      if (viewId == null)
+      {
+         throw new RedirectException("cannot redirect to a null viewId");
+      }
       FacesContext context = FacesContext.getCurrentInstance();
       String url = context.getApplication().getViewHandler().getActionURL(context, viewId);
       url = encodeConversationId(url, viewId, conversationId);
