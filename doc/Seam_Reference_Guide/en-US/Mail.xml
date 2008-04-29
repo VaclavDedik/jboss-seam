@@ -328,7 +328,7 @@ please go to http://labs.jboss.com/jbossseam to explore Seam.</f:facet>
       <literal>mail-ra.rar</literal> &#8212; but the version distributed with
       JBoss AS has a number of limitations (and isn't bundled in some versions)
       therefore we recommend using the <literal>mail-ra.rar</literal> 
-      distributed with Seam is recommended (it's in the <literal>mail</literal>
+      distributed with Seam is recommended (it's in the <literal>extras/</literal>
       directory in the Seam bundle).  <literal>mail-ra.rar</literal> should 
       be placed in <literal>$JBOSS_HOME/server/default/deploy</literal>; if the
       version of JBoss AS you use already has this file, replace it.

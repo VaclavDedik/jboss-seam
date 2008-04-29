@@ -37,7 +37,7 @@
 	<!-- Library directories -->
 	<property name="lib.dir" value="${seam.dir}/lib" />
 	<property name="mail.dir" value="${seam.dir}/mail" />
-	<property name="meldware.dir" value="${mail.dir}/buni-meldware" />
+	<property name="meldware.dir" value="${lib.dir}/meldware.deployable" />
 
 	<!-- Target directories -->
 	<property name="dist.dir" value="dist" />
@@ -292,6 +292,25 @@
 		<include name="jboss-embedded-api.jar" if="jboss-embedded-api.lib" />
 	</fileset>
 
+	<!-- Dependencies for Trinidad -->
+	
+	<fileset id="trinidad-api.jar" dir="${lib.dir}">
+		<include name="trinidad-api.jar" if="trinidad.lib" />
+	</fileset>
+	
+	<fileset id="trinidad-impl.jar" dir="${lib.dir}">
+		<include name="trinidad-impl.jar" if="trinidad.lib" />
+	</fileset>
+	
+	<!-- Dependencies if el-ri is needed -->
+	
+	<fileset id="el-ri.jar" dir="${lib.dir}">
+		<include name="el-ri.jar" if="el-ri.lib" />
+	</fileset>
+	
+	<fileset id="jboss-common-core.jar" dir="${lib.dir}">
+		<include name="jboss-common-core.jar" if="jboss-common-core.lib" />
+	</fileset>
 
 	<!-- ############################ MELDWARE ############################ -->
 	<!--
@@ -421,10 +440,6 @@
 		<path refid="build.classpath.extras" />
 	</path>
 	
-	<path id="emma.classpath">
-		<fileset dir="${seam.dir}/extras/emma/*.jar" />
-	</path>
-	
 	<path id="test.classpath">			
 		<path path="${test.dir}" />
 		<fileset dir="${lib.dir}/test">
@@ -438,7 +453,6 @@
 		<path path="${eejb.conf.dir}" />
 		<path refid="test.classpath.extras" />
 		<path refid="build.classpath.extras" />
-		<path refid="emma.classpath" />
 	    <path location="${seam.dir}/src/test/resources/log4j.xml" />
 	</path>
 
@@ -457,7 +471,46 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 	
-	<target name="copyextradependencies" />
+	<target name="copyextradependencies" depends="gettrinidad, getelri, getjbosscommoncore"/>
+	
+	<target name="gettrinidad" if="trinidad.lib">
+		<copyInlineDependencies id="trinidad" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="org.apache.myfaces.trinidad" artifactId="trinidad-api" version="1.2.1">
+		    	<exclusion groupId="org.apache.myfaces.trinidad" artifactId="trinidad-build" />
+			    <exclusion groupId="javax.servlet" artifactId="servlet-api" />
+			    <exclusion groupId="javax.servlet.jsp" artifactId="jsp-api"/>
+			    <exclusion groupId="javax.faces" artifactId="jsf-api"/>
+			</dependency>
+			<dependency groupId="org.apache.myfaces.trinidad" artifactId="trinidad-impl" version="1.2.1">
+			    <exclusion groupId="org.apache.myfaces.trinidad" artifactId="trinidad-build" />
+			    <exclusion groupId="javax.servlet" artifactId="servlet-api" />
+			    <exclusion groupId="javax.servlet.jsp" artifactId="jsp-api"/>
+				<exclusion groupId="portlet-api" artifactId="portlet-api"/>
+			    <exclusion groupId="jstl" artifactId="jstl"/>
+				<exclusion groupId="commons-beanutils" artifactId="commons-beanutils"/>
+				<exclusion groupId="javax.faces" artifactId="jsf-api"/>
+				<exclusion groupId="com.sun.facelets" artifactId="jsf-facelets"/>
+			</dependency>
+		</copyInlineDependencies>
+	</target>
+	
+	<target name="getelri" if="el-ri.lib">
+		<copyInlineDependencies id="elri" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="javax.el" artifactId="el-ri" version="1.2" />
+		</copyInlineDependencies>
+	</target>
+	
+	<target name="getjbosscommoncore" if="jboss-common-core.lib">
+		<copyInlineDependencies id="jbosscommoncore" scope="runtime" todir="${lib.dir}">
+			<dependency groupId="jboss" artifactId="jboss-common-core" version="2.0.2.GA">
+				<exclusion groupId="apache-xerces" artifactId="xml-apis" />
+			    <exclusion groupId="apache-httpclient" artifactId="commons-httpclient" />
+			    <exclusion groupId="oswego-concurrent" artifactId="concurrent" />
+			    <exclusion groupId="apache-slide" artifactId="webdavlib" />
+			    <exclusion groupId="jboss" artifactId="jboss-logging-spi" />
+			</dependency>
+		</copyInlineDependencies>
+	</target>
      
 	<!-- Use the Eclipse compiler, if it is available -->
 	<target name="select-compiler">
@@ -503,6 +556,7 @@
 			<fileset refid="facelets.jar" />
 			<fileset refid="urlrewrite.jar" />
 			<fileset refid="richfaces-impl.jar" />
+			<fileset refid="trinidad-impl.jar" />
 			<fileset refid="war.lib.extras" />
 			<mapper type="flatten" />
 		</copy>
@@ -565,6 +619,9 @@
 			<fileset refid="spring.jar" />
 			<fileset refid="jcaptcha.jar" />
 			<fileset refid="antlr.jar" />
+			<fileset refid="el-ri.jar" />
+			<fileset refid="trinidad-api.jar" />
+			<fileset refid="jboss-common-core.jar" />
 			<mapper type="flatten" />
 		</copy>
 	</target>
@@ -590,7 +647,12 @@
 	</target>
 
 	<!-- Deploy meldware to JBoss AS -->
-	<target name="meldware">
+	<target name="meldware" if="deploy.meldware.mail">
+		 <copyInlineDependencies id="jbosscommoncore" scope="runtime" todir="${meldware.dir}">
+		 	<dependency groupId="org.buni.meldware" artifactId="mail" type="ear" version="1.0M8" />
+		 	<dependency groupId="org.buni.meldware" artifactId="meldware" type="store" version="1.0M8" />
+			<dependency groupId="org.buni.meldware" artifactId="meldwarebase" type="sar" version="1.0M8" />
+		</copyInlineDependencies>
 		<copy todir="${deploy.dir}">
 			<fileset dir="${meldware.dir}">
 				<patternset refid="meldware.files" />
@@ -753,6 +815,8 @@
 			<fileset refid="search.jar" />
 			<fileset refid="richfaces-api.jar" />
 			<fileset refid="groovy.jar" />
+			<fileset refid="trinidad-api.jar" />
+			<fileset refid="el-ri.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<copy todir="${war.dir}">
@@ -827,11 +891,6 @@
 	  You can test the example by running the test target.  
 	-->
 
-	<path id="emma.classpath">
-		<pathelement location="${seam.dir}/extras/emma/emma.jar" />
-		<pathelement location="${seam.dir}/extras/emma/emma_ant.jar" />
-	</path>
-
 	<target name="validateConfiguration" description="Validate XML Configuration files">
 		<echo message="Validating configuaration files for ${Name}" />
 		<ant antfile="${build.dir}/validate.xml" target="validateConfiguration">
@@ -867,7 +926,7 @@
         </copy>
 	</target>
 
-	<target name="test" depends="buildtest, copyjbossembedded" description="Run the tests">
+	<target name="test" depends="buildtest, copyjbossembedded,getemma" description="Run the tests">
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
 		<testng outputdir="${test-report.dir}">
             <jvmarg value="-Xmx800M" />
@@ -875,13 +934,16 @@
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
 			<jvmarg value="-Djava.endorsed.dirs=${endorsed.dir}" />
 			<jvmarg value="${testng.jvmargs}" />
-			<classpath refid="test.classpath" />
+			<classpath>
+				<path refid="test.classpath" />
+				<path refid="runtime.emma.path" />
+			</classpath>
 			<xmlfileset dir="${src.test.dir}" includes="**/testng.xml" />
 		</testng>
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	</target>
 	
-	<target name="testclass" depends="buildtest, copyjbossembedded" description="Run a specific test">
+	<target name="testclass" depends="buildtest, copyjbossembedded,getemma" description="Run a specific test">
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
 		<testng outputdir="${test-report.dir}" testname="${className}" suitename="${className}" >
             <jvmarg value="-Xmx800M" />
@@ -889,7 +951,10 @@
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
 			<jvmarg value="-Djava.endorsed.dirs=${endorsed.dir}" />
 			<jvmarg value="${testng.jvmargs}" />
-			<classpath refid="test.classpath" />
+			<classpath>
+				<path refid="test.classpath" />
+				<path refid="runtime.emma.path" />
+			</classpath>
 			<classfileset dir="${test.dir}" includes="**/${className}.class"/>
 		</testng>
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>

@@ -13,10 +13,12 @@
     value="exploded-archives-weblogic10" />
 
   <!-- Libraries to include -->
-  <property name="seam.ui.lib" value="true" />
+  <property name="seam.ui.lib"    value="true" />
   <property name="seam.debug.lib" value="true" />
-  <property name="facelets.lib" value="true" />
-  <property name="richfaces.lib" value="true" />
+  <property name="facelets.lib"   value="true" />
+  <property name="richfaces.lib"  value="true" />
+  <property name="el-ri.lib"      value="true"/>
+  <property name="jboss-common-core.lib" value="true" />
 
   <import file="../build.xml" />
 
@@ -33,7 +35,6 @@
       <!-- JSF (and related) implementation -->
       <include name="lib/jsf-api.jar" />
       <include name="lib/jsf-impl.jar" />
-      <include name="examples/jpa/lib/el-ri.jar" />
 
       <!-- Hibernate and deps -->
       <include name="lib/hibernate.jar" />
@@ -41,7 +42,6 @@
       <include name="lib/hibernate-annotations.jar" />
       <include name="lib/hibernate-entitymanager.jar" />
       <include name="lib/hibernate-validator.jar" />
-      <include name="examples/jpa/lib/jboss-archive-browsing.jar" />
       <include name="lib/cglib.jar" />
     	<include name="lib/asm.jar"/>
       <include name="lib/antlr.jar" />

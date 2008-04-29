@@ -11,12 +11,17 @@
 	<property name="gwt.lib" value="yes" />
 
 	<import file="../../build.xml" />
+   
+    <inlineDependencies id="gwttasks" scope="runtime">
+      <dependency groupId="de.samaflost" artifactId="gwttasks" version="1" />
+    </inlineDependencies>
 
 	<!-- EXTRAS -->
 	<taskdef 
 		uri="antlib:de.samaflost.gwttasks" 
 		resource="de/samaflost/gwttasks/antlib.xml" 
-		classpath="./lib/gwttasks.jar" />
+		classpathref="runtime.gwttasks.path"
+		 />
 
 	<property file="build.properties" />
 

@@ -16,6 +16,7 @@
     <property name="seam.debug.lib" value="true"/>
     <property name="facelets.lib"   value="true"/>
     <property name="richfaces.lib"   value="true"/>
+    <property name="jboss-common-core.lib" value="true" />
 
     <import file="../build.xml"/>
 
@@ -30,7 +31,6 @@
         <include name="lib/hibernate-annotations.jar"/>
     	<include name="lib/hibernate-entitymanager.jar"/>
     	<include name="lib/hibernate-validator.jar"/>
-    	<include name="examples/jpa/lib/jboss-archive-browsing.jar" />
         <include name="lib/asm.jar" />
     	<include name="lib/jboss-common-core.jar" />
     	<include name="lib/cglib.jar"/>

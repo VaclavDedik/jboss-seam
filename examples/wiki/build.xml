@@ -78,9 +78,6 @@
             <include name="*.jar" />
         </fileset>
 
-    	<!-- Add EMMA to the classpath for coverage support -->
-    	<pathelement location="${seam.dir}/extras/emma/emma.jar" />
-    	<pathelement location="${seam.dir}/extras/emma/emma_ant.jar" />
     </path>
 
     <path id="tools.classpath">
@@ -458,7 +455,7 @@
 
     <!-- ######################## TESTS ################## -->
 
-    <target name="compiletests" depends="clean, compileclasses, copyjbossembedded"
+    <target name="compiletests" depends="clean, compileclasses, copyjbossembedded,getemma"
             description="Compile the test Java source code">
 
         <javac classpathref="test.classpath"
@@ -466,7 +463,11 @@
                       debug="${javac.debug}"
                 deprecation="${javac.deprecation}"
                      nowarn="${javac.nowarn}">
-            <classpath path="${classes.dir}"/>
+            <classpath>
+            	<path refid="test.classpath" />
+            	<path refid="runtime.emma.path" />
+            	<path path="${classes.dir}"/>
+            </classpath>
             <src path="${src.test.dir}" />
         </javac>
 
@@ -526,7 +527,11 @@
             description="Run tests defined in *.tng.xml">
         <taskdef resource="testngtasks" classpathref="test.classpath"/>
         <testng outputdir="${test.output.dir}">
-            <classpath refid="test.classpath"/>
+        	<classpath>
+            	<path refid="test.classpath" />
+            	<path refid="runtime.emma.path" />
+            	<path path="${classes.dir}"/>
+            </classpath>
             <xmlfileset dir="${src.test.dir}" includes="*.tng.xml" />
             <jvmarg line="${testng.jvmargs}"/>
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
