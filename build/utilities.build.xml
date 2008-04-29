@@ -89,7 +89,7 @@
 		<attribute name="repositoryId" default="" />
 		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
-			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}" settingsFile="${maven.settings.xml}">
+			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}">
 				<pom file="@{pom}" />
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
