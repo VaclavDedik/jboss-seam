@@ -37,6 +37,16 @@
                   <groupId>org.jboss.seam</groupId>
                   <artifactId>seam-docbook-xslt</artifactId>
                   <version>1.1.0.BETA2</version>
+                  <exclusions>
+                     <exclusion>
+                        <groupId>org.eclipse.wst.css</groupId>
+                        <artifactId>core</artifactId>
+                     </exclusion>
+                     <exclusion>
+                        <groupId>org.eclipse.wst.sse</groupId>
+                        <artifactId>core</artifactId>
+                     </exclusion>
+                  </exclusions>
                </dependency>
                <dependency>
                   <groupId>org.jboss.seam</groupId>
@@ -110,8 +120,7 @@
          </plugins>
       </pluginManagement>
    </build>
-
-
+   
 
    <properties>
       <translation>en-US</translation>
