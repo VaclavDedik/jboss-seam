@@ -74,7 +74,10 @@
         <param-name>com.icesoft.faces.standardRequestScope</param-name>
         <param-value>true</param-value>
     </context-param>
-
+  <context-param>
+        <param-name>com.icesoft.faces.concurrentDOMViews</param-name>
+        <param-value>true</param-value>
+    </context-param>
  <!-- servlets -->
    <servlet>
         <servlet-name>Faces Servlet</servlet-name>
