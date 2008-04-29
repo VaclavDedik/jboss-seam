@@ -67,6 +67,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     
     public void wire()
     {
+        getInstance();
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
