@@ -369,7 +369,7 @@ public abstract class Query<T, E>
    public void setOrder(String order)
    {      
        if (order!= null && !ORDER_CLAUSE_PATTERN.matcher(order).find()) {
-           throw new IllegalArgumentException("invalid order clause");
+          throw new IllegalArgumentException("invalid order column (\"" + order + "\" must match the regular expression \"" + ORDER_CLAUSE_PATTERN + "\")");
        }
        this.order = order;
        refresh();
