@@ -1,6 +1,73 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.2.CR2
+
+** Feature Request
+    *  [ JBSEAM-2813 ] Change port used by remoting-service.xml in Embedded JBoss to prevent interfering with running JBoss AS
+    *  [ JBSEAM-2897 ] externalize list of deployable jars in seam-gen projects
+
+** Bug
+    *  [ JBSEAM-2319 ] searchparents="true" required to properly detect Groovy in build
+    *  [ JBSEAM-2810 ] Seam-gen generated project doesn't work with .groovy files
+    *  [ JBSEAM-2812 ] GroovyHotDeploymentStrategy not reloading Java classes
+    *  [ JBSEAM-2821 ] Page two of hotels list is empty when page size is 20 on all Booking examples
+    *  [ JBSEAM-2823 ] Mail example links should be updated for seamframework.org
+    *  [ JBSEAM-2824 ] Mail example - sending mail with attachment fails with domain error
+    *  [ JBSEAM-2825 ] mail example - attachment email - inline image is broken
+    *  [ JBSEAM-2826 ] Mail example test failure on "testAttachment"
+    *  [ JBSEAM-2827 ] Tomcat DVD example fails deployment with NoClassDefFoundError: bsh/TargetError
+    *  [ JBSEAM-2828 ] Tomcat JPA deployment fails with NoClassDefFoundError: javax/faces/component/UIComponent
+    *  [ JBSEAM-2829 ] Tomcat hibernate example deployment fails with NoClassDefFoundError: javax/faces/component/UIComponent
+    *  [ JBSEAM-2830 ] Tomcat hibernate example without JBoss embedded fails with NoClassDefFoundError: org/objectweb/asm/Type
+    *  [ JBSEAM-2833 ] Glassfish Jee5 example deployment fails with NoClassDefFoundError: EDU/oswego/cs/dl/util/concurrent/ConcurrentReaderHashMap
+    *  [ JBSEAM-2834 ] Glassfish JPA example deployment fails with NoClassDefFoundError: org/objectweb/asm/Type
+    *  [ JBSEAM-2835 ] Glassfish Hibernate example deployment fails with NoClassDefFoundError: org/objectweb/asm/Type
+    *  [ JBSEAM-2836 ] seam-gen WAR release test throws EntityNotFoundException when creating vehicle
+    *  [ JBSEAM-2837 ] JBDS EAR project unit test failed because it was missing core.jar
+    *  [ JBSEAM-2838 ] JBDS EAR project unit test fails with IllegalStateException: could not locate rule file: /security.drl
+    *  [ JBSEAM-2840 ] Blog example - click on "all posts" then "seam roadmap" and get a XML parsing error
+    *  [ JBSEAM-2842 ] "ant deploypresentation" attempt to deploy to jbossweb-tomcat55.sar
+    *  [ JBSEAM-2844 ] Contact list example - create a user with no name and you can't remove them
+    *  [ JBSEAM-2845 ] Contact list example - change table page and then search for less people - table appears blank
+    *  [ JBSEAM-2846 ] Seamspace example - fileupload causes security exception
+    *  [ JBSEAM-2847 ] Seamspace example - Empty fileupload causes hibernate errors
+    *  [ JBSEAM-2850 ] DVDStore example - ViewExpiredException: viewId:/checkout.seam
+    *  [ JBSEAM-2853 ] Ending nested navigation causes exception
+    *  [ JBSEAM-2856 ] s:selectItems with itemValue not submitting itemValue's data
+    *  [ JBSEAM-2858 ] NumberWrapper does not manage correctly Long or Short types
+    *  [ JBSEAM-2862 ] Problem when using s:convertEntity
+    *  [ JBSEAM-2863 ] EntityStore assumes entity manager is named "entityManager"
+    *  [ JBSEAM-2870 ] remoting.xsd references non-existent component remoting-config
+    *  [ JBSEAM-2875 ] ConverterException with no FacesMessage causes NPE
+    *  [ JBSEAM-2880 ] GWT-RPC fails because of wrong content type check
+    *  [ JBSEAM-2892 ] Bad usage of List.get() in EntityBeanList.class
+    *  [ JBSEAM-2906 ] Configuring a drools:rule-agent with files property throws NullPointerException
+    *  [ JBSEAM-2908 ] Component.callCreateMethod exception handling
+    *  [ JBSEAM-2913 ] Better solution for JBSEAM-2780 (has bead side effects)
+    *  [ JBSEAM-2924 ] session dropped by exception handler redirect if using url rewriting
+    *  [ JBSEAM-2930 ] Exception handling in pages.xml ignores EL expressions
+
+** Task
+    *  [ JBSEAM-2602 ] Document use of flat dataset file in the Seam reference
+    *  [ JBSEAM-2691 ] Getting started with Seam using JBoss Tools
+    *  [ JBSEAM-2806 ] Reference guide PDF left hand column overflow
+    *  [ JBSEAM-2807 ] Add comment to jndiPattern in example's component.properties files
+    *  [ JBSEAM-2816 ] Release new beta of documentation styles and upgrade branch to use them
+    *  [ JBSEAM-2818 ] Strip identity management out of Seam 2.0 including xsd
+    *  [ JBSEAM-2831 ] Fix Seam Maven dependencies to be in line with new release of Hibernate
+    *  [ JBSEAM-2832 ] Spring example - readme says it only deploys to tomcat, but it only builds to JBoss
+    *  [ JBSEAM-2839 ] Blog example does not document that the password is "tokyo".
+    *  [ JBSEAM-2843 ] seam-examples.html and examples/readme.txt needs to updated/reviewed
+    *  [ JBSEAM-2848 ] JPA example readme.txt for JBoss says that you need to deploy manually, but it is done.
+    *  [ JBSEAM-2865 ] Duplicate component error on startup should print component class
+    *  [ JBSEAM-2866 ] library commons-digester is in older version 1.5 instead of 1.8
+    *  [ JBSEAM-2867 ] xml-apis.jar is in older version 1.3.02 instead of 2.7.1
+    *  [ JBSEAM-2868 ] Project dependencies section in documentation states missing jars
+    *  [ JBSEAM-2909 ] Move remaining jar's to be maven managed
+    *  [ JBSEAM-2919 ] Remove central from repo list in POMs
+    *  [ JBSEAM-2932 ] update build scripts for ICEfaces1.7.0 release for seam-gen and seam-icefaces example
+
 Release Notes - JBoss Seam - Version 2.0.2.CR1
 
 ** Feature Request

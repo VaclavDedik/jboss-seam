@@ -1,6 +1,6 @@
 JBoss Seam - Contextual Component framework for Java EE 5
 =========================================================
-version 2.0.2.CR1, April 2008
+version 2.0.2.CR2, April 2008
 
 This software is distributed under the terms of the FSF Lesser Gnu
 Public License (see lgpl.txt). 
