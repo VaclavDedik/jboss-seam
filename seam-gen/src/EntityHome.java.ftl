@@ -43,7 +43,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     {
 <#foreach property in pojo.identifierProperty.value.propertyIterator>
 <#assign getter = pojo.getGetterSignature(property)>
-<#if property.value.typeName == "string">
+<#if property.value.typeName == "string" || property.value.typeName == "java.lang.String" >
         if ( get${idName}().${getter}()==null || "".equals( get${idName}().${getter}() ) ) return false;
 <#elseif !c2j.isPrimitive( pojo.getJavaTypeName(property, true) )>
         if ( get${idName}().${getter}()==null ) return false;
@@ -51,6 +51,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
         if ( get${idName}().${getter}()==0 ) return false;
 </#if>
 </#foreach>
+        
         return true;
     }
 
@@ -67,7 +68,6 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     
     public void wire()
     {
-        getInstance();
 <#foreach property in pojo.allPropertiesIterator>
 <#if c2h.isManyToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
