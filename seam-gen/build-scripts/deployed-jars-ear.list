@@ -5,5 +5,5 @@ drools-core.jar
 janino.jar
 jboss-el.jar
 jbpm-jpdl.jar
-mvel.jar
+mvel14.jar
 richfaces-api.jar
