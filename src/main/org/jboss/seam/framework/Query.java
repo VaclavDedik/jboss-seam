@@ -442,7 +442,7 @@ public abstract class Query<T, E>
        } else if (ORDER_COLUMN_PATTERN.matcher(columnName).find()) {
            return columnName;
        } else {
-           throw new IllegalArgumentException("invalid order column");
+           throw new IllegalArgumentException("invalid order column (\"" + columnName + "\" must match the regular expression \"" + ORDER_COLUMN_PATTERN + "\")");
        }
    }
    
