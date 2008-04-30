@@ -43,7 +43,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     {
 <#foreach property in pojo.identifierProperty.value.propertyIterator>
 <#assign getter = pojo.getGetterSignature(property)>
-<#if property.value.typeName == "string">
+<#if property.value.typeName == "string" || property.value.typeName == "java.lang.String" >
         if ( get${idName}().${getter}()==null || "".equals( get${idName}().${getter}() ) ) return false;
 <#elseif !c2j.isPrimitive( pojo.getJavaTypeName(property, true) )>
         if ( get${idName}().${getter}()==null ) return false;
