@@ -1,6 +1,13 @@
 Seam Release Process
 ====================
 
+Notify branch is closed
+------------------------
+* Send an email to seam-dev@lists.jboss.org.
+  - State a version of the following :
+    - As all issues in JIRA for Seam <release> are now resolved, the release process for <release> is now underway.
+    - Please don't make any commits to the <branch or trunk> without checking with this mail list first. 
+
 Updating version numbers
 ------------------------
 * Update the version information:
@@ -20,10 +27,12 @@ Maven repository settings
 -------------------------
 * A released version of seam should not reference any repositories other than
   "repository.jboss.org".  See "build/readme.txt" for details.
-  - Search "$DIST/build" for "pluginRepository".  
-    - Should only find "root.pom.xml" and "docs.pom.xml"
-    - Comment out any other "<pluginRepository>" entry
-    - Comment out any "<repository>" that references a commented out entry.
+  - Search "$SEAM/build" for "repositories".  
+    - Verify/Comment out any repository entry not "http://repository.jboss.org/maven2"
+    - Should only be entries in "root.pom.xml" and "docs.pom.xml"
+  - Search "$SEAM/build" for "artifact:remoteRepository"
+    - Note any that reference other repositories
+    - <TODO: determine acceptable list (ci, embedded, etc...)/>
   - Verify prior to tagging
     - run "ant cleanall testall testreport" with these changes
     - This should build, and test without a problem.
