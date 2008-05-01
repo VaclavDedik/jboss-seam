@@ -97,9 +97,10 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
          {
             Role role = (Role) permission.getRecipient();
             
-            if (role.isDynamic())
+            if (role.isConditional())
             {
-               // TODO implement dynamic permissions
+               RuleBasedPermissionResolver resolver = RuleBasedPermissionResolver.instance();
+               return resolver.checkConditionalRole(role.getName(), target, action);
             }
             else if (identity.hasRole(role.getName()))
             {

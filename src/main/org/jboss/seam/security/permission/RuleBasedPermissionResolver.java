@@ -106,8 +106,7 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       {
          handles.add( securityContext.insert(target) );
       }
-      
-      if (target instanceof Class)
+      else if (target instanceof Class)
       {
          String componentName = Seam.getComponentName((Class) target);
          target = componentName != null ? componentName : ((Class) target).getName(); 
@@ -117,17 +116,67 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       
       synchronized( securityContext )
       {
-         synchronizeContext();
-         
-         handles.add( securityContext.insert(check) );
-
-         securityContext.fireAllRules();
+         try
+         {
+            synchronizeContext();
+            
+            handles.add( securityContext.insert(check) );
    
-         for (FactHandle handle : handles)
-            securityContext.retract(handle);
+            securityContext.fireAllRules();
+         }
+         finally
+         {
+            for (FactHandle handle : handles)
+            {
+               securityContext.retract(handle);
+            }
+         }
       }
       
       return check.isGranted();
+   }
+   
+   public boolean checkConditionalRole(String roleName, Object target, String action)
+   {      
+      if (getSecurityContext() == null) return false;
+      
+      RoleCheck roleCheck = new RoleCheck(roleName);
+      
+      List<FactHandle> handles = new ArrayList<FactHandle>();
+      handles.add(getSecurityContext().insert(roleCheck));
+      
+      if (!(target instanceof String) && !(target instanceof Class))
+      {
+         handles.add( securityContext.insert(target) );
+      }
+      else if (target instanceof Class)
+      {
+         String componentName = Seam.getComponentName((Class) target);
+         target = componentName != null ? componentName : ((Class) target).getName();
+      }
+      
+      PermissionCheck check = new PermissionCheck(target, action);
+      
+      synchronized( securityContext )
+      {
+         try
+         {
+            synchronizeContext();
+            
+            handles.add( securityContext.insert(check));
+            
+            securityContext.fireAllRules();
+         }
+         finally
+         {
+            for (FactHandle handle : handles)
+            {
+               securityContext.retract(handle);
+            }
+         }
+      }
+      
+      return roleCheck.isGranted();
    }
    
    @SuppressWarnings("unchecked")  

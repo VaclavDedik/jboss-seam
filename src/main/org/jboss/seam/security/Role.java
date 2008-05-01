@@ -1,28 +1,28 @@
 package org.jboss.seam.security;
 
 /**
- * Represents a user role.  A dynamic role is a special type of role that is assigned to a user
+ * Represents a user role.  A conditional role is a special type of role that is assigned to a user
  * based on the contextual state of a permission check.
  *  
  * @author Shane Bryzak
  */
 public class Role extends SimplePrincipal
 {   
-   private boolean dynamic;
+   private boolean conditional;
    
    public Role(String name)
    {
       super(name);
    }   
    
-   public Role(String name, boolean dynamic)
+   public Role(String name, boolean conditional)
    {
       this(name);
-      this.dynamic = true;
+      this.conditional = true;
    }
    
-   public boolean isDynamic()
+   public boolean isConditional()
    {
-      return dynamic;
+      return conditional;
    }
 }
