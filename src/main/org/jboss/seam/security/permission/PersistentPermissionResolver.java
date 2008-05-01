@@ -17,6 +17,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.Role;
+import org.jboss.seam.security.SimplePrincipal;
 
 /**
  * Resolves dynamically-assigned permissions, mapped to a user or a role, and kept in persistent 
@@ -85,14 +87,24 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
       
       for (Permission permission : permissions)
       {
-         if (username.equals(permission.getRecipient().getName()))
+         if (permission.getRecipient() instanceof SimplePrincipal &&
+               username.equals(permission.getRecipient().getName()))
          {
             return true;
          }
          
-         if (identity.hasRole(permission.getRecipient().getName()))
+         if (permission.getRecipient() instanceof Role)
          {
-            return true;
+            Role role = (Role) permission.getRecipient();
+            
+            if (role.isDynamic())
+            {
+               // TODO implement dynamic permissions
+            }
+            else if (identity.hasRole(role.getName()))
+            {
+               return true;
+            }
          }
       }      
       
