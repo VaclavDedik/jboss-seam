@@ -29,7 +29,7 @@ public class RegisterTest extends SeamTest
             setValue("#{newMember.firstName}", "Shane");
             setValue("#{newMember.lastName}", "Bryzak");
             setValue("#{newMember.memberName}", "shane123");
-            setValue("#{register.username}", "sbryzak");
+            setValue("#{newMember.username}", "sbryzak");
             setValue("#{register.password}", "secret");
             setValue("#{register.confirm}", "secret");
             setValue("#{register.gender}", "Male");

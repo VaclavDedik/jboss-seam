@@ -6,6 +6,7 @@ insert into Member (memberid, username, hashedpassword, membername, firstname, l
 insert into MemberRole (roleid, name) values (1, 'user');
 insert into MemberRole (roleid, name) values (2, 'admin');
 
+insert into MemberRoles (member_id, role_id) values (1, 1);
 insert into MemberRoles (member_id, role_id) values (1, 2);
 insert into MemberRoles (member_id, role_id) values (2, 1);
 insert into MemberRoles (member_id, role_id) values (3, 1);
