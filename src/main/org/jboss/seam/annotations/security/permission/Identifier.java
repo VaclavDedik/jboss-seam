@@ -24,4 +24,5 @@ import org.jboss.seam.security.permission.IdentifierStrategy;
 public @interface Identifier
 {
    Class<? extends IdentifierStrategy> value();
+   String name() default "";
 }
