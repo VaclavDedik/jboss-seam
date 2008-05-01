@@ -107,7 +107,7 @@
             </ice:column>
 </#foreach>
 <#else>
-            <ice:column id="view$${parentParentPojo.identifierProperty.name}ColumnName">
+            <ice:column id="view${parentParentPojo.identifierProperty.name}ColumnName">
 	    	    <f:facet name="header">${parentProperty.name} ${parentParentPojo.identifierProperty.name}</f:facet>
 		    	${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}
             </ice:column>

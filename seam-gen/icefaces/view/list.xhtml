@@ -27,6 +27,7 @@
             	rendered="#{empty @listName@.resultList}"/>
     		<ice:dataTable id="@listName@TableId" var="@componentName@"
            			 value="#{@listName@.resultList}" 
+                        resizable="true"
 				columnClasses="allCols"
            			rendered="#{not empty @listName@.resultList}">
         		<ice:column id="list@componentName@.id">

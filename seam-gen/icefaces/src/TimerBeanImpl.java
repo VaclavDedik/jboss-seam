@@ -53,7 +53,6 @@ import com.icesoft.faces.webapp.xmlhttp.RenderingException;
 import com.icesoft.faces.async.render.RenderManager;
 import com.icesoft.faces.async.render.IntervalRenderer;
 import com.icesoft.faces.async.render.Renderable;
-import com.icesoft.faces.context.ViewListener;
 
 import com.icesoft.faces.context.effects.Effect;
 import com.icesoft.faces.context.effects.BlindDown;
@@ -69,7 +68,7 @@ import org.apache.commons.logging.LogFactory;
 
 @Name("timer")
 @Scope(ScopeType.PAGE)
-public class TimerBeanImpl implements Renderable, ViewListener, Serializable {
+public class TimerBeanImpl implements Renderable, Serializable {
 
     // expand/contract effects to take place of panelCollapsible
     private Effect currentEffect=new BlindUp();
@@ -175,7 +174,6 @@ public class TimerBeanImpl implements Renderable, ViewListener, Serializable {
                 log.trace("*** new TimerBean renderable... " + myId );
             } 
 
-            state.addViewListener(this );
             FacesContext fc = FacesContext.getCurrentInstance();
             synchronous = (String) fc.getExternalContext().getInitParameterMap().
                     get( "com.icesoft.faces.synchronousUpdate" );
@@ -222,15 +220,6 @@ public class TimerBeanImpl implements Renderable, ViewListener, Serializable {
         cleanup(); 
     }
 
-    public void viewCreated() {
-    }
-
-    public void viewDisposed() {
-        if(log.isTraceEnabled() ) { 
-           log.trace("*** View disposed: " + myId );
-        } 
-        cleanup();
-    }
 
     private void cleanup() {
         if (ir != null) {

@@ -109,7 +109,7 @@
 <#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty) && parentProperty != parentPojo.versionProperty!>
 <#if parentPojo.isComponent(parentProperty)>
 <#foreach componentProperty in parentProperty.value.propertyIterator>
-            <ice:column id="$editColumn${componentProperty.name}Id">
+            <ice:column id="editColumn${componentProperty.name}Id">
                 <f:facet name="header">${componentProperty.name}</f:facet>
                 ${'#'}{${parentName}.${parentProperty.name}.${componentProperty.name}}
             </ice:column>
