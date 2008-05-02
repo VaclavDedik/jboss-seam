@@ -615,6 +615,7 @@
             	<exclude name="test/jboss-deplyers.jar" />
             	<exclude name="test/jboss-embedded-api.jar" />
                 <exclude name="interop/**/*" />
+            	<exclude name="gen/**/*" />
             </fileset>
             <fileset file="${driver.jar}"/>
         </copy>

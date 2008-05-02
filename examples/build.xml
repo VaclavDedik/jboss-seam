@@ -449,6 +449,7 @@
 			<!-- Don't include seam-ui or interop modules -->
 			<exclude name="jboss-seam-ui.jar" />
 			<exclude name="interop/**/*" />
+			<exclude name="gen/**/*" />
 		</fileset>
 		<path path="${eejb.conf.dir}" />
 		<path refid="test.classpath.extras" />
