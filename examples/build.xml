@@ -475,6 +475,7 @@
 			<exclude name="jboss-seam-ui.jar" />
 			<exclude name="jboss-seam-wicket.jar" />
 			<exclude name="interop/**/*" />
+			<exclude name="gen/**/*" />
 		</fileset>
 		<path path="${eejb.conf.dir}" />
 		<path refid="test.classpath.extras" />
