@@ -77,15 +77,6 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
                   RULES_COMPONENT_NAME + "' if permission checks are required.");
       }
    }
-
-   @Observer(Identity.EVENT_POST_AUTHENTICATE)
-   public void postAuthenticate()
-   {
-      if (getSecurityContext() != null)
-      {         
-         getSecurityContext().insert(Identity.instance().getPrincipal());
-      }
-   }
    
    /**
     * Performs a permission check for the specified name and action
@@ -286,16 +277,22 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
    }
    
    /**
-    * If we were authenticated with the JpaIdentityStore, then insert the authenticated
-    * UserAccount into the security context.
+    * Post-authentication event observer
     */
    @Observer(Identity.EVENT_POST_AUTHENTICATE)
    public void setUserAccountInSecurityContext()
    {
-      if (Contexts.isEventContextActive() && Contexts.isSessionContextActive() &&
-            Contexts.getEventContext().isSet(JpaIdentityStore.AUTHENTICATED_USER))
-      {
-         getSecurityContext().insert(Contexts.getEventContext().get(JpaIdentityStore.AUTHENTICATED_USER));
+      if (getSecurityContext() != null)
+      {         
+         getSecurityContext().insert(Identity.instance().getPrincipal());
+
+         // If we were authenticated with the JpaIdentityStore, then insert the authenticated
+         // UserAccount into the security context.         
+         if (Contexts.isEventContextActive() && Contexts.isSessionContextActive() &&
+               Contexts.getEventContext().isSet(JpaIdentityStore.AUTHENTICATED_USER))
+         {
+            getSecurityContext().insert(Contexts.getEventContext().get(JpaIdentityStore.AUTHENTICATED_USER));
+         }
       }
    }
 }

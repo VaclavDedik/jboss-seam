@@ -31,4 +31,9 @@ public class RoleCheck implements Serializable
    {
       this.granted = false;
    }
+   
+   public String getName()
+   {
+      return name;
+   }
 }
