@@ -1,12 +1,12 @@
 package org.jboss.seam.example.seamspace;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
+import static org.jboss.seam.ScopeType.EVENT;
 
 import java.util.List;
 import java.util.Random;
 
 import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -19,10 +19,9 @@ import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.annotations.Scope;
 
-@Stateful
 @Name("profile")
-@Scope(ScopeType.EVENT)
-public class ProfileAction implements ProfileLocal
+@Scope(EVENT)
+public class ProfileAction
 {
    @RequestParameter
    private String name;

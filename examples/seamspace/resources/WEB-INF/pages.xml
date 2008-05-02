@@ -131,6 +131,11 @@
         </redirect>
       </navigation>    
     </page>
+    
+    <page view-id="/pictures.xhtml" action="#{pictureSearch.loadMemberPictures}">
+      <param name="name" value="#{pictureSearch.memberName}"/>
+      
+    </page>
        
     <page view-id="*">
         <!--navigation from-action="#{identity.logout}">

@@ -1,9 +1,11 @@
 package org.jboss.seam.example.seamspace;
 
+import static org.jboss.seam.ScopeType.CONVERSATION;
+
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.ejb.Remove;
-import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -14,15 +16,18 @@ import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.security.Identity;
 
-@Stateful
+@Scope(CONVERSATION)
 @Name("friend")
-public class FriendAction implements FriendLocal
+public class FriendAction implements Serializable
 {
+   private static final long serialVersionUID = 4565339001481077911L;
+
    @RequestParameter("name")
    private String name;
    

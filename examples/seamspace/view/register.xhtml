@@ -75,9 +75,7 @@
 
               <div class="formRow">
                 <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
-                <!-- TODO Add in start and end of range -->
-                <!-- TODO Change image -->
-                	<rich:calendar id="dob" value="#{newMember.dob}" required="true" datePattern="MM/dd/yyyy" buttonIcon="images/ellipsis.png" />
+               	<rich:calendar id="dob" value="#{newMember.dob}" required="true" datePattern="MM/dd/yyyy" buttonIcon="images/ellipsis.png" />
                 <div class="validationError"><h:message for="dob"/></div>
               </div>           
               

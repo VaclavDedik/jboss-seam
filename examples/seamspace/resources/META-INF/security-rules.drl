@@ -5,6 +5,7 @@ dialect 'mvel'
 import java.security.Principal;
 
 import org.jboss.seam.security.permission.PermissionCheck;
+import org.jboss.seam.security.permission.RoleCheck;
 import org.jboss.seam.security.Role;
 
 import org.jboss.seam.example.seamspace.BlogComment;
@@ -14,7 +15,7 @@ import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
-rule ViewImage
+rule ViewProfileImage
   no-loop
   activation-group "permissions"
 when
@@ -25,11 +26,45 @@ then
   check.grant();
 end
 
+rule FriendViewImage
+  no-loop
+  activation-group "permissions"
+when
+  member: Member()
+  image: MemberImage(mbr : member -> (mbr.friends contains member))
+  PermissionCheck(target == image, action == "view")
+  role: RoleCheck(name == "friend")
+then
+  role.grant();
+end
+
+rule GuestViewImage
+  no-loop
+  activation-group "permissions"
+when
+  image: MemberImage()
+  PermissionCheck(target == image, action == "view")
+  role: RoleCheck(name == "guest")
+then
+  role.grant();
+end
+
+rule ViewMyImages
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "view")
+then
+  check.grant();
+end
+
 rule RestrictCommentPage
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "/comment.xhtml", granted == false)
+  check: PermissionCheck(target == "/comment.xhtml", granted == false)
   Role(name == "user")
 then
   check.grant();
@@ -104,7 +139,7 @@ rule CreateAccount
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "seam.account", action == "create", granted == false)
+  check: PermissionCheck(target == "seam.account", action == "create", granted == false)
   Role(name == "admin")
 then
   check.grant();
@@ -120,7 +155,7 @@ rule ManageUsers
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "seam.user", granted == false)
+  check: PermissionCheck(target == "seam.user", granted == false)
   Role(name == "admin")
 then
   check.grant();
@@ -130,7 +165,7 @@ rule ManageRoles
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "seam.role", granted == false)
+  check: PermissionCheck(target == "seam.role", granted == false)
   Role(name == "admin")
 then
   check.grant();

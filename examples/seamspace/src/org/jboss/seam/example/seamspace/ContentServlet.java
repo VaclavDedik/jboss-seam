@@ -63,7 +63,7 @@ public class ContentServlet extends HttpServlet
    {
       if (IMAGES_PATH.equals(request.getPathInfo()))
       {
-         ContentLocal contentAction = (ContentLocal) Component.getInstance(ContentAction.class);
+         ContentAction contentAction = (ContentAction) Component.getInstance(ContentAction.class);
 
          String id = request.getParameter("id");
          MemberImage mi = (id != null && !"".equals(id)) ? 

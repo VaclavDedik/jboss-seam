@@ -21,6 +21,7 @@ public class MemberImage implements Serializable
    private Member member;
    private byte[] data;
    private String contentType;
+   private String caption;
    
    @Id @GeneratedValue
    public Integer getImageId()
@@ -53,6 +54,16 @@ public class MemberImage implements Serializable
    public void setContentType(String contentType)
    {
       this.contentType = contentType;
+   }
+   
+   public String getCaption()
+   {
+      return caption;
+   }
+   
+   public void setCaption(String caption)
+   {
+      this.caption = caption;
    }
 
    @Lob

@@ -32,7 +32,10 @@
           
           <br style="clear:both"/>
           
-          View My: Pics
+          View My: 
+          <s:link view="/pictures.xhtml" value="Pics">
+            <f:param name="name" value="#{selectedMember.memberName}"/>
+          </s:link>
           
         </s:div>
         
