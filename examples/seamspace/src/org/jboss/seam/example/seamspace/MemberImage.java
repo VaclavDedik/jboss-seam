@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
 
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.security.Restrict;
 
 @Entity
 @Name("memberImage")
@@ -76,4 +78,5 @@ public class MemberImage implements Serializable
    {
       this.data = data;
    }
+
 }

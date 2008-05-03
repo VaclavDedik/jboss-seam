@@ -557,3 +557,49 @@ div.formButtons {
   float: right;
   padding: 4px 8px 16px 2px;
 }
+
+div.memberPictures {
+  float: right;
+  width: 600px;
+  margin-right: 10px;
+  padding: 2px;  
+  background-color: #000000;
+  border: 1px solid #aaaaaa;
+  padding: 8px 8px 8px 8px;
+}
+
+div.memberPictureCard {
+  width: 140px;
+  float: left;
+  margin-left: 10px;
+  border: 2px solid #eeeeee;
+  background-color: #f5f5f5;
+  padding: 2px;
+  text-align: center;
+}
+
+div.thumbnail {
+  width: 110px;
+  background-color: #333333;
+  padding: 10px 10px 10px 10px;
+  margin: 8px 8px 8px 8px;
+  float: left;
+  text-align: center;
+}
+
+input.padlock {
+  background: url(padlock.png) top left no-repeat;
+  width: 14px;
+  height: 20px;
+  float: left;
+  border: 0px;
+  margin-left: 10px;
+}
+
+input.trash {
+  background: url(trash.png) top left no-repeat;
+  width: 20px;
+  height: 20px; 
+  float: left;
+  border: 0px;  
+}

@@ -91,6 +91,8 @@ then
   check.grant();
 end
 
+
+# This rule grants permission for users to create their own blog entries
 rule CreateBlog
   no-loop
   activation-group "permissions"
@@ -98,6 +100,18 @@ when
   mbr: Member()
   acct: MemberAccount(member.memberId == mbr.memberId)
   check: PermissionCheck(target.memberId == mbr.memberId, action == "createBlog", granted == false)
+then
+  check.grant();
+end
+
+# This rule grants permission for users to upload pictures to their profile
+rule UploadImage
+  no-loop
+  activation-group "permissions"
+when
+  mbr: Member()
+  acct: MemberAccount(member.memberId == mbr.memberId)
+  check: PermissionCheck(target.memberId == mbr.memberId, action == "uploadImage", granted == false)
 then
   check.grant();
 end

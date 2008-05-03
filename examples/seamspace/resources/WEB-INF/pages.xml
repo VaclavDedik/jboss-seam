@@ -111,6 +111,14 @@
       </navigation>
     </page>
     
+    <page view-id="/pictureupload.xhtml">
+      <navigation from-action="#{pictureAction.savePicture}">
+        <redirect view-id="/pictures.xhtml">
+          <param name="name" value="#{authenticatedMember.memberName}"/>
+        </redirect>
+      </navigation>
+    </page>
+    
     <page view-id="/friendcomment.xhtml">
       <param name="name" value="#{selectedMember.memberName}"/>
     
@@ -138,9 +146,9 @@
     </page>
        
     <page view-id="*">
-        <!--navigation from-action="#{identity.logout}">
+        <navigation from-action="#{identity.logout}">
             <redirect view-id="/home.xhtml"/>
-        </navigation-->
+        </navigation>
         
         <navigation from-action="#{blog.createComment}">
           <redirect view-id="/comment.xhtml"/>
