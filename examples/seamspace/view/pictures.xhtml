@@ -6,6 +6,13 @@
     xmlns:s="http://jboss.com/products/seam/taglib">
 
   <ui:composition template="template.xhtml">
+    <ui:define name="head">
+      <script type="text/javascript" src="lightbox/prototype.js"></script>
+      <script type="text/javascript" src="lightbox/scriptaculous.js?load=effects,builder"></script>
+      <script type="text/javascript" src="lightbox/lightbox.js"></script>    
+      <link rel="stylesheet" href="lightbox/lightbox.css" type="text/css" media="screen" />
+    </ui:define>
+  
     <ui:define name="content">
       
       <div class="errors"><h:messages globalOnly="true"/></div>     
@@ -20,7 +27,9 @@
                     
         <ui:repeat value="#{memberImages}" var="img">
 
-          <h:graphicImage value="/content/images?id=#{img.imageId}&amp;width=170"/>
+          <a href="content/images?id=#{img.imageId}" rel="lightbox[pictureset]" title="#{img.caption}">
+            <h:graphicImage value="/content/images?id=#{img.imageId}&amp;width=170"/>
+          </a>
             
         </ui:repeat> 
 
