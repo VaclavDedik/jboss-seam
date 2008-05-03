@@ -580,12 +580,16 @@
 	</target>
 
 	<target name="refdoc" description="Generate and copy reference documentation" depends="initpoms">
-		<echo file="${doc.ref.dir}/common/Version_Info.xml">
+		<condition property="maven.build.translations" value="-Dbuild.translations" else="">
+			<isset property="build.translations"/>
+		</condition>
+		<echo file="${doc.ref.dir}/en-US/Version_Info.xml">
 			&lt;releaseinfo&gt;${complete.version}&lt;/releaseinfo&gt;
 		</echo>
 		<copy file="${docs.pom}" tofile="${doc.ref.dir}/pom.xml" overwrite="true"/>
 		<maven target="compile" basedir="${doc.ref.dir}">
 			<jvmarg line="-Xms128m -Xmx512m" />
+			<arg line="${maven.build.translations}" />
 		</maven>
 		<copy todir="${dist.ref.dir}">
 			<fileset dir="${doc.ref.dir}/target/docbook/publish" />
