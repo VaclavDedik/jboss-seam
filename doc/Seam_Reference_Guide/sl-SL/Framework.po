@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-21 00:37+0000\n"
+"POT-Creation-Date: 2008-05-03 11:34+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -92,15 +92,15 @@ msgstr ""
 #: Framework.xml:54
 #, no-c-format
 msgid ""
-"<![CDATA[@Stateful\n"
+"<![CDATA[\n"
 "@Name(\"personHome\")\n"
-"public class PersonHome extends EntityHome<Person> implements "
-"LocalPersonHome {\n"
-"    @RequestParameter String personId;\n"
-"    @In EntityManager personDatabase;\n"
+"public class PersonHome extends EntityHome<Person> {\n"
 "    \n"
-"    public Object getId() { return personId; }\n"
-"    public EntityManager getEntityManager() { return personDatabase; }\n"
+"   @In EntityManager personDatabase;\n"
+"    \n"
+"   public EntityManager getEntityManager() {\n"
+"      return personDatabase; \n"
+"   }\n"
 "    \n"
 "}]]>"
 msgstr ""
@@ -120,11 +120,50 @@ msgstr ""
 msgid ""
 "A second advantage is that your classes may be EJB stateful session beans, "
 "if you like. (They do not have to be, they can be plain JavaBean components "
-"if you prefer.) If you are using JBoss AS, you'll need 4.2.2.GA or later."
+"if you prefer.) If you are using JBoss AS, you'll need 4.2.2.GA or later:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:70
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateful\n"
+"@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> implements "
+"LocalPersonHome {\n"
+"    \n"
+"}]]>"
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:70
+#: Framework.xml:72
+#, no-c-format
+msgid ""
+"You can also make your classes stateless session beans. In this case you "
+"<emphasis>must</emphasis> use injection to provide the persistence context, "
+"even if it is called <literal>entityManager</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Framework.xml:79
+#, no-c-format
+msgid ""
+"<![CDATA[@Stateless\n"
+"@Name(\"personHome\")\n"
+"public class PersonHome extends EntityHome<Person> implements "
+"LocalPersonHome {\n"
+"    \n"
+"   @In EntityManager entityManager;\n"
+"    \n"
+"   public EntityManager getPersistenceContext() { \n"
+"      entityManager; \n"
+"   }\n"
+"    \n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Framework.xml:81
 #, no-c-format
 msgid ""
 "At this time, the Seam Application Framework provides four main built-in "
@@ -134,7 +173,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:78
+#: Framework.xml:89
 #, no-c-format
 msgid ""
 "The Home and Query components are written so that they can function with a "
@@ -143,7 +182,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:84
+#: Framework.xml:95
 #, no-c-format
 msgid ""
 "The Seam Application Framework only works with Seam-managed persistence "
@@ -152,13 +191,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Framework.xml:93
+#: Framework.xml:104
 #, no-c-format
 msgid "Home objects"
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:95
+#: Framework.xml:106
 #, no-c-format
 msgid ""
 "A Home object provides persistence operations for a particular entity class. "
@@ -166,7 +205,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:100
+#: Framework.xml:111
 #, no-c-format
 msgid ""
 "<![CDATA[@Entity\n"
@@ -181,7 +220,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:102
+#: Framework.xml:113
 #, no-c-format
 msgid ""
 "We can define a <literal>personHome</literal> component either via "
@@ -189,7 +228,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:107
+#: Framework.xml:118
 #, no-c-format
 msgid ""
 "<![CDATA[<framework:entity-home name=\"personHome\" entity-class=\"eg.Person"
@@ -197,13 +236,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:109
+#: Framework.xml:120
 #, no-c-format
 msgid "Or via extension:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:113
+#: Framework.xml:124
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"personHome\")\n"
@@ -211,7 +250,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:115
+#: Framework.xml:126
 #, no-c-format
 msgid ""
 "A Home object provides the following operations: <literal>persist()</"
@@ -223,13 +262,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:124
+#: Framework.xml:135
 #, no-c-format
 msgid "We can use a Home directly from a JSF page, for example:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:128
+#: Framework.xml:139
 #, no-c-format
 msgid ""
 "<![CDATA[<h1>Create Person</h1>\n"
@@ -246,7 +285,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:130
+#: Framework.xml:141
 #, no-c-format
 msgid ""
 "Usually, it is much nicer to be able to refer to the <literal>Person</"
@@ -255,7 +294,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:136
+#: Framework.xml:147
 #, no-c-format
 msgid ""
 "<![CDATA[<factory name=\"person\" \n"
@@ -266,7 +305,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:138
+#: Framework.xml:149
 #, no-c-format
 msgid ""
 "(If we are using configuration.) Or by adding a <literal>@Factory</literal> "
@@ -274,7 +313,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:143
+#: Framework.xml:154
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"personHome\")\n"
@@ -287,7 +326,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:145
+#: Framework.xml:156
 #, no-c-format
 msgid ""
 "(If we are using extension.) This change simplifies our JSF page to the "
@@ -295,7 +334,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:150
+#: Framework.xml:161
 #, no-c-format
 msgid ""
 "<![CDATA[<h1>Create Person</h1>\n"
@@ -310,7 +349,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:152
+#: Framework.xml:163
 #, no-c-format
 msgid ""
 "Well, that lets us create new <literal>Person</literal> entries. Yes, that "
@@ -321,7 +360,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:161
+#: Framework.xml:172
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -332,13 +371,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:163
+#: Framework.xml:174
 #, no-c-format
 msgid "Now we can add the extra operations to our JSF page:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:167
+#: Framework.xml:178
 #, no-c-format
 msgid ""
 "<![CDATA[<h1>\n"
@@ -362,7 +401,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:169
+#: Framework.xml:180
 #, no-c-format
 msgid ""
 "When we link to the page with no request parameters, the page will be "
@@ -372,7 +411,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:176
+#: Framework.xml:187
 #, no-c-format
 msgid ""
 "Suppose we need to create <literal>Person</literal> entries with their "
@@ -380,7 +419,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:181
+#: Framework.xml:192
 #, no-c-format
 msgid ""
 "<![CDATA[<factory name=\"person\" \n"
@@ -397,13 +436,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:183
+#: Framework.xml:194
 #, no-c-format
 msgid "Or by extension:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:187
+#: Framework.xml:198
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"personHome\")\n"
@@ -422,7 +461,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:189
+#: Framework.xml:200
 #, no-c-format
 msgid ""
 "Of course, the <literal>Country</literal> could be an object managed by "
@@ -430,7 +469,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:194
+#: Framework.xml:205
 #, no-c-format
 msgid ""
 "To add more sophisticated operations (association management, etc), we can "
@@ -438,7 +477,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:199
+#: Framework.xml:210
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"personHome\")\n"
@@ -463,7 +502,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:201
+#: Framework.xml:212
 #, no-c-format
 msgid ""
 "The Home object raises an <literal>org.jboss.seam.afterTransactionSuccess</"
@@ -477,7 +516,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:212
+#: Framework.xml:223
 #, no-c-format
 msgid ""
 "The Home object automatically displays faces messages when an operation is "
@@ -485,7 +524,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:217
+#: Framework.xml:228
 #, no-c-format
 msgid ""
 "<![CDATA[<factory name=\"person\" \n"
@@ -509,13 +548,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:219
+#: Framework.xml:230
 #, no-c-format
 msgid "Or extension:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:223
+#: Framework.xml:234
 #, no-c-format
 msgid ""
 "<![CDATA[@Name(\"personHome\")\n"
@@ -541,7 +580,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:225
+#: Framework.xml:236
 #, no-c-format
 msgid ""
 "But the best way to specify the messages is to put them in a resource bundle "
@@ -549,7 +588,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:231
+#: Framework.xml:242
 #, no-c-format
 msgid ""
 "<![CDATA[Person_created=New person #{person.firstName} #{person.lastName} "
@@ -559,7 +598,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:233
+#: Framework.xml:244
 #, no-c-format
 msgid ""
 "This enables internationalization, and keeps your code and configuration "
@@ -567,7 +606,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:238
+#: Framework.xml:249
 #, no-c-format
 msgid ""
 "The final step is to add validation functionality to the page, using "
@@ -576,13 +615,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Framework.xml:247
+#: Framework.xml:258
 #, no-c-format
 msgid "Query objects"
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:249
+#: Framework.xml:260
 #, no-c-format
 msgid ""
 "If we need a list of all <literal>Person</literal> instance in the database, "
@@ -590,7 +629,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:254
+#: Framework.xml:265
 #, no-c-format
 msgid ""
 "<![CDATA[<framework:entity-query name=\"people\" \n"
@@ -598,13 +637,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:256
+#: Framework.xml:267
 #, no-c-format
 msgid "We can use it from a JSF page:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:260
+#: Framework.xml:271
 #, no-c-format
 msgid ""
 "<![CDATA[<h1>List of people</h1>\n"
@@ -619,13 +658,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:262
+#: Framework.xml:273
 #, no-c-format
 msgid "We probably need to support pagination:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:266
+#: Framework.xml:277
 #, no-c-format
 msgid ""
 "<![CDATA[<framework:entity-query name=\"people\" \n"
@@ -635,13 +674,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:268
+#: Framework.xml:279
 #, no-c-format
 msgid "We'll use a page parameter to determine the page to display:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:273
+#: Framework.xml:284
 #, no-c-format
 msgid ""
 "<![CDATA[<pages>\n"
@@ -652,13 +691,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:275
+#: Framework.xml:286
 #, no-c-format
 msgid "The JSF code for a pagination control is a bit verbose, but manageable:"
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:279
+#: Framework.xml:290
 #, no-c-format
 msgid ""
 "<![CDATA[<h1>Search for people</h1>\n"
@@ -693,7 +732,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:281
+#: Framework.xml:292
 #, no-c-format
 msgid ""
 "Real search screens let the user enter a bunch of optional search criteria "
@@ -702,7 +741,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:287
+#: Framework.xml:298
 #, no-c-format
 msgid ""
 "<![CDATA[<component name=\"examplePerson\" class=\"Person\"/>\n"
@@ -721,13 +760,13 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:289
+#: Framework.xml:300
 #, no-c-format
 msgid "Notice the use of an \"example\" object."
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:293
+#: Framework.xml:304
 #, no-c-format
 msgid ""
 "<![CDATA[<h1>Search for people</h1>\n"
@@ -750,7 +789,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:295
+#: Framework.xml:306
 #, no-c-format
 msgid ""
 "To refresh the query when the underlying entities change we observe the "
@@ -758,7 +797,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:300
+#: Framework.xml:311
 #, no-c-format
 msgid ""
 "<![CDATA[<event type=\"org.jboss.seam.afterTransactionSuccess\">\n"
@@ -767,7 +806,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:302
+#: Framework.xml:313
 #, no-c-format
 msgid ""
 "Or, to just refresh the query when the person entity is persisted, updated "
@@ -775,7 +814,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:307
+#: Framework.xml:318
 #, no-c-format
 msgid ""
 "<![CDATA[<event type=\"org.jboss.seam.afterTransactionSuccess.Person\">\n"
@@ -784,7 +823,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:309
+#: Framework.xml:320
 #, no-c-format
 msgid ""
 "Unfortunately Query objects don't work well with <emphasis>join fetch</"
@@ -794,7 +833,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:317
+#: Framework.xml:328
 #, no-c-format
 msgid ""
 "The examples in this section have all shown reuse by configuration. However, "
@@ -802,13 +841,13 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Framework.xml:325
+#: Framework.xml:336
 #, no-c-format
 msgid "Controller objects"
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:326
+#: Framework.xml:337
 #, no-c-format
 msgid ""
 "A totally optional part of the Seam Application Framework is the class "
@@ -822,7 +861,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:338
+#: Framework.xml:349
 #, no-c-format
 msgid ""
 "For example, here is what <literal>RegisterAction</literal> from the Seam "
@@ -830,7 +869,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Framework.xml:343
+#: Framework.xml:354
 #, no-c-format
 msgid ""
 "<![CDATA[@Stateless\n"
@@ -864,7 +903,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Framework.xml:345
+#: Framework.xml:356
 #, no-c-format
 msgid "As you can see, its not an earthshattering improvement..."
 msgstr ""

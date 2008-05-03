@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-04 01:24+0000\n"
+"POT-Creation-Date: 2008-05-03 11:32+0000\n"
 "PO-Revision-Date: 2008-04-04 01:24+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -706,11 +706,15 @@ msgstr ""
 #. Tag: para
 #: Testing.xml:384
 #, no-c-format
-msgid "You need to provide a dataset for DBUnit:"
+msgid ""
+"You need to provide a dataset for DBUnit. IMPORTANT NOTE: DBUnit supports "
+"two formats for dataset files, flat and XML. Seam's DBUnitSeamTest assumes "
+"the flat format is used, so please ensure that your dataset is in this "
+"format also."
 msgstr ""
 
 #. Tag: programlisting
-#: Testing.xml:388
+#: Testing.xml:390
 #, no-c-format
 msgid ""
 "<![CDATA[<dataset>\n"
@@ -729,7 +733,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:390
+#: Testing.xml:392
 #, no-c-format
 msgid ""
 "and tell Seam about it by overriding <literal>prepareDBUnitOperations()</"
@@ -737,7 +741,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Testing.xml:394
+#: Testing.xml:396
 #, no-c-format
 msgid ""
 "<![CDATA[protected void prepareDBUnitOperations() {\n"
@@ -748,7 +752,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:396
+#: Testing.xml:398
 #, no-c-format
 msgid ""
 "<literal>DataSetOperation</literal> defaults to <literal>DatabaseOperation."
@@ -759,7 +763,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:404
+#: Testing.xml:406
 #, no-c-format
 msgid ""
 "If you require extra cleanup after a test method executes, add operations to "
@@ -767,7 +771,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:409
+#: Testing.xml:411
 #, no-c-format
 msgid ""
 "You need to tell DBUnit about the datasource you are using by setting a "
@@ -775,7 +779,7 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: Testing.xml:414
+#: Testing.xml:416
 #, no-c-format
 msgid ""
 "<![CDATA[<parameter name=\"datasourceJndiName\" value=\"java:/"
@@ -783,7 +787,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:416
+#: Testing.xml:418
 #, no-c-format
 msgid ""
 "DBUnitSeamTest only works out of the box with HSQL as a datasource. If you "
@@ -792,25 +796,25 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: Testing.xml:426
+#: Testing.xml:428
 #, no-c-format
 msgid "Integration Testing Seam Mail"
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:428
+#: Testing.xml:430
 #, no-c-format
 msgid "Warning! This feature is still under development."
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:432
+#: Testing.xml:434
 #, no-c-format
 msgid "It's very easy to integration test your Seam Mail:"
 msgstr ""
 
 #. Tag: programlisting
-#: Testing.xml:436
+#: Testing.xml:438
 #, no-c-format
 msgid ""
 "<![CDATA[public class MailTest extends SeamTest {\n"
@@ -843,7 +847,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:438
+#: Testing.xml:440
 #, no-c-format
 msgid ""
 "We create a new <literal>FacesRequest</literal> as normal. Inside the "
@@ -855,7 +859,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: Testing.xml:447
+#: Testing.xml:449
 #, no-c-format
 msgid ""
 "There is no support for rendering standard JSF components so you can't test "
