@@ -116,6 +116,17 @@ then
   check.grant();
 end
 
+rule ManageImagePermissions
+  no-loop
+  activation-group "permissions"
+when
+  img: MemberImage()
+  check: PermissionCheck(target == img, action == "seam.read-permissions", granted == false)
+  Role(name == "admin")
+then
+  check.grant();
+end
+
 rule InsertMemberBlog
   no-loop
   activation-group "permissions"  

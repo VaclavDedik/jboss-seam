@@ -4,6 +4,7 @@
             xmlns:persistence="http://jboss.com/products/seam/persistence"
             xmlns:security="http://jboss.com/products/seam/security"
             xmlns:identity-management="http://jboss.com/products/seam/security/management"
+            xmlns:permission-management="http://jboss.com/products/seam/security/permission"
             xmlns:drools="http://jboss.com/products/seam/drools"
             xmlns:captcha="http://jboss.com/products/seam/captcha"
             xmlns:web="http://jboss.com/products/seam/web"
@@ -49,7 +50,7 @@
       enabled-attribute="enabled"
       />
       
-    <security:jpa-permission-store name="permissionStore" permission-class="org.jboss.seam.example.seamspace.Permission"/>
+    <permission-management:jpa-permission-store user-permission-class="org.jboss.seam.example.seamspace.AccountPermission"/>
        
     <drools:rule-base name="securityRules">
        <drools:rule-files>

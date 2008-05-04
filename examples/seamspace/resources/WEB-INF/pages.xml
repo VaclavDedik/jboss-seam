@@ -111,7 +111,7 @@
       </navigation>
     </page>
     
-    <page view-id="/pictureupload.xhtml">
+    <page view-id="/pictureupload.xhtml" login-required="true">
       <navigation from-action="#{pictureAction.savePicture}">
         <redirect view-id="/pictures.xhtml">
           <param name="name" value="#{authenticatedMember.memberName}"/>

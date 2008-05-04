@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.web.RequestParameter;
 
 @Name("pictureSearch")
 @Scope(EVENT)
@@ -26,6 +27,9 @@ public class PictureSearch implements Serializable
    @Out(required = false)
    private List<MemberImage> memberImages;
    
+   @RequestParameter
+   private Integer imageId;
+   
    public String getMemberName()
    {
       return memberName;
@@ -34,6 +38,11 @@ public class PictureSearch implements Serializable
    public void setMemberName(String memberName)
    {
       this.memberName = memberName;
+   }
+   
+   public MemberImage lookupImage()
+   {
+      return entityManager.find(MemberImage.class, imageId);
    }
    
    @SuppressWarnings("unchecked")
