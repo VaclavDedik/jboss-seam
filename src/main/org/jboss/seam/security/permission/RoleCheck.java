@@ -3,7 +3,7 @@ package org.jboss.seam.security.permission;
 import java.io.Serializable;
 
 /**
- * Used when performing rule-based dynamic role checks
+ * Used when performing rule-based conditional role checks
  * 
  * @author Shane Bryzak
  */

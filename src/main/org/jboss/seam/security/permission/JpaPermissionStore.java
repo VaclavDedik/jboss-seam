@@ -39,7 +39,7 @@ import org.jboss.seam.util.AnnotatedBeanProperty;
  * 
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.jpaPermissionStore")
+@Name("org.jboss.seam.security.permission.jpaPermissionStore")
 @Install(precedence = BUILT_IN, value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
@@ -224,7 +224,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
    
    private String getDiscriminatorValue(boolean isRole)
    {
-      PermissionDiscriminator discriminator = (PermissionDiscriminator) discriminatorProperty.getAnnotation();
+      PermissionDiscriminator discriminator = discriminatorProperty.getAnnotation();
       return isRole ? discriminator.roleValue() : discriminator.userValue();      
    }
    
@@ -263,7 +263,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
     * simply returns the name of the recipient. 
     * 
     * @param recipient
-    * @return
+    * @return The entity or name representing the permission recipient
     */
    protected Object resolvePrincipal(Principal recipient)
    {

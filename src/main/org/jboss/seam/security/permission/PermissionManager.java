@@ -28,13 +28,13 @@ import org.jboss.seam.security.Identity;
 @Install(precedence = BUILT_IN)
 public class PermissionManager implements Serializable
 {
-   public static final String PERMISSION_STORE_COMPONENT_NAME = "permissionStore";
+   public static final String PERMISSION_STORE_COMPONENT_NAME = "org.jboss.seam.security.permission.jpaPermissionStore";
    
    public static final String PERMISSION_PERMISSION_NAME = "seam.permission";
    
-   public static final String PERMISSION_READ = "read";
-   public static final String PERMISSION_GRANT = "grant";
-   public static final String PERMISSION_REVOKE = "revoke";   
+   public static final String PERMISSION_READ = "seam.read-permissions";
+   public static final String PERMISSION_GRANT = "seam.grant-permission";
+   public static final String PERMISSION_REVOKE = "seam.revoke-permission";   
    
    private static final LogProvider log = Logging.getLogProvider(PermissionManager.class);
    
@@ -85,13 +85,13 @@ public class PermissionManager implements Serializable
    
    public List<Permission> listPermissions(String target, String action)
    {
-      Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_READ);
+      Identity.instance().checkPermission(target, PERMISSION_READ);
       return permissionStore.listPermissions(target, action);
    }
    
    public List<Permission> listPermissions(Object target)
    {
-      Identity.instance().checkPermission(PERMISSION_PERMISSION_NAME, PERMISSION_READ);
+      Identity.instance().checkPermission(target, PERMISSION_READ);
       return permissionStore.listPermissions(target);
    }
    
