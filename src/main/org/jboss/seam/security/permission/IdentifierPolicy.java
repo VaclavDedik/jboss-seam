@@ -14,6 +14,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.security.permission.Identifier;
 
+/**
+ * A policy for the generation of object "identifiers" - unique Strings that identify a specific
+ * instance of an object.  A policy can consist of numerous identifier strategies, each with the
+ * ability to generate identifiers for specific classes of objects. 
+ *  
+ * @author Shane Bryzak
+ */
 @Name("org.jboss.seam.security.identifierPolicy")
 @Scope(APPLICATION)
 @BypassInterceptors
