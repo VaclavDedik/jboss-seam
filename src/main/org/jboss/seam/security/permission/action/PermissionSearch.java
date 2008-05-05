@@ -37,4 +37,14 @@ public class PermissionSearch implements Serializable
       this.target = target;      
       permissions = permissionManager.listPermissions(target);
    }
+   
+   public Object getTarget()
+   {
+      return target;
+   }
+   
+   public Permission getSelectedPermission()
+   {
+      return selectedPermission;
+   }
 }

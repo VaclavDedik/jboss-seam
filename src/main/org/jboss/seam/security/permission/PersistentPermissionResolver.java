@@ -35,16 +35,12 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
 {      
    private PermissionStore permissionStore;
    
-   private IdentifierPolicy identifierPolicy;
-   
    private static final LogProvider log = Logging.getLogProvider(PersistentPermissionResolver.class);   
    
    @Create
    public void create()
    {
       initPermissionStore();
-      
-      identifierPolicy = (IdentifierPolicy) Component.getInstance(IdentifierPolicy.class, true);
    }
    
    protected void initPermissionStore()
@@ -77,11 +73,9 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
       
       Identity identity = Identity.instance();
       
-      if (!identity.isLoggedIn()) return false;
+      if (!identity.isLoggedIn()) return false;      
       
-      String identifier = identifierPolicy.getIdentifier(target);
-      
-      List<Permission> permissions = permissionStore.listPermissions(identifier, action);
+      List<Permission> permissions = permissionStore.listPermissions(target, action);
       
       String username = identity.getPrincipal().getName();
       
