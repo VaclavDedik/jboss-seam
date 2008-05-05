@@ -24,6 +24,43 @@
 
   	    <h2>Permission Manager</h2>  
   	    
+  	    <h3>Managing permissions for: #{permissionSearch.target}</h3>
+  	      	    
+        <s:button action="#{permissionAction.createPermission}" 
+          styleClass="newpermission" 
+          rendered="#{s:hasPermission(permissionSearch.target, 'seam.grant-permission')}"/>
+  	    
+        <h:dataTable 
+            id="threads"
+            value="#{permissions}" 
+            var="permission" 
+            styleClass="security"
+            cellspacing="0"
+            headerClass="header"
+            rowClasses="odd,even"
+            columnClasses=",,enabled,action">
+          <h:column width="auto">
+            <f:facet name="header">
+              Action
+            </f:facet>
+            #{permission.action}
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">
+              Recipient
+            </f:facet>
+            #{permission.recipient}
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">
+              Action
+            </f:facet>
+          
+            <s:link value="Delete" action="#{permissionManager.revokePermission(permissionSearch.selectedPermission)}" 
+                    rendered="#{s:hasPermission(permissionSearch.target, 'seam.revoke-permission')}"
+                    onclick="return confirmDelete()"/>
+          </h:column>
+  	    </h:dataTable>  	    
 
 	    </div>
 	    
