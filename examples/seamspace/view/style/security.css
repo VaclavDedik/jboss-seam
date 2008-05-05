@@ -16,6 +16,15 @@ input.newrole {
   cursor: pointer;  
 }
 
+input.newpermission {
+  background: url(btn_newpermission.png) top left no-repeat;
+  height: 39px;
+  width: 113px;
+  margin: 4px 4px 4px 4px;
+  border: 0px;
+  cursor: pointer;  
+}
+
 input.manageusers {
   display: block;
   background: url(manage_users.png) top left no-repeat;

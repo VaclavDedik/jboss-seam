@@ -15,6 +15,19 @@ import org.jboss.seam.example.seamspace.MemberBlog;
 import org.jboss.seam.example.seamspace.MemberFriend;
 import org.jboss.seam.example.seamspace.MemberImage;
 
+# This rule allows members to grant permissions on their images to other users/roles
+
+rule GrantImagePermissions
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "seam.grant-permission", granted == false)
+then
+  check.grant();
+end
+
 rule ViewProfileImage
   no-loop
   activation-group "permissions"

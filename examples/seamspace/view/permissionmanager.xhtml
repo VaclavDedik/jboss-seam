@@ -41,15 +41,15 @@
             columnClasses=",,enabled,action">
           <h:column width="auto">
             <f:facet name="header">
-              Action
-            </f:facet>
-            #{permission.action}
-          </h:column>
-          <h:column width="auto">
-            <f:facet name="header">
               Recipient
             </f:facet>
             #{permission.recipient}
+          </h:column>
+          <h:column width="auto">
+            <f:facet name="header">
+              Actions Allowed
+            </f:facet>
+            #{permission.action}
           </h:column>
           <h:column width="auto">
             <f:facet name="header">
