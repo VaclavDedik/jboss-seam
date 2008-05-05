@@ -45,7 +45,9 @@ import org.jboss.seam.util.AnnotatedBeanProperty;
 @BypassInterceptors
 public class JpaPermissionStore implements PermissionStore, Serializable
 {
-   private static final LogProvider log = Logging.getLogProvider(JpaPermissionStore.class); 
+   private static final LogProvider log = Logging.getLogProvider(JpaPermissionStore.class);
+   
+   private enum Discrimination { user, role, either }
    
    private ValueExpression<EntityManager> entityManager;
    
@@ -68,7 +70,8 @@ public class JpaPermissionStore implements PermissionStore, Serializable
 
    @Create
    public void init()
-   {      
+   {
+      // TODO see if we can scan for this automatically      
       if (userPermissionClass == null)
       {
          log.debug("No permissionClass set, JpaDynamicPermissionStore will be unavailable.");
@@ -147,12 +150,17 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       }
    }   
    
-   protected Query createPermissionQuery(Object target, String action, Principal recipient, boolean isRole)
+   protected Query createPermissionQuery(Object target, String action, Principal recipient, 
+         Discrimination discrimination)
    {
       int queryKey = ((target != null) ? 1 : 0);
       queryKey |= (action != null ? 2 : 0);
       queryKey |= (recipient != null ? 4 : 0);
-      queryKey |= (isRole ? 8 : 0);
+      queryKey |= (discrimination.equals(Discrimination.user) ? 8 : 0);
+      queryKey |= (discrimination.equals(Discrimination.role) ? 16 : 0);
+      queryKey |= (discrimination.equals(Discrimination.either) ? 32 : 0);
+      
+      boolean isRole = discrimination.equals(Discrimination.role) && rolePermissionClass != null;
       
       if (!queryCache.containsKey(queryKey))
       {  
@@ -160,15 +168,13 @@ public class JpaPermissionStore implements PermissionStore, Serializable
          
          StringBuilder q = new StringBuilder();
          q.append("select p from ");
-         q.append(isRole && rolePermissionClass != null ? rolePermissionClass.getName() :
-            userPermissionClass.getName());
+         q.append(isRole ? rolePermissionClass.getName() : userPermissionClass.getName());
          q.append(" p");
          
          if (target != null)
          {
             q.append(" where ");
-            q.append(isRole && rolePermissionClass != null ? roleTargetProperty.getName() : 
-               targetProperty.getName());
+            q.append(isRole ? roleTargetProperty.getName() : targetProperty.getName());
             q.append(" = :target");
             conditionsAdded = true;
          }
@@ -176,8 +182,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
          if (action != null)
          {
             q.append(conditionsAdded ? " and " : " where ");
-            q.append(isRole && rolePermissionClass != null ? roleActionProperty.getName() :
-               actionProperty.getName());
+            q.append(isRole ? roleActionProperty.getName() : actionProperty.getName());
             q.append(" = :action");
             conditionsAdded = true;
          }
@@ -185,13 +190,13 @@ public class JpaPermissionStore implements PermissionStore, Serializable
          if (recipient != null)
          {
             q.append(conditionsAdded ? " and " : " where ");
-            q.append(isRole && rolePermissionClass != null ? roleProperty.getName() : 
-               userProperty.getName());
+            q.append(isRole ? roleProperty.getName() : userProperty.getName());
             q.append(" = :recipient");
             conditionsAdded = true;
          }
          
-         if (discriminatorProperty != null)
+         // If there is no discrimination, then don't add such a condition to the query
+         if (!discrimination.equals(Discrimination.either) && discriminatorProperty != null)
          {
             q.append(conditionsAdded ? " and " : " where ");
             q.append(discriminatorProperty.getName());
@@ -207,7 +212,12 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       if (target != null) query.setParameter("target", identifierPolicy.getIdentifier(target));
       if (action != null) query.setParameter("action", action);
       if (recipient != null) query.setParameter("recipient", resolvePrincipal(recipient));
-      if (discriminatorProperty != null) query.setParameter("discriminator", getDiscriminatorValue(isRole));
+      
+      if (!discrimination.equals(Discrimination.either) && discriminatorProperty != null) 
+      {
+         query.setParameter("discriminator", getDiscriminatorValue(
+               discrimination.equals(Discrimination.role)));
+      }
       
       return query;
    }
@@ -270,7 +280,8 @@ public class JpaPermissionStore implements PermissionStore, Serializable
    public boolean revokePermission(Permission permission)
    {
       Query qry = createPermissionQuery(permission.getTarget(), permission.getAction(), 
-            permission.getRecipient(), permission.getRecipient() instanceof Role);
+            permission.getRecipient(), permission.getRecipient() instanceof Role ? 
+                  Discrimination.role : Discrimination.user);
             
       try
       {
@@ -339,11 +350,15 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       throw new IllegalArgumentException("Cannot resolve principal name for principal " + principal); 
    }
 
+   /**
+    * Returns a list of all user and role permissions for a specific permission target and action.
+    */
    public List<Permission> listPermissions(Object target, String action) 
    {
       List<Permission> permissions = new ArrayList<Permission>();
       
-      Query permissionQuery = createPermissionQuery(target, action, null, false);
+      // First query for user permissions
+      Query permissionQuery = createPermissionQuery(target, action, null, Discrimination.either);
       List userPermissions = permissionQuery.getResultList(); 
       
       Map<String,Principal> principalCache = new HashMap<String,Principal>();
@@ -364,7 +379,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
          String name = resolvePrincipalName(isUser ? userProperty.getValue(permission) :
             roleProperty.getValue(permission), isUser);
          
-         String key = (isUser ? "user:" : "role:") + name;
+         String key = (isUser ? "u:" : "r:") + name;
          
          if (!principalCache.containsKey(key))
          {
@@ -380,9 +395,10 @@ public class JpaPermissionStore implements PermissionStore, Serializable
                principal));
       }
       
-      if (rolePermissionClass == null)
+      // If we have a separate class for role permissions, then query them now
+      if (rolePermissionClass != null)
       {
-         permissionQuery = createPermissionQuery(target, action, null, true);        
+         permissionQuery = createPermissionQuery(target, action, null, Discrimination.role);        
          List rolePermissions = permissionQuery.getResultList();
          
          for (Object permission : rolePermissions)
@@ -390,7 +406,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
             Principal principal;
             
             String name = resolvePrincipalName(roleProperty.getValue(permission), false);
-            String key = "role:" + name;
+            String key = "r:" + name;
             
             if (!principalCache.containsKey(key))
             {

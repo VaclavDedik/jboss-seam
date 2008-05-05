@@ -32,9 +32,13 @@ public class PermissionSearch implements Serializable
    private Object target;
    
    @Begin
-   public void loadPermissions(Object target)
+   public void search(Object target)
    {
       this.target = target;      
+   }
+   
+   public void refresh()
+   {
       permissions = permissionManager.listPermissions(target);
    }
    
