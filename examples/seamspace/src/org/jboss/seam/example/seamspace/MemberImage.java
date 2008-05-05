@@ -9,10 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-import org.jboss.seam.annotations.Name;
-
 @Entity
-@Name("memberImage")
 public class MemberImage implements Serializable
 {
    private static final long serialVersionUID = -8088455267213832920L;

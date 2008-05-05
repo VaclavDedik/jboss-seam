@@ -28,6 +28,19 @@ then
   check.grant();
 end
 
+# This rule allows members to revoke permissions on their images to other users/roles
+
+rule RevokeImagePermissions
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "seam.revoke-permission", granted == false)
+then
+  check.grant();
+end
+
 rule ViewProfileImage
   no-loop
   activation-group "permissions"

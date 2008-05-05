@@ -16,7 +16,7 @@
       <script type="text/javascript">
         function confirmDelete()
         {
-          return confirm("Are you sure you wish to delete this permission? This action cannot be undone.");
+          return confirm("Are you sure you wish to revoke this permission? This action cannot be undone.");
         }
       </script>
 
@@ -55,8 +55,7 @@
             <f:facet name="header">
               Action
             </f:facet>
-          
-            <s:link value="Delete" action="#{permissionManager.revokePermission(permissionSearch.selectedPermission)}" 
+            <s:link value="Revoke" action="#{permissionManager.revokePermission(permissionSearch.selectedPermission)}" 
                     rendered="#{s:hasPermission(permissionSearch.target, 'seam.revoke-permission')}"
                     onclick="return confirmDelete()"/>
           </h:column>

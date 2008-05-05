@@ -1,0 +1,15 @@
+<!DOCTYPE page PUBLIC
+          "-//JBoss/Seam Pages Configuration DTD 1.2//EN"
+          "http://jboss.com/products/seam/pages-1.2.dtd">
+
+<page action="#{roleSearch.loadRoles}">
+  <restrict>#{s:hasPermission('seam.role', 'read')}</restrict>    
+  
+  <navigation from-action="#{roleAction.createRole}">
+    <redirect view-id="/roledetail.xhtml"/>
+  </navigation>
+  
+  <navigation from-action="#{roleAction.editRole(roleSearch.selectedRole)}">
+    <redirect view-id="/roledetail.xhtml"/>
+  </navigation>          
+</page>

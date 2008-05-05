@@ -63,46 +63,6 @@
 
     </page>
     
-    <page view-id="/usermanager.xhtml" action="#{userSearch.loadUsers}">
-      <restrict>#{s:hasPermission('seam.user', 'read')}</restrict>    
-      
-      <navigation from-action="#{userAction.createUser}">
-        <redirect view-id="/userdetail.xhtml"/>
-      </navigation>
-      
-      <navigation from-action="#{userAction.editUser(userSearch.selectedUser)}">
-        <redirect view-id="/userdetail.xhtml"/>
-      </navigation>      
-    </page>
-    
-    <page view-id="/rolemanager.xhtml" action="#{roleSearch.loadRoles}">
-      <restrict>#{s:hasPermission('seam.role', 'read')}</restrict>    
-      
-      <navigation from-action="#{roleAction.createRole}">
-        <redirect view-id="/roledetail.xhtml"/>
-      </navigation>
-      
-      <navigation from-action="#{roleAction.editRole(roleSearch.selectedRole)}">
-        <redirect view-id="/roledetail.xhtml"/>
-      </navigation>          
-    </page>
-    
-    <page view-id="/userdetail.xhtml">
-        <navigation from-action="#{userAction.save}">
-          <rule if-outcome="success">
-              <redirect view-id="/usermanager.xhtml"/>
-          </rule>
-        </navigation>
-    </page>
-    
-    <page view-id="/roledetail.xhtml">
-        <navigation from-action="#{roleAction.save}">
-            <rule if-outcome="success">
-                <redirect view-id="/rolemanager.xhtml"/>
-            </rule>
-        </navigation>
-    </page>
-    
     <page view-id="/profile.xhtml">
       <param name="name" value="#{selectedMember.memberName}"/>
     

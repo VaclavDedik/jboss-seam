@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:rich="http://richfaces.org/rich"       
+    xmlns:s="http://jboss.com/products/seam/taglib">
+
+  <ui:composition template="template.xhtml">
+  
+    <ui:define name="head">
+      <link href="style/security.css" rel="stylesheet" type="text/css"/>
+    </ui:define>  
+   
+    <ui:define name="content">
+        
+      <div id="contentMain">
+
+  	    <h2>Permission Details</h2>  
+  	    
+  	    <h:messages globalOnly="true"/>
+  	    
+  	    <h3>Granting permissions for: #{permissionSearch.target}</h3>
+  	    
+  	    <h:form>
+  	    
+          <div class="formRow">
+            <h:outputLabel for="recipient" value="Recipient" styleClass="formLabel"/>
+            <h:inputText id="recipient" value="#{permissionAction.recipient}"/>
+            <div class="validationError"><h:message for="recipient"/></div>
+          </div>  
+          
+          <div class="formRow">
+            <h:outputLabel for="action" value="Action" styleClass="formLabel"/>
+            <h:inputText id="action" value="#{permissionAction.action}"/>
+            <div class="validationError"><h:message for="action"/></div>
+          </div>            
+                            
+          <div class="formRow">            
+            <h:outputLabel for="actions" value="Allowable actions" styleClass="formLabel"/>
+            <div class="selectMany">
+              <h:selectManyCheckbox id="actions" value="#{permissionAction.actions}" layout="pageDirection" styleClass="roles">
+                <s:selectItems value="#{permissionManager.listAvailableActions(permissionAction.target)}" var="action" label="#{action}"/>
+              </h:selectManyCheckbox>
+            </div>
+            <div class="validationError"><h:message for="actions"/></div>
+          </div>
+                                                
+          <div class="formButtons">
+            <h:commandButton value="Save" action="#{permissionAction.save}" styleClass="formButton"/>
+            <s:button view="/permissionmanager.xhtml" value="Cancel" propagation="end" styleClass="formButton"/>
+          </div>
+    
+          <br class="clear"/>
+  	    
+  	    </h:form>
+
+	    </div>
+	    
+    </ui:define>
+    
+  </ui:composition>
+</html>

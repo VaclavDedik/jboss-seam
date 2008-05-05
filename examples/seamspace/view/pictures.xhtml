@@ -45,7 +45,7 @@
               <a href="content/images?id=#{img.imageId}" rel="lightbox[pictureset]" title="#{img.caption}">
                 <h:graphicImage value="/content/images?id=#{img.imageId}&amp;width=90" border="0"/>
               </a>
-              <s:button view="/permissionmanager.seam" action="#{permissionSearch.loadPermissions(pictureSearch.lookupImage())}" styleClass="padlock">
+              <s:button view="/permissionmanager.seam" action="#{permissionSearch.search(pictureSearch.lookupImage())}" styleClass="padlock">
                 <f:param name="imageId" value="#{img.imageId}"/>
               </s:button>
               <s:button styleClass="trash"/>

@@ -1,0 +1,11 @@
+<!DOCTYPE page PUBLIC
+          "-//JBoss/Seam Pages Configuration DTD 1.2//EN"
+          "http://jboss.com/products/seam/pages-1.2.dtd">
+          
+<page>
+    <navigation from-action="#{roleAction.save}">
+        <rule if-outcome="success">
+            <redirect view-id="/rolemanager.xhtml"/>
+        </rule>
+    </navigation>
+</page>
