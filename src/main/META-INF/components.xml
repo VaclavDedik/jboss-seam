@@ -19,6 +19,6 @@
   <import>org.jboss.seam.security.permission</import>
   <import>org.jboss.seam.captcha</import>
 
-  <factory name="webSession" auto-create="true" scope="stateless" value="#{org.jboss.seam.web.session}" />
+  <factory name="org.jboss.seam.web.webSession" auto-create="true" scope="stateless" value="#{org.jboss.seam.web.session}" />
 
 </components>
