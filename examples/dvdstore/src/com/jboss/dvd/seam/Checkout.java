@@ -9,7 +9,7 @@ package com.jboss.dvd.seam;
 public interface Checkout
 {
     public void createOrder();
-    public void submitOrder();
+    public Order submitOrder();
     
     public void destroy();
 }

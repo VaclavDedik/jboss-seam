@@ -106,7 +106,6 @@ public class FullTextSearchAction
     
     @Begin(join = true)
     public void selectFromRequest() {
-        System.out.println("*** ID=" + id);
         if (id != null)  {
             dvd = em.find(Product.class, id);
         } else if (selectedProduct != null) {
@@ -199,7 +198,6 @@ public class FullTextSearchAction
     }
 
     public void setSelectedId(Long id) {
-        System.out.println("- set id " + id);
         this.id = id;
     }
     
