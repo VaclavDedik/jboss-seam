@@ -108,4 +108,9 @@ public class PermissionManager implements Serializable
       Identity.instance().checkPermission(permission.getTarget(), PERMISSION_REVOKE);
       return permissionStore.revokePermission(permission);
    }
+   
+   public List<String> listAvailableActions(Object target)
+   {
+      return permissionStore.listAvailableActions(target);
+   }
 }

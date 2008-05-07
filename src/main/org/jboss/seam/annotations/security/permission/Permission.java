@@ -1,4 +1,4 @@
-package org.jboss.seam.annotations.security;
+package org.jboss.seam.annotations.security.permission;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -9,7 +9,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Maps a permission for the target class to a bit value
+ * Specifies an allowable permission action for the target class, and allows for an optional bit mask
+ * value for mapping the permission action to a persistent store
  *
  * @author Shane Bryzak
  */
@@ -17,8 +18,8 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Inherited
-public @interface AclFlag
+public @interface Permission
 {
-   long mask();
    String action();
+   long mask() default 0;
 }

@@ -13,4 +13,5 @@ public interface PermissionStore
    List<Permission> listPermissions(Object target, String action);
    boolean grantPermission(Permission permission);
    boolean revokePermission(Permission permission);
+   List<String> listAvailableActions(Object target);
 }

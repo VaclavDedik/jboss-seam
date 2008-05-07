@@ -430,6 +430,12 @@ public class JpaPermissionStore implements PermissionStore, Serializable
    {
       return listPermissions(target, null);
    }
+   
+   public List<String> listAvailableActions(Object target)
+   {
+      // TODO implement
+      return null;
+   }
 
    private EntityManager lookupEntityManager()
    {

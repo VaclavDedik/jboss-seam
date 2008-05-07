@@ -1,4 +1,4 @@
-package org.jboss.seam.annotations.security;
+package org.jboss.seam.annotations.security.permission;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -9,7 +9,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Specifies a list of ACL flags for a class
+ * Specifies a list of permission actions for a class
  *
  * @author Shane Bryzak
  */
@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Inherited
-public @interface AclFlags
+public @interface Permissions
 {
-   AclFlag[] value() default {};
+   Permission[] value() default {};
 }
