@@ -62,8 +62,8 @@ Tomcat (5.5 or 6) without JBoss Embedded:
   * Start Tomcat
   * Access the app at http://localhost:8080/jboss-seam-jpa/
 
-Glassfish (not currently working):
-  * Install Glassfish v2 beta4
+Glassfish:
+  * Install Glassfish V2
   * ant glassfish
   * Start GlassFish
   * Load the admin console http://localhost:4848/
