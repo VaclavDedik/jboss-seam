@@ -906,6 +906,7 @@
 	
 	<target name="jbosswar.unexplode" description="Undeploy the example from JBoss">
 		<delete dir="${deploy.dir}/${example.name}.war" />
+		<delete file="${deploy.dir}/${example.name}-ds.xml" failonerror="no" />
 	</target>
 
 	<!-- #################### TEST TARGETS (JBOSS AS) ##################### -->
