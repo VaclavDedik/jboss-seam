@@ -25,6 +25,7 @@ import org.jboss.seam.annotations.security.permission.PermissionDiscriminator;
 import org.jboss.seam.annotations.security.permission.PermissionRole;
 import org.jboss.seam.annotations.security.permission.PermissionTarget;
 import org.jboss.seam.annotations.security.permission.PermissionUser;
+import org.jboss.seam.annotations.security.permission.Permissions;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
@@ -67,10 +68,14 @@ public class JpaPermissionStore implements PermissionStore, Serializable
    private Map<Integer,String> queryCache = new HashMap<Integer,String>();
    
    private IdentifierPolicy identifierPolicy;
+   
+   private PermissionMetadata metadata;
 
    @Create
    public void init()
    {
+      metadata = new PermissionMetadata();
+      
       // TODO see if we can scan for this automatically      
       if (userPermissionClass == null)
       {
@@ -433,8 +438,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
    
    public List<String> listAvailableActions(Object target)
    {
-      // TODO implement
-      return null;
+      return metadata.listAllowableActions(target.getClass());
    }
 
    private EntityManager lookupEntityManager()
