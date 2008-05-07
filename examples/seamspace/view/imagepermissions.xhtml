@@ -14,7 +14,7 @@
     <ui:define name="content">
         
       <script type="text/javascript">
-        function confirmDelete()
+        function confirmRevoke()
         {
           return confirm("Are you sure you wish to revoke this permission? This action cannot be undone.");
         }
@@ -22,11 +22,19 @@
 
       <div id="contentMain">
 
-  	    <h2>Permission Manager</h2>  
+  	    <h2>Image Permissions</h2>  
   	    
-  	    <h3>Managing permissions for: #{permissionSearch.target}</h3>
+  	    <div style="float: left">
+  	      <h3>Managing permissions for image:</h3>
+  	    </div>
   	      	    
-        <s:button action="#{permissionAction.createPermission}" 
+        <div class="thumbnail" style="float:right">
+          <h:graphicImage value="/content/images?id=#{permissionSearch.target.imageId}&amp;width=90"/>
+        </div>  	        	    
+    	  
+    	  <br class="clear"/>
+  	      	    
+        <s:button action="#{imagePermission.createPermission}" 
           styleClass="newpermission" 
           rendered="#{s:hasPermission(permissionSearch.target, 'seam.grant-permission')}"/>
   	    
@@ -38,7 +46,7 @@
             cellspacing="0"
             headerClass="header"
             rowClasses="odd,even"
-            columnClasses=",,enabled,action">
+            columnClasses=",,action">
           <h:column width="auto">
             <f:facet name="header">
               Recipient
@@ -55,9 +63,9 @@
             <f:facet name="header">
               Action
             </f:facet>
-            <s:link value="Revoke" action="#{permissionManager.revokePermission(permissionSearch.selectedPermission)}" 
+            <s:link value="Revoke All" action="#{permissionSearch.revokeSelected}" 
                     rendered="#{s:hasPermission(permissionSearch.target, 'seam.revoke-permission')}"
-                    onclick="return confirmDelete()"/>
+                    onclick="return confirmRevoke()"/>
           </h:column>
   	    </h:dataTable>  	    
 
