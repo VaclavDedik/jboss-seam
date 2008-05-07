@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.component.html.HtmlLoadStyle;
 import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.ui.resource.SafeStyleResources;
 import org.jboss.seam.ui.resource.StyleResource;
 import org.jboss.seam.ui.util.UrlBuilder;
 import org.jboss.seam.util.Reflections;
@@ -22,9 +23,11 @@ public abstract class UILoadStyle extends HtmlLoadStyle
 
       UIConversationId uiConversationId = UIConversationId.newInstance();
       uiConversationId.setViewId(Pages.getViewId(getFacesContext()));
+      String src = super.getSrc() != null ? super.getSrc().toString() : null;
+      SafeStyleResources.instance().addSafeStyleResource(src);
       try
       {
-         UrlBuilder urlBuilder = new UrlBuilder(StyleResource.WEB_RESOURCE_PATH + super.getSrc(), null, FacesContext.getCurrentInstance().getResponseWriter().getCharacterEncoding());
+         UrlBuilder urlBuilder = new UrlBuilder(StyleResource.WEB_RESOURCE_PATH + src, null, FacesContext.getCurrentInstance().getResponseWriter().getCharacterEncoding());
          urlBuilder.addParameter(uiConversationId);
          if (isIsolated())
          {
