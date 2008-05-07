@@ -6,13 +6,13 @@
     xmlns:s="http://jboss.com/products/seam/taglib">
 
   <ui:composition template="template.xhtml">
-  
+
     <ui:define name="head">
       <link href="style/security.css" rel="stylesheet" type="text/css"/>
-    </ui:define>  
-   
+    </ui:define>
+
     <ui:define name="content">
-        
+
       <script type="text/javascript">
         function confirmRevoke()
         {
@@ -22,26 +22,28 @@
 
       <div id="contentMain">
 
-  	    <h2>Image Permissions</h2>  
-  	    
+  	    <h2>Image Permissions</h2>
+
   	    <div style="float: left">
   	      <h3>Managing permissions for image:</h3>
   	    </div>
-  	      	    
-        <div class="thumbnail" style="float:right">
+
+        <br class="clear"/>
+
+        <div class="thumbnail">
           <h:graphicImage value="/content/images?id=#{permissionSearch.target.imageId}&amp;width=90"/>
-        </div>  	        	    
-    	  
+        </div>
+
     	  <br class="clear"/>
-  	      	    
-        <s:button action="#{imagePermission.createPermission}" 
-          styleClass="newpermission" 
+
+        <s:button action="#{imagePermission.createPermission}"
+          styleClass="newpermission"
           rendered="#{s:hasPermission(permissionSearch.target, 'seam.grant-permission')}"/>
-  	    
-        <h:dataTable 
+
+        <h:dataTable
             id="threads"
-            value="#{permissions}" 
-            var="permission" 
+            value="#{permissions}"
+            var="permission"
             styleClass="security"
             cellspacing="0"
             headerClass="header"
@@ -63,15 +65,15 @@
             <f:facet name="header">
               Action
             </f:facet>
-            <s:link value="Revoke All" action="#{permissionSearch.revokeSelected}" 
+            <s:link value="Revoke All" action="#{permissionSearch.revokeSelected}"
                     rendered="#{s:hasPermission(permissionSearch.target, 'seam.revoke-permission')}"
                     onclick="return confirmRevoke()"/>
           </h:column>
-  	    </h:dataTable>  	    
+  	    </h:dataTable>
 
 	    </div>
-	    
+
     </ui:define>
-    
+
   </ui:composition>
 </html>

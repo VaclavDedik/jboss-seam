@@ -3,6 +3,8 @@ package org.jboss.seam.example.seamspace;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.io.Serializable;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,6 +15,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.security.management.IdentityManager;
+import org.jboss.seam.security.permission.Permission;
 import org.jboss.seam.security.permission.PermissionManager;
 import org.jboss.seam.security.permission.action.PermissionSearch;
 
@@ -26,9 +29,7 @@ public class ImagePermission implements Serializable
    private List<Member> selectedFriends;
    private List<String> selectedActions;
    
-   private List<String> availableRoles;
    private List<Member> availableFriends;   
-   private List<String> availableActions;
    
    @In IdentityManager identityManager;
    @In PermissionManager permissionManager;
@@ -39,19 +40,42 @@ public class ImagePermission implements Serializable
    
    private MemberImage target; 
    
+   private Principal recipient;
+   
    @SuppressWarnings("unchecked")
    @Begin(nested = true)
    public void createPermission()
    {
       target = (MemberImage) permissionSearch.getTarget();
       
-      availableRoles = identityManager.listRoles();
+      selectedFriends = new ArrayList<Member>();
+      
       availableFriends = entityManager.createQuery(
             "select f.friend from MemberFriend f where f.member = :member and f.authorized = true")
             .setParameter("member", target.getMember())
-            .getResultList();
+            .getResultList();      
+   }
+   
+   @Begin(nested = true)
+   public void editPermission()
+   {
+      target = (MemberImage) permissionSearch.getTarget();
+      recipient = permissionSearch.getSelectedPermission().getRecipient();
+            
+      List<Permission> permissions = permissionManager.listPermissions(target);
       
-      availableActions = permissionManager.listAvailableActions(target); 
+      selectedActions = new ArrayList<String>();
+      
+      for (Permission permission : permissions)
+      {
+         if (permission.getRecipient().equals(recipient))
+         {
+            if (!selectedActions.contains(permission.getAction()))
+            {
+               selectedActions.add(permission.getAction());
+            }
+         }
+      }
    }
 
    public List<String> getSelectedRoles()
@@ -86,14 +110,9 @@ public class ImagePermission implements Serializable
    
    public void applyPermissions()
    {
-      
+      // TODO apply permission changes here
       
       Conversation.instance().end();
-   }
-   
-   public List<String> getAvailableRoles()
-   {
-      return availableRoles;
    }
    
    public List<Member> getAvailableFriends()
@@ -101,8 +120,13 @@ public class ImagePermission implements Serializable
       return availableFriends;
    }
    
-   public List<String> getAvailableActions()
+   public MemberImage getTarget()
    {
-      return availableActions;
+      return target;
+   }
+   
+   public Principal getRecipient()
+   {
+      return recipient;
    }
 }

@@ -9,6 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
+import org.jboss.seam.annotations.security.permission.Permission;
+import org.jboss.seam.annotations.security.permission.Permissions;
+
+@Permissions({
+   @Permission(action = "view")
+})
 @Entity
 public class MemberImage implements Serializable
 {

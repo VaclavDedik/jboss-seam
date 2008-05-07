@@ -23,7 +23,7 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.security.Identity;
 
 @Scope(CONVERSATION)
-@Name("friend")
+@Name("friendAction")
 public class FriendAction implements Serializable
 {
    private static final long serialVersionUID = 4565339001481077911L;

@@ -3,7 +3,5 @@
           "http://jboss.com/products/seam/pages-1.2.dtd">
 
 <page action="#{permissionSearch.refresh}">
-    <navigation from-action="#{imagePermission.createPermission}">
-          <redirect view-id="/imagepermissiondetail.xhtml"/>
-    </navigation>
+
 </page>
