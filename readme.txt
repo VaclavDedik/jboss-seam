@@ -27,7 +27,9 @@ Get Up And Running Quick
 Running The TestNG Tests
 ------------------------
 
-In the jboss-seam-x.x.x.x directory, type "ant testcore" or "ant testall"
+In the jboss-seam-x.x.x.x directory, type "ant testcore testreport" or "ant testall testreport".
+
+Then checkout the report in the /test-report directory.
 
 Running the TestNG Tests in Eclipse
 -----------------------------------
