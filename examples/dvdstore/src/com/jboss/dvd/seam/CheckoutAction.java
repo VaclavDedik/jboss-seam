@@ -75,7 +75,7 @@ public class CheckoutAction
     @End
     @CreateProcess(definition="OrderManagement", processKey="#{completedOrder.orderId}")
     @Restrict("#{identity.loggedIn}")
-    public void submitOrder() {
+    public Order submitOrder() {
         try {
             completedOrder = purchase(customer, currentOrder);
             
@@ -88,7 +88,10 @@ public class CheckoutAction
                 Contexts.getEventContext().set("prod", product);
                 FacesMessages.instance().addFromResourceBundle("checkoutInsufficientQuantity");
             }
+            return null;
         }
+
+        return completedOrder;
     }
 
     private Order purchase(Customer customer, Order order) 
