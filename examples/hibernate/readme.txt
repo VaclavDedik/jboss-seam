@@ -53,7 +53,7 @@ Tomcat with embeddable JBoss:
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
 
 Glassfish
-  * Install Glassfish v1 UR1
+  * Install Glassfish V1 or V2
   * ant glassfish
   * Start GlassFish
   * Load the admin console http://localhost:4848/
