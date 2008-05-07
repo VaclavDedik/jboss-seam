@@ -818,6 +818,7 @@
 			<fileset refid="groovy.jar" />
 			<fileset refid="trinidad-api.jar" />
 			<fileset refid="el-ri.jar" />
+			<fileset refid="jboss-common-core.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<copy todir="${war.dir}">
