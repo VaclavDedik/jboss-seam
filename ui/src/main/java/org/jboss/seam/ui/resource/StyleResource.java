@@ -19,6 +19,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Expressions;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.web.AbstractResource;
@@ -35,6 +38,8 @@ import org.jboss.seam.web.AbstractResource;
 @BypassInterceptors
 public class StyleResource extends AbstractResource
 {
+   
+   private LogProvider log = Logging.getLogProvider(StyleResource.class);
 
    private static final Pattern EL_PATTERN = Pattern.compile("#" + Pattern.quote("{") + "(.*)"
             + Pattern.quote("}"));
@@ -65,6 +70,12 @@ public class StyleResource extends AbstractResource
             throws IOException
    {
       String pathInfo = request.getPathInfo().substring(getResourcePath().length());
+      if (!SafeStyleResources.instance().isStyleResourceSafe(pathInfo))
+      {
+         log.warn(pathInfo + " isn't recognized as a valid stylesheet");
+         response.sendError(HttpServletResponse.SC_NOT_FOUND);
+         return;
+      }
       InputStream in = Resources.getResourceAsStream( pathInfo, getServletContext() );
 
       if (in != null)
