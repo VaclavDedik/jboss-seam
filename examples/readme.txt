@@ -144,6 +144,9 @@ How to Build and Deploy the Example on Tomcat
 
 5. (Optional) Build Seam by running "ant" the Seam root directory
 
+   WARNING: If you build an example for JBoss AS, remember to run ant clean 
+   in the "examples/${example.name}" directory before building for Tomcat. 
+
 6. Build and deploy the example by running "ant tomcat.deploy" 
    in the Seam "examples/${example.name}" directory
 
