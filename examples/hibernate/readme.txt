@@ -10,6 +10,7 @@ JBoss AS 4.2.x:
   * ant jboss
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-hibernate/
+  * ant jboss.undeploy to undeploy example
 
 JBoss AS 4.0.5.GA:
   * Install JBoss AS with the default profile (with or without EJB3)
@@ -68,3 +69,5 @@ NOTES FOR GLASSFISH USERS:
   WEB/classes/GlassfishDerbyDialect.class is a special hack to get around 
   a Derby bug in Glassfish TM. You must use it as your Hibernate dialect
   if you are using Derby with Glassfish.
+  
+  Note: there is no testng suite for this example.

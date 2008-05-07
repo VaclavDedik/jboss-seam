@@ -90,8 +90,9 @@ wiki/                 A fully featured wiki system based on Seam, please
 Deploying and Testing an Example Application
 ============================================
 
-These are general instructions for deploying Seam examples. Take a look at the 
-readme.txt in the example to see if there are any specific instructions.
+These are general instructions for deploying and working with the Seam examples.
+Take a look at the readme.txt in the example to see if there are any specific 
+instructions.
 
 How to Build and Deploy an Example on JBoss AS
 ----------------------------------------------
@@ -178,3 +179,8 @@ Running the TestNG Tests in Eclipse
    Make sure all these come before the referenced libraries
    
 3. Locate and run the testng.xml file using the TestNG plugin
+
+Undeploying an Example
+----------------------
+
+In the "examples/${example.name}" directory, type "ant undeploy"

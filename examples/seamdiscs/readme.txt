@@ -6,7 +6,7 @@ Visit http://localhost:8080/seam-discs (on JBoss AS) or
 http://localhost:8080/jboss-seam-discs (on Tomcat).
 
 The seamdiscs example is a simple example built using the Seam Application 
-Framework which allows you to record your favourite albums and artists.  It 
+Framework which allows you to record your favorite albums and artists.  It 
 uses a mix of RichFaces and Trinidad components. It also uses the "inplace 
 editing" pattern; the same facelets are used for editing and display of data 
 (login to edit a disc or artist).
@@ -27,3 +27,5 @@ Example
      ...
   </tr:column
 </tr:table>
+
+To undeploy the example from JBoss AS use ant unexplode

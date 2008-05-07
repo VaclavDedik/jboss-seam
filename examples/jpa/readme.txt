@@ -10,6 +10,7 @@ JBoss AS 4.2.0:
   * ant jboss
   * Start JBoss AS 
   * Access the app at http://localhost:8080/jboss-seam-jpa/
+  * ant jboss.undeploy to undeploy example
 
 JBoss AS 4.0.5 (with or without EJB3):
   * Install JBoss AS 4.0.5 with the default J2EE profile
