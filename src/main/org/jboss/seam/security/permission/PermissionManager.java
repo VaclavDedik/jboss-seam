@@ -103,10 +103,28 @@ public class PermissionManager implements Serializable
       return permissionStore.grantPermission(permission);
    }
    
+   public boolean grantPermissions(List<Permission> permissions)
+   {
+      for (Permission permission : permissions)
+      {
+         Identity.instance().checkPermission(permission.getTarget(), PERMISSION_GRANT);
+      }
+      return permissionStore.grantPermissions(permissions);
+   }
+   
    public boolean revokePermission(Permission permission)
    {
       Identity.instance().checkPermission(permission.getTarget(), PERMISSION_REVOKE);
       return permissionStore.revokePermission(permission);
+   }
+   
+   public boolean revokePermissions(List<Permission> permissions)
+   {
+      for (Permission permission : permissions)
+      {
+         Identity.instance().checkPermission(permission.getTarget(), PERMISSION_REVOKE);
+      }
+      return permissionStore.revokePermissions(permissions);
    }
    
    public List<String> listAvailableActions(Object target)

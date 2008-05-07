@@ -25,7 +25,6 @@ import org.jboss.seam.annotations.security.permission.PermissionDiscriminator;
 import org.jboss.seam.annotations.security.permission.PermissionRole;
 import org.jboss.seam.annotations.security.permission.PermissionTarget;
 import org.jboss.seam.annotations.security.permission.PermissionUser;
-import org.jboss.seam.annotations.security.permission.Permissions;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
@@ -276,6 +275,13 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       }   
    }
    
+   public boolean grantPermissions(List<Permission> permissions)
+   {
+      // TODO implement
+      
+      return false;
+   }
+   
    private String getDiscriminatorValue(boolean isRole)
    {
       PermissionDiscriminator discriminator = discriminatorProperty.getAnnotation();
@@ -298,7 +304,13 @@ public class JpaPermissionStore implements PermissionStore, Serializable
       {
          return false;
       }
-   }   
+   }
+   
+   public boolean revokePermissions(List<Permission> permissions)
+   {
+      // TODO implement
+      return false;
+   }
    
    /**
     * If the user or role properties in the entity class refer to other entities, then this method
