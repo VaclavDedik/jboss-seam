@@ -8,3 +8,7 @@ When editing Groovy files from action, a simple ant jbosswar.explode is enough
 When editing Groovy files from model, ant explode jbosswar.restart is necessary
 
 Access it at http://localhost:8080/jboss-seam-groovy
+
+To undeploy the example from JBoss AS use ant jbosswar.unexplode
+
+Note: there is no testng suite for this example.
