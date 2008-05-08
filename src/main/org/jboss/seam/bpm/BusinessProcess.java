@@ -118,10 +118,21 @@ public class BusinessProcess extends AbstractMutable implements Serializable
     */
    public void createProcess(String processDefinitionName)
    {
-      ProcessInstance process = ManagedJbpmContext.instance().newProcessInstanceForUpdate(processDefinitionName);
-      afterCreateProcess(processDefinitionName, process);
+       createProcess(processDefinitionName, true);
    }
 
+   /**
+    * Create a process instance and associate it with the
+    * current conversation.
+    * 
+    * @param processDefinitionName the jBPM process definition name
+    */
+   public void createProcess(String processDefinitionName, boolean shouldSignalProcess)
+   {
+       ProcessInstance process = ManagedJbpmContext.instance().newProcessInstanceForUpdate(processDefinitionName);
+       afterCreateProcess(processDefinitionName, process, shouldSignalProcess);
+   }
+   
    /**
     * Create a process instance and associate it with the
     * current conversation.
@@ -136,15 +147,17 @@ public class BusinessProcess extends AbstractMutable implements Serializable
                .createProcessInstance(Collections.EMPTY_MAP, businessKey);*/
       ProcessInstance process = ManagedJbpmContext.instance().newProcessInstanceForUpdate(processDefinitionName);
       process.setKey(businessKey);
-      afterCreateProcess(processDefinitionName, process);
+      afterCreateProcess(processDefinitionName, process, true);
    }
    
-   private void afterCreateProcess(String processDefinitionName, ProcessInstance process)
+   private void afterCreateProcess(String processDefinitionName, ProcessInstance process, boolean shouldSignalProcess)
    {
       setProcessId( process.getId() );
       // need to set process variables before the signal
       Contexts.getBusinessProcessContext().flush();
-      process.signal();
+      if (shouldSignalProcess) {
+          process.signal();
+      }
       
       Events.instance().raiseEvent("org.jboss.seam.createProcess." + processDefinitionName);
    }
