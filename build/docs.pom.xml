@@ -65,7 +65,7 @@
                <sourceDocumentName>master.xml</sourceDocumentName>
                <masterTranslation>en-US</masterTranslation>
                <translations>
-                  <translation>zh-CN</translation>
+                  
                </translations>
                <imageResource>
                   <directory>${pom.basedir}/en-US</directory>
@@ -124,7 +124,7 @@
             <plugin>
                <groupId>org.jboss.maven.plugins</groupId>
                <artifactId>maven-jdocbook-plugin</artifactId>
-               <version>2.1.0-200803311251UTC-MPJDOCBOOK-8</version>
+               <version>2.1.1</version>
             </plugin>
          </plugins>
       </pluginManagement>
