@@ -7,9 +7,9 @@ insert into MemberRole (roleid, name) values (1, 'user');
 insert into MemberRole (roleid, name) values (2, 'admin');
 
 insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (1, 'demo', '/9Se/pfHeUH8FJ4asBD6jQ==', 1, 1);
-insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (2, 'duke', '97291c29cc69a65890424d0f97db28f2', 1, 2);
-insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (3, 'shadowman', 'd76acda33fcfede62a8a6979df88e690', 1, 3);
-insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (4, 'mona', '0a7adfe58071398e15b5177f4ace8493', 1, 4);
+insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (2, 'duke', 'lykcKcxppliQQk0Pl9so8g==', 1, 2);
+insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (3, 'shadowman', '12rNoz/P7eYqiml534jmkA==', 1, 3);
+insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (4, 'mona', 'Cnrf5YBxOY4VtRd/Ss6Ekw==', 1, 4);
 
 insert into AccountMembership (accountid, memberof) values (1, 2);
 insert into AccountMembership (accountid, memberof) values (2, 1);

@@ -14,6 +14,8 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.security.Role;
+import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.security.management.IdentityManager;
 import org.jboss.seam.security.permission.Permission;
 import org.jboss.seam.security.permission.PermissionManager;
@@ -110,7 +112,33 @@ public class ImagePermission implements Serializable
    
    public void applyPermissions()
    {
-      // TODO apply permission changes here
+      List<Permission> permissions = new ArrayList<Permission>();
+
+      for (String role : selectedRoles)
+      {
+         Principal r = new Role(role);
+         for (String action : selectedActions)
+         {            
+            permissions.add(new Permission(target, action, r));
+         }
+      }
+      
+      for (Member friend : selectedFriends)
+      {
+         MemberAccount acct = (MemberAccount) entityManager.createQuery(
+               "select a from MemberAccount a where a.member = :member")
+               .setParameter("member", friend)
+               .getSingleResult();
+         
+         Principal p = new SimplePrincipal(acct.getUsername());
+         
+         for (String action : selectedActions)
+         {
+            permissions.add(new Permission(target, action, p));
+         }
+      }
+      
+      permissionManager.grantPermissions(permissions);
       
       Conversation.instance().end();
    }
