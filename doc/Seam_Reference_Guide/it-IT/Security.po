@@ -1,0 +1,2381 @@
+# Language it-IT translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2008-05-03 11:34+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Security.xml:4
+#, no-c-format
+msgid "Security"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:6
+#, no-c-format
+msgid ""
+"The Seam Security API is an optional Seam feature that provides "
+"authentication and authorization features for securing both domain and page "
+"resources within your Seam project."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:12
+#, no-c-format
+msgid "Overview"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:14
+#, no-c-format
+msgid "Seam Security provides two different modes of operation:"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:20
+#, no-c-format
+msgid ""
+"<emphasis>simplified mode</emphasis> - this mode supports authentication "
+"services and simple role-based security checks."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:26
+#, no-c-format
+msgid ""
+"<emphasis>advanced mode</emphasis> - this mode supports all the same "
+"features as the simplified mode, plus it offers rule-based security checks "
+"using JBoss Rules."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:34
+#, no-c-format
+msgid "Which mode is right for my application?"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:36
+#, no-c-format
+msgid ""
+"That all depends on the requirements of your application. If you have "
+"minimal security requirements, for example if you only wish to restrict "
+"certain pages and actions to users who are logged in, or who belong to a "
+"certain role, then the simplified mode will probably be sufficient. The "
+"advantages of this is a more simplified configuration, significantly less "
+"libraries to include, and a smaller memory footprint."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:43
+#, no-c-format
+msgid ""
+"If on the other hand, your application requires security checks based on "
+"contextual state or complex business rules, then you will require the "
+"features provided by the advanced mode."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:51
+#, no-c-format
+msgid "Requirements"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:53
+#, no-c-format
+msgid ""
+"If using the advanced mode features of Seam Security, the following jar "
+"files are required to be configured as modules in <literal>application.xml</"
+"literal>. If you are using Seam Security in simplified mode, these are "
+"<emphasis>not</emphasis> required:"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:61
+#, no-c-format
+msgid "drools-compiler.jar"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:64
+#, no-c-format
+msgid "drools-core.jar"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:67
+#, no-c-format
+msgid "janino.jar"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:70
+#, no-c-format
+msgid "antlr-runtime.jar"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:73
+#, no-c-format
+msgid "mvel14.jar"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:77
+#, no-c-format
+msgid ""
+"For web-based security, <literal>jboss-seam-ui.jar</literal> must also be "
+"included in the application's war file."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:85
+#, no-c-format
+msgid "Disabling Security"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:87
+#, no-c-format
+msgid ""
+"In some situations it may be necessary to disable Seam Security, for example "
+"during unit tests. This can be done by calling the static method "
+"<literal>Identity.setSecurityEnabled(false)</literal> to disable security "
+"checks. Doing this prevents any security checks being performed for the "
+"following:"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:95
+#, no-c-format
+msgid "Entity Security"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:98
+#, no-c-format
+msgid "Hibernate Security Interceptor"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:101
+#, no-c-format
+msgid "Seam Security Interceptor"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:104
+#, no-c-format
+msgid "Page restrictions"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:110
+#, no-c-format
+msgid "Authentication"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:112
+#, no-c-format
+msgid ""
+"The authentication features provided by Seam Security are built upon JAAS "
+"(Java Authentication and Authorization Service), and as such provide a "
+"robust and highly configurable API for handling user authentication. "
+"However, for less complex authentication requirements Seam offers a much "
+"more simplified method of authentication that hides the complexity of JAAS."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:119
+#, no-c-format
+msgid "Configuration"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:121
+#, no-c-format
+msgid ""
+"The simplified authentication method uses a built-in JAAS login module, "
+"<literal>SeamLoginModule</literal>, which delegates authentication to one of "
+"your own Seam components. This login module is already configured inside "
+"Seam as part of a default application policy and as such does not require "
+"any additional configuration files. It allows you to write an authentication "
+"method using the entity classes that are provided by your own application. "
+"Configuring this simplified form of authentication requires the "
+"<literal>identity</literal> component to be configured in "
+"<literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:130
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"            xmlns:security=\"http://jboss.com/products/seam/security\"\n"
+"            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"            xsi:schemaLocation=\n"
+"                \"http://jboss.com/products/seam/components http://jboss.com/"
+"products/seam/components-2.1.xsd\n"
+"                 http://jboss.com/products/seam/security http://jboss.com/"
+"products/seam/security-2.1.xsd\">\n"
+"\n"
+"    <security:identity authenticate-method=\"#{authenticator.authenticate}\"/"
+">\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:132
+#, no-c-format
+msgid ""
+"If you wish to use the advanced security features such as rule-based "
+"permission checks, all you need to do is include the Drools (JBoss Rules) "
+"jars in your classpath, and add some additional configuration, described "
+"later."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:138
+#, no-c-format
+msgid ""
+"The EL expression <literal>#{authenticator.authenticate}</literal> is a "
+"method binding indicating that the <literal>authenticate</literal> method of "
+"the <literal>authenticator</literal> component will be used to authenticate "
+"the user."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:147
+#, no-c-format
+msgid "Writing an authentication method"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:149
+#, no-c-format
+msgid ""
+"The <literal>authenticate-method</literal> property specified for "
+"<literal>identity</literal> in <literal>components.xml</literal> specifies "
+"which method will be used by <literal>SeamLoginModule</literal> to "
+"authenticate users. This method takes no parameters, and is expected to "
+"return a boolean indicating whether authentication is successful or not. The "
+"user's username and password can be obtained from <literal>Identity.instance"
+"().getUsername()</literal> and <literal>Identity.instance().getPassword()</"
+"literal>, respectively. Any roles that the user is a member of should be "
+"assigned using <literal>Identity.instance().addRole()</literal>. Here's a "
+"complete example of an authentication method inside a JavaBean component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:160
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"authenticator\")\n"
+"public class Authenticator {\n"
+"   @In EntityManager entityManager;\n"
+"\n"
+"   public boolean authenticate() {\n"
+"      try\n"
+"      {\n"
+"         User user = (User) entityManager.createQuery(\n"
+"            \"from User where username = :username and password = :password"
+"\")\n"
+"            .setParameter(\"username\", Identity.instance().getUsername())\n"
+"            .setParameter(\"password\", Identity.instance().getPassword())\n"
+"            .getSingleResult();\n"
+"\n"
+"         if (user.getRoles() != null)\n"
+"         {\n"
+"            for (UserRole mr : user.getRoles())\n"
+"               Identity.instance().addRole(mr.getName());\n"
+"         }\n"
+"\n"
+"         return true;\n"
+"      }\n"
+"      catch (NoResultException ex)\n"
+"      {\n"
+"         return false;\n"
+"      }\n"
+"\n"
+"   }\n"
+"\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:162
+#, no-c-format
+msgid ""
+"In the above example, both <literal>User</literal> and <literal>UserRole</"
+"literal> are application-specific entity beans. The <literal>roles</literal> "
+"parameter is populated with the roles that the user is a member of, which "
+"should be added to the <literal>Set</literal> as literal string values, e.g. "
+"\"admin\", \"user\". In this case, if the user record is not found and a "
+"<literal>NoResultException</literal> thrown, the authentication method "
+"returns <literal>false</literal> to indicate the authentication failed."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:171
+#, no-c-format
+msgid "Identity.addRole()"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:173
+#, no-c-format
+msgid ""
+"The <literal>Identity.addRole()</literal> method behaves differently "
+"depending on whether the current session is authenticated or not. If the "
+"session is not authenticated, then <literal>addRole()</literal> should "
+"<emphasis>only</emphasis> be called during the authentication process. When "
+"called here, the role name is placed into a temporary list of pre-"
+"authenticated roles. Once authentication is successful, the pre-"
+"authenticated roles then become \"real\" roles, and calling "
+"<literal>Identity.hasRole()</literal> for those roles will then return true. "
+"The following sequence diagram represents the list of pre-authenticated "
+"roles as a first class object to show more clearly how it fits in to the "
+"authentication process."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:196
+#, no-c-format
+msgid "Special Considerations"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:198
+#, no-c-format
+msgid ""
+"When writing an authenticator method, it is important that it is kept "
+"minimal and free from any side-effects. This is because there is no "
+"guarantee as to how many times the authenticator method will be called by "
+"the security API, and as such it may be invoked multiple times during a "
+"single request. Because of this, any special code that should execute upon a "
+"successful or failed authentication should be written by implementing an "
+"event observer. See the section on Security Events further down in this "
+"chapter for more information about which events are raised by Seam Security."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:208
+#, no-c-format
+msgid ""
+"To give an example, let's say that upon a successful login that some user "
+"statistics must be updated. We would do this by writing an event observer "
+"for the <literal>org.jboss.seam.security.loginSuccessful</literal> event, "
+"like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:214
+#, no-c-format
+msgid ""
+"<![CDATA[   @In UserStats userStats;\n"
+"\n"
+"   @Observer(\"org.jboss.seam.security.loginSuccessful\")\n"
+"   public void updateUserStats()\n"
+"   {\n"
+"      userStats.setLastLoginDate(new Date());\n"
+"      userStats.incrementLoginCount();\n"
+"   }]]>"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:220
+#, no-c-format
+msgid "Writing a login form"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:222
+#, no-c-format
+msgid ""
+"The <literal>Identity</literal> component provides both <literal>username</"
+"literal> and <literal>password</literal> properties, catering for the most "
+"common authentication scenario. These properties can be bound directly to "
+"the username and password fields on a login form. Once these properties are "
+"set, calling the <literal>identity.login()</literal> method will "
+"authenticate the user using the provided credentials. Here's an example of a "
+"simple login form:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:230
+#, no-c-format
+msgid ""
+"<![CDATA[<div>\n"
+"    <h:outputLabel for=\"name\" value=\"Username\"/>\n"
+"    <h:inputText id=\"name\" value=\"#{identity.username}\"/>\n"
+"</div>\n"
+"\n"
+"<div>\n"
+"    <h:outputLabel for=\"password\" value=\"Password\"/>\n"
+"    <h:inputSecret id=\"password\" value=\"#{identity.password}\"/>\n"
+"</div>\n"
+"\n"
+"<div>\n"
+"    <h:commandButton value=\"Login\" action=\"#{identity.login}\"/>\n"
+"</div>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:232
+#, no-c-format
+msgid ""
+"Similarly, logging out the user is done by calling <literal>#{identity."
+"logout}</literal>. Calling this action will clear the security state of the "
+"currently authenticated user."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:240
+#, no-c-format
+msgid "Simplified Configuration - Summary"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:241
+#, no-c-format
+msgid ""
+"So to sum up, there are the three easy steps to configure authentication:"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:247
+#, no-c-format
+msgid ""
+"Configure an authentication method in <literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:252
+#, no-c-format
+msgid "Write an authentication method."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:257
+#, no-c-format
+msgid "Write a login form so that the user can authenticate."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:266
+#, no-c-format
+msgid "Handling Security Exceptions"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:268
+#, no-c-format
+msgid ""
+"To prevent users from receiving the default error page in response to a "
+"security error, it's recommended that <literal>pages.xml</literal> is "
+"configured to redirect security errors to a more \"pretty\" page. The two "
+"main types of exceptions thrown by the security API are:"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:276
+#, no-c-format
+msgid ""
+"<literal>NotLoggedInException</literal> - This exception is thrown if the "
+"user attempts to access a restricted action or page when they are not logged "
+"in."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:282
+#, no-c-format
+msgid ""
+"<literal>AuthorizationException</literal> - This exception is only thrown if "
+"the user is already logged in, and they have attempted to access a "
+"restricted action or page for which they do not have the necessary "
+"privileges."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:290
+#, no-c-format
+msgid ""
+"In the case of a <literal>NotLoggedInException</literal>, it is recommended "
+"that the user is redirected to either a login or registration page so that "
+"they can log in. For an <literal>AuthorizationException</literal>, it may be "
+"useful to redirect the user to an error page. Here's an example of a "
+"<literal>pages.xml</literal> file that redirects both of these security "
+"exceptions:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:297
+#, no-c-format
+msgid ""
+"<![CDATA[<pages>\n"
+"\n"
+"    ...\n"
+"\n"
+"    <exception class=\"org.jboss.seam.security.NotLoggedInException\">\n"
+"        <redirect view-id=\"/login.xhtml\">\n"
+"            <message>You must be logged in to perform this action</message>\n"
+"        </redirect>\n"
+"    </exception>\n"
+"\n"
+"    <exception class=\"org.jboss.seam.security.AuthorizationException\">\n"
+"        <end-conversation/>\n"
+"        <redirect view-id=\"/security_error.xhtml\">\n"
+"            <message>You do not have the necessary security privileges to "
+"perform this action.</message>\n"
+"        </redirect>\n"
+"    </exception>\n"
+"\n"
+"</pages>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:299
+#, no-c-format
+msgid ""
+"Most web applications require even more sophisticated handling of login "
+"redirection, so Seam includes some special functionality for handling this "
+"problem."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:307
+#, no-c-format
+msgid "Login Redirection"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:309
+#, no-c-format
+msgid ""
+"You can ask Seam to redirect the user to a login screen when an "
+"unauthenticated user tries to access a particular view (or wildcarded view "
+"id) as follows:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:314
+#, no-c-format
+msgid ""
+"<![CDATA[<pages login-view-id=\"/login.xhtml\">\n"
+"\n"
+"    <page view-id=\"/members/*\" login-required=\"true\"/>\n"
+"\n"
+"    ...\n"
+"\n"
+"</pages>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:316
+#, no-c-format
+msgid ""
+"(This is less of a blunt instrument than the exception handler shown above, "
+"but should probably be used in conjunction with it.)"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:321
+#, no-c-format
+msgid ""
+"After the user logs in, we want to automatically send them back where they "
+"came from, so they can retry the action that required logging in. If you add "
+"the following event listeners to <literal>components.xml</literal>, attempts "
+"to access a restricted view while not logged in will be remembered, so that "
+"upon the user successfully logging in they will be redirected to the "
+"originally requested view, with any page parameters that existed in the "
+"original request."
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:330
+#, no-c-format
+msgid ""
+"<![CDATA[<event type=\"org.jboss.seam.security.notLoggedIn\">\n"
+"    <action execute=\"#{redirect.captureCurrentView}\"/>\n"
+"</event>\n"
+"\n"
+"<event type=\"org.jboss.seam.security.postAuthenticate\">\n"
+"    <action execute=\"#{redirect.returnToCapturedView}\"/>\n"
+"</event>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:332
+#, no-c-format
+msgid ""
+"Note that login redirection is implemented as a conversation-scoped "
+"mechanism, so don't end the conversation in your <literal>authenticate()</"
+"literal> method."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:340
+#, no-c-format
+msgid "HTTP Authentication"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:342
+#, no-c-format
+msgid ""
+"Although not recommended for use unless absolutely necessary, Seam provides "
+"means for authenticating using either HTTP Basic or HTTP Digest (RFC 2617) "
+"methods. To use either form of authentication, the <literal>authentication-"
+"filter</literal> component must be enabled in components.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:348
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"  <web:authentication-filter url-pattern=\"*.seam\" auth-type=\"basic\"/>\n"
+"      ]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:350
+#, no-c-format
+msgid ""
+"To enable the filter for basic authentication, set <literal>auth-type</"
+"literal> to <literal>basic</literal>, or for digest authentication, set it "
+"to <literal>digest</literal>. If using digest authentication, the "
+"<literal>key</literal> and <literal>realm</literal> must also be set:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:356
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"  <web:authentication-filter url-pattern=\"*.seam\" auth-type=\"digest\" key="
+"\"AA3JK34aSDlkj\" realm=\"My App\"/>\n"
+"      ]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:358
+#, no-c-format
+msgid ""
+"The <literal>key</literal> can be any String value. The <literal>realm</"
+"literal> is the name of the authentication realm that is presented to the "
+"user when they authenticate."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:364
+#, no-c-format
+msgid "Writing a Digest Authenticator"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:366
+#, no-c-format
+msgid ""
+"If using digest authentication, your authenticator class should extend the "
+"abstract class <literal>org.jboss.seam.security.digest.DigestAuthenticator</"
+"literal>, and use the <literal>validatePassword()</literal> method to "
+"validate the user's plain text password against the digest request. Here is "
+"an example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:373
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"   public boolean authenticate()\n"
+"   {\n"
+"      try\n"
+"      {\n"
+"         User user = (User) entityManager.createQuery(\n"
+"            \"from User where username = :username\")\n"
+"            .setParameter(\"username\", identity.getUsername())\n"
+"            .getSingleResult();\n"
+"\n"
+"         return validatePassword(user.getPassword());\n"
+"      }\n"
+"      catch (NoResultException ex)\n"
+"      {\n"
+"         return false;\n"
+"      }\n"
+"   }\n"
+"        ]]>"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:379
+#, no-c-format
+msgid "Advanced Authentication Features"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:381
+#, no-c-format
+msgid ""
+"This section explores some of the advanced features provided by the security "
+"API for addressing more complex security requirements."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:387
+#, no-c-format
+msgid "Using your container's JAAS configuration"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:389
+#, no-c-format
+msgid ""
+"If you would rather not use the simplified JAAS configuration provided by "
+"the Seam Security API, you may instead delegate to the default system JAAS "
+"configuration by providing a <literal>jaas-config-name</literal> property in "
+"<literal>components.xml</literal>. For example, if you are using JBoss AS "
+"and wish to use the <literal>other</literal> policy (which uses the "
+"<literal>UsersRolesLoginModule</literal> login module provided by JBoss AS), "
+"then the entry in <literal>components.xml</literal> would look like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:397
+#, no-c-format
+msgid "<![CDATA[<security:identity jaas-config-name=\"other\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:399
+#, no-c-format
+msgid ""
+"Please keep in mind that doing this does not mean that your user will be "
+"authenticated in whichever container your Seam application is deployed in. "
+"It merely instructs Seam Security to authenticate itself using the "
+"configured JAAS security policy."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:411
+#, no-c-format
+msgid "Error Messages"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:413
+#, no-c-format
+msgid ""
+"The security API produces a number of default faces messages for various "
+"security-related events. The following table lists the message keys that can "
+"be used to override these messages by specifying them in a <literal>message."
+"properties</literal> resource file. To suppress the message, just put the "
+"key with an empty value in the resource file."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:421
+#, no-c-format
+msgid "Security Message Keys"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:430
+#, no-c-format
+msgid "Message Key"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:433 Security.xml:1143
+#, no-c-format
+msgid "Description"
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:443
+#, no-c-format
+msgid "org.jboss.seam.loginSuccessful"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:447
+#, no-c-format
+msgid ""
+"This message is produced when a user successfully logs in via the security "
+"API."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:455
+#, no-c-format
+msgid "org.jboss.seam.loginFailed"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:459
+#, no-c-format
+msgid ""
+"This message is produced when the login process fails, either because the "
+"user provided an incorrect username or password, or because authentication "
+"failed in some other way."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:468
+#, no-c-format
+msgid "org.jboss.seam.NotLoggedIn"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:472
+#, no-c-format
+msgid ""
+"This message is produced when a user attempts to perform an action or access "
+"a page that requires a security check, and the user is not currently "
+"authenticated."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:481
+#, no-c-format
+msgid "org.jboss.seam.AlreadyLoggedIn"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:485
+#, no-c-format
+msgid ""
+"This message is produced when a user that is already authenticated attempts "
+"to log in again."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:496
+#, no-c-format
+msgid "Authorization"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:498
+#, no-c-format
+msgid ""
+"There are a number of authorization features provided by the Seam Security "
+"API for securing access to components, component methods, and pages. This "
+"section describes each of these. An important thing to note is that if you "
+"wish to use any of the advanced features (such as rule-based permissions) "
+"then your <literal>components.xml</literal> must be configured to support "
+"this - see the Configuration section above."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:507
+#, no-c-format
+msgid "Core concepts"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:509
+#, no-c-format
+msgid ""
+"Each of the authorization mechanisms provided by the Seam Security API are "
+"built upon the concept of a user being granted roles and/or permissions. A "
+"role is a <emphasis>group</emphasis>, or <emphasis>type</emphasis>, of user "
+"that may have been granted certain privileges for performing one or more "
+"specific actions within an application. A permission on the other hand is a "
+"privilege (sometimes once-off) for performing a single, specific action. It "
+"is entirely possible to build an application using nothing but permissions, "
+"however roles offer a higher level of convenience when granting privileges "
+"to groups of users."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:518
+#, no-c-format
+msgid ""
+"Roles are simple, consisting of only a name such as \"admin\", \"user\", "
+"\"customer\", etc. Permissions consist of both a name and an action, and are "
+"represented within this documentation in the form <literal>name:action</"
+"literal>, for example <literal>customer:delete</literal>, or "
+"<literal>customer:insert</literal>."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:527
+#, no-c-format
+msgid "Securing components"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:529
+#, no-c-format
+msgid ""
+"Let's start by examining the simplest form of authorization, component "
+"security, starting with the <literal>@Restrict</literal> annotation."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:535
+#, no-c-format
+msgid "The @Restrict annotation"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:537
+#, no-c-format
+msgid ""
+"Seam components may be secured either at the method or the class level, "
+"using the <literal>@Restrict</literal> annotation. If both a method and it's "
+"declaring class are annotated with <literal>@Restrict</literal>, the method "
+"restriction will take precedence (and the class restriction will not apply). "
+"If a method invocation fails a security check, then an exception will be "
+"thrown as per the contract for <literal>Identity.checkRestriction()</"
+"literal> (see Inline Restrictions). A <literal>@Restrict</literal> on just "
+"the component class itself is equivalent to adding <literal>@Restrict</"
+"literal> to each of its methods."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:547
+#, no-c-format
+msgid ""
+"An empty <literal>@Restrict</literal> implies a permission check of "
+"<literal>componentName:methodName</literal>. Take for example the following "
+"component method:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:552
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"account\")\n"
+"public class AccountAction {\n"
+"    @Restrict public void delete() {\n"
+"      ...\n"
+"    }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:554
+#, no-c-format
+msgid ""
+"In this example, the implied permission required to call the <literal>delete"
+"()</literal> method is <literal>account:delete</literal>. The equivalent of "
+"this would be to write <literal>@Restrict(\"#{s:hasPermission"
+"('account','delete',null)}\")</literal>. Now let's look at another example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:561
+#, no-c-format
+msgid ""
+"<![CDATA[@Restrict @Name(\"account\")\n"
+"public class AccountAction {\n"
+"    public void insert() {\n"
+"      ...\n"
+"    }\n"
+"    @Restrict(\"#{s:hasRole('admin')}\")\n"
+"    public void delete() {\n"
+"      ...\n"
+"    }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:563
+#, no-c-format
+msgid ""
+"This time, the component class itself is annotated with <literal>@Restrict</"
+"literal>. This means that any methods without an overriding "
+"<literal>@Restrict</literal> annotation require an implicit permission "
+"check. In the case of this example, the <literal>insert()</literal> method "
+"requires a permission of <literal>account:insert</literal>, while the "
+"<literal>delete()</literal> method requires that the user is a member of the "
+"<literal>admin</literal> role."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:571
+#, no-c-format
+msgid ""
+"Before we go any further, let's address the <literal>#{s:hasRole()}</"
+"literal> expression seen in the above example. Both <literal>s:hasRole</"
+"literal> and <literal>s:hasPermission</literal> are EL functions, which "
+"delegate to the correspondingly named methods of the <literal>Identity</"
+"literal> class. These functions can be used within any EL expression "
+"throughout the entirety of the security API."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:578
+#, no-c-format
+msgid ""
+"Being an EL expression, the value of the <literal>@Restrict</literal> "
+"annotation may reference any objects that exist within a Seam context. This "
+"is extremely useful when performing permission checks for a specific object "
+"instance. Look at this example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:584
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"account\")\n"
+"public class AccountAction {\n"
+"    @In Account selectedAccount;\n"
+"    @Restrict(\"#{s:hasPermission('account','modify',selectedAccount)}\")\n"
+"    public void modify() {\n"
+"        selectedAccount.modify();\n"
+"    }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:586
+#, no-c-format
+msgid ""
+"The interesting thing to note from this example is the reference to "
+"<literal>selectedAccount</literal> seen within the <literal>hasPermission()</"
+"literal> function call. The value of this variable will be looked up from "
+"within the Seam context, and passed to the <literal>hasPermission()</"
+"literal> method in <literal>Identity</literal>, which in this case can then "
+"determine if the user has the required permission for modifying the "
+"specified <literal>Account</literal> object."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:596
+#, no-c-format
+msgid "Inline restrictions"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:597
+#, no-c-format
+msgid ""
+"Sometimes it might be desirable to perform a security check in code, without "
+"using the <literal>@Restrict</literal> annotation. In this situation, simply "
+"use <literal>Identity.checkRestriction()</literal> to evaluate a security "
+"expression, like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:603
+#, no-c-format
+msgid ""
+"<![CDATA[public void deleteCustomer() {\n"
+"    Identity.instance().checkRestriction(\"#{s:hasPermission"
+"('customer','delete',selectedCustomer)}\");\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:605
+#, no-c-format
+msgid ""
+"If the expression specified doesn't evaluate to <literal>true</literal>, "
+"either"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:611
+#, no-c-format
+msgid ""
+"if the user is not logged in, a <literal>NotLoggedInException</literal> "
+"exception is thrown or"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:617
+#, no-c-format
+msgid ""
+"if the user is logged in, an <literal>AuthorizationException</literal> "
+"exception is thrown."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:624
+#, no-c-format
+msgid ""
+"It is also possible to call the <literal>hasRole()</literal> and "
+"<literal>hasPermission()</literal> methods directly from Java code:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:629
+#, no-c-format
+msgid ""
+"<![CDATA[if (!Identity.instance().hasRole(\"admin\"))\n"
+"     throw new AuthorizationException(\"Must be admin to perform this action"
+"\");\n"
+"\n"
+"if (!Identity.instance().hasPermission(\"customer\", \"create\", null))\n"
+"     throw new AuthorizationException(\"You may not create new customers"
+"\");]]>"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:635
+#, no-c-format
+msgid "Security in the user interface"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:637
+#, no-c-format
+msgid ""
+"One indication of a well designed user interface is that the user is not "
+"presented with options for which they don't have the necessary privileges to "
+"use. Seam Security allows conditional rendering of either 1) sections of a "
+"page or 2) individual controls, based upon the privileges of the user, using "
+"the very same EL expressions that are used for component security."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:644
+#, no-c-format
+msgid ""
+"Let's take a look at some examples of interface security. First of all, "
+"let's pretend that we have a login form that should only be rendered if the "
+"user is not already logged in. Using the <literal>identity.isLoggedIn()</"
+"literal> property, we can write this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:650
+#, no-c-format
+msgid ""
+"<![CDATA[<h:form class=\"loginForm\" rendered=\"#{not identity.loggedIn}\">]]"
+">"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:652
+#, no-c-format
+msgid ""
+"If the user isn't logged in, then the login form will be rendered - very "
+"straight forward so far. Now let's pretend there is a menu on the page that "
+"contains some actions which should only be accessible to users in the "
+"<literal>manager</literal> role. Here's one way that these could be written:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:658
+#, no-c-format
+msgid ""
+"<![CDATA[<h:outputLink action=\"#{reports.listManagerReports}\" rendered=\"#"
+"{s:hasRole('manager')}\">\n"
+"    Manager Reports\n"
+"</h:outputLink>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:660
+#, no-c-format
+msgid ""
+"This is also quite straight forward. If the user is not a member of the "
+"<literal>manager</literal> role, then the outputLink will not be rendered. "
+"The <literal>rendered</literal> attribute can generally be used on the "
+"control itself, or on a surrounding <literal>&lt;s:div&gt;</literal> or "
+"<literal>&lt;s:span&gt;</literal> control."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:667
+#, no-c-format
+msgid ""
+"Now for something more complex. Let's say you have a <literal>h:dataTable</"
+"literal> control on a page listing records for which you may or may not wish "
+"to render action links depending on the user's privileges. The <literal>s:"
+"hasPermission</literal> EL function allows us to pass in an object parameter "
+"which can be used to determine whether the user has the requested permission "
+"for that object or not. Here's how a dataTable with secured links might look:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:675
+#, no-c-format
+msgid ""
+"<![CDATA[<h:dataTable value=\"#{clients}\" var=\"cl\">\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Name</f:facet>\n"
+"        #{cl.name}\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">City</f:facet>\n"
+"        #{cl.city}\n"
+"    </h:column>\n"
+"    <h:column>\n"
+"        <f:facet name=\"header\">Action</f:facet>\n"
+"        <s:link value=\"Modify Client\" action=\"#{clientAction.modify}\"\n"
+"                rendered=\"#{s:hasPermission('client','modify',cl)\"/>\n"
+"        <s:link value=\"Delete Client\" action=\"#{clientAction.delete}\"\n"
+"                rendered=\"#{s:hasPermission('client','delete',cl)\"/>\n"
+"    </h:column>\n"
+"</h:dataTable>]]>"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:680
+#, no-c-format
+msgid "Securing pages"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:681
+#, no-c-format
+msgid ""
+"Page security requires that the application is using a <literal>pages.xml</"
+"literal> file, however is extremely simple to configure. Simply include a "
+"<literal>&lt;restrict/&gt;</literal> element within the <literal>page</"
+"literal> elements that you wish to secure. If no explicit restriction is "
+"specified by the <literal>restrict</literal> element, an implied permission "
+"of <literal>/viewId.xhtml:render</literal> will be checked when the page is "
+"accessed via a non-faces (GET) request, and a permission of <literal>/viewId."
+"xhtml:restore</literal> will be required when any JSF postback (form "
+"submission) originates from the page. Otherwise, the specified restriction "
+"will be evaluated as a standard security expression. Here's a couple of "
+"examples:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:692
+#, no-c-format
+msgid ""
+"<![CDATA[<page view-id=\"/settings.xhtml\">\n"
+"    <restrict/>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:694
+#, no-c-format
+msgid ""
+"This page has an implied permission of <literal>/settings.xhtml:render</"
+"literal> required for non-faces requests and an implied permission of "
+"<literal>/settings.xhtml:restore</literal> for faces requests."
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:699
+#, no-c-format
+msgid ""
+"<![CDATA[<page view-id=\"/reports.xhtml\">\n"
+"    <restrict>#{s:hasRole('admin')}</restrict>\n"
+"</page>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:701
+#, no-c-format
+msgid ""
+"Both faces and non-faces requests to this page require that the user is a "
+"member of the <literal>admin</literal> role."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:709
+#, no-c-format
+msgid "Securing Entities"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:711
+#, no-c-format
+msgid ""
+"Seam security also makes it possible to apply security restrictions to read, "
+"insert, update and delete actions for entities."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:716
+#, no-c-format
+msgid ""
+"To secure all actions for an entity class, add a <literal>@Restrict</"
+"literal> annotation on the class itself:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:721
+#, no-c-format
+msgid ""
+"<![CDATA[@Entity\n"
+"@Name(\"customer\")\n"
+"@Restrict\n"
+"public class Customer {\n"
+"  ...\n"
+"}]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:723
+#, no-c-format
+msgid ""
+"If no expression is specified in the <literal>@Restrict</literal> "
+"annotation, the default security check that is performed is a permission "
+"check of <literal>entityName:action</literal>, where <literal>entityName</"
+"literal> is the Seam component name of the entity (or the fully-qualified "
+"class name if no @Name is specified), and the <literal>action</literal> is "
+"either <literal>read</literal>, <literal>insert</literal>, <literal>update</"
+"literal> or <literal>delete</literal>."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:731
+#, no-c-format
+msgid ""
+"It is also possible to only restrict certain actions, by placing a "
+"<literal>@Restrict</literal> annotation on the relevent entity lifecycle "
+"method (annotated as follows):"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:738
+#, no-c-format
+msgid ""
+"<literal>@PostLoad</literal> - Called after an entity instance is loaded "
+"from the database. Use this method to configure a <literal>read</literal> "
+"permission."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:744
+#, no-c-format
+msgid ""
+"<literal>@PrePersist</literal> - Called before a new instance of the entity "
+"is inserted. Use this method to configure an <literal>insert</literal> "
+"permission."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:750
+#, no-c-format
+msgid ""
+"<literal>@PreUpdate</literal> - Called before an entity is updated. Use this "
+"method to configure an <literal>update</literal> permission."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:756
+#, no-c-format
+msgid ""
+"<literal>@PreRemove</literal> - Called before an entity is deleted. Use this "
+"method to configure a <literal>delete</literal> permission."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:763
+#, no-c-format
+msgid ""
+"Here's an example of how an entity would be configured to perform a security "
+"check for any <literal>insert</literal> operations. Please note that the "
+"method is not required to do anything, the only important thing in regard to "
+"security is how it is annotated:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:769
+#, no-c-format
+msgid ""
+"<![CDATA[\n"
+"  @PrePersist @Restrict\n"
+"  public void prePersist() {}\n"
+"   ]]>"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:772
+#, no-c-format
+msgid "Using <literal>/META-INF/orm.xml</literal>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:775
+#, no-c-format
+msgid ""
+"You can also specify the call back method in <literal>/META-INF/orm.xml</"
+"literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:779
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<entity-mappings xmlns=\"http://java.sun.com/xml/ns/persistence/orm\"\n"
+"                 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"                 xsi:schemaLocation=\"http://java.sun.com/xml/ns/persistence/"
+"orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd\"\n"
+"                 version=\"1.0\">\n"
+"\n"
+"   <entity class=\"Customer\">\n"
+"      <pre-persist method-name=\"prePersist\" />\n"
+"   </entity>\n"
+"\n"
+"</entity-mappings>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:781
+#, no-c-format
+msgid ""
+"Of course, you still need to annotate the <literal>prePersist()</literal> "
+"method on <literal>Customer</literal> with <literal>@Restrict</literal>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:787
+#, no-c-format
+msgid ""
+"And here's an example of an entity permission rule that checks if the "
+"authenticated user is allowed to insert a new <literal>MemberBlog</literal> "
+"record (from the seamspace example). The entity for which the security check "
+"is being made is automatically inserted into the working memory (in this "
+"case <literal>MemberBlog</literal>):"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:793
+#, no-c-format
+msgid ""
+"<![CDATA[rule InsertMemberBlog\n"
+"  no-loop\n"
+"  activation-group \"permissions\"\n"
+"when\n"
+"  check: PermissionCheck(name == \"memberBlog\", action == \"insert\", "
+"granted == false)\n"
+"  Principal(principalName : name)\n"
+"  MemberBlog(member : member -> (member.getUsername().equals"
+"(principalName)))\n"
+"then\n"
+"  check.grant();\n"
+"end;]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:795
+#, no-c-format
+msgid ""
+"This rule will grant the permission <literal>memberBlog:insert</literal> if "
+"the currently authenticated user (indicated by the <literal>Principal</"
+"literal> fact) has the same name as the member for which the blog entry is "
+"being created. The \"<literal>principalName : name</literal>\" structure "
+"that can be seen in the <literal>Principal</literal> fact (and other places) "
+"is a variable binding - it binds the <literal>name</literal> property of the "
+"<literal>Principal</literal> to a variable called <literal>principalName</"
+"literal>. Variable bindings allow the value to be referred to in other "
+"places, such as the following line which compares the member's username to "
+"the <literal>Principal</literal> name. For more details, please refer to the "
+"JBoss Rules documentation."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:805
+#, no-c-format
+msgid ""
+"Finally, we need to install a listener class that integrates Seam security "
+"with your JPA provider."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:811
+#, no-c-format
+msgid "Entity security with JPA"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:813
+#, no-c-format
+msgid ""
+"Security checks for EJB3 entity beans are performed with an "
+"<literal>EntityListener</literal>. You can install this listener by using "
+"the following <literal>META-INF/orm.xml</literal> file:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:818
+#, no-c-format
+msgid ""
+"<![CDATA[<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+"<entity-mappings xmlns=\"http://java.sun.com/xml/ns/persistence/orm\"\n"
+"                 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"                 xsi:schemaLocation=\"http://java.sun.com/xml/ns/persistence/"
+"orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd\"\n"
+"                 version=\"1.0\">\n"
+"\n"
+"    <persistence-unit-metadata>\n"
+"        <persistence-unit-defaults>\n"
+"            <entity-listeners>\n"
+"                <entity-listener class=\"org.jboss.seam.security."
+"EntitySecurityListener\"/>\n"
+"            </entity-listeners>\n"
+"        </persistence-unit-defaults>\n"
+"    </persistence-unit-metadata>\n"
+"\n"
+"</entity-mappings>]]>"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:823
+#, no-c-format
+msgid "Entity security with a Managed Hibernate Session"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:825
+#, no-c-format
+msgid ""
+"If you are using a Hibernate <literal>SessionFactory</literal> configured "
+"via Seam, and are using annotations, or <literal>orm.xml</literal>, then you "
+"don't need to do anything special to use entity security."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:838
+#, no-c-format
+msgid "Writing Security Rules"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:840
+#, no-c-format
+msgid ""
+"Up to this point there has been a lot of mention of permissions, but no "
+"information about how permissions are actually defined or granted. This "
+"section completes the picture, by explaining how permission checks are "
+"processed, and how to implement permission checks for a Seam application."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:847
+#, no-c-format
+msgid "Permissions Overview"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:849
+#, no-c-format
+msgid ""
+"So how does the security API know whether a user has the <literal>customer:"
+"modify</literal> permission for a specific customer? Seam Security provides "
+"quite a novel method for determining user permissions, based on JBoss Rules. "
+"A couple of the advantages of using a rule engine are 1) a centralized "
+"location for the business logic that is behind each user permission, and 2) "
+"speed - JBoss Rules uses very efficient algorithms for evaluating large "
+"numbers of complex rules involving multiple conditions."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:860
+#, no-c-format
+msgid "Configuring a rules file"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:862
+#, no-c-format
+msgid ""
+"Seam Security expects to find a <literal>RuleBase</literal> component called "
+"<literal>securityRules</literal> which it uses to evaluate permission "
+"checks. This is configured in <literal>components.xml</literal> as follows:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:867
+#, no-c-format
+msgid ""
+"<![CDATA[<components xmlns=\"http://jboss.com/products/seam/components\"\n"
+"            xmlns:core=\"http://jboss.com/products/seam/core\"\n"
+"            xmlns:security=\"http://jboss.com/products/seam/security\"\n"
+"            xmlns:drools=\"http://jboss.com/products/seam/drools\"\n"
+"            xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
+"            xsi:schemaLocation=\n"
+"                \"http://jboss.com/products/seam/core http://jboss.com/"
+"products/seam/core-2.1.xsd\n"
+"                 http://jboss.com/products/seam/components http://jboss.com/"
+"products/seam/components-2.1.xsd\n"
+"                 http://jboss.com/products/seam/drools http://jboss.com/"
+"products/seam/drools-2.1.xsd\"\n"
+"                 http://jboss.com/products/seam/security http://jboss.com/"
+"products/seam/security-2.1.xsd\">\n"
+"\n"
+"   <drools:rule-base name=\"securityRules\">\n"
+"       <drools:rule-files>\n"
+"           <value>/META-INF/security.drl</value>\n"
+"       </drools:rule-files>\n"
+"   </drools:rule-base>\n"
+"\n"
+"</components>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:869
+#, no-c-format
+msgid ""
+"Once the <literal>RuleBase</literal> component is configured, it's time to "
+"write the security rules."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:875
+#, no-c-format
+msgid "Creating a security rules file"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:876
+#, no-c-format
+msgid ""
+"For this step you need to create a file called <literal>security.drl</"
+"literal> in the <literal>/META-INF</literal> directory of your application's "
+"jar file. In actual fact this file can be called anything you want, and "
+"exist in any location as long as it is configured appropriately in "
+"<literal>components.xml</literal>."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:883
+#, no-c-format
+msgid ""
+"So what should the security rules file contain? At this stage it might be a "
+"good idea to at least skim through the JBoss Rules documentation, however to "
+"get started here's an extremely simple example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:888
+#, no-c-format
+msgid ""
+"<![CDATA[package MyApplicationPermissions;\n"
+"\n"
+"import org.jboss.seam.security.PermissionCheck;\n"
+"import org.jboss.seam.security.Role;\n"
+"\n"
+"rule CanUserDeleteCustomers\n"
+"when\n"
+"  c: PermissionCheck(name == \"customer\", action == \"delete\")\n"
+"  Role(name == \"admin\")\n"
+"then\n"
+"  c.grant();\n"
+"end;]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:890
+#, no-c-format
+msgid ""
+"Let's break this down. The first thing we see is the package declaration. A "
+"package in JBoss Rules is essentially a collection of rules. The package "
+"name can be anything you want - it doesn't relate to anything else outside "
+"the scope of the rule base."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:896
+#, no-c-format
+msgid ""
+"The next thing we can notice is a couple of import statements for the "
+"<literal>PermissionCheck</literal> and <literal>Role</literal> classes. "
+"These imports inform the rules engine that we'll be referencing these "
+"classes within our rules."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:902
+#, no-c-format
+msgid ""
+"Finally we have the code for the rule. Each rule within a package should be "
+"given a unique name (usually describing the purpose of the rule). In this "
+"case our rule is called <literal>CanUserDeleteCustomers</literal> and will "
+"be used to check whether a user is allowed to delete a customer record."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:908
+#, no-c-format
+msgid ""
+"Looking at the body of the rule definition we can notice two distinct "
+"sections. Rules have what is known as a left hand side (LHS) and a right "
+"hand side (RHS). The LHS consists of the conditional part of the rule, i.e. "
+"a list of conditions which must be satisfied for the rule to fire. The LHS "
+"is represented by the <literal>when</literal> section. The RHS is the "
+"consequence, or action section of the rule that will only be fired if all of "
+"the conditions in the LHS are met. The RHS is represented by the "
+"<literal>then</literal> section. The end of the rule is denoted by the "
+"<literal>end;</literal> line."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:917
+#, no-c-format
+msgid ""
+"If we look at the LHS of the rule, we see two conditions listed there. Let's "
+"examine the first condition:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:921
+#, no-c-format
+msgid ""
+"<![CDATA[c: PermissionCheck(name == \"customer\", action == \"delete\")]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:923
+#, no-c-format
+msgid ""
+"In plain english, this condition is stating that there must exist a "
+"<literal>PermissionCheck</literal> object with a <literal>name</literal> "
+"property equal to \"customer\", and an <literal>action</literal> property "
+"equal to \"delete\" within the working memory."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:929
+#, no-c-format
+msgid ""
+"So what is the working memory? Also known as a \"stateful session\" in "
+"Drools terminology, the working memory is a session-scoped object that "
+"contains the contextual information that is required by the rules engine to "
+"make a decision about a permission check. Each time the "
+"<literal>hasPermission()</literal> method is called, a temporary "
+"<literal>PermissionCheck</literal> object, or <emphasis>Fact</emphasis>, is "
+"inserted into the working memory. This <literal>PermissionCheck</literal> "
+"corresponds exactly to the permission that is being checked, so for example "
+"if you call <literal>hasPermission(\"account\", \"create\", null)</literal> "
+"then a <literal>PermissionCheck</literal> object with a <literal>name</"
+"literal> equal to \"account\" and <literal>action</literal> equal to \"create"
+"\" will be inserted into the working memory for the duration of the "
+"permission check."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:941
+#, no-c-format
+msgid ""
+"Besides the <literal>PermissionCheck</literal> facts, there is also a "
+"<literal>org.jboss.seam.security.Role</literal> fact for each of the roles "
+"that the authenticated user is a member of. These <literal>Role</literal> "
+"facts are synchronized with the user's authenticated roles at the beginning "
+"of every permission check. As a consequence, any <literal>Role</literal> "
+"object that is inserted into the working memory during the course of a "
+"permission check will be removed before the next permission check occurs, if "
+"the authenticated user is not a member of that role. Besides the "
+"<literal>PermissionCheck</literal> and <literal>Role</literal> facts, the "
+"working memory also contains the <literal>java.security.Principal</literal> "
+"object that was created during the authentication process."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:952
+#, no-c-format
+msgid ""
+"It is also possible to insert additional long-lived facts into the working "
+"memory by calling <literal>((RuleBasedIdentity) RuleBasedIdentity.instance"
+"()).getSecurityContext().insert()</literal>, passing the object as a "
+"parameter. The exception to this is <literal>Role</literal> objects, which "
+"as already discussed are synchronized at the start of each permission check."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:959
+#, no-c-format
+msgid ""
+"Getting back to our simple example, we can also notice that the first line "
+"of our LHS is prefixed with <literal>c:</literal>. This is a variable "
+"binding, and is used to refer back to the object that is matched by the "
+"condition. Moving onto the second line of our LHS, we see this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:965
+#, no-c-format
+msgid "<![CDATA[Role(name == \"admin\")]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:967
+#, no-c-format
+msgid ""
+"This condition simply states that there must be a <literal>Role</literal> "
+"object with a <literal>name</literal> of \"admin\" within the working "
+"memory. As mentioned, user roles are inserted into the working memory at the "
+"beginning of each permission check. So, putting both conditions together, "
+"this rule is essentially saying \"I will fire if you are checking for the "
+"<literal>customer:delete</literal> permission and the user is a member of "
+"the <literal>admin</literal> role\"."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:975
+#, no-c-format
+msgid ""
+"So what is the consequence of the rule firing? Let's take a look at the RHS "
+"of the rule:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:979
+#, no-c-format
+msgid "<![CDATA[c.grant()]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:981
+#, no-c-format
+msgid ""
+"The RHS consists of Java code, and in this case is invoking the "
+"<literal>grant()</literal> method of the <literal>c</literal> object, which "
+"as already mentioned is a variable binding for the <literal>PermissionCheck</"
+"literal> object. Besides the <literal>name</literal> and <literal>action</"
+"literal> properties of the <literal>PermissionCheck</literal> object, there "
+"is also a <literal>granted</literal> property which is initially set to "
+"<literal>false</literal>. Calling <literal>grant()</literal> on a "
+"<literal>PermissionCheck</literal> sets the <literal>granted</literal> "
+"property to <literal>true</literal>, which means that the permission check "
+"was successful, allowing the user to carry out whatever action the "
+"permission check was intended for."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:994
+#, no-c-format
+msgid "Wildcard permission checks"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:996
+#, no-c-format
+msgid ""
+"It is possible to implement a wildcard permission check (which allows all "
+"actions for a given permission name), by omitting the <literal>action</"
+"literal> constraint for the <literal>PermissionCheck</literal> in your rule, "
+"like this:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1002
+#, no-c-format
+msgid ""
+"<![CDATA[rule CanDoAnythingToCustomersIfYouAreAnAdmin\n"
+"when\n"
+"  c: PermissionCheck(name == \"customer\")\n"
+"  Role(name == \"admin\")\n"
+"then\n"
+"  c.grant();\n"
+"end;\n"
+"        ]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1004
+#, no-c-format
+msgid ""
+"This rule allows users with the <literal>admin</literal> role to perform "
+"<emphasis>any</emphasis> action for any <literal>customer</literal> "
+"permission check."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:1015
+#, no-c-format
+msgid "SSL Security"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1017
+#, no-c-format
+msgid ""
+"Seam includes basic support for serving sensitive pages via the HTTPS "
+"protocol. This is easily configured by specifying a <literal>scheme</"
+"literal> for the page in <literal>pages.xml</literal>. The following example "
+"shows how the view <literal>/login.xhtml</literal> is configured to use "
+"HTTPS:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1024
+#, no-c-format
+msgid "<![CDATA[<page view-id=\"/login.xhtml\" scheme=\"https\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1026
+#, no-c-format
+msgid ""
+"This configuration is automatically extended to both <literal>s:link</"
+"literal> and <literal>s:button</literal> JSF controls, which (when "
+"specifying the <literal>view</literal>) will also render the link using the "
+"correct protocol. Based on the previous example, the following link will use "
+"the HTTPS protocol because <literal>/login.xhtml</literal> is configured to "
+"use it:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1033
+#, no-c-format
+msgid "<![CDATA[<s:link view=\"/login.xhtml\" value=\"Login\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1035
+#, no-c-format
+msgid ""
+"Browsing directly to a view when using the <emphasis>incorrect</emphasis> "
+"protocol will cause a redirect to the same view using the <emphasis>correct</"
+"emphasis> protocol. For example, browsing to a page that has <literal>scheme="
+"\"https\"</literal> using HTTP will cause a redirect to the same page using "
+"HTTPS."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1042
+#, no-c-format
+msgid ""
+"It is also possible to configure a <emphasis>default scheme</emphasis> for "
+"all pages. This is useful if you wish to use HTTPS for a only few pages. If "
+"no default scheme is specified then the normal behavior is to continue use "
+"the current scheme. So once the user accessed a page that required HTTPS, "
+"then HTTPS would continue to be used after the user navigated away to other "
+"non-HTTPS pages. (While this is good for security, it is not so great for "
+"performance!). To define HTTP as the default <literal>scheme</literal>, add "
+"this line to <literal>pages.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1051
+#, no-c-format
+msgid "<![CDATA[<page view-id=\"*\" scheme=\"http\" />]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1053
+#, no-c-format
+msgid ""
+"Of course, if <emphasis>none</emphasis> of the pages in your application use "
+"HTTPS then it is not required to specify a default scheme."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1058
+#, no-c-format
+msgid ""
+"You may configure Seam to automatically invalidate the current HTTP session "
+"each time the scheme changes. Just add this line to <literal>components.xml</"
+"literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1063
+#, no-c-format
+msgid ""
+"<![CDATA[<core:servlet-session invalidate-on-scheme-change=\"true\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1065
+#, no-c-format
+msgid ""
+"This option helps make your system less vulnerable to sniffing of the "
+"session id or leakage of sensitive data from pages using HTTPS to other "
+"pages using HTTP."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:1073
+#, no-c-format
+msgid "CAPTCHA"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1075
+#, no-c-format
+msgid ""
+"Though strictly not part of the security API, Seam provides a built-in "
+"CAPTCHA (<emphasis>C</emphasis>ompletely <emphasis>A</emphasis>utomated "
+"<emphasis>P</emphasis>ublic <emphasis>T</emphasis>uring test to tell "
+"<emphasis>C</emphasis>omputers and <emphasis>H</emphasis>umans <emphasis>A</"
+"emphasis>part) algorithm to prevent automated processes from interacting "
+"with your application."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:1083
+#, no-c-format
+msgid "Configuring the CAPTCHA Servlet"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1084
+#, no-c-format
+msgid ""
+"To get up and running, it is necessary to configure the Seam Resource "
+"Servlet, which will provide the Captcha challenge images to your pages. This "
+"requires the following entry in <literal>web.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1089
+#, no-c-format
+msgid ""
+"<![CDATA[<servlet>\n"
+"    <servlet-name>Seam Resource Servlet</servlet-name>\n"
+"    <servlet-class>org.jboss.seam.servlet.SeamResourceServlet</servlet-"
+"class>\n"
+"</servlet>\n"
+"\n"
+"<servlet-mapping>\n"
+"    <servlet-name>Seam Resource Servlet</servlet-name>\n"
+"    <url-pattern>/seam/resource/*</url-pattern>\n"
+"</servlet-mapping>]]>"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:1094
+#, no-c-format
+msgid "Adding a CAPTCHA to a form"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1096
+#, no-c-format
+msgid ""
+"Adding a CAPTCHA challenge to a form is extremely easy. Here's an example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1100
+#, no-c-format
+msgid ""
+"<![CDATA[<h:graphicImage value=\"/seam/resource/captcha\"/>\n"
+"<h:inputText id=\"verifyCaptcha\" value=\"#{captcha.response}\" required="
+"\"true\">\n"
+"   <s:validate />\n"
+"</h:inputText>\n"
+"<h:message for=\"verifyCaptcha\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1102
+#, no-c-format
+msgid ""
+"That's all there is to it. The <literal>graphicImage</literal> control "
+"displays the CAPTCHA challenge, and the <literal>inputText</literal> "
+"receives the user's response. The response is automatically validated "
+"against the CAPTCHA when the form is submitted."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:1111
+#, no-c-format
+msgid "Customising the CAPTCHA algorithm"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1113
+#, no-c-format
+msgid ""
+"You may customize the CAPTCHA algorithm by overriding the built-in component:"
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1117
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"org.jboss.seam.captcha\")\n"
+"@Scope(SESSION)\n"
+"public class HitchhikersCaptcha extends Captcha\n"
+"{\n"
+"   @Override @Create\n"
+"   public void init()\n"
+"   {\n"
+"      setChallenge(\"What is the answer to life, the universe and everything?"
+"\");\n"
+"      setCorrectResponse(\"42\");\n"
+"   }\n"
+"\n"
+"   @Override\n"
+"   public BufferedImage renderChallenge()\n"
+"   {\n"
+"       BufferedImage img = super.renderChallenge();\n"
+"       img.getGraphics().drawOval(5, 3, 60, 14); //add an obscuring "
+"decoration\n"
+"       return img;\n"
+"   }\n"
+"}]]>"
+msgstr ""
+
+#. Tag: title
+#: Security.xml:1124 Security.xml:1131
+#, no-c-format
+msgid "Security Events"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1126
+#, no-c-format
+msgid ""
+"The following table describes a number of events (see <xref linkend=\"events"
+"\"/>) raised by Seam Security."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1140
+#, no-c-format
+msgid "Event Key"
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1153
+#, no-c-format
+msgid "org.jboss.seam.security.loginSuccessful"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1157
+#, no-c-format
+msgid "Raised when a login attempt is successful."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1165
+#, no-c-format
+msgid "org.jboss.seam.security.loginFailed"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1169
+#, no-c-format
+msgid "Raised when a login attempt fails."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1177
+#, no-c-format
+msgid "org.jboss.seam.security.alreadyLoggedIn"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1181
+#, no-c-format
+msgid ""
+"Raised when a user that is already authenticated attempts to log in again."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1189
+#, no-c-format
+msgid "org.jboss.seam.security.notLoggedIn"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1193
+#, no-c-format
+msgid "Raised when a security check fails when the user is not logged in."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1201
+#, no-c-format
+msgid "org.jboss.seam.security.notAuthorized"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1205
+#, no-c-format
+msgid ""
+"Raised when a security check fails when the user is logged in however "
+"doesn't have sufficient privileges."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1213
+#, no-c-format
+msgid "org.jboss.seam.security.preAuthenticate"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1217
+#, no-c-format
+msgid "Raised just prior to user authentication."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1225
+#, no-c-format
+msgid "org.jboss.seam.security.postAuthenticate"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1229
+#, no-c-format
+msgid "Raised just after user authentication."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1237
+#, no-c-format
+msgid "org.jboss.seam.security.loggedOut"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1241
+#, no-c-format
+msgid "Raised after the user has logged out."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1249
+#, no-c-format
+msgid "org.jboss.seam.security.credentialsUpdated"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1253
+#, no-c-format
+msgid "Raised when the user's credentials have been changed."
+msgstr ""
+
+#. Tag: literal
+#: Security.xml:1261
+#, no-c-format
+msgid "org.jboss.seam.security.rememberMe"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1265
+#, no-c-format
+msgid "Raised when the Identity's rememberMe property is changed."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:1278
+#, no-c-format
+msgid "Run As"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1280
+#, no-c-format
+msgid ""
+"Sometimes it may be necessary to perform certain operations with elevated "
+"privileges, such as creating a new user account as an unauthenticated user. "
+"Seam Security supports such a mechanism via the <literal>RunAsOperation</"
+"literal> class. This class allows either the <literal>Principal</literal> or "
+"<literal>Subject</literal>, or the user's roles to be overridden for a "
+"single set of operations."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1288
+#, no-c-format
+msgid ""
+"The following code example demonstrates how <literal>RunAsOperation</"
+"literal> is used, by overriding its <literal>getRoles()</literal> method to "
+"specify a set of roles to masquerade as for the duration of the operation. "
+"The <literal>execute()</literal> method contains the code that will be "
+"executed with the elevated privileges."
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1295
+#, no-c-format
+msgid ""
+"<![CDATA[    new RunAsOperation() {\n"
+"       @Override\n"
+"       public String[] getRoles() {\n"
+"          return new String[] { \"admin\" };\n"
+"       }\n"
+"       \n"
+"       public void execute() {\n"
+"          executePrivilegedOperation();\n"
+"       }         \n"
+"    }.run();]]>"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1297
+#, no-c-format
+msgid ""
+"In a similar way, the <literal>getPrincipal()</literal> or "
+"<literal>getSubject()</literal> methods can also be overriden to specify the "
+"<literal>Principal</literal> and <literal>Subject</literal> instances to use "
+"for the duration of the operation. Finally, the <literal>run()</literal> "
+"method is used to carry out the <literal>RunAsOperation</literal>."
+msgstr ""
+
+#. Tag: title
+#: Security.xml:1308
+#, no-c-format
+msgid "Extending the Identity component"
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1310
+#, no-c-format
+msgid ""
+"Sometimes it might be necessary to extend the Identity component if your "
+"application has special security requirements. For example, users might be "
+"required to authenticate using a Company or Department ID, along with their "
+"usual username and password. If permission-based security is required then "
+"RuleBasedIdentity should be extended, otherwise Identity should be extended."
+msgstr ""
+
+#. Tag: para
+#: Security.xml:1318
+#, no-c-format
+msgid ""
+"The following example shows an extended Identity component with an "
+"additional <literal>companyCode</literal> field. The install precendence of "
+"<literal>APPLICATION</literal> ensures that this extended Identity gets "
+"installed in preference to the built-in Identity."
+msgstr ""
+
+#. Tag: programlisting
+#: Security.xml:1324
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"org.jboss.seam.security.identity\")\n"
+"@Scope(SESSION)\n"
+"@Install(precedence = APPLICATION)\n"
+"@BypassInterceptors\n"
+"@Startup\n"
+"public class CustomIdentity extends Identity\n"
+"{\n"
+"   private static final LogProvider log = Logging.getLogProvider"
+"(CustomIdentity.class);\n"
+"\n"
+"   private String companyCode;\n"
+"\n"
+"   public String getCompanyCode()\n"
+"   {\n"
+"      return companyCode;\n"
+"   }\n"
+"\n"
+"   public void setCompanyCode(String companyCode)\n"
+"   {\n"
+"      this.companyCode = companyCode;\n"
+"   }\n"
+"\n"
+"   @Override\n"
+"   public String login()\n"
+"   {\n"
+"      log.info(\"###### CUSTOM LOGIN CALLED ######\");\n"
+"      return super.login();\n"
+"   }\n"
+"}]]>"
+msgstr ""

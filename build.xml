@@ -49,7 +49,7 @@
 	<!-- Documentation -->
 	<property name="doc.dir" value="doc" />
 	<property name="doc.api.dir" value="${doc.dir}/api" />
-	<property name="doc.ref.dir" value="${doc.dir}/reference" />
+	<property name="doc.ref.dir" value="${doc.dir}/Seam_Reference_Guide" />
 	<property name="javadoc.link" value="http://java.sun.com/j2se/5.0/docs/api" />
 
 	<!-- Distribution targets -->
@@ -623,17 +623,21 @@
 
 	</target>
 
-	<target name="refdoc" description="Generate and copy reference documentation">
-
-		<copy todir="${doc.ref.dir}/build">
-			<fileset dir="${doc.ref.dir}" />
-		</copy>
-		<replace dir="${doc.ref.dir}/build" token="@version@" value="${complete.version}" />
-		<ant dir="${doc.ref.dir}/build" inheritall="false" target="all.doc" />
+	<target name="refdoc" description="Generate and copy reference documentation" depends="initpoms">
+		<condition property="maven.build.translations" value="-Dbuild.translations" else="">
+			<isset property="build.translations"/>
+		</condition>
+		<echo file="${doc.ref.dir}/en-US/Version_Info.xml">
+			&lt;releaseinfo&gt;${complete.version}&lt;/releaseinfo&gt;
+		</echo>
+		<copy file="${docs.pom}" tofile="${doc.ref.dir}/pom.xml" overwrite="true"/>
+		<maven target="compile" basedir="${doc.ref.dir}">
+			<jvmarg line="-Xms128m -Xmx512m" />
+			<arg line="${maven.build.translations}" />
+		</maven>
 		<copy todir="${dist.ref.dir}">
-			<fileset dir="${doc.ref.dir}/build/build" />
+			<fileset dir="${doc.ref.dir}/target/docbook/publish" />
 		</copy>
-		<delete dir="${doc.ref.dir}/build" />
 	</target>
 
 

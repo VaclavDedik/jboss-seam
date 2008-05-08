@@ -1,0 +1,77 @@
+<?xml version="1.0" standalone="no"?>
+<authorgroup>
+   <author>
+      <firstname>Gavin</firstname>
+      <surname>King</surname>
+      <affiliation>
+         <shortaffil>Project Lead</shortaffil>              
+      </affiliation>
+   </author>
+   <author>
+      <firstname>Pete</firstname>
+      <surname>Muir</surname>
+   </author>
+   <author>
+      <firstname>Norman</firstname>
+      <surname>Richards</surname>
+   </author>
+   <author>
+      <firstname>Shane</firstname>
+      <surname>Bryzak</surname>
+   </author>
+   <author>
+      <firstname>Michael</firstname>
+      <surname>Yuan</surname>
+   </author>
+   <author>
+      <firstname>Mike</firstname>
+      <surname>Youngstrom</surname>
+   </author>
+   <author>
+      <firstname>Christian</firstname>
+      <surname>Bauer</surname>
+   </author>
+   <author>
+      <firstname>Jay</firstname>
+      <surname>Balunas</surname>
+   </author>
+   <author>
+      <firstname>Dan</firstname>
+      <surname>Allen</surname>
+   </author>
+   <author>
+      <firstname>Max</firstname>
+      <othername>Rydahl</othername>
+      <surname>Andersen</surname>
+   </author>
+   <author>
+      <firstname>Emmanuel</firstname>
+      <surname>Bernard</surname>
+   </author>
+   <othercredit>
+      <firstname>James</firstname>
+      <surname>Cobb</surname>
+      <affiliation>
+         <shortaffil>Graphic Design</shortaffil>
+      </affiliation>
+   </othercredit>
+   <othercredit>
+      <firstname>Cheyenne</firstname>
+      <surname>Weaver</surname>
+      <affiliation>
+         <shortaffil>Graphic Design</shortaffil>
+      </affiliation>
+   </othercredit>
+   <othercredit>
+      <firstname>Mark</firstname>
+      <surname>Newton</surname>
+   </othercredit>
+   <othercredit>
+      <firstname>Steve</firstname>
+      <surname>Ebersole</surname>
+   </othercredit>
+   <editor>
+      <firstname>Samson</firstname>
+      <surname>Kittoli</surname>
+   </editor>
+</authorgroup>

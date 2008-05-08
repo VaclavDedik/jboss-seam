@@ -1,0 +1,1441 @@
+# Language es-ES translations for PACKAGE package.
+# Automatically generated, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://bugs.kde.org\n"
+"POT-Creation-Date: 2008-05-03 11:34+0000\n"
+"PO-Revision-Date: 2008-04-04 01:24+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. Tag: title
+#: Controls.xml:5
+#, no-c-format
+msgid "Seam JSF controls"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:6
+#, no-c-format
+msgid ""
+"Seam includes a number of JSF controls that are useful for working with "
+"Seam. These are intended to complement the built-in JSF controls, and "
+"controls from other third-party libraries. We recommend JBoss RichFaces, and "
+"Apache MyFaces Trinidad tag libraries for use with Seam. We do not recommend "
+"the use of the Tomahawk tag library."
+msgstr ""
+
+#. Tag: title
+#: Controls.xml:15
+#, no-c-format
+msgid "Tags"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:17
+#, no-c-format
+msgid ""
+"To use these tags, define the \"<literal>s</literal>\" namespace in your "
+"page as follows (facelets only):"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:22
+#, no-c-format
+msgid ""
+"<![CDATA[<html xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"      xmlns:s=\"http://jboss.com/products/seam/taglib\">]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:24
+#, no-c-format
+msgid "The ui example demonstrates the use of a number of these tags."
+msgstr ""
+
+#. Tag: title
+#: Controls.xml:29
+#, no-c-format
+msgid "Navigation Controls"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:32
+#, no-c-format
+msgid "&lt;s:button&gt;"
+msgstr ""
+
+#. Tag: emphasis
+#: Controls.xml:34 Controls.xml:105 Controls.xml:122 Controls.xml:138
+#: Controls.xml:206 Controls.xml:241 Controls.xml:275 Controls.xml:289
+#: Controls.xml:342 Controls.xml:358 Controls.xml:376 Controls.xml:400
+#: Controls.xml:432 Controls.xml:449 Controls.xml:467 Controls.xml:486
+#: Controls.xml:514 Controls.xml:537 Controls.xml:551 Controls.xml:591
+#: Controls.xml:619 Controls.xml:691 Controls.xml:730 Controls.xml:831
+#: Controls.xml:963
+#, no-c-format
+msgid "Description"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:36
+#, no-c-format
+msgid ""
+"A button that supports invocation of an action with control over "
+"conversation propagation. <emphasis>Does not submit the form.</emphasis>"
+msgstr ""
+
+#. Tag: emphasis
+#: Controls.xml:41 Controls.xml:113 Controls.xml:128 Controls.xml:145
+#: Controls.xml:212 Controls.xml:259 Controls.xml:278 Controls.xml:301
+#: Controls.xml:348 Controls.xml:364 Controls.xml:382 Controls.xml:406
+#: Controls.xml:437 Controls.xml:454 Controls.xml:473 Controls.xml:493
+#: Controls.xml:519 Controls.xml:542 Controls.xml:558 Controls.xml:596
+#: Controls.xml:624 Controls.xml:698 Controls.xml:775 Controls.xml:842
+#: Controls.xml:968
+#, no-c-format
+msgid "Attributes"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:45 Controls.xml:148
+#, no-c-format
+msgid "<literal>value</literal> &#8212; the label."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:50 Controls.xml:153
+#, no-c-format
+msgid ""
+"<literal>action</literal> &#8212; a method binding that specified the action "
+"listener."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:57 Controls.xml:159
+#, no-c-format
+msgid "<literal>view</literal> &#8212; the JSF view id to link to."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:62 Controls.xml:164
+#, no-c-format
+msgid "<literal>fragment</literal> &#8212; the fragment identifier to link to."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:68 Controls.xml:170
+#, no-c-format
+msgid "<literal>disabled</literal> &#8212; is the link disabled?"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:73 Controls.xml:175
+#, no-c-format
+msgid ""
+"<literal>propagation</literal> &#8212; determines the conversation "
+"propagation style: <literal>begin</literal>, <literal>join</literal>, "
+"<literal>nest</literal>, <literal>none</literal> or <literal>end</literal>."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:81
+#, no-c-format
+msgid ""
+"<literal>pageflow</literal> &#8212; a pageflow definition to begin. (This is "
+"only useful when <literal>propagation=\"begin\"</literal> or "
+"<literal>propagation=\"join\"</literal> is used)."
+msgstr ""
+
+#. Tag: emphasis
+#: Controls.xml:90 Controls.xml:192 Controls.xml:231 Controls.xml:263
+#: Controls.xml:281 Controls.xml:335 Controls.xml:351 Controls.xml:369
+#: Controls.xml:387 Controls.xml:424 Controls.xml:442 Controls.xml:459
+#: Controls.xml:478 Controls.xml:507 Controls.xml:524 Controls.xml:568
+#: Controls.xml:612 Controls.xml:679 Controls.xml:722 Controls.xml:823
+#: Controls.xml:956 Controls.xml:980
+#, no-c-format
+msgid "Usage"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:92
+#, no-c-format
+msgid ""
+"<![CDATA[<s:button id=\"cancel\" \n"
+"          value=\"Cancel\" \n"
+"          action=\"#{hotelBooking.cancel}\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:93
+#, no-c-format
+msgid ""
+"You can specify both <literal>view</literal> and <literal>action</literal> "
+"on <literal>&lt;s:link /&gt;</literal>. In this case, the action wil be "
+"called once the redirect to the specified view has occured."
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:103
+#, no-c-format
+msgid "&lt;s:conversationId&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:107
+#, no-c-format
+msgid ""
+"Add the conversation id to JSF link or button (e.g. <literal>&lt;h:"
+"commandLink /&gt;</literal> , <literal>&lt;s:button /&gt;</literal>)."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:115
+#, no-c-format
+msgid "None"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:120
+#, no-c-format
+msgid "&lt;s:taskId&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:123
+#, no-c-format
+msgid ""
+"Add the task id to an output link (or similar JSF control), when the task is "
+"available via <literal>#{task}</literal>."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:129 Controls.xml:261 Controls.xml:279 Controls.xml:302
+#: Controls.xml:349 Controls.xml:365 Controls.xml:383 Controls.xml:438
+#: Controls.xml:455 Controls.xml:474 Controls.xml:520 Controls.xml:543
+#, no-c-format
+msgid "None."
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:136
+#, no-c-format
+msgid "&lt;s:link&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:139
+#, no-c-format
+msgid ""
+"A link that supports invocation of an action with control over conversation "
+"propagation. <emphasis>Does not submit the form.</emphasis>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:183 Controls.xml:223
+#, no-c-format
+msgid ""
+"<literal>pageflow</literal> &#8212; a pageflow definition to begin. (This is "
+"only useful when using <literal>propagation=\"begin\"</literal> or "
+"<literal>propagation=\"join\"</literal>.)"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:193
+#, no-c-format
+msgid ""
+"<![CDATA[<s:link id=\"register\" view=\"/register.xhtml\" \n"
+"        value=\"Register New User\"/>]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:194
+#, no-c-format
+msgid ""
+"You can specify both <literal>view</literal> and <literal>action</literal> "
+"on <literal>&lt;s:link /&gt;</literal>. In this case, the action will be "
+"called once the redirect to the specified view has occured."
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:204
+#, no-c-format
+msgid "&lt;s:conversationPropagation&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:207
+#, no-c-format
+msgid ""
+"Customize the conversation propagation for a command link or button (or "
+"similar JSF control). <emphasis>Facelets only.</emphasis>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:215
+#, no-c-format
+msgid ""
+"<literal>type</literal> &#8212; determines the conversation propagation "
+"style: <literal>begin</literal>, <literal>join</literal>, <literal>nest</"
+"literal>, <literal>none</literal> or <literal>end</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:232
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandButton value=\"Apply\" action=\"#{personHome.update}\">\n"
+"   <s:conversationPropagation type=\"join\" />\n"
+"</h:commandButton>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:237
+#, no-c-format
+msgid "&lt;s:defaultAction&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:243
+#, no-c-format
+msgid ""
+"Specify the default action to run when the form is submitted using the enter "
+"key."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:247
+#, no-c-format
+msgid ""
+"Currently you can only nest it inside buttons (e.g. <literal>&lt;h:"
+"commandButton /&gt;</literal>, <literal>&lt;a:commandButton /&gt;</literal> "
+"or <literal>&lt;tr:commandButton /&gt;</literal>)."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:253
+#, no-c-format
+msgid ""
+"You must specify an id on the action source. You can only have one default "
+"action per form."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:264
+#, no-c-format
+msgid ""
+"<![CDATA[<h:commandButton id=\"foo\" value=\"Foo\" action=\"#{manager.foo}"
+"\">\n"
+"   <s:defaultAction />\n"
+"</h:commandButton>]]>"
+msgstr ""
+
+#. Tag: title
+#: Controls.xml:270
+#, no-c-format
+msgid "Converters and Validators"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:273
+#, no-c-format
+msgid "&lt;s:convertDateTime&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:276
+#, no-c-format
+msgid "Perform date or time conversions in the Seam timezone."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:282
+#, no-c-format
+msgid ""
+"<![CDATA[<h:outputText value=\"#{item.orderDate}\">\n"
+"   <s:convertDateTime type=\"both\" dateStyle=\"full\"/>\n"
+"</h:outputText>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:287
+#, no-c-format
+msgid "&lt;s:convertEntity&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:290
+#, no-c-format
+msgid ""
+"Assigns an entity converter to the current component. This is primarily "
+"useful for radio button and dropdown controls."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:295
+#, no-c-format
+msgid ""
+"The converter works with any managed entity which has an <literal>@Id</"
+"literal> annotation - either simple or composite."
+msgstr ""
+
+#. Tag: emphasis
+#: Controls.xml:304 Controls.xml:746
+#, no-c-format
+msgid "Configuration"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:306
+#, no-c-format
+msgid ""
+"You must use <emphasis>Seam managed transactions</emphasis> (see <xref "
+"linkend=\"persistence.seam-managed-transactions\"/>) with <literal>&lt;s:"
+"convertEntity /&gt;</literal>."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:312
+#, no-c-format
+msgid ""
+"If your <emphasis>Managed Persistence Context</emphasis> isn't called "
+"<literal>entityManager</literal>, then you need to set it in components.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:317
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"org.jboss.seam.ui.EntityConverter\">\n"
+"   <property name=\"entityManager\">#{em}</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:319
+#, no-c-format
+msgid ""
+"If you are using a <emphasis>Managed Hibernate Session</emphasis> then you "
+"need to set it in components.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:323
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"org.jboss.seam.ui.EntityConverter\">\n"
+"   <property name=\"session\">#{hibernateSession}</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:325
+#, no-c-format
+msgid ""
+"If you want to use more than one entity manager with the entity converter, "
+"you can create a copy of the entity converter for each entity manager in "
+"components.xml:"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:331
+#, no-c-format
+msgid ""
+"<![CDATA[<component name=\"myEntityConverter\" class=\"org.jboss.seam.ui."
+"converter.EntityConverter\">\n"
+"   <property name=\"entityManager\">#{em}</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:333
+#, no-c-format
+msgid ""
+"<![CDATA[<h:selectOneMenu value=\"#{person.continent}\">\n"
+"   <s:selectItems value=\"#{continents.resultList}\" var=\"continent\" \n"
+"                  label=\"#{continent.name}\" />\n"
+"   <f:converter converterId=\"myEntityConverter\" />\n"
+"</h:selectOneMenu>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:336
+#, no-c-format
+msgid ""
+"<![CDATA[<h:selectOneMenu value=\"#{person.continent}\" required=\"true\">\n"
+"   <s:selectItems value=\"#{continents.resultList}\" var=\"continent\" \n"
+"                  label=\"#{continent.name}\" \n"
+"                  noSelectionLabel=\"Please Select...\"/>\n"
+"   <s:convertEntity />\n"
+"</h:selectOneMenu>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:340
+#, no-c-format
+msgid "&lt;s:convertEnum&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:343
+#, no-c-format
+msgid ""
+"Assigns an enum converter to the current component. This is primarily useful "
+"for radio button and dropdown controls."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:352
+#, no-c-format
+msgid ""
+"<![CDATA[<h:selectOneMenu value=\"#{person.honorific}\">\n"
+"   <s:selectItems value=\"#{honorifics}\" var=\"honorific\" \n"
+"                 label=\"#{honorific.label}\"\n"
+"                 noSelectionLabel=\"Please select\" />\n"
+"   <s:convertEnum />\n"
+"</h:selectOneMenu>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:356
+#, no-c-format
+msgid "&lt;s:validate&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:359
+#, no-c-format
+msgid ""
+"A non-visual control, validates a JSF input field against the bound property "
+"using Hibernate Validator."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:370
+#, no-c-format
+msgid ""
+"<![CDATA[<h:inputText id=\"userName\" required=\"true\" \n"
+"             value=\"#{customer.userName}\">\n"
+"  <s:validate />\n"
+"</h:inputText>\n"
+"<h:message for=\"userName\" styleClass=\"error\" />]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:374
+#, no-c-format
+msgid "&lt;s:validateAll&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:377
+#, no-c-format
+msgid ""
+"A non-visual control, validates all child JSF input fields against their "
+"bound properties using Hibernate Validator."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:388
+#, no-c-format
+msgid ""
+"<![CDATA[<s:validateAll>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"username\">Username:</h:outputLabel>\n"
+"    <h:inputText id=\"username\" value=\"#{user.username}\" \n"
+"                 required=\"true\"/>\n"
+"    <h:message for=\"username\" styleClass=\"error\" />\n"
+"  </div>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"password\">Password:</h:outputLabel>\n"
+"    <h:inputSecret id=\"password\" value=\"#{user.password}\" \n"
+"                   required=\"true\"/>\n"
+"    <h:message for=\"password\" styleClass=\"error\" />\n"
+"  </div>\n"
+"  <div class=\"entry\">\n"
+"    <h:outputLabel for=\"verify\">Verify Password:</h:outputLabel>\n"
+"    <h:inputSecret id=\"verify\" value=\"#{register.verify}\" \n"
+"                   required=\"true\"/>\n"
+"    <h:message for=\"verify\" styleClass=\"error\" />\n"
+"  </div>\n"
+"</s:validateAll>]]>"
+msgstr ""
+
+#. Tag: title
+#: Controls.xml:395
+#, no-c-format
+msgid "Formatting"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:398
+#, no-c-format
+msgid "&lt;s:decorate&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:401
+#, no-c-format
+msgid ""
+"\"Decorate\" a JSF input field when validation fails or when "
+"<literal>required=\"true\"</literal> is set."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:409
+#, no-c-format
+msgid ""
+"<literal>template</literal> &#8212; the facelets template to use to decorate "
+"the component"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:415
+#, no-c-format
+msgid ""
+"<literal>#{invalid}</literal> and <literal>#{required}</literal> are "
+"available inside <literal>s:decorate</literal>; <literal>#{required}</"
+"literal> evaluates to <literal>true</literal> if you have set the input "
+"component being decorated as required, and <literal>#{invalid}</literal> "
+"evaluates to <literal>true</literal> if a validation error occurs."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:425
+#, no-c-format
+msgid ""
+"<![CDATA[<s:decorate template=\"edit.xhtml\">\n"
+"   <ui:define name=\"label\">Country:</ui:define>\n"
+"      <h:inputText value=\"#{location.country}\" required=\"true\"/>\n"
+"   </s:decorate>]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:426
+#, no-c-format
+msgid ""
+"<![CDATA[<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"   xmlns:ui=\"http://java.sun.com/jsf/facelets\"\n"
+"   xmlns:h=\"http://java.sun.com/jsf/html\"\n"
+"   xmlns:f=\"http://java.sun.com/jsf/core\"\n"
+"   xmlns:s=\"http://jboss.com/products/seam/taglib\">\n"
+"                  \n"
+"   <div>   \n"
+"   \n"
+"      <s:label styleClass=\"#{invalid?'error':''}\">\n"
+"         <ui:insert name=\"label\"/>\n"
+"         <s:span styleClass=\"required\" rendered=\"#{required}\">*</s:"
+"span>\n"
+"      </s:label>\n"
+"        \n"
+"      <span class=\"#{invalid?'error':''}\">\n"
+"         <s:validateAll>\n"
+"            <ui:insert/>\n"
+"         </s:validateAll>\n"
+"      </span>\n"
+"        \n"
+"      <s:message styleClass=\"error\"/>     \n"
+"      \n"
+"   </div>   \n"
+"  \n"
+"</ui:composition>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:430
+#, no-c-format
+msgid "&lt;s:div&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:433
+#, no-c-format
+msgid "Render a HTML <literal>&lt;div&gt;</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:443
+#, no-c-format
+msgid ""
+"<![CDATA[<s:div rendered=\"#{selectedMember == null}\">\n"
+"   Sorry, but this member does not exist.\n"
+"</s:div>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:447
+#, no-c-format
+msgid "&lt;s:span&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:450
+#, no-c-format
+msgid "Render a HTML <literal>&lt;span&gt;</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:460
+#, no-c-format
+msgid ""
+"<![CDATA[<s:span styleClass=\"required\" rendered=\"#{required}\">*</s:"
+"span>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:465
+#, no-c-format
+msgid "&lt;s:fragment&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:468
+#, no-c-format
+msgid ""
+"A non-rendering component useful for enabling/disabling rendering of it's "
+"children."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:479
+#, no-c-format
+msgid ""
+"<![CDATA[<s:fragment rendered=\"#{auction.highBidder ne null}\">\n"
+"   Current bid:\n"
+"</s:fragment>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:484
+#, no-c-format
+msgid "&lt;s:label&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:487
+#, no-c-format
+msgid ""
+"\"Decorate\" a JSF input field with the label. The label is placed inside "
+"the HTML <literal>&lt;label&gt;</literal> tag, and is associated with the "
+"nearest JSF input component. It is often used with <literal>&lt;s:"
+"decorate&gt;</literal>."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:496 Controls.xml:812
+#, no-c-format
+msgid "<literal>style</literal> &#8212; The control's style"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:501 Controls.xml:817
+#, no-c-format
+msgid "<literal>styleClass</literal> &#8212; The control's style class"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:508
+#, no-c-format
+msgid ""
+"<![CDATA[<s:label styleClass=\"label\">\n"
+"  Country:\n"
+"</s:label>\n"
+"<h:inputText value=\"#{location.country}\" required=\"true\"/>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:512
+#, no-c-format
+msgid "&lt;s:message&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:515
+#, no-c-format
+msgid "\"Decorate\" a JSF input field with the validation error message."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:525
+#, no-c-format
+msgid ""
+"<![CDATA[<f:facet name=\"afterInvalidField\">\n"
+"  <s:span>\n"
+"    &#160;Error:&#160;\n"
+"    <s:message/>\n"
+"  </s:span>\n"
+"</f:facet>]]>"
+msgstr ""
+
+#. Tag: title
+#: Controls.xml:532
+#, no-c-format
+msgid "Seam Text"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:535
+#, no-c-format
+msgid "&lt;s:validateFormattedText&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:538
+#, no-c-format
+msgid "Checks that the submitted value is valid Seam Text"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:549
+#, no-c-format
+msgid "&lt;s:formattedText&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:552
+#, no-c-format
+msgid ""
+"Outputs <emphasis>Seam Text</emphasis>, a rich text markup useful for blogs, "
+"wikis and other applications that might use rich text. See the Seam Text "
+"chapter for full usage."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:561
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; an EL expression specifying the rich text "
+"markup to render."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:569
+#, no-c-format
+msgid "<![CDATA[<s:formattedText value=\"#{blog.text}\"/>]]>"
+msgstr ""
+
+#. Tag: emphasis
+#: Controls.xml:571
+#, no-c-format
+msgid "Example"
+msgstr ""
+
+#. Tag: title
+#: Controls.xml:586
+#, no-c-format
+msgid "Dropdowns"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:589
+#, no-c-format
+msgid "&lt;s:enumItem&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:592
+#, no-c-format
+msgid "Creates a <literal>SelectItem</literal> from an enum value."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:599
+#, no-c-format
+msgid ""
+"<literal>enumValue</literal> &#8212; the string representation of the enum "
+"value."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:605
+#, no-c-format
+msgid ""
+"<literal>label</literal> &#8212; the label to be used when rendering the "
+"<literal>SelectItem</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:613
+#, no-c-format
+msgid ""
+"<![CDATA[<h:selectOneRadio id=\"radioList\"\n"
+"                  layout=\"lineDirection\"\n"
+"                  value=\"#{newPayment.paymentFrequency}\">\n"
+"   <s:convertEnum />\n"
+"   <s:enumItem enumValue=\"ONCE\"         label=\"Only Once\" />\n"
+"   <s:enumItem enumValue=\"EVERY_MINUTE\" label=\"Every Minute\" />\n"
+"   <s:enumItem enumValue=\"HOURLY\"       label=\"Every Hour\" />\n"
+"   <s:enumItem enumValue=\"DAILY\"        label=\"Every Day\" />\n"
+"   <s:enumItem enumValue=\"WEEKLY\"       label=\"Every Week\" />\n"
+"</h:selectOneRadio>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:617
+#, no-c-format
+msgid "&lt;s:selectItems&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:620
+#, no-c-format
+msgid ""
+"Creates a <literal>List&lt;SelectItem&gt;</literal> from a List, Set, "
+"DataModel or Array."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:627
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; an EL expression specifying the data that "
+"backs the <literal>List&lt;SelectItem&gt;</literal>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:634
+#, no-c-format
+msgid ""
+"<literal>var</literal>&#8212; defines the name of the local variable that "
+"holds the current object during iteration"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:640
+#, no-c-format
+msgid ""
+"<literal>label</literal> &#8212; the label to be used when rendering the "
+"<literal>SelectItem</literal>. Can reference the <literal>var</literal> "
+"variable."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:647
+#, no-c-format
+msgid ""
+"<literal>itemValue</literal> &#8212; Value to return to the server if this "
+"option is selected. Optional, by default the <literal>var</literal> object "
+"is used. Can reference the <literal>var</literal> variable."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:656
+#, no-c-format
+msgid ""
+"<literal>disabled</literal> &#8212; if true the <literal>SelectItem</"
+"literal> will be rendered disabled. Can reference the <literal>var</literal> "
+"variable."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:664
+#, no-c-format
+msgid ""
+"<literal>noSelectionLabel</literal> &#8212; specifies the (optional) label "
+"to place at the top of list (if <literal>required=\"true\"</literal> is also "
+"specified then selecting this value will cause a validation error)."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:672
+#, no-c-format
+msgid ""
+"<literal>hideNoSelectionLabel</literal> &#8212; if true, the "
+"<literal>noSelectionLabel</literal> will be hidden when a value is selected"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:680
+#, no-c-format
+msgid ""
+"<![CDATA[<h:selectOneMenu value=\"#{person.age}\" \n"
+"                 converter=\"ageConverter\">\n"
+"  <s:selectItems value=\"#{ages}\" var=\"age\" label=\"#{age}\" />\n"
+"</h:selectOneMenu>]]>"
+msgstr ""
+
+#. Tag: title
+#: Controls.xml:686
+#, no-c-format
+msgid "Other"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:689
+#, no-c-format
+msgid "&lt;s:cache&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:692
+#, no-c-format
+msgid ""
+"Cache the rendered page fragment using JBoss Cache. Note that <literal>&lt;s:"
+"cache&gt;</literal> actually uses the instance of JBoss Cache managed by the "
+"built-in <literal>pojoCache</literal> component."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:701
+#, no-c-format
+msgid ""
+"<literal>key</literal> &#8212; the key to cache rendered content, often a "
+"value expression. For example, if we were caching a page fragment that "
+"displays a document, we might use <literal>key=\"Document-#{document.id}\"</"
+"literal>."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:709
+#, no-c-format
+msgid ""
+"<literal>enabled</literal> &#8212; a value expression that determines if the "
+"cache should be used."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:715
+#, no-c-format
+msgid ""
+"<literal>region</literal> &#8212; a JBoss Cache node to use (different nodes "
+"can have different expiry policies)."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:723
+#, no-c-format
+msgid ""
+"<![CDATA[<s:cache key=\"entry-#{blogEntry.id}\" region=\"pageFragments\">\n"
+"  <div class=\"blogEntry\">\n"
+"    <h3>#{blogEntry.title}</h3>\n"
+"    <div>\n"
+"      <s:formattedText value=\"#{blogEntry.body}\"/>\n"
+"    </div>\n"
+"    <p>\n"
+"      [Posted on&#160;\n"
+"      <h:outputText value=\"#{blogEntry.date}\">\n"
+"        <f:convertDateTime timezone=\"#{blog.timeZone}\" locale=\"#{blog."
+"locale}\" \n"
+"                           type=\"both\"/>\n"
+"      </h:outputText>]\n"
+"    </p>\n"
+"  </div>\n"
+"</s:cache>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:728
+#, no-c-format
+msgid "&lt;s:fileUpload&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:731
+#, no-c-format
+msgid ""
+"Renders a file upload control. This control must be used within a form with "
+"an encoding type of <literal>multipart/form-data</literal>, i.e:"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:737
+#, no-c-format
+msgid "<![CDATA[<h:form enctype=\"multipart/form-data\">]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:739
+#, no-c-format
+msgid ""
+"For multipart requests, the Seam Multipart servlet filter must also be "
+"configured in <literal>web.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:744
+#, no-c-format
+msgid ""
+"<![CDATA[<filter>\n"
+"  <filter-name>Seam Filter</filter-name>\n"
+"  <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>\n"
+"</filter>\n"
+"\n"
+"<filter-mapping>\n"
+"  <filter-name>Seam Filter</filter-name>\n"
+"  <url-pattern>/*</url-pattern>\n"
+"</filter-mapping>]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:748
+#, no-c-format
+msgid ""
+"The following configuration options for multipart requests may be configured "
+"in components.xml:"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:755
+#, no-c-format
+msgid ""
+"<literal>createTempFiles</literal> &#8212; if this option is set to true, "
+"uploaded files are streamed to a temporary file instead of in memory."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:762
+#, no-c-format
+msgid ""
+"<literal>maxRequestSize</literal> &#8212; the maximum size of a file upload "
+"request, in bytes."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:769
+#, no-c-format
+msgid "Here's an example:"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:773
+#, no-c-format
+msgid ""
+"<![CDATA[<component class=\"org.jboss.seam.web.MultipartFilter\">\n"
+"  <property name=\"createTempFiles\">true</property>\n"
+"  <property name=\"maxRequestSize\">1000000</property>\n"
+"</component>]]>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:778
+#, no-c-format
+msgid ""
+"<literal>data</literal> &#8212; this value binding receives the binary file "
+"data. The receiving field should be declared as a <literal>byte[]</literal> "
+"or <literal>InputStream</literal> (required)."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:786
+#, no-c-format
+msgid ""
+"<literal>contentType</literal> &#8212; this value binding receives the "
+"file's content type (optional)."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:792
+#, no-c-format
+msgid ""
+"<literal>fileName</literal> &#8212; this value binding receives the filename "
+"(optional)."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:798
+#, no-c-format
+msgid ""
+"<literal>fileSize</literal> &#8212; this value binding receives the file "
+"size (optional)."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:804
+#, no-c-format
+msgid ""
+"<literal>accept</literal> &#8212; a comma-separated list of content types to "
+"accept, may not be supported by the browser. E.g. <literal>\"images/png,"
+"images/jpg\"</literal>, <literal>\"images/*\"</literal>."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:824
+#, no-c-format
+msgid ""
+"<![CDATA[<s:fileUpload id=\"picture\" data=\"#{register.picture}\" \n"
+"              accept=\"image/png\"\n"
+"              contentType=\"#{register.pictureContentType}\" />]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:829
+#, no-c-format
+msgid "&lt;s:graphicImage&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:832
+#, no-c-format
+msgid ""
+"An extended <literal>&lt;h:graphicImage&gt;</literal> that allows the image "
+"to be created in a Seam Component; further transforms can be applied to the "
+"image."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:837
+#, no-c-format
+msgid ""
+"All attributes for <literal>&lt;h:graphicImage&gt;</literal> are supported, "
+"as well as:"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:845
+#, no-c-format
+msgid ""
+"<literal>value</literal> &#8212; image to display. Can be a path "
+"<literal>String</literal> (loaded from the classpath), a <literal>byte[]</"
+"literal>, a <literal>java.io.File</literal>, a <literal>java.io.InputStream</"
+"literal> or a <literal>java.net.URL</literal>. Currently supported image "
+"formats are <literal>image/png</literal>, <literal>image/jpeg</literal> and "
+"<literal>image/gif</literal>."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:858
+#, no-c-format
+msgid ""
+"<literal>fileName</literal> &#8212; if not specified the served image will "
+"have a generated file name. If you want to name your file, you should "
+"specify it here. This name should be unique"
+msgstr ""
+
+#. Tag: emphasis
+#: Controls.xml:867
+#, no-c-format
+msgid "Transformations"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:868
+#, no-c-format
+msgid ""
+"To apply a transform to the image, you would nest a tag specifying the "
+"transform to apply. Seam currently supports these transforms:"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:876
+#, no-c-format
+msgid "&lt;s:transformImageSize&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:881
+#, no-c-format
+msgid "<literal>width</literal> &#8212; new width of the image"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:887
+#, no-c-format
+msgid "<literal>height</literal> &#8212; new height of the image"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:893
+#, no-c-format
+msgid ""
+"<literal>maintainRatio</literal> &#8212; if <literal>true</literal>, and "
+"<emphasis>one</emphasis> of <literal>width</literal>/<literal>height</"
+"literal> are specified, the image will be resized with the dimension not "
+"specified being calculated to maintain the aspect ratio."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:904
+#, no-c-format
+msgid "<literal>factor</literal> &#8212; scale the image by the given factor"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:914
+#, no-c-format
+msgid "&lt;s:transformImageBlur&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:919
+#, no-c-format
+msgid ""
+"<literal>radius</literal> &#8212; perform a convolution blur with the given "
+"radius"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:929
+#, no-c-format
+msgid "&lt;s:transformImageType&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:934
+#, no-c-format
+msgid ""
+"<literal>contentType</literal> &#8212; alter the type of the image to either "
+"<literal>image/jpeg</literal> or <literal>image/png</literal>"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:946
+#, no-c-format
+msgid ""
+"It's easy to create your own transform - create a <literal>UIComponent</"
+"literal> which implements <literal>org.jboss.seam.ui.graphicImage."
+"ImageTransform</literal>. Inside the <literal>applyTransform()</"
+"literal>method use <literal>image.getBufferedImage()</literal> to get the "
+"original image and <literal>image.setBufferedImage()</literal> to set your "
+"transformed image. Transforms are applied in the order specified in the view."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:957
+#, no-c-format
+msgid ""
+"<![CDATA[<s:graphicImage rendered=\"#{auction.image ne null}\"\n"
+"                value=\"#{auction.image.data}\">\n"
+"  <s:transformImageSize width=\"200\" maintainRatio=\"true\"/>\n"
+"</s:graphicImage>]]>"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:961
+#, no-c-format
+msgid "&lt;s:remote&gt;"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:964
+#, no-c-format
+msgid "Generates the Javascript stubs required to use Seam Remoting."
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:971
+#, no-c-format
+msgid ""
+"<literal>include</literal> &#8212; a comma-separated list of the component "
+"names (or fully qualified class names)for which to generate Seam Remoting "
+"Javascript stubs. See <xref linkend=\"remoting\"/> for more details."
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:981
+#, no-c-format
+msgid ""
+"<![CDATA[<s:remote include=\"customerAction,accountAction,com.acme.MyBean\"/"
+">]]>"
+msgstr ""
+
+#. Tag: title
+#: Controls.xml:988
+#, no-c-format
+msgid "Annotations"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:990
+#, no-c-format
+msgid ""
+"Seam also provides annotations to allow you to use Seam components as JSF "
+"converters and validators:"
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:998
+#, no-c-format
+msgid "@Converter"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:1001
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"itemConverter\") \n"
+"   @BypassInterceptors \n"
+"   @Converter\n"
+"   public class ItemConverter implements Converter {\n"
+"      \n"
+"     @Transactional\n"
+"     public Object getAsObject(FacesContext context, UIComponent cmp, String "
+"value) {\n"
+"       EntityManager entityManager = (EntityManager) Component.getInstance"
+"(\"entityManager\");\n"
+"       entityManager.joinTransaction();\n"
+"       // Do the conversion\n"
+"     }\n"
+"     \n"
+"     public String getAsString(FacesContext context, UIComponent cmp, Object "
+"value) {\n"
+"       // Do the conversion\n"
+"     }\n"
+"     \n"
+"   }]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:1003
+#, no-c-format
+msgid ""
+"<![CDATA[<h:inputText value=\"#{shop.item}\" converter=\"itemConverter\" />]]"
+">"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1005
+#, no-c-format
+msgid ""
+"Registers the Seam component as a JSF converter. Shown here is a converter "
+"which is able to access the JPA EntityManager inside a JTA transaction, when "
+"converting the value back to it's object representation."
+msgstr ""
+
+#. Tag: literal
+#: Controls.xml:1015
+#, no-c-format
+msgid "@Validator"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:1018
+#, no-c-format
+msgid ""
+"<![CDATA[@Name(\"itemValidator\") \n"
+"   @BypassInterceptors \n"
+"   @Validator\n"
+"   public class ItemValidator implements Validator {\n"
+"      \n"
+"     public void validate(FacesContext context, UIComponent cmp, Object "
+"value)\n"
+"       throws ValidatorException {\n"
+"       ItemController ItemController = (ItemController) Component.getInstance"
+"(\"itemController\");\n"
+"       return itemController.validate(value);\n"
+"     }\n"
+"     \n"
+"     }]]>"
+msgstr ""
+
+#. Tag: programlisting
+#: Controls.xml:1020
+#, no-c-format
+msgid ""
+"<![CDATA[<h:inputText value=\"#{shop.item}\" validator=\"itemValidator\" />]]"
+">"
+msgstr ""
+
+#. Tag: para
+#: Controls.xml:1021
+#, no-c-format
+msgid ""
+"Registers the Seam component as a JSF validator. Shown here is a validator "
+"which injects another Seam component; the injected component is used to "
+"validate the value."
+msgstr ""
