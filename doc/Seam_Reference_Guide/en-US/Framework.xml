@@ -55,8 +55,7 @@
             your taste, you can use extension instead:
         </para>
 
-        <programlisting role="JAVA"><![CDATA[
-@Name("personHome")
+        <programlisting role="JAVA"><![CDATA[@Name("personHome")
 public class PersonHome extends EntityHome<Person> {
     
    @In EntityManager personDatabase;

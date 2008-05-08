@@ -95,6 +95,12 @@
                                             and <literal>attachment</literal>, which indicates that the document should be treated as a download. 
                                             The default value is <literal>inline</literal>.</para>
                                     </listitem>
+                                    <listitem>
+                                        <para>
+                                            <literal>fileName</literal> &#8212; For attachments, this value
+                                             overrides the downloaded file name.
+                                        </para>
+                                    </listitem>
                                 </itemizedlist>
 
 

@@ -268,7 +268,9 @@
             </para>
             <para> 
                 Since the session context is multithreaded, and often contains volatile state, session scope
-                components are always protected by Seam from concurrent access. Seam serializes requests to session
+                components are always protected by Seam from concurrent access so long as the Seam interceptors 
+                are not disabled for that component.  If interceptors are disabled, then any thread-safety that is
+                required must be implemented by the component itself. Seam serializes requests to session
                 scope session beans and JavaBeans by default (and detects and breaks any deadlocks that occur). This is
                 not the default behaviour for application scoped components however, since application scoped components
                 do not usually hold volatile state and because synchronization at the global level is
@@ -357,7 +359,9 @@
                 the page or stateless contexts. 
             </para>
             <para> 
-                Concurrent requests to session-scoped stateful session beans are always serialized by Seam. 
+                Concurrent requests to session-scoped stateful session beans are always serialized by Seam as long
+                as the Seam interceptors are not disabled for the bean.
+                
             </para>   
             <para>
                 Seam stateful session bean components may be instantiated using <literal>Component.getInstance()</literal>

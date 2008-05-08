@@ -68,6 +68,15 @@
     <param-value>.xhtml</param-value>
 </context-param>]]></programlisting>
 
+            <para>
+               If you are using facelets in JBoss AS, you'll find that facelets
+               logging is broken. Seam provides a bridge to fix this, to use it
+               copy <literal>lib/interop/jboss-seam-jul.jar</literal> to
+               <literal>$JBOSS_HOME/server/default/deploy/jboss-web.deployer/jsf-libs/</literal>
+               and include the <literal>jboss-seam-ui.jar</literal> in the 
+               <literal>WEB-INF/lib</literal> of your application.
+            </para>
+
         </sect2>
 
         <sect2>
@@ -957,6 +966,132 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
            <ulink url="http://labs.jboss.com/portletbridge">http://labs.jboss.com/portletbridge</ulink>
            for more.
         </para>
+
+    </sect1>
+    
+        <sect1>
+        <title>Deploying custom resources</title>
+        
+        <para>
+            Seam scans all jars containing <literal>/seam.properties</literal>,
+            <literal>/META-INF/components.xml</literal> or <literal>/META-INF/seam.properties</literal>
+            on startup for resources. For example, all classes annotated with
+            <literal>@Name</literal> are registered with Seam as Seam components.
+        </para>
+        
+        <para>
+            You may also want Seam to handle custom resources. A common use case
+            is to handle a specific annotation and Seam provides specific 
+            support for this. First, tell Seam which annotations to handle in
+            <literal>/META-INF/seam-deployment.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[# A colon-separated list of annotation types to handle
+org.jboss.seam.deployment.annotationTypes=com.acme.Foo:com.acme.Bar]]></programlisting>
+         
+        <para>
+            Then, during application startup you can get hold of all classes
+            annotated with <literal>@Foo</literal>:
+        </para>
+        
+        <programlisting><![CDATA[@Name("fooStartup")
+@Scope(APPLICATION)
+@Startup
+public class FooStartup {
+
+   @In("#{deploymentStrategy.annotatedClasses['com.acme.Foo']}")
+   private Set<Class<Object>> fooClasses;
+   
+   @In("#{hotDeploymentStrategy.annotatedClasses['com.acme.Foo']}")
+   private Set<Class<Object>> hotFooClasses;
+
+   @Create
+   public void create() {
+      for (Class clazz : fooClasses) {
+         handleClass(clazz);
+      }
+      for (Class clazz : hotFooClasses) {
+         handleClass(clazz);
+      }
+   }
+
+}]]></programlisting>
+
+        <para>    
+            You can also handle <emphasis>any</emphasis> resource. For example, 
+            you process any files with the extension <literal>.foo.xml</literal>.
+            To do this, we need to write a custom deployment handler:
+        </para>
+        
+        <programlisting><![CDATA[public class FooDeploymentHandler implements DeploymentHandler {
+        
+   private Set<InputStream> files = new HashSet<InputStream>();
+        
+   public String getName() {
+      return "fooDeploymentHandler";
+   }
+   
+   public Set<InputStream> getFiles() {
+      return files;
+   }
+   
+   public void handle(String name, ClassLoader classLoader) {
+      if (name.endsWith(".foo.xml")) {
+         files.add(classLoader.getResourceAsStream(name));
+      }
+   }
+}]]></programlisting>
+
+        <para>
+            Here we are just building a list of any files with the suffix 
+            <literal>.foo.xml</literal>. 
+        </para>
+        
+        <para>
+            Then, we need to register the deployment handler with Seam. In
+            <literal>/META-INF/seam-deployment.properties</literal>:
+        </para>
+        
+        <programlisting><![CDATA[# For standard deployment
+org.jboss.seam.deployment.deploymentHandlers=com.acme.FooDeploymentHandler
+# For hot deployment
+org.jboss.seam.deployment.hotDeploymentHandlers=com.acme.FooDeploymentHandler]]></programlisting>
+
+         <para>
+             You can register multiple deployment handler using a comma 
+             separated list.
+         </para>
+         
+         <para>
+             Seam uses deployment handlers internally to install components and
+             namespaces, therefore the <literal>handle()</literal> is called too
+             early in inside Seam bootstrap to normally be useful. However, you
+             can easily access the deployment handler during an 
+             <literal>APPLICATION</literal> scoped component's startup: 
+         </para>
+         
+         <programlisting><![CDATA[@Name("fooStartup")
+@Scope(APPLICATION)
+@Startup
+public class FooStartup {
+
+   @In("#{deploymentStrategy['fooDeploymentHandler']}")
+   private MyDeploymentHandler myDeploymentHandler;
+   
+   @In("#{hotDeploymentStrategy['fooDeploymentHandler']}")
+   private MyDeploymentHandler myHotDeploymentHandler;
+
+   @Create
+   public void create() {
+      for (InputStream is : myDeploymentHandler.getFiles()) {
+         handleFooXml(is);
+      }
+      for (InputStream is : myHotDeploymentHandler.getFiles()) {
+         handleFooXml(is);
+      }
+   }
+
+}]]></programlisting>
 
     </sect1>
 
