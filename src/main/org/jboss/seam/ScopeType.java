@@ -17,7 +17,7 @@ import org.jboss.seam.contexts.Contexts;
 public enum ScopeType 
 {
    /**
-    * The stateless psuedo-context.
+    * The stateless pseudo-context.
     */
    STATELESS,
    /**
@@ -101,7 +101,7 @@ public enum ScopeType
       switch (this)
       {
          case STATELESS: 
-            throw new UnsupportedOperationException("Stateless psuedo-scope does not have a Context object");
+            throw new UnsupportedOperationException("Stateless pseudo-scope does not have a Context object");
          case METHOD: 
             if ( !Contexts.isMethodContextActive() )
             {
