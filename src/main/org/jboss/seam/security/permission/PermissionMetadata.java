@@ -3,6 +3,7 @@ package org.jboss.seam.security.permission;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -83,7 +84,7 @@ public class PermissionMetadata
       }
    }
    
-   private class ActionSet
+   protected class ActionSet
    {
       private Set<String> members = new HashSet<String>();
       private Class targetClass;
@@ -91,6 +92,12 @@ public class PermissionMetadata
       public ActionSet(Class targetClass, String members)
       {
          this.targetClass = targetClass;
+         addMembers(members);
+      }
+      
+      public void addMembers(String members)
+      {
+         if (members == null) return;
          
          if (usesActionMask.get(targetClass))
          {
@@ -115,7 +122,12 @@ public class PermissionMetadata
             {
                this.members.add(action);
             }
-         }
+         }         
+      }
+      
+      public boolean contains(String action)
+      {
+         return members.contains(action);
       }
       
       public ActionSet add(String action)
@@ -128,6 +140,16 @@ public class PermissionMetadata
       {
          members.remove(action);
          return this;
+      }
+      
+      public Set<String> members()
+      {
+         return members;
+      }
+      
+      public boolean isEmpty()
+      {
+         return members.isEmpty();
       }
       
       @Override

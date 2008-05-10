@@ -3,7 +3,11 @@ package org.jboss.seam.security.permission.action;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
 import java.io.Serializable;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
@@ -19,11 +23,13 @@ import org.jboss.seam.security.permission.PermissionManager;
 @Name("org.jboss.seam.security.permission.permissionSearch")
 public class PermissionSearch implements Serializable
 {
+   private Map<Principal,List<Permission>> groupedPermissions = new HashMap<Principal,List<Permission>>();
+   
    @DataModel
-   List<Permission> permissions;
+   List<Principal> recipients;
    
    @DataModelSelection
-   Permission selectedPermission;
+   Principal selectedRecipient;
    
    @In IdentityManager identityManager;
    
@@ -39,7 +45,40 @@ public class PermissionSearch implements Serializable
    
    public void refresh()
    {
-      permissions = permissionManager.listPermissions(target);
+      List<Permission> permissions = permissionManager.listPermissions(target);      
+      groupedPermissions.clear();
+      
+      for (Permission permission : permissions)
+      {
+         List<Permission> recipientPermissions = null;
+         
+         if (!groupedPermissions.containsKey(permission.getRecipient()))
+         {
+            recipientPermissions = new ArrayList<Permission>();
+            groupedPermissions.put(permission.getRecipient(), recipientPermissions);
+         }
+         else
+         {
+            recipientPermissions = groupedPermissions.get(permission.getRecipient());
+         }
+         
+         recipientPermissions.add(permission);         
+      }
+      
+      recipients = new ArrayList<Principal>(groupedPermissions.keySet());
+   }
+   
+   public String getActions(Principal recipient)
+   {
+      StringBuilder sb = new StringBuilder();
+      
+      for (Permission permission : groupedPermissions.get(recipient))
+      {
+         if (sb.length() > 0) sb.append(", ");
+         sb.append(permission.getAction());
+      }
+      
+      return sb.toString();
    }
    
    public Object getTarget()
@@ -47,8 +86,19 @@ public class PermissionSearch implements Serializable
       return target;
    }
    
-   public Permission getSelectedPermission()
+   public void revokeSelected()
    {
-      return selectedPermission;
+      permissionManager.revokePermissions(getSelectedPermissions());
+      refresh();
+   }
+   
+   public Principal getSelectedRecipient()
+   {
+      return selectedRecipient;
+   }
+   
+   public List<Permission> getSelectedPermissions()
+   {
+      return groupedPermissions.get(selectedRecipient);
    }
 }

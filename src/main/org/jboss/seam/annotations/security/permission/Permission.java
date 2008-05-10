@@ -21,5 +21,5 @@ import java.lang.annotation.Target;
 public @interface Permission
 {
    String action();
-   long mask() default 0;
+   long mask() default 0L;
 }
