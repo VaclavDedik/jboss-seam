@@ -42,8 +42,8 @@
 
         <h:dataTable
             id="threads"
-            value="#{permissions}"
-            var="permission"
+            value="#{recipients}"
+            var="recipient"
             styleClass="security"
             cellspacing="0"
             headerClass="header"
@@ -53,18 +53,21 @@
             <f:facet name="header">
               Recipient
             </f:facet>
-            #{permission.recipient}
+            #{recipient.name}
           </h:column>
           <h:column width="auto">
             <f:facet name="header">
               Actions Allowed
             </f:facet>
-            #{permission.action}
+            #{permissionSearch.getActions(recipient)}
           </h:column>
           <h:column width="auto">
             <f:facet name="header">
               Action
             </f:facet>
+            <s:link value="Edit" action="#{imagePermission.editPermission}"
+                    rendered="#{s:hasPermission(permissionSearch.target, 'seam.revoke-permission')}"/>
+            <span> | </span>                    
             <s:link value="Revoke All" action="#{permissionSearch.revokeSelected}"
                     rendered="#{s:hasPermission(permissionSearch.target, 'seam.revoke-permission')}"
                     onclick="return confirmRevoke()"/>

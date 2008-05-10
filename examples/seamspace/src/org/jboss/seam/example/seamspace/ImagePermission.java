@@ -62,7 +62,7 @@ public class ImagePermission implements Serializable
    public void editPermission()
    {
       target = (MemberImage) permissionSearch.getTarget();
-      recipient = permissionSearch.getSelectedPermission().getRecipient();
+      recipient = permissionSearch.getSelectedRecipient();
             
       List<Permission> permissions = permissionManager.listPermissions(target);
       
@@ -139,8 +139,7 @@ public class ImagePermission implements Serializable
       }
       
       permissionManager.grantPermissions(permissions);
-      
-      Conversation.instance().end();
+      Conversation.instance().endBeforeRedirect();
    }
    
    public List<Member> getAvailableFriends()
