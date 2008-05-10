@@ -31,6 +31,8 @@ public class ImagePermission implements Serializable
    private List<Member> selectedFriends;
    private List<String> selectedActions;
    
+   private List<String> originalActions;
+   
    private List<Member> availableFriends;   
    
    @In IdentityManager identityManager;
@@ -66,7 +68,7 @@ public class ImagePermission implements Serializable
             
       List<Permission> permissions = permissionManager.listPermissions(target);
       
-      selectedActions = new ArrayList<String>();
+      selectedActions = new ArrayList<String>();      
       
       for (Permission permission : permissions)
       {
@@ -78,6 +80,8 @@ public class ImagePermission implements Serializable
             }
          }
       }
+      
+      originalActions = new ArrayList<String>(selectedActions);
    }
 
    public List<String> getSelectedRoles()
@@ -112,33 +116,60 @@ public class ImagePermission implements Serializable
    
    public void applyPermissions()
    {
-      List<Permission> permissions = new ArrayList<Permission>();
-
-      for (String role : selectedRoles)
+      if (recipient != null)
       {
-         Principal r = new Role(role);
-         for (String action : selectedActions)
-         {            
-            permissions.add(new Permission(target, action, r));
-         }
-      }
-      
-      for (Member friend : selectedFriends)
-      {
-         MemberAccount acct = (MemberAccount) entityManager.createQuery(
-               "select a from MemberAccount a where a.member = :member")
-               .setParameter("member", friend)
-               .getSingleResult();
-         
-         Principal p = new SimplePrincipal(acct.getUsername());
+         List<Permission> grantedPermissions = new ArrayList<Permission>();
+         List<Permission> revokedPermissions = new ArrayList<Permission>();
          
          for (String action : selectedActions)
          {
-            permissions.add(new Permission(target, action, p));
+            if (!originalActions.contains(action)) 
+            {
+               grantedPermissions.add(new Permission(target, action, recipient));
+            }
          }
+         
+         for (String action : originalActions)
+         {
+            if (!selectedActions.contains(action))
+            {
+               revokedPermissions.add(new Permission(target, action, recipient));
+            }
+         }
+         
+         if (!grantedPermissions.isEmpty()) permissionManager.grantPermissions(grantedPermissions);
+         if (!revokedPermissions.isEmpty()) permissionManager.revokePermissions(revokedPermissions);
       }
-      
-      permissionManager.grantPermissions(permissions);
+      else
+      {
+         List<Permission> permissions = new ArrayList<Permission>();
+   
+         for (String role : selectedRoles)
+         {
+            Principal r = new Role(role);
+            for (String action : selectedActions)
+            {            
+               permissions.add(new Permission(target, action, r));
+            }
+         }
+         
+         for (Member friend : selectedFriends)
+         {
+            MemberAccount acct = (MemberAccount) entityManager.createQuery(
+                  "select a from MemberAccount a where a.member = :member")
+                  .setParameter("member", friend)
+                  .getSingleResult();
+            
+            Principal p = new SimplePrincipal(acct.getUsername());
+            
+            for (String action : selectedActions)
+            {
+               permissions.add(new Permission(target, action, p));
+            }
+         }
+         
+         permissionManager.grantPermissions(permissions);
+      }
       Conversation.instance().endBeforeRedirect();
    }
    
