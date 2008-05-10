@@ -55,11 +55,31 @@
         <param-value>true</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>facelets.RESOURCE_RESOLVER</param-name>
+        <param-value>org.jboss.seam.wiki.core.ui.WikiFaceletsResourceResolver</param-value>
+    </context-param>
+
     <!-- JSF -->
 
     <context-param>
        <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
        <param-value>.xhtml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>com.sun.faces.numberOfViewsInSession</param-name>
+        <param-value>3</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>com.sun.faces.numberOfLogicalViews</param-name>
+        <param-value>3</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>com.sun.faces.responseBufferSize</param-name>
+        <param-value>32768</param-value>
     </context-param>
 
     <servlet>

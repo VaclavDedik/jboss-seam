@@ -10,9 +10,9 @@
     <a:commandLink action="#{sortAction.sortBy(sortProperty)}" tabindex="1"
                    status="globalStatus"
                    reRender="#{renderOnSelect}">
-        <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" styleClass="sortIndicator"
+        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" styleClass="sortIndicator"
                         rendered="#{!sortStatus.orderDescending and sortStatus.orderByProperty.toString() == sortProperty}"/>
-        <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" styleClass="sortIndicator"
+        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" styleClass="sortIndicator"
                         rendered="#{sortStatus.orderDescending and sortStatus.orderByProperty.toString() == sortProperty}"/>
         <h:outputText value="#{label}"/>
     </a:commandLink>

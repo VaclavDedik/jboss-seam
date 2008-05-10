@@ -154,12 +154,20 @@
         <tag-name>formattedText</tag-name>
 		<handler-class>org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler</handler-class> 
     </tag>
-    
+
+    <tag>
+        <tag-name>loadStyle</tag-name>
+        <component>
+            <component-type>org.ajax4jsf.component.html.HtmlLoadStyle</component-type>
+        </component>
+    </tag>
+
+    <!-- Map it to a <wiki:plugin> tag because <wiki:macro> sounds too complicated... -->
     <tag>
     	<tag-name>plugin</tag-name>
     	<component>
-    		<component-type>org.jboss.seam.wiki.core.ui.UIPlugin</component-type>
-    		<handler-class>org.jboss.seam.wiki.core.ui.PluginComponentHandler</handler-class> 
+    		<component-type>org.jboss.seam.wiki.core.ui.UIMacro</component-type>
+    		<handler-class>org.jboss.seam.wiki.core.ui.MacroComponentHandler</handler-class>
     	</component>
     </tag>
 

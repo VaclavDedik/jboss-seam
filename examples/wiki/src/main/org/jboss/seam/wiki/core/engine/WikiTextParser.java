@@ -204,11 +204,10 @@ public class WikiTextParser extends SeamTextParser {
         if ( (macroNames.contains(macro.name) && renderDuplicateMacros) || !macroNames.contains(macro.name)) {
             macroNames.add(macro.name);
 
-            WikiMacro wikiMacro = new WikiMacro(macro.name);
-            wikiMacro.setParams(macro.params);
-            wikiMacro.setPosition(macroPosition++);
+            WikiTextMacro wikiTextMacro = new WikiTextMacro(macro.name, macroPosition++);
+            wikiTextMacro.setParams(macro.params);
 
-            return renderer.renderMacro(wikiMacro);
+            return renderer.renderMacro(wikiTextMacro);
         } else {
             macroPosition++;
             return "[Can't use the same macro twice!]";

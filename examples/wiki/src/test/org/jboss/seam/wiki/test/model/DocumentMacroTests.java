@@ -10,12 +10,12 @@ import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDocumentDefaults;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
+import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
 import org.testng.annotations.Test;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Christian Bauer
@@ -53,7 +53,7 @@ public class DocumentMacroTests extends DBUnitSeamTest {
                 assert doc.getHeader().indexOf("foo") == doc.getHeader().length()-3;
 
                 doc.removeHeaderMacros("testMacro1");
-                WikiMacro replacement = new WikiMacro("testMacro3");
+                WikiTextMacro replacement = new WikiTextMacro("testMacro3");
                 replacement.getParams().put("p1", "value1");
                 replacement.getParams().put("p2", "value2");
                 doc.addHeaderMacro(replacement);
@@ -130,10 +130,10 @@ public class DocumentMacroTests extends DBUnitSeamTest {
 
         WikiDocumentDefaults defaults = new WikiDocumentDefaults() {
             @Override
-            public List<WikiMacro> getContentMacros() {
-                return new ArrayList<WikiMacro>() {{
-                   add(new WikiMacro(0, "contentMacro1"));
-                   add(new WikiMacro(1, "contentMacro2"));
+            public List<WikiTextMacro> getContentMacros() {
+                return new ArrayList<WikiTextMacro>() {{
+                   add(new WikiTextMacro("contentMacro1", 0));
+                   add(new WikiTextMacro("contentMacro2", 1));
                 }};
             }
             @Override
@@ -141,10 +141,10 @@ public class DocumentMacroTests extends DBUnitSeamTest {
                 return "foo";
             }
             @Override
-            public List<WikiMacro> getHeaderMacros() {
-                return new ArrayList<WikiMacro>() {{
-                   add(new WikiMacro(0, "headerMacro1"));
-                   add(new WikiMacro(1, "headerMacro2"));
+            public List<WikiTextMacro> getHeaderMacros() {
+                return new ArrayList<WikiTextMacro>() {{
+                   add(new WikiTextMacro("headerMacro1", 0));
+                   add(new WikiTextMacro("headerMacro2", 1));
                 }};
             }
             @Override
@@ -152,10 +152,10 @@ public class DocumentMacroTests extends DBUnitSeamTest {
                 return "bar";
             }
             @Override
-            public List<WikiMacro> getFooterMacros() {
-                return new ArrayList<WikiMacro>() {{
-                   add(new WikiMacro(0, "footerMacro1"));
-                   add(new WikiMacro(1, "footerMacro2"));
+            public List<WikiTextMacro> getFooterMacros() {
+                return new ArrayList<WikiTextMacro>() {{
+                   add(new WikiTextMacro("footerMacro1", 0));
+                   add(new WikiTextMacro("footerMacro2", 1));
                 }};
             }
             @Override

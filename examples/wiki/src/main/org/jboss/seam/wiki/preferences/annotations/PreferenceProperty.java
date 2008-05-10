@@ -15,4 +15,5 @@ public @interface PreferenceProperty {
     PreferenceVisibility[] visibility() default PreferenceVisibility.SYSTEM;
     String editorIncludeName() default "";
     String templateComponentName() default "";
+    String mappedTo() default "";
 }

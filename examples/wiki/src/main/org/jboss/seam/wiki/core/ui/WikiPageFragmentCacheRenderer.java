@@ -17,7 +17,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Serializable;
 
 /**
  * Implementation of <tt>&lt;s:cache&gt;</tt> renderer based on EHCache.
@@ -34,11 +33,25 @@ public class WikiPageFragmentCacheRenderer extends RendererBase {
     }
 
     @Override
+    public boolean getRendersChildren() {
+        return true;
+    }
+
+    @Override
     protected void doEncodeChildren(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException {
         UICache cache = (UICache) component;
+        log.debug("ui cache is enabled: " + cache.isEnabled());
         if (cache.isEnabled()) {
+            String region = cache.getRegion();
+            if (region == null) {
+                throw new RuntimeException("required region attribute missing on <s:cache>");
+            }
             String key = cache.getKey();
-            String cachedContent = getFromCache(key);
+            if (key == null) {
+                throw new RuntimeException("required key attribute missing on <s:cache>");
+            }
+            log.debug("attempting to obtain from cache region '" + region +"' using key: " + key);
+            String cachedContent = PageFragmentCache.instance().get(region, key);
             if (cachedContent == null) {
                 log.debug("rendering from scratch: " + key);
                 StringWriter stringWriter = new StringWriter();
@@ -48,7 +61,8 @@ public class WikiPageFragmentCacheRenderer extends RendererBase {
                 context.setResponseWriter(writer);
                 String output = stringWriter.getBuffer().toString();
                 writer.write(output);
-                putInCache(key, output);
+                log.debug("caching rendered content in region '" + region +"' using key: " + key);
+                PageFragmentCache.instance().put(region, key, output);
             } else {
                 log.debug("rendering from cache: " + key);
                 writer.write(cachedContent);
@@ -57,20 +71,6 @@ public class WikiPageFragmentCacheRenderer extends RendererBase {
             log.debug("cached rendering is disabled for: " + cache.getKey());
             renderChildren(context, component);
         }
-    }
-
-
-    @Override
-    public boolean getRendersChildren() {
-        return true;
-    }
-
-    public static void putInCache(Serializable key, String content) {
-        PageFragmentCache.instance().put(key, content);
-    }
-
-    public static String getFromCache(Serializable key) {
-        return PageFragmentCache.instance().get(key);
     }
 
 }

@@ -21,6 +21,7 @@ import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
+import org.jboss.seam.wiki.core.ui.WikiRedirect;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import static javax.faces.application.FacesMessage.SEVERITY_INFO;
@@ -128,9 +129,14 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
             Events.instance().raiseEvent("Comment.persisted");
             endConversation();
-            return "redirectToComment";
+            WikiRedirect.instance()
+                    .setWikiDocument(documentHome.getInstance())
+                    .setPropagateConversation(false)
+                    .setFragment("comment" + getInstance().getId())
+                    .execute();
         }
-        return null; // Prevent navigation
+
+        return null; // No navigation
     }
 
     public String remove(Long commentId) {
@@ -273,34 +279,40 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
-    public String newComment() {
+    public void newComment() {
         initEditor(false);
         showForm = true;
-        return "redirectToDocument";
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
-    public String replyTo() {
+    public void replyTo() {
+        prepareReply();
+        WikiRedirect.instance()
+                .setWikiDocument(documentHome.getInstance())
+                .setPropagateConversation(true)
+                .execute();
+    }
+
+    @Begin(flushMode = FlushModeType.MANUAL, join = true)
+    public void quote() {
+        prepareReply();
+        setQuotedContent((WikiComment)getParentNode());
+        WikiRedirect.instance()
+                .setWikiDocument(documentHome.getInstance())
+                .setPropagateConversation(true)
+                .execute();
+    }
+
+    private void prepareReply() {
         if (parentCommentId == null || parentCommentId.equals(0l))
             throw new InvalidWikiRequestException("Missing parentCommentId request parameter");
 
         getLog().debug("reply to comment id: " + parentCommentId);
-        String outcome = newComment();
+        newComment();
 
         setParentNodeId(parentCommentId);
         getInstance(); // Init the parent
         setReplySubject((WikiComment)getParentNode());
-
-        return outcome;
-    }
-
-    @Begin(flushMode = FlushModeType.MANUAL, join = true)
-    public String quote() {
-
-        String outcome = replyTo();
-        setQuotedContent((WikiComment)getParentNode());
-
-        return outcome;
     }
 
     public void rate(Long commentId, int rating) {
@@ -328,12 +340,16 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
             }
 
             getInstance().setRating(rating);
+            Events.instance().raiseEvent("Comment.rated");
         }
     }
 
-    public String cancel() {
+    public void cancel() {
         endConversation();
-        return "redirectToDocumentNoConversation";
+        WikiRedirect.instance()
+                .setWikiDocument(documentHome.getInstance())
+                .setPropagateConversation(false)
+                .execute();
     }
 
     @RequestParameter("showCommentForm")

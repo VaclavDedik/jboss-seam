@@ -97,7 +97,7 @@
                 rendered="#{!empty directoryBrowser.instance.parent and s:hasPermission('Node','read', directoryBrowser.instance.parent)}">
             <f:param name="directoryId" value="#{directoryBrowser.instance.parent.id}"/>
             <h:panelGrid columns="2">
-                <h:graphicImage value="#{themePath}/img/icon.dirup.gif" width="18" height="20"/>
+                <h:graphicImage value="#{imagePath}/icon.dirup.gif" width="18" height="20"/>
                 <h:outputText value=".."/>
             </h:panelGrid>
         </s:link>
@@ -122,19 +122,19 @@
             <s:link view="/dirDisplay_#{skin}.xhtml" tabindex="1" accesskey="." propagation="none"
                     rendered="#{!empty directoryBrowser.instance.parent and s:hasPermission('Node','read',directoryBrowser.instance.parent)}">
                 <f:param name="directoryId" value="#{directoryBrowser.instance.parent.id}"/>
-                <h:graphicImage value="#{themePath}/img/icon.dirup.gif" width="18" height="20"/>
+                <h:graphicImage value="#{imagePath}/icon.dirup.gif" width="18" height="20"/>
             </s:link>
         </f:facet>
 
-        <h:graphicImage value="#{themePath}/img/#{wikiDirectoryIconHandler.getIconName(node)}"
+        <h:graphicImage value="#{imagePath}/#{wikiDirectoryIconHandler.getIconName(node)}"
                         width="18" height="20"
                         rendered="#{node.isInstance('WikiDirectory')}"/>
 
-        <h:graphicImage value="#{themePath}/img/#{wikiDocumentIconHandler.getIconName(node)}"
+        <h:graphicImage value="#{imagePath}/#{wikiDocumentIconHandler.getIconName(node)}"
                         width="18" height="20"
                         rendered="#{node.isInstance('WikiDocument')}"/>
 
-        <h:graphicImage value="#{themePath}/img/#{wikiUploadIconHandler.getIconName(node)}"
+        <h:graphicImage value="#{imagePath}/#{wikiUploadIconHandler.getIconName(node)}"
                         width="18" height="20"
                         rendered="#{node.isInstance('WikiUpload')}"/>
     </h:column>

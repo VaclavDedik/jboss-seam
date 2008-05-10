@@ -11,12 +11,15 @@
 
         <div class="mainMenuHeader"><ui:insert name="mainMenuHeader">&#160;</ui:insert></div>
 
-        <ui:include src="mainMenuItem.xhtml">
-            <ui:param name="node" value="#{menu.root}"/>
-        </ui:include>
+        <s:cache region="#{menu.cacheRegion}" key="#{menu.cacheKey}">
+            <ui:include src="mainMenuItem.xhtml">
+                <ui:param name="node" value="#{menu.root}"/>
+            </ui:include>
+        </s:cache>
 
         <div class="mainMenuFooter"><ui:insert name="mainMenuFooter">&#160;</ui:insert></div>
 
     </div></s:div>
+
 
 </div>

@@ -1,25 +1,27 @@
 package org.jboss.seam.wiki.preferences.metamodel;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.log.Log;
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
+import org.jboss.seam.wiki.preferences.annotations.Preferences;
+import org.jboss.seam.wiki.util.AnnotationDeploymentHelper;
 
 import java.util.*;
 
 @Name("preferenceRegistry")
 @Scope(ScopeType.APPLICATION)
+@Startup(depends = "pluginI18NBinder")
+@BypassInterceptors
 public class PreferenceRegistry {
 
-    @Logger
-    static Log log;
-
-    @In(
-        value="#{deploymentStrategy.annotatedClasses['org.jboss.seam.wiki.preferences.annotations.Preferences']}",
-        required = false
-    )
-    Set<Class> preferencesClasses;
+    private static final LogProvider log = Logging.getLogProvider(PreferenceRegistry.class);
 
     Set<PreferenceEntity> preferenceEntities = new HashSet<PreferenceEntity>();
     Map<String, PreferenceEntity> preferenceEntitiesByName = new HashMap<String, PreferenceEntity>();
@@ -28,12 +30,14 @@ public class PreferenceRegistry {
     Set<PreferenceEntity> preferenceEntitiesUser = new HashSet<PreferenceEntity>();
     Set<PreferenceEntity> preferenceEntitiesInstance = new HashSet<PreferenceEntity>();
 
-    @Observer("Wiki.started")
-    public void create() {
+    @Create
+    public void startup() {
         log.debug("initializing preferences registry");
 
+        Set<Class<Object>> preferencesClasses = AnnotationDeploymentHelper.getAnnotatedClasses(Preferences.class);
+
         if (preferencesClasses == null)
-            throw new RuntimeException("Add @Preferences annotation to META-INF/seam-deployment.properties");
+            throw new RuntimeException("No preference entities found, add @Preferences annotation to META-INF/seam-deployment.properties");
 
         for (Class preferencesClass : preferencesClasses) {
             PreferenceEntity preferenceEntity = new PreferenceEntity(preferencesClass);
@@ -55,6 +59,7 @@ public class PreferenceRegistry {
                 preferenceEntitiesInstance.add(preferenceEntity);
         }
 
+        log.info("registered preference entities: " + preferenceEntities.size());
 
     }
 
@@ -78,7 +83,8 @@ public class PreferenceRegistry {
         return preferenceEntitiesInstance;
     }
 
-    public SortedSet<PreferenceEntity> getPreferenceEntities(PreferenceVisibility[] visibilities) {
+    public SortedSet<PreferenceEntity> getPreferenceEntities(PreferenceVisibility... visibilities) {
+        if (visibilities == null) return null;
         SortedSet<PreferenceEntity> entities = new TreeSet<PreferenceEntity>();
         List<PreferenceVisibility> visibilityList = Arrays.asList(visibilities);
         if (visibilityList.contains(PreferenceVisibility.SYSTEM)) entities.addAll(getPreferenceEntitiesSystem());
@@ -86,4 +92,9 @@ public class PreferenceRegistry {
         if (visibilityList.contains(PreferenceVisibility.INSTANCE)) entities.addAll(getPreferenceEntitiesInstance());
         return entities;
     }
+
+    public static PreferenceRegistry instance() {
+        return (PreferenceRegistry) Component.getInstance(PreferenceRegistry.class);
+    }
+
 }

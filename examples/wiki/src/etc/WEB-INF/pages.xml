@@ -21,19 +21,6 @@
 
     <page view-id="/docDisplay*">
         <param name="documentId" value="#{documentHome.nodeId}"/>
-        <navigation>
-            <rule if-outcome="redirectToDocument">
-                <redirect view-id="/wiki.xhtml">
-                    <param name="nodeId" value="#{documentHome.instance.id}"/>
-                </redirect>
-            </rule>
-            <rule if-outcome="redirectToDocumentNoConversation">
-                <redirect url="#{wikiURLRenderer.renderURL(documentHome.instance)}"/>
-            </rule>
-            <rule if-outcome="redirectToComment">
-                <redirect url="#{wikiURLRenderer.renderURL(documentHome.instance)}#comment#{commentHome.instance.id}"/>
-            </rule>
-        </navigation>
     </page>
 
     <page view-id="/docHistory*" no-conversation-view-id="/wiki.xhtml">
@@ -351,7 +338,7 @@
 
     <exception class="org.jboss.seam.security.AuthorizationException">
         <end-conversation/>
-        <redirect view-id="/wiki.xhtml">
+        <redirect view-id="/message.xhtml">
             <message severity="WARN">#{messages['lacewiki.msg.AccessDenied']}: #{org.jboss.seam.handledException.message}</message>
         </redirect>
     </exception>

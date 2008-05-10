@@ -121,7 +121,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
         tagEditor.setTags(doc.getTags());
 
-        doc.setEnableComments( Preferences.getInstance(CommentsPreferences.class).getEnableByDefault() );
+        doc.setEnableComments( Preferences.instance().get(CommentsPreferences.class).getEnableByDefault() );
 
         return doc;
     }
@@ -222,7 +222,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         // Feeds should not be removed by a maintenance thread: If there
         // is no activity on the site, feeds shouldn't be empty but show the last updates.
         Calendar oldestDate = GregorianCalendar.getInstance();
-        oldestDate.add(Calendar.DAY_OF_YEAR, -Preferences.getInstance(WikiPreferences.class).getPurgeFeedEntriesAfterDays().intValue());
+        oldestDate.add(Calendar.DAY_OF_YEAR, -Preferences.instance().get(WikiPreferences.class).getPurgeFeedEntriesAfterDays().intValue());
         feedDAO.purgeOldFeedEntries(oldestDate.getTime());
 
         // Write history log and prepare a new copy for further modification
@@ -239,7 +239,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
             historicalCopy.flatCopy(getInstance(), true);
 
             // Reset form
-            setMinorRevision( Preferences.getInstance(DocumentEditorPreferences.class).getMinorRevisionEnabled() );
+            setMinorRevision( Preferences.instance().get(DocumentEditorPreferences.class).getMinorRevisionEnabled() );
         }
 
         return true;
@@ -385,7 +385,7 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     public boolean isMinorRevision() {
         // Lazily initalize preferences
         if (minorRevision == null)
-            minorRevision = Preferences.getInstance(DocumentEditorPreferences.class).getMinorRevisionEnabled();
+            minorRevision = Preferences.instance().get(DocumentEditorPreferences.class).getMinorRevisionEnabled();
         return minorRevision;
     }
     public void setMinorRevision(boolean minorRevision) { this.minorRevision = minorRevision; }

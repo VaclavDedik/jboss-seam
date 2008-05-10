@@ -10,7 +10,6 @@ import org.jboss.seam.Component;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.faces.context.FacesContext;
@@ -122,11 +121,11 @@ public class WikiUtil {
 
     public static boolean showEmailAddress() {
         Integer accessLevel = (Integer)Component.getInstance("currentAccessLevel");
-        if (Preferences.getInstance(WikiPreferences.class).isShowEmailToLoggedInOnly()
+        if (Preferences.instance().get(WikiPreferences.class).isShowEmailToLoggedInOnly()
                 && Identity.instance().isLoggedIn()
                 && accessLevel == Role.ADMINROLE_ACCESSLEVEL) {
             return true;
-        } else if (!Preferences.getInstance(WikiPreferences.class).isShowEmailToLoggedInOnly()) {
+        } else if (!Preferences.instance().get(WikiPreferences.class).isShowEmailToLoggedInOnly()) {
             return true;
         }
         return false;
@@ -167,12 +166,12 @@ public class WikiUtil {
 
     public static String escapeEmailURL(String string) {
         return string.length() >= 7 && string.substring(0, 7).equals("mailto:")
-                ? string.replaceAll("@", Preferences.getInstance(WikiPreferences.class).getAtSymbolReplacement())
+                ? string.replaceAll("@", Preferences.instance().get(WikiPreferences.class).getAtSymbolReplacement())
                 : string;
     }
 
     public static String escapeAtSymbol(String string) {
-        return string.replaceAll("@", Preferences.getInstance(WikiPreferences.class).getAtSymbolReplacement());
+        return string.replaceAll("@", Preferences.instance().get(WikiPreferences.class).getAtSymbolReplacement());
     }
 
     public static String escapeHtml(String string, boolean convertNewlines) {
@@ -327,7 +326,7 @@ public class WikiUtil {
      */
     public static String calculateMessageId(Long id, String s) {
 
-        WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
+        WikiPreferences prefs = Preferences.instance().get(WikiPreferences.class);
         Hash hash = (Hash)Component.getInstance(Hash.class);
         String domain;
         try {
@@ -339,14 +338,6 @@ public class WikiUtil {
         StringBuilder msgId = new StringBuilder();
         msgId.append("<").append(hash.hash(id+s)).append("@").append(domain).append(">");
         return msgId.toString();
-    }
-
-    public static String macroCacheKey(WikiDocument currentDocument, WikiMacro macro) {
-        Hash hash = (Hash)Component.getInstance(Hash.class);
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(currentDocument.getId()).append(macro.hashCode()).append(macro.getParams().hashCode());
-        return macro.getName() + "-" + hash.hash(builder.toString());
     }
 
 }

@@ -24,7 +24,7 @@ import java.io.Serializable;
 /**
  * Renders outgoing URLs in a unified fashion, see urlrewrite.xml for incoming URL GET request rewriting.
  * <p>
- * Note that some of the rendering is delegated into the domain model for subclasses of <tt>Node</tt>.
+ * Note that some of the rendering is delegated into the domain model for subclasses of <tt>WikiNode</tt>.
  * </p>
  *
  * @author Christian Bauer
@@ -36,7 +36,7 @@ import java.io.Serializable;
 public class WikiURLRenderer implements Serializable {
 
     @In
-    String basePath;
+    String contextPath;
 
     @In("#{preferences.get('Wiki')}")
     WikiPreferences prefs;
@@ -49,7 +49,7 @@ public class WikiURLRenderer implements Serializable {
         if (search == null || search.length() == 0) return "";
         StringBuilder url = new StringBuilder();
         String skin = Component.getInstance("skin") != null ? (String)Component.getInstance("skin") : "d";
-        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append(usePrefsPath ? prefs.getBaseUrl() : contextPath);
         url.append("/search_").append(skin).append(".seam?query=").append(encodeURL(search));
         return url.toString();
     }
@@ -61,7 +61,7 @@ public class WikiURLRenderer implements Serializable {
     public String renderTagURL(String tag, boolean usePrefsPath) {
         if (tag == null || tag.length() == 0) return "";
         StringBuilder url = new StringBuilder();
-        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append(usePrefsPath ? prefs.getBaseUrl() : contextPath);
         url.append("/tag/").append(encodeURL(tag));
         return url.toString();
     }
@@ -73,20 +73,19 @@ public class WikiURLRenderer implements Serializable {
     public String renderUserInfoURL(User user, boolean usePrefsPath) {
         if (user == null || user.getUsername() == null) return "";
         StringBuilder url = new StringBuilder();
-        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append(usePrefsPath ? prefs.getBaseUrl() : contextPath);
         url.append("/user/").append(user.getUsername());
         return url.toString();
     }
 
     public String renderAggregateFeedURL(String aggregateId) {
         return renderAggregateFeedURL(aggregateId, false);
-
     }
 
     public String renderAggregateFeedURL(String aggregateId, boolean usePrefsPath) {
         if (aggregateId == null) return "";
         StringBuilder url = new StringBuilder();
-        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append(usePrefsPath ? prefs.getBaseUrl() : contextPath);
         url.append("/service/Feed/atom/Aggregate/").append(aggregateId);
         return url.toString();
     }
@@ -98,7 +97,7 @@ public class WikiURLRenderer implements Serializable {
     public String renderFeedURL(Feed feed, String tag, String comments, boolean usePrefsPath) {
         if (feed == null || feed.getId() == null) return "";
         StringBuilder url = new StringBuilder();
-        url.append(usePrefsPath ? prefs.getBaseUrl() : basePath);
+        url.append(usePrefsPath ? prefs.getBaseUrl() : contextPath);
         url.append("/service/Feed/atom").append(feed.getURL());
         if (comments != null && comments.length() >0) {
             url.append("/Comments/").append(FeedServlet.Comments.valueOf(comments));
@@ -124,7 +123,7 @@ public class WikiURLRenderer implements Serializable {
 
     public String renderPermURL(WikiNode node, boolean usePrefsPath) {
         if (node == null || node.getId() == null) return "";
-        return (usePrefsPath ? prefs.getBaseUrl() : basePath) + "/" + node.getPermURL(prefs.getPermlinkSuffix());
+        return (usePrefsPath ? prefs.getBaseUrl() : contextPath) + "/" + node.getPermURL(prefs.getPermlinkSuffix());
     }
 
     public String renderWikiURL(WikiNode node) {
@@ -133,11 +132,17 @@ public class WikiURLRenderer implements Serializable {
 
     public String renderWikiURL(WikiNode node, boolean usePrefsPath) {
         if (node == null || node.getId() == null) return "";
-        return (usePrefsPath ? prefs.getBaseUrl() : basePath) + "/" + node.getWikiURL();
+        return (usePrefsPath ? prefs.getBaseUrl() : contextPath) + "/" + node.getWikiURL();
     }
+
+    // TODO: We need more methods here, rendering year/month/day/tag/etc. on WikiURL (not perm url)
 
     private String encodeURL(String s) {
         return WikiUtil.encodeURL(s);
+    }
+
+    public static WikiURLRenderer instance() {
+        return (WikiURLRenderer) Component.getInstance(WikiURLRenderer.class);
     }
 
 }

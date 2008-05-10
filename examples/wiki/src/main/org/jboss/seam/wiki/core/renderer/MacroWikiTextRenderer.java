@@ -5,19 +5,20 @@ import java.util.LinkedHashSet;
 
 import antlr.RecognitionException;
 import antlr.ANTLRException;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.model.WikiTextMacro;
 
 public class MacroWikiTextRenderer extends NullWikiTextRenderer {
 
-    private Set<WikiMacro> macros = new LinkedHashSet<WikiMacro>();
+    private Set<WikiTextMacro> macros = new LinkedHashSet<WikiTextMacro>();
 
-    public String renderMacro(WikiMacro macro) {
+    @Override
+    public String renderMacro(WikiTextMacro macro) {
         macros.add(macro);
         return null;
     }
 
-    public Set<WikiMacro> getMacros() {
+    public Set<WikiTextMacro> getMacros() {
         return macros;
     }
 

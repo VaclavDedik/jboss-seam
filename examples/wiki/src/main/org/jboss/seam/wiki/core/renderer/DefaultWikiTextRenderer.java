@@ -2,7 +2,7 @@ package org.jboss.seam.wiki.core.renderer;
 
 import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
 import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
+import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.Component;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
     protected WikiURLRenderer wikiURLRenderer = (WikiURLRenderer) Component.getInstance(WikiURLRenderer.class);
 
     public static enum Headline {
-        H1, H2, H3, H4;
+        H1, H2, H3, H4
     }
 
     public String renderInternalLink(WikiLink internalLink) {
@@ -45,7 +45,7 @@ public class DefaultWikiTextRenderer implements WikiTextRenderer {
         return "[Embedded Image]";
     }
 
-    public String renderMacro(WikiMacro macro) {
+    public String renderMacro(WikiTextMacro macro) {
         return "[Macro]";
     }
 

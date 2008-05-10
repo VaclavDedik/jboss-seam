@@ -159,7 +159,11 @@ public class UserHome extends EntityHome<User> {
         if (Identity.instance().hasPermission("User", "isAdmin", Component.getInstance("currentUser"))) {
             // Current user is admin and creating a new account, the new account is active automatically
             getInstance().setActivated(true);
-            return super.persist();
+            String outcome = super.persist();
+            if (outcome != null) {
+                org.jboss.seam.core.Events.instance().raiseEvent("User.persisted", getInstance());
+            }
+            return outcome;
         } else {
 
             // Set activation code (unique user in time)
@@ -173,7 +177,7 @@ public class UserHome extends EntityHome<User> {
 
                     // Send confirmation email
                     renderer.render("/themes/"
-                            + Preferences.getInstance(WikiPreferences.class).getThemeName()
+                            + Preferences.instance().get(WikiPreferences.class).getThemeName()
                             + "/mailtemplates/confirmationRegistration.xhtml");
 
                     /* For debugging
@@ -187,6 +191,8 @@ public class UserHome extends EntityHome<User> {
                     facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send confirmation email: " + ex.getMessage());
                     return "error";
                 }
+
+                org.jboss.seam.core.Events.instance().raiseEvent("User.persisted", getInstance());
             }
             return outcome;
         }
@@ -272,6 +278,8 @@ public class UserHome extends EntityHome<User> {
         String outcome = super.update();
         if (outcome != null) {
 
+            org.jboss.seam.core.Events.instance().raiseEvent("User.updated", getInstance());
+
             User currentUser = (User)Component.getInstance("currentUser");
             if (getInstance().getId().equals(currentUser.getId())) {
                 // Updated profile of currently logged-in user
@@ -301,7 +309,11 @@ public class UserHome extends EntityHome<User> {
         prefProvider.deleteUserPreferenceValues(getInstance());
         prefProvider.flush();
 
-        return super.remove();
+        String outcome = super.remove();
+        if (outcome != null) {
+            org.jboss.seam.core.Events.instance().raiseEvent("User.removed", getInstance());
+        }
+        return outcome;
     }
 
     @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")

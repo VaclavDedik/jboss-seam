@@ -34,7 +34,7 @@ public class SearchRegistry {
     Map<String, SearchableEntity> searchableEntitiesByName = new HashMap<String, SearchableEntity>();
     List<SearchableEntity> searchableEntities = new ArrayList<SearchableEntity>();
 
-    @Observer("Wiki.started")
+    @Observer("Wiki.startup")
     public void scanForSearchSupportComponents() {
 
         log.debug("initializing search registry");

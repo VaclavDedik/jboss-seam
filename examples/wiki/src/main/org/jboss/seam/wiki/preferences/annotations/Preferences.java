@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
 public @interface Preferences {
     String description();
     String name() default "";
+    String mappedTo() default "";
 }

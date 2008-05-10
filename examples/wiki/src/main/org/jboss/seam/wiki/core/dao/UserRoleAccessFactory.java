@@ -86,7 +86,7 @@ public class UserRoleAccessFactory implements Serializable {
 
     @Factory(value = "newUserDefaultRole", scope = ScopeType.SESSION)
     public Role getDefaultRole() {
-        UserManagementPreferences userPrefs = Preferences.getInstance(UserManagementPreferences.class);
+        UserManagementPreferences userPrefs = Preferences.instance().get(UserManagementPreferences.class);
         try {
             return (Role) entityManager
                     .createQuery("select r from Role r where r.name = '"+userPrefs.getNewUserInRole()+"'")

@@ -75,6 +75,10 @@
                                             accesskey="#{messages['lacewiki.button.adminHome.RolesPermissions.accesskey']}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.RolesPermissions']}"/>
             </a></li>
+            <li id="pluginsTab"><a href="#plugins"
+                                            accesskey="#{messages['lacewiki.button.adminHome.Plugins.accesskey']}">
+                <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.Plugins']}"/>
+            </a></li>
             <li id="linkProtocolsTab"><a href="#linkProtocols"
                                          accesskey="#{messages['lacewiki.button.adminHome.LinkProtocols.accesskey']}">
                 <h:outputText escape="false" value="#{messages['lacewiki.button.adminHome.LinkProtocols']}"/>
@@ -153,6 +157,10 @@
 
         <div id="rolesPermissions">
             Not Implemented
+        </div>
+
+        <div id="plugins">
+            <ui:include src="includes/admin/pluginEditor.xhtml"/>
         </div>
 
         <div id="linkProtocols">

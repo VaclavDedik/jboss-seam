@@ -88,7 +88,7 @@ public class UserPreferencesTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DocumentEditorPreferences docEditorPrefs = Preferences.getInstance(DocumentEditorPreferences.class);
+                DocumentEditorPreferences docEditorPrefs = Preferences.instance().get(DocumentEditorPreferences.class);
                 assert !docEditorPrefs.getMinorRevisionEnabled();
             }
 
@@ -105,7 +105,7 @@ public class UserPreferencesTests extends DBUnitSeamTest {
             }
 
             protected void renderResponse() throws Exception {
-                DocumentEditorPreferences docEditorPrefs = Preferences.getInstance(DocumentEditorPreferences.class);
+                DocumentEditorPreferences docEditorPrefs = Preferences.instance().get(DocumentEditorPreferences.class);
                 assert docEditorPrefs.getMinorRevisionEnabled();
             }
 

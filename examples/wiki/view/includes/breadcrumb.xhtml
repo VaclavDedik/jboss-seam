@@ -7,6 +7,10 @@
      xmlns:wiki="http://jboss.com/products/seam/wiki"
      xmlns:s="http://jboss.com/products/seam/taglib">
 
+    <s:cache enabled="#{breadcrumbFactory.cacheEnabled}"
+             region="#{breadcrumbFactory.cacheRegion}"
+             key="#{breadcrumbFactory.cacheKey}">
+
     <h:panelGroup styleClass="breadcrumbPanel">
 
         <h:outputLink value="#{wikiURLRenderer.renderURL(wikiRoot)}" styleClass="itemLink breadcrumbRoot">
@@ -40,5 +44,7 @@
 
         </ui:repeat>
     </h:panelGroup>
+
+    </s:cache>
 
 </s:div>

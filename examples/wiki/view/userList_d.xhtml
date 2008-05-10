@@ -100,29 +100,29 @@
                          rendered="#{userSearch.rowCount > 0}">
 
                 <h:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="1">
-                    <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.previousPageAvailable}"/>
 
                 <h:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="1">
-                    <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.previousPageAvailable}"/>
 
                 <h:outputText value="#{messages['lacewiki.label.userList.Found']} #{userSearch.rowCount} #{messages['lacewiki.label.userList.Members']}"/>
 
                 <h:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="1">
-                    <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.nextPageAvailable}"/>
 
                 <h:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="1">
-                    <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.nextPageAvailable}"/>
 
             </h:panelGrid>
@@ -145,9 +145,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('username')}" tabindex="1">
-                        <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
-                        <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.Username']}"/>
                     </h:commandLink>
@@ -181,9 +181,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="1">
-                        <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
-                        <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.FirstName']}"/>
                     </h:commandLink>
@@ -194,9 +194,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="1">
-                        <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
-                        <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.LastName']}"/>
                     </h:commandLink>
@@ -207,9 +207,9 @@
             <h:column rendered="#{wiki:showEmailAddress()}">
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('email')}" tabindex="1">
-                        <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
-                        <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.Email']}"/>
                     </h:commandLink>
@@ -220,9 +220,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('createdOn')}" tabindex="1">
-                        <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
-                        <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'createdOn'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.JoinedOn']}"/>
                     </h:commandLink>
@@ -235,9 +235,9 @@
             <h:column>
                 <f:facet name="header">
                     <h:commandLink action="#{userSearch.sortBy('lastLoginOn')}" tabindex="1">
-                        <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                         rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastLoginOn'}"/>
-                        <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                        <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                         rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastLoginOn'}"/>
                         <h:outputText value="#{messages['lacewiki.label.userList.LastLoginOn']}"/>
                     </h:commandLink>

@@ -27,6 +27,7 @@ public class PreferenceEntity implements Comparable, Serializable {
     private Class clazz;
     private String description;
     private String entityName;
+    private String mappedTo;
     private SortedSet<Property> properties = new TreeSet<Property>();
     private Map<String, Property> propertiesByName = new HashMap<String,Property>();
     private SortedSet<Property> propertiesSystemVisible = new TreeSet<Property>();
@@ -41,6 +42,7 @@ public class PreferenceEntity implements Comparable, Serializable {
         this.clazz = entityClass;
         this.description = interpolate(entityClass.getAnnotation(Preferences.class).description());
         this.entityName = entityClass.getAnnotation(Preferences.class).name();
+        this.mappedTo = entityClass.getAnnotation(Preferences.class).mappedTo();
         if (this.entityName != null && this.entityName.length() == 0) this.entityName = clazz.getSimpleName();
 
         // @PreferenceProperty fields
@@ -54,7 +56,8 @@ public class PreferenceEntity implements Comparable, Serializable {
                                  interpolate(field.getAnnotation(PreferenceProperty.class).description()),
                                  field.getAnnotation(PreferenceProperty.class).visibility(),
                                  field.getAnnotation(PreferenceProperty.class).editorIncludeName(),
-                                 field.getAnnotation(PreferenceProperty.class).templateComponentName()
+                                 field.getAnnotation(PreferenceProperty.class).templateComponentName(),
+                                 field.getAnnotation(PreferenceProperty.class).mappedTo()
                     );
 
                 if (property.isSystemVisible()) propertiesSystemVisible.add(property);
@@ -76,6 +79,10 @@ public class PreferenceEntity implements Comparable, Serializable {
 
     public String getEntityName() {
         return entityName;
+    }
+
+    public String getMappedTo() {
+        return mappedTo;
     }
 
     public SortedSet<Property> getProperties() {
@@ -195,9 +202,11 @@ public class PreferenceEntity implements Comparable, Serializable {
         private List<PreferenceVisibility> visibility;
         private String editorIncludeName;
         private String templateComponentName;
+        private String mappedTo;
 
         public Property(String fieldName, Class fieldType, String description,
-                        PreferenceVisibility[] visibility, String editorIncludeName, String templateComponentName) {
+                        PreferenceVisibility[] visibility,
+                        String editorIncludeName, String templateComponentName, String mappedTo) {
             this.field = Reflections.getField(getClazz(), fieldName);
             this.fieldName = fieldName;
             this.fieldType = fieldType;
@@ -205,7 +214,7 @@ public class PreferenceEntity implements Comparable, Serializable {
             this.visibility = Arrays.asList(visibility);
             this.editorIncludeName = editorIncludeName;
             this.templateComponentName = templateComponentName;
-
+            this.mappedTo = mappedTo;
         }
 
         public Field getField() {
@@ -238,6 +247,10 @@ public class PreferenceEntity implements Comparable, Serializable {
 
         public String getTemplateComponentName() {
             return templateComponentName;
+        }
+
+        public String getMappedTo() {
+            return mappedTo;
         }
 
         public boolean isSystemVisible() {

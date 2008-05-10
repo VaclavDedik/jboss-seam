@@ -13,6 +13,7 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
+import org.jboss.seam.wiki.core.cache.PageFragmentCache;
 
 import java.io.Serializable;
 
@@ -27,6 +28,9 @@ import java.io.Serializable;
 @Scope(ScopeType.SESSION)
 public class Menu implements Serializable {
 
+    public static final String CACHE_REGION = "wiki.MainMenu";
+    public static final String CACHE_KEY = "MainMenuForAccessLevel";
+
     @Logger
     Log log;
 
@@ -38,6 +42,9 @@ public class Menu implements Serializable {
 
     @In("#{preferences.get('Wiki')}")
     WikiPreferences wikiPreferences;
+
+    @In
+    Integer currentAccessLevel;
 
     NestedSetNodeWrapper<WikiDirectory> root;
     public NestedSetNodeWrapper<WikiDirectory> getRoot() {
@@ -57,4 +64,18 @@ public class Menu implements Serializable {
                 wikiPreferences.isMainMenuShowAdminOnly()
         );
     }
+
+    public String getCacheRegion() {
+        return CACHE_REGION;
+    }
+
+    public String getCacheKey() {
+        return CACHE_KEY + currentAccessLevel;
+    }
+
+    @Observer(value = { "Node.updated", "Node.removed"})
+    public void invalidateCache() {
+        PageFragmentCache.instance().removeAll(CACHE_REGION);
+    }
+
 }

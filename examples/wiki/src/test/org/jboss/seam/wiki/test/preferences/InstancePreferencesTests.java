@@ -7,16 +7,16 @@
 package org.jboss.seam.wiki.test.preferences;
 
 import org.dbunit.operation.DatabaseOperation;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.model.WikiTextMacro;
+import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
+import org.jboss.seam.wiki.core.plugin.PluginRegistry;
 import org.jboss.seam.wiki.core.renderer.NullWikiTextRenderer;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
-import org.jboss.seam.wiki.core.ui.UIWikiFormattedText;
+import org.jboss.seam.wiki.plugin.basic.LastModifiedDocumentsPreferences;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;
-import org.jboss.seam.wiki.plugin.lastmodified.LastModifiedDocumentsPreferences;
-import org.jboss.seam.core.Conversation;
-import org.jboss.seam.contexts.Contexts;
 import org.testng.annotations.Test;
 
 /**
@@ -46,12 +46,13 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
 
                 WikiTextParser parser = new WikiTextParser(docHome.getInstance().getContent(), true, false);
                 parser.setRenderer(new NullWikiTextRenderer() {
-                    public String renderMacro(WikiMacro macro) {
-                        Contexts.getEventContext().set(UIWikiFormattedText.CURRENT_MACRO_EVENT_VARIABLE, macro);
+                    @Override
+                    public String renderMacro(WikiTextMacro macro) {
 
                         if (macro.getName().equals("lastModifiedDocuments")) {
+                            WikiPluginMacro pluginMacro = PluginRegistry.instance().createWikiPluginMacro(macro);
                             LastModifiedDocumentsPreferences lmdPrefs =
-                                    Preferences.getInstance(LastModifiedDocumentsPreferences.class, "currentMacro");
+                                    Preferences.instance().get(LastModifiedDocumentsPreferences.class, pluginMacro);
                             assert lmdPrefs.getDocumentTitleLength().equals(60l);
                         }
 
@@ -106,12 +107,13 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
 
                 WikiTextParser parser = new WikiTextParser(docHome.getInstance().getContent(), true, false);
                 parser.setRenderer(new NullWikiTextRenderer() {
-                    public String renderMacro(WikiMacro macro) {
-                        Contexts.getEventContext().set(UIWikiFormattedText.CURRENT_MACRO_EVENT_VARIABLE, macro);
+                    @Override
+                    public String renderMacro(WikiTextMacro macro) {
 
                         if (macro.getName().equals("lastModifiedDocuments")) {
+                            WikiPluginMacro pluginMacro = PluginRegistry.instance().createWikiPluginMacro(macro);
                             LastModifiedDocumentsPreferences lmdPrefs =
-                                    Preferences.getInstance(LastModifiedDocumentsPreferences.class, "currentMacro");
+                                    Preferences.instance().get(LastModifiedDocumentsPreferences.class, pluginMacro);
                             assert lmdPrefs.getDocumentTitleLength().equals(66l);
                         }
 

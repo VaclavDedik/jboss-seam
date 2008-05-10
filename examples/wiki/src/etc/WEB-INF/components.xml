@@ -6,6 +6,7 @@
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:mail="http://jboss.com/products/seam/mail"
             xmlns:transaction="http://jboss.com/products/seam/transaction"
+            xmlns:ui="http://jboss.com/products/seam/ui"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
@@ -20,6 +21,8 @@
     <core:manager concurrent-request-timeout="2000"
                   conversation-timeout="1200000"
                   conversation-id-parameter="cid"/>
+
+    <!-- Persistence stuff -->
 
     <persistence:filter name="accessLevelFilter">
         <persistence:name>accessLevelFilter</persistence:name>
@@ -54,6 +57,7 @@
                                       persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
     </persistence:managed-persistence-context>
 
+    <!--
     <component name="restrictedEntityConverter" scope="CONVERSATION" precedence="20"
                class="org.jboss.seam.ui.converter.EntityConverter">
         <property name="entityManager">#{restrictedEntityManager}</property>
@@ -68,39 +72,41 @@
                class="org.jboss.seam.wiki.core.nestedset.ui.NestedSetNodeWrapperEntityConverter">
         <property name="entityManager">#{restrictedEntityManager}</property>
     </component>
+    -->
+
+    <ui:entity-converter name="entityConverter"
+                         scope="CONVERSATION" precedence="20" entity-loader="#{regularEntityLoader}"/>
+    <ui:entity-loader name="regularEntityLoader" entity-manager="#{entityManager}"/>
+
+    <ui:entity-converter name="restrictedEntityConverter"
+                         scope="CONVERSATION" precedence="20" entity-loader="#{restrictedEntityLoader}"/>
+    <ui:entity-loader name="restrictedEntityLoader" entity-manager="#{restrictedEntityManager}"/>
+
+    <ui:entity-converter name="nestedSetNodeWrapperRestrictedEntityConverter" 
+                         class="org.jboss.seam.wiki.core.nestedset.ui.NestedSetNodeWrapperEntityConverter"
+                         scope="CONVERSATION" precedence="20" entity-loader="#{restrictedEntityLoader}"/>
 
     <!-- Login and security -->
 
     <security:identity authenticate-method="#{authenticator.authenticate}"
                        remember-me="false"/>
 
-    <!-- Plugin i18n resources
-        TODO: This could be made dynamic with a custom ResourceLoader?
-    -->
+    <!-- Caching -->
 
-    <core:resource-loader>
-        <core:bundle-names>
-            <value>i18n.messages</value>
-            <value>i18n.messages_blogDirectory</value>
-            <value>i18n.messages_blogArchive</value>
-            <value>i18n.messages_blogRecentEntries</value>
-            <value>i18n.messages_dirMenu</value>
-            <value>i18n.messages_feedTeasers</value>
-            <value>i18n.messages_lastModifiedDocuments</value>
-            <value>i18n.messages_tags</value>
-            <value>i18n.messages_userProfile</value>
-            <value>i18n.messages_forum</value>
-            <value>i18n.messages_flash</value>
-            <value>i18n.messages_docPager</value>
-            <value>i18n.messages_faqBrowser</value>
-            <value>i18n.messages_jiraIssueList</value>
-            <value>i18n.messages_jiraConnector</value>
-            <value>i18n.messages_feedAggregator</value>
-            <value>i18n.messages_feedConnector</value>
-            <value>i18n.messages_forumTopPosters</value>
-            <value>i18n.messages_dirToc</value>
-        </core:bundle-names>
-    </core:resource-loader>
+    <component name="ehCacheManager"
+               class="org.jboss.seam.wiki.core.cache.EHCacheManager"
+               startup="true"
+               scope="APPLICATION"/>
+
+    <component name="pageFragmentCache"
+               class="org.jboss.seam.wiki.core.cache.PageFragmentCache"
+               startup="true" startupDepends="ehCacheManager pluginRegistry"
+               scope="APPLICATION">
+        <property name="cacheRegions">
+            <value>wiki.MainMenu</value>
+            <value>wiki.Breadcrumb</value>
+        </property>
+    </component>
 
     <!-- Misc Settings -->
 
@@ -124,7 +130,22 @@
         </property>
     </component>
 
-    <factory name="themePath" scope="CONVERSATION" value="#{basePath}/themes/#{preferences.get('Wiki').themeName}"/>
+    <!-- Some convenience value factories -->
+
+    <factory name="contextPath" scope="CONVERSATION"  auto-create="true"
+             value="#{facesContext.externalContext.request.contextPath}"/>
+
+    <factory name="themePathGetRequest" scope="CONVERSATION"  auto-create="true"
+             value="#{servletContexts.request.contextPath}/themes/#{currentTheme}"/>
+
+    <factory name="themePath" scope="CONVERSATION" auto-create="true"
+             value="#{facesContext.externalContext.request.contextPath}/themes/#{currentTheme}"/>
+
+    <factory name="imagePath" scope="CONVERSATION" auto-create="true"
+             value="/themes/#{currentTheme}/img"/>
+
+    <factory name="currentTheme" scope="CONVERSATION" auto-create="true"
+             value="#{preferences.get('Wiki').themeName}"/>
 
     <factory name="skin" scope="SESSION" value="d"/>
 

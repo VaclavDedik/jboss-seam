@@ -106,7 +106,7 @@
                                     thumbnailLinkStyleClass="regularLink"
                                     linkBaseFile="#{documentHome.instance}"
                                     currentAreaNumber="#{documentHome.instance.areaNumber}"
-                                    enablePlugins="true"/>
+                                    enableMacroRendering="true"/>
 
                 <s:div rendered="#{documentHome.instance.nameAsTitle}">
                     <h1 class="documentTitle">
@@ -123,7 +123,7 @@
                                     thumbnailLinkStyleClass="regularLink"
                                     linkBaseFile="#{documentHome.instance}"
                                     currentAreaNumber="#{documentHome.instance.areaNumber}"
-                                    enablePlugins="#{not documentHome.instance.macroPresent('disableContentMacros')}"/>
+                                    enableMacroRendering="#{not documentHome.instance.macroPresent('disableContentMacros')}"/>
 
                 <wiki:formattedText value="#{documentHome.instance.footer}"
                                     linkStyleClass="regularLink"
@@ -132,7 +132,7 @@
                                     thumbnailLinkStyleClass="regularLink"
                                     linkBaseFile="#{documentHome.instance}"
                                     currentAreaNumber="#{documentHome.instance.areaNumber}"
-                                    enablePlugins="true"/>
+                                    enableMacroRendering="true"/>
             </c:if>
 
         </s:div>

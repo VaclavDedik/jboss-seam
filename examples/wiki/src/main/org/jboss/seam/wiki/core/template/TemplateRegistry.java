@@ -36,7 +36,7 @@ public class TemplateRegistry {
     Map<Class, String> templates = new HashMap<Class, String>();
     List<Class> templateTypes = new ArrayList<Class>();
 
-    @Observer("Wiki.started")
+    @Observer("Wiki.startup")
     public void create() {
         log.debug("initializing template registry");
 

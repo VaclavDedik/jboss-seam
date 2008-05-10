@@ -20,8 +20,8 @@
     <link href="#{themePath}/css/mainMenu.css" rel="stylesheet" type="text/css"/>
     <ui:insert name="includeHeaders"/>
 
-    <script type="text/javascript" src="#{basePath}/seam/resource/remoting/resource/remote.js"></script>
-    <script type="text/javascript" src="#{basePath}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
+    <script type="text/javascript" src="#{contextPath}/seam/resource/remoting/resource/remote.js"></script>
+    <script type="text/javascript" src="#{contextPath}/seam/resource/remoting/interface.js?httpSessionChecker"></script>
     <script type="text/javascript" src="#{themePath}/js/jquery.js"></script>
     <script type="text/javascript" src="#{themePath}/js/interface.js"></script>
     <script type="text/javascript" src="#{themePath}/js/jqModal.js"></script>
@@ -258,7 +258,7 @@
             <ui:define name="mainMenuFooter">
                 <s:div styleClass="feeds" rendered="#{preferences.get('Wiki').showSiteFeedInMenu}">
                     <h:outputLink value="#{wikiURLRenderer.renderFeedURL(wikiRoot.feed, null, null)}">
-                        <h:graphicImage value="#{themePath}/img/icon.atom.gif" width="18" height="18"/>
+                        <h:graphicImage value="#{imagePath}/icon.atom.gif" width="18" height="18"/>
                         <span class="feedText">#{messages['lacewiki.button.SiteFeed']}</span>
                     </h:outputLink>
                 </s:div>
@@ -285,7 +285,7 @@
 
                     <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
                                  rendered="#{message.severity.ordinal == 0}">
-                            <h:graphicImage value="#{themePath}/img/info.gif"
+                            <h:graphicImage value="#{imagePath}/info.gif"
                                             width="18" height="18"
                                             styleClass="infoImage"/>
                             <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
@@ -293,7 +293,7 @@
 
                     <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
                                  rendered="#{message.severity.ordinal > 0}">
-                        <h:graphicImage value="#{themePath}/img/attention.gif"
+                        <h:graphicImage value="#{imagePath}/attention.gif"
                                         rendered="#{message.severity.ordinal > 0}"
                                         width="18" height="18"
                                         styleClass="attentionImage"/>
@@ -341,12 +341,12 @@
     <a:status id="globalStatus" forceId="true">
         <f:facet name="start">
             <s:div styleClass="statusStart">
-                <h:graphicImage value="#{themePath}/img/statusindicator.gif" width="20" height="25"/>
+                <h:graphicImage value="#{imagePath}/statusindicator.gif" width="20" height="25"/>
             </s:div>
         </f:facet>
         <f:facet name="stop">
             <s:div styleClass="statusStop">
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="20" height="25"/>
+                <h:graphicImage value="#{imagePath}/blank.gif" width="20" height="25"/>
             </s:div>
         </f:facet>
     </a:status>

@@ -21,7 +21,7 @@ import java.lang.reflect.Proxy;
 import java.util.Properties;
 
 /**
- * Doesn't do much useful stuff except printing a log message and firing the "Wiki.started" event.
+ * Doesn't do much useful stuff except printing a log message and firing the "Wiki.startup" event.
  *
  * @author Christian Bauer
  */
@@ -59,7 +59,7 @@ public class WikiInit {
             ManagementFactory.getPlatformMBeanServer().registerMBean(mBean, hibernateMBeanName);
         }
         
-        Events.instance().raiseEvent("Wiki.started");
+        Events.instance().raiseEvent("Wiki.startup");
 
         log.info("Started LaceWiki for application '"+appname+"'...");
 
@@ -74,6 +74,7 @@ public class WikiInit {
             log.info("unregistering Hibernate statistics MBean");
             ManagementFactory.getPlatformMBeanServer().unregisterMBean(hibernateMBeanName);
         }
+
         log.info("Stopped LaceWiki for application '"+appname+"'...");
     }
 

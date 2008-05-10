@@ -1,5 +1,7 @@
 package org.jboss.seam.wiki.core.engine;
 
+import org.jboss.seam.wiki.core.model.WikiTextMacro;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ public interface WikiTextRenderer {
     public String renderExternalLink(WikiLink externalLink);
     public String renderThumbnailImageLink(WikiLink link);
     public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink);
-    public String renderMacro(WikiMacro macro);
+    public String renderMacro(WikiTextMacro macro);
 
     public String renderParagraphOpenTag();
     public String renderPreformattedOpenTag();

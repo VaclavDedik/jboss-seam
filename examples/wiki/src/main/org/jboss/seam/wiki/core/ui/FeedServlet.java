@@ -146,7 +146,7 @@ public class FeedServlet extends HttpServlet {
                     feed.setTitle(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed") + ": " + aggregateParam);
                     feed.setPublishedDate(new Date());
                     // We are lying here, we don't really have an alternate representation link for this resource
-                    feed.setLink( Preferences.getInstance(WikiPreferences.class).getBaseUrl() );
+                    feed.setLink( Preferences.instance().get(WikiPreferences.class).getBaseUrl() );
                     for (FeedEntryDTO feedEntryDTO : result) {
                         feed.getFeedEntries().add(feedEntryDTO.getFeedEntry());
                     }
@@ -307,7 +307,7 @@ public class FeedServlet extends HttpServlet {
                                    Comments comments,
                                    String aggregateParam) {
 
-        WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
+        WikiPreferences prefs = Preferences.instance().get(WikiPreferences.class);
 
         // Create feed
         SyndFeed syndFeed = new SyndFeedImpl();

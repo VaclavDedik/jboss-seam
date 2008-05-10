@@ -7,10 +7,8 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.annotations.Factory;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Name;
+import org.jboss.seam.web.ServletContexts;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.log.Log;
@@ -22,6 +20,7 @@ import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.renderer.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
 
@@ -196,4 +195,13 @@ public class Authenticator {
         Contexts.getSessionContext().set("currentAccessLevel", Role.GUESTROLE_ACCESSLEVEL);
     }
 
+    @Observer("org.jboss.seam.security.loginSuccessful")
+    public void extendSessionTime() {
+        //ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(LONG_SESSION_TIME);
+    }
+
+    @Observer("org.jboss.seam.security.loggedOut")
+    public void resetSessionTime() {
+        //ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(STD_SESSION_TIME);
+    }
 }

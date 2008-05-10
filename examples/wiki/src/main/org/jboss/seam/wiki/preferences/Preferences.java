@@ -1,8 +1,8 @@
 package org.jboss.seam.wiki.preferences;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.core.Expressions;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceRegistry;
 
@@ -35,6 +35,7 @@ public class Preferences implements Serializable {
     @In(required = false) @Out(required = false, scope = ScopeType.EVENT)
     private Map<CacheKey, Object> eventPreferencesCache;
 
+    // Not typesafe
     public Object get(String preferenceEntityName) {
         return get(preferenceEntityName, null);
     }
@@ -92,23 +93,22 @@ public class Preferences implements Serializable {
         return preferenceEntityInstance;
     }
 
-    public static Object getInstance(String preferenceEntityName, String instanceName) {
-        return Expressions.instance().createValueExpression("#{preferences.get('" + preferenceEntityName + "', "+instanceName+")}").getValue();
+    // Typesafe (more or less)
+    public <P> P get(Class<P> clazz) {
+        Preferences prefs = (Preferences)Component.getInstance(Preferences.class);
+        return (P) prefs.get(getPreferenceEntityName(clazz));
     }
 
-    public static Object getInstance(String preferenceEntityName) {
-        return Expressions.instance().createValueExpression("#{preferences.get('" + preferenceEntityName + "')}").getValue();
+    public <P> P get(Class<P> clazz, Object instance) {
+        Preferences prefs = (Preferences)Component.getInstance(Preferences.class);
+        return (P) prefs.get(getPreferenceEntityName(clazz), instance);
     }
 
-    public static <P> P getInstance(Class<P> clazz, String instanceName) {
-        return (P)getInstance(getPreferenceEntityName(clazz), instanceName);
+    public static Preferences instance() {
+        return (Preferences)Component.getInstance(Preferences.class);
     }
 
-    public static <P> P getInstance(Class<P> clazz) {
-        return (P)getInstance(getPreferenceEntityName(clazz));
-    }
-
-    private static String getPreferenceEntityName(Class<?> clazz) {
+    private String getPreferenceEntityName(Class<?> clazz) {
         org.jboss.seam.wiki.preferences.annotations.Preferences
                 p = clazz.getAnnotation(org.jboss.seam.wiki.preferences.annotations.Preferences.class);
          if (p.name() != null) {

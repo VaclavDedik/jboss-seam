@@ -18,15 +18,15 @@
                     rendered="#{pager.previousPageAvailable and not useAjax}">
                 <f:param name="page" value="0"/>
                 <f:param name="pageSize" value="#{pager.pageSize}"/>
-                <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
+                <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
             </s:link>
             <a:commandLink action="#{pager.setFirstPage}" tabindex="1"
                            rendered="#{pager.previousPageAvailable and useAjax}"
                            status="globalStatus"
                            reRender="#{renderOnSelect}">
-                <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
+                <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
             </a:commandLink>
-            <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                             rendered="#{!pager.previousPageAvailable}"/>
         </s:fragment>
 
@@ -35,15 +35,15 @@
                     rendered="#{pager.previousPageAvailable and not useAjax}">
                 <f:param name="page" value="#{pager.previousPage}"/>
                 <f:param name="pageSize" value="#{pager.pageSize}"/>
-                <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
+                <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
             </s:link>
             <a:commandLink action="#{pager.setPreviousPage}" tabindex="1"
                            rendered="#{pager.previousPageAvailable and useAjax}"
                            status="globalStatus"
                            reRender="#{renderOnSelect}">
-                <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
+                <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
             </a:commandLink>
-            <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                             rendered="#{!pager.previousPageAvailable}"/>
         </s:fragment>
 
@@ -59,15 +59,15 @@
                     rendered="#{pager.nextPageAvailable and not useAjax}">
                 <f:param name="page" value="#{pager.nextPage}"/>
                 <f:param name="pageSize" value="#{pager.pageSize}"/>
-                <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
+                <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
             </s:link>
             <a:commandLink action="#{pager.setNextPage}" tabindex="1"
                            rendered="#{pager.nextPageAvailable and useAjax}"
                            status="globalStatus"
                            reRender="#{renderOnSelect}">
-                <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
+                <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
             </a:commandLink>
-            <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                             rendered="#{!pager.nextPageAvailable}"/>
         </s:fragment>
 
@@ -76,15 +76,15 @@
                     rendered="#{pager.nextPageAvailable and not useAjax}">
                 <f:param name="page" value="#{pager.lastPage}"/>
                 <f:param name="pageSize" value="#{pager.pageSize}"/>
-                <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
+                <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
             </s:link>
             <a:commandLink action="#{pager.setLastPage}" tabindex="1"
                            rendered="#{pager.nextPageAvailable and useAjax}"
                            status="globalStatus"
                            reRender="#{renderOnSelect}">
-                <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
+                <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
             </a:commandLink>
-            <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+            <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                             rendered="#{!pager.nextPageAvailable}"/>
         </s:fragment>
 

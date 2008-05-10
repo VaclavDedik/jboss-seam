@@ -1577,7 +1577,7 @@ li.menu-separator {
 }
 
 
-/* Trees
+/* Trees (undo the Richfaces default damage)
 ----------------------------------------------- */
 
 .rich-tree-node {
@@ -1603,4 +1603,29 @@ li.menu-separator {
 .directoryTreeLabel {
     padding-top: 2px;
     cursor: pointer;
+}
+
+
+/* Toggle Panels (undo the Richfaces default damage)
+----------------------------------------------- */
+
+.rich-stglpanel {
+    border-style: none;
+    font-size: 100%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.rich-stglpanel-header {
+    background: #ede8db url(../img/th.bg.gif ) 0 0 repeat-x;
+    border: 1px solid #C3BBB6;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 85%;
+}
+
+.rich-stglpanel-body {
+    border-style: none;
+    background: #fff;
+    padding: 0;
+    font-size: 100%;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
 }

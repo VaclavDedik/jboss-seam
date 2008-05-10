@@ -1,7 +1,5 @@
 package org.jboss.seam.wiki.core.model;
 
-import org.jboss.seam.wiki.core.engine.WikiMacro;
-
 import java.util.List;
 
 public class WikiDocumentDefaults {
@@ -31,9 +29,9 @@ public class WikiDocumentDefaults {
     }
 
     /**
-     * @return a list of <tt>WikiMacro</tt> instances or null if <tt>getHeaderMacrosAsString()</tt> should be called.
+     * @return a list of <tt>WikiTextMacro</tt> instances or null if <tt>getHeaderMacrosAsString()</tt> should be called.
      */
-    public List<WikiMacro> getContentMacros() {
+    public List<WikiTextMacro> getContentMacros() {
         return null;
     }
 
@@ -46,9 +44,9 @@ public class WikiDocumentDefaults {
     }
 
     /**
-     * @return a list of <tt>WikiMacro</tt> instances or null if <tt>getHeaderMacrosAsString()</tt> should be called.
+     * @return a list of <tt>WikiTextMacro</tt> instances or null if <tt>getHeaderMacrosAsString()</tt> should be called.
      */
-    public List<WikiMacro> getHeaderMacros() {
+    public List<WikiTextMacro> getHeaderMacros() {
         return null;
     }
 
@@ -61,9 +59,9 @@ public class WikiDocumentDefaults {
     }
 
     /**
-     * @return a list of <tt>WikiMacro</tt> instances or null if <tt>getHeaderMacrosAsString()</tt> should be called.
+     * @return a list of <tt>WikiTextMacro</tt> instances or null if <tt>getHeaderMacrosAsString()</tt> should be called.
      */
-    public List<WikiMacro> getFooterMacros() {
+    public List<WikiTextMacro> getFooterMacros() {
         return null;
     }
 

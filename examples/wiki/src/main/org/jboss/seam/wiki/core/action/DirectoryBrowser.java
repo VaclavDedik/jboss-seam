@@ -205,13 +205,13 @@ public class DirectoryBrowser implements Serializable {
         refreshChildNodes();
     }
 
-    @Observer(value = {"PersistenceContext.filterReset", "Node.refreshList"}, create = false)
+    @Observer(value = {"PersistenceContext.filterReset", "Node.removed"}, create = false)
     public void loadTree() {
         WikiDirectory wikiRoot = (WikiDirectory) Component.getInstance("wikiRoot");
         treeRoot = wikiNodeDAO.findWikiDirectoryTree(wikiRoot);
     }
 
-    @Observer(value = {"PersistenceContext.filterReset", "Node.refreshList", "Pager.pageChanged"}, create = false)
+    @Observer(value = {"PersistenceContext.filterReset", "Node.removed", "Pager.pageChanged"}, create = false)
     public void refreshChildNodes() {
 
         log.debug("refreshing child nodes of current directory: " + getInstance());

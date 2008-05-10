@@ -24,6 +24,8 @@ import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.search.IndexManager;
 import org.jboss.seam.wiki.core.search.metamodel.SearchRegistry;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntity;
+import org.jboss.seam.wiki.core.plugin.PluginRegistry;
+import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.util.Progress;
@@ -198,4 +200,24 @@ public class AdminHome implements Serializable {
         if (indexingProgressMonitors != null) indexingProgressMonitors.remove(className);
     }
 
+    // ####################### PLUGINS ##################################
+
+    @In
+    private PluginRegistry pluginRegistry;
+
+    private List<Plugin> installedPlugins;
+    private Plugin selectedInstalledPlugin;
+
+    public List<Plugin> getInstalledPlugins() {
+        if (installedPlugins == null) installedPlugins = pluginRegistry.getPlugins();
+        return installedPlugins;
+    }
+
+    public void selectInstalledPlugin(Plugin selectedPlugin) {
+        selectedInstalledPlugin = selectedPlugin;
+    }
+
+    public Plugin getSelectedInstalledPlugin() {
+        return selectedInstalledPlugin;
+    }
 }

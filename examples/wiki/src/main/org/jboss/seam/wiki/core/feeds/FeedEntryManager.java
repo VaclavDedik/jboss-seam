@@ -6,19 +6,22 @@
  */
 package org.jboss.seam.wiki.core.feeds;
 
-import org.jboss.seam.wiki.core.model.FeedEntry;
-import org.jboss.seam.wiki.core.engine.*;
-import org.jboss.seam.wiki.core.renderer.DefaultWikiTextRenderer;
-import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
-import org.jboss.seam.Component;
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.In;
 import antlr.ANTLRException;
 import antlr.RecognitionException;
+import org.jboss.seam.Component;
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.ui.validator.FormattedTextValidator;
+import org.jboss.seam.wiki.core.engine.WikiLink;
+import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.model.FeedEntry;
+import org.jboss.seam.wiki.core.model.WikiTextMacro;
+import org.jboss.seam.wiki.core.renderer.DefaultWikiTextRenderer;
+import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
 
 /**
  * @author Christian Bauer
@@ -43,6 +46,7 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
         parser.setResolver((WikiLinkResolver) Component.getInstance("wikiLinkResolver"));
 
         class FeedRenderer extends DefaultWikiTextRenderer {
+            @Override
             public String renderInternalLink(WikiLink internalLink) {
                 return !internalLink.isBroken() ?
                         "<a href=\""
@@ -53,7 +57,8 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
             }
 
             // Remove all macros
-            public String renderMacro(WikiMacro macro) {
+            @Override
+            public String renderMacro(WikiTextMacro macro) {
                 return "";
             }
         }

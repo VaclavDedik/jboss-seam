@@ -147,16 +147,16 @@
 
                 <h:commandLink action="#{wikiSearch.firstPage()}" styleClass="sessionEventTrigger"
                                rendered="#{wikiSearch.previousPageAvailable}" tabindex="7">
-                    <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!wikiSearch.previousPageAvailable}"/>
 
                 <h:commandLink action="#{wikiSearch.previousPage()}" styleClass="sessionEventTrigger"
                                rendered="#{wikiSearch.previousPageAvailable}" tabindex="7">
-                    <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!wikiSearch.previousPageAvailable}"/>
 
                 <h:outputText value="#{wikiSearch.firstRow} #{messages['lacewiki.label.search.To']}
@@ -165,16 +165,16 @@
 
                 <h:commandLink action="#{wikiSearch.nextPage()}" styleClass="sessionEventTrigger"
                                rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
-                    <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!wikiSearch.nextPageAvailable}"/>
 
                 <h:commandLink action="#{wikiSearch.lastPage()}" styleClass="sessionEventTrigger"
                                rendered="#{wikiSearch.nextPageAvailable}" tabindex="7">
-                    <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
                 </h:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!wikiSearch.nextPageAvailable}"/>
 
             </h:panelGrid>
@@ -193,7 +193,7 @@
                 <h:column>
 
                     <h:panelGrid columns="2">
-                        <h:graphicImage value="#{themePath}/img/#{hit.icon}" width="18" height="20"/>
+                        <h:graphicImage value="#{imagePath}/#{hit.icon}" width="18" height="20"/>
                         <h:outputLink value="#{hit.link}" tabindex="1"><h:outputText escape="false" value="#{hit.title}"/></h:outputLink>
                     </h:panelGrid>
                     <h:outputText styleClass="smallFont" escape="false" value="#{hit.fragment}"/>

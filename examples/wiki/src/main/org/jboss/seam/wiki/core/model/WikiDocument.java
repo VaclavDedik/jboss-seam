@@ -2,7 +2,6 @@ package org.jboss.seam.wiki.core.model;
 
 import org.hibernate.validator.Length;
 import org.jboss.seam.wiki.core.search.annotations.Searchable;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -170,47 +169,47 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
      */
 
     @Transient
-    private Collection<WikiMacro> headerMacros = new LinkedHashSet<WikiMacro>();
-    public Collection<WikiMacro> getHeaderMacros() { return headerMacros; }
-    public void setHeaderMacros(Collection<WikiMacro> headerMacros) {
+    private Collection<WikiTextMacro> headerMacros = new LinkedHashSet<WikiTextMacro>();
+    public Collection<WikiTextMacro> getHeaderMacros() { return headerMacros; }
+    public void setHeaderMacros(Collection<WikiTextMacro> headerMacros) {
         this.headerMacros = headerMacros;
         setHeaderMacrosString(getMacrosAsString(headerMacros));
         setHeader(getMacrosAsWikiText(headerMacros) + getWikiTextWithoutMacros(getHeader()) ); // Text after macros
     }
 
     @Transient
-    private Collection<WikiMacro> contentMacros = new LinkedHashSet<WikiMacro>();
-    public Collection<WikiMacro> getContentMacros() { return contentMacros; }
-    public void setContentMacros(Collection<WikiMacro> contentMacros) {
+    private Collection<WikiTextMacro> contentMacros = new LinkedHashSet<WikiTextMacro>();
+    public Collection<WikiTextMacro> getContentMacros() { return contentMacros; }
+    public void setContentMacros(Collection<WikiTextMacro> contentMacros) {
         this.contentMacros = contentMacros;
         setContentMacrosString(getMacrosAsString(contentMacros));
     }
 
     @Transient
-    private Collection<WikiMacro> footerMacros = new LinkedHashSet<WikiMacro>();
-    public Collection<WikiMacro> getFooterMacros() { return footerMacros; }
-    public void setFooterMacros(Collection<WikiMacro> footerMacros) {
+    private Collection<WikiTextMacro> footerMacros = new LinkedHashSet<WikiTextMacro>();
+    public Collection<WikiTextMacro> getFooterMacros() { return footerMacros; }
+    public void setFooterMacros(Collection<WikiTextMacro> footerMacros) {
         this.footerMacros = footerMacros;
         setFooterMacrosString(getMacrosAsString(footerMacros));
         setFooter(getWikiTextWithoutMacros(getFooter()) + getMacrosAsWikiText(footerMacros)); // Text before macros
     }
 
-    public void addHeaderMacro(WikiMacro... macro) {
+    public void addHeaderMacro(WikiTextMacro... macro) {
         headerMacros.addAll(Arrays.asList(macro));
         setHeaderMacros(headerMacros);
     }
 
-    public void addFooterMacro(WikiMacro... macro) {
+    public void addFooterMacro(WikiTextMacro... macro) {
         footerMacros.addAll(Arrays.asList(macro));
         setFooterMacros(footerMacros);
     }
 
-    public void removeHeaderMacro(WikiMacro... macro) {
+    public void removeHeaderMacro(WikiTextMacro... macro) {
         headerMacros.removeAll(Arrays.asList(macro));
         setHeaderMacros(headerMacros);
     }
 
-    public void removeFooterMacro(WikiMacro... macro) {
+    public void removeFooterMacro(WikiTextMacro... macro) {
         footerMacros.removeAll(Arrays.asList(macro));
         setFooterMacros(footerMacros);
     }
@@ -226,23 +225,23 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     }
 
     public boolean macroPresent(String macroName) {
-        for (WikiMacro headerMacro : headerMacros) {
+        for (WikiTextMacro headerMacro : headerMacros) {
             if (headerMacro.getName().equals(macroName)) return true;
         }
-        for (WikiMacro contentMacro : contentMacros) {
+        for (WikiTextMacro contentMacro : contentMacros) {
             if (contentMacro.getName().equals(macroName)) return true;
         }
-        for (WikiMacro footerMacro : footerMacros) {
+        for (WikiTextMacro footerMacro : footerMacros) {
             if (footerMacro.getName().equals(macroName)) return true;
         }
         return false;
     }
 
-    private void removeMacrosFromCollection(Collection<WikiMacro> macros, String macroName) {
-        Iterator<WikiMacro> it = macros.iterator();
+    private void removeMacrosFromCollection(Collection<WikiTextMacro> macros, String macroName) {
+        Iterator<WikiTextMacro> it = macros.iterator();
         while (it.hasNext()) {
-            WikiMacro wikiMacro = it.next();
-            if (wikiMacro.getName().equals(macroName)) it.remove();
+            WikiTextMacro WikiTextMacro = it.next();
+            if (WikiTextMacro.getName().equals(macroName)) it.remove();
         }
     }
 
@@ -259,19 +258,19 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
         return textWithoutMacro.toString();
     }
 
-    private String getMacrosAsString(Collection<WikiMacro> macros) {
+    private String getMacrosAsString(Collection<WikiTextMacro> macros) {
         if (macros.size() == 0) return "";
         StringBuilder macrosString = new StringBuilder();
-        for (WikiMacro m : macros) {
+        for (WikiTextMacro m : macros) {
             macrosString.append(m.getName()).append(" ");
         }
         return macrosString.substring(0, macrosString.length() - 1);
     }
 
-    private String getMacrosAsWikiText(Collection<WikiMacro> macros) {
+    private String getMacrosAsWikiText(Collection<WikiTextMacro> macros) {
         if (macros.size() == 0) return "";
         StringBuilder macrosString = new StringBuilder();
-        for (WikiMacro m : macros) {
+        for (WikiTextMacro m : macros) {
             macrosString.append("[<=").append(m.getName());
             for (Map.Entry<String, String> param : m.getParams().entrySet()) {
                 macrosString.append("[").append(param.getKey()).append("=").append(param.getValue()).append("]");
@@ -282,15 +281,16 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     }
 
     private void setMacroFieldsFromDefaults(WikiDocumentDefaults defaults) {
+
         if (defaults.getContentMacros() != null) {
             setContentMacros(defaults.getContentMacros());
             setContentMacrosString(getMacrosAsString(defaults.getContentMacros()));
             content = getMacrosAsWikiText(defaults.getContentMacros()) + "\n" + content;
         } else {
-            Collection<WikiMacro> macros = new ArrayList<WikiMacro>();
+            Collection<WikiTextMacro> macros = new ArrayList<WikiTextMacro>();
             int i = 0;
             for (String m : defaults.getContentMacrosAsString()) {
-                macros.add(new WikiMacro(i++, m));
+                macros.add(new WikiTextMacro(m, i++));
             }
             setContentMacros(macros);
             setContentMacrosString(getMacrosAsString(macros));
@@ -302,7 +302,7 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
         } else {
             int i = 0;
             for (String m : defaults.getHeaderMacrosAsString()) {
-                addHeaderMacro(new WikiMacro(i++, m));
+                addHeaderMacro(new WikiTextMacro(m, i++));
             }
         }
 
@@ -311,7 +311,7 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
         } else {
             int i = 0;
             for (String m : defaults.getFooterMacrosAsString()) {
-                addFooterMacro(new WikiMacro(i++, m));
+                addFooterMacro(new WikiTextMacro(m, i++));
             }
         }
     }

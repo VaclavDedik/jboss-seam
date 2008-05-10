@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.core.feeds;
 
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.model.WikiCommentFeedEntry;
@@ -14,6 +15,7 @@ import org.jboss.seam.wiki.core.model.WikiCommentFeedEntry;
 @Name("wikiCommentFeedEntryManager")
 public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, WikiCommentFeedEntry> {
 
+    @RaiseEvent("FeedEntry.created")
     public WikiCommentFeedEntry createFeedEntry(WikiComment comment) {
 
         WikiCommentFeedEntry fe = new WikiCommentFeedEntry();
@@ -32,6 +34,7 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
         return fe;
     }
 
+    @RaiseEvent("FeedEntry.updated")
     public void updateFeedEntry(WikiCommentFeedEntry fe, WikiComment comment) {
 
         fe.setLink(wikiURLRenderer.renderURL(comment, true));

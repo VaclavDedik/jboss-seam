@@ -7,12 +7,14 @@
 package org.jboss.seam.wiki.core.feeds;
 
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiDocumentFeedEntry;
 
 @Name("wikiDocumentFeedEntryManager")
 public class WikiDocumentFeedEntryManager extends FeedEntryManager<WikiDocument, WikiDocumentFeedEntry> {
 
+    @RaiseEvent("FeedEntry.created")
     public WikiDocumentFeedEntry createFeedEntry(WikiDocument document) {
 
         WikiDocumentFeedEntry fe = new WikiDocumentFeedEntry();
@@ -31,6 +33,7 @@ public class WikiDocumentFeedEntryManager extends FeedEntryManager<WikiDocument,
         return fe;
     }
 
+    @RaiseEvent("FeedEntry.updated")
     public void updateFeedEntry(WikiDocumentFeedEntry fe, WikiDocument document) {
 
         fe.setLink(wikiURLRenderer.renderURL(document, true));

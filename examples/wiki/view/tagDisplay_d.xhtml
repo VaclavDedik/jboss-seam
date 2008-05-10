@@ -33,13 +33,13 @@
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.Tag']}: #{tagQuery.tag}"/>
             </f:facet>
 
-            <h:graphicImage value="#{themePath}/img/icon.doc.gif"
+            <h:graphicImage value="#{imagePath}/icon.doc.gif"
                             width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
                             rendered="#{file.isInstance('WikiDocument')}"/>
-            <h:graphicImage value="#{themePath}/img/#{uploadTypes[file.contentType].displayIcon}"
+            <h:graphicImage value="#{imagePath}/#{uploadTypes[file.contentType].displayIcon}"
                             width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
                             rendered="#{file.isInstance('WikiUpload') and !empty uploadTypes[file.contentType]}"/>
-            <h:graphicImage value="#{themePath}/img/#{uploadTypes['generic'].displayIcon}"
+            <h:graphicImage value="#{imagePath}/#{uploadTypes['generic'].displayIcon}"
                             width="18" height="20" style="vertical-align:middle;margin-right: 5px;"
                             rendered="#{file.isInstance('WikiUpload') and empty uploadTypes[file.contentType]}"/>
 
@@ -71,7 +71,7 @@
                 <h:outputText value="#{messages['lacewiki.label.tagDisplay.InDirectory']}"/>
             </f:facet>
             <s:fragment rendered="#{s:hasPermission('Node','read',file.parent)}">
-                <h:graphicImage value="#{themePath}/img/icon.dir.gif"
+                <h:graphicImage value="#{imagePath}/icon.dir.gif"
                                 width="18" height="20" style="vertical-align: middle; margin-right: 5px;"/>
                 <h:outputLink value="#{wikiURLRenderer.renderURL(file.parent)}" tabindex="1">
                     <h:outputText value="#{wiki:truncateString(file.parent.name, 20, '...')}"/>

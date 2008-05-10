@@ -104,7 +104,7 @@
                                         thumbnailLinkStyleClass="regularLink"
                                         linkBaseFile="#{currentDocument}"
                                         currentAreaNumber="#{currentDocument.areaNumber}"
-                                        enablePlugins="false"/>
+                                        enableMacroRendering="false"/>
                 </s:div>
                 <s:div styleClass="commentText" rendered="#{not c.useWikiText and currentDocument.name != c.subject}" style="margin-top:15px;">
                     <h:outputText value="#{wiki:escapeHTML(c.content, true)}" escape="false"/>
@@ -125,7 +125,7 @@
                                         thumbnailLinkStyleClass="regularLink"
                                         linkBaseFile="#{currentDocument}"
                                         currentAreaNumber="#{currentDocument.areaNumber}"
-                                        enablePlugins="false"/>
+                                        enableMacroRendering="false"/>
                 </s:div>
 
                 <div class="commentControls">

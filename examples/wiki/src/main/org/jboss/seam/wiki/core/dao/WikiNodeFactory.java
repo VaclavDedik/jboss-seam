@@ -33,7 +33,7 @@ public class WikiNodeFactory implements Serializable {
     @Logger
     Log log;
 
-    @Observer("Wiki.started")
+    @Observer("Wiki.startup")
     public void checkPreferences() {
         
         log.info("checking wiki preferences...");
@@ -77,7 +77,7 @@ public class WikiNodeFactory implements Serializable {
         try {
             return (WikiDocument) em
                     .createQuery("select d from WikiDocument d where d.id = :id")
-                    .setParameter("id", Preferences.getInstance(WikiPreferences.class).getDefaultDocumentId())
+                    .setParameter("id", Preferences.instance().get(WikiPreferences.class).getDefaultDocumentId())
                     .setHint("org.hibernate.comment", "Loading wikiStart")
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
@@ -87,7 +87,7 @@ public class WikiNodeFactory implements Serializable {
 
         // TODO: Message instead!
         throw new RuntimeException("Couldn't find wiki default start document with id '"
-                + Preferences.getInstance(WikiPreferences.class).getDefaultDocumentId() +"'");
+                + Preferences.instance().get(WikiPreferences.class).getDefaultDocumentId() +"'");
     }
 
     // Loads the same instance into a different persistence context
@@ -112,7 +112,7 @@ public class WikiNodeFactory implements Serializable {
     public WikiDirectory loadMemberArea() {
         log.debug("loading member area");
         EntityManager em = (EntityManager)Component.getInstance("entityManager");
-        String memberAreaName = Preferences.getInstance(WikiPreferences.class).getMemberArea();
+        String memberAreaName = Preferences.instance().get(WikiPreferences.class).getMemberArea();
         try {
             return (WikiDirectory) em
                     .createQuery("select d from WikiDirectory d left join fetch d.feed where d.wikiname = :name and d.parent.parent is null")
@@ -135,7 +135,7 @@ public class WikiNodeFactory implements Serializable {
     public WikiDirectory loadTrashArea() {
         log.debug("loading trash area");
         EntityManager em = (EntityManager)Component.getInstance("entityManager");
-        String trashAreaName = Preferences.getInstance(WikiPreferences.class).getTrashArea();
+        String trashAreaName = Preferences.instance().get(WikiPreferences.class).getTrashArea();
         try {
             return (WikiDirectory) em
                     .createQuery("select d from WikiDirectory d left join fetch d.feed where d.wikiname = :name and d.parent.parent is null")
@@ -158,7 +158,7 @@ public class WikiNodeFactory implements Serializable {
     public WikiDirectory loadHelpArea() {
         log.debug("loading help area");
         EntityManager em = (EntityManager)Component.getInstance("entityManager");
-        String helpAreaName = Preferences.getInstance(WikiPreferences.class).getHelpArea();
+        String helpAreaName = Preferences.instance().get(WikiPreferences.class).getHelpArea();
         try {
             return (WikiDirectory) em
                     .createQuery("select d from WikiDirectory d left join fetch d.feed where d.wikiname = :name and d.parent.parent is null")

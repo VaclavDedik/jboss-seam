@@ -22,7 +22,7 @@ public class ImporterRegistry {
     List<Importer> importers = new ArrayList<Importer>();
 
     // TODO: Fix importers
-    //@Observer("Wiki.started")
+    //@Observer("Wiki.startup")
     public void scanForFileImporters() {
 
         log.debug("initializing file importer registry");

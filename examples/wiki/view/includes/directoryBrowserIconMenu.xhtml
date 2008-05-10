@@ -7,8 +7,8 @@
     <h:outputLink value="javascript://no-op" tabindex="1"
               onmouseover="jQuery(this).children('.dirItemIcon').attr('src','#{themePath}/img/menu_down.gif').toggleClass('mouseOver');
                            jQuery(this).parent('.contextMenu').menu(); jQuery(this).children('.contextMenuItems').show();"
-              onmouseout="jQuery(this).children('.dirItemIcon').attr('src','#{icon}').toggleClass('mouseOver')">
-        <h:graphicImage value="#{icon}" styleClass="dirItemIcon"/>
+              onmouseout="jQuery(this).children('.dirItemIcon').attr('src','#{themePath}/img/#{icon}').toggleClass('mouseOver')">
+        <h:graphicImage value="#{imagePath}/#{icon}" styleClass="dirItemIcon"/>
     </h:outputLink>
 
     <ui:insert name="menu"/>

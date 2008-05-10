@@ -38,6 +38,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
+                Contexts.getPageContext().set("currentDocument", forumDir.getDefaultFile());
             }
 
             protected void invokeApplication() throws Exception {
@@ -56,6 +57,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
+                Contexts.getPageContext().set("currentDocument", forumDir.getDefaultFile());
             }
 
             protected void invokeApplication() throws Exception {
@@ -103,6 +105,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
+                Contexts.getPageContext().set("currentDocument", forumDir.getDefaultFile());
             }
 
             protected void invokeApplication() throws Exception {
@@ -121,6 +124,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
+                Contexts.getPageContext().set("currentDocument", forumDir.getDefaultFile());
             }
 
             protected void invokeApplication() throws Exception {
@@ -167,6 +171,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
+                Contexts.getPageContext().set("currentDocument", forumDir.getDefaultFile());
             }
 
             protected void invokeApplication() throws Exception {
@@ -185,6 +190,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 WikiNodeDAO nodeDAO = (WikiNodeDAO)getInstance(WikiNodeDAO.class);
                 WikiDirectory forumDir = nodeDAO.findWikiDirectory(102l);
                 Contexts.getPageContext().set("currentDirectory", forumDir);
+                Contexts.getPageContext().set("currentDocument", forumDir.getDefaultFile());
             }
 
             protected void invokeApplication() throws Exception {

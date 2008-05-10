@@ -4,7 +4,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.User;
-import org.jboss.seam.wiki.core.engine.WikiMacro;
+import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
 import org.jboss.seam.wiki.preferences.PreferenceValue;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
@@ -38,7 +38,7 @@ import java.util.*;
 @Name("preferenceProvider")
 @AutoCreate
 @Scope(ScopeType.CONVERSATION)
-public class WikiPreferenceProvider implements PreferenceProvider<User, WikiMacro>, Serializable {
+public class WikiPreferenceProvider implements PreferenceProvider<User, WikiPluginMacro>, Serializable {
 
     @Logger Log log;
 
@@ -52,7 +52,7 @@ public class WikiPreferenceProvider implements PreferenceProvider<User, WikiMacr
     List<PreferenceValue> newValueHolders = new ArrayList<PreferenceValue>();
 
     public Set<PreferenceValue> loadValues(String preferenceEntityName,
-                                           User user, WikiMacro instance,
+                                           User user, WikiPluginMacro instance,
                                            List<PreferenceVisibility> visibilities) {
 
         log.debug("assembling preference values for '"
@@ -137,7 +137,7 @@ public class WikiPreferenceProvider implements PreferenceProvider<User, WikiMacr
         return valueHolders;
     }
 
-    public void storeValues(Set<PreferenceValue> valueHolders, User user, WikiMacro instance) {
+    public void storeValues(Set<PreferenceValue> valueHolders, User user, WikiPluginMacro instance) {
         // TODO: We don't care about the arguments, maybe instance later on when we marshall stuff into WikiMacro params
 
         // The new ones need to be checked if they are dirty and manually persisted
@@ -202,29 +202,33 @@ public class WikiPreferenceProvider implements PreferenceProvider<User, WikiMacr
         return new HashSet(values);
     }
 
-    private Set<PreferenceValue> loadInstanceValues(String entityName, WikiMacro instance) {
+    private Set<PreferenceValue> loadInstanceValues(String entityName, WikiPluginMacro instance) {
         Set<PreferenceValue> valueHolders = new HashSet<PreferenceValue>();
         PreferenceEntity preferenceEntity = preferenceRegistry.getPreferenceEntitiesByName().get(entityName);
         for (Map.Entry<String, String> entry : instance.getParams().entrySet()) {
-            log.trace("converting WikiMacro argument into WikiPreferenceValue: " + entry.getKey());
+            log.trace("converting WikiMacro parameter into WikiPreferenceValue: " + entry.getKey());
 
             // TODO: Maybe we should log the following as DEBUG level, these occur when the user edits macro parameters
 
             PreferenceEntity.Property property = preferenceEntity.getPropertiesByName().get(entry.getKey());
             if (property == null) {
-                log.info("can't convert unknown property as WikiMacro argument: " + entry.getKey());
+                log.info("can't convert unknown property as WikiMacro parameter: " + entry.getKey());
                 continue;
             }
             if (!property.getVisibility().contains(PreferenceVisibility.INSTANCE)) {
-                log.info("can't convert WikiMacro argument, not overridable at INSTANCE level: " + entry.getKey());
+                log.info("can't convert WikiMacro parameter, not overridable at INSTANCE level: " + entry.getKey());
+                continue;
+            }
+            if (!instance.getMetadata().getParameters().contains(property)) {
+                log.info("can't convert WikiMacro parameter, property is not configured: " + entry.getKey());
                 continue;
             }
             WikiPreferenceValue value = new WikiPreferenceValue(property, entry.getValue());
             if (value.getValue() != null) {
-                log.trace("converted WikiMacro argument value into WikiPreferenceValue: " + value.getValue());
+                log.trace("converted WikiMacro parameter value into WikiPreferenceValue: " + value.getValue());
                 valueHolders.add(value);
             } else {
-                log.info("could not convert WikiMacro argument value into WikiPreferenceValue: " + entry.getKey());
+                log.info("could not convert WikiMacro parameter value into WikiPreferenceValue: " + entry.getKey());
             }
         }
         return valueHolders;

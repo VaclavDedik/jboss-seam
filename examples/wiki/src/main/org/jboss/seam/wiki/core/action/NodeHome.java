@@ -92,7 +92,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         if (visibleWorkspace) {
             // Set workspace description of the current conversation
             String desc = getEditorWorkspaceDescription(getNodeId() == null);
-            WikiPreferences prefs = Preferences.getInstance(WikiPreferences.class);
+            WikiPreferences prefs = Preferences.instance().get(WikiPreferences.class);
             if (desc != null && desc.length() > prefs.getWorkspaceSwitcherDescriptionLength()) {
                 desc = desc.substring(0, prefs.getWorkspaceSwitcherDescriptionLength().intValue()) + "...";
             }
@@ -236,6 +236,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         String outcome = super.persist();
         if (outcome != null) {
             Events.instance().raiseEvent("PreferenceEditor.flushAll");
+            Events.instance().raiseEvent("Node.persisted", getInstance());
         }
         return outcome;
     }
@@ -261,7 +262,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         String outcome = super.update();
         if (outcome != null) {
             Events.instance().raiseEvent("PreferenceEditor.flushAll");
-            Events.instance().raiseEvent("Node.updated");
+            Events.instance().raiseEvent("Node.updated", getInstance());
         }
         return outcome;
     }
@@ -283,7 +284,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getNodeRemover().removeDependencies(getInstance());
         String outcome = super.remove();
         if (outcome != null) {
-            Events.instance().raiseEvent("Node.removed");
+            Events.instance().raiseEvent("Node.removed", getInstance());
         }
         return outcome;
     }
@@ -294,7 +295,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         initEditor(false);
         String outcome = remove();
         if (outcome != null) {
-            Events.instance().raiseEvent("Node.refreshList");
+            Events.instance().raiseEvent("Node.removed", getInstance());
         }
         return outcome;
     }
@@ -310,7 +311,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         getEntityManager().flush();
         trashedMessage();
 
-        Events.instance().raiseEvent("Node.removed");
+        Events.instance().raiseEvent("Node.removed", getInstance());
         return "removed";
     }
 

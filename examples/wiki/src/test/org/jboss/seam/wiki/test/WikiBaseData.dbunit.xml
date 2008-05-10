@@ -283,11 +283,10 @@
     <WIKI_FILE
         NODE_ID="9" FILE_REVISION="0"/>
     <WIKI_DOCUMENT
-        NODE_ID="9" CONTENT="Testdocument Four&#xA;&#xA;[&lt;=jiraIssueList[url=http://jira.jboss.com/jira][username=myusername][password=mypassword][filterId=12311591][numberOfIssues=10]]&#xA;&#xA;[&lt;=forumTopPosters[forumLink=Forums|Seam Users Forum]]&#xA;"
+        NODE_ID="9" CONTENT="Testdocument Four&#xA;&#xA;[&lt;=helloWorld[message=Foo]]&#xA;&#xA;[&lt;=jiraIssueList[url=http://jira.jboss.com/jira][username=myusername][password=mypassword][filterId=12311591][numberOfIssues=10]]&#xA;&#xA;[&lt;=forumTopPosters[forumLink=Forums|Seam Users Forum]]&#xA;"
         HEADER="[NULL]" FOOTER="[NULL]"
-        HEADER_MACROS="[NULL]" CONTENT_MACROS="jiraIssueList forumTopPosters" FOOTER_MACROS="[NULL]"
+        HEADER_MACROS="[NULL]" CONTENT_MACROS="helloWorld jiraIssueList forumTopPosters" FOOTER_MACROS="[NULL]"
         NAME_AS_TITLE="true" ENABLE_COMMENTS="true" ENABLE_COMMENT_FORM="true" ENABLE_COMMENTS_ON_FEEDS="true"/>
-
 
 
     <WIKI_NODE

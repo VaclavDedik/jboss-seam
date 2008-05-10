@@ -76,17 +76,17 @@
                 <a:commandLink action="#{userSearch.firstPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="20"
                                oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
                                reRender="dialogOwnerSelectionContent" styleClass="sessionEventTrigger">
-                    <h:graphicImage value="#{themePath}/img/page.first.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.first.gif" width="13" height="11"/>
                 </a:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.previousPageAvailable}"/>
 
                 <a:commandLink action="#{userSearch.previousPage()}" rendered="#{userSearch.previousPageAvailable}" tabindex="20"
                                oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
                                reRender="dialogOwnerSelectionContent" styleClass="sessionEventTrigger">
-                    <h:graphicImage value="#{themePath}/img/page.previous.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.previous.gif" width="13" height="11"/>
                 </a:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.previousPageAvailable}"/>
 
                 <h:outputText value="#{messages['lacewiki.label.userList.Found']} #{userSearch.rowCount} #{messages['lacewiki.label.userList.Members']}"/>
@@ -94,17 +94,17 @@
                 <a:commandLink action="#{userSearch.nextPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="20"
                                oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
                                reRender="dialogOwnerSelectionContent" styleClass="sessionEventTrigger">
-                    <h:graphicImage value="#{themePath}/img/page.next.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.next.gif" width="13" height="11"/>
                 </a:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.nextPageAvailable}"/>
 
                 <a:commandLink action="#{userSearch.lastPage()}" rendered="#{userSearch.nextPageAvailable}" tabindex="20"
                                oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
                                reRender="dialogOwnerSelectionContent" styleClass="sessionEventTrigger">
-                    <h:graphicImage value="#{themePath}/img/page.last.gif" width="13" height="11"/>
+                    <h:graphicImage value="#{imagePath}/page.last.gif" width="13" height="11"/>
                 </a:commandLink>
-                <h:graphicImage value="#{themePath}/img/blank.gif" width="13" height="11"
+                <h:graphicImage value="#{imagePath}/blank.gif" width="13" height="11"
                                 rendered="#{!userSearch.nextPageAvailable}"/>
 
             </h:panelGrid>
@@ -129,9 +129,9 @@
                         <a:commandLink action="#{userSearch.sortBy('username')}" tabindex="20" reRender="dialogOwnerSelectionContent"
                                        oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
                                        styleClass="sessionEventTrigger">
-                            <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                            <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
-                            <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                            <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                             rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'username'}"/>
                             <h:outputText value="#{messages['lacewiki.label.userList.Username']}"/>
                         </a:commandLink>
@@ -145,9 +145,9 @@
                         <a:commandLink action="#{userSearch.sortBy('firstname')}" tabindex="20" reRender="dialogOwnerSelectionContent"
                                        oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
                                        styleClass="sessionEventTrigger">
-                            <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                            <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
-                            <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                            <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                             rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'firstname'}"/>
                             <h:outputText value="#{messages['lacewiki.label.userList.FirstName']}"/>
                         </a:commandLink>
@@ -160,9 +160,9 @@
                         <a:commandLink action="#{userSearch.sortBy('lastname')}" tabindex="20" reRender="dialogOwnerSelectionContent"
                                        oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
                                        styleClass="sessionEventTrigger">
-                            <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                            <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
-                            <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                            <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                             rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'lastname'}"/>
                             <h:outputText value="#{messages['lacewiki.label.userList.LastName']}"/>
                         </a:commandLink>
@@ -175,9 +175,9 @@
                         <a:commandLink action="#{userSearch.sortBy('email')}" tabindex="20" reRender="dialogOwnerSelectionContent"
                                        oncomplete="jQuery('#dialogOwnerSelection').jqmAddClose('.closeDialog'); onAjaxRequestComplete()"
                                        styleClass="sessionEventTrigger">
-                            <h:graphicImage value="#{themePath}/img/sortindicator.up.gif" width="8" height="8"
+                            <h:graphicImage value="#{imagePath}/sortindicator.up.gif" width="8" height="8"
                                             rendered="#{!userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
-                            <h:graphicImage value="#{themePath}/img/sortindicator.down.gif" width="8" height="8"
+                            <h:graphicImage value="#{imagePath}/sortindicator.down.gif" width="8" height="8"
                                             rendered="#{userSearch.orderDescending and userSearch.orderByProperty == 'email'}"/>
                             <h:outputText value="#{messages['lacewiki.label.userList.Email']}"/>
                         </a:commandLink>

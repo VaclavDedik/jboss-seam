@@ -18,8 +18,10 @@ import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.wiki.core.model.WikiFile;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
+import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.renderer.DefaultWikiTextRenderer;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
@@ -43,9 +45,6 @@ public class UIWikiFormattedText extends UIOutput {
 
     Log log = Logging.getLog(UIWikiFormattedText.class);
 
-    public static final String CURRENT_MACRO_EVENT_VARIABLE         = "currentMacro";
-    public static final String CURRENT_MACRO_EVENT_VARIABLE_SET     = "Macro.render.";
-
     public static final String ATTR_LINK_STYLE_CLASS                = "linkStyleClass";
     public static final String ATTR_BROKEN_LINK_STYLE_CLASS         = "brokenLinkStyleClass";
     public static final String ATTR_ATTACHMENT_LINK_STYLE_CLASS     = "attachmentLinkStyleClass";
@@ -54,9 +53,10 @@ public class UIWikiFormattedText extends UIOutput {
     public static final String ATTR_EXTERNAL_TARGET_FRAME           = "externalTargetFrame";
     public static final String ATTR_LINK_BASE_FILE                  = "linkBaseFile";
     public static final String ATTR_CURRENT_AREA_NUMBER             = "currentAreaNumber";
-    public static final String ATTR_ENABLE_PLUGINS                  = "enablePlugins";
+    public static final String ATTR_ENABLE_MACRO_RENDERING          = "enableMacroRendering";
+    public static final String ATTR_ENABLE_TRANSIENT_MACROS         = "enableTransientMacros";
 
-    private Map<Integer, WikiMacro> pluginMacros;
+    private Map<Integer, WikiPluginMacro> macrosWithTemplateByPosition;
 
     public static final String COMPONENT_FAMILY = "org.jboss.seam.wiki.core.ui.UIWikiFormattedText";
 
@@ -64,7 +64,7 @@ public class UIWikiFormattedText extends UIOutput {
 
     public UIWikiFormattedText() {
         super();
-        pluginMacros = new HashMap<Integer, WikiMacro>();
+        macrosWithTemplateByPosition = new HashMap<Integer, WikiPluginMacro>();
     }
 
     @Override
@@ -99,6 +99,7 @@ public class UIWikiFormattedText extends UIOutput {
         // Set a customized renderer for parser macro callbacks
         class WikiFormattedTextRenderer extends DefaultWikiTextRenderer {
 
+            @Override
             public String renderInternalLink(WikiLink internalLink) {
                 return "<a href=\""
                         + (
@@ -119,6 +120,7 @@ public class UIWikiFormattedText extends UIOutput {
                         + internalLink.getDescription() + "</a>";
             }
 
+            @Override
             public String renderExternalLink(WikiLink externalLink) {
                 return "<a href=\""
                         + WikiUtil.escapeEmailURL(externalLink.getUrl())
@@ -130,6 +132,7 @@ public class UIWikiFormattedText extends UIOutput {
                         + WikiUtil.escapeEmailURL(externalLink.getDescription()) + "</a>";
             }
 
+            @Override
             public String renderFileAttachmentLink(int attachmentNumber, WikiLink attachmentLink) {
                 return "<a href=\""
                         + wikiURLRenderer.renderURL(baseFile)
@@ -141,6 +144,7 @@ public class UIWikiFormattedText extends UIOutput {
                         + attachmentLink.getDescription() + "[" + attachmentNumber + "]" + "</a>";
             }
 
+            @Override
             public String renderThumbnailImageLink(WikiLink link) {
 
                 // TODO: This is not typesafe and clean, need different rendering strategy for WikiUpload subclasses
@@ -170,16 +174,23 @@ public class UIWikiFormattedText extends UIOutput {
                 }
             }
 
-            public String renderMacro(WikiMacro macro) {
+            @Override
+            public String renderMacro(WikiTextMacro macro) {
 
-                WikiMacro pluginMacro = pluginMacros.get(macro.getPosition());
-                if (pluginMacro == null) {
-                    log.debug("macro is not a plugin, skipping: " + macro);
+                WikiPluginMacro pluginMacroWithTemplate = macrosWithTemplateByPosition.get(macro.getPosition());
+                if (pluginMacroWithTemplate == null) {
+                    log.debug("macro does not have an XHTML template/include, skipping: " + macro);
                     return "";
                 }
 
-                log.debug("preparing plugin rendering for macro: " + macro);
-                UIComponent child = findComponent( pluginMacros.get(macro.getPosition()).getClientId() );
+                log.debug("firing BEFORE_VIEW_RENDER macro event");
+                Events.instance().raiseEvent(
+                    pluginMacroWithTemplate.getCallbackEventName(WikiPluginMacro.CallbackEvent.BEFORE_VIEW_RENDER),
+                        pluginMacroWithTemplate
+                );
+
+                log.debug("preparing include rendering for macro: " + pluginMacroWithTemplate);
+                UIComponent child = findComponent( pluginMacroWithTemplate.getClientId() );
                 log.debug("JSF child client identifier: " + child.getClientId(getFacesContext()));
                 ResponseWriter originalResponseWriter = getFacesContext().getResponseWriter();
                 StringWriter stringWriter = new StringWriter();
@@ -187,28 +198,31 @@ public class UIWikiFormattedText extends UIOutput {
                         .cloneWithWriter(stringWriter);
                 getFacesContext().setResponseWriter(tempResponseWriter);
 
-                log.debug("setting current macro in EVENT context");
-                Contexts.getEventContext().set(CURRENT_MACRO_EVENT_VARIABLE, macro);
-                Events.instance().raiseEvent(CURRENT_MACRO_EVENT_VARIABLE_SET+macro.getName());
-
                 try {
-                    log.debug("rendering plugin macro: " + macro);
+                    log.debug("rendering template of macro: " + pluginMacroWithTemplate);
                     JSF.renderChild(getFacesContext(), child);
+
+                    log.debug("firing AFTER_VIEW_RENDER macro event");
+                    Events.instance().raiseEvent(
+                        pluginMacroWithTemplate.getCallbackEventName(WikiPluginMacro.CallbackEvent.AFTER_VIEW_RENDER),
+                        pluginMacroWithTemplate
+                    );
                 }
                 catch (Exception ex) {
                     throw new RuntimeException(ex);
-                }
-                finally {
+                } finally {
                     getFacesContext().setResponseWriter(originalResponseWriter);
                 }
                 return stringWriter.getBuffer().toString();
             }
 
+            @Override
             public void setAttachmentLinks(List<WikiLink> attachmentLinks) {
                 // Put attachments (wiki links...) into the event context for later rendering
                 setLinks("wikiTextAttachments", attachmentLinks);
             }
 
+            @Override
             public void setExternalLinks(List<WikiLink> externalLinks) {
                 // Put external links (to targets not on this wiki) into the event context for later rendering
                 setLinks("wikiTextExternalLinks", externalLinks);
@@ -234,12 +248,14 @@ public class UIWikiFormattedText extends UIOutput {
                 */
             }
 
+            @Override
             protected String getHeadlineId(Headline h, String headline) {
                 // HTML id attribute has restrictions on valid values... so the easiest way is to make this a WikiLink
                 return HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline);
                 // We also need to access it correctly, see WikiLink.java and getHeadLineLink()
             }
 
+            @Override
             protected String getHeadlineLink(Headline h, String headline) {
                 return "<a href=\""+ wikiURLRenderer.renderURL(baseFile)+"#"+WikiTextRenderer.HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline)+"\">"
                         + headline
@@ -265,8 +281,8 @@ public class UIWikiFormattedText extends UIOutput {
 
     }
 
-    protected void addPluginMacro(Integer position, WikiMacro macro) {
-        pluginMacros.put(position, macro);
+    protected void addMacroWithTemplate(WikiPluginMacro pluginMacro) {
+        macrosWithTemplateByPosition.put(pluginMacro.getPosition(), pluginMacro);
     }
 
 }

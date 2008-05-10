@@ -17,12 +17,13 @@
     <!-- set global properties for this build -->
     <property name="project.name" value="wiki"/>
 
-    <property name="src.java.dir" value="src/main"/>
+    <property name="src.java.dir"   value="src/main"/>
+    <property name="src.plugin.dir" value="src/plugin"/>
     <property name="src.test.dir" value="src/test"/>
     <property name="src.etc.dir"  value="src/etc"/>
     <property name="view.dir"     value="view"/>
 
-    <property name="classes.dir"        value="${tmp.dir}/classes"/>
+    <property name="classes.dir"         value="${tmp.dir}/classes"/>
     <property name="testclasses.dir"    value="${tmp.dir}/testclasses"/>
     <property name="test.output.dir"    value="${tmp.dir}/test-output"/>
     <property name="exploded.dir"       value="${tmp.dir}/exploded"/>
@@ -96,6 +97,14 @@
         <include name="**/*.sql"/>
         <include name="**/*.drl"/>
         <include name="**/*.MF"/>
+        <include name="**/*.dtd"/>
+        <include name="**/*.xsd"/>
+        <include name="**/*.gif"/>
+        <include name="**/*.jpg"/>
+        <include name="**/*.jpeg"/>
+        <include name="**/*.png"/>
+        <include name="**/*.css"/>
+        <include name="**/*.xhtml"/>
     </patternset>
 
     <!-- ################## SETUP ####################### -->
@@ -152,11 +161,15 @@
                 deprecation="${javac.deprecation}"
                      nowarn="${javac.nowarn}">
             <src path="${src.java.dir}"/>
+            <src path="${src.plugin.dir}"/>
         </javac>
 
         <!-- Copy resources (mapping files, properties, etc.) to classes -->
         <copy todir="${classes.dir}">
             <fileset dir="${src.java.dir}">
+                <patternset refid="meta.files"/>
+            </fileset>
+            <fileset dir="${src.plugin.dir}">
                 <patternset refid="meta.files"/>
             </fileset>
         </copy>
