@@ -27,10 +27,10 @@ public abstract class Work<T>
    {
       boolean transactionActive = Transaction.instance().isActiveOrMarkedRollback()
               || Transaction.instance().isRolledBack(); //TODO: temp workaround, what should we really do in this case??
-      boolean begin = isNewTransactionRequired(transactionActive);
-      UserTransaction userTransaction = begin ? Transaction.instance() : null;
+      boolean newTransactionRequired = isNewTransactionRequired(transactionActive);
+      UserTransaction userTransaction = newTransactionRequired ? Transaction.instance() : null;
       
-      if (begin) 
+      if (newTransactionRequired) 
       {
          log.debug("beginning transaction");
          userTransaction.begin();
@@ -39,16 +39,24 @@ public abstract class Work<T>
       try
       {
          T result = work();
-         if (begin) 
+         if (newTransactionRequired) 
          {
-            log.debug("committing transaction");
-            userTransaction.commit();
+            if (Transaction.instance().isMarkedRollback())
+            {
+               log.debug("rolling back transaction");
+               userTransaction.rollback(); 
+            }
+            else
+            {
+               log.debug("committing transaction");
+               userTransaction.commit();
+            }
          }
          return result;
       }
       catch (Exception e)
       {
-         if (begin && userTransaction.getStatus() != Status.STATUS_NO_TRANSACTION) 
+         if (newTransactionRequired && userTransaction.getStatus() != Status.STATUS_NO_TRANSACTION) 
          {
             log.debug("rolling back transaction");
             userTransaction.rollback();
