@@ -34,15 +34,15 @@
       </dependency>
       
       <dependency>
-         <groupId>hsqldb</groupId>
-         <artifactId>hsqldb</artifactId>
-         <scope>runtime</scope>
-      </dependency>
-      
-      <dependency>
          <groupId>org.jboss.seam</groupId>
          <artifactId>jboss-seam</artifactId>
          <scope>runtime</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>hsqldb</groupId>
+               <artifactId>hsqldb</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
       
       <dependency>

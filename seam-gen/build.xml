@@ -368,7 +368,7 @@
                    message="Enter the Hibernate dialect for your database [${hibernate.dialect.default}]" 
               defaultvalue="${hibernate.dialect.default}"/>
         
-        <property name="old.driver.jar" value="../lib/gen/hsqldb.jar"/>
+        <property name="old.driver.jar" value="../lib/hsqldb.jar"/>
         <input addproperty="driver.jar.new"
                    message="Enter the filesystem path to the JDBC driver jar [${old.driver.jar}]" 
               defaultvalue="${old.driver.jar}"/>

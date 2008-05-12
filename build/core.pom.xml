@@ -288,6 +288,18 @@
       <optional>true</optional>
       <scope>runtime</scope>
     </dependency>
+    
+    <dependency>
+       <groupId>oswego-concurrent</groupId>
+       <artifactId>concurrent</artifactId>
+       <optional>true</optional>
+    </dependency>
+    
+    <dependency>
+       <groupId>hsqldb</groupId>
+       <artifactId>hsqldb</artifactId>
+       <optional>true</optional>
+    </dependency>
 
   </dependencies>
 
