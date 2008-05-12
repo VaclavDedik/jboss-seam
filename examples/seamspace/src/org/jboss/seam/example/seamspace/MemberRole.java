@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.jboss.seam.annotations.security.management.RoleConditional;
 import org.jboss.seam.annotations.security.management.RoleGroups;
 import org.jboss.seam.annotations.security.management.RoleName;
 
@@ -20,6 +21,7 @@ public class MemberRole implements Serializable
    
    private Integer roleId;
    private String name;
+   private boolean conditional;
    
    private Set<MemberRole> groups;
    
@@ -60,4 +62,15 @@ public class MemberRole implements Serializable
    {
       this.groups = groups;
    }   
+   
+   @RoleConditional
+   public boolean isConditional()
+   {
+      return conditional;
+   }
+   
+   public void setConditional(boolean conditional)
+   {
+      this.conditional = conditional;
+   }
 }

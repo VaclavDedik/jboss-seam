@@ -56,10 +56,10 @@ rule FriendViewImage
   no-loop
   activation-group "permissions"
 when
-  member: Member()
-  image: MemberImage(mbr : member -> (mbr.friends contains member))
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.isFriend(acct.member)))
   PermissionCheck(target == image, action == "view")
-  role: RoleCheck(name == "friend")
+  role: RoleCheck(name == "friends")
 then
   role.grant();
 end

@@ -3,8 +3,9 @@ insert into Member (memberid, membername, firstname, lastname, email, tagline, g
 insert into Member (memberid, membername, firstname, lastname, email, tagline, gender, dob, location, membersince) values (3, 'shadowman', 'shadow', 'man', 'shadowman@redhat.com', 'I''m wearing a hat', 0, '1999-01-01', '', '2007-01-05')
 insert into Member (memberid, membername, firstname, lastname, email, tagline, gender, dob, location, membersince) values (4, 'mona', 'mona', 'lisa', 'monalisa@louvre.fr', 'Some describe me as enigmatic', 1, '1503-07-01', '', '2007-01-06')
 
-insert into MemberRole (roleid, name) values (1, 'user');
-insert into MemberRole (roleid, name) values (2, 'admin');
+insert into MemberRole (roleid, name, conditional) values (1, 'user', false);
+insert into MemberRole (roleid, name, conditional) values (2, 'admin', false);
+insert into MemberRole (roleid, name, conditional) values (3, 'friends', true);
 
 insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (1, 'demo', '/9Se/pfHeUH8FJ4asBD6jQ==', 1, 1);
 insert into MemberAccount (accountid, username, passwordhash, enabled, member_id) values (2, 'duke', 'lykcKcxppliQQk0Pl9so8g==', 1, 2);

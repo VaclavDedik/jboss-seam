@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.security.Identity;
 
 @Name("pictureSearch")
 @Scope(EVENT)
@@ -52,5 +53,6 @@ public class PictureSearch implements Serializable
             "select i from MemberImage i where i.member.memberName = :name")
             .setParameter("name", memberName)
             .getResultList();      
+      Identity.instance().filterByPermission(memberImages, "view");
    }
 }
