@@ -4,8 +4,11 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
@@ -79,6 +82,69 @@ public class PermissionMapper implements Serializable
       
       return false;
    }   
+   
+   public void filterByPermission(Collection collection, String action)
+   {
+      boolean homogenous = true;
+      
+      Class targetClass = null;
+      for (Object target : collection)
+      {
+         if (targetClass == null) targetClass = target.getClass();
+         if (!targetClass.equals(target.getClass()))
+         {
+            homogenous = false;
+            break;
+         }
+      }
+           
+      if (homogenous)
+      {
+         Set<Object> denied = new HashSet<Object>(collection);   
+         ResolverChain chain = getResolverChain(targetClass, action);
+         for (PermissionResolver resolver : chain.getResolvers())
+         {
+            resolver.filterSetByAction(denied, action);
+         }
+         
+         for (Object target : denied)
+         {
+            collection.remove(target);
+         }     
+      }
+      else
+      {
+         Map<Class,Set<Object>> deniedByClass = new HashMap<Class,Set<Object>>();
+         for (Object obj : collection)
+         {
+            if (!deniedByClass.containsKey(obj.getClass()))
+            {
+               Set<Object> denied = new HashSet<Object>();
+               denied.add(obj);
+               deniedByClass.put(obj.getClass(), denied);
+            }
+            else
+            {
+               deniedByClass.get(obj.getClass()).add(obj);
+            }
+         }
+         
+         for (Class cls : deniedByClass.keySet())
+         {
+            Set<Object> denied = deniedByClass.get(cls);
+            ResolverChain chain = getResolverChain(cls, action);
+            for (PermissionResolver resolver : chain.getResolvers())
+            {
+               resolver.filterSetByAction(denied, action);
+            }
+            
+            for (Object target : denied)
+            {
+               collection.remove(target);
+            }
+         }
+      }
+   }
    
    private ResolverChain createDefaultResolverChain()
    {

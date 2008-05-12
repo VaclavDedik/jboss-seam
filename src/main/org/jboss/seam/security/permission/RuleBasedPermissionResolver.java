@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.drools.FactHandle;
 import org.drools.RuleBase;
@@ -127,14 +128,24 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       return check.isGranted();
    }
    
+   public void filterSetByAction(Set<Object> targets, String action)
+   {
+      Iterator iter = targets.iterator();
+      while (iter.hasNext())
+      {
+         Object target = iter.next();
+         if (hasPermission(target, action)) iter.remove();
+      }
+   }
+   
    public boolean checkConditionalRole(String roleName, Object target, String action)
    {      
-      if (getSecurityContext() == null) return false;
+      StatefulSession securityContext = getSecurityContext();
+      if (securityContext == null) return false;
       
       RoleCheck roleCheck = new RoleCheck(roleName);
       
       List<FactHandle> handles = new ArrayList<FactHandle>();
-      handles.add(getSecurityContext().insert(roleCheck));
       
       if (!(target instanceof String) && !(target instanceof Class))
       {
@@ -153,7 +164,8 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
          try
          {
             synchronizeContext();
-            
+
+            handles.add( securityContext.insert(roleCheck));
             handles.add( securityContext.insert(check));
             
             securityContext.fireAllRules();

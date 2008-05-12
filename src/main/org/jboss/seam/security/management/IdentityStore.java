@@ -81,7 +81,7 @@ public interface IdentityStore
    boolean deleteRole(String role);
    boolean roleExists(String name);   
    boolean addRoleToGroup(String role, String group);
-   boolean removeRoleFromGroup(String role, String group);
+   boolean removeRoleFromGroup(String role, String group);   
 
    List<String> listUsers();
    List<String> listUsers(String filter);

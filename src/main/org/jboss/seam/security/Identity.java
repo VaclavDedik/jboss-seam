@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.security.acl.Group;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -563,6 +564,11 @@ public class Identity implements Serializable
          return permissionMapper.resolvePermission(name, action);
       }
    }   
+   
+   public void filterByPermission(Collection collection, String action)
+   {
+      permissionMapper.filterByPermission(collection, action);  
+   }
    
    public boolean hasPermission(Object target, String action)
    {

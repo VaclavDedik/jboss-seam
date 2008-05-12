@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.security.management.RoleConditional;
 import org.jboss.seam.annotations.security.management.RoleGroups;
 import org.jboss.seam.annotations.security.management.RoleName;
 import org.jboss.seam.annotations.security.management.UserEnabled;
@@ -70,6 +71,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    private AnnotatedBeanProperty<UserLastName> userLastNameProperty;   
    private AnnotatedBeanProperty<RoleName> roleNameProperty;
    private AnnotatedBeanProperty<RoleGroups> roleGroupsProperty;
+   private AnnotatedBeanProperty<RoleConditional> roleConditionalProperty;
    
    public Set<Feature> getFeatures()
    {
@@ -126,6 +128,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       
       roleNameProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleName.class);
       roleGroupsProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleGroups.class);
+      roleConditionalProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleConditional.class);
       
       if (userPrincipalProperty == null) 
       {
@@ -657,6 +660,12 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    public String getRoleName(Object role)
    {
       return (String) roleNameProperty.getValue(role);
+   }
+   
+   public boolean isRoleConditional(String role)
+   {      
+      return roleConditionalProperty == null ? false : (Boolean) roleConditionalProperty.getValue(
+            lookupRole(role));
    }
    
    public Object lookupRole(String role)       

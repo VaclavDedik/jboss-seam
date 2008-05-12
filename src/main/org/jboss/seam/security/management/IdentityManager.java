@@ -217,6 +217,12 @@ public class IdentityManager implements Serializable
       return roles;      
    }
    
+   public List<String> listAssignableRoles()
+   {
+      return listRoles();
+      // TODO fix
+   }
+   
    public List<String> getGrantedRoles(String name)
    {
       return roleIdentityStore.getGrantedRoles(name);

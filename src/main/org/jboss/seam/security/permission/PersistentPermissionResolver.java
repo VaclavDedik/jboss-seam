@@ -4,7 +4,9 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
@@ -104,5 +106,56 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
       }      
       
       return false;
+   }
+   
+   public void filterSetByAction(Set<Object> targets, String action)
+   {
+      if (permissionStore == null) return;
+      
+      Identity identity = Identity.instance();
+      if (!identity.isLoggedIn()) return;
+      
+      List<Permission> permissions = permissionStore.listPermissions(targets, action);
+      
+      String username = identity.getPrincipal().getName();
+      
+      Iterator iter = targets.iterator();
+      while (iter.hasNext())
+      {
+         Object target = iter.next();
+         
+         for (Permission permission : permissions)
+         {
+            if (permission.getTarget().equals(target))
+            {
+               if (permission.getRecipient() instanceof SimplePrincipal &&
+                     username.equals(permission.getRecipient().getName()))
+               {
+                  iter.remove();
+                  break;
+               }
+               
+               if (permission.getRecipient() instanceof Role)
+               {
+                  Role role = (Role) permission.getRecipient();
+                  
+                  if (role.isConditional())
+                  {
+                     RuleBasedPermissionResolver resolver = RuleBasedPermissionResolver.instance();
+                     if (resolver.checkConditionalRole(role.getName(), target, action))
+                     {
+                        iter.remove();
+                        break;
+                     }
+                     else if (identity.hasRole(role.getName()))
+                     {
+                        iter.remove();
+                        break;
+                     }
+                  }
+               }               
+            }
+         }
+      }
    }
 }
