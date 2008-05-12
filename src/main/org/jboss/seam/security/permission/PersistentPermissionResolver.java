@@ -96,7 +96,7 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
             if (role.isConditional())
             {
                RuleBasedPermissionResolver resolver = RuleBasedPermissionResolver.instance();
-               return resolver.checkConditionalRole(role.getName(), target, action);
+               if (resolver.checkConditionalRole(role.getName(), target, action)) return true;               
             }
             else if (identity.hasRole(role.getName()))
             {
