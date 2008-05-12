@@ -3,7 +3,6 @@
 <project name="Seam2 Continuous Integration Support" basedir="." xmlns:artifact="urn:maven-artifact-ant">
 
 	<property name="qualifier" value="-SNAPSHOT" />
-
 	<property file="default.build.properties" />
 	<property file="build.properties" />
 
@@ -14,7 +13,7 @@
 	<property name="maven.settings.xml" location="ci.settings.xml" />
 
 	<import file="common.build.xml" />
-
+	
 	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
 
 	<target name="deploySeamSnapshot" description="Deploy a Seam snapshot to snapshots.jboss.org" depends="initdav, initpoms">
@@ -22,7 +21,7 @@
 		<deploySnapshotPom pom="${parent.pom}" />
 		<deploySnapshot pom="${core.pom}" jar="${lib.dir}/jboss-seam.jar" srcjar="${lib.dir}/src/jboss-seam-sources.jar" />
 		<deploySnapshot pom="${debug.pom}" jar="${lib.dir}/jboss-seam-debug.jar" srcjar="${lib.dir}/src/jboss-seam-debug-sources.jar" />
-		<deploySnapshot pom="${jbas5.pom}" jar="${lib.dir}/interop/jboss-seam-jbas5.jar" srcjar="${lib.dir}/interop/src/jboss-seam-jbas5-sources.jar" />
+        <deploySnapshot pom="${jbas5.pom}" jar="${lib.dir}/interop/jboss-seam-jbas5.jar" srcjar="${lib.dir}/interop/src/jboss-seam-jbas5-sources.jar" />
 		<deploySnapshot pom="${gen.pom}" jar="${lib.dir}/jboss-seam-gen.jar" srcjar="${lib.dir}/src/jboss-seam-gen-sources.jar" />
 		<deploySnapshot pom="${ioc.pom}" jar="${lib.dir}/jboss-seam-ioc.jar" srcjar="${lib.dir}/src/jboss-seam-ioc-sources.jar" />
 		<deploySnapshot pom="${mail.pom}" jar="${lib.dir}/jboss-seam-mail.jar" srcjar="${lib.dir}/src/jboss-seam-mail-sources.jar" />
@@ -33,23 +32,23 @@
 
 	<target name="tests">
 		<build target="cleanall" />
-		<build target="coverageall" testngjvmargs="-Dfoo" />
+		<build target="coverageall" />
 		<build target="copytestoutput" />
 		<build target="testreport" />
 	</target>
-
-	<target name="tests-java16">
-		<build target="cleanall" />
-		<copyInlineDependencies id="endorsed" scope="compile" todir="${endorsed.dir}">
-			<dependency groupId="javax.xml.bind" artifactId="jaxb-api" version="2.1">
-				<exclusion groupId="javax.xml.stream" artifactId="stax-api" />
-				<exclusion groupId="javax.activation" artifactId="activation" />
-			</dependency>
-		</copyInlineDependencies>
-		<build target="testall" testngjvmargs="-Dsun.lang.ClassLoader.allowArraySyntax=true" />
-		<build target="copytestoutput" />
-		<build target="testreport" />
-	</target>
+    
+    <target name="tests-java16">
+        <build target="cleanall" />
+        <copyInlineDependencies id="endorsed" scope="compile" todir="${endorsed.dir}">
+            <dependency groupId="javax.xml.bind" artifactId="jaxb-api" version="2.1">
+                <exclusion groupId="javax.xml.stream" artifactId="stax-api" />
+                <exclusion groupId="javax.activation" artifactId="activation" />
+            </dependency>
+        </copyInlineDependencies>
+        <build target="testall" testngjvmargs="-Dsun.lang.ClassLoader.allowArraySyntax=true" />
+        <build target="copytestoutput" />
+        <build target="testreport" />
+    </target>
 
 	<target name="snapshot">
 		<build target="cleanall" />
@@ -72,13 +71,13 @@
 			<property name="qualifier" value="-SNAPSHOT" />
 		</ant>
 	</target>
-
+	
 	<target name="deployExamplesSnapshot" depends="initdav">
 		<deployExample name="booking" repositoryId="snapshots.jboss.org" />
 		<deployExampleNoDs name="numberguess" repositoryId="snapshots.jboss.org" />
 		<deployExample name="dvd" path="${seam.dir}/examples/dvdstore" repositoryId="snapshots.jboss.org" />
 	</target>
-
+	
 	<target name="deployDocumentation" depends="initdav, initpoms">
 		<artifact:deploy uniqueVersion="false" file="${docs.pom}">
 			<pom file="${docs.pom}" />
@@ -89,38 +88,38 @@
 
 	<macrodef name="build">
 		<attribute name="target" />
-		<attribute name="testngjvmargs" default="" />
+        <attribute name="testngjvmargs" default="" />
 		<element name="properties" optional="true" />
 		<sequential>
 			<ant antfile="${seam.dir}/build.xml" target="@{target}" inheritall="false" inheritrefs="false" dir="../">
 				<property name="dist.location" value="${dist.location}" />
 				<property name="qualifier" value="-SNAPSHOT" />
 				<property name="quietclean" value="true" />
-				<property name="testng.jvmargs" value="@{testngjvmargs}" />
+                <property name="testng.jvmargs" value="@{testngjvmargs}" />
 				<property name="maven.settings.xml" value="${maven.settings.xml}" />
 				<properties />
 			</ant>
 		</sequential>
 	</macrodef>
 
-	<macrodef name="deploySnapshotPom">
-		<attribute name="pom" />
-		<sequential>
-			<artifact:deploy uniqueVersion="true">
-				<pom file="@{pom}" />
-				<remoteRepository refid="snapshots.jboss.org" />
-			</artifact:deploy>
-		</sequential>
-	</macrodef>
+    <macrodef name="deploySnapshotPom">
+        <attribute name="pom" />
+        <sequential>
+            <artifact:deploy uniqueVersion="true">
+                <pom file="@{pom}" />
+                <remoteRepository refid="snapshots.jboss.org" />
+            </artifact:deploy>
+        </sequential>
+    </macrodef>
 
 	<macrodef name="deploySnapshot">
 		<attribute name="pom" />
 		<attribute name="jar" />
-		<attribute name="srcjar" />
+        <attribute name="srcjar" />
 		<sequential>
 			<artifact:deploy file="@{jar}" uniqueVersion="true">
 				<pom file="@{pom}" />
-				<attach file="@{srcjar}" classifier="sources" />
+                <attach file="@{srcjar}" classifier="sources" />
 				<remoteRepository refid="snapshots.jboss.org" />
 			</artifact:deploy>
 		</sequential>
