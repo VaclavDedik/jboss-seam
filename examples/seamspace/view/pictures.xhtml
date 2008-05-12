@@ -14,6 +14,13 @@
     </ui:define>
   
     <ui:define name="content">
+    
+      <script type="text/javascript">
+        function confirmDelete()
+        {
+          return confirm("Are you sure you wish to delete this image? This action cannot be undone.");
+        }
+      </script>    
       
       <div class="errors"><h:messages globalOnly="true"/></div>     
 
@@ -45,10 +52,18 @@
               <a href="content/images?id=#{img.imageId}" rel="lightbox[pictureset]" title="#{img.caption}">
                 <h:graphicImage value="/content/images?id=#{img.imageId}&amp;width=90" border="0"/>
               </a>
-              <s:button view="/imagepermissions.seam" action="#{permissionSearch.search(pictureSearch.lookupImage())}" styleClass="padlock">
+              <s:button view="/imagepermissions.seam" 
+                action="#{permissionSearch.search(pictureSearch.lookupImage())}" 
+                styleClass="padlock"
+                rendered="#{s:hasPermission(img, 'seam.grant-permission')}">
                 <f:param name="imageId" value="#{img.imageId}"/>
               </s:button>
-              <s:button styleClass="trash"/>
+              <s:button styleClass="trash" 
+                action="#{pictureSearch.delete(pictureSearch.lookupImage())}"
+                rendered="#{s:hasPermission(img, 'delete')}"
+                onclick="if (!confirmDelete()) return false">
+                <f:param name="imageId" value="#{img.imageId}"/>
+              </s:button>
             </div>
               
           </ui:repeat> 

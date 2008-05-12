@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.security.Delete;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.security.Identity;
 
@@ -41,6 +42,11 @@ public class PictureSearch implements Serializable
       this.memberName = memberName;
    }
    
+   public void delete(@Delete MemberImage image)
+   {
+      entityManager.remove(image);
+   }
+   
    public MemberImage lookupImage()
    {
       return entityManager.find(MemberImage.class, imageId);
@@ -50,7 +56,7 @@ public class PictureSearch implements Serializable
    public void loadMemberPictures()
    {
       memberImages = (List<MemberImage>) entityManager.createQuery(
-            "select i from MemberImage i where i.member.memberName = :name")
+            "select i from MemberImage i where i.member.memberName = :name and not i = i.member.picture")
             .setParameter("name", memberName)
             .getResultList();      
       Identity.instance().filterByPermission(memberImages, "view");

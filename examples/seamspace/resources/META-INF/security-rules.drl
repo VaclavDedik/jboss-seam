@@ -28,6 +28,19 @@ then
   check.grant();
 end
 
+# This rule allows a member to delete their own images
+
+rule DeleteImage
+  no-loop
+  activation-group "permissions"
+when
+  acct: MemberAccount()
+  image: MemberImage(mbr : member -> (mbr.memberId.equals(acct.member.memberId)))
+  check: PermissionCheck(target == image, action == "delete", granted == false)
+then
+  check.grant();
+end
+
 # This rule allows members to revoke permissions on their images to other users/roles
 
 rule RevokeImagePermissions
