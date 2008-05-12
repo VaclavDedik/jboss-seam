@@ -3,7 +3,9 @@ package org.jboss.seam.security;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
@@ -32,25 +34,47 @@ public class SecurityInterceptor extends AbstractInterceptor
    {
       private String expression;
       
-      private Object target;
-      private String action;
+      private Map<String, Object> methodRestrictions;
+      private Map<Integer,Set<String>> paramRestrictions;
             
       public void setExpression(String expression)
       {
          this.expression = expression;
       }
       
-      public void setTarget(Object target)
+      public void addMethodRestriction(Object target, String action)
       {
-         this.target = target;
+         if (methodRestrictions == null)
+         {
+            methodRestrictions = new HashMap<String, Object>();
+         }
+         
+         methodRestrictions.put(action, target);
       }
       
-      public void setAction(String action)
+      public void addParameterRestriction(int index, String action)
       {
-         this.action = action;
+         Set<String> actions = null;
+         
+         if (paramRestrictions == null)
+         {
+            paramRestrictions = new HashMap<Integer,Set<String>>();
+         }
+         
+         if (!paramRestrictions.containsKey(index))
+         {
+            actions = new HashSet<String>();
+            paramRestrictions.put(index, actions);
+         }
+         else
+         {
+            actions = paramRestrictions.get(index);
+         }
+         
+         actions.add(action);
       }
       
-      public void check()
+      public void check(Object[] parameters)
       {
          if (Identity.isSecurityEnabled())
          {
@@ -58,9 +82,25 @@ public class SecurityInterceptor extends AbstractInterceptor
             {
                Identity.instance().checkRestriction(expression);
             }
-            else if (target != null && action != null)
+            
+            if (methodRestrictions != null)
             {
-               Identity.instance().checkPermission(target, action);
+               for (String action : methodRestrictions.keySet())
+               {
+                  Identity.instance().checkPermission(methodRestrictions.get(action), action);
+               }
+            }
+            
+            if (paramRestrictions != null)
+            {
+               for (Integer idx : paramRestrictions.keySet())
+               {
+                  Set<String> actions = paramRestrictions.get(idx);
+                  for (String action : actions) 
+                  {
+                     Identity.instance().checkPermission(parameters[idx], action);
+                  }
+               }
             }
          }
       }
@@ -73,7 +113,7 @@ public class SecurityInterceptor extends AbstractInterceptor
       
       Restriction restriction = getRestriction(interfaceMethod);
       
-      if ( restriction != null ) restriction.check();
+      if ( restriction != null ) restriction.check(invocation.getParameters());
 
       return invocation.proceed();
    }
@@ -85,7 +125,9 @@ public class SecurityInterceptor extends AbstractInterceptor
          synchronized(restrictions)
          {
             if (!restrictions.containsKey(interfaceMethod))
-            {               
+            {  
+               Restriction restriction = null;
+               
                Method method = getComponent().getBeanClass().getMethod( 
                      interfaceMethod.getName(), interfaceMethod.getParameterTypes() );      
                
@@ -105,18 +147,17 @@ public class SecurityInterceptor extends AbstractInterceptor
                
                if (restrict != null)
                {
-                  Restriction restriction = new Restriction();
+                  if (restriction == null) restriction = new Restriction();
                   restriction.setExpression(!Strings.isEmpty( restrict.value() ) ? 
                         restrict.value() : createDefaultExpr(method));
-                  restrictions.put(interfaceMethod, restriction);
-                  return restriction;
                }
                
                for (Annotation annotation : method.getAnnotations())
                {
                   if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class))
                   {
-                     PermissionCheck permissionAction = annotation.annotationType().getAnnotation(PermissionCheck.class);
+                     PermissionCheck permissionCheck = annotation.annotationType().getAnnotation(
+                           PermissionCheck.class);
                      
                      Method valueMethod = null;
                      for (Method m : annotation.annotationType().getDeclaredMethods())
@@ -126,31 +167,53 @@ public class SecurityInterceptor extends AbstractInterceptor
                      }
                      
                      if (valueMethod != null)
-                     {
-                        Restriction restriction = new Restriction();
-                        restriction.setTarget(valueMethod.invoke(annotation));
-                        
-                        if (!"".equals(permissionAction.value()))
+                     {                        
+                        if (restriction == null) restriction = new Restriction();
+                        Object target = valueMethod.invoke(annotation);
+                        if (!target.equals(void.class))
                         {
-                           restriction.setAction(permissionAction.value());
+                           if (restriction == null) restriction = new Restriction();
+                           restriction.addMethodRestriction(target, 
+                                 getPermissionAction(permissionCheck, annotation));
                         }
-                        else
-                        {
-                           // If the PermissionAction.value isn't set, just use the lower-case version of the annotation name
-                           restriction.setAction(annotation.annotationType().getSimpleName().toLowerCase());
-                        }
-                        restrictions.put(interfaceMethod, restriction);
-                        return restriction;
                      }
                   }
-               }
+               }               
                
-               restrictions.put(interfaceMethod, null);
-               return null;
+               for (int i = 0; i < method.getParameterAnnotations().length; i++)
+               {
+                  Annotation[] annotations = method.getParameterAnnotations()[i]; 
+                  for (Annotation annotation : annotations)
+                  {
+                     if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class))
+                     {                        
+                        PermissionCheck permissionCheck = annotation.annotationType().getAnnotation(
+                              PermissionCheck.class);
+                        if (restriction == null) restriction = new Restriction();
+                        restriction.addParameterRestriction(i, 
+                              getPermissionAction(permissionCheck, annotation));                        
+                     }
+                  }
+               }                             
+               
+               restrictions.put(interfaceMethod, restriction);
+               return restriction;
             }
          }
       }
       return restrictions.get(interfaceMethod);      
+   }
+   
+   private String getPermissionAction(PermissionCheck check, Annotation annotation)
+   {
+      if (!"".equals(check.value()))
+      {
+         return check.value();
+      }
+      else
+      {
+         return annotation.annotationType().getSimpleName().toLowerCase();
+      }
    }
    
    /**

@@ -1077,20 +1077,30 @@ public class Component extends Model
       if ( beanClassHasAnnotation(Restrict.class) )
       {
          secure = true;
+         return;
       }
       
-      if (!secure)
+      for (Method method : getBeanClass().getMethods())
       {
-         for (Method method : getBeanClass().getMethods())
+         for (Annotation annotation : method.getAnnotations())
          {
-            for (Annotation annotation : method.getAnnotations())
+            if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class))
+            {
+               secure = true;
+               return;
+            }
+         }   
+         
+         for (Annotation[] annotations : method.getParameterAnnotations())
+         {
+            for (Annotation annotation : annotations)
             {
                if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class))
                {
                   secure = true;
-                  break;
+                  return;
                }
-            }         
+            }
          }
       }
    }

@@ -1,5 +1,6 @@
 package org.jboss.seam.annotations.security;
 
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -13,11 +14,11 @@ import java.lang.annotation.Target;
  *
  * @author Shane Bryzak
  */
-@Target({METHOD})
+@Target({METHOD, PARAMETER})
 @Documented
 @Retention(RUNTIME)
 @Inherited
-@PermissionCheck("delete")
+@PermissionCheck
 public @interface Delete {
-   Class value();
+   Class value() default void.class;
 }
