@@ -479,7 +479,10 @@ public class Component extends Model
             }*/
 
             String propertyName = key.substring( name.length()+1, key.length() );
-            Method setterMethod = Reflections.getSetterMethod(getBeanClass(), propertyName);
+            Method setterMethod = null;
+            try { 
+                setterMethod = Reflections.getSetterMethod(getBeanClass(), propertyName);
+            } catch (IllegalArgumentException e) {}
             if (setterMethod!=null)
             {
                if ( !setterMethod.isAccessible() ) setterMethod.setAccessible(true);
