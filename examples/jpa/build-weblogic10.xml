@@ -32,9 +32,6 @@
       <include name="lib/commons-digester.jar" />
       <include name="lib/commons-collections.jar" />
       <include name="lib/commons-logging.jar" />
-      <!-- JSF (and related) implementation -->
-      <include name="lib/jsf-api.jar" />
-      <include name="lib/jsf-impl.jar" />
 
       <!-- Hibernate and deps -->
       <include name="lib/hibernate.jar" />
