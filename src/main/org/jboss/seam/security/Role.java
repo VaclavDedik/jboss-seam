@@ -18,7 +18,7 @@ public class Role extends SimplePrincipal
    public Role(String name, boolean conditional)
    {
       this(name);
-      this.conditional = true;
+      this.conditional = conditional;
    }
    
    public boolean isConditional()

@@ -147,11 +147,11 @@ public class PersistentPermissionResolver implements PermissionResolver, Seriali
                         iter.remove();
                         break;
                      }
-                     else if (identity.hasRole(role.getName()))
-                     {
-                        iter.remove();
-                        break;
-                     }
+                  }
+                  else if (identity.hasRole(role.getName()))
+                  {
+                     iter.remove();
+                     break;
                   }
                }               
             }
