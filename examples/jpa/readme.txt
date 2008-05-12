@@ -30,11 +30,13 @@ WebLogic 9.2:
 WebLogic 10.X:
   * Install WebLogic 10.X
   * Create an hsql datasource called 'seam-jpa-ds" (see reference guide)
+  * Deploy Weblogics jsf-1.2.war shared library for JSF 1.2 support. (see reference guide)
   * ant weblogic10
   * Start the WebLogic domain you created or the "examples" domain if installed.
   * Load the admin console http://localhost:7001/console/
   * Deploy dist-weblogic10/jboss-seam-jpa.war
   * Access the app at http://localhost:7001/jboss-seam-jpa/
+  * See Weblogic reference guide chapter for full details.
 
 WebSphere 6.1:
 
