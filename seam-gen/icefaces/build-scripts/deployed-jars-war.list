@@ -14,4 +14,4 @@ jboss-el.jar
 jboss-seam.jar
 jboss-seam-*.jar
 jbpm-jpdl.jar
-mvel.jar
+mvel14.jar
