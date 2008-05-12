@@ -25,11 +25,11 @@ public class PictureAction
    public void uploadPicture()
    {
       memberImage = new MemberImage();
-      memberImage.setMember(authenticatedMember);
    }
    
    public void savePicture()
    {
+      memberImage.setMember(entityManager.find(Member.class, authenticatedMember.getMemberId()));
       entityManager.persist(memberImage);
       Conversation.instance().end();
    }
