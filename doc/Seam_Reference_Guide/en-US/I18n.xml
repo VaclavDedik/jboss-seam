@@ -1,201 +1,266 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
-
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 <chapter id="i18n">
-    <title>Internationalization and themes</title>
-    <para>
-        Seam makes it easy to build internationalized applications by
-        providing several built-in components for handling multi-language
-        UI messages.
-    </para>
-    
+  <title>Internationalization, localization and themes</title>
+
+  <para>Seam makes it easy to build internationalized applications. First,
+  let's walk through all the stages needed to internationalize and localize
+  your app. Then we'll take a look at the components Seam bundles.</para>
+
+  <section>
+    <title>Internationalizing your app</title>
+
+    <para>JEE application is consisting from many components and all can break
+    the whole view on the localizated target.</para>
+
+    <para>Starting at the bottom, the first step is to ensure that your
+    database server and client is using the correct character encoding for
+    your locale. Normally you'll want to use UTF-8. How to do this is outside
+    the scope of this tutorial.</para>
+
     <section>
-        <title>Locales</title>
-        <para>
-            Each user login session has an associated instance of
-            <literal>java.util.Locale</literal> (available to the 
-            application as a component named 
-            <literal>locale</literal>). Under normal circumstances,
-            you won't need to do any special configuration to set
-            the locale. Seam just delegates to JSF to determine
-            the active locale:
-        </para>
-        
-        <itemizedlist>
-            <listitem>
-                <para>If there is a locale associated with the HTTP request
-                (the browser locale), and that locale is in the list
-                of supported locales from <literal>faces-config.xml</literal>, 
-                use that locale for the rest of the session.</para>
-            </listitem>
-            <listitem>
-                <para>Otherwise, if a default locale was specified in the
-                <literal>faces-config.xml</literal>, use that locale 
-                for the rest of the session.</para>
-            </listitem>
-            <listitem>
-                <para>Otherwise, use the default locale of the server.</para>
-            </listitem>
-        </itemizedlist>
-        
-        <para>
-            It is <emphasis>possible</emphasis> to set the locale
-            manually via the Seam configuration properties
-            <literal>org.jboss.seam.international.localeSelector.language</literal>,
-            <literal>org.jboss.seam.international.localeSelector.country</literal> and
-            <literal>org.jboss.seam.international.localeSelector.variant</literal>, but 
-            we can't think of any good reason to ever do this.
-        </para>
-        
-        <para>
-            It is, however, useful to allow the user to set the
-            locale manually via the application user interface.
-            Seam provides built-in functionality for overriding
-            the locale determined by the algorithm above. All
-            you have to do is add the following fragment to a 
-            form in your JSP or Facelets page:
-        </para>
-        
-<programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{localeSelector.language}">
-    <f:selectItem itemLabel="English" itemValue="en"/>
-    <f:selectItem itemLabel="Deutsch" itemValue="de"/>
-    <f:selectItem itemLabel="Francais" itemValue="fr"/>
-</h:selectOneMenu>
-<h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/>]]></programlisting>
+      <title>Application server configuration</title>
 
-        <para>
-            Or, if you want a list of all supported locales from 
-            <literal>faces-config.xml</literal>, just use:
-        </para>
+      <para>To ensure that application server receive correct parameters
+      attributes from client requests you have to adapt the configuration of
+      tomcat connector. If you use Tomcat or JBOSS AS, add attribute
+      <code>URIEncoding="UTF-8"</code> into connector configuration. In case
+      JBOSS AS 4.2.2 change
+      <code>${JBOSS_HOME}/server/(default)/deploy/jboss-web.deployer/server.xml</code>
+      configuration file like the following:</para>
 
-        <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{localeSelector.localeString}">
-    <f:selectItems value="#{localeSelector.supportedLocales}"/>
-</h:selectOneMenu>
-<h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/>]]></programlisting>
+      <programlisting>&lt;Connector port="8080" URIEncoding="UTF-8"/&gt;</programlisting>
 
-        <para>
-            When this use selects an item from the drop-down, and 
-            clicks the button, the Seam and JSF locales will be 
-            overridden for the rest of the session.
-        </para>
-        
+      <para>There is also another configuration atribute
+      <code>useBodyEncodingForURI</code>, which is logically better for use,
+      because it says that encoding for URI will be taken from setting of web
+      page body. In other words the encoding of the parameters in URL will be
+      same as the content of the web page. Example of configuration is the
+      following:</para>
+
+      <programlisting>&lt;Connector port="8080" useBodyEncodingForURI="true"/&gt;</programlisting>
     </section>
-    
+
     <section>
-        <title>Labels</title>
-        <para>
-            JSF supports internationalization of user interface labels and
-            descriptive text via the use of <literal>&lt;f:loadBundle /&gt;</literal>.
-            You can use this approach in Seam applications. Alternatively, you can
-            take advantage of the Seam <literal>messages</literal> component to 
-            display templated labels with embedded EL expressions.
-        </para>
-        
-    <section>
-        <title>Defining labels</title>
-        <para>
-            Seam provides a <literal>java.util.ResourceBundle</literal> (available 
-            to the application as a <literal>org.jboss.seam.core.resourceBundle</literal>). 
-            You'll need to make your internationalized labels available via this special 
-            resource bundle. By default, the resource bundle used by Seam is named 
-            <literal>messages</literal> and so you'll need to define your labels 
-            in files named <literal>messages.properties</literal>, 
-            <literal>messages_en.properties</literal>,
-            <literal>messages_en_AU.properties</literal>, etc. These
-            files usually belong in the <literal>WEB-INF/classes</literal> 
-            directory.
-        </para>
-        
-        <para>
-            So, in <literal>messages_en.properties</literal>:
-        </para>
-        
-        <programlisting><![CDATA[Hello=Hello]]></programlisting>
+      <title>Translated application strings</title>
 
-        <para>
-            And in <literal>messages_en_AU.properties</literal>:
-        </para>
-        
-        <programlisting><![CDATA[Hello=G'day]]></programlisting>
-        
-        <para>
-            You can select a different name for the resource bundle by setting
-            the Seam configuration property named
-            <literal>org.jboss.seam.core.resourceLoader.bundleNames</literal>. You can even specify
-            a list of resource bundle names to be searched (depth first) for
-            messages.
-        </para>
+      <para>Correct localized application uses for all static texts in JSF
+      pages labels, which can be translated and loaded from resource bundles
+      with defined labels. First you need to ensure that your resource bundle
+      is encoded using the desired character encoding. By default it uses
+      ISO-8859-1. Although ISO-8859-1 supports many languages, it doesn't
+      represent everything. So if you want to translate in another langugage,
+      which uses characters outside the standard ASCII set, you need to use
+      encoding which covers all these non-ascii characters.</para>
 
-        <programlisting role="XML"><![CDATA[<core:resource-loader>
-    <core:bundle-names>
-        <value>mycompany_messages</value>
-        <value>standard_messages</value>       
-    </core:bundle-names>
-</core:resource-loader>]]></programlisting>
+      <para>You'll need to understand another caveat regarding property
+      bundles; you must create them in ASCII, or use Unicode escape codes to
+      represent Unicode characters. Since you don't compile a property file to
+      byte codes, there is no way to tell the JVM which character set to use.
+      So you must explicitly use ASCII characters or use the escape sequences.
+      You can represent a Unicode character in any Java file using \uXXXX,
+      where XXXX is the hexidecimal representation of the character. Write
+      your translation of labels (see below section <link
+      linkend="labels">Labels</link>) to file and then you have to convert the
+      content of file into escaped format through the java command tool
+      native2ascii provided in the JDK. This tool will convert a file written
+      in your native encoding to one that represents non-ASCII characters as
+      Unicode escape sequences.</para>
 
-        <para>
-            If you want to define a message just for a particular page, you
-            can specify it in a resource bundle with the same name as the
-            JSF view id, with the leading <literal>/</literal> and trailing
-            file extension removed. So we could put our message in 
-            <literal>welcome/hello_en.properties</literal> if we only needed
-            to display the message on <literal>/welcome/hello.jsp</literal>.
-        </para>
-        
-        <para>
-            You can even specify an explicit bundle name in <literal>pages.xml</literal>:
-        </para>
-        
-        <programlisting role="XML"><![CDATA[<page view-id="/welcome/hello.jsp" bundle="HelloMessages"/>]]></programlisting>
-        
-        <para>
-            Then we could use messages defined in <literal>HelloMessages.properties</literal>
-            on <literal>/welcome/hello.jsp</literal>.
-        </para>
+      <para>Usage of this tool is described at <ulink
+      url="http://java.sun.com/j2se/1.5.0/docs/tooldocs/index.html#intl">http://java.sun.com/j2se/1.5.0/docs/tooldocs/index.html#intl</ulink>
+      for Java 5 or at <ulink
+      url="http://java.sun.com/javase/6/docs/technotes/tools/#intl">http://java.sun.com/javase/6/docs/technotes/tools/#intl</ulink>
+      for Java 6, but briefly, on command line write:<programlisting><code><prompt>$ native2ascii -encoding UTF-8 messages_cs.properties &gt; messages_cs_escaped.properties</prompt></code></programlisting>Then
+      converted file can be used in application as resource bundle with a
+      proper locale code (see <link linkend="labels">Labels</link>).</para>
     </section>
-    
+
     <section>
-        <title>Displaying labels</title>
+      <title>Other encoding settings</title>
 
-        <para>
-            If you define your labels using the Seam resource bundle, you'll
-            be able to use them without having to type <literal>&lt;f:loadBundle ... /&gt;</literal>
-            on every page. Instead, you can simply type:
-        </para>
-        
-        <programlisting role="XHTML"><![CDATA[<h:outputText value="#{messages['Hello']}"/>]]></programlisting>
-        
-        <para>
-            or:
-        </para>
-        
-        <programlisting role="XHTML"><![CDATA[<h:outputText value="#{messages.Hello}"/>]]></programlisting>
-        
-        <para>
-            Even better, the messages themselves may contain EL expressions:
-        </para>
+      <para>We need to make sure that the view (JSF, JSP or XHTML) displays
+      your correct localized data and messages using the correct character set
+      and also any data submitted uses the correct encoding.</para>
 
-        <programlisting><![CDATA[Hello=Hello, #{user.firstName} #{user.lastName}]]></programlisting>
-        <programlisting><![CDATA[Hello=G'day, #{user.firstName}]]></programlisting>
-        
-        <para>
-            You can even use the messages in your code:
-        </para>
+      <para>To set the display character encoding, you need to use the
+      <literal>&lt;f:view locale="cs_CZ"/&gt;</literal> tag for example to use
+      Czech locale in Java Server Faces technology. You may want to change the
+      encoding of the xml document itself if you want to embed localized
+      strings in the xml. To do this alter the encoding attribute in xml
+      declaration <literal>&lt;?xml version="1.0"
+      encoding="UTF-8"?&gt;</literal> as required.</para>
 
-        <programlisting role="JAVA"><![CDATA[@In private Map<String, String> messages;]]></programlisting>
-        <programlisting role="JAVA"><![CDATA[@In("#{messages['Hello']}") private String helloMessage;]]></programlisting>
+      <para>Also JSF/Facelets should submit any requests in the desired
+      character, but to make sure any requests that don't specify an encoding
+      you can use a Servlet filter to set it in Seam components.xml
+      configuration file:</para>
 
+      <programlisting role="XML">&lt;web:character-encoding-filter encoding="UTF-8" 
+   override-client="true" 
+   url-pattern="*.seam"/&gt;</programlisting>
     </section>
-    
-    <section>
-        <title>Faces messages</title>
-        <para>
-            The <literal>facesMessages</literal> component is a super-convenient 
-            way to display success or failure messages to the user. The functionality 
-            we just described also works for faces messages:
-        </para>
+  </section>
 
-        <programlisting role="JAVA"><![CDATA[@Name("hello")
+  <section>
+    <title>Locales<anchor id="locales" /></title>
+
+    <para>Each user login session has an associated instance of
+    <literal>java.util.Locale</literal> (available to the application as a
+    component named <literal>locale</literal>). Under normal circumstances,
+    you won't need to do any special configuration to set the locale. Seam
+    just delegates to JSF to determine the active locale:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>If there is a locale associated with the HTTP request (the
+        browser locale), and that locale is in the list of supported locales
+        from <literal>faces-config.xml</literal>, use that locale for the rest
+        of the session.</para>
+      </listitem>
+
+      <listitem>
+        <para>Otherwise, if a default locale was specified in the
+        <literal>faces-config.xml</literal>, use that locale for the rest of
+        the session.</para>
+      </listitem>
+
+      <listitem>
+        <para>Otherwise, use the default locale of the server.</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>It is <emphasis>possible</emphasis> to set the locale manually via
+    the Seam configuration properties <literal>
+    org.jboss.seam.international.localeSelector.language</literal>, <literal>
+    org.jboss.seam.international.localeSelector.country</literal> and
+    <literal> org.jboss.seam.international.localeSelector.variant</literal>,
+    but we can't think of any good reason to ever do this.</para>
+
+    <para>It is, however, useful to allow the user to set the locale manually
+    via the application user interface. Seam provides built-in functionality
+    for overriding the locale determined by the algorithm above. All you have
+    to do is add the following fragment to a form in your JSP or Facelets
+    page:</para>
+
+    <programlisting role="XHTML">&lt;h:selectOneMenu value="#{localeSelector.language}"&gt;
+    &lt;f:selectItem itemLabel="English" itemValue="en"/&gt;
+    &lt;f:selectItem itemLabel="Deutsch" itemValue="de"/&gt;
+    &lt;f:selectItem itemLabel="Francais" itemValue="fr"/&gt;
+&lt;/h:selectOneMenu&gt;
+&lt;h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/&gt;</programlisting>
+
+    <para>Or, if you want a list of all supported locales from <literal>
+    faces-config.xml</literal>, just use:</para>
+
+    <programlisting role="XHTML">&lt;h:selectOneMenu value="#{localeSelector.localeString}"&gt;
+    &lt;f:selectItems value="#{localeSelector.supportedLocales}"/&gt;
+&lt;/h:selectOneMenu&gt;
+&lt;h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/&gt;</programlisting>
+
+    <para>When this use selects an item from the drop-down, and clicks the
+    button, the Seam and JSF locales will be overridden for the rest of the
+    session.</para>
+  </section>
+
+  <section>
+    <title>Labels<anchor id="labels" /></title>
+
+    <para>JSF supports internationalization of user interface labels and
+    descriptive text via the use of <literal>&lt;f:loadBundle /&gt;</literal>.
+    You can use this approach in Seam applications. Alternatively, you can
+    take advantage of the Seam <literal> messages</literal> component to
+    display templated labels with embedded EL expressions.</para>
+
+    <section>
+      <title>Defining labels</title>
+
+      <para>Seam provides a <literal>java.util.ResourceBundle</literal>
+      (available to the application as a <literal>
+      org.jboss.seam.core.resourceBundle</literal>). You'll need to make your
+      internationalized labels available via this special resource bundle. By
+      default, the resource bundle used by Seam is named
+      <literal>messages</literal> and so you'll need to define your labels in
+      files named <literal> messages.properties</literal>, <literal>
+      messages_en.properties</literal>, <literal>
+      messages_en_AU.properties</literal>, etc. These files usually belong in
+      the <literal>WEB-INF/classes</literal> directory.</para>
+
+      <para>So, in <literal>messages_en.properties</literal>:</para>
+
+      <programlisting>Hello=Hello</programlisting>
+
+      <para>And in <literal>messages_en_AU.properties</literal>:</para>
+
+      <programlisting>Hello=G'day</programlisting>
+
+      <para>You can select a different name for the resource bundle by setting
+      the Seam configuration property named <literal>
+      org.jboss.seam.core.resourceLoader.bundleNames</literal>. You can even
+      specify a list of resource bundle names to be searched (depth first) for
+      messages.</para>
+
+      <programlisting role="XML">&lt;core:resource-loader&gt;
+    &lt;core:bundle-names&gt;
+        &lt;value&gt;mycompany_messages&lt;/value&gt;
+        &lt;value&gt;standard_messages&lt;/value&gt;       
+    &lt;/core:bundle-names&gt;
+&lt;/core:resource-loader&gt;</programlisting>
+
+      <para>If you want to define a message just for a particular page, you
+      can specify it in a resource bundle with the same name as the JSF view
+      id, with the leading <literal>/</literal> and trailing file extension
+      removed. So we could put our message in <literal>
+      welcome/hello_en.properties</literal> if we only needed to display the
+      message on <literal> /welcome/hello.jsp</literal>.</para>
+
+      <para>You can even specify an explicit bundle name in <literal>
+      pages.xml</literal>:</para>
+
+      <programlisting role="XML">&lt;page view-id="/welcome/hello.jsp" bundle="HelloMessages"/&gt;</programlisting>
+
+      <para>Then we could use messages defined in <literal>
+      HelloMessages.properties</literal> on <literal>
+      /welcome/hello.jsp</literal>.</para>
+    </section>
+
+    <section>
+      <title>Displaying labels</title>
+
+      <para>If you define your labels using the Seam resource bundle, you'll
+      be able to use them without having to type <literal> &lt;f:loadBundle
+      ... /&gt;</literal> on every page. Instead, you can simply type:</para>
+
+      <programlisting role="XHTML">&lt;h:outputText value="#{messages['Hello']}"/&gt;</programlisting>
+
+      <para>or:</para>
+
+      <programlisting role="XHTML">&lt;h:outputText value="#{messages.Hello}"/&gt;</programlisting>
+
+      <para>Even better, the messages themselves may contain EL
+      expressions:</para>
+
+      <programlisting>Hello=Hello, #{user.firstName} #{user.lastName}</programlisting>
+
+      <programlisting>Hello=G'day, #{user.firstName}</programlisting>
+
+      <para>You can even use the messages in your code:</para>
+
+      <programlisting role="JAVA">@In private Map&lt;String, String&gt; messages;</programlisting>
+
+      <programlisting role="JAVA">@In("#{messages['Hello']}") private String helloMessage;</programlisting>
+    </section>
+
+    <section>
+      <title>Faces messages</title>
+
+      <para>The <literal>facesMessages</literal> component is a
+      super-convenient way to display success or failure messages to the user.
+      The functionality we just described also works for faces
+      messages:</para>
+
+      <programlisting role="JAVA">@Name("hello")
 @Stateless
 public class HelloBean implements Hello {
     @In FacesMessages facesMessages;
@@ -203,126 +268,110 @@ public class HelloBean implements Hello {
     public String sayIt() {
         facesMessages.addFromResourceBundle("Hello");
     }
-}]]></programlisting>
+}</programlisting>
 
-        <para>
-            This will display <literal>Hello, Gavin King</literal> or <literal>G'day, Gavin</literal>,
-            depending upon the user's locale.
-        </para>
-
+      <para>This will display <literal>Hello, Gavin King</literal> or
+      <literal>G'day, Gavin</literal>, depending upon the user's
+      locale.</para>
     </section>
-    </section>
-    
-    <section>
-        <title>Timezones</title>
-        <para>
-            There is also a session-scoped instance of <literal>java.util.Timezone</literal>,
-            named <literal>org.jboss.seam.international.timezone</literal>, and a Seam component for changing 
-            the timezone named <literal>org.jboss.seam.international.timezoneSelector</literal>. By default, 
-            the timezone is the default timezone of the server. Unfortunately, the JSF specification 
-            says that all dates and times should be assumed to be UTC, and displayed as UTC, unless 
-            a timezone is explicitly specified using <literal>&lt;f:convertDateTime&gt;</literal>. 
-            This is an extremely inconvenient default behavior.
-        </para>
-        <para>
-            Seam overrides this behavior, and defaults all dates and times to the Seam timezone.
-            In addition, Seam provides the <literal>&lt;s:convertDateTime&gt;</literal> tag which 
-            always performs conversions in the Seam timezone.
-        </para>
-    </section>
-    
-    <section>
-        <title>Themes</title>
-        <para>
-            Seam applications are also very easily skinnable. The theme API is very
-            similar to the localization API, but of course these two concerns are
-            orthogonal, and some applications support both localization and themes.
-        </para>
-        
-        <para>
-            First, configure the set of supported themes:
-        </para>
-        
-        <programlisting role="XML"><![CDATA[<theme:theme-selector cookie-enabled="true">
-    <theme:available-themes>
-        <value>default</value>
-        <value>accessible</value>
-        <value>printable</value>
-    </theme:available-themes>
-</theme:theme-selector>]]></programlisting>
-       
-       <para>
-            Note that the first theme listed is the default theme.
-       </para>
+  </section>
 
-        <para>
-            Themes are defined in a properties file with the same name as the theme.
-            For example, the <literal>default</literal> theme is defined as a set of
-            entries in <literal>default.properties</literal>. For example, 
-            <literal>default.properties</literal> might define:
-        </para>
-        
-<programlisting><![CDATA[css ../screen.css
-template /template.xhtml]]></programlisting>
+  <section>
+    <title>Timezones</title>
 
-        <para>
-            Usually the entries in a theme resource bundle will be paths to CSS styles
-            or images and names of facelets templates (unlike localization resource
-            bundles which are usually text).
-        </para>
-        
-        <para>
-            Now we can use these entries in our JSP or facelets pages. For example,
-            to theme the stylesheet in a facelets page:
-        </para>
-        
-        <programlisting role="XHTML"><![CDATA[<link href="#{theme.css}" rel="stylesheet" type="text/css" />]]></programlisting>
-        
-        <para>Or, when the page definition resides in a subdirectory:</para>
-        
-        <programlisting role="XHTML"><![CDATA[<link href="#{facesContext.externalContext.requestContextPath}#{theme.css}" 
-    rel="stylesheet" type="text/css" />]]></programlisting>
-        
-        <para>
-            Most powerfully, facelets lets us theme the template used by a <literal>&lt;ui:composition&gt;</literal>:
-        </para>
+    <para>There is also a session-scoped instance of <literal>
+    java.util.Timezone</literal>, named <literal>
+    org.jboss.seam.international.timezone</literal>, and a Seam component for
+    changing the timezone named <literal>
+    org.jboss.seam.international.timezoneSelector</literal>. By default, the
+    timezone is the default timezone of the server. Unfortunately, the JSF
+    specification says that all dates and times should be assumed to be UTC,
+    and displayed as UTC, unless a timezone is explicitly specified using
+    <literal> &lt;f:convertDateTime&gt;</literal>. This is an extremely
+    inconvenient default behavior.</para>
 
-        <programlisting role="XHTML"><![CDATA[<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    <para>Seam overrides this behavior, and defaults all dates and times to
+    the Seam timezone. In addition, Seam provides the <literal>
+    &lt;s:convertDateTime&gt;</literal> tag which always performs conversions
+    in the Seam timezone.</para>
+  </section>
+
+  <section>
+    <title>Themes</title>
+
+    <para>Seam applications are also very easily skinnable. The theme API is
+    very similar to the localization API, but of course these two concerns are
+    orthogonal, and some applications support both localization and
+    themes.</para>
+
+    <para>First, configure the set of supported themes:</para>
+
+    <programlisting role="XML">&lt;theme:theme-selector cookie-enabled="true"&gt;
+    &lt;theme:available-themes&gt;
+        &lt;value&gt;default&lt;/value&gt;
+        &lt;value&gt;accessible&lt;/value&gt;
+        &lt;value&gt;printable&lt;/value&gt;
+    &lt;/theme:available-themes&gt;
+&lt;/theme:theme-selector&gt;</programlisting>
+
+    <para>Note that the first theme listed is the default theme.</para>
+
+    <para>Themes are defined in a properties file with the same name as the
+    theme. For example, the <literal>default</literal> theme is defined as a
+    set of entries in <literal> default.properties</literal>. For example,
+    <literal> default.properties</literal> might define:</para>
+
+    <programlisting>css ../screen.css
+template /template.xhtml</programlisting>
+
+    <para>Usually the entries in a theme resource bundle will be paths to CSS
+    styles or images and names of facelets templates (unlike localization
+    resource bundles which are usually text).</para>
+
+    <para>Now we can use these entries in our JSP or facelets pages. For
+    example, to theme the stylesheet in a facelets page:</para>
+
+    <programlisting role="XHTML">&lt;link href="#{theme.css}" rel="stylesheet" type="text/css" /&gt;</programlisting>
+
+    <para>Or, when the page definition resides in a subdirectory:</para>
+
+    <programlisting role="XHTML">&lt;link href="#{facesContext.externalContext.requestContextPath}#{theme.css}" 
+    rel="stylesheet" type="text/css" /&gt;</programlisting>
+
+    <para>Most powerfully, facelets lets us theme the template used by a
+    <literal>&lt;ui:composition&gt;</literal>:</para>
+
+    <programlisting role="XHTML">&lt;ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    template="#{theme.template}">]]></programlisting>
-        
-        <para>
-            Just like the locale selector, there is a built-in theme selector to allow 
-            the user to freely switch themes:
-        </para>
+    template="#{theme.template}"&gt;</programlisting>
 
-        <programlisting role="XHTML"><![CDATA[<h:selectOneMenu value="#{themeSelector.theme}">
-    <f:selectItems value="#{themeSelector.themes}"/>
-</h:selectOneMenu>
-<h:commandButton action="#{themeSelector.select}" value="Select Theme"/>]]></programlisting>
+    <para>Just like the locale selector, there is a built-in theme selector to
+    allow the user to freely switch themes:</para>
 
-    </section>
-    
-    <section>
-        <title>Persisting locale and theme preferences via cookies</title>
-        <para>
-            The locale selector, theme selector and timezone selector all support 
-            persistence of locale and theme preference to a cookie. Simply set the 
-            <literal>cookie-enabled</literal> property in <literal>components.xml</literal>:
-        </para>
-        
-        <programlisting role="XML"><![CDATA[<theme:theme-selector cookie-enabled="true">
-    <theme:available-themes>
-        <value>default</value>
-        <value>accessible</value>
-        <value>printable</value>
-    </theme:available-themes>
-</theme:theme-selector>
+    <programlisting role="XHTML">&lt;h:selectOneMenu value="#{themeSelector.theme}"&gt;
+    &lt;f:selectItems value="#{themeSelector.themes}"/&gt;
+&lt;/h:selectOneMenu&gt;
+&lt;h:commandButton action="#{themeSelector.select}" value="Select Theme"/&gt;</programlisting>
+  </section>
 
-<international:locale-selector cookie-enabled="true"/>]]></programlisting>
+  <section>
+    <title>Persisting locale and theme preferences via cookies</title>
 
-    </section>
-    
+    <para>The locale selector, theme selector and timezone selector all
+    support persistence of locale and theme preference to a cookie. Simply set
+    the <literal>cookie-enabled</literal> property in
+    <literal>components.xml</literal>:</para>
+
+    <programlisting role="XML">&lt;theme:theme-selector cookie-enabled="true"&gt;
+    &lt;theme:available-themes&gt;
+        &lt;value&gt;default&lt;/value&gt;
+        &lt;value&gt;accessible&lt;/value&gt;
+        &lt;value&gt;printable&lt;/value&gt;
+    &lt;/theme:available-themes&gt;
+&lt;/theme:theme-selector&gt;
+
+&lt;international:locale-selector cookie-enabled="true"/&gt;</programlisting>
+  </section>
 </chapter>
