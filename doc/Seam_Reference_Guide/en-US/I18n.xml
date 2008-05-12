@@ -2,106 +2,127 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 <chapter id="i18n">
-  <title>Internationalization, localization and themes</title>
+   <title>Internationalization, localization and themes</title>
 
-  <para>Seam makes it easy to build internationalized applications. First,
-  let's walk through all the stages needed to internationalize and localize
-  your app. Then we'll take a look at the components Seam bundles.</para>
+   <para>
+      Seam makes it easy to build internationalized applications. First, let's 
+      walk through all the stages needed to internationalize and localize your 
+      app. Then we'll take a look at the components Seam bundles.
+   </para>
 
-  <section>
-    <title>Internationalizing your app</title>
+   <section>
+      <title>Internationalizing your app</title>
 
-    <para>JEE application is consisting from many components and all can break
-    the whole view on the localizated target.</para>
+      <para>
+         A JEE application consists of many components and all of them must be 
+         configured properly for your application to be localized.
+      </para>
 
-    <para>Starting at the bottom, the first step is to ensure that your
-    database server and client is using the correct character encoding for
-    your locale. Normally you'll want to use UTF-8. How to do this is outside
-    the scope of this tutorial.</para>
+      <para>
+         Starting at the bottom, the first step is to ensure that your database 
+         server and client is using the correct character encoding for your 
+         locale. Normally you'll want to use UTF-8. How to do this is outside
+         the scope of this tutorial.
+      </para>
 
-    <section>
-      <title>Application server configuration</title>
+      <section>
+         <title>Application server configuration</title>
 
-      <para>To ensure that application server receive correct parameters
-      attributes from client requests you have to adapt the configuration of
-      tomcat connector. If you use Tomcat or JBOSS AS, add attribute
-      <code>URIEncoding="UTF-8"</code> into connector configuration. In case
-      JBOSS AS 4.2.2 change
-      <code>${JBOSS_HOME}/server/(default)/deploy/jboss-web.deployer/server.xml</code>
-      configuration file like the following:</para>
+         <para>
+            To ensure that the application server receives the request 
+            parameters in the correct encoding from client requests you have to 
+            configure the tomcat connector. If you use Tomcat or JBoss AS, add
+            the <literal>URIEncoding="UTF-8"</literal> attribute to the 
+            connector configuration. For JBoss AS 4.2 change 
+            <literal>${JBOSS_HOME}/server/(default)/deploy/jboss-web.deployer/server.xml</literal>:
+         </para>
 
-      <programlisting>&lt;Connector port="8080" URIEncoding="UTF-8"/&gt;</programlisting>
+         <programlisting role="XML">&lt;Connector port="8080" URIEncoding="UTF-8"/&gt;</programlisting>
 
-      <para>There is also another configuration atribute
-      <code>useBodyEncodingForURI</code>, which is logically better for use,
-      because it says that encoding for URI will be taken from setting of web
-      page body. In other words the encoding of the parameters in URL will be
-      same as the content of the web page. Example of configuration is the
-      following:</para>
+         <para>
+            There is alternative which is probably better. You can tell JBoss AS
+            that the encoding for the request parameters will be taken from the
+            request:
+         </para>
 
-      <programlisting>&lt;Connector port="8080" useBodyEncodingForURI="true"/&gt;</programlisting>
-    </section>
+         <programlisting role="XML">&lt;Connector port="8080" useBodyEncodingForURI="true"/&gt;</programlisting>
+      </section>
 
-    <section>
-      <title>Translated application strings</title>
+      <section>
+         <title>Translated application strings</title>
 
-      <para>Correct localized application uses for all static texts in JSF
-      pages labels, which can be translated and loaded from resource bundles
-      with defined labels. First you need to ensure that your resource bundle
-      is encoded using the desired character encoding. By default it uses
-      ISO-8859-1. Although ISO-8859-1 supports many languages, it doesn't
-      represent everything. So if you want to translate in another langugage,
-      which uses characters outside the standard ASCII set, you need to use
-      encoding which covers all these non-ascii characters.</para>
+         <para>
+            You'll also need localized strings for all the <emphasis>messages</emphasis>
+            in your application (for example field labels on your views). First 
+            you need to ensure that your resource bundle is encoded using the 
+            desired character encoding. By default ASCII is used. Although ASCII 
+            is enough for many languages, it doesn't provide characters for all 
+            languages.
+         </para>
 
-      <para>You'll need to understand another caveat regarding property
-      bundles; you must create them in ASCII, or use Unicode escape codes to
-      represent Unicode characters. Since you don't compile a property file to
-      byte codes, there is no way to tell the JVM which character set to use.
-      So you must explicitly use ASCII characters or use the escape sequences.
-      You can represent a Unicode character in any Java file using \uXXXX,
-      where XXXX is the hexidecimal representation of the character. Write
-      your translation of labels (see below section <link
-      linkend="labels">Labels</link>) to file and then you have to convert the
-      content of file into escaped format through the java command tool
-      native2ascii provided in the JDK. This tool will convert a file written
-      in your native encoding to one that represents non-ASCII characters as
-      Unicode escape sequences.</para>
+         <para>
+            Resource bundles must be created in ASCII, or use Unicode escape 
+            codes to represent Unicode characters. Since you don't compile a 
+            property file to byte code, there is no way to tell the JVM which 
+            character set to use.  So you must use either ASCII characters or 
+            escape characters not in the ASCII character set.
+            You can represent a Unicode character in any Java file using \uXXXX,
+            where XXXX is the hexidecimal representation of the character.
+         </para>
+         
+         <para>
+            You can write your translation of labels 
+            (<xlink linkend="labels">Labels</xlink>) to your messages resource 
+            bundle in the native encoding and then convert the content of the 
+            file into the escaped format through the tool <literal>native2ascii</literal>
+            provided in the JDK. This tool will convert a file written in your 
+            native encoding to one that represents non-ASCII characters as
+            Unicode escape sequences.
+         </para>
 
-      <para>Usage of this tool is described at <ulink
-      url="http://java.sun.com/j2se/1.5.0/docs/tooldocs/index.html#intl">http://java.sun.com/j2se/1.5.0/docs/tooldocs/index.html#intl</ulink>
-      for Java 5 or at <ulink
-      url="http://java.sun.com/javase/6/docs/technotes/tools/#intl">http://java.sun.com/javase/6/docs/technotes/tools/#intl</ulink>
-      for Java 6, but briefly, on command line write:<programlisting><code><prompt>$ native2ascii -encoding UTF-8 messages_cs.properties &gt; messages_cs_escaped.properties</prompt></code></programlisting>Then
-      converted file can be used in application as resource bundle with a
-      proper locale code (see <link linkend="labels">Labels</link>).</para>
-    </section>
+         <para>
+            Usage of this tool is described 
+            <ulink url="http://java.sun.com/j2se/1.5.0/docs/tooldocs/index.html#intl">here for Java 5</ulink>
+            or 
+            <ulink url="http://java.sun.com/javase/6/docs/technotes/tools/#intl">here for Java 6</ulink>.
+            For example, to convert a file from UTF-8:
+         </para>
+         
+         <programlisting><prompt>$ native2ascii -encoding UTF-8 messages_cs.properties &gt; messages_cs_escaped.properties</prompt></programlisting>
+   
+      </section>
 
-    <section>
-      <title>Other encoding settings</title>
+      <section>
+         <title>Other encoding settings</title>
 
-      <para>We need to make sure that the view (JSF, JSP or XHTML) displays
-      your correct localized data and messages using the correct character set
-      and also any data submitted uses the correct encoding.</para>
+         <para>
+            We need to make sure that the view displays your localized data and 
+            messages using the correct character set and also any data submitted
+            uses the correct encoding.
+         </para>
 
-      <para>To set the display character encoding, you need to use the
-      <literal>&lt;f:view locale="cs_CZ"/&gt;</literal> tag for example to use
-      Czech locale in Java Server Faces technology. You may want to change the
-      encoding of the xml document itself if you want to embed localized
-      strings in the xml. To do this alter the encoding attribute in xml
-      declaration <literal>&lt;?xml version="1.0"
-      encoding="UTF-8"?&gt;</literal> as required.</para>
+         <para>
+            To set the display character encoding, you need to use the 
+            <literal>&lt;f:view locale="cs_CZ"/&gt;</literal> tag (here we tell 
+            JSF to use the Czech locale). You may want to change the encoding of 
+            the xml document itself if you want to embed localized strings in the
+            xml. To do this alter the encoding attribute in xml declaration 
+            <literal>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</literal> as 
+            required.
+         </para>
 
-      <para>Also JSF/Facelets should submit any requests in the desired
-      character, but to make sure any requests that don't specify an encoding
-      you can use a Servlet filter to set it in Seam components.xml
-      configuration file:</para>
+         <para>
+            Also JSF/Facelets should submit any requests using the specified
+            character encoding, but to make sure any requests that don't specify
+            an encoding you can force the request encoding using a servlet 
+            filter. Configure this in <literal>components.xml</literal>:
+         </para>
 
-      <programlisting role="XML">&lt;web:character-encoding-filter encoding="UTF-8" 
+         <programlisting role="XML"><![CDATA[<web:character-encoding-filter encoding="UTF-8" 
    override-client="true" 
-   url-pattern="*.seam"/&gt;</programlisting>
-    </section>
-  </section>
+   url-pattern="*.seam" />]]></programlisting>
+      </section>
+   </section>
 
   <section>
     <title>Locales<anchor id="locales" /></title>
