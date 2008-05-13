@@ -19,7 +19,7 @@ public class ContentAction
    {
       MemberImage img = entityManager.find(MemberImage.class, imageId);
       
-      if (img == null || !Identity.instance().hasPermission("memberImage", "view", img))
+      if (img == null || !Identity.instance().hasPermission(img, "view"))
          return null;
       else
          return img;
