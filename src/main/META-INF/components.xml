@@ -20,5 +20,9 @@
   <import>org.jboss.seam.captcha</import>
 
   <factory name="org.jboss.seam.web.webSession" auto-create="true" scope="stateless" value="#{org.jboss.seam.web.session}" />
+  
+  <factory name="facesMessages" auto-create="true" scope="stateless" value="#{org.jboss.seam.international.statusMessages}" />
+  
+  <factory name="org.jboss.seam.faces.facesMessages" auto-create="true" scope="stateless" value="#{org.jboss.seam.international.statusMessages}" />
 
 </components>

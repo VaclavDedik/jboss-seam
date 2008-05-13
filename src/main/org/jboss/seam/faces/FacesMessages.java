@@ -2,21 +2,15 @@ package org.jboss.seam.faces;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
-import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
@@ -24,8 +18,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.core.SeamResourceBundle;
+import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.util.Strings;
 
 /**
@@ -33,350 +27,53 @@ import org.jboss.seam.util.Strings;
  * and interpolates EL expressions in the message string.
  * 
  * @author Gavin King
+ * @author Pete Muir
  */
 @Scope(ScopeType.CONVERSATION)
-@Name("org.jboss.seam.faces.facesMessages")
+@Name(StatusMessages.COMPONENT_NAME)
 @Install(precedence=BUILT_IN, classDependencies="javax.faces.context.FacesContext")
 @BypassInterceptors
-public class FacesMessages implements Serializable
+public class FacesMessages extends StatusMessages
 {
-   private static final long serialVersionUID = -5395975397632138270L;
-   private transient List<Runnable> tasks;
-   
-   private List<Message> facesMessages = new ArrayList<Message>();
-   private Map<String, List<Message>> keyedFacesMessages = new HashMap<String, List<Message>>();
    
    /**
-    * Workaround for non-serializability of
-    * JSF FacesMessage.Severity class.
-    * 
-    * @author Gavin King
-    *
+    * Called by Seam to transfer messages from FacesMessages to JSF
     */
-   class Message implements Serializable
-   {
-      private String summary;
-      private String detail;
-      private int severityOrdinal;
-      
-      Message(FacesMessage fm)
-      {
-         summary = fm.getSummary();
-         detail = fm.getDetail();
-         severityOrdinal = fm.getSeverity().getOrdinal();
-      }
-      
-      FacesMessage toFacesMessage()
-      {
-         Severity severity = null;
-         for (Object o : FacesMessage.VALUES) 
-         {
-            severity = (Severity) o;
-            if (severity.getOrdinal() == severityOrdinal) 
-            {
-               break;
-            }
-         }
-         return new FacesMessage(severity, summary, detail );
-      }
-   }
-
    public void beforeRenderResponse() 
    {
-      for (Message message: facesMessages)
+      for (StatusMessage statusMessage: getMessages())
       {
-         FacesContext.getCurrentInstance().addMessage( null,message.toFacesMessage() );
+         FacesContext.getCurrentInstance().addMessage( null, toFacesMessage(statusMessage) );
       }
-      for ( Map.Entry<String, List<Message>> entry: keyedFacesMessages.entrySet() )
+      for ( Map.Entry<String, List<StatusMessage>> entry: getKeyedMessages().entrySet() )
       {
-         for ( Message msg: entry.getValue() )
+         for ( StatusMessage statusMessage: entry.getValue() )
          {
-            FacesContext.getCurrentInstance().addMessage( entry.getKey(), msg.toFacesMessage() );
+            FacesContext.getCurrentInstance().addMessage( entry.getKey(), toFacesMessage(statusMessage) );
          }
       }
       clear();
    }
    
    /**
-    * Get all faces messages that have already been added
-    * to the context.
+    * Called by Seam to transfer any messages added in the phase just processed
+    * to the FacesMessages component.
     * 
-    * @return a list of messages
+    * A task runner is used to allow the messages access to outjected values.
     */
-   public List<FacesMessage> getCurrentMessages()
-   {
-      List<FacesMessage> result = new ArrayList<FacesMessage>();
-      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages();
-      while ( iter.hasNext() )
-      {
-         result.add( iter.next() );
-      }
-      return result;
-   }
-   
-   /**
-    * Get all faces global messages that have already been added
-    * to the context.
-    * 
-    * @return a list of global messages
-    */
-   public List<FacesMessage> getCurrentGlobalMessages()
-   {
-      List<FacesMessage> result = new ArrayList<FacesMessage>();
-      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(null);
-      while ( iter.hasNext() )
-      {
-         result.add( iter.next() );
-      }
-      return result;
-   }
-   
-   /**
-    * Get all faces messages that have already been added
-    * to the control.
-    * 
-    * @return a list of messages
-    */
-   public List<FacesMessage> getCurrentMessagesForControl(String id)
-   {
-      String clientId = getClientId(id);
-      List<FacesMessage> result = new ArrayList<FacesMessage>();
-      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(clientId);
-      while ( iter.hasNext() )
-      {
-         result.add( iter.next() );
-      }
-      return result;
-   }
-   
-   private void runTasks()
-   {
-      if (tasks!=null)
-      {
-         for (Runnable task: tasks) task.run();
-         tasks.clear();
-      }
-   }
-   
    public static void afterPhase()
    {
-      if ( Contexts.isConversationContextActive() )
+      runTasks();
+   }
+   
+   /**
+    * Convert a StatusMessage to a FacesMessage
+    */
+   private static FacesMessage toFacesMessage(StatusMessage statusMessage)
+   {
+      if (!Strings.isEmpty(statusMessage.getSummary()))
       {
-         FacesMessages instance = (FacesMessages) Component.getInstance(FacesMessages.class, ScopeType.CONVERSATION, false);
-         if (instance!=null) instance.runTasks();
-      }
-   }
-   
-   public void clear()
-   {
-      facesMessages.clear();
-      keyedFacesMessages.clear();
-   }
-   
-   /**
-    * Add a FacesMessage that will be used
-    * the next time a page is rendered.
-    */
-   public void add(FacesMessage facesMessage) 
-   {
-      if (facesMessage!=null)
-      {
-         facesMessages.add( new Message(facesMessage) );
-      }
-   }
-   
-   /**
-    * Add a FacesMessage instance to a particular component id
-    * @param id a JSF component id
-    */
-   public void addToControl(String id, FacesMessage facesMessage)
-   {
-      if (facesMessage!=null)
-      {
-         String clientId = getClientId(id);
-         List<Message> list = keyedFacesMessages.get(clientId);
-         if (list==null)
-         {
-            list = new ArrayList<Message>();
-            keyedFacesMessages.put(clientId, list);
-         }
-         list.add( new Message(facesMessage) );
-      }
-   }
-   
-   /**
-    * Add a templated FacesMessage that will be used
-    * the next time a page is rendered.
-    */
-   public void add(String messageTemplate, Object... params)
-   {
-      addToTasks(FacesMessage.SEVERITY_INFO, null, messageTemplate, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage that will be used
-    * the next time a page is rendered.
-    */
-   public void add(Severity severity, String messageTemplate, Object... params)
-   {
-      addToTasks(severity, null, messageTemplate, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage to a particular JSF control
-    * @param id a JSF component id
-    */
-   public void addToControl(String id, String messageTemplate, Object... params)
-   {
-      addToControl(id, FacesMessage.SEVERITY_INFO, messageTemplate, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage to a particular JSF control
-    * @param id a JSF component id
-    */
-   public void addToControl(String id, Severity severity, String messageTemplate, Object... params)
-   {
-      addToTasks(id, severity, null, messageTemplate, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage by looking for the message
-    * template in the resource bundle. 
-    */
-   public void addFromResourceBundle(String key, Object... params)
-   {
-      addFromResourceBundle(FacesMessage.SEVERITY_INFO, key, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage by looking for the message
-    * template in the resource bundle. 
-    */
-   public void addFromResourceBundle(Severity severity, String key, Object... params)
-   {
-      addFromResourceBundleOrDefault(severity, key, key, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage to a particular component id by looking 
-    * for the message template in the resource bundle. If it is missing, use
-    * the given message template.
-    */
-   public void addFromResourceBundleOrDefault(String key, String defaultMessageTemplate, Object... params)
-   {
-      addFromResourceBundleOrDefault(FacesMessage.SEVERITY_INFO, key, defaultMessageTemplate, params);
-   }
-
-   /**
-    * Add a templated FacesMessage to a particular component id by looking 
-    * for the message template in the resource bundle. If it is missing, use
-    * the given message template.
-    */
-   public void addFromResourceBundleOrDefault(Severity severity, String key, String defaultMessageTemplate, Object... params)
-   {
-      addToTasks(severity, key, defaultMessageTemplate, params);
-   }
-
-   /**
-    * Add a templated FacesMessage to a particular component id by looking 
-    * for the message template in the resource bundle. 
-    */
-   public void addToControlFromResourceBundle(String id, String key, Object... params)
-   {
-      addToControlFromResourceBundle(id, FacesMessage.SEVERITY_INFO, key, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage to a particular component id by looking 
-    * for the message template in the resource bundle. 
-    */
-   public void addToControlFromResourceBundle(String id, Severity severity, String key, Object... params)
-   {
-      addToControlFromResourceBundleOrDefault(id, severity, key, key, params);
-   }
-   
-   /**
-    * Add a templated FacesMessage to a particular component id by looking 
-    * for the message template in the resource bundle. If it is missing, use
-    * the given message template.
-    */
-   public void addToControlFromResourceBundleOrDefault(String id, String key, String defaultMessageTemplate, Object... params)
-   {
-      addToControlFromResourceBundleOrDefault(id, FacesMessage.SEVERITY_INFO, key, defaultMessageTemplate, params);
-   }
-
-   /**
-    * Add a templated FacesMessage to a particular component id by looking 
-    * for the message template in the resource bundle. If it is missing, use
-    * the given message template.
-    */
-   public void addToControlFromResourceBundleOrDefault(String id, Severity severity, String key, String defaultMessageTemplate, Object... params)
-   {
-      addToTasks(id, severity, key, defaultMessageTemplate, params);
-   }
-
-   private static String getBundleMessage(String key, String defaultMessageTemplate)
-   {
-      String messageTemplate = defaultMessageTemplate;
-      if ( key!=null )
-      {
-         ResourceBundle resourceBundle = SeamResourceBundle.getBundle();
-         if ( resourceBundle!=null ) 
-         {
-            try
-            {
-               String bundleMessage = resourceBundle.getString(key);
-               if (bundleMessage!=null) messageTemplate = bundleMessage;
-            }
-            catch (MissingResourceException mre) {} //swallow
-         }
-      }
-      return messageTemplate;
-   }
-
-   public void add(InvalidValue[] ivs)
-   {
-      for (InvalidValue iv: ivs)
-      {
-         add(iv);
-      }
-   }
-   
-   public void addToControls(InvalidValue[] ivs)
-   {
-      for (InvalidValue iv: ivs)
-      {
-         addToControl(iv);
-      }
-   }
-   
-   public void add(InvalidValue iv)
-   {
-      add( FacesMessage.SEVERITY_WARN, iv.getMessage() );
-   }
-   
-   public void addToControl(InvalidValue iv)
-   {
-      addToControl( iv.getPropertyName(), iv );
-   }
-   
-   public void addToControl(String id, InvalidValue iv)
-   {
-      addToControl( id, FacesMessage.SEVERITY_WARN, iv.getMessage() );
-   }
-   
-   public static FacesMessage createFacesMessage(Severity severity, String messageTemplate, Object... params)
-   {
-      return new FacesMessage( severity, Interpolator.instance().interpolate(messageTemplate, params), null );
-   }
-   
-   public static FacesMessage createFacesMessage(Severity severity, String key, String defaultMessageTemplate, Object... params)
-   {
-      String message = getBundleMessage(key, defaultMessageTemplate);
-      if ( !Strings.isEmpty(message) )
-      {
-         return createFacesMessage( severity, message, params );
+         return new FacesMessage(toSeverity(statusMessage.getSeverity()), statusMessage.getSummary(), statusMessage.getDetail() );
       }
       else
       {
@@ -384,7 +81,58 @@ public class FacesMessages implements Serializable
       }
    }
    
-   private String getClientId(String id)
+   /**
+    * Convert a StatusMessage.Severity to a FacesMessage.Severity
+    */
+   private static javax.faces.application.FacesMessage.Severity toSeverity(org.jboss.seam.international.StatusMessage.Severity severity)
+   {
+      switch (severity)
+      {
+      case ERROR:
+         return FacesMessage.SEVERITY_ERROR;
+      case FATAL:
+         return FacesMessage.SEVERITY_FATAL;
+      case INFO:
+         return FacesMessage.SEVERITY_INFO;
+      case WARN:
+         return FacesMessage.SEVERITY_WARN;
+      default:
+         return null;
+      }
+   }
+   
+   /**
+    * Convert a FacesMessage.Severity to a StatusMessage.Severity
+    */
+   private static org.jboss.seam.international.StatusMessage.Severity toSeverity(javax.faces.application.FacesMessage.Severity severity)
+   {
+      if (FacesMessage.SEVERITY_ERROR.equals(severity))
+      {
+         return org.jboss.seam.international.StatusMessage.Severity.ERROR;
+      }
+      else if (FacesMessage.SEVERITY_FATAL.equals(severity))
+      {
+         return org.jboss.seam.international.StatusMessage.Severity.FATAL;
+      }
+      else if (FacesMessage.SEVERITY_INFO.equals(severity))
+      {
+         return org.jboss.seam.international.StatusMessage.Severity.INFO;
+      }
+      else if (FacesMessage.SEVERITY_WARN.equals(severity))
+      {
+         return org.jboss.seam.international.StatusMessage.Severity.WARN;
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
+   @Override
+   /**
+    * Calculate the JSF client ID from the provided widget ID
+    */
+   protected String getClientId(String id)
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       return getClientId( facesContext.getViewRoot(), id, facesContext);
@@ -410,36 +158,197 @@ public class FacesMessages implements Serializable
       }
    }
    
-   private List<Runnable> getTasks()
+   /**
+    * Get all faces messages that have already been added
+    * to the context.
+    * 
+    */
+   public List<FacesMessage> getCurrentMessages()
    {
-      if (tasks==null)
+      List<FacesMessage> result = new ArrayList<FacesMessage>();
+      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages();
+      while ( iter.hasNext() )
       {
-         tasks = new ArrayList<Runnable>();
+         result.add( iter.next() );
       }
-      return tasks;
+      return result;
    }
-  
-   private void addToTasks(final Severity severity, final String key, final String messageTemplate, final Object... params)
+   
+   /**
+    * Get all faces global messages that have already been added
+    * to the context.
+    * 
+    */
+   public List<FacesMessage> getCurrentGlobalMessages()
    {
-      getTasks().add( new Runnable() {
-         public void run() { add( createFacesMessage(severity, key, messageTemplate, params) ); }
-      } );
+      List<FacesMessage> result = new ArrayList<FacesMessage>();
+      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(null);
+      while ( iter.hasNext() )
+      {
+         result.add( iter.next() );
+      }
+      return result;
    }
-      
-   private void addToTasks(final String id, final Severity severity, final String key, final String messageTemplate, final Object... params)
+   
+   /**
+    * Get all faces messages that have already been added
+    * to the control.
+    * 
+    */
+   public List<FacesMessage> getCurrentMessagesForControl(String id)
    {
-      getTasks().add( new Runnable() {
-         public void run() { addToControl( id, createFacesMessage(severity, key, messageTemplate, params) ); }
-      } );
+      String clientId = getClientId(id);
+      List<FacesMessage> result = new ArrayList<FacesMessage>();
+      Iterator<FacesMessage> iter = FacesContext.getCurrentInstance().getMessages(clientId);
+      while ( iter.hasNext() )
+      {
+         result.add( iter.next() );
+      }
+      return result;
    }
-
+   
+   /**
+    * Utility method to create a FacesMessage from a Severity, messageTemplate 
+    * and params.
+    * 
+    * This method interpolates the parameters provided
+    */
+   public static FacesMessage createFacesMessage(javax.faces.application.FacesMessage.Severity severity, String messageTemplate, Object... params)
+   {
+      return toFacesMessage(new StatusMessage(toSeverity(severity), null, null, messageTemplate, null, params));
+   }
+   
+   /**
+    * Utility method to create a FacesMessage from a Severity, key, 
+    * defaultMessageTemplate and params.
+    * 
+    * This method interpolates the parameters provided
+    */
+   public static FacesMessage createFacesMessage(javax.faces.application.FacesMessage.Severity severity, String key, String defaultMessageTemplate, Object... params)
+   {
+      return toFacesMessage(new StatusMessage(toSeverity(severity), key, null, defaultMessageTemplate, null, params));
+   }
+   
+   /**
+    * Add a FacesMessage that will be used
+    * the next time a page is rendered.
+    * 
+    * Deprecated, use {@link #add(StatusMessage)} instead
+    */
+   @Deprecated
+   public void add(FacesMessage facesMessage) 
+   {
+      if (facesMessage!=null)
+      {
+         add(new StatusMessage(facesMessage.getSummary(), facesMessage.getDetail(), toSeverity(facesMessage.getSeverity())));
+      }
+   }
+   
+   /**
+    * Create a new status message, with the messageTemplate is as the message.
+    * 
+    * You can also specify the severity, and parameters to be interpolated
+    * 
+    * Deprecated, use {@link #add(org.jboss.seam.international.StatusMessage.Severity, String, Object...)} 
+    * instead
+    */
+   @Deprecated
+   public void add(javax.faces.application.FacesMessage.Severity severity, String messageTemplate, Object... params)
+   {
+      add(toSeverity(severity), messageTemplate, params);
+   }
+   
+   
+   /**
+    * Create a new status message, with the messageTemplate is as the message.
+    *
+    * A severity of INFO will be used, and you can specify paramters to be
+    * interpolated
+    * 
+    * Deprecated, use {@link #addToControl(String, org.jboss.seam.international.StatusMessage.Severity, String, Object...)}
+    * instead
+    */
+   @Deprecated
+   public void addToControl(String id, javax.faces.application.FacesMessage.Severity severity, String messageTemplate, Object... params)
+   {
+      addToControl(id, toSeverity(severity), messageTemplate, params);
+   }
+   
+   /**
+    * Add a status message, looking up the message in the resource bundle
+    * using the provided key.
+    * 
+    * You can also specify the severity, and parameters to be interpolated
+    * 
+    * Deprecated, use {@link #addFromResourceBundle(org.jboss.seam.international.StatusMessage.Severity, String, Object...)}
+    * instead
+    */
+   @Deprecated
+   public void addFromResourceBundle(javax.faces.application.FacesMessage.Severity severity, String key, Object... params)
+   {
+      addFromResourceBundle(toSeverity(severity), key, params);
+   }
+   
+   /**
+    * Add a status message, looking up the message in the resource bundle
+    * using the provided key.
+    * 
+    * You can also specify the severity, and parameters to be interpolated
+    * 
+    * Deprecated, use {@link #addFromResourceBundleOrDefault(javax.faces.application.FacesMessage.Severity, String, String, Object...)}
+    * instead
+    */
+   @Deprecated
+   public void addFromResourceBundleOrDefault(javax.faces.application.FacesMessage.Severity severity, String key, String defaultMessageTemplate, Object... params)
+   {
+      addFromResourceBundle(toSeverity(severity), key, defaultMessageTemplate, params);
+   }
+   
+   /**
+    * Create a new status message, looking up the message in the resource bundle
+    * using the provided key.
+    * 
+    * The message will be added to the widget specified by the ID. The algorithm
+    * used determine which widget the id refers to is determined by the view 
+    * layer implementation in use.
+    * 
+    * You can also specify the severity, and parameters to be interpolated
+    * 
+    * Deprecated, use {@link #addToControlFromResourceBundle(String, org.jboss.seam.international.StatusMessage.Severity, String, Object...)}
+    * instead
+    */
+   @Deprecated
+   public void addToControlFromResourceBundle(String id, javax.faces.application.FacesMessage.Severity severity, String key, Object... params)
+   {
+      addToControlFromResourceBundle(id, toSeverity(severity), key, params);
+   }
+   
+   /**
+    * Add a status message, looking up the message in the resource bundle
+    * using the provided key. If the message is found, it is used, otherwise, 
+    * the defaultMessageTemplate will be used.
+    * 
+    * The message will be added to the widget specified by the ID. The algorithm
+    * used determine which widget the id refers to is determined by the view 
+    * layer implementation in use.
+    * 
+    * You can also specify the severity, and parameters to be interpolated
+    * 
+    * Deprecated, use {@link #addToControlFromResourceBundleOrDefault(String, org.jboss.seam.international.StatusMessage.Severity, String, String, Object...)}
+    * instead
+    */
+   @Deprecated
+   public void addToControlFromResourceBundleOrDefault(String id, javax.faces.application.FacesMessage.Severity severity, String key, String defaultMessageTemplate, Object... params)
+   {
+      addToControlFromResourceBundleOrDefault(id, toSeverity(severity), key, defaultMessageTemplate, params);
+   }
+   
    public static FacesMessages instance()
    {
       if ( !Contexts.isConversationContextActive() )
       {
          throw new IllegalStateException("No active conversation context");
       }
-      return (FacesMessages) Component.getInstance(FacesMessages.class, ScopeType.CONVERSATION);
+      return (FacesMessages) Component.getInstance(StatusMessages.COMPONENT_NAME, ScopeType.CONVERSATION);
    }
-      
 }
