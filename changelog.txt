@@ -1,6 +1,34 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.2.GA
+
+** Bug
+    *  [ JBSEAM-2936 ] Icefaces seam-gen build scripts need to be updated for mvel.jar changes
+    *  [ JBSEAM-2942 ] StyleResource serves any file from the classpath
+    *  [ JBSEAM-2943 ] seam-gen ear project on windows does not allow new CRUD entries
+    *  [ JBSEAM-2946 ] Distribution jar file different than those build via source included with dist.
+    *  [ JBSEAM-2950 ] dvdstore large checkout causes a IllegalStateException: process business key may not be null
+    *  [ JBSEAM-2957 ] seambay example - all web services on test page return error code 404
+    *  [ JBSEAM-2962 ] JPA example on tomcat 6.X without embedded throws NoClassDefFoundError: org/jboss/util/file/ArchiveBrowser$Filter
+    *  [ JBSEAM-2963 ] Booking example on tomcat6 with JBoss Embedded throws NameNotFoundException
+    *  [ JBSEAM-2970 ] In POJO mode, seam 2.0.2 performs a commit on the transaction even if the transaction si marked for rollback
+    *  [ JBSEAM-2971 ] initial property value does not work if setter is missing (doesn't fall back to field)
+
+** Task
+    *  [ JBSEAM-2482 ] Possible work around for Weblogic "varargs" EJB issue
+    *  [ JBSEAM-2712 ] Document character encoding stuff
+    *  [ JBSEAM-2931 ] Improve the exception thrown by an insecure order by clause
+    *  [ JBSEAM-2945 ] seam-gen test readme.txt has out of date jars listed
+    *  [ JBSEAM-2948 ] Update readme.txt testng commands to include testteport
+    *  [ JBSEAM-2965 ] Glassfish JPA example readme.txt says that it does not work on glassfish - it did.
+    *  [ JBSEAM-2966 ] Glassfish hibernate example readme.txt update
+    *  [ JBSEAM-2967 ] Seam example's readme.txt updates
+
+** Patch
+    *  [ JBSEAM-2592 ] Seam 2.0.1 GA patched to support BEA WebLogic Server 10.x with EJB3 support
+    *  [ JBSEAM-2976 ] Typo in ScopeType: "psUEdo" instead of "psEUdo" 
+
 Release Notes - JBoss Seam - Version 2.0.2.CR2
 
 ** Feature Request
