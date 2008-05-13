@@ -1,5 +1,7 @@
 package org.jboss.seam.wicket.ioc;
 
+import static org.jboss.seam.ScopeType.STATELESS;
+import static org.jboss.seam.ScopeType.UNSPECIFIED;
 import static org.jboss.seam.wicket.ioc.MetaModelUtils.createProxyFactory;
 import static org.jboss.seam.wicket.ioc.MetaModelUtils.toName;
 
@@ -12,7 +14,13 @@ import java.util.Map;
 
 import javassist.util.proxy.ProxyObject;
 
+import org.jboss.seam.Component;
+import org.jboss.seam.Namespace;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Init;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 
 /**
  * Controls injection for a MetaModel
@@ -26,7 +34,9 @@ public class Injector
    
    private List<BijectedAttribute<In>> inAttributes = new ArrayList<BijectedAttribute<In>>();
    
-   private MetaModel metaModel;
+   private final MetaModel metaModel;
+   
+   private static LogProvider log = Logging.getLogProvider(Injector.class);
 
    public Injector(MetaModel metaModel)
    {
@@ -57,16 +67,21 @@ public class Injector
    {
       for ( BijectedAttribute<In> in : inAttributes )
       {
-         // Currently need a proxy here as Wicket has no native support for interceptors
-         // TODO Replace this with a Seam ClientSide interceptor. Needs JBSEAM-699
-         in.set( instance, wrap( instance, in ) );
+         in.set( instance, wrap( in, metaModel.getMetaModelName() ) );
       }
    }
    
-   private static Object wrap(Object bean, BijectedAttribute<In> in) throws Exception
+   private static Object wrap(final BijectedAttribute<In> in, final String metaModelName) throws Exception
    {
       ProxyObject proxy = getProxyFactory(in.getType()).newInstance();
-      proxy.setHandler(new InjectionInterceptor(in));
+      proxy.setHandler(new InjectionInterceptor(in)
+      {
+         @Override
+         protected Object getValueToInject(String name, In annotation, Object value)
+         {
+            return getValue(name, annotation, metaModelName, value);
+         }
+      });
       return proxy;
    }
    
@@ -82,6 +97,72 @@ public class Injector
          proxyFactories.put(type, factory);
          return factory;
       }
+   }
+   
+   private static Object getValue(String name, In annotation, String metaModelName, Object bean)
+   {
+      if ( name.startsWith("#") )
+      {
+         if ( log.isDebugEnabled() )
+         {
+            log.trace("trying to inject with EL expression: " + name);
+         }
+         return Expressions.instance().createValueExpression(name).getValue();
+      }
+      else if ( annotation.scope()==UNSPECIFIED )
+      {
+         if ( log.isDebugEnabled() )
+         {
+            log.trace("trying to inject with hierarchical context search: " + name);
+         }
+         return getInstanceInAllNamespaces(name, annotation.create());
+      }
+      else
+      {
+         if ( annotation.create() )
+         {
+            throw new IllegalArgumentException(
+                  "cannot combine create=true with explicit scope on @In: " +
+                  getMetaModel(metaModelName).getAttributeMessage(name)
+               );
+         }
+         if ( annotation.scope()==STATELESS )
+         {
+            throw new IllegalArgumentException(
+                  "cannot specify explicit scope=STATELESS on @In: " +
+                  getMetaModel(metaModelName).getAttributeMessage(name)
+               );
+         }
+         
+         
+         log.trace("trying to inject from specified context: " + name);
+         
+         if ( annotation.scope().isContextActive() )
+         {
+            return annotation.scope().getContext().get(name);
+         }
+      }
+      return null;
+   }
+   
+   private static Object getInstanceInAllNamespaces(String name, boolean create)
+   {
+      Object result;
+      result = Component.getInstance(name, create);
+      if (result==null)
+      {
+         for ( Namespace namespace: Init.instance().getGlobalImports() )
+         {
+            result = namespace.getComponentInstance(name, create);
+            if (result!=null) break; 
+         }
+      }
+      return result;
+   }
+   
+   private static MetaModel getMetaModel(String metaModelName)
+   {
+      return MetaModel.forName(metaModelName);     
    }
    
 }
