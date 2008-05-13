@@ -1458,7 +1458,7 @@ public class Component extends Model
    }
 
    /**
-    * Wrap a CGLIB interceptor around an instance of the component
+    * Wrap a Javassist interceptor around an instance of the component
     */
    public Object wrap(Object bean, MethodHandler interceptor) throws Exception
    {
