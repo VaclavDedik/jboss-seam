@@ -74,7 +74,7 @@ public class Main extends WebPage
       body.add(hotelSearchForm);
       
       messages = new ComponentFeedbackPanel("messages", this).setOutputMarkupId(true); 
-      add(messages);
+      body.add(messages);
       
       /*
        * Hotel Search results
