@@ -35,7 +35,6 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.ValidationError;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.core.Conversation;
 import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.HotelBooking;
 
@@ -134,10 +133,6 @@ public class Book extends WebPage
          {
             setResponsePage(Confirm.class);
          }
-         else
-         {
-            error(new ValidationError().setMessage("Error"));
-         }
       }
       
       @Override
@@ -153,6 +148,5 @@ public class Book extends WebPage
 	protected void onBeforeRender()
 	{
 	   super.onBeforeRender();
-	   System.out.println("cid " + Conversation.instance().getId());
 	}
 }

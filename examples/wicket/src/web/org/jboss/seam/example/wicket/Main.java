@@ -63,7 +63,7 @@ public class Main extends WebPage
    private HotelSearchForm hotelSearchForm;
    private WebMarkupContainer hotels;
    private Component noHotelsFound;
-   
+   private Component messages;
    
    
    public Main(final PageParameters parameters)
@@ -72,6 +72,9 @@ public class Main extends WebPage
       add(body);
       hotelSearchForm = new HotelSearchForm("searchCriteria");
       body.add(hotelSearchForm);
+      
+      messages = new ComponentFeedbackPanel("messages", this).setOutputMarkupId(true); 
+      add(messages);
       
       /*
        * Hotel Search results
@@ -120,7 +123,8 @@ public class Main extends WebPage
          @Override
          public boolean isVisible()
          {
-            return Identity.instance().isLoggedIn() && hotelSearch.getHotels().size() > 0;
+            return true;
+            //return Identity.instance().isLoggedIn() && hotelSearch.getHotels().size() > 0;
          }
          
       };
@@ -226,8 +230,6 @@ public class Main extends WebPage
          add(new TextField("searchString", new PropertyModel(hotelSearch, "searchString")));
          List<Integer> pageSizes = Arrays.asList(new Integer[] { 5, 10, 20 });
          add(new DropDownChoice("pageSize", new PropertyModel(this, "pageSize"), pageSizes));
-         final Component messages = new ComponentFeedbackPanel("messages", this).setOutputMarkupId(true); 
-         add(messages);
          add(new IndicatingAjaxButton("submit", this)
          {
 

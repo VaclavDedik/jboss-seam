@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.international.StatusMessages;
 
 @Stateful
 @Scope(EVENT)
@@ -25,9 +26,8 @@ public class RegisterAction implements Register
    @PersistenceContext
    private EntityManager em;
    
-   //TODO JBSEAM-2515
-   //@In
-   //private FacesMessages facesMessages;
+   @In(create=true)
+   private StatusMessages statusMessages;
    
    private String verify;
    
@@ -42,24 +42,24 @@ public class RegisterAction implements Register
          if (existing.size()==0)
          {
             em.persist(user);
-            //facesMessages.add("Successfully registered as #{user.username}");
+            statusMessages.addToControl("login", "Successfully registered as #{user.username}");
             registered = true;
          }
          else
          {
-            //facesMessages.addToControl("username", "Username #{user.username} already exists");
+            statusMessages.addToControl("username", "Username #{user.username} already exists");
          }
       }
       else 
       {
-         //facesMessages.addToControl("verify", "Re-enter your password");
+         statusMessages.addToControl("verify", "Re-enter your password");
          verify=null;
       }
    }
    
    public void invalid()
    {
-      //facesMessages.add("Please try again");
+      statusMessages.add("Please try again");
    }
    
    public boolean isRegistered()

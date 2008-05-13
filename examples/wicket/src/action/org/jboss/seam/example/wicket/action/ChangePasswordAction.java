@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.international.StatusMessages;
 
 @Stateful
 @Scope(EVENT)
@@ -26,14 +27,13 @@ public class ChangePasswordAction implements ChangePassword
    @PersistenceContext
    private EntityManager em;
    
-   // TODO JBSEAM-2515
-   //@In
-   //private FacesMessages facesMessages;
+   @In(create=true)
+   private StatusMessages statusMessages;
    
    public void changePassword()
    {
       user = em.merge(user);
-      //facesMessages.add("Password updated");
+      statusMessages.add("Password updated");
    }
    
    @Remove

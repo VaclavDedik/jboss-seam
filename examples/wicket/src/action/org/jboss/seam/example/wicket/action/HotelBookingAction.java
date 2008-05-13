@@ -18,6 +18,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 
 @Stateful
@@ -39,9 +40,8 @@ public class HotelBookingAction implements HotelBooking
    @Out(required=false)
    private Booking booking;
    
-   // TODO JBSEAM-2515
-   //@In
-   //private FacesMessages facesMessages;
+   @In(create=true)
+   private StatusMessages statusMessages;
       
    @In
    private Events events;
@@ -74,12 +74,12 @@ public class HotelBookingAction implements HotelBooking
       calendar.add(Calendar.DAY_OF_MONTH, -1);
       if ( booking.getCheckinDate().before( calendar.getTime() ) )
       {
-         //facesMessages.addToControl("checkinDate", "Check in date must be a future date");
+         statusMessages.addToControl("checkinDate", "Check in date must be a future date");
          bookingValid=false;
       }
       else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
       {
-         //facesMessages.addToControl("checkoutDate", "Check out date must be later than check in date");
+         statusMessages.addToControl("checkoutDate", "Check out date must be later than check in date");
          bookingValid=false;
       }
       else
@@ -97,7 +97,7 @@ public class HotelBookingAction implements HotelBooking
    public void confirm()
    {
       em.persist(booking);
-      //facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      statusMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
       events.raiseTransactionSuccessEvent("bookingConfirmed");
    }

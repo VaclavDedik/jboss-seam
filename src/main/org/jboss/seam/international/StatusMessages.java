@@ -52,6 +52,16 @@ public abstract class StatusMessages implements Serializable
       keyedMessages.clear();
    }
    
+   public void clearKeyedMessages(String id)
+   {
+      keyedMessages.remove(id);
+   }
+   
+   public void clearGlobalMessages()
+   {
+      messages.clear();
+   }
+   
    /**
     * Add a status message, looking up the message in the resource bundle
     * using the provided key. If the message is found, it is used, otherwise, 
@@ -100,16 +110,15 @@ public abstract class StatusMessages implements Serializable
                public void run() 
                {
                   StatusMessage message = new StatusMessage(severity, key, null, messageTemplate, null, params);
-                  String clientId = getClientId(id);
-                  if (keyedMessages.containsKey(clientId))
+                  if (keyedMessages.containsKey(id))
                   {
-                     keyedMessages.get(clientId).add(message);
+                     keyedMessages.get(id).add(message);
                   }
                   else
                   {
                      List<StatusMessage> list = new ArrayList<StatusMessage>();
                      list.add(message);
-                     keyedMessages.put(clientId, list);
+                     keyedMessages.put(id, list);
                   }
                }
                
@@ -117,8 +126,6 @@ public abstract class StatusMessages implements Serializable
       );
       
    }
-   
-   protected abstract String getClientId(String id);
 
    /**
     * Create a new status message, with the messageTemplate is as the message.
@@ -371,7 +378,7 @@ public abstract class StatusMessages implements Serializable
       }
    }
    
-   private void doRunTasks()
+   protected void doRunTasks()
    {
       if (tasks!=null)
       {

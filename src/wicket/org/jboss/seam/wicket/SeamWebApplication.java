@@ -15,6 +15,7 @@ import org.apache.wicket.request.target.component.IBookmarkablePageRequestTarget
 import org.apache.wicket.request.target.component.listener.IListenerInterfaceRequestTarget;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.wicket.international.SeamStatusMessagesListener;
 import org.jboss.seam.wicket.ioc.SeamInjectionListener;
 
 /**
@@ -113,6 +114,7 @@ public abstract class SeamWebApplication extends WebApplication
    	super.init();
    	inititializeSeamSecurity();
    	initializeSeamInjection();
+   	initializeSeamStatusMessages();
    }
    
    /**
@@ -134,6 +136,14 @@ public abstract class SeamWebApplication extends WebApplication
    protected void initializeSeamInjection()
    {
       addComponentInstantiationListener(new SeamInjectionListener());
+   }
+   
+   /**
+    * Add Seam status message transport support to youur app.
+    */
+   protected void initializeSeamStatusMessages()
+   {
+      addComponentOnBeforeRenderListener(new SeamStatusMessagesListener());
    }
   
    protected abstract Class getLoginPage();

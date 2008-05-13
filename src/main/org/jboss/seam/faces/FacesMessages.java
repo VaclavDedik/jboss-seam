@@ -49,7 +49,8 @@ public class FacesMessages extends StatusMessages
       {
          for ( StatusMessage statusMessage: entry.getValue() )
          {
-            FacesContext.getCurrentInstance().addMessage( entry.getKey(), toFacesMessage(statusMessage) );
+            String clientId = getClientId(entry.getKey());
+            FacesContext.getCurrentInstance().addMessage( clientId, toFacesMessage(statusMessage) );
          }
       }
       clear();
@@ -128,11 +129,10 @@ public class FacesMessages extends StatusMessages
       }
    }
    
-   @Override
    /**
     * Calculate the JSF client ID from the provided widget ID
     */
-   protected String getClientId(String id)
+   private String getClientId(String id)
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       return getClientId( facesContext.getViewRoot(), id, facesContext);

@@ -26,7 +26,9 @@ public class Register extends WebPage
 	
 	public Register()
     {
-       add(new RegisterForm("registration"));
+	    Form registerForm = new RegisterForm("registration");  
+       add(registerForm);
+       registerForm.add(new ComponentFeedbackPanel("messages", this));
     }
 
 	public class RegisterForm extends Form
@@ -44,7 +46,6 @@ public class Register extends WebPage
          FormComponent verify = new PasswordTextField("verify").setRequired(true);
          add(new FormInputBorder("passwordDecorate", "Password", password , new PropertyModel(user, "password")));
          add(new FormInputBorder("verifyDecorate", "Verify Password", verify, new PropertyModel(register, "verify")));
-         add(new ComponentFeedbackPanel("messages", this));
          add(new EqualPasswordInputValidator(password, verify));
       }
       
@@ -52,7 +53,10 @@ public class Register extends WebPage
       protected void onSubmit()
       {
          register.register();
-         setResponsePage(Home.class);
+         if (register.isRegistered())
+         {
+            setResponsePage(Home.class);
+         }
       }
       
 	}

@@ -21,7 +21,7 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 
 @Stateful
@@ -63,7 +63,7 @@ public class BookingListAction implements BookingList, Serializable
       Booking cancelled = em.find(Booking.class, booking.getId());
       if (cancelled!=null) em.remove( cancelled );
       getBookings();
-      FacesMessages.instance().add("Booking cancelled for confirmation number #{bookingList.booking.id}");
+      StatusMessages.instance().addToControl("body", "Booking cancelled for confirmation number #{bookingList.booking.id}");
    }
    
    // TODO replace this with @Out in Wicket
