@@ -4,7 +4,10 @@ import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
+import org.apache.wicket.behavior.IBehaviorListener;
 import org.apache.wicket.markup.html.form.IFormSubmitListener;
+import org.apache.wicket.markup.html.form.IOnChangeListener;
+import org.apache.wicket.markup.html.link.ILinkListener;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WebRequestCycleProcessor;
 import org.apache.wicket.protocol.http.WebSession;
@@ -28,7 +31,7 @@ import org.jboss.seam.wicket.ioc.SeamInjectionListener;
  */
 public abstract class SeamWebApplication extends WebApplication
 {
-
+   
    /**
     * Custom session with invalidation override. We can't just let Wicket
     * invalidate the session as Seam might have to do some cleaning up to do.
@@ -36,22 +39,22 @@ public abstract class SeamWebApplication extends WebApplication
    @Override
    public Session newSession(Request request, Response response)
    {
-   	return new WebSession(request) 
-   	{
-   
-   		@Override
-   		public void invalidate() 
-   		{
-   			org.jboss.seam.web.Session.getInstance().invalidate();
-   		}
-   
-   		@Override
-   		public void invalidateNow() 
-   		{
-   			// sorry, can't support this with Seam
-   			org.jboss.seam.web.Session.getInstance().invalidate();
-   		}
-   	};
+      return new WebSession(request) 
+      {
+
+         @Override
+         public void invalidate() 
+         {
+            org.jboss.seam.web.Session.getInstance().invalidate();
+         }
+
+         @Override
+         public void invalidateNow() 
+         {
+            // sorry, can't support this with Seam
+            org.jboss.seam.web.Session.getInstance().invalidate();
+         }
+      };
    }
 
    @Override
@@ -70,22 +73,22 @@ public abstract class SeamWebApplication extends WebApplication
                @Override
                protected CharSequence encode(RequestCycle requestCycle, final IListenerInterfaceRequestTarget requestTarget)
                {
-                  if (IFormSubmitListener.INTERFACE.getName().equals(requestTarget.getRequestListenerInterface().getName()))
+                  String name = requestTarget.getRequestListenerInterface().getName();
+                  CharSequence url = super.encode(requestCycle, requestTarget);
+                  if ( Manager.instance().isReallyLongRunningConversation() && (
+                       IFormSubmitListener.INTERFACE.getName().equals(name) || 
+                       ILinkListener.INTERFACE.getName().equals(name) ||
+                       IBehaviorListener.INTERFACE.getName().equals(name) || 
+                       IOnChangeListener.INTERFACE.getName().equals(name) ))
                   {
                      // TODO Do this nicely
-                     StringBuilder stringBuilder = new StringBuilder(super.encode(requestCycle, requestTarget));
-                     if (Manager.instance().isReallyLongRunningConversation())
-                     {
-                        stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
-                     }
-                     return stringBuilder.subSequence(0, stringBuilder.length());
+                     StringBuilder stringBuilder = new StringBuilder(url);
+                     stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
+                     url = stringBuilder.subSequence(0, stringBuilder.length());
                   }
-                  else
-                  {
-                     return super.encode(requestCycle, requestTarget);
-                  }
+                  return url;
                }
-               
+
                @Override
                protected CharSequence encode(RequestCycle requestCycle, IBookmarkablePageRequestTarget requestTarget)
                {
@@ -98,25 +101,25 @@ public abstract class SeamWebApplication extends WebApplication
                         stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
                      }
                      return stringBuilder.subSequence(0, stringBuilder.length());
-   
+
                   }
                   return super.encode(requestCycle, requestTarget);
                }
-               
+
             };
          }
       };
-    }
+   }
 
    @Override
    protected void init()
    {
-   	super.init();
-   	inititializeSeamSecurity();
-   	initializeSeamInjection();
-   	initializeSeamStatusMessages();
+      super.init();
+      inititializeSeamSecurity();
+      initializeSeamInjection();
+      initializeSeamStatusMessages();
    }
-   
+
    /**
     * Add Seam Security to the wicket app.
     * 
@@ -128,8 +131,8 @@ public abstract class SeamWebApplication extends WebApplication
    {
       getSecuritySettings().setAuthorizationStrategy(new SeamAuthorizationStrategy(getLoginPage()));
    }
-   
-   
+
+
    /** 
     * Add Seam injection support to your app. Required for proper functioning
     */
@@ -137,7 +140,7 @@ public abstract class SeamWebApplication extends WebApplication
    {
       addComponentInstantiationListener(new SeamInjectionListener());
    }
-   
+
    /**
     * Add Seam status message transport support to youur app.
     */
@@ -145,7 +148,7 @@ public abstract class SeamWebApplication extends WebApplication
    {
       addComponentOnBeforeRenderListener(new SeamStatusMessagesListener());
    }
-  
+
    protected abstract Class getLoginPage();
 
 }
