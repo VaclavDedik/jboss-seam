@@ -8,12 +8,12 @@ import java.util.Locale;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.HotelBooking;
-import org.jboss.seam.wicket.SeamLink;
 
 @Restrict
 public class Confirm extends WebPage 
@@ -34,7 +34,7 @@ public class Confirm extends WebPage
 	   body.add(new OutputBorder("checkinDateBorder", "Check in", new Label("checkinDate", new SimpleDateFormat().format(booking.getCheckinDate()))));
 	   body.add(new OutputBorder("checkoutDateBorder", "Check out", new Label("checkoutDate", new SimpleDateFormat().format(booking.getCheckoutDate()))));
 	   body.add(new OutputBorder("creditCardNumberBorder", "Credit Card #", new Label("creditCardNumber", booking.getCreditCard())));
-	   body.add(new SeamLink("revise")
+	   body.add(new Link("revise")
       {
          @Override
          public void onClick()
@@ -42,7 +42,7 @@ public class Confirm extends WebPage
             setResponsePage(Book.class);
          }
       });
-      body.add(new SeamLink("confirm")
+      body.add(new Link("confirm")
       {
          @Override
          public void onClick()
@@ -51,7 +51,7 @@ public class Confirm extends WebPage
             setResponsePage(Main.class);
          }
       });
-      body.add(new SeamLink("cancel")
+      body.add(new Link("cancel")
       {
          @Override
          public void onClick()

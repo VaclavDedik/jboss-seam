@@ -3,10 +3,10 @@ package org.jboss.seam.example.wicket;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.link.Link;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.example.wicket.action.HotelBooking;
-import org.jboss.seam.wicket.SeamLink;
 
 @Restrict
 public class Hotel extends WebPage 
@@ -21,7 +21,7 @@ public class Hotel extends WebPage
 	{
 	   super(parameters);
 	   Template body = new Template("body");
-	   body.add(new SeamLink("bookHotel")
+	   body.add(new Link("bookHotel")
 	   {
 	      @Override
 	      public void onClick()
@@ -30,7 +30,7 @@ public class Hotel extends WebPage
 	         setResponsePage(Book.class);
 	      }
 	   });
-	   body.add(new SeamLink("cancel")
+	   body.add(new Link("cancel")
       {
          @Override
          public void onClick()
