@@ -32,7 +32,6 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.validation.ValidationError;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.example.wicket.action.Booking;
