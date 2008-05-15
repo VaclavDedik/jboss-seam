@@ -2,6 +2,7 @@
 package org.jboss.seam.mock;
 
 import javax.faces.FacesException;
+import javax.faces.FactoryFinder;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseListener;
 import javax.faces.lifecycle.Lifecycle;
@@ -10,6 +11,12 @@ public class MockLifecycle extends Lifecycle
 {
    
    public static final Lifecycle INSTANCE = new MockLifecycle();
+   
+   public MockLifecycle()
+   {
+      MockLifecycleFactory.setLifecycle(this);
+      FactoryFinder.setFactory(FactoryFinder.LIFECYCLE_FACTORY, MockLifecycleFactory.class.getName());
+   }
 
    @Override
    public void addPhaseListener(PhaseListener pl)

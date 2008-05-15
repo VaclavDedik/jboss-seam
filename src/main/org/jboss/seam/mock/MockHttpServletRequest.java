@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -40,7 +41,8 @@ public class MockHttpServletRequest implements HttpServletRequest
    private String principalName;
    private Set<String> principalRoles;
    private Cookie[] cookies;
-   private String method; 
+   private String method;
+   private Enumeration locales;
    
    public MockHttpServletRequest(HttpSession session)
    {
@@ -61,6 +63,7 @@ public class MockHttpServletRequest implements HttpServletRequest
       this.method = method;
       // The 1.2 RI NPEs if this header isn't present 
       headers.put("Accept", new String[0]);
+      locales = new IteratorEnumeration(new ArrayList().iterator());
    }
 
    public Map<String, String[]> getParameters()
@@ -341,8 +344,7 @@ public class MockHttpServletRequest implements HttpServletRequest
 
    public Enumeration getLocales()
    {
-      //TODO
-      return null;
+      return locales;
    }
 
    public boolean isSecure()

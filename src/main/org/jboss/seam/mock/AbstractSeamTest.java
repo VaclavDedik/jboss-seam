@@ -12,6 +12,7 @@ import java.util.Set;
 
 import javax.el.ELResolver;
 import javax.el.ValueExpression;
+import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
@@ -504,6 +505,7 @@ public class AbstractSeamTest
                }
             });
             seamFilter.destroy();
+            facesContext.release();
             afterRequest();
             return conversationId;
          }
@@ -938,6 +940,7 @@ public class AbstractSeamTest
       application = new SeamApplication(new MockApplication());
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();
+      FactoryFinder.setFactory(FactoryFinder.FACES_CONTEXT_FACTORY, MockFacesContextFactory.class.getName());
       
       for (ELResolver elResolver : getELResolvers())
       {

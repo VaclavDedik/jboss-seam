@@ -199,7 +199,8 @@ public class MockFacesContext extends FacesContext
    @Override
    public void release()
    {
-      setCurrentInstance(null);      
+      setCurrentInstance(null);
+      MockFacesContextFactory.setFacesContext(null);
    }
 
    @Override
@@ -217,6 +218,8 @@ public class MockFacesContext extends FacesContext
    public MockFacesContext setCurrent()
    {
       setCurrentInstance(this);
+      
+      MockFacesContextFactory.setFacesContext(this);
       return this;
    }
 
