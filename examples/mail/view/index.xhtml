@@ -38,6 +38,35 @@
         <h:messages infoStyle="info" errorStyle="error" fatalStyle="fatal" warnStyle="warn" />
     </h:form>
     
+    <p>You can also send from inside a servlet:</p>
+    
+    <form action="#{facesContext.externalContext.requestContextPath}/mail/sender" method="get">
+    	<table>
+    		<tr>
+    			<td>
+    				Name
+    			</td>
+    			<td>
+    				<input name="name" />
+    			</td>
+    		</tr>
+    		<tr>
+    			<td>
+    				Email Address
+    			</td>
+    			<td>
+    				<input name="email" />
+    			</td>
+    		</tr>
+    		<tr>
+    			<td></td>
+    			<td>
+    				<input type="submit" value="Send" />
+    			</td>
+    		</tr>
+    	</table>
+    </form>
+    
     <h2>Help - it's not working!</h2>
     <ul>
     <li><b>Setting an SMTP relay</b> - If you have problems sending emails from this example you might have a firewall 
