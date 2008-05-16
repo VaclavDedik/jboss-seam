@@ -79,8 +79,8 @@
 	</target>
 	
 	<target name="deployDocumentation" depends="initdav, initpoms">
-		<artifact:deploy uniqueVersion="false" file="${docs.pom}">
-			<pom file="${docs.pom}" />
+		<artifact:deploy uniqueVersion="false" file="${docs.pom}" settingsFile="${maven.settings.xml}">
+			<pom file="${docs.pom}" settingsFile="${maven.settings.xml}"/>
 			<remoteRepository refId="snapshots.jboss.org" />
 			<attach file="${doc.ref.dir}/target/docbook/publish/en-US/pdf/seam_reference.pdf" classifier="pdf" type="pdf" />
 		</artifact:deploy>
@@ -105,8 +105,8 @@
     <macrodef name="deploySnapshotPom">
         <attribute name="pom" />
         <sequential>
-            <artifact:deploy uniqueVersion="true">
-                <pom file="@{pom}" />
+            <artifact:deploy uniqueVersion="true" settingsFile="${maven.settings.xml}">
+                <pom file="@{pom}" settingsFile="${maven.settings.xml}"/>
                 <remoteRepository refid="snapshots.jboss.org" />
             </artifact:deploy>
         </sequential>
@@ -117,8 +117,8 @@
 		<attribute name="jar" />
         <attribute name="srcjar" />
 		<sequential>
-			<artifact:deploy file="@{jar}" uniqueVersion="true">
-				<pom file="@{pom}" />
+			<artifact:deploy file="@{jar}" uniqueVersion="true" settingsFile="${maven.settings.xml}">
+				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
                 <attach file="@{srcjar}" classifier="sources" />
 				<remoteRepository refid="snapshots.jboss.org" />
 			</artifact:deploy>

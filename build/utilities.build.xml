@@ -32,11 +32,11 @@
 		<attribute name="pom" />
 		<sequential>
 			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" settingsFile="${maven.settings.xml}">
-				<pom file="@{pom}" />
+				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
 			</artifact:dependencies>
 		</sequential>
 	</macrodef>
-
+	
 	<macrodef name="inlineDependencies">
 		<attribute name="id" />
 		<attribute name="scope" />
@@ -54,18 +54,18 @@
 		<attribute name="pom" />
 		<sequential>
 			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" sourcesFilesetId="@{scope}.@{id}.source.fileset" settingsFile="${maven.settings.xml}">
-				<pom file="@{pom}" />
+				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
 			</artifact:dependencies>
 		</sequential>
 	</macrodef>
-
+	
 	<macrodef name="install">
 		<attribute name="pom" default="" />
 		<attribute name="jar" default="" />
 		<element name="args" implicit="true" optional="true" />
 		<sequential>
 			<artifact:install file="@{jar}" settingsFile="${maven.settings.xml}">
-				<pom file="@{pom}" />
+				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
 				<args />
 			</artifact:install>
 		</sequential>
@@ -79,7 +79,7 @@
 		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
 			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}">
-				<pom file="@{pom}" />
+				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
 				</remoteRepository>
@@ -94,8 +94,8 @@
 		<attribute name="repositoryId" default="" />
 		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
-			<artifact:deploy file="@{jar}">
-				<pom file="@{pom}" />
+			<artifact:deploy file="@{jar}" settingsFile="${maven.settings.xml}">
+				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
 				</remoteRepository>
@@ -112,8 +112,8 @@
 		<attribute name="repositoryId" default="" />
 		<element name="credentials" implicit="true" optional="true" />
 		<sequential>
-			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}">
-				<pom file="@{pom}" />
+			<artifact:deploy file="@{jar}" uniqueVersion="@{unique}" settingsFile="${maven.settings.xml}">
+				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
 				<remoteRepository refId="@{repositoryId}">
 					<credentials />
 				</remoteRepository>
