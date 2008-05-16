@@ -14,8 +14,10 @@
 
 	<import file="common.build.xml" />
 	
-	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
-
+	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2">
+		<authentication username="hudson-services" password="${snapshots.password}" />
+	</artifact:remoteRepository>
+	
 	<target name="deploySeamSnapshot" description="Deploy a Seam snapshot to snapshots.jboss.org" depends="initdav, initpoms">
 		<deploySnapshotPom pom="${root.pom}" />
 		<deploySnapshotPom pom="${parent.pom}" />
