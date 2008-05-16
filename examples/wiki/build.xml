@@ -494,9 +494,9 @@
             </classpath>
             <xmlfileset dir="${src.test.dir}" includes="*.tng.xml" />
             <jvmarg line="${testng.jvmargs}"/>
-			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
+			<jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
         	<!-- Needed for running Embedded JBoss under JDK 6 -->
-        	<jvmarg value="-Djava.endorsed.dirs=${seam.dir}/classes/endorsed" />
+        	<jvmarg line="-Djava.endorsed.dirs=${seam.dir}/classes/endorsed" />
         </testng>
         <echo message="Please read the test output in directory: ${test.output.dir}"/>
     </target>
