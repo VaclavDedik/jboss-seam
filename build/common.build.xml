@@ -212,8 +212,8 @@
 				</propertyset>
            	</ant>
        		<pomfile name="example.pom" value="@{path}/pom.xml" />
-       		<artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear" uniqueVersion="false">
-       			<pom file="${example.pom}" />
+       		<artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear" uniqueVersion="false" settingsFile="${maven.settings.xml}">
+       			<pom file="${example.pom}"  settingsFile="${maven.settings.xml}" />
        		    <attach file="@{path}/resources/jboss-seam-@{name}-ds.xml" classifier="ds" type="xml" />
        			<remoteRepository refid="@{repositoryId}" />
        		</artifact:deploy>
@@ -280,8 +280,8 @@
 					</propertyset>
 	           	</ant>
 	       		<pomfile name="example.pom" value="@{path}/pom.xml" />
-	       		<artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear" uniqueVersion="false">
-	       			<pom file="${example.pom}" />
+	       		<artifact:deploy file="@{path}/dist/jboss-seam-@{name}.ear" uniqueVersion="false" settingsFile="${maven.settings.xml}">
+	       			<pom file="${example.pom}" settingsFile="${maven.settings.xml}" />
 	       			<remoteRepository refid="@{repositoryId}" />
 	       		</artifact:deploy>
 	       	</sequential>
