@@ -41,7 +41,7 @@ input[type='submit'], input[type='button'] {
 }
 
 .rich-table {
-    width:100%;
+  width:100%;
 }
 
 h1 {
@@ -63,7 +63,7 @@ body {
 
 .columnHeader:hover
 {
-    color: #FF6600;
+  color: #FF6600;
 }
 
 .message {
@@ -113,5 +113,5 @@ img.errors {
 }
 
 .rich-stglpanel-body {
-   overflow: auto;
+  overflow: auto;
 }
