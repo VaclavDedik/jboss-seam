@@ -202,6 +202,7 @@
 					<propertyref name="debug.pom" />
                     <propertyref name="jbas5.pom" />
 					<propertyref name="testng.jvmargs"/>
+           		    <propertyref name="maven.settings.xml" />
 				</propertyset>
            	</ant>
        		<pomfile name="example.pom" value="@{path}/pom.xml" />
