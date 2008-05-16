@@ -652,13 +652,13 @@
 		<copy todir="${classes.test.core.dir}">
 			<fileset dir="${classes.core.dir}" includes="**/*.*" />
 		</copy>
-		<artifact:dependencies pathId="remoting.path">
+		<inlineDependencies scope="compile" id="remoting">
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
-		</artifact:dependencies>
+		</inlineDependencies>
 		<path id="test.compile.path">
 			<path refid="test.core.path" />
 			<path path="${classes.test.core.dir}" />
-			<path refid="remoting.path" />
+			<path refid="compile.remoting.path" />
 		</path>
 	</target>
 
