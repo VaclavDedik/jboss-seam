@@ -14,8 +14,10 @@
 
 	<import file="common.build.xml" />
 	
-	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2" />
-
+	<artifact:remoteRepository id="snapshots.jboss.org" url="dav:https://snapshots.jboss.org/maven2">
+		<authentication username="hudson-services" password="${snapshots.password}" />
+	</artifact:remoteRepository>
+	
 	<target name="deploySeamSnapshot" description="Deploy a Seam snapshot to snapshots.jboss.org" depends="initdav, initpoms">
 		<deploySnapshotPom pom="${root.pom}" />
 		<deploySnapshotPom pom="${parent.pom}" />
@@ -79,7 +81,7 @@
 	</target>
 	
 	<target name="deployDocumentation" depends="initdav, initpoms">
-		<artifact:deploy uniqueVersion="false" file="${docs.pom}" settingsFile="${maven.settings.xml}">
+		<artifact:deploy uniqueVersion="false" file="${docs.pom}">
 			<pom file="${docs.pom}" settingsFile="${maven.settings.xml}"/>
 			<remoteRepository refId="snapshots.jboss.org" />
 			<attach file="${doc.ref.dir}/target/docbook/publish/en-US/pdf/seam_reference.pdf" classifier="pdf" type="pdf" />
@@ -105,7 +107,7 @@
     <macrodef name="deploySnapshotPom">
         <attribute name="pom" />
         <sequential>
-            <artifact:deploy uniqueVersion="true" settingsFile="${maven.settings.xml}">
+            <artifact:deploy uniqueVersion="true">
                 <pom file="@{pom}" settingsFile="${maven.settings.xml}"/>
                 <remoteRepository refid="snapshots.jboss.org" />
             </artifact:deploy>
@@ -117,7 +119,7 @@
 		<attribute name="jar" />
         <attribute name="srcjar" />
 		<sequential>
-			<artifact:deploy file="@{jar}" uniqueVersion="true" settingsFile="${maven.settings.xml}">
+			<artifact:deploy file="@{jar}" uniqueVersion="true">
 				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
                 <attach file="@{srcjar}" classifier="sources" />
 				<remoteRepository refid="snapshots.jboss.org" />

@@ -48,7 +48,7 @@
         <exclude name="hibernate*"/>
         <exclude name="ejb3-persistence*"/>
     	<exclude name="jboss-seam-gen.jar" />
-    </fileset>
+    </fileset> 
 
     <path id="build.classpath">
         <fileset refid="globallibs" />
@@ -72,6 +72,7 @@
         	<!-- Don't use that Hibernate either... -->
             <exclude name="hibernate*.jar"/>
         	<exclude name="jboss-seam-jbas5.jar" />
+            <exclude name="ehcache.jar" />
         </fileset>
         <fileset dir="${local.lib.dir}">
             <!-- This has the Hibernate we want -->
@@ -534,9 +535,9 @@
             </classpath>
             <xmlfileset dir="${src.test.dir}" includes="*.tng.xml" />
             <jvmarg line="${testng.jvmargs}"/>
-			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
+			<jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
         	<!-- Needed for running Embedded JBoss under JDK 6 -->
-        	<jvmarg value="-Djava.endorsed.dirs=${seam.dir}/classes/endorsed" />
+        	<jvmarg line="-Djava.endorsed.dirs=${seam.dir}/classes/endorsed" />
         </testng>
         <echo message="Please read the test output in directory: ${test.output.dir}"/>
     </target>
