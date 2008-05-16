@@ -107,7 +107,7 @@
     <macrodef name="deploySnapshotPom">
         <attribute name="pom" />
         <sequential>
-            <artifact:deploy uniqueVersion="true" settingsFile="${maven.settings.xml}">
+            <artifact:deploy uniqueVersion="true">
                 <pom file="@{pom}" settingsFile="${maven.settings.xml}"/>
                 <remoteRepository refid="snapshots.jboss.org" />
             </artifact:deploy>
@@ -119,7 +119,7 @@
 		<attribute name="jar" />
         <attribute name="srcjar" />
 		<sequential>
-			<artifact:deploy file="@{jar}" uniqueVersion="true" settingsFile="${maven.settings.xml}">
+			<artifact:deploy file="@{jar}" uniqueVersion="true">
 				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
                 <attach file="@{srcjar}" classifier="sources" />
 				<remoteRepository refid="snapshots.jboss.org" />
