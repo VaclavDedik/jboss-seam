@@ -83,7 +83,7 @@
 	</target>
 	
 	<target name="deployDocumentation" depends="initdav, initpoms">
-		<artifact:deploy uniqueVersion="false" file="${docs.pom}">
+		<artifact:deploy uniqueVersion="false" file="${docs.pom}" settingsFile="${maven.settings.xml}">
 			<pom file="${docs.pom}" settingsFile="${maven.settings.xml}"/>
 			<remoteRepository refId="snapshots.jboss.org" />
 			<attach file="${doc.ref.dir}/target/docbook/publish/en-US/pdf/seam_reference.pdf" classifier="pdf" type="pdf" />
