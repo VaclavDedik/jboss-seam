@@ -949,11 +949,11 @@
 	<target name="testclass" depends="buildtest, copyjbossembedded,getemma" description="Run a specific test">
 		<taskdef resource="testngtasks" classpathref="build.classpath" />
 		<testng outputdir="${test-report.dir}" testname="${className}" suitename="${className}" >
-            <jvmarg value="-Xmx800M" />
-            <jvmarg value="-Djava.awt.headless=true" />
-			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
-			<jvmarg value="-Djava.endorsed.dirs=${endorsed.dir}" />
-			<jvmarg value="${testng.jvmargs}" />
+            <jvmarg line="-Xmx800M" />
+            <jvmarg line="-Djava.awt.headless=true" />
+			<jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
+			<jvmarg line="-Djava.endorsed.dirs=${endorsed.dir}" />
+			<jvmarg line="${testng.jvmargs}" />
 			<classpath>
 				<path refid="test.classpath" />
 				<path refid="runtime.emma.path" />
