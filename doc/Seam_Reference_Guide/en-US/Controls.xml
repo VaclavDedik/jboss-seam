@@ -338,7 +338,7 @@
             <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
             xmlns:ui="http://jboss.com/products/seam/ui">
  
-   <ui:entity-loader entity-manager="#{em}" />]]></programlisting>
+   <ui:jpa-entity-loader entity-manager="#{em}" />]]></programlisting>
    
             <para>
                If you are using a <emphasis>Managed Hibernate Session</emphasis>
@@ -373,11 +373,11 @@
  
    <ui:entity-converter name="standardEntityConverter" entity-loader="#{standardEntityLoader}" />
             
-   <ui:entity-loader name="standardEntityLoader" entity-manager="#{standardEntityManager}" />
+   <ui:jpa-entity-loader name="standardEntityLoader" entity-manager="#{standardEntityManager}" />
    
    <ui:entity-converter name="restrictedEntityConverter" entity-loader="#{restrictedEntityLoader}" />
             
-   <ui:entity-loader name="restrictedEntityLoader" entity-manager="#{restrictedEntityManager}" />]]></programlisting>
+   <ui:jpa-entity-loader name="restrictedEntityLoader" entity-manager="#{restrictedEntityManager}" />]]></programlisting>
 
              <programlisting><![CDATA[<h:selectOneMenu value="#{person.continent}">
    <s:selectItems value="#{continents.resultList}" var="continent" 

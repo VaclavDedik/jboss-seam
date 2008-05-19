@@ -5,7 +5,7 @@
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
     
-    <xs:element name="entity-loader">
+    <xs:element name="jpa-entity-loader">
       <xs:complexType>
          <xs:attributeGroup ref="components:attlist.component" />
          <xs:attribute name="entity-manager" type="xs:string" />
