@@ -118,6 +118,7 @@
 
     <target name="clean" description="Cleans up all build artifacts">
         <delete dir="${tmp.dir}"/>
+        <delete dir="lacewikiIndex"/>
     </target>
 
     <target name="upgradehibernate"
