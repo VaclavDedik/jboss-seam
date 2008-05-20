@@ -628,9 +628,12 @@
 
 	<target name="testcore" depends="inittestcore,compiletest,getemma" description="Run the core tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
-		<testng outputdir="${test.dir}">
-			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
-			<jvmarg line="-Djava.awt.headless=true" />
+		<testng  outputdir="${test.dir}">
+		   <jvmarg line="-Xmx800M" />
+           <jvmarg line="-Djava.awt.headless=true" />
+           <jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
+           <jvmarg line="-Djava.endorsed.dirs=${endorsed.dir}" />
+           <jvmarg line="${testng.jvmargs}" />
 			<classpath>
 				<path path="${classes.test.core.dir}" />
 				<path path="${classes.test.dir}" />
