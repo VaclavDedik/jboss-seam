@@ -301,7 +301,7 @@ public class FacesMessages extends StatusMessages
    @Deprecated
    public void addFromResourceBundleOrDefault(javax.faces.application.FacesMessage.Severity severity, String key, String defaultMessageTemplate, Object... params)
    {
-      addFromResourceBundle(toSeverity(severity), key, defaultMessageTemplate, params);
+      addFromResourceBundleOrDefault(toSeverity(severity), key, defaultMessageTemplate, params);
    }
    
    /**
