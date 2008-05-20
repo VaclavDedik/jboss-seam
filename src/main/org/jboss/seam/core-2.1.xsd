@@ -45,9 +45,6 @@
         <xs:attribute name="default-flush-mode">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
-                    <xs:enumeration value="manual"/>
-                    <xs:enumeration value="auto"/>
-                    <xs:enumeration value="commit"/>
                     <xs:enumeration value="MANUAL"/>
                     <xs:enumeration value="AUTO"/>
                     <xs:enumeration value="COMMIT"/>
