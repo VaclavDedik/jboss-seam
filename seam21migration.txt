@@ -28,3 +28,17 @@ EntityConverter configuration
 
 If you need to configure which entity manager to use, this is now done on the 
 entity-loader component. See the documentation for details. 
+
+Security
+--------
+
+If you are using rule-based security in your project, the configuration for the 
+security rules in components.xml has changed.  Previously, the rules were configured
+as a property of the Identity component as such:
+
+  <security:identity security-rules="#{securityRules}" authenticate-method="#{authenticator.authenticate}"/>
+  
+In Seam 2.1, rule-based permission checks are now carried out by the RuleBasedPermissionResolver,
+requiring that it is configured with the security rules instead of Identity:
+
+  <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
