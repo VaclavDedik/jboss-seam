@@ -40,7 +40,7 @@
     </itemizedlist>
     
     <para>
-        Don't get these two things confused ! They operate at very different levels
+        Don't get these two things confused! They operate at very different levels
         or granularity. <emphasis>Pageflow</emphasis>, <emphasis>conversation</emphasis>
         and <emphasis>task</emphasis> all refer to a single
         interaction with a single user. A business process spans many tasks.
@@ -358,11 +358,19 @@
         
         <section>
             <title>Installing pageflows</title>
+            
+        <para>
+            We need to install the Seam jBPM-related components, and place the
+            pageflow definitions (using the standard <literal>.jpdl.xml</literal>
+            extension) inside a Seam archive (an archive which 
+            contains a <literal>seam.properties</literal> file):
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<bpm:jbpm />]]></programlisting>
         
         <para>
-            We need to install the Seam jBPM-related components, and tell them
-            where to find our pageflow definition. We can specify this
-            Seam configuration in <literal>components.xml</literal>.
+            We can also explicitly tell Seam where to find our pageflow 
+            definition. We specify this in <literal>components.xml</literal>:
         </para>
         
         <programlisting role="XML"><![CDATA[<bpm:jbpm>
@@ -370,11 +378,6 @@
         <value>pageflow.jpdl.xml</value>
     </bpm:pageflow-definitions>
 </bpm:jbpm>]]></programlisting>
-
-        <para>
-            The first line installs jBPM, the second points to a jPDL-based
-            pageflow definition.
-        </para>
         
         </section>
         

@@ -4,10 +4,12 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.InputStream;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.naming.NamingException;
 
@@ -27,6 +29,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.ResourceLoader;
+import org.jboss.seam.deployment.DeploymentStrategy;
+import org.jboss.seam.deployment.StandardDeploymentStrategy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Naming;
@@ -145,7 +149,7 @@ public class Jbpm
       return pageflowProcessDefinitions.containsKey(pageflowName);
    }
    
-   public ProcessDefinition getPageflowDefinitionFromResource(String resourceName)
+   public static ProcessDefinition getPageflowDefinitionFromResource(String resourceName)
    {
       InputStream resource = ResourceLoader.instance().getResourceAsStream(resourceName);
       if (resource==null)
@@ -228,13 +232,15 @@ public class Jbpm
    }
    
    private void installPageflowDefinitions() {
+      Set<String> mergedPageflowDefinitions = ((PageflowDeploymentHandler) ((DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME)).getDeploymentHandlers().get(PageflowDeploymentHandler.NAME)).getPageflowDefinitions();
       if ( pageflowDefinitions!=null )
       {
-         for (String pageflow: pageflowDefinitions)
-         {
-            ProcessDefinition pd = getPageflowDefinitionFromResource(pageflow);
-            pageflowProcessDefinitions.put( pd.getName(), pd );
-         }
+         mergedPageflowDefinitions.addAll(Arrays.asList(pageflowDefinitions));
+      }
+      for (String pageflow: mergedPageflowDefinitions)
+      {
+         ProcessDefinition pd = getPageflowDefinitionFromResource(pageflow);
+         pageflowProcessDefinitions.put( pd.getName(), pd );
       }
    }
 
