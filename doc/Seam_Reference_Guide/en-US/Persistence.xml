@@ -471,6 +471,16 @@ public void commitClaim() {
         </para>
         
         <programlisting role="XML"><![CDATA[<begin-conversation flush-mode="MANUAL" />]]></programlisting>
+        
+        <para>
+            You can set any Seam Managed Persistence Context to use manual flush
+            mode:
+        </para>
+        
+        <programlisting><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+   xmlns:core="http://jboss.com/products/seam/core">
+   <core:manager conversation-timeout="120000" default-flush-mode="manual" />
+</components>]]></programlisting>
 
     </section>
 

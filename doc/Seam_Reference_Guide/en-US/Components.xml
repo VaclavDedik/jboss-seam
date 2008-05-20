@@ -1074,6 +1074,13 @@
                             is long-running, default to <literal>conversationIsLongRunning</literal>.
                         </para>
                         </listitem>
+                        <listitem>
+                        <para>
+                            <literal>org.jboss.seam.core.manager.defaultFlushMode</literal> &#8212; 
+                            set the flush mode set by default on any Seam Managed Persistence Context.
+                            By default <literal>AUTO</literal>.
+                        </para>
+                        </listitem>
                     </itemizedlist>
                 </listitem>
             </varlistentry>
