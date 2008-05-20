@@ -42,6 +42,18 @@
         <xs:attribute name="conversation-id-parameter" type="components:string"/>
         <xs:attribute name="parent-conversation-id-parameter" type="components:string"/>
         <xs:attribute name="uri-encoding" type="components:string" />
+        <xs:attribute name="default-flush-mode">
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="manual"/>
+                    <xs:enumeration value="auto"/>
+                    <xs:enumeration value="commit"/>
+                    <xs:enumeration value="MANUAL"/>
+                    <xs:enumeration value="AUTO"/>
+                    <xs:enumeration value="COMMIT"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
     </xs:attributeGroup>
     
     <xs:element name="resource-loader">

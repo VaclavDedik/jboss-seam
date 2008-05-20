@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -67,6 +68,8 @@ public class Manager
    private String parentConversationIdParameter = "parentConversationId";
 
    private String URIEncoding = DEFAULT_ENCODING;
+   
+   private FlushModeType defaultFlushMode;
    
    
    // DONT BREAK, icefaces uses this
@@ -864,6 +867,16 @@ public class Manager
    public void setConcurrentRequestTimeout(int requestWait)
    {
       this.concurrentRequestTimeout = requestWait;
+   }
+   
+   public FlushModeType getDefaultFlushMode()
+   {
+      return defaultFlushMode;
+   }
+   
+   public void setDefaultFlushMode(FlushModeType defaultFlushMode)
+   {
+      this.defaultFlushMode = defaultFlushMode;
    }
 
    @Override
