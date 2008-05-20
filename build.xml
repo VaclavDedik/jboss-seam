@@ -665,7 +665,7 @@
 
 	<target name="unittest" depends="inittestcore,compiletest,getemma" description="Run the Unit tests">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
-		<testng>
+		<testng outputdir="${test.dir}">
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
 			<jvmarg line="-Djava.awt.headless=true" />
 			<classpath>
