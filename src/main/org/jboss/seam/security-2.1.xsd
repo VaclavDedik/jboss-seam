@@ -24,7 +24,6 @@
         <xs:attribute name="remember-me" type="components:boolean"/>
         <xs:attribute name="authenticate-every-request" type="components:boolean"/>
         <xs:attribute name="jaas-config-name" type="components:string"/>
-        <xs:attribute name="security-rules" type="components:string"/>
     </xs:attributeGroup>
     
     <xs:attributeGroup name="attlist.faces-security-events">
