@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 
 public class RegisterTest extends SeamTest
 {
-   //@Test
+   @Test
    public void testRegister() throws Exception
    {
       String cid = new FacesRequest() 

@@ -10,7 +10,6 @@ import javax.ejb.Remove;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
@@ -33,10 +32,10 @@ public class ProfileAction
    private Member authenticatedMember;
    
    @Out(required = false)
-   List newMembers;
+   List<Member> newMembers;
    
    @Out(required = false)
-   List memberBlogs;   
+   List<MemberBlog> memberBlogs;   
    
    @In
    private EntityManager entityManager;
@@ -65,7 +64,8 @@ public class ProfileAction
    /**
     * Returns the 5 latest blog entries for a member
     */
-   public List getLatestBlogs()
+   @SuppressWarnings("unchecked")
+   public List<MemberBlog> getLatestBlogs()
    {
       return entityManager.createQuery(
            "from MemberBlog b where b.member = :member order by b.entryDate desc")
@@ -77,6 +77,7 @@ public class ProfileAction
    /**
     * Used to read all blog entries for a member
     */
+   @SuppressWarnings("unchecked")
    @Factory("memberBlogs")
    public void getMemberBlogs()
    {
@@ -91,6 +92,7 @@ public class ProfileAction
             .getResultList();
    }   
    
+   @SuppressWarnings("unchecked")
    @Factory("newMembers")
    public void newMembers()
    {
@@ -107,7 +109,8 @@ public class ProfileAction
       }
    }
    
-   public List getFriends()
+   @SuppressWarnings("unchecked")
+   public List<Member> getFriends()
    {
       return entityManager.createQuery(
             "select f.friend from MemberFriend f where f.member = :member and authorized = true")
@@ -115,7 +118,8 @@ public class ProfileAction
             .getResultList();
    }
    
-   public List getFriendComments()
+   @SuppressWarnings("unchecked")
+   public List<FriendComment> getFriendComments()
    {
       return entityManager.createQuery(
             "from FriendComment c where c.member = :member order by commentDate desc")

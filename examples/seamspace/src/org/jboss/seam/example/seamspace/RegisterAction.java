@@ -103,16 +103,12 @@ public class RegisterAction
       entityManager.persist(newMember);      
       
       new RunAsOperation() {
-         @Override
-         public String[] getRoles() {
-            return new String[] { "admin" };
-         }
-         
          public void execute() {
             identityManager.createUser(username, password);
             identityManager.grantRole(username, "user");            
          }         
-      }.run();
+      }.addRole("admin")
+       .run();
             
       newAccount.setMember(newMember);
       newAccount = entityManager.merge(newAccount);
