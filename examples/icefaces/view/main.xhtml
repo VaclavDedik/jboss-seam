@@ -66,7 +66,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Action</f:facet>
-                    <ice:commandLink id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
+                    <s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
                 </h:column>
             </ice:dataTable>
             <s:link value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
