@@ -176,11 +176,11 @@ public class PersistenceProvider
    private AbstractPersistenceProvider getPersistenceProvider(EntityManager entityManager)
    {
       // Work around EJBTHREE-912 (don't you just love random NPEs!)
-      if (isInstanceOf(entityManager.getClass(), "org.jboss.ejb3.entity.HibernateSession"))
+      if (entityManager != null && isInstanceOf(entityManager.getClass(), "org.jboss.ejb3.entity.HibernateSession"))
       {
          return HibernatePersistenceProvider.instance();
       }
-      else if(isInstanceOf(entityManager.getDelegate().getClass(), "org.hibernate.Session"))
+      else if(entityManager != null && isInstanceOf(entityManager.getDelegate().getClass(), "org.hibernate.Session"))
       {
          return HibernatePersistenceProvider.instance();
       }
