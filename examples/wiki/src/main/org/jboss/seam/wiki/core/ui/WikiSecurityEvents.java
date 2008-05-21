@@ -6,13 +6,12 @@
  */
 package org.jboss.seam.wiki.core.ui;
 
-import org.jboss.seam.security.FacesSecurityEvents;
-import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Install;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-
-import javax.faces.application.FacesMessage;
+import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.security.FacesSecurityEvents;
 
 /**
  * Overrides the "login failed" message and turns it into a WARN (we don't want INFO here).
@@ -25,7 +24,8 @@ import javax.faces.application.FacesMessage;
 @Startup
 public class WikiSecurityEvents extends FacesSecurityEvents {
 
-    public FacesMessage.Severity getLoginFailedMessageSeverity() {
-        return FacesMessage.SEVERITY_WARN;
+    @Override
+    public StatusMessage.Severity getLoginFailedMessageSeverity() {
+        return StatusMessage.Severity.WARN;
     }
 }
