@@ -7,8 +7,8 @@
 	<!-- Order is important -->
 	<property file="./build.properties" />
 	<import file="${seam.dir}/build/common.build.xml" />
-	
-	<target name="init" depends="initpoms">
+    
+    <target name="init">
         <path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
 
 	    <!-- taskdefs -->
@@ -39,8 +39,6 @@
 	    <taskdef name="pathFixer" 
 	             classname="org.jboss.seam.tool.FixPathTask" 
 	             classpathref="seam-gen.path"/>
-		
-		<copyDependencies pom="${gen.pom}" id="gen" scope="runtime" todir="${lib.dir}/gen" />
 	</target>
     
     <target name="init-properties" depends="init">
@@ -1060,9 +1058,13 @@
 		
 	<target name="init-generate">
 		<path id="htools.classpath">
-            <fileset dir="${lib.dir}/gen">
-                <include name="*.jar"/>
-            </fileset>
+            <pathelement path="../lib/ant.jar"/>
+            <pathelement path="../lib/hibernate-tools.jar"/>
+            <pathelement path="../lib/freemarker.jar"/>
+            <pathelement path="../lib/jboss-seam.jar"/>
+            <pathelement path="../lib/runtime.jar"/>
+            <pathelement path="../lib/common.jar"/>
+            <pathelement path="../lib/text.jar"/>  
         	<pathelement path="../lib/dom4j.jar" />
         	<pathelement path="../lib/persistence-api.jar" />
         	<pathelement path="../lib/hibernate.jar" />
