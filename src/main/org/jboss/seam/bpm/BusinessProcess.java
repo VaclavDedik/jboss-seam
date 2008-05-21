@@ -13,6 +13,8 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.international.StatusMessages;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
@@ -361,33 +363,64 @@ public class BusinessProcess extends AbstractMutable implements Serializable
    
    protected void taskNotFound(Long taskId)
    {
-      
+      StatusMessages.instance().addFromResourceBundleOrDefault(
+            StatusMessage.Severity.WARN, 
+            "org.jboss.seam.TaskNotFound", 
+            "Task #0 not found", 
+            taskId
+         );
    }
    
    protected void taskEnded(Long taskId)
    {
-      
+      StatusMessages.instance().addFromResourceBundleOrDefault(
+            StatusMessage.Severity.WARN, 
+            "org.jboss.seam.TaskEnded", 
+            "Task #0 already ended", 
+            taskId
+         );
    }
    
    protected void processEnded(Long processId)
    {
-      
+      StatusMessages.instance().addFromResourceBundleOrDefault(
+            StatusMessage.Severity.WARN, 
+            "org.jboss.seam.ProcessEnded", 
+            "Process #0 already ended", 
+            processId
+         );
    }
    
    protected void processNotFound(Long processId)
    {
-      
+      StatusMessages.instance().addFromResourceBundleOrDefault(
+            StatusMessage.Severity.WARN, 
+            "org.jboss.seam.ProcessNotFound", 
+            "Process #0 not found", 
+            processId
+         );
    }
    
    protected void processEnded(String key)
    {
-      
+      StatusMessages.instance().addFromResourceBundleOrDefault(
+            StatusMessage.Severity.WARN, 
+            "org.jboss.seam.ProcessEnded", 
+            "Process #0 already ended", 
+            key
+         );
    }
    
    protected void processNotFound(String key)
    {
-      
+      StatusMessages.instance().addFromResourceBundleOrDefault(
+            StatusMessage.Severity.WARN, 
+            "org.jboss.seam.ProcessNotFound", 
+            "Process #0 not found", 
+            key
+         );
    }
+
    
    @Override
    public String toString()
