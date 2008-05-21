@@ -23,12 +23,15 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.wiki.WikiInit;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Name("authenticator")
 public class Authenticator {
+
+    protected final static String REGULAR_SESSION_MAX_INACTIVE_SECONDS = "regularSessionMaxInactiveInterval";
 
     @Logger
     Log log;
@@ -197,11 +200,22 @@ public class Authenticator {
 
     @Observer("org.jboss.seam.security.loginSuccessful")
     public void extendSessionTime() {
-        //ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(LONG_SESSION_TIME);
+        // Store the regular session timeout value, so we can set it back later on logout
+        int regularSessionTimeout = ServletContexts.getInstance().getRequest().getSession().getMaxInactiveInterval();
+        Contexts.getSessionContext().set(REGULAR_SESSION_MAX_INACTIVE_SECONDS, regularSessionTimeout);
+        WikiInit init = (WikiInit)Component.getInstance(WikiInit.class);
+        if (init.getAuthenticatedSessionTimeoutMinutes() != 0) {
+            log.debug("setting timeout of authenticated user session to minutes: " + init.getAuthenticatedSessionTimeoutMinutes());
+            ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(
+                init.getAuthenticatedSessionTimeoutMinutes()*60
+            );
+        }
     }
 
     @Observer("org.jboss.seam.security.loggedOut")
     public void resetSessionTime() {
-        //ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(STD_SESSION_TIME);
+        int regularSessionTimeout = (Integer) Contexts.getSessionContext().get(REGULAR_SESSION_MAX_INACTIVE_SECONDS);
+        log.debug("resetting timeout of user session after logout to minutes: " + regularSessionTimeout/60);
+        ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(regularSessionTimeout);
     }
 }

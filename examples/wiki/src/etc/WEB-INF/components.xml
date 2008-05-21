@@ -125,7 +125,7 @@
 
     <factory name="skin" scope="SESSION" value="d"/>
 
-    <factory name="sessionTimeoutSeconds" scope="SESSION"
+    <factory name="sessionTimeoutSeconds" scope="EVENT"
              value="#{facesContext.externalContext.getSession(true).getMaxInactiveInterval()}"/>
 
     <factory name="currentPreferencesUser" scope="EVENT"
