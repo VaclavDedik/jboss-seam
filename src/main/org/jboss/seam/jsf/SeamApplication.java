@@ -3,6 +3,7 @@ package org.jboss.seam.jsf;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.el.ELContextListener;
@@ -115,15 +116,81 @@ public class SeamApplication extends Application
    @Override
    public Converter createConverter(Class targetClass)
    {
+      Converter converter = null;
       if ( Contexts.isApplicationContextActive() )
       {
-         String name = Init.instance().getConvertersByClass().get(targetClass);
-         if (name!=null)
+         converter = new ConverterLocator(targetClass).getConverter();
+      }
+      if (converter == null)
+      {
+         converter = application.createConverter(targetClass);
+      }
+      return converter;
+   }
+   
+   private class ConverterLocator 
+   {
+      
+      private Map<Class, String> converters;
+      private Class targetClass;
+      private Converter converter;
+      
+      public ConverterLocator(Class targetClass)
+      {
+         converters = Init.instance().getConvertersByClass();
+         this.targetClass = targetClass;
+      }
+      
+      public Converter getConverter()
+      {
+         if (converter == null)
          {
-            return (Converter) Component.getInstance(name);
+            locateConverter(targetClass);
+         }
+         return converter;
+      }
+      
+      private Converter createConverter(Class clazz)
+      {
+         return (Converter) Component.getInstance(converters.get(clazz));
+      }
+      
+      private void locateConverter(Class clazz)
+      {
+         if (converters.containsKey(clazz))
+         {
+            converter = createConverter(clazz);
+            return;
+         }
+         
+         for (Class _interface: clazz.getInterfaces())
+         {
+            if (converters.containsKey(_interface))
+            {
+               converter = createConverter(_interface);
+               return;
+            }
+            else
+            {
+               locateConverter(_interface);
+               if (converter != null)
+               {
+                  return;
+               }
+            }
+         }
+         
+         Class superClass = clazz.getSuperclass();
+         if (converters.containsKey(superClass))
+         {
+            converter = createConverter(superClass);
+            return;
+         }
+         else if (superClass != null)
+         {
+            locateConverter(superClass);
          }
       }
-      return application.createConverter(targetClass);
    }
 
    @Override
