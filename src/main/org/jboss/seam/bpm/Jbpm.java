@@ -10,6 +10,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.naming.NamingException;
 
@@ -41,6 +42,7 @@ import org.jbpm.graph.node.DbSubProcessResolver;
 import org.jbpm.graph.node.ProcessState;
 import org.jbpm.graph.node.SubProcessResolver;
 import org.jbpm.instantiation.UserCodeInterceptorConfig;
+import org.jbpm.jpdl.JpdlException;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.xml.sax.InputSource;
@@ -156,7 +158,14 @@ public class Jbpm
       {
          throw new IllegalArgumentException("pageflow resource not found: " + resourceName);
       }
-      return Jbpm.parseInputSource( new InputSource(resource) );
+      try
+      {
+         return Jbpm.parseInputSource( new InputSource(resource) );
+      }
+      catch (JpdlException e)
+      {
+         throw new JpdlException("Unable to parse process definition " + resourceName, e);
+      }
    }
    
    public ProcessDefinition getProcessDefinitionFromResource(String resourceName) 
@@ -232,7 +241,8 @@ public class Jbpm
    }
    
    private void installPageflowDefinitions() {
-      Set<String> mergedPageflowDefinitions = ((PageflowDeploymentHandler) ((DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME)).getDeploymentHandlers().get(PageflowDeploymentHandler.NAME)).getPageflowDefinitions();
+      Set<String> mergedPageflowDefinitions = new TreeSet<String>();
+      mergedPageflowDefinitions.addAll(((PageflowDeploymentHandler) ((DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME)).getDeploymentHandlers().get(PageflowDeploymentHandler.NAME)).getPageflowDefinitions());
       if ( pageflowDefinitions!=null )
       {
          mergedPageflowDefinitions.addAll(Arrays.asList(pageflowDefinitions));
@@ -321,7 +331,7 @@ public class Jbpm
       try 
       {
          return new PageflowParser(inputSource).readProcessDefinition();
-      } 
+      }
       finally 
       {
          jbpmContext.close();

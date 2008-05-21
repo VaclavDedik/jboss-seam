@@ -10,11 +10,6 @@
         <property name="maxGuesses">10</property>
     </component>
 
-    <bpm:jbpm>
-        <bpm:pageflow-definitions>
-            <value>cheat.jpdl.xml</value>
-            <value>pageflow.jpdl.xml</value>
-        </bpm:pageflow-definitions>
-    </bpm:jbpm>
+    <bpm:jbpm />
 
 </components>
