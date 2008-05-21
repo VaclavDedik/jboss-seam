@@ -6,6 +6,7 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.framework.HibernateEntityHome;
 import org.jboss.seam.framework.Home;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.test.unit.entity.SimpleEntity;
 import org.testng.annotations.Test;
 
@@ -118,10 +119,10 @@ public class HomeTest
    
    public class SimpleEntityHomeWithMessageStubs extends Home<EntityManager, SimpleEntity> {
 
-      private FacesMessages facesMessages;
+      private StatusMessages statusMessages;
 
       public SimpleEntityHomeWithMessageStubs() {
-         facesMessages = new FacesMessages();
+         statusMessages = new FacesMessages();
       }
       
       public void triggerCreatedMessage() {
@@ -135,9 +136,9 @@ public class HomeTest
       }
       
       @Override
-      protected FacesMessages getFacesMessages()
+      protected StatusMessages getStatusMessages()
       {
-         return facesMessages;
+         return statusMessages;
       }
 
       @Override
