@@ -19,7 +19,11 @@
     <!-- 120 second conversation timeout -->
     <core:manager conversation-timeout="120000"/>
     
-    <bpm:jbpm />
+    <bpm:jbpm>
+        <bpm:process-definitions>
+            <value>ordermanagement1.jpdl.xml</value>
+        </bpm:process-definitions>
+    </bpm:jbpm>
 
     <security:identity authenticate-method="#{authenticator.authenticate}"/>
 
