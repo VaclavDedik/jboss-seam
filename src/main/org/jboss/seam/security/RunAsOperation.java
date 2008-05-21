@@ -2,6 +2,8 @@ package org.jboss.seam.security;
 
 import java.security.Principal;
 import java.security.acl.Group;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.security.auth.Subject;
 
@@ -16,10 +18,13 @@ public abstract class RunAsOperation
    private Principal principal;
    private Subject subject;
    
+   private Set<String> roles;
+   
    public RunAsOperation()
    {
       principal = new SimplePrincipal(null);  
       subject = new Subject();
+      roles = new HashSet<String>();
    }
    
    public abstract void execute();
@@ -34,38 +39,29 @@ public abstract class RunAsOperation
       return subject;
    }
    
-   public String[] getRoles()
+   public RunAsOperation addRole(String role)
    {
-      return null;
-   }
-   
-   private boolean addRole(String role)
-   {
-      for ( Group sg : getSubject().getPrincipals(Group.class) )      
-      {
-         if ( Identity.ROLES_GROUP.equals( sg.getName() ) )
-         {
-            return sg.addMember(new SimplePrincipal(role));
-         }
-      }
-               
-      SimpleGroup roleGroup = new SimpleGroup(Identity.ROLES_GROUP);
-      roleGroup.addMember(new SimplePrincipal(role));
-      getSubject().getPrincipals().add(roleGroup);
-      
-      return true;
+      roles.add(role);      
+      return this;
    }
    
    public void run()
-   {
-      String[] roles = getRoles();
-      if (roles != null)
+   {      
+      for (String role : roles)
       {
-         for (String role : getRoles())
+         for ( Group sg : getSubject().getPrincipals(Group.class) )      
          {
-            addRole(role);
+            if ( Identity.ROLES_GROUP.equals( sg.getName() ) )
+            {
+               sg.addMember(new SimplePrincipal(role));
+               break;
+            }
          }
-      }
+                  
+         SimpleGroup roleGroup = new SimpleGroup(Identity.ROLES_GROUP);
+         roleGroup.addMember(new SimplePrincipal(role));
+         getSubject().getPrincipals().add(roleGroup);
+      }      
       
       Identity.instance().runAs(this);
    }
