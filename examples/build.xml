@@ -390,6 +390,7 @@
 		<include name="META-INF/security-config.xml" />
 		<include name="META-INF/security-rules.drl" />
 		<include name="META-INF/standard-jaxws-endpoint-config.xml" />
+		<include name="*.jpdl.xml" />
 	</fileset>
 
 	<!-- resources to go in the jar for tomcat  -->
@@ -425,7 +426,7 @@
 	</fileset>
 
 	<!-- Property resources (e.g. themes, i8ln) get put on the classpath -->
-	<fileset id="properties" dir="${resources.dir}">
+	<fileset id="war.classes.resources" dir="${resources.dir}">
 		<exclude name="seam.properties" />
 		<exclude name="components.properties" />
 		<include name="*.properties" />
@@ -589,7 +590,7 @@
 		</copy>
 		<!-- Put properties into the classpath -->
 		<copy todir="${war.dir}/WEB-INF/classes">
-			<fileset refid="properties" />
+			<fileset refid="war.classes.resources" />
 		</copy>
 	</target>
 
