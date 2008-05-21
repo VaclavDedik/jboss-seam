@@ -3,8 +3,6 @@ package org.jboss.seam.security;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.security.auth.login.LoginException;
 
@@ -14,8 +12,9 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Selector;
+import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.StatusMessage.Severity;
 
 /**
  * Produces FacesMessages for certain security events, and decouples the
@@ -83,7 +82,7 @@ public class FacesSecurityEvents extends Selector
    @Observer(Identity.EVENT_LOGIN_FAILED)
    public void addLoginFailedMessage(LoginException ex)
    {
-      FacesMessages.instance().addFromResourceBundleOrDefault(
+      StatusMessages.instance().addFromResourceBundleOrDefault(
                getLoginFailedMessageSeverity(), 
                getLoginFailedMessageKey(), 
                getLoginFailedMessage(), 
@@ -97,7 +96,7 @@ public class FacesSecurityEvents extends Selector
 
    public Severity getLoginFailedMessageSeverity()
    {
-      return FacesMessage.SEVERITY_INFO;
+      return Severity.INFO;
    }
 
    public String getLoginFailedMessageKey()
@@ -108,7 +107,7 @@ public class FacesSecurityEvents extends Selector
    @Observer(Identity.EVENT_LOGIN_SUCCESSFUL)
    public void addLoginSuccessfulMessage()
    {
-      FacesMessages.instance().addFromResourceBundleOrDefault(
+      StatusMessages.instance().addFromResourceBundleOrDefault(
                getLoginSuccessfulMessageSeverity(), 
                getLoginSuccessfulMessageKey(), 
                getLoginSuccessfulMessage(), 
@@ -118,8 +117,8 @@ public class FacesSecurityEvents extends Selector
    @Observer(Identity.EVENT_NOT_LOGGED_IN)
    public void addNotLoggedInMessage()
    {      
-      FacesMessages.instance().addFromResourceBundleOrDefault( 
-            FacesMessage.SEVERITY_WARN, 
+      StatusMessages.instance().addFromResourceBundleOrDefault( 
+            Severity.WARN, 
             "org.jboss.seam.NotLoggedIn", 
             "Please log in first" 
          );      
@@ -127,7 +126,7 @@ public class FacesSecurityEvents extends Selector
 
    public Severity getLoginSuccessfulMessageSeverity()
    {
-      return FacesMessage.SEVERITY_INFO;
+      return Severity.INFO;
    }
 
    public String getLoginSuccessfulMessage()
@@ -143,8 +142,8 @@ public class FacesSecurityEvents extends Selector
    @Observer(Identity.EVENT_ALREADY_LOGGED_IN)
    public void addAlreadyLoggedInMessage()
    {
-      FacesMessages.instance().addFromResourceBundleOrDefault (
-         FacesMessage.SEVERITY_WARN,
+      StatusMessages.instance().addFromResourceBundleOrDefault (
+         Severity.WARN,
          "org.jboss.seam.AlreadyLoggedIn",
          "You are already logged in, please log out first if you wish to log in again"
       );
