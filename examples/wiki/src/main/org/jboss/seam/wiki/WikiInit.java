@@ -36,6 +36,7 @@ public class WikiInit {
     private String adminContact;
     private boolean debug;
     private boolean hibernateStatistics = true;
+    private int authenticatedSessionTimeoutMinutes = 0;
 
     @In(required = false)
     DBUnitImporter dbunitImporter;
@@ -108,6 +109,14 @@ public class WikiInit {
 
     public void setHibernateStatistics(boolean hibernateStatistics) {
         this.hibernateStatistics = hibernateStatistics;
+    }
+
+    public int getAuthenticatedSessionTimeoutMinutes() {
+        return authenticatedSessionTimeoutMinutes;
+    }
+
+    public void setAuthenticatedSessionTimeoutMinutes(int authenticatedSessionTimeoutMinutes) {
+        this.authenticatedSessionTimeoutMinutes = authenticatedSessionTimeoutMinutes;
     }
 
     /** Utility to debug JBoss JNDI problems */
