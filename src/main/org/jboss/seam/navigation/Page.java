@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.ResourceLoader;
+import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.web.Pattern;
 
@@ -28,7 +29,7 @@ public final class Page
    private final String viewId;
    private String description;
    private Integer timeout;
-   private String noConversationViewId;
+   private ValueExpression<String> noConversationViewId;
    private String resourceBundleName;
    private boolean switchEnabled = true;
    private List<Param> parameters = new ArrayList<Param>();
@@ -129,12 +130,12 @@ public final class Page
       return timeout;
    }
    
-   public void setNoConversationViewId(String noConversationViewId)
+   public void setNoConversationViewId(ValueExpression<String> noConversationViewId)
    {
       this.noConversationViewId = noConversationViewId;
    }
    
-   public String getNoConversationViewId()
+   public ValueExpression<String> getNoConversationViewId()
    {
       return noConversationViewId;
    }

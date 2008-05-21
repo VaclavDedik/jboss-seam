@@ -48,6 +48,7 @@ import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Validation;
+import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.pageflow.Pageflow;
@@ -72,7 +73,7 @@ public class Pages
 {   
    private static final LogProvider log = Logging.getLogProvider(Pages.class);
 
-   private String noConversationViewId;
+   private ValueExpression<String> noConversationViewId;
    private String loginViewId;
      
    private Integer httpPort;
@@ -573,7 +574,7 @@ public class Pages
       Events.instance().raiseEvent("org.jboss.seam.noConversation");
       
       FacesMessages.instance().addFromResourceBundleOrDefault( 
-            FacesMessage.SEVERITY_WARN, 
+            StatusMessage.Severity.WARN, 
             "org.jboss.seam.NoConversation", 
             "The conversation ended, timed out or was processing another request" 
          );
@@ -880,13 +881,13 @@ public class Pages
       for (int i=stack.size()-1; i>=0; i--)
       {
          Page page = stack.get(i);
-         String noConversationViewId = page.getNoConversationViewId();
+         String noConversationViewId = page.getNoConversationViewId().getValue();
          if (noConversationViewId!=null)
          {
             return noConversationViewId;
          }
       }
-      return this.noConversationViewId;
+      return this.noConversationViewId.getValue();
    }
    
    /**
@@ -924,7 +925,7 @@ public class Pages
       Element root = getDocumentRoot(stream);
       if (noConversationViewId==null) //let the setting in components.xml override the pages.xml
       {
-         noConversationViewId = root.attributeValue("no-conversation-view-id");
+         noConversationViewId = Expressions.instance().createValueExpression(root.attributeValue("no-conversation-view-id"), String.class);
       }
       if (loginViewId==null) //let the setting in components.xml override the pages.xml
       {
@@ -1060,7 +1061,7 @@ public class Pages
          page.setTimeout(Integer.parseInt(timeoutString));
       }
       
-      page.setNoConversationViewId(element.attributeValue("no-conversation-view-id"));
+      page.setNoConversationViewId(Expressions.instance().createValueExpression(element.attributeValue("no-conversation-view-id"), String.class));
       page.setConversationRequired("true".equals(element.attributeValue("conversation-required")));
       page.setLoginRequired("true".equals(element.attributeValue("login-required")));
       page.setScheme(element.attributeValue("scheme"));
@@ -1479,12 +1480,12 @@ public class Pages
     * 
     * @return a JSF view id
     */
-   public String getNoConversationViewId()
+   public ValueExpression<String> getNoConversationViewId()
    {
       return noConversationViewId;
    }
    
-   public void setNoConversationViewId(String noConversationViewId)
+   public void setNoConversationViewId(ValueExpression<String> noConversationViewId)
    {
       this.noConversationViewId = noConversationViewId;
    }
