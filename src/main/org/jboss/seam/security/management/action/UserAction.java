@@ -11,7 +11,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Conversation;
-import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.management.IdentityManager;
 
 /**
@@ -67,7 +67,7 @@ public class UserAction implements Serializable
    {      
       if (!password.equals(confirm))
       {
-         FacesMessages.instance().addToControl("password", "Passwords do not match");
+         StatusMessages.instance().addToControl("password", "Passwords do not match");
          return "failure";
       }
       
@@ -100,7 +100,7 @@ public class UserAction implements Serializable
       {
          if (!password.equals(confirm))
          {
-            FacesMessages.instance().addToControl("password", "Passwords do not match");
+            StatusMessages.instance().addToControl("password", "Passwords do not match");
             return "failure";
          }
          else

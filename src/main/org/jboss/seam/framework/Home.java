@@ -1,6 +1,6 @@
 package org.jboss.seam.framework;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -51,7 +51,7 @@ public abstract class Home<T, E> extends MutableController<T>
    protected void updatedMessage()
    {
       debug("updated entity #0 #1", getEntityClass().getName(), getId());
-      getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getUpdatedMessageKey(), getUpdatedMessage() );
+      getStatusMessages().addFromResourceBundleOrDefault( INFO, getUpdatedMessageKey(), getUpdatedMessage() );
    }
 
    /**
@@ -69,7 +69,7 @@ public abstract class Home<T, E> extends MutableController<T>
    protected void deletedMessage()
    {
       debug("deleted entity #0 #1", getEntityClass().getName(), getId());
-      getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getDeletedMessageKey(), getDeletedMessage() );
+      getStatusMessages().addFromResourceBundleOrDefault( INFO, getDeletedMessageKey(), getDeletedMessage() );
    }
    
    /**
@@ -87,7 +87,7 @@ public abstract class Home<T, E> extends MutableController<T>
    protected void createdMessage()
    {
       debug("created entity #0 #1", getEntityClass().getName(), getId());
-      getFacesMessages().addFromResourceBundleOrDefault( SEVERITY_INFO, getCreatedMessageKey(), getCreatedMessage() );
+      getStatusMessages().addFromResourceBundleOrDefault( INFO, getCreatedMessageKey(), getCreatedMessage() );
    }
 
    /**

@@ -5,7 +5,6 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
@@ -23,8 +22,9 @@ import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.AbstractMutable;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.FacesManager;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
+import org.jboss.seam.international.StatusMessage;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
@@ -158,8 +158,8 @@ public class Pageflow extends AbstractMutable implements Serializable
     */
    protected void illegalNavigation()
    {
-      FacesMessages.instance().addFromResourceBundleOrDefault( 
-            FacesMessage.SEVERITY_WARN, 
+      StatusMessages.instance().addFromResourceBundleOrDefault( 
+            StatusMessage.Severity.WARN, 
             "org.jboss.seam.IllegalNavigation", 
             "Illegal navigation" 
          );

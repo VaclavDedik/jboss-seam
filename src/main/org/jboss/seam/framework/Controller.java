@@ -22,6 +22,7 @@ import org.jboss.seam.faces.Redirect;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.international.Messages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.transaction.Transaction;
@@ -71,9 +72,15 @@ public abstract class Controller implements Serializable
       return Conversation.instance();
    }
 
+   @Deprecated
    protected FacesMessages getFacesMessages()
    {
       return FacesMessages.instance();
+   }
+   
+   protected StatusMessages getStatusMessages()
+   {
+      return StatusMessages.instance();
    }
    
    protected Identity getIdentity()

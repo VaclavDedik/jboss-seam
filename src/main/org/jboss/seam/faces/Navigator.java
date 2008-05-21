@@ -82,6 +82,7 @@ public abstract class Navigator
       }
    }
    
+   @SuppressWarnings("deprecation")
    protected static void addFacesMessage(String message, Severity severity, String control, Object... params)
    {
       if ( Contexts.isConversationContextActive() )

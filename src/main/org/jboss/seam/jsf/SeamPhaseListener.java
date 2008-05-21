@@ -15,7 +15,6 @@ import static javax.faces.event.PhaseId.RESTORE_VIEW;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -37,6 +36,7 @@ import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
 import org.jboss.seam.faces.Switcher;
 import org.jboss.seam.faces.Validation;
+import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
@@ -445,7 +445,7 @@ public class SeamPhaseListener implements PhaseListener
          if ( Transaction.instance().isRolledBackOrMarkedRollback() )
          {
             FacesMessages.instance().addFromResourceBundleOrDefault(
-                     FacesMessage.SEVERITY_WARN, 
+                     StatusMessage.Severity.WARN, 
                      "org.jboss.seam.TransactionFailed", 
                      "Transaction failed"
                   );
