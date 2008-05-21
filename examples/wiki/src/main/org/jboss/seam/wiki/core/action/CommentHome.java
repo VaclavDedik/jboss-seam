@@ -14,6 +14,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.international.Messages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
@@ -24,8 +25,9 @@ import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
 import org.jboss.seam.wiki.util.WikiUtil;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.WARN;
+
 import javax.faces.validator.ValidatorException;
 import java.util.Date;
 
@@ -173,8 +175,8 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @Override
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Comment.Persist",
                 "Comment '{0}' has been saved.",
                 getInstance().getSubject()
@@ -183,8 +185,8 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @Override
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Comment.Update",
                 "Comment '{0}' has been updated.",
                 getInstance().getSubject()
@@ -193,8 +195,8 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @Override
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Comment.Delete",
                 "Comment '{0}' has been deleted.",
                 getInstance().getSubject()
@@ -207,15 +209,16 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     /* -------------------------- Internal Methods ------------------------------ */
 
+    // TODO: Why again are we using a different validator here for the text editor?
     protected boolean validateContent() {
         FormattedTextValidator validator = new FormattedTextValidator();
         try {
             validator.validate(null, null, getInstance().getContent());
         } catch (ValidatorException e) {
             // TODO: Needs to use resource bundle, how?
-            getFacesMessages().addToControl(
+            StatusMessages.instance().addToControl(
                 getTextAreaId(),
-                FacesMessage.SEVERITY_WARN,
+                WARN,
                 e.getFacesMessage().getSummary()
             );
             return false;

@@ -8,19 +8,18 @@
        xmlns:a="https://ajax4jsf.dev.java.net/ajax"
        xmlns:wiki="http://jboss.com/products/seam/wiki">
 
-<s:cache rendered="#{not topicHome.showForm}"
+<s:cache rendered="#{not topicHome.showForm and forumQuery.topicsAvailable}"
          enabled="#{not identity.loggedIn}"
          region="#{currentMacro.getCacheRegion('TopicList')}"
          key="#{currentMacro.getCacheKey(param.page)}">
 
     <ui:include src="topicPager.xhtml"/>
 
-    <div class="box">
+    <s:div styleClass="box">
 
     <h:dataTable id="topicTable"
                  var="t"
                  value="#{forumQuery.topics}"
-                 rendered="#{not empty forumQuery.topics}"
                  styleClass="datatable topLeftBottomBorder topicTable"
                  headerClass="regularHeader rightBorder alignCenter smallFont"
                  columnClasses="onePercentColumn rightBorder alignCenter smallFont, defaultColumn rightBorder alignLeft wrapWhitespace,
@@ -92,13 +91,14 @@
 
     </h:dataTable>
 
-    </div>
-
-    <s:div rendered="#{empty forumQuery.topics}" styleClass="box">
-        No topics in this forum.
     </s:div>
 
     <ui:include src="topicPager.xhtml"/>
+
+    <s:div rendered="#{not forumQuery.topicsAvailable}" styleClass="box">
+        No topics in this forum.
+    </s:div>
+
 
 </s:cache>
 

@@ -14,8 +14,8 @@
             <p>Hello #{currentDocument.createdBy.firstname},</p>
 
             <p>
-              you received a <a href="#{wikiURLRenderer.renderURL(replyHome.instance)}">response</a>
-              to <a href="#{wikiURLRenderer.renderURL(currentDocument)}">your posting</a> on the
+              you received a <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">response</a>
+              to <a href="#{wikiURLRenderer.renderURL(currentDocument, true)}">your posting</a> on the
               Seam community forum, posted by #{replyHome.instance.createdBy.fullname}:
             </p>
 
@@ -31,7 +31,7 @@
                                 enableMacroRendering="false"/>
 
             <hr/>
-            <h:outputLink value="#{wikiURLRenderer.renderURL(replyHome.instance)}">Click here</h:outputLink> to reply...
+            <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">Click here</a> to reply...
 
             </body>
         </html>
@@ -46,7 +46,7 @@ Subject:#{replyHome.instance.subject}
 
 Follow this link to read and reply:
 
-#{wikiURLRenderer.renderURL(replyHome.instance)}
+#{wikiURLRenderer.renderURL(replyHome.instance, true)}
 </h:outputText>
         </f:facet>
     </m:body>

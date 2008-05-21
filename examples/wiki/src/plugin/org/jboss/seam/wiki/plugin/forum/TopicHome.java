@@ -6,33 +6,33 @@ import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.Renderer;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.action.DocumentHome;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
+import org.jboss.seam.wiki.core.plugin.PluginRegistry;
 import org.jboss.seam.wiki.preferences.Preferences;
 
-import javax.faces.application.FacesMessage;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.WARN;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import javax.faces.validator.ValidatorException;
 
 @Name("topicHome")
 @Scope(ScopeType.CONVERSATION)
 public class TopicHome extends DocumentHome {
 
-    public static final String TOPIC_NOTIFY_ME_MACRO = "forumNotifyReplies";
+    public static final String TOPIC_NOTIFY_ME_MACRO        = "forumNotifyReplies";
+    public static final String TOPIC_NOTIFY_LIST_TEMPLATE   = "/mailtemplates/forumNotifyTopicToList.xhtml";
 
     @In
     WikiDirectory currentDirectory;
 
     @In
     WikiDocument currentDocument;
-
-    @In(create = true)
-    private Renderer renderer;
 
     private boolean showForm = false;
     private boolean sticky = false;
@@ -74,9 +74,9 @@ public class TopicHome extends DocumentHome {
             validator.validate(null, null, getInstance().getContent());
         } catch (ValidatorException e) {
             // TODO: Needs to use resource bundle, how?
-            getFacesMessages().addToControl(
+            StatusMessages.instance().addToControl(
                 "topicTextArea",
-                FacesMessage.SEVERITY_WARN,
+                WARN,
                 e.getFacesMessage().getSummary()
             );
             return false;
@@ -109,10 +109,10 @@ public class TopicHome extends DocumentHome {
             String notificationMailingList =
                     Preferences.instance().get(ForumPreferences.class).getNotificationMailingList();
             if (notificationMailingList != null) {
-                getLog().debug("sending topic notification e-mail to forum list");
-                renderer.render("/themes/"
-                        + Preferences.instance().get(WikiPreferences.class).getThemeName()
-                        + "/mailtemplates/forumNotifyTopicToList.xhtml");
+                getLog().debug("sending topic notification e-mail to forum list: " + notificationMailingList);
+                Renderer.instance().render(
+                    PluginRegistry.instance().getPlugin("forum").getPackageThemePath()+TOPIC_NOTIFY_LIST_TEMPLATE
+                );
             }
 
             endConversation();
@@ -139,8 +139,8 @@ public class TopicHome extends DocumentHome {
     /* -------------------------- Messages ------------------------------ */
 
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Topic.Persist",
                 "Topic '{0}' has been saved.",
                 getInstance().getName()
@@ -148,8 +148,8 @@ public class TopicHome extends DocumentHome {
     }
 
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Topic.Update",
                 "Topic '{0}' has been updated.",
                 getInstance().getName()
@@ -157,8 +157,8 @@ public class TopicHome extends DocumentHome {
     }
 
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Topic.Delete",
                 "Topic '{0}' has been deleted.",
                 getInstance().getName()

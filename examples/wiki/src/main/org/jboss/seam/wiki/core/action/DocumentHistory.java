@@ -1,12 +1,11 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -16,7 +15,9 @@ import org.jboss.seam.wiki.core.model.WikiFile;
 import org.jboss.seam.wiki.util.Diff;
 import org.jboss.seam.wiki.util.WikiUtil;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.ERROR;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class DocumentHistory implements Serializable {
     WikiNodeDAO wikiNodeDAO;
 
     @In
-    private FacesMessages facesMessages;
+    private StatusMessages statusMessages;
 
     @DataModel
     private List<WikiFile> historicalFileList;
@@ -115,8 +116,8 @@ public class DocumentHistory implements Serializable {
         displayedHistoricalFile = selectedHistoricalFile;
         diffResult = null;
 
-        facesMessages.addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+            INFO,
             "lacewiki.msg.DiffOldVersionDisplayed",
             "Showing historical revision {0}",
             selectedHistoricalFile.getRevision()
@@ -130,8 +131,8 @@ public class DocumentHistory implements Serializable {
         if (historicalFileId == null) return;
         selectedHistoricalFile = wikiNodeDAO.findHistoricalFile(getCurrentFile().getHistoricalEntityName(), historicalFileId);
         if (selectedHistoricalFile == null) {
-            facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+            statusMessages.addFromResourceBundleOrDefault(
+                ERROR,
                 "lacewiki.msg.HistoricalNodeNotFound",
                 "Couldn't find historical node: {0}",
                 historicalFileId
@@ -192,8 +193,8 @@ public class DocumentHistory implements Serializable {
 
         diffResult = result.toString();
 
-        facesMessages.addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+            INFO,
             "lacewiki.msg.DiffCreated",
             "Comparing current revision with historical revision {0}",
             selectedHistoricalFile.getRevision()
@@ -202,8 +203,8 @@ public class DocumentHistory implements Serializable {
 
     @Restrict("#{s:hasPermission('Node', 'edit', documentHistory.currentFile)}")
     public String rollback() {
-        facesMessages.addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+            INFO,
             "lacewiki.msg.RollingBackDocument",
             "Rolling document back to revision {0}",
             selectedHistoricalFile.getRevision()

@@ -2,22 +2,25 @@ package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.faces.Renderer;
-import org.jboss.seam.security.Identity;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.faces.Renderer;
+import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.CommentHome;
-import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.model.WikiNode;
-import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
+import org.jboss.seam.wiki.core.plugin.PluginRegistry;
 import org.jboss.seam.wiki.preferences.Preferences;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 
 @Name("replyHome")
 @Scope(ScopeType.CONVERSATION)
 public class ReplyHome extends CommentHome {
+
+    public static final String REPLY_NOTIFY_TEMPLATE        = "/mailtemplates/forumNotifyReply.xhtml";
+    public static final String REPLY_NOTIFY_LIST_TEMPLATE   = "/mailtemplates/forumNotifyReplyToList.xhtml";
 
     @Override
     public void create() {
@@ -36,21 +39,16 @@ public class ReplyHome extends CommentHome {
         String notificationMailingList =
                 Preferences.instance().get(ForumPreferences.class).getNotificationMailingList();
         if (notificationMailingList != null) {
-            getLog().debug("sending reply notification e-mail to forum list");
-            renderer.render("/themes/"
-                    + Preferences.instance().get(WikiPreferences.class).getThemeName()
-                    + "/mailtemplates/forumNotifyReplyToList.xhtml");
+            getLog().debug("sending reply notification e-mail to forum list: " + notificationMailingList);
+            renderer.render(PluginRegistry.instance().getPlugin("forum").getPackageThemePath()+REPLY_NOTIFY_LIST_TEMPLATE);
         }
 
         // Notify original poster
         if (documentHome.getInstance().macroPresent(TopicHome.TOPIC_NOTIFY_ME_MACRO)
-            && !documentHome.getInstance().getCreatedBy().getUsername().equals(
-                    getInstance().getCreatedBy().getUsername()
-                )) {
+            && !documentHome.getInstance().getCreatedBy().getUsername().equals(getInstance().getCreatedBy().getUsername())
+           ) {
             getLog().debug("sending reply notification e-mail to original poster");
-            renderer.render("/themes/"
-                    + Preferences.instance().get(WikiPreferences.class).getThemeName()
-                    + "/mailtemplates/forumNotifyReply.xhtml");
+            renderer.render(PluginRegistry.instance().getPlugin("forum").getPackageThemePath()+REPLY_NOTIFY_TEMPLATE);
         }
     }
 
@@ -109,8 +107,8 @@ public class ReplyHome extends CommentHome {
     /* -------------------------- Messages ------------------------------ */
 
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Reply.Persist",
                 "Reply '{0}' has been saved.",
                 getInstance().getSubject()
@@ -118,8 +116,8 @@ public class ReplyHome extends CommentHome {
     }
 
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Reply.Update",
                 "Reply '{0}' has been updated.",
                 getInstance().getSubject()
@@ -127,8 +125,8 @@ public class ReplyHome extends CommentHome {
     }
 
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Reply.Delete",
                 "Reply '{0}' has been deleted.",
                 getInstance().getSubject()

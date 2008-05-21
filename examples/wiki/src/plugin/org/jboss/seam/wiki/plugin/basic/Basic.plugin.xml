@@ -25,6 +25,14 @@
         <applicable-to content="true" header="true" footer="true"/>
     </macro>
 
+    <macro key="hideBreadcrumb" name="hideBreadcrumb">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to content="true" header="true" footer="true"/>
+    </macro>
+
     <macro key="hideComments" name="hideComments">
         <skins>
             <skin name="d"/>
@@ -142,12 +150,15 @@
             <skin name="d"/>
             <skin name="m"/>
         </skins>
+
+        <!-- TODO: Re-enable after we switched from s:graphicImage to prerendered user portraits
         <cache-regions>
             <cache-region name="UserProfile">
                 <invalidation-event name="User.updated"/>
                 <invalidation-event name="User.removed"/>
             </cache-region>
         </cache-regions>
+        -->
     </macro>
 
 </plugin>

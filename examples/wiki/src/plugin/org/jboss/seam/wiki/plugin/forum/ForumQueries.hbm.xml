@@ -5,6 +5,17 @@
 
 <hibernate-mapping>
 
+    <query name="forumsCount">
+        select count(d.id)
+        from
+            WikiDirectory d fetch all properties,
+            WikiMenuItem m
+        where
+            d = m.directory
+            and d.parent = :parentDir
+        order by m.displayPosition asc
+    </query>
+
     <query name="forums">
         select d.id, d
         from

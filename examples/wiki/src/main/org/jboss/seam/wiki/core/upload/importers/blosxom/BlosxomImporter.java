@@ -10,7 +10,8 @@ import org.jboss.seam.wiki.core.upload.importers.annotations.UploadImporter;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.util.WikiUtil;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.ERROR;
+
 import javax.persistence.EntityManager;
 import java.util.Comparator;
 import java.util.Date;
@@ -48,8 +49,8 @@ public class BlosxomImporter extends ZipImporter {
             log.debug("mime type of zip entry is: " + mimeType);
         } catch (Exception ex) {}
         if (!"text/plain".equals(mimeType)) {
-            getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+            statusMessages.addFromResourceBundleOrDefault(
+                ERROR,
                 "incorrectMimeType",
                 "Skipping file '" + zipEntry.getName() + "', incorrect mime type " + mimeType + " , expected text/plain"
             );
@@ -151,8 +152,8 @@ public class BlosxomImporter extends ZipImporter {
 
         InvalidValue[] invalidValues = commentValidator.getInvalidValues(newComment);
         if (invalidValues.length >0) {
-            getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+            getStatusMessages().addFromResourceBundleOrDefault(
+                ERROR,
                 "commentFailedValidation",
                 "Skipping file '" + zipEntry.getName() + "', comment failed validation"
             );

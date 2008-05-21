@@ -77,7 +77,7 @@ public class PluginRegistry {
 
     public WikiPluginMacro createWikiPluginMacro(WikiTextMacro wikiTextMacro) {
         if (getMacroPluginModulesByMacroName().containsKey(wikiTextMacro.getName())) {
-            log.debug("binding WikiTextMacro metadata to create WikiPluginMacro instance");
+            log.debug("binding WikiTextMacro metadata to create WikiPluginMacro instance: " + wikiTextMacro);
             return new WikiPluginMacro( getMacroPluginModulesByMacroName().get(wikiTextMacro.getName()), wikiTextMacro );
         } else {
             return null;

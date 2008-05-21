@@ -12,8 +12,8 @@ import org.jboss.seam.framework.EntityNotFoundException;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.international.Messages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.model.*;
@@ -27,8 +27,9 @@ import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.NodeExpandedEvent;
 import org.richfaces.event.NodeSelectedEvent;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
-import static javax.faces.application.FacesMessage.SEVERITY_WARN;
+import static org.jboss.seam.international.StatusMessage.Severity.WARN;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.*;
@@ -49,7 +50,7 @@ public class DirectoryBrowser implements Serializable {
     Clipboard clipboard;
 
     @In
-    FacesMessages facesMessages;
+    StatusMessages statusMessages;
 
     @In
     EntityManager restrictedEntityManager;
@@ -306,9 +307,9 @@ public class DirectoryBrowser implements Serializable {
                 if (!wikiNodeDAO.isUniqueWikiname(getInstance().getAreaNumber(), WikiUtil.convertToWikiName(pastedName))) {
                     log.debug("wikiname is not unique, renaming");
                     if (pastedName.length() > 245) {
-                        facesMessages.addToControlFromResourceBundleOrDefault(
+                        statusMessages.addToControlFromResourceBundleOrDefault(
                             "name",
-                            SEVERITY_WARN,
+                            WARN,
                             "lacewiki.msg.Clipboard.DuplicatePasteNameFailure",
                             "The name '{0}' was already in use in this area and is too long to be renamed, skipping paste.",
                             pastedName
@@ -324,9 +325,9 @@ public class DirectoryBrowser implements Serializable {
                     }
                     pastedName = attemptedName;
 
-                    facesMessages.addToControlFromResourceBundleOrDefault(
+                    statusMessages.addToControlFromResourceBundleOrDefault(
                         "name",
-                        SEVERITY_INFO,
+                        INFO,
                         "lacewiki.msg.Clipboard.DuplicatePasteName",
                         "The name '{0}' was already in use in this area, renamed item to '{1}'.",
                         n.getName(), pastedName
@@ -401,8 +402,8 @@ public class DirectoryBrowser implements Serializable {
         }
         restrictedEntityManager.flush();
 
-        facesMessages.addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Trash.Emptied",
                 "All items in the trash have been permanently deleted."
         );

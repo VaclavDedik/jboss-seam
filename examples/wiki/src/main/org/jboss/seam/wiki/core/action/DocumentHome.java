@@ -9,6 +9,7 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.international.Messages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -28,7 +29,8 @@ import org.jboss.seam.wiki.core.template.WikiDocumentEditorDefaults;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.hibernate.validator.Length;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import java.util.*;
 
 @Name("documentHome")
@@ -259,8 +261,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
     @Override
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Document.Persist",
                 "Document '{0}' has been saved.",
                 getInstance().getName()
@@ -269,8 +271,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
     @Override
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Document.Update",
                 "Document '{0}' has been updated.",
                 getInstance().getName()
@@ -279,8 +281,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
     @Override
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Document.Delete",
                 "Document '{0}' has been deleted.",
                 getInstance().getName()

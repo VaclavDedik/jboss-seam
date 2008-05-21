@@ -1,14 +1,15 @@
 package org.jboss.seam.wiki.plugin.forum;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.DirectoryHome;
 
-import javax.faces.application.FacesMessage;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import java.util.List;
 
 @Name("forumHome")
@@ -101,8 +102,8 @@ public class ForumHome extends DirectoryHome {
 
     @Override
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Forum.Persist",
                 "Forum '{0}' has been saved.",
                 getInstance().getName()
@@ -111,8 +112,8 @@ public class ForumHome extends DirectoryHome {
 
     @Override
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Forum.Update",
                 "Forum '{0}' has been updated.",
                 getInstance().getName()
@@ -121,8 +122,8 @@ public class ForumHome extends DirectoryHome {
 
     @Override
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Forum.Delete",
                 "Forum '{0}' has been deleted.",
                 getInstance().getName()
@@ -131,16 +132,16 @@ public class ForumHome extends DirectoryHome {
 
     @Override
     protected void feedCreatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Feed.Create",
                 "Created syndication feed for this forum");
     }
 
     @Override
     protected void feedRemovedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "forum.msg.Feed.Remove",
                 "Removed syndication feed of this forum");
     }

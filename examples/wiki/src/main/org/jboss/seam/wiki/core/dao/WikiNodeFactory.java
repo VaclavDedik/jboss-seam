@@ -8,9 +8,9 @@ package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.model.LinkProtocol;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
@@ -18,7 +18,8 @@ import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.Preferences;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.ERROR;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
@@ -121,8 +122,8 @@ public class WikiNodeFactory implements Serializable {
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (RuntimeException ex) {
-            FacesMessages.instance().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+            StatusMessages.instance().addFromResourceBundleOrDefault(
+                ERROR,
                 "lacewiki.msg.MemberHomedirectoryNotFound",
                 "Could not find member area with name {0}  - your configuration is broken, please change it.",
                 memberAreaName
@@ -144,8 +145,8 @@ public class WikiNodeFactory implements Serializable {
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (RuntimeException ex) {
-            FacesMessages.instance().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+            StatusMessages.instance().addFromResourceBundleOrDefault(
+                ERROR,
                 "lacewiki.msg.TrashAreaNotFound",
                 "Could not find trash area with name {0}  - your configuration is broken, please change it.",
                 trashAreaName
@@ -167,8 +168,8 @@ public class WikiNodeFactory implements Serializable {
                     .setHint("org.hibernate.cacheable", false)
                     .getSingleResult();
         } catch (RuntimeException ex) {
-            FacesMessages.instance().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+            StatusMessages.instance().addFromResourceBundleOrDefault(
+                ERROR,
                 "lacewiki.msg.HelpAreaNotFound",
                 "Could not find help area with name {0}  - your configuration is broken, please change it.",
                 helpAreaName

@@ -32,6 +32,15 @@ public class ForumDAO implements Serializable {
                 .list();
     }
 
+    public boolean findForumsAvailability(WikiDirectory forumsDirectory) {
+        Long forumsCount = (Long)
+            getSession(true).getNamedQuery("forumsCount")
+                .setParameter("parentDir", forumsDirectory)
+                .setComment("Finding all forums")
+                .uniqueResult();
+        return forumsCount > 0l;
+    }
+
     public Map<Long, ForumInfo> findForums(WikiDirectory forumsDirectory) {
         final Map<Long, ForumInfo> forumInfoMap = new LinkedHashMap<Long, ForumInfo>();
 

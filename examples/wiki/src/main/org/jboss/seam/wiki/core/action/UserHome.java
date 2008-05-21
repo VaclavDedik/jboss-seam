@@ -15,9 +15,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.framework.EntityHome;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
@@ -34,8 +34,10 @@ import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
 
-import javax.faces.application.FacesMessage;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.ERROR;
+import static org.jboss.seam.international.StatusMessage.Severity.WARN;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -46,7 +48,7 @@ import java.util.regex.Pattern;
 public class UserHome extends EntityHome<User> {
 
     @In
-    private FacesMessages facesMessages;
+    private StatusMessages statusMessages;
 
     @In
     private UserDAO userDAO;
@@ -181,14 +183,14 @@ public class UserHome extends EntityHome<User> {
                             + "/mailtemplates/confirmationRegistration.xhtml");
 
                     /* For debugging
-                    facesMessages.addFromResourceBundleOrDefault(
-                        FacesMessage.SEVERITY_INFO,
+                    statusMessages.addFromResourceBundleOrDefault(
+                        INFO,
                         getMessageKeyPrefix() + "confirmationEmailSent",
                         "Activiate account: /confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
                     */
 
                 } catch (Exception ex) {
-                    facesMessages.add(FacesMessage.SEVERITY_ERROR, "Couldn't send confirmation email: " + ex.getMessage());
+                    statusMessages.add(ERROR, "Couldn't send confirmation email: " + ex.getMessage());
                     return "error";
                 }
 
@@ -213,8 +215,8 @@ public class UserHome extends EntityHome<User> {
                 );
 
             } else {
-                facesMessages.addFromResourceBundleOrDefault(
-                    FacesMessage.SEVERITY_WARN,
+                statusMessages.addFromResourceBundleOrDefault(
+                    WARN,
                     "lacewiki.msg.userHome.WrongPortraitImageType",
                     "The file type '{0}' is not supported, the portrait was not updated.",
                     uploader.getUpload().getContentType()
@@ -321,8 +323,8 @@ public class UserHome extends EntityHome<User> {
         getInstance().getProfile().setImage(null);
         getInstance().getProfile().setImageContentType(null);
 
-        facesMessages.addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+            INFO,
             "lacewiki.msg.userHome.PortraitRemoved",
             "The portrait has been removed, save to make changes permanent."
         );
@@ -333,8 +335,8 @@ public class UserHome extends EntityHome<User> {
 
     @Override
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.User.Persist",
                 "User account '{0}' has been saved.",
                 getInstance().getUsername()
@@ -343,8 +345,8 @@ public class UserHome extends EntityHome<User> {
 
     @Override
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.User.Update",
                 "User account '{0}' has been updated.",
                 getInstance().getUsername()
@@ -353,8 +355,8 @@ public class UserHome extends EntityHome<User> {
 
     @Override
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.User.Delete",
                 "User account '{0}' has been deleted.",
                 getInstance().getUsername()
@@ -377,8 +379,8 @@ public class UserHome extends EntityHome<User> {
         Authenticator auth = (Authenticator)Component.getInstance(Authenticator.class);
         auth.createHomeDirectory(getInstance());
 
-        facesMessages.addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+            INFO,
             "lacewiki.msg.HomeDirectoryCreated",
             "New home directory has been queued, save settings to commit."
         );
@@ -389,9 +391,9 @@ public class UserHome extends EntityHome<User> {
     public boolean passwordAndControlNotNull() {
         if (getPassword() == null || getPassword().length() == 0 ||
             getPasswordControl() == null || getPasswordControl().length() == 0) {
-            facesMessages.addToControlFromResourceBundleOrDefault(
+            statusMessages.addToControlFromResourceBundleOrDefault(
                 "passwordControl",
-                FacesMessage.SEVERITY_WARN,
+                WARN,
                 "lacewiki.msg.PasswordOrPasswordControlEmpty",
                 "Please enter your password twice!"
             );
@@ -403,9 +405,9 @@ public class UserHome extends EntityHome<User> {
     public boolean passwordMatchesRegex() {
         Matcher matcher = Pattern.compile(prefs.getPasswordRegex()).matcher(getPassword());
         if (!matcher.find()) {
-            facesMessages.addToControlFromResourceBundleOrDefault(
+            statusMessages.addToControlFromResourceBundleOrDefault(
                 "password",
-                FacesMessage.SEVERITY_WARN,
+                WARN,
                 "lacewiki.msg.PasswordDoesntMatchPattern",
                 "Password does not match the pattern: {0}",
                 prefs.getPasswordRegex()
@@ -417,9 +419,9 @@ public class UserHome extends EntityHome<User> {
 
     public boolean passwordMatchesControl() {
         if (password == null || passwordControl == null || !password.equals(passwordControl) ) {
-            facesMessages.addToControlFromResourceBundleOrDefault(
+            statusMessages.addToControlFromResourceBundleOrDefault(
                 "passwordControl",
-                FacesMessage.SEVERITY_WARN,
+                WARN,
                 "lacewiki.msg.PasswordControlNoMatch",
                 "The passwords don't match."
             );
@@ -431,9 +433,9 @@ public class UserHome extends EntityHome<User> {
     public boolean isUniqueUsername() {
         User foundUser = userDAO.findUser(getInstance().getUsername(), false, false);
         if ( foundUser != null && foundUser != getInstance() ) {
-            facesMessages.addToControlFromResourceBundleOrDefault(
+            statusMessages.addToControlFromResourceBundleOrDefault(
                 "username",
-                FacesMessage.SEVERITY_WARN,
+                WARN,
                 "lacewiki.msg.UsernameExists",
                 "A user with that name already exists."
             );

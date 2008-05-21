@@ -5,19 +5,19 @@
             xmlns:wiki="http://jboss.com/products/seam/wiki"
             messageId="#{wiki:calculateMessageId(topicHome.instance.id, topicHome.instance.name)}">
 
-    <m:header name="X-Sent-From" value="SeamFramework.org" />
+    <m:header name="X-Sent-From" value="JBoss Seam" />
     <m:header name="Precedence" value="list"/>
 
     <m:header name="From" value="#{topicHome.instance.createdBy.fullname} &lt;do-not-reply@jboss.com>"/>
-    <m:to name="SeamFramework.org Forums List">#{preferences.get('Forum').notificationMailingList}</m:to>
+    <m:to name="LaceWiki Forums List">#{preferences.get('Forum').notificationMailingList}</m:to>
 
-    <m:subject>#{topicHome.instance.name}</m:subject>
+    <m:subject>[SeamFramework.org Forums] #{topicHome.instance.name}</m:subject>
 
     <m:body>
         <html>
             <body>
             <p>
-              This <a href="#{wikiURLRenderer.renderURL(topicHome.instance)}">new topic</a> was posted
+              This <a href="#{wikiURLRenderer.renderURL(topicHome.instance, true)}">new topic</a> was posted
               by #{topicHome.instance.createdBy.fullname}:
             </p>
 
@@ -33,8 +33,7 @@
                                 enableMacroRendering="false"/>
 
             <hr/>
-            <h:outputLink value="#{wikiURLRenderer.renderURL(topicHome.instance)}">Click here</h:outputLink> to reply...
-            <br/>
+            <a href="#{wikiURLRenderer.renderURL(topicHome.instance, true)}">Click here</a> to reply...
 
             </body>
         </html>

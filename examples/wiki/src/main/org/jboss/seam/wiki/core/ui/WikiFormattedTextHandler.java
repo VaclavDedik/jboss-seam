@@ -170,7 +170,7 @@ public class WikiFormattedTextHandler extends MetaTagHandler {
                     // Check if the wikiTextMacro actually is registered, we don't build unknown macros
                     WikiPluginMacro pluginMacro = PluginRegistry.instance().createWikiPluginMacro(wikiTextMacro);
                     if (pluginMacro == null) {
-                        log.warn("macro is not bound in plugin registry: " + wikiTextMacro);
+                        log.info("macro is not bound in plugin registry: " + wikiTextMacro);
                         getPageMacroStack().pop();
                         return null;
                     }

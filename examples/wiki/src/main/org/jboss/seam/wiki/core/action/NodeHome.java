@@ -21,9 +21,11 @@ import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.Preferences;
+import org.jboss.seam.international.StatusMessages;
 
-import static javax.faces.application.FacesMessage.SEVERITY_WARN;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.WARN;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import java.util.Date;
 import java.util.List;
 
@@ -355,9 +357,9 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         if (getWikiNodeDAO().isUniqueWikiname(getParentNode().getAreaNumber(), getInstance())) {
             return true;
         } else {
-            getFacesMessages().addToControlFromResourceBundleOrDefault(
+            StatusMessages.instance().addToControlFromResourceBundleOrDefault(
                 "name",
-                SEVERITY_WARN,
+                WARN,
                 "lacewiki.entity.DuplicateName",
                 "This name is already used, please change it"
             );
@@ -385,8 +387,8 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     }
 
     protected void trashedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Node.Trashed",
                 "'{0}' has been moved into the trash.",
                 getInstance().getName()

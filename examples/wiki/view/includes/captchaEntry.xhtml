@@ -19,10 +19,11 @@
 
             <div class="label">#{messages['lacewiki.label.VerificationQuestion']}:</div>
             <div class="input">
-                <s:validateAll>
-                    <h:inputText tabindex="1" size="6" maxlength="6" required="true" id="verifyCaptcha" value="#{captcha.response}"/>
-                    <h:graphicImage value="/seam/resource/captcha?nocache=#{wiki:generateRandomNumber()}" styleClass="captchaImage"/>
-                </s:validateAll>
+                <h:inputText tabindex="1" size="6" maxlength="6" required="true" id="verifyCaptcha"
+                             value="#{captcha.response}"
+                             validator="wikiCaptchaValidator">
+                </h:inputText>
+                <h:graphicImage value="/seam/resource/captcha?nocache=#{wiki:generateRandomNumber()}" styleClass="captchaImage"/>
             </div>
         </s:fragment>
 

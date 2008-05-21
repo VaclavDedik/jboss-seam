@@ -7,11 +7,12 @@
         xmlns:wiki="http://jboss.com/products/seam/wiki"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
+    <!-- TODO: see Basic.plugin.xml
     <s:cache region="#{currentMacro.getCacheRegion('UserProfile')}"
              key="#{currentMacro.getCacheKey(currentDocument.createdBy.id)}">
+     -->
         <ui:include src="/includes/userInfo.xhtml">
             <ui:param name="user" value="#{currentDocument.createdBy}"/>
         </ui:include>
-    </s:cache>
 
 </wiki:plugin>

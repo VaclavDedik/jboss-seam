@@ -3,11 +3,12 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.model.User;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import java.util.List;
 import java.io.Serializable;
 
@@ -19,8 +20,8 @@ public class UserSearch implements Serializable {
     private UserDAO userDAO;
 
     @In
-    private FacesMessages facesMessages;
- 
+    private StatusMessages statusMessages;
+
     private User exampleUser;
     private String orderByProperty;
     private boolean orderDescending;
@@ -73,8 +74,8 @@ public class UserSearch implements Serializable {
     private void queryRowCount() {
         rowCount = userDAO.getRowCountByExample(exampleUser, ignoreProperties);
         if (rowCount == 0) {
-            facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+            statusMessages.addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.NoUserFound",
                 "No user with given attributes was found, please try again."
             );

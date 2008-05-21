@@ -16,14 +16,16 @@
             <s:div styleClass="commentSignatureSeparator">
                 <h:outputText value="&#160;"/>
             </s:div>
-            <wiki:formattedText value="#{currentDocument.createdBy.profile.signature}"
-                                linkStyleClass="regularLink"
-                                brokenLinkStyleClass="brokenLink"
-                                attachmentLinkStyleClass="regularLink"
-                                thumbnailLinkStyleClass="regularLink"
-                                linkBaseFile="#{currentDocument}"
-                                currentAreaNumber="#{currentDocument.areaNumber}"
-                                enableMacroRendering="false"/>
+            <s:cache region="wiki.Signature" key="#{currentDocument.createdBy.id}">
+                <wiki:formattedText value="#{currentDocument.createdBy.profile.signature}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{currentDocument}"
+                                    currentAreaNumber="#{currentDocument.areaNumber}"
+                                    enableMacroRendering="false"/>
+            </s:cache>
         </s:div>
 
         <s:div rendered="#{not empty currentDocument.tags}"

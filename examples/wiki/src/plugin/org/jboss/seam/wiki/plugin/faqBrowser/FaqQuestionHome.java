@@ -4,10 +4,12 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 
 @Name("faqQuestionHome")
 @Scope(ScopeType.CONVERSATION)
@@ -67,8 +69,8 @@ public class FaqQuestionHome extends DocumentHome {
     /* -------------------------- Messages ------------------------------ */
 
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "fb.faqBrowser.msg.Question.Persist",
                 "Question '{0}' has been saved.",
                 getInstance().getName()
@@ -76,8 +78,8 @@ public class FaqQuestionHome extends DocumentHome {
     }
 
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "fb.faqBrowser.msg.Question.Update",
                 "Question '{0}' has been updated.",
                 getInstance().getName()
@@ -85,8 +87,8 @@ public class FaqQuestionHome extends DocumentHome {
     }
 
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "fb.faqBrowser.msg.Question.Delete",
                 "Question '{0}' has been deleted.",
                 getInstance().getName()

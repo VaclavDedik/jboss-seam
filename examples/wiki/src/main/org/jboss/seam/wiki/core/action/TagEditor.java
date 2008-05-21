@@ -7,16 +7,16 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.dao.TagDAO;
 import org.jboss.seam.wiki.core.model.DisplayTagCount;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 
-import javax.faces.application.FacesMessage;
 import java.util.*;
 import java.io.Serializable;
 
@@ -33,9 +33,6 @@ public class TagEditor implements Serializable {
 
     @In
     private WikiDirectory wikiRoot;
-
-    @In
-    private FacesMessages facesMessages;
 
     private SortedSet<String> tags = new TreeSet<String>();
     private String newTag;
@@ -71,9 +68,9 @@ public class TagEditor implements Serializable {
 
     public void addNewTag() {
         if (!newTag.matches("[\\w\\s]+")) {
-            facesMessages.addToControlFromResourceBundleOrDefault(
+            StatusMessages.instance().addToControlFromResourceBundleOrDefault(
                 "newTag",
-                FacesMessage.SEVERITY_WARN,
+                StatusMessage.Severity.WARN,
                 "lacewiki.msg.tagEdit.TagCantContainSpecialCharacters",
                 "Tag can only contain alphanumeric characters."
             );

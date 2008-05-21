@@ -51,5 +51,13 @@
         </cache-regions>
     </macro>
 
+    <macro key="entry" name="blogEntry">
+        <applicable-to header="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+    </macro>
+
 </plugin>
 

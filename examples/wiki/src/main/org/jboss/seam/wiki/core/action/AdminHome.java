@@ -8,6 +8,8 @@ import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
@@ -15,7 +17,6 @@ import org.jboss.seam.annotations.remoting.WebRemote;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Validators;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
@@ -30,7 +31,6 @@ import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.util.Progress;
 
-import javax.faces.application.FacesMessage;
 import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class AdminHome implements Serializable {
     static Log log;
 
     @In
-    private FacesMessages facesMessages;
+    private StatusMessages statusMessages;
 
     @In
     EntityManager entityManager;
@@ -71,8 +71,8 @@ public class AdminHome implements Serializable {
         log.debug("flushing the entityManager (maybe again)");
         entityManager.flush(); // Flush everything (maybe again if prefEditor.save() already flushed)
 
-        facesMessages.addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
+        statusMessages.addFromResourceBundleOrDefault(
+            StatusMessage.Severity.INFO,
             "lacewiki.msg.SystemSettingsUpdated",
             "System settings updated"
         );
@@ -123,7 +123,7 @@ public class AdminHome implements Serializable {
         InvalidValue[] ivs = validator.getInvalidValues(linkProtocol);
         if (ivs.length>0) {
             for (InvalidValue iv : ivs) {
-                facesMessages.addToControl(iv.getPropertyName(), FacesMessage.SEVERITY_INFO, iv.getMessage());
+                statusMessages.addToControl(iv.getPropertyName(), StatusMessage.Severity.INFO, iv.getMessage());
             }
             return;
         }

@@ -3,6 +3,7 @@ package org.jboss.seam.wiki.core.action;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
 import org.jboss.seam.international.Messages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -13,7 +14,8 @@ import org.jboss.seam.wiki.core.upload.UploadTypes;
 import org.jboss.seam.wiki.core.upload.Uploader;
 import org.jboss.seam.wiki.core.upload.editor.UploadEditor;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -134,8 +136,8 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
 
     @Override
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Upload.Persist",
                 "File '{0}' has been saved.",
                 getInstance().getName()
@@ -144,8 +146,8 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
 
     @Override
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Upload.Update",
                 "File '{0}' has been updated.",
                 getInstance().getName()
@@ -154,8 +156,8 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
 
     @Override
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Upload.Delete",
                 "File '{0}' has been deleted.",
                 getInstance().getName()
@@ -163,8 +165,8 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
     }
 
     protected void uploadUpdatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.uploadEdit.UpdateUpload",
                 "File '{0}' has been uploaded.",
                 uploader.getFilename()

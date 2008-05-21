@@ -2,16 +2,18 @@ package org.jboss.seam.wiki.core.upload;
 
 import net.sf.jmimemagic.Magic;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.core.upload.handler.UploadHandler;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.ERROR;
+import static org.jboss.seam.international.StatusMessage.Severity.WARN;
+
 import java.util.Map;
 import java.io.Serializable;
 
@@ -35,7 +37,7 @@ public class Uploader implements Serializable {
     Log log;
 
     @In
-    private FacesMessages facesMessages;
+    private StatusMessages statusMessages;
 
     @In
     Map<String, UploadType> uploadTypes;
@@ -156,8 +158,8 @@ public class Uploader implements Serializable {
                     ? previousUploadType.getUploadHandler()
                     : uploadTypes.get(UploadTypes.GENERIC_UPLOAD_TYPE).getUploadHandler();
             if (!previousUploadHandler.getClass().equals(newupUploadHandler.getClass())) {
-                facesMessages.addFromResourceBundleOrDefault(
-                    FacesMessage.SEVERITY_ERROR,
+                statusMessages.addFromResourceBundleOrDefault(
+                    ERROR,
                     "lacewiki.msg.upload.HandlersDontMatch",
                     "Wrong file type uploaded, please try again with a different file."
                 );
@@ -179,8 +181,8 @@ public class Uploader implements Serializable {
 
     public boolean validateData() {
         if (data == null || data.length == 0) {
-            facesMessages.addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_WARN,
+            statusMessages.addFromResourceBundleOrDefault(
+                WARN,
                 "lacewiki.msg.upload.NoData",
                 "Please select a file to upload"
             );

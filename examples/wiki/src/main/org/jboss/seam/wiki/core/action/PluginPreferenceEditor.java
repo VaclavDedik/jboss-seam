@@ -17,7 +17,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.AutoCreate;
 import org.hibernate.validator.InvalidValue;
 
-import javax.faces.application.FacesMessage;
 import java.util.*;
 import java.io.Serializable;
 

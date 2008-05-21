@@ -15,7 +15,9 @@ import org.jboss.seam.core.Validators;
 import org.hibernate.validator.InvalidValue;
 import org.hibernate.validator.ClassValidator;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.ERROR;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import javax.persistence.EntityManager;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -113,8 +115,8 @@ public class ZipImporter extends AbstractImporter {
 
     protected boolean handleDirectory(EntityManager em, WikiUpload zipFile, ZipEntry zipEntry) {
         log.debug("skipping directory: " + zipEntry.getName());
-        getFacesMessages().addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_ERROR,
+        getStatusMessages().addFromResourceBundleOrDefault(
+            ERROR,
             "lacewiki.msg.ImportSkippingDirectory",
             "Skipping directory '{0}', importing not supported...",
             zipEntry.getName()
@@ -134,8 +136,8 @@ public class ZipImporter extends AbstractImporter {
             return true;
         } else {
             log.debug("new name is not unique and invalid");
-            getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_ERROR,
+            getStatusMessages().addFromResourceBundleOrDefault(
+                ERROR,
                 "lacewiki.msg.ImportDuplicateName",
                 "Skipping file '{0}', name is already used in this area...",
                 newWikiname
@@ -209,8 +211,8 @@ public class ZipImporter extends AbstractImporter {
             if (invalidValues != null && invalidValues.length > 0) {
                 log.debug("new node is invalid: " + newNode);
                 for (InvalidValue invalidValue : invalidValues) {
-                    getFacesMessages().addFromResourceBundleOrDefault(
-                        FacesMessage.SEVERITY_ERROR,
+                    getStatusMessages().addFromResourceBundleOrDefault(
+                        ERROR,
                         "lacewiki.msg.ImportInvalidNode",
                         "Skipping entry '{0}', invalid: {1}",
                         newNode.getName(),
@@ -224,8 +226,8 @@ public class ZipImporter extends AbstractImporter {
             log.debug("persisting newly imported node: " + newNode);
             newNode.setParent(zipFile.getParent());
             em.persist(newNode);
-            getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+            getStatusMessages().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.ImportOk",
                 "Created file '{0}' in current directory.",
                 newNode.getName()

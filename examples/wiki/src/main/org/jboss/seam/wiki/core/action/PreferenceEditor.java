@@ -2,8 +2,8 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.PreferenceValue;
@@ -12,7 +12,8 @@ import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceRegistry;
 import org.hibernate.validator.InvalidValue;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.WARN;
+
 import java.util.*;
 import java.io.Serializable;
 
@@ -23,7 +24,7 @@ public class PreferenceEditor implements Serializable {
     @Logger static Log log;
 
     @In
-    private FacesMessages facesMessages;
+    private StatusMessages statusMessages;
 
     @In
     PreferenceProvider preferenceProvider;
@@ -63,9 +64,9 @@ public class PreferenceEditor implements Serializable {
             for (InvalidValue validationError : entry.getValue()) {
                 valid = false;
 
-                facesMessages.addToControlFromResourceBundleOrDefault(
+                statusMessages.addToControlFromResourceBundleOrDefault(
                     "preferenceValidationErrors",
-                    FacesMessage.SEVERITY_WARN,
+                    WARN,
                     "preferenceValueValidationFailed." + preferenceEntity.getEntityName() + "." + entry.getKey().getFieldName(),
                     preferenceEntity.getDescription() + " - '" + entry.getKey().getDescription() + "': " + validationError.getMessage());
             }

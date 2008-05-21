@@ -24,6 +24,13 @@
 
     <!-- Persistence stuff -->
 
+    <persistence:managed-persistence-context
+            name="entityManager"
+            auto-create="true"
+            entity-manager-factory="#{wikiEntityManagerFactory}"
+            persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
+    </persistence:managed-persistence-context>
+
     <persistence:filter name="accessLevelFilter">
         <persistence:name>accessLevelFilter</persistence:name>
         <persistence:parameters>
@@ -36,51 +43,18 @@
                class="org.jboss.seam.wiki.core.dao.WikiManagedPersistenceContext">
         <property name="entityManagerFactory">#{wikiEntityManagerFactory}</property>
         <property name="persistenceUnitJndiName">java:/entityManagerFactories/wiki</property>
-        <property name="filters">
-            <value>#{accessLevelFilter}</value>
-        </property>
-    </component>
-    <!-- TODO: I want to reset the filter argument when a user logs in, so had to write my own SMPC, this is only
-               "safe" because a logged-in user means higher access privileges than before, so anything that was
-               cached in the SMPC before the filter argument is reset has to be still valid. We hope... 
-    <persistence:managed-persistence-context name="restrictedEntityManager"
-                                      auto-create="true"
-                                      entity-manager-factory="#{wikiEntityManagerFactory}"
-                                      persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
-        <persistence:filters><value>#{accessLevelFilter}</value></persistence:filters>
-    </persistence:managed-persistence-context>
-    -->
-
-    <persistence:managed-persistence-context name="entityManager"
-                                      auto-create="true"
-                                      entity-manager-factory="#{wikiEntityManagerFactory}"
-                                      persistence-unit-jndi-name="java:/entityManagerFactories/wiki">
-    </persistence:managed-persistence-context>
-
-    <!--
-    <component name="restrictedEntityConverter" scope="CONVERSATION" precedence="20"
-               class="org.jboss.seam.ui.converter.EntityConverter">
-        <property name="entityManager">#{restrictedEntityManager}</property>
+        <property name="filters"><value>#{accessLevelFilter}</value></property>
     </component>
 
-    <component name="entityConverter" scope="CONVERSATION" precedence="20"
-               class="org.jboss.seam.ui.converter.EntityConverter">
-        <property name="entityManager">#{entityManager}</property>
-    </component>
-
-    <component name="nestedSetNodeWrapperRestrictedEntityConverter" scope="CONVERSATION" precedence="20"
-               class="org.jboss.seam.wiki.core.nestedset.ui.NestedSetNodeWrapperEntityConverter">
-        <property name="entityManager">#{restrictedEntityManager}</property>
-    </component>
-    -->
+    <!-- JSF entity instance from/to string converters for select lists -->
 
     <ui:entity-converter name="entityConverter"
                          scope="CONVERSATION" precedence="20" entity-loader="#{regularEntityLoader}"/>
-    <ui:entity-loader name="regularEntityLoader" entity-manager="#{entityManager}"/>
+    <ui:jpa-entity-loader name="regularEntityLoader" entity-manager="#{entityManager}"/>
 
     <ui:entity-converter name="restrictedEntityConverter"
                          scope="CONVERSATION" precedence="20" entity-loader="#{restrictedEntityLoader}"/>
-    <ui:entity-loader name="restrictedEntityLoader" entity-manager="#{restrictedEntityManager}"/>
+    <ui:jpa-entity-loader name="restrictedEntityLoader" entity-manager="#{restrictedEntityManager}"/>
 
     <ui:entity-converter name="nestedSetNodeWrapperRestrictedEntityConverter" 
                          class="org.jboss.seam.wiki.core.nestedset.ui.NestedSetNodeWrapperEntityConverter"
@@ -105,6 +79,8 @@
         <property name="cacheRegions">
             <value>wiki.MainMenu</value>
             <value>wiki.Breadcrumb</value>
+            <value>wiki.Comment</value>
+            <value>wiki.Signature</value>
         </property>
     </component>
 

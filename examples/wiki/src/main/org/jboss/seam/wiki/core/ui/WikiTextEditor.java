@@ -4,14 +4,15 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
+
+import static org.jboss.seam.international.StatusMessage.Severity.WARN;
 
 import java.io.Serializable;
 
 import javax.faces.validator.ValidatorException;
-import javax.faces.application.FacesMessage;
 
 /**
  * Utility class bound to Wiki text editor UI.
@@ -35,9 +36,9 @@ public class WikiTextEditor implements Serializable {
         } catch (ValidatorException e) {
             log.debug("exception during validation: " + e.getFacesMessage().getSummary());
             // TODO: Needs to use resource bundle, how?
-            FacesMessages.instance().addToControl(
+            StatusMessages.instance().addToControl(
                 textEditorId + "TextArea",
-                FacesMessage.SEVERITY_WARN,
+                WARN,
                 e.getFacesMessage().getSummary()
             );
         }

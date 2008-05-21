@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.international.Messages;
+import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
@@ -21,8 +22,8 @@ import org.jboss.seam.wiki.core.model.WikiMenuItem;
 import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.util.WikiUtil;
 
-import javax.faces.application.FacesMessage;
-import static javax.faces.application.FacesMessage.SEVERITY_INFO;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+
 import java.util.*;
 
 /**
@@ -131,8 +132,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
     @Override
     protected void createdMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Directory.Persist",
                 "Directory '{0}' has been saved.",
                 getInstance().getName()
@@ -141,8 +142,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
     @Override
     protected void updatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Directory.Update",
                 "Directory '{0}' has been updated.",
                 getInstance().getName()
@@ -151,8 +152,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
 
     @Override
     protected void deletedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-                SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Directory.Delete",
                 "Directory '{0}' has been deleted.",
                 getInstance().getName()
@@ -160,15 +161,15 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
     }
 
     protected void feedCreatedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+            INFO,
             "lacewiki.msg.Feed.Create",
             "Created syndication feed for this directory");
     }
 
     protected void feedRemovedMessage() {
-        getFacesMessages().addFromResourceBundleOrDefault(
-            FacesMessage.SEVERITY_INFO,
+        StatusMessages.instance().addFromResourceBundleOrDefault(
+            INFO,
             "lacewiki.msg.Feed.Remove",
             "Removed syndication feed of this directory");
     }
@@ -184,7 +185,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
     /* -------------------------- Internal Methods ------------------------------ */
 
     private void refreshAvailableMenuItems(WikiDirectory dir) {
-        availableMenuItems = new TreeSet();
+        if (availableMenuItems == null) availableMenuItems = new TreeSet();
+        availableMenuItems.clear();
         availableMenuItems.addAll(getWikiNodeDAO().findChildWikiDirectories(dir));
         availableMenuItems.removeAll(alreadyUsedMenuItems);
     }
@@ -250,8 +252,8 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
             getLog().debug("resetting feed of directory");
             getInstance().getFeed().getFeedEntries().clear();
             getInstance().getFeed().setPublishedDate(new Date());
-            getFacesMessages().addFromResourceBundleOrDefault(
-                FacesMessage.SEVERITY_INFO,
+            StatusMessages.instance().addFromResourceBundleOrDefault(
+                INFO,
                 "lacewiki.msg.Feed.Reset",
                 "Queued removal of all feed entries from the syndication feed of this directory, please update to finalize");
         }

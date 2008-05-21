@@ -87,20 +87,20 @@ public class PageFragmentCache {
         }
     }
 
-    public void put(String region, Serializable key, String content) {
+    public void put(String region, String key, String content) {
         if (!caches.containsKey(region))
             throw new IllegalStateException("can't put into uninitialized cache region: " + region);
         caches.get(region).put(new Element(key, content));
     }
 
-    public String get(String region, Serializable key) {
+    public String get(String region, String key) {
         if (!caches.containsKey(region))
             throw new IllegalStateException("can't get from uninitialized cache region: " + region);
         Element result = caches.get(region).get(key);
         return result != null ? (String)result.getValue() : null;
     }
 
-    public void remove(String region, Serializable key) {
+    public void remove(String region, String key) {
         if (!caches.containsKey(region))
             throw new IllegalStateException("can't remove from uninitialized cache region: " + region);
         caches.get(region).remove(key);

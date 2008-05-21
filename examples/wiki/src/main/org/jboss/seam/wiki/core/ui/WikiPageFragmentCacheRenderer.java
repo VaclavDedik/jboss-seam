@@ -40,7 +40,6 @@ public class WikiPageFragmentCacheRenderer extends RendererBase {
     @Override
     protected void doEncodeChildren(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException {
         UICache cache = (UICache) component;
-        log.debug("ui cache is enabled: " + cache.isEnabled());
         if (cache.isEnabled()) {
             String region = cache.getRegion();
             if (region == null) {
@@ -71,6 +70,7 @@ public class WikiPageFragmentCacheRenderer extends RendererBase {
             log.debug("cached rendering is disabled for: " + cache.getKey());
             renderChildren(context, component);
         }
+        log.debug("rendering (including all children) complete");
     }
 
 }

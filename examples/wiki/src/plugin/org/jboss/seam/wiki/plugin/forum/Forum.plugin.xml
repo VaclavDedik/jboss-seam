@@ -68,6 +68,17 @@
         </render-options>
     </macro>
 
+    <macro key="notifyReplies" name="forumNotifyReplies">
+        <applicable-to header="true"/>
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <render-options>
+            <singleton/>
+        </render-options>
+    </macro>
+
     <macro key="replies" name="forumReplies">
         <applicable-to footer="true"/>
         <skins>
@@ -85,14 +96,6 @@
             <skin name="d"/>
             <skin name="m"/>
         </skins>
-        <cache-regions>
-            <cache-region name="TopPostersList">
-                <invalidation-event name="Node.removed"/>
-                <invalidation-event name="User.removed"/>
-                <invalidation-event name="User.updated"/>
-                <invalidation-event name="Comment.rated"/>
-            </cache-region>
-        </cache-regions>
     </macro>
 
 </plugin>

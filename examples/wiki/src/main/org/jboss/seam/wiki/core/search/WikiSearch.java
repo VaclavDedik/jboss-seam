@@ -70,6 +70,8 @@ public class WikiSearch implements Serializable {
     @Create
     public void create() {
 
+        // TODO: Minor optimization, do this lazily when search.xhtml is rendered, not when the component is created (on every wiki page render)
+
         // Initialize the value holders used for UI binding
         for (SearchableEntity searchableEntity : searchRegistry.getSearchableEntities()) {
             log.debug("preparing search value holder for entity: " + searchableEntity.getDescription());

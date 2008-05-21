@@ -10,7 +10,6 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.web.Parameters;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
@@ -18,7 +17,8 @@ import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.search.WikiSearch;
 
-import javax.faces.application.FacesMessage;
+import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+import org.jboss.seam.international.StatusMessages;
 
 /**
  * Returns <tt>docDisplay</tt>, <tt>dirDisplay</tt>, or <tt>search</tt> for the resolved <tt>nodeId</tt>.
@@ -73,9 +73,6 @@ public class WikiRequestResolver {
     static Log log;
 
     @In
-    private FacesMessages facesMessages;
-
-    @In
     protected WikiNodeDAO wikiNodeDAO;
 
     protected Long nodeId;
@@ -107,8 +104,8 @@ public class WikiRequestResolver {
         // Queue a message if requested (for message passing across session invalidations and conversations)
         if (message != null) {
             log.debug("wiki request contained message: " + message);
-            facesMessages.addFromResourceBundle(
-                FacesMessage.SEVERITY_INFO,
+            StatusMessages.instance().addFromResourceBundle(
+                INFO,
                 message
             );
         }

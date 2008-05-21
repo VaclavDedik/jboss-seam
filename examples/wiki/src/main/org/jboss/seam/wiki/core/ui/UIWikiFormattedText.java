@@ -85,6 +85,7 @@ public class UIWikiFormattedText extends UIOutput {
     @Override
     public void encodeBegin(FacesContext facesContext) throws IOException {
         if (!isRendered() || getValue() == null) return;
+        log.debug(">>> ENCODE BEGIN of WikiFormattedText component");
 
         // Use the WikiTextParser to resolve macros
         WikiTextParser parser = new WikiTextParser((String) getValue(), true, true);
@@ -266,7 +267,7 @@ public class UIWikiFormattedText extends UIOutput {
         parser.setRenderer(new WikiFormattedTextRenderer());
 
         try {
-            log.debug(">>> rendering wiki text");
+            log.debug("parsing wiki text for HTML encoding");
             parser.parse();
 
         } catch (RecognitionException rex) {
@@ -279,6 +280,7 @@ public class UIWikiFormattedText extends UIOutput {
 
         facesContext.getResponseWriter().write(parser.toString());
 
+        log.debug("<<< ENCODE END of WikiFormattedText component");
     }
 
     protected void addMacroWithTemplate(WikiPluginMacro pluginMacro) {

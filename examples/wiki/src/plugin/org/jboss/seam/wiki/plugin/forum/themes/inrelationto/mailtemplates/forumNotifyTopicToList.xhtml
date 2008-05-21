@@ -17,7 +17,7 @@
         <html>
             <body>
             <p>
-              This <a href="#{wikiURLRenderer.renderURL(topicHome.instance)}">new topic</a> was posted
+              This <a href="#{wikiURLRenderer.renderURL(topicHome.instance, true)}">new topic</a> was posted
               by #{topicHome.instance.createdBy.fullname}:
             </p>
 
@@ -33,7 +33,7 @@
                                 enableMacroRendering="false"/>
 
             <hr/>
-            <h:outputLink value="#{wikiURLRenderer.renderURL(topicHome.instance)}">Click here</h:outputLink> to reply...
+            <a href="#{wikiURLRenderer.renderURL(topicHome.instance, true)}">Click here</a> to reply...
 
             </body>
         </html>

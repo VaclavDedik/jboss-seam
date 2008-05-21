@@ -57,6 +57,20 @@ public class ForumQuery implements Serializable {
 
     /* ####################### FORUMS ########################## */
 
+    Boolean forumsAvailable;
+    public boolean isForumsAvailable() {
+        if (forumsAvailable == null) loadForumsAvailability();
+        return forumsAvailable;
+    }
+
+    @Observer(value = {"Forum.forumListRefresh", "PersistenceContext.filterReset"}, create = false)
+    public void loadForumsAvailability() {
+        // The whole point of this is so that we can use it as a cheaper query in the mess that is the rendered="true/false"
+        // attribute evaluation in JSF. It is called completely randomly, at any phase in the request, on any component in
+        // the tree. It needs to be a) as cheap as possible and b) free from dependencies.
+        forumsAvailable = forumDAO.findForumsAvailability(currentDirectory);
+    }
+
     List<ForumInfo> forums;
     public List<ForumInfo> getForums() {
         if (forums == null) loadForums();
@@ -65,7 +79,7 @@ public class ForumQuery implements Serializable {
 
     @Observer(value = {"Forum.forumListRefresh", "PersistenceContext.filterReset"}, create = false)
     public void loadForums() {
-
+        log.debug("loading forums");
         Map<Long, ForumInfo> forumInfo = forumDAO.findForums(currentDirectory);
 
         // Find unread postings
@@ -90,23 +104,31 @@ public class ForumQuery implements Serializable {
 
     /* ####################### TOPICS ########################## */
 
+    private Long numOfTopics;
     private List<TopicInfo> topics;
 
+    public boolean isTopicsAvailable() {
+        if (numOfTopics == null) countTopics();
+        return numOfTopics > 0;
+    }
+
     public List<TopicInfo> getTopics() {
-        if (topics == null) loadTopics();
+        if (isTopicsAvailable() && topics == null) {
+            loadTopics();
+        } else if (!isTopicsAvailable()) {
+            topics = Collections.emptyList();
+        }
         return topics;
     }
 
-    @Observer(value = {"Forum.topicListRefresh", "PersistenceContext.filterReset"}, create = false)
+    public void countTopics() {
+        log.debug("counting forum topics");
+        numOfTopics = forumDAO.findTopicCount(currentDirectory);
+        pager.setNumOfRecords(numOfTopics);
+    }
+
     public void loadTopics() {
         log.debug("loading forum topics");
-        pager.setNumOfRecords( forumDAO.findTopicCount(currentDirectory) );
-
-        if (pager.getNumOfRecords() == 0) {
-            topics = Collections.emptyList();
-            return;
-        }
-
         Map<Long, TopicInfo> topicInfo = forumDAO.findTopics(currentDirectory, pager.getNextRecord(), pager.getPageSize());
 
         if (!currentUser.isAdmin() && !currentUser.isGuest()) {
@@ -132,9 +154,15 @@ public class ForumQuery implements Serializable {
         topics.addAll(topicInfo.values());
     }
 
+    @Observer(value = {"Forum.topicListRefresh", "PersistenceContext.filterReset"}, create = false)
+    public void refreshTopics() {
+        countTopics();
+        loadTopics();
+    }
+
     /* ####################### POSTERS ########################## */
 
-    public static final String MACRO_ATTR_TOPPOSTERS            = "forumTopPostersList";
+    public static final String MACRO_ATTR_TOPPOSTERS = "forumTopPostersList";
 
     public List<User> getTopPosters(WikiPluginMacro macro) {
 

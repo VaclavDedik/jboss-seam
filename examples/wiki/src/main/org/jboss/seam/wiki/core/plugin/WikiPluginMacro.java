@@ -178,7 +178,7 @@ public class WikiPluginMacro extends WikiTextMacro implements Serializable {
         // JSF "oh let's map a non-existant request parameter to an empty string" genius behavior...
         if (objects != null && objects.length > 0) {
             for (Object o : objects) {
-                if (Math.abs(o.hashCode()) != 0) {
+                if (o != null && Math.abs(o.hashCode()) != 0) {
                     log.debug("including hashCode of object: " + Math.abs(o.hashCode()));
                     builder.append( Math.abs(o.hashCode()) );
                 }

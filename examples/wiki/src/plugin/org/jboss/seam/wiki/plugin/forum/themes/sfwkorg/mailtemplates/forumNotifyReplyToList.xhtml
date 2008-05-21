@@ -20,8 +20,8 @@
         <html>
             <body>
             <p>
-              The <a href="#{wikiURLRenderer.renderURL(replyHome.instance)}">following reply</a>
-              was posted on the thread <a href="#{wikiURLRenderer.renderURL(currentDocument)}">#{currentDocument.name}</a>
+              The <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">following reply</a>
+              was posted on the thread <a href="#{wikiURLRenderer.renderURL(currentDocument, true)}">#{currentDocument.name}</a>
               by #{replyHome.instance.createdBy.fullname}:
             </p>
 
@@ -37,7 +37,7 @@
                                 enableMacroRendering="false"/>
 
             <hr/>
-            <h:outputLink value="#{wikiURLRenderer.renderURL(replyHome.instance)}">Click here</h:outputLink> to reply...
+            <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">Click here</a> to reply...
             <br/>
 
             </body>
