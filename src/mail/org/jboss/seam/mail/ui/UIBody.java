@@ -59,7 +59,7 @@ public class UIBody extends MailComponent
                bodyPart = getHtmlBody(facesContext, body);
             }
          }
-         getRootMultipart().addBodyPart(bodyPart);
+         getRootMultipart().addBodyPart(bodyPart, 0);
       }
       catch (MessagingException e)
       {
