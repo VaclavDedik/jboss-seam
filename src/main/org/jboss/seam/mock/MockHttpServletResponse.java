@@ -55,14 +55,13 @@ public class MockHttpServletResponse implements HttpServletResponse
 
    public String encodeURL(String arg0)
    {
-      // TODO Auto-generated method stub
-      return null;
+      return arg0;
    }
 
+   @Deprecated
    public String encodeUrl(String arg0)
    {
-      // TODO Auto-generated method stub
-      return null;
+      return encodeURL(arg0);
    }
 
    public void sendError(int arg0) throws IOException
