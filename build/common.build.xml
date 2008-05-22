@@ -121,6 +121,7 @@
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="runtime" />
+	    <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="compile" />
@@ -129,6 +130,7 @@
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="compile" />
+	    <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}" scope="compile" />
 		<property name="copyseamdependenciesdone" value="true" />
 	</target>
 
