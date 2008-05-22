@@ -352,6 +352,12 @@ ul {
 .messageBox .infoMessage {
 }
 
+.cookieJavaScriptWarning {
+    margin: 10px;
+    color: red;
+    text-align: center;
+}
+
 
 /* General
 ----------------------------------------------- */

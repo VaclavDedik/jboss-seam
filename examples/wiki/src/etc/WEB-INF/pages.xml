@@ -7,7 +7,8 @@
         <param name="nodeId" value="#{wikiRequestResolver.nodeId}"/>
         <param name="areaName" value="#{wikiRequestResolver.areaName}"/>
         <param name="nodeName" value="#{wikiRequestResolver.nodeName}"/>
-        <param name="message"   value="#{wikiRequestResolver.message}"/>
+        <param name="messageKey"   value="#{wikiRequestResolver.messageKey}"/>
+        <param name="messageSeverity"   value="#{wikiRequestResolver.messageSeverity}"/>
         <action execute="#{wikiRequestResolver.resolve}"/>
         <navigation>
             <rule if-outcome="docDisplay">
@@ -37,7 +38,7 @@
                 <end-conversation before-redirect="true"/>
                 <redirect view-id="/wiki.xhtml">
                     <param name="nodeId"    value="#{documentHistory.currentFile.id}"/>
-                    <param name="message"   value="lacewiki.msg.docHistory.PurgedHistory"/>
+                    <param name="messageKey"   value="lacewiki.msg.docHistory.PurgedHistory"/>
                 </redirect>
             </rule>
 
@@ -189,7 +190,7 @@
             <rule if-outcome="persisted">
                 <end-conversation before-redirect="true"/>
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="lacewiki.msg.AccountCreatedConfirmationSent"/>
+                    <param name="messageKey" value="lacewiki.msg.AccountCreatedConfirmationSent"/>
                 </redirect>
             </rule>
         </navigation>
@@ -203,7 +204,7 @@
             <rule if-outcome="updatedCurrentCredentials">
                 <end-conversation before-redirect="true"/>
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="lacewiki.msg.UpdatedCurrentCredentials"/>
+                    <param name="messageKey" value="lacewiki.msg.UpdatedCurrentCredentials"/>
                 </redirect>
             </rule>
             <rule if-outcome="removed">
@@ -227,12 +228,13 @@
         <navigation>
             <rule if-outcome="activated">
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="lacewiki.msg.AccountActivatedPleaseLogin"/>
+                    <param name="messageKey" value="lacewiki.msg.AccountActivatedPleaseLogin"/>
                 </redirect>
             </rule>
             <rule if-outcome="notFound">
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="lacewiki.msg.InvalidActivationCode"/>
+                    <param name="messageKey" value="lacewiki.msg.InvalidActivationCode"/>
+                    <param name="messageSeverity" value="WARN"/>
                 </redirect>
             </rule>
         </navigation>
@@ -243,12 +245,13 @@
         <navigation>
             <rule if-outcome="prepared">
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="lacewiki.msg.resetPassword.PasswordResetPrepared"/>
+                    <param name="messageKey" value="lacewiki.msg.resetPassword.PasswordResetPrepared"/>
                 </redirect>
             </rule>
             <rule if-outcome="notFound">
                 <redirect view-id="/wiki.xhtml">
-                    <param name="message" value="lacewiki.msg.InvalidActivationCode"/>
+                    <param name="messageKey" value="lacewiki.msg.InvalidActivationCode"/>
+                    <param name="messageSeverity" value="WARN"/>
                 </redirect>
             </rule>
         </navigation>
@@ -269,11 +272,6 @@
                 <redirect url="#{wikiURLRenderer.renderSearchURL(wikiSearch.simpleQuery)}"/>
             </rule>
 
-            <rule if-outcome="error">
-                <redirect view-id="/message.xhtml">
-                    <message severity="ERROR">#{messages['lacewiki.msg.FatalError']}</message>
-                </redirect>
-            </rule>
         </navigation>
 
     </page>

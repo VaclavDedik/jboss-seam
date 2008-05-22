@@ -141,3 +141,9 @@ h4 {
 .commentText {
     padding: 10px;
 }
+
+.cookieJavaScriptWarning {
+    margin: 10px;
+    color: red;
+    text-align: center;
+}

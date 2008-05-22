@@ -354,6 +354,12 @@ ul {
     font-weight: bold;
 }
 
+.cookieJavaScriptWarning {
+    margin: 10px;
+    color: red;
+    text-align: center;
+}
+
 /* General
 ----------------------------------------------- */
 

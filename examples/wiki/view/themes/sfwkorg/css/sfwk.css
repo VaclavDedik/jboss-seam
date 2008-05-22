@@ -469,6 +469,12 @@ b.rtop b.r4, b.rbottom b.r4 {
     color: #666;
 }
 
+.cookieJavaScriptWarning {
+    margin: 10px;
+    color: red;
+    text-align: center;
+}
+
 /* General
 ----------------------------------------------- */
 

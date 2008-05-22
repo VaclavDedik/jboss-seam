@@ -1,5 +1,19 @@
 /* Cachable global scripts */
 
+// ###################### COOKIE SUPPORT #################################
+
+function checkCookieSupport() {
+    if(!document.cookie) {
+        jQuery("body")
+            .prepend("<div class='cookieJavaScriptWarning'>" +
+                     "Please enable cookie support in your browser, otherwise " +
+                     "some features of this website will not work. Cookies are " +
+                     "used only for temporary client identification and destroyed " +
+                     "when you quit the browser." +
+                     "</div>");
+    }
+}
+
 // ###################### Log #################################
 
 function log(message) {

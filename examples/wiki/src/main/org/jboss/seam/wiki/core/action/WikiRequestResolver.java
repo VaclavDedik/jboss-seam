@@ -17,8 +17,8 @@ import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.search.WikiSearch;
 
-import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.StatusMessage;
 
 /**
  * Returns <tt>docDisplay</tt>, <tt>dirDisplay</tt>, or <tt>search</tt> for the resolved <tt>nodeId</tt>.
@@ -87,10 +87,14 @@ public class WikiRequestResolver {
     public String getNodeName() { return nodeName; }
     public void setNodeName(String nodeName) { this.nodeName = nodeName != null && nodeName.length() > 0 ? nodeName : null; }
 
-    protected String message;
+    protected String messageKey;
+    protected String messageSeverity;
 
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
+    public String getMessageKey() { return messageKey; }
+    public void setMessageKey(String messageKey) { this.messageKey = messageKey; }
+
+    public String getMessageSeverity() { return messageSeverity; }
+    public void setMessageSeverity(String messageSeverity) { this.messageSeverity = messageSeverity;}
 
     protected WikiDocument currentDocument = null;
     protected WikiDirectory currentDirectory = null;
@@ -102,12 +106,17 @@ public class WikiRequestResolver {
         resolveRequestParameters();
 
         // Queue a message if requested (for message passing across session invalidations and conversations)
-        if (message != null) {
-            log.debug("wiki request contained message: " + message);
-            StatusMessages.instance().addFromResourceBundle(
-                INFO,
-                message
-            );
+        if (getMessageKey() != null) {
+            log.debug("wiki request contained message: " + getMessageKey());
+            StatusMessage.Severity msgSeverity = StatusMessage.Severity.INFO;
+            if (getMessageSeverity() != null && getMessageSeverity().length() > 0) {
+                try {
+                    msgSeverity = StatusMessage.Severity.valueOf(getMessageSeverity().trim());
+                } catch (IllegalArgumentException ex) {
+                    // Swallow
+                }
+            }
+            StatusMessages.instance().addFromResourceBundle(msgSeverity, getMessageKey());
         }
 
         // Have we been called with a nodeId request parameter, must be a document

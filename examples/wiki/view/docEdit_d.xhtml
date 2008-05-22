@@ -125,7 +125,7 @@
                                     </div>
                                 </s:div>
                                 <s:div id="pushOnSiteFeedSwitchUnmanaged">
-                                    <s:fragment rendered="#{s:hasPermission('Feed','write',wikiRoot.feed)}">
+                                    <s:fragment rendered="#{s:hasPermission('Feed','write',wikiRoot.feed) and s:hasPermission('User','isAdmin',currentUser)}">
                                         <s:div styleClass="entry">
                                             <div class="label">&#160;</div>
                                             <div class="input">
@@ -158,7 +158,7 @@
                                         </div>
                                     </s:div>
                                     <s:div id="pushOnSiteFeedSwitch">
-                                        <s:fragment rendered="#{s:hasPermission('Feed','write',wikiRoot.feed)}">
+                                        <s:fragment rendered="#{s:hasPermission('Feed','write',wikiRoot.feed) and s:hasPermission('User','isAdmin',currentUser)}">
                                             <s:div styleClass="entry">
                                                 <div class="label">&#160;</div>
                                                 <div class="input">

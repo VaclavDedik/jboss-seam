@@ -195,6 +195,7 @@
         }
 
         function initPage() {
+            checkCookieSupport();
             wrapBoxes();
         }
 
@@ -206,6 +207,13 @@
 </head>
 
 <body>
+
+<noscript>
+    <div class="cookieJavaScriptWarning">
+        Please activate JavaScript in your browser. Without it, you will only be able to browse this website
+        but clicking on any advanced feature (any forms or submit buttons) will not work.
+    </div>
+</noscript>
 
 <ui:include src="../../includes/helpPopup.xhtml"/>
 
@@ -281,25 +289,23 @@
         <s:div id="messageBoxContainer"><j4j:idProxy id="messageBoxContainer_"/>
         <s:div styleClass="box" rendered="#{!empty facesMessages.currentGlobalMessages}">
             <div id="messageBox" class="messageBox">
-                <ui:repeat var="message" value="#{facesMessages.currentGlobalMessages}">
-
+                <ui:repeat var="msg" value="#{facesMessages.currentGlobalMessages}">
                     <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
-                                 rendered="#{message.severity.ordinal == 0}">
+                                 rendered="#{msg.severity.ordinal == 0}">
                             <h:graphicImage value="#{imagePath}/info.gif"
                                             width="18" height="18"
                                             styleClass="infoImage"/>
-                            <h:outputText styleClass="infoMessage" value="#{message.summary}"/>
+                            <h:outputText styleClass="infoMessage" value="#{msg.summary}"/>
                     </h:panelGrid>
 
                     <h:panelGrid styleClass="messageBoxTable" columns="2" cellpadding="0" cellspacing="0" border="0"
-                                 rendered="#{message.severity.ordinal > 0}">
+                                 rendered="#{msg.severity.ordinal > 0}">
                         <h:graphicImage value="#{imagePath}/attention.gif"
-                                        rendered="#{message.severity.ordinal > 0}"
+                                        rendered="#{msg.severity.ordinal > 0}"
                                         width="18" height="18"
                                         styleClass="attentionImage"/>
-                        <h:outputText styleClass="attentionMessage" value="#{message.summary}"/>
+                        <h:outputText styleClass="attentionMessage" value="#{msg.summary}"/>
                     </h:panelGrid>
-
                 </ui:repeat>
 
                 <script type="text/javascript">jQuery(function() {

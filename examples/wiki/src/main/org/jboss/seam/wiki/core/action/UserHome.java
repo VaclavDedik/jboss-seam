@@ -171,28 +171,24 @@ public class UserHome extends EntityHome<User> {
             // Set activation code (unique user in time)
             String seed = getInstance().getUsername() + System.currentTimeMillis() + prefs.getActivationCodeSalt();
             getInstance().setActivationCode( ((Hash)Component.getInstance(Hash.class)).hash(seed) );
+            getLog().debug("setting activation code of newly registered user: " + getInstance().getActivationCode());
 
             String outcome = super.persist();
             if (outcome != null) {
 
-                try {
+                getLog().debug("sending activation e-mail to registered user");
 
-                    // Send confirmation email
-                    renderer.render("/themes/"
-                            + Preferences.instance().get(WikiPreferences.class).getThemeName()
-                            + "/mailtemplates/confirmationRegistration.xhtml");
+                // Send confirmation email
+                renderer.render("/themes/"
+                        + Preferences.instance().get(WikiPreferences.class).getThemeName()
+                        + "/mailtemplates/confirmationRegistration.xhtml");
 
-                    /* For debugging
-                    statusMessages.addFromResourceBundleOrDefault(
-                        INFO,
-                        getMessageKeyPrefix() + "confirmationEmailSent",
-                        "Activiate account: /confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
-                    */
-
-                } catch (Exception ex) {
-                    statusMessages.add(ERROR, "Couldn't send confirmation email: " + ex.getMessage());
-                    return "error";
-                }
+                /* For debugging
+                statusMessages.addFromResourceBundleOrDefault(
+                    INFO,
+                    getMessageKeyPrefix() + "confirmationEmailSent",
+                    "Activiate account: /confirmRegistration.seam?activationCode=" + getInstance().getActivationCode());
+                */
 
                 org.jboss.seam.core.Events.instance().raiseEvent("User.persisted", getInstance());
             }
