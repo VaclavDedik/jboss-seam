@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -25,6 +26,24 @@ public class MockServletContext implements ServletContext
    private Map<String, String> initParameters = new HashMap<String, String>();
 
    private Map<String, Object> attributes = new HashMap<String, Object>();
+   
+   private File webappRoot;
+   private File webInfRoot;
+   private File webInfClassesRoot;
+   
+   public MockServletContext()
+   {
+      try
+      {
+         webInfRoot = new File(getClass().getResource("/WEB-INF/web.xml").toURI()).getParentFile();
+         webInfClassesRoot = new File(webInfRoot.getParentFile().getPath() + "/classes");
+         webappRoot = webInfRoot.getParentFile();
+      }
+      catch (URISyntaxException e)
+      {
+         throw new IllegalStateException(e);
+      }
+   }
 
    public Map<String, String> getInitParameters()
    {
@@ -98,9 +117,60 @@ public class MockServletContext implements ServletContext
       }
    }
 
+   /**
+    * Get the URL for a particular resource that is relative to the web app root directory.
+    * 
+    * @param name
+    *            The name of the resource to get
+    * @return The resource, or null if resource not found
+    * @throws MalformedURLException
+    *             If the URL is invalid
+    */
    public URL getResource(String name) throws MalformedURLException
    {
-      return getClass().getResource(name);
+      File f = getFile(name, webappRoot);
+      
+      if (f == null)
+      {
+         f = getFile(name, webInfRoot);
+      }
+      
+      if (f == null)
+      {
+         f = getFile(name, webInfClassesRoot);
+      }
+      
+      if (f != null)
+      {
+         return f.toURI().toURL();
+      }
+      else
+      {
+         return null;
+      }
+   }
+   
+   private static File getFile(String name, File root)
+   {
+      if (root == null)
+      {
+         return null;
+      }
+      
+      if (name.startsWith("/"))
+      {
+         name = name.substring(1);
+      }
+
+      File f = new File(root, name);
+      if (!f.exists())
+      {
+         return null;
+      }
+      else
+      {
+         return f;
+      }
    }
 
    public InputStream getResourceAsStream(String name)
@@ -180,7 +250,7 @@ public class MockServletContext implements ServletContext
 
    public void setAttribute(String att, Object value)
    {
-      if (value==null)
+      if (value == null)
       {
          attributes.remove(value);
       }
