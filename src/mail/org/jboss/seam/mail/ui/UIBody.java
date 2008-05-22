@@ -58,6 +58,18 @@ public class UIBody extends MailComponent
             {
                bodyPart = getHtmlBody(facesContext, body);
             }
+            
+            if (findMessage().getAttachments().size() > 0)
+            {
+               MimeMultipart bodyRootMultipart = new MimeMultipart("related");
+               bodyRootMultipart.addBodyPart(bodyPart, 0);
+               for (MimeBodyPart attachment: findMessage().getAttachments())
+               {
+                  bodyRootMultipart.addBodyPart(attachment);
+               }
+               bodyPart = new MimeBodyPart();
+               bodyPart.setContent(bodyRootMultipart);
+            }
          }
          getRootMultipart().addBodyPart(bodyPart, 0);
       }

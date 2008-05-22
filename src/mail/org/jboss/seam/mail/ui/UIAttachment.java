@@ -167,7 +167,7 @@ public class UIAttachment extends MailComponent implements ValueHolder
             attachment.setDataHandler(new DataHandler(ds));
             attachment.setFileName(getName(ds.getName()));
             attachment.setDisposition(getDisposition());
-            super.getRootMultipart().addBodyPart(attachment);
+            findMessage().getAttachments().add(attachment);
             if (getStatus() != null)
             {
                AttachmentStatus attachmentStatus = new AttachmentStatus();

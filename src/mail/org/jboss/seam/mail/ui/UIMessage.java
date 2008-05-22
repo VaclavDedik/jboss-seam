@@ -3,6 +3,8 @@ package org.jboss.seam.mail.ui;
 import static org.jboss.seam.util.Strings.isEmpty;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
@@ -10,6 +12,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
@@ -35,6 +38,8 @@ public class UIMessage extends MailComponent
    }
 
    private MimeMessage mimeMessage;
+   
+   List<MimeBodyPart> attachments = new ArrayList<MimeBodyPart>();
 
    private Session session;
 
@@ -297,4 +302,14 @@ public class UIMessage extends MailComponent
       this.messageId = messageId;
    }
 
+   public List<MimeBodyPart> getAttachments()
+   {
+      return attachments;
+   }
+   
+   public void setAttachments(List<MimeBodyPart> attachments)
+   {
+      this.attachments = attachments;
+   }
+   
 }

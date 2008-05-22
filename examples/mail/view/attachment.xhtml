@@ -6,7 +6,7 @@
           <m:from name="Seam" address="do-not-reply@jboss.com" />
           <m:to name="#{person.firstname} #{person.lastname}">#{person.address}</m:to>
           <m:subject>Try out Seam!</m:subject>
-          <m:attachment value="/jboss.jpg" status="jbossLogo" /> 
+          <m:attachment value="/jboss.jpg" status="jbossLogo" disposition="inline" /> 
           <m:attachment value="#{numbers}" />
           <m:attachment value="#{person.photo}" contentType="image/png" fileName="#{person.firstname}_#{person.lastname}.jpg" disposition="inline" />
           <m:attachment fileName="whyseam.pdf">
