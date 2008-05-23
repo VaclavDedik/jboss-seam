@@ -1,7 +1,5 @@
 package org.jboss.seam.wiki.core.ui;
 
-import org.jboss.seam.security.Identity;
-import org.jboss.seam.web.Session;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
@@ -12,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.UserTransaction;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,6 +42,7 @@ public class FileServlet extends HttpServlet {
 
     }
 
+    // TODO: All data access in this method runs with auto-commit mode, see http://jira.jboss.com/jira/browse/JBSEAM-957
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -63,32 +61,8 @@ public class FileServlet extends HttpServlet {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "File" + id);
                 }
 
-                // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
-                UserTransaction userTx = null;
-                boolean startedTx = false;
-                try {
-
-                    userTx = (UserTransaction)org.jboss.seam.Component.getInstance("org.jboss.seam.transaction.transaction");
-                    if (userTx.getStatus() != javax.transaction.Status.STATUS_ACTIVE) {
-                        startedTx = true;
-                        userTx.begin();
-                    }
-
-                    WikiNodeDAO wikiNodeDAO = (WikiNodeDAO)org.jboss.seam.Component.getInstance(WikiNodeDAO.class);
-                    file = wikiNodeDAO.findWikiUpload(fileId);
-
-                    if (startedTx) userTx.commit();
-                } catch (Exception ex) {
-                    if (startedTx && userTx != null) {
-                        // We started it, so we need to roll it back
-                        try {
-                            userTx.rollback();
-                        } catch (Exception rbEx) {
-                            log.error("could not roll back transaction: " + rbEx.getMessage());
-                        }
-                    }
-                    throw new ServletException(ex);
-                }
+                WikiNodeDAO wikiNodeDAO = (WikiNodeDAO)org.jboss.seam.Component.getInstance(WikiNodeDAO.class);
+                file = wikiNodeDAO.findWikiUpload(fileId);
             }
 
             String contentType = null;
@@ -137,15 +111,6 @@ public class FileServlet extends HttpServlet {
             response.getOutputStream().flush();
         }
 
-        invalidateSessionIfPossible(request);
-    }
-
-    private void invalidateSessionIfPossible(HttpServletRequest request) {
-        // If the user is not logged in, we might as well destroy the session immediately, saving some memory
-        if (request.getSession().isNew() && !Identity.instance().isLoggedIn()) {
-            log.debug("destroying session that was only created for reading the file");
-            Session.instance().invalidate();
-        }
     }
 
 }

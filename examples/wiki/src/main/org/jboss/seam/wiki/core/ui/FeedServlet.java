@@ -8,10 +8,8 @@ package org.jboss.seam.wiki.core.ui;
 
 import com.sun.syndication.feed.synd.*;
 import com.sun.syndication.io.SyndFeedOutput;
+import com.sun.syndication.io.FeedException;
 import org.jboss.seam.Component;
-import org.jboss.seam.transaction.Transaction;
-import org.jboss.seam.web.Session;
-import org.jboss.seam.security.Identity;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.*;
@@ -31,7 +29,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.UserTransaction;
 import java.io.IOException;
 import java.util.*;
 
@@ -79,6 +76,7 @@ public class FeedServlet extends HttpServlet {
     // Allow unit testing
     public FeedServlet() {}
 
+    // TODO: All data access in this method runs with auto-commit mode, see http://jira.jboss.com/jira/browse/JBSEAM-957
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -95,7 +93,6 @@ public class FeedServlet extends HttpServlet {
         if (!feedTypes.containsKey(pathInfo)) {
             log.debug("can not render this feed type, returning BAD REQUEST");
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Unsupported feed type " + pathInfo);
-            invalidateSessionIfPossible(request);
             return;
         }
         SyndFeedType syndFeedType = feedTypes.get(pathInfo);
@@ -120,179 +117,166 @@ public class FeedServlet extends HttpServlet {
             tag = tagParam;
         }
 
-        // TODO: Seam should use its transaction interceptor for java beans: http://jira.jboss.com/jira/browse/JBSEAM-957
-        // and that would allow us to break up this gigantic if/then/else clause easily...
-        UserTransaction userTx = null;
-        boolean startedTx = false;
-        try {
-            userTx = Transaction.instance();
-            if (userTx.getStatus() != javax.transaction.Status.STATUS_ACTIVE) {
-                startedTx = true;
-                userTx.begin();
-            }
+        Feed feed = resolveFeed(aggregateParam, feedIdParam, areaNameParam, nodeNameParam);
 
-            Feed feed = null;
-
-            // Find the feed, depending on variations of request parameters
-            if (aggregateParam != null && aggregateParam.length() > 0) {
-
-                log.debug("trying to retrieve aggregated feed from cache: " + aggregateParam);
-
-                FeedAggregateCache aggregateCache = (FeedAggregateCache)Component.getInstance(FeedAggregateCache.class);
-                List<FeedEntryDTO> result = aggregateCache.get(aggregateParam);
-                if (result != null) {
-                    feed = new Feed();
-                    feed.setAuthor(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed"));
-                    feed.setTitle(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed") + ": " + aggregateParam);
-                    feed.setPublishedDate(new Date());
-                    // We are lying here, we don't really have an alternate representation link for this resource
-                    feed.setLink( Preferences.instance().get(WikiPreferences.class).getBaseUrl() );
-                    for (FeedEntryDTO feedEntryDTO : result) {
-                        feed.getFeedEntries().add(feedEntryDTO.getFeedEntry());
-                    }
-                }
-
-            } else if (feedIdParam != null && feedIdParam.length() >0) {
-                try {
-
-                    log.debug("trying to retrieve feed for id: " + feedIdParam);
-                    Long feedId = Long.valueOf(feedIdParam);
-                    FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
-                    feed = feedDAO.findFeed(feedId);
-                } catch (NumberFormatException ex) {
-                    log.debug("feed identifier couldn't be converted to java.lang.Long");
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed " + feedIdParam);
-                }
-
-
-            } else if (areaNameParam != null && areaNameParam.matches("^[A-Z0-9]+.*")) {
-                log.debug("trying to retrieve area: " + areaNameParam);
-                WikiNodeDAO nodeDAO = (WikiNodeDAO)Component.getInstance(WikiNodeDAO.class);
-                WikiDirectory area = nodeDAO.findAreaUnrestricted(areaNameParam);
-                if (area != null && (nodeNameParam == null || !nodeNameParam.matches("^[A-Z0-9]+.*")) && area.getFeed() != null) {
-                    log.debug("using feed of area, no node requested: " + area);
-                    feed = area.getFeed();
-                } else if (area != null && nodeNameParam != null && nodeNameParam.matches("^[A-Z0-9]+.*")) {
-                    log.debug("trying to retrieve node: " + nodeNameParam);
-                    WikiDirectory nodeDir = nodeDAO.findWikiDirectoryInAreaUnrestricted(area.getAreaNumber(), nodeNameParam);
-                    if (nodeDir != null && nodeDir.getFeed() != null) {
-                        log.debug("using feed of node: " + nodeDir);
-                        feed = nodeDir.getFeed();
-                    } else {
-                        log.debug("node not found or node has no feed");
-                    }
-                } else {
-                    log.debug("area not found or area has no feed");
-                }
-            } else {
-                log.debug("neither feed id nor area name requested, getting wikiRoot feed");
-                WikiNodeFactory factory = (WikiNodeFactory)Component.getInstance(WikiNodeFactory.class);
-                feed = factory.loadWikiRoot().getFeed();
-            }
-
-            if (feed == null) {
-                log.debug("feed not found, returning NOT FOUND");
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed");
-                if (startedTx) userTx.commit();
-                invalidateSessionIfPossible(request);
-                return;
-            }
-
-            log.debug("checking permissions of " + feed);
-            // Authenticate and authorize, first with current user (session) then with basic HTTP authentication
-            Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
-            if (feed.getReadAccessLevel() > currentAccessLevel) {
-                boolean loggedIn = ((Authenticator)Component.getInstance(Authenticator.class)).authenticateBasicHttp(request);
-                currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
-                if (!loggedIn || feed.getReadAccessLevel() > currentAccessLevel) {
-                    log.debug("requiring authentication, feed has higher access level than current");
-                    response.setHeader("WWW-Authenticate", "Basic realm=\"" + feed.getTitle().replace("\"", "'") + "\"");
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                    if (startedTx) userTx.commit();
-                    invalidateSessionIfPossible(request);
-                    return;
-                }
-            }
-
-            Date lastFeedEntryDate = null;
-            if (feed.getId() != null) {
-
-                // Ask the database what the latest feed entry is for that feed, then use its updated timestamp hash
-                FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
-                List<FeedEntry> result = feedDAO.findLastFeedEntries(feed.getId(), 1);
-                if (result.size() > 0) {
-                    lastFeedEntryDate = result.get(0).getUpdatedDate();
-                }
-
-            } else {
-
-                // Get the first (latest) entry of the aggregated feed and use its published timestamp hash (ignoring updates!)
-                // There is a wrinkle hidden here: What if a feed entry is updated? Then the published timestamp should also
-                // be different because the "first latest" feed entry in the list is sorted by both published and updated
-                // timestamps. So even though we only use published timestamp hash as an ETag, this timestamp also changes
-                // when a feed entry is updated because the collection order changes as well.
-                if (feed.getFeedEntries().size() > 0) {
-                    lastFeedEntryDate = feed.getFeedEntries().iterator().next().getPublishedDate();
-                }
-            }
-            if (lastFeedEntryDate != null) {
-                String etag = calculateEtag(lastFeedEntryDate);
-                log.debug("setting etag header: " + etag);
-                response.setHeader("ETag", etag);
-                String previousToken = request.getHeader("If-None-Match");
-                if (previousToken != null && previousToken.equals(etag)) {
-                    log.debug("found matching etag in request header, returning 304 Not Modified");
-                    response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
-                    if (startedTx) userTx.commit();
-                    invalidateSessionIfPossible(request);
-                    return;
-                }
-            }
-
-            // TODO: Refactor this parameter mess a little
-            log.debug("finally rendering feed");
-            SyndFeed syndFeed =
-                    createSyndFeed(
-                        request.getRequestURL().toString(),
-                        syndFeedType,
-                        feed,
-                        currentAccessLevel,
-                        tag,
-                        comments,
-                        aggregateParam
-                    );
-
-            // If we have an entry on this feed, take the last entry's update timestamp and use it as
-            // the published timestamp of the feed. The Rome library does not have a setUpdatedDate()
-            // method and abuses the published date to write <updated> into the Atom <feed> element.
-            if (lastFeedEntryDate != null) {
-                syndFeed.setPublishedDate(lastFeedEntryDate);
-            }
-
-            // Write feed to output
-            response.setContentType(syndFeedType.contentType);
-            response.setCharacterEncoding("UTF-8");
-            SyndFeedOutput output = new SyndFeedOutput();
-            output.output(syndFeed, response.getWriter());
-            response.getWriter().flush();
-
-            log.debug("<<< commit, rendering complete");
-
-            if (startedTx) userTx.commit();
-
-        } catch (Exception ex) {
-            if (startedTx && userTx != null) {
-                // We started it, so we need to roll it back
-                try {
-                    userTx.rollback();
-                } catch (Exception rbEx) {
-                    log.error("could not roll back transaction: " + rbEx.getMessage());
-                }
-            }
-            throw new ServletException(ex);
+        if (feed == null) {
+            log.debug("feed not found, returning NOT FOUND");
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, "Feed");
+            return;
         }
 
-        invalidateSessionIfPossible(request);
+        log.debug("checking permissions of " + feed);
+        // Authenticate and authorize, first with current user (session) then with basic HTTP authentication
+        Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
+        if (feed.getReadAccessLevel() > currentAccessLevel) {
+            boolean loggedIn = ((Authenticator)Component.getInstance(Authenticator.class)).authenticateBasicHttp(request);
+            currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
+            if (!loggedIn || feed.getReadAccessLevel() > currentAccessLevel) {
+                log.debug("requiring authentication, feed has higher access level than current");
+                response.setHeader("WWW-Authenticate", "Basic realm=\"" + feed.getTitle().replace("\"", "'") + "\"");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+        }
+
+        Date lastFeedEntryDate = null;
+        if (feed.getId() != null) {
+
+            // Ask the database what the latest feed entry is for that feed, then use its updated timestamp hash
+            FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
+            List<FeedEntry> result = feedDAO.findLastFeedEntries(feed.getId(), 1);
+            if (result.size() > 0) {
+                lastFeedEntryDate = result.get(0).getUpdatedDate();
+            }
+
+        } else {
+
+            // Get the first (latest) entry of the aggregated feed and use its published timestamp hash (ignoring updates!)
+            // There is a wrinkle hidden here: What if a feed entry is updated? Then the published timestamp should also
+            // be different because the "first latest" feed entry in the list is sorted by both published and updated
+            // timestamps. So even though we only use published timestamp hash as an ETag, this timestamp also changes
+            // when a feed entry is updated because the collection order changes as well.
+            if (feed.getFeedEntries().size() > 0) {
+                lastFeedEntryDate = feed.getFeedEntries().iterator().next().getPublishedDate();
+            }
+        }
+        if (lastFeedEntryDate != null) {
+            String etag = calculateEtag(lastFeedEntryDate);
+            log.debug("setting etag header: " + etag);
+            response.setHeader("ETag", etag);
+            String previousToken = request.getHeader("If-None-Match");
+            if (previousToken != null && previousToken.equals(etag)) {
+                log.debug("found matching etag in request header, returning 304 Not Modified");
+                response.sendError(HttpServletResponse.SC_NOT_MODIFIED);
+                return;
+            }
+        }
+
+        // TODO: Refactor this parameter mess a little
+        log.debug("finally rendering feed");
+        SyndFeed syndFeed =
+                createSyndFeed(
+                    request.getRequestURL().toString(),
+                    syndFeedType,
+                    feed,
+                    currentAccessLevel,
+                    tag,
+                    comments,
+                    aggregateParam
+                );
+
+        // If we have an entry on this feed, take the last entry's update timestamp and use it as
+        // the published timestamp of the feed. The Rome library does not have a setUpdatedDate()
+        // method and abuses the published date to write <updated> into the Atom <feed> element.
+        if (lastFeedEntryDate != null) {
+            syndFeed.setPublishedDate(lastFeedEntryDate);
+        }
+
+        // Write feed to output
+        response.setContentType(syndFeedType.contentType);
+        response.setCharacterEncoding("UTF-8");
+        SyndFeedOutput output = new SyndFeedOutput();
+        try {
+            output.output(syndFeed, response.getWriter());
+        } catch (FeedException ex) {
+            throw new ServletException(ex);
+        }
+        response.getWriter().flush();
+
+        log.debug("<<< feed rendering complete");
+    }
+
+    public Feed resolveFeed(String aggregateParam, String feedIdParam, String areaNameParam, String nodeNameParam) {
+        Feed feed;
+        // Find the feed, depending on variations of request parameters
+        if (aggregateParam != null && aggregateParam.length() > 0) {
+            feed = resolveFeedWithAggregateId(aggregateParam);
+        } else if (feedIdParam != null && feedIdParam.length() >0) {
+            feed = resolveFeedWithFeedId(feedIdParam);
+        } else if (areaNameParam != null && areaNameParam.length() > 0) {
+            feed = resolveFeedWithAreaNameAndNodeName(areaNameParam, nodeNameParam);
+        } else {
+            log.debug("no aggregate id, no feed id, no area name requested, getting wikiRoot feed");
+            WikiNodeFactory factory = (WikiNodeFactory)Component.getInstance(WikiNodeFactory.class);
+            feed = factory.loadWikiRoot().getFeed();
+        }
+        return feed;
+    }
+
+    public Feed resolveFeedWithAggregateId(String aggregateId) {
+        Feed feed = null;
+        log.debug("trying to retrieve aggregated feed from cache: " + aggregateId);
+        FeedAggregateCache aggregateCache = (FeedAggregateCache)Component.getInstance(FeedAggregateCache.class);
+        List<FeedEntryDTO> result = aggregateCache.get(aggregateId);
+        if (result != null) {
+            feed = new Feed();
+            feed.setAuthor(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed"));
+            feed.setTitle(Messages.instance().get("lacewiki.msg.AutomaticallyGeneratedFeed") + ": " + aggregateId);
+            feed.setPublishedDate(new Date());
+            // We are lying here, we don't really have an alternate representation link for this resource
+            feed.setLink( Preferences.instance().get(WikiPreferences.class).getBaseUrl() );
+            for (FeedEntryDTO feedEntryDTO : result) {
+                feed.getFeedEntries().add(feedEntryDTO.getFeedEntry());
+            }
+        }
+        return feed;
+    }
+
+    public Feed resolveFeedWithFeedId(String feedId) {
+        Feed feed = null;
+        try {
+            log.debug("trying to retrieve feed for id: " + feedId);
+            Long feedIdentifier = Long.valueOf(feedId);
+            FeedDAO feedDAO = (FeedDAO)Component.getInstance(FeedDAO.class);
+            feed = feedDAO.findFeed(feedIdentifier);
+        } catch (NumberFormatException ex) {
+            log.debug("feed identifier couldn't be converted to java.lang.Long");
+        }
+        return feed;
+    }
+
+    public Feed resolveFeedWithAreaNameAndNodeName(String areaName, String nodeName) {
+        Feed feed = null;
+        if (!areaName.matches("^[A-Z0-9]+.*")) return feed;
+        log.debug("trying to retrieve area: " + areaName);
+        WikiNodeDAO nodeDAO = (WikiNodeDAO)Component.getInstance(WikiNodeDAO.class);
+        WikiDirectory area = nodeDAO.findAreaUnrestricted(areaName);
+        if (area != null && (nodeName == null || !nodeName.matches("^[A-Z0-9]+.*")) && area.getFeed() != null) {
+            log.debug("using feed of area, no node requested: " + area);
+            feed = area.getFeed();
+        } else if (area != null && nodeName != null && nodeName.matches("^[A-Z0-9]+.*")) {
+            log.debug("trying to retrieve node: " + nodeName);
+            WikiDirectory nodeDir = nodeDAO.findWikiDirectoryInAreaUnrestricted(area.getAreaNumber(), nodeName);
+            if (nodeDir != null && nodeDir.getFeed() != null) {
+                log.debug("using feed of node: " + nodeDir);
+                feed = nodeDir.getFeed();
+            } else {
+                log.debug("node not found or node has no feed");
+            }
+        } else {
+            log.debug("area not found or area has no feed");
+        }
+        return feed;
     }
 
     public SyndFeed createSyndFeed(String baseURI, SyndFeedType syndFeedType, Feed feed, Integer currentAccessLevel) {
@@ -369,13 +353,4 @@ public class FeedServlet extends HttpServlet {
         Hash hash = new Hash();
         return hash.hash(date.toString());
     }
-
-    private void invalidateSessionIfPossible(HttpServletRequest request) {
-        // If the user is not logged in, we might as well destroy the session immediately, saving some memory
-        if (request.getSession().isNew() && !Identity.instance().isLoggedIn()) {
-            log.debug("destroying session that was only created for reading the feed");
-            Session.instance().invalidate();
-        }
-    }
-
 }
