@@ -205,7 +205,7 @@
         <property name="old.richfaces.skin" value="blueSky"/>
         <input addproperty="richfaces.skin.new" 
                    message="Select a RichFaces skin [${old.richfaces.skin}]" 
-                 validargs="blueSky,classic,ruby,wine,deepMarine,emeraldTown,sakura,DEFAULT"
+                 validargs="blueSky,classic,ruby,wine,deepMarine,emeraldTown,japanCherry,DEFAULT"
               defaultvalue="${old.richfaces.skin}"/>
         
         <property name="old.project.type" value="ear"/>
