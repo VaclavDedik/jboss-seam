@@ -1,6 +1,17 @@
 Seam Release Process
 ====================
 
+<TODO: update for 2.1.X releases on next 2.1.X release/>
+
+Notify branch is closed
+------------------------
+* Send an email to seam-dev@lists.jboss.org.
+  - State a version of the following :
+    - As all issues in JIRA for Seam <release> are now resolved, the release 
+      process for <release> is now underway.  Please don't make any commits to 
+      the <branch or trunk> without checking with and getting approval from 
+      this mail list first. 
+
 Updating version numbers
 ------------------------
 * Update the version information:
@@ -14,47 +25,50 @@ Updating version numbers
   - build/default.build.properties 
     - Change the version numbers as needed
     - Set the qualifier using a "." ex. ".CR1" or ".GA"
-    - Check that build.properties has the qualifier commented out for the release
+    - Check that build.properties has the qualifier commented out
     
 Maven repository settings
 -------------------------
 * A released version of seam should not reference any repositories other than
   "repository.jboss.org".  See "build/readme.txt" for details.
-  - Search "$DIST/build" for "pluginRepository".  
-    - Should only find "root.pom.xml" and "docs.pom.xml"
-    - Comment out any other "<pluginRepository>" entry
-    - Comment out any "<repository>" that references a commented out entry.
+  - Search "$SEAM/build" for "repositories".  
+    - Comment out any repository entry not "http://repository.jboss.org/maven2"
+    - Should only be entries in "root.pom.xml" and "docs.pom.xml"
+  - Search "$SEAM/build" for "artifact:remoteRepository"
+    - Note any that reference other repositories
+    - <TODO: determine acceptable list (ci, embedded, etc...)/>
   - Verify prior to tagging
+    - Clean our your local maven repository
+        - ex. "~/.m2"
+        - <TODO document way to set local repo settings for clean build />
     - run "ant cleanall testall testreport" with these changes
     - This should build, and test without a problem.
+  - Run "ant dependencyReport"
+    - Review for snapshot dependencies
 
 SVN tagging and checkout
 ------------------------
-* Note: testing can begin prior to official tagging but a complete process should be executed on the tag prior to release. 
+<NOTE testing can begin prior to official tagging but a complete process 
+        should be executed on the tag prior to release/> 
 * Tag the release (XX as needed)
-    -"svn copy https://svn.jboss.org/repos/seam/XX/XX https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX -m "create JBoss_Seam_x_x_x_XXX tag""
-        - ex. "svn copy https://svn.jboss.org/repos/seam/branches/Seam_2_0 https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1"
+    -"svn copy https://svn.jboss.org/repos/seam/XX/XX 
+               https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX 
+               -m "create JBoss_Seam_x_x_x_XXX tag""
+        - ex. "svn copy https://svn.jboss.org/repos/seam/branches/Seam_2_0 
+               https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 
+               -m "create JBoss_Seam_2_0_2_CR1 tag""
 * In a clean directory checkout the newly tagged seam source ( XX as needed)
     - "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX seam"  
         - ex. "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 seam"
 * In the original branch/trunk change:
     - Qualifier back to "-SNAPSHOT" in default.build.properties file.
-        - The version numbers should stay the same 
+        - The version numbers should be incremented as appropriate.
         - Any new work is that versions snapshot
-    - Revert the Maven repository changes if needed
+    - Revert any Maven repository changes if needed
 
 Building and Checking Dist
 --------------------------
-* Run "mkdir ../releaselogs" for release artifacts.
-
-* Initial build and test suite execution
-    - run initial build to download dependencies and setup env.
-        - run "ant > ../releaselogs/x.x.x.XX.initbuild.txt"
-    - run "ant -Dvalidate.xml=true cleanall testall testreport > ../releaselogs/x.x.x.XX.testallreport.txt"
-    - check report/junit-noframes.html
-        - There should be no failures or errors.
-    - run "cp -R test-output ../releaselogs"
-    - run "cp -R test-report ../releaselogs"
+* Run "mkdir ../releaselogs" for release artifacts and logs.
     
 * Create the distribution build
     - run "ant cleanall dist > ../releaselogs/x.x.x.XX.distbuild.txt"
@@ -68,6 +82,8 @@ Building and Checking Dist
             - "diff -r ./gz/. ./zip/."
             - "diff -r ./gz/. ./dist/."
     - There should be no differences.
+    - Compare the new dist to dist of the previous version using the same method
+        - Manually look over for any glaring differences or errors.
     - Delete "../tmp" if you wish
     
 * check that the following files/directories exist in the dist "ls -1"
@@ -80,7 +96,6 @@ Building and Checking Dist
     examples
     lgpl.txt
     lib
-    mail
     readme.txt
     seam
     seam-gen
@@ -133,7 +148,7 @@ Building and Checking Dist
 
 * Archive reports
     - run these in the dist directory
-        find . -name *.jar > ../releaselogs/jarlist.txt
+        find . -name *.jar > ../releaselogs/jarlist.txt 
         find . -name *.sar > ../releaselogs/sarlist.txt
         find . -name *.war > ../releaselogs/warlist.txt
         find . -name *.ear > ../releaselogs/earlist.txt
@@ -141,25 +156,43 @@ Building and Checking Dist
         find . -name *.gz > ../releaselogs/gzlist.txt
         find . -name *seam*.jar > ../releaselogs/seamjarlist.txt
     - Manually review the lists for problems
-        - seam jars all in one place
-        - <TODO: list expected items or provide listing in svn>        
+        - <TODO: list expected items or provide listing in svn/>        
  
-* In the dist run "ant dependencyReport"
-    - run "cp ./dependency-report.txt ../releaselogs"
-    - Review for snapshot dependencies
-        - there should be none.
-    - Compare with real jar versions from META-INF/MANIFEST.MF
-        - <TODO: A tool is needed to do this effectivly.>
-
-* Built source verification
+* Built source verification, dependency report & test suite
+    - Clean our your local maven repository
+        - ex. "rm -Rf ~/.m2"
+        - <TODO document way to set local repo settings for clean build/>        
     - Create a copy of the $DIST directory
-    - In the original run "ant"
-    - diff the original and the built versions
-        - only difference should be build related 
-        - <TODO: list expected differences>
-    - Extract seam jars from orig, and the newly built into different dirs
-        - diff the directories
-        - Should be no differences except version of ant and/or jdk versions
+        - the idea is the leave the original pristine for example testing.
+        
+    ** Source verification **
+        - In the copy run "ant > ../releaselogs/x.x.x.XX.sourcebuild.txt"
+        - diff the original and the built versions of the $DIST directories
+            - only difference should be build related 
+            - <TODO: list expected differences/>
+        - Extract seam jars from orig, and the newly built into tmp directories
+            - diff the directories
+            - Should be no differences except version of ant and/or jdk versions
+        
+    ** Dependency report **
+        - In the copy run:
+            - "ant dependencyReport > ../releaselogs/x.x.x.XX.dependencybuild.txt"
+        - run "cp ./dependency-report.txt ../releaselogs"
+        - Review for snapshot dependencies
+            - there should be none.
+        - Compare with real jar versions from META-INF/MANIFEST.MF
+            - <TODO: A tool is needed to do this effectively/>
+        
+    ** Testsuite execution **
+        - In the copy run :
+            - "ant -Dvalidate.xml=true cleanall testall testreport 
+                   > ../releaselogs/x.x.x.XX.testallreport.txt"
+        - check report/junit-noframes.html
+            - There should be no failures or errors.
+        - run "cp -R test-output ../releaselogs"
+        - run "cp -R test-report ../releaselogs"
+    
+    - You can delete the dist copy
  
 Example verification
 --------------------
@@ -202,7 +235,6 @@ Example verification
   - remoting/chatroom
   - remoting/gwt
   - remoting/helloworld
-  - remoting/poker
   - remoting/progressbar
   - seambay
   - seamdiscs
@@ -212,8 +244,7 @@ Example verification
   - takeaway
   - todo (tutorial)
   - ui
-    wiket
-  - wiki 
+  - wiki (not ready for testing until 2.1.X)
 * Tomcat 6 examples 
   - Note: use JBoss embedded unless specified differently
   - blog (tutorial)
@@ -245,7 +276,7 @@ CREATE TABLE `Person` (
   `birthdate` date default NULL,
   `address` varchar(600) NOT NULL,
   PRIMARY KEY  (`username`)
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 CREATE TABLE `Vehicle` (
   `ownerUsername` varchar(10) default NULL,
@@ -256,42 +287,62 @@ CREATE TABLE `Vehicle` (
   `state` varchar(2) NOT NULL,
   PRIMARY KEY USING BTREE (`registration`,`state`),
   KEY `ownerUsername` (`ownerUsername`),
-  CONSTRAINT `owner` FOREIGN KEY (`ownerUsername`) REFERENCES `person` (`username`)
-) ENGINE=InnoDB 
+  CONSTRAINT `owner` FOREIGN KEY (`ownerUsername`) REFERENCES `Person` (`username`)
+) ENGINE=InnoDB;
 
-* seam-gen review seam-gen chapter of the reference guide
+<NOTE: seam-gen should be able to run without an internet connection.  To test 
+       this you should first remove/rename your maven repository (document 
+       option to set this as a property).  Then either disable networking, or 
+       lock down a firewall on the test machine so that no requests are allowed 
+       out.  Then test the various seam-gen targets. JBoss-as may not start in 
+       the configuration so testing the live app may need to be done after
+       executing the various seam-gen targets.  This does not have to be
+       done for each test below but the different targets should be verified./>       
+
+* Review seam-gen chapter of the reference guide
   - accurate and up to date
 * seam-gen EAR 
-  - run "seam setup create-project generate-entities explode"
-    - during setup choose an EAR project
-    - test the basic functionality of the app (CRUD on each table)
+  - run seam  with setup create-project and explode
+      - during setup choose an EAR project
+      - verify basic functionality
+  - run seam generate-entities restart    
+      - test the basic functionality of the app (CRUD on each table)
   - run "seam new-action new-form restart"
-    - test both generated pages
-    - run the unit tests in eclipse using the TestNG plugin 
+      - test both generated pages 
+  - run seam test 
 * seam-gen IceFaces EAR test 
-  - run "seam setup create-project generate-entities explode"
-    - during setup choose an EAR project
-    - during setup choose to use IceFaces instead of RichFaces
-    - test the basic functionality of the app (CRUD on each table)
+  - run seam  with setup create-project and explode
+      - during setup choose to use icefaces
+      - during setup choose an EAR project    
+      - verify basic functionality
+   - run seam generate-entities restart    
+      - test the basic functionality of the app (CRUD on each table)
+   - run seam test
 * seam-gen WAR 
-  - run "seam setup create-project generate-entities explode"
-    - during setup choose a WAR project
-    - test the basic functionality of the app (CRUD on each table)
+  - run seam with setup create-project and explode
+      - during setup choose a WAR project
+      - verify basic functionality
+  - run seam generate-entities restart
+      - test the basic functionality of the app (CRUD on each table)
   - run "seam new-action new-form restart"
-    - test both generated pages
-    - run the unit tests in eclipse using the TestNG plugin 
+      - test both generated pages
+  - run seam test
 * JBDS - import the EAR seam-gen generated project into JBDS.
   - Enable Seam support in project properties
   - Check that EL code completion works for Seam components 
+     - both project specific and core components
+     - in views, and config files, etc... 
   - Check that Hibernate Console work on the project
      - expand the Configuration node
      - Open HQL editor and query "from SomeEntity" and execute the query
+  - Execute testng testcases for project
 * JBDS new WAR project
   - Reverse engineer entities from MySQL
   - Create "new Seam Action" and "new Seam Form"
   - Test generated pages (check hot deployment of Seam components, html)   
   - Test running unit tests from Eclipse
 * JBDS new EAR project 
+  - <NOTE JBIDE-1862 will require changes to the generated project/>
   - Reverse engineer entities from MySQL
   - Create "new Seam Action" and "new Seam Form"
   - Test generated pages (check hot deployment of Seam components, html)  
@@ -301,41 +352,72 @@ CREATE TABLE `Vehicle` (
     
 Portal Bridge Verification
 --------------------------
-* Use the latest released version of the PortalBridge and JBoss Portal.
+* Use the latest released version of the PortalBridge (PBR) and JBoss Portal.
   - http://labs.jboss.com/portletbridge
   - http://www.jboss.org/jbossportal/
-* Deploy and verify the bridge booking example to JBoss portal.
+* <NOTE: because the bridge is beta first test the example using the PBR
+         distribution.  Then follow the steps below to upgrade the seam 
+         version in the example.  Then retest the example./>
+* Deploy PBR seam booking example following the PBR document instructions.
+    - Review any known issues with the PBR in the PBR Jira project.
+* Verify the example and functionality.
+    - User authentication through portal
+        - use default users, and new users that are created
+    - Basic hotel booking
+        - user both text search and search button 
+        - change dates, and options in the booking
+        - confirm, logout, login, verify confirmation, cancel confirmation
+    - Conversation handling
+        - launch several hotels booking conv. from the search page
+        - individually confirm and switch between conversations.
+    - <NOTE: logging in/out through the portlet, registering new users, and 
+             changing passwords do not work, and jiras have been entered
+             for them to be removed as it is integrated with portal auth/>
+* Upgrade the seam version in the seam portlet booking example
+    - download the src distribution of the PBR
+    - edit the $PBR_SRC/examples/seam/booking/seamBookingPortlet/pom.xml file
+        - adjust the seam version properties at the top of the file
+    - build the example by running "mvn install" in the $PBR_SRC/examples dir
+    - <NOTE: You may need to remove the "javassist.jar" from both the EAR
+             and WAR lib directories.  This is related to PBR-2 - but for some
+             reason the javassist.jar is still placed in both./>
 * Deploy a second version of the booking example as a separate portlet
-    - <TODO: there may be a new chatroom seam portlet for this testing>
+    - <TODO: this is not supported in the bridge yet - defer/>
+    - <TODO: there may be a new chatroom seam portlet for this testing/>
 * Build the seam identity extension with the booking example
-    - <TODO add reference link to the instructions>
+    - <TODO this seems to be done in the 1.0.0.B2 PBR release automatically 
+            - verify/>
+    - <TODO add reference link to the instructions if needed/>
     - Go to the booking demo seamBookingPortlet/pom.xml
        - go to the bottom and uncomment the identity module.
-    - Build the booking demo and login via the portal admin link. 
+    - Build the booking demo and log in via the portal admin link. 
        - this should automatically logs you into the seam booking demo
   
 Document review
 ---------------
 * Review the API javadocs in both IE and FF.
     - Specifically for version differences
-    - This is not a full review
+    - This is not a full review at all
 * Review the Reference Guide documentation in both IE and FF.
     - Review for format and code styles
     - Review for version numbers, and dependencies
     - Review any extensive changes based on release notes and the team. 
-    - This is not a full review
+    - This is not a full review at all.
 
 Final Build + Upload
 --------------
 * When ready for the release
-    - checkout a clean version of the tag
+    - checkout a clean version of the tag in a new/clean directory.
     - run "ant cleanall dist > ../releaselogs/x.x.x.XX.finaldistbuild.txt"
     - diff this to the one used for testing
 
 * Follow instructions for sourceforge upload
     - Create md5 files for the ".zip" and ".tar.gz" files
-        - <QUESTION: do we want to create md5 files for the archives>
-    - upload the .zip and .tar.gz and md5 files to SF FTP "upload.sf.net/incoming" folder
+        - <QUESTION: do we want to create md5 files for the archives/>
+        - <NOTE: not for 2.0.X/>
+    - upload the .zip and .tar.gz and md5 files
+        - FTP "upload.sf.net/incoming"
+        - <NOTE: sf upload process may have changed - check during next release/>
     
 * Login to sourceforge.org and go to jboss.org project
     - Under admin tab click on "file releases"
@@ -343,7 +425,7 @@ Final Build + Upload
     - Set "Status" to "hidden"
     - Paste this release changelog snippet in the "changelog"
     - Paste this release readme.txt in the "release notes" 
-    - Add the 4 files uploaded to the release
+    - Add the files uploaded to the release
     - Keep everything hidden for now.
 
 * Upload the "$DIST/doc" directory to "docs.jboss.com/seam/<NEW VERSION>" 
@@ -359,6 +441,13 @@ Final Build + Upload
         - to the directory you checked out to.
     - Run "ant releaseSeam" in the build directory
     - Review and Commit the release changes to repository.jboss.org
+        - simple script to add new files to SVN
+        - svn status | grep "^\?" | awk '{print $2}' | xargs svn add
+        - they still need to be reviewed and commited.
+
+* Create draft of the documentation and download pages on seamframework.org
+    - documentation points to "docs.jboss.com"
+    - downloads point to sourceforge download page
 
 Final Coordination and Announcement
 -----------------------------------
@@ -373,14 +462,13 @@ Final Coordination and Announcement
 * Login to sourceforge.org and modify the Seam release entry
     - Change the date to today
     - Change "Status" to active
-* Update the documentation and download pages on seamframework.org
-    - documentation points to "docs.jboss.com"
-    - downloads point to sourceforge download page
+* Update the documentation and download pages on seamframework.org with drafts.
 * Update Jira so that version shows as "released" 
 * Announce the release
     - Blog on in.relation.to
     - seamframework.org news, and forums
     - jboss.org news
+    - TheServerSide.com
 
 Update Demos
 ------------
@@ -392,14 +480,20 @@ Notes
 -----
 * To reapply a tag:
  - First delete the original
-    - svn delete https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX -m "removing old tag prior to applying updated tag"
-    - ex. svn delete https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 -m "removing old tag prior to applying updated tag"
+    - svn delete https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX 
+      -m "removing old tag prior to applying updated tag"
+    - ex. svn delete https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 
+          -m "removing old tag prior to applying updated tag"
  - Recopy back to tag
-    -"svn copy https://svn.jboss.org/repos/seam/XX/XX https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX -m "create JBoss_Seam_x_x_x_XXX tag""
-    - ex. svn copy https://svn.jboss.org/repos/seam/branches/Seam_2_0 https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 -m "Updated tag for 2.0.2.CR1"
+    -"svn copy https://svn.jboss.org/repos/seam/XX/XX 
+      https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX 
+      -m "create JBoss_Seam_x_x_x_XXX tag""
+    - ex. svn copy https://svn.jboss.org/repos/seam/branches/Seam_2_0 
+          https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 
+          -m "Updated tag for 2.0.2.CR1"
 
 [FUTURE]
 --------
 * Store release related scripts (especially when more automated) in svn.
 * Store release logs, and reports in svn.
-* Find a jar/archive reporting tool for detailed dependency, version, location reports.
+* Find a jar/archive reporting tool for detailed dependency, version reports.
