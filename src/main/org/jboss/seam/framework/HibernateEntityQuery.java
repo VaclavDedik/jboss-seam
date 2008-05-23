@@ -29,7 +29,7 @@ public class HibernateEntityQuery<E> extends Query<Session, E>
       super.validate();
       if ( getSession()==null )
       {
-         throw new IllegalStateException("session is null");
+         throw new IllegalStateException("hibernateSession is null");
       }
    }
 
@@ -128,7 +128,7 @@ public class HibernateEntityQuery<E> extends Query<Session, E>
    @Override
    protected String getPersistenceContextName()
    {
-      return "session";
+      return "hibernateSession";
    }
    
    protected org.hibernate.Query createQuery()

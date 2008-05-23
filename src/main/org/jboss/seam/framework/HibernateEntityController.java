@@ -35,7 +35,7 @@ public class HibernateEntityController extends PersistenceController<Session>
    @Override
    protected String getPersistenceContextName()
    {
-      return "session";
+      return "hibernateSession";
    }
    
    protected Criteria createCriteria(Class clazz)
