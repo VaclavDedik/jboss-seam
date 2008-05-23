@@ -97,26 +97,21 @@
                     </h:column>
 
                     <h:column>
-                        <a:commandLink id="show" status="globalStatus"
-                                       oncomplete="onAjaxRequestComplete()"
-                                       action="#{documentHistory.displayHistoricalRevision}"
+                        <a:commandLink action="#{documentHistory.displayHistoricalRevision}"
+                                       status="globalStatus" oncomplete="onAjaxRequestComplete()"
                                        reRender="messageBoxContainer, historyTable, diffResult, historicalPreview"
                                        tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Show']}"/>
                         </a:commandLink>
 
-                        <s:link id="diff" rendered="#{empty documentHistory.diffResult or hfile.historicalFileId != documentHistory.historicalFileId}"
-                                action="#{documentHistory.diff}" tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
+                        <a:commandLink action="#{documentHistory.diffHistoricalRevision}"
+                                       status="globalStatus" oncomplete="onAjaxRequestComplete()"
+                                       reRender="messageBoxContainer, historyTable, diffResult, historicalPreview"
+                                       tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Diff']}"/>
-                            <f:param name="historicalFileId" value="#{hfile.historicalFileId}"/>
-                        </s:link>
-                        <h:outputLink rendered="#{not empty documentHistory.diffResult and hfile.historicalFileId == documentHistory.historicalFileId}"
-                                      value="#diffResult" tabindex="3" styleClass="buttonNonpersistent sessionEventTrigger">
-                            <h:outputText styleClass="buttonLabel" value="Diff Output"/>
-                        </h:outputLink>
+                        </a:commandLink>
 
-                        <h:commandLink id="rollback"
-                                       action="#{documentHistory.rollback}"
+                        <h:commandLink action="#{documentHistory.rollback}"
                                        tabindex="4" styleClass="buttonNonpersistent sessionEventTrigger"
                                        rendered="#{s:hasPermission('Node', 'edit', documentHistory.currentFile)}">
                             <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.docHistory.Rollback']}"/>

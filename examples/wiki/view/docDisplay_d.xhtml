@@ -15,7 +15,7 @@
     <s:fragment rendered="#{not empty documentHome.instance.parent.feed}">
         <link rel="alternate" type="application/atom+xml"
               title="#{documentHome.instance.parent.name}"
-              href="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed, null, null)}"/>
+              href="#{wikiURLRenderer.renderFeedURL(currentDirectory.feed)}"/>
         
     </s:fragment>
 
@@ -223,19 +223,19 @@
 
                         <s:fragment rendered="#{not commentHome.showForm and s:hasPermission('Comment', 'create', documentHome.instance)}">
 
-                            <s:link tabindex="102" propagation="none"
-                                    action="#{commentHome.replyTo()}"
-                                    styleClass="buttonNonpersistent">
+                            <h:commandLink tabindex="102" action="#{commentHome.replyTo()}"
+                                           styleClass="buttonNonpersistent">
+                                <f:param name="conversationPropagation" value="none"/>
                                 <f:param name="parentCommentId" value="#{c.id}"/>
                                 <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
-                            </s:link>
+                            </h:commandLink>
 
-                            <s:link tabindex="102" propagation="none"
-                                    action="#{commentHome.quote()}"
-                                    styleClass="buttonNonpersistent">
+                            <h:commandLink tabindex="102" action="#{commentHome.quote()}"
+                                           styleClass="buttonNonpersistent">
+                                <f:param name="conversationPropagation" value="none"/>
                                 <f:param name="parentCommentId" value="#{c.id}"/>
                                 <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
-                            </s:link>
+                            </h:commandLink>
 
                         </s:fragment>
 

@@ -128,6 +128,19 @@
 
     <!-- Misc Settings -->
 
+    <error-page>
+        <error-code>500</error-code>
+        <exception-type>java.lang.IllegalStateException</exception-type>
+        <location>/errors/toomanysessions.html</location>
+        <!-- Don't use a Faces or JSP page here, too many sessions means nothing works anymore!
+             Unfortunately, Tomcat can't be bothered to throw anything better than an IllegalStateException... -->
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errors/generic.jsp</location>
+    </error-page>
+
     <!-- Session timeout,can be extended for authenticated users in components.xml! -->
     <session-config>
         <session-timeout>10</session-timeout>

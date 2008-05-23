@@ -198,7 +198,7 @@
 
     <page view-id="/userHome*" no-conversation-view-id="/wiki.xhtml">
         <param name="userId" value="#{userHome.userId}"/>
-        <action execute="#{userHome.init}"/>
+        <action execute="#{userHome.initEdit}"/>
         <begin-conversation flush-mode="MANUAL" join="true"/>
         <navigation>
             <rule if-outcome="updatedCurrentCredentials">
@@ -217,6 +217,7 @@
     <page view-id="/userInfo*">
         <param name="userId" value="#{userHome.userId}"/>
         <param name="username" value="#{userHome.requestedUsername}"/>
+        <action execute="#{userHome.initDisplay}"/>
     </page>
 
     <page view-id="/userList*">

@@ -12,6 +12,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.util.Diff;
 import org.jboss.seam.wiki.util.WikiUtil;
 
@@ -87,7 +88,7 @@ public class DocumentHistory implements Serializable {
         if (!isInitialized) {
 
             if (getFileId() == null)
-                throw new org.jboss.seam.framework.EntityNotFoundException(getFileId(), WikiDocument.class);
+                throw new InvalidWikiRequestException("Missing filedId request parameter");
 
             log.debug("initializing document history with file id: " + getFileId());
 
@@ -113,6 +114,7 @@ public class DocumentHistory implements Serializable {
 
     public void displayHistoricalRevision() {
         log.debug("displaying historical file id: " + selectedHistoricalFile.getHistoricalFileId());
+
         displayedHistoricalFile = selectedHistoricalFile;
         diffResult = null;
 
@@ -124,21 +126,8 @@ public class DocumentHistory implements Serializable {
         );
     }
 
-    public void diff() {
-        init(); // TODO: Why doesn't Seam execute my page action but instead s:link action="diff" in a fake RENDER RESPONSE?!?
-        displayedHistoricalFile = null;
-
-        if (historicalFileId == null) return;
-        selectedHistoricalFile = wikiNodeDAO.findHistoricalFile(getCurrentFile().getHistoricalEntityName(), historicalFileId);
-        if (selectedHistoricalFile == null) {
-            statusMessages.addFromResourceBundleOrDefault(
-                ERROR,
-                "lacewiki.msg.HistoricalNodeNotFound",
-                "Couldn't find historical node: {0}",
-                historicalFileId
-            );
-            return;
-        }
+    public void diffHistoricalRevision() {
+        log.debug("diffing historical file id: " + selectedHistoricalFile.getHistoricalFileId());
 
         String[] a = ((WikiDocument)selectedHistoricalFile).getContent().split("\n");
         String[] b = ((WikiDocument)currentFile).getContent().split("\n");
@@ -146,6 +135,7 @@ public class DocumentHistory implements Serializable {
         StringBuilder result = new StringBuilder();
         List<Diff.Difference> differences = new Diff(a, b).diff();
 
+        // TODO: Externalize and i18n these strings
         for (Diff.Difference diff : differences) {
             int        delStart = diff.getDeletedStart();
             int        delEnd   = diff.getDeletedEnd();
@@ -199,6 +189,25 @@ public class DocumentHistory implements Serializable {
             "Comparing current revision with historical revision {0}",
             selectedHistoricalFile.getRevision()
         );
+    }
+
+    // This methods takes the historicalFileId parameter to load a revision from the DB
+    public void diff() {
+        init(); // TODO: Why doesn't Seam execute my page action but instead s:link action="diff" in a fake RENDER RESPONSE?!?
+        displayedHistoricalFile = null;
+
+        if (historicalFileId == null) return;
+        selectedHistoricalFile = wikiNodeDAO.findHistoricalFile(getCurrentFile().getHistoricalEntityName(), historicalFileId);
+        if (selectedHistoricalFile == null) {
+            statusMessages.addFromResourceBundleOrDefault(
+                ERROR,
+                "lacewiki.msg.HistoricalNodeNotFound",
+                "Couldn't find historical node: {0}",
+                historicalFileId
+            );
+            return;
+        }
+        diffHistoricalRevision();
     }
 
     @Restrict("#{s:hasPermission('Node', 'edit', documentHistory.currentFile)}")

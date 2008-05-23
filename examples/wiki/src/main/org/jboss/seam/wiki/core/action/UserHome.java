@@ -27,6 +27,7 @@ import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.core.upload.Uploader;
+import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
@@ -34,7 +35,6 @@ import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
 
-import static org.jboss.seam.international.StatusMessage.Severity.ERROR;
 import static org.jboss.seam.international.StatusMessage.Severity.WARN;
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 
@@ -112,6 +112,19 @@ public class UserHome extends EntityHome<User> {
             }
 
             if (defaultRole == null) defaultRole = (Role)Component.getInstance("newUserDefaultRole");
+        }
+    }
+
+    public void initEdit() {
+        if (getUserId() == null) {
+            throw new InvalidWikiRequestException("Missing userId request parameter");
+        }
+        init();
+    }
+
+    public void initDisplay() {
+        if (getUserId() == null && getRequestedUsername() == null) {
+            throw new InvalidWikiRequestException("Missing userId or username request parameter");
         }
     }
 

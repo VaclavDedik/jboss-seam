@@ -27,13 +27,15 @@
                     <script type="text/javascript">stopSessionTimeoutCheck();</script>
                 </s:fragment>
 
-                <s:link tabindex="102" rendered="#{!commentHome.showForm}"
-                        action="#{commentHome.newComment()}" propagation="none"
-                        accesskey="#{messages['lacewiki.button.commentForm.PostComment.accesskey']}"
-                        styleClass="buttonNonpersistent">
+                <h:commandLink tabindex="102" rendered="#{!commentHome.showForm}"
+                               action="#{commentHome.newComment()}"
+                               accesskey="#{messages['lacewiki.button.commentForm.PostComment.accesskey']}"
+                               styleClass="buttonNonpersistent">
+
+                    <f:attribute name="conversationPropagation" value="none"/>
                     <h:outputText escape="false" styleClass="buttonLabel"
                                   value="#{messages['lacewiki.button.commentForm.PostComment']}"/>
-                </s:link>
+                </h:commandLink>
 
                 <s:fragment rendered="#{commentHome.showForm}">
                     <h:outputText value="#{messages['lacewiki.label.commentForm.PostComment']}"/>

@@ -1069,6 +1069,10 @@ ul {
 
 .commentForm {}
 
+.commentBoxSelected {
+    border-left: 5px solid #C3BBB6;
+}
+
 /* Document history and diff
 -----------------------------------------------*/
 

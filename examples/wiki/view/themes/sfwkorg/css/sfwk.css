@@ -808,6 +808,9 @@ b.rtop b.r4, b.rbottom b.r4 {
 
 .commentForm {}
 
+.commentBoxSelected {
+    border-left: 5px solid #75a8bd;
+}
 
 /* Document history and diff
 -----------------------------------------------*/

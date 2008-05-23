@@ -200,8 +200,8 @@ public class WikiIdentity extends Identity {
         // Can't delete admin and guest accounts
         User adminUser = (User)Component.getInstance("adminUser");
         User guestUser = (User)Component.getInstance("guestUser");
-        if (user.getId().equals(adminUser.getId())) return false;
-        if (user.getId().equals(guestUser.getId())) return false;
+        if (adminUser.getId().equals(user.getId())) return false;
+        if (guestUser.getId().equals(user.getId())) return false;
 
         if (currentAccessLevel == Role.ADMINROLE_ACCESSLEVEL) return true;
         return false;

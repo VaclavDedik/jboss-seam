@@ -90,6 +90,10 @@ public class WikiURLRenderer implements Serializable {
         return url.toString();
     }
 
+    public String renderFeedURL(Feed feed) {
+        return renderFeedURL(feed, null, null, false);
+    }
+
     public String renderFeedURL(Feed feed, String tag, String comments) {
         return renderFeedURL(feed, tag, comments, false);
     }

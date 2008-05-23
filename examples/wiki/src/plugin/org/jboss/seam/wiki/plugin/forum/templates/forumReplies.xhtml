@@ -42,25 +42,25 @@
         </s:div>
 
         <s:div id="forumPostingControls" styleClass="forumPostingControls">
+            <h:form>
+                <h:panelGroup rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
 
-            <h:panelGroup rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
+                    <h:commandLink tabindex="1" action="#{replyHome.replyToDocument()}"
+                                   accesskey="#{messages['forum.button.Reply.accesskey']}"
+                                   styleClass="buttonNonpersistent">
+                        <f:param name="conversationPropagation" value="none"/>
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Reply']}"/>
+                     </h:commandLink>
 
-                <s:link tabindex="1" propagation="none"
-                        action="#{replyHome.replyToDocument()}"
-                        accesskey="#{messages['forum.button.Reply.accesskey']}"
-                        styleClass="buttonNonpersistent">
-                    <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Reply']}"/>
-                 </s:link>
+                    <h:commandLink tabindex="1" action="#{replyHome.quoteDocument()}"
+                                   styleClass="buttonNonpersistent"
+                                   accesskey="#{messages['forum.button.Quote.accesskey']}">
+                        <f:param name="conversationPropagation" value="none"/>
+                        <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Quote']}"/>
+                    </h:commandLink>
 
-                <s:link tabindex="1" propagation="none"
-                        action="#{replyHome.quoteDocument()}"
-                        styleClass="buttonNonpersistent"
-                        accesskey="#{messages['forum.button.Quote.accesskey']}">
-                     <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.Quote']}"/>
-                 </s:link>
-
-            </h:panelGroup>
-
+                </h:panelGroup>
+            </h:form>
         </s:div>
 
     <!-- The forumPostingDocumentWrapper <div> is closed here! -->
@@ -124,19 +124,19 @@
 
                             <s:fragment rendered="#{not replyHome.showForm and replyHome.isPersistAllowed(null,null)}">
 
-                                <s:link tabindex="102" propagation="none"
-                                        action="#{replyHome.replyTo()}"
-                                        styleClass="buttonNonpersistent">
+                                <h:commandLink tabindex="102" action="#{replyHome.replyTo()}"
+                                               styleClass="buttonNonpersistent">
+                                    <f:param name="conversationPropagation" value="none"/>
                                     <f:param name="parentCommentId" value="#{c.id}"/>
                                     <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.ReplyTo']}"/>
-                                </s:link>
+                                </h:commandLink>
 
-                                <s:link tabindex="102" propagation="none"
-                                        action="#{replyHome.quote()}"
-                                        styleClass="buttonNonpersistent">
+                                <h:commandLink tabindex="102" action="#{replyHome.quote()}"
+                                               styleClass="buttonNonpersistent">
+                                    <f:param name="conversationPropagation" value="none"/>
                                     <f:param name="parentCommentId" value="#{c.id}"/>
                                     <h:outputText styleClass="buttonLabel" value="#{messages['lacewiki.button.commentsDisplay.Quote']}"/>
-                                </s:link>
+                                </h:commandLink>
 
                             </s:fragment>
 
