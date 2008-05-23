@@ -2,7 +2,7 @@ package org.jboss.seam.ui.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.faces.component.UIParameter;
@@ -23,7 +23,7 @@ public class UrlBuilder
    protected UrlBuilder(String fragment, String characterEncoding)
    {
       this.fragment = fragment;
-      parameters = new HashMap<String, String>();
+      parameters = new LinkedHashMap<String, String>();
       this.characterEncoding = characterEncoding;
    }
    
