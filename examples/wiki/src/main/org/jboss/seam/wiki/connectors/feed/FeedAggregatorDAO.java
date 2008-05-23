@@ -65,13 +65,26 @@ public class FeedAggregatorDAO implements Serializable {
         List<FeedEntryDTO> feedEntries = new ArrayList<FeedEntryDTO>();
 
         for (URL feedURL : feedURLs) {
-            // For each feed, get the feed entries and put them in a sorted collection,
-            // so we get overall sorting
-            log.debug("retrieving feed entries from connector for feed URL: " + feedURL);
-            List<FeedEntryDTO> result = feedConnector.getFeedEntries(feedURL.toString());
-            log.debug("retrieved feed entries: " + result.size());
-            feedEntries.addAll(result);
-            log.debug("number of aggregated feed entries so far: " + feedEntries.size());
+            try {
+                // For each feed, get the feed entries and put them in a sorted collection,
+                // so we get overall sorting
+                log.debug("retrieving feed entries from connector for feed URL: " + feedURL);
+
+                // TODO: This is a synchronized call. This probably means that this is a bottleneck for scalability because
+                // the Seam locking is very coarse-grained. It would be much better if we could aquire exclusive read/write
+                // locks, not just exclusive locks.
+                List<FeedEntryDTO> result = feedConnector.getFeedEntries(feedURL.toString());
+
+                log.debug("retrieved feed entries: " + result.size());
+                feedEntries.addAll(result);
+                log.debug("number of aggregated feed entries so far: " + feedEntries.size());
+
+            } catch (IllegalStateException ex) {
+                // This is most likely (we hope) a message that says that an exlusive read lock couldn't be aquired.
+                // Too bad, we just continue without adding the result... the next user requesting it will probably 
+                // get the lock and then we have the result.
+                log.warn("Illegal state exception thrown by feed connector: " + ex.getMessage());
+            }
         }
 
         Collections.sort(

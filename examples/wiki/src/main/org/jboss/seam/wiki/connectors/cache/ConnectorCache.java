@@ -18,6 +18,12 @@ import java.util.*;
 /**
  * Caches lists of stuff and can asynchronously call a connector, upon configurable cache timeout, to
  * refresh these lists.
+ * <p>
+ * All method calls to this application-scoped component are synchronized by Seam. That means you might
+ * get an <tt>IllegalStateException</tt> when an exclusive lock couldn't be aquired by a thread (because
+ * some other thread was already accessing this instance). It's up to the caller to handle that exception,
+ * usually you'd log and swallow it and continue without the result of the cache.
+ * </p>
  *
  * @author Christian Bauer
  */
