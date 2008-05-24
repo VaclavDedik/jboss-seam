@@ -11,7 +11,9 @@ import static org.jboss.seam.util.EJB.STATEFUL;
 import static org.jboss.seam.util.EJB.STATELESS;
 import static org.jboss.seam.util.EJB.name;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Entity;
@@ -35,29 +37,27 @@ import org.jboss.seam.web.Session;
  */
 public class Seam
 {
-    
    private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
-   private static final Map<String, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<String, EjbDescriptor>();
+   private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
+   private static final Set<ClassLoader> CLASSLOADERS_LOADED = new HashSet<ClassLoader>(); 
 
-   public static EjbDescriptor getEjbDescriptor(String className)
+   static EjbDescriptor getEjbDescriptor(Class clazz)
    {
-      EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(className);
+      EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(clazz);
       if (info != null) 
       {
           return info;
       }
-      else
+      else if (clazz.getClassLoader() == null || 
+         (clazz.getClassLoader() != null && !CLASSLOADERS_LOADED.contains(clazz.getClassLoader())))
       {
-         Map<String, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor().getEjbDescriptors();
+         Map<Class, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
          EJB_DESCRIPTOR_CACHE.putAll(ejbDescriptors);
-         return ejbDescriptors.get(className);
+         CLASSLOADERS_LOADED.add(clazz.getClassLoader());
+         return ejbDescriptors.get(clazz);
       }
-   }
-   
-   // TODO Better impl
-   static EjbDescriptor getEjbDescriptor(Class clazz)
-   {
-      return getEjbDescriptor(clazz.getName());
+      
+      return null;      
    }
   
    /**
@@ -161,7 +161,7 @@ public class Seam
          }
          else
          {
-            EjbDescriptor ejbDescriptor = Seam.getEjbDescriptor(clazz.getName());
+            EjbDescriptor ejbDescriptor = Seam.getEjbDescriptor(clazz);
             if (ejbDescriptor != null)
             {
                return ejbDescriptor.getBeanType() == ComponentType.ENTITY_BEAN ? clazz : null;

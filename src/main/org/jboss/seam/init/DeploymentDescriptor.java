@@ -23,10 +23,16 @@ public class DeploymentDescriptor
 { 
     private static final LogProvider log = Logging.getLogProvider(Initialization.class);
     
-    private Map<String, EjbDescriptor> ejbDescriptors = new HashMap<String, EjbDescriptor>();
+    private Map<Class, EjbDescriptor> ejbDescriptors = new HashMap<Class, EjbDescriptor>();
+    private Class componentClass;
 
-    public DeploymentDescriptor() 
+    public DeploymentDescriptor(Class clazz) 
     {
+       componentClass = clazz;
+       if (clazz.getClassLoader() == null) {
+           return;
+       }       
+       
         try 
         {
             InputStream ejbJarXml = Resources.getResourceAsStream("META-INF/ejb-jar.xml", null);
@@ -54,7 +60,7 @@ public class DeploymentDescriptor
         }
     }
     
-    public Map<String, EjbDescriptor> getEjbDescriptors()
+    public Map<Class, EjbDescriptor> getEjbDescriptors()
     {
        return ejbDescriptors;
     }
@@ -197,6 +203,14 @@ public class DeploymentDescriptor
 
     protected void add(EjbDescriptor descriptor) 
     {
-       ejbDescriptors.put(descriptor.getEjbClassName(), descriptor);
+       try
+       {
+          Class ejbClass = componentClass.getClassLoader().loadClass( descriptor.getEjbClassName() );
+          ejbDescriptors.put(ejbClass, descriptor);
+       }
+       catch (ClassNotFoundException cnfe)
+       {
+          log.warn("Could not load EJB class: " + descriptor.getEjbClassName());
+       }
     }
 }
