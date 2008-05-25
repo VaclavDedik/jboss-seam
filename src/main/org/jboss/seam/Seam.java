@@ -44,7 +44,7 @@ public class Seam
    private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
    private static final Set<ClassLoader> CLASSLOADERS_LOADED = new HashSet<ClassLoader>(); 
 
-   private static EjbDescriptor getEjbDescriptor(Class clazz)
+   public static EjbDescriptor getEjbDescriptor(Class clazz)
    {
       EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(clazz);
       if (info != null) 
@@ -54,14 +54,22 @@ public class Seam
       else if (clazz.getClassLoader() == null || 
          (clazz.getClassLoader() != null && !CLASSLOADERS_LOADED.contains(clazz.getClassLoader())))
       {
-         Map<Class, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
-         EJB_DESCRIPTOR_CACHE.putAll(ejbDescriptors);
-         CLASSLOADERS_LOADED.add(clazz.getClassLoader());
-         return ejbDescriptors.get(clazz);
+         cacheEjbDescriptors(clazz);
+         return EJB_DESCRIPTOR_CACHE.get(clazz);
       }
       
-      return null;      
+      return null;
    }
+   
+   private synchronized static void cacheEjbDescriptors(Class clazz)
+   {
+      if (!CLASSLOADERS_LOADED.contains(clazz.getClassLoader()))
+      {         
+         Map<Class, EjbDescriptor> ejbDescriptors = new DeploymentDescriptor(clazz).getEjbDescriptors();
+         EJB_DESCRIPTOR_CACHE.putAll(ejbDescriptors);
+         CLASSLOADERS_LOADED.add(clazz.getClassLoader());         
+      }
+   }  
   
    /**
     * Get the default scope
