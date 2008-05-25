@@ -41,7 +41,7 @@ public class Seam
    private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
    private static final Set<ClassLoader> CLASSLOADERS_LOADED = new HashSet<ClassLoader>(); 
 
-   private static EjbDescriptor getEjbDescriptor(Class clazz)
+   public static EjbDescriptor getEjbDescriptor(Class clazz)
    {
       EjbDescriptor info = EJB_DESCRIPTOR_CACHE.get(clazz);
       if (info != null) 
