@@ -48,8 +48,7 @@ public class Seam
       {
           return info;
       }
-      else if (clazz.getClassLoader() == null || 
-         (clazz.getClassLoader() != null && !CLASSLOADERS_LOADED.contains(clazz.getClassLoader())))
+      else if (!CLASSLOADERS_LOADED.contains(clazz.getClassLoader()))
       {
          cacheEjbDescriptors(clazz);
          return EJB_DESCRIPTOR_CACHE.get(clazz);
