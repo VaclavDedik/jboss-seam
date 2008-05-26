@@ -77,7 +77,7 @@ public class MultipartFilter extends AbstractFilter
 
       if (isMultipartRequest(httpRequest))
       {
-         chain.doFilter(new MultipartRequest(httpRequest, createTempFiles, 
+         chain.doFilter(new MultipartRequestImpl(httpRequest, createTempFiles, 
                   maxRequestSize), response);
       }
       else
