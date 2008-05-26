@@ -881,13 +881,16 @@ public class Pages
       for (int i=stack.size()-1; i>=0; i--)
       {
          Page page = stack.get(i);
-         String noConversationViewId = page.getNoConversationViewId().getValue();
-         if (noConversationViewId!=null)
+         if (page.getNoConversationViewId() != null)
          {
-            return noConversationViewId;
+            String noConversationViewId = page.getNoConversationViewId().getValue();
+            if (noConversationViewId!=null)
+            {
+               return noConversationViewId;
+            }
          }
       }
-      return this.noConversationViewId.getValue();
+      return this.noConversationViewId != null ? this.noConversationViewId.getValue() : null;
    }
    
    /**
