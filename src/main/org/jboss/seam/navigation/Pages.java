@@ -881,7 +881,7 @@ public class Pages
       for (int i=stack.size()-1; i>=0; i--)
       {
          Page page = stack.get(i);
-         if (page.getNoConversationViewId() != null)
+         if (page.getNoConversationViewId() != null && page.getNoConversationViewId().getExpressionString() != null)
          {
             String noConversationViewId = page.getNoConversationViewId().getValue();
             if (noConversationViewId!=null)
@@ -890,7 +890,9 @@ public class Pages
             }
          }
       }
-      return this.noConversationViewId != null ? this.noConversationViewId.getValue() : null;
+      return this.noConversationViewId != null && this.noConversationViewId.getExpressionString() != null
+            ? this.noConversationViewId.getValue()
+            : null;
    }
    
    /**
