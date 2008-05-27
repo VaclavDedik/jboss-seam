@@ -26,8 +26,43 @@ rather than #{org.jboss.seam.exception}
 EntityConverter configuration
 -----------------------------
 
-If you need to configure which entity manager to use, this is now done on the 
+If you need to configure which entity manager to use, this is now done on the
 entity-loader component. See the documentation for details. 
+
+Assumed name for managed Hibernate session
+------------------------------------------
+
+Several areas of Seam, including the Seam Application Framework, rely on a
+naming convention for the Seam-managed persistence context (JPA) and Hibernate
+session. Prior to Seam 2.1, the assumed name of the managed Hibernate session
+was "session". However, session is a very overloaded name in Seam and the Java
+Servlet API. To make it less ambigous, the default was changed to
+"hibernateSession".
+
+The benefit now is that when you inject or resolve the Hibernate session, you
+know that is the refernece you are getting (rather than the HTTP session, mail
+session, or some other "session").
+
+You would inject it as follows:
+
+@In private Session hibernateSession;
+
+or
+
+@In(name = "hibernateSession") private Session session;
+
+If the name of your Seam-managed Hibernate session is "session", you can still
+inject this reference explictly using the session property:
+
+<framework:hibernate-entity-home session="#{session}".../>
+<transaction:entity-transaction session="#{session}".../>
+
+The alternative is to override the getPersistenceContextName() method on any
+persistence controller in the Seam Application Framework:
+
+public String getPersistenceContextName() {
+	"session";
+}
 
 Security
 --------
