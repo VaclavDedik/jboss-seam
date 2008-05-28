@@ -35,9 +35,16 @@ public class MockServletContext implements ServletContext
    {
       try
       {
-         webInfRoot = new File(getClass().getResource("/WEB-INF/web.xml").toURI()).getParentFile();
-         webInfClassesRoot = new File(webInfRoot.getParentFile().getPath() + "/classes");
-         webappRoot = webInfRoot.getParentFile();
+         URL webxml = getClass().getResource("/WEB-INF/web.xml");
+         if (webxml != null)
+         {
+            webInfRoot = new File(webxml.toURI()).getParentFile();
+            if (webInfRoot != null)
+            {
+               webInfClassesRoot = new File(webInfRoot.getParentFile().getPath() + "/classes");
+               webappRoot = webInfRoot.getParentFile();
+            }
+         }
       }
       catch (URISyntaxException e)
       {
