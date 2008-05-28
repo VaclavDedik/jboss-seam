@@ -881,7 +881,7 @@ public class Pages
       for (int i=stack.size()-1; i>=0; i--)
       {
          Page page = stack.get(i);
-         if (page.getNoConversationViewId() != null && page.getNoConversationViewId().getExpressionString() != null)
+         if (page.getNoConversationViewId() != null)
          {
             String noConversationViewId = page.getNoConversationViewId().getValue();
             if (noConversationViewId!=null)
@@ -890,9 +890,7 @@ public class Pages
             }
          }
       }
-      return this.noConversationViewId != null && this.noConversationViewId.getExpressionString() != null
-            ? this.noConversationViewId.getValue()
-            : null;
+      return this.noConversationViewId != null ? this.noConversationViewId.getValue() : null;
    }
    
    /**
@@ -930,7 +928,11 @@ public class Pages
       Element root = getDocumentRoot(stream);
       if (noConversationViewId==null) //let the setting in components.xml override the pages.xml
       {
-         noConversationViewId = Expressions.instance().createValueExpression(root.attributeValue("no-conversation-view-id"), String.class);
+         String noConversationViewIdString = root.attributeValue("no-conversation-view-id");
+         if (noConversationViewIdString != null)
+         {
+            noConversationViewId = Expressions.instance().createValueExpression(noConversationViewIdString, String.class);
+         }
       }
       if (loginViewId==null) //let the setting in components.xml override the pages.xml
       {
@@ -1066,7 +1068,11 @@ public class Pages
          page.setTimeout(Integer.parseInt(timeoutString));
       }
       
-      page.setNoConversationViewId(Expressions.instance().createValueExpression(element.attributeValue("no-conversation-view-id"), String.class));
+      String noConversationViewIdString = element.attributeValue("no-conversation-view-id");
+      if (noConversationViewIdString != null)
+      {
+         page.setNoConversationViewId(Expressions.instance().createValueExpression(noConversationViewIdString, String.class));
+      }
       page.setConversationRequired("true".equals(element.attributeValue("conversation-required")));
       page.setLoginRequired("true".equals(element.attributeValue("login-required")));
       page.setScheme(element.attributeValue("scheme"));
