@@ -123,22 +123,41 @@ public class MailTest extends SeamTest
                 MimeMultipart body = (MimeMultipart) renderedMessage.getContent();
                 
                 // Test the attachments (no ui:repeat atm, so only 6)
-                assert body.getCount() == 6;
+                assert body.getCount() == 1;
                 
-                // Attachment 1
-                assert body.getBodyPart(0) != null;                
+                // The root multipart/related
+                assert body.getBodyPart(0) != null;
                 assert body.getBodyPart(0) instanceof MimeBodyPart;
                 MimeBodyPart bodyPart = (MimeBodyPart) body.getBodyPart(0);
+                assert bodyPart.getContent() != null;
+                assert bodyPart.getContent() instanceof MimeMultipart;
+                assert bodyPart.isMimeType("multipart/related");
+                
+                MimeMultipart attachments = (MimeMultipart) bodyPart.getContent();
+                
+                // Attachment 0 (the actual message)
+                assert attachments.getBodyPart(0) != null;                
+                assert attachments.getBodyPart(0) instanceof MimeBodyPart;
+                bodyPart = (MimeBodyPart) attachments.getBodyPart(0);
+                assert bodyPart.getContent() != null;
+                assert bodyPart.getContent() != null;
+                assert "inline".equals(bodyPart.getDisposition());
+                assert bodyPart.isMimeType("text/html");
+                
+                // Attachment 1
+                assert attachments.getBodyPart(1) != null;                
+                assert attachments.getBodyPart(1) instanceof MimeBodyPart;
+                bodyPart = (MimeBodyPart) attachments.getBodyPart(1);
                 assert bodyPart.getContent() != null;
                 assert bodyPart.getContent() instanceof InputStream;
                 assert "jboss.jpg".equals(bodyPart.getFileName());
                 assert bodyPart.isMimeType("image/jpeg");
-                assert "attachment".equals(bodyPart.getDisposition());
+                assert "inline".equals(bodyPart.getDisposition());
                 
                 // Attachment 2
-                assert body.getBodyPart(1) != null;                
-                assert body.getBodyPart(1) instanceof MimeBodyPart;
-                bodyPart = (MimeBodyPart) body.getBodyPart(1);
+                assert attachments.getBodyPart(2) != null;                
+                assert attachments.getBodyPart(2) instanceof MimeBodyPart;
+                bodyPart = (MimeBodyPart) attachments.getBodyPart(2);
                 assert bodyPart.getContent() != null;
                 assert bodyPart.getContent() instanceof InputStream;
                 assert "numbers.csv".equals(bodyPart.getFileName());
@@ -146,9 +165,9 @@ public class MailTest extends SeamTest
                 assert "attachment".equals(bodyPart.getDisposition());
                 
                 // Attachment 3
-                assert body.getBodyPart(2) != null;                
-                assert body.getBodyPart(2) instanceof MimeBodyPart;
-                bodyPart = (MimeBodyPart) body.getBodyPart(2);
+                assert attachments.getBodyPart(3) != null;                
+                assert attachments.getBodyPart(3) instanceof MimeBodyPart;
+                bodyPart = (MimeBodyPart) attachments.getBodyPart(3);
                 assert bodyPart.getContent() != null;
                 assert bodyPart.getContent() != null;
                 assert bodyPart.getContent() instanceof InputStream;
@@ -157,9 +176,9 @@ public class MailTest extends SeamTest
                 assert "inline".equals(bodyPart.getDisposition());
                 
                 // Attachment 4
-                assert body.getBodyPart(3) != null;                
-                assert body.getBodyPart(3) instanceof MimeBodyPart;
-                bodyPart = (MimeBodyPart) body.getBodyPart(3);
+                assert attachments.getBodyPart(4) != null;                
+                assert attachments.getBodyPart(4) instanceof MimeBodyPart;
+                bodyPart = (MimeBodyPart) attachments.getBodyPart(4);
                 assert bodyPart.getContent() != null;
                 // No PDF rendering here :(
                 assert bodyPart.getContent() instanceof String;
@@ -167,22 +186,14 @@ public class MailTest extends SeamTest
                 assert "attachment".equals(bodyPart.getDisposition());
                 
                 // Attachment 5
-                assert body.getBodyPart(4) != null;                
-                assert body.getBodyPart(4) instanceof MimeBodyPart;
-                bodyPart = (MimeBodyPart) body.getBodyPart(4);
+                assert attachments.getBodyPart(5) != null;                
+                assert attachments.getBodyPart(5) instanceof MimeBodyPart;
+                bodyPart = (MimeBodyPart) attachments.getBodyPart(5);
                 assert bodyPart.getContent() != null;
                 assert "Gavin_King.jpg".equals(bodyPart.getFileName());
                 assert bodyPart.isMimeType("image/jpeg");
                 assert "attachment".equals(bodyPart.getDisposition());
                 
-                // Attachment 6 (the actual message)
-                assert body.getBodyPart(5) != null;                
-                assert body.getBodyPart(5) instanceof MimeBodyPart;
-                bodyPart = (MimeBodyPart) body.getBodyPart(5);
-                assert bodyPart.getContent() != null;
-                assert bodyPart.getContent() != null;
-                assert "inline".equals(bodyPart.getDisposition());
-                assert bodyPart.isMimeType("text/html");
             }            
         }.run();
        
@@ -204,20 +215,15 @@ public class MailTest extends SeamTest
              UIAttachment attachment = new UIAttachment();
              attachment.setFileName("filename.pdf");
              UIMessage message = new UIMessage();
-             message.setMailSession(MailSession.instance());
              attachment.setParent(message);
+             message.setMailSession(MailSession.instance());
              DocumentData doc = new DocumentData("filename", new DocumentData.DocumentType("pdf", "application/pdf"), new byte[] {});
              attachment.setValue(doc);
              attachment.encodeEnd(FacesContext.getCurrentInstance());
              
              // verify we built the message
-             MimeMessage mimeMessage = message.getMimeMessage();
-             Object content = mimeMessage.getContent();
-             assert content instanceof MimeMultipart;
-             MimeMultipart multipartContent = (MimeMultipart) content;
-             assert multipartContent.getCount() == 1;
-             assert multipartContent.getBodyPart(0) instanceof MimeBodyPart;
-             MimeBodyPart bodyPart = (MimeBodyPart) multipartContent.getBodyPart(0);
+             assert new Integer(1).equals(message.getAttachments().size());
+             MimeBodyPart bodyPart = message.getAttachments().get(0);
              assert "filename.pdf".equals(bodyPart.getFileName());
              assert "attachment".equals(bodyPart.getDisposition());
           }
