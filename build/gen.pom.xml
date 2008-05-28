@@ -36,6 +36,7 @@
       <dependency>
          <groupId>org.jboss.seam</groupId>
          <artifactId>jboss-seam</artifactId>
+         <type>ejb</type>
          <scope>runtime</scope>
          <exclusions>
             <exclusion>
