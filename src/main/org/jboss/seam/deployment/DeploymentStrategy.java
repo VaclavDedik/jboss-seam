@@ -96,12 +96,12 @@ public abstract class DeploymentStrategy
          if (isVFSAvailable() && !isEmbedded() && isJBoss5())
          {
             log.debug("Using VFS aware scanner on JBoss 5");
-            this.scanner = new VFSScanner(this);
+            scanner = new VFSScanner(this);
          }
          else
          {
             log.debug("Using default URLScanner");
-            this.scanner = new URLScanner(this);
+            scanner = new URLScanner(this);
          }
       }
       return scanner;
