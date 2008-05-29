@@ -298,7 +298,7 @@ public class AuthenticationFilter extends AbstractFilter
          public void process() throws ServletException, IOException, LoginException
          {
             Identity identity = Identity.instance();
-            identity.setUsername(username);
+            identity.getCredentials().setUsername(username);
             identity.authenticate();
          }
       }.run();  

@@ -52,7 +52,7 @@ public class SecurityTest extends AbstractSeamTest
       @Override
       protected LoginContext getLoginContext() throws LoginException
       {
-         return new LoginContext("default", getSubject(), getDefaultCallbackHandler(), 
+         return new LoginContext("default", getSubject(), getCredentials().createCallbackHandler(), 
                createMockJAASConfiguration());
       }            
    }
@@ -90,11 +90,11 @@ public class SecurityTest extends AbstractSeamTest
             // expected
          }         
                   
-         identity.setUsername("foo");
-         identity.setPassword("bar");
+         identity.getCredentials().setUsername("foo");
+         identity.getCredentials().setPassword("bar");
          
-         assert("foo".equals(identity.getUsername()));
-         assert("bar".equals(identity.getPassword()));
+         assert("foo".equals(identity.getCredentials().getUsername()));
+         assert("bar".equals(identity.getCredentials().getPassword()));
          
          assert("loggedIn".equals(identity.login()));
          assert(identity.isLoggedIn());
