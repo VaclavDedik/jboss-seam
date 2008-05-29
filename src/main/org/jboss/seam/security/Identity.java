@@ -46,6 +46,9 @@ import org.jboss.seam.web.Session;
 @Startup
 public class Identity implements Serializable
 {  
+   private static final long serialVersionUID = 3751659008033189259L;
+   
+   // Event keys
    public static final String EVENT_LOGIN_SUCCESSFUL = "org.jboss.seam.security.loginSuccessful";
    public static final String EVENT_LOGIN_FAILED = "org.jboss.seam.security.loginFailed";
    public static final String EVENT_NOT_LOGGED_IN = "org.jboss.seam.security.notLoggedIn";
@@ -60,10 +63,9 @@ public class Identity implements Serializable
    
    public static final String ROLES_GROUP = "Roles";
    
+   // Context variables
    private static final String LOGIN_TRIED = "org.jboss.seam.security.loginTried";
    private static final String SILENT_LOGIN = "org.jboss.seam.security.silentLogin";
-   
-   private static final long serialVersionUID = 3751659008033189259L;
    
    private static final LogProvider log = Logging.getLogProvider(Identity.class);
    
