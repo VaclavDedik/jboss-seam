@@ -612,6 +612,11 @@ public class Identity implements Serializable
       credentials.setPassword(password);
    }
    
+   public Credentials getCredentials()
+   {
+      return credentials;
+   }   
+   
    public MethodExpression getAuthenticateMethod()
    {
       return authenticateMethod;
