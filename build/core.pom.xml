@@ -300,6 +300,11 @@
        <artifactId>hsqldb</artifactId>
        <optional>true</optional>
     </dependency>
+    
+    <dependency>
+       <groupId>org.jboss</groupId>
+       <artifactId>jboss-vfs</artifactId>
+    </dependency>
 
   </dependencies>
 

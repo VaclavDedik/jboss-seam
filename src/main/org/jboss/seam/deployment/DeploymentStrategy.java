@@ -5,6 +5,7 @@ import static org.jboss.seam.util.Strings.split;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -188,8 +189,17 @@ public abstract class DeploymentStrategy
             return;
          }        
       }
-      log.debug("Using default URLScanner");
-      this.scanner = new URLScanner(this);
+      // Use VFS Scanner if on JBoss 5 and not on Embedded
+      if (isVFSAvailable() && !isEmbedded() && isJBoss5())
+      {
+         log.debug("Using VFS aware scanner on JBoss 5");
+         this.scanner = new VFSScanner(this);
+      }
+      else
+      {
+         log.debug("Using default URLScanner");
+         this.scanner = new URLScanner(this);
+      }
    }
    
    private Scanner instantiateScanner(String className)
@@ -281,6 +291,56 @@ public abstract class DeploymentStrategy
          log.trace("Unable to instantiate deployment handler " + className, e);
       }
       return null;
+   }
+   
+   private static boolean isVFSAvailable()
+   {
+      try
+      {
+         Class.forName("org.jboss.virtual.VFS");
+         log.trace("VFS detected");
+         return true;
+      }
+      catch (Throwable t) 
+      {
+         return false;
+      }
+   }
+   
+   private static boolean isJBoss5()
+   {
+      try
+      {
+         Class versionClass = Class.forName("org.jboss.Version");
+         Method getVersionInstance = versionClass.getMethod("getInstance");
+         Object versionInstance = getVersionInstance.invoke(null);
+         Method getMajor = versionClass.getMethod("getMajor");
+         Object major = getMajor.invoke(versionInstance);
+         boolean isJBoss5 = major != null && major.equals(5);
+         if (isJBoss5)
+         {
+            log.trace("JBoss 5 detected");
+         }
+         return isJBoss5;
+      }
+      catch (Throwable t) 
+      {
+         return false;
+      }
+   }
+   
+   private static boolean isEmbedded()
+   {
+      try
+      {
+         Class.forName("org.jboss.embedded.Bootstrap");
+         log.trace("JBoss Embedded detected");
+         return true;
+      }
+      catch (Throwable t) 
+      {
+         return false;
+      }
    }
    
 }
