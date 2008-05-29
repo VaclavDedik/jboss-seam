@@ -3,7 +3,6 @@ package org.jboss.seam.security;
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.security.Principal;
 import java.security.acl.Group;
@@ -13,11 +12,6 @@ import java.util.Enumeration;
 import java.util.List;
 
 import javax.security.auth.Subject;
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
@@ -59,7 +53,6 @@ public class Identity implements Serializable
    public static final String EVENT_PRE_AUTHENTICATE = "org.jboss.seam.security.preAuthenticate";
    public static final String EVENT_POST_AUTHENTICATE = "org.jboss.seam.security.postAuthenticate";
    public static final String EVENT_LOGGED_OUT = "org.jboss.seam.security.loggedOut";
-   public static final String EVENT_CREDENTIALS_UPDATED = "org.jboss.seam.security.credentialsUpdated";
    public static final String EVENT_REMEMBER_ME = "org.jboss.seam.security.rememberMe";
    public static final String EVENT_ALREADY_LOGGED_IN = "org.jboss.seam.security.alreadyLoggedIn";   
    
@@ -74,8 +67,7 @@ public class Identity implements Serializable
    
    private static final LogProvider log = Logging.getLogProvider(Identity.class);
    
-   private String username;
-   private String password;
+   private Credentials credentials;
    
    private MethodExpression authenticateMethod;
 
@@ -104,6 +96,8 @@ public class Identity implements Serializable
       {
          permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);
       }
+      
+      credentials = (Credentials) Component.getInstance(Credentials.class);
    }
    
    public static boolean isSecurityEnabled()
@@ -140,7 +134,7 @@ public class Identity implements Serializable
    
    public boolean isLoggedIn(boolean attemptLogin)
    {
-      if (!authenticating && attemptLogin && getPrincipal() == null && isCredentialsSet() &&
+      if (!authenticating && attemptLogin && getPrincipal() == null && credentials.isSet() &&
           Contexts.isEventContextActive() &&
           !Contexts.getEventContext().isSet(LOGIN_TRIED))
       {
@@ -160,11 +154,6 @@ public class Identity implements Serializable
    public Subject getSubject()
    {
       return subject;
-   }
-   
-   public boolean isCredentialsSet()
-   {
-      return username != null && password != null;
    }
       
    /**
@@ -241,6 +230,8 @@ public class Identity implements Serializable
       }
       catch (LoginException ex)
       {
+         credentials.invalidate();
+         
          if ( log.isDebugEnabled() )
          {
              log.debug("Login failed for: " + getUsername(), ex);
@@ -259,7 +250,7 @@ public class Identity implements Serializable
    {
       try
       {
-         if (isCredentialsSet()) 
+         if (credentials.isSet()) 
          {
             authenticate();
             if (isLoggedIn(false) && Contexts.isEventContextActive())
@@ -268,7 +259,10 @@ public class Identity implements Serializable
             }
          }
       }
-      catch (LoginException ex) { }
+      catch (LoginException ex) 
+      { 
+         credentials.invalidate();
+      }
    }
    
    /**
@@ -279,7 +273,7 @@ public class Identity implements Serializable
       throws LoginException
    {
       // If we're already authenticated, then don't authenticate again
-      if (!isLoggedIn(false))
+      if (!isLoggedIn(false) && !credentials.isInvalid())
       {
          principal = null;
          subject = new Subject();
@@ -300,7 +294,7 @@ public class Identity implements Serializable
       finally
       {
          // Set password to null whether authentication is successful or not
-         password = null;         
+         credentials.setPassword(null);    
          authenticating = false;
       }
    }
@@ -355,7 +349,7 @@ public class Identity implements Serializable
    {      
       principal = null;
       subject = new Subject();
-      username = null;
+      credentials.clear();
    }
 
    protected LoginContext getLoginContext() throws LoginException
@@ -363,11 +357,11 @@ public class Identity implements Serializable
       if (getJaasConfigName() != null)
       {
          return new LoginContext(getJaasConfigName(), getSubject(), 
-                  getDefaultCallbackHandler());
+                  credentials.createCallbackHandler());
       }
       
-      return new LoginContext(Configuration.DEFAULT_JAAS_CONFIG_NAME, 
-               getSubject(), getDefaultCallbackHandler(), Configuration.instance());
+      return new LoginContext(Configuration.DEFAULT_JAAS_CONFIG_NAME, getSubject(), 
+            credentials.createCallbackHandler(), Configuration.instance());
    }
    
    public void logout()
@@ -583,37 +577,6 @@ public class Identity implements Serializable
    }
    
    /**
-    * Creates a callback handler that can handle a standard username/password
-    * callback, using the username and password properties.
-    */
-   protected CallbackHandler getDefaultCallbackHandler()
-   {
-      return new CallbackHandler() 
-      {
-         public void handle(Callback[] callbacks) 
-            throws IOException, UnsupportedCallbackException 
-         {
-            for (int i=0; i < callbacks.length; i++)
-            {
-               if (callbacks[i] instanceof NameCallback)
-               {
-                  ( (NameCallback) callbacks[i] ).setName(getUsername());
-               }
-               else if (callbacks[i] instanceof PasswordCallback)
-               {
-                  ( (PasswordCallback) callbacks[i] ).setPassword( getPassword() != null ? 
-                           getPassword().toCharArray() : null );
-               }
-               else
-               {
-                  log.warn("Unsupported callback " + callbacks[i]);
-               }
-            }
-         }
-      };
-   }
-   
-   /**
     * Evaluates the specified security expression, which must return a boolean
     * value.
     * 
@@ -625,32 +588,28 @@ public class Identity implements Serializable
       return Expressions.instance().createValueExpression(expr, Boolean.class).getValue();
    }   
    
+   @Deprecated
    public String getUsername()
    {
-      return username;
+      return credentials.getUsername();
    }
-   
+
+   @Deprecated
    public void setUsername(String username)
    {  
-      if (this.username != username && (this.username == null || !this.username.equals(username)))
-      {
-         this.username = username;
-         if (Events.exists()) Events.instance().raiseEvent(EVENT_CREDENTIALS_UPDATED);
-      }
+      credentials.setUsername(username);
    }
    
+   @Deprecated
    public String getPassword()
    {
-      return password;
+      return credentials.getPassword();
    }
    
+   @Deprecated
    public void setPassword(String password)
    {
-      if (this.password != password && (this.password == null || !this.password.equals(password)))
-      {
-         this.password = password;
-         if (Events.exists()) Events.instance().raiseEvent(EVENT_CREDENTIALS_UPDATED);
-      }      
+      credentials.setPassword(password);
    }
    
    public MethodExpression getAuthenticateMethod()
