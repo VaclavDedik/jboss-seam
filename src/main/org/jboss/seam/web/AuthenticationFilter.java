@@ -24,6 +24,7 @@ import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.SessionContext;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
 import org.jboss.seam.security.digest.DigestRequest;
@@ -130,6 +131,7 @@ public class AuthenticationFilter extends AbstractFilter
    {
       Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
       Identity identity = (Identity) ctx.get(Identity.class);
+      Credentials credentials = (Credentials) ctx.get(Credentials.class);
       
       boolean requireAuth = false;
       
@@ -150,11 +152,11 @@ public class AuthenticationFilter extends AbstractFilter
          }
 
          // Only reauthenticate if username doesn't match Identity.username and user isn't authenticated
-         if (!username.equals(identity.getUsername()) || !identity.isLoggedIn()) 
+         if (!username.equals(credentials.getUsername()) || !identity.isLoggedIn()) 
          {
             try
             {
-               identity.setPassword(password);
+               credentials.setPassword(password);
                authenticate( request, username );
             }         
             catch (Exception ex)
@@ -165,7 +167,7 @@ public class AuthenticationFilter extends AbstractFilter
          }
       }
       
-      if (!identity.isLoggedIn() && !identity.isCredentialsSet())
+      if (!identity.isLoggedIn() && !credentials.isSet())
       {
          requireAuth = true;
       }
@@ -196,6 +198,7 @@ public class AuthenticationFilter extends AbstractFilter
    {
       Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
       Identity identity = (Identity) ctx.get(Identity.class);
+      Credentials credentials = (Credentials) ctx.get(Credentials.class);
       
       boolean requireAuth = false;    
       boolean nonceExpired = false;
@@ -247,7 +250,7 @@ public class AuthenticationFilter extends AbstractFilter
          }
       }   
 
-      if (!identity.isLoggedIn() && !identity.isCredentialsSet())
+      if (!identity.isLoggedIn() && !credentials.isSet())
       {
          requireAuth = true;
       }

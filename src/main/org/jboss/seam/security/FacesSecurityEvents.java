@@ -57,7 +57,7 @@ public class FacesSecurityEvents extends Selector
       setDirty();
    }
    
-   @Observer(Identity.EVENT_CREDENTIALS_UPDATED)
+   @Observer(Credentials.EVENT_CREDENTIALS_UPDATED)
    public void credentialsUpdated()
    {
       setDirty();
