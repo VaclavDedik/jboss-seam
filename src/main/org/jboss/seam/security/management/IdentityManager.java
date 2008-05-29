@@ -223,11 +223,23 @@ public class IdentityManager implements Serializable
       // TODO fix
    }
    
+   /**
+    * Returns a list of the roles that are explicitly granted to the specified user;
+    * 
+    * @param name The user for which to return a list of roles
+    * @return List containing the names of the granted roles
+    */
    public List<String> getGrantedRoles(String name)
    {
       return roleIdentityStore.getGrantedRoles(name);
    }
    
+   /**
+    * Returns a list of roles that are either explicitly or indirectly granted to the specified user. 
+    * 
+    * @param name The user for which to return the list of roles
+    * @return List containing the names of the implied roles
+    */
    public List<String> getImpliedRoles(String name)
    {
       return roleIdentityStore.getImpliedRoles(name);
