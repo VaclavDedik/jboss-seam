@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -72,28 +73,34 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
            {
               throw new ServletException("Invalid request - no component specified");
            }
-           
-           String[] componentNames = request.getQueryString().split("&");
-           Component[] components = new Component[componentNames.length];
+                     
+           Set<Component> components = new HashSet<Component>();
            Set<Type> types = new HashSet<Type>();
            
            response.setContentType("text/javascript");
 
-           for (int i = 0; i < componentNames.length; i++) 
+           Enumeration e = request.getParameterNames();
+           while (e.hasMoreElements())
            {
-              components[i] = Component.forName(componentNames[i]);
-              if (components[i] == null)
-              {
+              String componentName = ((String) e.nextElement()).trim();
+              
+              Component component = Component.forName(componentName);
+              if (component == null)
+              {                 
                  try
                  {
-                    Class c = Reflections.classForName(componentNames[i]);
+                    Class c = Reflections.classForName(componentName);
                     appendClassSource(response.getOutputStream(), c, types);
                  }
                  catch (ClassNotFoundException ex)
                  {
-                    log.error(String.format("Component not found: [%s]", componentNames[i]));
+                    log.error(String.format("Component not found: [%s]", componentName));
                     throw new ServletException("Invalid request - component not found.");
                  }
+              }
+              else
+              {
+                 components.add(component);
               }
            }
            
@@ -109,7 +116,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
    * @param out OutputStream The OutputStream to write the generated javascript to
    * @throws IOException Thrown if there is an error writing to the OutputStream
    */
-  public void generateComponentInterface(Component[] components, OutputStream out, Set<Type> types)
+  public void generateComponentInterface(Set<Component> components, OutputStream out, Set<Type> types)
       throws IOException
   {
     for (Component c : components)
