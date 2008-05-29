@@ -222,8 +222,22 @@ public class Initialization
 			   String elemName = toCamelCase(elem.getName(), true);
 
 			   String className = elem.attributeValue("class");
-			   if (className == null) {
-				   className = nsInfo.getPackageName() + '.' + elemName;
+			   if (className == null) 
+			   {
+			      for (String packageName : nsInfo.getPackageNames())
+			      {
+			         try
+			         {
+			            // Try each of the packages in the namespace descriptor for a matching class
+			            className = packageName + '.' + elemName;
+			            Reflections.classForName(className);
+			            break;
+			         }
+			         catch (ClassNotFoundException ex)
+			         {
+			            className = null;
+			         }
+			      }				   				   
 			   }
 
 			   try {
@@ -805,10 +819,14 @@ public class Initialization
 			   log.info("Namespace: " + ns.value() + ", package: " + pkg.getName() + 
 					   ", prefix: " + ns.prefix());
 
-			   NamespaceDescriptor old = namespaceMap.put(ns.value(), 
-					                                      new NamespaceDescriptor(ns, pkg));
-			   if (old!=null && !old.getPackageName().equals(pkg.getName())) {
-				   throw new IllegalStateException("two packages with the same @Namespace: " + ns.value());
+			   NamespaceDescriptor descriptor = namespaceMap.get(ns.value());
+			   if (descriptor != null)
+			   {
+			      descriptor.addPackageName(pkg.getName());
+			   }
+			   else
+			   {
+			      namespaceMap.put(ns.value(), new NamespaceDescriptor(ns, pkg));
 			   }
 		   }
 	   }
