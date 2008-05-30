@@ -148,7 +148,7 @@ public class BlogDAO implements Serializable {
 
         List<BlogEntry> result = (List<BlogEntry>)query.list();
 
-        if (countComments) {
+        if (countComments && result.size() > 0) {
             // The risk here is that pager.getQueryMaxResults() is too large for the IN() operator of some DBs...
             StringBuilder commentQueryString = new StringBuilder();
             commentQueryString.append("select doc.NODE_ID as DOC_ID, count(c3.NODE_ID) as COMMENT_COUNT").append(" ");
