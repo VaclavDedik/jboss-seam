@@ -20,6 +20,7 @@ import org.hibernate.type.VersionType;
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Entity.NotEntityException;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -318,11 +319,20 @@ public class HibernatePersistenceProvider extends PersistenceProvider
    
    public static Class getEntityClass(Object bean)
    {
-      Class clazz = Hibernate.getClass(bean);
-      if (clazz == null)
+      Class clazz = null;
+      try
       {
          clazz = Entity.forBean(bean).getBeanClass();
       }
+      catch (NotEntityException e) {
+         // It's ok, try some other methods
+      }
+      
+      if (clazz == null)
+      {
+         clazz = Hibernate.getClass(bean);
+      }
+      
       return clazz;
    }
    

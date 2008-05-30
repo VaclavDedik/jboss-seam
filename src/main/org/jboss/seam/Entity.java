@@ -158,11 +158,11 @@ public class Entity extends Model
       {
          throw new NotEntityException("Not an entity class: " + clazz.getName());
       }
-      String name = getModelName(clazz);
+      String name = getModelName(entityClass);
       Model model = (Model) Contexts.getApplicationContext().get(name);
       if (model == null || !(model instanceof Entity))
       {
-         Entity entity = new Entity(clazz);
+         Entity entity = new Entity(entityClass);
          Contexts.getApplicationContext().set(name, entity);
          return entity;
       }
