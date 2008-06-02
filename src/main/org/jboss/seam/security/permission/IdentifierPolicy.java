@@ -43,6 +43,11 @@ public class IdentifierPolicy
    
    public String getIdentifier(Object target)
    {
+      if (target instanceof String)
+      {
+         return (String) target;
+      }
+      
       IdentifierStrategy strategy = strategies.get(target.getClass());
       
       if (strategy == null)
@@ -75,7 +80,7 @@ public class IdentifierPolicy
          }
       }
       
-      return strategy.getIdentifier(target);
+      return strategy != null ? strategy.getIdentifier(target) : null;
    }
    
    public Set<IdentifierStrategy> getRegisteredStrategies()
