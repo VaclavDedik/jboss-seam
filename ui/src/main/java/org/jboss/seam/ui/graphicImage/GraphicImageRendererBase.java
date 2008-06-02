@@ -46,14 +46,10 @@ public class GraphicImageRendererBase extends RendererBase
       extension = image.getContentType().getExtension();
 
       writer.startElement(HTML.IMG_ELEM, graphicImage);
-      if (graphicImage.getId() != null)
-      {
-         writer.writeAttribute(HTML.ID_ATTR, graphicImage.getClientId(context), HTML.ID_ATTR);
-      }
-      
       String url = context.getExternalContext().getRequestContextPath()
                + GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/" + key + extension;
       writer.writeAttribute(HTML.SRC_ATTR, url, HTML.SRC_ATTR);
+      
       HTML.renderHTMLAttributes(writer, component, HTML.IMG_PASSTHROUGH_ATTRIBUTES);
       writer.endElement(HTML.IMG_ELEM);
    }
