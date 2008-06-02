@@ -56,9 +56,7 @@ public class FormattedTextValidator implements javax.faces.validator.Validator,
                     + value);
         }
         String text = (String) value;
-        Reader r = new StringReader(text);
-        SeamTextLexer lexer = new SeamTextLexer(r);
-        SeamTextParser parser = new SeamTextParser(lexer);
+        SeamTextParser parser = getSeamTextParser(text);
         try {
             parser.startRule();
         }
@@ -78,6 +76,18 @@ public class FormattedTextValidator implements javax.faces.validator.Validator,
             throw new ValidatorException(new FacesMessage("Invalid markup: "
                     + firstError));
         }
+    }
+
+    /**
+     * Override to instantiate a custom <tt>SeamTextLexer</tt> and <tt>SeamTextParser</tt>.
+     *
+     * @param text the raw markup text
+     * @return an instance of <tt>SeamTextParser</tt>
+     */
+    public SeamTextParser getSeamTextParser(String text) {
+       Reader r = new StringReader(text);
+       SeamTextLexer lexer = new SeamTextLexer(r);
+       return new SeamTextParser(lexer);
     }
 
     /**

@@ -5,7 +5,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.faces.FacesMessages;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
+import org.jboss.seam.wiki.core.engine.WikiFormattedTextValidator;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -41,7 +41,9 @@ public class WikiTextEditor implements Serializable {
 
     public void validate(String textEditorId, String value) {
         if (value == null) return;
-        FormattedTextValidator validator = new FormattedTextValidator();
+
+        WikiFormattedTextValidator validator = new WikiFormattedTextValidator();
+
         try {
             validator.validate(null, null, value);
         } catch (ValidatorException e) {
