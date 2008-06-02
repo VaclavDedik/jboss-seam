@@ -6,24 +6,359 @@ package org.jboss.seam.text;
 class SeamTextParser extends Parser;
 options
 {
-	k=4;
-	defaultErrorHandler=false;
+    k=4;
+    defaultErrorHandler=false;
 }
 {   
-	private java.util.Set htmlElements = new java.util.HashSet( java.util.Arrays.asList( new String[] { "a", "p", "q", "blockquote", "code", "pre", "table", "tr", "td", "th", "ul", "ol", "li", "b", "i", "u", "tt", "del", "em", "hr", "br", "div", "span", "h1", "h2", "h3", "h4", "img"} ) );
-	private java.util.Set htmlAttributes = new java.util.HashSet( java.util.Arrays.asList( new String[] { "src", "href", "lang", "class", "id", "style", "width", "height", "name", "value", "type", "cellpadding", "cellspacing", "border" } ) );
+    public class Macro {
+        public String name;
+        public java.util.SortedMap<String,String> params = new java.util.TreeMap<String,String>();
 
-	 public class Macro {
-	   public String name;
-	   public java.util.SortedMap<String,String> params = new java.util.TreeMap<String,String>();
+        public Macro(String name) {
+            this.name = name;
+        }
+    }
 
-	   public Macro(String name) {
-	       this.name = name;
-	   }
-	 }
+    /**
+     * Sanitization of user input, used to clean links and plain HTML.
+     */
+    public interface Sanitizer {
 
-	 private Macro currentMacro;
-	
+        /**
+         * Called by the SeamTextParser when a link tag is parsed, i.e. [=>some URI].
+         *
+         * @param uri the user-entered link text
+         * @throws SemanticException thrown if the URI is not syntactically or semantically valid
+         */
+        public void validateLinkTagURI(String uri) throws SemanticException;
+
+        /**
+         * Called by the SeamTextParser when a plain HTML element is parsed.
+         *
+         * @param element the token of the parse tree, call <tt>getText()</tt> to access the HTML tag name
+         * @throws SemanticException thrown when the HTML tag is not valid
+         */
+        public void validateHtmlElement(Token element) throws SemanticException;
+
+        /**
+         * Called by the SeamTextParser when a plain HTML attribute is parsed.
+         *
+         * @param element the token of the parse tree that represents the HTML tag
+         * @param attribute the token of the parse tree that represents the HTML attribute
+         * @throws SemanticException thrown if the attribute is not valid for the given HTML tag
+         */
+        public void validateHtmlAttribute(Token element, Token attribute) throws SemanticException;
+
+        /**
+         * Called by the SeamTextParser when a plain HTML attribute value is parsed.
+         *
+         * @param element the token of the parse tree that represents the HTML tag
+         * @param attribute the token of the parse tree that represents the HTML attribute
+         * @param attributeValue the plain string value of the HTML attribute
+         * @throws SemanticException thrown if the attribute value is not valid for the given HTML attribute and element
+         */
+        public void validateHtmlAttributeValue(Token element, Token attribute, String attributeValue) throws SemanticException;
+
+        public String getInvalidURIMessage(String uri);
+        public String getInvalidElementMessage(String elementName);
+        public String getInvalidAttributeMessage(String elementName, String attributeName);
+        public String getInvalidAttributeValueMessage(String elementName, String attributeName, String value);
+    }
+
+    /**
+     * Implementation of the rules in http://wiki.whatwg.org/wiki/Sanitization_rules
+     *
+     * Changes and additions:
+     *
+     * 1. Expanded all -* wildcard values to their full CSS property name (e.g. border-*).
+     *
+     * 2. Added dash as allowed characater to REGEX_VALID_CSS_STRING1.
+     *
+     * 3. Improved REGEX_VALID_CSS_VALUE with range {n,m} checks for color values and negative units.
+     *
+     * 4. Added more options (mostly of vertical-align property, e.g. "middle", "text-top") as allowed CSS values.
+     *
+     * 5. Added "max-height", "max-width", "min-height", "min-width" to CSS properties.
+     *
+     * 6. Removed 'data' URI scheme.
+     *
+     * 7. Not implemented filtering of CSS url() - it's an invalid value always.
+     *
+     */
+    public static class DefaultSanitizer implements SeamTextParser.Sanitizer {
+
+        public final java.util.regex.Pattern REGEX_VALID_CSS_STRING1 = java.util.regex.Pattern.compile(
+            "^([-:,;#%.\\sa-zA-Z0-9!]|\\w-\\w|'[\\s\\w]+'|\"[\\s\\w]+\"|\\([\\d,\\s]+\\))*$"
+        );
+
+        public final java.util.regex.Pattern REGEX_VALID_CSS_STRING2 = java.util.regex.Pattern.compile(
+            "^(\\s*[-\\w]+\\s*:\\s*[^:;]*(;|$))*$"
+        );
+
+        public final java.util.regex.Pattern REGEX_VALID_CSS_VALUE = java.util.regex.Pattern.compile(
+            "^(#[0-9a-f]{3,6}|rgb\\(\\d{1,3}%?,\\d{1,3}%?,?\\d{1,3}%?\\)?|-?\\d{0,2}\\.?\\d{0,2}(cm|em|ex|in|mm|pc|pt|px|%|,|\\))?)$"
+        );
+
+        public final java.util.regex.Pattern REGEX_INVALID_CSS_URL = java.util.regex.Pattern.compile(
+            "url\\s*\\(\\s*[^\\s)]+?\\s*\\)\\s*"
+        );
+
+        protected java.util.Set<String> acceptableElements = new java.util.HashSet(java.util.Arrays.asList(
+            "a", "abbr", "acronym", "address", "area", "b", "bdo", "big", "blockquote",
+            "br", "button", "caption", "center", "cite", "code", "col", "colgroup", "dd",
+            "del", "dfn", "dir", "div", "dl", "dt", "em", "fieldset", "font", "form",
+            "h1", "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "input", "ins", "kbd",
+            "label", "legend", "li", "map", "menu", "ol", "optgroup", "option", "p",
+            "pre", "q", "s", "samp", "select", "small", "span", "strike", "strong",
+            "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead",
+            "tr", "tt", "u", "ul", "var", "wbr"
+        ));
+
+        protected java.util.Set<String> mathmlElements = new java.util.HashSet(java.util.Arrays.asList(
+            "maction", "math", "merror", "mfrac", "mi", "mmultiscripts", "mn", "mo",
+            "mover", "mpadded", "mphantom", "mprescripts", "mroot", "mrow", "mspace",
+            "msqrt", "mstyle", "msub", "msubsup", "msup", "mtable", "mtd", "mtext",
+            "mtr", "munder", "munderover", "none"
+        ));
+
+        protected java.util.Set<String> svgElements = new java.util.HashSet(java.util.Arrays.asList(
+            "a", "animate", "animateColor", "animateMotion", "animateTransform",
+            "circle", "defs", "desc", "ellipse", "font-face", "font-face-name",
+            "font-face-src", "g", "glyph", "hkern", "image", "line", "linearGradient",
+            "marker", "metadata", "missing-glyph", "mpath", "path", "polygon",
+            "polyline", "radialGradient", "rect", "set", "stop", "svg", "switch", "text",
+            "title", "tspan", "use"
+        ));
+
+        protected java.util.Set<String> acceptableAttributes = new java.util.HashSet(java.util.Arrays.asList(
+            "abbr", "accept", "accept-charset", "accesskey", "action", "align", "alt",
+            "axis", "border", "cellpadding", "cellspacing", "char", "charoff", "charset",
+            "checked", "cite", "class", "clear", "color", "cols", "colspan", "compact",
+            "coords", "datetime", "dir", "disabled", "enctype", "for", "frame",
+            "headers", "height", "href", "hreflang", "hspace", "id", "ismap", "label",
+            "lang", "longdesc", "maxlength", "media", "method", "multiple", "name",
+            "nohref", "noshade", "nowrap", "prompt", "readonly", "rel", "rev", "rows",
+            "rowspan", "rules", "scope", "selected", "shape", "size", "span", "src",
+            "start", "style", "summary", "tabindex", "target", "title", "type", "usemap",
+            "valign", "value", "vspace", "width", "xml:lang"
+        ));
+
+        protected java.util.Set<String> mathmlAttributes = new java.util.HashSet(java.util.Arrays.asList(
+            "actiontype", "align", "columnalign", "columnalign", "columnalign",
+            "columnlines", "columnspacing", "columnspan", "depth", "display",
+            "displaystyle", "equalcolumns", "equalrows", "fence", "fontstyle",
+            "fontweight", "frame", "height", "linethickness", "lspace", "mathbackground",
+            "mathcolor", "mathvariant", "mathvariant", "maxsize", "minsize", "other",
+            "rowalign", "rowalign", "rowalign", "rowlines", "rowspacing", "rowspan",
+            "rspace", "scriptlevel", "selection", "separator", "stretchy", "width",
+            "width", "xlink:href", "xlink:show", "xlink:type", "xmlns", "xmlns:xlink"
+        ));
+
+        protected java.util.Set<String> svgAttributes = new java.util.HashSet(java.util.Arrays.asList(
+            "accent-height", "accumulate", "additive", "alphabetic", "arabic-form",
+            "ascent", "attributeName", "attributeType", "baseProfile", "bbox", "begin",
+            "by", "calcMode", "cap-height", "class", "color", "color-rendering",
+            "content", "cx", "cy", "d", "descent", "display", "dur", "dx", "dy", "end",
+            "fill", "fill-rule", "font-family", "font-size", "font-stretch",
+            "font-style", "font-variant", "font-weight", "from", "fx", "fy", "g1", "g2",
+            "glyph-name", "gradientUnits", "hanging", "height", "horiz-adv-x",
+            "horiz-origin-x", "id", "ideographic", "k", "keyPoints", "keySplines",
+            "keyTimes", "lang", "marker-end", "marker-mid", "marker-start",
+            "markerHeight", "markerUnits", "markerWidth", "mathematical", "max", "min",
+            "name", "offset", "opacity", "orient", "origin", "overline-position",
+            "overline-thickness", "panose-1", "path", "pathLength", "points",
+            "preserveAspectRatio", "r", "refX", "refY", "repeatCount", "repeatDur",
+            "requiredExtensions", "requiredFeatures", "restart", "rotate", "rx", "ry",
+            "slope", "stemh", "stemv", "stop-color", "stop-opacity",
+            "strikethrough-position", "strikethrough-thickness", "stroke",
+            "stroke-dasharray", "stroke-dashoffset", "stroke-linecap", "stroke-linejoin",
+            "stroke-miterlimit", "stroke-opacity", "stroke-width", "systemLanguage",
+            "target", "text-anchor", "to", "transform", "type", "u1", "u2",
+            "underline-position", "underline-thickness", "unicode", "unicode-range",
+            "units-per-em", "values", "version", "viewBox", "visibility", "width",
+            "widths", "x", "x-height", "x1", "x2", "xlink:actuate", "xlink:arcrole",
+            "xlink:href", "xlink:role", "xlink:show", "xlink:title", "xlink:type",
+            "xml:base", "xml:lang", "xml:space", "xmlns", "xmlns:xlink", "y", "y1", "y2",
+            "zoomAndPan"
+        ));
+
+        protected java.util.Set<String> styleProperties = new java.util.HashSet(java.util.Arrays.asList(
+            "azimuth",
+            "background", "background-attachment", "background-color", "background-image",
+            "background-position", "background-repeat",
+            "border", "border-bottom", "border-bottom-color", "border-bottom-style",
+            "border-bottom-width", "border-collapse", "border-color", "border-left",
+            "border-left-color", "border-left-style", "border-left-width", "border-right",
+            "border-right-color", "border-right-style", "border-right-width", "border-spacing",
+            "border-style", "border-top", "border-top-color", "border-top-style",
+            "border-top-width", "border-width",
+            "clear", "color",
+            "cursor", "direction", "display", "elevation", "float", "font",
+            "font-family", "font-size", "font-style", "font-variant", "font-weight",
+            "height", "letter-spacing", "line-height",
+            "margin", "margin-bottom", "margin-left", "margin-right", "margin-top",
+            "max-height", "max-width", "min-height", "min-width",
+            "overflow",
+            "padding", "padding-bottom", "padding-left", "padding-right", "padding-top",
+            "pause", "pause-after", "pause-before", "pitch",
+            "pitch-range", "richness", "speak", "speak-header", "speak-numeral",
+            "speak-punctuation", "speech-rate", "stress", "text-align",
+            "text-decoration", "text-indent", "unicode-bidi", "vertical-align",
+            "voice-family", "volume", "white-space", "width"
+        ));
+
+        protected java.util.Set<String> stylePropertiesValues = new java.util.HashSet(java.util.Arrays.asList(
+            "aqua", "auto", "baseline", "black", "block", "blue", "bold", "both", "bottom", "brown",
+            "center", "collapse", "dashed", "dotted", "fuchsia", "gray", "green",
+            "inherit", "italic", "left", "length", "lime", "maroon", "medium", "middle", "navy", "none", "normal",
+            "nowrap", "olive", "percentage", "pointer", "purple", "red", "right", "silver", "solid", "sub", "super",
+            "teal", "text-bottom", "text-top", "top", "transparent", "underline", "white", "yellow"
+        ));
+
+        protected java.util.Set<String> svgStyleProperties = new java.util.HashSet(java.util.Arrays.asList(
+            "fill", "fill-opacity", "fill-rule", "stroke", "stroke-linecap",
+            "stroke-linejoin", "stroke-opacity", "stroke-width"
+        ));
+
+        protected java.util.Set<String> attributesWhoseValueIsAURI = new java.util.HashSet(java.util.Arrays.asList(
+            "action", "cite", "href", "longdesc", "src", "xlink:href", "xml:base"
+        ));
+
+        protected java.util.Set<String> uriSchemes = new java.util.HashSet(java.util.Arrays.asList(
+            "afs", "aim", "callto", "ed2k", "feed", "ftp", "gopher", "http", "https",
+            "irc", "mailto", "news", "nntp", "rsync", "rtsp", "sftp", "ssh", "tag",
+            "tel", "telnet", "urn", "webcal", "wtai", "xmpp"
+        ));
+
+        public void validateLinkTagURI(String uri) throws SemanticException {
+            if (!validateURI(uri)) {
+                throw new SemanticException("Invalid URI");
+            }
+        }
+
+        public void validateHtmlElement(Token element) throws SemanticException {
+            String elementName = element.getText().toLowerCase();
+
+            if (!acceptableElements.contains(elementName) &&
+                !svgElements.contains(elementName) &&
+                !mathmlElements.contains(elementName)) {
+                throw new SemanticException(getInvalidElementMessage(elementName));
+            }
+        }
+
+        public void validateHtmlAttribute(Token element, Token attribute) throws SemanticException {
+            String elementName = element.getText().toLowerCase();
+            String attributeName = attribute.getText().toLowerCase();
+            if (!acceptableAttributes.contains(attributeName) &&
+                !svgAttributes.contains(attributeName) &&
+                !mathmlAttributes.contains(attributeName)) {
+                throw new SemanticException(getInvalidAttributeMessage(elementName, attributeName));
+            }
+        }
+
+        public void validateHtmlAttributeValue(Token element,
+                                               Token attribute,
+                                               String attributeValue) throws SemanticException {
+
+            String elementName = element.getText().toLowerCase();
+            String attributeName = attribute.getText().toLowerCase();
+
+            // Check element with attribute that has URI value (href, src, etc.)
+            if (attributesWhoseValueIsAURI.contains(attributeName) && !validateURI(attributeValue)) {
+                throw new SemanticException(getInvalidURIMessage(attributeValue));
+            }
+
+            // Check attribute value of style (CSS filtering)
+            if (attributeName.equals("style")) {
+                if (!REGEX_VALID_CSS_STRING1.matcher(attributeValue).matches() ||
+                    !REGEX_VALID_CSS_STRING2.matcher(attributeValue).matches()) {
+                    throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
+                }
+
+                String[] cssProperties = attributeValue.split(";");
+                for (String cssProperty : cssProperties) {
+                    if (!cssProperty.contains(":")) {
+                        throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
+                    }
+                    String[] property = cssProperty.split(":");
+                    String propertyName = property[0].trim();
+                    String propertyValue = property.length == 2 ? property[1].trim() : null;
+
+                    // CSS property name
+                    if (!styleProperties.contains(propertyName) &&
+                        !svgStyleProperties.contains(propertyName)) {
+                        throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
+                    }
+
+                    // CSS property value
+                    if (!stylePropertiesValues.contains(propertyValue)) {
+                        // Not in list, now check the regex
+                        if (!REGEX_VALID_CSS_VALUE.matcher(propertyValue).matches()) {
+                            throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
+                        }
+                    }
+                }
+            }
+
+            // TODO: Implement SVG style checking?! Who cares...
+        }
+
+        /**
+         * Validate a URI string.
+         * <p>
+         * The default implementation accepts any URI string that starts with a slash,
+         * this is considered a relative URL. Any absolute URI is parsed by the JDK with
+         * the <tt>java.net.URI</tt> constructor. Finally, the scheme of the parsed
+         * absolute URI is checked with a list of valid schemes.
+         * </p>
+         *
+         * @param uri the URI string
+         * @return return true if the String represents a safe and valid URI
+         */
+        protected boolean validateURI(String uri) {
+
+            // Relative URI starts with a slash
+            if (uri.startsWith("/")) return true;
+
+            java.net.URI parsedURI;
+            try {
+                parsedURI = new java.net.URI(uri);
+            } catch (java.net.URISyntaxException ex) {
+                return false;
+            }
+
+            if (!uriSchemes.contains(parsedURI.getScheme())) {
+                return false;
+            }
+            return true;
+        }
+
+        public String getInvalidURIMessage(String uri) {
+            return "invalid URI";
+        }
+
+        public String getInvalidElementMessage(String elementName) {
+            return "invalid element '" + elementName + "'";
+        }
+
+        public String getInvalidAttributeMessage(String elementName, String attributeName) {
+            return "invalid attribute '" + attributeName + "' for element '" + elementName + "'";
+        }
+
+        public String getInvalidAttributeValueMessage(String elementName, String attributeName, String value) {
+            return "invalid value of attribute '" + attributeName + "' for element '" + elementName + "'";
+        };
+
+    }
+
+    private Sanitizer sanitizer = new DefaultSanitizer();
+    public void setSanitizer(Sanitizer sanitizer) {
+       this.sanitizer = sanitizer;
+    }
+
+    private Macro currentMacro;
+    private java.util.Stack<Token> htmlElementStack = new java.util.Stack<Token>();
+
     private StringBuilder mainBuilder = new StringBuilder();
     private StringBuilder builder = mainBuilder;
 
@@ -38,19 +373,7 @@ options
     private static boolean hasMultiple(String string, char c) {
         return string.indexOf(c)!=string.lastIndexOf(c);
     }
-    
-    private void validateElement(Token t) throws NoViableAltException {
-        if ( !htmlElements.contains( t.getText().toLowerCase() ) ) {
-            throw new NoViableAltException(t, null);
-        }
-    }
 
-    private void validateAttribute(Token t) throws NoViableAltException {
-        if ( !htmlAttributes.contains( t.getText().toLowerCase() ) ) {
-            throw new NoViableAltException(t, null);
-        }
-    }
-    
     private void beginCapture() {
         builder = new StringBuilder();
     }
@@ -200,7 +523,11 @@ link: OPEN
       EQ GT 
       { beginCapture(); }
       attributeValue 
-      { String link = endCapture(); append(linkTag(text, link)); }
+      {
+         String link = endCapture();
+         sanitizer.validateLinkTagURI(link);
+         append(linkTag(text, link));
+      }
       CLOSE
     ;
 
@@ -342,22 +669,54 @@ html: openTag ( space | space attribute )* ( ( beforeBody body closeTagWithBody 
 body: (plain|formatted|preformatted|quoted|html|list|newline)*
     ;
 
-openTag: LT name:ALPHANUMERICWORD { validateElement(name); append("<"); append(name.getText()); }
+openTag:
+      LT name:ALPHANUMERICWORD
+      {
+         htmlElementStack.push(name);
+         sanitizer.validateHtmlElement(name);
+         append("<");
+         append(name.getText());
+      }
     ;
-    
+
 beforeBody: GT { append(">"); }
     ;
     
-closeTagWithBody: LT SLASH name:ALPHANUMERICWORD GT { append("</"); append(name.getText()); append(">"); }
+closeTagWithBody:
+      LT SLASH name:ALPHANUMERICWORD GT
+      {
+         append("</");
+         append(name.getText());
+         append(">");
+         htmlElementStack.pop();
+      }
     ;
     
-closeTagWithNoBody: SLASH GT { append("/>"); }
+closeTagWithNoBody:
+      SLASH GT
+      {
+         append("/>");
+         htmlElementStack.pop();
+      }
     ;
     
 attribute: att:ALPHANUMERICWORD (space)* EQ (space)*
-           DOUBLEQUOTE {  validateAttribute(att); append(att.getText()); append("=\""); } 
-           attributeValue 
-           DOUBLEQUOTE { append("\""); } 
+           DOUBLEQUOTE
+           {
+               sanitizer.validateHtmlAttribute(htmlElementStack.peek(), att);
+               append(att.getText());
+               append("=\"");
+           }
+           {
+               beginCapture();
+           }
+           attributeValue
+           {
+               String attValue = endCapture();
+               sanitizer.validateHtmlAttributeValue(htmlElementStack.peek(), att, attValue);
+               append(attValue);
+           }
+           DOUBLEQUOTE { append("\""); }
     ;
         
 attributeValue: ( AMPERSAND { append("&amp;"); } |
