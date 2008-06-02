@@ -13,14 +13,13 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
 import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
-import org.jboss.seam.wiki.core.plugin.metamodel.module.PluginModule;
+import org.jboss.seam.wiki.core.plugin.metamodel.PluginModule;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 
-import java.io.Serializable;
 import java.util.*;
 
 /**
@@ -74,7 +73,7 @@ public class PageFragmentCache {
             for (String cacheRegion : requiredCacheRegions) {
                 Cache cache = EHCacheManager.instance().getCache(cacheRegion);
                 if (cache == null) {
-                    log.info("could not find configuration for region '" + cacheRegion + "', using defaults");
+                    log.info("using default configuration for region '" + cacheRegion + "'");
                     manager.addCache(cacheRegion);
                     cache = manager.getCache(cacheRegion);
                     log.debug("started EHCache region: " + cacheRegion);

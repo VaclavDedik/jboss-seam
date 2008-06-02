@@ -8,7 +8,6 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.core.Events;
@@ -23,6 +22,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
+import org.jboss.seam.wiki.core.engine.WikiFormattedTextValidator;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
@@ -211,7 +211,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     // TODO: Why again are we using a different validator here for the text editor?
     protected boolean validateContent() {
-        FormattedTextValidator validator = new FormattedTextValidator();
+        WikiFormattedTextValidator validator = new WikiFormattedTextValidator();
         try {
             validator.validate(null, null, getInstance().getContent());
         } catch (ValidatorException e) {

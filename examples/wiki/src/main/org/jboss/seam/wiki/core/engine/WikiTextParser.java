@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.core.engine;
 
 import antlr.ANTLRException;
+import antlr.SemanticException;
 import org.jboss.seam.text.SeamTextLexer;
 import org.jboss.seam.text.SeamTextParser;
 import org.jboss.seam.wiki.core.model.*;
@@ -50,6 +51,15 @@ public class WikiTextParser extends SeamTextParser {
         super(new SeamTextLexer(new StringReader(wikiText)));
         this.renderDuplicateMacros = renderDuplicateMacros;
         this.resolveLinks = resolveLinks;
+
+        setSanitizer(
+            new DefaultSanitizer() {
+                @Override
+                public void validateLinkTagURI(String s) throws SemanticException {
+                    // NOOP, we validate that later in linkTag()
+                }
+            }
+        );
     }
 
     /**

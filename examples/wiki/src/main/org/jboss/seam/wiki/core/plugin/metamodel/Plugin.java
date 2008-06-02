@@ -8,7 +8,7 @@ package org.jboss.seam.wiki.core.plugin.metamodel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.exception.InvalidWikiConfigurationException;
-import org.jboss.seam.wiki.core.plugin.metamodel.module.PluginModule;
+import org.jboss.seam.wiki.core.plugin.metamodel.PluginModule;
 
 import java.util.ArrayList;
 import java.util.List;

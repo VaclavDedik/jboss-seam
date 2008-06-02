@@ -4,9 +4,9 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.wiki.core.engine.WikiFormattedTextValidator;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
 
 import static org.jboss.seam.international.StatusMessage.Severity.WARN;
 
@@ -30,12 +30,11 @@ public class WikiTextEditor implements Serializable {
     public void validate(String textEditorId, String value) {
         if (value == null) return;
         log.debug("validating value of text editor: " + textEditorId);
-        FormattedTextValidator validator = new FormattedTextValidator();
+        WikiFormattedTextValidator validator = new WikiFormattedTextValidator();
         try {
             validator.validate(null, null, value);
         } catch (ValidatorException e) {
             log.debug("exception during validation: " + e.getFacesMessage().getSummary());
-            // TODO: Needs to use resource bundle, how?
             StatusMessages.instance().addToControl(
                 textEditorId + "TextArea",
                 WARN,

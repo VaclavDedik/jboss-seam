@@ -13,7 +13,7 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
-import org.jboss.seam.wiki.core.plugin.metamodel.module.MacroPluginModule;
+import org.jboss.seam.wiki.core.plugin.metamodel.MacroPluginModule;
 import org.jboss.seam.wiki.util.Hash;
 
 import java.io.Serializable;

@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.wiki.core.plugin.metamodel.module;
+package org.jboss.seam.wiki.core.plugin.metamodel;
 
 import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
 import org.jboss.seam.wiki.preferences.metamodel.PreferenceEntity;

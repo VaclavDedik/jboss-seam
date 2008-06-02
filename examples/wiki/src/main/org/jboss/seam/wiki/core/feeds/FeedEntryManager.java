@@ -14,10 +14,10 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.engine.WikiLink;
 import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.engine.WikiFormattedTextValidator;
 import org.jboss.seam.wiki.core.model.FeedEntry;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.renderer.DefaultWikiTextRenderer;
@@ -70,7 +70,7 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
 
         } catch (RecognitionException rex) {
             // Swallow and log and low debug level
-            log.debug( "Ignored parse error generating feed entry text: " + FormattedTextValidator.getErrorMessage(wikiText, rex) );
+            log.debug( "Ignored parse error generating feed entry text: " + WikiFormattedTextValidator.getErrorMessage(wikiText, rex) );
         } catch (ANTLRException ex) {
             // All other errors are fatal;
             throw new RuntimeException(ex);

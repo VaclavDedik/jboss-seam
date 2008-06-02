@@ -7,13 +7,13 @@ import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.international.StatusMessages;
-import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
+import org.jboss.seam.wiki.core.engine.WikiFormattedTextValidator;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import static org.jboss.seam.international.StatusMessage.Severity.WARN;
@@ -69,11 +69,11 @@ public class TopicHome extends DocumentHome {
 
     @Override
     protected boolean preparePersist() {
-        FormattedTextValidator validator = new FormattedTextValidator();
+        // TODO: Why here again?
+        WikiFormattedTextValidator validator = new WikiFormattedTextValidator();
         try {
             validator.validate(null, null, getInstance().getContent());
         } catch (ValidatorException e) {
-            // TODO: Needs to use resource bundle, how?
             StatusMessages.instance().addToControl(
                 "topicTextArea",
                 WARN,

@@ -16,10 +16,9 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
-import org.jboss.seam.wiki.core.plugin.metamodel.module.MacroPluginModule;
+import org.jboss.seam.wiki.core.plugin.metamodel.MacroPluginModule;
 import org.jboss.seam.wiki.core.plugin.binding.PluginBinder;
 import org.jboss.seam.wiki.core.exception.InvalidWikiConfigurationException;
-import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 
 import java.util.*;
@@ -67,10 +66,12 @@ public class PluginRegistry {
         return Collections.unmodifiableSortedMap(plugins);
     }
 
+    // TODO: This should be unmodifiable and additions only allowed through a new registry method
     public SortedMap<String, MacroPluginModule> getMacroPluginModulesByKey() {
         return macroPluginModulesByKey;
     }
 
+    // TODO: This should be unmodifiable and additions only allowed through a new registry method
     public SortedMap<String, MacroPluginModule> getMacroPluginModulesByMacroName() {
         return macroPluginModulesByMacroName;
     }

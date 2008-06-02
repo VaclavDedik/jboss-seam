@@ -18,7 +18,7 @@ import org.jboss.seam.web.AbstractResource;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
 import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
 import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
-import org.jboss.seam.wiki.core.plugin.metamodel.module.MacroPluginModule;
+import org.jboss.seam.wiki.core.plugin.metamodel.MacroPluginModule;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.core.Expressions;
 
