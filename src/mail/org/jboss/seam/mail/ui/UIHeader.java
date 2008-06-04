@@ -17,9 +17,12 @@ public class UIHeader extends MailComponent
    {
       try
       {
-         if (getValue() != null) {
+         if (getValue() != null) 
+         {
             findMimeMessage().addHeader(getName(), getValue());
-         } else {
+         }
+         else 
+         {
             findMimeMessage().addHeader(getName(), encode(facesContext));
          }
       }
