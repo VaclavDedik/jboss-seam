@@ -163,10 +163,10 @@ public class UIAttachment extends MailComponent implements ValueHolder
             MimeBodyPart attachment = new MimeBodyPart();
             // Need to manually set the contentid
             String contentId = RandomStringUtils.randomAlphabetic(20).toLowerCase();
-            attachment.setContentID("<" + contentId + ">");
+            attachment.setContentID(new Header("<" + contentId + ">").getSanitizedValue());
             attachment.setDataHandler(new DataHandler(ds));
-            attachment.setFileName(getName(ds.getName()));
-            attachment.setDisposition(getDisposition());
+            attachment.setFileName(new Header(getName(ds.getName())).getSanitizedValue());
+            attachment.setDisposition(new Header(getDisposition()).getSanitizedValue());
             findMessage().getAttachments().add(attachment);
             if (getStatus() != null)
             {

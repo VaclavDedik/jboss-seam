@@ -100,13 +100,13 @@ public class UIBody extends MailComponent
             throws MessagingException
    {
       MimeBodyPart bodyPart = new MimeBodyPart();
-      bodyPart.setDisposition("inline");
+      bodyPart.setDisposition(new Header("inline").getSanitizedValue());
       String charset = findMessage().getCharset();
       if ( charset != null) 
       {
          //bodyPart.setContent(body, "text/plain; charset="
          //      + charset + "; format=flowed");
-         bodyPart.setText(body, charset);
+         bodyPart.setText(body, new Header(charset).getSanitizedValue());
       } 
       else 
       {
@@ -119,16 +119,16 @@ public class UIBody extends MailComponent
             throws MessagingException
    {
       MimeBodyPart bodyPart = new MimeBodyPart();
-      bodyPart.setDisposition("inline");
+      bodyPart.setDisposition(new Header("inline").getSanitizedValue());
       String charset = findMessage().getCharset();
       if ( charset != null) 
       {
-         bodyPart.setContent(body, "text/html; charset="
-                  + charset);
+         bodyPart.setContent(body, new Header("text/html; charset="
+                  + charset).getSanitizedValue());
       } 
       else 
       {
-         bodyPart.setContent(body, "text/html");
+         bodyPart.setContent(body, new Header("text/html").getSanitizedValue());
       }
       
       return bodyPart;

@@ -133,7 +133,8 @@ public class UIMessage extends MailComponent
             }
             if (getPrecedence() != null)
             {
-               getMimeMessage().addHeader("Precedence", getPrecedence());
+               Header header = new Header("Precedence", getPrecedence());
+               getMimeMessage().addHeader(header.getSanitizedName(), header.getSanitizedValue());
             }
          }
          catch (MessagingException e)
@@ -156,8 +157,9 @@ public class UIMessage extends MailComponent
          if (isRequestReadReceipt() && getMimeMessage().getFrom() != null
                   && getMimeMessage().getFrom().length == 1)
          {
-            getMimeMessage().addHeader("Disposition-Notification-To",
-                     getMimeMessage().getFrom()[0].toString());
+            Header header = new Header("Disposition-Notification-To",
+                  getMimeMessage().getFrom()[0].toString());
+            getMimeMessage().addHeader(header.getSanitizedName(), header.getSanitizedValue());
          }
          // Do the send manually, Transport.send gets the wrong transport
          getMimeMessage().saveChanges();

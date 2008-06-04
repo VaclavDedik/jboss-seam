@@ -19,11 +19,13 @@ public class UIHeader extends MailComponent
       {
          if (getValue() != null) 
          {
-            findMimeMessage().addHeader(getName(), getValue());
+            Header header = new Header(getName(), getValue());
+            findMimeMessage().addHeader(header.getSanitizedName(), header.getSanitizedValue());
          }
          else 
          {
-            findMimeMessage().addHeader(getName(), encode(facesContext));
+            Header header = new Header(getName(), encode(facesContext));
+            findMimeMessage().addHeader(header.getSanitizedName(), header.getSanitizedValue());
          }
       }
       catch (MessagingException e)

@@ -24,6 +24,7 @@
 	<property name="classes.remoting.dir" value="${classes.dir}/remotingclasses" />
 	<property name="classes.gen.dir" value="${classes.dir}/genclasses" />
 	<property name="classes.test.dir" value="${classes.dir}/testclasses" />
+	<property name="classes.mail.test.dir" value="${classes.dir}/mailtestclasses" />
 
 	<property name="ui.dir" value="${basedir}/ui" />
 	<property name="seamgen.dir" value="${basedir}/seam-gen" />
@@ -42,6 +43,7 @@
 	<property name="src.remoting.dir" value="src/remoting" />
 	<property name="src.test.dir" value="src/test" />
 	<property name="src.unit.test.dir" value="${src.test.dir}/unit" />
+	<property name="src.mail.unit.test.dir" value="${src.test.dir}/mail/unit" />
 
 	<!-- Library directories -->
 	<property name="eejb.conf.dir" value="${basedir}/bootstrap" />
@@ -643,27 +645,32 @@
 
 	<!-- ########################### TEST TARGETS ###########################-->
 
+	
+
+
+
+	<target name="unittest" depends="unittestcore, unittestmail" description="Run the Unit tests" />
+
 	<target name="compiletest" depends="inittestcore,select-compiler,antlr">
-		<compile classesdir="${classes.test.dir}" srcdir="${src.unit.test.dir}" classpath="test.compile.path" />
-	</target>
+      <compile classesdir="${classes.test.dir}" srcdir="${src.unit.test.dir}" classpath="test.compile.path" />
+   </target>
+	
+  <target name="inittestcore" depends="build">
+      <init classesdir="${classes.test.dir}" srcdir="${src.unit.test.dir}" modulename="core" pom="${core.pom}" scope="test" message="" />
+      <copy todir="${classes.test.core.dir}">
+         <fileset dir="${classes.core.dir}" includes="**/*.*" />
+      </copy>
+      <inlineDependencies scope="compile" id="remoting">
+         <dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
+      </inlineDependencies>
+      <path id="test.compile.path">
+         <path refid="test.core.path" />
+         <path path="${classes.test.core.dir}" />
+         <path refid="compile.remoting.path" />
+      </path>
+   </target>
 
-	<target name="inittestcore" depends="build">
-		<init classesdir="${classes.test.dir}" srcdir="${src.unit.test.dir}" modulename="core" pom="${core.pom}" scope="test" message="" />
-		<copy todir="${classes.test.core.dir}">
-			<fileset dir="${classes.core.dir}" includes="**/*.*" />
-		</copy>
-		<inlineDependencies scope="compile" id="remoting">
-			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
-		</inlineDependencies>
-		<path id="test.compile.path">
-			<path refid="test.core.path" />
-			<path path="${classes.test.core.dir}" />
-			<path refid="compile.remoting.path" />
-		</path>
-	</target>
-
-
-	<target name="unittest" depends="inittestcore,compiletest,getemma" description="Run the Unit tests">
+	<target name="unittestcore" depends="inittestcore,compiletest,getemma">
 		<taskdef resource="testngtasks" classpathref="test.core.path" />
 		<testng outputdir="${test.dir}">
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
@@ -679,6 +686,35 @@
 		</testng>
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	</target>
+	
+   <target name="inittestmail" depends="build">
+      <init classesdir="${classes.mail.test.dir}" srcdir="${src.mail.unit.test.dir}" modulename="mail" pom="${mail.pom}" scope="test" message="" />
+      <path id="test.mail.compile.path">
+         <path refid="test.mail.path" />
+         <path path="${classes.mail.test.dir}" />
+      	<path location="${classes.mail.dir}" />
+      </path>
+   </target>
+	
+   <target name="compiletestmail" depends="inittestmail,select-compiler,antlr">
+      <compile classesdir="${classes.mail.test.dir}" srcdir="${src.mail.unit.test.dir}" classpath="test.mail.compile.path" />
+   </target>
+	
+	<target name="unittestmail" depends="inittestmail,compiletestmail,getemma">
+	      <taskdef resource="testngtasks" classpathref="test.mail.path" />
+	      <testng outputdir="${test.dir}">
+	         <jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
+	         <jvmarg line="-Djava.awt.headless=true" />
+	         <classpath>
+	            <path path="${classes.mail.test.dir}" />
+	         	<path location="${classes.mail.dir}" />
+	            <path refid="runtime.emma.path" />
+	            <path refid="test.mail.path" />
+	         </classpath>
+	         <xmlfileset dir="${classes.mail.test.dir}" includes="**/testng.xml" />
+	      </testng>
+	      <echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
+	   </target>
 	
 	<target name="test" depends="unittest, integrationtest" description="Run Seam Unit Tests and the Seam (core) Integration Tests"/>
 	
