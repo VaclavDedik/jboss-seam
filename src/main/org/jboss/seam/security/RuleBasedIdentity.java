@@ -117,15 +117,14 @@ public class RuleBasedIdentity extends Identity
       StatefulSession securityContext = getSecurityContext();
       
       if (securityContext == null) return false;      
-      
-      synchronizeContext();
-      
+            
       List<FactHandle> handles = new ArrayList<FactHandle>();
-
       PermissionCheck check = new PermissionCheck(name, action);
       
       synchronized( securityContext )
       {
+         synchronizeContext();         
+         
          handles.add( securityContext.insert(check) );
          
          for (int i = 0; i < arg.length; i++)
@@ -222,44 +221,47 @@ public class RuleBasedIdentity extends Identity
    {
       if (getSecurityContext() != null)
       {
-         for ( Group sg : getSubject().getPrincipals(Group.class) )      
-         {
-            if ( ROLES_GROUP.equals( sg.getName() ) )
+         synchronized(getSecurityContext())
+         {         
+            for ( Group sg : getSubject().getPrincipals(Group.class) )      
             {
-               Enumeration e = sg.members();
-               while (e.hasMoreElements())
+               if ( ROLES_GROUP.equals( sg.getName() ) )
                {
-                  Principal role = (Principal) e.nextElement();
-   
-                  boolean found = false;
-                  Iterator<Role> iter = getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
-                  while (iter.hasNext()) 
+                  Enumeration e = sg.members();
+                  while (e.hasMoreElements())
                   {
-                     Role r = iter.next();
-                     if (r.getName().equals(role.getName()))
+                     Principal role = (Principal) e.nextElement();
+      
+                     boolean found = false;
+                     Iterator<Role> iter = getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
+                     while (iter.hasNext()) 
                      {
-                        found = true;
-                        break;
+                        Role r = iter.next();
+                        if (r.getName().equals(role.getName()))
+                        {
+                           found = true;
+                           break;
+                        }
                      }
+                     
+                     if (!found)
+                     {
+                        getSecurityContext().insert(new Role(role.getName()));
+                     }
+                     
                   }
-                  
-                  if (!found)
-                  {
-                     getSecurityContext().insert(new Role(role.getName()));
-                  }
-                  
                }
-            }
-         }    
-         
-         Iterator<Role> iter = getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
-         while (iter.hasNext()) 
-         {
-            Role r = iter.next();
-            if (!super.hasRole(r.getName()))
+            }    
+            
+            Iterator<Role> iter = getSecurityContext().iterateObjects(new ClassObjectFilter(Role.class)); 
+            while (iter.hasNext()) 
             {
-               FactHandle fh = getSecurityContext().getFactHandle(r);
-               getSecurityContext().retract(fh);
+               Role r = iter.next();
+               if (!super.hasRole(r.getName()))
+               {
+                  FactHandle fh = getSecurityContext().getFactHandle(r);
+                  getSecurityContext().retract(fh);
+               }
             }
          }
       }
