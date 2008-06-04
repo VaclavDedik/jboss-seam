@@ -590,24 +590,36 @@ public class Identity implements Serializable
       return Expressions.instance().createValueExpression(expr, Boolean.class).getValue();
    }   
    
+   /**
+    * @see org.jboss.seam.security.Credentials#getUsername()
+    */
    @Deprecated
    public String getUsername()
    {
       return credentials.getUsername();
    }
 
+   /**
+    * @see org.jboss.seam.security.Credentials#setUsername(String)
+    */
    @Deprecated
    public void setUsername(String username)
    {  
       credentials.setUsername(username);
    }
-   
+
+   /**
+    * @see org.jboss.seam.security.Credentials#getPassword()
+    */
    @Deprecated
    public String getPassword()
    {
       return credentials.getPassword();
    }
    
+   /**
+    * @see org.jboss.seam.security.Credentials#setPassword(String)
+    */   
    @Deprecated
    public void setPassword(String password)
    {
