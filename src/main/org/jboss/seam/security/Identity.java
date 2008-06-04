@@ -222,6 +222,11 @@ public class Identity implements Serializable
          
          authenticate();
          
+         if (!isLoggedIn(false))
+         {
+            throw new LoginException();
+         }
+         
          if ( log.isDebugEnabled() )
          {
             log.debug("Login successful for: " + getUsername());
@@ -239,8 +244,9 @@ public class Identity implements Serializable
              log.debug("Login failed for: " + getUsername(), ex);
          }
          if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_FAILED, ex);
-         return null;
       }
+      
+      return null;      
    }
    
    /**
