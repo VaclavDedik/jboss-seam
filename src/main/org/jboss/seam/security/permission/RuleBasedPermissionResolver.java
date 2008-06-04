@@ -93,21 +93,21 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       if (securityContext == null) return false;      
       
       List<FactHandle> handles = new ArrayList<FactHandle>();
-                  
-      if (!(target instanceof String) && !(target instanceof Class))
-      {
-         handles.add( securityContext.insert(target) );
-      }
-      else if (target instanceof Class)
-      {
-         String componentName = Seam.getComponentName((Class) target);
-         target = componentName != null ? componentName : ((Class) target).getName(); 
-      }
-      
+                        
       PermissionCheck check = new PermissionCheck(target, action);      
       
       synchronized( securityContext )
       {
+         if (!(target instanceof String) && !(target instanceof Class))
+         {
+            handles.add( securityContext.insert(target) );
+         }
+         else if (target instanceof Class)
+         {
+            String componentName = Seam.getComponentName((Class) target);
+            target = componentName != null ? componentName : ((Class) target).getName(); 
+         }         
+         
          try
          {
             synchronizeContext();
@@ -146,21 +146,20 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       RoleCheck roleCheck = new RoleCheck(roleName);
       
       List<FactHandle> handles = new ArrayList<FactHandle>();
-      
-      if (!(target instanceof String) && !(target instanceof Class))
-      {
-         handles.add( securityContext.insert(target) );
-      }
-      else if (target instanceof Class)
-      {
-         String componentName = Seam.getComponentName((Class) target);
-         target = componentName != null ? componentName : ((Class) target).getName();
-      }
-      
       PermissionCheck check = new PermissionCheck(target, action);
       
       synchronized( securityContext )
       {
+         if (!(target instanceof String) && !(target instanceof Class))
+         {
+            handles.add( securityContext.insert(target) );
+         }
+         else if (target instanceof Class)
+         {
+            String componentName = Seam.getComponentName((Class) target);
+            target = componentName != null ? componentName : ((Class) target).getName();
+         }
+         
          try
          {
             synchronizeContext();
