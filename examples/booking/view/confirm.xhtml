@@ -17,24 +17,24 @@
 
 	<ui:include src="hotelview.xhtml"/>
 		
-	<s:decorate template="display.xhtml">
+	<s:decorate id="DecorateTotalPayment" template="display.xhtml">
 		<ui:define name="label">Total Payment:</ui:define>
-		<h:outputText value="#{booking.total}">
+		<h:outputText id="BookingTotal" value="#{booking.total}">
 			<f:convertNumber type="currency" currencySymbol="$"/>
 		</h:outputText>
 	</s:decorate>
 
-	<s:decorate template="display.xhtml">
+	<s:decorate id="DecorateCheckInDate" template="display.xhtml">
 		<ui:define name="label">Check In Date:</ui:define>
-		<h:outputText value="#{booking.checkinDate}"/>
+		<h:outputText id="BookingCheckinDate" value="#{booking.checkinDate}"/>
 	</s:decorate>
 
-	<s:decorate template="display.xhtml">
+	<s:decorate id="DecorateCheckoutDate" template="display.xhtml">
 		<ui:define name="label">Check Out Date:</ui:define>
-		<h:outputText value="#{booking.checkoutDate}"/>
+		<h:outputText id="BookingCheckoutDate" value="#{booking.checkoutDate}"/>
 	</s:decorate>
 
-	<s:decorate template="display.xhtml">
+	<s:decorate id="DecorateCreditCard" template="display.xhtml">
 		<ui:define name="label">Credit Card #:</ui:define>
 		#{booking.creditCard}
 	</s:decorate>

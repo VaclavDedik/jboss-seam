@@ -48,7 +48,7 @@
 			<div class="section">
                 
 				<div class="entry errors">
-					<h:messages globalOnly="true"/>
+					<h:messages id="messages" globalOnly="true"/>
 				</div>
 
                 <h:form id="registration">
@@ -57,14 +57,14 @@
 					<s:decorate id="usernameDecorate" template="edit.xhtml">
 						<ui:define name="label">Username:</ui:define>
 						<h:inputText id="username" value="#{user.username}" required="true">
-							<a:support event="onblur" reRender="usernameDecorate"/>
+							<a:support id="onblur" event="onblur" reRender="usernameDecorate"/>
 						</h:inputText>
 					</s:decorate>
 					
 					<s:decorate id="nameDecorate" template="edit.xhtml">
 						<ui:define name="label">Real Name:</ui:define>
 						<h:inputText id="name" value="#{user.name}" required="true">
-							<a:support event="onblur" reRender="nameDecorate"/>
+							<a:support id="onblur" event="onblur" reRender="nameDecorate"/>
 						</h:inputText>
 					</s:decorate>
 					
