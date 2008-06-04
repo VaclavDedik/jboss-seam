@@ -20,15 +20,15 @@
             <h:form id="login">
 			<fieldset>
 				<div>
-					<h:outputLabel for="username">Login Name</h:outputLabel>
+					<h:outputLabel id="UsernameLabel" for="username">Login Name</h:outputLabel>
 					<h:inputText id="username" value="#{identity.username}" style="width: 175px;"/>
-					<div class="errors"><h:message for="username"/></div>
+					<div class="errors"><h:message id="message" for="username"/></div>
 				</div>
 				<div>
-					<h:outputLabel for="password">Password</h:outputLabel>
+					<h:outputLabel id="PasswordLabel" for="password">Password</h:outputLabel>
 					<h:inputSecret id="password" value="#{identity.password}" style="width: 175px;"/>
 				</div>
-				<div class="errors"><h:messages globalOnly="true"/></div>
+				<div class="errors"><h:messages id="messages" globalOnly="true"/></div>
 				<div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Account Login"/></div>
 				<div class="notes"><s:link id="register" view="/register.xhtml" value="Register New User"/></div>
 			</fieldset>

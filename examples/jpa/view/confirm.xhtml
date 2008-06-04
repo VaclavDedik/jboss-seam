@@ -37,7 +37,7 @@
         <div class="entry">
             <div class="label">Total payment:</div>
             <div class="output">
-                <h:outputText value="#{booking.total}">
+                <h:outputText id="BookingTotal" value="#{booking.total}">
                     <f:convertNumber type="currency" 
                                      currencySymbol="$"/>
                 </h:outputText>
@@ -45,11 +45,11 @@
         </div>
 		<div class="entry">
 			<div class="label">Check In Date:</div>
-			<div class="output"><h:outputText value="#{booking.checkinDate}"/></div>
+			<div class="output"><h:outputText id="BookingCheckinDate" value="#{booking.checkinDate}"/></div>
 		</div>
 		<div class="entry">
 			<div class="label">Check Out Date:</div>
-			<div class="output"><h:outputText value="#{booking.checkoutDate}"/></div>
+			<div class="output"><h:outputText id="BookingCheckoutDate" value="#{booking.checkoutDate}"/></div>
 		</div>
 		<div class="entry">
 			<div class="label">Credit Card #:</div>
