@@ -35,14 +35,14 @@
                     <ui:repeat value="#{topProducts}" var="item">
                         <div class="bestinner">
                             <div class="besttitle">
-                                <s:link view="/dvd.xhtml">
+                                <s:link id="TitleLink" view="/dvd.xhtml">
                                     #{fn:length(item.title) gt 14 ? fn:substring(item.title,0,13) : item.title}
-                                    <f:param name="id" value="#{item.productId}"/>
+                                    <f:param id="ProductIdForTextLink" name="id" value="#{item.productId}"/>
                                 </s:link>
                             </div>
                             <div class="bestimage">
-                                <s:link view="/dvd.xhtml">
-                                    <f:param name="id" value="#{item.productId}"/>
+                                <s:link id="ImageLink" view="/dvd.xhtml">
+                                    <f:param id="ProductIdForImage" name="id" value="#{item.productId}"/>
                                     <img src="#{item.imageURL}" />
                                 </s:link>
                             </div>
@@ -53,21 +53,21 @@
             
             <f:subview id="searchresults" rendered="#{searchResults.rowCount == 0}">
                 <h2>
-                    <h:outputText value="#{messages.noSearchResultsHeader}" />
+                    <h:outputText id="NoResultsMessage" value="#{messages.noSearchResultsHeader}" />
                 </h2>
             </f:subview>
                 
-            <h:form rendered="#{searchResults.rowCount > 0}">
+            <h:form id="SearchResultsForm" rendered="#{searchResults.rowCount > 0}">
                 <div class="controlBar">
                     <div class="buttonbox">
                         <div class="button">
-                            <h:commandLink action="#{search.nextPage}" rendered="#{!search.lastPage}">
+                            <h:commandLink id="NextPageLink" action="#{search.nextPage}" rendered="#{!search.lastPage}">
                                 <img src="img/arrow-r.png" />
                             </h:commandLink>
                             &#160;
                         </div>
                         <div class="button">
-                            <h:commandLink action="#{search.prevPage}" rendered="#{!search.firstPage}">
+                            <h:commandLink id="PreviousPageLink" action="#{search.prevPage}" rendered="#{!search.firstPage}">
                                 <img src="img/arrow-l.png" />
                             </h:commandLink>
                             &#160;
@@ -77,46 +77,48 @@
                     <div class="message">#{messages.searchResultsHeader}</div>
                 </div>
                 
-                <h:dataTable value="#{searchResults}" 
+                <h:dataTable id="SearchResultsTable"
+                             value="#{searchResults}" 
                              var="product" 
                              styleClass="dvdtable" 
                              headerClass="dvdtablehead"
                              rowClasses="results"
                              columnClasses="dvdtablecol">
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{messages.searchResultsAdd}" />
+                    <h:column id="column1">
+                        <f:facet id="AddToCartFacet" name="header">
+                            <h:outputText id="AddToCartText" value="#{messages.searchResultsAdd}" />
                         </f:facet>
-                        <h:selectBooleanCheckbox value="#{searchSelections[product]}"/>
+                        <h:selectBooleanCheckbox id="AddToCartCheckbox" value="#{searchSelections[product]}"/>
                     </h:column>
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{messages.searchResultsTitle}" />
+                    <h:column id="column2">
+                        <f:facet id="TitleFacet" name="header">
+                            <h:outputText id="TitleText" value="#{messages.searchResultsTitle}" />
                         </f:facet>
                         
-                        <s:link view="/dvd.xhtml" value="#{product.title}">
-                            <f:param name="id" value="#{product.productId}"/>
+                        <s:link id="TitleLink" view="/dvd.xhtml" value="#{product.title}">
+                            <f:param id="ProductId" name="id" value="#{product.productId}"/>
                         </s:link>
                     </h:column>                        
                     
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Starring" />
+                    <h:column id="column3">
+                        <f:facet id="StarringFacet" name="header">
+                            <h:outputText id="StarringText" value="Starring" />
                         </f:facet>
-                        <h:outputText value="#{product.actors[0].name}" />
+                        <h:outputText id="StarringValue" value="#{product.actors[0].name}" />
                     </h:column>                        
                     
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="#{messages.searchResultsPrice}" />
+                    <h:column id="column4">
+                        <f:facet id="PriceFacet" name="header">
+                            <h:outputText id="PriceText" value="#{messages.searchResultsPrice}" />
                         </f:facet>
-                        <h:outputText value="#{product.price}">
+                        <h:outputText id="PriceValue" value="#{product.price}">
                             <f:convertNumber type="currency" currencySymbol="$" />
                         </h:outputText>
                     </h:column>                        
                 </h:dataTable>
                 
-                <h:commandButton action="#{search.addAllToCart}" 
+                <h:commandButton id="SearchUpdateButton"
+                                 action="#{search.addAllToCart}" 
                                  value="#{messages.searchUpdateButton}"/>
                 
             </h:form>        

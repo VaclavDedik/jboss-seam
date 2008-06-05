@@ -18,9 +18,9 @@
         </ui:define>
         
         <ui:define name="body">
-            <h2><h:outputText value="#{messages.newCustomerHeader}" /></h2>
+            <h2><h:outputText id="NewCustomerHeader" value="#{messages.newCustomerHeader}" /></h2>
             
-            <p><em><h:outputText value="#{messages.newCustomerInfo}" /></em></p>
+            <p><em><h:outputText id="NewCustomerInfo" value="#{messages.newCustomerInfo}" /></em></p>
             
 
             <p>
@@ -31,17 +31,17 @@
             </p>
         
             <div class="cntInfo">
-                <h:form>
+                <h:form id="NewAccountForm">
                     <table border="0">
                         <tr>
                             <td class="cntForm">#{messages.newCustomerUN}</td>
                             <td class="cntForm">
                                 <h:inputText id="userName" required="true"
                                              value="#{customer.userName}">
-                                    <s:validate />
+                                    <s:validate/>
                                 </h:inputText> *
                             </td>
-                            <td><h:message for="userName" styleClass="cntError" /></td>
+                            <td><h:message id="MessageForUserName" for="userName" styleClass="cntError" /></td>
                         </tr>
                         
                         <tr>
@@ -52,7 +52,7 @@
                                     <s:validate />
                                 </h:inputSecret> *
                             </td>
-                            <td><h:message for="password" styleClass="cntError" /></td>
+                            <td><h:message id="MessageForPassword" for="password" styleClass="cntError" /></td>
                         </tr>
                         
                         <tr>
@@ -62,11 +62,11 @@
                                                value="#{editCustomer.passwordVerify}">
                                 </h:inputSecret> * 
                             </td>
-                            <td><h:message for="passwordVerify" styleClass="cntError" /></td>
+                            <td><h:message id="MessageForPasswordVerify" for="passwordVerify" styleClass="cntError" /></td>
                         </tr>
                     </table>
 
-                    <h:commandButton action="next" value="Continue" />
+                    <h:commandButton id="ContinueButton" action="next" value="Continue" />
                 </h:form>
             </div>
         </ui:define>

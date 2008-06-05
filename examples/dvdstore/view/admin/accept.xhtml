@@ -23,70 +23,71 @@
             <p>Please accept or reject the order.</p>
 
             <div class="cntInfo">
-                <h:panelGrid columns="2">
-                    <h:outputText value="Order" />
-                    <h:outputText value="#{order.orderId}" />
+                <h:panelGrid id="AcceptancePanel" columns="2">
+                    <h:outputText id="OrderText" value="Order" />
+                    <h:outputText id="OrderIdValue" value="#{order.orderId}" />
                     
-                    <h:outputText value="Order date:" />
-                    <h:outputText value="#{order.orderDate}">
+                    <h:outputText id="OrderDateText" value="Order date:" />
+                    <h:outputText id="OrderDateValue" value="#{order.orderDate}">
                         <s:convertDateTime type="both" dateStyle="full"/> 
                     </h:outputText>
                     
-                    <h:outputText value="Net Amount:" />
-                    <h:outputText value="#{order.netAmount}">
+                    <h:outputText id="NetAmountText" value="Net Amount:" />
+                    <h:outputText id="NetAmountValue" value="#{order.netAmount}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                     
-                    <h:outputText value="Tax:" />
-                    <h:outputText value="#{order.tax}">
+                    <h:outputText id="TaxText" value="Tax:" />
+                    <h:outputText id="TaxValue" value="#{order.tax}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                     
-                    <h:outputText value="Total Amount:" />
-                    <h:outputText value="#{order.totalAmount}">
+                    <h:outputText id="TotalAmountText" value="Total Amount:" />
+                    <h:outputText id="TotalAmountValue" value="#{order.totalAmount}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </h:panelGrid>
                 
                 <div class="cntInfo">
-                    <h:dataTable value="#{order.orderLines}" 
+                    <h:dataTable id="OrderLinesDataTable"
+                                 value="#{order.orderLines}" 
                                  var="item"
                                  styleClass="dvdtable" 
                                  headerClass="dvdtablehead"
                                  rowClasses="dvdtableodd,dvdtableeven"
                                  columnClasses="dvdtablecol">
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{messages.cartQuantityColumn}" />
+                        <h:column id="column1">
+                            <f:facet id="QuantityFacet" name="header">
+                                <h:outputText id="QuantityText" value="#{messages.cartQuantityColumn}" />
                             </f:facet>
-                            <h:outputText value="#{item.quantity}" />
+                            <h:outputText id="QuantityValue" value="#{item.quantity}" />
                         </h:column>                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{messages.cartTitleColumn}" />
+                        <h:column id="column2">
+                            <f:facet id="TitleFacet" name="header">
+                                <h:outputText id="TitleText" value="#{messages.cartTitleColumn}" />
                             </f:facet>
-                            <h:outputText value="#{item.product.title}" />
+                            <h:outputText id="TitleValue" value="#{item.product.title}" />
                         </h:column>                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{messages.cartActorColumn}" />
+                        <h:column id="column3">
+                            <f:facet id="ActorFacet" name="header">
+                                <h:outputText id="ActorText" value="#{messages.cartActorColumn}" />
                             </f:facet>
-                            <h:outputText value="#{item.product.actors[0].name}" />
+                            <h:outputText id="ActorValue" value="#{item.product.actors[0].name}" />
                         </h:column>                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{messages.cartPriceColumn}" />
+                        <h:column id="column4">
+                            <f:facet id="PriceFacet" name="header">
+                                <h:outputText id="PriceText" value="#{messages.cartPriceColumn}" />
                             </f:facet>
-                            <h:outputText value="#{item.product.price}">
+                            <h:outputText id="PriceValue" value="#{item.product.price}">
                                 <f:convertNumber type="currency" currencySymbol="$" />
                             </h:outputText>
                         </h:column>                        
                     </h:dataTable>
                 </div>                
                 
-                <h:form>
-                    <h:commandButton action="#{accept.reject}" value="Reject Order" /> 
-                    <h:commandButton action="#{accept.accept}" value="Accept Order" /> 
+                <h:form id="AcceptRejectForm">
+                    <h:commandButton id="AcceptOrderButton" action="#{accept.reject}" value="Reject Order" /> 
+                    <h:commandButton id="RejectOrderButton" action="#{accept.accept}" value="Accept Order" /> 
                 </h:form>
             </div>
  

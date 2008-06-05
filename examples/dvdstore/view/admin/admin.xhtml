@@ -60,33 +60,34 @@
                 <p>There are no pooled tasks to be assigned.</p>
             </f:subview>
             
-            <h:dataTable rendered="#{not empty pooledTaskInstanceList}"
+            <h:dataTable id="TaskAssignmentDataTable"
+                         rendered="#{not empty pooledTaskInstanceList}"
                          value="#{pooledTaskInstanceList}"
                          var="task" 
                          styleClass="dvdtable" 
                          headerClass="dvdtablehead"
                          rowClasses="dvdtableodd,dvdtableeven"
                          columnClasses="dvdtablecol">
-                <h:column>
-                    <f:facet name="header">Order Id</f:facet>
+                <h:column id="column1">
+                    <f:facet id="OrderIdFacet" name="header">Order Id</f:facet>
                     #{task.variables['orderId']}
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Task</f:facet>
-                    <h:outputText value="#{task.description}" />
+                <h:column id="column2">
+                    <f:facet id="TaskFacet" name="header">Task</f:facet>
+                    <h:outputText id="TaskDescription" value="#{task.description}" />
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Order Amount</f:facet>
-                    <h:outputText value="#{task.variables['amount']}">
+                <h:column id="column3">
+                    <f:facet id="OrderAmountFacet" name="header">Order Amount</f:facet>
+                    <h:outputText id="OrderAmountValue" value="#{task.variables['amount']}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Customer</f:facet>
-                    <h:outputText value="#{task.variables['customer']}" />
+                <h:column id="column4">
+                    <f:facet id="CustomerFacet" name="header">Customer</f:facet>
+                    <h:outputText id="CustomerValue" value="#{task.variables['customer']}" />
                 </h:column>
-                <h:column>
-                    <s:button action="#{pooledTask.assignToCurrentActor}" taskInstance="#{task}"
+                <h:column id="column5">
+                    <s:button id="AssignButton" action="#{pooledTask.assignToCurrentActor}" taskInstance="#{task}"
                               value="Assign"/>
                 </h:column>
             </h:dataTable>
@@ -97,29 +98,30 @@
                 <p>There are no orders to be accepted.</p>
             </f:subview>
 
-            <h:dataTable rendered="#{not empty taskInstanceListForType['approve']}"
+            <h:dataTable id="OrderAcceptanceDataTable"
+                         rendered="#{not empty taskInstanceListForType['approve']}"
                          value="#{taskInstanceListForType['approve']}"
                          var="task" 
                          styleClass="dvdtable" 
                          headerClass="dvdtablehead"
                          rowClasses="dvdtableodd,dvdtableeven"
                          columnClasses="dvdtablecol">
-                <h:column>
-                    <f:facet name="header">Order Id</f:facet>
+                <h:column id="column1">
+                    <f:facet id="AcceptanceIdFacet" name="header">Order Id</f:facet>
                     #{task.variables['orderId']}
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Order Amount</f:facet>
-                    <h:outputText value="#{task.variables['amount']}">
+                <h:column id="column2">
+                    <f:facet id="AcceptanceAmountFacet" name="header">Order Amount</f:facet>
+                    <h:outputText id="AcceptanceAmountValue" value="#{task.variables['amount']}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Customer</f:facet>
-                    <h:outputText value="#{task.variables['customer']}" />
+                <h:column id="column3">
+                    <f:facet id="AcceptanceCustomerFacet" name="header">Customer</f:facet>
+                    <h:outputText id="AcceptanceCustomerValue" value="#{task.variables['customer']}" />
                 </h:column>
-                <h:column>
-                    <s:button action="#{accept.viewTask}" taskInstance="#{task}" 
+                <h:column id="column4">
+                    <s:button id="AcceptanceTaskButton" action="#{accept.viewTask}" taskInstance="#{task}" 
                               value="Review"/>
                 </h:column>
             </h:dataTable>
@@ -128,29 +130,30 @@
             <f:subview id="no_shipping" rendered="#{empty taskInstanceListForType['ship']}">
                 <p>There are no orders to be shipped.</p>
             </f:subview>
-            <h:dataTable rendered="#{not empty taskInstanceListForType['ship']}"
+            <h:dataTable id="ShippingDataTable"
+                         rendered="#{not empty taskInstanceListForType['ship']}"
                          value="#{taskInstanceListForType['ship']}"
                          var="task" 
                          styleClass="dvdtable" 
                          headerClass="dvdtablehead"
                          rowClasses="dvdtableodd,dvdtableeven"
                          columnClasses="dvdtablecol">
-                <h:column>
-                    <f:facet name="header">Order Id</f:facet>
+                <h:column id="column1">
+                    <f:facet id="ShippingIdFacet" name="header">Order Id</f:facet>
                     #{task.variables['orderId']}
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Order Amount</f:facet>
-                    <h:outputText value="#{task.variables['amount']}">
+                <h:column id="column2">
+                    <f:facet id="ShippingAmountFacet" name="header">Order Amount</f:facet>
+                    <h:outputText id="ShippingAmountValue" value="#{task.variables['amount']}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </h:column>
-                <h:column>
-                    <f:facet name="header">Customer</f:facet>
-                    <h:outputText value="#{task.variables['customer']}" />
+                <h:column id="column3">
+                    <f:facet id="ShippingCustomerFacet" name="header">Customer</f:facet>
+                    <h:outputText id="ShippingCustomerValue" value="#{task.variables['customer']}" />
                 </h:column>
-                <h:column>
-                    <s:button action="#{ship.viewTask}" taskInstance="#{task}" 
+                <h:column id="column4">
+                    <s:button id="ShipButton" action="#{ship.viewTask}" taskInstance="#{task}" 
                               value="Ship"/>
                 </h:column>               
             </h:dataTable>
