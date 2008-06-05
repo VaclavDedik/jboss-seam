@@ -17,10 +17,10 @@
   <body>
     <h1>Do you really want to give up now?</h1>
     <f:view>
-    <h:form styleClass="niceform">
-      You still have <h:outputText value="#{numberGuess.remainingGuesses}"/> guesses remaining.
-      <h:commandButton value="Yes" action="yes"/>
-      <h:commandButton value="No" action="no"/>
+    <h:form id="giveup" styleClass="niceform">
+      You still have <h:outputText id="RemainingGuesses" value="#{numberGuess.remainingGuesses}"/> guesses remaining.
+      <h:commandButton id="YesButton" value="Yes" action="yes"/>
+      <h:commandButton id="NoButton" value="No" action="no"/>
     </h:form>
     </f:view>
   </body>

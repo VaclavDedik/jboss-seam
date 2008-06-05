@@ -18,44 +18,46 @@
   <body>
     <h1>Guess a number...</h1>
     <f:view>
-	  <h:form styleClass="niceform">
+	  <h:form id="NumberGuessMain" styleClass="niceform">
 	    
 	    <div>
-	    <h:messages globalOnly="true"/>
-	    <h:outputText value="Higher!" 
+	    <h:messages id="messages" globalOnly="true"/>
+	    <h:outputText id="Higher"
+                          value="Higher!" 
 	                  rendered="#{numberGuess.randomNumber gt numberGuess.currentGuess}"/>
-	    <h:outputText value="Lower!" 
+	    <h:outputText id="Lower"
+                          value="Lower!" 
 	                  rendered="#{numberGuess.randomNumber lt numberGuess.currentGuess}"/>
 		</div>
 		
 		<div>
-        I'm thinking of a number between <h:outputText value="#{numberGuess.smallest}"/> and 
-        <h:outputText value="#{numberGuess.biggest}"/>. You have 
-        <h:outputText value="#{numberGuess.remainingGuesses}"/> guesses.
+        I'm thinking of a number between <h:outputText id="Smalles" value="#{numberGuess.smallest}"/> and 
+        <h:outputText id="Biggest" value="#{numberGuess.biggest}"/>. You have 
+        <h:outputText id="RemainingGuesses" value="#{numberGuess.remainingGuesses}"/> guesses.
         </div>
         
         <div>
         Your guess: 
-        <h:inputText value="#{numberGuess.currentGuess}" id="inputGuess" required="true" size="3" 
+        <h:inputText id="inputGuess" value="#{numberGuess.currentGuess}" required="true" size="3" 
                  rendered="#{(numberGuess.biggest-numberGuess.smallest) gt 20}">
           <f:validateLongRange maximum="#{numberGuess.biggest}" 
                                minimum="#{numberGuess.smallest}"/>
         </h:inputText>
-        <h:selectOneMenu value="#{numberGuess.currentGuess}" id="selectGuessMenu" required="true"
+        <h:selectOneMenu id="selectGuessMenu" value="#{numberGuess.currentGuess}" required="true"
                        rendered="#{(numberGuess.biggest-numberGuess.smallest) le 20 and (numberGuess.biggest-numberGuess.smallest) gt 4}">
-          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+          <s:selectItems id="PossibilitiesMenuItems" value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
         </h:selectOneMenu>
-        <h:selectOneRadio value="#{numberGuess.currentGuess}" id="selectGuessRadio" required="true"
+        <h:selectOneRadio id="selectGuessRadio" value="#{numberGuess.currentGuess}" required="true"
                        rendered="#{(numberGuess.biggest-numberGuess.smallest) le 4}">
-          <s:selectItems value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
+          <s:selectItems id="PossibilitiesRadioItems" value="#{numberGuess.possibilities}" var="i" label="#{i}"/>
         </h:selectOneRadio>
-		<h:commandButton value="Guess" action="guess"/>
-        <s:button value="Cheat" action="cheat"/>
-        <s:button value="Give up" action="giveup"/>
+		<h:commandButton id="GuessButton" value="Guess" action="guess"/>
+        <s:button id="CheatButton" value="Cheat" action="cheat"/>
+        <s:button id="GiveUpButton" value="Give up" action="giveup"/>
 		</div>
 		
 		<div>
-        <h:message for="inputGuess" style="color: red"/>
+        <h:message id="message" for="inputGuess" style="color: red"/>
         </div>
         
 	  </h:form>
