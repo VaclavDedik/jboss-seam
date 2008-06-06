@@ -90,12 +90,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    @Create
    public void init()
-   {      
-      if (userClass == null)
-      {
-
-      }
-      
+   {            
       if (userClass == null)
       {
          log.debug("No userClass set, JpaIdentityStore will be unavailable.");
