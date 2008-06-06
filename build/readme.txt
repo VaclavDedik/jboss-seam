@@ -51,6 +51,8 @@ To add or upgrade a dependency of Seam:
   2) Set the offline.repository.jboss.org property in build/build.properties to
      the directory you checked out to.
   3) Run ant -Dpom=foo.pom -Djar=foo.jar deployRelease
+     - if the new dependency also has a source and javadoc jar you can run:
+       - "ant -Dpom=foo.pom -Djar=foo.jar -Dsrcjar=foo-src.jar -Ddocjar=foo-doc.jar deployReleaseWithSourcesAndJavaDoc"
   4) Check in the changed files to SVN (they'll be under a path of 
      artifactId/groupId/version)
 

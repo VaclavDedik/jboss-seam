@@ -114,6 +114,25 @@
 			</artifact:deploy>
 		</sequential>
 	</macrodef>
+   
+   <macrodef name="deployWithSourcesAndJavadoc">
+      <attribute name="pom" default="" />
+      <attribute name="jar" default="" />
+      <attribute name="srcjar" />
+      <attribute name="docjar" />
+      <attribute name="repositoryId" default="" />
+      <element name="credentials" implicit="true" optional="true" />
+      <sequential>
+          <artifact:deploy file="@{jar}" settingsFile="${maven.settings.xml}">
+              <pom file="@{pom}" settingsFile="${maven.settings.xml}" />
+              <remoteRepository refId="@{repositoryId}">
+                  <credentials />
+              </remoteRepository>
+              <attach file="@{srcjar}" classifier="sources" />
+              <attach file="@{docjar}" classifier="javadoc" />
+          </artifact:deploy>
+      </sequential>
+   </macrodef>
 	
 	<macrodef name="deployWithAttachment">
 		<attribute name="pom" default="" />

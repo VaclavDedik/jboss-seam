@@ -27,6 +27,13 @@
 		<pomfile name="pom.file" value="${pom}" />
 		<deploy pom="${pom.file}" jar="${jar}" repositoryId="offline.repository.jboss.org" />
 	</target>
+   
+   <target name="deployReleaseWithSourcesAndJavaDoc" description="Deploy a jar (generating the pom), source jar and javadoc jar to the offline repository" depends="initdav">
+       <pomfile name="pom.file" value="${pom}" />
+       <deployWithSourcesAndJavadoc pom="${pom.file}" jar="${jar}" 
+                                    srcjar="${srcjar}" docjar="${docjar}"
+                                    repositoryId="offline.repository.jboss.org" />
+    </target>
 	
 	<target name="releaseSeam" description="Deploy Seam and JBoss EL to your local copy of repository.jboss.org" depends="initpoms">
 		<fail unless="offline.repository.jboss.org" message="Please set the offline.repository.jboss.org property"/>
