@@ -4,6 +4,7 @@ import static javax.mail.Message.RecipientType.BCC;
 import static javax.mail.Message.RecipientType.CC;
 
 import java.io.InputStream;
+import java.util.Enumeration;
 
 import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
@@ -90,6 +91,8 @@ public class MailTest extends SeamTest
         }.run();
        
     }
+    
+    
     
     @Test
     public void testAttachment() throws Exception
@@ -523,6 +526,40 @@ public class MailTest extends SeamTest
                 }
                 assert exceptionThrown;
              
+            }
+        }.run();
+    }
+    
+    @Test
+    public void testSanitization() throws Exception
+    {
+        
+        new FacesRequest()
+        {
+
+            @Override
+            protected void updateModelValues() throws Exception
+            {
+                
+            }
+            
+            @Override
+            protected void invokeApplication() throws Exception
+            { 
+                Contexts.getEventContext().set("name", "Pete\nMuir");   
+                MimeMessage renderedMessage = getRenderedMailMessage("/org/jboss/seam/example/mail/test/sanitization.xhtml");
+                assert "Try out".equals(renderedMessage.getSubject());
+                InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
+                assert to.getAddress().equals("peter@email.tld");
+                assert to.getPersonal().equals("Pete");
+                assert renderedMessage.getFrom().length == 1;
+                assert renderedMessage.getFrom()[0] instanceof InternetAddress;
+                InternetAddress from = (InternetAddress) renderedMessage.getFrom()[0];
+                assert from.getAddress().equals("peter@example.com");
+                assert from.getPersonal().equals("Pete");
+                assert renderedMessage.getHeader("Pete") != null;
+                assert renderedMessage.getHeader("Pete").length == 1;
+                assert "roll".equals(renderedMessage.getHeader("Pete")[0]);
             }
         }.run();
     }

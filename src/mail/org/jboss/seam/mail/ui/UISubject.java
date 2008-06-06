@@ -22,11 +22,11 @@ public class UISubject extends MailComponent
          String charset = findMessage().getCharset();
          if (charset == null)
          {
-            findMimeMessage().setSubject(subject);
+            findMimeMessage().setSubject(new Header(subject).getSanitizedValue());
          }
          else
          {
-            findMimeMessage().setSubject(subject, charset);
+            findMimeMessage().setSubject(new Header(subject).getSanitizedValue(), charset);
          }
       }
       catch (MessagingException e)

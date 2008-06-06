@@ -17,10 +17,15 @@ public class UIHeader extends MailComponent
    {
       try
       {
-         if (getValue() != null) {
-            findMimeMessage().addHeader(getName(), getValue());
-         } else {
-            findMimeMessage().addHeader(getName(), encode(facesContext));
+         if (getValue() != null) 
+         {
+            Header header = new Header(getName(), getValue());
+            findMimeMessage().addHeader(header.getSanitizedName(), header.getSanitizedValue());
+         }
+         else 
+         {
+            Header header = new Header(getName(), encode(facesContext));
+            findMimeMessage().addHeader(header.getSanitizedName(), header.getSanitizedValue());
          }
       }
       catch (MessagingException e)
