@@ -73,7 +73,7 @@ public class RememberMe
       @Override
       public String getCookieName()
       {
-         return "org.jboss.seam.security.token";
+         return "org.jboss.seam.security.authtoken";
       }
    }
    
@@ -246,20 +246,23 @@ public class RememberMe
          if (tokenStore.validateToken(identity.getCredentials().getUsername(), 
                identity.getCredentials().getPassword()))
          {
-            // Success, authenticate the user
-            identity.getSubject().getPrincipals().add(new SimplePrincipal(
-                  identity.getCredentials().getUsername()));            
-            // And populate the roles
-            for (String role : IdentityManager.instance().getImpliedRoles(
-                  identity.getCredentials().getUsername()))
+            // Success, authenticate the user (if their account is enabled)            
+            if (IdentityManager.instance().isUserEnabled(identity.getCredentials().getUsername()))
             {
-               identity.addRole(role);
+               identity.getSubject().getPrincipals().add(new SimplePrincipal(
+                     identity.getCredentials().getUsername()));            
+               // And populate the roles
+               for (String role : IdentityManager.instance().getImpliedRoles(
+                     identity.getCredentials().getUsername()))
+               {
+                  identity.addRole(role);
+               }
+               
+               identity.postAuthenticate();
+               
+               autoLoggedIn = true;
             }
-            
-            identity.postAuthenticate();
-            
-            autoLoggedIn = true;
-         }
+         }            
       }
    }
    
