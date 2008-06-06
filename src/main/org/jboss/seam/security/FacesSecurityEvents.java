@@ -3,7 +3,6 @@ package org.jboss.seam.security;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
-import javax.faces.context.FacesContext;
 import javax.security.auth.login.LoginException;
 
 import org.jboss.seam.annotations.Install;
@@ -12,13 +11,12 @@ import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.faces.Selector;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.international.StatusMessage.Severity;
 
 /**
- * Produces FacesMessages for certain security events, and decouples the
- * Identity component from JSF - and also handles cookie functionality.
+ * Produces FacesMessages in response of certain security events, and helps to decouple the
+ * Identity component from JSF.
  * 
  * @author Shane Bryzak
  */
@@ -27,57 +25,14 @@ import org.jboss.seam.international.StatusMessage.Severity;
 @Install(precedence = BUILT_IN, classDependencies = "javax.faces.context.FacesContext")
 @BypassInterceptors
 @Startup
-public class FacesSecurityEvents extends Selector
+public class FacesSecurityEvents 
 {  
-   @Override
-   public String getCookieName()
-   {
-      return "org.jboss.seam.security.username";
-   }   
-   
-   @Observer("org.jboss.seam.postCreate.org.jboss.seam.security.identity")
-   public void initCredentialsFromCookie(Identity identity)
-   {       
-      FacesContext ctx = FacesContext.getCurrentInstance();
-      if (ctx != null)
-      {
-         setCookiePath(ctx.getExternalContext().getRequestContextPath());
-      }
-      
-      identity.setRememberMe(isCookieEnabled());      
-      
-      String username = getCookieValue();
-      if (username!=null)
-      {
-         setCookieEnabled(true);
-         identity.setUsername(username);
-         postRememberMe(identity);
-      }
-            
-      setDirty();
-   }
-   
-   @Observer(Credentials.EVENT_CREDENTIALS_UPDATED)
-   public void credentialsUpdated()
-   {
-      setDirty();
-   }
-   
    @Observer(Identity.EVENT_POST_AUTHENTICATE)
    public void postAuthenticate(Identity identity)
-   {
-      // Password is set to null during authentication, so we set dirty
-      setDirty();
-            
-      if ( !identity.isRememberMe() ) clearCookieValue();
-      setCookieValueIfEnabled( identity.getUsername() );      
+   {         
+      //org.jboss.security.saml.SSOManager.processManualLoginNotification(
+            //ServletContexts.instance().getRequest(), identity.getPrincipal().getName());
    }
-   
-   @Observer(Identity.EVENT_REMEMBER_ME)
-   public void postRememberMe(Identity identity)
-   {
-      setCookieEnabled(identity.isRememberMe());
-   }     
    
    @Observer(Identity.EVENT_LOGIN_FAILED)
    public void addLoginFailedMessage(LoginException ex)
@@ -111,7 +66,7 @@ public class FacesSecurityEvents extends Selector
                getLoginSuccessfulMessageSeverity(), 
                getLoginSuccessfulMessageKey(), 
                getLoginSuccessfulMessage(), 
-               Identity.instance().getUsername());
+               Identity.instance().getCredentials().getUsername());
    }
    
    @Observer(Identity.EVENT_NOT_LOGGED_IN)

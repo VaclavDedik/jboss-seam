@@ -56,8 +56,8 @@ public class Identity implements Serializable
    public static final String EVENT_PRE_AUTHENTICATE = "org.jboss.seam.security.preAuthenticate";
    public static final String EVENT_POST_AUTHENTICATE = "org.jboss.seam.security.postAuthenticate";
    public static final String EVENT_LOGGED_OUT = "org.jboss.seam.security.loggedOut";
-   public static final String EVENT_REMEMBER_ME = "org.jboss.seam.security.rememberMe";
-   public static final String EVENT_ALREADY_LOGGED_IN = "org.jboss.seam.security.alreadyLoggedIn";   
+   public static final String EVENT_ALREADY_LOGGED_IN = "org.jboss.seam.security.alreadyLoggedIn";
+   public static final String EVENT_QUIET_LOGIN = "org.jboss.seam.security.quietLogin";
    
    protected static boolean securityEnabled = true;
    
@@ -76,7 +76,7 @@ public class Identity implements Serializable
    private Principal principal;   
    private Subject subject;
    
-   private boolean rememberMe;
+   private RememberMe rememberMe;   
    
    private String jaasConfigName = null;
    
@@ -99,7 +99,8 @@ public class Identity implements Serializable
          permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);
       }
       
-      credentials = (Credentials) Component.getInstance(Credentials.class);
+      rememberMe = (RememberMe) Component.getInstance(RememberMe.class, true);      
+      credentials = (Credentials) Component.getInstance(Credentials.class);     
    }
    
    public static boolean isSecurityEnabled()
@@ -258,12 +259,18 @@ public class Identity implements Serializable
    {
       try
       {
-         if (credentials.isSet()) 
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_QUIET_LOGIN, this);         
+          
+         // Ensure that we haven't been authenticated as a result of the EVENT_QUIET_LOGIN event
+         if (!isLoggedIn(false))
          {
-            authenticate();
-            if (isLoggedIn(false) && Contexts.isEventContextActive())
+            if (credentials.isSet()) 
             {
-               Contexts.getEventContext().set(SILENT_LOGIN, true);
+               authenticate();
+               if (isLoggedIn(false) && Contexts.isEventContextActive())
+               {
+                  Contexts.getEventContext().set(SILENT_LOGIN, true);
+               }
             }
          }
       }
@@ -323,7 +330,7 @@ public class Identity implements Serializable
     * authenticated user.  This method may be overridden by a subclass if
     * different post-authentication logic should occur.
     */
-   protected void postAuthenticate()
+   void postAuthenticate()
    {
       // Populate the working memory with the user's principals
       for ( Principal p : getSubject().getPrincipals() )
@@ -630,7 +637,25 @@ public class Identity implements Serializable
    public void setPassword(String password)
    {
       credentials.setPassword(password);
+   }   
+   
+   /**
+    * @see org.jboss.seam.security.RememberMe#isEnabled()
+    */
+   @Deprecated
+   public boolean isRememberMe()
+   {
+      return rememberMe != null ? rememberMe.isEnabled() : false;
    }
+   
+   /**
+    * @see org.jboss.seam.security.RememberMe#setEnabled(boolean)
+    */
+   @Deprecated
+   public void setRememberMe(boolean remember)
+   {
+      if (rememberMe != null) rememberMe.setEnabled(remember);
+   }   
    
    public Credentials getCredentials()
    {
@@ -645,20 +670,6 @@ public class Identity implements Serializable
    public void setAuthenticateMethod(MethodExpression authMethod)
    {
       this.authenticateMethod = authMethod;
-   }
-   
-   public boolean isRememberMe()
-   {
-      return rememberMe;
-   }
-   
-   public void setRememberMe(boolean remember)
-   {
-      if (this.rememberMe != remember)
-      {
-         this.rememberMe = remember;
-         if (Events.exists()) Events.instance().raiseEvent(EVENT_REMEMBER_ME, this);
-      }
    }
    
    public String getJaasConfigName()

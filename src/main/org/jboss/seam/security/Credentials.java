@@ -15,7 +15,6 @@ import javax.security.auth.callback.UnsupportedCallbackException;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.log.LogProvider;
@@ -25,9 +24,9 @@ import org.jboss.seam.log.Logging;
 @Scope(SESSION)
 @Install(precedence = BUILT_IN)
 @BypassInterceptors
-@Startup
 public class Credentials implements Serializable
 {
+   public static final String EVENT_INIT_CREDENTIALS = "org.jboss.seam.security.initCredentials";
    public static final String EVENT_CREDENTIALS_UPDATED = "org.jboss.seam.security.credentialsUpdated";
    
    private static final LogProvider log = Logging.getLogProvider(Credentials.class);
@@ -37,8 +36,16 @@ public class Credentials implements Serializable
    
    private boolean invalid = false;
    
+   private boolean initialized;
+   
    public String getUsername()
    {
+      if (!initialized && Events.exists())
+      {
+         initialized = true;
+         Events.instance().raiseEvent(EVENT_INIT_CREDENTIALS, this);
+      }
+      
       return username;
    }
    
