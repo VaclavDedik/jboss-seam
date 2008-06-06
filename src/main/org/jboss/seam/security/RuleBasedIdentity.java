@@ -164,12 +164,15 @@ public class RuleBasedIdentity extends Identity
    {      
       if (securityContext != null)
       {
-         Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class));
-         
-         while (iter.hasNext())
+         synchronized(securityContext)
          {
-            Role r = iter.next();
-            if (r.getName().equals(role)) return true;
+            Iterator<Role> iter = securityContext.iterateObjects(new ClassObjectFilter(Role.class));
+            
+            while (iter.hasNext())
+            {
+               Role r = iter.next();
+               if (r.getName().equals(role)) return true;
+            }
          }
       }
       

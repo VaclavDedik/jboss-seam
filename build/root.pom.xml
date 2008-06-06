@@ -39,7 +39,7 @@
   <!-- Externalize some version numbers here -->
   <properties>
     <version.richfaces>3.1.4.GA</version.richfaces>
-    <version.drools>4.0.6</version.drools>
+    <version.drools>4.0.7</version.drools>
   </properties>
 
   <dependencyManagement>
