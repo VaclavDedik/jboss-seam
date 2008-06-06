@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 
+import javax.mail.internet.MimeUtility;
+
 public class Header
 {
    
@@ -47,7 +49,7 @@ public class Header
       {
          try
          {
-            sanitizedValue = sanitize(value);
+            sanitizedValue = sanitizeValue(value);
          }
          catch (IOException e)
          {
@@ -65,6 +67,16 @@ public class Header
    {
       BufferedReader  reader = new BufferedReader(new StringReader(value));
       return reader.readLine();
+   }
+   
+   /**
+    * Remove any line feed/new line characters from a (possibly) folded header
+    * @throws IOException 
+    */
+   public static String sanitizeValue(String value) throws IOException
+   {
+      // The user might have folded the header (stupid SMTP idiocy)
+      return sanitize(MimeUtility.unfold(value));
    }
 
 }

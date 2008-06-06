@@ -61,4 +61,45 @@ public class HeaderTest
       assert "foo".equals(header.getSanitizedName());
       assert "bar".equals(header.getSanitizedValue());
    }
+   
+   @Test
+   public void testHeaderWithFolding1()
+   {
+      String name = "header";
+      String value = "\"Joe & J. Harvey\" <ddd @ Org>,\n  JJV @ BBN";
+      String sanitizedValue = "\"Joe & J. Harvey\" <ddd @ Org>, JJV @ BBN";
+      
+      Header header = new Header(name, value);
+      
+      assert header.getSanitizedName().equals(name);
+      assert header.getSanitizedValue().equals(sanitizedValue);
+      
+   }
+   
+   @Test
+   public void testHeaderWithFolding2()
+   {
+      String name = "header";
+      String value = "\"Joe & J. Harvey\"\n <ddd @ Org>, JJV\n @ BBN";
+      String sanitizedValue = "\"Joe & J. Harvey\" <ddd @ Org>, JJV @ BBN";
+      
+      Header header = new Header(name, value);
+      
+      assert header.getSanitizedName().equals(name);
+      assert header.getSanitizedValue().equals(sanitizedValue);
+      
+   }
+   
+   @Test
+   public void testHeaderWithFolding3()
+   {
+      String name = "header";
+      String value = "\"Joe &\n  J. Harvey\" <ddd @ Org>, JJV @ BBN";
+      String sanitizedValue = "\"Joe & J. Harvey\" <ddd @ Org>, JJV @ BBN";
+      Header header = new Header(name, value);
+      
+      assert header.getSanitizedName().equals(name);
+      assert header.getSanitizedValue().equals(sanitizedValue);
+      
+   }
 }
