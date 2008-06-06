@@ -35,7 +35,7 @@ import org.jboss.seam.log.Logging;
  * 
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.management.ldapIdentityStore")
+@Name("org.jboss.seam.security.ldapIdentityStore")
 @Install(precedence = BUILT_IN, value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors

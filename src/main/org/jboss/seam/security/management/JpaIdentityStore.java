@@ -42,7 +42,7 @@ import org.jboss.seam.util.AnnotatedBeanProperty;
  * 
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.management.jpaIdentityStore")
+@Name("org.jboss.seam.security.jpaIdentityStore")
 @Install(precedence = BUILT_IN, value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
@@ -91,6 +91,11 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    @Create
    public void init()
    {      
+      if (userClass == null)
+      {
+
+      }
+      
       if (userClass == null)
       {
          log.debug("No userClass set, JpaIdentityStore will be unavailable.");
@@ -570,7 +575,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    private String generatePasswordHash(String password, String salt)
    {
-      String algorithm = ((UserPassword) userPasswordProperty.getAnnotation()).hash();
+      String algorithm = userPasswordProperty.getAnnotation().hash();
       
       if (algorithm == null || "".equals(algorithm))
       {

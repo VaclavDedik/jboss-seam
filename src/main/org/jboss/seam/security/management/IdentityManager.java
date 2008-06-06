@@ -25,7 +25,7 @@ import org.jboss.seam.security.Identity;
  * @author Shane Bryzak
  */
 @Scope(EVENT)
-@Name("org.jboss.seam.security.management.identityManager")
+@Name("org.jboss.seam.security.identityManager")
 @Install(precedence = BUILT_IN)
 @BypassInterceptors
 public class IdentityManager implements Serializable

@@ -19,7 +19,7 @@ import org.jboss.seam.util.Base64;
  * @author Shane Bryzak
  */
 @Scope(STATELESS)
-@Name("org.jboss.seam.security.management.passwordHash")
+@Name("org.jboss.seam.security.passwordHash")
 @Install(precedence = BUILT_IN)
 @BypassInterceptors
 public class PasswordHash
