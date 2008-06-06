@@ -277,18 +277,25 @@ public class ServerConversationContext implements Context
           for (String key: getNamesForAllConversationsFromSession())  {
               Object attribute = session.get(key);
             
-              if ( attribute!=null && isAttributeDirty(attribute) ) {
-                  session.put(key, attribute);
+              if (attribute!=null) {
+                  if (passivate(attribute) || isAttributeDirty(attribute)) {
+                      session.put(key, attribute);
+                  }
               }
           }
+
           //remove removed objects
           for (String name: removals) {
               session.remove(getKey(name));
           }
           removals.clear();
+
           //add new objects
           for (Map.Entry<String, Object> entry: additions.entrySet())  {
-              session.put( getKey( entry.getKey() ), entry.getValue() );
+              Object attribute = entry.getValue();
+
+              passivate(attribute); 
+              session.put(getKey(entry.getKey()), attribute);
           }
           additions.clear();
       }
@@ -302,11 +309,17 @@ public class ServerConversationContext implements Context
       }
    }
 
-   private boolean isAttributeDirty(Object attribute)
-   {
-      return Contexts.isAttributeDirty(attribute) || 
-            ( attribute instanceof Wrapper && ( (Wrapper) attribute ).passivate() );
-   }
+    private boolean passivate(Object attribute) {
+        if (attribute instanceof Wrapper) {
+            return ((Wrapper) attribute).passivate();
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isAttributeDirty(Object attribute) {
+        return Contexts.isAttributeDirty(attribute);
+    }
 
    private boolean isCurrent()
    {
