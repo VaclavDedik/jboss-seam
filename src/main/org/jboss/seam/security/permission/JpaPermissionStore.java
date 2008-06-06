@@ -41,7 +41,7 @@ import org.jboss.seam.util.AnnotatedBeanProperty;
  * 
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.permission.jpaPermissionStore")
+@Name("org.jboss.seam.security.jpaPermissionStore")
 @Install(precedence = BUILT_IN, value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
