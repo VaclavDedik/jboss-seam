@@ -132,7 +132,7 @@ public class FormattedTextValidator implements javax.faces.validator.Validator, 
      */
     public String getNoViableAltErrorMessage(String originalMessage, String location) {
         return location != null
-                ? "Text parsing error at '..." + location.trim() + "...'."
+                ? "Text parsing error at '..." + location.trim() + "...'"
                 : "Text parsing error, " + originalMessage.replace("\uFFFF",END_OF_TEXT);
     }
 
@@ -145,7 +145,7 @@ public class FormattedTextValidator implements javax.faces.validator.Validator, 
      */
     public String getMismatchedTokenErrorMessage(String originalMessage, String location) {
         return location != null
-                ? "Text parsing error at '..." + location.trim() + "...'."
+                ? "Text parsing error at '..." + location.trim() + "...'"
                 : "Text parsing error, " + originalMessage.replace("\uFFFF",END_OF_TEXT);
     }
 
@@ -156,7 +156,7 @@ public class FormattedTextValidator implements javax.faces.validator.Validator, 
      * @return a message that is thrown by this validator
      */
     public String getSemanticErrorMessage(String originalMessage) {
-        return "Text parsing error, " + originalMessage.replace("\uFFFF",END_OF_TEXT) + ".";
+        return "Text parsing error, " + originalMessage.replace("\uFFFF",END_OF_TEXT);
     }
 
     /**
