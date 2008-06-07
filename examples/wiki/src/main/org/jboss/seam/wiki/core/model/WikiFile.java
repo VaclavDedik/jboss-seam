@@ -2,12 +2,13 @@ package org.jboss.seam.wiki.core.model;
 
 import javax.persistence.*;
 import java.util.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "WIKI_FILE")
 @org.hibernate.annotations.ForeignKey(name = "FK_WIKI_FILE_NODE_ID")
 //TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
-public abstract class WikiFile<N extends WikiFile> extends WikiNode<N> {
+public abstract class WikiFile<N extends WikiFile> extends WikiNode<N> implements Serializable {
 
     @org.hibernate.annotations.CollectionOfElements(fetch = FetchType.LAZY)
     @JoinTable(name = "WIKI_TAG", joinColumns = @JoinColumn(name = "FILE_ID"))

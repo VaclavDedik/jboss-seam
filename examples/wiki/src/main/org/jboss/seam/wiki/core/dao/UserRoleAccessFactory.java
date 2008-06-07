@@ -19,6 +19,18 @@ public class UserRoleAccessFactory implements Serializable {
     @In
     EntityManager entityManager;
 
+    // Anonymous (not logged-in) user
+    @Factory(value = "currentUser", scope = ScopeType.SESSION, autoCreate = true)
+    public User getCurrentUser() {
+        return getGuestUser();
+    }
+
+    // Anonymous (not logged-in) user's access level
+    @Factory(value = "currentAccessLevel", scope = ScopeType.SESSION, autoCreate = true)
+    public Integer getCurrentAccessLevel() {
+        return Role.GUESTROLE_ACCESSLEVEL;
+    }
+
     @Factory(value = "guestUser", scope = ScopeType.SESSION)
     public User getGuestUser() {
         try {

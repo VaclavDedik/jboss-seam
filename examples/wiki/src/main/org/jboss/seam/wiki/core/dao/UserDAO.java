@@ -6,9 +6,7 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.Component;
 import org.hibernate.criterion.Order;

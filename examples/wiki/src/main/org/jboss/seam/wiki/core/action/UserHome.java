@@ -28,6 +28,7 @@ import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.core.upload.Uploader;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
@@ -46,6 +47,9 @@ import java.util.regex.Pattern;
 @Name("userHome")
 @Scope(ScopeType.CONVERSATION)
 public class UserHome extends EntityHome<User> {
+
+    // TODO: This is a performance optimization, our EM is always already joined (SMPC)
+    //protected void joinTransaction() {}
 
     @In
     private StatusMessages statusMessages;
@@ -153,7 +157,8 @@ public class UserHome extends EntityHome<User> {
     public String persist() {
 
         // Validate
-        if (!isUniqueUsername() ||
+        if (!validateWikiTextEditors() ||
+            !isUniqueUsername() ||
             !passwordAndControlNotNull() ||
             !passwordMatchesRegex() ||
             !passwordMatchesControl()) {
@@ -212,6 +217,10 @@ public class UserHome extends EntityHome<User> {
     @Override
     @Restrict("#{s:hasPermission('User', 'edit', userHome.instance)}")
     public String update() {
+
+        if (!validateWikiTextEditors()) {
+            return null;
+        }
 
         if (uploader.hasData()) {
             uploader.uploadNewInstance();
@@ -337,6 +346,16 @@ public class UserHome extends EntityHome<User> {
             "lacewiki.msg.userHome.PortraitRemoved",
             "The portrait has been removed, save to make changes permanent."
         );
+    }
+
+    protected boolean validateWikiTextEditors() {
+        WikiTextValidator wikiTextValidator =
+                (WikiTextValidator) Component.getInstance(WikiTextValidator.class);
+
+        wikiTextValidator.validate("bio", getInstance().getProfile().getBio(), false);
+        wikiTextValidator.validate("signature", getInstance().getProfile().getSignature(), false);
+
+        return wikiTextValidator.isValid("bio") && wikiTextValidator.isValid("signature");
     }
 
 

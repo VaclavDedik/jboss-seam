@@ -16,6 +16,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.validator.ValidatorException;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 
 /**
  * I don't trust the built-in validator with @CaptchaResponse.
@@ -28,7 +29,7 @@ import javax.faces.context.FacesContext;
  */
 @Name("wikiCaptchaValidator")
 @Validator(id = "wikiCaptchaValidator")
-public class WikiCaptchaValidator implements javax.faces.validator.Validator {
+public class WikiCaptchaValidator implements javax.faces.validator.Validator, Serializable {
 
     public static final String VERIFICATION_MSG_EXPR = "#{messages['lacewiki.label.VerificationError']}";
 

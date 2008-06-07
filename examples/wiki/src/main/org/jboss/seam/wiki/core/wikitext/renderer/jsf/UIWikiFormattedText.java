@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.wiki.core.ui;
+package org.jboss.seam.wiki.core.wikitext.renderer.jsf;
 
 import antlr.ANTLRException;
 import antlr.RecognitionException;
@@ -14,13 +14,17 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.util.JSF;
-import org.jboss.seam.wiki.core.engine.*;
 import org.jboss.seam.wiki.core.model.WikiFile;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
-import org.jboss.seam.wiki.core.renderer.DefaultWikiTextRenderer;
+import org.jboss.seam.wiki.core.wikitext.renderer.DefaultWikiTextRenderer;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiFormattedTextValidator;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLink;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.wikitext.renderer.WikiTextRenderer;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
@@ -35,8 +39,10 @@ import java.util.Map;
 /**
  * Uses WikiTextParser and WikiLinkResolver to render Seam Text markup with wiki links.
  *
+ * <p>
  * Any lexer/parser error results in WARN level log message, you can disable this in your logging
  * configuration by raising the log level for this class to ERROR.
+ * </p>
  *
  * @author Christian Bauer
  */
@@ -96,6 +102,7 @@ public class UIWikiFormattedText extends UIOutput {
 
         parser.setResolver((WikiLinkResolver)Component.getInstance("wikiLinkResolver"));
 
+        // TODO: Externalize this to separate class, extensible
         // Set a customized renderer for parser macro callbacks
         class WikiFormattedTextRenderer extends DefaultWikiTextRenderer {
 
@@ -257,7 +264,7 @@ public class UIWikiFormattedText extends UIOutput {
 
             @Override
             protected String getHeadlineLink(Headline h, String headline) {
-                return "<a href=\""+ wikiURLRenderer.renderURL(baseFile)+"#"+WikiTextRenderer.HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline)+"\">"
+                return "<a href=\""+ wikiURLRenderer.renderURL(baseFile)+"#"+ WikiTextRenderer.HEADLINE_ID_PREFIX+WikiUtil.convertToWikiName(headline)+"\">"
                         + headline
                        +"</a>";
             }

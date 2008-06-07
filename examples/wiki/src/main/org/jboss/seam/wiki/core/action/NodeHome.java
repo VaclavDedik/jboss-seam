@@ -19,6 +19,7 @@ import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.international.StatusMessages;
@@ -36,6 +37,9 @@ import java.util.List;
  */
 public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends EntityHome<N> {
 
+    // TODO: This is a performance optimization, our EM is always already joined (SMPC)
+    protected void joinTransaction() {}
+
     /* -------------------------- Context Wiring ------------------------------ */
 
     @In
@@ -48,12 +52,15 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     protected User currentUser;
     @In
     protected List<Role.AccessLevel> accessLevelsList;
+    @In
+    protected WikiTextValidator wikiTextValidator;
 
     public WikiNodeDAO getWikiNodeDAO() { return wikiNodeDAO; }
     public UserDAO getUserDAO() { return userDAO; }
     public WikiDirectory getWikiRoot() { return wikiRoot; }
     public User getCurrentUser() { return currentUser; }
     public List<Role.AccessLevel> getAccessLevelsList() { return accessLevelsList; }
+    public WikiTextValidator getWikiTextValidator() { return wikiTextValidator; }
 
     /* -------------------------- Request Wiring ------------------------------ */
 
@@ -214,6 +221,8 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     public String persist() {
         checkPersistPermissions();
 
+        if (!validateWikiTexts(getPersistValidationCommands())) return null;
+
         if (!preparePersist()) return null;
 
         getLog().trace("linking new node with its parent node: " + getParentNode());
@@ -246,6 +255,8 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     @Override
     public String update() {
         checkUpdatePermissions();
+
+        if (!validateWikiTexts(getUpdateValidationCommands())) return null;
 
         if (!prepareUpdate()) return null;
 
@@ -405,6 +416,25 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
     public boolean isRemoveAllowed(N node, P parent) {
         return Identity.instance().hasPermission("Node", "edit", node);
+    }
+
+    protected boolean validateWikiTexts(WikiTextValidator.ValidationCommand[] validationCommands) {
+        if (validationCommands == null) return true;
+
+        boolean allValid = true;
+        for (WikiTextValidator.ValidationCommand validationCommand : validationCommands) {
+            getWikiTextValidator().validate(validationCommand);
+            allValid = getWikiTextValidator().isValid(validationCommand.getKey());
+        }
+        return allValid;
+    }
+
+    protected WikiTextValidator.ValidationCommand[] getUpdateValidationCommands() {
+        return null;
+    }
+
+    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
+        return null;
     }
 
     /* -------------------------- Optional Subclass Callbacks ------------------------------ */

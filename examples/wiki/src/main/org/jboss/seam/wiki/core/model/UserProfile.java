@@ -10,11 +10,12 @@ import org.hibernate.validator.Length;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "USER_PROFILE")
 @org.hibernate.annotations.BatchSize(size = 20)
-public class UserProfile {
+public class UserProfile implements Serializable {
 
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")

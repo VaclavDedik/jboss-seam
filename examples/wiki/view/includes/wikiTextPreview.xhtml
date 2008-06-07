@@ -6,16 +6,23 @@
         xmlns:a="https://ajax4jsf.dev.java.net/ajax"
         xmlns:wiki="http://jboss.com/products/seam/wiki">
 
-<s:div id="#{textPreviewId}">
-    <s:div styleClass="textPreview" rendered="#{not empty valueBinding}">
+<s:div id="#{textEditorId}Preview">
+    <s:div styleClass="textPreview"
+           rendered="#{not empty valueBinding
+                       and wikiTextPreview.isPreviewEnabled(textEditorId)
+                       and wikiTextValidator.isValid(textEditorId)}">
         <wiki:formattedText value="#{valueBinding}"
                             linkStyleClass="regularLink"
                             brokenLinkStyleClass="brokenLink"
                             attachmentLinkStyleClass="regularLink"
                             thumbnailLinkStyleClass="regularLink"
-                            linkBaseFilet="#{baseDocument}"
+                            linkBaseFile="#{baseDocument}"
                             currentAreaNumber="#{baseDirectory.areaNumber}"
                             enableMacroRendering="false"/>
+    </s:div>
+    <s:div styleClass="textPreview"
+           rendered="#{wikiTextPreview.isPreviewEnabled(textEditorId) and not wikiTextValidator.isValid(textEditorId)}">
+        <h:outputText value="#{messages['lacewiki.msg.wikiTextValidator.InvalidWikiText']}"/>
     </s:div>
 </s:div>
 

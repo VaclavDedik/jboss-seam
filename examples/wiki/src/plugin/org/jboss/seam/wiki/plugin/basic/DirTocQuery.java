@@ -14,7 +14,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
@@ -44,10 +44,6 @@ public class DirTocQuery implements Serializable {
     @In
     WikiDirectory currentDirectory;
 
-    @In
-    WikiNodeDAO wikiNodeDAO;
-
-
     public NestedSetNodeWrapper<WikiDirectory> getTocRoot(WikiPluginMacro macro) {
 
         NestedSetNodeWrapper<WikiDirectory> tocRoot =
@@ -58,13 +54,13 @@ public class DirTocQuery implements Serializable {
             if (prefs.getRootDocumentLink() != null) {
                 Long id = ((WikiLinkResolver)Component.getInstance("wikiLinkResolver"))
                             .resolveWikiDirectoryId(currentDirectory.getAreaNumber(), prefs.getRootDocumentLink());
-                WikiDirectory foundDir = wikiNodeDAO.findWikiDirectory(id);
+                WikiDirectory foundDir = WikiNodeDAO.instance().findWikiDirectory(id);
                 if (foundDir != null)
                     currentDirectory = foundDir;
             }
 
             // Query the directory tree
-            tocRoot = wikiNodeDAO.findWikiDirectoryTree(currentDirectory);
+            tocRoot = WikiNodeDAO.instance().findWikiDirectoryTree(currentDirectory);
 
             Set<Long> directoryIds = new HashSet<Long>(tocRoot.getFlatTree().keySet());
             if (prefs.getShowRootDocuments() != null && prefs.getShowRootDocuments()) {

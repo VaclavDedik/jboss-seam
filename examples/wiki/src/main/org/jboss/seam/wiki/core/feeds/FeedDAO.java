@@ -13,7 +13,7 @@ import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.model.*;
-import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
+import org.jboss.seam.wiki.core.ui.WikiURLRenderer;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;

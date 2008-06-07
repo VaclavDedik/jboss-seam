@@ -10,8 +10,8 @@
 
     <!-- Needed because WikiFormattedTextHandler instantiates these, asking the JSF infrastructure -->
     <component>
-        <component-type>org.jboss.seam.wiki.core.ui.UIMacro</component-type>
-        <component-class>org.jboss.seam.wiki.core.ui.UIMacro</component-class>
+        <component-type>org.jboss.seam.wiki.core.wikitext.renderer.jsf.UIMacro</component-type>
+        <component-class>org.jboss.seam.wiki.core.wikitext.renderer.jsf.UIMacro</component-class>
     </component>
 
     <!-- We map this to <wiki:loadStyle src="..."/> in Facelets -->

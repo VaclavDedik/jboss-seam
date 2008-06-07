@@ -17,8 +17,8 @@ import org.jboss.seam.util.Base64;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.core.renderer.MacroWikiTextRenderer;
-import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
+import org.jboss.seam.wiki.core.wikitext.renderer.MacroWikiTextRenderer;
+import org.jboss.seam.wiki.core.ui.WikiURLRenderer;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.util.Hash;
@@ -179,23 +179,6 @@ public class Authenticator {
     public String logout() {
         Identity.instance().logout();
         return "loggedOut";
-    }
-
-    /**
-     * Assigns the Guest user to 'currentUser' when 'currentUser' is first referenced. If a
-     * user actually logs in, the 'currentUser' is reset.
-     */
-    @Factory(value = "currentUser", autoCreate = true)
-    public void setGuestUser() {
-        Contexts.getSessionContext().set("currentUser", Component.getInstance("guestUser"));
-    }
-
-    /**
-     * Assigns the context variable 'currentAccessLevel' when no user is logged in.
-     */
-    @Factory(value = "currentAccessLevel", autoCreate = true)
-    public void setGuestAccessLevel() {
-        Contexts.getSessionContext().set("currentAccessLevel", Role.GUESTROLE_ACCESSLEVEL);
     }
 
     @Observer("org.jboss.seam.security.loginSuccessful")

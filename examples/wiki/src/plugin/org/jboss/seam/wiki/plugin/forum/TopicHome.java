@@ -8,18 +8,15 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.wiki.core.action.DocumentHome;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
-import org.jboss.seam.wiki.core.engine.WikiFormattedTextValidator;
 import org.jboss.seam.wiki.preferences.Preferences;
 
-import static org.jboss.seam.international.StatusMessage.Severity.WARN;
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
-
-import javax.faces.validator.ValidatorException;
 
 @Name("topicHome")
 @Scope(ScopeType.CONVERSATION)
@@ -65,23 +62,6 @@ public class TopicHome extends DocumentHome {
         newTopic.setDefaults(new TopicDefaults());
         setPushOnFeeds(true);
         return newTopic;
-    }
-
-    @Override
-    protected boolean preparePersist() {
-        // TODO: Why here again?
-        WikiFormattedTextValidator validator = new WikiFormattedTextValidator();
-        try {
-            validator.validate(null, null, getInstance().getContent());
-        } catch (ValidatorException e) {
-            StatusMessages.instance().addToControl(
-                "topicTextArea",
-                WARN,
-                e.getFacesMessage().getSummary()
-            );
-            return false;
-        }
-        return super.preparePersist();
     }
 
     @Override
@@ -134,6 +114,33 @@ public class TopicHome extends DocumentHome {
         String outcome = super.remove();
         if (outcome != null) endConversation();
         return null; // Prevent navigation
+    }
+
+    @Override
+    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
+        return getValidationCommands();
+    }
+
+    protected WikiTextValidator.ValidationCommand[] getUpdateValidationCommands() {
+        return getValidationCommands();
+    }
+
+    private WikiTextValidator.ValidationCommand[] getValidationCommands() {
+        return new WikiTextValidator.ValidationCommand[] {
+            new WikiTextValidator.ValidationCommand() {
+                public String getKey() {
+                    return "topic";
+                }
+
+                public String getWikiTextValue() {
+                    return getInstance().getContent();
+                }
+
+                public boolean getWikiTextRequired() {
+                    return true;
+                }
+            }
+        };
     }
 
     /* -------------------------- Messages ------------------------------ */

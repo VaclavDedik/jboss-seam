@@ -4,6 +4,11 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5">
 
+    <!-- LaceWiki administration -->
+    <listener>
+        <listener-class>org.jboss.seam.wiki.admin.WikiServletListener</listener-class>
+    </listener>
+
     <!--
         (This resolves the not-thrown ViewExpiredException on session timeout and JSF POSTback.)
         I have got a lot of times to understand JSF 1.2 implementation code. As I guess from code,
@@ -143,7 +148,7 @@
 
     <!-- Session timeout,can be extended for authenticated users in components.xml! -->
     <session-config>
-        <session-timeout>10</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
 
 </web-app>

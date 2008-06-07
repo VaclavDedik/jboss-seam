@@ -993,6 +993,8 @@ b.rtop b.r4, b.rbottom b.r4 {
     margin-bottom: 10px;
     padding-left: 10px;
     padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     background-color: white;
     margin-left: 50px;
     margin-right: 50px;
@@ -1805,3 +1807,25 @@ li.menu-separator {
 #mainMenu .mainMenuFooter .feedText {
     color:#ca884e;
 }
+
+/* Online Users Panel
+----------------------------------------------- */
+
+.onlineUsersPanel {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 85%;
+    color: #000;
+}
+
+.onlineUsersPanel .onlineLabel {
+    font-weight: bold;
+}
+
+.onlineUsersPanel .onlineValue {
+}
+
+.onlineUsersPanel .onlineSeparator {
+    color: #B6B6B6;
+}
+

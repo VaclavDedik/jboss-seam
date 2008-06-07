@@ -29,7 +29,6 @@
 
                 <ui:include src="/includes/wikiTextEditor.xhtml">
                     <ui:param name="textEditorId" value="faqQuestion"/>
-                    <ui:param name="textPreviewId" value="faqQuestionPreview"/>
                     <ui:param name="namingContainer" value="faqBrowserPlugin\\\\:faqQuestionForm"/>
                     <ui:param name="label" value="#{messages['fb.faqBrowser.label.QuestionText']}"/>
                     <ui:param name="valueBinding" value="#{faqQuestionHome.formContent}"/>
@@ -41,7 +40,7 @@
 
                 <s:div styleClass="marginLeft">
                     <ui:include src="/includes/wikiTextPreview.xhtml">
-                        <ui:param name="textPreviewId" value="faqQuestionPreview"/>
+                        <ui:param name="textEditorId" value="faqQuestion"/>
                         <ui:param name="valueBinding" value="#{faqQuestionHome.instance.content}"/>
                         <ui:param name="baseDocument" value="#{faqQuestionHome.instance}"/>
                         <ui:param name="baseDirectory" value="#{currentDirectory}"/>

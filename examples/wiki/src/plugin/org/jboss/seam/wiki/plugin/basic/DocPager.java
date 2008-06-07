@@ -27,15 +27,12 @@ public class DocPager implements Serializable {
     public static final String MACRO_ATTR_PAGER_NEXT    = "docPagerNext";
 
     @In
-    WikiNodeDAO wikiNodeDAO;
-
-    @In
     WikiDocument currentDocument;
 
     public WikiDocument getPrevious(WikiPluginMacro macro) {
         WikiDocument previous = (WikiDocument) macro.getAttributes().get(MACRO_ATTR_PAGER_PREVIOUS);
         if (previous == null) {
-            previous = wikiNodeDAO.findSiblingWikiDocumentInDirectory(currentDocument, getSortingProperty(macro), true);
+            previous = WikiNodeDAO.instance().findSiblingWikiDocumentInDirectory(currentDocument, getSortingProperty(macro), true);
             macro.getAttributes().put(MACRO_ATTR_PAGER_PREVIOUS, previous);
         }
         return previous;
@@ -44,7 +41,7 @@ public class DocPager implements Serializable {
     public WikiDocument getNext(WikiPluginMacro macro) {
         WikiDocument next = (WikiDocument) macro.getAttributes().get(MACRO_ATTR_PAGER_NEXT);
         if (next == null) {
-            next = wikiNodeDAO.findSiblingWikiDocumentInDirectory(currentDocument, getSortingProperty(macro), false);
+            next = WikiNodeDAO.instance().findSiblingWikiDocumentInDirectory(currentDocument, getSortingProperty(macro), false);
             macro.getAttributes().put(MACRO_ATTR_PAGER_NEXT, next);
         }
         return next;

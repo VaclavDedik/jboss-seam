@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.wiki.core.engine;
+package org.jboss.seam.wiki.core.wikitext.engine;
 
 import org.jboss.seam.wiki.core.model.WikiFile;
 
@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
  * <p>
  * Use the supplied regular expressions to implement the methods, or parse the wiki text
  * completely by hand and convert/resolve links.
+ *
+ * TODO: With a new multi-stage SeamTextParser we could remove most of this regex stuff
  *
  * @author Christian Bauer
  */

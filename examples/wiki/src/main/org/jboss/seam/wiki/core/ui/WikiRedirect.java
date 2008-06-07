@@ -14,7 +14,6 @@ import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.faces.RedirectException;
 import org.jboss.seam.wiki.core.model.WikiDocument;
-import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
 
 import javax.faces.context.FacesContext;
 import javax.faces.context.ExternalContext;

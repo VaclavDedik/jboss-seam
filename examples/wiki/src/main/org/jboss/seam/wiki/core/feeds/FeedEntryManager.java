@@ -14,14 +14,14 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
-import org.jboss.seam.wiki.core.engine.WikiFormattedTextValidator;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLink;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiFormattedTextValidator;
+import org.jboss.seam.wiki.core.wikitext.renderer.DefaultWikiTextRenderer;
 import org.jboss.seam.wiki.core.model.FeedEntry;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
-import org.jboss.seam.wiki.core.renderer.DefaultWikiTextRenderer;
-import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
+import org.jboss.seam.wiki.core.ui.WikiURLRenderer;
 
 /**
  * @author Christian Bauer

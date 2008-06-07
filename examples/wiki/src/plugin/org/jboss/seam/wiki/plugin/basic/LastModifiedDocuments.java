@@ -21,12 +21,9 @@ import java.util.List;
 @Scope(ScopeType.PAGE)
 public class LastModifiedDocuments implements Serializable {
 
-    @In
-    WikiNodeDAO wikiNodeDAO;
-
     public List<WikiDocument> getListOfDocuments(LastModifiedDocumentsPreferences prefs) {
         return
-            wikiNodeDAO.findWikiDocuments(
+            WikiNodeDAO.instance().findWikiDocuments(
                 Long.valueOf(prefs.getNumberOfItems()).intValue(),
                 WikiNode.SortableProperty.lastModifiedOn,
                 false

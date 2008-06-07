@@ -10,11 +10,12 @@ import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
 import org.jboss.seam.wiki.core.exception.InvalidWikiConfigurationException;
 
 import java.util.*;
+import java.io.Serializable;
 
 /**
  * @author Christian Bauer
  */
-public abstract class PluginModule {
+public abstract class PluginModule implements Serializable {
 
     private Plugin plugin;
     private String key;

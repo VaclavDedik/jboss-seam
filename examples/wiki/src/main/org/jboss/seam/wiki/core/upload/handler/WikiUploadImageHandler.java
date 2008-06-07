@@ -4,9 +4,6 @@ import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.core.upload.Uploader;
 import org.jboss.seam.wiki.core.upload.editor.UploadEditor;
 import org.jboss.seam.wiki.core.upload.editor.WikiUploadImageEditor;
-import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.util.WikiUtil;
-import org.jboss.seam.core.Conversation;
 
 import javax.swing.*;
 

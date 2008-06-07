@@ -11,7 +11,7 @@ import com.sun.facelets.impl.DefaultResourceResolver;
 import java.net.URL;
 
 /**
- * Utitility to load Facelets XHTML files as a resource from the classapth.
+ * Utitility to load Facelets XHTML files as a resource from the classpath.
  *
  * @author Christian Bauer
  */

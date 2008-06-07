@@ -9,6 +9,7 @@ package org.jboss.seam.wiki.core.nestedset.query;
 import org.jboss.seam.wiki.core.nestedset.NestedSetNode;
 
 import java.util.*;
+import java.io.Serializable;
 
 /**
  * Wraps a {@link org.jboss.seam.wiki.core.nestedset.NestedSetDelegate} and links it into a read-only tree of parent and children.
@@ -43,7 +44,7 @@ import java.util.*;
  *
  * @author Christian Bauer
  */
-public class NestedSetNodeWrapper<N extends NestedSetNode> {
+public class NestedSetNodeWrapper<N extends NestedSetNode> implements Serializable {
 
     N wrappedNode;
     NestedSetNodeWrapper<N> wrappedParent;

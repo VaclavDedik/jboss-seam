@@ -174,22 +174,23 @@
 
                             <ui:include src="includes/wikiTextEditor.xhtml">
                                 <ui:param name="textEditorId" value="content"/>
-                                <ui:param name="textPreviewId" value="#{documentHome.enabledPreview ? 'contentPreview' : ''}"/>
+                                <ui:param name="valueBinding" value="#{documentHome.formContent}"/>
+                                <ui:param name="tabId" value="docContentTab"/>
                                 <ui:param name="namingContainer" value="docEditForm"/>
                                 <ui:param name="label" value="#{messages['lacewiki.label.docEdit.Content']}"/>
                                 <ui:param name="textEditorColumns" value="#{preferences.get('DocEditor').regularEditAreaColumns}"/>
                                 <ui:param name="textEditorRows" value="#{preferences.get('DocEditor').regularEditAreaRows}"/>
-                                <ui:param name="valueBinding" value="#{documentHome.formContent}"/>
                                 <ui:param name="valueMaxLength" value="32767"/>
                                 <ui:param name="valueRequired" value="true"/>
                             </ui:include>
-
+<!--
                             <s:div styleClass="entry" id="previewSwitchDiv">
                                 <h:message for="previewSwitch"/>
                                 <div class="label">&#160;</div>
                                 <div class="input">
-                                    <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{documentHome.enabledPreview}" tabindex="1" id="previewSwitch">
-                                        <a:support status="globalStatus"
+                                    <h:selectBooleanCheckbox styleClass="ajaxSupport" value="#{wikiTextPreview.isPreviewEnabled('content')}" tabindex="1" id="previewSwitch">
+                                        <a:support action="#{documentHome.wikiTextValidator.validate('content', documentHome.formContent, true)}"
+                                                   status="globalStatus"
                                                    event="onchange"
                                                    oncomplete="onAjaxRequestComplete()"
                                                    reRender="contentPreview, docEditForm:contentTextEditor, pluginSwitch"/>
@@ -209,7 +210,7 @@
                                     </div>
                                 </s:div>
                             </s:div>
-
+-->
                         </div>
                     </a:region>
 
@@ -361,7 +362,7 @@
     <br/>
 
     <s:div id="contentPreview">
-        <c:if test="#{documentHome.enabledPreview}">
+        <c:if test="#{wikiTextPreview.isPreviewEnabled('content') and wikiTextValidator.isValid('content')}">
             <s:div id="documentDisplayContainer"
                    styleClass="box">
                 <s:fragment rendered="#{documentHome.instance.macroPresent('clearBackground')}">
@@ -391,9 +392,12 @@
                 </s:div>
             </s:div>
 
-            <s:div rendered="#{documentHome.enabledPreview}">
+            <s:div rendered="#{wikiTextPreview.isPreviewEnabled('content')}">
                 <ui:include src="includes/attachmentDisplay.xhtml"/>
             </s:div>
+        </c:if>
+        <c:if test="#{wikiTextPreview.isPreviewEnabled('content') and not wikiTextValidator.isValid('content')}">
+            <h:outputText value="#{messages['lacewiki.msg.wikiTextValidator.InvalidWikiText']}"/>
         </c:if>
     </s:div>
 

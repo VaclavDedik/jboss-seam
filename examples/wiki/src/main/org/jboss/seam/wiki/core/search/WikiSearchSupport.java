@@ -5,7 +5,7 @@ import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.search.metamodel.SearchSupport;
 import org.jboss.seam.wiki.core.search.metamodel.SearchableEntityHandler;
-import org.jboss.seam.wiki.core.renderer.WikiURLRenderer;
+import org.jboss.seam.wiki.core.ui.WikiURLRenderer;
 import org.jboss.seam.Component;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.highlight.*;

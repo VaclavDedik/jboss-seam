@@ -4,13 +4,14 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.wiki.core.engine;
+package org.jboss.seam.wiki.core.wikitext.engine;
 
 import antlr.ANTLRException;
 import antlr.SemanticException;
 import org.jboss.seam.text.SeamTextLexer;
 import org.jboss.seam.text.SeamTextParser;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.wikitext.renderer.WikiTextRenderer;
 
 import java.io.StringReader;
 import java.util.*;
@@ -27,6 +28,9 @@ import java.util.*;
  * </p><p>
  * After parsing, all links to attachments and all external links are pushed onto the renderer, where they
  * can be used to render an attachment list or appendixes to the text.
+ * </p>
+ *
+ * @see org.jboss.seam.wiki.core.wikitext.renderer.WikiTextRenderer
  *
  * @author Christian Bauer
  */

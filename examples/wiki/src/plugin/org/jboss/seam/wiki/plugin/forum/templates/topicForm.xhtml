@@ -30,7 +30,6 @@
                     <a:region>
                         <ui:include src="/includes/wikiTextEditor.xhtml">
                             <ui:param name="textEditorId" value="topic"/>
-                            <ui:param name="textPreviewId" value="topicPreview"/>
                             <ui:param name="namingContainer" value="forumTopicsPlugin\\\\:topicForm"/>
                             <ui:param name="label" value="#{messages['forum.label.Message']}"/>
                             <ui:param name="valueBinding" value="#{topicHome.formContent}"/>
@@ -42,7 +41,7 @@
 
                         <s:div styleClass="marginLeft">
                             <ui:include src="/includes/wikiTextPreview.xhtml">
-                                <ui:param name="textPreviewId" value="topicPreview"/>
+                                <ui:param name="textEditorId" value="topic"/>
                                 <ui:param name="valueBinding" value="#{topicHome.instance.content}"/>
                                 <ui:param name="baseDocument" value="#{topicHome.instance}"/>
                                 <ui:param name="baseDirectory" value="#{currentDirectory}"/>

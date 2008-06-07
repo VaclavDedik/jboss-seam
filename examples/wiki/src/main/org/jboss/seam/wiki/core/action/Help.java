@@ -19,9 +19,6 @@ public class Help implements Serializable {
     @Logger
     Log log;
 
-    @In
-    WikiNodeDAO wikiNodeDAO;
-
     @In("#{preferences.get('Wiki')}")
     WikiPreferences wikiPreferences;
 
@@ -29,7 +26,7 @@ public class Help implements Serializable {
 
     @Create
     public void create() {
-        helpAreaRoot = wikiNodeDAO.findArea(WikiUtil.convertToWikiName(wikiPreferences.getHelpArea()));
+        helpAreaRoot = WikiNodeDAO.instance().findArea(WikiUtil.convertToWikiName(wikiPreferences.getHelpArea()));
     }
 
     WikiDocument selectedHelpDoc;
@@ -41,7 +38,7 @@ public class Help implements Serializable {
     public void selectDocumentByName(String documentName) {
         log.debug("Searching for help document with wiki name in area: " + helpAreaRoot.getAreaNumber() + ", " + WikiUtil.convertToWikiName(documentName));
         selectedHelpDoc =
-                wikiNodeDAO.findWikiDocumentInArea(
+                WikiNodeDAO.instance().findWikiDocumentInArea(
                         helpAreaRoot.getAreaNumber(),
                         WikiUtil.convertToWikiName(documentName)
                 );

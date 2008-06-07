@@ -19,8 +19,6 @@ import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.model.*;
 
-import javax.security.auth.login.LoginException;
-
 /**
  * Need this until Drools fixes bugs and becomes usable/debuggable.
  *

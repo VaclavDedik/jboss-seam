@@ -22,13 +22,11 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
-import org.jboss.seam.wiki.core.engine.WikiFormattedTextValidator;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
-import static org.jboss.seam.international.StatusMessage.Severity.WARN;
 
-import javax.faces.validator.ValidatorException;
 import java.util.Date;
 
 @Name("commentHome")
@@ -115,9 +113,6 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     @Override
     public String persist() {
-
-        if (!validateContent()) return null;
-
         String outcome = super.persist();
         if (outcome != null) {
 
@@ -209,23 +204,6 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
 
     /* -------------------------- Internal Methods ------------------------------ */
 
-    // TODO: Why again are we using a different validator here for the text editor?
-    protected boolean validateContent() {
-        WikiFormattedTextValidator validator = new WikiFormattedTextValidator();
-        try {
-            validator.validate(null, null, getInstance().getContent());
-        } catch (ValidatorException e) {
-            // TODO: Needs to use resource bundle, how?
-            StatusMessages.instance().addToControl(
-                getTextAreaId(),
-                WARN,
-                e.getFacesMessage().getSummary()
-            );
-            return false;
-        }
-        return true;
-    }
-
     protected void endConversation() {
         showForm = false;
         Conversation.instance().end();
@@ -267,8 +245,31 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return quoted.toString();
     }
 
-    protected String getTextAreaId() {
-        return "commentTextArea";
+    @Override
+    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
+        return new WikiTextValidator.ValidationCommand[] {
+            new WikiTextValidator.ValidationCommand() {
+                public String getKey() {
+                    return "comment";
+                }
+
+                public String getWikiTextValue() {
+                    return getInstance().getContent();
+                }
+
+                public boolean getWikiTextRequired() {
+                    return true;
+                }
+            }
+        };
+    }
+
+    protected String getValidationRequiredWikiTextEditorId() {
+        return "comment";
+    }
+
+    protected String getValidationRequiredWikiText() {
+        return getInstance().getContent();
     }
 
     /* -------------------------- Public Features ------------------------------ */

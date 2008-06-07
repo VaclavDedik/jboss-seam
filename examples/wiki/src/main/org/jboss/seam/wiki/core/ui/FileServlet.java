@@ -3,6 +3,8 @@ package org.jboss.seam.wiki.core.ui;
 import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
+import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
@@ -42,14 +44,27 @@ public class FileServlet extends HttpServlet {
 
     }
 
-    // TODO: All data access in this method runs with auto-commit mode, see http://jira.jboss.com/jira/browse/JBSEAM-957
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
+            throws ServletException, IOException {
+        new ContextualHttpServletRequest(request) {
+            @Override
+            public void process() throws Exception {
+                doWork(request, response);
+            }
+        }.run();
+    }
+
+    // TODO: All data access in this method runs with auto-commit mode, see http://jira.jboss.com/jira/browse/JBSEAM-957
+    protected void doWork(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         if (DOWNLOAD_PATH.equals(request.getPathInfo())) {
 
             String id = request.getParameter("fileId");
+
+            Contexts.getSessionContext().set("LAST_ACCESS_ACTION", "File: " + id);
+
             WikiUpload file = null;
 
             if (!"".equals(id)) {

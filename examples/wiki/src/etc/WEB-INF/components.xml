@@ -18,7 +18,7 @@
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
     <!-- Conversation timeout: 20 minutes -->
-    <core:manager concurrent-request-timeout="2000"
+    <core:manager concurrent-request-timeout="4000"
                   conversation-timeout="1200000"
                   conversation-id-parameter="cid"/>
 
@@ -86,7 +86,9 @@
 
     <!-- Misc Settings -->
 
+    <!-- TODO: Disabled, see http://jira.jboss.com/jira/browse/JBSEAM-3070
     <web:context-filter regex-url-pattern="/(service|servlets)/.+"/>
+    -->
     <web:redirect-filter disabled="true"/> <!-- Messes up into-conversation-redirect and is not needed -->
 
     <component name="wikiUrlRewriteFilter" class="org.jboss.seam.wiki.core.ui.WikiUrlRewriteFilter" precedence="30">

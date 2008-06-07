@@ -195,7 +195,6 @@ public class PreferenceEntity implements Comparable, Serializable {
      */
     public class Property implements Comparable, Serializable {
 
-        private Field field;
         private String fieldName;
         private Class fieldType;
         private String description;
@@ -207,7 +206,6 @@ public class PreferenceEntity implements Comparable, Serializable {
         public Property(String fieldName, Class fieldType, String description,
                         PreferenceVisibility[] visibility,
                         String editorIncludeName, String templateComponentName, String mappedTo) {
-            this.field = Reflections.getField(getClazz(), fieldName);
             this.fieldName = fieldName;
             this.fieldType = fieldType;
             this.description = description;
@@ -218,7 +216,7 @@ public class PreferenceEntity implements Comparable, Serializable {
         }
 
         public Field getField() {
-            return field;
+            return Reflections.getField(getClazz(), fieldName);
         }
 
         public String getOwningEntityName() {
@@ -266,12 +264,13 @@ public class PreferenceEntity implements Comparable, Serializable {
         }
 
         public void write(Object preferenceEntityInstance, Object value) throws Exception {
+            Field field = getField();
             field.setAccessible(true);
             Reflections.set(field, preferenceEntityInstance, value);
         }
 
         public boolean isNullable() {
-            return !field.isAnnotationPresent(NotNull.class);
+            return !getField().isAnnotationPresent(NotNull.class);
         }
 
         public InvalidValue[] validate(Object value) {

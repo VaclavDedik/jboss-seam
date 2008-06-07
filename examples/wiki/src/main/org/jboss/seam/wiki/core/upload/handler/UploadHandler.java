@@ -3,7 +3,6 @@ package org.jboss.seam.wiki.core.upload.handler;
 import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.core.upload.editor.UploadEditor;
 import org.jboss.seam.wiki.core.upload.Uploader;
-import org.jboss.seam.wiki.core.engine.WikiLink;
 
 public abstract class UploadHandler<WU extends WikiUpload> {
 

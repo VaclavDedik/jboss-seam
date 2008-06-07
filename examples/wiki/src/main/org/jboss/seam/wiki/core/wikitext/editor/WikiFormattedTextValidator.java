@@ -4,7 +4,7 @@
  * Distributable under LGPL license.
  * See terms of license at gnu.org.
  */
-package org.jboss.seam.wiki.core.engine;
+package org.jboss.seam.wiki.core.wikitext.editor;
 
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.text.SeamTextParser;
@@ -13,8 +13,11 @@ import antlr.SemanticException;
 /**
  * Disables the Seam Text validation for link tags, so wiki links are OK.
  * <p>
- * Also provides some i18n error messages.
+ * Also provides some conversation to i18n error messages.
  * </p>
+ *
+ * TODO: Finish the i18n and well, maybe we should just duplicate the
+ * Seam validator here to drop that dependency on the UI package...
  *
  * @author Christian Bauer
  */
@@ -24,6 +27,8 @@ public class WikiFormattedTextValidator extends FormattedTextValidator {
         SeamTextParser parser = super.getSeamTextParser(s);
         parser.setSanitizer(
             new SeamTextParser.DefaultSanitizer() {
+
+                // Disable this part of the validation
                 @Override
                 public void validateLinkTagURI(String s) throws SemanticException {}
 

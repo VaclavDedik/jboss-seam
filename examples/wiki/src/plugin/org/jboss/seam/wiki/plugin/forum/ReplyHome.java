@@ -7,6 +7,7 @@ import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.CommentHome;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
@@ -100,8 +101,23 @@ public class ReplyHome extends CommentHome {
         return "forumReplyFeedEntryManager";
     }
 
-    protected String getTextAreaId() {
-        return "replyTextArea";
+    @Override
+    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
+        return new WikiTextValidator.ValidationCommand[] {
+            new WikiTextValidator.ValidationCommand() {
+                public String getKey() {
+                    return "reply";
+                }
+
+                public String getWikiTextValue() {
+                    return getInstance().getContent();
+                }
+
+                public boolean getWikiTextRequired() {
+                    return true;
+                }
+            }
+        };
     }
 
     /* -------------------------- Messages ------------------------------ */

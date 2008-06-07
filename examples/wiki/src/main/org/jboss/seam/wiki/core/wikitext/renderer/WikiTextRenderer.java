@@ -1,6 +1,7 @@
-package org.jboss.seam.wiki.core.engine;
+package org.jboss.seam.wiki.core.wikitext.renderer;
 
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLink;
 
 import java.util.List;
 

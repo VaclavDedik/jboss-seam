@@ -8,17 +8,17 @@ package org.jboss.seam.wiki.core.plugin.metamodel;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.wiki.core.exception.InvalidWikiConfigurationException;
-import org.jboss.seam.wiki.core.plugin.metamodel.PluginModule;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * Plugin metadata.
  *
  * @author Christian Bauer
  */
-public class Plugin {
+public class Plugin implements Serializable {
 
     // Some constants that represent the sub-package layout of a plugin package
     public static final String PACKAGE_I18N = "i18n";

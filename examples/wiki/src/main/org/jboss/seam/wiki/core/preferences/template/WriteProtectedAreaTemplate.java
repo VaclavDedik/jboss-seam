@@ -18,17 +18,15 @@ import java.io.Serializable;
 public class WriteProtectedAreaTemplate implements PreferenceValueTemplate, Serializable {
 
     @In
-    WikiNodeDAO wikiNodeDAO;
-
-    @In
     WikiDirectory wikiRoot;
 
     private List<String> areaNames;
 
     public List<String> getTemplateValues() {
         if (areaNames == null) {
-             areaNames = new ArrayList<String>();
-            List<WikiNode> areas = wikiNodeDAO.findChildren(wikiRoot, WikiNode.SortableProperty.name, false, 0, Integer.MAX_VALUE);
+            areaNames = new ArrayList<String>();
+            List<WikiNode> areas =
+                WikiNodeDAO.instance().findChildren(wikiRoot, WikiNode.SortableProperty.name, false, 0, Integer.MAX_VALUE);
             for (WikiNode area : areas) {
                 if (area.isWriteProtected()) {
                     areaNames.add(area.getName());

@@ -1,4 +1,4 @@
-package org.jboss.seam.wiki.core.ui;
+package org.jboss.seam.wiki.core.wikitext.renderer.jsf;
 
 import com.sun.facelets.FaceletContext;
 import com.sun.facelets.tag.jsf.ComponentConfig;
@@ -7,7 +7,7 @@ import com.sun.facelets.tag.jsf.ComponentHandler;
 import javax.faces.component.UIComponent;
 
 /**
- * Chaining up the macros. Still a bit of a riddle, what Pete did here.
+ * Chaining up the macros in the JSF component tree.
  *
  * @author Pete Muir
  */

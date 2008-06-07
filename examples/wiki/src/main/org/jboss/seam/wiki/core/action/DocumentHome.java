@@ -19,13 +19,14 @@ import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.renderer.MacroWikiTextRenderer;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.wikitext.renderer.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.template.TemplateRegistry;
 import org.jboss.seam.wiki.core.template.WikiDocumentTemplate;
 import org.jboss.seam.wiki.core.template.WikiDocumentEditorDefaults;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.hibernate.validator.Length;
 
@@ -52,7 +53,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     private Boolean minorRevision;
     private String formContent;
     private Set<WikiFile> linkTargets;
-    private boolean enabledPreview = false;
     private boolean pushOnFeeds = false;
     private boolean pushOnSiteFeed = false;
     private boolean isOnSiteFeed = false;
@@ -255,6 +255,34 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         return (DocumentNodeRemover)Component.getInstance(DocumentNodeRemover.class);
     }
 
+    @Override
+    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
+        return getValidationCommands();
+    }
+
+    protected WikiTextValidator.ValidationCommand[] getUpdateValidationCommands() {
+        return getValidationCommands();
+    }
+
+    private WikiTextValidator.ValidationCommand[] getValidationCommands() {
+        return new WikiTextValidator.ValidationCommand[] {
+            new WikiTextValidator.ValidationCommand() {
+                public String getKey() {
+                    return "content";
+                }
+
+                public String getWikiTextValue() {
+                    return getFormContent();
+                }
+
+                public boolean getWikiTextRequired() {
+                    return true;
+                }
+            }
+        };
+    }
+
+
     /* -------------------------- Messages ------------------------------ */
 
     @Override
@@ -397,15 +425,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         return minorRevision;
     }
     public void setMinorRevision(boolean minorRevision) { this.minorRevision = minorRevision; }
-
-    public boolean isEnabledPreview() {
-        return enabledPreview;
-    }
-
-    public void setEnabledPreview(boolean enabledPreview) {
-        this.enabledPreview = enabledPreview;
-        syncFormContentToInstance(getParentNode());
-    }
 
     public boolean isOnSiteFeed() {
         return isOnSiteFeed;

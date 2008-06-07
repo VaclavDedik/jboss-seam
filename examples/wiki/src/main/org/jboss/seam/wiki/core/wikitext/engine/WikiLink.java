@@ -1,6 +1,7 @@
-package org.jboss.seam.wiki.core.engine;
+package org.jboss.seam.wiki.core.wikitext.engine;
 
 import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.wikitext.renderer.WikiTextRenderer;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 /**

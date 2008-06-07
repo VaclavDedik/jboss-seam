@@ -559,9 +559,12 @@ public class WikiNodeDAO {
 
     public NestedSetNodeWrapper<WikiDirectory> findMenuItemTree(WikiDirectory startDir, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
 
-        NestedSetNodeWrapper<WikiDirectory> startNodeWrapper = new NestedSetNodeWrapper<WikiDirectory>(startDir, getComparatorDisplayPosition());
+        NestedSetNodeWrapper<WikiDirectory> startNodeWrapper = 
+            new NestedSetNodeWrapper<WikiDirectory>(startDir, new WikiDirectoryDisplayPositionComparator());
+
         NestedSetResultTransformer<WikiDirectory> transformer =
-                new NestedSetResultTransformer<WikiDirectory>(startNodeWrapper, flattenToLevel);
+            new NestedSetResultTransformer<WikiDirectory>(startNodeWrapper, flattenToLevel);
+
         transformer.getAdditionalProjections().put("displayPosition", "m.displayPosition");
 
         // Make hollow copies for menu display so that changes to the model in the persistence context don't appear
@@ -586,10 +589,16 @@ public class WikiNodeDAO {
         return findWikiDirectoryTree(startDir, null, 0l, false);
     }
 
-    public NestedSetNodeWrapper<WikiDirectory> findWikiDirectoryTree(WikiDirectory startDir, Long maxDepth, Long flattenToLevel, boolean showAdminOnly) {
+    public NestedSetNodeWrapper<WikiDirectory> findWikiDirectoryTree(WikiDirectory startDir,
+                                                                     Long maxDepth, Long flattenToLevel,
+                                                                     boolean showAdminOnly) {
 
-        NestedSetNodeWrapper<WikiDirectory> startNodeWrapper = new NestedSetNodeWrapper<WikiDirectory>(startDir, getComparatorWikiDirectoryName());
-        NestedSetResultTransformer<WikiDirectory> transformer = new NestedSetResultTransformer<WikiDirectory>(startNodeWrapper, flattenToLevel);
+        NestedSetNodeWrapper<WikiDirectory> startNodeWrapper =
+            new NestedSetNodeWrapper<WikiDirectory>(startDir, new WikiDirectoryNameComparator());
+
+        NestedSetResultTransformer<WikiDirectory> transformer =
+            new NestedSetResultTransformer<WikiDirectory>(startNodeWrapper, flattenToLevel);
+
         appendNestedSetNodes(transformer, maxDepth, showAdminOnly, null);
         return startNodeWrapper;
 
@@ -650,51 +659,16 @@ public class WikiNodeDAO {
         nestedSetQuery.list(); // Append all children hierarchically to the transformers rootWrapper
     }
 
-    public Comparator<NestedSetNodeWrapper<WikiDirectory>> getComparatorWikiDirectoryName() {
-        // Needs to be equals() safe (SortedSet):
-        // - compare by name, if equal
-        // - compare by id
-        return
-            new Comparator<NestedSetNodeWrapper<WikiDirectory>>() {
-                public int compare(NestedSetNodeWrapper<WikiDirectory> o1, NestedSetNodeWrapper<WikiDirectory> o2) {
-                    WikiDirectory node1 = o1.getWrappedNode();
-                    WikiDirectory node2 = o2.getWrappedNode();
-                    if (node1.getName().compareTo(node2.getName()) != 0) {
-                        return node1.getName().compareTo(node2.getName());
-                    }
-                    return node1.getId().compareTo(node2.getId());
-                }
-            };
-    }
-
-    public Comparator<NestedSetNodeWrapper<WikiDirectory>> getComparatorDisplayPosition() {
-        // Needs to be equals() safe (SortedSet):
-        // - compare by display position, if equal
-        // - compare by name, if equal
-        // - compare by id
-        return
-            new Comparator<NestedSetNodeWrapper<WikiDirectory>>() {
-                public int compare(NestedSetNodeWrapper<WikiDirectory> o1, NestedSetNodeWrapper<WikiDirectory> o2) {
-                    WikiDirectory node1 = o1.getWrappedNode();
-                    Long node1DisplayPosition = (Long)o1.getAdditionalProjections().get("displayPosition");
-                    WikiDirectory node2 = o2.getWrappedNode();
-                    Long node2DisplayPosition = (Long)o2.getAdditionalProjections().get("displayPosition");
-                    if (node1DisplayPosition.compareTo(node2DisplayPosition) != 0) {
-                        return node1DisplayPosition.compareTo(node2DisplayPosition);
-                    } else if (node1.getName().compareTo(node2.getName()) != 0) {
-                        return node1.getName().compareTo(node2.getName());
-                    }
-                    return node1.getId().compareTo(node2.getId());
-                }
-            };
-    }
-
     private Session getSession(boolean restricted) {
         if (restricted) {
             return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) restrictedEntityManager).getDelegate());
         } else {
             return ((Session)((org.jboss.seam.persistence.EntityManagerProxy) entityManager).getDelegate());
         }
+    }
+
+    public static WikiNodeDAO instance() {
+        return (WikiNodeDAO)Component.getInstance(WikiNodeDAO.class);
     }
 
 }

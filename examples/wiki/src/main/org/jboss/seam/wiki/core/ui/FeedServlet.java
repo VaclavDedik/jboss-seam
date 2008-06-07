@@ -10,6 +10,8 @@ import com.sun.syndication.feed.synd.*;
 import com.sun.syndication.io.SyndFeedOutput;
 import com.sun.syndication.io.FeedException;
 import org.jboss.seam.Component;
+import org.jboss.seam.servlet.ContextualHttpServletRequest;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.model.*;
@@ -76,9 +78,19 @@ public class FeedServlet extends HttpServlet {
     // Allow unit testing
     public FeedServlet() {}
 
-    // TODO: All data access in this method runs with auto-commit mode, see http://jira.jboss.com/jira/browse/JBSEAM-957
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
+            throws ServletException, IOException {
+        new ContextualHttpServletRequest(request) {
+            @Override
+            public void process() throws Exception {
+                doWork(request, response);
+            }
+        }.run();
+    }
+
+    // TODO: All data access in this method runs with auto-commit mode, see http://jira.jboss.com/jira/browse/JBSEAM-957
+    protected void doWork(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String feedIdParam = request.getParameter("feedId");
@@ -86,6 +98,8 @@ public class FeedServlet extends HttpServlet {
         String nodeNameParam = request.getParameter("nodeName");
         String aggregateParam = request.getParameter("aggregate");
         log.debug(">>> feed request id: '" + feedIdParam + "' area name: '" + areaNameParam + "' node name: '" + nodeNameParam + "'");
+
+        Contexts.getSessionContext().set("LAST_ACCESS_ACTION", "Feed: " +feedIdParam + " area: '" + areaNameParam + "' node: '" + nodeNameParam + "'");
 
         // Feed type
         String pathInfo = request.getPathInfo();

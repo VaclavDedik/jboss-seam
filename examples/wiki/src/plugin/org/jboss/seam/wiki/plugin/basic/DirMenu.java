@@ -32,18 +32,15 @@ public class DirMenu implements Serializable {
     @In
     WikiDirectory currentDirectory;
 
-    @In
-    WikiNodeDAO wikiNodeDAO;
-
     public NestedSetNodeWrapper<WikiDirectory> getRoot(WikiPluginMacro macro) {
         // We cache the result in the macro, so that when the getter is called over and over during rendering, we have it
         if (macro.getAttributes().get(MACRO_ATTR_ROOT) == null) {
             NestedSetNodeWrapper<WikiDirectory> root;
             DirMenuPreferences prefs  = Preferences.instance().get(DirMenuPreferences.class, macro);
             if (prefs.getOnlyMenuItems() != null && prefs.getOnlyMenuItems()) {
-                root = wikiNodeDAO.findMenuItemTree(currentDirectory, 3l, 3l, false);
+                root = WikiNodeDAO.instance().findMenuItemTree(currentDirectory, 3l, 3l, false);
             } else {
-                root = wikiNodeDAO.findWikiDirectoryTree(currentDirectory, 3l, 3l, false);
+                root = WikiNodeDAO.instance().findWikiDirectoryTree(currentDirectory, 3l, 3l, false);
             }
             macro.getAttributes().put(MACRO_ATTR_ROOT, root);
         }

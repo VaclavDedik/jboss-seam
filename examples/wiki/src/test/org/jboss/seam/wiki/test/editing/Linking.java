@@ -8,9 +8,9 @@ package org.jboss.seam.wiki.test.editing;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jboss.seam.wiki.core.action.DocumentHome;
-import org.jboss.seam.wiki.core.engine.WikiLink;
-import org.jboss.seam.wiki.core.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.engine.WikiTextRenderer;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLink;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
+import org.jboss.seam.wiki.core.wikitext.renderer.WikiTextRenderer;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiUpload;
 import org.jboss.seam.wiki.test.util.DBUnitSeamTest;

@@ -1,11 +1,11 @@
-package org.jboss.seam.wiki.core.renderer;
+package org.jboss.seam.wiki.core.wikitext.renderer;
 
 import java.util.Set;
 import java.util.LinkedHashSet;
 
 import antlr.RecognitionException;
 import antlr.ANTLRException;
-import org.jboss.seam.wiki.core.engine.WikiTextParser;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiTextParser;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 
 public class MacroWikiTextRenderer extends NullWikiTextRenderer {

@@ -1,4 +1,4 @@
-package org.jboss.seam.wiki.core.ui;
+package org.jboss.seam.wiki.core.wikitext.renderer.jsf;
 
 import org.jboss.seam.wiki.core.plugin.WikiPluginMacro;
 

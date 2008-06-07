@@ -37,6 +37,31 @@
     </function>
 
     <function>
+        <function-name>toDate</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.util.Date toDate(java.lang.Long)</function-signature>
+    </function>
+
+    <function>
+        <function-name>getTimeDifference</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String getTimeDifference(java.util.Date,java.util.Date)</function-signature>
+    </function>
+
+    <function>
+        <function-name>getTimeDifferenceToCurrent</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.lang.String getTimeDifferenceToCurrent(java.util.Date)</function-signature>
+    </function>
+
+    <function>
+        <function-name>currentDate</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>java.util.Date currentDate()</function-signature>
+    </function>
+
+
+    <function>
         <function-name>concat</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>java.lang.String concat(java.lang.String,java.lang.String)</function-signature>
@@ -82,12 +107,6 @@
         <function-name>getSessionTimeoutSeconds</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>int getSessionTimeoutSeconds()</function-signature>
-    </function>
-
-    <function>
-        <function-name>hasMessage</function-name>
-        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>boolean hasMessage(java.lang.String,java.lang.String)</function-signature>
     </function>
 
     <function>
@@ -139,6 +158,12 @@
     </function>
 
     <function>
+        <function-name>isGuestOrAdminUsername</function-name>
+        <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
+        <function-signature>boolean isGuestOrAdminUsername(java.lang.String)</function-signature>
+    </function>
+
+    <function>
         <function-name>isLastItemInList</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
         <function-signature>boolean isLastItemInList(java.util.List,java.lang.Object)</function-signature>
@@ -152,7 +177,7 @@
 
     <tag>
         <tag-name>formattedText</tag-name>
-		<handler-class>org.jboss.seam.wiki.core.ui.WikiFormattedTextHandler</handler-class> 
+		<handler-class>org.jboss.seam.wiki.core.wikitext.renderer.jsf.WikiFormattedTextHandler</handler-class>
     </tag>
 
     <tag>
@@ -166,8 +191,8 @@
     <tag>
     	<tag-name>plugin</tag-name>
     	<component>
-    		<component-type>org.jboss.seam.wiki.core.ui.UIMacro</component-type>
-    		<handler-class>org.jboss.seam.wiki.core.ui.MacroComponentHandler</handler-class>
+    		<component-type>org.jboss.seam.wiki.core.wikitext.renderer.jsf.UIMacro</component-type>
+    		<handler-class>org.jboss.seam.wiki.core.wikitext.renderer.jsf.MacroComponentHandler</handler-class>
     	</component>
     </tag>
 

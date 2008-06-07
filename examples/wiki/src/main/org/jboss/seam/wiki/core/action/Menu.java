@@ -7,6 +7,7 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
@@ -14,6 +15,7 @@ import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.nestedset.query.NestedSetNodeWrapper;
 import org.jboss.seam.wiki.core.cache.PageFragmentCache;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import java.io.Serializable;
 
@@ -35,15 +37,6 @@ public class Menu implements Serializable {
     Log log;
 
     @In
-    WikiDirectory wikiRoot;
-
-    @In
-    WikiNodeDAO wikiNodeDAO;
-
-    @In("#{preferences.get('Wiki')}")
-    WikiPreferences wikiPreferences;
-
-    @In
     Integer currentAccessLevel;
 
     NestedSetNodeWrapper<WikiDirectory> root;
@@ -57,8 +50,9 @@ public class Menu implements Serializable {
     @Observer(value = { "Node.updated", "Node.removed", "PersistenceContext.filterReset" }, create = false)
     public void refreshRoot() {
         log.debug("Loading menu items tree");
-        root = wikiNodeDAO.findMenuItemTree(
-                wikiRoot,
+        WikiPreferences wikiPreferences = Preferences.instance().get(WikiPreferences.class);
+        root = WikiNodeDAO.instance().findMenuItemTree(
+                (WikiDirectory)Component.getInstance("wikiRoot"),
                 wikiPreferences.getMainMenuDepth(), 
                 wikiPreferences.getMainMenuLevels(),
                 wikiPreferences.isMainMenuShowAdminOnly()

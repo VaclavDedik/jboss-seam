@@ -295,10 +295,33 @@ public class WikiUtil {
         return spaces.toString();
     }
 
+    public static Date toDate(Long time) {
+        return new Date(time);
+    }
+
+    public static String getTimeDifferenceToCurrent(Date d) {
+        return getTimeDifference(new Date(), d);
+    }
+
+    public static String getTimeDifference(Date a, Date b) {
+        long time = a.getTime() > b.getTime() ? a.getTime() - b.getTime() : b.getTime() - a.getTime();
+        int seconds = (int)((time/1000) % 60);
+        int minutes = (int)((time/60000) % 60);
+        int hours = (int)((time/3600000) % 24);
+        String secondsStr = (seconds<10 ? "0" : "")+seconds;
+        String minutesStr = (minutes<10 ? "0" : "")+minutes;
+        String hoursStr = (hours<10 ? "0" : "")+hours;
+        return hoursStr + ":" + minutesStr + ":" + secondsStr;
+    }
+
     public static String formatDate(Date date) {
         // TODO: Exceptional date formatting here...
         SimpleDateFormat fmt = new SimpleDateFormat("MMM dd, yyyy HH:mm");
         return fmt.format(date);
+    }
+
+    public static Date currentDate() {
+        return new Date();
     }
 
     public static String attachSignature(String wikiText, String sig) {
@@ -312,12 +335,8 @@ public class WikiUtil {
                !(user.getUsername().equals(User.ADMIN_USERNAME) || user.getUsername().equals(User.GUEST_USERNAME));
     }
 
-    /**
-     * Used for conditional rendering of JSF messages, again, inflexible EL can't take value bindings with arguments
-     * or support simple String concat...
-     */
-    public static boolean hasMessage(String namingContainer, String componentId) {
-        return FacesContext.getCurrentInstance().getMessages(namingContainer.replaceAll("\\\\", "") + ":" + componentId).hasNext();
+    public static boolean isGuestOrAdminUsername(String username) {
+        return User.ADMIN_USERNAME.equals(username) || User.GUEST_USERNAME.equals(username);
     }
 
     /**

@@ -11,10 +11,11 @@ import org.hibernate.validator.Length;
 import javax.persistence.*;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "LINK_PROTOCOL")
-public class LinkProtocol {
+public class LinkProtocol implements Serializable {
 
     @Id
     @GeneratedValue(generator = "wikiSequenceGenerator")

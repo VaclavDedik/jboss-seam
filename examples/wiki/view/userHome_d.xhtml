@@ -216,7 +216,6 @@
                     <ui:include src="includes/wikiTextEditor.xhtml">
                         <ui:param name="tabId" value="userProfileTab"/>
                         <ui:param name="textEditorId" value="bio"/>
-                        <ui:param name="textPreviewId" value="bioPreview"/>
                         <ui:param name="namingContainer" value="userHomeForm"/>
                         <ui:param name="label" value="#{messages['lacewiki.label.userHome.Bio']}"/>
                         <ui:param name="valueBinding" value="#{userHome.instance.profile.bio}"/>
@@ -226,7 +225,7 @@
                     </ui:include>
 
                     <ui:include src="includes/wikiTextPreview.xhtml">
-                        <ui:param name="textPreviewId" value="bioPreview"/>
+                        <ui:param name="textEditorId" value="bio"/>
                         <ui:param name="valueBinding" value="#{userHome.instance.profile.bio}"/>
                         <ui:param name="baseDocument" value="#{wikiStart}"/>
                         <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>
@@ -262,7 +261,6 @@
                     <ui:include src="includes/wikiTextEditor.xhtml">
                         <ui:param name="tabId" value="userProfileTab"/>
                         <ui:param name="textEditorId" value="signature"/>
-                        <ui:param name="textPreviewId" value="signaturePreview"/>
                         <ui:param name="namingContainer" value="userHomeForm"/>
                         <ui:param name="label" value="#{messages['lacewiki.label.userHome.Signature']}"/>
                         <ui:param name="valueBinding" value="#{userHome.instance.profile.signature}"/>
@@ -272,7 +270,7 @@
                     </ui:include>
 
                     <ui:include src="includes/wikiTextPreview.xhtml">
-                        <ui:param name="textPreviewId" value="signaturePreview"/>
+                        <ui:param name="textEditorId" value="signature"/>
                         <ui:param name="valueBinding" value="#{userHome.instance.profile.signature}"/>
                         <ui:param name="baseDocument" value="#{wikiStart}"/>
                         <ui:param name="baseDirectory" value="#{wikiStart.parent}"/>

@@ -4,9 +4,10 @@ import org.hibernate.annotations.Parent;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Column;
+import java.io.Serializable;
 
 @Embeddable
-public class NestedSetNodeInfo<N extends NestedSetNode> {
+public class NestedSetNodeInfo<N extends NestedSetNode> implements Serializable {
 
     @Parent
     private N owner;
