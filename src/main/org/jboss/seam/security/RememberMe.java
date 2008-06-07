@@ -3,7 +3,10 @@ package org.jboss.seam.security;
 import static org.jboss.seam.ScopeType.SESSION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
+import java.io.Serializable;
 import java.rmi.server.UID;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.faces.context.FacesContext;
@@ -33,7 +36,7 @@ import org.jboss.seam.util.Base64;
 @Scope(SESSION)
 @Install(precedence = BUILT_IN, classDependencies = "javax.faces.context.FacesContext")
 @BypassInterceptors
-public class RememberMe
+public class RememberMe implements Serializable
 {
    class UsernameSelector extends Selector
    {
@@ -84,10 +87,19 @@ public class RememberMe
       
       public DecodedToken(String cookieValue)
       {
-         String decoded = new String(Base64.decode(cookieValue));
-         
-         username = decoded.substring(0, decoded.indexOf(':'));
-         value = decoded.substring(decoded.indexOf(':') + 1);                  
+         if (cookieValue != null)
+         {
+            try
+            {
+               String decoded = new String(Base64.decode(cookieValue));         
+               username = decoded.substring(0, decoded.indexOf(':'));
+               value = decoded.substring(decoded.indexOf(':') + 1);
+            }
+            catch (Exception ex)
+            {
+               // swallow
+            }
+         }
       }
       
       public String getUsername()
@@ -136,8 +148,16 @@ public class RememberMe
       if (this.enabled != enabled)
       {
          this.enabled = enabled;
-         usernameSelector.setCookieEnabled(enabled);
-         usernameSelector.setDirty();
+         if (mode.equals(Mode.usernameOnly))
+         {
+            usernameSelector.setCookieEnabled(enabled);
+            usernameSelector.setDirty();
+         }
+         else if (mode.equals(Mode.autoLogin))
+         {
+            tokenSelector.setCookieEnabled(enabled);
+            tokenSelector.setDirty();
+         }
       }      
    }
    
@@ -216,7 +236,7 @@ public class RememberMe
             tokenSelector.setCookiePath(ctx.getExternalContext().getRequestContextPath());
          }
          
-         String token = usernameSelector.getCookieValue();
+         String token = tokenSelector.getCookieValue();
          if (token != null)
          {
             setEnabled(true);
@@ -237,29 +257,59 @@ public class RememberMe
       }
    }
    
-   @Observer(Identity.EVENT_QUIET_LOGIN)
-   public void quietLogin(Identity identity)
+   /**
+    * I hate these hacks... 
+    */
+   private class BoolWrapper 
    {
+      boolean value;
+   }
+   
+   @Observer(Identity.EVENT_QUIET_LOGIN)
+   public void quietLogin()
+   {
+      final Identity identity = Identity.instance();
+      
       if (mode.equals(Mode.autoLogin) && isEnabled())
       {
+         final String username = identity.getCredentials().getUsername();    
+         final BoolWrapper userEnabled = new BoolWrapper();
+         final List<String> roles = new ArrayList<String>();
+         
          // Double check our credentials again
-         if (tokenStore.validateToken(identity.getCredentials().getUsername(), 
-               identity.getCredentials().getPassword()))
-         {
-            // Success, authenticate the user (if their account is enabled)            
-            if (IdentityManager.instance().isUserEnabled(identity.getCredentials().getUsername()))
+         if (tokenStore.validateToken(username, identity.getCredentials().getPassword()))
+         {            
+            new RunAsOperation(true) {
+               @Override
+               public void execute()
+               {        
+                  if (IdentityManager.instance().isUserEnabled(username))
+                  {
+                     userEnabled.value = true;
+
+                     for (String role : IdentityManager.instance().getImpliedRoles(username))
+                     {
+                        roles.add(role);
+                     }
+                  }
+               }
+            }.run();
+            
+            if (userEnabled.value)
             {
-               identity.getSubject().getPrincipals().add(new SimplePrincipal(
-                     identity.getCredentials().getUsername()));            
-               // And populate the roles
-               for (String role : IdentityManager.instance().getImpliedRoles(
-                     identity.getCredentials().getUsername()))
+               identity.unAuthenticate();
+               identity.preAuthenticate();
+               
+               // populate the roles
+               for (String role : roles)
                {
                   identity.addRole(role);
                }
-               
+   
+               // Set the principal
+               identity.getSubject().getPrincipals().add(new SimplePrincipal(username));
                identity.postAuthenticate();
-               
+            
                autoLoggedIn = true;
             }
          }            
@@ -271,7 +321,7 @@ public class RememberMe
    {
       if (mode.equals(Mode.autoLogin))
       {
-         tokenSelector.getCookieValue();
+         tokenSelector.clearCookieValue();
       }
    }
    
@@ -292,8 +342,11 @@ public class RememberMe
          
          DecodedToken decoded = new DecodedToken(tokenSelector.getCookieValue());
          
-         // Invalidate the current token whether enabled or not
-         tokenStore.invalidateToken(decoded.getUsername(), decoded.getValue());
+         // Invalidate the current token (if it exists) whether enabled or not
+         if (decoded.getUsername() != null)
+         {
+            tokenStore.invalidateToken(decoded.getUsername(), decoded.getValue());
+         }
          
          if ( !enabled ) 
          {
@@ -302,8 +355,9 @@ public class RememberMe
          else
          {
             String value = generateTokenValue();
-            tokenStore.createToken(decoded.getUsername(), value);
-            tokenSelector.setCookieValueIfEnabled(encodeToken(decoded.getUsername(), value));            
+            tokenStore.createToken(identity.getPrincipal().getName(), value);
+            tokenSelector.setCookieEnabled(enabled);
+            tokenSelector.setCookieValueIfEnabled(encodeToken(identity.getPrincipal().getName(), value));            
          }
       }
    }        
@@ -311,7 +365,10 @@ public class RememberMe
    @Observer(Credentials.EVENT_CREDENTIALS_UPDATED)
    public void credentialsUpdated()
    {
-      usernameSelector.setDirty();
+      if (mode.equals(Mode.usernameOnly)) 
+      {
+         usernameSelector.setDirty();
+      }      
    }      
    
    /**

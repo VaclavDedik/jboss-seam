@@ -76,7 +76,9 @@ public class Identity implements Serializable
    private Principal principal;   
    private Subject subject;
    
-   private RememberMe rememberMe;   
+   private RememberMe rememberMe;
+   
+   private boolean systemOp;
    
    private String jaasConfigName = null;
    
@@ -259,7 +261,7 @@ public class Identity implements Serializable
    {
       try
       {
-         if (Events.exists()) Events.instance().raiseEvent(EVENT_QUIET_LOGIN, this);         
+         if (Events.exists()) Events.instance().raiseEvent(EVENT_QUIET_LOGIN);         
           
          // Ensure that we haven't been authenticated as a result of the EVENT_QUIET_LOGIN event
          if (!isLoggedIn(false))
@@ -354,7 +356,9 @@ public class Identity implements Serializable
          preAuthenticationRoles.clear();
       }
 
-      if (Events.exists()) Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE, this);
+      credentials.setPassword(null);
+      
+      if (Events.exists()) Events.instance().raiseEvent(EVENT_POST_AUTHENTICATE, this);      
    }
    
    /**
@@ -398,6 +402,7 @@ public class Identity implements Serializable
    public boolean hasRole(String role)
    {
       if (!securityEnabled) return true;
+      if (systemOp) return true;
       
       isLoggedIn(true);
       
@@ -509,6 +514,8 @@ public class Identity implements Serializable
     */
    public void checkPermission(String name, String action, Object...arg)
    {
+      if (systemOp) return; 
+      
       isLoggedIn(true);
       
       if ( !hasPermission(name, action, arg) )
@@ -529,6 +536,8 @@ public class Identity implements Serializable
    
    public void checkPermission(Object target, String action)
    {
+      if (systemOp) return;
+      
       isLoggedIn(true);
       
       if ( !hasPermission(target, action) )
@@ -557,11 +566,8 @@ public class Identity implements Serializable
     */
    public boolean hasPermission(String name, String action, Object...arg)
    {      
-      if (!securityEnabled)
-      {
-         return true;
-      }
-      
+      if (!securityEnabled) return true;
+      if (systemOp) return true;     
       if (permissionMapper == null) return false;
          
       if (arg != null)
@@ -581,11 +587,8 @@ public class Identity implements Serializable
    
    public boolean hasPermission(Object target, String action)
    {
-      if (!securityEnabled)
-      {
-         return true;
-      }
-      
+      if (!securityEnabled) return true;
+      if (systemOp) return true;      
       if (permissionMapper == null) return false;
       
       return permissionMapper.resolvePermission(target, action);
@@ -692,10 +695,13 @@ public class Identity implements Serializable
          principal = operation.getPrincipal();
          subject = operation.getSubject();
          
+         systemOp = operation.isSystemOperation();
+         
          operation.execute();
       }
       finally
       {
+         systemOp = false;
          principal = savedPrincipal;
          subject = savedSubject;
       }

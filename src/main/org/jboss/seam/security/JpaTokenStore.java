@@ -100,7 +100,10 @@ public class JpaTokenStore implements TokenStore, Serializable
    public void invalidateToken(String username, String value)
    {
       Object token = lookupToken(username, value);
-      lookupEntityManager().remove(token);
+      if (token != null)
+      {
+         lookupEntityManager().remove(token);
+      }
    }
    
    public void invalidateAll(String username)

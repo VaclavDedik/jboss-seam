@@ -2,6 +2,7 @@ package org.jboss.seam.security.management.action;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import org.jboss.seam.security.management.IdentityManager;
 
 @Name("org.jboss.seam.security.management.roleAction")
 @Scope(CONVERSATION)
-public class RoleAction
+public class RoleAction implements Serializable
 {
    private String role;
    private List<String> groups;

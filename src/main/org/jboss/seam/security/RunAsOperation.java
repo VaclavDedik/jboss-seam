@@ -20,11 +20,24 @@ public abstract class RunAsOperation
    
    private Set<String> roles;
    
+   private boolean systemOp = false;
+   
    public RunAsOperation()
    {
       principal = new SimplePrincipal(null);  
       subject = new Subject();
       roles = new HashSet<String>();
+   }
+   
+   /**
+    * A system operation allows any security checks to pass
+    * 
+    * @param systemOp
+    */
+   public RunAsOperation(boolean systemOp)
+   {      
+      this();
+      systemOp = true;
    }
    
    public abstract void execute();
@@ -43,6 +56,11 @@ public abstract class RunAsOperation
    {
       roles.add(role);      
       return this;
+   }
+   
+   public boolean isSystemOperation()
+   {
+      return systemOp;
    }
    
    public void run()

@@ -123,7 +123,7 @@ public class SeamLoginModule implements LoginModule
          
          try
          {
-            boolean success = identityManager.authenticate(username, identity.getPassword());
+            boolean success = identityManager.authenticate(username, identity.getCredentials().getPassword());
             
             if (success)
             {

@@ -76,7 +76,7 @@ public class Credentials implements Serializable
    
    public boolean isSet()
    {
-      return username != null && password != null;      
+      return getUsername() != null && password != null;      
    }
    
    public boolean isInvalid()
