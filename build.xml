@@ -577,6 +577,11 @@
 		<copy file="seam-text.g" todir="${dist.dir}" />
 		<copy file="seam.bat" todir="${dist.dir}" />
 		<copy file="seam2migration.txt" todir="${dist.dir}" />
+	    <copy todir="${dist.dir}/extras">
+	       <fileset dir="${basedir}/extras">
+	          <include name="**/*" />
+	       </fileset>
+	    </copy>
 		<replace file="${dist.dir}/build.xml">
 			<replacetoken>
 				<![CDATA[${name}-${complete.version}]]>
