@@ -42,7 +42,7 @@ public class NaturalConversationIdParameter implements ConversationIdParameter
    public String getInitialConversationId(Map parameters)
    {
       String id = getRequestConversationId(parameters);
-      return id==null ? Id.nextId() : id; //TODO: should we try using the expression?
+      return id==null ? getConversationId() : id;
    }
    
    public String getRequestConversationId(Map parameters)
