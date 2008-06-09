@@ -306,6 +306,12 @@
        <artifactId>jboss-vfs</artifactId>
        <optional>true</optional>
     </dependency>
+    
+    <dependency>
+      <groupId>jboss</groupId>
+      <artifactId>jboss-common-core</artifactId>
+      <optional>true</optional>
+    </dependency>
 
   </dependencies>
 

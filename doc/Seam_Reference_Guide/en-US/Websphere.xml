@@ -897,7 +897,7 @@ $WebSphereInstall/$yourServerName/profiles/$yourProfileName/config/cells/
                               </listitem>
                               <listitem>
                                  <simpara>
-                                    <literal>jboss-archive-browsing.jar</literal>
+                                    <literal>jboss-common-core.jar</literal>
                                     </simpara>
                               </listitem>
                            </itemizedlist> </para>
@@ -949,6 +949,11 @@ $WebSphereInstall/$yourServerName/profiles/$yourProfileName/config/cells/
                               <listitem>
                                  <simpara>
                                     <literal>javassist.jar</literal>
+                                    </simpara>
+                              </listitem>
+                              <listitem>
+                                 <simpara>
+                                    <literal>concurrent.jar</literal>
                                     </simpara>
                               </listitem>
                            </itemizedlist> </para>
@@ -1433,19 +1438,12 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
    <include name="lib/el-ri.jar"/>]]></programlisting>
                   </listitem>
                   <listitem>
-                     <para> Third party dependencies.  You will need to copy the
-                     <literal>jboss-archive-browsing.jar</literal> from the 
-                     <literal>$SEAM/examples/jpa/lib</literal> directory into the 
-                     the projects <literal>/lib</literal> directory.  You will 
-                     also need to acquire the <literal>concurrent.jar</literal> 
-                     and place it in the same directory.  You can get this from 
-                     any jboss distribution or just search for it.</para>
+                     <para> Third party dependencies.</para>
                      <programlisting role="XML"><![CDATA[
    <!-- 3rd party and supporting jars -->
    <!--<include name="lib/log4j.jar" />-->
    <include name="lib/javassist.jar"/>
    <include name="lib/dom4j.jar" />
-   <include name="lib/jboss-archive-browsing.jar" />
    <include name="lib/concurrent.jar" />
    <include name="lib/cglib.jar"/>
    <include name="lib/asm.jar"/>
@@ -1494,7 +1492,6 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
    <!--<include name="lib/log4j.jar" />-->
    <include name="lib/javassist.jar"/>
    <include name="lib/dom4j.jar" />
-   <include name="lib/jboss-archive-browsing.jar" />
    <include name="lib/concurrent.jar" />
    <include name="lib/cglib.jar"/>
    <include name="lib/asm.jar"/>

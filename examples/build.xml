@@ -331,6 +331,7 @@
 	
 	<fileset id="jboss-common-core.jar" dir="${lib.dir}">
 		<include name="jboss-common-core.jar" if="jboss-common-core.lib" />
+	    <include name="concurrent.jar" if="jboss-common-core.lib" />
 	</fileset>
 	
 	<!-- ############################ MELDWARE ############################ -->
@@ -500,7 +501,7 @@
 		<mkdir dir="${dist.dir}" />
 	</target>
 	
-	<target name="copyextradependencies" depends="gettrinidad, getelri, getjbosscommoncore"/>
+	<target name="copyextradependencies" depends="gettrinidad, getelri"/>
 	
 	<target name="gettrinidad" if="trinidad.lib">
 		<copyInlineDependencies id="trinidad" scope="runtime" todir="${lib.dir}">
@@ -526,18 +527,6 @@
 	<target name="getelri" if="el-ri.lib">
 		<copyInlineDependencies id="elri" scope="runtime" todir="${lib.dir}">
 			<dependency groupId="javax.el" artifactId="el-ri" version="1.2" />
-		</copyInlineDependencies>
-	</target>
-	
-	<target name="getjbosscommoncore" if="jboss-common-core.lib">
-		<copyInlineDependencies id="jbosscommoncore" scope="runtime" todir="${lib.dir}">
-			<dependency groupId="jboss" artifactId="jboss-common-core" version="2.0.2.GA">
-				<exclusion groupId="apache-xerces" artifactId="xml-apis" />
-			    <exclusion groupId="apache-httpclient" artifactId="commons-httpclient" />
-			    <exclusion groupId="oswego-concurrent" artifactId="concurrent" />
-			    <exclusion groupId="apache-slide" artifactId="webdavlib" />
-			    <exclusion groupId="jboss" artifactId="jboss-logging-spi" />
-			</dependency>
 		</copyInlineDependencies>
 	</target>
      
