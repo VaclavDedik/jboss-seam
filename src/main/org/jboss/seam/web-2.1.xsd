@@ -133,14 +133,14 @@ formatted log output if desired, by adding %X{username} to the pattern.</xs:docu
         <xs:attribute name="log4j-init-file" type="components:string"/>
     </xs:attributeGroup>
     
-    <xs:element name="servlet-session">
+    <xs:element name="session">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
-            <xs:attributeGroup ref="web:attlist.servlet-session"/>
+            <xs:attributeGroup ref="web:attlist.session"/>
         </xs:complexType>
     </xs:element>
     
-    <xs:attributeGroup name="attlist.servlet-session">
+    <xs:attributeGroup name="attlist.session">
         <xs:attribute name="invalidate-on-scheme-change" type="components:boolean"/>
     </xs:attributeGroup>   
    
