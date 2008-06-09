@@ -1079,6 +1079,7 @@
         	<pathelement path="../lib/asm.jar" />
         	<pathelement path="../lib/core.jar" />
         	<pathelement path="../lib/jboss-common-core.jar" />
+		    <pathelement path="../lib/concurrent.jar"/>
             <pathelement path="${driver.jar}"/>
         	<pathelement path="../lib/jboss-seam-gen.jar"/>
         </path>

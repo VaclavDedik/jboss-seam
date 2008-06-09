@@ -199,6 +199,11 @@
                               </simpara>
                         </listitem>
                         <listitem>
+                           <simpara>
+                              <literal>concurrent.jar</literal>
+                              </simpara>
+                        </listitem>
+                        <listitem>
                            <simpara><literal>log4j.jar</literal>
                               &#8212; This can be left out if you are not going
                               to configure log4j. If it is packaged but not
@@ -915,6 +920,7 @@ BUILD SUCCESSFUL]]></programlisting>
 <include name="lib/asm.jar"/>
 <include name="lib/commons-beanutils.jar"/>
 <include name="lib/commons-digester.jar"/>
+<include name="lib/concurrent.jar"/>
 <include name="lib/antlr.jar"/>]]></programlisting>
                </listitem>
             </itemizedlist>
@@ -950,6 +956,7 @@ BUILD SUCCESSFUL]]></programlisting>
       <include name="lib/asm.jar"/>
       <include name="lib/commons-beanutils.jar"/>
       <include name="lib/commons-digester.jar"/>
+      <include name="lib/concurrent.jar"/>
       <include name="lib/antlr.jar"/>
 </fileset>]]></programlisting>
          </section>
