@@ -8,23 +8,23 @@
 <div>
  
 <div class="section">
-    <h1><h:outputText rendered="#{not empty conversationList}" value="Workspaces"/></h1>
+    <h1><h:outputText id="Workspaces" rendered="#{not empty conversationList}" value="Workspaces"/></h1>
 </div>
 
 <div class="section">
-    <h:form>
-        <h:dataTable value="#{conversationList}" var="entry">
-            <h:column>
-                <h:commandLink action="#{entry.select}" value="#{entry.description}"/>
+    <h:form id="Conversations">
+        <h:dataTable id="ConversationList" value="#{conversationList}" var="entry">
+            <h:column id="column1">
+                <h:commandLink id="EntryDescriptionLink" action="#{entry.select}" value="#{entry.description}"/>
                 &#160;
-                <h:outputText value="[current]" rendered="#{entry.current}"/>
+                <h:outputText id="EntryCurrent" value="[current]" rendered="#{entry.current}"/>
             </h:column>
-            <h:column>
-                <h:outputText value="#{entry.startDatetime}">
+            <h:column id="column2">
+                <h:outputText id="EntryStartDateTime" value="#{entry.startDatetime}">
                     <s:convertDateTime type="time" pattern="hh:mm"/>
                 </h:outputText>
                 -
-                <h:outputText value="#{entry.lastDatetime}">
+                <h:outputText id="EntryLastDateTime" value="#{entry.lastDatetime}">
                     <s:convertDateTime type="time" pattern="hh:mm"/>
                 </h:outputText>
             </h:column>
