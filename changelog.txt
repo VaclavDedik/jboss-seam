@@ -1,6 +1,30 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - JBoss Seam - Version 2.0.3.CR1
+
+** Feature Request
+    *  [ JBSEAM-3003 ] maintain insertion order of parameters in UrlBuilder
+
+** Bug
+    *  [ JBSEAM-2833 ] Glassfish Jee5 example deployment fails with NoClassDefFoundError: EDU/oswego/cs/dl/util/concurrent/ConcurrentReaderHashMap
+    *  [ JBSEAM-2956 ] seambay example throws an exception when placing a bid on the camera
+    *  [ JBSEAM-3027 ] seam-gen richfaces sakura skin not found
+    *  [ JBSEAM-3049 ] javax.persistence.EntityNotFoundException on activating passivated entities that have been deleted
+    *  [ JBSEAM-3053 ] Natural conversation id initialized at wrong time, leading to exceptions
+    *  [ JBSEAM-3064 ] AuthorizationException when Load Testing - RuleBasedIdentity.hasPermission() returns false when it should return true
+    *  [ JBSEAM-3071 ] Need to sanitize headers
+    *  [ JBSEAM-3072 ] seam dist /extras directory is not there - no mail-ra.rar
+    *  [ JBSEAM-3078 ] new entities are not wrapped by by conversation context flush
+    *  [ JBSEAM-3083 ] urlBase on <m:message> does not work
+    *  [ JBSEAM-3090 ] web XSD incorrectly declares servlet-session element
+
+** Task
+    *  [ JBSEAM-3050 ] Move Seam scanner code into Seam Core
+    *  [ JBSEAM-3048 ] Add id attribute to markup for JSF components in Seam examples
+    *  [ JBSEAM-3058 ] HTML and CSS sanitation filters for Seam Text
+    *  [ JBSEAM-3066 ] Include JBoss 5 compatible version of Facelets
+
 Release Notes - JBoss Seam - Version 2.0.2.GA
 
 ** Bug
