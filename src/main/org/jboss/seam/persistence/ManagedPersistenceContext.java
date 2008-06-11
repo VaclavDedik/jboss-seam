@@ -140,27 +140,12 @@ public class ManagedPersistenceContext
       {
          throw new IllegalStateException("cannot passivate persistence context with active transaction");
       }
-      //need to create a context, because this can get called
-      //outside the JSF request, and we want to use the
-      //PersistenceProvider object
-      boolean createContext = !Contexts.isApplicationContextActive();
-      if (createContext) Lifecycle.beginCall();
-      try
-      {
-         if ( entityManager!=null && !PersistenceProvider.instance().isDirty(entityManager) )
-         {
-            entityManager.close();
-            entityManager = null;
-         }
-      }
-      finally
-      {
-         if (createContext) Lifecycle.endCall();
-      }
    }
    
    //we can't use @PostActivate because it is intercept NEVER
-   public void sessionDidActivate(HttpSessionEvent event) {}
+   public void sessionDidActivate(HttpSessionEvent event) {
+       entityManager = null;
+   }
    
    @Destroy
    public void destroy()
