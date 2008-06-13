@@ -92,6 +92,7 @@ Building and Checking Dist
     changelog.txt
     doc
     examples
+    extras
     lgpl.txt
     lib
     readme.txt
@@ -161,10 +162,11 @@ Building and Checking Dist
         - ex. "rm -Rf ~/.m2"
         - <TODO document way to set local repo settings for clean build/>        
     - Create a copy of the $DIST directory
+        - rename the copy with "*.orig"
         - the idea is the leave the original pristine for example testing.
         
     ** Source verification **
-        - In the copy run "ant > ../releaselogs/x.x.x.XX.sourcebuild.txt"
+        - run "ant > ../releaselogs/x.x.x.XX.sourcebuild.txt"
         - diff the original and the built versions of the $DIST directories
             - only difference should be build related 
             - <TODO: list expected differences/>
@@ -173,8 +175,7 @@ Building and Checking Dist
             - Should be no differences except version of ant and/or jdk versions
         
     ** Dependency report **
-        - In the copy run:
-            - "ant dependencyReport > ../releaselogs/x.x.x.XX.dependencybuild.txt"
+        - "ant dependencyReport > ../releaselogs/x.x.x.XX.dependencybuild.txt"
         - run "cp ./dependency-report.txt ../releaselogs"
         - Review for snapshot dependencies
             - there should be none.
@@ -182,15 +183,19 @@ Building and Checking Dist
             - <TODO: A tool is needed to do this effectively/>
         
     ** Testsuite execution **
-        - In the copy run :
-            - "ant -Dvalidate.xml=true cleanall testall testreport 
+        - "ant -Dvalidate.xml=true cleanall testall testreport 
                    > ../releaselogs/x.x.x.XX.testallreport.txt"
         - check report/junit-noframes.html
             - There should be no failures or errors.
         - run "cp -R test-output ../releaselogs"
         - run "cp -R test-report ../releaselogs"
+        
+    ** Compare the original distribtion to the one used for the testing.
+        - Review changes in thirdparty jars, directories, and files.
+            - <TODO: generate list of acceptable difference>             
     
-    - You can delete the dist copy
+    - Delete or rename to original dist.
+    - Rename the "*.orig" back to the original name
  
 Example verification
 --------------------
@@ -239,10 +244,8 @@ Example verification
   - seampay
   - seamspace
   - spring
-  - takeaway
   - todo (tutorial)
   - ui
-  - wiki (not ready for testing until 2.1.X)
 * Tomcat 6 examples 
   - Note: use JBoss embedded unless specified differently
   - blog (tutorial)
@@ -265,7 +268,10 @@ Example verification
   
 JBDS and seam-gen verification
 ------------------------------
-These tests use a stable version of MySQL and the latest release of JBDS.
+These tests use a stable version of MySQL and the latest release of JBDS.  Be sure
+to use the latest stable release of tools (2.1.1.GA at the time of writing), and
+to also apply the JBoss tools provided WTP patch.  <TODO: update is version changes
+behavior>
 
 * export the following tables to MySQL:
 CREATE TABLE `Person` (
@@ -339,8 +345,7 @@ CREATE TABLE `Vehicle` (
   - Create "new Seam Action" and "new Seam Form"
   - Test generated pages (check hot deployment of Seam components, html)   
   - Test running unit tests from Eclipse
-* JBDS new EAR project 
-  - <NOTE JBIDE-1862 will require changes to the generated project/>
+* JBDS new EAR project
   - Reverse engineer entities from MySQL
   - Create "new Seam Action" and "new Seam Form"
   - Test generated pages (check hot deployment of Seam components, html)  
@@ -365,9 +370,11 @@ Portal Bridge Verification
         - user both text search and search button 
         - change dates, and options in the booking
         - confirm, logout, login, verify confirmation, cancel confirmation
+            - <NOTE: can not confirm booking ATM>
     - Conversation handling
         - launch several hotels booking conv. from the search page
         - individually confirm and switch between conversations.
+        - <NOTE: Can not lauch into multiple conversations ATM>
     - <NOTE: logging in/out through the portlet, registering new users, and 
              changing passwords do not work, and jiras have been entered
              for them to be removed as it is integrated with portal auth/>
@@ -376,20 +383,12 @@ Portal Bridge Verification
     - edit the $PBR_SRC/examples/seam/booking/seamBookingPortlet/pom.xml file
         - adjust the seam version properties at the top of the file
     - build the example by running "mvn install" in the $PBR_SRC/examples dir
-    - <NOTE: You may need to remove the "javassist.jar" from both the EAR
+    - <NOTE: You need to remove the "javassist.jar" from both the EAR
              and WAR lib directories.  This is related to PBR-2 - but for some
              reason the javassist.jar is still placed in both./>
 * Deploy a second version of the booking example as a separate portlet
-    - <TODO: this is not supported in the bridge yet - defer/>
+    - <TODO: DEFER - this is not supported in the bridge yet/>
     - <TODO: there may be a new chatroom seam portlet for this testing/>
-* Build the seam identity extension with the booking example
-    - <TODO this seems to be done in the 1.0.0.B2 PBR release automatically 
-            - verify/>
-    - <TODO add reference link to the instructions if needed/>
-    - Go to the booking demo seamBookingPortlet/pom.xml
-       - go to the bottom and uncomment the identity module.
-    - Build the booking demo and log in via the portal admin link. 
-       - this should automatically logs you into the seam booking demo
   
 Document review
 ---------------
@@ -414,8 +413,7 @@ Final Build + Upload
         - <QUESTION: do we want to create md5 files for the archives/>
         - <NOTE: not for 2.0.X/>
     - upload the .zip and .tar.gz and md5 files
-        - FTP "upload.sf.net/incoming"
-        - <NOTE: sf upload process may have changed - check during next release/>
+        - FTP to your SF users "/incoming" directory
     
 * Login to sourceforge.org and go to jboss.org project
     - Under admin tab click on "file releases"
@@ -441,6 +439,7 @@ Final Build + Upload
     - Review and Commit the release changes to repository.jboss.org
         - simple script to add new files to SVN
         - svn status | grep "^\?" | awk '{print $2}' | xargs svn add
+            - note if you've added this to eclipse you may need to revert ".project"
         - they still need to be reviewed and commited.
 
 * Create draft of the documentation and download pages on seamframework.org
@@ -460,6 +459,7 @@ Final Coordination and Announcement
 * Login to sourceforge.org and modify the Seam release entry
     - Change the date to today
     - Change "Status" to active
+    - Provide the link to the SF download page for the release for announcements.
 * Update the documentation and download pages on seamframework.org with drafts.
 * Update Jira so that version shows as "released" 
 * Announce the release
