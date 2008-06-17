@@ -14,6 +14,13 @@
             <xs:documentation>A Seam component that holds Seam configuration settings</xs:documentation>
         </xs:annotation>
         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="disabled-interceptors" type="components:multiValuedProperty">
+                    <xs:annotation>
+                        <xs:documentation>A list of interceptors that should be disabled for all components</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xs:choice>
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.init"/>
         </xs:complexType>
@@ -24,6 +31,7 @@
         <xs:attribute name="jndi-pattern" type="components:string" />
         <xs:attribute name="transaction-management-enabled" type="components:boolean"/>
         <xs:attribute name="user-transaction-name" type="components:string"/>
+        <xs:attribute name="disabled-interceptors" type="components:string" />
     </xs:attributeGroup>
 
     <xs:element name="manager">
