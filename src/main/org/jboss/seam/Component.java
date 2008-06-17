@@ -48,6 +48,8 @@ import java.util.Set;
 
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
+
+import org.apache.tools.ant.types.Assertions.EnabledAssertion;
 import org.jboss.seam.util.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 
@@ -948,14 +950,26 @@ public class Component extends Model
 
    public void addInterceptor(Interceptor interceptor)
    {
-      if ( interceptor.getType()==InterceptorType.SERVER)
-      {
-         interceptors.add(interceptor);
-      }
-      else
-      {
-         clientSideInterceptors.add(interceptor);
-      }
+       if (isInterceptorEnabled(interceptor)) {
+           if (interceptor.getType()==InterceptorType.SERVER) {
+               interceptors.add(interceptor);
+           } else {
+               clientSideInterceptors.add(interceptor);
+           }
+       }
+   }
+
+   private boolean isInterceptorEnabled(Interceptor interceptor) {
+       Class interceptorClass = interceptor.getUserInterceptorClass();
+       if (interceptorClass != null) {
+           if (Init.instance().getDisabledInterceptors().contains(interceptorClass.getName())) {
+               System.out.println("**** DISABLED INTERCEPTOR[" + name + "] " + interceptorClass);
+               return false;
+           }
+       }
+       
+       System.out.println("**** INTERCEPTOR[" + name + "] " + interceptorClass);
+       return true;
    }
 
    private List<Interceptor> newSort(List<Interceptor> list)
