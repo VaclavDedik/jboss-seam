@@ -260,6 +260,8 @@ options
                                                Token attribute,
                                                String attributeValue) throws SemanticException {
 
+            if (attributeValue == null || attributeValue.length() == 0) return;
+
             String elementName = element.getText().toLowerCase();
             String attributeName = attribute.getText().toLowerCase();
 
