@@ -963,12 +963,10 @@ public class Component extends Model
        Class interceptorClass = interceptor.getUserInterceptorClass();
        if (interceptorClass != null) {
            if (Init.instance().getDisabledInterceptors().contains(interceptorClass.getName())) {
-               System.out.println("**** DISABLED INTERCEPTOR[" + name + "] " + interceptorClass);
                return false;
            }
        }
        
-       System.out.println("**** INTERCEPTOR[" + name + "] " + interceptorClass);
        return true;
    }
 
