@@ -293,7 +293,7 @@ options
                     }
 
                     // CSS property value
-                    if (!stylePropertiesValues.contains(propertyValue)) {
+                    if (propertyValue != null && !stylePropertiesValues.contains(propertyValue)) {
                         // Not in list, now check the regex
                         if (!REGEX_VALID_CSS_VALUE.matcher(propertyValue).matches()) {
                             throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
