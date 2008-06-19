@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.mock.MockExternalContext;
+import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.ui.util.JSF;
 
@@ -93,7 +94,7 @@ public class FaceletsRenderer extends Renderer
          // If a FacesContext isn't available, set one up
          if (FacesContext.getCurrentInstance() == null)
          {
-            MockFacesContext mockFacesContext = new MockFacesContext(new MockExternalContext())
+            MockFacesContext mockFacesContext = new MockFacesContext(new MockExternalContext(), new MockApplication())
                      .setCurrent();
             mockFacesContext.createViewRoot();
          }
