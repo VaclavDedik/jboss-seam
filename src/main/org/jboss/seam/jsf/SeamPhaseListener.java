@@ -596,22 +596,23 @@ public class SeamPhaseListener implements PhaseListener
    }
    
    void commitOrRollback(PhaseId phaseId) 
-   {
-      try 
-      {
-         if ( Transaction.instance().isActive() )
-         {
-            log.debug("committing transaction after phase: " + phaseId);
-            Transaction.instance().commit();
-         }
-         else if ( Transaction.instance().isRolledBackOrMarkedRollback() )
-         {
+   {  
+      try {
+         if (Transaction.instance().isActive()) {
+             try {
+                 log.debug("committing transaction after phase: " + phaseId);            
+                 Transaction.instance().commit();
+
+             } catch (IllegalStateException e) {
+                 log.warn("TX commit failed with illegal state exception. This may be " + 
+                          "because the tx timed out and was rolled back in the background.", e);
+             }
+         } else if ( Transaction.instance().isRolledBackOrMarkedRollback()) {
             log.debug("rolling back transaction after phase: " + phaseId);
             Transaction.instance().rollback();
          }
-      }
-      catch (Exception e)
-      {
+         
+      } catch (Exception e) {
          throw new IllegalStateException("Could not commit transaction", e);
       }
    }
