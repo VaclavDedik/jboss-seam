@@ -17,6 +17,8 @@ import java.util.*;
 
 public class WikiDocument extends WikiFile<WikiDocument> implements Serializable {
 
+    public static final String MACRO_DISABLE_CONTENT_MARKUP = "disableContentMarkup";
+
     @Column(name = "NAME_AS_TITLE", nullable = false)
     private boolean nameAsTitle = true;
 

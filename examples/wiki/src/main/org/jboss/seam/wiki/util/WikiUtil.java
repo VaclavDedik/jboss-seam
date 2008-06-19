@@ -30,6 +30,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * Adds stuff to and for JSF that should be there but isn't. Also stuff that is exposed
@@ -174,7 +175,7 @@ public class WikiUtil {
         return string.replaceAll("@", Preferences.instance().get(WikiPreferences.class).getAtSymbolReplacement());
     }
 
-    public static String escapeHtml(String string, boolean convertNewlines) {
+    public static String escapeHtml(String string, boolean convertNewlines, boolean convertSpaces) {
         if (string == null) return null;
         StringBuilder sb = new StringBuilder();
         String htmlEntity;
@@ -194,10 +195,26 @@ public class WikiUtil {
                 sb.append(c);
             }
         }
-        if (convertNewlines) {
-            return sb.toString().replaceAll("\n", "<br/>");
+        String result = sb.toString();
+        if (convertSpaces) {
+            // Converts the _beginning_ of line whitespaces into non-breaking spaces
+            Matcher matcher = Pattern.compile("(\\n+)(\\s*)(.*)").matcher(result);
+            StringBuffer temp = new StringBuffer();
+            while(matcher.find()) {
+                String group = matcher.group(2);
+                StringBuilder spaces = new StringBuilder();
+                for (int i = 0; i < group.length(); i++) {
+                    spaces.append("&#160;");
+                }
+                matcher.appendReplacement(temp, "$1"+spaces.toString()+"$3");
+            }
+            matcher.appendTail(temp);
+            result = temp.toString();
         }
-        return sb.toString();
+        if (convertNewlines) {
+            result = result.replaceAll("\n", "<br/>");
+        }
+        return result;
     }
 
     public static String removeHtml(String original) {

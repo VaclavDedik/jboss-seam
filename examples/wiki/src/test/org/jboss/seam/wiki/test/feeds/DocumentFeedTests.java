@@ -46,7 +46,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
-                docHome.setFormContent("Test Content");
+                docHome.getTextEditor().setValue("Test Content");
 
                 docHome.setPushOnFeeds(true);
                 docHome.setPushOnSiteFeed(true);
@@ -85,7 +85,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
-                docHome.setFormContent("Test Content");
+                docHome.getTextEditor().setValue("Test Content");
 
                 docHome.setPushOnFeeds(true);
                 docHome.setPushOnSiteFeed(true);
@@ -123,7 +123,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
-                docHome.setFormContent("Test Content");
+                docHome.getTextEditor().setValue("Test Content");
 
                 docHome.setPushOnFeeds(true);
 
@@ -162,7 +162,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
-                docHome.setFormContent("Test Content");
+                docHome.getTextEditor().setValue("Test Content");
 
                 docHome.setPushOnFeeds(true);
 
@@ -200,7 +200,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
-                docHome.setFormContent("Test Content");
+                docHome.getTextEditor().setValue("Test Content");
 
                 docHome.setPushOnFeeds(true);
                 docHome.setPushOnSiteFeed(true);
@@ -240,7 +240,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
-                docHome.setFormContent("Test Content");
+                docHome.getTextEditor().setValue("Test Content");
 
                 docHome.setPushOnFeeds(true);
                 docHome.setPushOnSiteFeed(true);

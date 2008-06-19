@@ -27,7 +27,13 @@ public class WikiDocumentFeedEntryManager extends FeedEntryManager<WikiDocument,
         // Do NOT use text/html, the fabulous Sun "Rome" software will
         // render type="HTML" (uppercase!) which kills the Firefox feed renderer!
         fe.setDescriptionType("html");
-        fe.setDescriptionValue(renderWikiText(document.getAreaNumber(), document.getFeedDescription()));
+        String descriptionValue = "";
+        if (document.macroPresent(WikiDocument.MACRO_DISABLE_CONTENT_MARKUP)) {
+            descriptionValue = renderPlainText(document.getFeedDescription());
+        } else {
+            descriptionValue = renderWikiText(document.getAreaNumber(), document.getFeedDescription());
+        }
+        fe.setDescriptionValue(descriptionValue);
 
         fe.setDocument(document);
         return fe;

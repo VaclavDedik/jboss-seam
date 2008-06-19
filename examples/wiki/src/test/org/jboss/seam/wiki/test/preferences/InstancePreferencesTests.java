@@ -86,7 +86,7 @@ public class InstancePreferencesTests extends DBUnitSeamTest {
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
-                docHome.setFormContent("[<=lastModifiedDocuments[documentTitleLength=66]]");
+                docHome.getTextEditor().setValue("[<=lastModifiedDocuments[documentTitleLength=66]]");
 
                 assert invokeMethod("#{documentHome.update}").equals("updated");
             }

@@ -3,6 +3,7 @@
             xmlns:h="http://java.sun.com/jsf/html"
             xmlns:f="http://java.sun.com/jsf/core"
             xmlns:wiki="http://jboss.com/products/seam/wiki"
+            xmlns:c="http://java.sun.com/jstl/core"
             messageId="#{wiki:calculateMessageId(topicHome.instance.id, topicHome.instance.name)}">
 
     <m:header name="X-Sent-From" value="SeamFramework.org" />
@@ -23,14 +24,21 @@
 
             <hr/>
 
-            <wiki:formattedText value="#{topicHome.instance.content}"
-                                linkStyleClass="regularLink"
-                                brokenLinkStyleClass="brokenLink"
-                                attachmentLinkStyleClass="regularLink"
-                                thumbnailLinkStyleClass="regularLink"
-                                linkBaseFile="#{currentDocument}"
-                                currentAreaNumber="#{currentDocument.areaNumber}"
-                                enableMacroRendering="false"/>
+            <c:if test="#{not topicHome.instance.macroPresent('disableContentMarkup')}">
+                <wiki:formattedText value="#{topicHome.instance.content}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{currentDocument}"
+                                    currentAreaNumber="#{currentDocument.areaNumber}"
+                                    enableMacroRendering="false"/>
+            </c:if>
+            <c:if test="#{topicHome.instance.macroPresent('disableContentMarkup')}">
+                <div style="font-family: Andale Mono, Courier New, monospace;">
+                    <h:outputText escape="false" value="#{wiki:escapeHTML(topicHome.instance.content, true, true)}"/>
+                </div>
+            </c:if>
 
             <hr/>
             <a href="#{wikiURLRenderer.renderURL(topicHome.instance, true)}">Click here</a> to reply...

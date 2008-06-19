@@ -28,7 +28,7 @@ import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.WikiUploadImage;
 import org.jboss.seam.wiki.core.upload.Uploader;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
-import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
 import org.jboss.seam.wiki.preferences.PreferenceVisibility;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.wiki.preferences.PreferenceProvider;
@@ -73,6 +73,8 @@ public class UserHome extends EntityHome<User> {
     private org.jboss.seam.wiki.core.model.Role defaultRole;
     private Uploader uploader;
     private String requestedUsername;
+    private WikiTextEditor bioTextEditor;
+    private WikiTextEditor signatureTextEditor;
 
     public Uploader getUploader() {
         return uploader;
@@ -117,6 +119,13 @@ public class UserHome extends EntityHome<User> {
 
             if (defaultRole == null) defaultRole = (Role)Component.getInstance("newUserDefaultRole");
         }
+
+        if (bioTextEditor == null || signatureTextEditor == null) {
+            bioTextEditor        = new WikiTextEditor("bio", 1023, false, false, 5);
+            signatureTextEditor  = new WikiTextEditor("signature", 1023, false, false, 5);
+            syncInstanceToWikiTextEditors();
+        }
+
     }
 
     public void initEdit() {
@@ -170,6 +179,8 @@ public class UserHome extends EntityHome<User> {
             return null;
         }
 
+        syncWikiTextEditorsToInstance();
+
         // Assign default role
         getInstance().getRoles().add(defaultRole);
 
@@ -221,6 +232,8 @@ public class UserHome extends EntityHome<User> {
         if (!validateWikiTextEditors()) {
             return null;
         }
+
+        syncWikiTextEditorsToInstance();
 
         if (uploader.hasData()) {
             uploader.uploadNewInstance();
@@ -348,14 +361,20 @@ public class UserHome extends EntityHome<User> {
         );
     }
 
+    protected void syncInstanceToWikiTextEditors() {
+        bioTextEditor.setValue(getInstance().getProfile().getBio());
+        signatureTextEditor.setValue(getInstance().getProfile().getSignature());
+    }
+
+    protected void syncWikiTextEditorsToInstance() {
+        getInstance().getProfile().setBio(bioTextEditor.getValue());
+        getInstance().getProfile().setSignature(signatureTextEditor.getValue());
+    }
+
     protected boolean validateWikiTextEditors() {
-        WikiTextValidator wikiTextValidator =
-                (WikiTextValidator) Component.getInstance(WikiTextValidator.class);
-
-        wikiTextValidator.validate("bio", getInstance().getProfile().getBio(), false);
-        wikiTextValidator.validate("signature", getInstance().getProfile().getSignature(), false);
-
-        return wikiTextValidator.isValid("bio") && wikiTextValidator.isValid("signature");
+        bioTextEditor.validate();
+        signatureTextEditor.validate();
+        return bioTextEditor.isValid() && signatureTextEditor.isValid();
     }
 
 
@@ -487,6 +506,14 @@ public class UserHome extends EntityHome<User> {
 
     public long getRatingPoints() {
         return userDAO.findRatingPoints(getInstance().getId());
+    }
+
+    public WikiTextEditor getBioTextEditor() {
+        return bioTextEditor;
+    }
+
+    public WikiTextEditor getSignatureTextEditor() {
+        return signatureTextEditor;
     }
 
     // ####################### PREFERENCES ##################################

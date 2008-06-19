@@ -65,6 +65,14 @@
         <applicable-to header="true"/>
     </macro>
 
+    <macro key="disableContentMarkup" name="disableContentMarkup">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+        <applicable-to header="true"/>
+    </macro>
+
     <macro key="dirMenu" name="dirMenu">
         <skins>
             <skin name="d"/>

@@ -22,6 +22,7 @@ import org.jboss.seam.wiki.core.wikitext.renderer.DefaultWikiTextRenderer;
 import org.jboss.seam.wiki.core.model.FeedEntry;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
 import org.jboss.seam.wiki.core.ui.WikiURLRenderer;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 /**
  * @author Christian Bauer
@@ -76,6 +77,10 @@ public abstract class FeedEntryManager<M, FE extends FeedEntry> {
             throw new RuntimeException(ex);
         }
         return parser.toString();
+    }
+
+    protected String renderPlainText(String plainText) {
+        return WikiUtil.escapeHtml(plainText, true, true);
     }
 
 

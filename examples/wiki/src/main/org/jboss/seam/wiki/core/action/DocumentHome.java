@@ -19,16 +19,14 @@ import org.jboss.seam.wiki.core.action.prefs.DocumentEditorPreferences;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.feeds.FeedDAO;
 import org.jboss.seam.wiki.core.feeds.FeedEntryManager;
-import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
 import org.jboss.seam.wiki.core.wikitext.renderer.MacroWikiTextRenderer;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.template.TemplateRegistry;
 import org.jboss.seam.wiki.core.template.WikiDocumentTemplate;
 import org.jboss.seam.wiki.core.template.WikiDocumentEditorDefaults;
-import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
 import org.jboss.seam.wiki.preferences.Preferences;
-import org.hibernate.validator.Length;
 
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 
@@ -46,19 +44,20 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     private FeedDAO feedDAO;
     @In
     private TagEditor tagEditor;
+    @In("#{preferences.get('DocEditor')}")
+    private DocumentEditorPreferences docEditorPreferences;
 
     /* -------------------------- Internal State ------------------------------ */
 
-    private WikiDocument historicalCopy;
-    private Boolean minorRevision;
-    private String formContent;
-    private Set<WikiFile> linkTargets;
-    private boolean pushOnFeeds = false;
-    private boolean pushOnSiteFeed = false;
-    private boolean isOnSiteFeed = false;
-    private List<WikiFile> historicalFiles;
-    private Long numOfHistoricalFiles = 0l;
-    private String templateType;
+    protected WikiTextEditor textEditor = new WikiTextEditor("content");
+    protected WikiDocument historicalCopy;
+    protected Boolean minorRevision;
+    protected boolean pushOnFeeds = false;
+    protected boolean pushOnSiteFeed = false;
+    protected boolean isOnSiteFeed = false;
+    protected List<WikiFile> historicalFiles;
+    protected Long numOfHistoricalFiles = 0l;
+    protected String templateType;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -125,6 +124,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
         doc.setEnableComments( Preferences.instance().get(CommentsPreferences.class).getEnableByDefault() );
 
+        syncInstanceToEditor(getParentNode().getAreaNumber(), doc);
+
         return doc;
     }
 
@@ -156,23 +157,36 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
         isOnSiteFeed = feedDAO.isOnSiteFeed(doc);
 
+        syncInstanceToEditor(getParentNode().getAreaNumber(), doc);
+        copyHistoricalRevision(doc);
+
         return doc;
+    }
+
+    @Override
+    protected String getEditorWorkspaceDescription(boolean create) {
+        if (create) {
+            return Messages.instance().get("lacewiki.label.docEdit.CreateDocument");
+        } else {
+            return Messages.instance().get("lacewiki.label.docEdit.EditDocument") + ":" + getInstance().getName();
+        }
     }
 
     /* -------------------------- Custom CUD ------------------------------ */
 
     @Override
     protected boolean beforePersist() {
-        // Sync document content
-        syncFormContentToInstance(getParentNode());
-        syncLinks();
 
-        // Make a copy
-        historicalCopy = new WikiDocument();
-        historicalCopy.flatCopy(getInstance(), true);
+        syncEditorToInstance(getParentNode().getAreaNumber(), getInstance());
+        syncMacros(getInstance());
+        copyHistoricalRevision(getInstance());
 
         purgeFeedEntries();
         
+        // Plain text can only be set on persist(), never changed later with update()
+        if (textEditor.isValuePlaintext())
+            getInstance().addHeaderMacro(new WikiTextMacro(WikiDocument.MACRO_DISABLE_CONTENT_MARKUP));
+
         return true;
     }
 
@@ -200,9 +214,8 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     @Override
     protected boolean beforeUpdate() {
 
-        // Sync document content
-        syncFormContentToInstance(getParentNode());
-        syncLinks();
+        syncEditorToInstance(getParentNode().getAreaNumber(), getInstance());
+        syncMacros(getInstance());
 
         // Update feed entries
         if (isPushOnFeeds()) {
@@ -234,12 +247,11 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
             historicalCopy.setLastModifiedBy(getCurrentUser());
             getWikiNodeDAO().persistHistoricalFile(historicalCopy);
             getInstance().incrementRevision();
-            // New historical copy in conversation
-            historicalCopy = new WikiDocument();
-            historicalCopy.flatCopy(getInstance(), true);
+
+            copyHistoricalRevision(getInstance());
 
             // Reset form
-            setMinorRevision( Preferences.instance().get(DocumentEditorPreferences.class).getMinorRevisionEnabled() );
+            setMinorRevision( docEditorPreferences.getMinorRevisionEnabled() );
         }
 
         return true;
@@ -254,32 +266,15 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
     protected NodeRemover getNodeRemover() {
         return (DocumentNodeRemover)Component.getInstance(DocumentNodeRemover.class);
     }
+    @Override
+
+    protected Validatable[] getUpdateValidations() {
+        return new Validatable[] { textEditor };
+    }
 
     @Override
-    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
-        return getValidationCommands();
-    }
-
-    protected WikiTextValidator.ValidationCommand[] getUpdateValidationCommands() {
-        return getValidationCommands();
-    }
-
-    private WikiTextValidator.ValidationCommand[] getValidationCommands() {
-        return new WikiTextValidator.ValidationCommand[] {
-            new WikiTextValidator.ValidationCommand() {
-                public String getKey() {
-                    return "content";
-                }
-
-                public String getWikiTextValue() {
-                    return getFormContent();
-                }
-
-                public boolean getWikiTextRequired() {
-                    return true;
-                }
-            }
-        };
+    protected Validatable[] getPersistValidations() {
+        return new Validatable[] { textEditor };
     }
 
 
@@ -315,14 +310,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         );
     }
 
-    protected String getEditorWorkspaceDescription(boolean create) {
-        if (create) {
-            return Messages.instance().get("lacewiki.label.docEdit.CreateDocument");
-        } else {
-            return Messages.instance().get("lacewiki.label.docEdit.EditDocument") + ":" + getInstance().getName();
-        }
-    }
-
     /* -------------------------- Internal Methods ------------------------------ */
 
     protected void findHistoricalFiles(WikiDocument doc) {
@@ -347,9 +334,36 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         }
     }
 
-    private void syncLinks() {
-        if (linkTargets != null) getInstance().setOutgoingLinks(linkTargets);
+    public void syncEditorToInstance(Long areaNumber, WikiDocument doc) {
+        doc.setContent(textEditor.getValueAndConvertLinks(areaNumber));
+        if (textEditor.getLinkTargets() != null)
+            doc.setOutgoingLinks(textEditor.getLinkTargets());
     }
+
+    public void syncInstanceToEditor(Long areaNumber, WikiDocument doc) {
+        textEditor.setValueAndConvertLinks(areaNumber, doc.getContent());
+        textEditor.setRows(docEditorPreferences.getRegularEditAreaRows().intValue());
+    }
+
+    protected void copyHistoricalRevision(WikiDocument doc) {
+        historicalCopy = new WikiDocument();
+        historicalCopy.flatCopy(doc, true);
+    }
+
+
+    protected String getFeedEntryManagerName() {
+        return "wikiDocumentFeedEntryManager";
+    }
+
+    protected void purgeFeedEntries() {
+        // Feeds should not be removed by a maintenance thread: If there
+        // is no activity on the site, feeds shouldn't be empty but show the last updates.
+        Calendar oldestDate = GregorianCalendar.getInstance();
+        oldestDate.add(Calendar.DAY_OF_YEAR, -Preferences.instance().get(WikiPreferences.class).getPurgeFeedEntriesAfterDays().intValue());
+        feedDAO.purgeOldFeedEntries(oldestDate.getTime());
+    }
+
+/* -------------------------- Public Features ------------------------------ */
 
     public void syncMacros(WikiDocument doc) {
         if (doc.getHeader() != null) {
@@ -366,62 +380,10 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         }
     }
 
-    private void syncFormContentToInstance(WikiDirectory dir) {
-        if (formContent != null) {
-            getLog().debug("sync form content to instance");
-            WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-            linkTargets = new HashSet<WikiFile>();
-            getInstance().setContent(
-                wikiLinkResolver.convertToWikiProtocol(linkTargets, dir.getAreaNumber(), formContent)
-            );
-            syncMacros(getInstance());
-        }
-    }
-
-    private void syncInstanceToFormContent(WikiDirectory dir) {
-        getLog().debug("sync instance to form in area: " + dir.getAreaNumber());
-        WikiLinkResolver wikiLinkResolver = (WikiLinkResolver)Component.getInstance("wikiLinkResolver");
-        formContent = wikiLinkResolver.convertFromWikiProtocol(dir.getAreaNumber(), getInstance().getContent());
-        if (historicalCopy == null) {
-            getLog().debug("making a history copy of the document");
-            historicalCopy = new WikiDocument();
-            historicalCopy.flatCopy(getInstance(), true);
-        }
-    }
-
-    protected String getFeedEntryManagerName() {
-        return "wikiDocumentFeedEntryManager";
-    }
-
-    protected void purgeFeedEntries() {
-        // Feeds should not be removed by a maintenance thread: If there
-        // is no activity on the site, feeds shouldn't be empty but show the last updates.
-        Calendar oldestDate = GregorianCalendar.getInstance();
-        oldestDate.add(Calendar.DAY_OF_YEAR, -Preferences.instance().get(WikiPreferences.class).getPurgeFeedEntriesAfterDays().intValue());
-        feedDAO.purgeOldFeedEntries(oldestDate.getTime());
-    }
-
-    /* -------------------------- Public Features ------------------------------ */
-
-    // TODO: We need to duplicate this here, otherwise it will only validated on persist(): http://jira.jboss.com/jira/browse/JBSEAM-2671
-    @Length(min = 0, max = 32767)
-    public String getFormContent() {
-        // Load the document content and resolve links
-        if (formContent == null) syncInstanceToFormContent(getParentNode());
-        return formContent;
-    }
-
-    public void setFormContent(String formContent) {
-        this.formContent = formContent;
-        if (formContent != null) {
-            syncFormContentToInstance(getParentNode());
-        }
-    }
-
     public boolean isMinorRevision() {
         // Lazily initalize preferences
         if (minorRevision == null)
-            minorRevision = Preferences.instance().get(DocumentEditorPreferences.class).getMinorRevisionEnabled();
+            minorRevision = docEditorPreferences.getMinorRevisionEnabled();
         return minorRevision;
     }
     public void setMinorRevision(boolean minorRevision) { this.minorRevision = minorRevision; }
@@ -446,16 +408,6 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
         this.pushOnSiteFeed = pushOnSiteFeed;
     }
 
-    public void setShowPluginPrefs(boolean showPluginPrefs) {
-        Contexts.getPageContext().set("showPluginPreferences", showPluginPrefs);
-    }
-
-    // TODO: Move this into WikiTextEditor.java
-    public boolean isShowPluginPrefs() {
-        Boolean showPluginPrefs = (Boolean)Contexts.getPageContext().get("showPluginPreferences");
-        return showPluginPrefs != null && showPluginPrefs;
-    }
-
     public boolean isHistoricalFilesPresent() {
         return numOfHistoricalFiles != null && numOfHistoricalFiles> 0;
     }
@@ -474,5 +426,9 @@ public class DocumentHome extends NodeHome<WikiDocument, WikiDirectory> {
 
     public void setTemplateType(String templateType) {
         this.templateType = templateType;
+    }
+
+    public WikiTextEditor getTextEditor() {
+        return textEditor;
     }
 }

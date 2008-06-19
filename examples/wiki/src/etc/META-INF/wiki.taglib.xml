@@ -133,10 +133,11 @@
         <function-signature>java.lang.String escapeAtSymbol(java.lang.String)</function-signature>
     </function>
 
+    <!-- There is a reason why this HTML is uppercase, I forgot... -->
     <function>
         <function-name>escapeHTML</function-name>
         <function-class>org.jboss.seam.wiki.util.WikiUtil</function-class>
-        <function-signature>java.lang.String escapeHtml(java.lang.String,boolean)</function-signature>
+        <function-signature>java.lang.String escapeHtml(java.lang.String,boolean,boolean)</function-signature>
     </function>
 
     <function>

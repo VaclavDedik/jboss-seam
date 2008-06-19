@@ -122,11 +122,11 @@
                                             enableMacroRendering="false"/>
                     </s:cache>
                 </s:div>
-                <s:div styleClass="commentText" rendered="#{not c.useWikiText and currentDocument.name != c.subject}" style="margin-top:15px;">
-                    <h:outputText value="#{wiki:escapeHTML(c.content, true)}" escape="false"/>
+                <s:div styleClass="commentText plaintext" rendered="#{not c.useWikiText and currentDocument.name != c.subject}" style="margin-top:15px;">
+                    <h:outputText value="#{wiki:escapeHTML(c.content, true, true)}" escape="false"/>
                 </s:div>
-                <s:div styleClass="commentText" rendered="#{not c.useWikiText and currentDocument.name == c.subject}">
-                    <h:outputText value="#{wiki:escapeHTML(c.content, true)}" escape="false"/>
+                <s:div styleClass="commentText plaintext" rendered="#{not c.useWikiText and currentDocument.name == c.subject}">
+                    <h:outputText value="#{wiki:escapeHTML(c.content, true, true)}" escape="false"/>
                 </s:div>
 
                 <s:div styleClass="commentSignature"

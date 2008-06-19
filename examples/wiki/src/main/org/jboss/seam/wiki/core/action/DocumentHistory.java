@@ -165,7 +165,7 @@ public class DocumentHistory implements Serializable {
             if (delEnd != Diff.NONE) {
                 result.append("<div class=\"diffDeleted\">");
                 for (int lnum = delStart; lnum <= delEnd; ++lnum) {
-                    result.append( WikiUtil.escapeHtml(a[lnum], false) ).append("<br/>");
+                    result.append( WikiUtil.escapeHtml(a[lnum], false, false) ).append("<br/>");
                 }
                 result.append("</div>");
                 if (addEnd != Diff.NONE) {
@@ -175,7 +175,7 @@ public class DocumentHistory implements Serializable {
             if (addEnd != Diff.NONE) {
                 result.append("<div class=\"diffAdded\">");
                 for (int lnum = addStart; lnum <= addEnd; ++lnum) {
-                    result.append( WikiUtil.escapeHtml(b[lnum], false) ).append("<br/>");
+                    result.append( WikiUtil.escapeHtml(b[lnum], false, false) ).append("<br/>");
                 }
                 result.append("</div>");
             }

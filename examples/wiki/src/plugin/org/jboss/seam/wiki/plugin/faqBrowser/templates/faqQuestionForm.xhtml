@@ -27,25 +27,15 @@
                     <h:inputText id="faqQuestionName" tabindex="1" size="60" maxlength="255" required="true" value="#{faqQuestionHome.instance.name}"/>
                 </s:decorate>
 
-                <ui:include src="/includes/wikiTextEditor.xhtml">
-                    <ui:param name="textEditorId" value="faqQuestion"/>
+                <ui:include src="/includes/wikitext/editor/editor.xhtml">
+                    <ui:param name="textEditor" value="#{faqQuestionHome.textEditor}"/>
                     <ui:param name="namingContainer" value="faqBrowserPlugin\\\\:faqQuestionForm"/>
-                    <ui:param name="label" value="#{messages['fb.faqBrowser.label.QuestionText']}"/>
-                    <ui:param name="valueBinding" value="#{faqQuestionHome.formContent}"/>
-                    <ui:param name="valueMaxLength" value="32767"/>
-                    <ui:param name="valueRequired" value="true"/>
-                    <ui:param name="textEditorColumns" value="60"/>
-                    <ui:param name="textEditorRows" value="20"/>
                 </ui:include>
-
-                <s:div styleClass="marginLeft">
-                    <ui:include src="/includes/wikiTextPreview.xhtml">
-                        <ui:param name="textEditorId" value="faqQuestion"/>
-                        <ui:param name="valueBinding" value="#{faqQuestionHome.instance.content}"/>
-                        <ui:param name="baseDocument" value="#{faqQuestionHome.instance}"/>
-                        <ui:param name="baseDirectory" value="#{currentDirectory}"/>
-                    </ui:include>
-                </s:div>
+                <ui:include src="/includes/wikitext/editor/preview.xhtml">
+                    <ui:param name="textEditor" value="#{faqQuestionHome.textEditor}"/>
+                    <ui:param name="baseDocument" value="#{faqQuestionHome.instance}"/>
+                    <ui:param name="baseDirectory" value="#{currentDirectory}"/>
+                </ui:include>
 
             </s:div>
 

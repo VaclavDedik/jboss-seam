@@ -64,7 +64,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 TopicHome home = (TopicHome)getInstance(TopicHome.class);
 
                 home.getInstance().setName("New Topic");
-                home.setFormContent("This is a new topic.");
+                home.getTextEditor().setValue("This is a new topic.");
 
                 assert invokeMethod("#{topicHome.persist}") == null;
             }
@@ -131,7 +131,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 TopicHome home = (TopicHome)getInstance(TopicHome.class);
 
                 home.getInstance().setName("New Topic");
-                home.setFormContent("This is a new topic.");
+                home.getTextEditor().setValue("This is a new topic.");
                 home.setSticky(true);
 
                 assert invokeMethod("#{topicHome.persist}") == null;
@@ -197,7 +197,7 @@ public class TopicHomeTests extends DBUnitSeamTest {
                 TopicHome home = (TopicHome)getInstance(TopicHome.class);
 
                 home.getInstance().setName("New Topic");
-                home.setFormContent("This is a new topic.");
+                home.getTextEditor().setValue("This is a new topic.");
                 home.getInstance().setEnableComments(false);
 
                 assert invokeMethod("#{topicHome.persist}") == null;

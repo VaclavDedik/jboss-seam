@@ -128,9 +128,31 @@ function formatText(textArea, formatString) {
     }
 }
 
-var cursorPosition;
-var scrollPosition;
-function rememberCursorPosition(textAreaId) {
+function makeTextAreaResizable(textAreaId) {
+    if(jQuery.browser.mozilla){
+        var textAreaDivId = textAreaId + "Div";
+        var textAreaResizeHandleId = textAreaId + "ResizeHandle";
+        jQuery(textAreaDivId).Resizable({
+            minHeight: 50,
+            minWidth: 250,
+            handlers: {
+                se: textAreaResizeHandleId
+            },
+            onResize: function(size) {
+                jQuery(textAreaId).height(size.height-10);
+                jQuery(textAreaId).width(size.width-10);
+            }
+        }).width(jQuery(textAreaId).width()+10);
+        jQuery(textAreaResizeHandleId).show();
+    };
+
+}
+
+var editorCursorPosition;
+var editorScrollPosition;
+var editorSizeX;
+var editorSizeY;
+function storeEditorSettings(textAreaId) {
     var textArea = jQuery(textAreaId)[0];
     if (typeof(textArea.caretPos) != "undefined" && textArea.createTextRange) {
         cursorPosition = textArea.caretPos;
@@ -140,9 +162,11 @@ function rememberCursorPosition(textAreaId) {
     } else {
         cursorPosition = textArea.value.length - 1;
     }
+    editorSizeX = jQuery(textAreaId).width();
+    editorSizeY = jQuery(textAreaId).height();
 
 }
-function setRememberedCursorPosition(textAreaId) {
+function recallEditorSettings(textAreaId) {
     var textArea = jQuery(textAreaId)[0];
     if(textArea.createTextRange) {
         var range = textArea.createTextRange();
@@ -155,4 +179,6 @@ function setRememberedCursorPosition(textAreaId) {
     } else {
         textArea.focus(cursorPosition);
     }
+    jQuery(textAreaId).width(editorSizeX);
+    jQuery(textAreaId).height(editorSizeY);
 }

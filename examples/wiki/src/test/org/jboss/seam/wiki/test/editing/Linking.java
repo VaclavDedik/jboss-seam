@@ -55,37 +55,37 @@ public class Linking extends DBUnitSeamTest {
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
-                docHome.setFormContent("[=>http://foo.bar]");
+                docHome.getTextEditor().setValue("[=>http://foo.bar]");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 assert docHome.getInstance().getContent().equals("[=>http://foo.bar]");
-                assert docHome.getFormContent().equals("[=>http://foo.bar]");
 
-                docHome.setFormContent("[=>https://foo.bar]");
+                docHome.getTextEditor().setValue("[=>https://foo.bar]");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 assert docHome.getInstance().getContent().equals("[=>https://foo.bar]");
-                assert docHome.getFormContent().equals("[=>https://foo.bar]");
 
-                docHome.setFormContent("[=>ftp://foo.bar]");
+                docHome.getTextEditor().setValue("[=>ftp://foo.bar]");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 assert docHome.getInstance().getContent().equals("[=>ftp://foo.bar]");
-                assert docHome.getFormContent().equals("[=>ftp://foo.bar]");
 
-                docHome.setFormContent("[=>mailto:foo@bar.tld]");
+                docHome.getTextEditor().setValue("[=>mailto:foo@bar.tld]");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 assert docHome.getInstance().getContent().equals("[=>mailto:foo@bar.tld]");
-                assert docHome.getFormContent().equals("[=>mailto:foo@bar.tld]");
 
-                docHome.setFormContent("[Foo Bar=>http://foo.bar]");
+                docHome.getTextEditor().setValue("[Foo Bar=>http://foo.bar]");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 assert docHome.getInstance().getContent().equals("[Foo Bar=>http://foo.bar]");
-                assert docHome.getFormContent().equals("[Foo Bar=>http://foo.bar]");
 
-                docHome.setFormContent("[Foo Bar=>https://foo.bar]");
+                docHome.getTextEditor().setValue("[Foo Bar=>https://foo.bar]");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 assert docHome.getInstance().getContent().equals("[Foo Bar=>https://foo.bar]");
-                assert docHome.getFormContent().equals("[Foo Bar=>https://foo.bar]");
 
-                docHome.setFormContent("[Foo Bar=>ftp://foo.bar]");
+                docHome.getTextEditor().setValue("[Foo Bar=>ftp://foo.bar]");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 assert docHome.getInstance().getContent().equals("[Foo Bar=>ftp://foo.bar]");
-                assert docHome.getFormContent().equals("[Foo Bar=>ftp://foo.bar]");
 
-                docHome.setFormContent("[Foo Bar=>mailto:foo@bar.tld]");
+                docHome.getTextEditor().setValue("[Foo Bar=>mailto:foo@bar.tld]");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 assert docHome.getInstance().getContent().equals("[Foo Bar=>mailto:foo@bar.tld]");
-                assert docHome.getFormContent().equals("[Foo Bar=>mailto:foo@bar.tld]");
 
             }
 
@@ -114,7 +114,7 @@ public class Linking extends DBUnitSeamTest {
                 WikiLinkResolver resolver = (WikiLinkResolver)getInstance("wikiLinkResolver");
                 Map<String, WikiLink> links = new HashMap<String, WikiLink>();
 
-                docHome.setFormContent("[=>hhh://1234]");
+                docHome.getTextEditor().setValue("[=>hhh://1234]");
                 resolver.resolveLinkText(3l, links, "hhh://1234");
                 assert links.size()==1;
                 assert links.get("hhh://1234").getUrl().equals("http://opensource.atlassian.com/projects/hibernate/browse/HHH-1234");
@@ -235,7 +235,7 @@ public class Linking extends DBUnitSeamTest {
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
                 assert docHome.getInstance().getOutgoingLinks().size() == 0;
-                docHome.setFormContent("[=>Two] and [=>Three] and [=>BBB|Test Image]");
+                docHome.getTextEditor().setValue("[=>Two] and [=>Three] and [=>BBB|Test Image]");
 
                 assert invokeMethod("#{documentHome.update}").equals("updated");
 

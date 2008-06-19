@@ -84,7 +84,10 @@ public class EditMacros extends DBUnitSeamTest {
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
-                docHome.setFormContent("[<=contentMacro[param=value]]");
+                docHome.getTextEditor().setValue("[<=contentMacro[param=value]]");
+
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
+                docHome.syncMacros(docHome.getInstance());
 
                 assert docHome.getInstance().getHeaderMacros().size() == 2;
                 assert docHome.getInstance().getContentMacros().size() == 1;

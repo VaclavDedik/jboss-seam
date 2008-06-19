@@ -7,7 +7,6 @@ import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.action.CommentHome;
-import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.model.WikiNode;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
@@ -27,6 +26,8 @@ public class ReplyHome extends CommentHome {
     public void create() {
         super.create();
         markTopicRead();
+
+        textEditor.setKey("reply");
     }
 
     @In(create = true)
@@ -62,6 +63,8 @@ public class ReplyHome extends CommentHome {
 
         getInstance().setSubject(REPLY_PREFIX + getParentNode().getName());
 
+        textEditor.setValue(getInstance().getContent());
+
         WikiRedirect.instance()
                 .setWikiDocument(documentHome.getInstance())
                 .setPropagateConversation(true)
@@ -83,6 +86,8 @@ public class ReplyHome extends CommentHome {
             documentHome.getInstance().getCreatedBy().getFullname()
         ));
 
+        textEditor.setValue(getInstance().getContent());
+
         WikiRedirect.instance()
                 .setWikiDocument(documentHome.getInstance())
                 .setPropagateConversation(true)
@@ -99,25 +104,6 @@ public class ReplyHome extends CommentHome {
 
     protected String getFeedEntryManagerName() {
         return "forumReplyFeedEntryManager";
-    }
-
-    @Override
-    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
-        return new WikiTextValidator.ValidationCommand[] {
-            new WikiTextValidator.ValidationCommand() {
-                public String getKey() {
-                    return "reply";
-                }
-
-                public String getWikiTextValue() {
-                    return getInstance().getContent();
-                }
-
-                public boolean getWikiTextRequired() {
-                    return true;
-                }
-            }
-        };
     }
 
     /* -------------------------- Messages ------------------------------ */

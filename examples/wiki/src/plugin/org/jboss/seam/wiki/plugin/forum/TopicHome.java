@@ -8,15 +8,18 @@ import org.jboss.seam.core.Events;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.wiki.core.action.DocumentHome;
-import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
+import org.jboss.seam.wiki.core.model.WikiFile;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+import org.hibernate.validator.InvalidStateException;
+import org.hibernate.validator.InvalidValue;
 
 @Name("topicHome")
 @Scope(ScopeType.CONVERSATION)
@@ -54,6 +57,9 @@ public class TopicHome extends DocumentHome {
 
         Boolean preferencesNotifyReplies = Preferences.instance().get(ForumPreferences.class).getNotifyMeOfReplies();
         notifyReplies = preferencesNotifyReplies != null && preferencesNotifyReplies;
+
+        textEditor.setKey("topic");
+        textEditor.setAllowPlaintext(true);// Topics can be plain text, regular documents can't
     }
 
     @Override
@@ -97,7 +103,8 @@ public class TopicHome extends DocumentHome {
 
             endConversation();
 
-            // TODO: We should redirect here to the posted topic with WikiRedirect, see cancel()
+            // Redirect to topic (so the created message is actually never displayed, but that's ok)
+            WikiRedirect.instance().setWikiDocument(getInstance()).execute();
         }
         return null; // Prevent navigation
     }
@@ -114,33 +121,6 @@ public class TopicHome extends DocumentHome {
         String outcome = super.remove();
         if (outcome != null) endConversation();
         return null; // Prevent navigation
-    }
-
-    @Override
-    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
-        return getValidationCommands();
-    }
-
-    protected WikiTextValidator.ValidationCommand[] getUpdateValidationCommands() {
-        return getValidationCommands();
-    }
-
-    private WikiTextValidator.ValidationCommand[] getValidationCommands() {
-        return new WikiTextValidator.ValidationCommand[] {
-            new WikiTextValidator.ValidationCommand() {
-                public String getKey() {
-                    return "topic";
-                }
-
-                public String getWikiTextValue() {
-                    return getInstance().getContent();
-                }
-
-                public boolean getWikiTextRequired() {
-                    return true;
-                }
-            }
-        };
     }
 
     /* -------------------------- Messages ------------------------------ */

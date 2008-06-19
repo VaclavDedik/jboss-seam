@@ -22,7 +22,7 @@ import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.CommentsPreferences;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
-import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
+import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
 import org.jboss.seam.wiki.util.WikiUtil;
 
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
@@ -49,14 +49,20 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     /* -------------------------- Internal State ------------------------------ */
 
     @RequestParameter
-    private Long parentCommentId;
-    private boolean showForm = false;
+    protected Long parentCommentId;
+    protected boolean showForm = false;
+    protected WikiTextEditor textEditor = new WikiTextEditor("comment", 32767, true, true);
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
     @Override
     protected boolean isPageRootController() {
         return false;
+    }
+
+    @Override
+    protected String getEditorWorkspaceDescription(boolean create) {
+        return null;
     }
 
     @Override
@@ -110,6 +116,20 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     }
 
     /* -------------------------- Custom CUD ------------------------------ */
+
+    @Override
+    public boolean beforePersist() {
+
+        getInstance().setContent(
+            textEditor.getValueAndConvertLinks(getParentNode().getAreaNumber())
+        );
+
+        if (textEditor.isValuePlaintext()) {
+            getInstance().setUseWikiText(false);
+        }
+
+        return true;
+    }
 
     @Override
     public String persist() {
@@ -166,7 +186,17 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return (CommentNodeRemover)Component.getInstance(CommentNodeRemover.class);
     }
 
-/* -------------------------- Messages ------------------------------ */
+    @Override
+    protected Validatable[] getUpdateValidations() {
+        return new Validatable[] { textEditor };
+    }
+
+    @Override
+    protected Validatable[] getPersistValidations() {
+        return new Validatable[] { textEditor };
+    }
+
+    /* -------------------------- Messages ------------------------------ */
 
     @Override
     protected void createdMessage() {
@@ -196,10 +226,6 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
                 "Comment '{0}' has been deleted.",
                 getInstance().getSubject()
         );
-    }
-
-    protected String getEditorWorkspaceDescription(boolean create) {
-        return null;
     }
 
     /* -------------------------- Internal Methods ------------------------------ */
@@ -245,33 +271,6 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
         return quoted.toString();
     }
 
-    @Override
-    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
-        return new WikiTextValidator.ValidationCommand[] {
-            new WikiTextValidator.ValidationCommand() {
-                public String getKey() {
-                    return "comment";
-                }
-
-                public String getWikiTextValue() {
-                    return getInstance().getContent();
-                }
-
-                public boolean getWikiTextRequired() {
-                    return true;
-                }
-            }
-        };
-    }
-
-    protected String getValidationRequiredWikiTextEditorId() {
-        return "comment";
-    }
-
-    protected String getValidationRequiredWikiText() {
-        return getInstance().getContent();
-    }
-
     /* -------------------------- Public Features ------------------------------ */
 
     public boolean isShowForm() {
@@ -286,11 +285,13 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     public void newComment() {
         initEditor(false);
         showForm = true;
+        textEditor.setValue(getInstance().getContent());
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)
     public void replyTo() {
         prepareReply();
+        textEditor.setValue(getInstance().getContent());
         WikiRedirect.instance()
                 .setWikiDocument(documentHome.getInstance())
                 .setPropagateConversation(true)
@@ -301,6 +302,7 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
     public void quote() {
         prepareReply();
         setQuotedContent((WikiComment)getParentNode());
+        textEditor.setValue(getInstance().getContent());
         WikiRedirect.instance()
                 .setWikiDocument(documentHome.getInstance())
                 .setPropagateConversation(true)
@@ -312,10 +314,11 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
             throw new InvalidWikiRequestException("Missing parentCommentId request parameter");
 
         getLog().debug("reply to comment id: " + parentCommentId);
-        newComment();
+        initEditor(false);
+        showForm = true;
 
         setParentNodeId(parentCommentId);
-        getInstance(); // Init the parent
+        getInstance(); // Init the parent, has to happen here
         setReplySubject((WikiComment)getParentNode());
     }
 
@@ -364,6 +367,10 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
             Conversation.instance().changeFlushMode(FlushModeType.MANUAL);
             newComment();
         }
+    }
+
+    public WikiTextEditor getTextEditor() {
+        return textEditor;
     }
 
 }

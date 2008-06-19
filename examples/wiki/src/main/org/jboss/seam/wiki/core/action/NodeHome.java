@@ -19,7 +19,6 @@ import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
 import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.action.prefs.WikiPreferences;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
-import org.jboss.seam.wiki.core.wikitext.editor.WikiTextValidator;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.preferences.Preferences;
 import org.jboss.seam.international.StatusMessages;
@@ -52,15 +51,12 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     protected User currentUser;
     @In
     protected List<Role.AccessLevel> accessLevelsList;
-    @In
-    protected WikiTextValidator wikiTextValidator;
 
     public WikiNodeDAO getWikiNodeDAO() { return wikiNodeDAO; }
     public UserDAO getUserDAO() { return userDAO; }
     public WikiDirectory getWikiRoot() { return wikiRoot; }
     public User getCurrentUser() { return currentUser; }
     public List<Role.AccessLevel> getAccessLevelsList() { return accessLevelsList; }
-    public WikiTextValidator getWikiTextValidator() { return wikiTextValidator; }
 
     /* -------------------------- Request Wiring ------------------------------ */
 
@@ -221,7 +217,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     public String persist() {
         checkPersistPermissions();
 
-        if (!validateWikiTexts(getPersistValidationCommands())) return null;
+        if (!validateComponents(getPersistValidations())) return null;
 
         if (!preparePersist()) return null;
 
@@ -256,7 +252,7 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
     public String update() {
         checkUpdatePermissions();
 
-        if (!validateWikiTexts(getUpdateValidationCommands())) return null;
+        if (!validateComponents(getUpdateValidations())) return null;
 
         if (!prepareUpdate()) return null;
 
@@ -418,22 +414,21 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
         return Identity.instance().hasPermission("Node", "edit", node);
     }
 
-    protected boolean validateWikiTexts(WikiTextValidator.ValidationCommand[] validationCommands) {
-        if (validationCommands == null) return true;
-
+    protected boolean validateComponents(Validatable validatableComponents[]) {
+        if (validatableComponents == null) return true;
         boolean allValid = true;
-        for (WikiTextValidator.ValidationCommand validationCommand : validationCommands) {
-            getWikiTextValidator().validate(validationCommand);
-            allValid = getWikiTextValidator().isValid(validationCommand.getKey());
+        for (Validatable validatableComponent : validatableComponents) {
+            validatableComponent.validate();
+            allValid = validatableComponent.isValid();
         }
         return allValid;
     }
 
-    protected WikiTextValidator.ValidationCommand[] getUpdateValidationCommands() {
+    protected Validatable[] getUpdateValidations() {
         return null;
     }
 
-    protected WikiTextValidator.ValidationCommand[] getPersistValidationCommands() {
+    protected Validatable[] getPersistValidations() {
         return null;
     }
 

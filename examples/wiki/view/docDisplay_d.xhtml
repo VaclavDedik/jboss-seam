@@ -116,14 +116,22 @@
                     </h1>
                 </s:div>
 
-                <wiki:formattedText value="#{documentHome.instance.content}"
-                                    linkStyleClass="regularLink"
-                                    brokenLinkStyleClass="brokenLink"
-                                    attachmentLinkStyleClass="regularLink"
-                                    thumbnailLinkStyleClass="regularLink"
-                                    linkBaseFile="#{documentHome.instance}"
-                                    currentAreaNumber="#{documentHome.instance.areaNumber}"
-                                    enableMacroRendering="#{not documentHome.instance.macroPresent('disableContentMacros')}"/>
+                <c:if test="#{not documentHome.instance.macroPresent('disableContentMarkup')}">
+                    <wiki:formattedText value="#{documentHome.instance.content}"
+                                        linkStyleClass="regularLink"
+                                        brokenLinkStyleClass="brokenLink"
+                                        attachmentLinkStyleClass="regularLink"
+                                        thumbnailLinkStyleClass="regularLink"
+                                        linkBaseFile="#{documentHome.instance}"
+                                        currentAreaNumber="#{documentHome.instance.areaNumber}"
+                                        enableMacroRendering="#{not documentHome.instance.macroPresent('disableContentMacros')}"/>
+                </c:if>
+
+                <c:if test="#{documentHome.instance.macroPresent('disableContentMarkup')}">
+                    <s:div styleClass="plaintext">
+                        <h:outputText escape="false" value="#{wiki:escapeHTML(documentHome.instance.content, true, true)}"/>
+                    </s:div>
+                </c:if>
 
                 <wiki:formattedText value="#{documentHome.instance.footer}"
                                     linkStyleClass="regularLink"

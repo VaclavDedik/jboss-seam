@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.international.Messages;
 import org.jboss.seam.wiki.core.model.WikiComment;
 import org.jboss.seam.wiki.core.model.WikiCommentFeedEntry;
+import org.jboss.seam.wiki.core.model.User;
 
 @Name("wikiCommentFeedEntryManager")
 public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, WikiCommentFeedEntry> {
@@ -22,7 +23,12 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
 
         fe.setLink(wikiURLRenderer.renderURL(comment, true));
         fe.setTitle(getFeedEntryTitle(comment));
-        fe.setAuthor(comment.getCreatedBy().getFullname() != null ? comment.getCreatedBy().getFullname() : comment.getFromUserName());
+        fe.setAuthor(
+            comment.getCreatedBy().getFullname() != null
+            && !comment.getCreatedBy().getUsername().equals(User.GUEST_USERNAME)
+            && !comment.getCreatedBy().getUsername().equals(User.ADMIN_USERNAME)
+            ? comment.getCreatedBy().getFullname()
+            : comment.getFromUserName());
         fe.setUpdatedDate(fe.getPublishedDate());
 
         // Do NOT use text/html, the fabulous Sun "Rome" software will
@@ -56,7 +62,11 @@ public class WikiCommentFeedEntryManager extends FeedEntryManager<WikiComment, W
         desc.append("'").append(comment.getParentDocument().getName()).append("'");
         desc.append("</a>.");
         desc.append("<hr/>");
-        desc.append(renderWikiText(comment.getAreaNumber(), comment.getContent()));
+        desc.append(
+            comment.isUseWikiText()
+                ? renderWikiText(comment.getAreaNumber(), comment.getContent())
+                : renderPlainText(comment.getContent())
+        );
         return desc.toString();
     }
 

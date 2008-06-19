@@ -20,34 +20,16 @@
             </div>
 
             <a:region>
-                <s:div styleClass="formFields formBorder">
+                <s:div styleClass="formFields wideLabels formBorder">
 
                     <s:decorate id="nameDecorate" template="/includes/formFieldDecorate.xhtml">
                         <ui:define name="label">#{messages['forum.label.Subject']}</ui:define>
                         <h:inputText id="topicName" tabindex="1" size="60" maxlength="255" required="true" value="#{topicHome.instance.name}"/>
                     </s:decorate>
 
-                    <a:region>
-                        <ui:include src="/includes/wikiTextEditor.xhtml">
-                            <ui:param name="textEditorId" value="topic"/>
-                            <ui:param name="namingContainer" value="forumTopicsPlugin\\\\:topicForm"/>
-                            <ui:param name="label" value="#{messages['forum.label.Message']}"/>
-                            <ui:param name="valueBinding" value="#{topicHome.formContent}"/>
-                            <ui:param name="valueMaxLength" value="32767"/>
-                            <ui:param name="valueRequired" value="true"/>
-                            <ui:param name="textEditorColumns" value="60"/>
-                            <ui:param name="textEditorRows" value="20"/>
-                        </ui:include>
-
-                        <s:div styleClass="marginLeft">
-                            <ui:include src="/includes/wikiTextPreview.xhtml">
-                                <ui:param name="textEditorId" value="topic"/>
-                                <ui:param name="valueBinding" value="#{topicHome.instance.content}"/>
-                                <ui:param name="baseDocument" value="#{topicHome.instance}"/>
-                                <ui:param name="baseDirectory" value="#{currentDirectory}"/>
-                            </ui:include>
-                        </s:div>
-                    </a:region>
+                    <ui:include src="/includes/tagEditor.xhtml">
+                        <ui:param name="editor" value="#{topicHome.tagEditor}"/>
+                    </ui:include>
 
                     <s:fragment rendered="#{s:hasPermission('User', 'isAdmin', currentUser)}">
                         <s:div styleClass="entry">
@@ -77,8 +59,14 @@
                         </div>
                     </s:div>
 
-                    <ui:include src="/includes/tagEditor.xhtml">
-                        <ui:param name="editor" value="#{topicHome.tagEditor}"/>
+                    <ui:include src="/includes/wikitext/editor/editor.xhtml">
+                        <ui:param name="textEditor" value="#{topicHome.textEditor}"/>
+                        <ui:param name="namingContainer" value="forumTopicsPlugin\\\\:topicForm"/>
+                    </ui:include>
+                    <ui:include src="/includes/wikitext/editor/preview.xhtml">
+                        <ui:param name="textEditor" value="#{topicHome.textEditor}"/>
+                        <ui:param name="baseDocument" value="#{topicHome.instance}"/>
+                        <ui:param name="baseDirectory" value="#{currentDirectory}"/>
                     </ui:include>
 
                     <s:decorate id="verifyCaptchaEntry" template="/includes/captchaEntry.xhtml">

@@ -110,7 +110,7 @@ public class BasicNodeOperations extends DBUnitSeamTest {
 
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
-                docHome.setFormContent("Test Content");
+                docHome.getTextEditor().setValue("Test Content");
 
                 assert invokeMethod("#{documentHome.persist}").equals("persisted");
 
@@ -150,11 +150,17 @@ public class BasicNodeOperations extends DBUnitSeamTest {
                 setParameter("cid", conversationId);
             }
 
-            protected void processValidations() throws Exception {
+            protected void invokeApplication() throws Exception {
+
+                DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
+                docHome.getInstance().setName("Test Name");
+
                 StringBuilder builder = new StringBuilder();
                 for (int i = 0; i <= 40000; i++) builder.append("a");
-                validateValue("#{documentHome.formContent}", builder.toString());
-                assert isValidationFailure();
+
+                docHome.getTextEditor().setValue(builder.toString());
+                docHome.getTextEditor().validate();
+                assert !docHome.getTextEditor().isValid();
             }
 
         }.run();

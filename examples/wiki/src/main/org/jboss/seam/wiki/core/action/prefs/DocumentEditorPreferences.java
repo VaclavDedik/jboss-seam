@@ -27,6 +27,7 @@ public class DocumentEditorPreferences implements Serializable {
     @NotNull
     private Long regularEditAreaRows;
 
+    // TODO: This property is not used anymore - or it shouldn't be used...
     @PreferenceProperty(
         description = "#{messages['lacewiki.preferences.documentEditor.RegularEditAreaColumns']}",
         visibility = {PreferenceVisibility.SYSTEM, PreferenceVisibility.USER},

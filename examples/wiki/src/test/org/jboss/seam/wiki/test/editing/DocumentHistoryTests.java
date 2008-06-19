@@ -85,7 +85,7 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
             protected void invokeApplication() throws Exception {
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 docHome.getInstance().setName("Test Name");
-                docHome.setFormContent("Test Content");
+                docHome.getTextEditor().setValue("Test Content");
 
                 assert invokeMethod("#{documentHome.persist}").equals("persisted");
 
@@ -129,8 +129,9 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
                 DocumentHome docHome = (DocumentHome)getInstance(DocumentHome.class);
                 assert docHome.getInstance().getId().equals(6l); // Init!
 
-                docHome.getFormContent(); // Initialize historical revision
-                docHome.setFormContent("New text");
+                docHome.syncInstanceToEditor(docHome.getParentNode().getId(), docHome.getInstance());
+                docHome.getTextEditor().setValue("New text");
+                docHome.syncEditorToInstance(docHome.getParentNode().getId(), docHome.getInstance());
                 docHome.setMinorRevision(false);
 
                 assert invokeMethod("#{documentHome.update}").equals("updated");

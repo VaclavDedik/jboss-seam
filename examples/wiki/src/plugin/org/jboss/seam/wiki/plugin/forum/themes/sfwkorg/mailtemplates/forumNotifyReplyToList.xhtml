@@ -3,6 +3,7 @@
             xmlns:h="http://java.sun.com/jsf/html"
             xmlns:f="http://java.sun.com/jsf/core"
             xmlns:wiki="http://jboss.com/products/seam/wiki"
+            xmlns:c="http://java.sun.com/jstl/core"
             messageId="#{wiki:calculateMessageId(replyHome.instance.id, replyHome.instance.name)}">
 
     <m:header name="In-Reply-To" value="#{wiki:calculateMessageId(currentDocument.id, currentDocument.name)}"/>
@@ -27,14 +28,21 @@
 
             <hr/>
 
-            <wiki:formattedText value="#{replyHome.instance.content}"
-                                linkStyleClass="regularLink"
-                                brokenLinkStyleClass="brokenLink"
-                                attachmentLinkStyleClass="regularLink"
-                                thumbnailLinkStyleClass="regularLink"
-                                linkBaseFile="#{currentDocument}"
-                                currentAreaNumber="#{currentDocument.areaNumber}"
-                                enableMacroRendering="false"/>
+            <c:if test="#{replyHome.instance.useWikiText}">
+                <wiki:formattedText value="#{replyHome.instance.content}"
+                                    linkStyleClass="regularLink"
+                                    brokenLinkStyleClass="brokenLink"
+                                    attachmentLinkStyleClass="regularLink"
+                                    thumbnailLinkStyleClass="regularLink"
+                                    linkBaseFile="#{currentDocument}"
+                                    currentAreaNumber="#{currentDocument.areaNumber}"
+                                    enableMacroRendering="false"/>
+            </c:if>
+            <c:if test="#{not replyHome.instance.useWikiText}">
+                <div style="font-family: Andale Mono, Courier New, monospace;">
+                    <h:outputText escape="false" value="#{wiki:escapeHTML(replyHome.instance.content, true, true)}"/>
+                </div>
+            </c:if>
 
             <hr/>
             <a href="#{wikiURLRenderer.renderURL(replyHome.instance, true)}">Click here</a> to reply...
