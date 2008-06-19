@@ -63,14 +63,12 @@
    </servlet-mapping>
                   
    <security-constraint> 
-       <display-name>Restrict raw XHTML Documents</display-name>
-       <web-resource-collection>
-           <web-resource-name>XHTML</web-resource-name>
-           <url-pattern>*.xhtml</url-pattern>
-       </web-resource-collection>
-       <auth-constraint/>
+      <display-name>Restrict raw XHTML Documents</display-name>
+      <web-resource-collection>
+         <web-resource-name>XHTML</web-resource-name>
+         <url-pattern>*.xhtml</url-pattern>
+      </web-resource-collection>
+      <auth-constraint/>
    </security-constraint>
-   
-   
    
 </web-app>
