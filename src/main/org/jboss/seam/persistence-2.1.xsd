@@ -47,6 +47,7 @@
                 <xs:element name="mapping-jars" type="components:multiValuedProperty"/>
                 <xs:element name="mapping-packages" type="components:multiValuedProperty"/>
                 <xs:element name="mapping-resources" type="components:multiValuedProperty"/>
+                <xs:element name="naming-strategy" type="components:expressionType"/>
                 <xs:element name="cfg-properties" type="components:mapProperty"/>
             </xs:choice>
             <xs:attributeGroup ref="persistence:attlist.HibernateSessionFactory"/>
