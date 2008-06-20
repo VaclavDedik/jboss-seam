@@ -105,10 +105,10 @@ public class Plugin implements Serializable {
                 + "/" + currentTheme;
     }
 
-    public String getPackageDefaultTemplatePath(String macroName) {
+    public String getPackageDefaultTemplatePath(String templateName) {
         return getDescriptorPackagePath()
                 + "/" + Plugin.PACKAGE_TEMPLATES
-                + "/" + macroName + ".xhtml";
+                + "/" + templateName + ".xhtml";
     }
 
     public String getPackageI18NPath() {

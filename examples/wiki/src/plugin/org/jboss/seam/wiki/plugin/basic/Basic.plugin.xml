@@ -169,5 +169,12 @@
         -->
     </macro>
 
+    <profile key="userSummary" template="profile_userSummary" priority="10">
+        <skins>
+            <skin name="d"/>
+            <skin name="m"/>
+        </skins>
+    </profile>
+
 </plugin>
 

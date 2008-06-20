@@ -22,6 +22,7 @@ public abstract class PluginModule implements Serializable {
     private String label;
     private String description;
     private String className;
+    private String[] skins = {"d"};
     private SortedSet<String> fragmentCacheRegions = new TreeSet<String>();
 
     protected PluginModule(Plugin plugin, String key) {
@@ -69,6 +70,21 @@ public abstract class PluginModule implements Serializable {
         this.className = className;
     }
 
+    public String[] getSkins() {
+        return skins;
+    }
+
+    public void setSkins(String[] skins) {
+        this.skins = skins;
+    }
+
+    public boolean isAvailableForSkin(String skin) {
+        for (String s : skins) {
+            if (skin.equals(s)) return true;
+        }
+        return false;
+    }
+
     public SortedSet<String> getFragmentCacheRegions() {
         return fragmentCacheRegions;
     }
@@ -92,6 +108,4 @@ public abstract class PluginModule implements Serializable {
     public String getQualifiedCacheRegionName(String name) {
         return getFullyQualifiedKey() + "." + name;
     }
-
-
 }

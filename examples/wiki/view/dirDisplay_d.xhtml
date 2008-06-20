@@ -359,7 +359,7 @@
                     </ui:include>
 
                     <s:span styleClass="undecoratedLink" rendered="#{node.ownedByRegularUser}">
-                        <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(node.createdBy)}">
+                        <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(node.createdBy)}">
                             <h:outputText value="#{node.createdBy.fullname}"/>
                         </h:outputLink>
                     </s:span>
@@ -394,7 +394,7 @@
                             <f:convertDateTime pattern="dd. MMM yyyy, HH:mm" timeZone="#{preferences.get('Wiki').timeZone}"/>
                         </h:outputText>
                         (<s:span styleClass="undecoratedLink">
-                            <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(node.lastModifiedBy)}">
+                            <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(node.lastModifiedBy)}">
                                 <h:outputText value="#{node.lastModifiedBy.username}"/>
                             </h:outputLink>
                         </s:span>)

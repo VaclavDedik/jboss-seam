@@ -96,7 +96,7 @@
 
         </div>
 
-        <s:div styleClass="feedAggregatorEmpty"
+        <s:div styleClass="feedAggregatorEmpty minorPadding"
                rendered="#{empty feedAggregator.getFeedEntries(currentMacro) or
                                  feedAggregator.getFeedEntries(currentMacro).size() == 0}">
             <h:outputText value="#{messages['feed.aggregator.label.NoEntriesFound']}"/>

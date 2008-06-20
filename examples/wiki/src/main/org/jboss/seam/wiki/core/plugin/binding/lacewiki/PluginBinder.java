@@ -68,7 +68,8 @@ public class PluginBinder extends org.jboss.seam.wiki.core.plugin.binding.Plugin
             plugin.setLabel(pluginLabel);
 
             bindPluginInfo(root, plugin);
-            bindMacroPluginsModules(registry, root, plugin);
+            bindMacroPluginModules(registry, root, plugin);
+            bindProfilePluginModules(registry, root, plugin);
         }
 
         bindMacroParameters(registry);
@@ -105,78 +106,101 @@ public class PluginBinder extends org.jboss.seam.wiki.core.plugin.binding.Plugin
         }
     }
 
-    private void bindMacroPluginsModules(PluginRegistry registry, Element root, Plugin plugin) {
+    private void bindMacroPluginModules(PluginRegistry registry, Element root, Plugin plugin) {
 
         // Iterate through the XML descriptor and bind every <macro> to corresponding metamodel instances
         List<Element> macroPlugins = root.elements("macro");
-        for (Element macroPluginModuleDescriptor : macroPlugins) {
+        for (Element descriptor : macroPlugins) {
 
-            String moduleKey = macroPluginModuleDescriptor.attributeValue("key");
-            MacroPluginModule macroPluginModule = new MacroPluginModule(plugin, moduleKey);
+            String moduleKey = descriptor.attributeValue("key");
+            MacroPluginModule module = new MacroPluginModule(plugin, moduleKey);
 
-            log.debug("binding macro plugin module: " + macroPluginModule.getFullyQualifiedKey());
+            log.debug("binding macro plugin module: " + module.getFullyQualifiedKey());
 
+            bindLabelDescription(descriptor, module, plugin);
+            bindMacroApplicableTo(descriptor, module);
+            bindMacroRenderOptions(descriptor, module);
+            bindSkins(descriptor, module);
+            bindCacheRegions(descriptor, module);
 
-            String macroName = macroPluginModuleDescriptor.attributeValue("name");
+            String macroName = descriptor.attributeValue("name");
             if (registry.getMacroPluginModulesByMacroName().containsKey(macroName)) {
                 throw new InvalidWikiConfigurationException("Duplicate macro name, needs to be globally unique: " + macroName);
             }
-            macroPluginModule.setName(macroName);
-
-            String label = macroPluginModuleDescriptor.attributeValue("label");
-            if (label == null) label = getMessage(plugin.getKey() + "." + moduleKey + ".label");
-            macroPluginModule.setLabel(label);
-            String description = macroPluginModuleDescriptor.attributeValue("description");
-            if (description == null) description = getMessage(plugin.getKey() + "." + moduleKey + ".description");
-            macroPluginModule.setDescription(description);
-
-            bindMacroApplicableTo(macroPluginModuleDescriptor, macroPluginModule);
-            bindMacroRenderOptions(macroPluginModuleDescriptor, macroPluginModule);
-
-            Element skins = macroPluginModuleDescriptor.element("skins");
-            if (skins != null) {
-                bindMacroSkins(skins, macroPluginModule);
-            }
-
-            Element cacheRegions = macroPluginModuleDescriptor.element("cache-regions");
-            if (cacheRegions != null) {
-                bindFragmentCacheRegions(cacheRegions, macroPluginModule);
-            }
+            module.setName(macroName);
 
             // Finally, bind it
-            plugin.getModules().add(macroPluginModule);
-            registry.getMacroPluginModulesByKey().put(macroPluginModule.getFullyQualifiedKey(), macroPluginModule);
-            registry.getMacroPluginModulesByMacroName().put(macroPluginModule.getName(), macroPluginModule);
+            plugin.getModules().add(module);
+            registry.getMacroPluginModulesByKey().put(module.getFullyQualifiedKey(), module);
+            registry.getMacroPluginModulesByMacroName().put(module.getName(), module);
         }
 
     }
 
-    private void bindFragmentCacheRegions(Element moduleDescriptor, PluginModule module) {
+    private void bindProfilePluginModules(PluginRegistry registry, Element root, Plugin plugin) {
 
-        List<Element> cacheRegions = moduleDescriptor.elements("cache-region");
-        if (cacheRegions.size() > 0) {
-            for (Element cacheRegion : cacheRegions) {
+        // Iterate through the XML descriptor and bind every <profile> to corresponding metamodel instances
+        List<Element> profilePlugins = root.elements("profile");
+        for (Element descriptor : profilePlugins) {
 
-                String unqualifiedCacheRegionName = cacheRegion.attributeValue("name");
-                module.addFragmentCacheRegion(unqualifiedCacheRegionName);
+            String moduleKey = descriptor.attributeValue("key");
+            ProfilePluginModule module = new ProfilePluginModule(plugin, moduleKey);
 
-                List<Element> invalidationEvents = cacheRegion.elements("invalidation-event");
-                if (invalidationEvents != null) {
-                    for (Element invalidationEvent : invalidationEvents) {
-                        String eventName = invalidationEvent.attributeValue("name");
-                        PluginCacheManager.registerBinding(
-                                eventName,
-                                module.getQualifiedCacheRegionName(unqualifiedCacheRegionName)
-                        );
+            log.debug("binding profile plugin module: " + module.getFullyQualifiedKey());
+
+            bindLabelDescription(descriptor, module, plugin);
+            bindSkins(descriptor, module);
+
+            module.setTemplate(descriptor.attributeValue("template"));
+            module.setPriority(new Integer(descriptor.attributeValue("priority")));
+
+            // Finally, bind it
+            plugin.getModules().add(module);
+            registry.getProfilePluginModulesByPriority().add(module);
+        }
+
+    }
+
+    private void bindLabelDescription(Element descriptor, PluginModule module, Plugin plugin) {
+        String label = descriptor.attributeValue("label");
+        if (label == null) label = getMessage(plugin.getKey() + "." + module.getKey() + ".label");
+        module.setLabel(label);
+        String description = descriptor.attributeValue("description");
+        if (description == null) description = getMessage(plugin.getKey() + "." + module.getKey() + ".description");
+        module.setDescription(description);
+    }
+
+    private void bindCacheRegions(Element descriptor, PluginModule module) {
+        Element cacheRegionsDescriptor = descriptor.element("cache-regions");
+        if (cacheRegionsDescriptor != null) {
+            List<Element> cacheRegions = cacheRegionsDescriptor.elements("cache-region");
+            if (cacheRegions.size() > 0) {
+                for (Element cacheRegion : cacheRegions) {
+                    String unqualifiedCacheRegionName = cacheRegion.attributeValue("name");
+                    module.addFragmentCacheRegion(unqualifiedCacheRegionName);
+
+                    List<Element> invalidationEvents = cacheRegion.elements("invalidation-event");
+                    if (invalidationEvents != null) {
+                        for (Element invalidationEvent : invalidationEvents) {
+                            String eventName = invalidationEvent.attributeValue("name");
+                            PluginCacheManager.registerBinding(
+                                    eventName,
+                                    module.getQualifiedCacheRegionName(unqualifiedCacheRegionName)
+                            );
+                        }
                     }
                 }
-
             }
         }
     }
 
-    private void bindMacroSkins(Element moduleDescriptor, MacroPluginModule module) {
-        List<Element> skins = moduleDescriptor.elements("skin");
+    private void bindSkins(Element descriptor, PluginModule module) {
+        Element skins = descriptor.element("skins");
+        if (skins != null) bindSkin(skins, module);
+    }
+
+    private void bindSkin(Element descriptor, PluginModule module) {
+        List<Element> skins = descriptor.elements("skin");
         if (skins.size() > 0) {
             String[] skinNames = new String[skins.size()];
             for (int i = 0; i < skins.size(); i++)
@@ -185,8 +209,8 @@ public class PluginBinder extends org.jboss.seam.wiki.core.plugin.binding.Plugin
         }
     }
 
-    private void bindMacroApplicableTo(Element moduleDescriptor, MacroPluginModule module) {
-        Element applicableTo = moduleDescriptor.element("applicable-to");
+    private void bindMacroApplicableTo(Element descriptor, MacroPluginModule module) {
+        Element applicableTo = descriptor.element("applicable-to");
         if (applicableTo != null) {
             boolean header = Boolean.parseBoolean(applicableTo.attributeValue("header"));
             boolean content = Boolean.parseBoolean(applicableTo.attributeValue("content"));
@@ -200,8 +224,8 @@ public class PluginBinder extends org.jboss.seam.wiki.core.plugin.binding.Plugin
         }
     }
 
-    private void bindMacroRenderOptions(Element moduleDescriptor, MacroPluginModule module) {
-        Element renderOptions = moduleDescriptor.element("render-options");
+    private void bindMacroRenderOptions(Element descriptor, MacroPluginModule module) {
+        Element renderOptions = descriptor.element("render-options");
         if (renderOptions != null) {
             List<MacroPluginModule.RenderOption> renderOptionList =
                         new ArrayList<MacroPluginModule.RenderOption>();

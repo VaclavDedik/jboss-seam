@@ -53,7 +53,7 @@
         <set type="session" name="skin">m</set>
     </rule>
 
-    <!-- /123.lace -->
+    <!-- /123.html -->
     <rule>
         <from>^/([0-9]+)\.[a-zA-z]+$</from>
         <to last="true">/wiki.seam?nodeId=$1</to>
@@ -68,7 +68,7 @@
     <!-- /user/foo -->
     <rule>
         <from casesensitive="true">^/user/([a-zA-Z]?[a-zA-Z0-9]+)$</from>
-        <to last="true">/userInfo_%{session-attribute:skin}.seam?username=$1</to>
+        <to last="true">/userProfile_%{session-attribute:skin}.seam?username=$1</to>
     </rule>
 
     <!-- /tag/Foo+Bar-->
@@ -122,7 +122,7 @@
     </rule>
     <rule>
         <from casesensitive="true">^/cgi-bin/blosxom.cgi/index.rss$</from>
-        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/Feed/atom</to>
+        <to last="true" type="permanent-redirect">%{scheme}://%{server-name}%{context-path}/service/Feed/atom</to>
     </rule>
 
     <!-- ROOT / -->

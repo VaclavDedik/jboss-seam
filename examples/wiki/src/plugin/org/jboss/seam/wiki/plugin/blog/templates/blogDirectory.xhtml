@@ -33,7 +33,7 @@
                                               rendered="#{!empty blogEntry.entryDocument.createdBy.memberHome}">
                                     <h:outputText value="#{blogEntry.entryDocument.createdBy.fullname}"/>
                                 </h:outputLink>
-                                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(blogEntry.entryDocument.createdBy)}" target="_top"
+                                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(blogEntry.entryDocument.createdBy)}" target="_top"
                                               rendered="#{empty blogEntry.entryDocument.createdBy.memberHome}">
                                     <h:outputText value="#{blogEntry.entryDocument.createdBy.fullname}"/>
                                 </h:outputLink>

@@ -17,6 +17,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.wiki.core.plugin.metamodel.Plugin;
 import org.jboss.seam.wiki.core.plugin.metamodel.MacroPluginModule;
+import org.jboss.seam.wiki.core.plugin.metamodel.ProfilePluginModule;
 import org.jboss.seam.wiki.core.plugin.binding.PluginBinder;
 import org.jboss.seam.wiki.core.exception.InvalidWikiConfigurationException;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
@@ -42,6 +43,7 @@ public class PluginRegistry {
     private SortedMap<String, Plugin> plugins = new TreeMap<String, Plugin>();
     private SortedMap<String, MacroPluginModule> macroPluginModulesByKey = new TreeMap<String, MacroPluginModule>();
     private SortedMap<String, MacroPluginModule> macroPluginModulesByMacroName = new TreeMap<String, MacroPluginModule>();
+    private SortedSet<ProfilePluginModule> profilePluginModulesByPriority = new TreeSet<ProfilePluginModule>();
 
     public void addPlugin(String key, Plugin p) {
         if (plugins.containsKey(key)) {
@@ -74,6 +76,15 @@ public class PluginRegistry {
     // TODO: This should be unmodifiable and additions only allowed through a new registry method
     public SortedMap<String, MacroPluginModule> getMacroPluginModulesByMacroName() {
         return macroPluginModulesByMacroName;
+    }
+
+    // TODO: This should be unmodifiable and additions only allowed through a new registry method
+    public SortedSet<ProfilePluginModule> getProfilePluginModulesByPriority() {
+        return profilePluginModulesByPriority;
+    }
+
+    public List<ProfilePluginModule> getProfilePluginModulesAsList() {
+        return new ArrayList<ProfilePluginModule>(profilePluginModulesByPriority);
     }
 
     public WikiPluginMacro createWikiPluginMacro(WikiTextMacro wikiTextMacro) {

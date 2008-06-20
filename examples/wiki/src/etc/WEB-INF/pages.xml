@@ -21,7 +21,7 @@
     </page>
 
     <page view-id="/docDisplay*">
-        <param name="documentId" value="#{documentHome.nodeId}"/>
+        <param name="documentId" value="#{documentHome.nodeId}" required="true"/>
     </page>
 
     <page view-id="/docHistory*" no-conversation-view-id="/wiki.xhtml">
@@ -79,7 +79,7 @@
     </page>
 
     <page view-id="/dirDisplay*">
-        <param name="directoryId" value="#{directoryBrowser.directoryId}"/>
+        <param name="directoryId" value="#{directoryBrowser.directoryId}" required="true"/>
         <navigation>
             <rule if-outcome="removed">
                 <redirect view-id="/dirDisplay_#{skin}.xhtml">
@@ -164,7 +164,7 @@
     </page>
 
     <page view-id="/tagDisplay*">
-        <param name="tag" value="#{tagQuery.tag}"/>
+        <param name="tag" value="#{tagQuery.tag}" required="true"/>
     </page>
 
     <page view-id="/search*">
@@ -214,7 +214,7 @@
         </navigation>
     </page>
 
-    <page view-id="/userInfo*">
+    <page view-id="/userProfile*">
         <param name="userId" value="#{userHome.userId}"/>
         <param name="username" value="#{userHome.requestedUsername}"/>
         <action execute="#{userHome.initDisplay}"/>
@@ -225,7 +225,7 @@
     </page>
 
     <page view-id="/confirmRegistration.xhtml" action="#{authenticator.activate}">
-        <param name="activationCode" value="#{authenticator.activationCode}"/>
+        <param name="activationCode" value="#{authenticator.activationCode}" required="true"/>
         <navigation>
             <rule if-outcome="activated">
                 <redirect view-id="/wiki.xhtml">
@@ -242,7 +242,7 @@
     </page>
 
     <page view-id="/resetPassword.xhtml" action="#{userPasswordReset.prepare}">
-        <param name="activationCode" value="#{userPasswordReset.activationCode}"/>
+        <param name="activationCode" value="#{userPasswordReset.activationCode}" required="true"/>
         <navigation>
             <rule if-outcome="prepared">
                 <redirect view-id="/wiki.xhtml">
@@ -362,6 +362,13 @@
         </http-error>
     </exception>
 
+    <exception class="javax.faces.validator.ValidatorException">
+        <end-conversation/>
+        <http-error error-code="400">
+            <message>#{messages['lacewiki.msg.RequestError']}</message>
+        </http-error>
+    </exception>
+    
     <!-- We send a BAD REQUEST here because we don't want the client to retry later (Googlebot...) -->
     <exception log="true" logLevel="error">
         <end-conversation/>

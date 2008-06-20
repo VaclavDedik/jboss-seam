@@ -236,7 +236,7 @@
                                 </h:outputText>
 
                                 <s:div rendered="#{c.ownedByRegularUser}">
-                                    <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(c.createdBy)}">
+                                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(c.createdBy)}">
                                         <h:outputText value="#{c.createdBy.fullname}"/>
                                     </h:outputLink>
                                     <s:fragment rendered="#{wiki:showEmailAddress()}">

@@ -139,16 +139,15 @@
         <h:outputLink styleClass="link" tabindex="70"
                       accesskey="#{messages['lacewiki.button.userControl.Home.accesskey']}"
                       value="#{wikiURLRenderer.renderURL(currentUser.memberHome)}"
-                rendered="#{!empty currentUser.memberHome}">
+                      rendered="#{!empty currentUser.memberHome}">
             <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Home']}"/>
         </h:outputLink>
 
-        <s:link styleClass="link" tabindex="70"
-                accesskey="#{messages['lacewiki.button.userControl.Profile.accesskey']}"
-                view="/userHome_#{skin}.xhtml" propagation="none">
+        <h:outputLink styleClass="link" tabindex="70"
+                      accesskey="#{messages['lacewiki.button.userControl.Profile.accesskey']}"
+                      value="#{wikiURLRenderer.renderUserProfileURL(currentUser)}">
             <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Profile']}"/>
-            <f:param name="userId" value="#{currentUser.id}"/>
-        </s:link>
+        </h:outputLink>
 
         <s:link styleClass="link" tabindex="70"
                 accesskey="#{messages['lacewiki.button.userControl.Members.accesskey']}"

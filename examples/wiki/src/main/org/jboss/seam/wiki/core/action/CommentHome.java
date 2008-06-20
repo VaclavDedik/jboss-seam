@@ -365,6 +365,8 @@ public class CommentHome extends NodeHome<WikiComment, WikiNode>{
             getLog().debug("request parameter sets comment form visible, starts conversation");
             Conversation.instance().begin(true, false);
             Conversation.instance().changeFlushMode(FlushModeType.MANUAL);
+
+            setParentNodeId(documentHome.getInstance().getId());
             newComment();
         }
     }

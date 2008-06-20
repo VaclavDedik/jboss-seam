@@ -71,7 +71,7 @@
                         </s:div>
                         <s:div rendered="#{c.ownedByRegularUser}">
                             <s:span styleClass="undecoratedLink">
-                                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(c.createdBy)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(c.createdBy)}">
                                     <h:outputText value="#{c.createdBy.fullname}"/>
                                 </h:outputLink>
                             </s:span>
@@ -98,7 +98,7 @@
 
                     <s:fragment rendered="#{c.ownedByRegularUser and !empty c.createdBy.profile.imageContentType}">
                         <s:span styleClass="undecoratedLink">
-                            <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(c.createdBy)}">
+                            <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(c.createdBy)}">
                                 <s:graphicImage styleClass="commentAuthorPortraitImage" value="#{c.createdBy.profile.image}">
                                     <s:transformImageSize width="30" maintainRatio="true"/>
                                 </s:graphicImage>

@@ -17,7 +17,6 @@ import java.util.*;
 public class MacroPluginModule extends PluginModule {
 
     private String name;
-    private String[] skins = {"d"};
     private DocumentArea[] applicableTo = {DocumentArea.CONTENT};
     private RenderOption[] renderOptions;
     private RenderDependency[] renderDependencies;
@@ -67,21 +66,6 @@ public class MacroPluginModule extends PluginModule {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String[] getSkins() {
-        return skins;
-    }
-
-    public void setSkins(String[] skins) {
-        this.skins = skins;
-    }
-
-    public boolean isAvailableForSkin(String skin) {
-        for (String s : skins) {
-            if (skin.equals(s)) return true;
-        }
-        return false;
     }
 
     public DocumentArea[] getApplicableTo() {

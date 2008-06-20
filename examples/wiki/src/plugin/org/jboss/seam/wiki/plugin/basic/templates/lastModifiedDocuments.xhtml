@@ -31,7 +31,7 @@
                         <s:fragment rendered="#{preferences.get('LastModifiedDocuments', currentMacro).showUsernames}">
 
                             (<s:span styleClass="undecoratedLink" rendered="#{wiki:isRegularUser(doc.lastModifiedBy)}">
-                                <h:outputLink value="#{wikiURLRenderer.renderUserInfoURL(doc.lastModifiedBy)}">
+                                <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(doc.lastModifiedBy)}">
                                     <h:outputText value="#{doc.lastModifiedBy.username}"/>
                                 </h:outputLink>
                             </s:span>

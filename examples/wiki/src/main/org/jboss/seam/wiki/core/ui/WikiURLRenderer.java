@@ -66,11 +66,11 @@ public class WikiURLRenderer implements Serializable {
         return url.toString();
     }
 
-    public String renderUserInfoURL(User user) {
-        return renderUserInfoURL(user, false);
+    public String renderUserProfileURL(User user) {
+        return renderUserProfileURL(user, false);
     }
 
-    public String renderUserInfoURL(User user, boolean usePrefsPath) {
+    public String renderUserProfileURL(User user, boolean usePrefsPath) {
         if (user == null || user.getUsername() == null) return "";
         StringBuilder url = new StringBuilder();
         url.append(usePrefsPath ? prefs.getBaseUrl() : contextPath);

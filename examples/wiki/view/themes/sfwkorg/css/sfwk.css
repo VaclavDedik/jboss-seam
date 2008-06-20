@@ -950,6 +950,28 @@ b.rtop b.r4, b.rbottom b.r4 {
     margin-left: 240px;
 }
 
+.wideEntry {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.wideEntry .label {
+    color: #000000;
+    font-weight:bold;
+    vertical-align: top;
+    padding-right: 10px;
+    padding-top: 10px;
+    white-space: nowrap;
+}
+
+.wideEntry .output {
+    padding-top: 10px;
+}
+
+.wideEntry .output .inlineWikiText .wikiPara:first-child {
+    display: inline;
+}
+
 .errorEntry {
     background-color: #ffeeee;
 }

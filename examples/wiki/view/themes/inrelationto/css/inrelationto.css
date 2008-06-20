@@ -665,6 +665,28 @@ ul {
     margin-left: 240px;
 }
 
+.wideEntry {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.wideEntry .label {
+    color: #000000;
+    font-weight:bold;
+    vertical-align: top;
+    padding-right: 10px;
+    padding-top: 10px;
+    white-space: nowrap;
+}
+
+.wideEntry .output {
+    padding-top: 10px;
+}
+
+.wideEntry .output .inlineWikiText .wikiPara:first-child {
+    display: inline;
+}
+
 .errorEntry {
     background-color: #ffeeee;
 }
@@ -1391,13 +1413,12 @@ ul {
 
 .boxFooter {
     background: #d3d2c4 url(../img/th.bg.gif) 0 0 repeat-x;
-    padding-top: 5px;
     padding-left: 10px;
     padding-right: 10px;
     font-weight: normal;
     color: #d75525;
 	text-decoration: none;
-    text-align: right;c
+    text-align: right;
 }
 
 /* Plugin Preferences Editor
