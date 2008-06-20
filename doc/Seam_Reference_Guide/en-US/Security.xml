@@ -1031,12 +1031,16 @@ public class Role {
     
           <tgroup cols="2">
             <colspec colnum="1" colwidth="2*" />
-            <colspec colnum="2" colwidth="3*" />
+            <colspec colnum="2" colwidth="1*" />
+            <colspec colnum="3" colwidth="3*" />
     
             <thead>
               <row>
                 <entry align="center">
                   <para>Property</para>
+                </entry>
+                <entry align="center">
+                  <para>Default</para>
                 </entry>
                 <entry align="center">
                   <para>Description</para>
@@ -1052,8 +1056,11 @@ public class Role {
                   </para>
                 </entry>
                 <entry>
+                  <para><literal>localhost</literal></para>
+                </entry>
+                <entry>
                   <para>
-                    The address of the LDAP server, defaults to <literal>localhost</literal>.
+                    The address of the LDAP server.
                   </para>
                 </entry>
               </row>
@@ -1065,8 +1072,11 @@ public class Role {
                   </para>
                 </entry>
                 <entry>
+                  <para><literal>389</literal></para>
+                </entry>
+                <entry>
                   <para>
-                    The port number that the LDAP server is listening on, defaults to 389.
+                    The port number that the LDAP server is listening on.
                   </para>
                 </entry>
               </row>
@@ -1078,9 +1088,11 @@ public class Role {
                   </para>
                 </entry>
                 <entry>
+                  <para><literal>ou=Person,dc=acme,dc=com</literal></para>
+                </entry>
+                <entry>
                   <para>
-                    The Distinguished Name (DN) of the context containing user records.  The default value is
-                    "<literal>ou=Person,dc=acme,dc=com</literal>".
+                    The Distinguished Name (DN) of the context containing user records.
                   </para>
                 </entry>
               </row>
@@ -1092,9 +1104,11 @@ public class Role {
                   </para>
                 </entry>
                 <entry>
+                  <para><literal>uid=</literal></para>
+                </entry>
+                <entry>
                   <para>
                     This value is prefixed to the front of the username to locate the user's record.
-                    The default value is "<literal>uid=</literal>".
                   </para>
                 </entry>
               </row>
@@ -1106,9 +1120,286 @@ public class Role {
                   </para>
                 </entry>
                 <entry>
+                  <para><literal>,ou=Person,dc=acme,dc=com</literal></para>
+                </entry>
+                <entry>
                   <para>
-                    This value is appended to the end of the username to locate the user's record.  The default
-                    value is "<literal>,ou=Person,dc=acme,dc=com</literal>".
+                    This value is appended to the end of the username to locate the user's record.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>role-context-DN</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>ou=Role,dc=acme,dc=com</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    The DN of the context containing role records.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>role-DN-prefix</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>cn=</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    This value is prefixed to the front of the role name to form the DN for locating the 
+                    role record.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>role-DN-suffix</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>,ou=Roles,dc=acme,dc=com</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    This value is appended to the role name to form the DN for locating the role record.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>bind-DN</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>cn=Manager,dc=acme,dc=com</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    This is the context used to bind to the LDAP server.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>bind-credentials</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>secret</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    These are the credentials (the password) used to bind to the LDAP server.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>user-role-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>roles</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    This is the name of the attribute of the user record that contains the list of roles that the
+                    user is a member of.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>role-attribute-is-DN</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>true</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    This boolean property indicates whether the role attribute of the user record is itself a
+                    distinguished name.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>user-name-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>uid</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    Indicates which attribute of the user record contains the username.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>user-password-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>userPassword</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    Indicates which attribute of the user record contains the user's password.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>first-name-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>null</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    Indicates which attribute of the user record contains the user's first name.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>last-name-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>sn</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    Indicates which attribute of the user record contains the user's last name.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>full-name-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>cn</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    Indicates which attribute of the user record contains the user's full (common) name.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>enabled-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>null</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    Indicates which attribute of the user record determines whether the user is enabled.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>role-name-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>cn</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    Indicates which attribute of the role record contains the name of the role.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>object-class-attribute</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>objectClass</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    Indicates which attribute determines the class of an object in the directory.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>role-object-classes</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>organizationalRole</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    An array of the object classes that new role records should be created as.
+                  </para>
+                </entry>
+              </row>
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>user-object-classes</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para><literal>person,uidObject</literal></para>
+                </entry>
+                <entry>
+                  <para>
+                    An array of the object classes that new user records should be created as.
                   </para>
                 </entry>
               </row>
