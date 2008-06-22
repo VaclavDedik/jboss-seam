@@ -8,6 +8,7 @@ package org.jboss.seam.wiki.core.model;
 
 import java.util.TreeMap;
 import java.util.SortedMap;
+import java.util.Map;
 import java.io.Serializable;
 
 /**
@@ -68,6 +69,13 @@ public class WikiTextMacro implements Serializable {
 
     public void setParams(SortedMap<String, String> params) {
         this.params = params;
+    }
+
+    public String getParamValue(String paramName) {
+        for (Map.Entry<String, String> param : params.entrySet()) {
+            if (param.getKey().equals(paramName)) return param.getValue();
+        }
+        return null;
     }
 
     public boolean equals(Object o) {

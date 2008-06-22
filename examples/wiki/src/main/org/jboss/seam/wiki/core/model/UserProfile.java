@@ -73,7 +73,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setBio(String bio) {
-        this.bio = bio.length() > 0 ? bio : null;
+        this.bio = bio != null && bio.length() > 0 ? bio : null;
     }
 
     public String getWebsite() {
@@ -81,7 +81,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setWebsite(String website) {
-        this.website = website.length() > 0 ? website : null;
+        this.website = website != null && website.length() > 0 ? website : null;
     }
 
     public String getLocation() {
@@ -89,7 +89,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setLocation(String location) {
-        this.location = location.length() > 0 ? location : null;
+        this.location = location != null && location.length() > 0 ? location : null;
     }
 
     public String getOccupation() {
@@ -97,7 +97,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setOccupation(String occupation) {
-        this.occupation = occupation.length() > 0 ? occupation : null;
+        this.occupation = occupation  != null && occupation.length() > 0 ? occupation : null;
     }
 
     public String getSignature() {
@@ -105,7 +105,7 @@ public class UserProfile implements Serializable {
     }
 
     public void setSignature(String signature) {
-        this.signature = signature.length() > 0 ? signature : null;
+        this.signature = signature != null && signature.length() > 0 ? signature : null;
     }
 
     public byte[] getImage() {

@@ -166,8 +166,7 @@ public class UserHome extends EntityHome<User> {
     public String persist() {
 
         // Validate
-        if (!validateWikiTextEditors() ||
-            !isUniqueUsername() ||
+        if (!isUniqueUsername() ||
             !passwordAndControlNotNull() ||
             !passwordMatchesRegex() ||
             !passwordMatchesControl()) {
@@ -178,8 +177,6 @@ public class UserHome extends EntityHome<User> {
 
             return null;
         }
-
-        syncWikiTextEditorsToInstance();
 
         // Assign default role
         getInstance().getRoles().add(defaultRole);
