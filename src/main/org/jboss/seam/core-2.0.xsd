@@ -6,6 +6,10 @@
 
     <xs:element name="init">
         <xs:complexType mixed="true">
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="disabled-interceptors" type="components:multiValuedProperty" />
+            </xs:choice>
+
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="core:attlist.init"/>
         </xs:complexType>
@@ -29,6 +33,7 @@
             </xs:simpleType>
         </xs:attribute>
         <xs:attribute name="user-transaction-name"/>
+        <xs:attribute name="disabled-interceptors" type="components:string" />
     </xs:attributeGroup>
 
     <xs:element name="manager">

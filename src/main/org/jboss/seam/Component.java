@@ -933,16 +933,26 @@ public class Component extends Model
 
    public void addInterceptor(Interceptor interceptor)
    {
-      if ( interceptor.getType()==InterceptorType.SERVER)
-      {
-         interceptors.add(interceptor);
-      }
-      else
-      {
-         clientSideInterceptors.add(interceptor);
-      }
+       if (isInterceptorEnabled(interceptor)) {
+           if (interceptor.getType()==InterceptorType.SERVER) {
+               interceptors.add(interceptor);
+           } else {
+               clientSideInterceptors.add(interceptor);
+           }
+       }
    }
 
+    private boolean isInterceptorEnabled(Interceptor interceptor) {
+        Class interceptorClass = interceptor.getUserInterceptorClass();
+        if (interceptorClass != null) {
+            if (Init.instance().getDisabledInterceptors().contains(interceptorClass.getName())) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
    private List<Interceptor> newSort(List<Interceptor> list)
    {
       List<SortItem<Interceptor>> siList = new ArrayList<SortItem<Interceptor>>();

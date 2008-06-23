@@ -49,7 +49,9 @@ public class Init
    private boolean debug;
    private boolean myFacesLifecycleBug;
    private boolean transactionManagementEnabled = true;
-   
+
+   private List<String> disabledInterceptors = new ArrayList<String>();
+
    private Map<String, List<ObserverMethod>> observerMethods = new HashMap<String, List<ObserverMethod>>();
    private Map<String, List<ObserverMethodExpression>> observerMethodBindings = new HashMap<String, List<ObserverMethodExpression>>();
    private Map<String, FactoryMethod> factories = new HashMap<String, FactoryMethod>();
@@ -521,4 +523,12 @@ public class Init
    {
       return globalImports;
    }
+
+    public List<String> getDisabledInterceptors() {
+        return disabledInterceptors;
+    }
+    
+    public void setDisabledInterceptors(List<String> disabledInterceptors) {
+        this.disabledInterceptors = disabledInterceptors;
+    }
 }
