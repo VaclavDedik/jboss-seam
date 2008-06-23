@@ -15,6 +15,11 @@ SeamTest now boots Seam at the start of each suite, rather than the start of
 each class. This is much faster. See the reference manual for how to alter the
 default.
 
+DTDs and Schemas
+----------------
+The DTDs for Seam XML files are no longer supported.  Please use the XML schemas
+for validation.  Files that use the Seam 2.0 XSDs should be updated to refer to 
+the 2.1 XSDs
 
 Exception Handling
 ------------------
@@ -77,3 +82,4 @@ In Seam 2.1, rule-based permission checks are now carried out by the RuleBasedPe
 requiring that it is configured with the security rules instead of Identity:
 
   <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
+
