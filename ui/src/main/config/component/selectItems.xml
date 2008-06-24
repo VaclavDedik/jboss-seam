@@ -55,5 +55,11 @@
 			<description>if true, the noSelectionLabel will be hidden when a value is selected</description>
 			<defaultvalue>false</defaultvalue>
 		</property>
+		<property>
+			<name>escape</name>
+			<classname>java.lang.Boolean</classname>
+			<description>if false, characters in the label will not be escaped. Beware that this is a safety issue when the label is in any way derived from input supplied by the application's user. . Can reference the var variable</description>
+			<defaultvalue>true</defaultvalue>
+		</property>
 	</component>
 </components>

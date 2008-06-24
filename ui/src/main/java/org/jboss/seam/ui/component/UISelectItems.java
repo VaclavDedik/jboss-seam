@@ -81,13 +81,14 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
       protected abstract Object getSelectItemValue();
       protected abstract String getSelectItemLabel();
       protected abstract Boolean getSelectItemDisabled();
-      
+      protected abstract Boolean getSelectItemEscape();
+
       protected javax.faces.model.SelectItem create()
       {
          try
          {
             setup();
-            return new javax.faces.model.SelectItem(this.getSelectItemValue(), this.getSelectItemLabel(), "", this.getSelectItemDisabled());
+            return new javax.faces.model.SelectItem(this.getSelectItemValue(), this.getSelectItemLabel(), "", this.getSelectItemDisabled(), this.getSelectItemEscape());
          }
          finally
          {
@@ -138,6 +139,10 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
    
    public abstract void setDisabled(Boolean disabled);
    
+   public abstract Boolean getEscape();
+
+   public abstract void setEscape(Boolean escape);
+
    public abstract Object getItemValue();
    
    public abstract void setItemValue(Object itemValue);
@@ -195,6 +200,13 @@ public abstract class UISelectItems extends javax.faces.component.UISelectItems 
             {
                Boolean disabled = getDisabled();
                return disabled == null ? false : disabled;
+            }
+
+            @Override
+            protected Boolean getSelectItemEscape()
+            {
+               Boolean escape = getEscape();
+               return escape == null ? true : escape;
             }
 
             @Override
