@@ -2041,6 +2041,16 @@ end;]]></programlisting>
 
     </sect2>
     
+    <sect2>
+      <title>Typesafe Security Annotations</title>
+      
+      <para>
+        Seam provides a number of annotations that may be used as an alternative to <literal>@Restrict</literal>, which have
+        the added advantage of providing compile-time safety as they don't support arbitrary EL expressions in the same way 
+        that <literal>@Restrict</literal> does.
+      </para>
+    
+    </sect2>
 
     <sect2>
       <title>Rule-based Permissions</title>
