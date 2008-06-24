@@ -1040,7 +1040,7 @@ public class Role {
                   <para>Property</para>
                 </entry>
                 <entry align="center">
-                  <para>Default</para>
+                  <para>Default Value</para>
                 </entry>
                 <entry align="center">
                   <para>Description</para>
@@ -1408,15 +1408,58 @@ public class Role {
           </tgroup>
         </table>     
       </sect3>
+      
+      <sect3>
+        <title>LdapIdentityStore Configuration Example</title>
+        
+        <para>
+          The following configuration example shows how <literal>LdapIdentityStore</literal> may be configured for
+          an LDAP directory running on fictional host <literal>directory.mycompany.com</literal>.  The users are stored
+          within this directory under the context <literal>ou=Person,dc=mycompany,dc=com</literal>, and are identified
+          using the <literal>uid</literal> attribute (which corresponds to their username).  Roles are stored in their
+          own context, <literal>ou=Roles,dc=mycompany,dc=com</literal> and referenced from the user's entry via the 
+          <literal>roles</literal> attribute.  Role entries are identified by their common name (the <literal>cn</literal> attribute)
+          , which corresponds to the role name.  In this example, users may be disabled by setting the value of their 
+          <literal>enabled</literal> attribute to false.
+        </para>
+        
+        <programlisting><![CDATA[
+  <security:ldap-identity-store
+    server-address="directory.mycompany.com"
+    bind-DN="cn=Manager,dc=mycompany,dc=com"
+    bind-credentials="secret"
+    user-DN-prefix="uid="
+    user-DN-suffix=",ou=Person,dc=mycompany,dc=com"
+    role-DN-prefix="cn="
+    role-DN-suffix=",ou=Roles,dc=mycompany,dc=com"
+    user-context-DN="ou=Person,dc=mycompany,dc=com"
+    role-context-DN="ou=Roles,dc=mycompany,dc=com"
+    user-role-attribute="roles"
+    role-name-attribute="cn"
+    user-object-classes="person,uidObject"
+    enabled-attribute="enabled"
+    />]]></programlisting>
+        
+      </sect3>
+
     </sect2>
     
     <sect2>
-      <title>Writing your own IdentityStore implementation</title>
+      <title>Writing your own IdentityStore</title>
       
       <para>
+        Writing your own identity store implementation allows you to authenticate and perform identity management
+        operations against sources that aren't supported out of the box by Seam.  Only a single class is 
+        required to achieve this, and it must implement the
+        <literal>org.jboss.seam.security.management.IdentityStore</literal> interface.
+      </para>
       
+      <para>
+        Please refer to the JavaDoc for <literal>IdentityStore</literal> for a description of the methods that
+        must be implemented.
       </para>
     </sect2>
+    
     
     <sect2>
       <title>Authentication with Identity Management</title>
@@ -1524,7 +1567,7 @@ public class Role {
       There are a number of authorization features provided by the Seam Security API for securing access to
       components, component methods, and pages.  This section describes each of these.  An important thing to
       note is that if you wish to use any of the advanced features (such as rule-based permissions) then
-      your <literal>components.xml</literal> must be configured to support this - see the Configuration section
+      your <literal>components.xml</literal> may need to be configured to support this - see the Configuration section
       above.
     </para>
 
@@ -1532,19 +1575,60 @@ public class Role {
       <title>Core concepts</title>
 
       <para>
-        Each of the authorization mechanisms provided by the Seam Security API are built upon the concept of a user
-        being granted roles and/or permissions.  A role is a <emphasis>group</emphasis>, or <emphasis>type</emphasis>,
-        of user that may have been granted certain privileges for performing one or more specific actions within an
-        application. A permission on the other hand is a privilege (sometimes once-off) for performing a single,
-        specific action.  It is entirely possible to build an application using nothing but permissions, however
-        roles offer a higher level of convenience when granting privileges to groups of users.
+        Seam Security is built around the premise of users being granted roles and/or permissions, allowing them to
+        perform operations that may not otherwise be permissible for users without the necessary security privileges.
+        Each of the authorization mechanisms provided by the Seam Security API are built upon this core concept of roles and
+        permissions, with an extensible framework providing multiple ways to secure application resources.
       </para>
 
-      <para>
-        Roles are simple, consisting of only a name such as "admin", "user", "customer", etc.  Permissions consist of
-        both a name and an action, and are represented within this documentation in the form <literal>name:action</literal>,
-        for example <literal>customer:delete</literal>, or <literal>customer:insert</literal>.
-      </para>
+      <sect3>
+        <title>What is a role?</title>
+        
+        <para>
+          A role is a <emphasis>group</emphasis>, or <emphasis>type</emphasis>, of user that may have been granted certain 
+          privileges for performing one or more specific actions within an application.  They are simple constructs, consisting 
+          of just a name such as "admin", "user", "customer", etc.  They can be granted either to users (or in some cases to other 
+          roles), and are used to create logical groups of users for the convenient assignment of specific application privileges.
+        </para>
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/security-roleclass.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/security-roleclass.png" align="center"/>
+          </imageobject>
+        </mediaobject>        
+      </sect3>
+      
+      <sect3>
+        <title>What is a permission?</title>
+        
+        <para>
+          A permission is a privilege (sometimes once-off) for performing a single, specific action.  It is entirely possible to 
+          build an application using nothing but permissions, however roles offer a higher level of convenience when granting 
+          privileges to groups of users.  They are slightly more complex in structure than roles, essentially consisting of three 
+          "aspects"; a target, an action, and a recipient.  The target of a permission is the object (or an arbitrary name or class) 
+          for which a particular action is allowed to be performed by a specific recipient (or user).  For example, the user "Bob" 
+          may have permission to delete customer objects.  In this case, the permission target may be "customer", the permission 
+          action would be "delete" and the recipient would be "Bob".
+        </para>
+        
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/security-permissionclass.png" align="center"/>
+          </imageobject>
+          <imageobject role="html">
+            <imagedata fileref="images/security-permissionclass.png" align="center"/>
+          </imageobject>
+        </mediaobject>        
+      
+        <para>
+          Within this documentation, permissions are represented in the form <literal>name:action</literal> (generally
+          omitting the recipient, although in reality one is always required).
+        </para>  
+      </sect3>
 
     </sect2>
 
@@ -1555,6 +1639,16 @@ public class Role {
         Let's start by examining the simplest form of authorization, component security, starting with the
         <literal>@Restrict</literal> annotation.
       </para>
+      
+      <note>
+        <title>@Restrict vs Typesafe security annotations</title>
+        
+        <para>
+          While using the <literal>@Restrict</literal> annotation provides a powerful and flexible method for security component methods
+          due to its ability to support EL expressions, it is recommended that the typesafe equivalent (described later) be
+          used, at least for the compile-time safety it provides.
+        </para>      
+      </note>
 
       <sect3>
         <title>The @Restrict annotation</title>
