@@ -960,10 +960,12 @@ public class Component extends Model
    }
 
    private boolean isInterceptorEnabled(Interceptor interceptor) {
-       Class interceptorClass = interceptor.getUserInterceptorClass();
-       if (interceptorClass != null) {
-           if (Init.instance().getDisabledInterceptors().contains(interceptorClass.getName())) {
-               return false;
+       if (Contexts.isApplicationContextActive()) {
+           Class interceptorClass = interceptor.getUserInterceptorClass();
+           if (interceptorClass != null) {
+               if (Init.instance().getDisabledInterceptors().contains(interceptorClass.getName())) {
+                   return false;
+               }
            }
        }
        
