@@ -150,6 +150,7 @@
 	<fileset id="seam.pdf.jar" dir="${lib.dir}">
 		<include name="jboss-seam-pdf.jar" if="seam.pdf.lib" />
 		<include name="itext.jar" if="seam.pdf.lib" />
+		<include name="itext-rtf.jar" if="seam.pdf.lib" />
 		<include name="jfreechart.jar" if="seam.pdf.lib" />
 		<include name="jcommon.jar" if="seam.pdf.lib" />
 	</fileset>

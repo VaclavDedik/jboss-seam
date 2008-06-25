@@ -72,13 +72,15 @@ public class UIList
             if (style.equalsIgnoreCase(STYLE_ROMAN)) {
                 list = new RomanList((int) indent); // int? bug in text?
                 if (lowerCase != null) {
-                    ((RomanList) list).setRomanLower(lowerCase);
+                    list.setLowercase(lowerCase);
+                    //((RomanList) list).setRomanLower(lowerCase);
                 }
             } else if (style.equalsIgnoreCase(STYLE_GREEK)) {
                 list = new GreekList((int)indent); // int? bug in itext?
 
                 if (lowerCase != null) {
-                    ((GreekList) list).setGreekLower(lowerCase);
+                    list.setLowercase(lowerCase);
+                    //((GreekList) list).setGreekLower(lowerCase);
                 }
             } else if (style.equalsIgnoreCase(STYLE_DINGBATS)) {
                 charNumber = (Integer) valueBinding(context, "charNumber", charNumber);
