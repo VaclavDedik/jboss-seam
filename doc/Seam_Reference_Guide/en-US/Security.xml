@@ -301,6 +301,154 @@ public class Authenticator {
       </itemizedlist>
 
     </sect2>
+    
+    <sect2>
+      <title>Remember Me</title>
+      
+      <para>
+        Seam Security supports the same kind of "Remember Me" functionality that is commonly encountered in many
+        online web-based applications.  It is actually supported in two different "flavours", or modes - the first
+        mode allows the username to be stored in the user's browser as a cookie, and leaves the entering of the
+        password up to the browser (many modern browsers are capable of remembering passwords).
+      </para>
+      
+      <para>
+        The second mode supports the storing of a unique token in a cookie, and allows a user to authenticate
+        automatically upon returning to the site, without having to provide a password.
+      </para>
+      
+      <note>
+        <para>
+          IMPORTANT: Automatic client authentication with a persistent cookie stored on the client machine is dangerous.  
+          While convenient for users, any cross-site scripting security hole in your website would have dramatically more 
+          serious effects than usual. Without the authentication cookie, the only cookie to steal for an attacker with XSS 
+          is the cookie of the current session of a user. This means the attack only works when the user has an open session - 
+          which should be a short timespan. However, it is much more attractive and dangerous if an attacker has the possibility 
+          to steal a persistent Remember Me cookie that allows him to login without authentication, at any time. Note that this 
+          all depends on how well you protect your website against XSS attacks - it's up to you to make sure that your website 
+          is 100% XSS safe - a non-trival achievement for any website that allows user input to be rendered on a page.
+        </para>
+        
+        <para>
+          Browser vendors recognized this issue and introduced a "Remember Passwords" feature - today almost all browsers support 
+          this. Here, the browser remembers the login username and password for a particular website and domain, and fills out the 
+          login form automatically when you don't have an active session with the website. If you as a website designer then offer 
+          a convenient login keyboard shortcut, this approach is almost as convenient as a "Remember Me" cookie and much safer. 
+          Some browsers (e.g. Safari on OS X) even store the login form data in the encrypted global operation system keychain. 
+          Or, in a networked environment, the keychain can be transported with the user (between laptop and desktop for example), 
+          while browser cookies are usually not synchronized.
+        </para>
+        
+        <para>
+          To summarize: While everyone is doing it, persistent "Remember Me" cookies with automatic authentication are a bad 
+          practice and should not be used. Cookies that "remember" only the users login name, and fill out the login form with 
+          that username as a convenience, are not an issue. 
+        </para>
+      </note>
+      
+      <para>
+        To enable the remember me feature for the default (safe, username only) mode, no special configuration is required.
+        In your login form, simply bind the remember me checkbox to <literal>rememberMe.enabled</literal>, like in the following
+        example:
+      </para>
+      
+      <programlisting><![CDATA[  <div>
+    <h:outputLabel for="name" value="User name"/>
+    <h:inputText id="name" value="#{credentials.username}"/>
+  </div>
+  
+  <div>
+    <h:outputLabel for="password" value="Password"/>
+    <h:inputSecret id="password" value="#{credentials.password}" redisplay="true"/>
+  </div>      
+  
+  <div class="loginRow">
+    <h:outputLabel for="rememberMe" value="Remember me"/>
+    <h:selectBooleanCheckbox id="rememberMe" value="#{rememberMe.enabled}"/>
+  </div>]]></programlisting>
+  
+      <sect3>
+        <title>Token-based Remember-me Authentication</title>
+        
+        <para>
+          To use the automatic, token-based mode of the remember me feature, you must first configure a token store.  The
+          most common scenario is to store these authentication tokens within a database (which Seam supports), however it 
+          is possible to implement your own token store by implementing the <literal>org.jboss.seam.security.TokenStore</literal>
+          interface.  This section will assume you will be using the provided <literal>JpaTokenStore</literal> implementation
+          to store authentication tokens inside a database table.
+        </para>
+        
+        <para>
+          The first step is to create a new Entity which will contain the tokens.  The following example shows the possible
+          structure that you may use:
+        </para>
+        
+        <programlisting><![CDATA[@Entity
+public class AuthenticationToken implements Serializable {  
+   private Integer tokenId;
+   private String username;
+   private String value;
+   
+   @Id @GeneratedValue
+   public Integer getTokenId() {
+      return tokenId;
+   }
+   
+   public void setTokenId(Integer tokenId) {
+      this.tokenId = tokenId;
+   }
+   
+   @TokenUsername
+   public String getUsername() {
+      return username;
+   }
+   
+   public void setUsername(String username) {
+      this.username = username;
+   }
+   
+   @TokenValue
+   public String getValue() {
+      return value;
+   }
+   
+   public void setValue(String value) {
+      this.value = value;
+   }
+}]]></programlisting>
+
+        <para>
+          As you can see from this listing, a couple of special annotations, <literal>@TokenUsername</literal> and
+          <literal>@TokenValue</literal> are used to configure the username and token properties of the entity.  These
+          annotations are required for the entity that will contain the authentication tokens.
+        </para>
+        
+        <para>
+          The next step is to configure <literal>JpaTokenStore</literal> to use this entity bean to store and retrieve
+          authentication tokens.  This is done in <literal>components.xml</literal> by specifying the <literal>token-class</literal>
+          attribute:
+        </para>
+        
+        <programlisting><![CDATA[
+  <security:jpa-token-store token-class="org.jboss.seam.example.seamspace.AuthenticationToken"/>        
+        ]]></programlisting>
+        
+        <para>
+          Once this is done, the last thing to do is to configure the <literal>RememberMe</literal> component in
+          <literal>components.xml</literal> also.  Its <literal>mode</literal> should be set to <literal>autoLogin</literal>:
+        </para>
+        
+        <programlisting><![CDATA[  <security:remember-me mode="autoLogin"/>        
+        ]]></programlisting>
+        
+        <para>
+          That is all that is required - automatic authentication will now occur for users revisiting your site (as long as they
+          check the "remember me" checkbox).
+        </para>
+      
+      </sect3>
+      
+    </sect2>
 
     <sect2>
       <title>Handling Security Exceptions</title>
