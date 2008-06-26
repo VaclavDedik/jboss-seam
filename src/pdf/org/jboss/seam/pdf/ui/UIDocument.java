@@ -21,6 +21,7 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Element;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.html.HtmlWriter;
+import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 import com.lowagie.text.rtf.RtfWriter2;
@@ -141,8 +142,8 @@ public class UIDocument
                 // do nothing
             } else if (orientation.equalsIgnoreCase("landscape")) {
                 Rectangle currentSize = document.getPageSize();
-                document.setPageSize(new Rectangle(currentSize.height(),
-                                                   currentSize.width()));
+                document.setPageSize(new Rectangle(currentSize.getHeight(),
+                                                   currentSize.getWidth()));
             } else {
                 throw new RuntimeException("orientation value " + orientation + "unknown");
             }
@@ -321,9 +322,13 @@ public class UIDocument
         return writer;
     }    
     
-    public PdfTemplate createPdfTemplate(float width, float height) {        
+    public PdfContentByte getPdfContent() {
         PdfWriter writer = (PdfWriter) getWriter();
-        return writer.getDirectContent().createTemplate(width, height);
+        return writer.getDirectContent();
+    }
+    
+    public PdfTemplate createPdfTemplate(float width, float height) {        
+        return getPdfContent().createTemplate(width, height);
     }
     
     private DocumentType documentTypeForName(String typeName) {    
