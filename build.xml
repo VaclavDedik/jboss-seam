@@ -680,6 +680,8 @@
 		<testng outputdir="${test.dir}">
 			<jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
 			<jvmarg line="-Djava.awt.headless=true" />
+		    <!--added for JDK6 compatibility with JBoss embedded-->
+		    <jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
 			<classpath>
 				<path path="${classes.test.core.dir}" />
 				<path path="${classes.test.dir}" />
