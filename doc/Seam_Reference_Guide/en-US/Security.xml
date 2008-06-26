@@ -2339,7 +2339,7 @@ end
     <title>Authorization</title>
 
     <para>
-      There are a number of authorization features provided by the Seam Security API for securing access to
+      There are a number of authorization mechanisms provided by the Seam Security API for securing access to
       components, component methods, and pages.  This section describes each of these.  An important thing to
       note is that if you wish to use any of the advanced features (such as rule-based permissions) then
       your <literal>components.xml</literal> may need to be configured to support this - see the Configuration section
@@ -2400,8 +2400,8 @@ end
         </mediaobject>        
       
         <para>
-          Within this documentation, permissions are represented in the form <literal>name:action</literal> (generally
-          omitting the recipient, although in reality one is always required).
+          Within this documentation, permissions are generally represented in the form <literal>target:action</literal> 
+          (omitting the recipient, although in reality one is always required).
         </para>  
       </sect3>
 
@@ -2453,7 +2453,7 @@ public class AccountAction {
         <para>
           In this example, the implied permission required to call the <literal>delete()</literal> method is
           <literal>account:delete</literal>.  The equivalent of this would be to write
-          <literal>@Restrict("#{s:hasPermission('account','delete',null)}")</literal>.  Now let's look at
+          <literal>@Restrict("#{s:hasPermission('account','delete')}")</literal>.  Now let's look at
           another example:
         </para>
 
@@ -2492,7 +2492,7 @@ public class AccountAction {
         <programlisting role="JAVA"><![CDATA[@Name("account")
 public class AccountAction {
     @In Account selectedAccount;
-    @Restrict("#{s:hasPermission('account','modify',selectedAccount)}")
+    @Restrict("#{s:hasPermission(selectedAccount,'modify')}")
     public void modify() {
         selectedAccount.modify();
     }
@@ -2516,7 +2516,7 @@ public class AccountAction {
         </para>
 
         <programlisting role="JAVA"><![CDATA[public void deleteCustomer() {
-    Identity.instance().checkRestriction("#{s:hasPermission('customer','delete',selectedCustomer)}");
+    Identity.instance().checkRestriction("#{s:hasPermission(selectedCustomer,'delete')}");
 }]]></programlisting>
 
         <para>
@@ -2546,7 +2546,7 @@ public class AccountAction {
         <programlisting role="JAVA"><![CDATA[if (!Identity.instance().hasRole("admin"))
      throw new AuthorizationException("Must be admin to perform this action");
 
-if (!Identity.instance().hasPermission("customer", "create", null))
+if (!Identity.instance().hasPermission("customer", "create"))
      throw new AuthorizationException("You may not create new customers");]]></programlisting>
 
       </sect3>
@@ -2607,9 +2607,9 @@ if (!Identity.instance().hasPermission("customer", "create", null))
     <h:column>
         <f:facet name="header">Action</f:facet>
         <s:link value="Modify Client" action="#{clientAction.modify}"
-                rendered="#{s:hasPermission('client','modify',cl)"/>
+                rendered="#{s:hasPermission(cl,'modify')"/>
         <s:link value="Delete Client" action="#{clientAction.delete}"
-                rendered="#{s:hasPermission('client','delete',cl)"/>
+                rendered="#{s:hasPermission(cl,'delete')"/>
     </h:column>
 </h:dataTable>]]></programlisting>
 
@@ -2755,9 +2755,9 @@ public class Customer {
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(name == "memberBlog", action == "insert", granted == false)
-  Principal(principalName : name)
-  MemberBlog(member : member -> (member.getUsername().equals(principalName)))
+  principal: Principal()
+  memberBlog: MemberBlog(member : member -> (member.getUsername().equals(principal.getName())))
+  check: PermissionCheck(target == memberBlog, action == "insert", granted == false)
 then
   check.grant();
 end;]]></programlisting>
@@ -2765,11 +2765,11 @@ end;]]></programlisting>
        <para>
          This rule will grant the permission <literal>memberBlog:insert</literal> if the currently authenticated
          user (indicated by the <literal>Principal</literal> fact) has the same name as the member for which the
-         blog entry is being created.  The "<literal>principalName : name</literal>" structure that can be seen in the
-         <literal>Principal</literal> fact (and other places) is a variable binding - it binds the <literal>name</literal>
-         property of the <literal>Principal</literal> to a variable called <literal>principalName</literal>.  Variable bindings
-         allow the value to be referred to in other places, such as the following line which compares the member's username
-         to the <literal>Principal</literal> name.  For more details, please refer to the JBoss Rules documentation.
+         blog entry is being created.  The "<literal>principal: Principal()</literal>" structure that can be seen in the
+         example code is a variable binding - it binds the instance of the <literal>Principal</literal> object from the
+         working memory (placed there during authentication) and assigns it to a variable called <literal>principal</literal>.
+         Variable bindings allow the value to be referred to in other places, such as the following line which compares the 
+         member's username to the <literal>Principal</literal> name.  For more details, please refer to the JBoss Rules documentation.
        </para>
 
        <para>
@@ -2825,8 +2825,74 @@ end;]]></programlisting>
         that <literal>@Restrict</literal> does.
       </para>
       
+      <para>
+        Out of the box, Seam comes with annotations for standard CRUD-based permissions, however it is a simple matter to 
+        add your own.  The following annotations are provided in the <literal>org.jboss.seam.annotations.security</literal> package:
+      </para>
       
-    
+      <itemizedlist>
+        <listitem>
+          <para>@Insert</para>
+        </listitem>
+        <listitem>
+          <para>@Read</para>
+        </listitem>
+        <listitem>
+          <para>@Update</para>
+        </listitem>
+        <listitem>
+          <para>@Delete</para>
+        </listitem>
+      </itemizedlist>
+      
+      <para>
+        To use these annotations, simply place them on the method or parameter for which you wish to perform a security check.
+        If placed on a method, then they should specify a target class for which the permission will be checked.  Take the
+        following example:
+      </para>
+      
+      <programlisting><![CDATA[  @Insert(Customer.class)
+  public void createCustomer() {
+    ...
+  }]]></programlisting>
+  
+      <para>
+        In this example, a permission check will be performed for the user to ensure that they have the rights to create
+        new <literal>Customer</literal> objects.  The target of the permission check will be <literal>Customer.class</literal>
+        (the actual <literal>java.lang.Class</literal> instance itself), and the action is the lower case representation of the 
+        annotation name, which in this example is <literal>insert</literal>.
+      </para>
+      
+      <para>
+        It is also possible to annotate the parameters of a component method in the same way.  If this is done, then it is
+        not required to specify a permission target (as the parameter value itself will be the target of the permission check):
+      </para>
+      
+      <programlisting><![CDATA[  public void updateCustomer(@Update Customer customer) {
+    ...
+  }]]></programlisting>
+  
+      <para>
+        To create your own security annotation, you simply need to annotate it with <literal>@PermissionCheck</literal>, for example:
+      </para>
+      
+      <programlisting><![CDATA[@Target({METHOD, PARAMETER})
+@Documented
+@Retention(RUNTIME)
+@Inherited
+@PermissionCheck
+public @interface Promote {
+   Class value() default void.class;
+}]]></programlisting>
+
+      <para>
+        If you wish to override the default permisison action name (which is the lower case version of the annotation name) with
+        another value, you can specify it within the <literal>@PermissionCheck</literal> annotation:
+      </para>
+      
+      <programlisting><![CDATA[@PermissionCheck("upgrade")]]></programlisting>
+      
+      
     </sect2>
 
     <sect2>
