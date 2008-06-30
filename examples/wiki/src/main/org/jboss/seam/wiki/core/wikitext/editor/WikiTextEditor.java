@@ -143,6 +143,11 @@ public class WikiTextEditor implements Validatable, Serializable {
     }
 
     public void setPreviewEnabled(boolean previewEnabled) {
+        if (previewEnabled) {
+            validate();
+        } else {
+            setValid(true);
+        }
         this.previewEnabled = previewEnabled;
     }
 
@@ -207,6 +212,7 @@ public class WikiTextEditor implements Validatable, Serializable {
                 WikiFormattedTextValidator validator = new WikiFormattedTextValidator();
                 validator.validate(null, null, value);
             }
+            log.debug("value is valid");
             setValid(true);
         } catch (ValidatorException e) {
             log.debug("exception during validation: " + e.getFacesMessage().getSummary());
