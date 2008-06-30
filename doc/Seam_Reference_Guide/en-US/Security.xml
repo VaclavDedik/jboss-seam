@@ -100,7 +100,7 @@
         delegates authentication to one of your own Seam components.  This login module is already configured inside Seam as
         part of a default application policy and as such does not require any additional configuration files.  It allows you to
         write an authentication method using the entity classes that are provided by your own application, or alternatively to 
-        authenticate against some other third party provider.  Configuring this simplified form of authentication requires the 
+        authenticate with some other third party provider.  Configuring this simplified form of authentication requires the 
         <literal>identity</literal> component to be configured in <literal>components.xml</literal>:
       </para>
 
@@ -117,7 +117,7 @@
 </components>]]></programlisting>
 
       <para>
-        The EL expression <literal>#{authenticator.authenticate}</literal> is a method binding indicating that
+        The EL expression <literal>#{authenticator.authenticate}</literal> is a method binding that indicates
         the <literal>authenticate</literal> method of the <literal>authenticator</literal> component will be used
         to authenticate the user.
       </para>
@@ -130,7 +130,7 @@
       <para>
         The <literal>authenticate-method</literal> property specified for <literal>identity</literal> in
         <literal>components.xml</literal> specifies which method will be used by <literal>SeamLoginModule</literal>
-        to authenticate users.  This method takes no parameters, and is expected to return a boolean indicating
+        to authenticate users.  This method takes no parameters, and is expected to return a boolean, which indicates
         whether authentication is successful or not.  The user's username and password can be obtained from
         <literal>Credentials.getUsername()</literal> and <literal>Credentials.getPassword()</literal>,
         respectively.  Any roles that the user is a member of should be assigned using
@@ -213,17 +213,17 @@ public class Authenticator {
         
         <para>
           If the current session is already authenticated, then calling <literal>Identity.addRole()</literal> will
-          have the expected effect of immediate granting the current user the specified role.
+          have the expected effect of immediately granting the specified role to the current user.
         </para>
 
       </sect3>
 
       <sect3>
-        <title>Writing an event observers for security-related events</title>
+        <title>Writing an event observer for security-related events</title>
 
         <para>
-          Let's say for example that upon a successful login that some user statistics must be
-          updated.  We would do this by writing an event observer for the
+          Say for example, that upon a successful login that some user statistics must be
+          updated.  This would be done by writing an event observer for the
           <literal>org.jboss.seam.security.loginSuccessful</literal> event, like this:
         </para>
 
@@ -318,15 +318,16 @@ public class Authenticator {
       </para>
       
       <note>
+        <title>IMPORTANT NOTE</title>
         <para>
-          IMPORTANT: Automatic client authentication with a persistent cookie stored on the client machine is dangerous.  
+          Automatic client authentication with a persistent cookie stored on the client machine is dangerous.  
           While convenient for users, any cross-site scripting security hole in your website would have dramatically more 
           serious effects than usual. Without the authentication cookie, the only cookie to steal for an attacker with XSS 
           is the cookie of the current session of a user. This means the attack only works when the user has an open session - 
           which should be a short timespan. However, it is much more attractive and dangerous if an attacker has the possibility 
           to steal a persistent Remember Me cookie that allows him to login without authentication, at any time. Note that this 
           all depends on how well you protect your website against XSS attacks - it's up to you to make sure that your website 
-          is 100% XSS safe - a non-trival achievement for any website that allows user input to be rendered on a page.
+          is 100% XSS safe - a non-trival achievement for any website that allows user input to be rendered on a page.          
         </para>
         
         <para>
@@ -379,7 +380,7 @@ public class Authenticator {
         </para>
         
         <para>
-          The first step is to create a new Entity which will contain the tokens.  The following example shows the possible
+          The first step is to create a new Entity which will contain the tokens.  The following example shows a possible
           structure that you may use:
         </para>
         
@@ -3039,6 +3040,154 @@ public @interface Promote {
       </para>
       
       <programlisting><![CDATA[@PermissionCheck("upgrade")]]></programlisting>
+      
+      
+    </sect2>
+    
+    <sect2>
+      <title>The Permission Authorization Model</title>
+    
+      <para>
+        Seam Security provides an extensible framework for resolving application permissions.  The following class diagram
+        shows an overview of the main components of the permission framework:
+      </para>
+
+      <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/security-permission-classdiagram.png" align="center"/>
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="images/security-permission-classdiagram.png" align="center"/>
+        </imageobject>
+      </mediaobject>     
+      
+      <para>
+        Each of these classes are explained in more detail in the following sections.
+      </para>
+      
+      <sect3>
+        <title>PermissionResolver</title>
+        
+        <para>
+          This is actually an interface, which provides methods for resolving individual object permissions.  Seam provides
+          the following built-in <literal>PermissionResolver</literal> implementations, which are described in more detail later
+          in the chapter:
+        </para>
+        
+        <itemizedlist>
+          <listitem>
+            <para><literal>RuleBasedPermissionResolver</literal> - This permission resolver uses Drools to resolve rule-based
+            permission checks.</para>
+          </listitem>
+          <listitem>
+            <para><literal>PersistentPermissionResolver</literal> - This permission resolver stores object permissions in a
+            persistent store, such as a relational database.</para>
+          </listitem>
+        </itemizedlist>
+        
+        <sect4>
+          <title>Writing your own PermissionResolver</title>
+
+          <para>
+            It is very simple to implement your own permission resolver.  The <literal>PermissionResolver</literal>
+            interface defines only two methods that must be implemented:
+          </para>          
+          
+          <table>
+            <title>PermissionResolver interface</title>
+      
+            <tgroup cols="2">
+              <colspec colnum="1" colwidth="2*" />
+              <colspec colnum="2" colwidth="3*" />
+              <colspec colnum="3" colwidth="3*" />
+              <colspec colnum="4" colwidth="4*" />
+      
+              <thead>
+                <row>
+                  <entry align="center">
+                    <para>Return type</para>
+                  </entry>
+                  <entry align="center">
+                    <para>Method</para>
+                  </entry>
+                  <entry align="center">
+                    <para>Description</para>
+                  </entry>
+                </row>
+              </thead>
+      
+              <tbody>
+      
+                <row>
+                  <entry>
+                    <para>
+                      <literal>boolean</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>hasPermission(Object target, String action)</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      This method must resolve whether the currently authenticated user (obtained via a call to
+                      <literal>Identity.getPrincipal()</literal>) has the permission specified by the <literal>target</literal>
+                      and <literal>action</literal> parameters.  It should return <literal>true</literal> if the user has
+                      the permission, or <literal>false</literal> if they don't.
+                    </para>
+                  </entry>
+                </row>   
+                
+                <row>
+                  <entry>
+                    <para>
+                      <literal>void</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>filterSetByAction(Set&lt;Object&gt; targets, String action)</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      This method should iterate through the specified set of objects, and remove any that would otherwise
+                      return <literal>false</literal> if passed to the <literal>hasPermission()</literal> method with the 
+                      same <literal>action</literal> parameter value.
+                    </para>
+                  </entry>
+                </row>                 
+                
+              </tbody>
+            </tgroup>
+          </table>       
+          
+        </sect4>
+      </sect3>
+      
+      <sect3>
+        <title>ResolverChain</title>
+        
+        <para>
+          A <literal>ResolverChain</literal> contains an ordered list of <literal>PermissionResolver</literal>s, for the
+          purpose of resolving object permissions for a particular object class or permission target.
+        </para>
+      </sect3>
+      
+      <para>
+        The following sequence diagram shows the interaction between the components of the permission framework during a
+        permission check (explanation follows):
+      </para>
+      
+      <mediaobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/security-permission-sequence.png" align="center"/>
+        </imageobject>
+        <imageobject role="html">
+          <imagedata fileref="images/security-permission-sequence.png" align="center"/>
+        </imageobject>
+      </mediaobject>         
       
       
     </sect2>
