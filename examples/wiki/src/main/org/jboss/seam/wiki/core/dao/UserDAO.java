@@ -53,13 +53,8 @@ public class UserDAO {
     }
 
     public long findTotalNoOfUsers() {
-        Query q =
-            entityManager.createQuery(
-                "select count(u) from User u where not u.username = :guestUsername and not u.username = :adminUsername"
-            );
-        q.setParameter("guestUsername", User.GUEST_USERNAME);
-        q.setParameter("adminUsername", User.ADMIN_USERNAME);
-        q.setHint("org.hibernate.comment", "Find number of members");
+        Query q = entityManager.createQuery("select count(u) from User u");
+        q.setHint("org.hibernate.comment", "Find number of users");
         q.setHint("org.hibernate.cacheable", true);
         return (Long)q.getSingleResult();
     }

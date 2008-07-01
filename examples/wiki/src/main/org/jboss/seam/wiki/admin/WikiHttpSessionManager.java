@@ -42,6 +42,7 @@ public class WikiHttpSessionManager implements Serializable {
 
     transient private Map<String, Boolean> selectedSessions = new HashMap<String,Boolean>();
     transient private Map<String, Long> sessionsSize = new HashMap<String,Long>();
+    transient private List<User> onlineMembers;
 
     @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
     public Map<String, Boolean> getSelectedSessions() { return selectedSessions; }
@@ -149,17 +150,20 @@ public class WikiHttpSessionManager implements Serializable {
     */
 
     public List<User> getOnlineMembers() {
-        Set<String> onlineUsernames = new HashSet<String>();
-        Collection<HttpSession> sessions = WikiServletListener.getSessions().values();
-        for (HttpSession session : sessions) {
-            Integer userLevel = (Integer)session.getAttribute(SESSION_ATTR_ACCESSLVL);
-            if (userLevel != null && userLevel > Role.GUESTROLE_ACCESSLEVEL) {
-                onlineUsernames.add( ((User)session.getAttribute(SESSION_ATTR_USER)).getUsername() );
+        if (onlineMembers == null) {
+            Set<String> onlineUsernames = new HashSet<String>();
+            Collection<HttpSession> sessions = WikiServletListener.getSessions().values();
+            for (HttpSession session : sessions) {
+                Integer userLevel = (Integer)session.getAttribute(SESSION_ATTR_ACCESSLVL);
+                if (userLevel != null && userLevel > Role.GUESTROLE_ACCESSLEVEL) {
+                    onlineUsernames.add( ((User)session.getAttribute(SESSION_ATTR_USER)).getUsername() );
+                }
             }
-        }
 
-        // Need to load these guys, the are not in this persistence context
-        return userDAO.findUsersWithUsername(onlineUsernames);
+            // Need to load these guys, the are not in this persistence context
+            onlineMembers = userDAO.findUsersWithUsername(onlineUsernames);
+        }
+        return onlineMembers;
     }
 
     public long getTotalMembers() {

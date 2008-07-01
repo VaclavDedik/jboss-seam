@@ -169,6 +169,13 @@
         -->
     </macro>
 
+    <macro key="onlineMembers" name="onlineMembers">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+        </skins>
+    </macro>
+
     <profile key="userSummary" template="profile_userSummary" priority="10">
         <skins>
             <skin name="d"/>

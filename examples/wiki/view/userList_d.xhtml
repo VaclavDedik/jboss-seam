@@ -31,7 +31,21 @@
 <ui:define name="content">
 
     <s:div styleClass="box" style="margin-top:10px;">
-        <ui:include src="includes/onlineMembers.xhtml"/>
+        <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0"
+                     styleClass="datatable topLeftBottomBorder rightBorder"
+                     headerClass="regularHeader smallFont"
+                     columnClasses="alignCenter alignBottom">
+
+            <f:facet name="header">
+                <h:outputText value="#{messages['lacewiki.label.userList.OnlineMembers']}
+                                     #{messages['lacewiki.label.userList.InTheLast']}
+                                     #{wikiInit.authenticatedSessionTimeoutMinutes}
+                                     #{messages['lacewiki.label.userList.Minutes']}"/>
+            </f:facet>
+
+            <ui:include src="includes/onlineMembers.xhtml"/>
+
+        </h:panelGrid>
     </s:div>
 
     <script type="text/javascript">jQuery(function() {

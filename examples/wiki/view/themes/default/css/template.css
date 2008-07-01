@@ -932,6 +932,14 @@ ul {
     text-align: left;
 }
 
+.alignTop {
+    vertical-align: top;
+}
+
+.alignBottom {
+    vertical-align: bottom;
+}
+
 .noPadding {
     padding: 0;
 }
