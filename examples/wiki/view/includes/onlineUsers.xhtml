@@ -8,13 +8,20 @@
     <h:panelGrid styleClass="onlineUsersPanel" columns="4"
                  cellpadding="0" cellspacing="0" border="0">
 
-        <h:outputText styleClass="onlineLabel" value="Online:&#160;"/>
+        <h:outputText styleClass="onlineLabel" value="#{messages['lacewiki.label.userList.Online']}:&#160;"/>
 
         <s:fragment rendered="#{wikiHttpSessionManager.numberOfOnlineMembers > 0}">
-            <s:span styleClass="onlineValue">
-                <h:outputText value="#{wikiHttpSessionManager.numberOfOnlineMembers}"/>
-                <h:outputText value="&#160;#{wikiHttpSessionManager.numberOfOnlineMembers > 1 ? 'Members' : 'Member'}"/>
-            </s:span>
+            <s:link styleClass="link"
+                    view="/userList_#{skin}.xhtml" propagation="none">
+                <s:span styleClass="onlineValue">
+                    <h:outputText value="#{wikiHttpSessionManager.numberOfOnlineMembers}"/>
+                    <h:outputText value="&#160;#{wikiHttpSessionManager.numberOfOnlineMembers > 1
+                                                ? messages['lacewiki.label.userList.Members']
+                                                : messages['lacewiki.label.userList.Member']}"/>
+                    <h:outputText value="&#160;#{messages['lacewiki.label.userList.Of']}&#160;"/>
+                    <h:outputText value="#{wikiHttpSessionManager.totalMembers}"/>
+                </s:span>
+            </s:link>
         </s:fragment>
 
         <h:outputText styleClass="onlineSeparator" value="&#160;|&#160;"
@@ -24,7 +31,9 @@
         <s:fragment rendered="#{wikiHttpSessionManager.numberOfOnlineGuests > 0}">
             <s:span styleClass="onlineValue">
                 <h:outputText value="#{wikiHttpSessionManager.numberOfOnlineGuests}"/>
-                <h:outputText value="&#160;#{wikiHttpSessionManager.numberOfOnlineGuests> 1 ? 'Guests' : 'Guest'}"/>
+                <h:outputText value="&#160;#{wikiHttpSessionManager.numberOfOnlineGuests> 1
+                                             ? messages['lacewiki.label.userList.Guests']
+                                             : messages['lacewiki.label.userList.Guest']}"/>
             </s:span>
         </s:fragment>
 

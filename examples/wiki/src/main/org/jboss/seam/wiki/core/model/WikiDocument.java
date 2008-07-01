@@ -322,7 +322,7 @@ public class WikiDocument extends WikiFile<WikiDocument> implements Serializable
     public static String[] getPropertiesForGroupingInQueries() {
         return new String[]{
             "id", "version", "parent", "rating",
-            "areaNumber", "name", "wikiname", "createdBy", "createdOn",
+            "areaNumber", "name", "wikiname", "createdBy", "createdOn", "messageId",
             "lastModifiedBy", "lastModifiedOn", "readAccessLevel", "writeAccessLevel", "writeProtected",
             "nameAsTitle", "enableComments", "enableCommentForm", "enableCommentsOnFeeds",
             "header", "headerMacrosString", "contentMacrosString", "footer", "footerMacrosString"

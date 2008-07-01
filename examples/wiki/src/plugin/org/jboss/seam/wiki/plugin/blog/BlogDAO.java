@@ -50,7 +50,7 @@ public class BlogDAO implements Serializable {
     private String[] getWikiDocumentSQLColumnNames() {
         return new String[]{
             "doc2.NODE_ID",
-            "doc2.OBJ_VERSION", "doc2.PARENT_NODE_ID", "doc2.RATING",
+            "doc2.OBJ_VERSION", "doc2.PARENT_NODE_ID", "doc2.RATING", "doc2.MESSAGE_ID",
             "doc2.AREA_NR", "doc2.NAME", "doc2.WIKINAME", "doc2.CREATED_BY_USER_ID", "doc2.CREATED_ON", "doc2.WRITE_PROTECTED",
             "doc2.LAST_MODIFIED_BY_USER_ID", "doc2.LAST_MODIFIED_ON", "doc2.READ_ACCESS_LEVEL", "doc2.WRITE_ACCESS_LEVEL",
             "doc1.FILE_REVISION",

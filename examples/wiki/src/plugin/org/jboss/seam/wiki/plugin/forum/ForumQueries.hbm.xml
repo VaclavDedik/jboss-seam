@@ -93,6 +93,7 @@
             c1.AREA_NR as AREA_NR,
             c1.NAME as NAME,
             c1.WIKINAME as WIKINAME,
+            c1.MESSAGE_ID as MESSAGE_ID,
             c1.CREATED_ON as CREATED_ON,
             c1.CREATED_BY_USER_ID as CREATED_BY_USER_ID,
             c1.LAST_MODIFIED_ON as LAST_MODIFIED_ON,
@@ -231,6 +232,7 @@
             doc2.AREA_NR as AREA_NR,
             doc2.NAME as NAME,
             doc2.WIKINAME as WIKINAME,
+            doc2.MESSAGE_ID as MESSAGE_ID,
             doc2.CREATED_ON as CREATED_ON,
             doc2.CREATED_BY_USER_ID as CREATED_BY_USER_ID,
             doc2.LAST_MODIFIED_ON as LAST_MODIFIED_ON,
@@ -288,6 +290,7 @@
             cl1.AREA_NR as AREA_NR,
             cl1.NAME as NAME,
             cl1.WIKINAME as WIKINAME,
+            cl1.MESSAGE_ID as MESSAGE_ID,
             cl1.CREATED_ON as CREATED_ON,
             cl1.CREATED_BY_USER_ID as CREATED_BY_USER_ID,
             cl1.LAST_MODIFIED_ON as LAST_MODIFIED_ON,
@@ -337,7 +340,7 @@
                 limit 1
           )
         group by
-            cl1.OBJ_VERSION, cl1.RATING, cl1.AREA_NR, cl1.NAME, cl1.WIKINAME, cl1.CREATED_ON, cl1.CREATED_BY_USER_ID, cl1.LAST_MODIFIED_ON,
+            cl1.OBJ_VERSION, cl1.RATING, cl1.AREA_NR, cl1.NAME, cl1.WIKINAME, cl1.MESSAGE_ID, cl1.CREATED_ON, cl1.CREATED_BY_USER_ID, cl1.LAST_MODIFIED_ON,
             cl1.LAST_MODIFIED_BY_USER_ID, cl1.WRITE_ACCESS_LEVEL, cl1.READ_ACCESS_LEVEL, cl1.WRITE_PROTECTED, cl1.PARENT_NODE_ID,
             cl0.SUBJECT, cl0.FROM_USER_NAME, cl0.FROM_USER_EMAIL, cl0.FROM_USER_HOMEPAGE, cl0.USE_WIKI_TEXT, cl0.NS_LEFT, cl0.NS_RIGHT, cl0.NS_THREAD,
 

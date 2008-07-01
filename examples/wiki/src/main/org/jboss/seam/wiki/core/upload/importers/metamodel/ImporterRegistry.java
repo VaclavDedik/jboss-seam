@@ -1,74 +1,62 @@
 package org.jboss.seam.wiki.core.upload.importers.metamodel;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Startup;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.wiki.core.upload.importers.annotations.UploadImporter;
-import org.jboss.seam.core.Events;
-import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.util.AnnotationDeploymentHelper;
 
 import java.util.*;
 
 @Name("importerRegistry")
 @Scope(ScopeType.APPLICATION)
+@Startup
+@BypassInterceptors
+
 public class ImporterRegistry {
 
-    @Logger
-    static Log log;
+    private static final LogProvider log = Logging.getLogProvider(ImporterRegistry.class);
 
-    Map<String, Importer> importersByName = new HashMap<String, Importer>();
-    List<Importer> importers = new ArrayList<Importer>();
+    SortedMap<String, UploadImporter> importerComponents = new TreeMap<String, UploadImporter>();
 
-    // TODO: Fix importers
-    //@Observer("Wiki.startup")
-    public void scanForFileImporters() {
+    @Create
+    public void startup() {
 
-        log.debug("initializing file importer registry");
-        importers.clear();
-        importersByName.clear();
+        log.debug("initializing upload importer registry");
 
-        // Fire an event and let all listeners add themself into the given collection
-        Set<AbstractImporter> importerComponents = new HashSet<AbstractImporter>();
-        Events.instance().raiseEvent("Importers.addImporter", importerComponents);
+        Set<Class<Object>> importerClasses = AnnotationDeploymentHelper.getAnnotatedClasses(UploadImporter.class);
+        if (importerClasses == null) return;
 
-        log.debug("found file importer components: " + importerComponents.size());
+        for (Class<?> importerClass : importerClasses) {
 
-        for (AbstractImporter importerComponent : importerComponents) {
-            if (importerComponent.getClass().isAnnotationPresent(UploadImporter.class)) {
-                Importer importer = new Importer(importerComponent.getClass());
-                importers.add(importer);
-                importersByName.put(importer.getComponentName(), importer);
-            }
-        }
-        log.debug("added file importers to registry: " + importers.size());
-
-        // Sort entities
-        Collections.sort(importers);
-
-        if (log.isTraceEnabled()) {
-            for (Importer importer : importers) {
-                log.trace(importer);
-            }
+            importerComponents.put(
+                importerClass.getAnnotation(Name.class).value(),
+                importerClass.getAnnotation(UploadImporter.class)
+            );
+            log.debug("added upload importer to registry: " + importerClass.getAnnotation(Name.class).value());
         }
     }
 
-    public Map<String, Importer> getImportersByName() {
-        return importersByName;
+    public SortedMap<String, UploadImporter> getImporterComponents() {
+        return importerComponents;
     }
 
-    public List<Importer> getImporters() {
-        return importers;
+    public List<String> getImporterComponentNames() {
+        return new ArrayList(importerComponents.keySet());
     }
 
-    public List<Importer> getAvailableImporters(String mimeType, String extension) {
-        List<Importer> availableImporters = new ArrayList<Importer>();
-        for (Importer importer : importers) {
-            List<String> supportedMimeTypes = Arrays.asList(importer.getHandledMimeTypes());
-            List<String> supportedExtensions = Arrays.asList(importer.getHandledExtensions());
+    public List<String> getAvailableImporters(String mimeType, String extension) {
+        List<String> availableImporters = new ArrayList<String>();
+        for (Map.Entry<String, UploadImporter> importerEntry : importerComponents.entrySet()) {
+            List<String> supportedMimeTypes = Arrays.asList(importerEntry.getValue().handledMimeTypes());
+            List<String> supportedExtensions = Arrays.asList(importerEntry.getValue().handledExtensions());
             if (supportedMimeTypes.contains(mimeType) && supportedExtensions.contains(extension) ) {
-                availableImporters.add(importer);
+                availableImporters.add(importerEntry.getKey());
             }
         }
         return availableImporters;

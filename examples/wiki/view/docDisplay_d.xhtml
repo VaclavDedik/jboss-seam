@@ -147,6 +147,7 @@
 
         <s:div rendered="#{preferences.get('Wiki').showTags and not documentHome.instance.macroPresent('hideTags') and not empty documentHome.instance.tags}"
                styleClass="documentTags undecoratedLink smallFont">
+            <!-- TODO: This should use wikiUrlRenderer for user link -->
             <s:div>
                 #{messages['lacewiki.label.docDisplay.Tags']}:&#160;
                 <ui:repeat var="tag" value="#{documentHome.tagEditor.tagsAsList}">

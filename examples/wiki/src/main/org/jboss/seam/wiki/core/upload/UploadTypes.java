@@ -24,6 +24,7 @@ import java.util.Map;
 public class UploadTypes {
 
     public static final String GENERIC_UPLOAD_TYPE = "generic";
+    public static final String DEFAULT_UPLOAD_TYPE = "application/octet-stream";
 
     private Map<String, UploadType> uploadTypes = new HashMap<String, UploadType>() {
         {
@@ -33,7 +34,7 @@ public class UploadTypes {
             put("image/gif",                    new UploadType("icon.fileimg.gif", new WikiUploadHandler() ));
             put("text/plain",                   new UploadType("icon.filetxt.gif", new WikiUploadHandler() ));
             put("application/pdf",              new UploadType("icon.filepdf.gif", new WikiUploadHandler() ));
-            put("application/octet-stream",     new UploadType("icon.filegeneric.gif", new WikiUploadHandler() ));
+            put(DEFAULT_UPLOAD_TYPE,            new UploadType("icon.filegeneric.gif", new WikiUploadHandler() ));
             put(GENERIC_UPLOAD_TYPE,            new UploadType("icon.filegeneric.gif", new WikiUploadHandler() ));
         }
     };

@@ -1,40 +1,43 @@
 package org.jboss.seam.wiki.core.upload.importers;
 
+import net.sf.jmimemagic.Magic;
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidValue;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
-import org.jboss.seam.wiki.core.upload.importers.annotations.UploadImporter;
-import org.jboss.seam.wiki.core.upload.importers.metamodel.AbstractImporter;
-import org.jboss.seam.wiki.core.upload.UploadType;
-import org.jboss.seam.wiki.core.model.WikiUpload;
-import org.jboss.seam.wiki.core.model.WikiNode;
-import org.jboss.seam.wiki.util.WikiUtil;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.core.Validators;
-import org.hibernate.validator.InvalidValue;
-import org.hibernate.validator.ClassValidator;
-
 import static org.jboss.seam.international.StatusMessage.Severity.ERROR;
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
+import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.wiki.core.dao.WikiNodeDAO;
+import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.core.model.WikiUpload;
+import org.jboss.seam.wiki.core.upload.UploadType;
+import org.jboss.seam.wiki.core.upload.UploadTypes;
+import org.jboss.seam.wiki.core.upload.Uploader;
+import org.jboss.seam.wiki.core.upload.importers.annotations.UploadImporter;
+import org.jboss.seam.wiki.core.upload.importers.metamodel.Importer;
+import org.jboss.seam.wiki.util.WikiUtil;
 
 import javax.persistence.EntityManager;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.BufferedInputStream;
-
-import net.sf.jmimemagic.Magic;
 
 @Name("zipImporter")
 @UploadImporter(
         handledMimeTypes = {"application/zip", "application/java-archive"},
         handledExtensions = {"zip", "jar"},
-        description = "Extract archive as individual files"
+        description = "lacewiki.label.ZipImporter"
 )
-public class ZipImporter extends AbstractImporter {
+@AutoCreate
+public class ZipImporter implements Importer {
 
     @Logger
     Log log;
@@ -44,6 +47,9 @@ public class ZipImporter extends AbstractImporter {
 
     @In
     protected Map<String, UploadType> uploadTypes;
+
+    @In
+    protected StatusMessages statusMessages;
 
     public boolean handleImport(EntityManager em, WikiUpload zipFile) {
 
@@ -67,9 +73,7 @@ public class ZipImporter extends AbstractImporter {
             while ((ze = zipInputStream.getNextEntry()) != null) {
                 log.debug("extracting zip entry: " + ze.getName());
 
-                if (ze.getName().contains("/") && !handleDirectory(em, zipFile, ze)) continue;
-
-                if (!continueUncompressing(em, zipFile, ze)) continue;
+                if (!beforeUncompress(em, zipFile, ze)) continue;
 
                 baos = new ByteArrayOutputStream();
                 while ((bytesRead = zipInputStream.read(buffer, 0, bufferSize)) > 0) {
@@ -97,35 +101,29 @@ public class ZipImporter extends AbstractImporter {
             }
         }
 
-        // By default append them to the
-        persistNewNodesSorted(
-            em,
-            zipFile,
-            newObjects,
-            new Comparator() {
-                public int compare(Object o, Object o1) {
-                    if ( !(o instanceof WikiNode) &&  !(o1 instanceof WikiNode) ) return 0;
-                    return ((WikiNode)o).getWikiname().compareTo( ((WikiNode)o1).getWikiname() );
-                }
-            }
-        );
+        handleNewObjects(em, zipFile, newObjects);
 
         return true;
     }
 
-    protected boolean handleDirectory(EntityManager em, WikiUpload zipFile, ZipEntry zipEntry) {
-        log.debug("skipping directory: " + zipEntry.getName());
-        getStatusMessages().addFromResourceBundleOrDefault(
-            ERROR,
-            "lacewiki.msg.ImportSkippingDirectory",
-            "Skipping directory '{0}', importing not supported...",
-            zipEntry.getName()
-        );
-        return false; // Not supported
-    }
+    protected boolean beforeUncompress(EntityManager em, WikiUpload zipFile, ZipEntry zipEntry) {
 
-    protected boolean continueUncompressing(EntityManager em, WikiUpload zipFile, ZipEntry zipEntry) {
-        return validateNewWikiname(zipFile, WikiUtil.convertToWikiName(zipEntry.getName()));
+        if (zipEntry.getName().contains("/")) {
+            log.debug("skipping directory: " + zipEntry.getName());
+            statusMessages.addFromResourceBundleOrDefault(
+                ERROR,
+                "lacewiki.msg.ImportSkippingDirectory",
+                "Skipping directory '{0}', importing not supported...",
+                zipEntry.getName()
+            );
+            return false; // Not supported
+        }
+
+        // This assumes that the wiki name is the zip entry filename without extension - maybe we should
+        // support with extension as option, that's unique inside a zip archive so we fail too often
+        WikiUpload tmp = new WikiUpload();
+        tmp.setFilename(zipEntry.getName());
+        return validateNewWikiname(zipFile, WikiUtil.convertToWikiName(tmp.getFilenameWithoutExtension()));
     }
 
     protected boolean validateNewWikiname(WikiUpload zipFile, String newWikiname) {
@@ -136,7 +134,7 @@ public class ZipImporter extends AbstractImporter {
             return true;
         } else {
             log.debug("new name is not unique and invalid");
-            getStatusMessages().addFromResourceBundleOrDefault(
+            statusMessages.addFromResourceBundleOrDefault(
                 ERROR,
                 "lacewiki.msg.ImportDuplicateName",
                 "Skipping file '{0}', name is already used in this area...",
@@ -149,50 +147,55 @@ public class ZipImporter extends AbstractImporter {
     protected Object createNewObject(EntityManager em, WikiUpload zipFile, ZipEntry zipEntry, byte[] uncompressedBytes) {
         log.debug("creating new file from zip entry: " + zipEntry.getName());
 
-        WikiUpload wikiUpload = new WikiUpload();
-        wikiUpload.setFilename(zipEntry.getName());
-        wikiUpload.setName(zipEntry.getName());
-        wikiUpload.setWikiname(WikiUtil.convertToWikiName(wikiUpload.getName()));
+        // First figure out what it is
+        String mimeType = null;
+        try {
+            mimeType = Magic.getMagicMatch(uncompressedBytes).getMimeType();
+        } catch (Exception ex) {}
+        String contentType = mimeType != null ? mimeType : UploadTypes.DEFAULT_UPLOAD_TYPE;
 
+        // Just a temporary value holder this time
+        Uploader uploader = new Uploader();
+        uploader.setData(uncompressedBytes);
+        uploader.setFilename(zipEntry.getName());
+        uploader.setContentType(contentType);
+
+        // Get the right handler for that type and produce a WikiUpload instance
+        UploadType uploadType = uploadTypes.get(contentType);
+        if (uploadType == null) uploadType = uploadTypes.get(UploadTypes.GENERIC_UPLOAD_TYPE);
+        WikiUpload wikiUpload = uploadType.getUploadHandler().handleUpload(uploader);
+
+        // Now set the other properties so we can persist it directly
+        wikiUpload.setName(wikiUpload.getFilenameWithoutExtension());
+        wikiUpload.setWikiname(WikiUtil.convertToWikiName(wikiUpload.getName()));
         wikiUpload.setAreaNumber(zipFile.getAreaNumber());
         wikiUpload.setCreatedBy(zipFile.getCreatedBy());
         wikiUpload.setLastModifiedBy(wikiUpload.getCreatedBy());
         wikiUpload.setCreatedOn(new Date(zipEntry.getTime()));
-        wikiUpload.setLastModifiedOn(new Date());
+        wikiUpload.setLastModifiedOn(wikiUpload.getCreatedOn());
         wikiUpload.setReadAccessLevel(zipFile.getReadAccessLevel());
         wikiUpload.setWriteAccessLevel(zipFile.getWriteAccessLevel());
 
-        log.debug("detecting mime type of zip entry: " + zipEntry.getName());
-        String mimeType;
-        try {
-            mimeType = Magic.getMagicMatch(uncompressedBytes).getMimeType();
-            log.debug("mime type of zip entry is: " + mimeType);
-        } catch (Exception ex) {
-            log.debug("could not detect mime type, defaulting to binary");
-            mimeType = "application/octet-stream";
-        }
-        wikiUpload.setContentType(mimeType);
-        wikiUpload.setData(uncompressedBytes);
-        wikiUpload.setFilesize(uncompressedBytes.length);
-
-        // TODO: Make this generic, duplicated here and in uploadHome
-        /* TODO: fixme
-        if (fileMetaMap.get(wikiUpload.getContentType()) != null &&
-            fileMetaMap.get(wikiUpload.getContentType()).image) {
-            throw new RuntimeException("TODO: Images not supported");
-            wikiUpload.setImageMetaInfo(new ImageMetaInfo());
-            ImageIcon icon = new ImageIcon(wikiUpload.getData());
-            int imageSizeX = icon.getImage().getWidth(null);
-            int imageSizeY = icon.getImage().getHeight(null);
-            wikiUpload.getImageMetaInfo().setSizeX(imageSizeX);
-            wikiUpload.getImageMetaInfo().setSizeY(imageSizeY);
-        }
-        */
+        log.debug("created new file from zip entry: " + wikiUpload);
 
         return wikiUpload;
     }
 
-    protected void persistNewNodesSorted(EntityManager em, WikiUpload zipFile, Map<String, Object> newObjects, Comparator comparator) {
+    public void handleNewObjects(EntityManager em, WikiUpload zipFile, Map<String, Object> newObjects) {
+        persistWikiUploadsSorted(
+            em,
+            zipFile,
+            newObjects,
+            new Comparator() {
+                public int compare(Object o, Object o1) {
+                    if ( !(o instanceof WikiNode) &&  !(o1 instanceof WikiNode) ) return 0;
+                    return ((WikiNode)o).getWikiname().compareTo( ((WikiNode)o1).getWikiname() );
+                }
+            }
+        );
+    }
+
+    private void persistWikiUploadsSorted(EntityManager em, WikiUpload zipFile, Map<String, Object> newObjects, Comparator comparator) {
 
         List<WikiNode> newNodes = new ArrayList<WikiNode>();
         for (Object newObject : newObjects.values()) {
@@ -202,7 +205,6 @@ public class ZipImporter extends AbstractImporter {
         }
         Collections.sort(newNodes, comparator);
 
-        int i = 0;
         for (WikiNode newNode : newNodes) {
             log.debug("validating new node");
 
@@ -211,7 +213,7 @@ public class ZipImporter extends AbstractImporter {
             if (invalidValues != null && invalidValues.length > 0) {
                 log.debug("new node is invalid: " + newNode);
                 for (InvalidValue invalidValue : invalidValues) {
-                    getStatusMessages().addFromResourceBundleOrDefault(
+                    statusMessages.addFromResourceBundleOrDefault(
                         ERROR,
                         "lacewiki.msg.ImportInvalidNode",
                         "Skipping entry '{0}', invalid: {1}",
@@ -226,19 +228,12 @@ public class ZipImporter extends AbstractImporter {
             log.debug("persisting newly imported node: " + newNode);
             newNode.setParent(zipFile.getParent());
             em.persist(newNode);
-            getStatusMessages().addFromResourceBundleOrDefault(
+            statusMessages.addFromResourceBundleOrDefault(
                 INFO,
                 "lacewiki.msg.ImportOk",
                 "Created file '{0}' in current directory.",
                 newNode.getName()
             );
-
-            // Batch the work (we can't clear because of nested set updates, unfortunately)
-            i++;
-            if (i==100) {
-                em.flush();
-                i = 0;
-            }
         }
     }
 

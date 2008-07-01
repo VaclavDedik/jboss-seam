@@ -245,6 +245,19 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
             Events.instance().raiseEvent("PreferenceEditor.flushAll");
             Events.instance().raiseEvent("Node.persisted", getInstance());
         }
+
+        // Now set the message identifier, if nobody else did
+        if (getInstance().getMessageId() == null && requiresMessageId()) {
+            getInstance().setMessageId(
+                // Use the identifier and the creation time, both quite unique and immutable
+                WikiUtil.calculateMessageId(
+                    getInstance().getId(),
+                    String.valueOf(getInstance().getCreatedOn().getTime()))
+            );
+            // Need to flush again, to execute UPDATE
+            getEntityManager().flush();
+        }
+
         return outcome;
     }
 
@@ -430,6 +443,10 @@ public abstract class NodeHome<N extends WikiNode, P extends WikiNode> extends E
 
     protected Validatable[] getPersistValidations() {
         return null;
+    }
+
+    protected boolean requiresMessageId() {
+        return true;
     }
 
     /* -------------------------- Optional Subclass Callbacks ------------------------------ */

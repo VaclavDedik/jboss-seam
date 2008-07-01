@@ -92,6 +92,19 @@
                         </div>
                     </div>
 
+                    <s:div styleClass="entry">
+                        <div class="label">#{messages['lacewiki.label.uploadEdit.Importers']}:</div>
+                        <div class="input">
+                            <h:selectOneMenu id="importerSelect" value="#{uploadHome.importer}" tabindex="1"
+                                             onchange="if (jQuery('#uploadEditForm\\:importerSelect')[0].selectedIndex > 0 ) { jQuery('#uploadEditForm\\:import').show(); } else { jQuery('#uploadEditForm\\:import').hide(); }">
+                                <s:selectItems value="#{uploadHome.availableImporters}"
+                                               var="importerName"
+                                               label="#{messages[importerRegistry.importerComponents[importerName].description()]}"
+                                               noSelectionLabel="#{messages['lacewiki.label.uploadEdit.ImportNoSelection']}"/>
+                            </h:selectOneMenu>
+                        </div>
+                    </s:div>
+
                     <s:div id="uploadControl" styleClass="sessionEventTrigger">
                         <s:decorate id="uploadDecorate" template="includes/formFieldDecorate.xhtml">
                             <ui:define name="label">
@@ -125,6 +138,13 @@
                 <div class="entry">
                     <div class="label">&#160;</div>
                     <div class="input">
+
+                        <h:commandLink id="import" action="#{uploadHome.importInstance}"
+                                       rendered="#{uploadHome.managed}"
+                                       tabindex="1"
+                                       style="display:none;" styleClass="button sessionEventTrigger">
+                            <h:outputText escape="false" styleClass="buttonLabel" value="#{messages['lacewiki.button.uploadEdit.Import']}"/>
+                        </h:commandLink>
 
                         <h:commandLink id="save" action="#{uploadHome.persist}"
                                        rendered="#{!uploadHome.managed}"

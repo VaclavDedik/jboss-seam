@@ -1,0 +1,44 @@
+<s:fragment
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:c="http://java.sun.com/jstl/core"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+
+    <h:panelGrid columns="1" cellpadding="0" cellspacing="0" border="0"
+                 styleClass="datatable topLeftBottomBorder rightBorder smallFont"
+                 headerClass="regularHeader"
+                 columnClasses="alignCenter alignBottom minorPadding">
+
+        <f:facet name="header">
+            <h:outputText value="#{messages['lacewiki.label.userList.OnlineMembers']}"/>
+            <h:outputText value="#{init.authenticatedSessionTimeoutMinutes} minutes"/>
+        </f:facet>
+
+        <h:panelGrid columns="10">
+            <c:forEach var="u" items="#{wikiHttpSessionManager.onlineMembers}">
+                <h:panelGrid columns="1">
+                    <s:div styleClass="alignCenter">
+                        <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(u)}">
+                            <s:graphicImage styleClass="userInfoPortraitImage"
+                                            rendered="#{!empty u.profile.imageContentType}"
+                                            value="#{u.profile.image}">
+                                <s:transformImageSize width="40" maintainRatio="true"/>
+                            </s:graphicImage>
+                            <h:graphicImage rendered="#{empty u.profile.imageContentType}"
+                                            style="background: #ccc;" value="#{imagePath}/blank.gif" width="40" height="40"/>
+                        </h:outputLink>
+                    </s:div>
+                    <s:div styleClass="undecoratedLink">
+                        <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(u)}">
+                            <h:outputText value="#{u.fullname}"/>
+                        </h:outputLink>
+                    </s:div>
+                </h:panelGrid>
+            </c:forEach>
+        </h:panelGrid>
+
+    </h:panelGrid>
+    
+</s:fragment>

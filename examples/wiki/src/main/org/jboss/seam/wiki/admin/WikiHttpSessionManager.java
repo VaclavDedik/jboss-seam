@@ -9,15 +9,14 @@ package org.jboss.seam.wiki.admin;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Role;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.wiki.core.dao.UserDAO;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
 
 import javax.servlet.http.HttpSession;
+import javax.persistence.EntityManager;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -31,11 +30,15 @@ import java.util.*;
 @AutoCreate
 public class WikiHttpSessionManager implements Serializable {
 
-    protected static final String SESSION_ATTR_IDENTITY = "org.jboss.seam.security.identity";
-    protected static final String SESSION_ATTR_ACCESSLVL = "currentAccessLevel";
+    protected static final String SESSION_ATTR_IDENTITY     = "org.jboss.seam.security.identity";
+    protected static final String SESSION_ATTR_ACCESSLVL    = "currentAccessLevel";
+    protected static final String SESSION_ATTR_USER         = "currentUser";
 
     @Logger
     private Log log;
+
+    @In
+    UserDAO userDAO;
 
     transient private Map<String, Boolean> selectedSessions = new HashMap<String,Boolean>();
     transient private Map<String, Long> sessionsSize = new HashMap<String,Long>();
@@ -144,6 +147,24 @@ public class WikiHttpSessionManager implements Serializable {
         selectedSessions.clear();
     }
     */
+
+    public List<User> getOnlineMembers() {
+        Set<String> onlineUsernames = new HashSet<String>();
+        Collection<HttpSession> sessions = WikiServletListener.getSessions().values();
+        for (HttpSession session : sessions) {
+            Integer userLevel = (Integer)session.getAttribute(SESSION_ATTR_ACCESSLVL);
+            if (userLevel != null && userLevel > Role.GUESTROLE_ACCESSLEVEL) {
+                onlineUsernames.add( ((User)session.getAttribute(SESSION_ATTR_USER)).getUsername() );
+            }
+        }
+
+        // Need to load these guys, the are not in this persistence context
+        return userDAO.findUsersWithUsername(onlineUsernames);
+    }
+
+    public long getTotalMembers() {
+        return userDAO.findTotalNoOfUsers();
+    }
 
     public long getNumberOfOnlineMembers() {
         Collection<HttpSession> sessions = WikiServletListener.getSessions().values();

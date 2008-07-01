@@ -15,9 +15,10 @@ public class WikiUploadImage extends WikiUpload<WikiUploadImage> {
     private int sizeY;
 
     @Column(name = "THUMBNAIL")
-    private char thumbnail = 'A'; // Disable embedding by default, attach
+    private char thumbnail = 'M'; // Medium size thumbnail by default, not attached
 
-    // SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types
+    // TODO: SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types, this
+    // is a best-guess value
     @Lob
     @Column(name = "THUMBNAIL_DATA", length = 1000000, nullable = true)
     @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation

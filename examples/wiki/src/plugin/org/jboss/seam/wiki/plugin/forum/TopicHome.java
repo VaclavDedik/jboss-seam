@@ -11,20 +11,18 @@ import org.jboss.seam.wiki.core.action.DocumentHome;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
 import org.jboss.seam.wiki.core.model.WikiTextMacro;
-import org.jboss.seam.wiki.core.model.WikiFile;
 import org.jboss.seam.wiki.core.ui.WikiRedirect;
 import org.jboss.seam.wiki.core.plugin.PluginRegistry;
-import org.jboss.seam.wiki.core.wikitext.editor.WikiTextEditor;
 import org.jboss.seam.wiki.preferences.Preferences;
 
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
-import org.hibernate.validator.InvalidStateException;
-import org.hibernate.validator.InvalidValue;
 
 @Name("topicHome")
 @Scope(ScopeType.CONVERSATION)
 public class TopicHome extends DocumentHome {
 
+    public static final String TOPIC_LIST_MACRO             = "forumTopics";
+    public static final String TOPIC_LIST_MACRO_ML_PARAM    = "mailingList";
     public static final String TOPIC_NOTIFY_ME_MACRO        = "forumNotifyReplies";
     public static final String TOPIC_NOTIFY_LIST_TEMPLATE   = "/mailtemplates/forumNotifyTopicToList.xhtml";
 
@@ -37,6 +35,7 @@ public class TopicHome extends DocumentHome {
     private boolean showForm = false;
     private boolean sticky = false;
     private boolean notifyReplies = false;
+    private String mailingList;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -57,6 +56,8 @@ public class TopicHome extends DocumentHome {
 
         Boolean preferencesNotifyReplies = Preferences.instance().get(ForumPreferences.class).getNotifyMeOfReplies();
         notifyReplies = preferencesNotifyReplies != null && preferencesNotifyReplies;
+
+        // TODO: mailingList = getMailingListFromTopicMacro();
 
         textEditor.setKey("topic");
         textEditor.setAllowPlaintext(true);// Topics can be plain text, regular documents can't
@@ -92,10 +93,18 @@ public class TopicHome extends DocumentHome {
         if (outcome != null) {
 
             // Notify forum mailing list
-            String notificationMailingList =
+            /* TODO
+            if (mailingList != null) {
+                getLog().debug("sending topic e-mail to list: " + mailingList);
+                Renderer.instance().render(
+                    PluginRegistry.instance().getPlugin("forum").getPackageThemePath()+TOPIC_NOTIFY_LIST_TEMPLATE
+                );
+            }
+            */
+            String mailingList =
                     Preferences.instance().get(ForumPreferences.class).getNotificationMailingList();
-            if (notificationMailingList != null) {
-                getLog().debug("sending topic notification e-mail to forum list: " + notificationMailingList);
+            if (mailingList != null) {
+                getLog().debug("sending topic notification e-mail to forum list: " + mailingList);
                 Renderer.instance().render(
                     PluginRegistry.instance().getPlugin("forum").getPackageThemePath()+TOPIC_NOTIFY_LIST_TEMPLATE
                 );
@@ -170,6 +179,14 @@ public class TopicHome extends DocumentHome {
         return "forumTopicFeedEntryManager";
     }
 
+    public String getMailingListFromTopicMacro() {
+        for (WikiTextMacro macro : currentDocument.getContentMacros()) {
+            if (macro.getName().equals(TOPIC_LIST_MACRO))
+                return macro.getParamValue(TOPIC_LIST_MACRO_ML_PARAM);
+        }
+        return null;
+    }
+
     /* -------------------------- Public Features ------------------------------ */
 
     public boolean isShowForm() {
@@ -194,6 +211,14 @@ public class TopicHome extends DocumentHome {
 
     public void setNotifyReplies(boolean notifyReplies) {
         this.notifyReplies = notifyReplies;
+    }
+
+    public String getMailingList() {
+        return mailingList;
+    }
+
+    public String getMailingListName() {
+        return currentDocument.getName();
     }
 
     @Begin(flushMode = FlushModeType.MANUAL, join = true)

@@ -58,6 +58,9 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
     )
     protected String wikiname;
 
+    @Column(name = "MESSAGE_ID", length = 1023, nullable = true)
+    protected String messageId;
+
     @Column(name = "CREATED_ON", nullable = false, updatable = false)
     @org.hibernate.search.annotations.Field(
         index = org.hibernate.search.annotations.Index.UN_TOKENIZED,
@@ -132,6 +135,9 @@ public abstract class WikiNode<N extends WikiNode> implements Comparable {
 
     public String getWikiname() { return wikiname; }
     public void setWikiname(String wikiname) { this.wikiname = wikiname; }
+
+    public String getMessageId() { return messageId; }
+    public void setMessageId(String messageId) { this.messageId = messageId; }
 
     public Date getCreatedOn() { return createdOn; }
     public void setCreatedOn(Date createdOn) { this.createdOn = createdOn; }

@@ -116,7 +116,7 @@ public class WikiComment extends WikiNode<WikiComment> implements NestedSetNode<
     public String[] getPropertiesForGroupingInQueries() {
         return new String[]{
             "version", "parent", "rating",
-            "areaNumber", "name", "wikiname", "createdBy", "createdOn",
+            "areaNumber", "name", "wikiname", "createdBy", "createdOn", "messageId",
             "lastModifiedBy", "lastModifiedOn", "readAccessLevel", "writeAccessLevel", "writeProtected",
             "subject", "fromUserName", "fromUserEmail", "fromUserHomepage", "useWikiText",
         };

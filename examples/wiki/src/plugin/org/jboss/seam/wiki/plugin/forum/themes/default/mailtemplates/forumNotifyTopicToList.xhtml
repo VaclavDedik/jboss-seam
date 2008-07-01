@@ -4,13 +4,13 @@
             xmlns:f="http://java.sun.com/jsf/core"
             xmlns:wiki="http://jboss.com/products/seam/wiki"
             xmlns:c="http://java.sun.com/jstl/core"
-            messageId="#{wiki:calculateMessageId(topicHome.instance.id, topicHome.instance.name)}">
+            messageId="#{topicHome.instance.messageId}">
 
     <m:header name="X-Sent-From" value="JBoss Seam" />
     <m:header name="Precedence" value="list"/>
 
     <m:header name="From" value="#{topicHome.instance.createdBy.fullname} &lt;do-not-reply@jboss.com>"/>
-    <m:to name="LaceWiki Forums List">#{preferences.get('Forum').notificationMailingList}</m:to>
+    <m:to name="LaceWiki Forums List">#{topicHome.mailingList}</m:to>
 
     <m:subject>[LaceWiki Forums] #{topicHome.instance.name}</m:subject>
 

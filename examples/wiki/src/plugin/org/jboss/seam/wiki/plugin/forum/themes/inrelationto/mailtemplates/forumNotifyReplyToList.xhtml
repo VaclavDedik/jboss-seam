@@ -4,10 +4,10 @@
             xmlns:f="http://java.sun.com/jsf/core"
             xmlns:wiki="http://jboss.com/products/seam/wiki"
             xmlns:c="http://java.sun.com/jstl/core"
-            messageId="#{wiki:calculateMessageId(replyHome.instance.id, replyHome.instance.name)}">
+            messageId="#{replyHome.instance.messageId}">
 
-    <m:header name="In-Reply-To" value="#{wiki:calculateMessageId(currentDocument.id, currentDocument.name)}"/>
-    <m:header name="References" value="#{wiki:calculateMessageId(currentDocument.id, currentDocument.name)}"/>
+    <m:header name="In-Reply-To" value="#{currentDocument.messageId}"/>
+    <m:header name="References" value="#{currentDocument.messageId}"/>
 
     <m:header name="X-Sent-From" value="JBoss Seam" />
     <m:header name="Precedence" value="list"/>

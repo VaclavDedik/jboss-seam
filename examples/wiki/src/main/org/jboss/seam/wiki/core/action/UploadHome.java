@@ -12,12 +12,16 @@ import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.upload.UploadType;
 import org.jboss.seam.wiki.core.upload.UploadTypes;
 import org.jboss.seam.wiki.core.upload.Uploader;
+import org.jboss.seam.wiki.core.upload.importers.metamodel.ImporterRegistry;
+import org.jboss.seam.wiki.core.upload.importers.metamodel.Importer;
 import org.jboss.seam.wiki.core.upload.editor.UploadEditor;
 
 import static org.jboss.seam.international.StatusMessage.Severity.INFO;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.List;
+import java.util.Collections;
 
 @Name("uploadHome")
 @Scope(ScopeType.CONVERSATION)
@@ -36,9 +40,13 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
     @In
     private TagEditor tagEditor;
 
+    @In
+    ImporterRegistry importerRegistry;
+
     /* -------------------------- Internal State ------------------------------ */
 
     protected UploadEditor uploadEditor;
+    protected String importer;
 
     /* -------------------------- Basic Overrides ------------------------------ */
 
@@ -196,5 +204,28 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
 
     public TagEditor getTagEditor() {
         return tagEditor;
+    }
+
+    public List<String> getAvailableImporters() {
+        if (getInstance().getContentType() == null) return Collections.EMPTY_LIST;
+        return importerRegistry.getAvailableImporters(getInstance().getContentType(), getInstance().getExtension());
+    }
+
+    public String getImporter() {
+        return importer;
+    }
+
+    public void setImporter(String importer) {
+        this.importer = importer;
+    }
+
+    public void importInstance() {
+        if (importer == null) return;
+
+        getLog().debug("importing with importer: " + importer);
+        Importer imp = (Importer)Component.getInstance(importer);
+        imp.handleImport(getEntityManager(), getInstance());
+        getEntityManager().flush();
+
     }
 }

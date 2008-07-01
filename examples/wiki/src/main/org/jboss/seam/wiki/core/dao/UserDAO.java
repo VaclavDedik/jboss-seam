@@ -3,6 +3,7 @@ package org.jboss.seam.wiki.core.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -18,6 +19,8 @@ import org.hibernate.ScrollableResults;
 import org.hibernate.transform.DistinctRootEntityResultTransformer;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Name("userDAO")
 @AutoCreate
@@ -47,6 +50,38 @@ public class UserDAO {
         } catch (NoResultException ex) {
         }
         return null;
+    }
+
+    public long findTotalNoOfUsers() {
+        Query q =
+            entityManager.createQuery(
+                "select count(u) from User u where not u.username = :guestUsername and not u.username = :adminUsername"
+            );
+        q.setParameter("guestUsername", User.GUEST_USERNAME);
+        q.setParameter("adminUsername", User.ADMIN_USERNAME);
+        q.setHint("org.hibernate.comment", "Find number of members");
+        q.setHint("org.hibernate.cacheable", true);
+        return (Long)q.getSingleResult();
+    }
+
+    public List<User> findUsersWithUsername(Collection<String> usernames) {
+        // We need to batch this because we use an in() expression
+        int batchsize = 50;
+        int i = 0;
+        List<String> usernamesToQuery = new ArrayList<String>(batchsize);
+        List<User> users = new ArrayList<User>();
+        for (String username : usernames) {
+            usernamesToQuery.add(username);
+            i++;
+            if (i % batchsize == 0 || usernames.size() < batchsize) {
+                // Query and clear
+                Query q = entityManager.createQuery("select u from User u left join fetch u.profile where u.username in(:usernames)");
+                q.setParameter("usernames", usernamesToQuery);
+                users.addAll(q.getResultList());
+                usernamesToQuery.clear();
+            }
+        }
+        return users;
     }
 
     public User findUserWithActivationCode(String activationCode) {

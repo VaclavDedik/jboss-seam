@@ -85,6 +85,11 @@ public class DirectoryHome extends NodeHome<WikiDirectory, WikiDirectory> {
         return dir;
     }
 
+    @Override
+    protected boolean requiresMessageId() {
+        return false;
+    }
+
     /* -------------------------- Custom CUD ------------------------------ */
 
     @Override
