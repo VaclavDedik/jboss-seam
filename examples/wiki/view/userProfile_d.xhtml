@@ -10,7 +10,7 @@
                 xmlns:c="http://java.sun.com/jstl/core"
                 template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
-<ui:param name="hideControls" value="#{not s:hasPermission('User', 'isAdmin', currentUser)}"/>
+<ui:param name="hideControls" value="#{not s:hasPermission('User', 'isAdmin', currentUser) and userHome.instance.id != currentUser.id}"/>
 
 <ui:define name="screenname">
     <h:outputText value="#{messages['lacewiki.label.userProfile.UserProfile']} '#{userHome.instance.username}'"/>

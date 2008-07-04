@@ -197,12 +197,15 @@ public class Authenticator {
 
     @Observer("org.jboss.seam.security.loggedOut")
     public void resetSessionTime() {
-        // Don't rely on that, do a null check
+        // Don't rely on that, do a null check - this should never be null but sometimes it is... *sigh*
         Object o = Contexts.getSessionContext().get(REGULAR_SESSION_MAX_INACTIVE_SECONDS);
         if (o != null) {
             int regularSessionTimeout = (Integer) o;
             log.debug("resetting timeout of user session after logout to minutes: " + regularSessionTimeout/60);
             ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(regularSessionTimeout);
+        } else {
+            // Safety, reset to a low value, 10 minutes
+            ServletContexts.getInstance().getRequest().getSession().setMaxInactiveInterval(600);
         }
     }
 }

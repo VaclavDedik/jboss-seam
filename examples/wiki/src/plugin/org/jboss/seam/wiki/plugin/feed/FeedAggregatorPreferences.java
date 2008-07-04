@@ -19,7 +19,7 @@ import org.hibernate.validator.Pattern;
  */
 @Preferences(
     name = "FeedAggregator",
-    description = "#{messages['feed.aggregator.preferences.property.description']}",
+    description = "#{messages['feed.aggregator.preferences.description']}",
     mappedTo = "feed.aggregator"
 )
 public class FeedAggregatorPreferences {

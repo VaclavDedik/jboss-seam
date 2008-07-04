@@ -108,4 +108,6 @@ public abstract class PluginModule implements Serializable {
     public String getQualifiedCacheRegionName(String name) {
         return getFullyQualifiedKey() + "." + name;
     }
+
+    public abstract String getModuleTypeLabel();
 }

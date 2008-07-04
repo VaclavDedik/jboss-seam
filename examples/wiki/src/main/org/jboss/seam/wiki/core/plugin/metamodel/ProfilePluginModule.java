@@ -50,4 +50,8 @@ public class ProfilePluginModule extends PluginModule implements Comparable {
             : result;
     }
 
+    // TODO: This is only used in the Administration UI
+    public String getModuleTypeLabel() {
+        return "Profile";
+    }
 }

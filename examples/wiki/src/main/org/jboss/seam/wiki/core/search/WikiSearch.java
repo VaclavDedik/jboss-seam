@@ -74,11 +74,11 @@ public class WikiSearch implements Serializable {
 
         // Initialize the value holders used for UI binding
         for (SearchableEntity searchableEntity : searchRegistry.getSearchableEntities()) {
-            log.debug("preparing search value holder for entity: " + searchableEntity.getDescription());
+            log.trace("preparing search value holder for entity: " + searchableEntity.getDescription());
 
             List<PropertySearch> searchesForEntity = new ArrayList<PropertySearch>();
             for (SearchableProperty prop : searchableEntity.getProperties()) {
-                log.debug("preparing search value holder for property: " + prop.getDescription());
+                log.trace("preparing search value holder for property: " + prop.getDescription());
                 searchesForEntity.add(new PropertySearch(prop));
             }
             searches.put(searchableEntity, searchesForEntity);
