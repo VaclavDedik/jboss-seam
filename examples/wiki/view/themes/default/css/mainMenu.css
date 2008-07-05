@@ -49,6 +49,10 @@
 #mainMenu .level3 {}
 
 #mainMenu .level3Marker {
+    display: none;
+}
+
+#mainMenu .level3MarkerDot {
     padding-left: 2px;
     padding-right: 2px;
     font-size: 80%;

@@ -375,6 +375,10 @@ blockquote blockquote blockquote blockquote {
     color: #000;
 }
 
+#breadcrumb .itemSeparatorGreaterThan  {
+    display: none;
+}
+
 #breadcrumb .itemSeparatorDot  {
     display: none;
 }
@@ -1668,7 +1672,7 @@ li.menu-separator {
     margin-right: 10px;
 }
 
-.loginForm {
+.userControlPanel .loginForm, .userControlPanel .logoutForm {
     display: inline;
 }
 
@@ -1701,6 +1705,20 @@ li.menu-separator {
     margin: 0;
     margin-bottom: 1px;
     border: 0;
+}
+
+.userControlPanel .loginButton, .userControlPanel .logoutButton {
+    border: none;
+    background: none;
+    padding: 1px;
+    margin-left: 5px;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #fff;
+    font-family:  'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+    font-size: 100%;
+    cursor: pointer;
 }
 
 .resetPasswordForm {
@@ -1814,6 +1832,11 @@ li.menu-separator {
 }
 
 #mainMenu .level2Marker {
+    display: none;
+}
+
+#mainMenu .level2MarkerDot {
+    display: inline;
     color: #ca884e;
     margin-right: 4px;
     font-size: 85%;
@@ -1837,10 +1860,7 @@ li.menu-separator {
 }
 
 #mainMenu .level3Marker {
-    padding-left: 2px;
-    padding-right: 2px;
-    font-size: 80%;
-    color: #ca884e;
+    display: none;
 }
 
 #mainMenu .level3Link {

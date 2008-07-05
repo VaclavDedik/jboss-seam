@@ -241,6 +241,9 @@ public class UserHome extends EntityHome<User> {
                 getInstance().getProfile().setImage(
                     WikiUtil.resizeImage(portrait.getData(), portrait.getContentType(), 80) // TODO: Make size configurable?
                 );
+                getInstance().getProfile().setSmallImage(
+                    WikiUtil.resizeImage(portrait.getData(), portrait.getContentType(), 40) // TODO: Make size configurable?
+                );
 
             } else {
                 statusMessages.addFromResourceBundleOrDefault(

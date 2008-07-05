@@ -78,6 +78,18 @@ public class WikiURLRenderer implements Serializable {
         return url.toString();
     }
 
+    public String renderUserPortraitURL(User user, boolean small) {
+        return renderUserPortraitURL(user, small, false);
+    }
+
+    public String renderUserPortraitURL(User user, boolean small, boolean usePrefsPath) {
+        if (user == null || user.getId() == null) return "";
+        StringBuilder url = new StringBuilder();
+        if (usePrefsPath) url.append(prefs.getBaseUrl());
+        url.append("/seam/resource/wikiUserPortrait/").append(user.getId()).append("/").append(small ? "s" : "l");
+        return url.toString();
+    }
+
     public String renderAggregateFeedURL(String aggregateId) {
         return renderAggregateFeedURL(aggregateId, false);
     }

@@ -30,10 +30,6 @@
 
 <ui:define name="content">
 
-    <h1 class="documentTitle">
-        <h:outputText value="#{messages['lacewiki.label.userProfile.UserProfile']} '#{userHome.instance.username}'"/>
-    </h1>
-
     <s:div>
         <c:forEach var="pm" items="#{pluginRegistry.profilePluginModulesAsList}">
             <ui:include src="/#{pm.plugin.getPackageDefaultTemplatePath(pm.template)}"/>

@@ -58,6 +58,12 @@ public class UserProfile implements Serializable {
     @Column(name = "IMAGE_CONTENT_TYPE", nullable = true, length = 255)
     private String imageContentType;
 
+    // SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types
+    @Lob
+    @Column(name = "SMALL_IMAGE_DATA", nullable = true, length = 200000)
+    @Basic(fetch = FetchType.LAZY) // Lazy loaded through bytecode instrumentation
+    private byte[] smallImage;
+
     public UserProfile() {}
 
     // Immutable properties
@@ -122,5 +128,13 @@ public class UserProfile implements Serializable {
 
     public void setImageContentType(String imageContentType) {
         this.imageContentType = imageContentType;
+    }
+
+    public byte[] getSmallImage() {
+        return smallImage;
+    }
+
+    public void setSmallImage(byte[] smallImage) {
+        this.smallImage = smallImage;
     }
 }

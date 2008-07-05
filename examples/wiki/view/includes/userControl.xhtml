@@ -104,10 +104,11 @@
             </s:span>
             <h:inputSecret styleClass="input" id="loginPassword" value="#{identity.password}" size="8" tabindex="50"/>
 
-            <h:commandLink action="#{identity.login}" tabindex="50" styleClass="link"
-                           accesskey="#{messages['lacewiki.button.userControl.Login.accesskey']}">
-                <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Login']}"/>
-            </h:commandLink>
+            <h:commandButton id="loginButton" action="#{identity.login}" tabindex="50" styleClass="loginButton"
+                             accesskey="#{messages['lacewiki.button.userControl.Login.accesskey']}"
+                             value="#{messages['lacewiki.button.userControl.Login']}">
+                <s:defaultAction/>
+            </h:commandButton>
 
         </h:form>
     
@@ -128,13 +129,15 @@
 
     <s:fragment rendered="#{identity.loggedIn}">
 
-        <h:outputText styleClass="label" value="(#{currentUser.fullname})"/>
 
-        <s:link styleClass="link" action="#{authenticator.logout}" tabindex="70"
-                propagation="none"
-                accesskey="#{messages['lacewiki.button.userControl.Logout.accesskey']}">
-            <h:outputText styleClass="linkText" escape="false" value="#{messages['lacewiki.button.userControl.Logout']}"/>
-        </s:link>
+        <h:form id="logoutForm" styleClass="logoutForm">
+            <h:outputText styleClass="label" value="(#{currentUser.fullname})"/>
+            <h:commandButton action="#{authenticator.logout}" tabindex="70" styleClass="logoutButton"
+                             accesskey="#{messages['lacewiki.button.userControl.Logout.accesskey']}"
+                             value="#{messages['lacewiki.button.userControl.Logout']}">
+                <s:conversationPropagation type="none"/>
+            </h:commandButton>
+        </h:form>
 
         <h:outputLink styleClass="link" tabindex="70"
                       accesskey="#{messages['lacewiki.button.userControl.Home.accesskey']}"

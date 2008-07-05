@@ -254,7 +254,7 @@ public class WikiUtil {
 
         String formatName = "";
         if ("image/png".equals(contentType))       formatName = "png";
-        else if ("image/jpeg".equals(contentType)) formatName = "jpeg";
+        else if ("image/jpeg".equals(contentType) || "image/jpg".equals(contentType)) formatName = "jpeg";
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
         try {

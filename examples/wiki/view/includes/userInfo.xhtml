@@ -27,10 +27,7 @@
 
             <s:div styleClass="#{!empty user.profile.bio ? 'userInfoPortraitWithBio' : 'userInfoPortrait'}"
                    rendered="#{!empty user.profile.imageContentType}">
-                <s:graphicImage styleClass="userInfoPortraitImage"
-                                value="#{user.profile.image}">
-                    <s:transformImageSize width="80" maintainRatio="true"/>
-                </s:graphicImage>
+                <h:graphicImage styleClass="userInfoPortraitImage" value="#{wikiURLRenderer.renderUserPortraitURL(user, false)}"/>
             </s:div>
 
             <s:span styleClass="userInfoBio" rendered="#{!empty user.profile.bio}">

@@ -7,32 +7,32 @@
         xmlns:s="http://jboss.com/products/seam/taglib">
 
     <h:panelGrid columns="8" rendered="#{not empty wikiHttpSessionManager.onlineMembers}"
-                 columnClasses="alignBottom minorPadding"
+                 columnClasses="alignBottom alignCenter minorPadding"
                  style="margin-left:auto;margin-right:auto;">
-        <c:forEach var="u" items="#{wikiHttpSessionManager.onlineMembers}">
+        <c:forEach var="ou" items="#{wikiHttpSessionManager.onlineMembers}">
             <s:div>
-                <s:div styleClass="alignCenter">
-                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(u)}">
-                        <s:graphicImage styleClass="userInfoPortraitImage"
-                                        rendered="#{!empty u.profile.imageContentType}"
-                                        value="#{u.profile.image}">
-                            <s:transformImageSize width="40" maintainRatio="true"/>
-                        </s:graphicImage>
-                        <h:graphicImage rendered="#{empty u.profile.imageContentType}"
+                <s:div>
+                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(ou.user)}">
+                        <h:graphicImage styleClass="userInfoPortraitImage"
+                                        rendered="#{!empty ou.user.profile.imageContentType}"
+                                        value="#{wikiURLRenderer.renderUserPortraitURL(ou.user, true)}"/>
+                        <h:graphicImage rendered="#{empty ou.user.profile.imageContentType}"
                                         value="#{imagePath}/default_portrait.gif" width="40" height="50"/>
                     </h:outputLink>
                 </s:div>
-                <s:div styleClass="undecoratedLink">
-                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(u)}">
-                        <h:outputText value="#{u.fullname}"/>
+                <s:div styleClass="undecoratedLink smallFont">
+                    <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(ou.user)}">
+                        <h:outputText value="#{ou.user.fullname}"/>
                     </h:outputLink>
+                    <br/>
+                    <h:outputText styleClass="smallFont" value="#{messages['lacewiki.label.userList.Idle']}:&#160;#{ou.idleTime}"/>
                 </s:div>
             </s:div>
         </c:forEach>
     </h:panelGrid>
 
-    <h:outputText value="#{messages['lacewiki.msg.userList.NoOnlineMembers']}"
-                  rendered="#{empty wikiHttpSessionManager.onlineMembers}"/>
-
+    <s:div styleClass="minorPadding" rendered="#{empty wikiHttpSessionManager.onlineMembers}">
+        <h:outputText value="#{messages['lacewiki.msg.userList.NoOnlineMembers']}"/>
+    </s:div>
 
 </s:fragment>

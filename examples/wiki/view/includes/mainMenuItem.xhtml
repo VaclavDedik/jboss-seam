@@ -10,7 +10,10 @@
 <c:forEach var="childWrapper" items="#{node.wrappedChildrenSorted}">
     <s:div styleClass="level#{childWrapper.level}">
         <s:div styleClass="level#{childWrapper.level}Body">
-            <h:outputText styleClass="level#{childWrapper.level}Marker" value="&#183;"/>
+            <h:outputText styleClass="level#{childWrapper.level}Marker level#{childWrapper.level}MarkerDot" value="&#183;"/>
+            <h:outputText styleClass="level#{childWrapper.level}Marker level#{childWrapper.level}MarkerGreaterThan" value=">"/>
+            <h:outputText styleClass="level#{childWrapper.level}Marker level#{childWrapper.level}MarkerSlash" value="&#47;"/>
+            <h:outputText styleClass="level#{childWrapper.level}Marker level#{childWrapper.level}MarkerSpace" value="&#160;"/>
             <h:outputLink styleClass="level#{childWrapper.level}Link"
                           value="#{wikiURLRenderer.renderURL(childWrapper.wrappedNode)}">#{childWrapper.wrappedNode.name}</h:outputLink>
         </s:div>

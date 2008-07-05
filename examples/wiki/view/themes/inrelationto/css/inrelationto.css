@@ -1502,8 +1502,16 @@ ul {
     color: #d75525;
 }
 
+#breadcrumb .itemSeparatorSlash  {
+    display: none;
+}
+
 #breadcrumb .itemSeparatorGreaterThan  {
     display: none;
+}
+
+#breadcrumb .itemSeparatorDot  {
+    display: inline;
 }
 
 #breadcrumb .itemText {
@@ -1710,7 +1718,7 @@ li.menu-separator {
     padding-right: 18px;
 }
 
-.loginForm {
+.userControlPanel .loginForm, .userControlPanel .logoutForm {
     display: inline;
 }
 
@@ -1757,6 +1765,21 @@ li.menu-separator {
 .resetPasswordRequestFormControls {
 }
 
+
+.userControlPanel .loginButton, .userControlPanel .logoutButton {
+    border: none;
+    background: none;
+    padding: 1px;
+    margin-left: 5px;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #fff;
+    font-family:  'Lucida Grande', Geneva, Verdana, Arial, sans-serif;
+    line-height: 100%;
+    font-size: 100%;
+    cursor: pointer;
+}
 
 /* Search Control
 ----------------------------------------------- */

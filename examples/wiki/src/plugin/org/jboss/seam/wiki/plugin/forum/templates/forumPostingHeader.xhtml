@@ -118,9 +118,8 @@
             <s:fragment rendered="#{currentDocument.ownedByRegularUser and !empty currentDocument.createdBy.profile.imageContentType}">
                 <s:span styleClass="undecoratedLink">
                     <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(currentDocument.createdBy)}">
-                        <s:graphicImage styleClass="commentAuthorPortraitImage" value="#{currentDocument.createdBy.profile.image}">
-                            <s:transformImageSize width="30" maintainRatio="true"/>
-                        </s:graphicImage>
+                        <h:graphicImage styleClass="commentAuthorPortraitImage"
+                                        value="#{wikiURLRenderer.renderUserPortraitURL(currentDocument.createdBy, true)}"/>
                     </h:outputLink>
                 </s:span>
             </s:fragment>

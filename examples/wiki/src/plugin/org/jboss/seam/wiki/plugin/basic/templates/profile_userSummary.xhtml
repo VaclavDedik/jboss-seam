@@ -45,10 +45,9 @@
                 <h:outputText value="#{messages['basic.userSummary.label.Portrait']}:"
                               rendered="#{!empty userHome.instance.profile.imageContentType}"/>
 
-                <s:graphicImage rendered="#{!empty userHome.instance.profile.imageContentType}"
-                                styleClass="userInfoPortraitImage" value="#{userHome.instance.profile.image}">
-                    <s:transformImageSize width="80" maintainRatio="true"/>
-                </s:graphicImage>
+                <h:graphicImage rendered="#{!empty userHome.instance.profile.imageContentType}"
+                                styleClass="userInfoPortraitImage"
+                                value="#{wikiURLRenderer.renderUserPortraitURL(userHome.instance, false)}"/>
 
                 <h:outputText value="#{messages['basic.userSummary.label.Bio']}:"
                               rendered="#{not empty userHome.instance.profile.bio}"/>

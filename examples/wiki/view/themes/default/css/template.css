@@ -1489,6 +1489,14 @@ ul {
     display: none;
 }
 
+#breadcrumb .itemSeparatorSlash  {
+    display: none;
+}
+
+#breadcrumb .itemSeparatorDot  {
+    display: inline;
+}
+
 #breadcrumb .itemText {
     color: #fff;
     text-decoration: none;

@@ -44,6 +44,9 @@
             <h:outputText rendered="#{breadcrumb.indexOf(node) &lt; breadcrumb.size()-1}"
                           styleClass="itemSeparatorGreaterThan itemSeparator" value="&gt;"/>
 
+            <h:outputText rendered="#{breadcrumb.indexOf(node) &lt; breadcrumb.size()-1}"
+                          styleClass="itemSeparatorSlash itemSeparator" value="/"/>
+
         </ui:repeat>
     </h:panelGroup>
 

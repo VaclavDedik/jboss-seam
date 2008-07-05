@@ -10,6 +10,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.model.User;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.dao.UserDAO;
+import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.log.Log;
@@ -42,7 +43,7 @@ public class WikiHttpSessionManager implements Serializable {
 
     transient private Map<String, Boolean> selectedSessions = new HashMap<String,Boolean>();
     transient private Map<String, Long> sessionsSize = new HashMap<String,Long>();
-    transient private List<User> onlineMembers;
+    transient private List<OnlineUser> onlineMembers;
 
     @Restrict("#{s:hasPermission('User', 'isAdmin', currentUser)}")
     public Map<String, Boolean> getSelectedSessions() { return selectedSessions; }
@@ -149,44 +150,88 @@ public class WikiHttpSessionManager implements Serializable {
     }
     */
 
-    public List<User> getOnlineMembers() {
-        if (onlineMembers == null) {
-            Set<String> onlineUsernames = new HashSet<String>();
-            Collection<HttpSession> sessions = WikiServletListener.getSessions().values();
-            for (HttpSession session : sessions) {
-                Integer userLevel = (Integer)session.getAttribute(SESSION_ATTR_ACCESSLVL);
-                if (userLevel != null && userLevel > Role.GUESTROLE_ACCESSLEVEL) {
-                    onlineUsernames.add( ((User)session.getAttribute(SESSION_ATTR_USER)).getUsername() );
-                }
-            }
-
-            // Need to load these guys, the are not in this persistence context
-            onlineMembers = userDAO.findUsersWithUsername(onlineUsernames);
-        }
-        return onlineMembers;
-    }
-
     public long getTotalMembers() {
         return userDAO.findTotalNoOfUsers();
     }
 
-    public long getNumberOfOnlineMembers() {
-        Collection<HttpSession> sessions = WikiServletListener.getSessions().values();
-
-        long loggedInUsers = 0l;
-        for (HttpSession session : sessions) {
-            Integer userLevel = (Integer)session.getAttribute(SESSION_ATTR_ACCESSLVL);
-            if (userLevel != null && userLevel > Role.GUESTROLE_ACCESSLEVEL) {
-                loggedInUsers++;
-            }
-        }
-        return loggedInUsers;
-
+    public List<OnlineUser> getOnlineMembers() {
+        if (onlineMembers == null) loadOnlineMembers();
+        return onlineMembers;
     }
-    
+
+    public long getNumberOfOnlineMembers() {
+        if (onlineMembers == null) loadOnlineMembers();
+        return onlineMembers.size();
+    }
+
     public long getNumberOfOnlineGuests() {
         return WikiServletListener.getSessions().values().size() - getNumberOfOnlineMembers();
     }
-    
+
+    private void loadOnlineMembers() {
+        onlineMembers = new ArrayList<OnlineUser>();
+
+        // First get the usernames of members out of all sessions
+        Map<String,HttpSession> onlineUsernames = new HashMap<String, HttpSession>();
+        Collection<HttpSession> sessions = WikiServletListener.getSessions().values();
+        for (HttpSession session : sessions) {
+            Integer userLevel = (Integer)session.getAttribute(SESSION_ATTR_ACCESSLVL);
+            if (userLevel != null && userLevel > Role.GUESTROLE_ACCESSLEVEL) {
+                String username = ((User)session.getAttribute(SESSION_ATTR_USER)).getUsername();
+
+                // Try to get the session with the smallest idle time
+                if (onlineUsernames.containsKey(username)) {
+                    if (session.getLastAccessedTime() > onlineUsernames.get(username).getLastAccessedTime()) {
+                        onlineUsernames.put(username, session);
+                    }
+                } else {
+                    onlineUsernames.put(username, session);
+                }
+            }
+        }
+
+        // Then load these guys into a current persistence context
+        List<User> userInstances = userDAO.findUsersWithUsername(onlineUsernames.keySet());
+
+        for (User userInstance : userInstances) {
+            // Now fill the OnlineUser DTO which is needed by the UI
+            onlineMembers.add(
+                new OnlineUser(
+                    userInstance,
+                    onlineUsernames.get(userInstance.getUsername()).getLastAccessedTime()
+                )
+            );
+        }
+    }
+
+    public static class OnlineUser {
+        private User user;
+        private long lastAccessedTime;
+
+        public OnlineUser(User user, long lastAccessedTime) {
+            this.user = user;
+            this.lastAccessedTime = lastAccessedTime;
+        }
+
+        public User getUser() {
+            return user;
+        }
+
+        public void setUser(User user) {
+            this.user = user;
+        }
+
+        public long getLastAccessedTime() {
+            return lastAccessedTime;
+        }
+
+        public void setLastAccessedTime(long lastAccessedTime) {
+            this.lastAccessedTime = lastAccessedTime;
+        }
+
+        public String getIdleTime() {
+            return WikiUtil.getTimeDifferenceToCurrent(WikiUtil.toDate(lastAccessedTime));
+        }
+    }
 
 }
