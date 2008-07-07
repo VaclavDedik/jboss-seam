@@ -101,7 +101,7 @@ public class TopicHome extends DocumentHome {
                 );
             }
             */
-            String mailingList =
+            mailingList =
                     Preferences.instance().get(ForumPreferences.class).getNotificationMailingList();
             if (mailingList != null) {
                 getLog().debug("sending topic notification e-mail to forum list: " + mailingList);

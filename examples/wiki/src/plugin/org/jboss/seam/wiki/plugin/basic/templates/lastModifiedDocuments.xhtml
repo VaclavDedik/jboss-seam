@@ -32,7 +32,7 @@
 
                             (<s:span styleClass="undecoratedLink" rendered="#{wiki:isRegularUser(doc.lastModifiedBy)}">
                                 <h:outputLink value="#{wikiURLRenderer.renderUserProfileURL(doc.lastModifiedBy)}">
-                                    <h:outputText value="#{doc.lastModifiedBy.username}"/>
+                                    <h:outputText value="#{doc.lastModifiedBy.fullname}"/>
                                 </h:outputLink>
                             </s:span>
                             <s:span rendered="#{not wiki:isRegularUser(doc.lastModifiedBy)}">

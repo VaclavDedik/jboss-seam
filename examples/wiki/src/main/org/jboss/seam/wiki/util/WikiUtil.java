@@ -328,7 +328,7 @@ public class WikiUtil {
         String secondsStr = (seconds<10 ? "0" : "")+seconds;
         String minutesStr = (minutes<10 ? "0" : "")+minutes;
         String hoursStr = (hours<10 ? "0" : "")+hours;
-        return hoursStr + ":" + minutesStr + ":" + secondsStr;
+        return hoursStr + "h:" + minutesStr + "m:" + secondsStr + "s";
     }
 
     public static String formatDate(Date date) {

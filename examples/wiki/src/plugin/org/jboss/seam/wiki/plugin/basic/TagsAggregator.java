@@ -1,8 +1,12 @@
+/*
+ * JBoss, Home of Professional Open Source
+ *
+ * Distributable under LGPL license.
+ * See terms of license at gnu.org.
+ */
 package org.jboss.seam.wiki.plugin.basic;
 
 import org.jboss.seam.annotations.*;
-import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 import org.jboss.seam.wiki.core.model.WikiDocument;
@@ -14,6 +18,9 @@ import org.jboss.seam.wiki.preferences.Preferences;
 import java.util.*;
 import java.io.Serializable;
 
+/**
+ * @author Christian Bauer
+ */
 @Name("tagsAggregator")
 @Scope(ScopeType.PAGE)
 public class TagsAggregator implements Serializable {

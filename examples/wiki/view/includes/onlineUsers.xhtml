@@ -7,7 +7,7 @@
 
     <h:panelGrid styleClass="onlineUsersPanel" columns="4"
                  cellpadding="0" cellspacing="0" border="0"
-                 rendered="#{wikiHttpSessionManager.numberOfOnlineMembers > 0 and wikiHttpSessionManager.numberOfOnlineGuests > 0}"> <!-- TODO -->
+                 rendered="#{wikiHttpSessionManager.numberOfOnlineMembers > 0}"> <!-- TODO -->
 
         <h:outputText styleClass="onlineLabel" value="#{messages['lacewiki.label.userList.Online']}:&#160;"/>
 

@@ -10,6 +10,8 @@
                 xmlns:a="https://ajax4jsf.dev.java.net/ajax"
                 template="themes/#{preferences.get('Wiki').themeName}/template.xhtml">
 
+<ui:param name="showDirectoryTags" value="true"/>
+
 <ui:define name="includeHeaders">
 
     <s:fragment rendered="#{not empty documentHome.instance.parent.feed}">

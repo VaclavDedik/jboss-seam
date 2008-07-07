@@ -376,10 +376,14 @@ blockquote blockquote blockquote blockquote {
 }
 
 #breadcrumb .itemSeparatorGreaterThan  {
-    display: none;
+    display: inline;
 }
 
 #breadcrumb .itemSeparatorDot  {
+    display: none;
+}
+
+#breadcrumb .itemSeparatorSlash {
     display: none;
 }
 

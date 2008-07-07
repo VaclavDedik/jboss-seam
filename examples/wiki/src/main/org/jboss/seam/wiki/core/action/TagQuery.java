@@ -7,16 +7,13 @@
 package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.Component;
 import org.jboss.seam.log.Log;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.dao.TagDAO;
-import org.jboss.seam.wiki.core.model.WikiDirectory;
-import org.jboss.seam.wiki.core.model.WikiFile;
-import org.jboss.seam.wiki.core.model.WikiNode;
+import org.jboss.seam.wiki.core.model.*;
 import org.jboss.seam.wiki.core.exception.InvalidWikiRequestException;
+import org.jboss.seam.wiki.core.cache.PageFragmentCache;
 
 import java.io.Serializable;
 import java.util.List;
@@ -27,6 +24,9 @@ import java.util.List;
 @Name("tagQuery")
 @Scope(ScopeType.CONVERSATION)
 public class TagQuery implements Serializable {
+
+    public static final String CACHE_REGION = "wiki.TagList";
+    public static final String CACHE_KEY = "TagsForDirectory";
 
     @Logger
     Log log;
@@ -57,4 +57,42 @@ public class TagQuery implements Serializable {
         log.debug("loading wiki files tagged with: " + tag);
         taggedFiles = tagDAO.findWikFiles(wikiRoot, null, tag, WikiNode.SortableProperty.createdOn, false);
     }
+
+    List<DisplayTagCount> tagsSortedByCount;
+    Long highestTagCount;
+
+    public List<DisplayTagCount> getTagsSortedByCount(int maxNumberOfTags, int minimumCount) {
+        if (tagsSortedByCount == null) {
+            WikiDirectory currentDirectory = (WikiDirectory) Component.getInstance("currentDirectory");
+            tagsSortedByCount = tagDAO.findTagCounts(currentDirectory, null, maxNumberOfTags, minimumCount);
+        }
+        return tagsSortedByCount;
+    }
+
+    public Long getHighestTagCount(int maxNumberOfTags, int minimumCount) {
+        if (highestTagCount == null) {
+            highestTagCount = 0l;
+            List<DisplayTagCount> tagsSortedByCount = getTagsSortedByCount(maxNumberOfTags, minimumCount);
+            for (DisplayTagCount tagCount : tagsSortedByCount) {
+                if (tagCount.getCount() > highestTagCount) highestTagCount= tagCount.getCount();
+            }
+        }
+        return highestTagCount;
+    }
+
+    public String getCacheRegion() {
+        return CACHE_REGION;
+    }
+
+    public String getCacheKey(int maxNumberOfTags, int minimumCount) {
+        Integer currentAccessLevel = (Integer)Component.getInstance("currentAccessLevel");
+        WikiDirectory currentDirectory = (WikiDirectory) Component.getInstance("currentDirectory");
+        return CACHE_KEY + currentDirectory.getId() + "_" + maxNumberOfTags + "_" + minimumCount + "_" + currentAccessLevel;
+    }
+
+    @Observer(value = { "Node.updated", "Node.removed", "Node.persisted"}, create = true)
+    public void invalidateCache() {
+        PageFragmentCache.instance().removeAll(CACHE_REGION);
+    }
+
 }

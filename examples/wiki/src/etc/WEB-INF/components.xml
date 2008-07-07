@@ -81,6 +81,7 @@
             <value>wiki.Breadcrumb</value>
             <value>wiki.Comment</value>
             <value>wiki.Signature</value>
+            <value>wiki.TagList</value>
         </property>
     </component>
 

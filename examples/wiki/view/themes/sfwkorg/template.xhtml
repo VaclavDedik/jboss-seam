@@ -335,7 +335,7 @@
         </div>
 
         <s:div styleClass="membersAreaContainer" style="margin-top:15px;"
-                rendered="#{wikiHttpSessionManager.numberOfOnlineMembers > 0 and wikiHttpSessionManager.numberOfOnlineGuests > 0}"> <!-- TODO -->
+                rendered="#{wikiHttpSessionManager.numberOfOnlineMembers > 0}"> <!-- TODO -->
             <b class="rtop"><b class="r1"></b><b class="r2"></b><b class="r3"></b><b class="r4"></b></b>
             <ui:include src="../../includes/onlineUsers.xhtml"/>
             <b class="rbottom"><b class="r4"></b><b class="r3"></b><b class="r2"></b><b class="r1"></b></b>
@@ -346,7 +346,7 @@
     <!-- Main Content area  -->
     <div id="rightColumn">
 
-        <h:graphicImage value="#{imagePath}/blank.gif" width="1" height="1"/>
+        <h:graphicImage value="#{imagePath}/blank.gif" width="1" height="8"/>
         <ui:include src="../../includes/breadcrumb.xhtml"/>
 
         <!-- Status messages -->
