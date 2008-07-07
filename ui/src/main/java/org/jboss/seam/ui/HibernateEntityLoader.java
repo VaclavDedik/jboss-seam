@@ -31,7 +31,7 @@ public class HibernateEntityLoader extends AbstractEntityLoader<Session>
    @Override
    protected String getPersistenceContextName()
    {
-      return "session";
+      return "hibernateSession";
    }
 
    @Override
@@ -39,7 +39,7 @@ public class HibernateEntityLoader extends AbstractEntityLoader<Session>
    {
       if (getPersistenceContext() == null)
       {
-         throw new IllegalStateException("Unable to access a Seam Managed Hibernate Session. You must either have a Seam Managed Hibernate Session called session or configure one in components.xml");
+         throw new IllegalStateException("Unable to access a Seam Managed Hibernate Session. You must either have a Seam Managed Hibernate Session called hibernateSession or configure one in components.xml");
       }
       
    }
