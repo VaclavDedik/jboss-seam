@@ -46,3 +46,24 @@
     margin-bottom: 3px;
 }
 
+.forumLegendContainer {
+}
+
+.forumLegendTable {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.forumLegendColumn {
+    padding-right:30px;
+    padding-top:10px;
+    white-space:nowrap;
+}
+
+.forumLegendIcon {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.forumLegendText {
+}
