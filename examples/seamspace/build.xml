@@ -8,6 +8,7 @@
 
     <!-- Libraries -->
     <property name="facelets.lib"    value="yes"/>
+    <property name="richfaces.lib"   value="yes"/>    
     <property name="drools.lib"      value="yes"/>
     <property name="seam.ui.lib"     value="yes"/>    
     <property name="jcaptcha.lib"    value="yes"/>
