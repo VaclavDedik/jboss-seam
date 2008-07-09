@@ -137,7 +137,7 @@ public class Reflections
       }
    }
    
-   private static String toString(Method method)
+   public static String toString(Method method)
    {
       return Strings.unqualify( method.getDeclaringClass().getName() ) + 
             '.' + 
@@ -147,7 +147,7 @@ public class Reflections
             ')';
    }
    
-   private static String toString(Field field)
+   public static String toString(Field field)
    {
       return Strings.unqualify( field.getDeclaringClass().getName() ) + 
             '.' + 
