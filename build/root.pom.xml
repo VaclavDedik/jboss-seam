@@ -88,6 +88,12 @@
         <artifactId>jboss-seam-remoting</artifactId>
         <version>@seam.version@</version>
       </dependency>
+      
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-resteasy</artifactId>
+        <version>@seam.version@</version>
+      </dependency>
 
       <dependency>
         <groupId>org.jboss.seam</groupId>

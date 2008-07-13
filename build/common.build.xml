@@ -102,6 +102,7 @@
 		<pomfile name="wicket.pom" value="${build.dir}/wicket.pom.xml" />
         <pomfile name="jbas5.pom" value="${build.dir}/jbas5.pom.xml" />
 		<pomfile name="jul.pom" value="${build.dir}/jul.pom.xml" />
+		<pomfile name="resteasy.pom" value="${build.dir}/resteasy.pom.xml" />
 		<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
 		<pomfile name="ioc.pom" value="${build.dir}/ioc.pom.xml" />
 		<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
@@ -120,8 +121,9 @@
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="runtime" />
+		<copyDependencies id="resteasy" pom="${resteasy.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="runtime" />
-	    <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}" scope="runtime" />
+	   <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="compile" />
@@ -129,6 +131,7 @@
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="compile" />
+		<copyDependencies id="resteasy" pom="${resteasy.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="compile" />
 	    <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}" scope="compile" />
 		<property name="copyseamdependenciesdone" value="true" />
@@ -143,6 +146,7 @@
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-mail" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-pdf" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-resteasy" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="${complete.version}" />
 		</copyInlineDependencies>
 		<property name="copyseamdone" value="true" />
@@ -178,6 +182,7 @@
 			<deploy pom="${core.pom}" jar="${seam.dir}/lib/jboss-seam.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${ui.pom}" jar="${seam.dir}/lib/jboss-seam-ui.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${remoting.pom}" jar="${seam.dir}/lib/jboss-seam-remoting.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${resteasy.pom}" jar="${seam.dir}/lib/jboss-seam-resteasy.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${pdf.pom}" jar="${seam.dir}/lib/jboss-seam-pdf.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${mail.pom}" jar="${seam.dir}/lib/jboss-seam-mail.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${ioc.pom}" jar="${seam.dir}/lib/jboss-seam-ioc.jar" repositoryId="@{repositoryId}" />
@@ -202,6 +207,7 @@
 					<propertyref name="parent.pom" />
 					<propertyref name="ui.pom" />
 					<propertyref name="remoting.pom" />
+               <propertyref name="resteasy.pom" />
 					<propertyref name="gen.pom" />
 					<propertyref name="pdf.pom" />
 					<propertyref name="ioc.pom" />
@@ -237,6 +243,7 @@
 					<propertyref name="parent.pom" />
 					<propertyref name="ui.pom" />
 					<propertyref name="remoting.pom" />
+           	   <propertyref name="resteasy.pom" />
 					<propertyref name="gen.pom" />
 					<propertyref name="pdf.pom" />
 					<propertyref name="ioc.pom" />
@@ -271,6 +278,7 @@
 						<propertyref name="parent.pom" />
 						<propertyref name="ui.pom" />
 						<propertyref name="remoting.pom" />
+	           	   <propertyref name="resteasy.pom" />
 						<propertyref name="gen.pom" />
 						<propertyref name="pdf.pom" />
 						<propertyref name="ioc.pom" />
@@ -339,6 +347,7 @@ Dependencies for Seam ${complete.version}
 		<outputDependencyReport module="pdf" />
 		<outputDependencyReport module="ioc" />
 		<outputDependencyReport module="wicket" />
+		<outputDependencyReport module="resteasy" />
 		<outputDependencyReport module="jbas5" />
 		<outputDependencyReport module="jul" />
 		<echo>Dependency Report written to ${seam.dir}/dependency-report.txt</echo>

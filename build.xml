@@ -21,6 +21,7 @@
 	<property name="classes.wicket.dir" value="${classes.dir}/wicketclasses" />
 	<property name="classes.jbas5.dir" value="${classes.dir}/jbas5classes" />
 	<property name="classes.jul.dir" value="${classes.dir}/julclasses" />
+	<property name="classes.resteasy.dir" value="${classes.dir}/resteasyclasses" />
 	<property name="classes.remoting.dir" value="${classes.dir}/remotingclasses" />
 	<property name="classes.gen.dir" value="${classes.dir}/genclasses" />
 	<property name="classes.test.dir" value="${classes.dir}/testclasses" />
@@ -39,6 +40,7 @@
 	<property name="src.wicket.dir" value="src/wicket" />
 	<property name="src.jbas5.dir" value="src/interop/jbas5" />
 	<property name="src.jul.dir" value="src/interop/jul" />
+	<property name="src.resteasy.dir" value="src/resteasy" />
 	<property name="src.gen.dir" value="src/gen" />
 	<property name="src.remoting.dir" value="src/remoting" />
 	<property name="src.test.dir" value="src/test" />
@@ -72,6 +74,7 @@
 	<property name="dist.src.wicket.dir" value="${dist.dir}/src/wicket" />
 	<property name="dist.src.jbas5.dir" value="${dist.dir}/src/interop/jbas5" />
 	<property name="dist.src.jul.dir" value="${dist.dir}/src/interop/jul" />
+	<property name="dist.src.resteasy.dir" value="${dist.dir}/src/resteasy" />
 	<property name="dist.src.gen.dir" value="${dist.dir}/src/gen" />
 	<property name="dist.src.remoting.dir" value="${dist.dir}/src/remoting" />
 	<property name="dist.src.test.dir" value="${dist.dir}/src/test" />
@@ -155,7 +158,7 @@
 		<delete dir="${lib.dir}" quiet="${quietclean}" />
 	</target>
 
-	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarjbas5,jarwicket, jarjul" description="Build all distribution .jar files" />
+	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarjbas5,jarwicket, jarjul, jarresteasy" description="Build all distribution .jar files" />
 
 	<target name="select-compiler">
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
@@ -302,6 +305,20 @@
 	<target name="jarjul" depends="compilejul" description="Build the distribution .jar file for the JUL -> Log4J bridge integration package">
 		<archive classesdir="${classes.jul.dir}" module="jboss-seam-jul" pom="${jul.pom}"  srcdir="${src.jul.dir}" outputdir="${lib.dir}/interop" />
 	</target>
+	
+  <!-- ########################### RESTeasy TARGETS ###########################-->
+
+   <target name="initresteasy" depends="init, jarcore">
+      <init classesdir="${classes.resteasy.dir}" srcdir="${src.resteasy.dir}" modulename="resteasy" pom="${resteasy.pom}" />
+   </target>
+
+   <target name="compileresteasy" depends="initresteasy, select-compiler">
+      <compile classesdir="${classes.resteasy.dir}" srcdir="${src.resteasy.dir}" classpath="compile.resteasy.path" />
+   </target>
+
+   <target name="jarresteasy" depends="compileresteasy" description="Build the distribution .jar file for the resteasy -> Log4J bridge integration package">
+      <archive classesdir="${classes.resteasy.dir}" module="jboss-seam-resteasy" pom="${resteasy.pom}"  srcdir="${src.resteasy.dir}" outputdir="${lib.dir}" />
+   </target>
 
 	<!-- ########################### GEN TARGETS ###########################-->
 
@@ -469,6 +486,7 @@
 		<copysource destdir="${dist.src.wicket.dir}" srcdir="${src.wicket.dir}" />
 		<copysource destdir="${dist.src.jbas5.dir}" srcdir="${src.jbas5.dir}" />
 		<copysource destdir="${dist.src.jul.dir}" srcdir="${src.jul.dir}" />
+		<copysource destdir="${dist.src.resteasy.dir}" srcdir="${src.resteasy.dir}" />
 		<copysource destdir="${dist.src.gen.dir}" srcdir="${src.gen.dir}" />
 		<copysource destdir="${dist.src.test.dir}" srcdir="${src.test.dir}" />
 
@@ -976,6 +994,7 @@
 					<propertyref name="debug.pom" />
 					<propertyref name="wicket.pom" />
 					<propertyref name="jbas5.pom" />
+					<propertyref name="resteasy.pokm" />
 					<propertyref name="testng.jvmargs"/>
 				</propertyset>
 			</ant>
@@ -988,6 +1007,7 @@
 		<dependenciesWithSources id="wicket" scope="compile" pom="${wicket.pom}" />
 		<dependenciesWithSources id="jbas5" scope="compile" pom="${jbas5.pom}" />
 		<dependenciesWithSources id="jul" scope="compile" pom="${jul.pom}" />
+		<dependenciesWithSources id="resteasy" scope="compile" pom="${resteasy.pom}" />
 		<dependenciesWithSources id="gen" scope="compile" pom="${gen.pom}" />
 		<dependenciesWithSources id="ioc" scope="compile" pom="${ioc.pom}" />
 		<dependenciesWithSources id="mail" scope="compile" pom="${mail.pom}" />
@@ -1007,6 +1027,7 @@
 		<dependencies id="wicket" scope="compile" pom="${wicket.pom}" />
 		<dependencies id="jbas5" scope="compile" pom="${jbas5.pom}" />
 		<dependencies id="jul" scope="compile" pom="${jul.pom}" />
+		<dependencies id="resteasy" scope="compile" pom="${resteasy.pom}" />
 		<dependencies id="gen" scope="compile" pom="${gen.pom}" />
 		<dependencies id="ioc" scope="compile" pom="${ioc.pom}" />
 		<dependencies id="mail" scope="compile" pom="${mail.pom}" />
@@ -1024,6 +1045,7 @@
 			<path refid="compile.ui.path" />
 			<path refid="compile.jbas5.path" />
 			<path refid="compile.jul.path" />
+			<path refid="compile.resteasy.path" />
 			<path refid="compile.wicket.path" />
 		</eclipseClasspath>
 	</target>
