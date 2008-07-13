@@ -26,7 +26,7 @@
                <attribute name="socket.check_connection" isParam="true">false</attribute>
                <attribute name="timeout" isParam="true">0</attribute>
                <attribute name="serverBindAddress">${jboss.bind.address}</attribute>
-               <attribute name="serverBindPort">4457</attribute>
+               <attribute name="serverBindPort">4458</attribute>
                <attribute name="clientSocketClass" isParam="true">org.jboss.jms.client.remoting.ClientSocketWrapper</attribute>
                <attribute name="serverSocketClass">org.jboss.jms.server.remoting.ServerSocketWrapper</attribute>
                <attribute name="numberOfCallRetries" isParam="true">1</attribute>
