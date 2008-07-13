@@ -5,6 +5,7 @@ import java.beans.Introspector;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -147,11 +148,11 @@ public class Reflections
             ')';
    }
    
-   public static String toString(Field field)
+   public static String toString(Member member)
    {
-      return Strings.unqualify( field.getDeclaringClass().getName() ) + 
+      return Strings.unqualify( member.getDeclaringClass().getName() ) + 
             '.' + 
-            field.getName();
+            member.getName();
    }
    
    public static Class classForName(String name) throws ClassNotFoundException
