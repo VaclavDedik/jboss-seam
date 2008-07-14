@@ -100,7 +100,7 @@
 		<pomfile name="core.wls.pom" value="${build.dir}/core.pom.xml" artifactName="jboss-seam-wls-compatible" />
 		<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
 		<pomfile name="wicket.pom" value="${build.dir}/wicket.pom.xml" />
-        <pomfile name="jbas5.pom" value="${build.dir}/jbas5.pom.xml" />
+      <pomfile name="jbas5.pom" value="${build.dir}/jbas5.pom.xml" />
 		<pomfile name="jul.pom" value="${build.dir}/jul.pom.xml" />
 		<pomfile name="resteasy.pom" value="${build.dir}/resteasy.pom.xml" />
 		<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
@@ -123,7 +123,7 @@
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="resteasy" pom="${resteasy.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="runtime" />
-	   <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}" scope="runtime" />
+	    <copyDependencies id="gen" pom="${gen.pom}" todir="${lib.dir}" scope="runtime" />
 		<copyDependencies id="core" pom="${core.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="debug" pom="${debug.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="wicket" pom="${wicket.pom}" todir="${lib.dir}" scope="compile" />
