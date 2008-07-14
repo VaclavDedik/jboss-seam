@@ -98,11 +98,20 @@ public class Identity implements Serializable
       
       if (Contexts.isApplicationContextActive())
       {
-         permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);
+         permissionMapper = (PermissionMapper) Component.getInstance(PermissionMapper.class);                 
+      }    
+      
+      if (Contexts.isSessionContextActive())
+      {
+         rememberMe = (RememberMe) Component.getInstance(RememberMe.class, true);      
+         credentials = (Credentials) Component.getInstance(Credentials.class);         
       }
       
-      rememberMe = (RememberMe) Component.getInstance(RememberMe.class, true);      
-      credentials = (Credentials) Component.getInstance(Credentials.class);     
+      if (credentials == null)
+      {
+         // Must have credentials for unit tests
+         credentials = new Credentials();
+      }
    }
    
    public static boolean isSecurityEnabled()
@@ -368,6 +377,7 @@ public class Identity implements Serializable
    {      
       principal = null;
       subject = new Subject();
+      
       credentials.clear();
    }
 
