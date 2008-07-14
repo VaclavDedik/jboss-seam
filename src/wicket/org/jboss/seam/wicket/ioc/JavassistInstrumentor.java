@@ -42,9 +42,15 @@ public class JavassistInstrumentor
    
    public void instrument() throws NotFoundException, CannotCompileException, ClassNotFoundException
    {
+      if (wicketComponentDirectory == null)
+      {
+         log.warn("No wicket components found to give Seam super powers to");
+         classLoader = Thread.currentThread().getContextClassLoader();
+         return;
+      }
       ClassLoader parent = Thread.currentThread().getContextClassLoader();
       classPool = new ClassPool();
-      classLoader = new WicketClassLoader(parent, classPool, classes);
+      classLoader = new WicketClassLoader(parent, classPool, classes, wicketComponentDirectory);
       classPool.insertClassPath(wicketComponentDirectory.getAbsolutePath());
       classPool.insertClassPath(new LoaderClassPath(parent));
       

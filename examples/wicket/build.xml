@@ -21,13 +21,13 @@
     <import file="../build.xml"/>
 	
 	<target name="compile.web" depends="compile">
-		<mkdir dir="${war.dir}/WEB-INF/classes" />
-		<javac destdir="${war.dir}/WEB-INF/classes" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" >
+		<mkdir dir="${war.dir}/WEB-INF/wicket" />
+		<javac destdir="${war.dir}/WEB-INF/wicket" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" >
 			<src path="${src.web.dir}" />
 			<classpath refid="build.classpath"/>
 			<classpath location="${jar.dir}"/>
 		</javac>
-		<copy todir="${war.dir}/WEB-INF/classes">
+		<copy todir="${war.dir}/WEB-INF/wicket">
 			<fileset dir="${src.web.dir}">
 				<include name="**/*.component.xml" />
 				<include name="**/*.html" />
