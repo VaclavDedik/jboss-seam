@@ -13,7 +13,7 @@ import org.jboss.seam.async.Schedule;
 import org.jboss.seam.async.TimerSchedule;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.example.quartz.Payment;
-import org.jboss.seam.example.quartz.PaymentController;
+import org.jboss.seam.example.quartz.PaymentHome;
 import org.jboss.seam.log.Log;
 
 /**
@@ -22,7 +22,7 @@ import org.jboss.seam.log.Log;
  */
 @Name("paymentHome")
 @Install(precedence=MOCK)
-public class TestPaymentController extends PaymentController
+public class TestPaymentController extends PaymentHome
 {
     
     @In TestPaymentProcessor processor;

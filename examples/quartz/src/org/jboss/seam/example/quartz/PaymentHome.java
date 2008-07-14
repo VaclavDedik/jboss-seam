@@ -13,7 +13,7 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.log.Log;
 
 @Name("paymentHome")
-public class PaymentController 
+public class PaymentHome
     extends EntityHome<Payment>
 {
     @RequestParameter Long paymentId;
