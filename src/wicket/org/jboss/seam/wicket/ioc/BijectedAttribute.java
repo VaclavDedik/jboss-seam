@@ -9,12 +9,10 @@ import java.lang.annotation.Annotation;
  *
  * TODO Move into Seam core 
  */
-public interface BijectedAttribute<T extends Annotation>
+public interface BijectedAttribute<T extends Annotation> extends InjectedAttribute<T>
 {
-   public String getName();
-   public T getAnnotation();
-   public Class getType();
-   public void set(Object bean, Object value);
+
+   public String getContextVariableName();
    public Object get(Object bean);
-   public MetaModel getMetaModel();
+   
 }

@@ -3,57 +3,43 @@ package org.jboss.seam.wicket.ioc;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
+import org.jboss.seam.util.Reflections;
+
 /**
  * Implementation of BijectedAttribute for a field
  * @author Pete Muir
  *
  */
-public class BijectedField<T extends Annotation> implements BijectedAttribute<T>
+public abstract class BijectedField<T extends Annotation> extends InjectedField<T> implements BijectedAttribute<T>
+{
+   private String contextVariableName;
+   
+   public BijectedField(Field field, T annotation)
    {
-      private String name;
-      private Field field;
-      private T annotation;
-      private MetaModel metaModel;
-      
-      public BijectedField(String name, Field field, T annotation, MetaModel metaModel)
+      super(field, annotation);
+      contextVariableName = getSpecifiedContextVariableName();
+      if (contextVariableName == null || "".equals(contextVariableName))
       {
-         this.name = name;
-         this.field = field;
-         this.annotation = annotation;
-         this.metaModel = metaModel;
-      }
-      public String getName()
-      {
-         return name;
-      }
-      public Field getField()
-      {
-         return field;
-      }
-      public T getAnnotation()
-      {
-         return annotation;
-      }
-      public Class getType()
-      {
-         return field.getType();
-      }
-      public void set(Object bean, Object value)
-      {
-         metaModel.setFieldValue(bean, field, name, value);
-      }
-      public Object get(Object bean)
-      {
-         return metaModel.getFieldValue(bean, field, name);
-      }
-      @Override
-      public String toString()
-      {
-         return "BijectedField(" + name + ')';
-      }
-      
-      public MetaModel getMetaModel()
-      {
-         return metaModel;
+         contextVariableName = field.getName();
       }
    }
+   
+   public Object get(Object bean)
+   {
+      field.setAccessible(true);
+      return Reflections.getAndWrap(field, bean);
+   }
+   
+   public String getContextVariableName()
+   {
+      return contextVariableName;
+   }
+   
+   protected abstract String getSpecifiedContextVariableName();
+   
+   @Override
+   public String toString()
+   {
+      return "BijectedField(" + Reflections.toString(field) + ')';
+   }
+}

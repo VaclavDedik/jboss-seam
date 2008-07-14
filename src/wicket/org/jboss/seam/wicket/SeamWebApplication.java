@@ -19,7 +19,6 @@ import org.apache.wicket.request.target.component.listener.IListenerInterfaceReq
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.wicket.international.SeamStatusMessagesListener;
-import org.jboss.seam.wicket.ioc.SeamInjectionListener;
 
 /**
  * The base class for Seam Web Applications
@@ -116,7 +115,6 @@ public abstract class SeamWebApplication extends WebApplication
    {
       super.init();
       inititializeSeamSecurity();
-      initializeSeamInjection();
       initializeSeamStatusMessages();
    }
 
@@ -130,15 +128,6 @@ public abstract class SeamWebApplication extends WebApplication
    protected void inititializeSeamSecurity()
    {
       getSecuritySettings().setAuthorizationStrategy(new SeamAuthorizationStrategy(getLoginPage()));
-   }
-
-
-   /** 
-    * Add Seam injection support to your app. Required for proper functioning
-    */
-   protected void initializeSeamInjection()
-   {
-      addComponentInstantiationListener(new SeamInjectionListener());
    }
 
    /**
