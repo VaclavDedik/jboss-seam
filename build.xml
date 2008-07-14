@@ -994,7 +994,7 @@
 					<propertyref name="debug.pom" />
 					<propertyref name="wicket.pom" />
 					<propertyref name="jbas5.pom" />
-					<propertyref name="resteasy.pokm" />
+					<propertyref name="resteasy.pom" />
 					<propertyref name="testng.jvmargs"/>
 				</propertyset>
 			</ant>
