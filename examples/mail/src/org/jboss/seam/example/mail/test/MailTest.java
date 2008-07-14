@@ -554,7 +554,7 @@ public class MailTest extends SeamTest
             { 
                 Contexts.getEventContext().set("name", "Pete\nMuir");   
                 MimeMessage renderedMessage = getRenderedMailMessage("/org/jboss/seam/example/mail/test/sanitization.xhtml");
-                assert "Try out".equals(renderedMessage.getSubject());
+                assert "Try out Seam!".equals(renderedMessage.getSubject());
                 InternetAddress to = (InternetAddress) renderedMessage.getAllRecipients()[0];
                 assert to.getAddress().equals("peter@email.tld");
                 assert to.getPersonal().equals("Pete");
@@ -565,7 +565,7 @@ public class MailTest extends SeamTest
                 assert from.getPersonal().equals("Pete");
                 assert renderedMessage.getHeader("Pete") != null;
                 assert renderedMessage.getHeader("Pete").length == 1;
-                assert "roll".equals(renderedMessage.getHeader("Pete")[0]);
+                assert "roll over".equals(renderedMessage.getHeader("Pete")[0]);
             }
         }.run();
     }
