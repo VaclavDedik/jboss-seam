@@ -21,6 +21,17 @@
          <type>ejb</type>
       </dependency>
       
+      <dependency>
+         <groupId>org.resteasy</groupId>
+         <artifactId>resteasy-jaxrs</artifactId>
+      </dependency>
+      
+      <dependency>
+         <groupId>javax.servlet</groupId>
+         <artifactId>servlet-api</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      
    </dependencies>
 
 </project>
