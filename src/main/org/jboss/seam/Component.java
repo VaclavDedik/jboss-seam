@@ -49,7 +49,6 @@ import java.util.Set;
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
 
-import org.apache.tools.ant.types.Assertions.EnabledAssertion;
 import org.jboss.seam.util.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 
