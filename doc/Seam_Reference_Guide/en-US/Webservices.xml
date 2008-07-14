@@ -118,18 +118,18 @@
   
   <sect1>
     <title>An example web service</title>
-    
+
     <para>
       Let's walk through an example web service.  The code in this section all comes from the seamBay example
       application in Seam's <literal>/examples</literal> directory, and follows the recommended strategy as
-      described in the previous section.  Let's first take a look at the web service class and one of its web 
+      described in the previous section.  Let's first take a look at the web service class and one of its web
       service methods:
     </para>
-    
+
     <programlisting role="JAVA"><![CDATA[@Stateless
 @WebService(name = "AuctionService", serviceName = "AuctionService")
 public class AuctionService implements AuctionServiceRemote
-{           
+{
    @WebMethod
    public boolean login(String username, String password)
    {
@@ -138,7 +138,7 @@ public class AuctionService implements AuctionServiceRemote
       Identity.instance().login();
       return Identity.instance().isLoggedIn();
    }
-   
+
    // snip
 }]]></programlisting>
 
@@ -198,5 +198,70 @@ public class AuctionService implements AuctionServiceRemote
 
   </sect1>
 
+   <sect1>
+     <title>RESTful HTTP webservices with RESTEasy</title>
+
+     <para>
+        Seam integrates the RESTEasy implementation of the JAX-RS specification (JSR 311). You can decided how
+        "deep" the integration into your Seam application is going to be: From simple integration of configuration
+        and bootstrap, serving the requests with the built-in Seam resource servlet, writing resources as
+        Seam components, and integration with conversations and the Seam CRUD Application Framework.
+     </para>
+
+      <sect2>
+         <title>RESTEasy bootstrap and request handling</title>
+
+         <para>
+            First, get the RESTEasy libraries and the <literal>jaxrs-api.jar</literal>, deploy it with the
+            other libraries of your application. Also deploy the integration library, <tt>jboss-seam-resteasy.jar</tt>
+         </para>
+
+         <para>
+            On startup, all classes annotated <literal>@javax.ws.rs.Path</literal> will be discovered automatically
+            and registered as HTTP resources. Seam will serve any HTTP request automatically under the URL basepath
+            you mapped the <literal>SeamResourceServlet</literal> at in <tt>web.xml</tt>. Most of the time and if you
+            follow this documentation, this would be <literal>/seam/resource</literal>.
+            The hardcoded full path of your RESTful resources is therefore <literal>/seam/resource/rest</literal>.
+         </para>
+
+         <para>
+            The following resource would serve a representation under
+            <literal>http://your.hostname/seam/resource/reset/item/123</literal>:
+         </para>
+
+         <programlisting role="JAVA"><![CDATA[@Path("/item")
+public class ItemResource {
+
+    @GET
+    @Path("/item/{itemId}")
+    @ProduceMime("text/plain")
+    public String getItem(@PathParam("itemId") int itemId) {
+         return ...;
+    }
+}]]></programlisting>
+
+         <para>
+            TODO: This is not true, today you need @Path("/seam/resource/rest/item") on the resource class, we need
+            to implement some base-path mapping there.
+         </para>
+
+         <para>
+            You can configure the <literal>/seam/resource</literal> part by specifying a new mapping in web.xml
+            for the <tt>SeamResourceServlet</tt>. Note that this also changes the URI path for all other resources
+            you want to serve with this servlet! You can not change the <literal>/rest</literal> segement of the path,
+            unless you subclass and override the <literal>ResteasyResourceAdapter.getResourcePath()</literal> method.
+         </para>
+
+         <para>
+            TODO: TBC...
+         </para>
+
+      </sect2>
+
+<!--
+     <programlisting role="JAVA"><![CDATA[
+]]></programlisting>
+-->
+   </sect1>
 
 </chapter>

@@ -1,12 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           elementFormDefault="qualified"
-           targetNamespace="http://jboss.com/products/seam/resteasy"
-           xmlns:pdf="http://jboss.com/products/seam/resteasy"
-           xmlns:components="http://jboss.com/products/seam/components"
-           attributeFormDefault="unqualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://jboss.com/products/seam/resteasy" xmlns:resteasy="http://jboss.com/products/seam/resteasy"
+    xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
+
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.1.xsd"/>
 
-   <!-- TODO -->
+   <xs:element name="application-config">
+       <xs:annotation>
+           <xs:documentation>
+               An implementation of JAX-RS ApplicationConfig with additional properties for RESTEasy.
+           </xs:documentation>
+       </xs:annotation>
+       <xs:complexType mixed="true">
+          <xs:sequence>
+             <xs:element minOccurs="0" maxOccurs="1"
+                         name="provider-class-names" type="components:multiValuedProperty">
+                 <xs:annotation>
+                    <xs:documentation>
+                        List of provider classes.
+                    </xs:documentation>
+                 </xs:annotation>
+             </xs:element>
+             <xs:element minOccurs="0" maxOccurs="1"
+                         name="resource-class-names" type="components:multiValuedProperty">
+                 <xs:annotation>
+                    <xs:documentation>
+                        List of resource classes.
+                    </xs:documentation>
+                 </xs:annotation>
+             </xs:element>
+          </xs:sequence>
+          <xs:attributeGroup ref="components:attlist.component"/>
+          <xs:attributeGroup ref="pdf:attlist.application-config"/>
+       </xs:complexType>
+   </xs:element>
+
+   <xs:attributeGroup name="attlist.application-config">
+       <xs:attribute name="scan-providers" type="components:boolean">
+           <xs:annotation>
+               <xs:documentation>
+                   Enable automatic discovery of classes annoated with JAX-RS @Provider, defaults to 'true'.
+               </xs:documentation>
+           </xs:annotation>
+       </xs:attribute>
+      <xs:attribute name="scan-resources" type="components:boolean">
+          <xs:annotation>
+              <xs:documentation>
+                  Enable automatic discovery of classes annoated with JAX-RS @Path, defaults to 'true'.
+              </xs:documentation>
+          </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="use-builtin-providers" type="components:boolean">
+          <xs:annotation>
+              <xs:documentation>
+                  Enable RESTEasy built-in providers, defaults to 'true'.
+              </xs:documentation>
+          </xs:annotation>
+      </xs:attribute>
+   </xs:attributeGroup>
 
 </xs:schema>

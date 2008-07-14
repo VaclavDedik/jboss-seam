@@ -27,37 +27,45 @@ import java.io.IOException;
 @Scope(ScopeType.APPLICATION)
 @Name("org.jboss.seam.resteasy.resourceAdapter")
 @BypassInterceptors
-public class ResteasyResourceAdapter extends AbstractResource {
+public class ResteasyResourceAdapter extends AbstractResource
+{
 
     public static final String RESTEASY_RESOURCE_BASEPATH = "/rest";
 
     @Override
-    public String getResourcePath() {
+    public String getResourcePath()
+    {
         return RESTEASY_RESOURCE_BASEPATH;
     }
 
     @Override
     public void getResource(final HttpServletRequest request, final HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
 
         // Wrap this in Seam contexts
-        new ContextualHttpServletRequest(request) {
+        new ContextualHttpServletRequest(request)
+        {
             @Override
-            public void process() throws ServletException, IOException {
+            public void process() throws ServletException, IOException
+            {
 
                 ResteasyDispatcher dispatcher =
-                        (ResteasyDispatcher)Component.getInstance(ResteasyDispatcher.class);
-                if (dispatcher == null) {
+                        (ResteasyDispatcher) Component.getInstance(ResteasyDispatcher.class);
+                if (dispatcher == null)
+                {
                     throw new IllegalStateException("RESTEasy is not installed, check your classpath");
                 }
                 dispatcher.invoke(
-                    new HttpServletRequestWrapper(request) {
-                        // TODO: Strip out the /seam/resource/rest stuff
-                        public String getPathInfo() {
-                            return super.getPathInfo();
-                        }
-                    },
-                    response
+                        new HttpServletRequestWrapper(request)
+                        {
+                            // TODO: Strip out the /seam/resource/rest stuff
+                            public String getPathInfo()
+                            {
+                                return super.getPathInfo();
+                            }
+                        },
+                        response
                 );
             }
         }.run();

@@ -11,6 +11,10 @@ import org.resteasy.plugins.server.resourcefactory.POJOResourceFactory;
 import org.resteasy.spi.*;
 
 /**
+ * An extended version of the RESTEasy dispatcher, configured on Seam application
+ * startup with a custom ApplicationConfig instance. Registers custom resource
+ * and provider lifecycle handlers.
+ *
  * @author Christian Bauer
  */
 @Name("org.jboss.seam.resteasy.dispatcher")
@@ -18,77 +22,100 @@ import org.resteasy.spi.*;
 @Startup(depends = "resteasyBootstrap")
 @AutoCreate
 @Install(classDependencies = "org.resteasy.Dispatcher")
-public class ResteasyDispatcher extends HttpServletDispatcher {
+public class ResteasyDispatcher extends HttpServletDispatcher
+{
 
     @In
-    RestApplicationConfig restApplicationConfig;
+    ApplicationConfig applicationConfig;
 
     @Logger
     Log log;
 
     @Create
-    public void onStartup() {
-        log.info("registering RESTEasy resources and providers");
+    public void onStartup()
+    {
+        log.debug("assigning registered RESTEasy resources and providers");
 
         ResteasyProviderFactory providerFactory = new ResteasyProviderFactory();
         ResteasyProviderFactory.setInstance(providerFactory); // This is really necessary
         setDispatcher(new Dispatcher(providerFactory));
 
-        getDispatcher().setLanguageMappings(restApplicationConfig.getLanguageMappings());
-        getDispatcher().setMediaTypeMappings(restApplicationConfig.getMediaTypeMappings());
+        getDispatcher().setLanguageMappings(applicationConfig.getLanguageMappings());
+        getDispatcher().setMediaTypeMappings(applicationConfig.getMediaTypeMappings());
 
         // Resource registration
         Registry registry = getDispatcher().getRegistry();
-        for (final Class resourceClass : restApplicationConfig.getResourceClasses()) {
-            final Component seamComponent = restApplicationConfig.getResourceClassComponent(resourceClass);
-            if (seamComponent != null) {
+        for (final Class resourceClass : applicationConfig.getResourceClasses())
+        {
+            final Component seamComponent = applicationConfig.getResourceClassComponent(resourceClass);
+            if (seamComponent != null)
+            {
                 // Seam component lookup when call is dispatched to resource
                 registry.addResourceFactory(
-                    new ResourceFactory() {
+                        new ResourceFactory()
+                        {
 
-                        private PropertyInjector propertyInjector;
+                            private PropertyInjector propertyInjector;
 
-                        public Class<?> getScannableClass() {
-                            return resourceClass;
+                            public Class<?> getScannableClass()
+                            {
+                                return resourceClass;
+                            }
+
+                            public void registered(InjectorFactory factory)
+                            {
+                                this.propertyInjector = factory.createPropertyInjector(getScannableClass());
+                            }
+
+                            public Object createResource(HttpRequest request, HttpResponse response, InjectorFactory factory)
+                            {
+                                Object target = Component.getInstance(seamComponent.getName());
+                                propertyInjector.inject(request, response, target);
+                                return target;
+                            }
+
+                            public void requestFinished(HttpRequest request, HttpResponse response, Object resource)
+                            {
+                            }
+
+                            public void unregistered()
+                            {
+                            }
                         }
-
-                        public void registered(InjectorFactory factory) {
-                            this.propertyInjector = factory.createPropertyInjector(getScannableClass());
-                        }
-
-                        public Object createResource(HttpRequest request, HttpResponse response, InjectorFactory factory) {
-                            Object target = Component.getInstance(seamComponent.getName());
-                            propertyInjector.inject(request, response, target);
-                            return target;
-                        }
-
-                        public void requestFinished(HttpRequest request, HttpResponse response, Object resource) {}
-                        public void unregistered() {}
-                    }
                 );
-            } else {
+            }
+            else
+            {
                 // JAX-RS default lifecycle
                 registry.addResourceFactory(new POJOResourceFactory(resourceClass));
             }
         }
 
         // Provider registration
-        if (restApplicationConfig.isUseBuiltinProviders()) {
+        if (applicationConfig.isUseBuiltinProviders())
+        {
             log.info("registering built-in RESTEasy providers");
             RegisterBuiltin.register(providerFactory);
         }
-        for (Class providerClass : restApplicationConfig.getProviderClasses()) {
-            Component seamComponent = restApplicationConfig.getProviderClassComponent(providerClass);
-            if (seamComponent != null) {
-                if (ScopeType.STATELESS.equals(seamComponent.getScope())) {
+        for (Class providerClass : applicationConfig.getProviderClasses())
+        {
+            Component seamComponent = applicationConfig.getProviderClassComponent(providerClass);
+            if (seamComponent != null)
+            {
+                if (ScopeType.STATELESS.equals(seamComponent.getScope()))
+                {
                     throw new RuntimeException(
-                        "Registration of STATELESS Seam components as RESTEasy providers not implemented!"
+                            "Registration of STATELESS Seam components as RESTEasy providers not implemented!"
                     );
-                } else if (ScopeType.APPLICATION.equals(seamComponent.getScope())) {
+                }
+                else if (ScopeType.APPLICATION.equals(seamComponent.getScope()))
+                {
                     Object providerInstance = Component.getInstance(seamComponent.getName());
                     providerFactory.registerProviderInstance(providerInstance);
                 }
-            } else {
+            }
+            else
+            {
                 // Just plain RESTEasy, no Seam component lookup or lifecycle
                 providerFactory.registerProvider(providerClass);
             }
