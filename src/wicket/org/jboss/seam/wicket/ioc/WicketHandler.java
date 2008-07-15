@@ -26,12 +26,7 @@ public class WicketHandler implements Serializable
    private List<RootInterceptor> interceptors;
    private Class<?> type;
    private transient WicketComponent component;
-   
-   public void init()
-   {
-      
-
-   }
+   private boolean callInProgress;
    
    private WicketComponent getComponent()
    {
@@ -62,14 +57,15 @@ public class WicketHandler implements Serializable
       afterInvoke(new InvocationContext(calledMethod, target, getComponent()));
    }
    
-   public void beforeInvoke(Object target, Constructor constructor)
+   public void beforeInvoke(Object target)
    {
-      beforeInvoke(new InvocationContext(constructor, target, getComponent()));
+      getComponent().initialize(target);
+      beforeInvoke(new InvocationContext(target, getComponent()));
    }
    
-   public void afterInvoke(Object target, Constructor constructor)
+   public void afterInvoke(Object target)
    {
-      afterInvoke(new InvocationContext(constructor, target, getComponent()));
+      afterInvoke(new InvocationContext(target, getComponent()));
    }
    
    private void beforeInvoke(InvocationContext invocationContext)
@@ -82,11 +78,40 @@ public class WicketHandler implements Serializable
    
    private void afterInvoke(InvocationContext invocationContext)
    {
-      invocationContext.getComponent().initialize(invocationContext.getBean());
       for (RootInterceptor interceptor : getInterceptors())
       {
          interceptor.afterInvoke(invocationContext);
       }
    }
+ 
+   public boolean isCallInProgress()
+   {
+      return callInProgress;
+   }
    
+   public void setCallInProgress(boolean callInProgress)
+   {
+      this.callInProgress = callInProgress;
+   }
+   
+   public static InstrumentedComponent getEnclosingInstance(Object bean)
+   {
+      Class enclosingType = bean.getClass().getEnclosingClass();
+      if (enclosingType != null)
+      {
+         try 
+         {
+            java.lang.reflect.Field enclosingField = bean.getClass().getDeclaredField("this$0");
+            enclosingField.setAccessible(true);
+            Object enclosingInstance = enclosingField.get(bean);
+            if (enclosingInstance instanceof InstrumentedComponent)
+            {
+               return (InstrumentedComponent) enclosingInstance;
+            }
+         }
+         catch (Exception e) {}
+      }
+      return null;
+   }
+
 }

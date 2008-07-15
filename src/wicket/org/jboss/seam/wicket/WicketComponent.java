@@ -180,7 +180,7 @@ public class WicketComponent<T>
          
    }
    
-   public void inject(T instance) throws Exception
+   public void inject(T instance)
    {
       for ( BijectedAttribute<In> in : inAttributes )
       {
@@ -339,6 +339,12 @@ public class WicketComponent<T>
       {
          injectedLogger.set(bean);
       }
+   }
+   
+   @Override
+   public String toString()
+   {
+      return "WicketComponent(" + type + ")";
    }
    
 }
