@@ -33,8 +33,7 @@
        </drools:rule-files>
    </drools:rule-base>
 
-   <security:identity authenticate-method="#{authenticator.authenticate}"
-                           security-rules="#{securityRules}"/>
+   <security:identity authenticate-method="#{authenticator.authenticate}"/>
    
    <event type="org.jboss.seam.security.notLoggedIn">
        <action execute="#{redirect.captureCurrentView}"/>
