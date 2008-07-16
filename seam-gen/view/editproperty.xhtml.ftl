@@ -10,7 +10,7 @@
             <s:decorate id="${componentProperty.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${componentProperty.name}</ui:define>
 <#if isDate(componentProperty)>
-        <rich:calendar id="${componentProperty.name}"
+                <rich:calendar id="${componentProperty.name}"
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
 </#if>
@@ -29,15 +29,11 @@
                     <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isTimestamp(componentProperty)>
-                <h:inputText id="${componentProperty.name}"
-                           size="16"
+                <rich:calendar id="${componentProperty.name}"
 <#if !column.nullable>
                        required="true"
 </#if>
-                          value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                     <s:convertDateTime type="both" dateStyle="short"/>
-                     <a:support event="onblur" reRender="${componentProperty.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
+                          value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}" datePattern="MM/dd/yyyy hh:mm a" />
 <#elseif isBigDecimal(componentProperty)>
                 <h:inputText id="${componentProperty.name}"
 <#if !column.nullable>
@@ -125,7 +121,7 @@
             <s:decorate id="${property.name}Decoration" template="layout/edit.xhtml">
                 <ui:define name="label">${property.name}</ui:define>
 <#if isDate(property)>
-        <rich:calendar id="${property.name}"
+                <rich:calendar id="${property.name}"
 <#if propertyIsId>
                        disabled="${'#'}{${homeName}.managed}"
 </#if>
@@ -144,15 +140,11 @@
                     <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
 <#elseif isTimestamp(property)>
-                <h:inputText id="${property.name}"
-                           size="16"
+                <rich:calendar id="${property.name}"
 <#if !column.nullable>
                        required="true"
 </#if>
-                          value="${'#'}{${homeName}.instance.${property.name}}">
-                    <s:convertDateTime type="both" dateStyle="short"/>
-                    <a:support event="onblur" reRender="${property.name}Decoration" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
+                          value="${'#'}{${homeName}.instance.${property.name}}" datePattern="MM/dd/yyyy hh:mm a"/>
 <#elseif isBigDecimal(property)>
                 <h:inputText id="${property.name}"
 <#if !column.nullable>
