@@ -16,44 +16,44 @@
 
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
-            <message>Not found</message>
+            <message severity="warn">Not found</message>
         </redirect>
     </exception>
     
     <exception class="javax.persistence.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
-            <message>Not found</message>
+            <message severity="warn">Not found</message>
         </redirect>
     </exception>
     
     <exception class="javax.persistence.OptimisticLockException">
         <end-conversation/>
         <redirect view-id="/error.xhtml">
-            <message>Another user changed the same data, please try again</message>
+            <message severity="warn">Another user changed the same data, please try again</message>
         </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.AuthorizationException">
         <redirect view-id="/error.xhtml">
-            <message>You don't have permission to do this</message>
+            <message severity="error">You don't have permission to do this</message>
         </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <redirect view-id="/login.xhtml">
-            <message>Please log in first</message>
+            <message severity="warn">Please log in first</message>
         </redirect>
     </exception>
     
     <exception class="javax.faces.application.ViewExpiredException">
         <redirect view-id="/error.xhtml">
-            <message>Your session has timed out, please try again</message>
+            <message severity="warn">Your session has timed out, please try again</message>
         </redirect>
     </exception>
      
     <exception>
         <redirect view-id="/error.xhtml">
-            <message>Unexpected error, please try again</message>
+            <message severity="error">Unexpected error, please try again</message>
         </redirect>
     </exception>
     
