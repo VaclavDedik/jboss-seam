@@ -142,20 +142,56 @@
             styleClass="#{not textEditor.valid ? 'textEditorErrorMessages' : 'textEditorMessages'}">
 
         <s:div styleClass="errorMessage" rendered="#{not textEditor.valid}">
-            <h:panelGrid columns="2" cellpadding="0" cellspacing="0" border="0">
+            <h:panelGrid columns="5" cellpadding="0" cellspacing="0" border="0"
+                         columnClasses="onePercentColumn minorPadding,
+                                        defaultColumn,
+                                        onePercentColumn,
+                                        onePercentColumn">
                 <h:graphicImage value="#{imagePath}/attention.gif"
                                 width="18" height="18"
                                 styleClass="attentionImage"/>
-                <s:span styleClass="attentionMessage"><span
-                        id="#{textEditor.key}MessageText"><h:outputText
-                        value="#{messages[textEditor.lastValidationError]}"/></span></s:span>
+                <s:span styleClass="attentionMessage">
+                        <h:outputText value="#{textEditor.lastValidationError.message}"/>
+                </s:span>
+                <s:fragment>
+                    <s:fragment rendered="#{textEditor.lastValidationError.position > 0}">
+                        <!-- Oh my god... -->
+                        <input id="#{textEditor.key}ThisIsJustADummy" size="2" value="  " disabled="true"
+                               style="display:inline;background:none;padding:0;border:0;margin:0;cursor:default"/>
+                    </s:fragment>
+                </s:fragment>
+                <s:fragment>
+                    <h:outputLink value="javascript://no-op" styleClass="buttonNonpersistent"
+                                  rendered="#{textEditor.lastValidationError.position > 0}"
+                                  onclick="selectText(
+                                            '##{namingContainer}\\\\:#{textEditor.key}TextArea',
+                                            '#{textEditor.lastValidationError.position}',
+                                            3
+                                           );">
+                        <h:outputText styleClass="buttonLabel"
+                                      value="#{messages['lacewiki.label.wikiTextValidator.HighlightError']}"/>
+                    </h:outputLink>
+                </s:fragment>
+                <s:fragment>
+                    <h:outputLink value="javascript://no-op" styleClass="buttonNonpersistent"
+                                  rendered="#{textEditor.lastValidationError.position > 0}"
+                                  onclick="scrollToText(
+                                            '##{namingContainer}\\\\:#{textEditor.key}TextArea',
+                                            '#{textEditor.lastValidationError.position}',
+                                            jQuery('##{textEditor.key}ThisIsJustADummy').width()/2,
+                                            jQuery('##{textEditor.key}ThisIsJustADummy').height()
+                                           );">
+                        <h:outputText styleClass="buttonLabel"
+                                      value="#{messages['lacewiki.label.wikiTextValidator.ScrollToError']}"/>
+                    </h:outputLink>
+                </s:fragment>
             </h:panelGrid>
         </s:div>
 
         <s:fragment rendered="#{not empty tabId}">
             <s:span rendered="#{not textEditor.valid}">
                 <script type="text/javascript">jQuery(function() {
-                    formTabRaiseError("#{tabId}", "#{textEditor.key}TextArea", '#{messages[textEditor.lastValidationError]}');
+                    formTabRaiseError("#{tabId}", "#{textEditor.key}TextArea", '#{textEditor.lastValidationError.message}');
                 });</script>
             </s:span>
             <s:span rendered="#{textEditor.valid}">

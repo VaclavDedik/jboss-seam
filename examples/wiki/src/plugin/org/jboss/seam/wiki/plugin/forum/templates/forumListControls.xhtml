@@ -49,6 +49,7 @@
         <a:commandLink action="#{forumHome.newForum()}"
                        reRender="forumListPluginContainer, messageBoxContainer"
                        accesskey="#{messages['forum.button.NewForum.accesskey']}"
+                       status="globalStatus"
                        tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
             <h:outputText styleClass="buttonLabel" escape="false" value="#{messages['forum.button.NewForum']}"/>
         </a:commandLink>

@@ -6,18 +6,23 @@
  */
 package org.jboss.seam.wiki.core.wikitext.editor;
 
+import antlr.*;
+import org.jboss.seam.Component;
+import org.jboss.seam.international.Messages;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
-import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.text.SeamTextLexer;
+import org.jboss.seam.text.SeamTextParser;
+import org.jboss.seam.text.SeamTextParserTokenTypes;
 import org.jboss.seam.wiki.core.action.Validatable;
-import org.jboss.seam.Component;
+import org.jboss.seam.wiki.core.model.WikiFile;
+import org.jboss.seam.wiki.core.wikitext.engine.WikiLinkResolver;
 
-import javax.faces.validator.ValidatorException;
-import javax.faces.application.FacesMessage;
+import java.io.Reader;
+import java.io.Serializable;
+import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Set;
-import java.io.Serializable;
 
 /**
  * A wiki (or plain) text editor.
@@ -40,8 +45,8 @@ public class WikiTextEditor implements Validatable, Serializable {
     private boolean valid = true;
     private boolean valuePlaintext;
     private boolean previewEnabled;
-    private String lastValidationError;
     private Set<WikiFile> linkTargets;
+    private WikiTextEditorError lastValidationError;
 
     public WikiTextEditor(String key) {
         this.key = key;
@@ -151,11 +156,11 @@ public class WikiTextEditor implements Validatable, Serializable {
         this.previewEnabled = previewEnabled;
     }
 
-    public String getLastValidationError() {
+    public WikiTextEditorError getLastValidationError() {
         return lastValidationError;
     }
 
-    public void setLastValidationError(String lastValidationError) {
+    public void setLastValidationError(WikiTextEditorError lastValidationError) {
         this.lastValidationError = lastValidationError;
     }
 
@@ -198,50 +203,127 @@ public class WikiTextEditor implements Validatable, Serializable {
         setValid(false);
         if (valueRequired && (value == null || value.length() == 0)) {
             log.debug("validation failed for required but null or empty wiki text with key: " + key);
-            lastValidationError = "lacewiki.msg.wikiTextValidator.EmptyWikiText"; // TODO: make static
+            lastValidationError = new WikiTextEditorError(
+                Messages.instance().get("lacewiki.msg.wikiTextValidator.EmptyWikiText")
+            );
             return;
         }
         if (value != null && value.length() > getValueMaxLength()) {
             log.debug("validation failed for too long wiki text with key: " + key);
-            lastValidationError = "lacewiki.msg.wikiTextValidator.MaxLengthExceeded"; // TODO: make static
+            lastValidationError = new WikiTextEditorError(
+                Messages.instance().get("lacewiki.msg.wikiTextValidator.MaxLengthExceeded")
+            );
             return;
         }
-        try {
-            lastValidationError = null;
-            if (!isValuePlaintext()) {
-                WikiFormattedTextValidator validator = new WikiFormattedTextValidator();
-                validator.validate(null, null, value);
+
+        lastValidationError = null;
+        setValid(true);
+        if (!isValuePlaintext()) {
+            try {
+                SeamTextParser parser = getValidationParser(value);
+                parser.startRule();
+                setValid(true);
             }
-            log.debug("value is valid");
-            setValid(true);
-        } catch (ValidatorException e) {
-            log.debug("exception during validation: " + e.getFacesMessage().getSummary());
-            lastValidationError = convertFacesMessage(e.getFacesMessage());
+            // Error handling for ANTLR lexer/parser errors, see
+            // http://www.doc.ic.ac.uk/lab/secondyear/Antlr/err.html
+            catch (TokenStreamException tse) {
+                setValid(false);
+                // Problem with the token input stream
+                throw new RuntimeException(tse);
+            } catch (RecognitionException re) {
+                setValid(false);
+                lastValidationError = convertException(re);
+            }
         }
         log.debug("completed validation of text editor value for key: " + key);
     }
-    
-    // TODO: These are supposed to be message bundle keys, not the literal ANTLR parser messages, see WikiFormattedTextValidator
-    protected String convertFacesMessage(FacesMessage fm) {
-        // Convert the FacesMessage to a StatusMessage (which of course is then converted back to JSF...)
-        StringBuilder msg = new StringBuilder();
-        msg.append(fm.getSummary());
 
-        // Append the detail only if the summary doesn't end with it already
-        if (!fm.getSummary().endsWith(fm.getDetail())) {
-            msg.append(" (").append(fm.getDetail()).append(")");
+    protected SeamTextParser getValidationParser(String text) {
+        Reader r = new StringReader(text);
+        SeamTextLexer lexer = new SeamTextLexer(r);
+        SeamTextParser parser = new SeamTextParser(lexer);
+        parser.setSanitizer(
+            new SeamTextParser.DefaultSanitizer() {
+                @Override
+                public void validateLinkTagURI(Token token, String s) throws SemanticException {
+                    // Disable this part of the validation
+                }
+                @Override
+                public String getInvalidURIMessage(String uri) {
+                    return Messages.instance().get("lacewiki.msg.wikiTextValidator.InvalidURI");
+                }
+                @Override
+                public String getInvalidElementMessage(String elementName) {
+                    return Messages.instance().get("lacewiki.msg.wikiTextValidator.InvalidElement");
+                }
+                @Override
+                public String getInvalidAttributeMessage(String elementName, String attributeName) {
+                    return Messages.instance().get("lacewiki.msg.wikiTextValidator.InvalidAttribute")
+                            + " '" + attributeName + "'";
+                }
+                @Override
+                public String getInvalidAttributeValueMessage(String elementName, String attributeName, String value) {
+                    return Messages.instance().get("lacewiki.msg.wikiTextValidator.InvalidAttributeValue")
+                            + " '" + attributeName + "'";
+                }
+            }
+        );
+        return parser;
+    }
+
+    // This tries to make sense of the totally useless exceptions thrown by ANTLR parser.
+    protected WikiTextEditorError convertException(RecognitionException ex) {
+        WikiTextEditorError error = new WikiTextEditorError();
+        if (ex instanceof MismatchedTokenException) {
+
+            MismatchedTokenException tokenException = (MismatchedTokenException) ex;
+            String expecting = SeamTextParser._tokenNames[tokenException.expecting];
+
+            String found = "";
+            if (tokenException.token.getType() != SeamTextParserTokenTypes.EOF) {
+                error.setPosition(tokenException.getColumn());
+                found = ", " + Messages.instance().get("lacewiki.msg.wikiTextValidator.InsteadFound")
+                        + " " + SeamTextParser._tokenNames[tokenException.token.getType()];
+            }
+
+            error.setFormattingErrorMessage(
+                Messages.instance().get("lacewiki.msg.wikiTextValidator.ReachedEndAndMissing")
+                + " " + expecting + found
+            );
+
+        } else if (ex instanceof SeamTextParser.HtmlRecognitionException) {
+
+            SeamTextParser.HtmlRecognitionException htmlException = (SeamTextParser.HtmlRecognitionException) ex;
+            Token openingElement = htmlException.getOpeningElement();
+            String elementName = openingElement.getText();
+            String detailMsg;
+            if (!(htmlException.getCause() instanceof MismatchedTokenException)) {
+                detailMsg = ", " + convertException((RecognitionException)htmlException.getCause()).getMessage();
+            } else {
+                detailMsg = "";
+            }
+            error.setFormattingErrorMessage(
+                Messages.instance().get("lacewiki.msg.wikiTextValidator.UnclosedInvalidHTML")
+                + " '<"+elementName+">'" + detailMsg
+            );
+            error.setPosition(openingElement.getColumn());
+
+        } else if (ex instanceof NoViableAltException) {
+
+            NoViableAltException altException = (NoViableAltException) ex;
+            String unexpected = SeamTextParser._tokenNames[altException.token.getType()];
+
+            error.setFormattingErrorMessage(
+                Messages.instance().get("lacewiki.msg.wikiTextValidator.WrongPositionFor")
+                + " " + unexpected
+            );
+            error.setPosition(altException.getColumn());
+
+        } else {
+            error.setFormattingErrorMessage(ex.getMessage());
+            error.setPosition(ex.getColumn());
         }
-        return msg.toString();
+        return error;
     }
 
-    /* TODO: Old stuff
-    public void setShowPluginPrefs(boolean showPluginPrefs) {
-        Contexts.getPageContext().set("showPluginPreferences", showPluginPrefs);
-    }
-
-    public boolean isShowPluginPrefs() {
-        Boolean showPluginPrefs = (Boolean)Contexts.getPageContext().get("showPluginPreferences");
-        return showPluginPrefs != null && showPluginPrefs;
-    }
-    */
 }

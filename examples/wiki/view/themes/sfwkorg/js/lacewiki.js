@@ -182,3 +182,55 @@ function recallEditorSettings(textAreaId) {
     jQuery(textAreaId).width(editorSizeX);
     jQuery(textAreaId).height(editorSizeY);
 }
+
+function selectText(textAreaId, position, padding) {
+    var textArea = jQuery(textAreaId)[0];
+
+    // We highlight characters before and after position, if possible
+    var beginPosition = position;
+    var endPosition = position;
+    var i = 0;
+    while (beginPosition > 0 && i < padding) {
+        i++;
+        beginPosition--;
+    }
+    i = 0;
+    while (endPosition < textArea.value.length && i < padding) {
+        i++;
+        endPosition++;
+    }
+
+    if (textArea.createTextRange) {
+        var oRange = textArea.createTextRange();
+        oRange.moveStart("character", beginPosition);
+        oRange.moveEnd("character", endPosition);
+        oRange.select();
+    } else if (textArea.setSelectionRange) {
+        textArea.focus();
+        textArea.setSelectionRange(beginPosition, endPosition);
+    }
+}
+
+function scrollToText(textAreaId, position, charWidth, charHeight) {
+    // This is all guesswork, there is no realiable way to do this
+    var ta = jQuery(textAreaId);
+    var scroll = {
+          taWidthCenter : Math.floor(ta.innerWidth()/2.0),
+          taHeightCenter : Math.floor(ta.innerHeight()/2.0),
+          taNumRows : Math.floor(ta.innerHeight()/(charHeight-3)),
+          taCharsInRow : Math.floor(ta.innerWidth()/(charWidth-4)),
+          taHeight : ta.innerHeight(),
+          taWidth : ta.innerWidth()
+    };
+
+    var btxt = ta.val().substr(0, position);
+    if (btxt && btxt.length > 1) {
+        var regex = new RegExp(".{1,"+scroll.taCharsInRow+"}|\n(?=\n)", "g");
+        var gap = (btxt.match(regex).length) * scroll.taNumRows;
+        if (gap > scroll.taHeight) {
+            ta.scrollTop((gap-scroll.taHeightCenter));
+        } else {
+            ta.scrollTop(0);
+        }
+    }
+}

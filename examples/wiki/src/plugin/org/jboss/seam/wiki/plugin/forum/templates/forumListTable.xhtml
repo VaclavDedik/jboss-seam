@@ -124,6 +124,7 @@
 
         <a:commandLink action="#{forumHome.edit(f.forum.id)}"
                        reRender="forumListControlsContainer, forumListTable, forumFormContainer, messageBoxContainer"
+                       status="globalStatus"
                        tabindex="1" styleClass="buttonNonpersistent sessionEventTrigger">
             <h:outputText styleClass="buttonLabel" value="#{messages['forum.button.Edit']}"/>
         </a:commandLink>

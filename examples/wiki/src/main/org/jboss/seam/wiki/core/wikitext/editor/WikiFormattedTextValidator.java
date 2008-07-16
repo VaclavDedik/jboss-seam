@@ -9,11 +9,12 @@ package org.jboss.seam.wiki.core.wikitext.editor;
 import org.jboss.seam.ui.validator.FormattedTextValidator;
 import org.jboss.seam.text.SeamTextParser;
 import antlr.SemanticException;
+import antlr.Token;
 
 /**
  * Disables the Seam Text validation for link tags, so wiki links are OK.
  * <p>
- * Also provides some conversation to i18n error messages.
+ * Also provides some conversion to i18n error messages.
  * </p>
  *
  * TODO: Finish the i18n and well, maybe we should just duplicate the
@@ -28,9 +29,8 @@ public class WikiFormattedTextValidator extends FormattedTextValidator {
         parser.setSanitizer(
             new SeamTextParser.DefaultSanitizer() {
 
-                // Disable this part of the validation
-                @Override
-                public void validateLinkTagURI(String s) throws SemanticException {}
+                // Disable this method
+                public void validateLinkTagURI(Token token, String s) throws SemanticException {}
 
                 @Override
                 public String getInvalidURIMessage(String s) {
