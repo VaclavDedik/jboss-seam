@@ -19,6 +19,28 @@ options
         }
     }
 
+     public class HtmlRecognitionException extends RecognitionException {
+         Token openingElement;
+         RecognitionException wrappedException;
+
+         public HtmlRecognitionException(Token openingElement, RecognitionException wrappedException) {
+             this.openingElement = openingElement;
+             this.wrappedException = wrappedException;
+         }
+
+         public Token getOpeningElement() {
+             return openingElement;
+         }
+
+         public String getMessage() {
+             return wrappedException.getMessage();
+         }
+
+         public Throwable getCause() {
+             return wrappedException;
+         }
+     }
+
     /**
      * Sanitization of user input, used to clean links and plain HTML.
      */
@@ -27,10 +49,11 @@ options
         /**
          * Called by the SeamTextParser when a link tag is parsed, i.e. [=>some URI].
          *
+         * @param element the token of the parse tree, here the ">" symbol which comes after the "="
          * @param uri the user-entered link text
          * @throws SemanticException thrown if the URI is not syntactically or semantically valid
          */
-        public void validateLinkTagURI(String uri) throws SemanticException;
+        public void validateLinkTagURI(Token element, String uri) throws SemanticException;
 
         /**
          * Called by the SeamTextParser when a plain HTML element is parsed.
@@ -230,9 +253,9 @@ options
             "tel", "telnet", "urn", "webcal", "wtai", "xmpp"
         ));
 
-        public void validateLinkTagURI(String uri) throws SemanticException {
+        public void validateLinkTagURI(Token element, String uri) throws SemanticException {
             if (!validateURI(uri)) {
-                throw new SemanticException("Invalid URI");
+                throw createSemanticException("Invalid URI", element);
             }
         }
 
@@ -242,7 +265,7 @@ options
             if (!acceptableElements.contains(elementName) &&
                 !svgElements.contains(elementName) &&
                 !mathmlElements.contains(elementName)) {
-                throw new SemanticException(getInvalidElementMessage(elementName));
+                throw createSemanticException(getInvalidElementMessage(elementName), element);
             }
         }
 
@@ -252,7 +275,7 @@ options
             if (!acceptableAttributes.contains(attributeName) &&
                 !svgAttributes.contains(attributeName) &&
                 !mathmlAttributes.contains(attributeName)) {
-                throw new SemanticException(getInvalidAttributeMessage(elementName, attributeName));
+                throw createSemanticException(getInvalidAttributeMessage(elementName, attributeName), element);
             }
         }
 
@@ -267,20 +290,26 @@ options
 
             // Check element with attribute that has URI value (href, src, etc.)
             if (attributesWhoseValueIsAURI.contains(attributeName) && !validateURI(attributeValue)) {
-                throw new SemanticException(getInvalidURIMessage(attributeValue));
+                throw createSemanticException(getInvalidURIMessage(attributeValue), element);
             }
 
             // Check attribute value of style (CSS filtering)
             if (attributeName.equals("style")) {
                 if (!REGEX_VALID_CSS_STRING1.matcher(attributeValue).matches() ||
                     !REGEX_VALID_CSS_STRING2.matcher(attributeValue).matches()) {
-                    throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
+                    throw createSemanticException(
+                        getInvalidAttributeValueMessage(elementName, attributeName, attributeValue),
+                        element
+                    );
                 }
 
                 String[] cssProperties = attributeValue.split(";");
                 for (String cssProperty : cssProperties) {
                     if (!cssProperty.contains(":")) {
-                        throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
+                        throw createSemanticException(
+                            getInvalidAttributeValueMessage(elementName, attributeName, attributeValue),
+                            element
+                        );
                     }
                     String[] property = cssProperty.split(":");
                     String propertyName = property[0].trim();
@@ -289,14 +318,20 @@ options
                     // CSS property name
                     if (!styleProperties.contains(propertyName) &&
                         !svgStyleProperties.contains(propertyName)) {
-                        throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
+                        throw createSemanticException(
+                            getInvalidAttributeValueMessage(elementName, attributeName, attributeValue),
+                            element
+                        );
                     }
 
                     // CSS property value
                     if (propertyValue != null && !stylePropertiesValues.contains(propertyValue)) {
                         // Not in list, now check the regex
                         if (!REGEX_VALID_CSS_VALUE.matcher(propertyValue).matches()) {
-                            throw new SemanticException(getInvalidAttributeValueMessage(elementName, attributeName, attributeValue));
+                            throw createSemanticException(
+                                getInvalidAttributeValueMessage(elementName, attributeName, attributeValue),
+                                element
+                            );
                         }
                     }
                 }
@@ -350,6 +385,13 @@ options
         public String getInvalidAttributeValueMessage(String elementName, String attributeName, String value) {
             return "invalid value of attribute '" + attributeName + "' for element '" + elementName + "'";
         };
+
+        public SemanticException createSemanticException(String message, Token element) {
+            return new SemanticException(
+                message,
+                element.getFilename(), element.getLine(), element.getColumn()
+            );
+        }
 
     }
 
@@ -522,12 +564,12 @@ link: OPEN
       { beginCapture(); } 
       (word|punctuation|escape|space)*
       { String text=endCapture(); } 
-      EQ GT 
+      EQ gt:GT
       { beginCapture(); }
       attributeValue 
       {
          String link = endCapture();
-         sanitizer.validateLinkTagURI(link);
+         sanitizer.validateLinkTagURI(gt, link);
          append(linkTag(text, link));
       }
       CLOSE
@@ -665,7 +707,7 @@ newline: n:NEWLINE { append( n.getText() ); }
 newlineOrEof: newline | EOF
     ;
 
-html: openTag ( space | space attribute )* ( ( beforeBody body closeTagWithBody ) | closeTagWithNoBody ) 
+html: openTag ( space | space attribute )* ( ( beforeBody body closeTagWithBody ) | closeTagWithNoBody )
     ;
 
 body: (plain|formatted|preformatted|quoted|html|list|newline)*
@@ -680,10 +722,34 @@ openTag:
          append(name.getText());
       }
     ;
+    exception // for rule
+        catch [RecognitionException ex] {
+            // We'd like to have an error reported that names the opening HTML, this
+            // helps users to find the actual start of their problem in the wiki text.
+            if (htmlElementStack.isEmpty()) throw ex;
+            Token tok = htmlElementStack.peek();
+            if (tok != null) {
+                throw new HtmlRecognitionException(tok, ex);
+            } else {
+                throw ex;
+            }
+        }
 
 beforeBody: GT { append(">"); }
     ;
-    
+    exception // for rule
+        catch [RecognitionException ex] {
+            // We'd like to have an error reported that names the opening HTML, this
+            // helps users to find the actual start of their problem in the wiki text.
+            if (htmlElementStack.isEmpty()) throw ex;
+            Token tok = htmlElementStack.peek();
+            if (tok != null) {
+                throw new HtmlRecognitionException(tok, ex);
+            } else {
+                throw ex;
+            }
+        }
+
 closeTagWithBody:
       LT SLASH name:ALPHANUMERICWORD GT
       {
@@ -701,7 +767,7 @@ closeTagWithNoBody:
          htmlElementStack.pop();
       }
     ;
-    
+
 attribute: att:ALPHANUMERICWORD (space)* EQ (space)*
            DOUBLEQUOTE
            {
@@ -720,14 +786,38 @@ attribute: att:ALPHANUMERICWORD (space)* EQ (space)*
            }
            DOUBLEQUOTE { append("\""); }
     ;
-        
+    exception // for rule
+        catch [RecognitionException ex] {
+            // We'd like to have an error reported that names the opening HTML, this
+            // helps users to find the actual start of their problem in the wiki text.
+            if (htmlElementStack.isEmpty()) throw ex;
+            Token tok = htmlElementStack.peek();
+            if (tok != null) {
+                throw new HtmlRecognitionException(tok, ex);
+            } else {
+                throw ex;
+            }
+        }
+
 attributeValue: ( AMPERSAND { append("&amp;"); } |
                 an:ALPHANUMERICWORD { append( an.getText() ); } |
                 p:PUNCTUATION { append( p.getText() ); } |
                 s:SLASH { append( s.getText() ); } |
                 space | specialChars )*
     ;
-    
+    exception // for rule
+        catch [RecognitionException ex] {
+            // We'd like to have an error reported that names the opening HTML, this
+            // helps users to find the actual start of their problem in the wiki text.
+            if (htmlElementStack.isEmpty()) throw ex;
+            Token tok = htmlElementStack.peek();
+            if (tok != null) {
+                throw new HtmlRecognitionException(tok, ex);
+            } else {
+                throw ex;
+            }
+        }
+
 class SeamTextLexer extends Lexer;
 options
 {
@@ -744,10 +834,18 @@ options
 // '\u0250'..'\ufaff'  Various other languages, punctuation etc. (excluding "presentation forms")
 // '\uff00'..'\uffef'  Halfwidth and Fullwidth forms (including CJK punctuation)
 
-ALPHANUMERICWORD: ('a'..'z'|'A'..'Z'|'0'..'9')+
+ALPHANUMERICWORD
+    options {
+        paraphrase = "letters or digits";
+    }
+    :   ('a'..'z'|'A'..'Z'|'0'..'9')+
     ;
 
-UNICODEWORD: (
+UNICODEWORD
+    options {
+        paraphrase = "letters or digits";
+    }
+    : (
          '\u00a0'..'\u00ff' |
          '\u0100'..'\u017f' |
          '\u0180'..'\u024f' |
@@ -756,68 +854,158 @@ UNICODEWORD: (
       )+
     ;
 
-PUNCTUATION: '-' | ';' | ':' | '(' | ')' | '{' | '}' | '?' | '!' | '@' | '%' | '.' | ',' | '$'
+PUNCTUATION
+    options {
+        paraphrase = "a punctuation character";
+    }
+    : '-' | ';' | ':' | '(' | ')' | '{' | '}' | '?' | '!' | '@' | '%' | '.' | ',' | '$'
     ;
     
-EQ: '='
+EQ
+    options {
+        paraphrase = "an equals '='";
+    }
+    : '='
     ;
     
-PLUS: '+'
+PLUS
+    options {
+        paraphrase = "a plus '+'";
+    }
+    : '+'
     ;
     
-UNDERSCORE: '_'
+UNDERSCORE
+    options {
+        paraphrase = "an underscore '_'";
+    }
+    : '_'
     ;
 
-STAR: '*'
+STAR
+    options {
+        paraphrase = "a star '*'";
+    }
+    : '*'
     ;
 
-SLASH: '/'
+SLASH
+    options {
+        paraphrase = "a slash '/'";
+    }
+
+    : '/'
     ;
 
-ESCAPE: '\\'
+ESCAPE
+    options {
+        paraphrase = "the escaping blackslash '\'";
+    }
+    : '\\'
     ;
     
-BAR: '|'
+BAR
+    options {
+        paraphrase = "a bar or pipe '|'";
+    }
+    : '|'
     ;
     
-BACKTICK: '`'
+BACKTICK
+    options {
+        paraphrase = "a backtick '`'";
+    }
+    : '`'
     ;
     
-TWIDDLE: '~'
+    
+TWIDDLE
+    options {
+        paraphrase = "a tilde '~'";
+    }
+    : '~'
     ;
 
-DOUBLEQUOTE: '"'
+DOUBLEQUOTE
+    options {
+        paraphrase = "a doublequote \"";
+    }
+    : '"'
     ;
 
-SINGLEQUOTE: '\''
+SINGLEQUOTE
+    options {
+        paraphrase = "a single quote '";
+    }
+    : '\''
     ;
 
-OPEN: '['
+OPEN
+    options {
+        paraphrase = "an opening square bracket '['";
+    }
+    : '['
     ;
     
-CLOSE: ']'
+CLOSE
+    options {
+        paraphrase = "a closing square bracket ']'";
+    }
+    : ']'
     ;
 
-HASH: '#'
+HASH
+    options {
+        paraphrase = "a hash '#'";
+    }
+    : '#'
     ;
     
-HAT: '^'
+HAT
+    options {
+        paraphrase = "a caret '^'";
+    }
+    : '^'
     ;
     
-GT: '>'
+GT
+    options {
+        paraphrase = "a closing angle bracket '>'";
+    }
+    : '>'
     ;
     
-LT: '<'
+LT
+    options {
+        paraphrase = "an opening angle bracket '<'";
+    }
+    : '<'
     ;
 
-AMPERSAND: '&'
+AMPERSAND
+    options {
+        paraphrase = "an ampersand '&'";
+    }
+    : '&'
     ;
 
-SPACE: (' '|'\t')+
+SPACE
+    options {
+        paraphrase = "a space or tab";
+    }
+    : (' '|'\t')+
     ;
     
-NEWLINE: "\r\n" | '\r' | '\n'
+NEWLINE
+    options {
+        paraphrase = "a newline";
+    }
+    : "\r\n" | '\r' | '\n'
     ;
 
-EOF : '\uFFFF'
+EOF
+    options {
+        paraphrase = "the end of the text";
+    }
+    : '\uFFFF'
     ;
