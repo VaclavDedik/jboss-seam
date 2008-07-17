@@ -6,9 +6,11 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.border.Border;
 import org.apache.wicket.markup.html.form.FormComponent;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.seam.wicket.ModelValidator;
+import org.jboss.seam.wicket.SeamPropertyModel;
 
 /**
  * Wicket allows you to build powerful custom components easily.
@@ -36,9 +38,24 @@ public class FormInputBorder extends Border
     * @param component The component to wrap
     * @param model The model to attach the component to
     */
+   public FormInputBorder(String id, String label, FormComponent component, PropertyModel model, boolean ajaxValidate)
+   {
+      this(id, label, component, model, ajaxValidate, model.getTarget().getClass(), model.getPropertyExpression());
+   }
+   
+   public FormInputBorder(String id, String label, FormComponent component, SeamPropertyModel model, boolean ajaxValidate)
+   {
+      this(id, label, component, model, ajaxValidate, model.getTarget().getClass(), model.getPropertyExpression());
+   }
+   
    public FormInputBorder(String id, String label, FormComponent component, PropertyModel model)
    {
-      this(id, label, component, model, true);
+      this(id, label, component, model, true, model.getTarget().getClass(), model.getPropertyExpression());
+   }
+   
+   public FormInputBorder(String id, String label, FormComponent component, SeamPropertyModel model)
+   {
+      this(id, label, component, model, true, model.getTarget().getClass(), model.getPropertyExpression());
    }
    
    /**
@@ -49,7 +66,7 @@ public class FormInputBorder extends Border
     * @param model The model to attach the component to
     * @param ajaxValidate Whether to use ajax validation
     */
-   public FormInputBorder(String id, String label, FormComponent component, PropertyModel model, boolean ajaxValidate)
+   public FormInputBorder(String id, String label, FormComponent component, IModel model, boolean ajaxValidate, Class modelClass, String propertyExpression)
    {
       super(id);
       component.setLabel(new Model(label));
@@ -63,11 +80,10 @@ public class FormInputBorder extends Border
       }
       Label labelComponent = new Label("label", label);
       add(labelComponent);
-      add(component, model);
+      add(component, model, modelClass, propertyExpression);
       feedbackPanel = new ComponentFeedbackPanel("message", component);
       
       add(feedbackPanel);
-      component.add(new ModelValidator(model));
       
       if (ajaxValidate)
       {
@@ -100,7 +116,12 @@ public class FormInputBorder extends Border
    
    public FormInputBorder add(FormComponent component, PropertyModel model)
    {
-      component.add(new ModelValidator(model));
+      return add(component, model, model.getTarget().getClass(), model.getPropertyExpression());
+   }
+   
+   public FormInputBorder add(FormComponent component, IModel model, Class modelClass, String expression)
+   {
+      component.add(new ModelValidator(modelClass, expression));
       component.setModel(model);
       add(component);
       return this;

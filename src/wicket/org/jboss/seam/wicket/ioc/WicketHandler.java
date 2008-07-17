@@ -27,6 +27,7 @@ public class WicketHandler implements Serializable
    private Class<?> type;
    private transient WicketComponent component;
    private boolean callInProgress;
+   private int reentrant = 0;
    
    private WicketComponent getComponent()
    {
@@ -70,22 +71,34 @@ public class WicketHandler implements Serializable
    
    private void beforeInvoke(InvocationContext invocationContext)
    {
-      for (RootInterceptor interceptor : getInterceptors())
+      if (reentrant ==0)
       {
-         interceptor.beforeInvoke(invocationContext);
+         for (RootInterceptor interceptor : getInterceptors())
+         {
+            interceptor.beforeInvoke(invocationContext);
+         }
       }
+      reentrant++;
    }
    
    private void afterInvoke(InvocationContext invocationContext)
    {
-      for (RootInterceptor interceptor : getInterceptors())
+      reentrant--;
+      if (reentrant == 0)
       {
-         interceptor.afterInvoke(invocationContext);
+         for (RootInterceptor interceptor : getInterceptors())
+         {
+            interceptor.afterInvoke(invocationContext);
+         }
       }
    }
  
    public boolean isCallInProgress()
    {
+      if (callInProgress == false)
+      {
+         reentrant = 0;
+      }
       return callInProgress;
    }
    
@@ -94,14 +107,14 @@ public class WicketHandler implements Serializable
       this.callInProgress = callInProgress;
    }
    
-   public static InstrumentedComponent getEnclosingInstance(Object bean)
+   public static InstrumentedComponent getEnclosingInstance(Object bean, int level)
    {
       Class enclosingType = bean.getClass().getEnclosingClass();
       if (enclosingType != null)
       {
          try 
          {
-            java.lang.reflect.Field enclosingField = bean.getClass().getDeclaredField("this$0");
+            java.lang.reflect.Field enclosingField = bean.getClass().getDeclaredField("this$" + level);
             enclosingField.setAccessible(true);
             Object enclosingInstance = enclosingField.get(bean);
             if (enclosingInstance instanceof InstrumentedComponent)
@@ -109,7 +122,17 @@ public class WicketHandler implements Serializable
                return (InstrumentedComponent) enclosingInstance;
             }
          }
-         catch (Exception e) {}
+         catch (Exception e) 
+         {
+            if (level == 0)
+            {
+               return null;
+            }
+            else
+            {
+               return getEnclosingInstance(bean, level -1);
+            }
+         }
       }
       return null;
    }

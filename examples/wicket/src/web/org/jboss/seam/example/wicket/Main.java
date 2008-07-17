@@ -36,6 +36,7 @@ import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
@@ -44,6 +45,7 @@ import org.jboss.seam.example.wicket.action.BookingList;
 import org.jboss.seam.example.wicket.action.Hotel;
 import org.jboss.seam.example.wicket.action.HotelSearching;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.wicket.SeamPropertyModel;
 
 @Restrict
 public class Main extends WebPage
@@ -227,7 +229,16 @@ public class Main extends WebPage
       public HotelSearchForm(String id)
       {
          super(id);
-         add(new TextField("searchString", new PropertyModel(hotelSearch, "searchString")));
+         add(new TextField("searchString", new SeamPropertyModel("searchString")
+         {
+            
+            @Override
+            public Object getTarget()
+            {
+               return hotelSearch;
+            }
+         
+         }));
          List<Integer> pageSizes = Arrays.asList(new Integer[] { 5, 10, 20 });
          add(new DropDownChoice("pageSize", new PropertyModel(this, "pageSize"), pageSizes));
          add(new IndicatingAjaxButton("submit", this)

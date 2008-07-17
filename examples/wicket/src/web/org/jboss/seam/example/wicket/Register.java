@@ -8,9 +8,11 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.validation.EqualPasswordInputValidator;
 import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.example.wicket.action.User;
+import org.jboss.seam.wicket.SeamPropertyModel;
 
 public class Register extends WebPage
 {
@@ -40,12 +42,42 @@ public class Register extends WebPage
          add(new PageLink("cancel", Home.class));
          username = new TextField("username");
          username.setRequired(true);
-         add(new FormInputBorder("usernameDecorate", "Username", username, new PropertyModel(user, "username")));
-         add(new FormInputBorder("nameDecorate", "Real Name", new TextField("name").setRequired(true), new PropertyModel(user, "name")));
+         add(new FormInputBorder("usernameDecorate", "Username", username, new SeamPropertyModel("username")
+         {
+            
+            @Override
+            public Object getTarget()
+            {
+               return user;
+            }
+            
+         }));
+         add(new FormInputBorder("nameDecorate", "Real Name", new TextField("name").setRequired(true), new SeamPropertyModel("name")
+         {
+            @Override
+            public Object getTarget()
+            {
+               return user;
+            }
+         }));
          FormComponent password = new PasswordTextField("password").setRequired(true);
          FormComponent verify = new PasswordTextField("verify").setRequired(true);
-         add(new FormInputBorder("passwordDecorate", "Password", password , new PropertyModel(user, "password")));
-         add(new FormInputBorder("verifyDecorate", "Verify Password", verify, new PropertyModel(register, "verify")));
+         add(new FormInputBorder("passwordDecorate", "Password", password , new SeamPropertyModel("password")
+         {
+            @Override
+            public Object getTarget()
+            {
+               return user;
+            }
+         }));
+         add(new FormInputBorder("verifyDecorate", "Verify Password", verify, new SeamPropertyModel("verify")
+         {
+            @Override
+            public Object getTarget()
+            {
+               return register;
+            }
+         }));
          add(new EqualPasswordInputValidator(password, verify));
       }
       

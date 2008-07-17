@@ -123,64 +123,67 @@ public class JavassistInstrumentor
    {
       log.debug("Instrumenting " + className);
       CtClass implementation = classPool.get(className);
-      CtClass handlerClass = classPool.get(WicketHandler.class.getName());
-      
-      CtField handlerField = new CtField(handlerClass, "handler", implementation);
-      Initializer handlerInitializer = Initializer.byCall(handlerClass, "create");
-      implementation.addField(handlerField, handlerInitializer);
-      
-      CtClass instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
-      implementation.addInterface(instrumentedComponent);
-      CtMethod getHandlerMethod = CtNewMethod.getter("getHandler", handlerField);
-      CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() +" getEnclosingInstance() { return " + WicketHandler.class.getName() + ".getEnclosingInstance(this); }", implementation);
-      implementation.addMethod(getEnclosingInstance);
-      implementation.addMethod(getHandlerMethod);
-      
-      for (CtMethod method : implementation.getDeclaredMethods())
+      if (isInstrumentable(implementation))
       {
-         if (!Modifier.isStatic(method.getModifiers()))
+         CtClass handlerClass = classPool.get(WicketHandler.class.getName());
+         
+         CtField handlerField = new CtField(handlerClass, "handler", implementation);
+         Initializer handlerInitializer = Initializer.byCall(handlerClass, "create");
+         implementation.addField(handlerField, handlerInitializer);
+         
+         CtClass instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
+         implementation.addInterface(instrumentedComponent);
+         CtMethod getHandlerMethod = CtNewMethod.getter("getHandler", handlerField);
+         CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() +" getEnclosingInstance() { return " + WicketHandler.class.getName() + ".getEnclosingInstance(this, 10); }", implementation);
+         implementation.addMethod(getEnclosingInstance);
+         implementation.addMethod(getHandlerMethod);
+         
+         for (CtMethod method : implementation.getDeclaredMethods())
          {
-            String methodName = method.getName();
-            if (!("getHandler".equals(method.getName()) || "getEnclosingInstance".equals(method.getName()) ))
+            if (!Modifier.isStatic(method.getModifiers()))
             {
-               String methodSignature = "";
-               for (int i = 0; i < method.getParameterTypes().length; i++)
+               String methodName = method.getName();
+               if (!("getHandler".equals(method.getName()) || "getEnclosingInstance".equals(method.getName())))
                {
-                  if (i > 0)
+                  String methodSignature = "";
+                  for (int i = 0; i < method.getParameterTypes().length; i++)
                   {
-                     methodSignature += ",";
+                     if (i > 0)
+                     {
+                        methodSignature += ",";
+                     }
+                     methodSignature += method.getParameterTypes()[i].getName() + ".class";
                   }
-                  methodSignature += method.getParameterTypes()[i].getName() + ".class";
+                  String methodCall = "this.getClass().getDeclaredMethod(\""+ methodName + "\", methodParameters)";
+                  String methodParameters;
+                  if (methodSignature.length() > 0)
+                  {
+                     methodParameters = "Class[] methodParameters = {" + methodSignature + "};";
+                  }
+                  else
+                  {
+                     methodParameters = "Class[] methodParameters = new Class[0];";
+                  }
+                  log.trace("Method call: " + methodCall);
+                  
+                  method.insertBefore(methodParameters + "handler.beforeInvoke(this, " + methodCall + ");");
+                  method.insertBefore("handler.setCallInProgress(true);");
+                  method.insertAfter(methodParameters + "handler.afterInvoke(this, " + methodCall + ");");
+                  method.insertAfter("handler.setCallInProgress(false);", true);
+                  log.trace("instrumented method " + method.getName());
                }
-               String methodCall = "this.getClass().getDeclaredMethod(\""+ methodName + "\", methodParameters)";
-               String methodParameters;
-               if (methodSignature.length() > 0)
-               {
-                  methodParameters = "Class[] methodParameters = {" + methodSignature + "};";
-               }
-               else
-               {
-                  methodParameters = "Class[] methodParameters = new Class[0];";
-               }
-               log.trace("Method call: " + methodCall);
-               
-               method.insertBefore(methodParameters + "handler.beforeInvoke(this, " + methodCall + ");");
-               method.insertBefore("handler.setCallInProgress(true);");
-               method.insertAfter(methodParameters + "handler.afterInvoke(this, " + methodCall + ");");
-               method.insertAfter("handler.setCallInProgress(false);", true);
-               log.trace("instrumented method " + method.getName());
             }
          }
-      }
-      for (CtConstructor constructor : implementation.getConstructors())
-      {
-         if (constructor.isConstructor())
+         for (CtConstructor constructor : implementation.getConstructors())
          {
-            constructor.insertBeforeBody("handler.beforeInvoke(this);");
-            constructor.insertBeforeBody("handler.setCallInProgress(true);");
-            constructor.insertAfter("handler.afterInvoke(this);");
-            constructor.insertAfter("handler.setCallInProgress(false);");
-            log.trace("instrumented constructor " + constructor.getName());
+            if (constructor.isConstructor())
+            {
+               constructor.insertBeforeBody("handler.beforeInvoke(this);");
+               constructor.insertBeforeBody("handler.setCallInProgress(true);");
+               constructor.insertAfter("handler.afterInvoke(this);");
+               constructor.insertAfter("handler.setCallInProgress(false);");
+               log.trace("instrumented constructor " + constructor.getName());
+            }
          }
       }
       classes.add(implementation.getName());
@@ -191,4 +194,10 @@ public class JavassistInstrumentor
       return classLoader;
    }
 
+   private static boolean isInstrumentable(CtClass clazz)
+   {
+      int modifiers = clazz.getModifiers();
+      return !(Modifier.isAbstract(modifiers) || Modifier.isInterface(modifiers) || Modifier.isEnum(modifiers));
+   }
+   
 }
