@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
@@ -32,11 +33,9 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
@@ -121,13 +120,6 @@ public class Main extends WebPage
             item.add(new Label("hotelZip", hotel.getZip()));
             item.add(new BookmarkablePageLink("viewHotel", org.jboss.seam.example.wicket.Hotel.class).setParameter("hotelId", hotel.getId()));
          }
-
-         @Override
-         public boolean isVisible()
-         {
-            return true;
-            //return Identity.instance().isLoggedIn() && hotelSearch.getHotels().size() > 0;
-         }
          
       };
       
@@ -139,7 +131,7 @@ public class Main extends WebPage
       
       
       // Add a pager
-      hotels.add(new PagingNavigator("hotelPager", hotelDataView)
+      hotels.add(new AjaxPagingNavigator("hotelPager", hotelDataView)
       {
          @Override
          public boolean isVisible()
