@@ -47,7 +47,9 @@
   <div class="section" style="overflow:auto">
 	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
             <ice:outputText value="Search Results"/>
-            <ice:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
+            <ice:dataTable id="hotels" value="#{hotels}" 
+                  resizable="true"
+                  var="hot" rendered="#{hotels.rowCount>0}">
                 <h:column>
                     <f:facet name="header">Name</f:facet>
                     <ice:outputText value="#{hot.name}" onmouseovereffect="#{highlight}"/>
@@ -66,7 +68,7 @@
                 </h:column>
                 <h:column>
                     <f:facet name="header">Action</f:facet>
-                    <ice:commandLink id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
+                    <s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
                 </h:column>
             </ice:dataTable>
             <s:link value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
