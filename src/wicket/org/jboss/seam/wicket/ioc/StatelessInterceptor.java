@@ -3,7 +3,7 @@ package org.jboss.seam.wicket.ioc;
 import java.io.Serializable;
 
 
-public interface Interceptor<T> extends Serializable
+public interface StatelessInterceptor<T> extends Serializable
 {
 
    public void beforeInvoke(InvocationContext<T> invocationContext);

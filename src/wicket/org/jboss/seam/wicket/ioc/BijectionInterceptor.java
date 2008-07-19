@@ -3,7 +3,7 @@ package org.jboss.seam.wicket.ioc;
 import org.jboss.seam.wicket.WicketComponent;
 
 
-public class BijectionInterceptor<T> implements Interceptor<T>
+public class BijectionInterceptor<T> implements StatelessInterceptor<T>
 {
 
    public Object afterInvoke(InvocationContext<T> invocationContext, Object result)

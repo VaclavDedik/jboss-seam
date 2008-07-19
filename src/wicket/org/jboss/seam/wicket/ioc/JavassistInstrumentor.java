@@ -11,7 +11,6 @@ import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.CtMethod;
-import javassist.CtNewConstructor;
 import javassist.CtNewMethod;
 import javassist.LoaderClassPath;
 import javassist.Modifier;
@@ -138,7 +137,7 @@ public class JavassistInstrumentor
          CtClass instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
          implementation.addInterface(instrumentedComponent);
          CtMethod getHandlerMethod = CtNewMethod.getter("getHandler", handlerField);
-         CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() +" getEnclosingInstance() { return " + WicketHandler.class.getName() + ".getEnclosingInstance(this, 10); }", implementation);
+         CtMethod getEnclosingInstance = CtNewMethod.make("public " + InstrumentedComponent.class.getName() +" getEnclosingInstance() { return handler.getEnclosingInstance(this); }", implementation);
          implementation.addMethod(getEnclosingInstance);
          implementation.addMethod(getHandlerMethod);
          
@@ -228,16 +227,6 @@ public class JavassistInstrumentor
    {
       String src = createParameterTypesArray(constructor);
       src += "java.lang.reflect.Constructor constructor = this.getClass().getDeclaredConstructor(parameterTypes);";
-      return src;
-   }
-   
-   private static String createParametersArray(CtBehavior behavior) throws NotFoundException
-   {
-      String src = "Object[] parameters = new Object[" + behavior.getParameterTypes().length + "];";
-      for (int i = 0; i < behavior.getParameterTypes().length; i++)
-      {
-         src += "parameters[" + i + "] = $" + i + ";"; 
-      }
       return src;
    }
 

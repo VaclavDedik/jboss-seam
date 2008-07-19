@@ -3,7 +3,7 @@ package org.jboss.seam.wicket.ioc;
 import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.core.Events;
 
-public class EventInterceptor<T> implements Interceptor<T>
+public class EventInterceptor<T> implements StatelessInterceptor<T>
 {
 
    public Object afterInvoke(InvocationContext<T> invocationContext, Object result)

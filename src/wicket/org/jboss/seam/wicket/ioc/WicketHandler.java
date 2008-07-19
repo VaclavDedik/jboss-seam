@@ -2,8 +2,8 @@ package org.jboss.seam.wicket.ioc;
 
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.seam.wicket.WicketComponent;
@@ -23,7 +23,6 @@ public class WicketHandler implements Serializable
       this.type = type;
    }
    
-   private List<Interceptor> interceptors;
    private Class<?> type;
    private transient WicketComponent component;
    private int reentrant = 0;
@@ -35,18 +34,6 @@ public class WicketHandler implements Serializable
          component = WicketComponent.getInstance(type);
       }
       return component;
-   }
-   
-   private List<Interceptor> getInterceptors()
-   {
-      if (interceptors ==  null)
-      {
-         interceptors = new ArrayList<Interceptor>();
-         interceptors.add(new BijectionInterceptor());
-         interceptors.add(new ConversationInterceptor());
-         interceptors.add(new EventInterceptor());
-      }
-      return interceptors;
    }
    
    public void beforeInvoke(Object target, Method calledMethod)
@@ -74,7 +61,7 @@ public class WicketHandler implements Serializable
    {
       if (reentrant == 0)
       {
-         for (Interceptor interceptor : getInterceptors())
+         for (StatelessInterceptor interceptor : (List<StatelessInterceptor>) getComponent().getInterceptors())
          {
             interceptor.beforeInvoke(invocationContext);
          }
@@ -97,7 +84,7 @@ public class WicketHandler implements Serializable
       reentrant--;
       if (reentrant == 0)
       {
-         for (Interceptor interceptor : getInterceptors())
+         for (StatelessInterceptor interceptor : (List<StatelessInterceptor>)  getComponent().getInterceptors())
          {
             exception = interceptor.handleException(invocationContext, exception);
          }
@@ -110,9 +97,9 @@ public class WicketHandler implements Serializable
       reentrant--;
       if (reentrant == 0)
       {
-         for (int i = interceptors.size() - 1; i >= 0; i--)
+         for (int i = getComponent().getInterceptors().size() - 1; i >= 0; i--)
          {
-            result = interceptors.get(i).afterInvoke(invocationContext, result);
+            result = ((StatelessInterceptor) getComponent().getInterceptors().get(i)).afterInvoke(invocationContext, result);
          }
       }
       return result;
@@ -123,14 +110,14 @@ public class WicketHandler implements Serializable
       return reentrant > 0;
    }
    
-   public static InstrumentedComponent getEnclosingInstance(Object bean, int level)
+   public InstrumentedComponent getEnclosingInstance(Object bean)
    {
-      Class enclosingType = bean.getClass().getEnclosingClass();
+      Class enclosingType = getComponent().getClass();
       if (enclosingType != null)
       {
          try 
          {
-            java.lang.reflect.Field enclosingField = bean.getClass().getDeclaredField("this$" + level);
+            Field enclosingField = bean.getClass().getDeclaredField(getComponent().getEnclosingInstanceVariableName());
             enclosingField.setAccessible(true);
             Object enclosingInstance = enclosingField.get(bean);
             if (enclosingInstance instanceof InstrumentedComponent)
@@ -138,19 +125,9 @@ public class WicketHandler implements Serializable
                return (InstrumentedComponent) enclosingInstance;
             }
          }
-         catch (Exception e) 
-         {
-            if (level == 0)
-            {
-               return null;
-            }
-            else
-            {
-               return getEnclosingInstance(bean, level -1);
-            }
-         }
+         catch (Exception e) {}
       }
       return null;
    }
-
+   
 }

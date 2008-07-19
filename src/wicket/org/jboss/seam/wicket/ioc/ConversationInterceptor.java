@@ -20,21 +20,12 @@ import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.persistence.PersistenceContexts;
 
-public class ConversationInterceptor<T> implements Interceptor<T>
+public class ConversationInterceptor<T> implements StatelessInterceptor<T>
 {
-   
-   private boolean isConversationManagement(InvocationContext<T> invocationContext)
-   {
-      return invocationContext.getAccessibleObject().isAnnotationPresent(Begin.class) ||
-            invocationContext.getAccessibleObject().isAnnotationPresent(End.class) ||
-            invocationContext.getAccessibleObject().isAnnotationPresent(BeginTask.class) ||
-            invocationContext.getAccessibleObject().isAnnotationPresent(EndTask.class) ||
-            invocationContext.getAccessibleObject().isAnnotationPresent(StartTask.class);
-   }
    
    public void beforeInvoke(InvocationContext<T> invocationContext)
    {
-      if (isConversationManagement(invocationContext))
+      if (invocationContext.getComponent().isConversationManagementMethod(invocationContext.getAccessibleObject()))
       {
          if ( isMissingJoin(invocationContext) )
          {
@@ -51,7 +42,7 @@ public class ConversationInterceptor<T> implements Interceptor<T>
    
    public Object afterInvoke(InvocationContext<T> invocationContext, Object result)
    {
-      if (isConversationManagement(invocationContext))
+      if (invocationContext.getComponent().isConversationManagementMethod(invocationContext.getAccessibleObject()))
       {
          beginConversationIfNecessary(invocationContext, result);
          endConversationIfNecessary(invocationContext, result);
