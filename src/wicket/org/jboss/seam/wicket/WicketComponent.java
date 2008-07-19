@@ -3,30 +3,44 @@ package org.jboss.seam.wicket;
 import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.ScopeType.UNSPECIFIED;
 
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.Namespace;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Out;
+import org.jboss.seam.annotations.RaiseEvent;
+import org.jboss.seam.annotations.bpm.BeginTask;
+import org.jboss.seam.annotations.bpm.EndTask;
+import org.jboss.seam.annotations.bpm.StartTask;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.log.Log;
+import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.util.Reflections;
 import org.jboss.seam.wicket.ioc.BijectedAttribute;
 import org.jboss.seam.wicket.ioc.BijectedField;
 import org.jboss.seam.wicket.ioc.BijectedMethod;
+import org.jboss.seam.wicket.ioc.BijectionInterceptor;
+import org.jboss.seam.wicket.ioc.ConversationInterceptor;
+import org.jboss.seam.wicket.ioc.EventInterceptor;
 import org.jboss.seam.wicket.ioc.InjectedAttribute;
 import org.jboss.seam.wicket.ioc.InjectedField;
+import org.jboss.seam.wicket.ioc.StatelessInterceptor;
 
 public class WicketComponent<T>
 {
@@ -60,13 +74,22 @@ public class WicketComponent<T>
       }
    }
 
-   private static Log log = Logging.getLog(WicketComponent.class);
+   private static LogProvider log = Logging.getLogProvider(WicketComponent.class);
 
    private Class<? extends T> type;
+   
+   private Class<?> enclosingType;
+   private String enclosingInstanceVariableName;
    
    private List<BijectedAttribute<In>> inAttributes = new ArrayList<BijectedAttribute<In>>();
    private List<BijectedAttribute<Out>> outAttributes = new ArrayList<BijectedAttribute<Out>>();
    private List<InjectedLogger> loggerFields = new ArrayList<InjectedLogger>();
+   
+   private Set<AccessibleObject> conversationManagementMembers = new HashSet<AccessibleObject>();
+   
+   private List<StatelessInterceptor<T>> interceptors = new ArrayList<StatelessInterceptor<T>>();
+   
+   boolean anyMethodHasRaiseEvent = false;
    
    public Class<?> getType()
    {
@@ -86,6 +109,26 @@ public class WicketComponent<T>
       }
    }
    
+
+   private void initInterceptors()
+   {
+      // TODO Add a check to see whether we really need this
+      interceptors.add(new BijectionInterceptor());
+      if (!conversationManagementMembers.isEmpty())
+      {
+         interceptors.add(new ConversationInterceptor());
+      }
+      if (anyMethodHasRaiseEvent)
+      {
+         interceptors.add(new EventInterceptor());
+      }
+   }
+   
+   public List<StatelessInterceptor<T>> getInterceptors()
+   {
+      return interceptors;
+   }
+   
    public static String getContextVariableName(Class<?> type)
    {
       return type.getName() + ".wicketComponent";
@@ -99,8 +142,29 @@ public class WicketComponent<T>
    public WicketComponent(Class<? extends T> type)
    {
       this.type = type;
-      log.info("Class: #0", type);
+      this.enclosingType = type.getEnclosingClass();
+      if (enclosingType != null)
+      {
+         Class<?> c = enclosingType.getEnclosingClass();
+         int i = 0;
+         while (c != null)
+         {
+            c = c.getEnclosingClass();
+            i++;
+         }
+         this.enclosingInstanceVariableName = "this$" + i;
+         log.info("Class: " + type + ", enclosed by " + enclosingType);
+         log.trace("[" + type + "] enclosing instance variable: " + enclosingInstanceVariableName);
+      }
+      else
+      {
+         log.info("Class: " + type);
+      }
+      
       scan();
+      
+      initInterceptors();
+      
       Contexts.getApplicationContext().set(getName(), this);
    }
    
@@ -114,6 +178,10 @@ public class WicketComponent<T>
       for (Field field : clazz.getDeclaredFields())
       {
          add(field);
+      }
+      for(Constructor<T> constructor : clazz.getDeclaredConstructors())
+      {
+         add(constructor);
       }
    }
 
@@ -188,6 +256,18 @@ public class WicketComponent<T>
       }
    }
    
+   private void add(Constructor<T> constructor)
+   {
+      if ( constructor.isAnnotationPresent(Begin.class) || 
+            constructor.isAnnotationPresent(End.class) || 
+            constructor.isAnnotationPresent(StartTask.class) ||
+            constructor.isAnnotationPresent(BeginTask.class) ||
+            constructor.isAnnotationPresent(EndTask.class) ) 
+       {
+          conversationManagementMembers.add(constructor);
+       }
+   }
+   
    private void add(Method method)
    {
       if ( method.isAnnotationPresent(In.class) )
@@ -217,6 +297,20 @@ public class WicketComponent<T>
             }
             
          });
+      }
+      
+      if ( method.isAnnotationPresent(Begin.class) || 
+            method.isAnnotationPresent(End.class) || 
+            method.isAnnotationPresent(StartTask.class) ||
+            method.isAnnotationPresent(BeginTask.class) ||
+            method.isAnnotationPresent(EndTask.class) ) 
+       {
+          conversationManagementMembers.add(method);
+       }
+      
+      if (method.isAnnotationPresent(RaiseEvent.class))
+      {
+         anyMethodHasRaiseEvent = true;
       }
    }
    
@@ -341,10 +435,26 @@ public class WicketComponent<T>
       }
    }
    
+   public Class<?> getEnclosingType()
+   {
+      return enclosingType;
+   }
+   
+   public String getEnclosingInstanceVariableName()
+   {
+      return enclosingInstanceVariableName;
+   }
+   
    @Override
    public String toString()
    {
       return "WicketComponent(" + type + ")";
+   }
+   
+   public boolean isConversationManagementMethod(AccessibleObject member)
+   {
+      return member!=null && 
+            conversationManagementMembers.contains(member);
    }
    
 }
