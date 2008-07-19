@@ -6,10 +6,12 @@ import java.util.List;
 
 import javassist.CannotCompileException;
 import javassist.ClassPool;
+import javassist.CtBehavior;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.CtMethod;
+import javassist.CtNewConstructor;
 import javassist.CtNewMethod;
 import javassist.LoaderClassPath;
 import javassist.Modifier;
@@ -131,6 +133,8 @@ public class JavassistInstrumentor
          Initializer handlerInitializer = Initializer.byCall(handlerClass, "create");
          implementation.addField(handlerField, handlerInitializer);
          
+         CtClass exception = classPool.get(Exception.class.getName());
+         
          CtClass instrumentedComponent = classPool.get(InstrumentedComponent.class.getName());
          implementation.addInterface(instrumentedComponent);
          CtMethod getHandlerMethod = CtNewMethod.getter("getHandler", handlerField);
@@ -142,34 +146,13 @@ public class JavassistInstrumentor
          {
             if (!Modifier.isStatic(method.getModifiers()))
             {
-               String methodName = method.getName();
                if (!("getHandler".equals(method.getName()) || "getEnclosingInstance".equals(method.getName())))
-               {
-                  String methodSignature = "";
-                  for (int i = 0; i < method.getParameterTypes().length; i++)
-                  {
-                     if (i > 0)
-                     {
-                        methodSignature += ",";
-                     }
-                     methodSignature += method.getParameterTypes()[i].getName() + ".class";
-                  }
-                  String methodCall = "this.getClass().getDeclaredMethod(\""+ methodName + "\", methodParameters)";
-                  String methodParameters;
-                  if (methodSignature.length() > 0)
-                  {
-                     methodParameters = "Class[] methodParameters = {" + methodSignature + "};";
-                  }
-                  else
-                  {
-                     methodParameters = "Class[] methodParameters = new Class[0];";
-                  }
-                  log.trace("Method call: " + methodCall);
+               {                  
+                  String newName = implementation.makeUniqueName(method.getName());
                   
-                  method.insertBefore(methodParameters + "handler.beforeInvoke(this, " + methodCall + ");");
-                  method.insertBefore("handler.setCallInProgress(true);");
-                  method.insertAfter(methodParameters + "handler.afterInvoke(this, " + methodCall + ");");
-                  method.insertAfter("handler.setCallInProgress(false);", true);
+                  CtMethod newMethod = CtNewMethod.copy(method, newName, implementation, null);
+                  implementation.addMethod(newMethod);
+                  method.setBody(createBody(implementation, newMethod));
                   log.trace("instrumented method " + method.getName());
                }
             }
@@ -178,20 +161,84 @@ public class JavassistInstrumentor
          {
             if (constructor.isConstructor())
             {
-               constructor.insertBeforeBody("handler.beforeInvoke(this);");
-               constructor.insertBeforeBody("handler.setCallInProgress(true);");
-               constructor.insertAfter("handler.afterInvoke(this);");
-               constructor.insertAfter("handler.setCallInProgress(false);");
-               log.trace("instrumented constructor " + constructor.getName());
+               {
+                  String constructorObject = createConstructorObject(constructor);
+                  constructor.insertBeforeBody(constructorObject + "handler.beforeInvoke(this, constructor);");
+                  constructor.addCatch("{" + constructorObject + "throw new RuntimeException(handler.handleException(this, constructor, e));}", exception, "e");
+                  constructor.insertAfter(constructorObject + "handler.afterInvoke(this, constructor);");
+                  log.trace("instrumented constructor " + constructor.getName());
+               }
             }
          }
       }
       classes.add(implementation.getName());
+     
    }
    
    public ClassLoader getClassLoader()
    {
       return classLoader;
+   }
+   
+   private static String createBody(CtClass clazz, CtMethod method) throws NotFoundException
+   {
+      String src = "{" + createMethodObject(method) + "handler.beforeInvoke(this, method);" + createMethodDelegation(method) + "return ($r) handler.afterInvoke(this, method, ($w) result);}";
+      log.trace("Creating method " + clazz.getName() + "." + method.getName() + "(" + method.getSignature() + ")" + src);
+      return src;
+   }
+   
+   private static String createMethodDelegation(CtMethod method) throws NotFoundException
+   {
+      CtClass returnType = method.getReturnType(); 
+      if (returnType.equals(CtClass.voidType))
+      {
+         return "Object result = null; " + wrapInExceptionHandler(method.getName() + "($$);");
+      } 
+      else
+      {
+         String src = returnType.getName() + " result;";
+         src += wrapInExceptionHandler("result = " + method.getName() + "($$);");
+         return src;
+      }
+   }
+   
+   private static String wrapInExceptionHandler(String src)
+   {
+      return "try {" + src + "} catch (Exception e) { throw new RuntimeException(handler.handleException(this, method, e)); }";
+   }
+   
+   private static String createParameterTypesArray(CtBehavior behavior) throws NotFoundException
+   {
+      String src = "Class[] parameterTypes = new Class[" + behavior.getParameterTypes().length + "];";
+      for (int i = 0; i < behavior.getParameterTypes().length; i++)
+      {
+         src += "parameterTypes[" + i + "] = " + behavior.getParameterTypes()[i].getName() + ".class;"; 
+      }
+      return src;
+   }
+   
+   private static String createMethodObject(CtMethod method) throws NotFoundException
+   {
+      String src = createParameterTypesArray(method);
+      src += "java.lang.reflect.Method method = this.getClass().getDeclaredMethod(\""+ method.getName() + "\", parameterTypes);";
+      return src;
+   }
+   
+   private static String createConstructorObject(CtConstructor constructor) throws NotFoundException
+   {
+      String src = createParameterTypesArray(constructor);
+      src += "java.lang.reflect.Constructor constructor = this.getClass().getDeclaredConstructor(parameterTypes);";
+      return src;
+   }
+   
+   private static String createParametersArray(CtBehavior behavior) throws NotFoundException
+   {
+      String src = "Object[] parameters = new Object[" + behavior.getParameterTypes().length + "];";
+      for (int i = 0; i < behavior.getParameterTypes().length; i++)
+      {
+         src += "parameters[" + i + "] = $" + i + ";"; 
+      }
+      return src;
    }
 
    private static boolean isInstrumentable(CtClass clazz)

@@ -23,7 +23,7 @@ public class WicketHandler implements Serializable
       this.type = type;
    }
    
-   private List<RootInterceptor> interceptors;
+   private List<Interceptor> interceptors;
    private Class<?> type;
    private transient WicketComponent component;
    private boolean callInProgress;
@@ -38,11 +38,11 @@ public class WicketHandler implements Serializable
       return component;
    }
    
-   private List<RootInterceptor> getInterceptors()
+   private List<Interceptor> getInterceptors()
    {
       if (interceptors ==  null)
       {
-         interceptors = new ArrayList<RootInterceptor>();
+         interceptors = new ArrayList<Interceptor>();
          interceptors.add(new BijectionInterceptor());
       }
       return interceptors;
@@ -50,30 +50,30 @@ public class WicketHandler implements Serializable
    
    public void beforeInvoke(Object target, Method calledMethod)
    {
-      beforeInvoke(new InvocationContext(calledMethod, target, getComponent()));
+      doBeforeInvoke(new InvocationContext(calledMethod, target, getComponent()));
    }
    
-   public void afterInvoke(Object target, Method calledMethod)
+   public Object afterInvoke(Object target, Method calledMethod, Object result)
    {
-      afterInvoke(new InvocationContext(calledMethod, target, getComponent()));
+      return doAfterInvoke(new InvocationContext(calledMethod, target, getComponent()), result);
    }
    
-   public void beforeInvoke(Object target)
+   public void beforeInvoke(Object target, Constructor constructor)
    {
       getComponent().initialize(target);
-      beforeInvoke(new InvocationContext(target, getComponent()));
+      doBeforeInvoke(new InvocationContext(constructor, target, getComponent()));
    }
    
-   public void afterInvoke(Object target)
+   public void afterInvoke(Object target, Constructor constructor)
    {
-      afterInvoke(new InvocationContext(target, getComponent()));
+      doAfterInvoke(new InvocationContext(constructor, target, getComponent()), null);
    }
    
-   private void beforeInvoke(InvocationContext invocationContext)
+   private void doBeforeInvoke(InvocationContext invocationContext)
    {
-      if (reentrant ==0)
+      if (reentrant == 0)
       {
-         for (RootInterceptor interceptor : getInterceptors())
+         for (Interceptor interceptor : getInterceptors())
          {
             interceptor.beforeInvoke(invocationContext);
          }
@@ -81,30 +81,44 @@ public class WicketHandler implements Serializable
       reentrant++;
    }
    
-   private void afterInvoke(InvocationContext invocationContext)
+   public Exception handleException(Object target, Method method, Exception exception)
+   {
+      return doHandleException(new InvocationContext(method, target, getComponent()), exception);
+   }
+   
+   public Exception handleException(Object target, Constructor constructor, Exception exception)
+   {
+      return doHandleException(new InvocationContext(constructor, target, getComponent()), exception);
+   }
+   
+   private Exception doHandleException(InvocationContext invocationContext, Exception exception)
+   {
+      if (reentrant == 0)
+      {
+         for (Interceptor interceptor : getInterceptors())
+         {
+            exception = interceptor.handleException(invocationContext, exception);
+         }
+      }
+      return exception;
+   }
+   
+   private Object doAfterInvoke(InvocationContext invocationContext, Object result)
    {
       reentrant--;
       if (reentrant == 0)
       {
-         for (RootInterceptor interceptor : getInterceptors())
+         for (int i = interceptors.size() - 1; i >= 0; i--)
          {
-            interceptor.afterInvoke(invocationContext);
+            result = interceptors.get(i).afterInvoke(invocationContext, result);
          }
       }
+      return result;
    }
- 
-   public boolean isCallInProgress()
+
+   public boolean isReentrant()
    {
-      if (callInProgress == false)
-      {
-         reentrant = 0;
-      }
-      return callInProgress;
-   }
-   
-   public void setCallInProgress(boolean callInProgress)
-   {
-      this.callInProgress = callInProgress;
+      return reentrant > 0;
    }
    
    public static InstrumentedComponent getEnclosingInstance(Object bean, int level)

@@ -20,7 +20,7 @@ public class InvocationContext<T>
       this.component = component;
    }
    
-   public InvocationContext(T bean, WicketComponent<T> component)
+   public InvocationContext(Constructor<T> constructor, T bean, WicketComponent<T> component)
    {
       // TODO Write the constructor discovery code
       this.constructor = constructor;
