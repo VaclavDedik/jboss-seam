@@ -32,6 +32,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.example.wicket.action.Booking;
@@ -114,6 +115,7 @@ public class Book extends WebPage
          {
 
             @Override
+            @End
             public void onClick()
             {
                setResponsePage(Main.class);

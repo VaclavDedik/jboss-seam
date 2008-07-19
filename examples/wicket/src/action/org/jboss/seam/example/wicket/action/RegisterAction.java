@@ -29,6 +29,7 @@ public class RegisterAction implements Register
    @In(create=true)
    private StatusMessages statusMessages;
    
+   @In
    private String verify;
    
    private boolean registered;
@@ -66,14 +67,7 @@ public class RegisterAction implements Register
    {
       return registered;
    }
-   public String getVerify()
-   {
-      return verify;
-   }
-   public void setVerify(String verify)
-   {
-      this.verify = verify;
-   }
+
    
    @Remove
    public void destroy() {}

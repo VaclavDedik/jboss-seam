@@ -10,7 +10,9 @@ import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.PropertyModel;
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Out;
 import org.jboss.seam.example.wicket.action.User;
 import org.jboss.seam.wicket.SeamPropertyModel;
 
@@ -36,6 +38,19 @@ public class Register extends WebPage
 	public class RegisterForm extends Form
 	{
 
+	   @Out(scope=ScopeType.EVENT, required=false)
+	   private String verify;
+	   
+	   public String getVerify()
+      {
+         return verify;
+      }
+	   
+	   public void setVerify(String verify)
+      {
+         this.verify = verify;
+      }
+	   
       public RegisterForm(String id)
       {
          super(id);
@@ -70,14 +85,7 @@ public class Register extends WebPage
                return user;
             }
          }));
-         add(new FormInputBorder("verifyDecorate", "Verify Password", verify, new SeamPropertyModel("verify")
-         {
-            @Override
-            public Object getTarget()
-            {
-               return register;
-            }
-         }));
+         add(new FormInputBorder("verifyDecorate", "Verify Password", verify, new PropertyModel(this, "verify")));
          add(new EqualPasswordInputValidator(password, verify));
       }
       

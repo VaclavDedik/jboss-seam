@@ -10,6 +10,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.example.wicket.action.Booking;
@@ -45,6 +46,7 @@ public class Confirm extends WebPage
       body.add(new Link("confirm")
       {
          @Override
+         @RaiseEvent("bookingConfirmed")
          public void onClick()
          {
             hotelBooking.confirm();

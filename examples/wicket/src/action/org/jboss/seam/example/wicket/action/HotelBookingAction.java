@@ -10,14 +10,12 @@ import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.security.Restrict;
-import org.jboss.seam.core.Events;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.log.Log;
 
@@ -42,21 +40,15 @@ public class HotelBookingAction implements HotelBooking
    
    @In(create=true)
    private StatusMessages statusMessages;
-      
-   @In
-   private Events events;
    
    @Logger 
    private Log log;
    
    private boolean bookingValid;
    
-   // TODO Use outjection
-   @Begin
-   public Hotel selectHotel(Long hotelId)
+   public void selectHotel(Hotel hotel)
    {
-      hotel = em.find(Hotel.class, hotelId);
-      return hotel;
+      this.hotel = hotel;
    }
    
    public void bookHotel()
@@ -99,7 +91,6 @@ public class HotelBookingAction implements HotelBooking
       em.persist(booking);
       statusMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
-      events.raiseTransactionSuccessEvent("bookingConfirmed");
    }
    
    @End

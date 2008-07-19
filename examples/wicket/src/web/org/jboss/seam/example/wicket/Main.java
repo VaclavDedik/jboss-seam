@@ -31,17 +31,18 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.PropertyModel;
+import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.BookingList;
 import org.jboss.seam.example.wicket.action.Hotel;
+import org.jboss.seam.example.wicket.action.HotelBooking;
 import org.jboss.seam.example.wicket.action.HotelSearching;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wicket.SeamPropertyModel;
@@ -58,6 +59,9 @@ public class Main extends WebPage
    
    @In(create=true)
    private BookingList bookingList;
+   
+   @In(create=true)
+   private HotelBooking hotelBooking;
 
    private DataView       hotelDataView;
    private DataView       bookedHotelDataView;
@@ -113,12 +117,24 @@ public class Main extends WebPage
          @Override
          protected void populateItem(Item item)
          {
-            Hotel hotel = (Hotel) item.getModelObject();
+            final Hotel hotel = (Hotel) item.getModelObject();
             item.add(new Label("hotelName", hotel.getName()));
             item.add(new Label("hotelAddress", hotel.getAddress()));
             item.add(new Label("hotelCityStateCountry", hotel.getCity() + ", " + hotel.getState() + ", " + hotel.getCountry()));
             item.add(new Label("hotelZip", hotel.getZip()));
-            item.add(new BookmarkablePageLink("viewHotel", org.jboss.seam.example.wicket.Hotel.class).setParameter("hotelId", hotel.getId()));
+            //item.add(new BookmarkablePageLink("viewHotel", org.jboss.seam.example.wicket.Hotel.class).setParameter("hotelId", hotel.getId()));
+            item.add(new Link("viewHotel")
+            {
+
+               @Override
+               @Begin
+               public void onClick()
+               {
+                  hotelBooking.selectHotel(hotel);
+                  setResponsePage(org.jboss.seam.example.wicket.Hotel.class);
+               }
+            
+            });
          }
          
       };

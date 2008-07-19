@@ -91,18 +91,13 @@ public abstract class SeamWebApplication extends WebApplication
                @Override
                protected CharSequence encode(RequestCycle requestCycle, IBookmarkablePageRequestTarget requestTarget)
                {
-                  if (requestCycle.getRequest().getParameter("cid") != null)
+                  // TODO Do this nicely
+                  StringBuilder stringBuilder = new StringBuilder(super.encode(requestCycle, requestTarget));
+                  if (Manager.instance().isLongRunningConversation())
                   {
-                     // TODO Do this nicely
-                     StringBuilder stringBuilder = new StringBuilder(super.encode(requestCycle, requestTarget));
-                     if (Manager.instance().isReallyLongRunningConversation())
-                     {
-                        stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
-                     }
-                     return stringBuilder.subSequence(0, stringBuilder.length());
-
+                     stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
                   }
-                  return super.encode(requestCycle, requestTarget);
+                  return stringBuilder.subSequence(0, stringBuilder.length());
                }
 
             };

@@ -6,7 +6,7 @@ import javax.ejb.Local;
 @Local
 public interface HotelBooking
 {
-   public Hotel selectHotel(Long hotelId);
+   public void selectHotel(Hotel hotel);
    
    public void bookHotel();
    

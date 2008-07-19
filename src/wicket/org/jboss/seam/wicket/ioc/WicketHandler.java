@@ -26,7 +26,6 @@ public class WicketHandler implements Serializable
    private List<Interceptor> interceptors;
    private Class<?> type;
    private transient WicketComponent component;
-   private boolean callInProgress;
    private int reentrant = 0;
    
    private WicketComponent getComponent()
@@ -44,6 +43,8 @@ public class WicketHandler implements Serializable
       {
          interceptors = new ArrayList<Interceptor>();
          interceptors.add(new BijectionInterceptor());
+         interceptors.add(new ConversationInterceptor());
+         interceptors.add(new EventInterceptor());
       }
       return interceptors;
    }
@@ -93,6 +94,7 @@ public class WicketHandler implements Serializable
    
    private Exception doHandleException(InvocationContext invocationContext, Exception exception)
    {
+      reentrant--;
       if (reentrant == 0)
       {
          for (Interceptor interceptor : getInterceptors())

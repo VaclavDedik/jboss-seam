@@ -152,7 +152,7 @@ public class JavassistInstrumentor
                   
                   CtMethod newMethod = CtNewMethod.copy(method, newName, implementation, null);
                   implementation.addMethod(newMethod);
-                  method.setBody(createBody(implementation, newMethod));
+                  method.setBody(createBody(implementation, method, newMethod));
                   log.trace("instrumented method " + method.getName());
                }
             }
@@ -180,10 +180,10 @@ public class JavassistInstrumentor
       return classLoader;
    }
    
-   private static String createBody(CtClass clazz, CtMethod method) throws NotFoundException
+   private static String createBody(CtClass clazz, CtMethod method, CtMethod newMethod) throws NotFoundException
    {
-      String src = "{" + createMethodObject(method) + "handler.beforeInvoke(this, method);" + createMethodDelegation(method) + "return ($r) handler.afterInvoke(this, method, ($w) result);}";
-      log.trace("Creating method " + clazz.getName() + "." + method.getName() + "(" + method.getSignature() + ")" + src);
+      String src = "{" + createMethodObject(method) + "handler.beforeInvoke(this, method);" + createMethodDelegation(newMethod) + "return ($r) handler.afterInvoke(this, method, ($w) result);}";
+      log.trace("Creating method " + clazz.getName() + "." + newMethod.getName() + "(" + newMethod.getSignature() + ")" + src);
       return src;
    }
    
