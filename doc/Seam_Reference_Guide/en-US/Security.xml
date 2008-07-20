@@ -3062,7 +3062,7 @@ public @interface Promote {
       </mediaobject>     
       
       <para>
-        Each of these classes are explained in more detail in the following sections.
+        The relevant classes are explained in more detail in the following sections.
       </para>
       
       <sect3>
@@ -3090,7 +3090,9 @@ public @interface Promote {
 
           <para>
             It is very simple to implement your own permission resolver.  The <literal>PermissionResolver</literal>
-            interface defines only two methods that must be implemented:
+            interface defines only two methods that must be implemented, as shown by the following table.  By deploying
+            your own <literal>PermissionResolver</literal> implementation in your Seam project, it will be automatically
+            scanned during deployment and registered with the default <literal>ResolverChain</literal>.
           </para>          
           
           <table>
@@ -3138,7 +3140,7 @@ public @interface Promote {
                     </para>
                   </entry>
                 </row>   
-                
+
                 <row>
                   <entry>
                     <para>
@@ -3152,7 +3154,7 @@ public @interface Promote {
                   </entry>
                   <entry>
                     <para>
-                      This method should iterate through the specified set of objects, and remove any that would otherwise
+                      This method should remove any objects from the specified set, that would otherwise
                       return <literal>false</literal> if passed to the <literal>hasPermission()</literal> method with the 
                       same <literal>action</literal> parameter value.
                     </para>
@@ -3177,7 +3179,9 @@ public @interface Promote {
       
       <para>
         The following sequence diagram shows the interaction between the components of the permission framework during a
-        permission check (explanation follows):
+        permission check (explanation follows).  A permission check can originate from a number of possible sources,
+        for example - the security interceptor, the <literal>s:hasPermission</literal> EL function, or via an API
+        call to <literal>Identity.checkPermission</literal>:
       </para>
       
       <mediaobject>
@@ -3193,19 +3197,22 @@ public @interface Promote {
     </sect2>
 
     <sect2>
-      <title>Rule-based Permissions</title>
+      <title>RuleBasedPermissionResolver</title>
       
-      <sect3>
-        <title>Configuration</title>
-        
-      </sect3>
-
+      <para>
+        One of the built-in permission resolvers provided by Seam, <literal>RuleBasedPermissionResolver</literal> 
+        allows permissions to be evaluated based on a set of Drools (JBoss Rules) security rules.  A couple of the 
+        advantages of using a rule engine are 1) a centralized location for the business logic that is used to
+        evaluate user permissions, and 2) speed - Drools uses very efficient algorithms for evaluating large 
+        numbers of complex rules involving multiple conditions.        
+      </para>
+      
       <sect3>
         <title>Requirements</title>
     
         <para>
-          If using the rule-based permission features provided by Seam Security, the following jar files are required to be 
-          distributed with your project:
+          If using the rule-based permission features provided by Seam Security, the following jar files are required by Drools
+          to be distributed with your project:
         </para>
     
         <itemizedlist>
@@ -3226,208 +3233,220 @@ public @interface Promote {
           </listitem>
         </itemizedlist>
     
-      </sect3>    
+      </sect3>       
       
-    </sect2>
+      <sect3>
+        <title>Configuration</title>
+        
+        <para>
+          The configuration for <literal>RuleBasedPermissionResolver</literal> requires that a Drools rule base is first
+          configured in <literal>components.xml</literal>.  By default, it expects that the rule base is named
+          <literal>securityRules</literal>, as per the following example:       
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+              xmlns:core="http://jboss.com/products/seam/core"
+              xmlns:security="http://jboss.com/products/seam/security"
+              xmlns:drools="http://jboss.com/products/seam/drools"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation=
+                  "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
+                   http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
+                   http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd"
+                   http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd">
+  
+     <drools:rule-base name="securityRules">
+         <drools:rule-files>
+             <value>/META-INF/security.drl</value>
+         </drools:rule-files>
+     </drools:rule-base>
+  
+  </components>]]></programlisting>
+  
+        <para>
+          The default rule base name can be overridden by specifying the <literal>security-rules</literal> 
+          property for <literal>RuleBasedPermissionResolver</literal>:
+        </para>
+        
+        <programlisting><![CDATA[
+  <security:rule-based-permission-resolver security-rules="#{prodSecurityRules}"/>]]></programlisting>
 
-  </sect1>
-
-  <sect1>
-    <title>Writing Security Rules</title>
-
-    <para>
-      Up to this point there has been a lot of mention of permissions, but no information about how permissions
-      are actually defined or granted.  This section completes the picture, by explaining how permission
-      checks are processed, and how to implement permission checks for a Seam application.
-    </para>
-
-    <sect2>
-      <title>Permissions Overview</title>
-
-      <para>
-        So how does the security API know whether a user has the <literal>customer:modify</literal> permission
-        for a specific customer?  Seam Security provides quite a novel method for determining user permissions,
-        based on JBoss Rules.  A couple of the advantages of using a rule engine are 1) a centralized location
-        for the business logic that is behind each user permission, and 2) speed - JBoss Rules uses very efficient
-        algorithms for evaluating large numbers of complex rules involving multiple conditions.
-      </para>
-
-    </sect2>
-
-    <sect2>
-      <title>Configuring a rules file</title>
-
-      <para>
-        Seam Security expects to find a <literal>RuleBase</literal> component called <literal>securityRules</literal>
-        which it uses to evaluate permission checks.  This is configured in <literal>components.xml</literal> as follows:
-      </para>
-
-      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:security="http://jboss.com/products/seam/security"
-            xmlns:drools="http://jboss.com/products/seam/drools"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation=
-                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
-                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd
-                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd"
-                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.1.xsd">
-
-   <drools:rule-base name="securityRules">
-       <drools:rule-files>
-           <value>/META-INF/security.drl</value>
-       </drools:rule-files>
-   </drools:rule-base>
-
-</components>]]></programlisting>
-
-      <para>
-        Once the <literal>RuleBase</literal> component is configured, it's time to write the security rules.
-      </para>
-    </sect2>
-
-    <sect2>
-      <title>Creating a security rules file</title>
-      <para>
-        For this step you need to create a file called <literal>security.drl</literal> in the
-        <literal>/META-INF</literal> directory of your application's jar file.  In actual fact this file can be called
-        anything you want, and exist in any location as long as it is configured appropriately in
-        <literal>components.xml</literal>.
-      </para>
-
-      <para>
-        So what should the security rules file contain?  At this stage it might be a good idea to at least skim
-        through the JBoss Rules documentation, however to get started here's an extremely simple example:
-      </para>
-
-      <programlisting><![CDATA[package MyApplicationPermissions;
-
-import org.jboss.seam.security.PermissionCheck;
-import org.jboss.seam.security.Role;
-
-rule CanUserDeleteCustomers
+        <para>
+          Once the <literal>RuleBase</literal> component is configured, it's time to write the security rules.
+        </para>                
+      </sect3>
+      
+      <sect3>
+        <title>Writing Security Rules</title>
+        
+        <para>
+          The first step to writing security rules is to create a new rule file in the <literal>/META-INF</literal>
+          directory of your application's jar file.  Usually this file would be named something like 
+          <literal>security.drl</literal>, however you can name it whatever you like as long as it is configured
+          correspondingly in <literal>components.xml</literal>.
+        </para>
+        
+        <para>
+          So what should the security rules file contain?  At this stage it might be a good idea to at least skim
+          through the Drools documentation, however to get started here's an extremely simple example:
+        </para>
+  
+        <programlisting><![CDATA[package MyApplicationPermissions;
+  
+  import org.jboss.seam.security.permission.PermissionCheck;
+  import org.jboss.seam.security.Role;
+  
+  rule CanUserDeleteCustomers
+  when
+    c: PermissionCheck(target == "customer", action == "delete")
+    Role(name == "admin")
+  then
+    c.grant();
+  end]]></programlisting>
+  
+        <para>
+          Let's break this down step by step.  The first thing we see is the package declaration.  A package in Drools
+          is essentially a collection of rules.  The package name can be anything you want - it doesn't relate
+          to anything else outside the scope of the rule base.
+        </para>
+  
+        <para>
+          The next thing we can notice is a couple of import statements for the <literal>PermissionCheck</literal>
+          and <literal>Role</literal> classes. These imports inform the rules engine that we'll be referencing
+          these classes within our rules.
+        </para>
+  
+        <para>
+          Finally we have the code for the rule.  Each rule within a package should be given a unique name (usually
+          describing the purpose of the rule).  In this case our rule is called <literal>CanUserDeleteCustomers</literal>
+          and will be used to check whether a user is allowed to delete a customer record.
+        </para>
+  
+        <para>
+          Looking at the body of the rule definition we can notice two distinct sections.  Rules have what is known
+          as a left hand side (LHS) and a right hand side (RHS).  The LHS consists of the conditional part of the
+          rule, i.e. a list of conditions which must be satisfied for the rule to fire.  The LHS is represented by
+          the <literal>when</literal> section.  The RHS is the consequence, or action section of the rule that will
+          only be fired if all of the conditions in the LHS are met.  The RHS is represented by the
+          <literal>then</literal> section.  The end of the rule is denoted by the <literal>end</literal> line.
+        </para>
+  
+        <para>
+          If we look at the LHS of the rule, we see two conditions listed there.  Let's examine the first condition:
+        </para>
+  
+        <programlisting><![CDATA[c: PermissionCheck(target == "customer", action == "delete")]]></programlisting>
+  
+        <para>
+          In plain english, this condition is stating that there must exist a <literal>PermissionCheck</literal> object
+          with a <literal>target</literal> property equal to "customer", and an <literal>action</literal> property equal
+          to "delete" within the working memory.
+        </para>
+               
+        <para>
+          So what is the working memory? Also known as a "stateful session" in Drools terminology, the working memory 
+          is a session-scoped object that contains the contextual information that is required by the rules engine to 
+          make a decision about a permission check. Each time the <literal>hasPermission()</literal> method is called, 
+          a temporary <literal>PermissionCheck</literal> object, or <emphasis>Fact</emphasis>, is inserted into the 
+          working memory.  This <literal>PermissionCheck</literal> corresponds exactly to the permission that is being 
+          checked, so for example if you call <literal>hasPermission("account", "create")</literal> then a 
+          <literal>PermissionCheck</literal> object with a <literal>target</literal> equal to "account" and 
+          <literal>action</literal> equal to "create" will be inserted into the working memory for the duration of the 
+          permission check.
+        </para>
+        
+        <para>
+          Besides the <literal>PermissionCheck</literal> facts, there is also a <literal>org.jboss.seam.security.Role</literal>
+          fact for each of the roles that the authenticated user is a member of.  These <literal>Role</literal> facts 
+          are synchronized with the user's authenticated roles at the beginning of every permission check.  As a consequence, 
+          any <literal>Role</literal> object that is inserted into the working memory during the course of a permission
+          check will be removed before the next permission check occurs, if the authenticated user is not actually a member of
+          that role.  Besides the <literal>PermissionCheck</literal> and <literal>Role</literal> facts, the working
+          memory also contains the <literal>java.security.Principal</literal> object that was created as a result of
+          the authentication process.  
+        </para>
+        
+        <para>
+          It is also possible to insert additional long-lived facts into the working  memory by calling 
+          <literal>RuleBasedPermissionResolver.instance().getSecurityContext().insert()</literal>,
+          passing the object as a parameter.  The exception to this is <literal>Role</literal> objects, which as
+          already discussed are synchronized at the start of each permission check.
+        </para>
+  
+        <para>
+          Getting back to our simple example, we can also notice that the first line of our LHS is prefixed with
+          <literal>c:</literal>.  This is a variable binding, and is used to refer back to the object that is
+          matched by the condition (in this case, the <literal>PermissionCheck</literal>).  Moving on to the 
+          second line of our LHS, we see this:
+        </para>
+  
+        <programlisting><![CDATA[Role(name == "admin")]]></programlisting>
+  
+        <para>
+          This condition simply states that there must be a <literal>Role</literal> object with a 
+          <literal>name</literal> of "admin" within the working memory.  As already mentioned, user roles are inserted into 
+          the working memory at the beginning of each permission check.  So, putting both conditions together, this 
+          rule is essentially saying "I will fire if you are checking for the <literal>customer:delete</literal> 
+          permission and the user is a member of the <literal>admin</literal> role".
+        </para>
+  
+        <para>
+          So what is the consequence of the rule firing?  Let's take a look at the RHS of the rule:
+        </para>
+  
+        <programlisting><![CDATA[c.grant()]]></programlisting>
+  
+        <para>
+          The RHS consists of Java code, and in this case is invoking the <literal>grant()</literal>
+          method of the <literal>c</literal> object, which as already mentioned is a variable binding
+          for the <literal>PermissionCheck</literal> object.  Besides the <literal>name</literal> and
+          <literal>action</literal> properties of the <literal>PermissionCheck</literal> object, there
+          is also a <literal>granted</literal> property which is initially set to <literal>false</literal>.
+          Calling <literal>grant()</literal> on a <literal>PermissionCheck</literal> sets the
+          <literal>granted</literal> property to <literal>true</literal>, which means that the permission
+          check was successful, allowing the user to carry out whatever action the permission check was
+          intended for.
+        </para>
+      </sect3>
+      
+      <sect3>
+        <title>Non-String permission targets</title>
+        
+        <para>
+          So far we have only seen permission checks for String-literal permission targets.  It is of course also
+          possible to write security rules for permission targets of more complex types.  For example, let's say that you wish
+          to write a security rule to allow your users to create blog comments.  The following rule demonstrates
+          how this may be expressed, by requiring the target of the permission check to be an instance of
+          <literal>MemberBlog</literal>, and also requiring that the currently authenticated user is a member of the
+          <literal>user</literal> role:
+        </para>
+        
+        <programlisting><![CDATA[rule CanCreateBlogComment
+  no-loop
+  activation-group "permissions"
 when
-  c: PermissionCheck(name == "customer", action == "delete")
-  Role(name == "admin")
+  blog: MemberBlog()
+  check: PermissionCheck(target == blog, action == "create", granted == false)
+  Role(name == "user")
 then
-  c.grant();
-end;]]></programlisting>
-
-      <para>
-        Let's break this down.  The first thing we see is the package declaration.  A package in JBoss Rules
-        is essentially a collection of rules.  The package name can be anything you want - it doesn't relate
-        to anything else outside the scope of the rule base.
-      </para>
-
-      <para>
-        The next thing we can notice is a couple of import statements for the <literal>PermissionCheck</literal>
-        and <literal>Role</literal> classes. These imports inform the rules engine that we'll be referencing
-        these classes within our rules.
-      </para>
-
-      <para>
-        Finally we have the code for the rule.  Each rule within a package should be given a unique name (usually
-        describing the purpose of the rule).  In this case our rule is called <literal>CanUserDeleteCustomers</literal>
-        and will be used to check whether a user is allowed to delete a customer record.
-      </para>
-
-      <para>
-        Looking at the body of the rule definition we can notice two distinct sections.  Rules have what is known
-        as a left hand side (LHS) and a right hand side (RHS).  The LHS consists of the conditional part of the
-        rule, i.e. a list of conditions which must be satisfied for the rule to fire.  The LHS is represented by
-        the <literal>when</literal> section.  The RHS is the consequence, or action section of the rule that will
-        only be fired if all of the conditions in the LHS are met.  The RHS is represented by the
-        <literal>then</literal> section.  The end of the rule is denoted by the <literal>end;</literal> line.
-      </para>
-
-      <para>
-        If we look at the LHS of the rule, we see two conditions listed there.  Let's examine the first condition:
-      </para>
-
-      <programlisting><![CDATA[c: PermissionCheck(name == "customer", action == "delete")]]></programlisting>
-
-      <para>
-        In plain english, this condition is stating that there must exist a <literal>PermissionCheck</literal> object
-        with a <literal>name</literal> property equal to "customer", and an <literal>action</literal> property equal
-        to "delete" within the working memory.
-      </para>
-             
-      <para>
-        So what is the working memory? Also known as a "stateful session" in Drools terminology, the working memory 
-        is a session-scoped object that contains the contextual information that is required by the rules engine to 
-        make a decision about a permission check. Each time the <literal>hasPermission()</literal> method is called, 
-        a temporary <literal>PermissionCheck</literal> object, or <emphasis>Fact</emphasis>, is inserted into the 
-        working memory.  This <literal>PermissionCheck</literal> corresponds exactly to the permission that is being 
-        checked, so for example if you call <literal>hasPermission("account", "create", null)</literal> then a 
-        <literal>PermissionCheck</literal> object with a <literal>name</literal> equal to "account" and 
-        <literal>action</literal> equal to "create" will be inserted into the working memory for the duration of the 
-        permission check.
-      </para>
+  check.grant();
+end
+]]></programlisting>        
       
-      <para>
-        Besides the <literal>PermissionCheck</literal> facts, there is also a <literal>org.jboss.seam.security.Role</literal>
-        fact for each of the roles that the authenticated user is a member of.  These <literal>Role</literal> facts 
-        are synchronized with the user's authenticated roles at the beginning of every permission check.  As a consequence, 
-        any <literal>Role</literal> object that is inserted into the working memory during the course of a permission
-        check will be removed before the next permission check occurs, if the authenticated user is not a member of
-        that role.  Besides the <literal>PermissionCheck</literal> and <literal>Role</literal> facts, the working
-        memory also contains the <literal>java.security.Principal</literal> object that was created during
-        the authentication process.  
-      </para>
-      
-      <para>
-        It is also possible to insert additional long-lived facts into the working  memory by calling 
-        <literal>((RuleBasedIdentity) RuleBasedIdentity.instance()).getSecurityContext().insert()</literal>,
-        passing the object as a parameter.  The exception to this is <literal>Role</literal> objects, which as
-        already discussed are synchronized at the start of each permission check.
-      </para>
-
-      <para>
-        Getting back to our simple example, we can also notice that the first line of our LHS is prefixed with
-        <literal>c:</literal>.  This is a variable binding, and is used to refer back to the object that is
-        matched by the condition.  Moving onto the second line of our LHS, we see this:
-      </para>
-
-      <programlisting><![CDATA[Role(name == "admin")]]></programlisting>
-
-      <para>
-        This condition simply states that there must be a <literal>Role</literal> object with a 
-        <literal>name</literal> of "admin" within the working memory.  As mentioned, user roles are inserted into 
-        the working memory at the beginning of each permission check.  So, putting both conditions together, this 
-        rule is essentially saying "I will fire if you are checking for the <literal>customer:delete</literal> 
-        permission and the user is a member of the <literal>admin</literal> role".
-      </para>
-
-      <para>
-        So what is the consequence of the rule firing?  Let's take a look at the RHS of the rule:
-      </para>
-
-      <programlisting><![CDATA[c.grant()]]></programlisting>
-
-      <para>
-        The RHS consists of Java code, and in this case is invoking the <literal>grant()</literal>
-        method of the <literal>c</literal> object, which as already mentioned is a variable binding
-        for the <literal>PermissionCheck</literal> object.  Besides the <literal>name</literal> and
-        <literal>action</literal> properties of the <literal>PermissionCheck</literal> object, there
-        is also a <literal>granted</literal> property which is initially set to <literal>false</literal>.
-        Calling <literal>grant()</literal> on a <literal>PermissionCheck</literal> sets the
-        <literal>granted</literal> property to <literal>true</literal>, which means that the permission
-        check was successful, allowing the user to carry out whatever action the permission check was
-        intended for.
-      </para>
+      </sect3>
 
       <sect3>
         <title>Wildcard permission checks</title>
 
         <para>
           It is possible to implement a wildcard permission check (which allows all actions for a given permission
-          name), by omitting the <literal>action</literal> constraint for the <literal>PermissionCheck</literal> in
+          target), by omitting the <literal>action</literal> constraint for the <literal>PermissionCheck</literal> in
           your rule, like this:
         </para>
 
         <programlisting><![CDATA[rule CanDoAnythingToCustomersIfYouAreAnAdmin
 when
-  c: PermissionCheck(name == "customer")
+  c: PermissionCheck(target == "customer")
   Role(name == "admin")
 then
   c.grant();
@@ -3437,11 +3456,648 @@ end;
         <para>
           This rule allows users with the <literal>admin</literal> role to perform <emphasis>any</emphasis> action for
           any <literal>customer</literal> permission check.
-        </para>
+        </para>        
+        
       </sect3>
+      
+    </sect2>
+    
+    <sect2>
+      <title>PersistentPermissionResolver</title>
+      
+      <para>
+        Another built-in permission resolver provided by Seam, <literal>PersistentPermissionResolver</literal>
+        allows permissions to be loaded from persistent storage, such as a relational database.  This permission 
+        resolver provides ACL style instance-based security, allowing for specific object permissions to be assigned
+        to individual users and roles.  It also allows for persistent, arbitrarily-named permission targets (not 
+        necessarily object/class based) to be assigned in the same way.
+      </para>
+      
+      <sect3>
+        <title>Configuration</title>
 
+        <para>
+          Before it can be used, <literal>PersistentPermissionResolver</literal> must be configured with a
+          valid <literal>PermissionStore</literal> in <literal>components.xml</literal>.  If not configured,
+          it will attempt to use the default permission store, <literal>JpaIdentityStore</literal> (see section
+          further down for details).  To use a permission store other than the default, configure the
+          <literal>permission-store</literal> property as follows:
+        </para>        
+        
+        <programlisting><![CDATA[  <security:persistent-permission-resolver permission-store="#{myCustomPermissionStore}"/>]]></programlisting>
+        
+      </sect3>
+      
+      <sect3>
+        <title>Permission Stores</title>
+        
+        <para>
+          A permission store is required for <literal>PersistentPermissionResolver</literal> to connect to the
+          backend storage where permissions are persisted.  Seam provides one <literal>PermissionStore</literal>
+          implementation out of the box, <literal>JpaPermissionStore</literal>, which is used to store
+          permissions inside a relational database.  It is possible to write your own permission store
+          by implementing the <literal>PermissionStore</literal> interface, which defines the following
+          methods:
+        </para>
+        
+        <table>
+          <title>PermissionStore interface</title>
+    
+          <tgroup cols="2">
+            <colspec colnum="1" colwidth="2*" />
+            <colspec colnum="2" colwidth="3*" />
+            <colspec colnum="3" colwidth="3*" />
+    
+            <thead>
+              <row>
+                <entry align="center">
+                  <para>Return type</para>
+                </entry>
+                <entry align="center">
+                  <para>Method</para>
+                </entry>
+                <entry align="center">
+                  <para>Description</para>
+                </entry>
+              </row>
+            </thead>
+    
+            <tbody>
+    
+              <row>
+                <entry>
+                  <para>
+                    <literal>List&lt;Permission&gt;</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    <literal>listPermissions(Object target)</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    This method should return a <literal>List</literal> of <literal>Permission</literal> objects 
+                    representing all the permissions granted for the specified target object.
+                  </para>
+                </entry>
+              </row>         
+
+              <row>
+                <entry>
+                  <para>
+                    <literal>List&lt;Permission&gt;</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    <literal>listPermissions(Object target, String action)</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    This method should return a <literal>List</literal> of <literal>Permission</literal> objects 
+                    representing all the permissions with the specified action, granted for the specified target object.
+                  </para>
+                </entry>
+              </row>         
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>List&lt;Permission&gt;</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    <literal>listPermissions(Set&lt;Object&gt; targets, String action)</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    This method should return a <literal>List</literal> of <literal>Permission</literal> objects 
+                    representing all the permissions with the specified action, granted for the specified set of
+                    target objects.
+                  </para>
+                </entry>
+              </row>         
+        
+              <row>
+                <entry>
+                  <para>
+                    <literal>boolean</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    <literal>grantPermission(Permission)</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    This method should persist the specified <literal>Permission</literal> object to the backend
+                    storage, returning true if successful.
+                  </para>
+                </entry>
+              </row>  
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>boolean</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    <literal>grantPermissions(List&lt;Permission&gt; permissions)</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    This method should persist all of the <literal>Permission</literal> objects contained in the
+                    specified <literal>List</literal>, returning true if successful.
+                  </para>
+                </entry>
+              </row>  
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>boolean</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    <literal>revokePermission(Permission permission)</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    This method should remove the specified <literal>Permission</literal> object from persistent storage.
+                  </para>
+                </entry>
+              </row>  
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>boolean</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    <literal>revokePermissions(List&lt;Permission&gt; permissions)</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    This method should remove all of the <literal>Permission</literal> objects in the specified list
+                    from persistent storage.
+                  </para>
+                </entry>
+              </row> 
+              
+              <row>
+                <entry>
+                  <para>
+                    <literal>List&lt;String&gt;</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    <literal>listAvailableActions(Object target)</literal>
+                  </para>
+                </entry>
+                <entry>
+                  <para>
+                    This method should return a list of all the available actions (as Strings) for the class of the 
+                    specified target object.  It is used in conjunction with permission management to build the user
+                    interface for granting specific class permissions (see section further down).
+                  </para>
+                </entry>
+              </row> 
+            </tbody>
+          </tgroup>
+        </table>
+      
+      </sect3>
+           
+      <sect3>
+        <title>JpaPermissionStore</title>
+        
+        <para>
+          This is the default <literal>PermissionStore</literal> implementation (and the only one provided by Seam), which 
+          uses a relational database to store permissions.  Before it can be used it must be configured with either one or 
+          two entity classes for storing user and role permissions.  These entity classes must be annotated with a special 
+          set of security annotations to configure which properties of the entity correspond to various aspects of the 
+          permissions being stored.
+        </para>
+        
+        <para>
+          If you wish to use the same entity (i.e. a single database table) to store both user and role permissions, then
+          only the <literal>user-permission-class</literal> property is required to be configured.  If you wish to use
+          separate tables for storing user and role permissions, then in addition to the <literal>user-permission-class</literal>
+          property you must also configure the <literal>role-permission-class</literal> property.
+        </para>
+        
+        <para>For example, to configure a single entity class to store both user and role permissions:</para>
+        
+        <programlisting><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission"/>]]></programlisting>
+        
+        <para>To configure separate entity classes for storing user and role permissions:</para>
+        
+        <programlisting><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.UserPermission"
+    role-permission-class="com.acme.model.RolePermission"/>]]></programlisting>        
+        
+        <sect4>
+          <title>Permission annotations</title>
+          
+          <para>
+            As mentioned, the entity classes that contain the user and role permissions must be configured with a
+            special set of annotations, contained within the <literal>org.jboss.seam.annotations.security.permission</literal> package.
+            The following table lists each of these annotations along with a description of how they are used:
+          </para>
+          
+          <table>
+            <title>Entity Permission annotations</title>
+      
+            <tgroup cols="2">
+              <colspec colnum="1" colwidth="2*" />
+              <colspec colnum="2" colwidth="3*" />
+              <colspec colnum="3" colwidth="3*" />
+      
+              <thead>
+                <row>
+                  <entry align="center">
+                    <para>Annotation</para>
+                  </entry>
+                  <entry align="center">
+                    <para>Target</para>
+                  </entry>
+                  <entry align="center">
+                    <para>Description</para>
+                  </entry>
+                </row>
+              </thead>
+      
+              <tbody>
+      
+                <row>
+                  <entry>
+                    <para>
+                      <literal>@PermissionTarget</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>FIELD,METHOD</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      This annotation identifies the property of the entity that will contain the permission target.  The property
+                      should be of type <literal>java.lang.String</literal>.
+                    </para>
+                  </entry>
+                </row>   
+                
+                <row>
+                  <entry>
+                    <para>
+                      <literal>@PermissionAction</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>FIELD,METHOD</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      This annotation identifies the property of the entity that will contain the permission action.  The property
+                      should be of type <literal>java.lang.String</literal>.
+                    </para>
+                  </entry>
+                </row>           
+                
+                <row>
+                  <entry>
+                    <para>
+                      <literal>@PermissionUser</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>FIELD,METHOD</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      This annotation identifies the property of the entity that will contain the recipient user for the permission. It should
+                      be of type <literal>java.lang.String</literal> and contain the user's username.
+                    </para>
+                  </entry>
+                </row>  
+                
+                <row>
+                  <entry>
+                    <para>
+                      <literal>@PermissionRole</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>FIELD,METHOD</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      This annotation identifies the property of the entity that will contain the recipient role for the permission. It should
+                      be of type <literal>java.lang.String</literal> and contain the role name.
+                    </para>
+                  </entry>
+                </row>  
+                
+                <row>
+                  <entry>
+                    <para>
+                      <literal>@PermissionDiscriminator</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>FIELD,METHOD</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      This annotation should be used when the same entity/table is used to store both user and role permissions.  It identifies
+                      the property of the entity that is used to discriminate between user and role permissions.  By default, if the column
+                      value contains the string literal <literal>user</literal>, then the record will be treated as a user permission.  If it
+                      contains the string literal <literal>role</literal>, then it will be treated as a role permission.  It is also possible
+                      to override these defaults by specifying the <literal>userValue</literal> and <literal>roleValue</literal> properties
+                      within the annotation.  For example, to use <literal>u</literal> and <literal>r</literal> instead of <literal>user</literal>
+                      and <literal>role</literal>, the annotation would be written like this:
+                    </para>
+                    
+                    <programlisting><![CDATA[  @PermissionDiscriminator(userValue = "u", roleValue = "r")]]></programlisting>
+                  </entry>
+                </row>                
+                
+              </tbody>
+            </tgroup>
+          </table>          
+          
+        </sect4>
+        
+        <sect4>
+          <title>Example Entity</title>
+          
+          <para>
+            Here is an example of an entity class that is used to store both user and role permissions.  The following class can be found
+            inside the SeamSpace example:
+          </para>
+          
+          <programlisting><![CDATA[
+@Entity
+public class AccountPermission implements Serializable {  
+   private Integer permissionId;
+   private String recipient;
+   private String target;
+   private String action;
+   private String discriminator;
+   
+   @Id @GeneratedValue
+   public Integer getPermissionId() {
+      return permissionId;
+   }
+   
+   public void setPermissionId(Integer permissionId) {
+      this.permissionId = permissionId;
+   }
+   
+   @PermissionUser @PermissionRole
+   public String getRecipient() {
+      return recipient;
+   }
+   
+   public void setRecipient(String recipient) {
+      this.recipient = recipient;
+   }
+   
+   @PermissionTarget
+   public String getTarget() {
+      return target;
+   }
+   
+   public void setTarget(String target) {
+      this.target = target;
+   }
+   
+   @PermissionAction
+   public String getAction() {
+      return action;
+   }
+   
+   public void setAction(String action) {
+      this.action = action;
+   }
+   
+   @PermissionDiscriminator
+   public String getDiscriminator() {
+      return discriminator;
+   }
+   
+   public void setDiscriminator(String discriminator) {
+      this.discriminator = discriminator;
+   }
+}          
+          ]]></programlisting>
+          
+          <para>
+            As can be seen in the above example, the <literal>getDiscriminator()</literal> method has been annotated
+            with the <literal>@PermissionDiscriminator</literal> annotation, to allow <literal>JpaPermissionStore</literal> to
+            determine which records represent user permissions and which represent role permissions.  In addition, it
+            can also be seen that the <literal>getRecipient()</literal> method is annotated with both 
+            <literal>@PermissionUser</literal> and <literal>@PermissionRole</literal> annotations.  This is perfectly valid,
+            and simply means that the <literal>recipient</literal> property of the entity will either contain the name
+            of the user or the name of the role, depending on the value of the <literal>discriminator</literal> property.
+          </para>
+          
+        </sect4>
+        
+        <sect4>
+          <title>Class-specific Permission Configuration</title>
+        
+          <para>
+            A further set of class-specific annotations can be used to configure a specific set of allowable permissions
+            for a target class.  These permissions can be found in the <literal>org.jboss.seam.annotation.security.permission</literal>
+            package:
+          </para>
+          
+          <table>
+            <title>Class Permission Annotations</title>
+      
+            <tgroup cols="2">
+              <colspec colnum="1" colwidth="2*" />
+              <colspec colnum="2" colwidth="3*" />
+              <colspec colnum="3" colwidth="3*" />
+      
+              <thead>
+                <row>
+                  <entry align="center">
+                    <para>Annotation</para>
+                  </entry>
+                  <entry align="center">
+                    <para>Target</para>
+                  </entry>
+                  <entry align="center">
+                    <para>Description</para>
+                  </entry>
+                </row>
+              </thead>
+      
+              <tbody>
+      
+                <row>
+                  <entry>
+                    <para>
+                      <literal>@Permissions</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>TYPE</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      A container annotation, this annotation may contain an array of <literal>@Permission</literal> annotations.
+                    </para>
+                  </entry>
+                </row>        
+                
+                <row>
+                  <entry>
+                    <para>
+                      <literal>@Permission</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      <literal>TYPE</literal>
+                    </para>
+                  </entry>
+                  <entry>
+                    <para>
+                      This annotation defines a single allowable permission action for the target class.  Its <literal>action</literal>
+                      property must be specified, and an optional <literal>mask</literal> property may also be specified if permission
+                      actions are to be persisted as bitmasked values (see next section).
+                    </para>
+                  </entry>
+                </row>
+                
+              </tbody>
+            </tgroup>
+          </table>
+          
+          <para>
+            Here's an example of the above annotations in action.  The following class can also be found in the SeamSpace example:
+          </para>
+          
+          <programlisting><![CDATA[@Permissions({
+   @Permission(action = "view"),
+   @Permission(action = "comment")
+})
+@Entity
+public class MemberImage implements Serializable {]]></programlisting>
+
+          <para>
+            This example demonstrates how two allowable permission actions, <literal>view</literal> and <literal>comment</literal> 
+            can be declared for the entity class <literal>MemberImage</literal>.
+          </para>
+          
+        </sect4>
+        
+        <sect4>
+          <title>Permission masks</title>
+          
+          <para>
+            By default, multiple permissions for the same target object and recipient will be persisted as a single database record,
+            with the <literal>action</literal> property/column containing a comma-separated list of the granted actions.  To reduce
+            the amount of physical storage required to persist a large number of permissions, it is possible to use a bitmasked
+            integer value (instead of a comma-separated list) to store the list of actions.
+          </para>
+          
+          <para>
+            For example, if recipient "Bob" is granted both the <literal>view</literal> and <literal>comment</literal> permissions
+            for a particular <literal>MemberImage</literal> instance, then by default the <literal>action</literal> property of the
+            permission entity will contain "<literal>view,comment</literal>", representing the two granted permission actions.  
+            Alternatively, if using bitmasked values for the permission actions, as defined like so:
+          </para>
+          
+          <programlisting><![CDATA[@Permissions({
+   @Permission(action = "view", mask = 1),
+   @Permission(action = "comment", mask = 2)
+})
+@Entity
+public class MemberImage implements Serializable {]]></programlisting>          
+
+          <para>
+            The <literal>action</literal> property will instead simply contain "3" (with both the 1 bit and 2 bit switched on).  Obviously
+            for a large number of allowable actions for any particular target class, the storage required for the permission records
+            is greatly reduced by using bitmasked actions.
+          </para>
+        </sect4>
+        
+        <sect4>
+          <title>Identifier Policy</title>
+          
+          <para>
+            When storing or looking up permissions, <literal>JpaPermissionStore</literal> must be able to uniquely identify specific
+            object instances to effectively operate on its permissions.  To achieve this, an <emphasis>identifier strategy</emphasis> 
+            may be assigned to each target class for the generation of unique identifier values.  Each identifier strategy
+            implementation knows how to generate unique identifiers for a particular type of class, and it is a simple matter to 
+            create new identifier strategies.
+          </para>
+          
+          <para>
+            The <literal>IdentifierStrategy</literal> interface is very simple, declaring only two methods:
+          </para>
+          
+          <programlisting><![CDATA[public interface IdentifierStrategy {
+   boolean canIdentify(Class targetClass);
+   String getIdentifier(Object target);
+}]]></programlisting>
+
+          <para>
+            The first method, <literal>canIdentify()</literal> simply returns <literal>true</literal> if the identifier strategy
+            is capable of generating a unique identifier for the specified target class.  The second method, 
+            <literal>getIdentifier()</literal> returns the unique identifier value for the specified target object.
+          </para>
+        </sect4>
+        
+        <sect4>
+          <title>Overview</title>
+          
+          <para>
+            So how does persistent permission data actually look when stored in the database?
+          </para>
+        </sect4>
+      </sect3>     
+    
     </sect2>
 
+  </sect1>
+  
+  <sect1>
+    <title>Permission Management</title>
+    
+    <para>
+      In much the same way that Seam Security provides an Identity Management API for the management of users and roles,
+      it also provides a Permissions Management API for the management of persistent user permissions.
+    </para>
+  
   </sect1>
 
   <sect1>
