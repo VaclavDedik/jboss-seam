@@ -4075,6 +4075,56 @@ public class MemberImage implements Serializable {]]></programlisting>
             is capable of generating a unique identifier for the specified target class.  The second method, 
             <literal>getIdentifier()</literal> returns the unique identifier value for the specified target object.
           </para>
+          
+          <para>
+            Seam provides two <literal>IdentifierStrategy</literal> implementations, <literal>ClassIdentifierStrategy</literal>
+            and <literal>EntityIdentifierStrategy</literal> (see next sections for details).
+          </para>
+          
+          <para>
+            To explicitly configure a specific identifier strategy to use for a particular class, it should be annotated with
+            <literal>org.jboss.seam.annotations.security.permission.Identifier</literal>, and the value should be set to
+            a concrete implementation of the <literal>IdentifierStrategy</literal> interface.  An optional <literal>name</literal>
+            property can also be specified, the effect of which is dependent upon the actual <literal>IdentifierStrategy</literal>
+            implementation used.
+          </para>
+        </sect4>
+        
+        <sect4>
+          <title>ClassIdentifierStrategy</title>
+          
+          <para>
+            This identifier strategy is used to generate unique identifiers for classes, and will use the value of the 
+            <literal>name</literal> (if specified) in the <literal>@Identifier</literal> annotation.  If there is no
+            <literal>name</literal> property provided, then it will attempt to use the component name of the class
+            (if the class is a Seam component), or as a last resort it will create an identifier based on the name
+            of the class (excluding the package name).  For example, the identifier for the following class will
+            be "<literal>customer</literal>":
+          </para>
+          
+          <programlisting><![CDATA[@Identifier(name = "customer")
+public class Customer {
+          ]]></programlisting>
+          
+          <para>
+            The identifier for the following class will be "<literal>customerAction</literal>":
+          </para>
+          
+          <programlisting><![CDATA[@Name("customerAction")
+public class CustomerAction {          
+          ]]></programlisting>
+          
+          <para>
+            Finally, the identifier for the following class will be "<literal>Customer</literal>":
+          </para>
+          
+          <programlisting><![CDATA[public class Customer {          
+          ]]></programlisting>
+          
+        </sect4>
+        
+        <sect4>
+          <title>EntityIdentifierStrategy</title>
         </sect4>
         
         <sect4>
