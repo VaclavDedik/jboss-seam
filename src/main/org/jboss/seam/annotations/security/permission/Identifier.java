@@ -22,7 +22,7 @@ import org.jboss.seam.security.permission.IdentifierStrategy;
 @Retention(RUNTIME)
 @Inherited
 public @interface Identifier
-{
-   Class<? extends IdentifierStrategy> value();
+{  
+   Class<? extends IdentifierStrategy> value() default IdentifierStrategy.class;
    String name() default "";
 }

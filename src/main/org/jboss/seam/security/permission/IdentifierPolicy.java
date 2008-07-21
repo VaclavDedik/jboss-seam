@@ -56,26 +56,28 @@ public class IdentifierPolicy
          {
             Class<? extends IdentifierStrategy> strategyClass = 
                target.getClass().getAnnotation(Identifier.class).value();
-            try
+            
+            if (strategyClass != IdentifierStrategy.class)
             {
-               strategy = strategyClass.newInstance();
-               strategies.put(target.getClass(), strategy);
-            }
-            catch (Exception ex)
-            {
-               throw new RuntimeException("Error instantiating IdentifierStrategy for object " + target, ex);
+               try
+               {
+                  strategy = strategyClass.newInstance();
+                  strategies.put(target.getClass(), strategy);
+               }
+               catch (Exception ex)
+               {
+                  throw new RuntimeException("Error instantiating IdentifierStrategy for object " + target, ex);
+               }
             }
          }
-         else
+
+         for (IdentifierStrategy s : registeredStrategies)
          {
-            for (IdentifierStrategy s : registeredStrategies)
+            if (s.canIdentify(target.getClass()))
             {
-               if (s.canIdentify(target.getClass()))
-               {
-                  strategy = s;
-                  strategies.put(target.getClass(), strategy);
-                  break;
-               }
+               strategy = s;
+               strategies.put(target.getClass(), strategy);
+               break;
             }
          }
       }
