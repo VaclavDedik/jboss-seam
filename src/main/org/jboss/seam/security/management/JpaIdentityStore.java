@@ -683,7 +683,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       catch (NoResultException ex)
       {
          return null;        
-      }      
+      }
    }   
    
    public List<String> listUsers()

@@ -600,6 +600,7 @@ public class Identity implements Serializable
       if (!securityEnabled) return true;
       if (systemOp) return true;      
       if (permissionMapper == null) return false;
+      if (target == null) return false;
       
       return permissionMapper.resolvePermission(target, action);
    }
