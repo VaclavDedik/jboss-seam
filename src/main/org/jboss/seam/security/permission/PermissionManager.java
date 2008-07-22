@@ -83,7 +83,7 @@ public class PermissionManager implements Serializable
       this.permissionStore = permissionStore;
    }
    
-   public List<Permission> listPermissions(String target, String action)
+   public List<Permission> listPermissions(Object target, String action)
    {
       if (target == null) return null;      
       Identity.instance().checkPermission(target, PERMISSION_READ);
