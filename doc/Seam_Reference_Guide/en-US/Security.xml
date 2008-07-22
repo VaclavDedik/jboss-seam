@@ -4026,12 +4026,12 @@ public class MemberImage implements Serializable {]]></programlisting>
             By default, multiple permissions for the same target object and recipient will be persisted as a single database record,
             with the <literal>action</literal> property/column containing a comma-separated list of the granted actions.  To reduce
             the amount of physical storage required to persist a large number of permissions, it is possible to use a bitmasked
-            integer value (instead of a comma-separated list) to store the list of actions.
+            integer value (instead of a comma-separated list) to store the list of permission actions.
           </para>
           
           <para>
             For example, if recipient "Bob" is granted both the <literal>view</literal> and <literal>comment</literal> permissions
-            for a particular <literal>MemberImage</literal> instance, then by default the <literal>action</literal> property of the
+            for a particular <literal>MemberImage</literal> (an entity bean) instance, then by default the <literal>action</literal> property of the
             permission entity will contain "<literal>view,comment</literal>", representing the two granted permission actions.  
             Alternatively, if using bitmasked values for the permission actions, as defined like so:
           </para>
@@ -4047,6 +4047,10 @@ public class MemberImage implements Serializable {]]></programlisting>
             The <literal>action</literal> property will instead simply contain "3" (with both the 1 bit and 2 bit switched on).  Obviously
             for a large number of allowable actions for any particular target class, the storage required for the permission records
             is greatly reduced by using bitmasked actions.
+          </para>
+          
+          <para>
+            Obviously, it is very important that the <literal>mask</literal> values specified are powers of 2.
           </para>
         </sect4>
         
@@ -4103,37 +4107,77 @@ public class MemberImage implements Serializable {]]></programlisting>
           </para>
           
           <programlisting><![CDATA[@Identifier(name = "customer")
-public class Customer {
-          ]]></programlisting>
+public class Customer {]]></programlisting>
           
           <para>
             The identifier for the following class will be "<literal>customerAction</literal>":
           </para>
           
           <programlisting><![CDATA[@Name("customerAction")
-public class CustomerAction {          
-          ]]></programlisting>
+public class CustomerAction { ]]></programlisting>
           
           <para>
             Finally, the identifier for the following class will be "<literal>Customer</literal>":
           </para>
           
-          <programlisting><![CDATA[public class Customer {          
-          ]]></programlisting>
+          <programlisting><![CDATA[public class Customer { ]]></programlisting>
           
         </sect4>
         
         <sect4>
           <title>EntityIdentifierStrategy</title>
-        </sect4>
-        
-        <sect4>
-          <title>Overview</title>
           
           <para>
-            So how does persistent permission data actually look when stored in the database?
+            This identifier strategy is used to generate unique identifiers for entity beans.  It does so by
+            concatenating the entity name (or otherwise configured name) with a string representation of the
+            primary key value of the entity.  The rules for generating the name section of the identifier are 
+            similar to <literal>ClassIdentifierStrategy</literal>.  The primary key value (i.e. the 
+            <emphasis>id</emphasis> of the entity) is obtained using the <literal>PersistenceProvider</literal>
+            component, which is able to correctly determine the value regardless of which persistence implementation
+            is used within the Seam application.  For entities not annotated with <literal>@Entity</literal>, it is
+            necessary to explicitly configure the identifier strategy on the entity class itself, for example:
+          </para>
+          
+          <programlisting><![CDATA[@Identifier(value = EntityIdentifierStrategy.class)
+public class Customer { ]]></programlisting>
+          
+          <para>
+            For an example of the type of identifier values generated, assume we have the following entity class:
+          </para>
+          
+          <programlisting><![CDATA[@Entity
+public class Customer {
+  private Integer id;
+  private String firstName;
+  private String lastName;
+  
+  @Id 
+  public Integer getId() { return id; }
+  public void setId(Integer id) { this.id = id; }
+  
+  public String getFirstName() { return firstName; }
+  public void setFirstName(String firstName) { this.firstName = firstName; }
+  
+  public String getLastName() { return lastName; }
+  public void setLastName(String lastName) { this.lastName = lastName; }
+}]]></programlisting>
+
+          <para>
+            For a <literal>Customer</literal> instance with an <literal>id</literal> value of <literal>1</literal>,
+            the value of the identifier would be "<literal>Customer:1</literal>".  If the entity class is annotated
+            with an explicit identifier name, like so:
+          </para>
+          
+          <programlisting><![CDATA[@Entity
+@Identifier(name = "cust")
+public class Customer { ]]></programlisting>
+
+          <para>
+            Then a <literal>Customer</literal> with an <literal>id</literal> value of <literal>123</literal>
+            would have an identifier value of "<literal>cust:123</literal>".
           </para>
         </sect4>
+                
       </sect3>     
     
     </sect2>
@@ -4145,8 +4189,336 @@ public class CustomerAction {
     
     <para>
       In much the same way that Seam Security provides an Identity Management API for the management of users and roles,
-      it also provides a Permissions Management API for the management of persistent user permissions.
+      it also provides a Permissions Management API for the management of persistent user permissions, via the
+      <literal>PermissionManager</literal> component.
     </para>
+    
+    <sect2>
+      <title>PermissionManager</title>
+      
+      <para>
+        The <literal>PermissionManager</literal> component is an application-scoped Seam component that provides a number of 
+        methods for managing permissions.  Before it can be used, it must be configured with a permission store (although by
+        default it will attempt to use <literal>JpaPermissionStore</literal> if it is available).  To explicitly configure a
+        custom permission store, specify the <literal>permission-store</literal> property in components.xml:
+      </para>
+      
+      <programlisting><![CDATA[
+<security:permission-manager permission-store="#{ldapPermissionStore}"/>      
+      ]]></programlisting>
+      
+      <para>
+        The following table describes each of the available methods provided by <literal>PermissionManager</literal>: 
+      </para>
+      
+      <table>
+        <title>PermissionManager API methods</title>
+  
+        <tgroup cols="2">
+          <colspec colnum="1" colwidth="2*" />
+          <colspec colnum="2" colwidth="3*" />
+          <colspec colnum="3" colwidth="3*" />
+  
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Return type</para>
+              </entry>
+              <entry align="center">
+                <para>Method</para>
+              </entry>
+              <entry align="center">
+                <para>Description</para>
+              </entry>
+            </row>
+          </thead>
+  
+          <tbody>
+  
+            <row>
+              <entry>
+                <para>
+                  <literal>List&lt;Permission&gt;</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>listPermissions(Object target, String action)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Returns a list of <literal>Permission</literal> objects representing all of the permissions that
+                  have been granted for the specified target and action.
+                </para>
+              </entry>
+            </row>        
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>List&lt;Permission&gt;</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>listPermissions(Object target)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Returns a list of <literal>Permission</literal> objects representing all of the permissions that
+                  have been granted for the specified target and action.
+                </para>
+              </entry>
+            </row> 
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>boolean</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>grantPermission(Permission permission)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Persists (grants) the specified <literal>Permission</literal> to the backend permission store.  
+                  Returns true if the operation was successful.
+                </para>
+              </entry>
+            </row> 
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>boolean</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>grantPermissions(List&lt;Permission&gt; permissions)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Persists (grants) the specified list of <literal>Permission</literal>s to the backend permission store.  
+                  Returns true if the operation was successful.
+                </para>
+              </entry>
+            </row> 
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>boolean</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>revokePermission(Permission permission)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Removes (revokes) the specified <literal>Permission</literal> from the backend permission store.  
+                  Returns true if the operation was successful.
+                </para>
+              </entry>
+            </row> 
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>boolean</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>revokePermissions(List&lt;Permission&gt; permissions)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Removes (revokes) the specified list of <literal>Permission</literal>s from the backend permission store.  
+                  Returns true if the operation was successful.
+                </para>
+              </entry>
+            </row> 
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>List&lt;String&gt;</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>listAvailableActions(Object target)</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Returns a list of the available actions for the specified target object.  The actions that this
+                  method returns are dependent on the <literal>@Permission</literal> annotations configured on the 
+                  target object's class.
+                </para>
+              </entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+      
+    </sect2>
+    
+    <sect2>
+      <title>Permission checks for PermissionManager operations</title>
+      
+      <para>
+        Invoking the methods of <literal>PermissionManager</literal> requires that currently authenticated user
+        has the appropriate authorization to perform the operation.
+      </para>
+      
+      <table>
+        <title>Permission Management Security Permissions</title>
+
+        <tgroup cols="2">
+          <colspec colnum="1" colwidth="1*" />
+          <colspec colnum="2" colwidth="3*" />
+
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Method</para>
+              </entry>
+              <entry align="center">
+                <para>Permission Target</para>
+              </entry>
+              <entry align="center">
+                <para>Permission Action</para>
+              </entry>
+            </row>
+          </thead>
+
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <literal>listPermissions()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  The specified <literal>target</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.read-permissions</literal>
+                </para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>grantPermission()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  The target of the specified <literal>Permission</literal>, or each of the targets
+                  for the specified list of <literal>Permission</literal>s (depending on which method is
+                  called).
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.grant-permission</literal>
+                </para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>grantPermission()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  The target of the specified <literal>Permission</literal>.
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.grant-permission</literal>
+                </para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>grantPermissions()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Each of the targets of the specified list of <literal>Permission</literal>s.
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.grant-permission</literal>
+                </para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>revokePermission()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  The target of the specified <literal>Permission</literal>.
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.revoke-permission</literal>
+                </para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para>
+                  <literal>revokePermissions()</literal>
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  Each of the targets of the specified list of <literal>Permission</literal>s.
+                </para>
+              </entry>
+              <entry>
+                <para>
+                  <literal>seam.revoke-permission</literal>
+                </para>
+              </entry>
+            </row>
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </sect2>
   
   </sect1>
 
