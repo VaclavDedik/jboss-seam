@@ -90,19 +90,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    @Create
    public void init()
-   {            
-      if (userClass == null)
-      {
-         log.debug("No userClass set, JpaIdentityStore will be unavailable.");
-         return;
-      }
-      
-      if (roleClass == null)
-      {
-         log.debug("No roleClass set, JpaIdentityStore will be unavailable.");
-         return;
-      }
-      
+   {                  
       if (featureSet == null)
       {
          featureSet = new FeatureSet();
@@ -113,6 +101,12 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       {
          entityManager = Expressions.instance().createValueExpression("#{entityManager}", EntityManager.class);
       }      
+      
+      if (userClass == null)
+      {
+         log.debug("Error in JpaIdentityStore configuration - userClass must be configured.");
+         return;
+      }    
       
       initProperties();   
    }
@@ -125,10 +119,13 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       userEnabledProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserEnabled.class);
       userFirstNameProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserFirstName.class);
       userLastNameProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserLastName.class);
-      
-      roleNameProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleName.class);
-      roleGroupsProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleGroups.class);
-      roleConditionalProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleConditional.class);
+       
+      if (roleClass != null)
+      {
+         roleNameProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleName.class);
+         roleGroupsProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleGroups.class);
+         roleConditionalProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleConditional.class);
+      }
       
       if (userPrincipalProperty == null) 
       {
@@ -136,19 +133,13 @@ public class JpaIdentityStore implements IdentityStore, Serializable
                " - required annotation @UserPrincipal not found on any Field or Method.");
       }
       
-      if (userPasswordProperty == null) 
-      {
-         throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
-               " - required annotation @UserPassword not found on any Field or Method.");
-      }      
-      
       if (userRolesProperty == null)
       {
          throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
          " - required annotation @UserRoles not found on any Field or Method.");         
       }
       
-      if (roleNameProperty == null)
+      if (roleClass != null && roleNameProperty == null)
       {
          throw new IdentityManagementException("Invalid roleClass " + roleClass.getName() + 
          " - required annotation @RoleName not found on any Field or Method.");         
