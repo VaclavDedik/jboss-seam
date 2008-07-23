@@ -223,10 +223,30 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public boolean grantRole(String username, String role)
    {
+      if (roleClass == null) return false;
+      
       Object user = lookupUser(username);
       if (user == null)
       {
-         throw new NoSuchUserException("Could not grant role, no such user '" + username + "'");
+         if (userPasswordProperty != null)
+         {
+            // If no userPasswordProperty is set, it means that authentication is being performed
+            // by another identity store and this one is just managing roles
+            throw new NoSuchUserException("Could not grant role, no such user '" + username + "'");
+         }
+         else
+         {
+            // We need to create a new user object
+            if (createUser(username, null))
+            {
+               user = lookupUser(username);
+            }
+            else
+            {
+               throw new IdentityManagementException(
+                     "Could not grant role - user does not exist and an attempt to create the user failed.");
+            }
+         }
       }
       
       Object roleToGrant = lookupRole(role);
