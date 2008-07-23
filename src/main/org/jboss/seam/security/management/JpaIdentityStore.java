@@ -104,7 +104,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       
       if (userClass == null)
       {
-         log.debug("Error in JpaIdentityStore configuration - userClass must be configured.");
+         log.error("Error in JpaIdentityStore configuration - userClass must be configured.");
          return;
       }    
       
@@ -716,9 +716,22 @@ public class JpaIdentityStore implements IdentityStore, Serializable
 
    public List<String> listRoles()
    {
-      return lookupEntityManager().createQuery(
-            "select r." + roleNameProperty.getName() + " from " + roleClass.getName() + " r")
-            .getResultList();      
+      StringBuilder roleQuery = new StringBuilder();
+      
+      roleQuery.append("select r.");
+      roleQuery.append(roleNameProperty.getName());
+      roleQuery.append(" from ");
+      roleQuery.append(roleClass.getName());
+      roleQuery.append(" r");
+      
+      if (roleConditionalProperty != null)
+      {
+         roleQuery.append(" where r.");
+         roleQuery.append(roleConditionalProperty.getName());
+         roleQuery.append(" = false");
+      }
+      
+      return lookupEntityManager().createQuery(roleQuery.toString()).getResultList();
    }   
    
    protected void persistEntity(Object entity)
