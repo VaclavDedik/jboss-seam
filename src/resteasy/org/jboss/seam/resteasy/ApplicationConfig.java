@@ -36,6 +36,9 @@ public class ApplicationConfig extends javax.ws.rs.core.ApplicationConfig
     private boolean scanResources = true;
     private boolean useBuiltinProviders = true;
 
+    private String resourcePathPrefix = "/rest";
+    private boolean stripSeamResourcePath = true;
+
     public ApplicationConfig()
     {
         super();
@@ -155,5 +158,25 @@ public class ApplicationConfig extends javax.ws.rs.core.ApplicationConfig
     public void setUseBuiltinProviders(boolean useBuiltinProviders)
     {
         this.useBuiltinProviders = useBuiltinProviders;
+    }
+
+    public String getResourcePathPrefix()
+    {
+        return resourcePathPrefix;
+    }
+
+    public void setResourcePathPrefix(String resourcePathPrefix)
+    {
+        this.resourcePathPrefix = resourcePathPrefix;
+    }
+
+    public boolean isStripSeamResourcePath()
+    {
+        return stripSeamResourcePath;
+    }
+
+    public void setStripSeamResourcePath(boolean stripSeamResourcePath)
+    {
+        this.stripSeamResourcePath = stripSeamResourcePath;
     }
 }
