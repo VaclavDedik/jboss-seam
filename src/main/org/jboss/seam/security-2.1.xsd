@@ -64,7 +64,7 @@
     
     <xs:attributeGroup name="attlist.jpa-identity-store">
         <xs:attribute name="entity-manager" type="components:string"/>
-        <xs:attribute name="user-class" type="components:string"/>
+        <xs:attribute name="user-class" type="components:string" use="required"/>
         <xs:attribute name="role-class" type="components:string"/>
         <xs:attribute name="features" type="components:string"/>
     </xs:attributeGroup>     
