@@ -33,7 +33,7 @@ public class Lifecycle
    {
       if (!isApplicationInitialized())
       {
-         throw new IllegalStateException("Attempted to invoke a Seam component outside the an initialized application");
+         throw new IllegalStateException("Attempted to invoke a Seam component outside an initialized application");
       }
       return application;
    }   
