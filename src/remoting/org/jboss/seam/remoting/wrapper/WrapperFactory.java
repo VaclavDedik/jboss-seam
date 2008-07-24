@@ -2,6 +2,7 @@ package org.jboss.seam.remoting.wrapper;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -106,7 +107,7 @@ public class WrapperFactory
       w = new BooleanWrapper();
     else if (obj.getClass().isEnum())
       w = new StringWrapper();
-    else if (Date.class.isAssignableFrom(obj.getClass()))
+    else if (Date.class.isAssignableFrom(obj.getClass()) || Calendar.class.isAssignableFrom(obj.getClass()))
       w = new DateWrapper();
     else if (classRegistry.containsKey(obj.getClass()))
     {

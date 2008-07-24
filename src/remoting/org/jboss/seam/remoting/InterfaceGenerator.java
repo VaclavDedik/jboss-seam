@@ -10,6 +10,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
@@ -658,7 +659,7 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
     else if (type instanceof Class)
     {
       Class cls = (Class) type;
-      if (Date.class.isAssignableFrom(cls))
+      if (Date.class.isAssignableFrom(cls) || Calendar.class.isAssignableFrom(cls))
         return "date";
       else if (cls.isArray())
         return "bag";

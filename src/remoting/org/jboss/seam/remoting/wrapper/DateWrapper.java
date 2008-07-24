@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -22,7 +23,14 @@ public class DateWrapper extends BaseWrapper implements Wrapper
   public void marshal(OutputStream out) throws IOException
   {
     out.write(DATE_TAG_OPEN);
-    out.write(df.format(value).getBytes());
+    if (Date.class.isAssignableFrom(value.getClass()))
+    {
+       out.write(df.format(value).getBytes());
+    }
+    else if (Calendar.class.isAssignableFrom(value.getClass()))
+    {
+       out.write(df.format(((Calendar) value).getTime()).getBytes());
+    }
     out.write(DATE_TAG_CLOSE);
   }
 
@@ -35,10 +43,25 @@ public class DateWrapper extends BaseWrapper implements Wrapper
       try {
         value = df.parse(element.getStringValue());
       }
-      catch (ParseException ex) {
+      catch (ParseException ex) 
+      {
         throw new ConversionException(String.format(
             "Date value [%s] is not in a valid format.", element.getStringValue()));
       }
+    }
+    else if ((type instanceof Class && Calendar.class.isAssignableFrom((Class) type)))
+    {
+       try
+       {
+          Calendar cal = Calendar.getInstance();
+          cal.setTime(df.parse(element.getStringValue()));
+          value = cal;
+       }
+       catch (ParseException ex)
+       {
+          throw new ConversionException(String.format(
+                "Date value [%s] is not in a valid format.", element.getStringValue()));
+       }
     }
     else
       throw new ConversionException(String.format(
@@ -50,7 +73,7 @@ public class DateWrapper extends BaseWrapper implements Wrapper
 
   public ConversionScore conversionScore(Class cls)
   {
-    if (Date.class.isAssignableFrom(cls))
+    if (Date.class.isAssignableFrom(cls) || Calendar.class.isAssignableFrom(cls))
       return ConversionScore.exact;
     else if (cls.equals(Object.class))
       return ConversionScore.compatible;
