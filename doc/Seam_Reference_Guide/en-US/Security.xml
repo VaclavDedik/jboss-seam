@@ -1358,7 +1358,7 @@ end;
         You may customize the CAPTCHA algorithm by overriding the built-in component:
       </para>
 
-      <programlisting role="JAVA"><![CDATA[@Name("org.jboss.seam.captcha")
+      <programlisting role="JAVA"><![CDATA[@Name("org.jboss.seam.captcha.captcha")
 @Scope(SESSION)
 public class HitchhikersCaptcha extends Captcha
 {
