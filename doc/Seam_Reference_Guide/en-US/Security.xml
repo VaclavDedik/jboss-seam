@@ -145,24 +145,21 @@ public class Authenticator {
    @In Identity identity;
 
    public boolean authenticate() {
-      try
-      {
+      try {
          User user = (User) entityManager.createQuery(
             "from User where username = :username and password = :password")
             .setParameter("username", credentials.getUsername())
             .setParameter("password", credentials.getPassword())
             .getSingleResult();
 
-         if (user.getRoles() != null)
-         {
+         if (user.getRoles() != null) {
             for (UserRole mr : user.getRoles())
                identity.addRole(mr.getName());
          }
 
          return true;
       }
-      catch (NoResultException ex)
-      {
+      catch (NoResultException ex) {
          return false;
       }
 
@@ -178,15 +175,17 @@ public class Authenticator {
         authentication method returns <literal>false</literal> to indicate the authentication failed.
       </para>
       
-      <note>
-        When writing an authenticator method, it is important that it is kept minimal and free from
-        any side-effects. This is because there is no guarantee as to how many times the authenticator
-        method will be called by the security API, and as such it may be invoked multiple times during
-        a single request.  Because of this, any special code that should execute upon a successful or
-        failed authentication should be written by implementing an event observer.  See the section on
-        Security Events further down in this chapter for more information about which events are
-        raised by Seam Security.
-      </note>
+      <tip>
+         <para>
+           When writing an authenticator method, it is important that it is kept minimal and free from
+           any side-effects. This is because there is no guarantee as to how many times the authenticator
+           method will be called by the security API, and as such it may be invoked multiple times during
+           a single request.  Because of this, any special code that should execute upon a successful or
+           failed authentication should be written by implementing an event observer.  See the section on
+           Security Events further down in this chapter for more information about which events are
+           raised by Seam Security.
+        </para>
+      </tip>
 
       <sect3>
         <title>Identity.addRole()</title>
@@ -317,8 +316,7 @@ public class Authenticator {
         automatically upon returning to the site, without having to provide a password.
       </para>
       
-      <note>
-        <title>IMPORTANT NOTE</title>
+      <warning>
         <para>
           Automatic client authentication with a persistent cookie stored on the client machine is dangerous.  
           While convenient for users, any cross-site scripting security hole in your website would have dramatically more 
@@ -345,7 +343,7 @@ public class Authenticator {
           practice and should not be used. Cookies that "remember" only the users login name, and fill out the login form with 
           that username as a convenience, are not an issue. 
         </para>
-      </note>
+      </warning>
       
       <para>
         To enable the remember me feature for the default (safe, username only) mode, no special configuration is required.
@@ -353,7 +351,7 @@ public class Authenticator {
         example:
       </para>
       
-      <programlisting><![CDATA[  <div>
+      <programlisting role="XHTML"><![CDATA[  <div>
     <h:outputLabel for="name" value="User name"/>
     <h:inputText id="name" value="#{credentials.username}"/>
   </div>
@@ -384,7 +382,7 @@ public class Authenticator {
           structure that you may use:
         </para>
         
-        <programlisting><![CDATA[@Entity
+        <programlisting role="JAVA"><![CDATA[@Entity
 public class AuthenticationToken implements Serializable {  
    private Integer tokenId;
    private String username;
@@ -430,7 +428,7 @@ public class AuthenticationToken implements Serializable {
           attribute:
         </para>
         
-        <programlisting><![CDATA[
+        <programlisting role="XML"><![CDATA[
   <security:jpa-token-store token-class="org.jboss.seam.example.seamspace.AuthenticationToken"/>        
         ]]></programlisting>
         
@@ -439,7 +437,7 @@ public class AuthenticationToken implements Serializable {
           <literal>components.xml</literal> also.  Its <literal>mode</literal> should be set to <literal>autoLogin</literal>:
         </para>
         
-        <programlisting><![CDATA[  <security:remember-me mode="autoLogin"/>        
+        <programlisting role="XML"><![CDATA[  <security:remember-me mode="autoLogin"/>        
         ]]></programlisting>
         
         <para>
@@ -525,10 +523,12 @@ public class AuthenticationToken implements Serializable {
 
 </pages>]]></programlisting>
 
-      <para>
-        (This is less of a blunt instrument than the exception handler shown above, but should
-        probably be used in conjunction with it.)
-      </para>
+      <tip>
+         <para>
+           This is less of a blunt instrument than the exception handler shown above, but should
+           probably be used in conjunction with it.
+         </para>
+      </tip>
 
       <para>
         After the user logs in, we want to automatically send them back where they came from, so
@@ -700,7 +700,7 @@ public class AuthenticationToken implements Serializable {
         an <literal>LdapIdentityStore</literal> for both user-related and role-related operations:
       </para>
 
-      <programlisting><![CDATA[      
+      <programlisting role="XML"><![CDATA[      
   <security:identity-manager identity-store="#{ldapIdentityStore}"/>
       ]]></programlisting>
       
@@ -709,7 +709,7 @@ public class AuthenticationToken implements Serializable {
         for user-related operations, and <literal>JpaIdentityStore</literal> for role-related operations:
       </para>
       
-      <programlisting><![CDATA[      
+      <programlisting role="XML"><![CDATA[      
   <security:identity-manager 
     identity-store="#{ldapIdentityStore}" 
     role-identity-store="#{jpaIdentityStore}"/>
@@ -741,7 +741,7 @@ public class AuthenticationToken implements Serializable {
           example shows the configuration from <literal>components.xml</literal> in the SeamSpace example:
         </para>
         
-        <programlisting><![CDATA[
+        <programlisting role="XML"><![CDATA[
   <security:jpa-identity-store 
     user-class="org.jboss.seam.example.seamspace.MemberAccount"
     role-class="org.jboss.seam.example.seamspace.MemberRole"/>
@@ -811,7 +811,7 @@ public class AuthenticationToken implements Serializable {
                     algorithm to be specified for password hashing.  Possible values for <literal>hash</literal> are
                     <literal>md5</literal> and <literal>sha</literal>.  E.g:
                     
-                    <programlisting><![CDATA[@UserPassword(hash = "md5")
+                    <programlisting role="JAVA"><![CDATA[@UserPassword(hash = "md5")
 public String getPasswordHash() { 
   return passwordHash; 
 }]]></programlisting>
@@ -993,7 +993,7 @@ public String getPasswordHash() {
             </imageobject>
           </mediaobject>          
           
-          <programlisting><![CDATA[@Entity
+          <programlisting role="JAVA"><![CDATA[@Entity
 public class User {
   private Integer userId;
   private String username;
@@ -1053,7 +1053,7 @@ public class Role {
             </imageobject>
           </mediaobject>         
           
-          <programlisting><![CDATA[@Entity
+          <programlisting role="JAVA"><![CDATA[@Entity
 public class User {
   private Integer userId;
   private String username;
@@ -1587,7 +1587,7 @@ public class Role {
           <literal>enabled</literal> attribute to false.
         </para>
         
-        <programlisting><![CDATA[
+        <programlisting role="XML"><![CDATA[
   <security:ldap-identity-store
     server-address="directory.mycompany.com"
     bind-DN="cn=Manager,dc=mycompany,dc=com"
@@ -1646,13 +1646,13 @@ public class Role {
         component as follows:
       </para>
 
-      <programlisting><![CDATA[  @In IdentityManager identityManager;]]></programlisting>
+      <programlisting role="JAVA"><![CDATA[  @In IdentityManager identityManager;]]></programlisting>
 
       <para>
         or by accessing it through its static <literal>instance()</literal> method:
       </para>
 
-      <programlisting><![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]></programlisting>
+      <programlisting role="JAVA"><![CDATA[  IdentityManager identityManager = IdentityManager.instance();]]></programlisting>
 
       <para>
         The following table describes <literal>IdentityManager</literal>'s API methods:
@@ -3025,7 +3025,7 @@ end;]]></programlisting>
         To create your own security annotation, you simply need to annotate it with <literal>@PermissionCheck</literal>, for example:
       </para>
       
-      <programlisting><![CDATA[@Target({METHOD, PARAMETER})
+      <programlisting role="JAVA"><![CDATA[@Target({METHOD, PARAMETER})
 @Documented
 @Retention(RUNTIME)
 @Inherited
@@ -3702,11 +3702,11 @@ end;
         
         <para>For example, to configure a single entity class to store both user and role permissions:</para>
         
-        <programlisting><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission"/>]]></programlisting>
+        <programlisting role="XML"><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.AccountPermission"/>]]></programlisting>
         
         <para>To configure separate entity classes for storing user and role permissions:</para>
         
-        <programlisting><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.UserPermission"
+        <programlisting role="XML"><![CDATA[  <security:jpa-permission-store user-permission-class="com.acme.model.UserPermission"
     role-permission-class="com.acme.model.RolePermission"/>]]></programlisting>        
         
         <sect4>
@@ -3840,7 +3840,7 @@ end;
                       and <literal>role</literal>, the annotation would be written like this:
                     </para>
                     
-                    <programlisting><![CDATA[  @PermissionDiscriminator(userValue = "u", roleValue = "r")]]></programlisting>
+                    <programlisting role="JAVA"><![CDATA[  @PermissionDiscriminator(userValue = "u", roleValue = "r")]]></programlisting>
                   </entry>
                 </row>                
                 
@@ -3858,7 +3858,7 @@ end;
             inside the SeamSpace example:
           </para>
           
-          <programlisting><![CDATA[
+          <programlisting role="JAVA"><![CDATA[
 @Entity
 public class AccountPermission implements Serializable {  
    private Integer permissionId;
@@ -4005,7 +4005,7 @@ public class AccountPermission implements Serializable {
             Here's an example of the above annotations in action.  The following class can also be found in the SeamSpace example:
           </para>
           
-          <programlisting><![CDATA[@Permissions({
+          <programlisting role="JAVA"><![CDATA[@Permissions({
    @Permission(action = "view"),
    @Permission(action = "comment")
 })
@@ -4036,7 +4036,7 @@ public class MemberImage implements Serializable {]]></programlisting>
             Alternatively, if using bitmasked values for the permission actions, as defined like so:
           </para>
           
-          <programlisting><![CDATA[@Permissions({
+          <programlisting role="JAVA"><![CDATA[@Permissions({
    @Permission(action = "view", mask = 1),
    @Permission(action = "comment", mask = 2)
 })
@@ -4069,7 +4069,7 @@ public class MemberImage implements Serializable {]]></programlisting>
             The <literal>IdentifierStrategy</literal> interface is very simple, declaring only two methods:
           </para>
           
-          <programlisting><![CDATA[public interface IdentifierStrategy {
+          <programlisting role="JAVA"><![CDATA[public interface IdentifierStrategy {
    boolean canIdentify(Class targetClass);
    String getIdentifier(Object target);
 }]]></programlisting>
@@ -4106,14 +4106,14 @@ public class MemberImage implements Serializable {]]></programlisting>
             be "<literal>customer</literal>":
           </para>
           
-          <programlisting><![CDATA[@Identifier(name = "customer")
+          <programlisting role="JAVA"><![CDATA[@Identifier(name = "customer")
 public class Customer {]]></programlisting>
           
           <para>
             The identifier for the following class will be "<literal>customerAction</literal>":
           </para>
           
-          <programlisting><![CDATA[@Name("customerAction")
+          <programlisting role="JAVA"><![CDATA[@Name("customerAction")
 public class CustomerAction { ]]></programlisting>
           
           <para>
@@ -4138,14 +4138,14 @@ public class CustomerAction { ]]></programlisting>
             necessary to explicitly configure the identifier strategy on the entity class itself, for example:
           </para>
           
-          <programlisting><![CDATA[@Identifier(value = EntityIdentifierStrategy.class)
+          <programlisting role="JAVA"><![CDATA[@Identifier(value = EntityIdentifierStrategy.class)
 public class Customer { ]]></programlisting>
           
           <para>
             For an example of the type of identifier values generated, assume we have the following entity class:
           </para>
           
-          <programlisting><![CDATA[@Entity
+          <programlisting role="JAVA"><![CDATA[@Entity
 public class Customer {
   private Integer id;
   private String firstName;
@@ -4168,7 +4168,7 @@ public class Customer {
             with an explicit identifier name, like so:
           </para>
           
-          <programlisting><![CDATA[@Entity
+          <programlisting role="JAVA"><![CDATA[@Entity
 @Identifier(name = "cust")
 public class Customer { ]]></programlisting>
 
@@ -4203,7 +4203,7 @@ public class Customer { ]]></programlisting>
         custom permission store, specify the <literal>permission-store</literal> property in components.xml:
       </para>
       
-      <programlisting><![CDATA[
+      <programlisting role="XML"><![CDATA[
 <security:permission-manager permission-store="#{ldapPermissionStore}"/>      
       ]]></programlisting>
       
