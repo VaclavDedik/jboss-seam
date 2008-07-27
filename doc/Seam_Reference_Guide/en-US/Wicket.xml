@@ -112,7 +112,7 @@ private String verify;]]></programlisting>
             For example:
          </para>
          
-         <programlisting><![CDATA[@Restrict
+         <programlisting role="JAVA"><![CDATA[@Restrict
 public class Main extends WebPage {
 
    ...]]></programlisting>
@@ -145,7 +145,7 @@ public class Main extends WebPage {
             For example:
          </para>
          
-         <programlisting><![CDATA[item.add(new Link("viewHotel") {
+         <programlisting role="JAVA"><![CDATA[item.add(new Link("viewHotel") {
 
    @Override
    @Begin
@@ -246,9 +246,9 @@ public class Main extends WebPage {
          </para>
          
          <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:wicket="http://jboss.com/products/seam/wicket"
+   xmlns:wicket="http://jboss.com/products/seam/wicket">
          
-         <wicket:web-application application-class="org.jboss.seam.example.wicket.WicketBookingApplication" />
+   <wicket:web-application application-class="org.jboss.seam.example.wicket.WicketBookingApplication" />
 </components]]></programlisting>
          
          <tip>
