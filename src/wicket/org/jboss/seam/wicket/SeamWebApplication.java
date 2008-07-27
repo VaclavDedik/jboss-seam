@@ -23,8 +23,6 @@ import org.jboss.seam.wicket.international.SeamStatusMessagesListener;
 /**
  * The base class for Seam Web Applications
  * 
- * TODO Remove the need to extend this
- * 
  * @author Pete Muir
  *
  */

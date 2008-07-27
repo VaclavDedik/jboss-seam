@@ -75,10 +75,6 @@ public class WicketFilter extends AbstractFilter
          {
             parameters.put( "applicationClassName", getApplicationClass() );
          }
-         else
-         {
-            throw new IllegalStateException("Must set application-class in <web:wicket-filter /> in components.xml");
-         }
          if ( getUrlPattern() != null )
          {
             parameters.put("filterMappingUrlPattern", getUrlPattern());

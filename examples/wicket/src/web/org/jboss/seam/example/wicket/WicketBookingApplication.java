@@ -7,7 +7,8 @@ import org.jboss.seam.wicket.SeamWebApplication;
 /**
  * Port of Booking Application to Wicket
  */
-public class WicketBookingApplication extends SeamWebApplication {
+public class WicketBookingApplication extends SeamWebApplication 
+{
 
 	@Override
 	public Class getHomePage() 
