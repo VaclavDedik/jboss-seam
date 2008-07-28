@@ -253,7 +253,7 @@ public class UIMessage extends MailComponent
    {
       if (urlBase == null)
       {
-         return urlBase;
+         return getString("urlBase");
       }
       else
       {
