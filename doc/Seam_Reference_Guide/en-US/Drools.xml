@@ -215,6 +215,15 @@ end]]></programlisting>
              </para>
          </note>
          
+         <caution>
+            <para>
+               Seam comes with enough of Drools' dependencies to implement some
+               simple rules. If you want to add extra capabilities to Drools
+               you should download the full distribution and add in extra
+               dependencies as needed.
+            </para>
+         </caution>
+         
          <tip>
              <para>
                  Drools comes with MVEL compiled for Java 1.4, which is 
