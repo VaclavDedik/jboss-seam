@@ -16,6 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.TransientObjectException;
 import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.type.VersionType;
 import org.jboss.seam.Component;
 import org.jboss.seam.Entity;
@@ -166,7 +167,14 @@ public class HibernatePersistenceProvider extends PersistenceProvider
        }
        catch (TransientObjectException e) 
        {
-          return super.getId(bean, entityManager);
+          if (bean instanceof HibernateProxy)
+          {
+             return super.getId(((HibernateProxy) bean).getHibernateLazyInitializer().getImplementation(), entityManager);
+          }
+          else
+          {
+             return super.getId(bean, entityManager);
+          }
        }
    }
    
