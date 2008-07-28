@@ -35,7 +35,7 @@
                <dependency>
                   <groupId>org.jboss.seam</groupId>
                   <artifactId>seam-docbook-xslt</artifactId>
-                  <version>1.1.0.BETA2</version>
+                  <version>1.1.0.GA</version>
                   <exclusions>
                      <exclusion>
                         <groupId>org.eclipse.wst.css</groupId>
@@ -50,13 +50,13 @@
                <dependency>
                   <groupId>org.jboss.seam</groupId>
                   <artifactId>seam-jdocbook-style</artifactId>
-                  <version>1.1.0.BETA2</version>
+                  <version>1.1.0.GA</version>
                   <type>jdocbook-style</type>
                </dependency>
                <dependency>
                   <groupId>org.jboss</groupId>
                   <artifactId>jbossorg-jdocbook-style</artifactId>
-                  <version>1.1.0.Beta1</version>
+                  <version>1.1.0</version>
                   <type>jdocbook-style</type>
                </dependency>
             </dependencies>
