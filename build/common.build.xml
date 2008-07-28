@@ -100,7 +100,6 @@
 		<pomfile name="core.wls.pom" value="${build.dir}/core.pom.xml" artifactName="jboss-seam-wls-compatible" />
 		<pomfile name="debug.pom" value="${build.dir}/debug.pom.xml" />
 		<pomfile name="wicket.pom" value="${build.dir}/wicket.pom.xml" />
-      <pomfile name="jbas5.pom" value="${build.dir}/jbas5.pom.xml" />
 		<pomfile name="jul.pom" value="${build.dir}/jul.pom.xml" />
 		<pomfile name="resteasy.pom" value="${build.dir}/resteasy.pom.xml" />
 		<pomfile name="gen.pom" value="${build.dir}/gen.pom.xml" />
@@ -213,7 +212,6 @@
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
-               <propertyref name="jbas5.pom" />
            		<propertyref name="wicket.pom" />
 					<propertyref name="testng.jvmargs"/>
            		<propertyref name="maven.settings.xml" />
@@ -249,8 +247,7 @@
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
-           			<propertyref name="wicket.pom" />
-                    <propertyref name="jbas5.pom" />
+           	   <propertyref name="wicket.pom" />
 					<propertyref name="testng.jvmargs"/>
 				</propertyset>
            	</ant>
@@ -284,7 +281,6 @@
 						<propertyref name="ioc.pom" />
 						<propertyref name="mail.pom" />
 						<propertyref name="debug.pom" />
-                  <propertyref name="jbas5.pom" />
 	           		<propertyref name="wicket.pom" />
 						<propertyref name="testng.jvmargs"/>
 	           	   <propertyref name="maven.settings.xml" />
@@ -348,7 +344,6 @@ Dependencies for Seam ${complete.version}
 		<outputDependencyReport module="ioc" />
 		<outputDependencyReport module="wicket" />
 		<outputDependencyReport module="resteasy" />
-		<outputDependencyReport module="jbas5" />
 		<outputDependencyReport module="jul" />
 		<echo>Dependency Report written to ${seam.dir}/dependency-report.txt</echo>
 	</target>
