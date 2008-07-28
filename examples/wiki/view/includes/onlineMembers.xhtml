@@ -6,7 +6,8 @@
         xmlns:c="http://java.sun.com/jstl/core"
         xmlns:s="http://jboss.com/products/seam/taglib">
 
-    <h:panelGrid columns="8" rendered="#{not empty wikiHttpSessionManager.onlineMembers}"
+    <h:panelGrid columns="#{not empty membersPerRow ? membersPerRow : '8'}" 
+                 rendered="#{not empty wikiHttpSessionManager.onlineMembers}"
                  columnClasses="alignBottom alignCenter minorPadding"
                  style="margin-left:auto;margin-right:auto;">
         <c:forEach var="ou" items="#{wikiHttpSessionManager.onlineMembers}">

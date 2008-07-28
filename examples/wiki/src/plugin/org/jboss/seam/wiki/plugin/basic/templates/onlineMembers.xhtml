@@ -11,16 +11,14 @@
 
         <s:div styleClass="boxHeader">
             <h:outputText value="#{messages['lacewiki.label.userList.OnlineMembers']}"/>
-            <!-- TODO: make configurable
-                                 #{messages['lacewiki.label.userList.InTheLast']}
-                                 #{wikiInit.authenticatedSessionTimeoutMinutes}
-                                 #{messages['lacewiki.label.userList.Minutes']}"/>
-            -->            
         </s:div>
 
         <div class="boxContent">
 
-            <ui:include src="/includes/onlineMembers.xhtml"/>
+            <ui:include src="/includes/onlineMembers.xhtml">
+                <ui:param name="membersPerRow"
+                          value="#{preferences.get('OnlineMembers', currentMacro).membersPerRow}"/>
+            </ui:include>
 
         </div>
 
