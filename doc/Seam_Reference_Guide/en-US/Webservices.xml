@@ -202,66 +202,240 @@ public class AuctionService implements AuctionServiceRemote
      <title>RESTful HTTP webservices with RESTEasy</title>
 
      <para>
-        Seam integrates the RESTEasy implementation of the JAX-RS specification (JSR 311). You can decided how
-        "deep" the integration into your Seam application is going to be: From simple integration of configuration
-        and bootstrap, serving the requests with the built-in Seam resource servlet, writing resources as
-        Seam components, and integration with conversations and the Seam CRUD Application Framework.
+        Seam integrates the RESTEasy implementation of the JAX-RS specification (JSR 311). You can decide how
+        "deep" the integration into your Seam application is going to be:
      </para>
 
+      <itemizedlist>
+         <listitem>
+            <para>
+               Seamless integration of RESTEasy bootstrap and configuration, automatic detection of resources
+               and providers.
+            </para>
+         </listitem>
+         <listitem>
+            <para>
+               Serving HTTP/REST requests with the SeamResourceServlet, no external servlet or configuration in
+               web.xml required.
+            </para>
+         </listitem>
+         <listitem>
+            <para>
+               Writing resources as Seam components, with full Seam lifecycle management and interception (bijection).
+            </para>
+         </listitem>
+      </itemizedlist>
+
       <sect2>
-         <title>RESTEasy bootstrap and request handling</title>
+         <title>RESTEasy configuration and request serving</title>
 
          <para>
-            First, get the RESTEasy libraries and the <literal>jaxrs-api.jar</literal>, deploy it with the
-            other libraries of your application. Also deploy the integration library, <tt>jboss-seam-resteasy.jar</tt>
+            First, get the RESTEasy libraries and the <literal>jaxrs-api.jar</literal>, deploy them with the
+            other libraries of your application. Also deploy the integration library,
+            <literal>jboss-seam-resteasy.jar</literal>
          </para>
 
          <para>
             On startup, all classes annotated <literal>@javax.ws.rs.Path</literal> will be discovered automatically
-            and registered as HTTP resources. Seam will serve any HTTP request automatically under the URL basepath
-            you mapped the <literal>SeamResourceServlet</literal> at in <tt>web.xml</tt>. Most of the time and if you
-            follow this documentation, this would be <literal>/seam/resource</literal>.
-            The hardcoded full path of your RESTful resources is therefore <literal>/seam/resource/rest</literal>.
+            and registered as HTTP resources. Seam automatically accepts and serves HTTP requests with its built-in
+            <literal>SeamResourceServlet</literal>. The URI of a resource is build as follows:
          </para>
+
+         <itemizedlist>
+            <listitem>
+               <para>
+                  The URI starts with the pattern mapped in <literal>web.xml</literal> for the
+                  <literal>SeamResourceServlet</literal>, e.g <literal>/seam/resource</literal> if you follow
+                  the common examples. Change this setting to expose your RESTful resources under a different base.
+                  Note that this is a global change and other Seam resources (e.g. <literal>s:graphicImage</literal>)
+                  are then also served under that base path.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  The RESTEasy integration for Seam then appends a configurable string to the base path, by default
+                  this is <literal>/rest</literal>. Hence, the full base path of your resources would e.g. be
+                  <literal>/seam/resource/rest</literal>. We recommend that you change this string in your application,
+                  you could for example add a version number to prepare for a future REST API upgrade of your services
+                  (old clients would keep the old URI base): <literal>/seam/resource/restv1</literal>.
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  Finally, the actual resource is available under the defined <literal>@Path</literal>, e.g. a resource
+                  mapped with <literal>@Path("/customer")</literal> would be available under
+                  <literal>/seam/resource/rest/customer</literal>.
+               </para>
+            </listitem>
+         </itemizedlist>
 
          <para>
-            The following resource would serve a representation under
-            <literal>http://your.hostname/seam/resource/reset/item/123</literal>:
+            As an example, the following resource definition would return a plaintext representation for any
+            GET requests using the URI <literal>http://your.hostname/seam/resource/rest/customer/123</literal>:
          </para>
 
-         <programlisting role="JAVA"><![CDATA[@Path("/item")
-public class ItemResource {
+         <programlisting role="JAVA"><![CDATA[@Path("/customer")
+public class MyCustomerResource {
 
     @GET
-    @Path("/item/{itemId}")
+    @Path("/{customerId}")
     @ProduceMime("text/plain")
-    public String getItem(@PathParam("itemId") int itemId) {
+    public String getCustomer(@PathParam("customerId") int id) {
          return ...;
     }
+
 }]]></programlisting>
 
          <para>
-            TODO: This is not true, today you need @Path("/seam/resource/rest/item") on the resource class, we need
-            to implement some base-path mapping there.
+            No additional configuration is required, you do not have to edit <literal>web.xml</literal> or any
+            other setting if these defauls are acceptable. However, you can configure RESTEasy in your Seam application.
+            First import the <literal>resteasy</literal> namespace into your XML configuration file header:
+         </para>
+
+         <programlisting role="XML"><![CDATA[<components
+   xmlns="http://jboss.com/products/seam/components"
+   xmlns:resteasy="http://jboss.com/products/seam/resteasy"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation=
+     http://jboss.com/products/seam/resteasy
+         http://jboss.com/products/seam/resteasy-2.1.xsd
+     http://jboss.com/products/seam/components
+         http://jboss.com/products/seam/components-2.1.xsd">]]></programlisting>
+
+         <para>
+            You can then change the <literal>/rest</literal> prefix as mentioned earlier:
+         </para>
+
+         <programlisting role="XML"><![CDATA[<resteasy:application-config resource-path-prefix="/restv1"/>]]></programlisting>
+
+         <para>
+            The full base path to your resources is now <literal>/seam/resource/restv1/{resource}</literal> - note
+            that your <literal>@Path</literal> definitions and mappings do NOT change. This is an application-wide
+            switch usually used for versioning of the HTTP API.
          </para>
 
          <para>
-            You can configure the <literal>/seam/resource</literal> part by specifying a new mapping in web.xml
-            for the <tt>SeamResourceServlet</tt>. Note that this also changes the URI path for all other resources
-            you want to serve with this servlet! You can not change the <literal>/rest</literal> segement of the path,
-            unless you subclass and override the <literal>ResteasyResourceAdapter.getResourcePath()</literal> method.
+            You can disable stripping of the base path if you'd like to map the full path in your resources:
+         </para>
+
+         <programlisting role="XML"><![CDATA[<resteasy:application-config strip-seam-resource-path="false"/>]]></programlisting>
+
+         <para>
+            The path of a resource is now mapped with e.g.
+            <literal>@Path("/seam/resource/rest/customer")</literal>. We do not recommend disabling this feature,
+            as your resource class mappings are then bound to a particular deployment scenario.
          </para>
 
          <para>
-            TODO: TBC...
+            Seam will scan your classpath for any deployed <literal>@javax.ws.rs.Path</literal> resources and any
+            <literal>@javax.ws.rs.ext.Provider</literal> classes. You can disable scanning and configure these
+            classes manually:
+         </para>
+         
+         <programlisting role="XML"><![CDATA[<resteasy:application-config
+     scan-providers="false"
+     scan-resources="false"
+     use-builtin-providers="true">
+
+     <resteasy:resource-class-names>
+         <value>org.foo.MyCustomerResource</value>
+         <value>org.foo.MyOrderResource</value>
+     </resteasy:resource-class-names>
+
+     <resteasy:provider-class-names>
+         <value>org.foo.MyFancyProvider</value>
+     </resteasy:provider-class-names>
+
+ </resteasy:application-config>]]></programlisting>
+
+         <para>
+            The <literal>use-built-in-providers</literal> switch enables (default) or disables the RESTEasy built-in
+            providers. We recommend you leave them enabled, as they provide plaintext, JSON, and JAXB marshalling
+            out of the box.
+         </para>
+
+         <para>
+            Finally, you can configure media type and language URI extensions:
+         </para>
+
+         <programlisting role="XML"><![CDATA[<resteasy:application-config>
+
+    <resteasy:media-type-mappings>
+       <key>txt</key><value>text/plain</value>
+    </resteasy:media-type-mappings>
+
+    <resteasy:language-mappings>
+       <key>deutsch</key><value>de-DE</value>
+    </resteasy:language-mappings>
+
+</resteasy:application-config>]]></programlisting>
+
+         <para>
+            This definition would map the URI suffix of <literal>.txt.deutsch</literal> to
+            additional <literal>Accept</literal> and <literal>Accept-Language</literal> header values
+            <literal>text/plain</literal> and <literal>de-DE</literal>.
          </para>
 
       </sect2>
 
-<!--
-     <programlisting role="JAVA"><![CDATA[
-]]></programlisting>
--->
+      <sect2>
+         <title>Resources and providers as Seam components</title>
+
+         <para>
+            Any resource and provider instances are managed by RESTEasy by default. That means a resource class
+            will be instantiated by RESTEasy and serve a single request, after which it will be destroyed. This is
+            the default JAX-RS lifecycle. Providers are instantiated once for the whole application and are
+            effectively singletons and supposed to be stateless.
+         </para>
+
+         <para>
+            You can write resources and providers as Seam components and benefit from the richer lifecycle management
+            of Seam, and interception for bijection, security, and so on. Simply make your resource class a
+            Seam component:
+         </para>
+
+         <programlisting role="JAVA"><![CDATA[@Name("customerResource")
+@Path("/customer")
+public class MyCustomerResource {
+
+    @In
+    CustomerDAO customerDAO;
+
+    @GET
+    @Path("/{customerId}")
+    @ProduceMime("text/plain")
+    public String getCustomer(@PathParam("customerId") int id) {
+         return customerDAO.find(id).getName();
+    }
+
+}]]></programlisting>
+
+         <para>
+            An instance of <literal>customerResource</literal> is now handled by Seam when a request hits the
+            server. This is a Seam JavaBean component that is <literal>EVENT</literal>-scoped, hence no different
+            than the default JAX-RS lifecycle. However, you get full Seam injection support and all other Seam
+            components and contexts are available to you. Currently also supported are <literal>SESSION</literal>,
+            <literal>APPLICATION</literal>, and <literal>STATELESS</literal> resource components. Remember that any
+            HTTP request has to transmit a valid session identifier (cookie, URI path parameter) for correct handling
+            of the server-side session context.
+         </para>
+
+         <para>
+            Conversation-scoped resource components and mapping of conversations is currently not supported but will
+            be available soon.
+         </para>
+
+         <para>
+            Provider classes can also be Seam components, they must be <literal>APPLICATION</literal>-scoped
+            or <literal>STATELESS</literal>.
+         </para>
+
+         <para>
+            Resources and providers can be EJBs or JavaBeans, like any other Seam component.
+         </para>
+
+      </sect2>
+
    </sect1>
 
 </chapter>
