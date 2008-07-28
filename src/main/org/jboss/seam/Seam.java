@@ -21,8 +21,6 @@ import javax.persistence.Entity;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.faces.Converter;
-import org.jboss.seam.annotations.faces.Validator;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
@@ -39,7 +37,6 @@ import org.jboss.seam.web.Session;
  */
 public class Seam
 {
-    
    private static final Map<Class, String> COMPONENT_NAME_CACHE = new ConcurrentHashMap<Class, String>();
    private static final Map<Class, EjbDescriptor> EJB_DESCRIPTOR_CACHE = new ConcurrentHashMap<Class, EjbDescriptor>();
    private static final Set<ClassLoader> CLASSLOADERS_LOADED = new HashSet<ClassLoader>(); 
@@ -68,7 +65,7 @@ public class Seam
          EJB_DESCRIPTOR_CACHE.putAll(ejbDescriptors);
          CLASSLOADERS_LOADED.add(clazz.getClassLoader());         
       }
-   }  
+   } 
   
    /**
     * Get the default scope
@@ -78,13 +75,6 @@ public class Seam
    {
        return clazz.isAnnotationPresent(Scope.class) ?
                clazz.getAnnotation(Scope.class).value() :
-               getDefaultComponentScope(clazz);
-   }
-   
-   public static ScopeType getDefaultComponentScope(Class<?> clazz)
-   {
-       return ( clazz.isAnnotationPresent(Validator.class) || clazz.isAnnotationPresent(Converter.class) ) ?
-               ScopeType.STATELESS :
                getComponentType(clazz).getDefaultScope();
    }
    
@@ -166,22 +156,22 @@ public class Seam
    /**
     * Get the bean class from a container-generated proxy
     * class
+    * 
     */
-   public static Class getEntityClass(Class<?> clazz)
+   public static Class getEntityClass(Class clazz)
    {
-      while ( clazz!=null && !Object.class.equals(clazz) )
+      while (clazz != null && !Object.class.equals(clazz))
       {
-         if ( clazz.isAnnotationPresent(Entity.class) )
+         if (clazz.isAnnotationPresent(Entity.class))
          {
             return clazz;
          }
-         else 
+         else
          {
-            EjbDescriptor ejbDescriptor = EJB_DESCRIPTOR_CACHE.get(clazz);
-            if ( ejbDescriptor!=null ) 
+            EjbDescriptor ejbDescriptor = Seam.getEjbDescriptor(clazz);
+            if (ejbDescriptor != null)
             {
-               return ejbDescriptor.getBeanType()==ComponentType.ENTITY_BEAN ?
-                        clazz : null;
+               return ejbDescriptor.getBeanType() == ComponentType.ENTITY_BEAN ? clazz : null;
             }
             else
             {
@@ -327,7 +317,6 @@ public class Seam
    {
       COMPONENT_NAME_CACHE.clear();
       EJB_DESCRIPTOR_CACHE.clear();
-      CLASSLOADERS_LOADED.clear();
    }
    
 }

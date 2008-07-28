@@ -316,6 +316,19 @@ public class Reflections
       }
    }
    
+   public static Method getMethod(Class clazz, String name)
+   {
+      for ( Class superClass = clazz; superClass!=Object.class; superClass=superClass.getSuperclass() )
+      {
+         try
+         {
+            return superClass.getDeclaredMethod(name);
+         }
+         catch (NoSuchMethodException nsme) {}
+      }
+      throw new IllegalArgumentException("no such method: " + clazz.getName() + '.' + name);
+   }
+   
    /**
     * Check to see if clazz is an instance of name
     */

@@ -87,16 +87,16 @@ public class EntityPermissionChecker
          switch (action)
          {
             case READ:
-               m = provider.getPostLoadMethod(beanClass, getEntityManager());
+               m = provider.getPostLoadMethod(entity, getEntityManager());
                break;
             case INSERT:
-               m = provider.getPrePersistMethod(beanClass, getEntityManager());
+               m = provider.getPrePersistMethod(entity, getEntityManager());
                break;
             case UPDATE:
-               m = provider.getPreUpdateMethod(beanClass, getEntityManager());
+               m = provider.getPreUpdateMethod(entity, getEntityManager());
                break;
             case DELETE:
-               m = provider.getPreRemoveMethod(beanClass, getEntityManager());
+               m = provider.getPreRemoveMethod(entity, getEntityManager());
          }
          
          Restrict restrict = null;

@@ -140,7 +140,7 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       return value instanceof List || 
             value instanceof Map || 
             value instanceof Set || 
-            Seam.isEntityClass( value.getClass() );
+            Seam.getEntityClass(value.getClass()) != null;
    }
 
    private Object getFieldValue(Object bean, Field field) throws Exception

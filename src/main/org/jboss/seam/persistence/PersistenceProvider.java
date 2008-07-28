@@ -1,10 +1,11 @@
 package org.jboss.seam.persistence;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-import static org.jboss.seam.util.Reflections.isInstanceOf;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 
 import javax.persistence.EntityManager;
+import javax.persistence.OptimisticLockException;
 import javax.transaction.Synchronization;
 
 import org.jboss.seam.Component;
@@ -16,8 +17,9 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 /**
  * Abstraction layer for persistence providers (JPA implementations).
- * This class delegates to either the generic JpaPersistenceProvider or a more
- * specific one if available.
+ * This class provides a working base implementation that can be
+ * optimized for performance and non-standardized features by extending
+ * and overriding the methods. 
  * 
  * The methods on this class are a great todo list for the next rev
  * of the JPA spec ;-)
@@ -38,7 +40,7 @@ public class PersistenceProvider
     */
    public void setFlushModeManual(EntityManager entityManager)
    {
-      getPersistenceProvider(entityManager).setFlushModeManual(entityManager);
+      throw new UnsupportedOperationException("For use of FlushMode.MANUAL, please use Hibernate as the persistence provider or use a custom PersistenceProvider");
    }
    /**
     * Does the persistence context have unflushed changes? If
@@ -49,7 +51,7 @@ public class PersistenceProvider
     */
    public boolean isDirty(EntityManager entityManager)
    {
-      return getPersistenceProvider(entityManager).isDirty(entityManager);
+      return true; //best we can do!
    }
    
    /**
@@ -59,7 +61,7 @@ public class PersistenceProvider
     */
    public Object getId(Object bean, EntityManager entityManager)
    {
-      return getPersistenceProvider(entityManager).getId(bean, entityManager);
+      return Entity.forBean( bean ).getIdentifier(bean);
    }
    
    /**
@@ -72,7 +74,7 @@ public class PersistenceProvider
     */
    public String getName(Object bean, EntityManager entityManager) throws IllegalArgumentException
    {
-      return getPersistenceProvider(entityManager).getName(bean, entityManager);
+      return Entity.forBean( bean ).getName();
    }
    
    /**
@@ -82,12 +84,24 @@ public class PersistenceProvider
     */
    public Object getVersion(Object bean, EntityManager entityManager)
    {
-      return getPersistenceProvider(entityManager).getVersion(bean, entityManager);
+      return Entity.forBean( bean ).getVersion(bean);
    }
    
    public void checkVersion(Object bean, EntityManager entityManager, Object oldVersion, Object version)
    {
-      getPersistenceProvider(entityManager).checkVersion(bean, entityManager, oldVersion, version);
+      boolean equal;
+      if (oldVersion instanceof Date)
+      {
+         equal = ( (Date) oldVersion ).getTime() == ( (Date) version ).getTime();
+      }
+      else
+      {
+         equal = oldVersion.equals(version);
+      }
+      if ( !equal )
+      {
+         throw new OptimisticLockException("current database version number does not match passivated version number");
+      }
    }
    /**
     * Enable a Filter. This is here just especially for Hibernate,
@@ -96,7 +110,7 @@ public class PersistenceProvider
     */
    public void enableFilter(Filter filter, EntityManager entityManager)
    {
-      getPersistenceProvider(entityManager).enableFilter(filter, entityManager);
+      throw new UnsupportedOperationException("For filters, please use Hibernate as the persistence provider");
    }
    
    /**
@@ -104,7 +118,7 @@ public class PersistenceProvider
     */
    public boolean registerSynchronization(Synchronization sync, EntityManager entityManager)
    {
-      return getPersistenceProvider(entityManager).registerSynchronization(sync, entityManager);
+      return false; //best we can do!
    }
    
    public static PersistenceProvider instance()
@@ -115,22 +129,15 @@ public class PersistenceProvider
    /**
     * Wrap the delegate before returning it to the application
     */
-   @Deprecated
    public Object proxyDelegate(Object delegate)
    {
-      return getPersistenceProvider(delegate).proxyDelegate(delegate);
+      return delegate;
    }
-   
-   public Object proxyDelegate(EntityManager entityManager, Object delegate)
-   {
-      return getPersistenceProvider(entityManager).proxyDelegate(delegate);
-   }
-   
    /**
     * Wrap the entityManager before returning it to the application
     */
    public EntityManager proxyEntityManager(EntityManager entityManager) {
-      return getPersistenceProvider(entityManager).proxyEntityManager(entityManager);
+      return new EntityManagerProxy(entityManager);
    }
    
    /**
@@ -139,71 +146,55 @@ public class PersistenceProvider
     * @param bean The entity bean instance
     * @return The class of the entity bean
     */
-   @Deprecated
    public Class getBeanClass(Object bean)
    {
-      return Entity.forClass(bean.getClass()).getBeanClass();
+      return Entity.forBean(bean).getBeanClass();
    }
    
-   public Class getBeanClass(EntityManager entityManager, Object bean)
+   public Method getPostLoadMethod(Object bean, EntityManager entityManager)
    {
-      return getPersistenceProvider(entityManager).getBeanClass(bean);
+      return Entity.forBean(bean).getPostLoadMethod();
    }
    
-   public Method getPostLoadMethod(Class beanClass, EntityManager entityManager)
+   public Method getPrePersistMethod(Object bean, EntityManager entityManager)
    {
-      return getPersistenceProvider(entityManager).getPostLoadMethod(beanClass, entityManager);     
+      return Entity.forBean(bean).getPrePersistMethod();
    }
    
-   public Method getPrePersistMethod(Class beanClass, EntityManager entityManager)
+   public Method getPreUpdateMethod(Object bean, EntityManager entityManager)
    {
-      return getPersistenceProvider(entityManager).getPrePersistMethod(beanClass, entityManager);
+      return Entity.forBean(bean).getPreUpdateMethod();
    }
    
-   public Method getPreUpdateMethod(Class beanClass, EntityManager entityManager)
+   public Method getPreRemoveMethod(Object bean, EntityManager entityManager)
    {
-      return getPersistenceProvider(entityManager).getPreUpdateMethod(beanClass, entityManager);
+      return Entity.forBean(bean).getPreRemoveMethod();
    }
    
-   public Method getPreRemoveMethod(Class beanClass, EntityManager entityManager)
-   {
-      return getPersistenceProvider(entityManager).getPreRemoveMethod(beanClass, entityManager);
-   }
-   
-   /**
-    * Do runtime detection of PersistenceProvider
-    */
-   private AbstractPersistenceProvider getPersistenceProvider(EntityManager entityManager)
-   {
-      // Work around EJBTHREE-912 (don't you just love random NPEs!)
-      if (entityManager != null && isInstanceOf(entityManager.getClass(), "org.jboss.ejb3.entity.HibernateSession"))
-      {
-         return HibernatePersistenceProvider.instance();
-      }
-      else if(entityManager != null && isInstanceOf(entityManager.getDelegate().getClass(), "org.hibernate.Session"))
-      {
-         return HibernatePersistenceProvider.instance();
-      }
-      else
-      {
-         return JpaPersistenceProvider.instance();
-      }
-   }
-   
-   /**
-    * Do runtime detection of PersistenceProvider
-    */
    @Deprecated
-   private AbstractPersistenceProvider getPersistenceProvider(Object delegate)
+   public Method getPreRemoveMethod(Class beanClass)
    {
-      if (isInstanceOf(delegate.getClass(), "org.hibernate.Session"))
-      {
-         return HibernatePersistenceProvider.instance();
-      }
-      else
-      {
-         return JpaPersistenceProvider.instance();
-      }
+      return Entity.forClass(beanClass).getPreRemoveMethod();
    }
+   
+   @Deprecated
+   public Method getPostLoadMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPostLoadMethod();      
+   }
+   
+   @Deprecated
+   public Method getPrePersistMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPrePersistMethod();
+   }
+   
+   @Deprecated
+   public Method getPreUpdateMethod(Class beanClass)
+   {
+      return Entity.forClass(beanClass).getPreUpdateMethod();
+   }
+   
+
    
 }
