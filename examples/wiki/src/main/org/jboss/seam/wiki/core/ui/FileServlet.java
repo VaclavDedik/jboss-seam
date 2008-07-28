@@ -116,7 +116,7 @@ public class FileServlet extends HttpServlet {
                 // the file instead of displaying it
                 // TODO: What about PDFs? Lot's of people want to show PDFs inline...
                 if ( file != null &&
-                    ( !file.isInstance(WikiUploadImage.class) || ( ((WikiUploadImage)file).getThumbnail() == 'A') )
+                    ( !file.isInstance(WikiUploadImage.class) || file.isAttachedToDocuments() )
                    ) {
                     response.setHeader("Content-Disposition", "attachement; filename=\"" + file.getFilename() + "\"" );
                 }

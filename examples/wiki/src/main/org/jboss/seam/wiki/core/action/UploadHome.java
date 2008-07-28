@@ -116,6 +116,11 @@ public class UploadHome extends NodeHome<WikiUpload, WikiDirectory> {
     }
 
     @Override
+    protected boolean beforeUpdate() {
+        return uploadEditor.beforeUpdate();
+    }
+
+    @Override
     public String remove() {
         return trash();
     }

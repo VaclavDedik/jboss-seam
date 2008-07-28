@@ -156,7 +156,7 @@ public class UIWikiFormattedText extends UIOutput {
 
                 // TODO: This is not typesafe and clean, need different rendering strategy for WikiUpload subclasses
                 WikiUploadImage image = (WikiUploadImage)link.getFile();
-                if (image.getThumbnail() == 'F') {
+                if (image.getThumbnail() == WikiUploadImage.Thumbnail.FULL.getFlag()) {
                     // Full size display, no thumbnail
                     //TODO: Make sure we really don't need this - but it messes up the comment form conversation:
                     //String imageUrl = WikiUtil.renderURL(image) + "&amp;cid=" + Conversation.instance().getId();

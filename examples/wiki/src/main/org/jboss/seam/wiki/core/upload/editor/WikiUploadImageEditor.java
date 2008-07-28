@@ -47,7 +47,7 @@ public class WikiUploadImageEditor extends UploadEditor<WikiUploadImage> {
     }
 
     public void selectThumbnail() {
-        if (getInstance().getThumbnail() == 'F')
+        if (getInstance().getThumbnail() == WikiUploadImage.Thumbnail.FULL.getFlag())
             imagePreviewSize = getInstance().getSizeX();
         else
             imagePreviewSize = getThumbnailWidth();
@@ -56,13 +56,10 @@ public class WikiUploadImageEditor extends UploadEditor<WikiUploadImage> {
     public int getThumbnailWidth() {
         int thumbnailWidth = 80;
         // TODO: We could make these sizes customizable
-        switch (getInstance().getThumbnail()) {
-            case 'M':
+        if (getInstance().getThumbnail() == WikiUploadImage.Thumbnail.MEDIUM.getFlag()) {
                 thumbnailWidth = 160;
-                break;
-            case 'L':
+        } else if (getInstance().getThumbnail() == WikiUploadImage.Thumbnail.LARGE.getFlag()) {
                 thumbnailWidth = 320;
-                break;
         }
         return thumbnailWidth;
     }

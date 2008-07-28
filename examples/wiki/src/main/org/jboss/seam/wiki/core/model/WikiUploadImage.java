@@ -8,6 +8,17 @@ import javax.persistence.*;
 //TODO: @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.CASCADE)
 public class WikiUploadImage extends WikiUpload<WikiUploadImage> {
 
+    public static enum Thumbnail {
+        SMALL('S'), MEDIUM('M'), LARGE('L'), FULL('F'), ATTACHMENT('A');
+        private char flag;
+        Thumbnail(char flag) {
+            this.flag = flag;
+        }
+        public char getFlag() {
+            return flag;
+        }
+    }
+
     @Column(name = "SIZE_X")
     private int sizeX;
 
@@ -15,7 +26,7 @@ public class WikiUploadImage extends WikiUpload<WikiUploadImage> {
     private int sizeY;
 
     @Column(name = "THUMBNAIL")
-    private char thumbnail = 'M'; // Medium size thumbnail by default, not attached
+    private char thumbnail = Thumbnail.MEDIUM.getFlag(); // Medium size thumbnail by default, not attached
 
     // TODO: SchemaExport needs length.. MySQL has "tinyblob", "mediumblob" and other such nonsense types, this
     // is a best-guess value
@@ -65,7 +76,7 @@ public class WikiUploadImage extends WikiUpload<WikiUploadImage> {
     }
 
     public boolean isAttachedToDocuments() {
-        return getThumbnail() == 'A';
+        return getThumbnail() == Thumbnail.ATTACHMENT.getFlag();
     }
 
     public void flatCopy(WikiUploadImage original, boolean copyLazyProperties) {
