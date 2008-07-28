@@ -145,7 +145,7 @@
                   <title></title>
                   <programlistingco>
                         <areaspec>
-                            
+                            <area id="registration-entity-annotation" coords="1"/>
                             <area id="registration-name-annotation" coords="2"/>
                             <area id="registration-scope-annotation" coords="3"/>
                             <area id="registration-table-annotation" coords="4"/>
@@ -154,7 +154,7 @@
                             <area id="registration-notnull" coords="22"/>
                             <area id="registration-id-annotation" coords="44"/>
                         </areaspec>
-                        <programlisting role="JAVA"><![CDATA[@Entity &lt;co id="registration-entity-annotation"/&gt;
+                        <programlisting role="JAVA"><![CDATA[@Entity
 @Name("user")
 @Scope(SESSION)
 @Table(name="users")
