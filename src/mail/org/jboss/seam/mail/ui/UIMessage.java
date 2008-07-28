@@ -84,8 +84,8 @@ public class UIMessage extends MailComponent
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
-      String contextPathOverride = getUrlBase();
-      MailFacesContextImpl.start(contextPathOverride == null ? context.getExternalContext().getRequestContextPath() : contextPathOverride);
+      MailFacesContextImpl.start(getUrlBase()
+                  + context.getExternalContext().getRequestContextPath() == null ? "" : context.getExternalContext().getRequestContextPath());
       mimeMessage = null;
       try
       {
@@ -228,7 +228,7 @@ public class UIMessage extends MailComponent
    {
       if (urlBase == null)
       {
-         return getString("urlBase");
+         return urlBase;
       }
       else
       {
