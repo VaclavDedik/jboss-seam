@@ -122,7 +122,7 @@
         <h:column>
             <f:facet name="header">action</f:facet>
             <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml"
-                   value="Select"
+                   value="${'#'}{empty from ? 'View' : 'Select'}"
                       id="${componentName}">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
