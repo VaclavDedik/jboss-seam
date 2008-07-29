@@ -200,7 +200,7 @@
                     <f:facet name="header">action</f:facet>
                     <s:link view="/${childPageName}.xhtml" 
                               id="select${childName}" 
-                           value="Select"
+                           value="View"
                      propagation="none">
 <#if childPojo.isComponent(childPojo.identifierProperty)>
 <#foreach componentProperty in childPojo.identifierProperty.value.propertyIterator>
