@@ -1,5 +1,6 @@
 package org.jboss.seam.framework;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -167,7 +168,11 @@ public class HibernateEntityQuery<E> extends Query<Session, E>
          Object parameterValue = parameters.get(i);
          if ( isRestrictionParameterSet(parameterValue) )
          {
-            query.setParameter( QueryParser.getParameterName(start + i), parameterValue );
+            if(parameterValue instanceof Collection){
+               query.setParameterList(QueryParser.getParameterName(start + i), (Collection) parameterValue);
+            }else{
+               query.setParameter( QueryParser.getParameterName(start + i), parameterValue );
+            }
          }
       }
    }
