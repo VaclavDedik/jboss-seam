@@ -32,7 +32,7 @@
     </component>
 
     <!-- Mailserver for notification messages -->
-    <mail:mail-session host="mail.bluewin.ch" port="25" ssl="false" tls="false"/>
+    <mail:mail-session host="localhost" port="25" ssl="false" tls="false"/>
 
     <!-- Maximum size of file uploads -->
     <!-- If you are using MySQL, don't forget their magic stuff:
@@ -65,10 +65,11 @@
             <value>META-INF/testdata/ForumData.dbunit.xml</value>
             <value>META-INF/testdata/KnowledgeBase.dbunit.xml</value>
             <value>META-INF/testdata/FAQData.dbunit.xml</value>
-            <value>META-INF/testdata/Testing.dbunit.xml</value>
+            <!--<value>META-INF/testdata/Testing.dbunit.xml</value>-->
         </property>
     </component>
 
+    <!--
     <resteasy:application-config
             strip-seam-resource-path="true"
             resource-path-prefix="/restv1">
@@ -83,23 +84,7 @@
         </resteasy:language-mappings>
 
     </resteasy:application-config>
-
-    <!--
-xml : application/xml,
-         html : text/html,
-         txt : text/plain
-
- en : en-US
-
-
-    <resteasy:application-config
-        scan-providers="false"
-        scan-resources="false"
-        use-builtin-providers="true">
-        <resteasy:resource-class-names>
-            <value>org.jboss.seam.wiki.service.UserResource</value>
-        </resteasy:resource-class-names>
-    </resteasy:application-config>
     -->
+
 
 </components>

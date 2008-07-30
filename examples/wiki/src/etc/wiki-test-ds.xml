@@ -26,7 +26,6 @@
     -->
 
     <!-- MySQL also requires changes to persistence-test.xml and AllTests.tng.xml
-    -->
     <local-tx-datasource>
         <jndi-name>wikiTestDatasourceMysql</jndi-name>
         <connection-url>jdbc:mysql://localhost/test_1?characterEncoding=UTF-8</connection-url>
@@ -34,6 +33,7 @@
         <user-name>test</user-name>
         <password></password>
     </local-tx-datasource>
+    -->
 
 </datasources>
 

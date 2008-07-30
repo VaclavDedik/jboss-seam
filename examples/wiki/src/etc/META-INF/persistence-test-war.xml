@@ -7,15 +7,15 @@
 
     <persistence-unit name="wiki" transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <jta-data-source>java:/wikiTestDatasourceMysql</jta-data-source>
+        <jta-data-source>java:/wikiTestDatasource</jta-data-source>
         <properties>
 
             <!-- MySQL also requires changes to AllTests.tng.xml and wiki-test-ds.xml
             -->
-            <property name="hibernate.dialect" value="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
             <!--
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+            <property name="hibernate.dialect" value="org.jboss.seam.wiki.util.WikiMySQL5HibernateDialect"/>
             -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
 
             <property name="hibernate.transaction.manager_lookup_class"
                       value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
