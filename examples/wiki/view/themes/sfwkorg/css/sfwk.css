@@ -339,6 +339,10 @@ blockquote blockquote blockquote blockquote {
 /*    border-bottom: 1px solid #b6b6b6; */
 }
 
+.homepageBox .jiraIssueListEmpty {
+    border: none;
+}
+
 /* -----  Footer styles  ------  */
 
 #footer {

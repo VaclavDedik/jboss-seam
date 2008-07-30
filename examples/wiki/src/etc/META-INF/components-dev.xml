@@ -7,6 +7,7 @@
             xmlns:web="http://jboss.com/products/seam/web"
             xmlns:mail="http://jboss.com/products/seam/mail"
             xmlns:transaction="http://jboss.com/products/seam/transaction"
+            xmlns:resteasy="http://jboss.com/products/seam/resteasy"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:schemaLocation=
                 "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd
@@ -16,6 +17,7 @@
                  http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.1.xsd
                  http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.1.xsd
                  http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.1.xsd
+                 http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.1.xsd
                  http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
 
@@ -30,7 +32,7 @@
     </component>
 
     <!-- Mailserver for notification messages -->
-    <mail:mail-session host="localhost" port="25"/>
+    <mail:mail-session host="mail.bluewin.ch" port="25" ssl="false" tls="false"/>
 
     <!-- Maximum size of file uploads -->
     <!-- If you are using MySQL, don't forget their magic stuff:
@@ -41,7 +43,8 @@
     <!-- ############## END OF WIKI USER CONFIGURATION ############## -->
 
     <!-- Running in regular JBoss AS, Seam starts the persistence unit -->
-    <core:init debug="false"/>
+    <core:init debug="false"
+               disabled-interceptors="org.jboss.seam.persistence.ManagedEntityIdentityInterceptor"/>
 
     <!-- Wiki persistence unit, relies on cache manager backend for Hibernate 2nd level cache -->
     <persistence:entity-manager-factory name="wikiEntityManagerFactory"
@@ -62,7 +65,41 @@
             <value>META-INF/testdata/ForumData.dbunit.xml</value>
             <value>META-INF/testdata/KnowledgeBase.dbunit.xml</value>
             <value>META-INF/testdata/FAQData.dbunit.xml</value>
+            <value>META-INF/testdata/Testing.dbunit.xml</value>
         </property>
     </component>
+
+    <resteasy:application-config
+            strip-seam-resource-path="true"
+            resource-path-prefix="/restv1">
+
+        <resteasy:media-type-mappings>
+            <key>xml</key><value>application/xml</value>
+            <key>txt</key><value>text/plain</value>
+        </resteasy:media-type-mappings>
+
+        <resteasy:language-mappings>
+            <key>deutsch</key><value>de-DE</value>
+        </resteasy:language-mappings>
+
+    </resteasy:application-config>
+
+    <!--
+xml : application/xml,
+         html : text/html,
+         txt : text/plain
+
+ en : en-US
+
+
+    <resteasy:application-config
+        scan-providers="false"
+        scan-resources="false"
+        use-builtin-providers="true">
+        <resteasy:resource-class-names>
+            <value>org.jboss.seam.wiki.service.UserResource</value>
+        </resteasy:resource-class-names>
+    </resteasy:application-config>
+    -->
 
 </components>

@@ -7,17 +7,13 @@
 package org.jboss.seam.wiki.plugin.faqBrowser;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.wiki.core.model.WikiDirectory;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author Christian Bauer
@@ -42,12 +38,20 @@ public class FaqBrowserDAO implements Serializable {
                 .setParameter("nsLeft", startDir.getNodeInfo().getNsLeft())
                 .setParameter("nsRight", startDir.getNodeInfo().getNsRight());
 
-        try {
-            return (WikiDirectory) query.getSingleResult();
+        List<WikiDirectory> result = query.getResultList();
+
+        if (result.size() == 0) return null;
+
+        // We need to iterate through all found directories, these directories are all the "parents" in the
+        // tree which might have a default document with "faqBrowser" macro. We assume that the "highest level"
+        // directory is the root of the FAQ tree - luckily we have the nested set values to find that one.
+        WikiDirectory highestLevelDirectory = result.get(0);
+        for (WikiDirectory wikiDirectory : result) {
+            if (wikiDirectory.getNodeInfo().getNsLeft() < highestLevelDirectory.getNodeInfo().getNsLeft()) {
+                highestLevelDirectory = wikiDirectory;
+            }
         }
-        catch (EntityNotFoundException ex) {}
-        catch (NoResultException ex) {}
-        return null;
+        return highestLevelDirectory;
     }
 
 }

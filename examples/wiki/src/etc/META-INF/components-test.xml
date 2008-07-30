@@ -42,7 +42,10 @@
 
 
     <!-- Running tests in Embeddable JBoss -->
-    <core:init debug="false" jndi-pattern="#{ejbName}/local"/>
+    <core:init debug="false"
+               jndi-pattern="#{ejbName}/local"
+               disabled-interceptors="org.jboss.seam.persistence.ManagedEntityIdentityInterceptor"/>
+
     <transaction:ejb-transaction/>
 
 </components>
