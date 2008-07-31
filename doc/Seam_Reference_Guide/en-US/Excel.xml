@@ -1,19 +1,25 @@
 <chapter id="excel">
-   <title>Microsoft Excel workbook generation</title>
+   <title>
+      <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet generation
+   </title>
    <para>
-      Seam also supports generation of Microsoft Excel Workbook documents through the excellent JExcelAPI library. The
-      generated document is compatible with Microsoft Excel versions 95, 97, 2000, XP and 2003. Currently a limited
-      subset of the library functionality is exposed but the ultimate goal is to be able to do everything the library
-      allows for. Please visit the JExcelAPI [link] home page for more information on capabilities and limitations.
+      Seam also supports generation of <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> 
+      spreadsheets through the excellent JExcelAPI library. The generated document is compatible with 
+      <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet applications 
+      versions 95, 97, 2000, XP and 2003. Currently a limited subset of the library functionality is exposed but the ultimate goal 
+      is to be able to do everything the library allows for. Please visit the JExcelAPI [link] home page for more information on 
+      capabilities and limitations.
    </para>
 
    <section id="excel.intro">
-      <title>Microsoft Excel Support</title>
+      <title><trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> Support</title>
       <para>
-         Microsoft Excel support is provided by
+         <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> support is provided by
          <literal>jboss-seam-excel.jar</literal>
-         . This JAR contains the Excel JSF controls, which are used to construct views that can render the document, and
-         the DocumentStore component, which serves the rendered document to the user. To include Microsoft Excel support
+         . This JAR contains the <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> 
+         JSF controls, which are used to construct views that can render the document, and
+         the DocumentStore component, which serves the rendered document to the user. To include 
+         <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet support
          in your application, included
          <literal>jboss-seam-excel.jar</literal>
          in your
@@ -22,17 +28,18 @@
          web.xml
       </para>
       <para>
-         The Seam Microsoft Excel module requires the use of Facelets as the view technology. Additionally, it requires
-         the use of the seam-ui package.
+         The Seam <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> module 
+         requires the use of Facelets as the view technology. Additionally, it requires the use of the seam-ui package.
       </para>
       <para>
          The
          <literal>examples/excel</literal>
-         project contains an example of the Microsoft Excel support in action. It demonstrates proper deployment
-         packaging, and it shows the exposed functionality
+         project contains an example of the <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> 
+         support in action. It demonstrates proper deployment packaging, and it shows the exposed functionality
       </para>
       <para>
-         Customizing the module to support other kinds of Excel API's has been made very easy. Implement the
+         Customizing the module to support other kinds of <trademark class="registered">Microsoft</trademark> 
+         <trademark class="registered">Excel</trademark> spreadsheet API's has been made very easy. Implement the
          <literal>ExcelWorkbook</literal>
          interface, set the component name to
          <literal>org.jboss.seam.excel.&lt;myModule&gt;</literal>
@@ -976,7 +983,8 @@
                               <para>
                                  <literal>fontName</literal>
                                  &#8212;The font name. The value is a string. Should be used with care, since the used
-                                 font must be recognized by Excel.
+                                 font must be recognized by the <trademark class="registered">Microsoft</trademark> 
+                                 <trademark class="registered">Excel</trademark> spreadsheet application
                               </para>
                            </listitem>
                            <listitem>
@@ -1542,7 +1550,8 @@
          etc just as normal cells.
       </para>
       <para>
-         The formula of the cell in placed in the value-attribute as a normal Excel-notation. Note that when doing
+         The formula of the cell in placed in the value-attribute as a normal <trademark class="registered">Microsoft</trademark> 
+         <trademark class="registered">Excel</trademark> spreadsheet application notation. Note that when doing
          cross-sheet formulas, the worksheets must exist before referencing a formula against them. The value is a
          string.
 
@@ -1783,19 +1792,19 @@
                         <listitem>
                            <para>
                               <literal>left</literal>
-                              &#8212;The contents of the left Excel header/footer part.
+                              &#8212;The contents of the left header/footer part.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>center</literal>
-                              &#8212;The contents of the center Excel header/footer part.
+                              &#8212;The contents of the center header/footer part.
                            </para>
                         </listitem>
                         <listitem>
                            <para>
                               <literal>right</literal>
-                              &#8212;The contents of the right Excel header/footer part.
+                              &#8212;The contents of the right header/footer part.
                            </para>
                         </listitem>
                      </itemizedlist>
@@ -2404,7 +2413,8 @@
 </h:form>
             ]]>
       </programlisting>
-      <para>that you want to view as an Microsoft Excel spreadsheet. Place a</para>
+      <para>that you want to view as an <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> 
+      spreadsheet. Place a</para>
       <programlisting role="XML">
          <![CDATA[
 <h:commandLink 
@@ -2545,8 +2555,9 @@
                      </entry>
                      <entry valign="top">
                         <para>
-                           The column widths. Note that the unit is internal to MicroSoft Excel, be prepared to use
-                           largeish numbers. Separate columns with a
+                           The column widths. Note that the unit is internal to the <trademark class="registered">Microsoft</trademark> 
+                           <trademark class="registered">Excel</trademark> spreadsheet file format, be prepared to use largeish numbers. 
+                           Separate columns with a
                            <literal>,</literal>
                            and use
                            <literal>*</literal>
@@ -2695,12 +2706,13 @@
    <section id="excel.links">
       <title>Links and further documentation</title>
       <para>
-         The core of the Microsoft Excel functionality is based on the excellent JExcelAPI library which can be found on
+         The core of the <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet 
+         functionality is based on the excellent JExcelAPI library which can be found on
          http://jexcelapi.sourceforge.net/ and most features and possible limitations are inherited from here.
       </para>
       <para>
          If you use the forum or mailing list, please remember that they don't know anything about Seam and the usage of
-         their library, any issues are best reported in the JBoss Seam JIRA under the Excel module.
+         their library, any issues are best reported in the JBoss Seam JIRA under the "excel" module.
       </para>
    </section>
 </chapter>
