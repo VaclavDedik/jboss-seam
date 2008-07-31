@@ -23,7 +23,7 @@ import org.springframework.util.ClassUtils;
 /**
  * A SessionFactory that delegates requests to open a Session to a
  * "managed-hibernate-session".
- * 
+ *
  * @author Mike Youngstrom
  */
 public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
@@ -74,7 +74,7 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
     * Optionally provide an instance of the SessionFactory we are wrapping. Only
     * necessary if the proxy needs to expose access to any interfaces besides
     * SessionFactory.class.
-    * 
+    *
     * @param baseSessionFactory
     */
    public void setBaseSessionFactory(SessionFactory baseSessionFactory)
@@ -84,7 +84,7 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
 
    /**
     * The name of the Seam "managed-hibernate-session" component.
-    * 
+    *
     * @param sessionName
     */
    @Required
@@ -96,9 +96,9 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
    /**
     * Proxy for a SessionFactory. Returning a close suppressing proxy on calls
     * to "openSession".
-    * 
+    *
     * @author Mike Youngstrom
-    * 
+    *
     */
    public static class SeamManagedSessionFactoryHandler implements InvocationHandler, Serializable
    {
@@ -165,6 +165,8 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
          }
          if (method.getName().equals("close"))
          {
+            Session session = getSession();
+            session.disconnect();
             isClosed = true;
             return null;
          }
@@ -228,7 +230,7 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
 
    /**
     * Delegates calls to a hibernate session and suppresses calls to close.
-    * 
+    *
     * @author Mike Youngstrom
     */
    public static class SeamManagedSessionHandler implements InvocationHandler, Serializable
@@ -288,6 +290,7 @@ public class SeamManagedSessionFactoryBean extends AbstractFactoryBean
          if (method.getName().equals("close"))
          {
             log.debug("Closing Session Proxy.");
+            delegate.disconnect();
             closed = true;
             return null;
          }
