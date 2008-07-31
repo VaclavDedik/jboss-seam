@@ -12,7 +12,7 @@
       <para>
          Microsoft Excel support is provided by
          <literal>jboss-seam-excel.jar</literal>
-         . This JAR contains the iText JSF controls, which are used to construct views that can render the document, and
+         . This JAR contains the Excel JSF controls, which are used to construct views that can render the document, and
          the DocumentStore component, which serves the rendered document to the user. To include Microsoft Excel support
          in your application, included
          <literal>jboss-seam-excel.jar</literal>
@@ -48,17 +48,9 @@
       <para>
          Basic usage of the worksheet support is simple; it is used like a familiar
          <literal>&lt;h:dataTable&gt;</literal>
-         and you can bind to a
-         <literal>List</literal>
-         ,
-         <literal>Set</literal>
-         ,
-         <literal>Map</literal>
-         ,
-         <literal>Array</literal>
-         or
-         <literal>DataModel</literal>
-         .
+         and you can bind to a <literal>List</literal>, <literal>Set</literal>,
+         <literal>Map</literal>, <literal>Array</literal> or 
+         <literal>DataModel</literal>.
       </para>
       <programlisting role="XML">
          <![CDATA[
