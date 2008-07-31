@@ -2,11 +2,12 @@ package org.jboss.seam.trinidad;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.regex.Pattern;
 
 import org.apache.myfaces.trinidad.model.CollectionModel;
 import org.apache.myfaces.trinidad.model.SortCriterion;
 import org.jboss.seam.framework.Query;
+import org.jboss.seam.util.Strings;
 
 /**
  * Abstract base class for an Apache Trinidad CollectionModel
@@ -23,6 +24,9 @@ import org.jboss.seam.framework.Query;
  */
 public abstract class SeamCollectionModel extends CollectionModel
 {
+
+   private static final Pattern COMMA = Pattern.compile(",");
+   private static final Pattern SPACE = Pattern.compile("\\s+");
 
    //private Object rowKey;
    
@@ -79,11 +83,10 @@ public abstract class SeamCollectionModel extends CollectionModel
    @Override
    public void setSortCriteria(List<SortCriterion> criteria)
    {
-      if (criteria != null && !criteria.equals(this.criteria))
+      if (criteria != null && !criteria.equals(getSortCriteria()))
       {
          getQuery().setOrder(asQl(criteria));
-         this.criteria = null;
-         refresh();
+         this.criteria = criteria;
       }
    }
    
@@ -160,63 +163,44 @@ public abstract class SeamCollectionModel extends CollectionModel
       return getRowIndex() >= 0 && getRowIndex() < getRowCount();
    }
    
-   protected String asQl(List<SortCriterion> criteria)
+   public static String asQl(List<SortCriterion> criteria)
    {
       if (criteria != null && criteria.size() > 0)
       {
-         String sql = "";
+         StringBuffer sb = new StringBuffer();
+         boolean first = true;
          for (SortCriterion sortCriterion : criteria)
          {
-            sql += sortCriterion.getProperty() + (sortCriterion.isAscending() ? " ASC" : " DESC");
+            if (first) 
+            {
+               first = false;
+            }
+             else 
+             {
+               sb.append(',');
+            }
+            sb.append(sortCriterion.getProperty()).append(sortCriterion.isAscending() ? " ASC" : " DESC");
          }
-         if (!"".equals(sql))
-         {
-            sql.substring(0, sql.length() - 1);
-         }
-         return sql;
+         return sb.toString();
       }
-      else
-      {
-         return null;
-      }
+      return null;
    }
-
-   protected List<SortCriterion> asCriteria(String sql)
+   
+   public static List<SortCriterion> asCriteria(String sql) 
    {
-      List<SortCriterion> criteria = new ArrayList<SortCriterion>();
-      if (!(sql == null || "".equals(sql)))
+      if (!Strings.isEmpty(sql))
       {
-         StringTokenizer tokenizer = new StringTokenizer(sql, ",");
-         while (tokenizer.hasMoreTokens())
+         String[] tokens = COMMA.split(sql.trim());
+         List<SortCriterion> criteria = new ArrayList<SortCriterion>(tokens.length);
+         for (int i = 0; i != tokens.length; i++) 
          {
-            SortCriterion sortCriterion;
-            String fragment = tokenizer.nextToken();
-            int index = fragment.lastIndexOf(" ");
-            if (index > 0)
-            {
-               String s = fragment.substring(index);
-               if (" ASC".equalsIgnoreCase(s))
-               {
-                  sortCriterion = new SortCriterion(fragment.substring(0, fragment.length() - 4), true);
-               }
-               else if (" DESC".equalsIgnoreCase(s))
-               {
-                  sortCriterion = new SortCriterion(fragment.substring(0, fragment.length() - 5),
-                           false);
-               }
-               else
-               {
-                  sortCriterion = new SortCriterion(fragment, false);
-               }
-            }
-            else
-            {
-               sortCriterion = new SortCriterion(fragment, false);
-            }
-            criteria.add(sortCriterion);
+            String[] terms = SPACE.split(tokens[i].trim());
+            SortCriterion sortCriterion = new SortCriterion(terms[0], terms.length == 1 ? false : "ASC".equalsIgnoreCase(terms[1]));
+            criteria.add(i, sortCriterion);
          }
+         return criteria;
       }
-      return criteria;
+      return new ArrayList<SortCriterion>();
    }
-
+   
 }
