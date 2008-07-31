@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<!DOCTYPE facelet-taglib PUBLIC
+   "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+   "facelet-taglib_1_0.dtd">
+   
+<facelet-taglib>
+    <namespace>http://jboss.com/products/seam/excel</namespace>
+
+    <tag>
+        <tag-name>workbook</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIWorkbook</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>worksheet</tag-name>        
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIWorksheet</component-type>
+        </component>
+    </tag> 
+
+    <tag>
+        <tag-name>worksheetSettings</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIWorksheetSettings</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>background</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIBackground</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>border</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIBorder</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>cell</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UICell</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>column</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIColumn</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>font</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIFont</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>headerFooter</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIHeaderFooter</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>headerFooterCommands</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIHeaderFooterCommands</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>headerFooterCommand</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIHeaderFooterCommand</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>printArea</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIPrintArea</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>printTitles</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIPrintTitles</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>image</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIImage</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>hyperlink</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIHyperlink</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>formula</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIFormula</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>cellTemplate</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UICellTemplate</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>worksheetTemplate</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIWorksheetTemplate</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>groupColumns</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIGroupColumns</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>groupRows</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIGroupRows</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>listValidation</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIListValidation</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>listValidationItem</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIListValidationItem</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>mergeCells</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIMergeCells</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>numericValidation</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UINumericValidation</component-type>
+        </component>
+    </tag>
+    
+    <tag>
+        <tag-name>rangeValidation</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIRangeValidation</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>rowPageBreak</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIRowPageBreak</component-type>
+        </component>
+    </tag>
+
+    <tag>
+        <tag-name>excelExport</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIExcelExport</component-type>
+        </component>
+    </tag>
+    
+</facelet-taglib>
+

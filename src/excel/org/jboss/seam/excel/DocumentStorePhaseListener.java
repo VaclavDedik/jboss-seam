@@ -1,0 +1,65 @@
+package org.jboss.seam.excel;
+
+import java.io.IOException;
+
+import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
+import javax.faces.event.PhaseListener;
+import javax.servlet.http.HttpServletResponse;
+
+import org.jboss.seam.navigation.Pages;
+import org.jboss.seam.web.Parameters;
+
+public class DocumentStorePhaseListener implements PhaseListener
+{
+   private static final long serialVersionUID = 7308251684939658978L;
+
+   public PhaseId getPhaseId()
+   {
+      return PhaseId.RENDER_RESPONSE;
+   }
+
+   public void afterPhase(PhaseEvent phaseEvent)
+   {
+      // ...
+   }
+
+   public void beforePhase(PhaseEvent phaseEvent)
+   {
+      String rootId = Pages.getViewId(phaseEvent.getFacesContext());
+
+      Parameters params = Parameters.instance();
+      String id = (String) params.convertMultiValueRequestParameter(params.getRequestParameters(), "docId", String.class);
+      if (rootId.contains(DocumentStore.EXCEL_DOC))
+      {
+         sendContent(phaseEvent.getFacesContext(), id);
+      }
+   }
+
+   public void sendContent(FacesContext context, String contentId)
+   {
+      try
+      {
+         DocumentData documentData = DocumentStore.instance().getDocumentData(contentId);
+
+         byte[] data = documentData.getData();
+
+         HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+         response.setContentType(documentData.getDocumentType().getMimeType());
+
+         response.setHeader("Content-Disposition", documentData.getDisposition() + "; filename=\"" + documentData.getFileName() + "\"");
+
+         if (data != null)
+         {
+            response.getOutputStream().write(data);
+         }
+         context.responseComplete();
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+   }
+
+}

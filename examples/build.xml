@@ -155,6 +155,12 @@
 		<include name="jcommon.jar" if="seam.pdf.lib" />
 	</fileset>
 
+	<!-- Seam  excel, with required dependencies -->
+	<fileset id="seam.excel.jar" dir="${lib.dir}">
+		<include name="jboss-seam-excel.jar" if="seam.excel.lib" />
+		<include name="jxl.jar" if="seam.excel.lib" />
+	</fileset>
+
 	<!-- Seam debug, with required dependencies -->
 	<fileset id="seam.debug.jar" dir="${lib.dir}">
 		<include name="jboss-seam-debug.jar" if="seam.debug.lib" />
@@ -464,6 +470,7 @@
 			<exclude name="jboss-seam-ui.jar" />
 			<exclude name="jboss-seam-mail.jar" />
 			<exclude name="jboss-seam-pdf.jar" />
+			<exclude name="jboss-seam-excel.jar" />
 		</fileset>
 		<path refid="build.classpath.extras" />
 	</path>
@@ -568,6 +575,7 @@
 			<fileset refid="seam.debug.jar" />
 			<fileset refid="seam.ioc.jar" />
 			<fileset refid="seam.mail.jar" />
+			<fileset refid="seam.excel.jar" />
 			<fileset refid="seam.pdf.jar" />
 			<fileset refid="seam.ui.jar" />
 			<fileset refid="facelets.jar" />

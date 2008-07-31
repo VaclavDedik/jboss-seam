@@ -20,6 +20,8 @@ drools/               A version of the number guessing example that
 
 dvdstore/             The Seam DVD Store demo demonstrating jBPM 
                       support in Seam
+
+excel/                Demo of excel export support.
                       
 groovybooking/        The Seam Booking demo ported to Groovy
 

@@ -1,0 +1,23 @@
+<e:workbook type="csv" xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:e="http://jboss.com/products/seam/excel"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<e:worksheet name="People" value="#{excelTest.people}" var="person">
+		<e:column>
+			<f:facet name="header">
+				<e:cell value="Name" />
+			</f:facet>
+			<e:cell value="#{person.name}" forceType="text" />
+		</e:column>
+		<e:column>
+			<f:facet name="header">
+				<e:cell value="Last name" />
+			</f:facet>
+			<e:cell value="#{person.lastName}" forceType="text" />
+		</e:column>
+		<e:column>
+			<f:facet name="header">
+				<e:cell value="Age" />
+			</f:facet>
+			<e:cell value="#{person.age}"/>
+		</e:column>
+	</e:worksheet>
+</e:workbook>

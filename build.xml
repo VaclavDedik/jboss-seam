@@ -15,6 +15,7 @@
 	<property name="classes.dir" value="${tmp.dir}" />
 	<property name="classes.core.dir" value="${classes.dir}/coreclasses" />
 	<property name="classes.pdf.dir" value="${classes.dir}/pdfclasses" />
+	<property name="classes.excel.dir" value="${classes.dir}/excelclasses" />
 	<property name="classes.ioc.dir" value="${classes.dir}/iocclasses" />
 	<property name="classes.mail.dir" value="${classes.dir}/mailclasses" />
 	<property name="classes.debug.dir" value="${classes.dir}/debugclasses" />
@@ -25,6 +26,7 @@
 	<property name="classes.gen.dir" value="${classes.dir}/genclasses" />
 	<property name="classes.test.dir" value="${classes.dir}/testclasses" />
 	<property name="classes.mail.test.dir" value="${classes.dir}/mailtestclasses" />
+	<property name="classes.excel.test.dir" value="${classes.dir}/exceltestclasses" />
 
 	<property name="ui.dir" value="${basedir}/ui" />
 	<property name="seamgen.dir" value="${basedir}/seam-gen" />
@@ -33,6 +35,7 @@
 	<property name="src.core.dir" value="src/main" />
 	<property name="src.ui.dir" value="${ui.dir}/src" />
 	<property name="src.pdf.dir" value="src/pdf" />
+	<property name="src.excel.dir" value="src/excel" />
 	<property name="src.ioc.dir" value="src/ioc" />
 	<property name="src.mail.dir" value="src/mail" />
 	<property name="src.debug.dir" value="src/debug" />
@@ -44,6 +47,7 @@
 	<property name="src.test.dir" value="src/test" />
 	<property name="src.unit.test.dir" value="${src.test.dir}/unit" />
 	<property name="src.mail.unit.test.dir" value="${src.test.dir}/mail/unit" />
+	<property name="src.excel.unit.test.dir" value="${src.test.dir}/excel/unit" />
 
 	<!-- Library directories -->
 	<property name="eejb.conf.dir" value="${basedir}/bootstrap" />
@@ -65,6 +69,7 @@
 	<property name="dist.ref.dir" value="${dist.dir}/doc/reference" />
 	<property name="dist.src.core.dir" value="${dist.dir}/src/main" />
 	<property name="dist.ui.dir" value="${dist.dir}/ui" />
+	<property name="dist.src.excel.dir" value="${dist.dir}/src/excel" />
 	<property name="dist.src.pdf.dir" value="${dist.dir}/src/pdf" />
 	<property name="dist.src.ioc.dir" value="${dist.dir}/src/ioc" />
 	<property name="dist.src.mail.dir" value="${dist.dir}/src/mail" />
@@ -157,7 +162,7 @@
 		<delete dir="${lib.dir}" quiet="${quietclean}" />
 	</target>
 
-	<target name="build" depends="jarcore,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarwicket, jarjul, jarresteasy" description="Build all distribution .jar files" />
+	<target name="build" depends="jarcore,jarexcel,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarwicket, jarjul, jarresteasy" description="Build all distribution .jar files" />
 
 	<target name="select-compiler">
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
@@ -211,6 +216,20 @@
 
 	<target name="jarpdf" depends="compilepdf" description="Build the distribution .jar file for the PDF package">
 		<archive classesdir="${classes.pdf.dir}" module="jboss-seam-pdf" pom="${pdf.pom}" srcdir="${src.pdf.dir}" />
+	</target>
+
+	<!-- ########################### EXCEL TARGETS ###########################-->
+
+	<target name="initexcel" depends="init, jarcore, jarui">
+		<init classesdir="${classes.excel.dir}" srcdir="${src.excel.dir}" modulename="excel" pom="${excel.pom}" />
+	</target>
+
+	<target name="compileexcel" depends="initexcel, select-compiler">
+		<compile classesdir="${classes.excel.dir}" srcdir="${src.excel.dir}" classpath="compile.excel.path" />
+	</target>
+
+	<target name="jarexcel" depends="compileexcel" description="Build the distribution .jar file for the Excel package">
+		<archive classesdir="${classes.excel.dir}" module="jboss-seam-excel" pom="${excel.pom}" srcdir="${src.excel.dir}" />
 	</target>
 
 
@@ -361,6 +380,7 @@
 		<cleanexample name="ui" />
 		<cleanexample name="spring" />
 		<cleanexample name="itext" />
+		<cleanexample name="excel" />
 		<cleanexample name="messages" />
 		<cleanexample name="numberguess" />
 		<cleanexample name="registration" />
@@ -394,6 +414,7 @@
 		<undeployexample name="seampay" />
 		<undeployexample name="seamspace" />
 		<undeployexample name="itext" />
+		<undeployexample name="excel" />
 		<undeployexample name="mail" />
 		<undeployexample name="ui" />
 		<!--<undeployexample name="spring"" /> />-->
@@ -433,6 +454,7 @@
 		<testexample name="mail" />
 		<testexample name="seampay" />
 		<testexample name="itext" />
+		<testexample name="excel" />
 		<testexample name="hibernate" />
 		<testexample name="jpa" />
 		<testexample name="quartz" />
@@ -464,6 +486,7 @@
 	<target name="copysource">
 		<copysource destdir="${dist.src.core.dir}" srcdir="${src.core.dir}" />
 		<copysource destdir="${dist.src.pdf.dir}" srcdir="${src.pdf.dir}" />
+		<copysource destdir="${dist.src.excel.dir}" srcdir="${src.excel.dir}" />
 		<copysource destdir="${dist.src.ioc.dir}" srcdir="${src.ioc.dir}" />
 		<copysource destdir="${dist.src.remoting.dir}" srcdir="${src.remoting.dir}" />
 		<copysource destdir="${dist.src.mail.dir}" srcdir="${src.mail.dir}" />
@@ -524,6 +547,7 @@
 				<include name="registration/**/*" />
 				<include name="dvdstore/**/*" />
 				<include name="itext/**/*" />
+				<include name="excel/**/*" />
 				<include name="seambay/**/*" />
 				<include name="seampay/**/*" />
 				<include name="seamspace/**/*" />
@@ -656,7 +680,7 @@
 
 
 
-	<target name="unittest" depends="unittestcore, unittestmail" description="Run the Unit tests" />
+	<target name="unittest" depends="unittestcore, unittestmail, unittestexcel" description="Run the Unit tests" />
 
 	<target name="compiletest" depends="inittestcore,select-compiler,antlr">
       <compile classesdir="${classes.test.dir}" srcdir="${src.unit.test.dir}" classpath="test.compile.path" />
@@ -696,6 +720,7 @@
 		<echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	</target>
 	
+
    <target name="inittestmail" depends="build">
       <init classesdir="${classes.mail.test.dir}" srcdir="${src.mail.unit.test.dir}" modulename="mail" pom="${mail.pom}" scope="test" message="" />
       <path id="test.mail.compile.path">
@@ -721,6 +746,35 @@
 	            <path refid="test.mail.path" />
 	         </classpath>
 	         <xmlfileset dir="${classes.mail.test.dir}" includes="**/testng.xml" />
+	      </testng>
+	      <echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
+	   </target>
+
+   <target name="inittestexcel" depends="build">
+      <init classesdir="${classes.excel.test.dir}" srcdir="${src.excel.unit.test.dir}" modulename="excel" pom="${excel.pom}" scope="test" message="" />
+      <path id="test.excel.compile.path">
+         <path refid="test.excel.path" />
+         <path path="${classes.excel.test.dir}" />
+      	<path location="${classes.excel.dir}" />
+      </path>
+   </target>
+	
+   <target name="compiletestexcel" depends="inittestexcel,select-compiler,antlr">
+      <compile classesdir="${classes.excel.test.dir}" srcdir="${src.excel.unit.test.dir}" classpath="test.excel.compile.path" />
+   </target>
+	
+	<target name="unittestexcel" depends="inittestexcel,compiletestexcel,getemma">
+	      <taskdef resource="testngtasks" classpathref="test.excel.path" />
+	      <testng outputdir="${test.dir}">
+	         <jvmarg value="-Demma.coverage.out.file=${coverage.ec}" />
+	         <jvmarg line="-Djava.awt.headless=true" />
+	         <classpath>
+	            <path path="${classes.excel.test.dir}" />
+	         	<path location="${classes.excel.dir}" />
+	            <path refid="runtime.emma.path" />
+	            <path refid="test.excel.path" />
+	         </classpath>
+	         <xmlfileset dir="${classes.excel.test.dir}" includes="**/testng.xml" />
 	      </testng>
 	      <echo>You can increase the logging by editing bootstrap/log4j.xml</echo>
 	   </target>
@@ -973,6 +1027,7 @@
 					<propertyref name="remoting.pom" />
 					<propertyref name="gen.pom" />
 					<propertyref name="pdf.pom" />
+					<propertyref name="excel.pom" />
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
@@ -994,6 +1049,7 @@
 		<dependenciesWithSources id="ioc" scope="compile" pom="${ioc.pom}" />
 		<dependenciesWithSources id="mail" scope="compile" pom="${mail.pom}" />
 		<dependenciesWithSources id="pdf" scope="compile" pom="${pdf.pom}" />
+		<dependenciesWithSources id="excel" scope="compile" pom="${excel.pom}" />
 		<dependenciesWithSources id="remoting" scope="compile" pom="${remoting.pom}" />
 		<dependenciesWithSources id="ui" scope="compile" pom="${ui.pom}" />
 	</target>
@@ -1013,6 +1069,7 @@
 		<dependencies id="ioc" scope="compile" pom="${ioc.pom}" />
 		<dependencies id="mail" scope="compile" pom="${mail.pom}" />
 		<dependencies id="pdf" scope="compile" pom="${pdf.pom}" />
+		<dependencies id="excel" scope="compile" pom="${excel.pom}" />
 		<dependencies id="remoting" scope="compile" pom="${remoting.pom}" />
 		<dependencies id="ui" scope="compile" pom="${ui.pom}" />
 		<eclipseClasspath tofile=".classpath" file="${build.dir}/classpath.tmpl" filterProperty="automagic.classpath.entries">
@@ -1022,6 +1079,7 @@
 			<path refid="compile.ioc.path" />
 			<path refid="compile.mail.path" />
 			<path refid="compile.pdf.path" />
+			<path refid="compile.excel.path" />
 			<path refid="compile.remoting.path" />
 			<path refid="compile.ui.path" />
 			<path refid="compile.jul.path" />
