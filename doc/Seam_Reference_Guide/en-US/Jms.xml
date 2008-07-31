@@ -228,9 +228,11 @@ public class CreatePaymentAction
             The Quartz dispatcher (see earlier on how to install it) allows you to use the <literal>@Asynchronous</literal>, <literal>@Duration</literal>, <literal>@Expiration</literal>, and <literal>@IntervalDuration</literal> annotations as above. But it has some powerful additional features. The Quartz dispatcher supports three new annotations.
         </para>
         
-        <para>The <literal>@FinalExpiration</literal> annotation specifies an end date for the recurring task.</para>
+        <para>The <literal>@FinalExpiration</literal> annotation specifies an end date for the recurring task. Note that you can inject the <code>QuartzTriggerHandle</code>.</para>
         
         <programlisting role="JAVA"><![CDATA[
+        @In QuartzTriggerHandle timer;
+        
     // Defines the method in the "processor" component
     @Asynchronous
     public QuartzTriggerHandle schedulePayment(@Expiration Date when, 

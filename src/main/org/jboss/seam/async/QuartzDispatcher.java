@@ -237,7 +237,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
       {
          JobDataMap dataMap = context.getJobDetail().getJobDataMap();
          async = (Asynchronous)dataMap.get("async");
-         async.execute(null);
+         async.execute(new QuartzTriggerHandle(context.getTrigger().getName()));
       }
    }
 

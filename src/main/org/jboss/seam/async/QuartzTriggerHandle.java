@@ -22,7 +22,6 @@ public class QuartzTriggerHandle implements Serializable
    public QuartzTriggerHandle(String triggerName) 
    {
       this.triggerName = triggerName; 
-      this.scheduler = QuartzDispatcher.instance().getScheduler();
    }
 
    public void cancel() throws SchedulerException
