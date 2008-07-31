@@ -32,6 +32,8 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SimplePrincipal;
+import org.jboss.seam.security.management.IdentityManager;
+import org.jboss.seam.security.management.IdentityStore;
 import org.jboss.seam.security.management.JpaIdentityStore;
 import org.jboss.seam.security.permission.PermissionMetadata.ActionSet;
 import org.jboss.seam.util.AnnotatedBeanProperty;
@@ -542,7 +544,10 @@ public class JpaPermissionStore implements PermissionStore, Serializable
    
    protected Principal resolvePrincipal(Object principal, boolean isUser)
    {
-      JpaIdentityStore identityStore = (JpaIdentityStore) Component.getInstance(JpaIdentityStore.class, true);      
+      IdentityStore ids = IdentityManager.instance().getRoleIdentityStore();
+      JpaIdentityStore identityStore = null;
+      
+      if (ids instanceof JpaIdentityStore) identityStore = (JpaIdentityStore) ids;
       
       if (principal instanceof String)
       {        
@@ -572,6 +577,7 @@ public class JpaPermissionStore implements PermissionStore, Serializable
     */
    public List<Permission> listPermissions(Set<Object> targets, String action)
    {
+      // TODO limit the number of targets passed at a single time to 25
       return listPermissions(null, targets, action);
    }
    
@@ -774,5 +780,26 @@ public class JpaPermissionStore implements PermissionStore, Serializable
    public void setRolePermissionClass(Class rolePermissionClass)
    {
       this.rolePermissionClass = rolePermissionClass;
+   }
+   
+   public void clearPermissions(Object target)
+   {
+      EntityManager em = lookupEntityManager();
+      String identifier = identifierPolicy.getIdentifier(target);
+      
+      em.createQuery(
+            "delete from " + userPermissionClass.getName() + " p where p." +
+            targetProperty.getName() + " = :target")
+            .setParameter("target", identifier)
+            .executeUpdate();
+      
+      if (rolePermissionClass != null)
+      {
+         em.createQuery(
+               "delete from " + rolePermissionClass.getName() + " p where p." +
+               roleTargetProperty.getName() + " = :target")
+               .setParameter("target", identifier)
+               .executeUpdate();
+      }
    }
 }

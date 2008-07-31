@@ -186,6 +186,11 @@ public interface IdentityStore
     * Returns a list of all the roles.
     */
    List<String> listRoles();
+   
+   /**
+    * Returns a list of roles that can be granted (i.e, excluding conditional roles)
+    */
+   List<String> listGrantableRoles();
 
    /**
     * Returns a list of all the roles explicitly granted to the specified user.

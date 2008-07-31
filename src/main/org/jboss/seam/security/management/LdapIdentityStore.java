@@ -1049,6 +1049,13 @@ public class LdapIdentityStore implements IdentityStore, Serializable
          }
       }
    }
+   
+
+   public List<String> listGrantableRoles()
+   {
+      // TODO should we support conditional roles with LDAP?
+      return listRoles();
+   }   
 
    public List<String> listUsers() 
    {

@@ -131,4 +131,12 @@ public class PermissionManager implements Serializable
    {
       return permissionStore.listAvailableActions(target);
    }
+   
+   public void clearPermissions(Object target)
+   {
+      if (permissionStore != null)
+      {
+         permissionStore.clearPermissions(target);
+      }
+   }
 }

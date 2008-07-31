@@ -8,6 +8,8 @@ import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
 
+import org.jboss.seam.security.permission.PermissionManager;
+
 /**
  * Proxies the EntityManager, and implements EL interpolation
  * in JPA-QL
@@ -143,6 +145,7 @@ public class EntityManagerProxy implements EntityManager, Serializable
    public void remove(Object entity)
    {
       delegate.remove(entity);
+      PermissionManager.instance().clearPermissions(entity);
    }
 
    public void setFlushMode(FlushModeType fm)

@@ -79,10 +79,7 @@ public class EntityPermissionChecker
       Class beanClass = provider.getBeanClass(entity);
       
       if (beanClass != null)
-      {
-         String name = Seam.getComponentName(entity.getClass());
-         if (name == null) name = beanClass.getName();  
-         
+      {        
          Method m = null;
          switch (action)
          {

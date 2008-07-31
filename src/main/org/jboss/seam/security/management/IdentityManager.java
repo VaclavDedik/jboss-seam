@@ -217,10 +217,17 @@ public class IdentityManager implements Serializable
       return roles;      
    }
    
-   public List<String> listAssignableRoles()
+   public List<String> listGrantableRoles()
    {
-      return listRoles();
-      // TODO fix
+      List<String> roles = roleIdentityStore.listGrantableRoles();
+      
+      Collections.sort(roles, new Comparator<String>() {
+         public int compare(String value1, String value2) {
+            return value1.compareTo(value2);
+         }
+      });
+      
+      return roles; 
    }
    
    /**

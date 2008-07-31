@@ -715,6 +715,12 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    }
 
    public List<String> listRoles()
+   {     
+      return lookupEntityManager().createQuery(
+            "select r." + roleNameProperty.getName() + " from " + roleClass.getName() + " r").getResultList();
+   }
+   
+   public List<String> listGrantableRoles()
    {
       StringBuilder roleQuery = new StringBuilder();
       
@@ -732,7 +738,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }
       
       return lookupEntityManager().createQuery(roleQuery.toString()).getResultList();
-   }   
+   }
    
    protected void persistEntity(Object entity)
    {
