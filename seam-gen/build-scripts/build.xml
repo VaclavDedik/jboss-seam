@@ -102,16 +102,15 @@
                 <copy todir="${war.dir}">
                         <fileset dir="${basedir}/view" />
                 </copy>
+                <copy tofile="${war.dir}/components.properties" 
+                      file="${basedir}/resources/components-${profile}.properties"
+                      overwrite="true"/>
                 <copy todir="${war.dir}/WEB-INF">
                         <fileset dir="${basedir}/resources/WEB-INF">
                                 <include name="*.*"/>
                                 <include name="classes/**/*.*"/>
                                 <exclude name="classes/**/*.class"/>
                         </fileset>
-                        <filterset>
-                            <filter token="debug" value="${debug}" />
-                            <filter token="jndiPattern" value="${project.name}/#{ejbName}/local" />
-                        </filterset>
                 </copy>         
                 <copy todir="${war.dir}/WEB-INF">
                         <fileset dir="${basedir}/resources/WEB-INF">
@@ -274,6 +273,7 @@
                                 <exclude name="META-INF/persistence*.xml"/>
                                 <exclude name="import*.sql"/>
                                 <exclude name="${project.name}-*-ds.xml"/>
+                                <exclude name="components-*.properties"/>
                         </fileset>
                 </copy>
                 <copy tofile="${test.dir}/META-INF/persistence.xml" 
@@ -281,6 +281,9 @@
                    overwrite="true"/>
                 <copy tofile="${test.dir}/import.sql" 
                         file="${basedir}/resources/import-test.sql"
+                   overwrite="true"/>
+                <copy tofile="${test.dir}/components.properties" 
+                        file="${basedir}/resources/components-test.properties"
                    overwrite="true"/>
                 <copy todir="${test.dir}" flatten="true">
                         <fileset dir="${src.test.dir}">
