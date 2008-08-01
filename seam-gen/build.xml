@@ -715,11 +715,21 @@
 
         <copy tofile="${project.home}/seam-gen.properties" 
                 file="./build.properties"/>
-                
+
+    	<copy todir="${project.home}/resources/">
+            <fileset dir="${basedir}/resources/">
+               <include name="components-*.properties"/>
+            </fileset>
+            <filterset>
+               <filter token="projectName" value="${project.name}" />
+            </filterset>
+        </copy>
+    	
         <copy todir="${project.home}/resources">
             <fileset dir="${base.dir}/resources/">
             	<exclude name="datasource-ds.xml"/>
             	<exclude name="import.sql"/>
+            	<exclude name="components-*.properties"/>
             	<exclude name="WEB-INF/components*.xml"/>
             	<exclude name="META-INF/persistence*.xml"/>
             	<exclude name="META-INF/application.xml"/>
