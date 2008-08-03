@@ -185,7 +185,7 @@
     	
     	<property name="old.icefaces" value="n"/>
 	    <input addproperty="icefaces.new"
-	               message="Do you want to use ICEFaces instead of RichFaces [${old.icefaces}]"
+	               message="Do you want to use ICEfaces instead of RichFaces [${old.icefaces}]"
 	    	     validargs="y,n"
 	          defaultvalue="${old.icefaces}" />
     	
@@ -195,7 +195,7 @@
     	
     	<property name="old.icefaces.home" value="" />
     	<input addproperty="icefaces.home.new"
-    		       message="By default, seam-gen will download the recommended ICEFaces. If you want to use a specific version of ICEFaces, enter the path to icefaces here [${old.icefaces.home}]"
+    		       message="By default, seam-gen will download the recommended ICEfaces. If you want to use a specific version of ICEfaces, enter the path to icefaces here [${old.icefaces.home}]"
     	           defaultvalue="${old.icefaces.home}" />
 
         <condition property="richfaces.skin.new" value="">
