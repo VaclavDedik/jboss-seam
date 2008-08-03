@@ -1,0 +1,22 @@
+body,div,dd,dt,dl,img,ul,ol,li,p,h1,h2,h3,h4,h5,form,hr,fieldset,span {
+	margin: 0;
+	padding: 0;
+	font-face: Verdana, Arial; 
+}
+
+html {
+	height: 100%;
+	background-color: #FFFFFF;
+}
+ 
+span.header {
+	font-size: 22px;
+}
+
+td.left {
+	text-align: left;
+}
+
+td.right {
+	text-align: right;
+}
