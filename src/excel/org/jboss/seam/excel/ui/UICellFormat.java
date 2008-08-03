@@ -1,6 +1,5 @@
 package org.jboss.seam.excel.ui;
 
-
 public abstract class UICellFormat extends ExcelComponent
 {
    private String alignment;

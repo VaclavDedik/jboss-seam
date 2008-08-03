@@ -18,8 +18,8 @@ import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIFont;
 
 /**
- * A helper class for parsing excel-specific xls* style attributes and converting them
- * to seam excel format
+ * A helper class for parsing excel-specific xls* style attributes and
+ * converting them to seam excel format
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
  */
@@ -44,11 +44,11 @@ public class StyleParser
    private static final String FONT_SCRIPT_STYLE = "xlsFontScriptStyle";
    private static final String FONT_STRUCKOUT = "xlsFontStruckOut";
    private static final String FONT_UNDERLINE_STYLE = "xlsFontUnderlineStyle";
-   
+
    // Background attributes
    private static final String BACKGROUND_COLOR = "xlsBackgroundColor";
    private static final String BACKGROUND_PATTERN = "xlsBackgroundPattern";
-   
+
    // Border attributes
    private static final String BORDER_COLOR = "xlsBorderColor";
    private static final String BORDER_COLOR_LEFT = "xlsBorderColorLeft";
@@ -68,14 +68,12 @@ public class StyleParser
    private static final String BORDER_RIGHT_POSTFIX = "Right";
    private static final String BORDER_BOTTOM_POSTFIX = "Bottom";
    private static final String BORDER_ALL_POSTFIX = null;
-   
+
    // Cell attributes
    private static final String ALIGNMENT = "xlsAlignment";
 
    // Column attributes
    private static final String COLUMN_WIDTH = "xlsColumnWidths";
-
-   
 
    /**
     * Gets the style-string from a UIComponent
@@ -83,7 +81,8 @@ public class StyleParser
     * @param uiComponent The component to examine
     * @return The string or null if attribute wasn't present
     */
-   public static String getComponentStyle(UIComponent uiComponent) {
+   public static String getComponentStyle(UIComponent uiComponent)
+   {
       try
       {
          return (String) PropertyUtils.getSimpleProperty(uiComponent, STYLE_ATTRIBUTE);
@@ -93,22 +92,23 @@ public class StyleParser
          return null;
       }
    }
-   
+
    /**
-    * Parses a style string and returns a map keyed with template name. The contents is a map
-    * with key->value pairs from the style string. The template name is determined from the 
-    * key.temaplate:value form
-    *  
+    * Parses a style string and returns a map keyed with template name. The
+    * contents is a map with key->value pairs from the style string. The
+    * template name is determined from the key.temaplate:value form
+    * 
     * @param styleString The style string to parse
     * @return The Map of style attribute maps
     */
    public static Map<String, Map<String, String>> getTemplateMap(String styleString)
    {
       Map<String, Map<String, String>> templateMap = new HashMap<String, Map<String, String>>();
-      if (styleString == null) {
+      if (styleString == null)
+      {
          return templateMap;
       }
-      
+
       // Split up the style in components
       String[] styleStringParts = styleString.split(STYLE_SEPARATOR);
       for (String styleStringPart : styleStringParts)
@@ -162,41 +162,45 @@ public class StyleParser
       innerMap.put(key.trim(), value.trim());
       templateMap.put(template.trim(), innerMap);
    }
-   
+
    /**
     * Gets column settings from a style string
     * 
     * @param styleString The string to parse
     * @return The column settings
     */
-   public static UIColumn getColumnSettings(String styleString) {
+   public static UIColumn getColumnSettings(String styleString)
+   {
       UIColumn uiColumn = new UIColumn();
-      
+
       Map<String, String> globalTemplate = getTemplateMap(styleString).get(TEMPLATE_GLOBAL);
-      if (globalTemplate == null) {
+      if (globalTemplate == null)
+      {
          return uiColumn;
       }
-      if (globalTemplate.get(COLUMN_WIDTH) != null) {
+      if (globalTemplate.get(COLUMN_WIDTH) != null)
+      {
          uiColumn.setWidth(Integer.parseInt(globalTemplate.get(COLUMN_WIDTH)));
       }
-      
+
       return uiColumn;
    }
 
    /**
     * Get a CellTemplate Template list from a string
     * 
-    * @param styleString The string to parse
+    * @param templateMap Map with templates
     * @return The template list
     */
    public static List<Template> getTemplates(Map<String, Map<String, String>> templateMap)
    {
       List<Template> templates = new ArrayList<Template>();
-      
-      if (templateMap == null) {
+
+      if (templateMap == null)
+      {
          return templates;
       }
-      
+
       // Flat the map out into named templates
       for (Map.Entry<String, Map<String, String>> template : templateMap.entrySet())
       {
@@ -214,11 +218,13 @@ public class StyleParser
          {
             cellTemplate.getChildren().add(getBackgroundStyle(templateData));
          }
-         if (hasBorders(templateData)) {
-        	 List<UIComponent> borders = getBorders(templateData);
-        	 for (UIComponent border : borders) {
-        		 cellTemplate.getChildren().add(border);
-        	 }
+         if (hasBorders(templateData))
+         {
+            List<UIComponent> borders = getBorders(templateData);
+            for (UIComponent border : borders)
+            {
+               cellTemplate.getChildren().add(border);
+            }
          }
 
          templates.add(cellTemplate);
@@ -242,21 +248,17 @@ public class StyleParser
 
       return background;
    }
-   
+
    /**
     * Checks if a template contains border data
     * 
     * @param templateData The template map to check
     * @return true if present, otherwise false
     */
-   private static boolean hasBorders(Map<String, String> templateData) {
-	   return templateData.containsKey(BORDER_LINE_STYLE) || templateData.containsKey(BORDER_LINE_STYLE_BOTTOM) ||
-	   templateData.containsKey(BORDER_LINE_STYLE_LEFT) || templateData.containsKey(BORDER_LINE_STYLE_RIGHT) ||
-	   templateData.containsKey(BORDER_LINE_STYLE_TOP) || templateData.containsKey(BORDER_COLOR) || 
-	   templateData.containsKey(BORDER_COLOR_BOTTOM) || templateData.containsKey(BORDER_COLOR_LEFT) || 
-	   templateData.containsKey(BORDER_COLOR_RIGHT) ||
-	   templateData.containsKey(BORDER_COLOR_TOP);
-   }   
+   private static boolean hasBorders(Map<String, String> templateData)
+   {
+      return templateData.containsKey(BORDER_LINE_STYLE) || templateData.containsKey(BORDER_LINE_STYLE_BOTTOM) || templateData.containsKey(BORDER_LINE_STYLE_LEFT) || templateData.containsKey(BORDER_LINE_STYLE_RIGHT) || templateData.containsKey(BORDER_LINE_STYLE_TOP) || templateData.containsKey(BORDER_COLOR) || templateData.containsKey(BORDER_COLOR_BOTTOM) || templateData.containsKey(BORDER_COLOR_LEFT) || templateData.containsKey(BORDER_COLOR_RIGHT) || templateData.containsKey(BORDER_COLOR_TOP);
+   }
 
    /**
     * Checks if a template contains background data
@@ -269,77 +271,99 @@ public class StyleParser
       return templateData.containsKey(BACKGROUND_COLOR) || templateData.containsKey(BACKGROUND_PATTERN);
    }
 
-   private static void parseBorders(Map<String, String> borderMap, String borderType, List<UIComponent> borders) {
-	   if (borderMap.isEmpty()) {
-		   return;
-	   }
+   private static void parseBorders(Map<String, String> borderMap, String borderType, List<UIComponent> borders)
+   {
+      if (borderMap.isEmpty())
+      {
+         return;
+      }
 
-	   UIBorder border = new UIBorder();
+      UIBorder border = new UIBorder();
 
-	   if (BORDER_ALL_POSTFIX == borderType) {
-		   border.setBorder("all");
-	   } else {
-		   border.setBorder(borderType.toLowerCase());
-	   }
+      if (BORDER_ALL_POSTFIX == borderType)
+      {
+         border.setBorder("all");
+      }
+      else
+      {
+         border.setBorder(borderType.toLowerCase());
+      }
 
-	   if (borderType == null) {
-		   borderType = "";
-	   }
+      if (borderType == null)
+      {
+         borderType = "";
+      }
 
-	   if (borderMap.containsKey(BORDER_COLOR + borderType)) {
-		   border.setColor(borderMap.get(BORDER_COLOR + borderType));
-	   }
-	   
-	   if (borderMap.containsKey(BORDER_LINE_STYLE + borderType)) {
-		   border.setLineStyle(borderMap.get(BORDER_LINE_STYLE + borderType));
-	   } else {
-		   border.setLineStyle("thin");
-	   }
-	   
-	   borders.add(border);
+      if (borderMap.containsKey(BORDER_COLOR + borderType))
+      {
+         border.setColor(borderMap.get(BORDER_COLOR + borderType));
+      }
+
+      if (borderMap.containsKey(BORDER_LINE_STYLE + borderType))
+      {
+         border.setLineStyle(borderMap.get(BORDER_LINE_STYLE + borderType));
+      }
+      else
+      {
+         border.setLineStyle("thin");
+      }
+
+      borders.add(border);
    }
-   
+
    /**
     * Gets a list of border components from the template map
     * 
     * @param templateData The map to inspect
     * @return a list of UIBorder instances
     */
-   private static List<UIComponent> getBorders(Map<String, String> templateData) {
-	   List<UIComponent> borders = new ArrayList<UIComponent>();
-	  
-	   Map<String, String> all = new HashMap<String, String>();
-	   Map<String, String> top = new HashMap<String, String>();
-	   Map<String, String> left = new HashMap<String, String>();
-	   Map<String, String> right = new HashMap<String, String>();
-	   Map<String, String> bottom = new HashMap<String, String>();
-	   
-	   for (Map.Entry<String, String> entry : templateData.entrySet()) {
-		   if (!(entry.getKey().startsWith(BORDER_COLOR_PREFIX) || entry.getKey().startsWith(BORDER_LINE_STYLE_PREFIX))) {
-			   continue;
-		   }
-		   if (entry.getKey().endsWith(BORDER_TOP_POSTFIX)) {
-			   top.put(entry.getKey(), entry.getValue());
-		   } else if (entry.getKey().endsWith(BORDER_LEFT_POSTFIX)) {
-			   left.put(entry.getKey(), entry.getValue());
-		   } else if (entry.getKey().endsWith(BORDER_RIGHT_POSTFIX)) {
-			   right.put(entry.getKey(), entry.getValue());
-		   } else if (entry.getKey().endsWith(BORDER_BOTTOM_POSTFIX)) {
-			   right.put(entry.getKey(), entry.getValue());
-		   } else {
-			   all.put(entry.getKey(), entry.getValue());
-		   }
-	   }
-	   
-	   parseBorders(all, BORDER_ALL_POSTFIX, borders);
-	   parseBorders(left, BORDER_LEFT_POSTFIX, borders);
-	   parseBorders(right, BORDER_RIGHT_POSTFIX, borders);
-	   parseBorders(bottom, BORDER_BOTTOM_POSTFIX, borders);
-	   parseBorders(top, BORDER_TOP_POSTFIX, borders);
-	   
-	   return borders;
-   }  
-   
+   private static List<UIComponent> getBorders(Map<String, String> templateData)
+   {
+      List<UIComponent> borders = new ArrayList<UIComponent>();
+
+      Map<String, String> all = new HashMap<String, String>();
+      Map<String, String> top = new HashMap<String, String>();
+      Map<String, String> left = new HashMap<String, String>();
+      Map<String, String> right = new HashMap<String, String>();
+      Map<String, String> bottom = new HashMap<String, String>();
+
+      for (Map.Entry<String, String> entry : templateData.entrySet())
+      {
+         if (!(entry.getKey().startsWith(BORDER_COLOR_PREFIX) || entry.getKey().startsWith(BORDER_LINE_STYLE_PREFIX)))
+         {
+            continue;
+         }
+         if (entry.getKey().endsWith(BORDER_TOP_POSTFIX))
+         {
+            top.put(entry.getKey(), entry.getValue());
+         }
+         else if (entry.getKey().endsWith(BORDER_LEFT_POSTFIX))
+         {
+            left.put(entry.getKey(), entry.getValue());
+         }
+         else if (entry.getKey().endsWith(BORDER_RIGHT_POSTFIX))
+         {
+            right.put(entry.getKey(), entry.getValue());
+         }
+         else if (entry.getKey().endsWith(BORDER_BOTTOM_POSTFIX))
+         {
+            right.put(entry.getKey(), entry.getValue());
+         }
+         else
+         {
+            all.put(entry.getKey(), entry.getValue());
+         }
+      }
+
+      parseBorders(all, BORDER_ALL_POSTFIX, borders);
+      parseBorders(left, BORDER_LEFT_POSTFIX, borders);
+      parseBorders(right, BORDER_RIGHT_POSTFIX, borders);
+      parseBorders(bottom, BORDER_BOTTOM_POSTFIX, borders);
+      parseBorders(top, BORDER_TOP_POSTFIX, borders);
+
+      return borders;
+   }
+
    /**
     * Gets font description from template map
     * 
@@ -382,34 +406,37 @@ public class StyleParser
     */
    private static boolean hasFontStyle(Map<String, String> templateData)
    {
-      return templateData.containsKey(FONT_NAME) || templateData.containsKey(FONT_SIZE) || 
-      templateData.containsKey(FONT_COLOR) || templateData.containsKey(FONT_BOLD) || 
-      templateData.containsKey(FONT_ITALIC) || templateData.containsKey(FONT_SCRIPT_STYLE) || 
-      templateData.containsKey(FONT_STRUCKOUT) || templateData.containsKey(FONT_UNDERLINE_STYLE);
+      return templateData.containsKey(FONT_NAME) || templateData.containsKey(FONT_SIZE) || templateData.containsKey(FONT_COLOR) || templateData.containsKey(FONT_BOLD) || templateData.containsKey(FONT_ITALIC) || templateData.containsKey(FONT_SCRIPT_STYLE) || templateData.containsKey(FONT_STRUCKOUT) || templateData.containsKey(FONT_UNDERLINE_STYLE);
    }
 
    protected static List<Integer> parseColumnWidths(Map<String, String> globalTemplate)
    {
       List<Integer> columnWidths = new ArrayList<Integer>();
-      
-      if (globalTemplate == null) {
+
+      if (globalTemplate == null)
+      {
          return columnWidths;
       }
-      
-      if (!globalTemplate.containsKey(COLUMN_WIDTH)) {
+
+      if (!globalTemplate.containsKey(COLUMN_WIDTH))
+      {
          return columnWidths;
       }
-      
+
       String columnWidthString = globalTemplate.get(COLUMN_WIDTH);
       String columnWidthParts[] = columnWidthString.split(COLUMN_WIDTH_SEPARATOR);
-      for (String columnWidthPart : columnWidthParts) {
-         try {
+      for (String columnWidthPart : columnWidthParts)
+      {
+         try
+         {
             columnWidths.add(Integer.parseInt(columnWidthPart));
-         } catch (NumberFormatException e) {
+         }
+         catch (NumberFormatException e)
+         {
             columnWidths.add(null);
          }
       }
       return columnWidths;
    }
-   
+
 }

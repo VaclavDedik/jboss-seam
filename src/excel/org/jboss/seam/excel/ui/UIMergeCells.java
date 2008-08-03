@@ -10,7 +10,7 @@ public class UIMergeCells extends ExcelComponent implements Command
    private Integer startRow;
    private Integer endColumn;
    private Integer endRow;
-   
+
    public Integer getStartColumn()
    {
       return (Integer) valueOf("startColumn", startColumn);
@@ -51,6 +51,7 @@ public class UIMergeCells extends ExcelComponent implements Command
       this.endRow = endRow;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

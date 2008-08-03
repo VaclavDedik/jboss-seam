@@ -7,7 +7,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.Template;
@@ -25,10 +24,11 @@ public abstract class ExcelComponent extends UIComponentBase
 {
    public final static String HEADER_FACET = "header";
 
-   public ExcelComponent() {
+   public ExcelComponent()
+   {
       super();
    }
-   
+
    /**
     * Helper class that returns all children of a certain type (implements
     * interface)
@@ -51,14 +51,15 @@ public abstract class ExcelComponent extends UIComponentBase
       }
       return matches;
    }
-   
+
    /**
     * Returns all commands from a child list
     * 
     * @param children The list to search
     * @return The commands
     */
-   protected static List<Command> getCommands(List<UIComponent> children) {
+   protected static List<Command> getCommands(List<UIComponent> children)
+   {
       return getChildrenOfType(children, Command.class);
    }
 

@@ -51,6 +51,7 @@ public class JXLTemplates
    private Map<String, WritableCellFormat> cellFormatCache = new HashMap<String, WritableCellFormat>();
 
    // A cache for cell features, mapped by UIComponent ID
+   @SuppressWarnings("unused")
    private Map<String, WritableCellFeatures> cellFeaturesCache = new HashMap<String, WritableCellFeatures>();
 
    /**

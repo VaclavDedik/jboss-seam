@@ -32,6 +32,7 @@ public class UIHeaderFooterCommand extends ExcelComponent
       this.parameter = parameter;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

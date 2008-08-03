@@ -9,12 +9,9 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.jxl.exporter.ExcelExporter;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.log.Logging;
 
 public class UIExcelExport extends ExcelComponent
 {
-   private Log log = Logging.getLog(getClass());
 
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIExcelExport";
 
@@ -47,16 +44,19 @@ public class UIExcelExport extends ExcelComponent
    public void encodeBegin(javax.faces.context.FacesContext arg0) throws IOException
    {
       UIData dataTable = (UIData) getParentByClass(getParent(), UIData.class);
-      if (dataTable == null) {
-         if (getForDataTable() == null) {
+      if (dataTable == null)
+      {
+         if (getForDataTable() == null)
+         {
             throw new ExcelWorkbookException("Must define forDataTable attribute if tag is not nested within a datatable");
          }
          dataTable = (HtmlDataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent(getForDataTable());
-         if (dataTable == null) {
+         if (dataTable == null)
+         {
             throw new ExcelWorkbookException(Interpolator.instance().interpolate("Could not find data table with id #0", getForDataTable()));
          }
       }
-//      exporter.export(dataTable.getId());
+      exporter.export(dataTable.getId());
    }
 
    @Override

@@ -7,7 +7,7 @@ public class UICellTemplate extends UICellFormat implements Template
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UICellTemplate";
 
    private String name;
-   
+
    public String getName()
    {
       return (String) valueOf("name", name);
@@ -18,9 +18,10 @@ public class UICellTemplate extends UICellFormat implements Template
       this.name = name;
    }
 
+   @Override
    public String getFamily()
    {
-      return COMPONENT_TYPE; 
+      return COMPONENT_TYPE;
    }
 
    public TemplateType getType()

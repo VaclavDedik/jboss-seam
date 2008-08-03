@@ -95,7 +95,7 @@ public class JXLExcelFactory
     * Creates a JExcelAPI Workbook settings object from the UI counterpart.
     * Starts with an empty object and adds the setting only if it is non-null
     * 
-    * @param uiWorkbookSettings The UI element to interpret
+    * @param uiWorkbook The UI element to interpret
     * @return The created workbook settings
     */
    public static WorkbookSettings createWorkbookSettings(UIWorkbook uiWorkbook)
@@ -579,7 +579,8 @@ public class JXLExcelFactory
     * @param data The contents of the cell
     * @param cellFormat The cell format settings of the cell
     * @return The prepared cell representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableCell.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableCell.html">WritableCell</a>
     * @since 0.1
     */
    public static WritableCell createCell(int column, int row, CellType type, Object data, WritableCellFormat cellFormat)
@@ -614,7 +615,8 @@ public class JXLExcelFactory
     * @param templateFont The font to use as a template
     * @return The font representation
     * @throws WriteException If there is an error creating the font
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableFont.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableFont.html">WritableFont</a>
     * @since 0.1
     */
    private static WritableFont createFont(UIFont uiFont, Font templateFont) throws WriteException
@@ -625,11 +627,16 @@ public class JXLExcelFactory
       }
       WritableFont font = null;
 
-      if (uiFont.getName() != null) {
+      if (uiFont.getName() != null)
+      {
          font = new WritableFont(WritableFont.createFont(uiFont.getName()));
-      } else if (templateFont != null) {
+      }
+      else if (templateFont != null)
+      {
          font = new WritableFont(templateFont);
-      } else {
+      }
+      else
+      {
          font = new WritableFont(WritableFont.ARIAL);
       }
 
@@ -669,7 +676,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested mask
     * @return The mask representation or null if the mask couldn't be created
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/NumberFormats.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/NumberFormats.html">NumberFormats</a>
     * @since 0.1
     */
    private static DisplayFormat createNumberFormat(String mask)
@@ -693,7 +701,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested mask
     * @return The mask representation or null if the mask couldn't be created
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/DateFormats.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/DateFormats.html">DateFormats</a>
     * @since 0.1
     */
    private static DisplayFormat createDateFormat(String mask)
@@ -717,7 +726,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested alignment
     * @return The alignment representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/VerticalAlignment.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/VerticalAlignment.html">VerticalAlignment</a>
     * @since 0.1
     */
    private static VerticalAlignment createVerticalAlignment(String verticalAlignment)
@@ -742,7 +752,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested orientation
     * @return The orientation representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Orientation.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Orientation.html">Orientation</a>
     * @since 0.1
     */
    private static Orientation createOrientation(String orientation)
@@ -767,7 +778,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested alignment
     * @return The alignment representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Alignment.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Alignment.html">Alignment</a>
     * @since 0.1
     */
    private static Alignment createAlignment(String alignment)
@@ -792,7 +804,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested pattern
     * @return The pattern representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Pattern.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Pattern.html">Pattern</a>
     * @since 0.1
     */
    private static Pattern createPattern(String pattern)
@@ -817,7 +830,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested border line style
     * @return The border line style representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/BorderlineStyle.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/BorderlineStyle.html">BorderlineStyle</a>
     * @since 0.1
     */
    private static BorderLineStyle createBorderLineStyle(String borderLineStyle)
@@ -842,7 +856,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested border
     * @return The border representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Border.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Border.html"></a>
     * @since 0.1
     */
    private static Border createBorder(String border)
@@ -867,7 +882,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested underline style
     * @return The underline style representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/UnderlineStyle.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/UnderlineStyle.html">UnderlineStyle</a>
     * @since 0.1
     */
    private static UnderlineStyle createUnderlineStyle(String underlineStyle)
@@ -892,7 +908,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested script style
     * @return The script style representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/ScriptStyle.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/ScriptStyle.html">ScriptStyle</a>
     * @since 0.1
     */
    private static ScriptStyle createScriptStyle(String scriptStyle)
@@ -917,7 +934,8 @@ public class JXLExcelFactory
     * 
     * @param mask The requested color
     * @return The color representation
-    * @see http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Colour.html
+    * @see <a
+    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/Colour.html">Colour</a>
     * @since 0.1
     */
    private static Colour createColor(String color)
@@ -926,8 +944,10 @@ public class JXLExcelFactory
       {
          log.trace("Creating color for #0", color);
       }
-      // Workaround for the feature that black is... well not always black in Excel (ref: Andy Khan on yahoo groups)
-      if (color.equalsIgnoreCase("black")) {
+      // Workaround for the feature that black is... well not always black in
+      // Excel (ref: Andy Khan on yahoo groups)
+      if (color.equalsIgnoreCase("black"))
+      {
          color = "palette_black";
       }
       try

@@ -38,6 +38,7 @@ public class UIBorder extends ExcelComponent
       this.color = color;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

@@ -50,6 +50,7 @@ public class UIPrintArea extends ExcelComponent
       this.lastRow = lastRow;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

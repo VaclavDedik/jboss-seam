@@ -5,7 +5,7 @@ import org.jboss.seam.excel.WorksheetItem;
 public class UIHyperlink extends UICellFormat implements WorksheetItem
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIHyperlink";
-   
+
    private String description;
    private String URL;
    private Integer startColumn;

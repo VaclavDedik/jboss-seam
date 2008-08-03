@@ -34,7 +34,7 @@ import org.jboss.seam.navigation.Pages;
  * Excel export class that exports a UIData component to an Excel workbook
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
- *
+ * 
  */
 @Name("org.jboss.seam.excel.excelExporter")
 @Scope(ScopeType.EVENT)
@@ -43,12 +43,12 @@ public class ExcelExporter
 {
    // The excel workbook implementation
    private ExcelWorkbook excelWorkbook = null;
-   
+
    private List<Integer> columnWidths = new ArrayList<Integer>();
 
    /**
-    * Exports the UIData object to Excel workbook. Looks up the component, parse the templates, iterates the 
-    * columns and the UIOutput elements within
+    * Exports the UIData object to Excel workbook. Looks up the component, parse
+    * the templates, iterates the columns and the UIOutput elements within
     * 
     * @param dataTableId
     */
@@ -73,7 +73,8 @@ public class ExcelExporter
       String styleString = StyleParser.getComponentStyle(dataTable);
       Map<String, Map<String, String>> templateMap = StyleParser.getTemplateMap(styleString);
       List<Template> templates = StyleParser.getTemplates(templateMap);
-      for (Template template : templates) {
+      for (Template template : templates)
+      {
          excelWorkbook.addTemplate(template);
       }
       columnWidths = StyleParser.parseColumnWidths(templateMap.get(StyleParser.TEMPLATE_GLOBAL));
@@ -135,7 +136,7 @@ public class ExcelExporter
     * @param column The column to parse
     * @param iterator The iterator to the data
     * @param var The binding var
-    * @param col 
+    * @param col
     */
    @SuppressWarnings("unchecked")
    private void processColumn(javax.faces.component.UIColumn column, Iterator iterator, String var, int col)
@@ -156,17 +157,19 @@ public class ExcelExporter
          List<UIOutput> dataOutputs = ExcelComponent.getChildrenOfType(column.getChildren(), UIOutput.class);
          processOutputs(dataOutputs, "global,data");
       }
-      
-      if (columnWidths.size() > col) {
+
+      if (columnWidths.size() > col)
+      {
          Integer columnWidth = columnWidths.get(col);
-         if (columnWidth != null) {
+         if (columnWidth != null)
+         {
             UIColumn uiColumn = new UIColumn(columnWidth);
             excelWorkbook.applyColumnSettings(uiColumn);
          }
       }
-      
+
    }
-   
+
    /**
     * Processes all output type elements (in column)
     * 
@@ -190,7 +193,8 @@ public class ExcelExporter
          String outputStyle = StyleParser.getComponentStyle(output);
 
          Map<String, String> globalTemplate = StyleParser.getTemplateMap(outputStyle).get(StyleParser.TEMPLATE_GLOBAL);
-         if (globalTemplate != null) {
+         if (globalTemplate != null)
+         {
             localTemplates = globalTemplate.get(StyleParser.LOCAL_TEMPLATE_STYLE);
          }
          if (localTemplates != null)

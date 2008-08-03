@@ -1,7 +1,5 @@
 package org.jboss.seam.excel;
 
-import java.io.IOException;
-
 import org.jboss.seam.excel.DocumentData.DocumentType;
 import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIWorkbook;
@@ -30,10 +28,11 @@ public interface ExcelWorkbook
    public abstract void nextColumn();
 
    /**
-    * Creates a new worksheet in the workbook (or selects one if it exists). Will require a rework for
-    * auto-renaming when support for auto-adding of new worksheets if there are more than 65k rows.
+    * Creates a new worksheet in the workbook (or selects one if it exists).
+    * Will require a rework for auto-renaming when support for auto-adding of
+    * new worksheets if there are more than 65k rows.
     * 
-    * @param worksheetName The name of the workbook or create or select
+    * @param uiWorksheet Worksheet to create or select
     * @since 0.1
     */
    public abstract void createOrSelectWorksheet(UIWorksheet uiWorksheet);
@@ -42,7 +41,6 @@ public interface ExcelWorkbook
     * Returns the binary data from the internal representation of the workbook
     * 
     * @return the bytes
-    * @throws IOException
     * @since 0.1
     */
    public abstract byte[] getBytes();
@@ -75,11 +73,11 @@ public interface ExcelWorkbook
     * @param template The template to add
     */
    public abstract void addTemplate(Template template);
-  
+
    /**
     * Executes a command for a worksheet
     * 
     * @param command The command to execute
     */
    public abstract void executeCommand(Command command);
-   }
+}

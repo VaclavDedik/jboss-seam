@@ -7,7 +7,7 @@ public class UIWorksheetTemplate extends UIWorksheetSettings implements Template
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIWorksheetTemplate";
 
    private String name;
-   
+
    @Override
    public String getFamily()
    {
@@ -18,8 +18,9 @@ public class UIWorksheetTemplate extends UIWorksheetSettings implements Template
    {
       return (String) valueOf("name", name);
    }
-   
-   public void setName(String name) {
+
+   public void setName(String name)
+   {
       this.name = name;
    }
 

@@ -194,7 +194,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * new worksheets if there are more than 65k rows. Resets the internal state
     * (row- and column indexes, current styles etc)
     * 
-    * @param worksheetName The name of the workbook. Defaults to Sheet# if null
+    * @param uiWorksheet The worksheet to create or select in the workbook
     * @since 0.1
     */
    public void createOrSelectWorksheet(UIWorksheet uiWorksheet)
@@ -254,14 +254,17 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       }
 
       Object value = uiCell.getValue();
-      // If value is null, just increment row counter (not for explicitly placed single cells) and return;
-      if (value == null) {
-    	  if (uiCell.getColumn() == null && uiCell.getRow() == null) {
-    		  nextRow();
-    	  }
-    	  return;
+      // If value is null, just increment row counter (not for explicitly placed
+      // single cells) and return;
+      if (value == null)
+      {
+         if (uiCell.getColumn() == null && uiCell.getRow() == null)
+         {
+            nextRow();
+         }
+         return;
       }
-      
+
       // Determine where to really place the cell
       int useRow = uiCell.getRow() != null ? uiCell.getRow() : currentRowIndex;
       int useColumn = uiCell.getColumn() != null ? uiCell.getColumn() : currentColumnIndex;
@@ -291,7 +294,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * Returns the binary data from the internal representation of the workbook
     * 
     * @return the data
-    * @throws IOException If there is an IOException writing the workbook
     * @throws ExcelWorkbookException If there is a problem producing the binary
     *            data
     */
@@ -337,7 +339,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * API has different constructors for all permutations of workbook settings
     * and template usage
     * 
-    * @param Workbook settings (if any) to apply when creating the workbook
+    * @param uiWorkbook UIn Workbook to create
     * @throws ExcelWorkbookException if there were any errors creating the
     *            workbook
     * @since 0.1
@@ -671,5 +673,5 @@ public class JXLExcelWorkbook implements ExcelWorkbook
          throw new ExcelWorkbookException("Couldn't merge cells", e);
       }
    }
-   
+
 }

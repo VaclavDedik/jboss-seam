@@ -1,6 +1,5 @@
 package org.jboss.seam.excel.ui;
 
-
 public class UIWorksheetSettings extends ExcelComponent
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIWorksheetSettings";

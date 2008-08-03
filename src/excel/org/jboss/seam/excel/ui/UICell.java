@@ -20,7 +20,7 @@ public class UICell extends UICellFormat implements WorksheetItem
    private Integer column;
    private Integer row;
    private String templates;
-   
+
    public String getTemplates()
    {
       return (String) valueOf("templates", templates);
@@ -71,30 +71,32 @@ public class UICell extends UICellFormat implements WorksheetItem
       this.forceType = forceType;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;
    }
 
    /**
-    * Checks the data type of the contents to determine what kind of cell to create
+    * Checks the data type of the contents to determine what kind of cell to
+    * create
     * 
     * @return the data type of the cell (or forumula if this is such a subclass)
     */
    public CellType getDataType()
    {
-	   // FIXME: Consider if formula should be considered an item instead as a subtype of formula
-	   if (this instanceof UIFormula) {
-		   return CellType.formula;
-	   }
+      // FIXME: Consider if formula should be considered an item instead as a
+      // subtype of formula
+      if (this instanceof UIFormula)
+      {
+         return CellType.formula;
+      }
       if (forceType != null)
       {
          return forceType;
       }
       Object value = getValue();
-      if (value instanceof Integer || value instanceof Long || value instanceof Double || 
-          value instanceof Short || value instanceof BigDecimal || value instanceof BigInteger ||
-          value instanceof Byte || value instanceof Float)
+      if (value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof Short || value instanceof BigDecimal || value instanceof BigInteger || value instanceof Byte || value instanceof Float)
       {
          return CellType.number;
       }

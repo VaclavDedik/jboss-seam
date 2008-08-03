@@ -6,14 +6,16 @@ public class UINumericValidation extends ExcelComponent implements Validation
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UINumericValidation";
 
-   public enum ValidationCondition {
+   public enum ValidationCondition
+   {
       equal, greater_equal, less_equal, less_than, not_equal, between, not_between
    }
-   
+
    private Double value;
    private Double value2;
    private ValidationCondition condition;
-   
+
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

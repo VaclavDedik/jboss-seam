@@ -27,6 +27,7 @@ public class UIBackground extends ExcelComponent
       this.pattern = pattern;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

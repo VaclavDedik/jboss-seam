@@ -25,6 +25,7 @@ public class UIHeaderFooter extends ExcelComponent
       this.type = type;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

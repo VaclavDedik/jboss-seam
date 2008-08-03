@@ -56,7 +56,7 @@ public class UIWorkbook extends ExcelComponent
    private Boolean workbookProtected;
 
    private long timing;
-   
+
    public CreationType getCreationType()
    {
       if (hasSettings())
@@ -319,7 +319,8 @@ public class UIWorkbook extends ExcelComponent
        */
       byte[] bytes = new byte[0];
       bytes = excelWorkbook.getBytes();
-      if (log.isDebugEnabled()) {
+      if (log.isDebugEnabled())
+      {
          log.debug("Prosessed for {0}ms", new Date().getTime() - timing);
       }
 
@@ -426,8 +427,6 @@ public class UIWorkbook extends ExcelComponent
 
    /**
     * Hack? Noooooooooooooooo
-    * 
-    * @return
     */
    public boolean hasSettings()
    {

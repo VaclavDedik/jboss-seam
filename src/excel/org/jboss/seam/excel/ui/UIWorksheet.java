@@ -24,7 +24,7 @@ public class UIWorksheet extends UIWorksheetSettings
    private Integer startRow;
    private Integer startColumn;
    private String templates;
-   
+
    public Integer getStartRow()
    {
       return (Integer) valueOf("startRow", startRow);
@@ -80,12 +80,14 @@ public class UIWorksheet extends UIWorksheetSettings
    {
       this.value = value;
    }
-   
-   public void setTemplates(String templates) {
+
+   public void setTemplates(String templates)
+   {
       this.templates = templates;
    }
-   
-   public String getTemplates() {
+
+   public String getTemplates()
+   {
       return (String) valueOf("templates", templates);
    }
 
@@ -107,26 +109,29 @@ public class UIWorksheet extends UIWorksheetSettings
        * any)
        */
       excelWorkbook.createOrSelectWorksheet(this);
-      
+
       /**
        * Add worksheet level items
        */
       List<WorksheetItem> items = getItems(getChildren());
-      for (WorksheetItem item : items) {
+      for (WorksheetItem item : items)
+      {
          excelWorkbook.addItem(item);
       }
-      
+
       /**
        * Execute worksheet level commands
        */
       List<Command> commands = getCommands(getChildren());
-      for (Command command : commands) {
+      for (Command command : commands)
+      {
          excelWorkbook.executeCommand(command);
       }
-   };
+   }
 
    @SuppressWarnings("unchecked")
-   public static Iterator unwrapIterator (Object value) {
+   public static Iterator unwrapIterator(Object value)
+   {
       if (value instanceof Iterable)
       {
          return ((Iterable) value).iterator();
@@ -148,7 +153,7 @@ public class UIWorksheet extends UIWorksheetSettings
          throw new ExcelWorkbookException("A worksheet's value must be an Iterable, DataModel or Query");
       }
    }
-   
+
    /**
     * Returns an iterator over objects passed to the worksheet
     * 

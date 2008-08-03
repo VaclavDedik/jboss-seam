@@ -7,7 +7,7 @@ public class UIRowPageBreak extends ExcelComponent implements Command
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIRowPageBreak";
 
    private Integer row;
-   
+
    public Integer getRow()
    {
       return (Integer) valueOf("row", row);

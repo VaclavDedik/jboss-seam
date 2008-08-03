@@ -9,7 +9,7 @@ public class UIGroupColumns extends ExcelComponent implements Command
    private Integer startColumn;
    private Integer endColumn;
    private Boolean collapse;
-   
+
    public Boolean getCollapse()
    {
       return (Boolean) valueOf("collapse", collapse);
@@ -40,6 +40,7 @@ public class UIGroupColumns extends ExcelComponent implements Command
       this.endColumn = endColumn;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

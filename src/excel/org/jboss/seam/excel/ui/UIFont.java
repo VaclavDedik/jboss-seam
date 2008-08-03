@@ -97,6 +97,7 @@ public class UIFont extends ExcelComponent
       this.underlineStyle = underlineStyle;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

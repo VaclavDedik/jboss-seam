@@ -10,7 +10,7 @@ public class UIRangeValidation extends ExcelComponent implements Validation
    private Integer startRow;
    private Integer endColumn;
    private Integer endRow;
-   
+
    public Integer getStartColumn()
    {
       return (Integer) valueOf("startColumn", startColumn);
@@ -51,6 +51,7 @@ public class UIRangeValidation extends ExcelComponent implements Validation
       this.endRow = endRow;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

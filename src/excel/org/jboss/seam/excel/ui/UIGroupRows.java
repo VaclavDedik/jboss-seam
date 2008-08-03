@@ -9,7 +9,7 @@ public class UIGroupRows extends ExcelComponent implements Command
    private Integer startRow;
    private Integer endRow;
    private Boolean collapse;
-   
+
    public Boolean getCollapse()
    {
       return (Boolean) valueOf("collapse", collapse);
@@ -19,7 +19,7 @@ public class UIGroupRows extends ExcelComponent implements Command
    {
       this.collapse = collapse;
    }
-   
+
    public Integer getStartRow()
    {
       return (Integer) valueOf("startRow", startRow);
@@ -40,6 +40,7 @@ public class UIGroupRows extends ExcelComponent implements Command
       this.endRow = endRow;
    }
 
+   @Override
    public String getFamily()
    {
       return COMPONENT_TYPE;

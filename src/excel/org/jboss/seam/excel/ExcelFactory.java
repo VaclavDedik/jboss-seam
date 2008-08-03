@@ -6,8 +6,6 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.excel.ExcelWorkbook;
-import org.jboss.seam.excel.ExcelWorkbookException;
 
 @Name("org.jboss.seam.excel.excelFactory")
 @Scope(ScopeType.STATELESS)
@@ -37,8 +35,7 @@ public class ExcelFactory
       ExcelWorkbook excelWorkbook = (ExcelWorkbook) Component.getInstance(namespace + "." + impl);
       if (excelWorkbook == null)
       {
-         throw new ExcelWorkbookException(Interpolator.instance().interpolate(
-               "Could not create excel workbook with namespace '#0' and type #1", namespace, type));
+         throw new ExcelWorkbookException(Interpolator.instance().interpolate("Could not create excel workbook with namespace '#0' and type #1", namespace, type));
       }
       return excelWorkbook;
 
