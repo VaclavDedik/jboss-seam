@@ -2966,7 +2966,7 @@ end;]]></programlisting>
     </sect2>
     
     <sect2>
-      <title>Typesafe Security Annotations</title>
+      <title>Typesafe Permission Annotations</title>
       
       <para>
         Seam provides a number of annotations that may be used as an alternative to <literal>@Restrict</literal>, which have
@@ -3041,6 +3041,33 @@ public @interface Promote {
       
       <programlisting><![CDATA[@PermissionCheck("upgrade")]]></programlisting>
       
+    </sect2>
+    
+    <sect2>
+      <title>Typesafe Role Annotations</title>    
+      
+      <para>
+        In addition to supporting typesafe permission annotation, Seam Security also provides typesafe role annotations that
+        allow you to restrict access to component methods based on the role memberships of the currently authenticated user.
+        Seam provides one such annotation out of the box, <literal>org.jboss.seam.annotations.security.Admin</literal>, used
+        to restrict access to a method to users that are a member of the <literal>admin</literal> role (so long as your 
+        own application supports such a role).  To create your own role annotations, simply meta-annotate them with
+        <literal>org.jboss.seam.annotations.security.RoleCheck</literal>, like in the following example:
+      </para>
+      
+      <programlisting><![CDATA[@Target({METHOD})
+@Documented
+@Retention(RUNTIME)
+@Inherited
+@RoleCheck
+public @interface User { 
+}]]></programlisting>
+
+      <para>
+        Any methods subsequently annotated with the <literal>@User</literal> annotation as shown in the above example
+        will be automatically intercepted and the user checked for the membership of the corresponding role name
+        (which is the lower case version of the annotation name, in this case <literal>user</literal>).
+      </para>
       
     </sect2>
     
@@ -4379,8 +4406,9 @@ public class Customer { ]]></programlisting>
       <title>Permission checks for PermissionManager operations</title>
       
       <para>
-        Invoking the methods of <literal>PermissionManager</literal> requires that currently authenticated user
-        has the appropriate authorization to perform the operation.
+        Invoking the methods of <literal>PermissionManager</literal> requires that the currently-authenticated user
+        has the appropriate authorization to perform that management operation.  The following table lists the required
+        permissions that the current user must have.
       </para>
       
       <table>
@@ -4665,7 +4693,8 @@ public class HitchhikersCaptcha extends Captcha
     <title>Security Events</title>
 
     <para>
-      The following table describes a number of events (see <xref linkend="events"/>) raised by Seam Security.
+      The following table describes a number of events (see <xref linkend="events"/>) raised by Seam Security
+      in response to certain security-related events.
     </para>
 
     <table>
