@@ -172,6 +172,15 @@ public class SecurityInterceptor extends AbstractInterceptor
                         restrict.value() : createDefaultExpr(method));
                }
                
+               for (Annotation annotation : method.getDeclaringClass().getAnnotations())
+               {
+                  if (annotation.annotationType().isAnnotationPresent(RoleCheck.class))
+                  {
+                     if (restriction == null) restriction = new Restriction();
+                     restriction.addRoleRestriction(annotation.annotationType().getSimpleName().toLowerCase());
+                  }
+               }
+               
                for (Annotation annotation : method.getAnnotations())
                {
                   if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class))

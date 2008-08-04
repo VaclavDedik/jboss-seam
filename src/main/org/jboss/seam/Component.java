@@ -85,6 +85,7 @@ import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.annotations.intercept.Interceptors;
 import org.jboss.seam.annotations.security.PermissionCheck;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.annotations.security.RoleCheck;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.seam.async.AsynchronousInterceptor;
 import org.jboss.seam.bpm.BusinessProcessInterceptor;
@@ -1096,11 +1097,21 @@ public class Component extends Model
          return;
       }
       
+      for (Annotation annotation : getBeanClass().getAnnotations())
+      {
+         if (annotation.annotationType().isAnnotationPresent(RoleCheck.class))
+         {
+            secure = true;
+            return;
+         }
+      }
+      
       for (Method method : getBeanClass().getMethods())
       {
          for (Annotation annotation : method.getAnnotations())
          {
-            if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class))
+            if (annotation.annotationType().isAnnotationPresent(PermissionCheck.class) ||
+                  annotation.annotationType().isAnnotationPresent(RoleCheck.class))
             {
                secure = true;
                return;
@@ -1116,6 +1127,7 @@ public class Component extends Model
                   secure = true;
                   return;
                }
+               
             }
          }
       }
