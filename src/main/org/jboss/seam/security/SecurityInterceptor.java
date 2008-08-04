@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.annotations.security.PermissionCheck;
 import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.annotations.security.RoleCheck;
 import org.jboss.seam.async.AsynchronousInterceptor;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
@@ -36,6 +37,7 @@ public class SecurityInterceptor extends AbstractInterceptor
       
       private Map<String, Object> methodRestrictions;
       private Map<Integer,Set<String>> paramRestrictions;
+      private Set<String> roleRestrictions;
             
       public void setExpression(String expression)
       {
@@ -50,6 +52,16 @@ public class SecurityInterceptor extends AbstractInterceptor
          }
          
          methodRestrictions.put(action, target);
+      }
+      
+      public void addRoleRestriction(String role)
+      {
+         if (roleRestrictions == null)
+         {
+            roleRestrictions = new HashSet<String>();
+         }
+         
+         roleRestrictions.add(role);
       }
       
       public void addParameterRestriction(int index, String action)
@@ -100,6 +112,14 @@ public class SecurityInterceptor extends AbstractInterceptor
                   {
                      Identity.instance().checkPermission(parameters[idx], action);
                   }
+               }
+            }
+            
+            if (roleRestrictions != null)
+            {
+               for (String role : roleRestrictions)
+               {
+                  Identity.instance().checkRole(role);
                }
             }
          }
@@ -177,6 +197,11 @@ public class SecurityInterceptor extends AbstractInterceptor
                                  getPermissionAction(permissionCheck, annotation));
                         }
                      }
+                  }
+                  if (annotation.annotationType().isAnnotationPresent(RoleCheck.class))
+                  {
+                     if (restriction == null) restriction = new Restriction();
+                     restriction.addRoleRestriction(annotation.annotationType().getSimpleName().toLowerCase());
                   }
                }               
                
