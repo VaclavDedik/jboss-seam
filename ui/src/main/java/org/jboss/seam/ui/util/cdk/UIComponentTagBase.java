@@ -15,9 +15,10 @@ import javax.faces.component.ValueHolder;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
-import org.richfaces.webapp.taglib.UIComponentELTagBase;
-
-@Deprecated
+/**
+ * @author Maksim Kaszynski
+ * 
+ */
 public abstract class UIComponentTagBase extends UIComponentELTagBase {
 
    protected ExpressionFactory getExpressionFactory() {
