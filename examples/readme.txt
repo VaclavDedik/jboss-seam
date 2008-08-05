@@ -98,7 +98,7 @@ readme.txt in the example to see if there are any specific instructions.
 How to Build and Deploy an Example on JBoss AS
 ----------------------------------------------
 
-1. Download and unzip JBoss AS 4.2.2.GA from:
+1. Download and unzip JBoss AS 4.2.3.GA from:
    
    http://labs.jboss.com/jbossas/downloads
 

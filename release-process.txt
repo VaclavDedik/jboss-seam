@@ -1,7 +1,7 @@
 Seam Release Process
 ====================
 
-<TODO: update for 2.1.X releases on next 2.1.X release/>
+<TODO: update for 2.1.X releases during 2.1.0.B1 release/>
 
 Notify branch is closed
 ------------------------
@@ -54,17 +54,23 @@ SVN tagging and checkout
     -"svn copy https://svn.jboss.org/repos/seam/XX/XX 
                https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX 
                -m "create JBoss_Seam_x_x_x_XXX tag""
-        - ex. "svn copy https://svn.jboss.org/repos/seam/branches/Seam_2_0 
-               https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 
-               -m "create JBoss_Seam_2_0_2_CR1 tag""
+        - ex. "svn copy https://svn.jboss.org/repos/seam/trunk 
+               https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_1_0_B1 
+               -m "create JBoss_Seam_2_1_0_B1 tag""
 * In a clean directory checkout the newly tagged seam source ( XX as needed)
     - "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX seam"  
-        - ex. "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 seam"
+        - ex. "svn co https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_1_0_B1 seam"
 * In the original branch/trunk change:
     - Qualifier back to "-SNAPSHOT" in default.build.properties file.
         - The version numbers should be incremented as appropriate.
         - Any new work is that versions snapshot
     - Revert any Maven repository changes if needed
+
+JDK Version Specific Information
+--------------------------------
+The latest version of Sun's JDK 1.5 is used for building the release, and the 
+majority of the testing.  The JDK 1.6 section below outlines the JDK 1.6 
+building and testing process used during the release process.  
 
 Building and Checking Dist
 --------------------------
@@ -108,44 +114,17 @@ Building and Checking Dist
 
 * check that the following source directories exist in the dist "ls -1 src"
     debug
+    excel
     gen
+    interop
     ioc
-    jbas5
     mail
     main
     pdf
     remoting
+    resteasy
     test
-
-* check that the following examples exist in the dist "ls -1 examples"
-    blog
-    booking
-    build.xml
-    contactlist
-    drools
-    dvdstore
-    groovybooking
-    hibernate
-    icefaces
-    itext
-    jee5
-    jpa
-    mail
-    messages
-    nestedbooking
-    numberguess
-    quartz
-    readme.txt
-    registration
-    remoting
-    seambay
-    seamdiscs
-    seampay
-    seamspace
-    spring
-    todo
-    ui
-    wiki
+    wicket
 
 * Archive reports
     - run these in the dist directory
@@ -219,13 +198,14 @@ Example verification
     - document should be validated as well
     - including tomcat deployments
 * Edit the $dist/build.properties and set the jboss.home and tomcat.home
-    - JBoss AS 4.2.2.GA and Tomcat 6.X
-* JBoss 4.2.2 examples
+    - JBoss AS 4.2.3.GA and Tomcat 6.X
+* JBoss 4.2.3 examples
   - blog (tutorial)
   - booking (tutorial)
   - contactlist
   - drools
   - dvdstore (tutorial)
+  - excel (review docs)
   - groovybooking
   - hibernate (tutorial)
   - icefaces
@@ -248,7 +228,7 @@ Example verification
   - spring
   - todo (tutorial)
   - ui
-  - wiki (not ready for testing until 2.1.X)
+  - wicket
 * Tomcat 6 examples 
   - Note: use JBoss embedded unless specified differently
   - blog (tutorial)
@@ -392,6 +372,55 @@ Portal Bridge Verification
 * Deploy a second version of the booking example as a separate portlet
     - <TODO: DEFER - this is not supported in the bridge yet/>
     - <TODO: there may be a new chatroom seam portlet for this testing/>
+    
+JDK 1.6 Specific Testing
+-------------------------
+The latest available version of Sun's JDK 1.6 will be used for tests and steps
+in this section.
+
+<NOTE: 2.1.0.B1 will be the first execution of this process - it needs to be
+       reviewed, and modified as needed/>
+
+* Building and comparing the JDK1.6 built distribution
+    - checkout a clean version of the tag in a new/clean directory.
+    - run "ant cleanall dist > ../releaselogs/x.x.x.XX.jdk16distbuild.txt"
+    - use this dist for all testing in this section
+    - diff the JDK 1.5 version of the dist to the JDK 1.6
+        - <TODO create a listing of expected changes/>
+    
+* Source build validation
+    - Follow the steps above for Source Verification
+        - except put "jdk16" in the log file redirects    
+
+* Testsuite execution
+    - Follow the steps above for Testsuite Execution
+        - except put "jdk16" in the log file and artifact names
+            
+* Example execution
+    - There will not be a complete testing of the examples on 1.6
+        - The list below should be modified as needed based on risk
+
+    ** JBoss 4.2.3 examples **
+      - booking
+      - dvdstore
+      - excel
+      - nestedbooking
+      - remoting/chatroom
+      - seamspace
+      - ui
+      - wicket
+    ** Tomcat 6 examples ** 
+      - booking
+      - jpa 
+      - jpa without embedded
+    ** GlassFish v2.1 examples **
+      - jee5
+      - jpa  
+
+* seam-gen 
+    - Follow the steps above for seam-gen testing
+        - EAR app
+        - WAR app
   
 Document review
 ---------------
@@ -476,6 +505,7 @@ Update Demos
 * This step is not needed for every point release:
 * Upload the booking and dvdstore examples to demo.jboss.com
 * <TODO more information on what is needed>
+* <QUESTION: is this really a part of the process or is it out of date/>
 
 Notes
 -----
@@ -483,15 +513,15 @@ Notes
  - First delete the original
     - svn delete https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX 
       -m "removing old tag prior to applying updated tag"
-    - ex. svn delete https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 
+    - ex. svn delete https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_1_0_B1 
           -m "removing old tag prior to applying updated tag"
  - Recopy back to tag
     -"svn copy https://svn.jboss.org/repos/seam/XX/XX 
       https://svn.jboss.org/repos/seam/tags/JBoss_Seam_x_x_x_XXX 
       -m "create JBoss_Seam_x_x_x_XXX tag""
-    - ex. svn copy https://svn.jboss.org/repos/seam/branches/Seam_2_0 
-          https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_0_2_CR1 
-          -m "Updated tag for 2.0.2.CR1"
+    - ex. svn copy https://svn.jboss.org/repos/seam/trunk 
+          https://svn.jboss.org/repos/seam/tags/JBoss_Seam_2_1_0_B1 
+          -m "Updated tag for 2.1.0.B1"
 
 [FUTURE]
 --------

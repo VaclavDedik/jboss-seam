@@ -8,7 +8,7 @@ Public License (see lgpl.txt).
 Get Up And Running Quick
 ------------------------
    
-1. Install JBoss AS 4.2.2.GA.  The JEMS installer is no longer required for EJB3 support.
+1. Install JBoss AS 4.2.3.GA.  The JEMS installer is no longer required for EJB3 support.
 
 2. Edit the "build.properties" file and change jboss.home to your 
    JBoss AS installation directory
