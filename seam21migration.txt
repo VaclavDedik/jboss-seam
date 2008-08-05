@@ -83,3 +83,10 @@ requiring that it is configured with the security rules instead of Identity:
 
   <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
 
+PDF (iText)
+--------
+
+The documentStore component has been moved from the pdf/itext module into Seam proper.  Any 
+references to pdf:document-store in components.xml should be replaced with document:document-store.
+Similary, if you are currently referencing org.jboss.seam.pdf.DocumentStoreServlet in your web.xml, 
+you should now use org.jboss.seam.document.DocumentStoreServlet.
