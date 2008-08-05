@@ -1,52 +1,54 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
+<!ENTITY excel 'the <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet application'>
+<!ENTITY Excel 'The <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet application'>
+]>
+
+
+
 <chapter id="excel">
-   <title>
-      <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet generation
-   </title>
+   <title>&Excel;</title>
    <para>
-      Seam also supports generation of <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> 
-      spreadsheets through the excellent <ulink url="http://jexcelapi.sourceforge.net/"><literal>JExcelAPI</literal></ulink> library. The generated document is compatible with 
-      <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet applications 
-      versions 95, 97, 2000, XP and 2003. Currently a limited subset of the library functionality is exposed but the ultimate goal 
-      is to be able to do everything the library allows for. Please refer to the JExcelAPI documentation for more information on 
-      capabilities and limitations.
+      Seam also supports generation of 
+      &excel;
+      spreadsheets through the excellent 
+      <ulink url="http://jexcelapi.sourceforge.net/">JExcelAPI</ulink> library. 
+      The generated document is compatible with &excel; 
+      versions 95, 97, 2000, XP and 2003. Currently a limited subset of the 
+      library functionality is exposed but the ultimate goal is to be able to do
+      everything the library allows for. Please refer to the JExcelAPI 
+      documentation for more information on capabilities and limitations.
    </para>
 
    <section id="excel.intro">
-      <title><trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> Support</title>
+      <title>&Excel; support</title>
       <para>
-         <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> support is provided by
-         <literal>jboss-seam-excel.jar</literal>
-         . This JAR contains the <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> 
-         JSF controls, which are used to construct views that can render the document, and
-         the DocumentStore component, which serves the rendered document to the user. To include 
-         <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet support
-         in your application, included
-         <literal>jboss-seam-excel.jar</literal>
-         in your
-         <literal>WEB-INF/lib</literal>
-         directory along with the <literal>jxl.jar</literal> JAR file. Furthermore, you need to configure the DocumentStore servlet in your
-         web.xml
+         &Excel; <literal>jboss-seam-excel.jar</literal>. This JAR contains the 
+         &excel; JSF controls, which are used to construct views that can render
+         the document, and the DocumentStore component, which serves the 
+         rendered document to the user. To include &excel; support in your 
+         application, included <literal>jboss-seam-excel.jar</literal> in your
+         <literal>WEB-INF/lib</literal> directory along with the 
+         <literal>jxl.jar</literal> JAR file. Furthermore, you need to configure
+         the DocumentStore servlet in your web.xml
       </para>
       <para>
-         The Seam <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> module 
-         requires the use of Facelets as the view technology. Additionally, it requires the use of the seam-ui package.
+         &Excel; Seam module requires the use of Facelets as the view 
+         technology. Additionally, it requires the use of the seam-ui package.
       </para>
       <para>
-         The
-         <literal>examples/excel</literal>
-         project contains an example of the <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> 
-         support in action. It demonstrates proper deployment packaging, and it shows the exposed functionality
+         The <literal>examples/excel</literal> project contains an example of 
+         &excel; support in action. It demonstrates proper deployment packaging,
+         and it shows the exposed functionality.
       </para>
       <para>
-         Customizing the module to support other kinds of <trademark class="registered">Microsoft</trademark> 
-         <trademark class="registered">Excel</trademark> spreadsheet API's has been made very easy. Implement the
-         <literal>ExcelWorkbook</literal>
-         interface, set the component name to
-         <literal>org.jboss.seam.excel.&lt;myModule&gt;</literal>
-         and set the UIWorkbook type to
-         <literal>myModule</literal>
-         and your own exporter will be used. Default is "jxl", but support for CSV has also been added, using the type
-         "csv".
+         Customizing the module to support other kinds of &excel; spreadsheet 
+         API's has been made very easy. Implement the 
+         <literal>ExcelWorkbook</literal> interface, set the component name to
+         <literal>org.jboss.seam.excel.&lt;myModule&gt;</literal> and set the 
+         UIWorkbook type to <literal>myModule</literal> and your own exporter 
+         will be used. Default is "jxl", but support for CSV has also been 
+         added, using the type "csv".
       </para>
 
    </section>
