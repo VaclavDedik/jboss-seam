@@ -161,7 +161,8 @@ public class Exceptions
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   Pages.getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         return new ConfigRedirectHandler(Expressions.instance().createValueExpression(viewId, String.class), clazz, endConversation, message, severity);
+         return new ConfigRedirectHandler(viewId == null ? null : Expressions.instance().createValueExpression(
+               viewId, String.class), clazz, endConversation, message, severity);
       }
       
       Element error = exception.element("http-error");
