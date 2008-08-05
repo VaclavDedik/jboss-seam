@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,13 +19,16 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
 import org.jboss.seam.util.IteratorEnumeration;
 
 public class MockServletContext implements ServletContext
 {
 
    private Map<String, String> initParameters = new HashMap<String, String>();
-
    private Map<String, Object> attributes = new HashMap<String, Object>();
    
    private File webappRoot;
@@ -45,33 +49,56 @@ public class MockServletContext implements ServletContext
                webappRoot = webInfRoot.getParentFile();
             }
          }
+         // call processing of context parameters
+         processContextParameters();
       }
       catch (URISyntaxException e)
       {
          throw new IllegalStateException(e);
       }
    }
+   
+   private void processContextParameters()
+   {
+      SAXReader reader = new SAXReader();
+      Document document;
+      try
+      {
+         document = reader.read(getClass().getResourceAsStream("/WEB-INF/web.xml"));
 
+         List<Node> nodes = document.selectNodes("//*[name()='context-param']");
+         for (Node node : nodes)
+         {
+            getInitParameters().put(node.selectSingleNode("*[name()='param-name']").getText(), node.selectSingleNode("*[name()='param-value']").getText());
+         }
+      }
+      catch (DocumentException e)
+      {
+         throw new RuntimeException("Error processing web.xml", e);
+      }
+
+   }
+   
    public Map<String, String> getInitParameters()
    {
       return initParameters;
    }
-
+   
    public Map<String, Object> getAttributes()
    {
       return attributes;
    }
-
+   
    public ServletContext getContext(String name)
    {
       return this;
    }
-
+   
    public int getMajorVersion()
    {
       return 2;
    }
-
+   
    public int getMinorVersion()
    {
       return 4;
@@ -81,7 +108,7 @@ public class MockServletContext implements ServletContext
    {
       return null;
    }
-
+   
    public Set getResourcePaths(String name)
    {
       Enumeration<URL> enumeration = null;
@@ -107,7 +134,7 @@ public class MockServletContext implements ServletContext
       }
       return result;
    }
-
+   
    private static void addPaths(Set<String> result, File[] files, String rootPath)
    {
       for (File file : files)
@@ -125,38 +152,37 @@ public class MockServletContext implements ServletContext
    }
 
    /**
-    * Get the URL for a particular resource that is relative to the web app root directory.
+    * Get the URL for a particular resource that is relative to the web app root
+    * directory.
     * 
-    * @param name
-    *            The name of the resource to get
+    * @param name The name of the resource to get
     * @return The resource, or null if resource not found
-    * @throws MalformedURLException
-    *             If the URL is invalid
+    * @throws MalformedURLException If the URL is invalid
     */
    public URL getResource(String name) throws MalformedURLException
    {
-      File f = getFile(name, webappRoot);
+      File file = getFile(name, webappRoot);
       
-      if (f == null)
+      if (file == null)
       {
-         f = getFile(name, webInfRoot);
+         file = getFile(name, webInfRoot);
       }
       
-      if (f == null)
+      if (file == null)
       {
-         f = getFile(name, webInfClassesRoot);
+         file = getFile(name, webInfClassesRoot);
       }
       
-      if (f != null)
+      if (file != null)
       {
-         return f.toURI().toURL();
+         return file.toURI().toURL();
       }
       else
       {
          return null;
       }
    }
-   
+
    private static File getFile(String name, File root)
    {
       if (root == null)
@@ -168,7 +194,7 @@ public class MockServletContext implements ServletContext
       {
          name = name.substring(1);
       }
-
+      
       File f = new File(root, name);
       if (!f.exists())
       {
