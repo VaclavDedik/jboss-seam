@@ -1224,22 +1224,22 @@
          </term>
          <listitem>
            <programlisting role="JAVA"><![CDATA[@Name("itemConverter") 
-   @BypassInterceptors 
-   @Converter
-   public class ItemConverter implements Converter {
-      
-     @Transactional
-     public Object getAsObject(FacesContext context, UIComponent cmp, String value) {
-       EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
-       entityManager.joinTransaction();
-       // Do the conversion
-     }
-     
-     public String getAsString(FacesContext context, UIComponent cmp, Object value) {
-       // Do the conversion
-     }
-     
-   }]]></programlisting>
+@BypassInterceptors 
+@Converter
+public class ItemConverter implements Converter {
+   
+   @Transactional
+   public Object getAsObject(FacesContext context, UIComponent cmp, String value) {
+      EntityManager entityManager = (EntityManager) Component.getInstance("entityManager");
+      entityManager.joinTransaction();
+      // Do the conversion
+   }
+  
+   public String getAsString(FacesContext context, UIComponent cmp, Object value) {
+      // Do the conversion
+   }
+  
+}]]></programlisting>
    
              <programlisting role="XHTML"><![CDATA[<h:inputText value="#{shop.item}" converter="itemConverter" />]]></programlisting>
                
@@ -1257,17 +1257,19 @@
          </term>
          <listitem>
            <programlisting role="JAVA"><![CDATA[@Name("itemValidator") 
-   @BypassInterceptors 
-   @Validator
-   public class ItemValidator implements Validator {
+@BypassInterceptors 
+@org.jboss.seam.annotations.faces.Validator
+public class ItemValidator implements javax.faces.validator.Validator {
       
-     public void validate(FacesContext context, UIComponent cmp, Object value)
-       throws ValidatorException {
-       ItemController ItemController = (ItemController) Component.getInstance("itemController");
-       return itemController.validate(value);
-     }
-     
-     }]]></programlisting>
+   public void validate(FacesContext context, UIComponent cmp, Object value)
+         throws ValidatorException {
+      ItemController ItemController = (ItemController) Component.getInstance("itemController");
+      boolean valid = itemController.validate(value);
+      if (!valid) {
+         throw ValidatorException("Invalid value " + value);
+      }
+   }
+}]]></programlisting>
             
             <programlisting role="XHTML"><![CDATA[<h:inputText value="#{shop.item}" validator="itemValidator" />]]></programlisting>
                <para>
