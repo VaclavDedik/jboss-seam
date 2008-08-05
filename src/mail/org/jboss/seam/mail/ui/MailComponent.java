@@ -170,13 +170,13 @@ public abstract class MailComponent extends UIComponentBase
     */
    protected Object getValue(String localName)
    {
-      if (getValueBinding(localName) == null)
+      if (getValueExpression(localName) == null)
       {
          return null;
       }
       else
       {
-         return getValueBinding(localName).getValue(getFacesContext());
+         return getValueExpression(localName).getValue(getFacesContext().getELContext());
       }
    }
 
