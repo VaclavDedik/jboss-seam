@@ -8,7 +8,10 @@
                                 http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-2.1.xsd   
                                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
-    <pdf:document-store use-extensions="true" error-page="/pdfMissing.seam" />
+    <component name="org.jboss.seam.document.documentStore"> 
+        <property name="useExtensions">true</property>
+        <property name="errorPage">/pdfMissing.seam</property>
+    </component>
 
     <pdf:key-store-config key-store="pdf.keystore"
                           key-store-password="storepass"

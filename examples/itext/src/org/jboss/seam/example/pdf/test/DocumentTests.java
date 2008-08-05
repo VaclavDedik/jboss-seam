@@ -3,8 +3,8 @@ package org.jboss.seam.example.pdf.test;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.mock.SeamTest;
-import org.jboss.seam.pdf.DocumentData;
-import org.jboss.seam.pdf.DocumentStore;
+import org.jboss.seam.document.DocumentData;
+import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.pdf.ui.UIDocument;
 import org.testng.annotations.Test;
 
@@ -26,7 +26,7 @@ public class DocumentTests
             protected void invokeApplication() throws Exception {
                 Conversation.instance().begin();
                 
-                DocumentStore store = (DocumentStore) getValue("#{org.jboss.seam.pdf.documentStore}");
+                DocumentStore store = (DocumentStore) getValue("#{org.jboss.seam.document.documentStore}");
                 String docId = store.newId();
                              
                 Contexts.getSessionContext().set("docId", docId);

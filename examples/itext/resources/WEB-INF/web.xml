@@ -72,7 +72,7 @@
 
     <servlet>
         <servlet-name>Document Store Servlet</servlet-name>
-        <servlet-class>org.jboss.seam.pdf.DocumentStoreServlet</servlet-class>
+        <servlet-class>org.jboss.seam.document.DocumentStoreServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
