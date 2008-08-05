@@ -4,6 +4,7 @@ import static org.jboss.seam.annotations.Install.FRAMEWORK;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
@@ -212,7 +213,12 @@ public class HibernatePersistenceProvider extends PersistenceProvider
          org.hibernate.Filter filter = getSession(entityManager).enableFilter( f.getName() );
          for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
          {
-            filter.setParameter( me.getKey(), me.getValue().getValue() );
+		   Object filterValue = me.getValue().getValue();
+		   if ( filterValue instanceof Collection ) {
+		      filter.setParameterList(me.getKey(), (Collection) filterValue);
+		   } else {
+			  filter.setParameter(me.getKey(), filterValue);
+		   }
          }
          filter.validate();
       }

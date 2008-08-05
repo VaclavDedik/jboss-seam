@@ -3,6 +3,7 @@ package org.jboss.seam.persistence;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -101,7 +102,12 @@ public class ManagedHibernateSession
       org.hibernate.Filter filter = session.enableFilter( f.getName() );
       for ( Map.Entry<String, ValueExpression> me: f.getParameters().entrySet() )
       {
-         filter.setParameter( me.getKey(), me.getValue().getValue() );
+	     Object filterValue = me.getValue().getValue();
+		 if ( filterValue instanceof Collection ) {
+		    filter.setParameterList(me.getKey(), (Collection) filterValue);
+		 } else {
+			filter.setParameter(me.getKey(), filterValue);
+		}
       }
       filter.validate();
    }
