@@ -64,6 +64,12 @@ SVN tagging and checkout
         - Any new work is that versions snapshot
     - Revert any Maven repository changes if needed
 
+JDK Version Specific Information
+--------------------------------
+The latest version of Sun's JDK 1.5 is used for building the release, and the 
+majority of the testing.  The JDK 1.6 section below outlines the JDK 1.6 
+building and testing process used during the release process.  
+
 Building and Checking Dist
 --------------------------
 * Run "mkdir ../releaselogs" for release artifacts and logs.
@@ -217,8 +223,8 @@ Example verification
     - document should be validated as well
     - including tomcat deployments
 * Edit the $dist/build.properties and set the jboss.home and tomcat.home
-    - JBoss AS 4.2.2.GA and Tomcat 6.X
-* JBoss 4.2.2 examples
+    - JBoss AS 4.2.3.GA and Tomcat 6.X
+* JBoss 4.2.3 examples
   - blog (tutorial)
   - booking (tutorial)
   - contactlist
@@ -389,6 +395,53 @@ Portal Bridge Verification
 * Deploy a second version of the booking example as a separate portlet
     - <TODO: DEFER - this is not supported in the bridge yet/>
     - <TODO: there may be a new chatroom seam portlet for this testing/>
+  
+JDK 1.6 Specific Testing
+-------------------------
+The latest available version of Sun's JDK 1.6 will be used for tests and steps
+in this section.
+
+<NOTE: 2.03.CR2 will be the first execution of this process - it needs to be
+       reviewed, and modified as needed/>
+
+* Building and comparing the JDK1.6 built distribution
+    - checkout a clean version of the tag in a new/clean directory.
+    - run "ant cleanall dist > ../releaselogs/x.x.x.XX.jdk16distbuild.txt"
+    - use this dist for all testing in this section
+    - diff the JDK 1.5 version of the dist to the JDK 1.6
+        - <TODO create a listing of expected changes/>
+    
+* Source build validation
+    - Follow the steps above for Source Verification
+        - except put "jdk16" in the log file redirects    
+
+* Testsuite execution
+    - Follow the steps above for Testsuite Execution
+        - except put "jdk16" in the log file and artifact names
+            
+* Example execution
+    - There will not be a complete testing of the examples on 1.6
+        - The list below should be modified as needed based on risk
+
+    ** JBoss 4.2.3 examples **
+      - booking
+      - dvdstore
+      - nestedbooking
+      - remoting/chatroom
+      - seamspace
+      - ui
+    ** Tomcat 6 examples ** 
+      - booking
+      - jpa 
+      - jpa without embedded
+    ** GlassFish v2.1 examples **
+      - jee5
+      - jpa  
+
+* seam-gen 
+    - Follow the steps above for seam-gen testing
+        - EAR app
+        - WAR app
   
 Document review
 ---------------

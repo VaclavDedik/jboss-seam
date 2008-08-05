@@ -170,7 +170,7 @@
               defaultvalue="${old.workspace.home}"/>
     	<pathFixer property="workspace.home.new" />
         
-        <property name="old.jboss.home" value="C:/Program Files/jboss-4.2.2.GA"/>
+        <property name="old.jboss.home" value="C:/Program Files/jboss-4.2.3.GA"/>
         <input addproperty="jboss.home.new" 
                    message="Enter your JBoss home directory [${old.jboss.home}]" 
               defaultvalue="${old.jboss.home}"/>
