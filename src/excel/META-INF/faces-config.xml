@@ -116,9 +116,4 @@
 		<component-type>org.jboss.seam.excel.ui.UIExcelExport</component-type>
 		<component-class>org.jboss.seam.excel.ui.UIExcelExport</component-class>
 	</component>
-
-    <lifecycle>
-        <phase-listener>org.jboss.seam.excel.DocumentStorePhaseListener</phase-listener>
-    </lifecycle>
-
 </faces-config>

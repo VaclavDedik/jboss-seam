@@ -1,6 +1,6 @@
 package org.jboss.seam.excel;
 
-import org.jboss.seam.excel.DocumentData.DocumentType;
+import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;

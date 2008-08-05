@@ -1,4 +1,4 @@
-package org.jboss.seam.pdf;
+package org.jboss.seam.document;
 
 import java.io.IOException;
 

@@ -1,4 +1,4 @@
-package org.jboss.seam.pdf;
+package org.jboss.seam.document;
 
 import java.io.Serializable;
 
@@ -18,7 +18,6 @@ public class DocumentData
         this.documentType = documentType;
         this.baseName = baseName;
     }
-
 
     public byte[] getData() {
         return data;

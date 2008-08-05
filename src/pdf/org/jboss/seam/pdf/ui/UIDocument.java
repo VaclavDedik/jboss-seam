@@ -10,10 +10,10 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.navigation.Pages;
-import org.jboss.seam.pdf.DocumentData;
-import org.jboss.seam.pdf.DocumentStore;
+import org.jboss.seam.document.DocumentData;
+import org.jboss.seam.document.DocumentStore;
+import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.pdf.ITextUtils;
-import org.jboss.seam.pdf.DocumentData.DocumentType;
 
 import com.lowagie.text.DocWriter;
 import com.lowagie.text.Document;

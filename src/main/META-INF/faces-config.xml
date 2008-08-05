@@ -19,5 +19,8 @@
    <lifecycle>
       <phase-listener>org.jboss.seam.jsf.SeamPhaseListener</phase-listener>
    </lifecycle>
-    
+
+   <lifecycle>
+       <phase-listener>org.jboss.seam.document.DocumentStorePhaseListener</phase-listener>
+   </lifecycle>    
 </faces-config>

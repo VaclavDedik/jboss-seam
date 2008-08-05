@@ -1,4 +1,4 @@
-package org.jboss.seam.pdf;
+package org.jboss.seam.document;
 
 import java.io.IOException;
 
@@ -32,8 +32,7 @@ public class DocumentStorePhaseListener
         
         Parameters params = Parameters.instance();
         String id = (String) params.convertMultiValueRequestParameter(params.getRequestParameters(), "docId", String.class);              
-        if ( rootId.contains("/seam-doc") ) 
-        {
+        if (rootId.contains(DocumentStore.DOCSTORE_BASE_URL)) {
             sendContent(phaseEvent.getFacesContext(), id);
         }
     }
@@ -44,22 +43,22 @@ public class DocumentStorePhaseListener
         {            
             DocumentData documentData = DocumentStore.instance().getDocumentData(contentId);
             
-            byte[] data = documentData.getData();
+            if (documentData != null) {
+                byte[] data = documentData.getData();
 
-            HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
-            response.setContentType( documentData.getDocumentType().getMimeType() );
-            
-            response.setHeader("Content-Disposition", 
-                                documentData.getDisposition() + 
-                                "; filename=\"" + documentData.getFileName() + "\"");
-            
-            if (data != null) 
-            {
-                response.getOutputStream().write(data);
+                HttpServletResponse response = (HttpServletResponse) context.getExternalContext().getResponse();
+                response.setContentType( documentData.getDocumentType().getMimeType() );
+
+                response.setHeader("Content-Disposition", 
+                        documentData.getDisposition() + 
+                        "; filename=\"" + documentData.getFileName() + "\"");
+
+                if (data != null) {
+                    response.getOutputStream().write(data);
+                }
+                context.responseComplete();
             }
-            context.responseComplete();
-        } 
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

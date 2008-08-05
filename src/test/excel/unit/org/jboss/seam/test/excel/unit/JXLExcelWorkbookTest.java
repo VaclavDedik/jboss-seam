@@ -9,7 +9,7 @@ import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.Colour;
 
-import org.jboss.seam.excel.DocumentData;
+import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.jxl.JXLExcelWorkbook;

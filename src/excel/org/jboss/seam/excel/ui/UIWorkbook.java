@@ -8,12 +8,12 @@ import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Manager;
-import org.jboss.seam.excel.DocumentData;
-import org.jboss.seam.excel.DocumentStore;
+import org.jboss.seam.document.DocumentData;
+import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.excel.ExcelFactory;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.Template;
-import org.jboss.seam.excel.DocumentData.DocumentType;
+import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
