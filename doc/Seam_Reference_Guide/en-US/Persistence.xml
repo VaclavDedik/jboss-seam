@@ -594,10 +594,10 @@ public void init() {
 
 <persistence:managed-persistence-context name="personDatabase"
     persistence-unit-jndi-name="java:/EntityManagerFactories/personDatabase">
-    <core:filters>
+    <persistence:filters>
         <value>#{regionFilter}</value>
         <value>#{currentFilter}</value>
-    </core:filters>
+    </persistence:filters>
 </persistence:managed-persistence-context>]]></programlisting>
         
     </section>    
