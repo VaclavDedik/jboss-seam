@@ -47,7 +47,14 @@ public final class ConfigRedirectHandler extends RedirectHandler
    @Override
    protected String getViewId(Exception e)
    {
-      return id.getValue();
+      if (id != null)
+      {
+         return id.getValue(); 
+      }
+      else
+      {
+         return null;
+      }
    }
 
    @Override

@@ -206,14 +206,14 @@ public class Exceptions
       Element redirect = exception.element("redirect");
       if (redirect!=null)
       {
-         final String viewId = redirect.attributeValue("view-id");
+         String viewId = redirect.attributeValue("view-id");
          Element messageElement = redirect.element("message");
          final String message = messageElement==null ? null : messageElement.getTextTrim();
          String severityName = messageElement==null ? null : messageElement.attributeValue("severity");
          Severity severity = severityName==null ? 
                   FacesMessage.SEVERITY_INFO : 
                   Pages.getFacesMessageValuesMap().get( severityName.toUpperCase() );
-         return new ConfigRedirectHandler(Expressions.instance().createValueExpression(
+         return new ConfigRedirectHandler(viewId == null ? null : Expressions.instance().createValueExpression(
                viewId, String.class), clazz, endConversation, message, severity);
       }
       
