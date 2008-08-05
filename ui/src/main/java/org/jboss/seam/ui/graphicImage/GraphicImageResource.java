@@ -60,7 +60,7 @@ public class GraphicImageResource extends AbstractResource
       String pathInfo = request.getPathInfo().substring(getResourcePath().length() + 1,
                request.getPathInfo().lastIndexOf("."));
       ImageWrapper image = GraphicImageStore.instance().remove(pathInfo);
-      if (image != null)
+      if (image != null && image.getImage() != null)
       {
          response.setContentType(image.getContentType().getMimeType());
          response.setStatus(HttpServletResponse.SC_OK);
