@@ -418,6 +418,17 @@ public class MockPaymentProcessor extends PaymentProcessor {
                     </row>
                     <row>
                        <entry>
+                          <literal>javax.el</literal>
+                       </entry>
+                       <entry>
+                          <literal>el-api</literal>
+                       </entry>
+                       <entry>
+                          <literal>lib/el-api.jar</literal>
+                       </entry>
+                    </row>
+                    <row>
+                       <entry>
                           <literal>javax.activation</literal>
                        </entry>
                        <entry>
@@ -447,13 +458,14 @@ public class MockPaymentProcessor extends PaymentProcessor {
            
            <para>
               And, of course you need to put your built project and tests onto
-              the classpath. Don't forget to put all the correct configuration
-              files for JPA and Seam onto the classpath as well.Seam asks 
-              Embedded JBoss to deploy any resource (jar or directory)
-              which has <literal>seam.properties</literal> in it's root.
-              Therefore, if you don't assemble a directory structure that 
-              resembles a deployable archive containing your built project, you
-              must put a <literal>seam.properties</literal> in each resource.
+              the classpath as well as jar for your test framework. Don't forget
+              to put all the correct configuration files for JPA and Seam onto 
+              the classpath as well.Seam asks Embedded JBoss to deploy any 
+              resource (jar or directory) which has 
+              <literal>seam.properties</literal> in it's root. Therefore, if you
+              don't assemble a directory structure that resembles a deployable 
+              archive containing your built project, you must put a 
+              <literal>seam.properties</literal> in each resource.
            </para>
            
            <para>
