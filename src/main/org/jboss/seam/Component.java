@@ -2396,7 +2396,7 @@ public class Component extends Model
          @Override
          protected ClassLoader getClassLoader()
          {
-            return Seam.class.getClassLoader();
+            return beanClass.getClassLoader();
          }
       };
       factory.setSuperclass( type==JAVA_BEAN ? beanClass : Object.class );
