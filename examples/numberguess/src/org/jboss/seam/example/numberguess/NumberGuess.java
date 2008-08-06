@@ -25,7 +25,7 @@ public class NumberGuess implements Serializable {
    @Create
    public void begin()
    {
-      randomNumber = new Random().nextInt(100);
+      randomNumber = new Random().nextInt(100) + 1;
       guessCount = 0;
       biggest = 100;
       smallest = 1;
