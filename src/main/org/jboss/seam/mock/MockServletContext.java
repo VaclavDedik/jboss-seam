@@ -48,9 +48,9 @@ public class MockServletContext implements ServletContext
                webInfClassesRoot = new File(webInfRoot.getParentFile().getPath() + "/classes");
                webappRoot = webInfRoot.getParentFile();
             }
+            // call processing of context parameters
+            processContextParameters(webxml);
          }
-         // call processing of context parameters
-         processContextParameters();
       }
       catch (URISyntaxException e)
       {
@@ -58,13 +58,13 @@ public class MockServletContext implements ServletContext
       }
    }
    
-   private void processContextParameters()
+   private void processContextParameters(URL webXML)
    {
       SAXReader reader = new SAXReader();
       Document document;
       try
       {
-         document = reader.read(getClass().getResourceAsStream("/WEB-INF/web.xml"));
+         document = reader.read(webXML);
 
          List<Node> nodes = document.selectNodes("//*[name()='context-param']");
          for (Node node : nodes)
