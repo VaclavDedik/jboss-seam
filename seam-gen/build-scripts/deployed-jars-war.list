@@ -10,6 +10,7 @@ jboss-seam.jar
 jboss-seam-*.jar
 jbpm-jpdl.jar
 jsf-facelets.jar
+jxl.jar
 mvel14.jar
 richfaces-api.jar
 richfaces-impl.jar

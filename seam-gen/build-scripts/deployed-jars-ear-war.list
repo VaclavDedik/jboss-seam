@@ -2,5 +2,6 @@ commons-beanutils.jar
 commons-digester.jar
 jboss-seam-*.jar
 jsf-facelets.jar
+jxl.jar
 richfaces-impl.jar
 richfaces-ui.jar
