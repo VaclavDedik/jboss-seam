@@ -40,7 +40,7 @@ public class DocumentTests
                 String docId = (String) getValue("#{docId}");
                 assert docId != null;
                 
-                DocumentStore store = (DocumentStore) getValue("#{org.jboss.seam.pdf.documentStore}");
+                DocumentStore store = (DocumentStore) getValue("#{org.jboss.seam.document.documentStore}");
                 assert store.idIsValid(docId);        
                 
  
@@ -54,7 +54,7 @@ public class DocumentTests
                 String docId = (String) getValue("#{docId}");
                 assert docId != null;
                 
-                DocumentStore store = (DocumentStore) getValue("#{org.jboss.seam.pdf.documentStore}");
+                DocumentStore store = (DocumentStore) getValue("#{org.jboss.seam.document.documentStore}");
                 assert !store.idIsValid(docId);                
             }
         }.run();
@@ -65,7 +65,7 @@ public class DocumentTests
                 String docId = (String) getValue("#{docId}");
                 assert docId != null;
                 
-                DocumentStore store = (DocumentStore) getValue("#{org.jboss.seam.pdf.documentStore}");
+                DocumentStore store = (DocumentStore) getValue("#{org.jboss.seam.document.documentStore}");
                 assert store.idIsValid(docId);       
                 
                 DocumentData data = store.getDocumentData(docId);
