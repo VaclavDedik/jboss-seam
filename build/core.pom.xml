@@ -312,6 +312,12 @@
       <artifactId>jboss-common-core</artifactId>
       <optional>true</optional>
     </dependency>
+    
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <optional>true</optional>
+    </dependency>
 
   </dependencies>
 

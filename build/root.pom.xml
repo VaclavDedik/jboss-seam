@@ -868,17 +868,19 @@
       <dependency>
         <groupId>dom4j</groupId>
         <artifactId>dom4j</artifactId>
-        <version>1.6.1-jboss</version>
+        <version>1.6.1</version>
         <exclusions>
           <exclusion>
-            <groupId>junit</groupId>
-                  <artifactId>junit</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>xpp3</groupId>
-            <artifactId>xpp3</artifactId>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      
+      <dependency>
+         <groupId>jaxen</groupId>
+         <artifactId>jaxen</artifactId>
+         <version>1.1-beta-4</version>
       </dependency>
 
       <dependency>
