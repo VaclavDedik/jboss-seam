@@ -149,10 +149,6 @@
         <component-class>org.jboss.seam.pdf.ui.UISwingComponent</component-class>
     </component>
 
-    <lifecycle>
-        <phase-listener>org.jboss.seam.pdf.DocumentStorePhaseListener</phase-listener>
-    </lifecycle>
-
     <!--
     <render-kit>
         <render-kit-id>PDF</render-kit-id>
