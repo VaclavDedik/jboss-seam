@@ -127,6 +127,10 @@
         
         <filterset id="project">
             <filter token="projectName" value="${project.name}" />
+            <filter token="modelPackage" value="${model.package}" />
+        	   <filter token="actionPackage" value="${action.package}" />
+        	   <filter token="testPackage" value="${test.package}" />
+        	   <filter token="deploymentType" value="${project.type}" />
             <filter token="jbossHome" value="${jboss.home}" />
             <filter token="iceHome" value="${icefaces.home}" />
             <filter token="hbm2ddl" value="${hibernate.hbm2ddl.auto}"/>
