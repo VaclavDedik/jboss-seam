@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.contexts.FacesLifecycle;
 import org.jboss.seam.core.Expressions;
 
 /**
@@ -33,7 +34,8 @@ public class FacesExpressions extends Expressions
    public ELContext getELContext()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
-      return facesContext==null ? super.getELContext() : facesContext.getELContext();
+      return facesContext == null || FacesLifecycle.getPhaseId() == null
+         ? super.getELContext() : facesContext.getELContext();
    }
    
    @Override
