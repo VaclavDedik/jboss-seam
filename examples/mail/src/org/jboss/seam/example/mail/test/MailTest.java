@@ -16,7 +16,7 @@ import javax.mail.internet.MimeMultipart;
 
 import org.jboss.seam.mail.ui.UIAttachment;
 import org.jboss.seam.mail.ui.UIMessage;
-import org.jboss.seam.pdf.DocumentData;
+import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.example.mail.Person;
 import org.jboss.seam.mail.MailSession;
