@@ -17,7 +17,12 @@ import org.jboss.seam.core.Init;
 import org.jboss.seam.web.AbstractResource;
 
 /**
- * Serves extra resources such as Javascript, CSS, Images
+ * Routes all types of HTTP requests to implementors of AbstractResource.
+ * <p>
+ * This servlet is optional in a Seam application but required for certain features, such as
+ * <tt>&lt;s:graphicImage/&gt;</tt>, RichFaces resources, and REST integration. It is typically
+ * mapped in <tt>web.xml</tt> with the <tt>/seam/resource</tt> URL pattern.
+ * </p>
  * 
  * @author Shane Bryzak
  */
@@ -58,7 +63,7 @@ public class SeamResourceServlet extends HttpServlet
    }
 
    @Override
-   public void doGet(HttpServletRequest request, HttpServletResponse response)
+   public void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
    {
       String prefix = request.getContextPath() + request.getServletPath();
@@ -85,10 +90,4 @@ public class SeamResourceServlet extends HttpServlet
       }
    }
 
-   @Override
-   public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-   {
-      doGet(request, response);
-   }
 }
