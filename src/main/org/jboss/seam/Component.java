@@ -2391,7 +2391,14 @@ public class Component extends Model
       interfaces.add(Instance.class);
       interfaces.add(Proxy.class);
 
-      ProxyFactory factory = new ProxyFactory();
+      ProxyFactory factory = new ProxyFactory()
+      {
+         @Override
+         protected ClassLoader getClassLoader()
+         {
+            return Seam.class.getClassLoader();
+         }
+      };
       factory.setSuperclass( type==JAVA_BEAN ? beanClass : Object.class );
       factory.setInterfaces( interfaces.toArray( new Class[0] ) );
       factory.setFilter(FINALIZE_FILTER);
