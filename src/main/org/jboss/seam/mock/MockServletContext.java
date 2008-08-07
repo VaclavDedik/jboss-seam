@@ -19,11 +19,10 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.Node;
-import org.dom4j.io.SAXReader;
+import org.dom4j.Element;
 import org.jboss.seam.util.IteratorEnumeration;
+import org.jboss.seam.util.XML;
 
 public class MockServletContext implements ServletContext
 {
@@ -60,22 +59,23 @@ public class MockServletContext implements ServletContext
    
    private void processContextParameters(URL webXML)
    {
-      SAXReader reader = new SAXReader();
-      Document document;
       try
       {
-         document = reader.read(webXML);
-
-         List<Node> nodes = document.selectNodes("//*[name()='context-param']");
-         for (Node node : nodes)
+         Element root = XML.getRootElementSafely(webXML.openStream());         
+         for (Element element : (List<Element>) root.elements("context-param"))
          {
-            getInitParameters().put(node.selectSingleNode("*[name()='param-name']").getText(), node.selectSingleNode("*[name()='param-value']").getText());
+            getInitParameters().put(element.elementText("param-name"), element.elementText("param-value"));
          }
+      }
+      catch (IOException e) 
+      {
+         throw new RuntimeException("Error parsing web.xml", e);
       }
       catch (DocumentException e)
       {
-         throw new RuntimeException("Error processing web.xml", e);
+         throw new RuntimeException("Error parsing web.xml", e);
       }
+      
 
    }
    

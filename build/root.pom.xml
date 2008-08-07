@@ -876,12 +876,7 @@
           </exclusion>
         </exclusions>
       </dependency>
-      
-      <dependency>
-         <groupId>jaxen</groupId>
-         <artifactId>jaxen</artifactId>
-         <version>1.1-beta-4</version>
-      </dependency>
+
 
       <dependency>
         <groupId>org.beanshell</groupId>
