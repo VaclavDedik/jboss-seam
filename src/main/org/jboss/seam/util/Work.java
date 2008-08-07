@@ -1,8 +1,14 @@
 package org.jboss.seam.util;
 
+import static org.jboss.seam.ComponentType.JAVA_BEAN;
+import static org.jboss.seam.util.EJB.APPLICATION_EXCEPTION;
+import static org.jboss.seam.util.EJB.rollback;
+
 import javax.transaction.Status;
 import javax.transaction.UserTransaction;
 
+import org.jboss.seam.Component;
+import org.jboss.seam.annotations.ApplicationException;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.transaction.Transaction;
@@ -56,7 +62,7 @@ public abstract class Work<T>
       }
       catch (Exception e)
       {
-         if (newTransactionRequired && userTransaction.getStatus() != Status.STATUS_NO_TRANSACTION) 
+         if (newTransactionRequired && userTransaction.getStatus() != Status.STATUS_NO_TRANSACTION && isRollbackRequired(e, true)) 
          {
             log.debug("rolling back transaction");
             userTransaction.rollback();
@@ -64,5 +70,24 @@ public abstract class Work<T>
          throw e;
       }
       
+   }
+   
+   public static boolean isRollbackRequired(Exception e, boolean isJavaBean)
+   {
+      Class<? extends Exception> clazz = e.getClass();
+      return ( isSystemException(e, isJavaBean, clazz) ) || 
+            ( isJavaBean && clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && rollback( clazz.getAnnotation(APPLICATION_EXCEPTION) ) ) ||
+            ( clazz.isAnnotationPresent(ApplicationException.class) && clazz.getAnnotation(ApplicationException.class).rollback() );
+   }
+
+   private static boolean isSystemException(Exception e, boolean isJavaBean, Class<? extends Exception> clazz)
+   {
+      return isJavaBean && 
+            (e instanceof RuntimeException) && 
+            !clazz.isAnnotationPresent(APPLICATION_EXCEPTION) && 
+            !clazz.isAnnotationPresent(ApplicationException.class) &&
+            //TODO: this is hackish, maybe just turn off RollackInterceptor for @Converter/@Validator components
+            !JSF.VALIDATOR_EXCEPTION.isInstance(e) &&
+            !JSF.CONVERTER_EXCEPTION.isInstance(e);
    }
 }
