@@ -70,4 +70,10 @@ public class EventInterceptor extends AbstractInterceptor
       }
       return result;
    }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().beanClassHasAnnotation(RaiseEvent.class); 
+   }
+   
 }

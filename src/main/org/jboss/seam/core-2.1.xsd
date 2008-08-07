@@ -15,9 +15,26 @@
         </xs:annotation>
         <xs:complexType mixed="true">
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element name="disabled-interceptors" type="components:multiValuedProperty">
+                <xs:element name="interceptors" type="components:multiValuedProperty">
                     <xs:annotation>
-                        <xs:documentation>A list of interceptors that should be disabled for all components</xs:documentation>
+                        <xs:documentation>A list of interceptors that should be enabled for all components. You must specify all built-in interceptors as well as any extras interceptors.
+                        
+These interceptors are enabled by default:
+   org.jboss.seam.core.SynchronizationInterceptor
+   org.jboss.seam.async.AsynchronousInterceptor
+   org.jboss.seam.ejb.RemoveInterceptor
+   org.jboss.seam.persistence.HibernateSessionProxyInterceptor
+   org.jboss.seam.persistence.EntityManagerProxyInterceptor
+   org.jboss.seam.core.MethodContextInterceptor
+   org.jboss.seam.core.EventInterceptor
+   org.jboss.seam.core.ConversationalInterceptor
+   org.jboss.seam.bpm.BusinessProcessInterceptor
+   org.jboss.seam.core.ConversationInterceptor
+   org.jboss.seam.core.BijectionInterceptor.class
+   org.jboss.seam.transaction.RollbackInterceptor.class.getName(),
+   org.jboss.seam.transaction.TransactionInterceptor.class.getName(),
+   org.jboss.seam.webservice.WSSecurityInterceptor.class.getName(),
+   org.jboss.seam.security.SecurityInterceptor.class.getName()</xs:documentation>
                     </xs:annotation>
                 </xs:element>
             </xs:choice>
@@ -31,7 +48,6 @@
         <xs:attribute name="jndi-pattern" type="components:string" />
         <xs:attribute name="transaction-management-enabled" type="components:boolean"/>
         <xs:attribute name="user-transaction-name" type="components:string"/>
-        <xs:attribute name="disabled-interceptors" type="components:string" />
     </xs:attributeGroup>
 
     <xs:element name="manager">

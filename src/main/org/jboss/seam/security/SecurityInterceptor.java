@@ -262,4 +262,9 @@ public class SecurityInterceptor extends AbstractInterceptor
       return String.format( "#{s:hasPermission('%s','%s')}", 
             getComponent().getName(), method.getName() );
    }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().isSecure() && !getComponent().beanClassHasAnnotation("javax.jws.WebService");
+   }
 }

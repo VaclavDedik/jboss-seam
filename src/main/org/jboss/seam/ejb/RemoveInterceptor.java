@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.ejb;
 
+import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
+
 import java.lang.reflect.Method;
 import java.rmi.RemoteException;
 
@@ -82,6 +84,11 @@ public class RemoveInterceptor extends AbstractInterceptor
       {
          log.debug( "Stateful component was removed: " + getComponent().getName() );
       }
+   }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().getType() == STATEFUL_SESSION_BEAN;
    }
 
 }

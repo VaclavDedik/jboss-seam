@@ -41,4 +41,10 @@ public class RollbackInterceptor extends AbstractInterceptor
       }
    }
    
+   public boolean isInterceptorEnabled()
+   {
+      // Just here for consistency
+      return true;
+   }
+   
 }

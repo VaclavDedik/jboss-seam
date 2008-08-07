@@ -31,6 +31,7 @@ public final class Interceptor extends Reflections
    private Method prePassivateMethod;
    private Method componentInjectorMethod;
    private Method annotationInjectorMethod;
+   private Method interceptorEnabledMethod;
    private InterceptorType type;
    private Annotation annotation;
    private Component component;
@@ -158,6 +159,12 @@ public final class Interceptor extends Reflections
             componentInjectorMethod = method;
             Reflections.invokeAndWrap(method, statelessUserInterceptorInstance, component);
          }
+         // if there is an interceptor enabled method, store it
+         if ( "isInterceptorEnabled".equals(method.getName()) && method.getReturnType().equals(boolean.class) )
+         {
+            interceptorEnabledMethod = method;
+         }
+         
       }
 
       type = userInterceptorClass.isAnnotationPresent(org.jboss.seam.annotations.intercept.Interceptor.class) ?
@@ -205,6 +212,32 @@ public final class Interceptor extends Reflections
       return postActivateMethod==null ?
             invocation.proceed() :
             Reflections.invoke( postActivateMethod, userInterceptor, invocation );
+   }
+   
+   /**
+    * Return true if the interceptor should be enabled for the component instance
+    * 
+    * Should only be called during deployment
+    */
+   public boolean isInterceptorEnabled()
+   {
+      if (interceptorEnabledMethod != null)
+      {
+         // Set up component metadata
+         if (componentInjectorMethod!=null)
+         {
+            Reflections.invokeAndWrap(componentInjectorMethod, statelessUserInterceptorInstance, component);
+         }
+         if (annotationInjectorMethod!=null) 
+         {
+            Reflections.invokeAndWrap(annotationInjectorMethod, statelessUserInterceptorInstance, annotation);
+         }
+         return ((Boolean) Reflections.invokeAndWrap(interceptorEnabledMethod, statelessUserInterceptorInstance));
+      }
+      else
+      {
+         return true;
+      }
    }
    
 }

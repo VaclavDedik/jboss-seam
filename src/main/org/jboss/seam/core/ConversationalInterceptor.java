@@ -72,5 +72,10 @@ public class ConversationalInterceptor extends AbstractInterceptor
    {
       return getComponent().getBeanClass().isAnnotationPresent(Conversational.class);
    }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().beanClassHasAnnotation(Conversational.class);
+   }
 
 }

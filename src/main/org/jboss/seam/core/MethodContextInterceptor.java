@@ -1,5 +1,7 @@
 package org.jboss.seam.core;
 
+import static org.jboss.seam.ComponentType.ENTITY_BEAN;
+
 import java.lang.reflect.Method;
 
 import org.jboss.seam.Component;
@@ -46,4 +48,10 @@ public class MethodContextInterceptor extends AbstractInterceptor
          Lifecycle.endMethod(outerMethodContext);
       }
    }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().getType()!=ENTITY_BEAN;
+   }
+   
 }

@@ -10,7 +10,6 @@ import static org.jboss.seam.ComponentType.ENTITY_BEAN;
 import static org.jboss.seam.ComponentType.JAVA_BEAN;
 import static org.jboss.seam.ComponentType.MESSAGE_DRIVEN_BEAN;
 import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
-import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.ScopeType.EVENT;
@@ -48,15 +47,12 @@ import java.util.Set;
 
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
-
-import org.jboss.seam.util.ProxyFactory;
 import javassist.util.proxy.ProxyObject;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpSessionActivationListener;
 
 import org.jboss.seam.annotations.Begin;
-import org.jboss.seam.annotations.Conversational;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.DataBinderClass;
 import org.jboss.seam.annotations.DataSelectorClass;
@@ -68,13 +64,10 @@ import org.jboss.seam.annotations.JndiName;
 import org.jboss.seam.annotations.Observer;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.PerNestedConversation;
-import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.Synchronized;
-import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.Unwrap;
-import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.annotations.bpm.BeginTask;
 import org.jboss.seam.annotations.bpm.EndTask;
 import org.jboss.seam.annotations.bpm.StartTask;
@@ -87,25 +80,16 @@ import org.jboss.seam.annotations.security.PermissionCheck;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.annotations.security.RoleCheck;
 import org.jboss.seam.annotations.web.RequestParameter;
-import org.jboss.seam.async.AsynchronousInterceptor;
-import org.jboss.seam.bpm.BusinessProcessInterceptor;
 import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.BijectionInterceptor;
-import org.jboss.seam.core.ConversationInterceptor;
-import org.jboss.seam.core.ConversationalInterceptor;
-import org.jboss.seam.core.EventInterceptor;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.MethodContextInterceptor;
 import org.jboss.seam.core.Mutable;
-import org.jboss.seam.core.SynchronizationInterceptor;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.databinding.DataBinder;
 import org.jboss.seam.databinding.DataSelector;
-import org.jboss.seam.ejb.RemoveInterceptor;
 import org.jboss.seam.ejb.SeamInterceptor;
 import org.jboss.seam.intercept.ClientSideInterceptor;
 import org.jboss.seam.intercept.Interceptor;
@@ -113,20 +97,14 @@ import org.jboss.seam.intercept.JavaBeanInterceptor;
 import org.jboss.seam.intercept.Proxy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.persistence.HibernateSessionProxyInterceptor;
-import org.jboss.seam.persistence.ManagedEntityIdentityInterceptor;
-import org.jboss.seam.persistence.EntityManagerProxyInterceptor;
-import org.jboss.seam.security.SecurityInterceptor;
-import org.jboss.seam.transaction.RollbackInterceptor;
-import org.jboss.seam.transaction.TransactionInterceptor;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
+import org.jboss.seam.util.ProxyFactory;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.SortItem;
 import org.jboss.seam.util.Sorter;
 import org.jboss.seam.util.Conversions.PropertyValue;
 import org.jboss.seam.web.Parameters;
-import org.jboss.seam.webservice.WSSecurityInterceptor;
 
 /**
  * Metamodel class for component classes.
@@ -950,26 +928,17 @@ public class Component extends Model
 
    public void addInterceptor(Interceptor interceptor)
    {
-       if (isInterceptorEnabled(interceptor)) {
-           if (interceptor.getType()==InterceptorType.SERVER) {
-               interceptors.add(interceptor);
-           } else {
-               clientSideInterceptors.add(interceptor);
-           }
-       }
-   }
-
-   private boolean isInterceptorEnabled(Interceptor interceptor) {
-       if (Contexts.isApplicationContextActive()) {
-           Class interceptorClass = interceptor.getUserInterceptorClass();
-           if (interceptorClass != null) {
-               if (Init.instance().getDisabledInterceptors().contains(interceptorClass.getName())) {
-                   return false;
-               }
-           }
-       }
-       
-       return true;
+      if (interceptor.isInterceptorEnabled())
+      {
+         if (interceptor.getType()==InterceptorType.SERVER) 
+         {
+            interceptors.add(interceptor);
+         }
+         else 
+         {
+            clientSideInterceptors.add(interceptor);
+         }
+      }
    }
 
    private List<Interceptor> newSort(List<Interceptor> list)
@@ -1016,76 +985,29 @@ public class Component extends Model
 
    private void initDefaultInterceptors()
    {
-      if (synchronize)
+      List<String> interceptors;
+      if (Contexts.isApplicationContextActive())
       {
-         addInterceptor( new Interceptor( new SynchronizationInterceptor(), this ) );
+         interceptors = Init.instance().getInterceptors();
       }
-      if (
-            ( getType().isEjb() && businessInterfaceHasAnnotation(Asynchronous.class) ) ||
-            ( getType()==JAVA_BEAN && beanClassHasAnnotation(Asynchronous.class) )
-         )
+      else
       {
-         addInterceptor( new Interceptor( new AsynchronousInterceptor(), this ) );
+         // For unit tests
+         interceptors = Init.DEFAULT_INTERCEPTORS;
       }
-      if ( getType()==STATEFUL_SESSION_BEAN )
+      for (String interceptorName : interceptors)
       {
-         addInterceptor( new Interceptor( new RemoveInterceptor(), this ) );
-      }
-      if ( getType()==STATEFUL_SESSION_BEAN || getType()==STATELESS_SESSION_BEAN )
-      {
-         if (Reflections.isClassAvailable("org.hibernate.Session"))
+         Object interceptorInstance = null;
+         try
          {
-            addInterceptor( new Interceptor ( new HibernateSessionProxyInterceptor(), this ) );
+            Class<?> clazz = Reflections.classForName(interceptorName);
+            interceptorInstance = clazz.newInstance();
          }
-         addInterceptor( new Interceptor ( new EntityManagerProxyInterceptor(), this ) );
-      }
-      if ( getType()!=ENTITY_BEAN )
-      {
-         addInterceptor( new Interceptor( new MethodContextInterceptor(), this ) );
-      }
-      if ( beanClassHasAnnotation(RaiseEvent.class) )
-      {
-         addInterceptor( new Interceptor( new EventInterceptor(), this ) );
-      }
-      if ( beanClassHasAnnotation(Conversational.class) )
-      {
-         addInterceptor( new Interceptor( new ConversationalInterceptor(), this ) );
-      }
-      if ( Contexts.isApplicationContextActive() ) //ugh, for unit tests
-      {
-         if ( Init.instance().isJbpmInstalled() )
+         catch (Exception e)
          {
-            addInterceptor( new Interceptor( new BusinessProcessInterceptor(), this ) );
+            throw new IllegalArgumentException("Unable to load interceptor " + interceptorName, e);
          }
-      }
-      if ( !conversationManagementMethods.isEmpty() )
-      {
-         addInterceptor( new Interceptor( new ConversationInterceptor(), this ) );
-      }
-      if ( needsInjection() || needsOutjection() )
-      {
-         addInterceptor( new Interceptor( new BijectionInterceptor(), this ) );
-      }
-      addInterceptor( new Interceptor( new RollbackInterceptor(), this ) );
-      if ( getType()==JAVA_BEAN && beanClassHasAnnotation(Transactional.class))
-      {
-         addInterceptor( new Interceptor( new TransactionInterceptor(), this ) );
-      }
-      if ( getScope()==CONVERSATION )
-      {
-         addInterceptor( new Interceptor( new ManagedEntityIdentityInterceptor(), this ) );
-      }
-      
-      if (secure)
-      {
-         if (beanClassHasAnnotation("javax.jws.WebService"))
-         {
-            addInterceptor( new Interceptor( new WSSecurityInterceptor(), this ) );
-         }
-         else
-         {
-            addInterceptor( new Interceptor( new SecurityInterceptor(), this ) );            
-         }         
+         addInterceptor(new Interceptor(interceptorInstance, this));
       }
    }
    
@@ -2423,6 +2345,11 @@ public class Component extends Model
    {
       return startup;
    }
+   
+   public boolean isSynchronize()
+   {
+      return synchronize;
+   }
 
    public String[] getDependencies()
    {
@@ -2793,5 +2720,15 @@ public class Component extends Model
    public boolean isPerNestedConversation()
    {
       return perNestedConversation;
+   }
+   
+   public boolean hasConversationManagementMethods()
+   {
+      return !conversationManagementMethods.isEmpty();
+   }
+   
+   public boolean isSecure()
+   {
+      return secure;
    }
 }

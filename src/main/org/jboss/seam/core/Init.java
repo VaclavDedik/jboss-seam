@@ -23,9 +23,20 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.async.AsynchronousInterceptor;
+import org.jboss.seam.bpm.BusinessProcessInterceptor;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.ejb.RemoveInterceptor;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.persistence.EntityManagerProxyInterceptor;
+import org.jboss.seam.persistence.HibernateSessionProxyInterceptor;
+import org.jboss.seam.security.SecurityInterceptor;
+import org.jboss.seam.transaction.RollbackInterceptor;
+import org.jboss.seam.transaction.TransactionInterceptor;
+import org.jboss.seam.webservice.WSSecurityInterceptor;
 
 /**
  * A Seam component that holds Seam configuration settings
@@ -39,6 +50,26 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 public class Init
 {
    
+   public static List<String> DEFAULT_INTERCEPTORS = new ArrayList<String>(Arrays.asList(
+         SynchronizationInterceptor.class.getName(),
+         AsynchronousInterceptor.class.getName(),
+         RemoveInterceptor.class.getName(),
+         HibernateSessionProxyInterceptor.class.getName(),
+         EntityManagerProxyInterceptor.class.getName(),
+         MethodContextInterceptor.class.getName(),
+         EventInterceptor.class.getName(),
+         ConversationalInterceptor.class.getName(),
+         BusinessProcessInterceptor.class.getName(),
+         ConversationInterceptor.class.getName(),
+         BijectionInterceptor.class.getName(),
+         RollbackInterceptor.class.getName(),
+         TransactionInterceptor.class.getName(),
+         WSSecurityInterceptor.class.getName(),
+         SecurityInterceptor.class.getName()
+         )); 
+   
+   private LogProvider log = Logging.getLogProvider(Init.class);
+   
    private Namespace rootNamespace = new Namespace(null);
    
    private Collection<Namespace> globalImports = new ArrayList<Namespace>();
@@ -50,7 +81,7 @@ public class Init
    private boolean myFacesLifecycleBug;
    private boolean transactionManagementEnabled = true;
    
-   private List<String> disabledInterceptors = new ArrayList<String>();
+   private List<String> interceptors = new ArrayList<String>(DEFAULT_INTERCEPTORS);
    
    private Map<String, List<ObserverMethod>> observerMethods = new HashMap<String, List<ObserverMethod>>();
    private Map<String, List<ObserverMethodExpression>> observerMethodBindings = new HashMap<String, List<ObserverMethodExpression>>();
@@ -534,14 +565,29 @@ public class Init
    {
       return globalImports;
    }
-
-    public List<String> getDisabledInterceptors() {
-        return disabledInterceptors;
-    }
     
-    public void setDisabledInterceptors(List<String> disabledInterceptors) {
-        this.disabledInterceptors = disabledInterceptors;
-    }
+   public List<String> getInterceptors()
+   {
+      return interceptors;
+   }
+    
+   public void setInterceptors(List<String> interceptors)
+   {
+      this.interceptors = interceptors;
+   }
    
+   /**
+    * Sanity check to warn users if they have disabled core interceptors
+    */
+   public void checkDefaultInterceptors()
+   {
+      for (String defaultInterceptor : DEFAULT_INTERCEPTORS)
+      {
+         if (!interceptors.contains(defaultInterceptor))
+         {
+            log.warn("The built-in interceptor " + defaultInterceptor + " is missing. This application may not function as expected");
+         }
+      }
+   }
    
 }

@@ -286,5 +286,10 @@ public class ConversationInterceptor extends AbstractInterceptor
    {
       Manager.instance().endConversation(beforeRedirect);
    }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().hasConversationManagementMethods();
+   }
 
 }

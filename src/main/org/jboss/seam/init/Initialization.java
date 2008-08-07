@@ -606,6 +606,7 @@ public class Initialization
       {
          init.setJbpmInstalled(true);
       }
+      init.checkDefaultInterceptors();
       init.setTimestamp( System.currentTimeMillis() );
       if (hotDeploymentStrategy != null)
       {

@@ -1,5 +1,7 @@
 package org.jboss.seam.transaction;
 
+import static org.jboss.seam.ComponentType.JAVA_BEAN;
+
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 
@@ -62,6 +64,11 @@ public class TransactionInterceptor extends AbstractInterceptor
          }
          
       }.workInTransaction();      
+   }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().getType()==JAVA_BEAN && getComponent().beanClassHasAnnotation(Transactional.class);
    }
    
 }

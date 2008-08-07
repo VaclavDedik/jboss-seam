@@ -56,4 +56,9 @@ public class BijectionInterceptor extends AbstractInterceptor
       }
    }
 
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().needsInjection() || getComponent().needsOutjection();
+   }
+   
 }

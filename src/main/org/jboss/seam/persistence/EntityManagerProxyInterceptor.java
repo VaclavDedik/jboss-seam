@@ -1,5 +1,8 @@
 package org.jboss.seam.persistence;
 
+import static org.jboss.seam.ComponentType.STATEFUL_SESSION_BEAN;
+import static org.jboss.seam.ComponentType.STATELESS_SESSION_BEAN;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.PostActivate;
 import javax.persistence.EntityManager;
@@ -55,4 +58,10 @@ public class EntityManagerProxyInterceptor extends AbstractInterceptor
          }
       }
    }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().getType()==STATEFUL_SESSION_BEAN || getComponent().getType()==STATELESS_SESSION_BEAN;
+   }
+   
 }

@@ -1,5 +1,6 @@
 package org.jboss.seam.persistence;
 
+import static org.jboss.seam.ScopeType.CONVERSATION;
 import static org.jboss.seam.util.JSF.DATA_MODEL;
 import static org.jboss.seam.util.JSF.getWrappedData;
 import static org.jboss.seam.util.JSF.setWrappedData;
@@ -35,6 +36,11 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
 {
     private boolean reentrant;
     //TODO: cache the non-ignored fields, probably on Component
+    
+    public boolean isInterceptorEnabled()
+    {
+       return getComponent().getScope() == CONVERSATION;
+    }
    
     @AroundInvoke
     public Object aroundInvoke(InvocationContext ctx) throws Exception

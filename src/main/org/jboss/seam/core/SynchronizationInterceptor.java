@@ -41,5 +41,10 @@ public class SynchronizationInterceptor extends AbstractInterceptor
          throw new IllegalStateException("could not acquire lock on @Synchronized component: " + getComponent().getName());
       }
    }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().isSynchronize();
+   }
 
 }

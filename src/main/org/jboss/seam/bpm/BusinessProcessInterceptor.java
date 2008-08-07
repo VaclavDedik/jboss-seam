@@ -15,8 +15,10 @@ import org.jboss.seam.annotations.bpm.ResumeProcess;
 import org.jboss.seam.annotations.bpm.StartTask;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.BijectionInterceptor;
 import org.jboss.seam.core.Expressions;
+import org.jboss.seam.core.Init;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.log.LogProvider;
@@ -171,4 +173,10 @@ public class BusinessProcessInterceptor extends AbstractInterceptor
          throw new IllegalArgumentException("task/process id must be a string or long");
       }
     }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return Contexts.isApplicationContextActive() && Init.instance().isJbpmInstalled();
+   }
+   
 }

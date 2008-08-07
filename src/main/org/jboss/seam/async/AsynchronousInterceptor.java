@@ -1,5 +1,7 @@
 package org.jboss.seam.async;
 
+import static org.jboss.seam.ComponentType.JAVA_BEAN;
+
 import org.jboss.seam.annotations.async.Asynchronous;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
@@ -62,5 +64,11 @@ public class AsynchronousInterceptor extends AbstractInterceptor
    private boolean isExecutingAsynchronousCall()
    {
        return Contexts.getEventContext().isSet(AbstractDispatcher.EXECUTING_ASYNCHRONOUS_CALL);
+   }
+   
+   public boolean isInterceptorEnabled()
+   {
+      return ( getComponent().getType().isEjb() && getComponent().businessInterfaceHasAnnotation(Asynchronous.class) ) ||
+      ( getComponent().getType() == JAVA_BEAN && getComponent().beanClassHasAnnotation(Asynchronous.class) );
    }
 }
