@@ -279,6 +279,10 @@ public class FacesManager extends Manager
             {
                conversation.setDescription( pageEntry.renderDescription() );
             }
+            else if(pages.hasDescription(viewId))
+            {
+               conversation.setDescription( pages.renderDescription(viewId) );  
+            }
             conversation.setTimeout( pages.getTimeout(viewId) );
          }
       }

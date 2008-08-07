@@ -2,30 +2,16 @@ package org.jboss.seam.test.unit;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.FacesLifecycle;
-import org.jboss.seam.contexts.Lifecycle;
-import org.jboss.seam.core.Expressions;
-import org.jboss.seam.core.Init;
-import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.faces.FacesManager;
-import org.jboss.seam.mock.MockApplication;
-import org.jboss.seam.mock.MockExternalContext;
-import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.test.unit.component.TestActions;
-import org.jboss.seam.util.Conversions;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.faces.context.FacesContext;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,40 +20,8 @@ import java.util.Map;
  * a page action triggers a navigation event, subsequent page actions in the chain
  * should be short circuited.
  */
-public class PageActionsTest
+public class PageActionsTest extends AbstractPageTest
 {
-   @BeforeMethod
-   public void setup()
-   {
-      // create main application map
-      Lifecycle.beginApplication(new HashMap<String, Object>());
-
-      // start all the contexts
-      Lifecycle.beginCall();
-
-      // establish the FacesContext
-      new MockFacesContext(new MockExternalContext(), new MockApplication()).setCurrent().createViewRoot();
-      FacesLifecycle.resumePage();
-
-      // install key components
-      installComponents(Contexts.getApplicationContext());
-
-      // initialize pages
-      // the descriptor file locations are set using the property: org.jboss.seam.navigation.pages.resources
-      // this setup of this test sets this property value to: /META-INF/pagesForPageActionsTest.xml
-      Pages.instance();
-
-      // mark the application as started
-      Lifecycle.mockApplication();
-   }
-
-   @AfterMethod
-   public void tearDown()
-   {
-      Lifecycle.endApplication();
-      Lifecycle.unmockApplication();
-   }
-
    /**
     * This test verifies that a non-null outcome will short-circuit the page
     * actions. It tests two difference variations. The first variation includes
@@ -212,28 +166,6 @@ public class PageActionsTest
          "Expected actions to be called: " + expectedMethodCalls + "; actions actually called: " + actualMethodCalls;
 
       Contexts.getEventContext().remove(Component.getComponentName(TestActions.class));
-   }
-
-   private void installComponents(Context appContext)
-   {
-      Init init = new Init();
-      init.setTransactionManagementEnabled(false);
-      appContext.set(Seam.getComponentName(Init.class), init);
-      Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
-      appContext.set(Component.PROPERTIES, properties);
-      properties.put(Seam.getComponentName(Pages.class) + ".resources", new Conversions.FlatPropertyValue("/META-INF/pagesForPageActionsTest.xml"));
-
-      installComponent(appContext, NoRedirectFacesManager.class);
-      installComponent(appContext, ResourceLoader.class);
-      installComponent(appContext, Expressions.class);
-      installComponent(appContext, Pages.class);
-
-      installComponent(appContext, TestActions.class);
-   }
-
-   private void installComponent(Context appContext, Class clazz)
-   {
-      appContext.set(Seam.getComponentName(clazz) + ".component", new Component(clazz));
    }
 
    @Scope(ScopeType.EVENT)

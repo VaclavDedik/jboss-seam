@@ -42,6 +42,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.core.Expressions.MethodExpression;
@@ -567,8 +568,29 @@ public class Pages
          if (page.getScheme() != null) return page.getScheme();
       }
       return null;
-   }   
+   }
 
+   public boolean hasDescription(String viewId)
+   {
+      return getDescription(viewId)!=null;
+   }
+
+   public String getDescription(String viewId)
+   {
+      List<Page> stack = getPageStack(viewId);
+      for ( int i = stack.size() - 1; i >= 0; i-- )
+      {
+         Page page = stack.get(i);
+         if (page.hasDescription()) return page.getDescription();
+      }
+      return null;
+   }
+
+   public String renderDescription(String viewId)
+   {
+      return Interpolator.instance().interpolate( getDescription(viewId) );
+   }
+   
    protected void noConversation()
    {
       Events.instance().raiseEvent("org.jboss.seam.noConversation");

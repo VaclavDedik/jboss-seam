@@ -10,10 +10,12 @@
 	</page>
 
 	<page view-id="/action-test01b.xhtml" action="#{testActions.nonNullActionA}">
+		<description>#{fineDescription}</description>
 		<action execute="#{testActions.nonNullActionB}" />
 	</page>
 	
 	<page view-id="/action-test01*">
+		<description>coarse-description</description>
 		<navigation from-action="#{testActions.nonNullActionA}">
 			<rule if-outcome="outcomeA">
 				<render view-id="/pageA.xhtml" />

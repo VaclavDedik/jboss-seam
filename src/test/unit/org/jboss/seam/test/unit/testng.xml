@@ -29,6 +29,7 @@
    <test name="Seam Unit Tests: Pages dot xml">
      <classes>
         <class name="org.jboss.seam.test.unit.PageActionsTest" />
+        <class name="org.jboss.seam.test.unit.PageDescriptionsTest" />
         <class name="org.jboss.seam.test.unit.PageParamTest" />
      </classes>
    </test>
