@@ -199,28 +199,55 @@ public abstract class AbstractDBUnitSeamTest extends AbstractSeamTest
         {
             this(dataSetLocation, DatabaseOperation.CLEAN_INSERT);
         }
+        
+        /**
+         * Defaults to <tt>DatabaseOperation.CLEAN_INSERT</tt>
+         */
+        public DataSetOperation(String dataSetLocation, String dtdLocation)
+        {
+            this(dataSetLocation, dtdLocation, DatabaseOperation.CLEAN_INSERT);
+        }
+
+        public DataSetOperation(String dataSetLocation, String dtdLocation, DatabaseOperation operation) 
+        {
+           log.info(">>> Preparing dataset: " + dataSetLocation + " <<<");
+
+           // Load the base dataset file
+           InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation);
+           try 
+           {
+               InputStream dtdInput = null; 
+               if (dtdLocation != null)
+               {
+                   dtdInput = Thread.currentThread().getContextClassLoader().getResourceAsStream(dtdLocation);
+               }
+               if (dtdInput == null)
+               {
+                   this.dataSet = new ReplacementDataSet( new FlatXmlDataSet(input) );
+               }
+               else
+               {
+                   this.dataSet = new ReplacementDataSet( new FlatXmlDataSet(input, dtdInput) );
+               }
+           }
+           catch (Exception ex) 
+           {
+               throw new RuntimeException(ex);
+           }
+           this.dataSet.addReplacementObject("[NULL]", null);
+           if (binaryDir != null) 
+           {
+               this.dataSet.addReplacementSubstring("[BINARY_DIR]", getBinaryDirFullpath().toString());
+           }
+           this.operation = operation;
+           this.dataSetLocation = dataSetLocation;
+        }
+
+        
 
         public DataSetOperation(String dataSetLocation, DatabaseOperation operation) 
         {
-            log.info(">>> Preparing dataset: " + dataSetLocation + " <<<");
-
-            // Load the base dataset file
-            InputStream input = Thread.currentThread().getContextClassLoader().getResourceAsStream(dataSetLocation);
-            try 
-            {
-                this.dataSet = new ReplacementDataSet( new FlatXmlDataSet(input) );
-            }
-            catch (Exception ex) 
-            {
-                throw new RuntimeException(ex);
-            }
-            this.dataSet.addReplacementObject("[NULL]", null);
-            if (binaryDir != null) 
-            {
-                this.dataSet.addReplacementSubstring("[BINARY_DIR]", getBinaryDirFullpath().toString());
-            }
-            this.operation = operation;
-            this.dataSetLocation = dataSetLocation;
+           this(dataSetLocation, null, operation);
         }
 
         public IDataSet getDataSet() 
