@@ -90,3 +90,32 @@ The documentStore component has been moved from the pdf/itext module into Seam p
 references to pdf:document-store in components.xml should be replaced with document:document-store.
 Similary, if you are currently referencing org.jboss.seam.pdf.DocumentStoreServlet in your web.xml, 
 you should now use org.jboss.seam.document.DocumentStoreServlet.
+
+
+Clustering
+----------
+
+Seam's ManagedEntityIdentityInterceptor is now disabled by default. If you need
+the ManagedEntityIdentityInterceptor for clustered failover of conversations, 
+you can enable it components.xml:
+
+<core:init>
+   <core:interceptors>
+      <value>org.jboss.seam.core.SynchronizationInterceptor</value>
+      <value>org.jboss.seam.async.AsynchronousInterceptor</value>
+      <value>org.jboss.seam.ejb.RemoveInterceptor</value>
+      <value>org.jboss.seam.persistence.HibernateSessionProxyInterceptor</value>
+      <value>org.jboss.seam.persistence.EntityManagerProxyInterceptor</value>
+      <value>org.jboss.seam.core.MethodContextInterceptor</value>
+      <value>org.jboss.seam.core.EventInterceptor</value>
+      <value>org.jboss.seam.core.ConversationalInterceptor</value>
+      <value>org.jboss.seam.bpm.BusinessProcessInterceptor</value>
+      <value>org.jboss.seam.core.ConversationInterceptor</value>
+      <value>org.jboss.seam.core.BijectionInterceptor</value>
+      <value>org.jboss.seam.transaction.RollbackInterceptor</value>
+      <value>org.jboss.seam.transaction.TransactionInterceptor</value>
+      <value>org.jboss.seam.webservice.WSSecurityInterceptor</value>
+      <value>org.jboss.seam.security.SecurityInterceptor</value>
+      <value>org.jboss.seam.persistence.ManagedEntityIdentityInterceptor</value>
+   </core:interceptors>
+</core:init>
