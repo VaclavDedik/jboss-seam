@@ -30,11 +30,11 @@ These interceptors are enabled by default:
    org.jboss.seam.core.ConversationalInterceptor
    org.jboss.seam.bpm.BusinessProcessInterceptor
    org.jboss.seam.core.ConversationInterceptor
-   org.jboss.seam.core.BijectionInterceptor.class
-   org.jboss.seam.transaction.RollbackInterceptor.class.getName(),
-   org.jboss.seam.transaction.TransactionInterceptor.class.getName(),
-   org.jboss.seam.webservice.WSSecurityInterceptor.class.getName(),
-   org.jboss.seam.security.SecurityInterceptor.class.getName()</xs:documentation>
+   org.jboss.seam.core.BijectionInterceptor
+   org.jboss.seam.transaction.RollbackInterceptor
+   org.jboss.seam.transaction.TransactionInterceptor
+   org.jboss.seam.webservice.WSSecurityInterceptor
+   org.jboss.seam.security.SecurityInterceptor</xs:documentation>
                     </xs:annotation>
                 </xs:element>
             </xs:choice>
