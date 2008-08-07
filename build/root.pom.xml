@@ -310,7 +310,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-annotations</artifactId>
-        <version>3.3.1.GA</version>
+        <version>3.3.0.ga</version>
         <exclusions>
           <exclusion>
             <groupId>junit</groupId>
@@ -330,7 +330,7 @@
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
-        <version>3.3.2.GA</version>
+        <version>3.3.1.ga</version>
         <exclusions>
           <exclusion>
             <groupId>commons-logging</groupId>
