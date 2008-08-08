@@ -194,6 +194,10 @@ public class Reflections
          throw new IllegalArgumentException("no type arguments for collection type");
       }
       Type typeArgument = typeArguments.length==1 ? typeArguments[0] : typeArguments[1]; //handle Maps
+      if (typeArgument instanceof ParameterizedType)
+      {
+         typeArgument = ((ParameterizedType) typeArgument).getRawType();
+      }
       if ( !(typeArgument instanceof Class) )
       {
          throw new IllegalArgumentException("type argument not a class");
