@@ -21,7 +21,7 @@ public class ExcelTest
       List<Person> ret = new LinkedList<Person>();
       for (int i = 0; i < 10; i++)
       {
-         ret.add(new Person(i, "Janne_" + i, "Andersson" + i));
+         ret.add(new Person(i, "Janne" , "Andersson " + i));
       }
       return ret;
 
