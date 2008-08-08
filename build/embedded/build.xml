@@ -9,6 +9,8 @@
 	<property name="lib.dir" value="${seam.dir}/lib" />
 	<import file="../utilities.build.xml" />
 	
+	<property name="maven.settings.xml" value="../settings.xml" />
+	
 	<path id="maven-ant-tasks.classpath" path="${build.dir}/lib/maven-ant-tasks.jar" />
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant" classpathref="maven-ant-tasks.classpath" />
 	
