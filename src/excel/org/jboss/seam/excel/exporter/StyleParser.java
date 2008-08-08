@@ -1,4 +1,4 @@
-package org.jboss.seam.excel.jxl.exporter;
+package org.jboss.seam.excel.exporter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

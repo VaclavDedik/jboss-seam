@@ -9,7 +9,6 @@
 
 	<core:init debug="true" jndi-pattern="@jndiPattern@" />
 
-	<!-- Just a sample of how you may register own ExcelWorkbooks -->
 	<excel:excelFactory>
 		<property name="implementations">
 			<key>jxl</key><value>org.jboss.seam.excel.jxl.JXLExcelWorkbook</value>

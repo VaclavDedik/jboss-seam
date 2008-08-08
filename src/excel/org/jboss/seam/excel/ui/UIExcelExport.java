@@ -8,7 +8,7 @@ import javax.faces.context.FacesContext;
 
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.excel.ExcelWorkbookException;
-import org.jboss.seam.excel.jxl.exporter.ExcelExporter;
+import org.jboss.seam.excel.exporter.ExcelExporter;
 
 public class UIExcelExport extends ExcelComponent
 {

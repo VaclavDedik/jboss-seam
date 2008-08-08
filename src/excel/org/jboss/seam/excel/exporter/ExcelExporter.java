@@ -1,4 +1,4 @@
-package org.jboss.seam.excel.jxl.exporter;
+package org.jboss.seam.excel.exporter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ import org.jboss.seam.navigation.Pages;
  * @author Nicklas Karlsson (nickarls@gmail.com)
  * 
  */
-@Name("org.jboss.seam.excel.excelExporter")
+@Name("org.jboss.seam.excel.exporter.excelExporter")
 @Scope(ScopeType.EVENT)
 @BypassInterceptors
 public class ExcelExporter
@@ -55,8 +55,8 @@ public class ExcelExporter
    @SuppressWarnings("unchecked")
    public void export(String dataTableId)
    {
-      // FIXME: hardcoded
-      excelWorkbook = ExcelFactory.instance().getExcelWorkbook("jxl");
+      // TODO: support "type" ?
+      excelWorkbook = ExcelFactory.instance().getExcelWorkbook("");
 
       // Gets the datatable
       UIData dataTable = (UIData) FacesContext.getCurrentInstance().getViewRoot().findComponent(dataTableId);
