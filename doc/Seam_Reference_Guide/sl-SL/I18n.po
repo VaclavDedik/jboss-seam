@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: http://bugs.kde.org\n"
-"POT-Creation-Date: 2008-04-21 00:37+0000\n"
+"POT-Creation-Date: 2008-08-08 05:43+0000\n"
 "PO-Revision-Date: 2008-04-21 00:37+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,25 +16,193 @@ msgstr ""
 #. Tag: title
 #: I18n.xml:5
 #, no-c-format
-msgid "Internationalization and themes"
+msgid "Internationalization, localization and themes"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:6
+#: I18n.xml:7
 #, no-c-format
 msgid ""
-"Seam makes it easy to build internationalized applications by providing "
-"several built-in components for handling multi-language UI messages."
+"Seam makes it easy to build internationalized applications. First, let's "
+"walk through all the stages needed to internationalize and localize your "
+"app. Then we'll take a look at the components Seam bundles."
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:13
+#: I18n.xml:14
+#, no-c-format
+msgid "Internationalizing your app"
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:16
+#, no-c-format
+msgid ""
+"A JEE application consists of many components and all of them must be "
+"configured properly for your application to be localized."
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:21
+#, no-c-format
+msgid ""
+"Starting at the bottom, the first step is to ensure that your database "
+"server and client is using the correct character encoding for your locale. "
+"Normally you'll want to use UTF-8. How to do this is outside the scope of "
+"this tutorial."
+msgstr ""
+
+#. Tag: title
+#: I18n.xml:29
+#, no-c-format
+msgid "Application server configuration"
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:31
+#, no-c-format
+msgid ""
+"To ensure that the application server receives the request parameters in the "
+"correct encoding from client requests you have to configure the tomcat "
+"connector. If you use Tomcat or JBoss AS, add the <literal>URIEncoding=\"UTF-"
+"8\"</literal> attribute to the connector configuration. For JBoss AS 4.2 "
+"change <literal>${JBOSS_HOME}/server/(default)/deploy/jboss-web.deployer/"
+"server.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: I18n.xml:40
+#, no-c-format
+msgid "&lt;Connector port=\"8080\" URIEncoding=\"UTF-8\"/&gt;"
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:42
+#, no-c-format
+msgid ""
+"There is alternative which is probably better. You can tell JBoss AS that "
+"the encoding for the request parameters will be taken from the request:"
+msgstr ""
+
+#. Tag: programlisting
+#: I18n.xml:48
+#, no-c-format
+msgid "&lt;Connector port=\"8080\" useBodyEncodingForURI=\"true\"/&gt;"
+msgstr ""
+
+#. Tag: title
+#: I18n.xml:52
+#, no-c-format
+msgid "Translated application strings"
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:54
+#, no-c-format
+msgid ""
+"You'll also need localized strings for all the <emphasis>messages</emphasis> "
+"in your application (for example field labels on your views). First you need "
+"to ensure that your resource bundle is encoded using the desired character "
+"encoding. By default ASCII is used. Although ASCII is enough for many "
+"languages, it doesn't provide characters for all languages."
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:63
+#, no-c-format
+msgid ""
+"Resource bundles must be created in ASCII, or use Unicode escape codes to "
+"represent Unicode characters. Since you don't compile a property file to "
+"byte code, there is no way to tell the JVM which character set to use. So "
+"you must use either ASCII characters or escape characters not in the ASCII "
+"character set. You can represent a Unicode character in any Java file using "
+"\\uXXXX, where XXXX is the hexidecimal representation of the character."
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:73
+#, no-c-format
+msgid ""
+"You can write your translation of labels (<xlink linkend=\"labels\">Labels</"
+"xlink>) to your messages resource bundle in the native encoding and then "
+"convert the content of the file into the escaped format through the tool "
+"<literal>native2ascii</literal> provided in the JDK. This tool will convert "
+"a file written in your native encoding to one that represents non-ASCII "
+"characters as Unicode escape sequences."
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:83
+#, no-c-format
+msgid ""
+"Usage of this tool is described <ulink url=\"http://java.sun.com/j2se/1.5.0/"
+"docs/tooldocs/index.html#intl\">here for Java 5</ulink> or <ulink url="
+"\"http://java.sun.com/javase/6/docs/technotes/tools/#intl\">here for Java 6</"
+"ulink>. For example, to convert a file from UTF-8:"
+msgstr ""
+
+#. Tag: programlisting
+#: I18n.xml:91
+#, no-c-format
+msgid ""
+"<prompt>$ native2ascii -encoding UTF-8 messages_cs.properties &gt; "
+"messages_cs_escaped.properties</prompt>"
+msgstr ""
+
+#. Tag: title
+#: I18n.xml:96
+#, no-c-format
+msgid "Other encoding settings"
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:98
+#, no-c-format
+msgid ""
+"We need to make sure that the view displays your localized data and messages "
+"using the correct character set and also any data submitted uses the correct "
+"encoding."
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:104
+#, no-c-format
+msgid ""
+"To set the display character encoding, you need to use the <literal>&lt;f:"
+"view locale=\"cs_CZ\"/&gt;</literal> tag (here we tell JSF to use the Czech "
+"locale). You may want to change the encoding of the xml document itself if "
+"you want to embed localized strings in the xml. To do this alter the "
+"encoding attribute in xml declaration <literal>&lt;?xml version=\"1.0\" "
+"encoding=\"UTF-8\"?&gt;</literal> as required."
+msgstr ""
+
+#. Tag: para
+#: I18n.xml:114
+#, no-c-format
+msgid ""
+"Also JSF/Facelets should submit any requests using the specified character "
+"encoding, but to make sure any requests that don't specify an encoding you "
+"can force the request encoding using a servlet filter. Configure this in "
+"<literal>components.xml</literal>:"
+msgstr ""
+
+#. Tag: programlisting
+#: I18n.xml:121
+#, no-c-format
+msgid ""
+"<![CDATA[<web:character-encoding-filter encoding=\"UTF-8\" \n"
+"   override-client=\"true\" \n"
+"   url-pattern=\"*.seam\" />]]>"
+msgstr ""
+
+#. Tag: title
+#: I18n.xml:126
 #, no-c-format
 msgid "Locales"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:14
+#: I18n.xml:128
 #, no-c-format
 msgid ""
 "Each user login session has an associated instance of <literal>java.util."
@@ -45,7 +213,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:26
+#: I18n.xml:136
 #, no-c-format
 msgid ""
 "If there is a locale associated with the HTTP request (the browser locale), "
@@ -54,7 +222,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:32
+#: I18n.xml:143
 #, no-c-format
 msgid ""
 "Otherwise, if a default locale was specified in the <literal>faces-config."
@@ -62,25 +230,25 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:37
+#: I18n.xml:149
 #, no-c-format
 msgid "Otherwise, use the default locale of the server."
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:41
+#: I18n.xml:153
 #, no-c-format
 msgid ""
 "It is <emphasis>possible</emphasis> to set the locale manually via the Seam "
-"configuration properties <literal>org.jboss.seam.international."
-"localeSelector.language</literal>, <literal>org.jboss.seam.international."
-"localeSelector.country</literal> and <literal>org.jboss.seam.international."
+"configuration properties <literal> org.jboss.seam.international."
+"localeSelector.language</literal>, <literal> org.jboss.seam.international."
+"localeSelector.country</literal> and <literal> org.jboss.seam.international."
 "localeSelector.variant</literal>, but we can't think of any good reason to "
 "ever do this."
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:50
+#: I18n.xml:160
 #, no-c-format
 msgid ""
 "It is, however, useful to allow the user to set the locale manually via the "
@@ -90,39 +258,39 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:59
+#: I18n.xml:166
 #, no-c-format
 msgid ""
-"<![CDATA[<h:selectOneMenu value=\"#{localeSelector.language}\">\n"
-"    <f:selectItem itemLabel=\"English\" itemValue=\"en\"/>\n"
-"    <f:selectItem itemLabel=\"Deutsch\" itemValue=\"de\"/>\n"
-"    <f:selectItem itemLabel=\"Francais\" itemValue=\"fr\"/>\n"
-"</h:selectOneMenu>\n"
-"<h:commandButton action=\"#{localeSelector.select}\" value=\"#{messages"
-"['ChangeLanguage']}\"/>]]>"
+"&lt;h:selectOneMenu value=\"#{localeSelector.language}\"&gt;\n"
+"    &lt;f:selectItem itemLabel=\"English\" itemValue=\"en\"/&gt;\n"
+"    &lt;f:selectItem itemLabel=\"Deutsch\" itemValue=\"de\"/&gt;\n"
+"    &lt;f:selectItem itemLabel=\"Francais\" itemValue=\"fr\"/&gt;\n"
+"&lt;/h:selectOneMenu&gt;\n"
+"&lt;h:commandButton action=\"#{localeSelector.select}\" value=\"#{messages"
+"['ChangeLanguage']}\"/&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:61
+#: I18n.xml:168
 #, no-c-format
 msgid ""
-"Or, if you want a list of all supported locales from <literal>faces-config."
+"Or, if you want a list of all supported locales from <literal> faces-config."
 "xml</literal>, just use:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:66
+#: I18n.xml:171
 #, no-c-format
 msgid ""
-"<![CDATA[<h:selectOneMenu value=\"#{localeSelector.localeString}\">\n"
-"    <f:selectItems value=\"#{localeSelector.supportedLocales}\"/>\n"
-"</h:selectOneMenu>\n"
-"<h:commandButton action=\"#{localeSelector.select}\" value=\"#{messages"
-"['ChangeLanguage']}\"/>]]>"
+"&lt;h:selectOneMenu value=\"#{localeSelector.localeString}\"&gt;\n"
+"    &lt;f:selectItems value=\"#{localeSelector.supportedLocales}\"/&gt;\n"
+"&lt;/h:selectOneMenu&gt;\n"
+"&lt;h:commandButton action=\"#{localeSelector.select}\" value=\"#{messages"
+"['ChangeLanguage']}\"/&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:68
+#: I18n.xml:173
 #, no-c-format
 msgid ""
 "When this use selects an item from the drop-down, and clicks the button, the "
@@ -130,200 +298,200 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:77
+#: I18n.xml:179
 #, no-c-format
 msgid "Labels"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:78
+#: I18n.xml:181
 #, no-c-format
 msgid ""
 "JSF supports internationalization of user interface labels and descriptive "
 "text via the use of <literal>&lt;f:loadBundle /&gt;</literal>. You can use "
 "this approach in Seam applications. Alternatively, you can take advantage of "
-"the Seam <literal>messages</literal> component to display templated labels "
+"the Seam <literal> messages</literal> component to display templated labels "
 "with embedded EL expressions."
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:87
+#: I18n.xml:188
 #, no-c-format
 msgid "Defining labels"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:88
+#: I18n.xml:190
 #, no-c-format
 msgid ""
 "Seam provides a <literal>java.util.ResourceBundle</literal> (available to "
-"the application as a <literal>org.jboss.seam.core.resourceBundle</literal>). "
-"You'll need to make your internationalized labels available via this special "
-"resource bundle. By default, the resource bundle used by Seam is named "
-"<literal>messages</literal> and so you'll need to define your labels in "
-"files named <literal>messages.properties</literal>, <literal>messages_en."
-"properties</literal>, <literal>messages_en_AU.properties</literal>, etc. "
-"These files usually belong in the <literal>WEB-INF/classes</literal> "
-"directory."
+"the application as a <literal> org.jboss.seam.core.resourceBundle</"
+"literal>). You'll need to make your internationalized labels available via "
+"this special resource bundle. By default, the resource bundle used by Seam "
+"is named <literal>messages</literal> and so you'll need to define your "
+"labels in files named <literal> messages.properties</literal>, <literal> "
+"messages_en.properties</literal>, <literal> messages_en_AU.properties</"
+"literal>, etc. These files usually belong in the <literal>WEB-INF/classes</"
+"literal> directory."
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:101
+#: I18n.xml:201
 #, no-c-format
 msgid "So, in <literal>messages_en.properties</literal>:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:105
+#: I18n.xml:203
 #, no-c-format
-msgid "<![CDATA[Hello=Hello]]>"
+msgid "Hello=Hello"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:107
+#: I18n.xml:205
 #, no-c-format
 msgid "And in <literal>messages_en_AU.properties</literal>:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:111
+#: I18n.xml:207
 #, no-c-format
-msgid "<![CDATA[Hello=G'day]]>"
+msgid "Hello=G'day"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:113
+#: I18n.xml:209
 #, no-c-format
 msgid ""
 "You can select a different name for the resource bundle by setting the Seam "
-"configuration property named <literal>org.jboss.seam.core.resourceLoader."
+"configuration property named <literal> org.jboss.seam.core.resourceLoader."
 "bundleNames</literal>. You can even specify a list of resource bundle names "
 "to be searched (depth first) for messages."
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:121
+#: I18n.xml:215
 #, no-c-format
 msgid ""
-"<![CDATA[<core:resource-loader>\n"
-"    <core:bundle-names>\n"
-"        <value>mycompany_messages</value>\n"
-"        <value>standard_messages</value>       \n"
-"    </core:bundle-names>\n"
-"</core:resource-loader>]]>"
+"&lt;core:resource-loader&gt;\n"
+"    &lt;core:bundle-names&gt;\n"
+"        &lt;value&gt;mycompany_messages&lt;/value&gt;\n"
+"        &lt;value&gt;standard_messages&lt;/value&gt;       \n"
+"    &lt;/core:bundle-names&gt;\n"
+"&lt;/core:resource-loader&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:123
+#: I18n.xml:217
 #, no-c-format
 msgid ""
 "If you want to define a message just for a particular page, you can specify "
 "it in a resource bundle with the same name as the JSF view id, with the "
 "leading <literal>/</literal> and trailing file extension removed. So we "
-"could put our message in <literal>welcome/hello_en.properties</literal> if "
-"we only needed to display the message on <literal>/welcome/hello.jsp</"
+"could put our message in <literal> welcome/hello_en.properties</literal> if "
+"we only needed to display the message on <literal> /welcome/hello.jsp</"
 "literal>."
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:132
+#: I18n.xml:224
 #, no-c-format
 msgid ""
-"You can even specify an explicit bundle name in <literal>pages.xml</literal>:"
+"You can even specify an explicit bundle name in <literal> pages.xml</"
+"literal>:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:136
+#: I18n.xml:227
 #, no-c-format
-msgid ""
-"<![CDATA[<page view-id=\"/welcome/hello.jsp\" bundle=\"HelloMessages\"/>]]>"
+msgid "&lt;page view-id=\"/welcome/hello.jsp\" bundle=\"HelloMessages\"/&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:138
+#: I18n.xml:229
 #, no-c-format
 msgid ""
-"Then we could use messages defined in <literal>HelloMessages.properties</"
-"literal> on <literal>/welcome/hello.jsp</literal>."
+"Then we could use messages defined in <literal> HelloMessages.properties</"
+"literal> on <literal> /welcome/hello.jsp</literal>."
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:145
+#: I18n.xml:235
 #, no-c-format
 msgid "Displaying labels"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:147
+#: I18n.xml:237
 #, no-c-format
 msgid ""
 "If you define your labels using the Seam resource bundle, you'll be able to "
-"use them without having to type <literal>&lt;f:loadBundle ... /&gt;</"
+"use them without having to type <literal> &lt;f:loadBundle ... /&gt;</"
 "literal> on every page. Instead, you can simply type:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:153
+#: I18n.xml:241
 #, no-c-format
-msgid "<![CDATA[<h:outputText value=\"#{messages['Hello']}\"/>]]>"
+msgid "&lt;h:outputText value=\"#{messages['Hello']}\"/&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:155
+#: I18n.xml:243
 #, no-c-format
 msgid "<para>or:</para>"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:159
+#: I18n.xml:245
 #, no-c-format
-msgid "<![CDATA[<h:outputText value=\"#{messages.Hello}\"/>]]>"
+msgid "&lt;h:outputText value=\"#{messages.Hello}\"/&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:161
+#: I18n.xml:247
 #, no-c-format
 msgid "Even better, the messages themselves may contain EL expressions:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:165
+#: I18n.xml:250
 #, no-c-format
-msgid "<![CDATA[Hello=Hello, #{user.firstName} #{user.lastName}]]>"
+msgid "Hello=Hello, #{user.firstName} #{user.lastName}"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:166
+#: I18n.xml:252
 #, no-c-format
-msgid "<![CDATA[Hello=G'day, #{user.firstName}]]>"
+msgid "Hello=G'day, #{user.firstName}"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:168
+#: I18n.xml:254
 #, no-c-format
 msgid "You can even use the messages in your code:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:172
+#: I18n.xml:256
 #, no-c-format
-msgid "<![CDATA[@In private Map<String, String> messages;]]>"
+msgid "@In private Map&lt;String, String&gt; messages;"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:173
+#: I18n.xml:258
 #, no-c-format
-msgid "<![CDATA[@In(\"#{messages['Hello']}\") private String helloMessage;]]>"
+msgid "@In(\"#{messages['Hello']}\") private String helloMessage;"
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:178
+#: I18n.xml:262
 #, no-c-format
 msgid "Faces messages"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:179
+#: I18n.xml:264
 #, no-c-format
 msgid ""
 "The <literal>facesMessages</literal> component is a super-convenient way to "
@@ -332,10 +500,10 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:185
+#: I18n.xml:269
 #, no-c-format
 msgid ""
-"<![CDATA[@Name(\"hello\")\n"
+"@Name(\"hello\")\n"
 "@Stateless\n"
 "public class HelloBean implements Hello {\n"
 "    @In FacesMessages facesMessages;\n"
@@ -343,11 +511,11 @@ msgid ""
 "    public String sayIt() {\n"
 "        facesMessages.addFromResourceBundle(\"Hello\");\n"
 "    }\n"
-"}]]>"
+"}"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:187
+#: I18n.xml:271
 #, no-c-format
 msgid ""
 "This will display <literal>Hello, Gavin King</literal> or <literal>G'day, "
@@ -355,43 +523,43 @@ msgid ""
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:196
+#: I18n.xml:278
 #, no-c-format
 msgid "Timezones"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:197
+#: I18n.xml:280
 #, no-c-format
 msgid ""
-"There is also a session-scoped instance of <literal>java.util.Timezone</"
-"literal>, named <literal>org.jboss.seam.international.timezone</literal>, "
-"and a Seam component for changing the timezone named <literal>org.jboss.seam."
-"international.timezoneSelector</literal>. By default, the timezone is the "
-"default timezone of the server. Unfortunately, the JSF specification says "
-"that all dates and times should be assumed to be UTC, and displayed as UTC, "
-"unless a timezone is explicitly specified using <literal>&lt;f:"
+"There is also a session-scoped instance of <literal> java.util.Timezone</"
+"literal>, named <literal> org.jboss.seam.international.timezone</literal>, "
+"and a Seam component for changing the timezone named <literal> org.jboss."
+"seam.international.timezoneSelector</literal>. By default, the timezone is "
+"the default timezone of the server. Unfortunately, the JSF specification "
+"says that all dates and times should be assumed to be UTC, and displayed as "
+"UTC, unless a timezone is explicitly specified using <literal> &lt;f:"
 "convertDateTime&gt;</literal>. This is an extremely inconvenient default "
 "behavior."
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:206
+#: I18n.xml:291
 #, no-c-format
 msgid ""
 "Seam overrides this behavior, and defaults all dates and times to the Seam "
-"timezone. In addition, Seam provides the <literal>&lt;s:convertDateTime&gt;</"
-"literal> tag which always performs conversions in the Seam timezone."
+"timezone. In addition, Seam provides the <literal> &lt;s:convertDateTime&gt;"
+"</literal> tag which always performs conversions in the Seam timezone."
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:214
+#: I18n.xml:298
 #, no-c-format
 msgid "Themes"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:215
+#: I18n.xml:300
 #, no-c-format
 msgid ""
 "Seam applications are also very easily skinnable. The theme API is very "
@@ -400,50 +568,50 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:221
+#: I18n.xml:305
 #, no-c-format
 msgid "First, configure the set of supported themes:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:225
+#: I18n.xml:307
 #, no-c-format
 msgid ""
-"<![CDATA[<theme:theme-selector cookie-enabled=\"true\">\n"
-"    <theme:available-themes>\n"
-"        <value>default</value>\n"
-"        <value>accessible</value>\n"
-"        <value>printable</value>\n"
-"    </theme:available-themes>\n"
-"</theme:theme-selector>]]>"
+"&lt;theme:theme-selector cookie-enabled=\"true\"&gt;\n"
+"    &lt;theme:available-themes&gt;\n"
+"        &lt;value&gt;default&lt;/value&gt;\n"
+"        &lt;value&gt;accessible&lt;/value&gt;\n"
+"        &lt;value&gt;printable&lt;/value&gt;\n"
+"    &lt;/theme:available-themes&gt;\n"
+"&lt;/theme:theme-selector&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:227
+#: I18n.xml:309
 #, no-c-format
 msgid "Note that the first theme listed is the default theme."
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:231
+#: I18n.xml:311
 #, no-c-format
 msgid ""
 "Themes are defined in a properties file with the same name as the theme. For "
 "example, the <literal>default</literal> theme is defined as a set of entries "
-"in <literal>default.properties</literal>. For example, <literal>default."
+"in <literal> default.properties</literal>. For example, <literal> default."
 "properties</literal> might define:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:238
+#: I18n.xml:316
 #, no-c-format
 msgid ""
-"<![CDATA[css ../screen.css\n"
-"template /template.xhtml]]>"
+"css ../screen.css\n"
+"template /template.xhtml"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:240
+#: I18n.xml:318
 #, no-c-format
 msgid ""
 "Usually the entries in a theme resource bundle will be paths to CSS styles "
@@ -452,7 +620,7 @@ msgid ""
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:246
+#: I18n.xml:322
 #, no-c-format
 msgid ""
 "Now we can use these entries in our JSP or facelets pages. For example, to "
@@ -460,30 +628,29 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:251
+#: I18n.xml:325
 #, no-c-format
 msgid ""
-"<![CDATA[<link href=\"#{theme.css}\" rel=\"stylesheet\" type=\"text/css\" /"
-">]]>"
+"&lt;link href=\"#{theme.css}\" rel=\"stylesheet\" type=\"text/css\" /&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:253
+#: I18n.xml:327
 #, no-c-format
 msgid "Or, when the page definition resides in a subdirectory:"
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:255
+#: I18n.xml:329
 #, no-c-format
 msgid ""
-"<![CDATA[<link href=\"#{facesContext.externalContext.requestContextPath}#"
-"{theme.css}\" \n"
-"    rel=\"stylesheet\" type=\"text/css\" />]]>"
+"&lt;link href=\"#{facesContext.externalContext.requestContextPath}#{theme."
+"css}\" \n"
+"    rel=\"stylesheet\" type=\"text/css\" /&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:257
+#: I18n.xml:331
 #, no-c-format
 msgid ""
 "Most powerfully, facelets lets us theme the template used by a <literal>&lt;"
@@ -491,18 +658,18 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:261
+#: I18n.xml:334
 #, no-c-format
 msgid ""
-"<![CDATA[<ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"\n"
+"&lt;ui:composition xmlns=\"http://www.w3.org/1999/xhtml\"\n"
 "    xmlns:ui=\"http://java.sun.com/jsf/facelets\"\n"
 "    xmlns:h=\"http://java.sun.com/jsf/html\"\n"
 "    xmlns:f=\"http://java.sun.com/jsf/core\"\n"
-"    template=\"#{theme.template}\">]]>"
+"    template=\"#{theme.template}\"&gt;"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:263
+#: I18n.xml:336
 #, no-c-format
 msgid ""
 "Just like the locale selector, there is a built-in theme selector to allow "
@@ -510,24 +677,24 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:268
+#: I18n.xml:339
 #, no-c-format
 msgid ""
-"<![CDATA[<h:selectOneMenu value=\"#{themeSelector.theme}\">\n"
-"    <f:selectItems value=\"#{themeSelector.themes}\"/>\n"
-"</h:selectOneMenu>\n"
-"<h:commandButton action=\"#{themeSelector.select}\" value=\"Select Theme\"/"
-">]]>"
+"&lt;h:selectOneMenu value=\"#{themeSelector.theme}\"&gt;\n"
+"    &lt;f:selectItems value=\"#{themeSelector.themes}\"/&gt;\n"
+"&lt;/h:selectOneMenu&gt;\n"
+"&lt;h:commandButton action=\"#{themeSelector.select}\" value=\"Select Theme"
+"\"/&gt;"
 msgstr ""
 
 #. Tag: title
-#: I18n.xml:273
+#: I18n.xml:343
 #, no-c-format
 msgid "Persisting locale and theme preferences via cookies"
 msgstr ""
 
 #. Tag: para
-#: I18n.xml:274
+#: I18n.xml:345
 #, no-c-format
 msgid ""
 "The locale selector, theme selector and timezone selector all support "
@@ -537,16 +704,16 @@ msgid ""
 msgstr ""
 
 #. Tag: programlisting
-#: I18n.xml:280
+#: I18n.xml:350
 #, no-c-format
 msgid ""
-"<![CDATA[<theme:theme-selector cookie-enabled=\"true\">\n"
-"    <theme:available-themes>\n"
-"        <value>default</value>\n"
-"        <value>accessible</value>\n"
-"        <value>printable</value>\n"
-"    </theme:available-themes>\n"
-"</theme:theme-selector>\n"
+"&lt;theme:theme-selector cookie-enabled=\"true\"&gt;\n"
+"    &lt;theme:available-themes&gt;\n"
+"        &lt;value&gt;default&lt;/value&gt;\n"
+"        &lt;value&gt;accessible&lt;/value&gt;\n"
+"        &lt;value&gt;printable&lt;/value&gt;\n"
+"    &lt;/theme:available-themes&gt;\n"
+"&lt;/theme:theme-selector&gt;\n"
 "\n"
-"<international:locale-selector cookie-enabled=\"true\"/>]]>"
+"&lt;international:locale-selector cookie-enabled=\"true\"/&gt;"
 msgstr ""
