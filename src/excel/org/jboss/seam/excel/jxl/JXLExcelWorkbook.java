@@ -20,18 +20,14 @@ import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Interpolator;
-import org.jboss.seam.excel.Command;
 import org.jboss.seam.document.DocumentData;
+import org.jboss.seam.document.DocumentData.DocumentType;
+import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.Template;
 import org.jboss.seam.excel.WorksheetItem;
-import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.excel.jxl.JXLTemplates.CellInfo;
 import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UIColumn;
@@ -54,9 +50,6 @@ import org.jboss.seam.log.Logging;
  * @author Daniel Roth (danielc.roth@gmail.com)
  * @version 0.2
  */
-@Name("org.jboss.seam.excel.jxl")
-@Scope(ScopeType.EVENT)
-@BypassInterceptors
 public class JXLExcelWorkbook implements ExcelWorkbook
 {
    private static final int CELL_DEFAULT_HEIGHT = 17;

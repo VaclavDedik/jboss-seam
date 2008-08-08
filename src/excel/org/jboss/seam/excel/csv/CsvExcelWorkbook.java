@@ -5,33 +5,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.excel.Command;
 import org.jboss.seam.document.DocumentData;
+import org.jboss.seam.document.DocumentData.DocumentType;
+import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.Template;
 import org.jboss.seam.excel.WorksheetItem;
-import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIImage;
 import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;
 
-/*
- * 10 minute (quite poor) implementation of csv excel workbook... 
- * Perhaps better would be to use some kind of. 
+/**
+ * 10 minute (quite poor) implementation of csv excel workbook... Perhaps better
+ * would be to use some kind of library for this.
  * 
  * Use at own risk.. :)
- *   
+ * 
  */
-@Name("org.jboss.seam.excel.csv")
-@Scope(ScopeType.EVENT)
-@BypassInterceptors
 public class CsvExcelWorkbook implements ExcelWorkbook
 {
    int column = 0;
@@ -140,22 +133,18 @@ public class CsvExcelWorkbook implements ExcelWorkbook
 
    public void addTemplate(Template template)
    {
-      // TODO Auto-generated method stub
    }
 
    public void applyWorksheetSettings(UIWorksheet uiWorksheet)
    {
-      // TODO Auto-generated method stub
    }
 
    public void applyColumnSettings(UIColumn uiColumn)
    {
-      // TODO Auto-generated method stub
    }
 
    public void executeCommand(Command command)
    {
-      // TODO Auto-generated method stub
    }
 
 }

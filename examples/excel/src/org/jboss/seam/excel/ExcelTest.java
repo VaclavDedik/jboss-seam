@@ -3,14 +3,19 @@ package org.jboss.seam.excel;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
 @Name("excelTest")
+@Scope(ScopeType.SESSION)
 public class ExcelTest
 {
 
+   private List<Person> people = new LinkedList<Person>();
+   
    public List<Person> getPeople()
    {
       List<Person> ret = new LinkedList<Person>();
@@ -20,6 +25,19 @@ public class ExcelTest
       }
       return ret;
 
+   }
+   
+   public List<Person> getResult()
+   {
+      return people;
+   }
+   
+   public void search() {
+      this.people = getPeople();
+   }
+   
+   public void clear() {
+      this.people = new LinkedList<Person>();
    }
 
    public class Person

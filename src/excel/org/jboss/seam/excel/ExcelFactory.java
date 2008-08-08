@@ -1,22 +1,35 @@
 package org.jboss.seam.excel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.core.Interpolator;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.excel.csv.CsvExcelWorkbook;
+import org.jboss.seam.excel.jxl.JXLExcelWorkbook;
+import org.jboss.seam.util.Strings;
 
 @Name("org.jboss.seam.excel.excelFactory")
 @Scope(ScopeType.STATELESS)
 @AutoCreate
+@BypassInterceptors
 public class ExcelFactory
 {
 
-   public final static String DEFAULT_IMPL = "jxl";
-   public final static String DEFAULT_NS = "org.jboss.seam.excel";
+   private static Map<String, Class<? extends ExcelWorkbook>> defaultImplementations;
 
-   private String namespace;
+   private Map<String, Class> implementations;
+
+   static
+   {
+      defaultImplementations = new HashMap<String, Class<? extends ExcelWorkbook>>();
+      defaultImplementations.put("csv", CsvExcelWorkbook.class);
+      defaultImplementations.put("jxl", JXLExcelWorkbook.class);
+   }
 
    public static ExcelFactory instance()
    {
@@ -26,29 +39,50 @@ public class ExcelFactory
    public ExcelWorkbook getExcelWorkbook(String type)
    {
 
-      String namespace = DEFAULT_NS;
-      String impl = DEFAULT_IMPL;
+      Class<? extends ExcelWorkbook> clazz;
 
-      namespace = this.namespace != null ? this.namespace : DEFAULT_NS;
-      impl = !"".equals(type) ? type : DEFAULT_IMPL;
+      ExcelWorkbook excelWorkbook;
 
-      ExcelWorkbook excelWorkbook = (ExcelWorkbook) Component.getInstance(namespace + "." + impl);
-      if (excelWorkbook == null)
+      if (Strings.isEmpty(type))
       {
-         throw new ExcelWorkbookException(Interpolator.instance().interpolate("Could not create excel workbook with namespace '#0' and type #1", namespace, type));
+         type = "jxl";
       }
+
+      if (implementations != null && implementations.get(type) != null)
+      {
+         clazz = implementations.get(type);
+      }
+      else
+      {
+         clazz = defaultImplementations.get(type);
+      }
+
+      if (clazz == null)
+      {
+         throw new IllegalArgumentException("Unable to create workbook of type " + type);
+      }
+
+      try
+      {
+         excelWorkbook = clazz.newInstance();
+      }
+      catch (Exception e)
+      {
+         throw new IllegalArgumentException("The class provided could not be instanciated " + type, e);
+      }
+
       return excelWorkbook;
 
    }
 
-   public String getNamespace()
+   public Map<String, Class> getImplementations()
    {
-      return namespace;
+      return implementations;
    }
 
-   public void setNamespace(String namespace)
+   public void setImplementations(Map<String, Class> implementations)
    {
-      this.namespace = namespace;
+      this.implementations = implementations;
    }
 
 }

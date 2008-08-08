@@ -1,10 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:e="http://jboss.com/products/seam/excel"
-	xmlns:s="http://jboss.com/products/seam/taglib">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a4j="http://richfaces.org/a4j" xmlns:f="http://java.sun.com/jsf/core" xmlns:e="http://jboss.com/products/seam/excel"
+	xmlns:s="http://jboss.com/products/seam/taglib" xmlns:rich="http://richfaces.ajax4jsf.org/rich">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>Microsoft&#174; Excel&#174; Export examples</title>
@@ -13,8 +10,7 @@
 <body id="excelHome">
 <f:view>
 
-	<h:outputText value="Microsoft&#174; Excel&#174; Export examples"
-		style="header"></h:outputText>
+	<h:outputText value="Microsoft&#174; Excel&#174; Export examples" style="header"></h:outputText>
 	<br />
 	<br />
 
@@ -30,19 +26,25 @@
 	<br />
 
 	<h:form id="excelExport">
-		<h:dataTable value="#{excelTest.people}" var="person" id="excelTable"
-			columnClasses="left, right">
-			<h:column>
-				<f:facet name="header">Name</f:facet>
-				<h:outputText value="#{person.name} #{person.lastName}"></h:outputText>
-			</h:column>
-			<h:column>
-				<f:facet name="header">Age</f:facet>
-				<h:outputText value="#{person.age}"></h:outputText>
-			</h:column>
-		</h:dataTable>
-		<h:commandLink value="Export table"
-			action="#{org.jboss.seam.excel.excelExporter.export('excelExport:excelTable')}" />
+		<a4j:commandButton value="Search" reRender="searchResults" action="#{excelTest.search}" />
+		<a4j:commandButton value="Clear" reRender="searchResults" action="#{excelTest.clear}" />
+
+
+		<a4j:outputPanel id="searchResults">
+
+			<rich:dataTable value="#{excelTest.result}" var="person" id="excelTable" columnClasses="left, right">
+				<rich:column>
+					<f:facet name="header">Name</f:facet>
+					<h:outputText value="#{person.name} #{person.lastName}"></h:outputText>
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">Age</f:facet>
+					<h:outputText value="#{person.age}"></h:outputText>
+				</rich:column>
+			</rich:dataTable>
+			<h:commandLink value="Export table" action="#{org.jboss.seam.excel.excelExporter.export('excelExport:excelTable')}" />
+
+		</a4j:outputPanel>
 	</h:form>
 
 </f:view>

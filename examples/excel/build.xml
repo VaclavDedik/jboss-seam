@@ -6,7 +6,7 @@
     <property name="example.name"           value="jboss-seam-excel"/>
 
     <!-- Libraries -->
-    <property name="seam.ui.lib"     value="yes"/>
+	     <property name="seam.ui.lib"     value="yes"/>
     <property name="seam.excel.lib"    value="yes"/>
     <property name="seam.debug.lib"  value="yes"/>
     <property name="facelets.lib"    value="yes"/>

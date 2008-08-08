@@ -1,14 +1,19 @@
-<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:pdf="http://jboss.com/products/seam/pdf"
-            xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:framework="http://jboss.com/products/seam/framework"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
+<components xmlns="http://jboss.com/products/seam/components" xmlns:excel="http://jboss.com/products/seam/excel"
+	xmlns:core="http://jboss.com/products/seam/core" xmlns:framework="http://jboss.com/products/seam/framework"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
                                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.1.xsd
-                                http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-2.1.xsd   
+                                http://jboss.com/products/seam/excel http://jboss.com/products/seam/excel-2.1.xsd   
                                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
 
 
-    <core:init debug="true" jndi-pattern="@jndiPattern@" />
+	<core:init debug="true" jndi-pattern="@jndiPattern@" />
+
+	<!-- Just a sample of how you may register own ExcelWorkbooks -->
+	<excel:excelFactory>
+		<property name="implementations">
+			<key>jxl</key><value>org.jboss.seam.excel.jxl.JXLExcelWorkbook</value>
+		</property>
+	</excel:excelFactory>
 
 </components>
