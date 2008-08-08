@@ -200,7 +200,7 @@ public class JXLExcelFactory
       {
          return orientation == null ? PageOrientation.LANDSCAPE : (PageOrientation) getConstant(JXL_PAGE_ORIENTATION_CLASS_NAME, orientation.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Page orientation {0} not supported, try {1}", orientation, getValidConstants(JXL_PAGE_ORIENTATION_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -223,7 +223,7 @@ public class JXLExcelFactory
       {
          return paperSize == null ? PaperSize.A4 : (PaperSize) getConstant(JXL_PAPER_SIZE_CLASS_NAME, paperSize.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Page size {0} not supported, try {1}", paperSize, getValidConstants(JXL_PAPER_SIZE_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -686,12 +686,13 @@ public class JXLExcelFactory
       {
          log.trace("Creating number format for mask #0", mask);
       }
-      try
+      try 
       {
          return (DisplayFormat) getConstant("jxl.write.NumberFormats", mask);
       }
-      catch (Exception e)
-      {
+      catch (NoSuchFieldException e) {
+         // Look! An empty catch block! But this one is documented. We are using this to see if there is a constant
+         // defines for this in the class 
          return null;
       }
    }
@@ -715,8 +716,10 @@ public class JXLExcelFactory
       {
          return (DisplayFormat) getConstant("jxl.write.DateFormats", mask.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
+         // Look! An empty catch block! But this one is documented. We are using this to see if there is a constant
+         // defines for this in the class 
          return null;
       }
    }
@@ -740,7 +743,7 @@ public class JXLExcelFactory
       {
          return verticalAlignment == null ? VerticalAlignment.BOTTOM : (VerticalAlignment) getConstant(JXL_VERTICAL_ALIGNMENT_CLASS_NAME, verticalAlignment.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Verical alignment {0} not supported, try {1}", verticalAlignment, getValidConstants(JXL_VERTICAL_ALIGNMENT_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -766,7 +769,7 @@ public class JXLExcelFactory
       {
          return orientation == null ? Orientation.HORIZONTAL : (Orientation) getConstant(JXL_ORIENTATION_CLASS_NAME, orientation.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Orientation {0} not supported, try {1}", orientation, getValidConstants(JXL_ORIENTATION_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -792,7 +795,7 @@ public class JXLExcelFactory
       {
          return alignment == null ? Alignment.LEFT : (Alignment) getConstant(JXL_ALIGNMENT_CLASS_NAME, alignment.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Alignment {0} not supported, try {1}", alignment, getValidConstants(JXL_ALIGNMENT_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -818,7 +821,7 @@ public class JXLExcelFactory
       {
          return pattern == null ? Pattern.SOLID : (Pattern) getConstant(JXL_PATTERN_CLASS_NAME, pattern.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Pattern {0} not supported, try {1}", pattern, getValidConstants(JXL_PATTERN_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -844,7 +847,7 @@ public class JXLExcelFactory
       {
          return borderLineStyle == null ? BorderLineStyle.NONE : (BorderLineStyle) getConstant(JXL_BORDER_LINE_STYLE_CLASS_NAME, borderLineStyle.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Border line style {0} not supported, try {1}", borderLineStyle, getValidConstants(JXL_BORDER_LINE_STYLE_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -870,7 +873,7 @@ public class JXLExcelFactory
       {
          return border == null ? Border.ALL : (Border) getConstant(JXL_BORDER_CLASS_NAME, border.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Border {0} not supported, try {1}", border, getValidConstants(JXL_BORDER_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -896,7 +899,7 @@ public class JXLExcelFactory
       {
          return underlineStyle == null ? UnderlineStyle.NO_UNDERLINE : (UnderlineStyle) getConstant(JXL_UNDERLINE_STYLE_CLASS_NAME, underlineStyle.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Underline style {0} not supported, try {1}", underlineStyle, getValidConstants(JXL_UNDERLINE_STYLE_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -922,7 +925,7 @@ public class JXLExcelFactory
       {
          return scriptStyle == null ? ScriptStyle.NORMAL_SCRIPT : (ScriptStyle) getConstant(JXL_SCRIPT_STYLE_CLASS_NAME, scriptStyle.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Script style {0} not supported, try {1}", scriptStyle, getValidConstants(JXL_SCRIPT_STYLE_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -954,7 +957,7 @@ public class JXLExcelFactory
       {
          return color == null ? Colour.AUTOMATIC : (Colour) getConstant(JXL_COLOR_CLASS_NAME, color.toUpperCase());
       }
-      catch (Exception e)
+      catch (NoSuchFieldException e)
       {
          String message = Interpolator.instance().interpolate("Color {0} not supported, try {1}", color, getValidConstants(JXL_COLOR_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
@@ -1238,15 +1241,22 @@ public class JXLExcelFactory
     * @param className The name of the class containing the constant
     * @param fieldName The name of the constant
     * @return The constant
-    * @throws Exception If there is a reflection error fetching the data.
+    * @throws NoSuchFieldException if the field is not found
     */
-   protected static Object getConstant(String className, String fieldName) throws Exception
+   protected static Object getConstant(String className, String fieldName) throws NoSuchFieldException
    {
       if (log.isTraceEnabled())
       {
          log.trace("Looking for constant #0 in class #1", fieldName, className);
       }
-      return Class.forName(className).getField(fieldName).get(null);
+      try
+      {
+         return Class.forName(className).getField(fieldName).get(null);
+      } catch (NoSuchFieldException e) {
+         throw e;
+      } catch (Exception e) {
+         throw new ExcelWorkbookException(Interpolator.instance().interpolate("Could not read field #0 from class #1", fieldName, className), e);
+      }
    }
 
    /**

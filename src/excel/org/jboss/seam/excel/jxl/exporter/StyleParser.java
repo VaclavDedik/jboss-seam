@@ -89,7 +89,7 @@ public class StyleParser
       }
       catch (Exception e)
       {
-         return null;
+         throw new ExcelWorkbookException(Interpolator.instance().interpolate("Could not read style attribute #0 from component #1", STYLE_ATTRIBUTE, uiComponent.getId() ));
       }
    }
 
