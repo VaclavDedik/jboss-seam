@@ -203,7 +203,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Page orientation {0} not supported, try {1}", orientation, getValidConstants(JXL_PAGE_ORIENTATION_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -226,7 +226,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Page size {0} not supported, try {1}", paperSize, getValidConstants(JXL_PAPER_SIZE_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -743,7 +743,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Verical alignment {0} not supported, try {1}", verticalAlignment, getValidConstants(JXL_VERTICAL_ALIGNMENT_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -769,7 +769,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Orientation {0} not supported, try {1}", orientation, getValidConstants(JXL_ORIENTATION_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -795,7 +795,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Alignment {0} not supported, try {1}", alignment, getValidConstants(JXL_ALIGNMENT_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -821,7 +821,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Pattern {0} not supported, try {1}", pattern, getValidConstants(JXL_PATTERN_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -847,7 +847,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Border line style {0} not supported, try {1}", borderLineStyle, getValidConstants(JXL_BORDER_LINE_STYLE_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -873,7 +873,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Border {0} not supported, try {1}", border, getValidConstants(JXL_BORDER_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -899,7 +899,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Underline style {0} not supported, try {1}", underlineStyle, getValidConstants(JXL_UNDERLINE_STYLE_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -925,7 +925,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Script style {0} not supported, try {1}", scriptStyle, getValidConstants(JXL_SCRIPT_STYLE_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 
@@ -957,7 +957,7 @@ public class JXLExcelFactory
       catch (Exception e)
       {
          String message = Interpolator.instance().interpolate("Color {0} not supported, try {1}", color, getValidConstants(JXL_COLOR_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
+         throw new ExcelWorkbookException(message, e);
       }
    }
 

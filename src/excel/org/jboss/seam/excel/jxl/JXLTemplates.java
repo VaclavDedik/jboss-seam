@@ -207,7 +207,7 @@ public class JXLTemplates
             if (cellTemplate == null)
             {
                String validNames = getValidTemplateNames(cellTemplates.keySet());
-               log.warn(Interpolator.instance().interpolate("Could not find cell template {0}, try {1}", templateName, validNames));
+               log.trace(Interpolator.instance().interpolate("Could not find cell template {0}, try {1}", templateName, validNames));
             }
             else
             {
