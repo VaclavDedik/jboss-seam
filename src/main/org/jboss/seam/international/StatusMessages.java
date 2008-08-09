@@ -69,22 +69,17 @@ public abstract class StatusMessages implements Serializable
     * 
     * You can also specify the severity, and parameters to be interpolated
     */
-   public void add(final Severity severity, final String key, final String messageTemplate, final Object... params)
+   public void add(Severity severity, String key, String detailKey, String messageTemplate, String messageDetailTemplate, final Object... params)
    {
-      add(new StatusMessage(severity, key, null, messageTemplate, null, params)); 
-   }
-   
-   public void add(final StatusMessage statusMessage)
-   {
+      final StatusMessage message = new StatusMessage(severity, key, detailKey, messageTemplate, messageDetailTemplate);
+      messages.add(message);
       getTasks().add(
             new Runnable() 
             {
-               
                public void run() 
                {
-                  messages.add(statusMessage); 
+                   message.interpolate(params);
                }
-               
             }
       );
    }
@@ -101,25 +96,26 @@ public abstract class StatusMessages implements Serializable
     * You can also specify the severity, and parameters to be interpolated
     * 
     */
-   public void add(final String id, final Severity severity, final String key, final String messageTemplate, final Object... params)
+   public void addToControl(String id, Severity severity, String key, String messageTemplate, final Object... params)
    {
+      final StatusMessage message = new StatusMessage(severity, key, null, messageTemplate, null);
+      if (keyedMessages.containsKey(id))
+      {
+         keyedMessages.get(id).add(message);
+      }
+      else
+      {
+         List<StatusMessage> list = new ArrayList<StatusMessage>();
+         list.add(message);
+         keyedMessages.put(id, list);
+      }
       getTasks().add(
             new Runnable() 
             {
                
                public void run() 
                {
-                  StatusMessage message = new StatusMessage(severity, key, null, messageTemplate, null, params);
-                  if (keyedMessages.containsKey(id))
-                  {
-                     keyedMessages.get(id).add(message);
-                  }
-                  else
-                  {
-                     List<StatusMessage> list = new ArrayList<StatusMessage>();
-                     list.add(message);
-                     keyedMessages.put(id, list);
-                  }
+                  message.interpolate(params);
                }
                
             }
@@ -135,7 +131,7 @@ public abstract class StatusMessages implements Serializable
     */
    public void add(String messageTemplate, Object... params)
    {
-      add(INFO, null, messageTemplate, params);
+      add(INFO, messageTemplate, params);
    }
 
    /**
@@ -146,7 +142,7 @@ public abstract class StatusMessages implements Serializable
     */
    public void add(Severity severity, String messageTemplate, Object... params)
    {
-      add(severity, null, messageTemplate, params);
+      add(severity, null, null, messageTemplate, null, params);
    }
 
    /**
@@ -162,7 +158,7 @@ public abstract class StatusMessages implements Serializable
     */
    public void addToControl(String id, String messageTemplate, Object... params)
    {
-      add(id, INFO, null, messageTemplate, params);
+      addToControl(id, INFO, null, messageTemplate, params);
    }
 
    /**
@@ -177,7 +173,7 @@ public abstract class StatusMessages implements Serializable
     */
    public void addToControl(String id, Severity severity, String messageTemplate, Object... params)
    {
-      add(id, severity, null, messageTemplate, params);
+      addToControl(id, severity, null, messageTemplate, params);
    }
 
    /**
@@ -229,7 +225,7 @@ public abstract class StatusMessages implements Serializable
     */
    public void addFromResourceBundleOrDefault(Severity severity, String key, String defaultMessageTemplate, Object... params)
    {
-      add(severity, key, defaultMessageTemplate, params);
+      add(severity, key, null, defaultMessageTemplate, null, params);
    }
 
    /**
@@ -297,7 +293,7 @@ public abstract class StatusMessages implements Serializable
     */
    public void addToControlFromResourceBundleOrDefault(String id, Severity severity, String key, String defaultMessageTemplate, Object... params)
    {
-      add(id, severity, key, defaultMessageTemplate, params);
+      addToControl(id, severity, key, defaultMessageTemplate, params);
    }
 
    /**

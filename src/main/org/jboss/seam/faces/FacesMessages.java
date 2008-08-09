@@ -22,6 +22,8 @@ import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.util.Strings;
 
+import com.sun.mail.handlers.message_rfc822;
+
 /**
  * A Seam component that propagates FacesMessages across redirects
  * and interpolates EL expressions in the message string.
@@ -215,7 +217,7 @@ public class FacesMessages extends StatusMessages
     */
    public static FacesMessage createFacesMessage(javax.faces.application.FacesMessage.Severity severity, String messageTemplate, Object... params)
    {
-      return toFacesMessage(new StatusMessage(toSeverity(severity), null, null, messageTemplate, null, params));
+      return createFacesMessage(severity, null, messageTemplate, params);
    }
    
    /**
@@ -226,21 +228,23 @@ public class FacesMessages extends StatusMessages
     */
    public static FacesMessage createFacesMessage(javax.faces.application.FacesMessage.Severity severity, String key, String defaultMessageTemplate, Object... params)
    {
-      return toFacesMessage(new StatusMessage(toSeverity(severity), key, null, defaultMessageTemplate, null, params));
+      StatusMessage message = new StatusMessage(toSeverity(severity), key, null, defaultMessageTemplate, null);
+      message.interpolate(params);
+      return toFacesMessage(message);
    }
    
    /**
     * Add a FacesMessage that will be used
     * the next time a page is rendered.
     * 
-    * Deprecated, use {@link #add(StatusMessage)} instead
+    * Deprecated, use a method in {@link StatusMessages} instead
     */
    @Deprecated
    public void add(FacesMessage facesMessage) 
    {
       if (facesMessage!=null)
       {
-         add(new StatusMessage(facesMessage.getSummary(), facesMessage.getDetail(), toSeverity(facesMessage.getSeverity())));
+         add(toSeverity(facesMessage.getSeverity()), null, null, facesMessage.getSummary(), facesMessage.getDetail());
       }
    }
    

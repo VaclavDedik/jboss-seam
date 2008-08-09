@@ -30,7 +30,9 @@ public class StatusMessage implements Serializable
       FATAL;
    }
    
+   private String summaryTemplate;
    private String summary;
+   private String detailTemplate;
    private String detail;
    private Severity severity = Severity.INFO;
    
@@ -40,26 +42,26 @@ public class StatusMessage implements Serializable
     * the defaultMessageTemplate will be used.
     * 
     */
-   public StatusMessage(Severity severity, String key, String detailKey, String defaultMessageTemplate, String defaultMessageDetailTemplate, Object... params)
+   public StatusMessage(Severity severity, String key, String detailKey, String defaultMessageTemplate, String defaultMessageDetailTemplate)
    {
-      String messageTemplate = getBundleMessage(key, defaultMessageTemplate);
-      String messageDetailTemplate = getBundleMessage(detailKey, defaultMessageDetailTemplate);
-      if ( !Strings.isEmpty(messageTemplate) )
+      this.summaryTemplate = getBundleMessage(key, defaultMessageTemplate);
+      this.detailTemplate = getBundleMessage(detailKey, defaultMessageDetailTemplate);
+      if ( !Strings.isEmpty(summaryTemplate) )
       {
          this.severity = severity;
-         this.summary = Interpolator.instance().interpolate(messageTemplate, params);
-         if (!Strings.isEmpty(messageDetailTemplate))
-         {
-            this.detail = Interpolator.instance().interpolate(messageDetailTemplate, params);
-         }
       }
    }
    
-   public StatusMessage(String summary, String detail, Severity severity)
+   public void interpolate(Object... params)
    {
-      this.summary = summary;
-      this.detail = detail;
-      this.severity = severity;
+      if (!Strings.isEmpty(summaryTemplate))
+      {
+         this.summary = Interpolator.instance().interpolate(summaryTemplate, params);
+      }
+      if (!Strings.isEmpty(detailTemplate))
+      {
+         this.detail = Interpolator.instance().interpolate(detailTemplate, params);
+      }
    }
 
    /**
