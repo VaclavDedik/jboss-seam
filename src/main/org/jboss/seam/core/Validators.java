@@ -31,37 +31,36 @@ import org.jboss.seam.el.EL;
  * Caches instances of Hibernate Validator ClassValidator
  * 
  * @author Gavin King
- *
+ * 
  */
 @Name("org.jboss.seam.core.validators")
 @BypassInterceptors
 @Scope(ScopeType.APPLICATION)
-@Install(precedence=BUILT_IN)
+@Install(precedence = BUILT_IN, classDependencies = "org.hibernate.validator.ClassValidator")
 public class Validators
 {
-   
-   //TODO: should use weak references here...
+
+   // TODO: should use weak references here...
    private Map<Key, ClassValidator> classValidators = new ConcurrentHashMap<Key, ClassValidator>();
-   
+
    class Key
    {
       private Class validatableClass;
       private java.util.Locale locale;
-      
+
       public Key(Class validatableClass, java.util.Locale locale)
       {
          this.validatableClass = validatableClass;
          this.locale = locale;
       }
-      
+
       @Override
       public boolean equals(Object other)
       {
          Key key = (Key) other;
-         return key.validatableClass.equals(validatableClass)
-               && key.locale.equals(locale);
+         return key.validatableClass.equals(validatableClass) && key.locale.equals(locale);
       }
-      
+
       @Override
       public int hashCode()
       {
@@ -70,24 +69,19 @@ public class Validators
    }
 
    /**
-    * Get the cached ClassValidator instance. If the
-    * argument is an instance of a session bean Seam 
-    * component instance, the returned validator will 
-    * be aware of constraints defined on the bean class.
-    * Therefore this method is preferred to
-    * getValidator(Class) if the argument might be a
-    * session bean.
+    * Get the cached ClassValidator instance. If the argument is an instance of
+    * a session bean Seam component instance, the returned validator will be
+    * aware of constraints defined on the bean class. Therefore this method is
+    * preferred to getValidator(Class) if the argument might be a session bean.
     * 
     * @param model the object to be validated
     */
    public <T> ClassValidator<T> getValidator(T model)
    {
-      Class modelClass = model instanceof Instance ?
-            ( (Instance) model ).getComponent().getBeanClass() :
-            model.getClass();
-      return getValidator( (Class<T>) modelClass );
+      Class modelClass = model instanceof Instance ? ((Instance) model).getComponent().getBeanClass() : model.getClass();
+      return getValidator((Class<T>) modelClass);
    }
-   
+
    /**
     * Get the cached ClassValidator instance.
     * 
@@ -97,20 +91,20 @@ public class Validators
    public <T> ClassValidator<T> getValidator(Class<T> modelClass)
    {
       java.util.ResourceBundle bundle = SeamResourceBundle.getBundle();
-      Locale none = bundle==null ? new Locale("NONE") : bundle.getLocale();
+      Locale none = bundle == null ? new Locale("NONE") : bundle.getLocale();
       Key key = new Key(modelClass, none);
       ClassValidator result = classValidators.get(key);
-      if (result==null)
+      if (result == null)
       {
          result = createValidator(modelClass);
          classValidators.put(key, result);
       }
       return result;
    }
-   
+
    /**
-    * Create a new ClassValidator for the given class,
-    * using the current Seam ResourceBundle.
+    * Create a new ClassValidator for the given class, using the current Seam
+    * ResourceBundle.
     * 
     * @param modelClass the class to be validated
     */
@@ -118,15 +112,13 @@ public class Validators
    protected <T> ClassValidator<T> createValidator(Class<T> modelClass)
    {
       java.util.ResourceBundle bundle = SeamResourceBundle.getBundle();
-      
-      return bundle==null ? 
-              new ClassValidator(modelClass) : 
-              new ClassValidator(modelClass, bundle);
+
+      return bundle == null ? new ClassValidator(modelClass) : new ClassValidator(modelClass, bundle);
    }
-   
+
    /**
-    * Validate that the given value can be assigned to the property given by the value
-    * expression.
+    * Validate that the given value can be assigned to the property given by the
+    * value expression.
     * 
     * @param valueExpression a value expression, referring to a property
     * @param elContext the ELContext in which to evaluate the expression
@@ -135,12 +127,12 @@ public class Validators
     */
    public InvalidValue[] validate(ValueExpression valueExpression, ELContext elContext, Object value)
    {
-      ValidatingResolver validatingResolver = new ValidatingResolver( elContext.getELResolver() );
+      ValidatingResolver validatingResolver = new ValidatingResolver(elContext.getELResolver());
       ELContext decoratedContext = EL.createELContext(elContext, validatingResolver);
       valueExpression.setValue(decoratedContext, value);
       return validatingResolver.getInvalidValues();
    }
-   
+
    class ValidatingResolver extends ELResolver
    {
       private ELResolver delegate;
@@ -150,7 +142,7 @@ public class Validators
       {
          this.delegate = delegate;
       }
-      
+
       public InvalidValue[] getInvalidValues()
       {
          return invalidValues;
@@ -169,43 +161,39 @@ public class Validators
       }
 
       @Override
-      public Class<?> getType(ELContext context, Object x, Object y) 
-            throws NullPointerException, PropertyNotFoundException, ELException
+      public Class<?> getType(ELContext context, Object x, Object y) throws NullPointerException, PropertyNotFoundException, ELException
       {
          return delegate.getType(context, x, y);
       }
 
       @Override
-      public Object getValue(ELContext context, Object base, Object property) 
-            throws NullPointerException, PropertyNotFoundException, ELException
+      public Object getValue(ELContext context, Object base, Object property) throws NullPointerException, PropertyNotFoundException, ELException
       {
          return delegate.getValue(context, base, property);
       }
 
       @Override
-      public boolean isReadOnly(ELContext context, Object base, Object property) 
-            throws NullPointerException, PropertyNotFoundException, ELException
+      public boolean isReadOnly(ELContext context, Object base, Object property) throws NullPointerException, PropertyNotFoundException, ELException
       {
          return delegate.isReadOnly(context, base, property);
       }
 
       @Override
-      public void setValue(ELContext context, Object base, Object property, Object value) 
-            throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException
+      public void setValue(ELContext context, Object base, Object property, Object value) throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException
       {
-         if (base!=null && property!=null )
+         if (base != null && property != null)
          {
             context.setPropertyResolved(true);
-            invalidValues = getValidator(base).getPotentialInvalidValues( property.toString(), value );
+            invalidValues = getValidator(base).getPotentialInvalidValues(property.toString(), value);
          }
-         
+
       }
-      
+
    }
-   
+
    public static Validators instance()
    {
-      if ( !Contexts.isApplicationContextActive() )
+      if (!Contexts.isApplicationContextActive())
       {
          throw new IllegalStateException("No active application scope");
       }
