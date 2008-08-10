@@ -4,6 +4,13 @@
     xmlns:components="http://jboss.com/products/seam/components" attributeFormDefault="unqualified">
     <xs:import namespace="http://jboss.com/products/seam/components" schemaLocation="components-2.0.xsd"/>
 
+    <xs:element name="identity-filter">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="web:attlist.filter"/>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="multipart-filter">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
