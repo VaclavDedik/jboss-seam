@@ -184,7 +184,7 @@ public class JXLTemplates
          worksheetTemplates.put(template.getName(), (UIWorksheetTemplate) template);
          break;
       default:
-         throw new ExcelWorkbookException(Interpolator.instance().interpolate("Uknown template type {0}", template.getType()));
+         throw new ExcelWorkbookException(Interpolator.instance().interpolate("Unknown template type {0}", template.getType()));
       }
    }
 
@@ -207,9 +207,7 @@ public class JXLTemplates
             if (cellTemplate == null)
             {
                String validNames = getValidTemplateNames(cellTemplates.keySet());
-               if (!"".equals(validNames)) {
-                  log.warn(Interpolator.instance().interpolate("Could not find cell template {0}, try {1}", templateName, validNames));
-               }
+               log.trace(Interpolator.instance().interpolate("Could not find cell template {0}, try {1}", templateName, validNames));
             }
             else
             {
