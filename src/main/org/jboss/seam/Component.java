@@ -502,7 +502,11 @@ public class Component extends Model
       }
       else if ( propertyValue.isMultiValued() )
       {
-         return new ListInitialValue(propertyValue, parameterClass, parameterType);
+          if (Set.class.isAssignableFrom(parameterClass)) {
+             return new SetInitialValue(propertyValue, parameterClass, parameterType);
+          } else {
+             return new ListInitialValue(propertyValue, parameterClass, parameterType);
+          }
       }
       else if ( propertyValue.isAssociativeValued() )
       {
@@ -2464,6 +2468,39 @@ public class Component extends Model
 
    }
 
+   static class SetInitialValue implements InitialValue
+   {
+      private InitialValue[] initialValues;
+      private Class elementType;
+
+      public SetInitialValue(PropertyValue propertyValue, Class collectionClass, Type collectionType)
+      {
+         String[] expressions = propertyValue.getMultiValues();
+         initialValues = new InitialValue[expressions.length];
+         elementType = Reflections.getCollectionElementType(collectionType);
+         for ( int i=0; i<expressions.length; i++ )
+         {
+            PropertyValue elementValue = new Conversions.FlatPropertyValue( expressions[i] );
+            initialValues[i] = getInitialValue(elementValue, elementType, elementType);
+         }
+      }
+
+      public Object getValue(Class type)
+      {
+          Set set = new HashSet(initialValues.length);
+          for (InitialValue iv: initialValues) {
+              set.add( iv.getValue(elementType) );
+          }
+          return set;
+      }
+      
+      @Override
+      public String toString()
+      {
+         return "SetInitialValue(" + elementType.getSimpleName() + ")";
+      }
+   }
+   
    static class ListInitialValue implements InitialValue
    {
       private InitialValue[] initialValues;
