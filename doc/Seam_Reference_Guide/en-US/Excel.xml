@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN" "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" [
-<!ENTITY excel 'the <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet application'>
-<!ENTITY Excel 'The <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> spreadsheet application'>
+<!ENTITY excel 'the Microsoft&#x00ae; Excel&#x00ae; spreadsheet application'>
+<!ENTITY Excel 'the Microsoft&#x00ae; Excel&#x00ae; spreadsheet application'>
 ]>
 
 <chapter id="excel">
