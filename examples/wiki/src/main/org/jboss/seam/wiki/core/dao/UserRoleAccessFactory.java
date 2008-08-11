@@ -2,6 +2,7 @@ package org.jboss.seam.wiki.core.dao;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.*;
+import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.core.model.User;
@@ -27,6 +28,7 @@ public class UserRoleAccessFactory implements Serializable {
 
     // Anonymous (not logged-in) user's access level
     @Factory(value = "currentAccessLevel", scope = ScopeType.SESSION, autoCreate = true)
+    @BypassInterceptors // Don't inject the entityManager, this factory is called when the entityManager is created!
     public Integer getCurrentAccessLevel() {
         return Role.GUESTROLE_ACCESSLEVEL;
     }
