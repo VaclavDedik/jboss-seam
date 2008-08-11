@@ -52,7 +52,12 @@
              </excel:excelFactory>
             ]]>
           </programlisting>         
-          
+         and register the excel namespace in the components tag with
+         <programlisting role="XML">
+            <![CDATA[
+               xmlns:excel="http://jboss.com/products/seam/excel"
+            ]]>
+         </programlisting>
          Then set the UIWorkbook type to <literal>myExcelExporter</literal> and your 
          own exporter will be used. Default is "jxl", but support for CSV has also been 
          added, using the type "csv".
