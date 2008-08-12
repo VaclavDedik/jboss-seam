@@ -3,6 +3,7 @@ package org.jboss.seam.wicket;
 import static org.jboss.seam.ScopeType.STATELESS;
 import static org.jboss.seam.ScopeType.UNSPECIFIED;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.wicket.util.string.Strings;
 import org.jboss.seam.Component;
 import org.jboss.seam.Namespace;
 import org.jboss.seam.RequiredException;
@@ -26,12 +28,15 @@ import org.jboss.seam.annotations.RaiseEvent;
 import org.jboss.seam.annotations.bpm.BeginTask;
 import org.jboss.seam.annotations.bpm.EndTask;
 import org.jboss.seam.annotations.bpm.StartTask;
+import org.jboss.seam.annotations.security.Restrict;
+import org.jboss.seam.annotations.security.RoleCheck;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.security.Identity;
 import org.jboss.seam.wicket.ioc.BijectedAttribute;
 import org.jboss.seam.wicket.ioc.BijectedField;
 import org.jboss.seam.wicket.ioc.BijectedMethod;
@@ -88,6 +93,8 @@ public class WicketComponent<T>
    private Set<AccessibleObject> conversationManagementMembers = new HashSet<AccessibleObject>();
    
    private List<StatelessInterceptor<T>> interceptors = new ArrayList<StatelessInterceptor<T>>();
+   
+   private Set<String> restrictions;
    
    boolean anyMethodHasRaiseEvent = false;
    
@@ -163,6 +170,8 @@ public class WicketComponent<T>
       
       scan();
       
+      scanRestrictions();
+      
       initInterceptors();
       
       Contexts.getApplicationContext().set(getName(), this);
@@ -182,6 +191,44 @@ public class WicketComponent<T>
       for(Constructor<T> constructor : clazz.getDeclaredConstructors())
       {
          add(constructor);
+      }
+   }
+   
+   private void scanRestrictions()
+   {     
+      Class cls = type;
+      
+      while (cls != null)
+      {
+         for (Annotation annotation : cls.getAnnotations())
+         {
+            if (annotation instanceof Restrict)
+            {
+               Restrict restrict = (Restrict) annotation;
+               if (restrictions == null) restrictions = new HashSet<String>();
+               restrictions.add(Strings.isEmpty(restrict.value()) ? "#{identity.loggedIn}" : restrict.value());
+            }
+            
+            if (annotation.annotationType().isAnnotationPresent(RoleCheck.class))
+            {
+               if (restrictions == null) restrictions = new HashSet<String>();
+               restrictions.add("#{identity.hasRole('" + 
+                     annotation.annotationType().getSimpleName().toLowerCase() + "')}");
+            }            
+         }
+         
+         cls = cls.getEnclosingClass();
+      }
+   }
+   
+   public void checkRestrictions()
+   {
+      if (Identity.isSecurityEnabled() && restrictions != null)      
+      {
+         for (String restriction : restrictions)
+         {
+            Identity.instance().checkRestriction(restriction);
+         }
       }
    }
 
