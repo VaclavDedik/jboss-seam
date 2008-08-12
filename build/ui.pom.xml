@@ -35,7 +35,7 @@
               <displayName>JBoss Seam UI</displayName>
               <shortName>s</shortName>
               <tlibVersion>2.0</tlibVersion>
-              <jspVersion>2.0</jspVersion>
+              <jspVersion>2.1</jspVersion>
             </taglib>
           </library>
         </configuration>
