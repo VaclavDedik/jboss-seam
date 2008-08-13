@@ -28,19 +28,19 @@
                 </f:subview>
                 
                 <div class="productinfo">
-                    <h:panelGrid columns="2">
-                        <h:outputText value="Title:" />
-                        <h:outputText value="#{dvd.title}" />
+                    <h:panelGrid id="ItemInfo" columns="2">
+                        <h:outputText id="TitleText" value="Title:" />
+                        <h:outputText id="TitleValue" value="#{dvd.title}" />
                         
-                        <h:outputText value="Starring:" />
-                        <h:panelGroup>
+                        <h:outputText id="StarringText" value="Starring:" />
+                        <h:panelGroup id="Actors">
                             <ui:repeat value="#{dvd.actors}" var="starring">
                                 [#{starring.name}]
                             </ui:repeat>
                         </h:panelGroup>
                         
-                        <h:outputText value="Price:" />
-                        <h:outputText value="#{dvd.price}" />
+                        <h:outputText id="PriceText" value="Price:" />
+                        <h:outputText id="PriceValue" value="#{dvd.price}" />
                     </h:panelGrid>
                 </div>
 
@@ -49,9 +49,9 @@
                 </div>
 
                 <div class="productbuttons">
-                    <s:button action="#{search.addToCart}" value="Add to Cart"/>
+                    <s:button id="AddToCartButton" action="#{search.addToCart}" value="Add to Cart"/>
                     &#160;
-                    <s:button view="/browse.xhtml" value="Back to Search"/>
+                    <s:button id="BackToSearchButton" view="/browse.xhtml" value="Back to Search"/>
                 </div>
             </div>
         </ui:define>

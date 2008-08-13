@@ -18,12 +18,12 @@
         </ui:define>
        
         <ui:define name="body">
-            <h2><h:outputText value="#{messages.newCustomerHeader}" /></h2>
+            <h2><h:outputText id="CustomerHeaderText" value="#{messages.newCustomerHeader}" /></h2>
             
-            <p><em><h:outputText value="#{messages.newCustomerInfo}" /></em></p>
+            <p><em><h:outputText id="NewCustomerInfoText" value="#{messages.newCustomerInfo}" /></em></p>
             
-            <h:form>
-                <s:validateAll>
+            <h:form id="NewAccountForm">
+                <s:validateAll id="ValidateAll">
                     <table border="0">
                         <tr>
                             <td class="cntForm">#{messages.newCustomerFN}</td>
@@ -31,7 +31,7 @@
                                 <h:inputText id="firstName" required="true"
                                              value="#{customer.firstName}" /> *
                             </td>
-                            <td><h:message for="firstName" styleClass="cntError" /></td>
+                            <td><h:message id="MessageForFirstName" for="firstName" styleClass="cntError" /></td>
                         </tr>
 
                         <tr>
@@ -40,7 +40,7 @@
                                 <h:inputText id="lastName" required="true"
                                              value="#{customer.lastName}" /> *
                             </td>
-                            <td><h:message for="lastName" styleClass="cntError" /></td>
+                            <td><h:message id="MessageForLastName" for="lastName" styleClass="cntError" /></td>
                         </tr>
 
                         <tr>
@@ -50,7 +50,7 @@
                                              value="#{customer.address1}" /> *
                             </td>
                             <td>
-                            <h:message for="address1" styleClass="cntError" />
+                            <h:message id="MessageForAddress1" for="address1" styleClass="cntError" />
                             </td>
                         </tr>
 
@@ -58,7 +58,7 @@
                         <tr>
                             <td>#{messages.newCustomerA2}</td>
                             <td>
-                                <h:inputText value="#{customer.address2}" />
+                                <h:inputText id="Address2" value="#{customer.address2}" />
                             </td>
                             <td>&nbsp;</td>
                         </tr>
@@ -70,7 +70,7 @@
                                              value="#{customer.city}" /> *
                             </td>
                             <td>
-                                <h:message for="city" styleClass="cntError" />
+                                <h:message id="MessageForCity" for="city" styleClass="cntError" />
                             </td>
                         </tr>
 
@@ -82,7 +82,7 @@
                                              value="#{customer.state}" /> *
                             </td>
                             <td>
-                                <h:message for="state" styleClass="cntError" />
+                                <h:message id="MessageForState" for="state" styleClass="cntError" />
                             </td>
                         </tr>
 
@@ -93,7 +93,7 @@
                                              value="#{customer.zip}" /> *
                             </td>
                             <td>
-                                <h:message for="zip" styleClass="cntError" />
+                                <h:message id="MessageForZip" for="zip" styleClass="cntError" />
                             </td>
                         </tr>
 
@@ -103,7 +103,7 @@
                                 <h:inputText id="email" value="#{customer.email}" required="true"/> *
                             </td>
                             <td>
-                                <h:message for="email" styleClass="cntError" />
+                                <h:message id="MessageForEmail" for="email" styleClass="cntError" />
                             </td>
                         </tr>
                         
@@ -113,14 +113,14 @@
                                 <h:inputText id="phone" value="#{customer.phone}" />
                             </td>
                             <td>
-                                <h:message for="phone" styleClass="cntError" />
+                                <h:message id="MessageForPhone" for="phone" styleClass="cntError" />
                             </td>
                         </tr>
                     </table>
                 </s:validateAll>
 
-                <ui:remove><h:commandButton action="prev" value="Back" /></ui:remove>
-                <h:commandButton action="next" value="Continue" />
+                <ui:remove><h:commandButton id="BackButton" action="prev" value="Back" /></ui:remove>
+                <h:commandButton id="ContinueButton" action="next" value="Continue" />
             </h:form>
 
         </ui:define>
