@@ -320,6 +320,14 @@ public class InterfaceGenerator extends BaseRequestHandler implements RequestHan
 
     types.add(type);
 
+    if (component.getName().contains("."))
+    {
+       componentSrc.append("Seam.Remoting.createNamespace('");
+       componentSrc.append(component.getName().substring(0, component.getName().lastIndexOf('.')));
+       componentSrc.append("');\n");
+       
+    }
+    
     componentSrc.append("Seam.Remoting.type.");
     componentSrc.append(component.getName());
     componentSrc.append(" = function() {\n");

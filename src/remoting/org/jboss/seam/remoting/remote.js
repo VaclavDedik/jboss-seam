@@ -139,6 +139,19 @@ Seam.Remoting.log = function(msg)
   }
 }
 
+Seam.Remoting.createNamespace = function(namespace)
+{
+  var parts = namespace.split(".");
+  var base = Seam.Remoting.type;
+  
+  for(var i = 0; i < parts.length; i++)
+  {
+    if (typeof base[parts[i]] == "undefined")
+      base[parts[i]] = new Object();
+    base = base[parts[i]];
+  }
+}
+
 Seam.Remoting.__Context = function() {
   this.conversationId = null;
 
