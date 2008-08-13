@@ -56,8 +56,7 @@ public class SeamAuthorizationStrategy implements IAuthorizationStrategy
       }
       catch (org.jboss.seam.security.AuthorizationException e) 
       {
-         log.error("Unauthorized access to " + componentClass.getName(), e);
-         return handleException(componentClass);
+         return false;
       }
 
       return true;
