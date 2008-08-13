@@ -5,7 +5,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:ice="http://www.icesoft.com/icefaces/component"   
+		        xmlns:ice="http://www.icesoft.com/icefaces/component"   
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
@@ -15,14 +15,14 @@
     
     <h:messages globalOnly="true" styleClass="message"/>
     <ice:form id="queryFormId">
-    <h:outputText value="No results from search" 
+        <ice:outputText value="No results from search" 
                     id="queryOutputTextId"
-            rendered="#{empty @componentName@.resultList}"/>
-    <f:subview id="queryResultsId" rendered="#{not empty @componentName@.resultList}">
+                 rendered="#{empty @componentName@.resultList}"/>
+        <f:subview id="queryResultsId" rendered="#{not empty @componentName@.resultList}">
         <ice:dataTable id="@componentName@Table"
-                     var="item"
-		columnClasses="allCols"
-                   value="#{@componentName@.resultList}">
+                    var="item"
+		            columnClasses="allCols"
+                    value="#{@componentName@.resultList}">
             <ice:column id="column@componentName@list">
                 <f:facet name="header">Result</f:facet>
                 #{item}

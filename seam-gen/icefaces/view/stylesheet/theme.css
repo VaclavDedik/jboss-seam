@@ -7,17 +7,17 @@ a:hover {
 }
 
 input, textarea {
-	border: 1px solid #BBBBBB;
+/*	border: 1px solid #BBBBBB;
 	font-size: 10px;
-	background: #F0F8FF;
+	background: #F0F8FF; */
 	color: black;
 }
 
 input[type='submit'], input[type='button'] {
-	background: #4477AA;
+/*	background: #4477AA;
 	color: white;
 	margin: 5px;
-	border-color: gray;
+	border-color: gray; */
 }
 
 .errorImg {
@@ -43,12 +43,13 @@ input[type='submit'], input[type='button'] {
     vertical-align: top; /*width: 100%;*/
     border: 1px solid #bed6f8;
     padding: 5px;
+    margin-top: 2px; /* give some space between search panel and list */
 }
 .menuButtons {
    font-size: 12px;
    font-weight: bold;
    border-colour: #bed6f8;
-   background-color: #BED6F8;
+ /*  background-color: #BED6F8; */
    background-position: top left;
   
 }
@@ -62,14 +63,14 @@ input[type='submit'], input[type='button'] {
     padding-right: 15px;
 }
 
-.searchResults {
+/*.searchResults {
      border-top: 1px solid #bed6f8;
       border-bottom:1px solid #bed6f8;
      border-left:1px solid #bed6f8;
      border-right:1px solid #bed6f8;
      padding: 5px;
 
-}
+}*/ /* looks better without this border */
 .leftMenu {
    padding: 5px;
    vertical-align: middle;
@@ -84,7 +85,7 @@ input[type='submit'], input[type='button'] {
 }
 .menuButtons a:hover {
 	font-family: Arial,sans-serif;
-    background-color: white;
+    background-color: #bed6f8;
     color:  #0066ff; /*#8CAFCD*/
 }
 
@@ -101,7 +102,7 @@ input[type='submit'], input[type='button'] {
 
 .footer {
 	text-align: center;
-	font-size: 0.8em;
+	/*font-size: 0.8em;*/ /* removed to prevent blindness */
 }
 
 .actionButtons {
@@ -126,6 +127,20 @@ input[type='submit'], input[type='button'] {
 .iceDataTblOutline {
     width: 98%;
 }
+/* BEGIN: make the resizable handle prettier */
+.iceDatTblResHdlr, .iceDatTblResBor, .iceDatTblBlkTd {
+	width: 1px;
+	background-color: #FFFFFF;
+}
+.iceDatTblBlkTd {
+	/*border-top: none;*/
+	border-right: 1px solid #CCCCCC;
+	/*border-bottom: none;*/
+}
+.iceDatTblBlkTd img {
+	display: none;
+}
+/* END */
 .iceTblHeader {
   font-size:11px;
    color: #000000;
@@ -170,11 +185,11 @@ body {
 	margin: 0px;
 	font-family: Arial,sans-serif;
 	color: #616161;
-	font-size: 11px;
+	font-size: 12px; /* changed to prevent blindness */
 }
 
 .body {
-	padding: 30px;
+	padding: 0 30px 30px 30px;
 }
 
 
@@ -208,7 +223,7 @@ td {
 .dialog 
 {
 	padding: 15px;
-	background-color: #F0F0F0;
+	background-color: #e6e6e6;
 	margin: 10px;	
 }
 .dialog table
@@ -225,7 +240,8 @@ td {
 
 .columnHeader:hover
 {
-    color: white;
+    /*color: white;*/ /* breaks theme */
+	text-decoration: underline;
 }
 
 .message {
@@ -255,12 +271,12 @@ td {
         color: red;
         text-align: left;	
 }
-.prop .errors {
+/*.prop .errors {
 	color: red;
 	text-align: left;
-}
+}*/
 
-.errors input {
+.errors input, .errors textarea {
 	border: 1px solid red;
 }
 
@@ -310,4 +326,13 @@ td {
 
 .iceSelInpDate {
     width: 90px;
+}
+.icePnlTlTip {
+	background:#EDDDDD none repeat scroll;
+}
+.icePnlTlTipHdr{ 
+	background:#CDBBBB url() repeat-x;
+}
+.iceCmdBtn{
+   font-size: 16px;
 }

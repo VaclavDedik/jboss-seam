@@ -14,7 +14,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:ice="http://www.icesoft.com/icefaces/component"  
+		        xmlns:ice="http://www.icesoft.com/icefaces/component"  
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
@@ -41,7 +41,7 @@
                 <ui:define name="label">${componentProperty.name}</ui:define>
                   <ice:inputText id="${componentProperty.name}TextId" 
                           value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"
-				  partialSubmit="true"/>
+				          partialSubmit="true"/>
             </s:decorate>
 
 </#if>
@@ -52,7 +52,7 @@
                 <ui:define name="label">${property.name}</ui:define>
                 <ice:inputText id="list${property.name}TextId" 
                           value="${'#'}{${listName}.${componentName}.${property.name}}"
-				  partialSubmit="true"/>
+				          partialSubmit="true"/>
             </s:decorate>
 
 </#if>

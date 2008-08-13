@@ -11,7 +11,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:ice="http://www.icesoft.com/icefaces/component"   
+		        xmlns:ice="http://www.icesoft.com/icefaces/component"   
                 template="layout/template.xhtml">
                        
 <ui:define name="body">
@@ -76,11 +76,11 @@
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
    
         	<ice:dataTable  var="${parentName}" 
-                   value="${'#'}{${homeName}.instance.${property.name}}" 
-                rendered="${'#'}{${homeName}.instance.${property.name} != null}"
-              rowClasses="rvgRowOne,rvgRowTwo"
-	        columnClasses="allCols"
-                      id="view${property.name}TableId">
+                       value="${'#'}{${homeName}.instance.${property.name}}" 
+                       rendered="${'#'}{${homeName}.instance.${property.name} != null}"
+                       rowClasses="rvgRowOne,rvgRowTwo"
+	                   columnClasses="allCols"
+                       id="view${property.name}TableId">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
 <#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty) && parentProperty != parentPojo.versionProperty!>
 <#if parentPojo.isComponent(parentProperty)>
@@ -150,11 +150,11 @@
                    rendered="${'#'}{empty ${homeName}.${property.name}}"/>
         
         <ice:dataTable value="${'#'}{${homeName}.${property.name}}" 
-                       var="${childName}" 
-                  rendered="${'#'}{not empty ${homeName}.${property.name}}" 
-                rowClasses="rvgRowOne,rvgRowTwo"
-		    columnClasses="allCols"
-                        id="view${property.name}TableId">
+                                var="${childName}" 
+                                rendered="${'#'}{not empty ${homeName}.${property.name}}" 
+                                rowClasses="rvgRowOne,rvgRowTwo"
+		                        columnClasses="allCols"
+                                id="view${property.name}TableId">
 <#foreach childProperty in childPojo.allPropertiesIterator>
 <#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty) && childProperty != childPojo.versionProperty!>
 <#if childPojo.isComponent(childProperty)>
