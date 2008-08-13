@@ -17,9 +17,9 @@
   <body>
     <h1>You cheater!</h1>
     <f:view>
-    <h:form styleClass="niceform">
-      (The answer is <h:outputText value="#{numberGuess.randomNumber}"/>.)
-      <h:commandButton value="Done"/>
+    <h:form id="cheat" styleClass="niceform">
+      (The answer is <h:outputText id="RandomNumber" value="#{numberGuess.randomNumber}"/>.)
+      <h:commandButton id="DoneButton" value="Done"/>
     </h:form>
     </f:view>
   </body>

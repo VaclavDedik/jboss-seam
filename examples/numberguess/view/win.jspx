@@ -16,9 +16,9 @@
   <body>
     <h1>You won!</h1>
     <f:view>
-      Yes, the answer was <h:outputText value="#{numberGuess.currentGuess}" />.
-      It took you <h:outputText value="#{numberGuess.guessCount}" /> guesses.
-      <h:outputText value="But you cheated, so it doesn't count!" rendered="#{numberGuess.cheat}"/>
+      Yes, the answer was <h:outputText id="CurrentGuess" value="#{numberGuess.currentGuess}" />.
+      It took you <h:outputText id="GuessCount" value="#{numberGuess.guessCount}" /> guesses.
+      <h:outputText id="CheatedMessage" value="But you cheated, so it doesn't count!" rendered="#{numberGuess.cheat}"/>
       Would you like to <a href="numberGuess.seam">play again</a>?
     </f:view>
   </body>

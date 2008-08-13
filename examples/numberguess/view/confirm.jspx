@@ -17,10 +17,10 @@
   <body>
     <h1>Do you really want to cheat?</h1>
     <f:view>
-    <h:form styleClass="niceform">
+    <h:form id="confirm" styleClass="niceform">
       I'll be really disappointed if you do this...
-      <h:commandButton value="Yes" action="yes"/>
-      <h:commandButton value="No" action="no"/>
+      <h:commandButton id="YesButton" value="Yes" action="yes"/>
+      <h:commandButton id="NoButton" value="No" action="no"/>
     </h:form>
     </f:view>
   </body>
