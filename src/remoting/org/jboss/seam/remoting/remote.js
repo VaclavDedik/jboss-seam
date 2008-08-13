@@ -667,7 +667,32 @@ Seam.Remoting.requestCallback = function(req, callback)
       if (inScope) Seam.Remoting.log("Response packet:\n" + req.responseText);
 
       if (callback)
-        callback(req.responseXML);
+      {
+        // The following code deals with a Firefox security issue.  It reparses the XML
+        // response if accessing the documentElement throws an exception
+        try
+        {         
+          req.responseXML.documentElement;
+          callback(req.responseXML);
+        }
+        catch (ex)
+        {
+           try
+           {
+             // Try it the IE way first...
+             var doc = new ActiveXObject("Microsoft.XMLDOM");
+             doc.async = "false";
+             doc.loadXML(req.responseText);
+             callback(doc);
+           }
+           catch (e)
+           {
+             // If that fails, use standards
+             var parser = new DOMParser();
+             callback(parser.parseFromString(req.responseText, "text/xml"));
+           }
+        }
+      }
     }
     else
       alert("There was an error processing your request.  Error code: " + req.status);
