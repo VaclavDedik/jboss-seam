@@ -5,6 +5,8 @@ import org.apache.wicket.markup.html.border.Border;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.core.Conversation;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.example.wicket.action.User;
 import org.jboss.seam.security.Identity;
 
@@ -20,8 +22,24 @@ public class Template extends Border
    public Template(String id)
    {
       super(id);
-      add(new BookmarkablePageLink("search", Main.class));
-      add(new BookmarkablePageLink("settings", Password.class));
+      add(new Link("search")
+      {
+         @Override
+         public void onClick()
+         {
+            Manager.instance().leaveConversation();
+            setResponsePage(Main.class);
+         }
+      });
+      add(new Link("settings")
+      {
+         @Override
+         public void onClick()
+         {
+            Manager.instance().leaveConversation();
+            setResponsePage(Password.class);
+         }
+      });
       add(new Link("logout")
       {
          @Override
