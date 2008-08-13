@@ -212,7 +212,7 @@
       <dependency>
         <groupId>javax.faces</groupId>
         <artifactId>jsf-impl</artifactId>
-        <version>1.2_04-p02</version>
+        <version>1.2_09-BETA1</version>
         <exclusions>
           <exclusion>
             <groupId>commons-collections</groupId>
@@ -238,7 +238,7 @@
       <dependency>
         <groupId>jboss</groupId>
         <artifactId>jboss-cache</artifactId>
-        <version>1.4.1.SP8</version>
+        <version>1.4.1.SP9</version>
       </dependency>
 
       <dependency>
@@ -404,7 +404,7 @@
       <dependency>
         <groupId>jboss</groupId>
         <artifactId>jboss-system</artifactId>
-        <version>4.2.0.GA</version>
+        <version>4.2.3.GA</version>
       </dependency>
 
       <dependency>
@@ -458,7 +458,7 @@
       <dependency>
         <groupId>jboss</groupId>
         <artifactId>jboss-jmx</artifactId>
-        <version>4.2.0.GA</version>
+        <version>4.2.3.GA</version>
       </dependency>
       
       <!--  Excel export module dependency -->
@@ -473,7 +473,7 @@
       <dependency>
         <groupId>javassist</groupId>
         <artifactId>javassist</artifactId>
-        <version>3.3.GA</version>
+        <version>3.8.0.GA</version>
       </dependency>
 
       <!-- Should be 1.0.5.GA-jboss, to be in sync with AS but doesn't exist in Maven -->
@@ -868,7 +868,7 @@
       <dependency>
         <groupId>dom4j</groupId>
         <artifactId>dom4j</artifactId>
-        <version>1.6.1</version>
+        <version>1.6.1-brew</version>
         <exclusions>
           <exclusion>
             <groupId>xml-apis</groupId>
@@ -924,6 +924,14 @@
           <exclusion>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -1017,7 +1025,7 @@
       <dependency>
          <groupId>hsqldb</groupId>
          <artifactId>hsqldb</artifactId>
-         <version>1.8.0.2</version>
+         <version>1.8.0.8-brew</version>
       </dependency>
       
       <dependency>
