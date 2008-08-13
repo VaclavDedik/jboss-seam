@@ -71,6 +71,8 @@ public class EntityPermissionChecker
    {      
       if (!Identity.isSecurityEnabled()) return;
       
+      if (!Contexts.isSessionContextActive()) return;
+      
       Identity identity = Identity.instance();
       
       identity.isLoggedIn(true);
