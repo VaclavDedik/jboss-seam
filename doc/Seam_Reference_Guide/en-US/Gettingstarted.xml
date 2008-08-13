@@ -24,7 +24,8 @@
     <section>
         <title>Before you start</title>
 
-        <para>Make sure you have JDK 5 or JDK 6, JBoss AS 4.2 and Ant 1.6, along with recent versions of Eclipse, the
+        <para>Make sure you have JDK 5 or JDK 6 (see <xref
+                           linkend="jdk_dependencies"/> for details), JBoss AS 4.2 and Ant 1.6, along with recent versions of Eclipse, the
             JBoss IDE plugin for Eclipse and the TestNG plugin for Eclipse correctly installed before starting. Add your
             JBoss installation to the JBoss Server View in Eclipse. Start JBoss in debug mode. Finally, start a command
             prompt in the directory where you unzipped the Seam distribution.</para>

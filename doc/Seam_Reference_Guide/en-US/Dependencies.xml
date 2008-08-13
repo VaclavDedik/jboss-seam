@@ -4,6 +4,40 @@
 <chapter id="dependencies">
   <title>Dependencies</title>
   
+  <section id="jdk_dependencies">
+    <title>JDK Dependencies</title>
+    
+    <para>
+      Seam does not work with JDK 1.4 and requires JDK 5 or above as it uses 
+      annotations and other JDK 5.0 features..  Seam has been thoroughly tested 
+      using Sun's JDKs.  However there are no known issues specific to Seam with
+      other JDK's.
+    </para>
+    
+    <section id="jdk6_dependencies">
+        <title>Sun's JDK 6 Considerations</title>
+        <para>
+            Earlier versions of Sun's JDK 6 contained an incompatible 
+            version of JAXB and required overriding it using the "endorsed" 
+            directory.  Sun's JDK6 Update 4 release upgraded to JAXB 2.1 and 
+            removed this requirement.  When building, testing, or executing be
+            sure to use this version or higher. 
+        </para>
+        
+        <para>
+            Seam used JBoss Embedded in its unit and integration testing.  This
+            has an additional requirement when using JDK 6. In order to run 
+            JBoss Embedded with JDK 6 you need to set the following JVM argument:
+            
+            <programlisting>-Dsun.lang.ClassLoader.allowArraySyntax=true</programlisting>
+            
+            Seam's internal build system is setting this by default when it 
+            executes Seam's test suite.  However if you are also using JBoss
+            Embedded for your testing you will need to set this value. 
+        </para>
+    </section>    
+  </section>
+  
   <section>
     <title>Project Dependencies</title>
 
