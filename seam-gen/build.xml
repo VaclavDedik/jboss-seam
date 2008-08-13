@@ -602,7 +602,7 @@
 
 
     <target name="copy-lib" depends="copyseam, copyseamdependencies, copyjbossembedded, copy-icefaces-home, copy-icefaces-maven">
-        <echo message="Copying Seam and depdencies to the ${project.home}/lib directory..." />
+        <echo message="Copying Seam and dependencies to the ${project.home}/lib directory..." />
     	
         <copy todir="${project.home}/lib" overwrite="true">
             <fileset dir="../lib">
