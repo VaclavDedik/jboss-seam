@@ -103,8 +103,8 @@ public class StatementOfAccount {
         <para>
             The approach taken by Seam is to let you write tests that exercise your
             components while running inside a pruned down container environment (Seam,
-            together with the JBoss Embedded container; n.b. JBoss Embedded requires
-            JDK 1.5 and does not work with JDK 1.6).
+            together with the JBoss Embedded container; see 
+            <xref linkend="config.install.embedded" /> for configuration details).
         </para>
         
 <programlisting role="JAVA"><![CDATA[public class RegisterTest extends SeamTest
