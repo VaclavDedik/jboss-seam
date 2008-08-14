@@ -30,6 +30,11 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+/**
+ * TODO: Delegate code to util.Unarchiver
+ *
+ * @author Christian Bauer
+ */
 @Name("zipImporter")
 @UploadImporter(
         handledMimeTypes = {"application/zip", "application/java-archive"},

@@ -33,6 +33,7 @@
     <s:div>
         <c:forEach var="pm" items="#{pluginRegistry.profilePluginModulesAsList}">
             <ui:include src="/#{pm.plugin.getPackageDefaultTemplatePath(pm.template)}"/>
+            <br/>
         </c:forEach>
     </s:div>
 

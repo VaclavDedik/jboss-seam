@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.Component;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.faces.RedirectException;
 import org.jboss.seam.wiki.core.model.WikiDocument;
@@ -88,7 +89,8 @@ public class WikiRedirect implements Serializable {
                 : urlRenderer.renderURL(getWikiDocument());
 
         // TODO: Fragile?
-        if (propagateConversation)  url = url + "?cid=" + org.jboss.seam.core.Conversation.instance().getId();
+        String conversationIdParam = Manager.instance().getConversationIdParameter();
+        if (propagateConversation)  url = url + "?"+conversationIdParam+"=" + org.jboss.seam.core.Conversation.instance().getId();
 
         if (getFragment() != null) url = url + "#" + fragment;
         

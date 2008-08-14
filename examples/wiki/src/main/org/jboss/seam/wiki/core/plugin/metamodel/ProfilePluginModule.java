@@ -44,7 +44,7 @@ public class ProfilePluginModule extends PluginModule implements Comparable {
     }
 
     public int compareTo(Object o) {
-        int result = new Integer(((ProfilePluginModule)o).getPriority()).compareTo(this.getPriority());
+        int result = new Integer(this.getPriority()).compareTo( ((ProfilePluginModule)(o)).getPriority() );
         return result == 0
             ? this.getKey().compareTo( ((ProfilePluginModule)o).getKey() )
             : result;

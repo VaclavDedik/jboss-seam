@@ -376,4 +376,22 @@ public class WikiUtil {
         return msgId.toString();
     }
 
+    public static String convertUnderscoreToCamelCase(String s) {
+        StringBuilder sb = new StringBuilder();
+        boolean uppercaseNextChar = false;
+        for (char c : s.toCharArray()) {
+            if (c == '_') {
+                uppercaseNextChar = true;
+            } else {
+                if (uppercaseNextChar) {
+                    sb.append(Character.toString(c).toUpperCase());
+                    uppercaseNextChar = false;
+                } else {
+                    sb.append(c);
+                }
+            }
+        }
+        return sb.toString();
+    }
+
 }
