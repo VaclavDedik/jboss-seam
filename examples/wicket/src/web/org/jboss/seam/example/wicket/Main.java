@@ -78,7 +78,7 @@ public class Main extends WebPage
       hotelSearchForm = new HotelSearchForm("searchCriteria");
       body.add(hotelSearchForm);
       
-      messages = new ComponentFeedbackPanel("messages", this).setOutputMarkupId(true); 
+      messages = new ComponentFeedbackPanel("messages", body).setOutputMarkupId(true); 
       body.add(messages);
       
       /*
