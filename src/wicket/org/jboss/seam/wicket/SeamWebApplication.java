@@ -1,5 +1,6 @@
 package org.jboss.seam.wicket;
 
+import org.apache.wicket.IRedirectListener;
 import org.apache.wicket.Request;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
@@ -83,6 +84,18 @@ public abstract class SeamWebApplication extends WebApplication
                      stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
                      url = stringBuilder.subSequence(0, stringBuilder.length());
                   }
+                  else if ( IRedirectListener.INTERFACE.getName().equals(name) )
+                  {
+                     if (!Manager.instance().isLongRunningConversation())
+                     {
+                        Manager.instance().beforeRedirect();                        
+                     }                             
+
+                     StringBuilder stringBuilder = new StringBuilder(url);
+                     stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
+                     url = stringBuilder.subSequence(0, stringBuilder.length());
+                  }
+                  
                   return url;
                }
 
@@ -97,7 +110,6 @@ public abstract class SeamWebApplication extends WebApplication
                   }
                   return stringBuilder.subSequence(0, stringBuilder.length());
                }
-
             };
          }
       };
