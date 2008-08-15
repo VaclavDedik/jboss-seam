@@ -4888,15 +4888,9 @@ public class HitchhikersCaptcha extends Captcha
 
     <para>
       Sometimes it might be necessary to extend the Identity component if your application has
-      special security requirements.  For example, users might be required to authenticate using
-      a Company or Department ID, along with their usual username and password.  If permission-based
-      security is required then RuleBasedIdentity should be extended, otherwise Identity should be
-      extended.
-    </para>
-
-    <para>
-      The following example shows an extended Identity component with an additional
-      <literal>companyCode</literal> field.  The install precendence of <literal>APPLICATION</literal>
+      special security requirements.  The following example (contrived, as credentials would normally
+      be handled by the <literal>Credentials</literal> component instead) shows an extended Identity 
+      component with an additional <literal>companyCode</literal> field.  The install precendence of <literal>APPLICATION</literal>
       ensures that this extended Identity gets installed in preference to the built-in Identity.
     </para>
 
@@ -4929,49 +4923,13 @@ public class CustomIdentity extends Identity
    }
 }]]></programlisting>
 
-     <para>
-        Note that an <literal>Identity</literal> component must be marked <literal>@Startup</literal>, so
-        that it is available immediately after the <literal>SESSION</literal> context begins.
-     </para>
+    <warning>
+      Note that an <literal>Identity</literal> component must be marked <literal>@Startup</literal>, so
+      that it is available immediately after the <literal>SESSION</literal> context begins.
+      Failing to do this may render certain Seam functionality inoperable in your application.
+    </warning>
+
 
   </sect1>
-  
-
-  
-    <sect1>
-      <title>Seam-gen and Identity Management</title>
-
-      <para>
-        When creating a new project using seam-gen (see <xref linkend="gettingstarted"/>), by default the
-        <literal>IdentityManager</literal> will be configured with a <literal>JPAIdentityStore</literal>
-        and a <literal>UserAccount</literal> implementation will be generated as part of the new project.
-        In addition to this, the project will include the following user management screens, allowing
-        new users to be created, roles assigned, etc:
-      </para>
-
-      <mediaobject>
-        <imageobject role="fo">
-          <imagedata fileref="images/security-usermanager1.png" align="center"/>
-        </imageobject>
-        <imageobject role="html">
-          <imagedata fileref="images/security-usermanager1.png" align="center"/>
-        </imageobject>
-      </mediaobject>
-
-      <para>
-        The user detail screen:
-      </para>
-
-      <mediaobject>
-        <imageobject role="fo">
-          <imagedata fileref="images/security-usermanager2.png" align="center"/>
-        </imageobject>
-        <imageobject role="html">
-          <imagedata fileref="images/security-usermanager2.png" align="center"/>
-        </imageobject>
-      </mediaobject>
-
-
-    </sect1>
 
 </chapter>
