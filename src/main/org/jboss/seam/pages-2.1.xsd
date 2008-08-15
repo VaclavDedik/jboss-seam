@@ -23,6 +23,8 @@
     <xs:attributeGroup name="attlist.pages">
         <xs:attribute name="no-conversation-view-id" />
         <xs:attribute name="login-view-id" />
+        <xs:attribute name="http-port" />
+        <xs:attribute name="https-port" />
     </xs:attributeGroup>
     
     <xs:element name="exception">
