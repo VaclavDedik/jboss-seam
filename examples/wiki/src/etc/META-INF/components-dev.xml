@@ -43,8 +43,7 @@
     <!-- ############## END OF WIKI USER CONFIGURATION ############## -->
 
     <!-- Running in regular JBoss AS, Seam starts the persistence unit -->
-    <core:init debug="false"
-               disabled-interceptors="org.jboss.seam.persistence.ManagedEntityIdentityInterceptor"/>
+    <core:init debug="false"/>
 
     <!-- Wiki persistence unit, relies on cache manager backend for Hibernate 2nd level cache -->
     <persistence:entity-manager-factory name="wikiEntityManagerFactory"
@@ -68,23 +67,5 @@
             <!--<value>META-INF/testdata/Testing.dbunit.xml</value>-->
         </property>
     </component>
-
-    <!--
-    <resteasy:application-config
-            strip-seam-resource-path="true"
-            resource-path-prefix="/restv1">
-
-        <resteasy:media-type-mappings>
-            <key>xml</key><value>application/xml</value>
-            <key>txt</key><value>text/plain</value>
-        </resteasy:media-type-mappings>
-
-        <resteasy:language-mappings>
-            <key>deutsch</key><value>de-DE</value>
-        </resteasy:language-mappings>
-
-    </resteasy:application-config>
-    -->
-
 
 </components>

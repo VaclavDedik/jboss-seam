@@ -8,16 +8,14 @@ package org.jboss.seam.wiki.core.action;
 
 import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Install;
 import static org.jboss.seam.annotations.Install.APPLICATION;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.*;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.security.AuthorizationException;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.wiki.core.model.*;
+import org.jboss.seam.wiki.core.model.Role;
 
 /**
  * Need this until Drools fixes bugs and becomes usable/debuggable.
@@ -28,6 +26,7 @@ import org.jboss.seam.wiki.core.model.*;
 @BypassInterceptors
 @Install(precedence=APPLICATION)
 @AutoCreate
+@Startup
 public class WikiIdentity extends Identity {
 
     private User currentUser;
