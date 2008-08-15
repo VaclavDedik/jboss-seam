@@ -18,8 +18,8 @@
 <#if !column.nullable>
                        required="true"
 </#if>
-                          value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">                                         value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
-                                
+                                value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}"> 
+                               <s:convertDateTime type="date"/>                                                          
                            </ice:selectInputDate>
 <#elseif isTime(componentProperty)>
                         <ice:inputText id="${componentProperty.name}Id" 
@@ -76,7 +76,7 @@
 <#else>
 <#assign rows = (column.length/80)?int>
 </#if>
-                <h:inputTextarea id="${componentProperty.name}"
+                <ice:inputTextarea id="${componentProperty.name}"
                                cols="80"
                                rows="${rows}"
 <#if propertyIsId>
@@ -135,6 +135,7 @@
                        required="true"
 </#if>
                                   value="${'#'}{${homeName}.instance.${property.name}}">
+                                    <s:convertDateTime type="date"/> 
                          </ice:selectInputDate>
 <#elseif isTime(property)>
                         <ice:inputText id="${property.name}Id" 
@@ -193,7 +194,7 @@
 <#else>
 <#assign rows = (column.length/80)?int>
 </#if>
-                <h:inputTextarea id="${property.name}"
+                <ice:inputTextarea id="${property.name}"
                                cols="80"
                                rows="${rows}"
 <#if propertyIsId>

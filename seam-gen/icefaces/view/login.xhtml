@@ -26,22 +26,22 @@
             <p>Please login using any username and password</p>
 
                     <div class="dialog">
-                        <h:panelGrid id="loginPanelGridId" columns="2" rowClasses="prop" columnClasses="name,value">
+                 <ice:panelGrid id="loginPanelGridId" columns="2" rowClasses="prop" columnClasses="name,value">
                     <h:outputLabel for="username">Username</h:outputLabel>
-                    <h:inputText id="username" 
+                    <ice:inputText id="username" 
                               value="#{identity.username}"/>
                     <h:outputLabel for="password">Password</h:outputLabel>
-                    <h:inputSecret id="password" 
+                    <ice:inputSecret id="password" 
                                 value="#{identity.password}"/>
                     <h:outputLabel for="rememberMe">Remember me</h:outputLabel>
-                    <h:selectBooleanCheckbox id="rememberMe" 
+                    <ice:selectBooleanCheckbox id="rememberMe" 
                                           value="#{identity.rememberMe}"/>
-                </h:panelGrid>
+                </ice:panelGrid>
             </div>
   
       </ice:panelGroup>
          <div class="actionButtons">
-            <h:commandButton id="loginButtonId" value="Login" action="#{identity.login}"/>
+            <ice:commandButton id="loginButtonId" value="Login" action="#{identity.login}"/>
         </div>
           
   </ice:form>      

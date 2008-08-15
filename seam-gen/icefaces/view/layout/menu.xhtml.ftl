@@ -5,9 +5,12 @@
 		xmlns:f="http://java.sun.com/jsf/core"
 		xmlns:ice="http://www.icesoft.com/icefaces/component"  
 		xmlns:s="http://jboss.com/products/seam/taglib">
-
-	<ice:panelGrid id="menuPanelGrid" columns="2" columnClasses="leftMenu,rightMenu">
-                <ice:panelGroup id="leftMenuId" >
+  <ice:panelGroup id="menuPanelGroup" styleClass="formBorderHighlight">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+	   <td class="iceDatTblColHdr2">
+	      <ice:panelGrid id="menuPanelGrid" columns="2" columnClasses="leftMenu,rightMenu">
+                 <ice:panelGroup id="leftMenuId" >
                         <ice:outputText id="menuProjectNameId" value="${'#'}{projectName}:"/>
                             <s:link id="menuHomeId" view="/home.xhtml" value="Home"/>
 <#foreach entity in c2j.getPOJOIterator(cfg.classMappings)>
@@ -17,13 +20,16 @@
 	 					propagation="none"/>
 </#foreach>         
                     <!-- @newMenuItem@ -->
- 		 </ice:panelGroup>
+ 		     </ice:panelGroup>
                  <ice:panelGroup id="rightMenuId">
                                 <h:outputText id="menuWelcomeId" value="Welcome,${'#'}{identity.username}" rendered="${'#'}{identity.loggedIn}"/>
                                 <s:link view="/login.xhtml" id="menuLoginId" value="Login" rendered="${'#'}{not identity.loggedIn}" />
                                 <s:link view="/home.xhtml" id="menulogoutId" action="${'#'}{identity.logout}" value="Logout" rendered="${'#'}{identity.loggedIn}"/>
                 </ice:panelGroup>
             </ice:panelGrid>
-			
+         </td>
+      </tr>
+    </table>
+  </ice:panelGroup>
 </div>
 

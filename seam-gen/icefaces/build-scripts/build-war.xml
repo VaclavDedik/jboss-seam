@@ -45,7 +45,7 @@
         <mkdir dir="${classes.action.dir}" />
         <mkdir dir="${dist.dir}" />
         <!-- if a .groovy file is in model or action, set groovy.present -->
-        <available property="groovy.present" value="true" file="">
+        <available property="groovy.present" value="true" file="" searchparents="true">
           <filepath>
             <fileset dir="${src.action.dir}">
               <include name="**/*.groovy"/>
@@ -145,6 +145,10 @@
             </fileset>
         </copy>
         
+        <copy tofile="${war.dir}/components.properties" 
+              file="${basedir}/resources/components-${profile}.properties"
+              overwrite="true"/>
+
         <copy tofile="${war.dir}/WEB-INF/classes/META-INF/persistence.xml" 
               file="${basedir}/resources/META-INF/persistence-${profile}-war.xml"
               overwrite="true"/>
@@ -164,10 +168,6 @@
                 <exclude name="classes/**/*.class"/>
                 <exclude name="classes/**/*.groovy"/>
             </fileset>
-            <filterset>
-                <filter token="debug"       value="${debug}" />
-                <filter token="jndiPattern" value="${project.name}/#{ejbName}/local"/>
-            </filterset>
         </copy>
         
         <copy todir="${war.dir}/WEB-INF">
@@ -301,6 +301,7 @@
                 <exclude name="META-INF/persistence*.xml"/>
                 <exclude name="import*.sql"/>
                 <exclude name="${project.name}-*-ds.xml"/>
+                <exclude name="components-*.properties"/>
             </fileset>
         </copy>
         <copy tofile="${test.dir}/META-INF/persistence.xml" 
@@ -308,6 +309,9 @@
               overwrite="true"/>
         <copy tofile="${test.dir}/import.sql" 
               file="${basedir}/resources/import-test.sql"
+              overwrite="true"/>
+        <copy tofile="${test.dir}/components.properties" 
+              file="${basedir}/resources/components-test.properties"
               overwrite="true"/>
         <copy todir="${test.dir}" flatten="true">
             <fileset dir="${src.test.dir}">

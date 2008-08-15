@@ -15,7 +15,7 @@
     
     <h:messages globalOnly="true" styleClass="message"/>
     <ice:form id="queryFormId">
-    <h:outputText value="No results from search" 
+        <ice:outputText value="No results from search" 
                     id="queryOutputTextId"
             rendered="#{empty @componentName@.resultList}"/>
     <f:subview id="queryResultsId" rendered="#{not empty @componentName@.resultList}">
