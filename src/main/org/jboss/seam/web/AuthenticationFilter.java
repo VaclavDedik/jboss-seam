@@ -152,7 +152,8 @@ public class AuthenticationFilter extends AbstractFilter
          }
 
          // Only reauthenticate if username doesn't match Identity.username and user isn't authenticated
-         if (!username.equals(credentials.getUsername()) || !identity.isLoggedIn()) 
+         if (credentials != null && !username.equals(credentials.getUsername()) || 
+               (identity != null && !identity.isLoggedIn())) 
          {
             try
             {
@@ -167,7 +168,7 @@ public class AuthenticationFilter extends AbstractFilter
          }
       }
       
-      if (!identity.isLoggedIn() && !credentials.isSet())
+      if (identity != null && !identity.isLoggedIn() && credentials != null && !credentials.isSet())
       {
          requireAuth = true;
       }
@@ -185,7 +186,7 @@ public class AuthenticationFilter extends AbstractFilter
          requireAuth = true;
       }
       
-      if (requireAuth && !identity.isLoggedIn())
+      if ((requireAuth && (identity != null && !identity.isLoggedIn())) || identity == null)
       {
          response.addHeader("WWW-Authenticate", "Basic realm=\"" + realm + "\"");
          response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not authorized");         
@@ -250,7 +251,7 @@ public class AuthenticationFilter extends AbstractFilter
          }
       }   
 
-      if (!identity.isLoggedIn() && !credentials.isSet())
+      if (identity != null && !identity.isLoggedIn() && credentials != null && !credentials.isSet())
       {
          requireAuth = true;
       }
@@ -268,7 +269,7 @@ public class AuthenticationFilter extends AbstractFilter
          requireAuth = true;
       }
       
-      if (requireAuth && !identity.isLoggedIn())
+      if ((requireAuth && (identity != null && !identity.isLoggedIn())) || identity == null)
       {      
          long expiryTime = System.currentTimeMillis() + (nonceValiditySeconds * 1000);
          
