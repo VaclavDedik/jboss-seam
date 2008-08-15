@@ -136,8 +136,7 @@
                   <para>
                      <literal>regex-url-pattern</literal> &#8212; Used to specify which requests are filtered, the
                      default is all requests. <literal>regex-url-pattern</literal> is a true regular expression
-                     match for request path. It's worth noting when composing the regular expression that the request path does not contain
-                     the server or request context path. 
+                     match for request path.
                   </para>
                </listitem>
                <listitem>
@@ -146,6 +145,12 @@
                   </para>
                </listitem>
            </itemizedlist>
+
+           <para>
+              Note that the patterns are matched against the URI path of the request (see
+              <literal>HttpServletRequest.getURIPath()</literal>) and that the name of the servlet context is
+              removed before matching.
+           </para>
 
             <para> Adding the master filter enables the following built-in filters. </para>
 
