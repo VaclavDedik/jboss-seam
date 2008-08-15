@@ -1,7 +1,7 @@
 package org.jboss.seam.security.permission;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
-import static org.jboss.seam.annotations.Install.FRAMEWORK;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.Iterator;
@@ -31,7 +31,7 @@ import org.jboss.seam.security.SimplePrincipal;
 @Name("org.jboss.seam.security.persistentPermissionResolver")
 @Scope(APPLICATION)
 @BypassInterceptors
-@Install(precedence=FRAMEWORK)
+@Install(precedence=BUILT_IN)
 @Startup
 public class PersistentPermissionResolver implements PermissionResolver, Serializable
 {      

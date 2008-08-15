@@ -1,7 +1,7 @@
 package org.jboss.seam.security.permission;
 
 import static org.jboss.seam.ScopeType.SESSION;
-import static org.jboss.seam.annotations.Install.FRAMEWORK;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.security.Principal;
@@ -41,7 +41,7 @@ import org.jboss.seam.security.management.JpaIdentityStore;
 @Name("org.jboss.seam.security.ruleBasedPermissionResolver")
 @Scope(SESSION)
 @BypassInterceptors
-@Install(precedence=FRAMEWORK, classDependencies="org.drools.WorkingMemory")
+@Install(precedence=BUILT_IN, classDependencies="org.drools.WorkingMemory")
 @Startup
 public class RuleBasedPermissionResolver implements PermissionResolver, Serializable
 {      
