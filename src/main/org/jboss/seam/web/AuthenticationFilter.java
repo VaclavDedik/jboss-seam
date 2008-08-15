@@ -168,7 +168,7 @@ public class AuthenticationFilter extends AbstractFilter
             }         
             catch (Exception ex)
             {
-               log.error("Error authenticating: " + ex.getMessage());
+               log.warn("Error authenticating: " + ex.getMessage());
                requireAuth = true;
             }  
          }
@@ -250,7 +250,7 @@ public class AuthenticationFilter extends AbstractFilter
          }
          catch (DigestValidationException ex)
          {
-            log.error(String.format("Digest validation failed, header [%s]: %s",
+            log.warn(String.format("Digest validation failed, header [%s]: %s",
                      section212response, ex.getMessage()));
             requireAuth = true;
             
@@ -258,7 +258,7 @@ public class AuthenticationFilter extends AbstractFilter
          }            
          catch (Exception ex)
          {
-            log.error("Error authenticating: " + ex.getMessage());
+            log.warn("Error authenticating: " + ex.getMessage());
             requireAuth = true;
          }
       }   
