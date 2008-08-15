@@ -65,8 +65,8 @@ public class ExceptionFilter extends AbstractFilter
       }
       catch (Exception e)
       {
-         log.error( "handling uncaught exception", e );
-         log.error( "exception root cause", EJB.getCause(e) );
+         log.warn( "handling uncaught exception", e );
+         log.warn( "exception root cause", EJB.getCause(e) );
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
    }
@@ -79,7 +79,7 @@ public class ExceptionFilter extends AbstractFilter
       //      the PhaseListener probably does it, but we want to
       //      make sure of that...
       
-      log.debug("running exception handlers");
+      log.warn("running exception handlers");
       //the FacesContext is gone - create a fake one for Redirect and HttpError to call
       MockFacesContext facesContext = createFacesContext(request, response);
       facesContext.setCurrent();
