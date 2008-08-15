@@ -4929,6 +4929,11 @@ public class CustomIdentity extends Identity
    }
 }]]></programlisting>
 
+     <para>
+        Note that an <literal>Identity</literal> component must be marked <literal>@Startup</literal>, so
+        that it is available immediately after the <literal>SESSION</literal> context begins.
+     </para>
+
   </sect1>
   
 
