@@ -33,6 +33,7 @@ import org.jboss.seam.security.digest.DigestValidationException;
 import org.jboss.seam.servlet.ContextualHttpServletRequest;
 import org.jboss.seam.servlet.ServletRequestSessionMap;
 import org.jboss.seam.util.Base64;
+import org.jboss.seam.util.Strings;
 
 /**
  * Seam Servlet Filter supporting HTTP Basic and Digest authentication. Some code
@@ -150,6 +151,12 @@ public class AuthenticationFilter extends AbstractFilter
              username = token.substring(0, delim);
              password = token.substring(delim + 1);
          }
+         
+         if  (!Strings.isEmpty(username) && !Strings.isEmpty(password))
+         {
+            // Force session creation if we've received credentials in the request            
+            request.getSession(true);
+         }
 
          // Only reauthenticate if username doesn't match Identity.username and user isn't authenticated
          if (credentials != null && !username.equals(credentials.getUsername()) || 
@@ -207,6 +214,9 @@ public class AuthenticationFilter extends AbstractFilter
       String header = request.getHeader("Authorization");      
       if (header != null && header.startsWith("Digest "))
       {
+         // Force session creation if we've received credentials in the request
+         request.getSession(true);
+         
          String section212response = header.substring(7);
 
          String[] headerEntries = section212response.split(",");
