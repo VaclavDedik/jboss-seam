@@ -4605,6 +4605,26 @@ public class Customer { ]]></programlisting>
       This option helps make your system less vulnerable to sniffing of the session id or leakage of
       sensitive data from pages using HTTPS to other pages using HTTP.
     </para>
+    
+    <sect2>
+      <title>Overriding the default ports</title>
+      
+      <para>
+        If you wish to configure the HTTP and HTTPS ports manually, they may be configured in 
+        <literal>pages.xml</literal> by specifying the <literal>http-port</literal> and
+        <literal>https-port</literal> attributes on the <literal>pages</literal> element:
+      </para>
+      
+      <programlisting role="XML"><![CDATA[
+<pages xmlns="http://jboss.com/products/seam/pages"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+       no-conversation-view-id="/home.xhtml"
+       login-view-id="/login.xhtml"
+       http-port="8080"
+       https-port="8443">      
+      ]]></programlisting>
+    </sect2>
 
   </sect1>
 
