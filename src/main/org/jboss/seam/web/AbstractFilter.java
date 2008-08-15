@@ -97,7 +97,8 @@ public abstract class AbstractFilter implements Filter
       {
          return true;
       }
-      String path = ((HttpServletRequest) request).getServletPath();      
+            
+      String path = ((HttpServletRequest) request).getRequestURI().replaceFirst(servletContext.getContextPath(), "");      
       String urlPattern = getUrlPattern();
       Pattern regexPattern = getPattern();
       if (urlPattern != null)
