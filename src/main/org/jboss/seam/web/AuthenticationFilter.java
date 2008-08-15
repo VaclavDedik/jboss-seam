@@ -132,6 +132,12 @@ public class AuthenticationFilter extends AbstractFilter
    {
       Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
       Identity identity = (Identity) ctx.get(Identity.class);
+
+      if (identity == null)
+      {
+         throw new ServletException("Identity not found - please ensure that the Identity component is created on startup.");
+      }
+      
       Credentials credentials = (Credentials) ctx.get(Credentials.class);
       
       boolean requireAuth = false;
@@ -151,16 +157,9 @@ public class AuthenticationFilter extends AbstractFilter
              username = token.substring(0, delim);
              password = token.substring(delim + 1);
          }
-         
-         if  (!Strings.isEmpty(username) && !Strings.isEmpty(password))
-         {
-            // Force session creation if we've received credentials in the request            
-            request.getSession(true);
-         }
 
          // Only reauthenticate if username doesn't match Identity.username and user isn't authenticated
-         if (credentials != null && !username.equals(credentials.getUsername()) || 
-               (identity != null && !identity.isLoggedIn())) 
+         if (!username.equals(credentials.getUsername()) || !identity.isLoggedIn()) 
          {
             try
             {
@@ -175,7 +174,7 @@ public class AuthenticationFilter extends AbstractFilter
          }
       }
       
-      if (identity != null && !identity.isLoggedIn() && credentials != null && !credentials.isSet())
+      if (!identity.isLoggedIn() && !credentials.isSet())
       {
          requireAuth = true;
       }
@@ -193,7 +192,7 @@ public class AuthenticationFilter extends AbstractFilter
          requireAuth = true;
       }
       
-      if ((requireAuth && (identity != null && !identity.isLoggedIn())) || identity == null)
+      if ((requireAuth && !identity.isLoggedIn()))
       {
          response.addHeader("WWW-Authenticate", "Basic realm=\"" + realm + "\"");
          response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Not authorized");         
@@ -206,6 +205,12 @@ public class AuthenticationFilter extends AbstractFilter
    {
       Context ctx = new SessionContext( new ServletRequestSessionMap(request) );
       Identity identity = (Identity) ctx.get(Identity.class);
+      
+      if (identity == null)
+      {
+         throw new ServletException("Identity not found - please ensure that the Identity component is created on startup.");
+      }      
+      
       Credentials credentials = (Credentials) ctx.get(Credentials.class);
       
       boolean requireAuth = false;    
@@ -213,10 +218,7 @@ public class AuthenticationFilter extends AbstractFilter
       
       String header = request.getHeader("Authorization");      
       if (header != null && header.startsWith("Digest "))
-      {
-         // Force session creation if we've received credentials in the request
-         request.getSession(true);
-         
+      {        
          String section212response = header.substring(7);
 
          String[] headerEntries = section212response.split(",");
@@ -261,7 +263,7 @@ public class AuthenticationFilter extends AbstractFilter
          }
       }   
 
-      if (identity != null && !identity.isLoggedIn() && credentials != null && !credentials.isSet())
+      if (!identity.isLoggedIn() && !credentials.isSet())
       {
          requireAuth = true;
       }
@@ -279,7 +281,7 @@ public class AuthenticationFilter extends AbstractFilter
          requireAuth = true;
       }
       
-      if ((requireAuth && (identity != null && !identity.isLoggedIn())) || identity == null)
+      if ((requireAuth && !identity.isLoggedIn()))
       {      
          long expiryTime = System.currentTimeMillis() + (nonceValiditySeconds * 1000);
          
