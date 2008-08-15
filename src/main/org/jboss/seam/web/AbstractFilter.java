@@ -99,7 +99,7 @@ public abstract class AbstractFilter implements Filter
       }
 
       HttpServletRequest httpRequest = (HttpServletRequest)request;
-      String path = httpRequest.getRequestURI().replaceFirst(httpRequest.getServletPath(), "");      
+      String path = httpRequest.getRequestURI().replaceFirst(httpRequest.getContextPath(), "");      
       String urlPattern = getUrlPattern();
       Pattern regexPattern = getPattern();
       if (urlPattern != null)
