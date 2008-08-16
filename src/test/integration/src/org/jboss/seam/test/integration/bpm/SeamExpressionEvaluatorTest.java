@@ -27,6 +27,22 @@ public class SeamExpressionEvaluatorTest extends SeamTest
       }.run();
    }
    
+   // Test for JBSEAM-3250
+   @Test
+   public void testUnqualifiedValueExpression() throws Exception
+   {
+      new FacesRequest()
+      {
+
+         @Override
+         protected void invokeApplication() throws Exception
+         {
+            invokeAction("#{seamExpressionEvaluatorTestController.createProcess4}");
+         }
+          
+      }.run();
+   }
+   
    // Test for JBSEAM-2152
    @Test
    public void testMissingMethod() throws Exception

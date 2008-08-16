@@ -85,21 +85,21 @@ public class SeamExpressionEvaluator
                 try
                 {
                     initMethodExpression(); 
+                    if (me != null)
+                    {
+                        try
+                        {
+                            return me.invoke(createELContext(resolver, mapper), new Object[0]);
+                        }
+                        catch (MethodNotFoundException e)
+                        {
+                            exceptions.add(e);
+                        }
+                    }
                 }
                 catch (javax.el.ELException e) 
                 {
                     exceptions.add(e);
-                }
-                if (me != null)
-                {
-                    try
-                    {
-                        return me.invoke(createELContext(resolver, mapper), new Object[0]);
-                    }
-                    catch (MethodNotFoundException e)
-                    {
-                        exceptions.add(e);
-                    }
                 }
                  
                 try
