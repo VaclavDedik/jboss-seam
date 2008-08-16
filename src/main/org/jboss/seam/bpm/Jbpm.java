@@ -7,6 +7,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -241,12 +242,14 @@ public class Jbpm
    }
    
    private void installPageflowDefinitions() {
-      Set<String> mergedPageflowDefinitions = new TreeSet<String>();
-      mergedPageflowDefinitions.addAll(((PageflowDeploymentHandler) ((DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME)).getDeploymentHandlers().get(PageflowDeploymentHandler.NAME)).getPageflowDefinitions());
+      Set<String> mergedPageflowDefinitions = new LinkedHashSet<String>();
       if ( pageflowDefinitions!=null )
       {
          mergedPageflowDefinitions.addAll(Arrays.asList(pageflowDefinitions));
       }
+      
+      mergedPageflowDefinitions.addAll(((PageflowDeploymentHandler) ((DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME)).getDeploymentHandlers().get(PageflowDeploymentHandler.NAME)).getPageflowDefinitions());
+      
       for (String pageflow: mergedPageflowDefinitions)
       {
          ProcessDefinition pd = getPageflowDefinitionFromResource(pageflow);
