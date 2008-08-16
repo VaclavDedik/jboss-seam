@@ -89,7 +89,7 @@ public class HotelBookingAction implements HotelBooking
    public void confirm()
    {
       em.persist(booking);
-      statusMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      StatusMessages.instance().addToControl("body", "Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
    }
    
