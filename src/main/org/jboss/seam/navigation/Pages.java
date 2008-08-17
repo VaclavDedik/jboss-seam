@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -25,6 +26,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.faces.model.DataModel;
 import javax.faces.validator.ValidatorException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.DocumentException;
@@ -39,6 +41,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
@@ -47,6 +50,8 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
+import org.jboss.seam.deployment.DeploymentStrategy;
+import org.jboss.seam.deployment.URLScanner;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.international.StatusMessage;
@@ -114,7 +119,23 @@ public class Pages
                parse(stream);
            }
        }
+       
+       PagesDeploymentStrategy pagesDeployer = new PagesDeploymentStrategy();
+       pagesDeployer.scan();
+       
+       for (String fileName: pagesDeployer.scannedFiles())  {
+           String viewId = "/" + fileName.substring(0,fileName.length()-".page.xml".length()) + ".xhtml"; // needs more here
+           
+           InputStream stream = ResourceLoader.instance().getResourceAsStream(fileName);      
+           if (stream==null) {
+               log.info("no pages.xml file found: " + fileName);
+           } else {
+               log.debug("reading pages.xml file: " + fileName);
+               parse(stream,viewId);
+           } 
+       }
    }
+   
    /**
     * Run any navigation rule defined in pages.xml
     * 
@@ -1598,5 +1619,63 @@ public class Pages
    
    public Collection<String> getKnownViewIds() {
        return pagesByViewId.keySet();
+   }
+   
+   public class PagesScanner 
+       extends URLScanner 
+   {
+
+       public PagesScanner(DeploymentStrategy strategy) {
+           super(strategy);
+       }
+
+       public void scanForPages(ServletContext context) {
+           HashSet<String> paths = new HashSet<String>();
+           paths.add(context.getRealPath("/"));
+           handle(paths);
+       }
+   }
+   
+   public class PagesDeploymentStrategy
+       extends DeploymentStrategy
+   {
+       PagesScanner scanner;
+       
+       List<String> files;
+       
+       public PagesDeploymentStrategy() {
+           scanner = new PagesScanner(this);
+           files = new ArrayList<String>();
+       }
+
+       public List<String> scannedFiles() {
+           return files;
+       }
+       
+       @Override
+       public void handle(String name) {
+           if (name.endsWith(".page.xml")) {
+               files.add(name);
+           }
+       }
+
+       @Override
+       public ClassLoader getClassLoader() {
+           return null;
+       }
+
+       @Override
+       protected String getDeploymentHandlersKey() {
+           return null;
+       }
+
+
+       @Override
+       public void scan()
+       {
+           scanner.scanForPages(ServletLifecycle.getServletContext());
+       }
+
+       
    }
 }

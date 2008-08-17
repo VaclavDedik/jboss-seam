@@ -82,7 +82,7 @@ public class URLScanner extends AbstractScanner
       handle(paths);
    }
    
-   private void handle(Set<String> paths)
+   protected void handle(Set<String> paths)
    {
       for ( String urlPath: paths )
       {

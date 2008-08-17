@@ -30,7 +30,7 @@ public class RewritingResponse
     
     @Override
     public String encodeUrl(String url) {
-        return super.encodeURL(url);
+        return encodeURL(url);
     }
     
     @Override
@@ -49,7 +49,7 @@ public class RewritingResponse
     @Override
     public String encodeRedirectURL(String url) {
         log.info("encode redirectURL called with " + url);
-        return super.encodeRedirectURL(url);
+        return encodeURL(url);
     }
     
     

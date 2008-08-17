@@ -30,7 +30,7 @@ import org.jboss.seam.navigation.Pages;
 @Name("org.jboss.seam.web.rewriteFilter")
 @Install(precedence=Install.BUILT_IN,value=false)
 @BypassInterceptors
-@Filter(within="org.jboss.seam.debug.hotDeployFilter")
+@Filter(within={"org.jboss.seam.web.multipartFilter","org.jboss.seam.web.authenticationFilter","org.jboss.seam.web.loggingFilter","org.jboss.seam.web.exceptionFilter","org.jboss.seam.web.identityFilter"})
 public class RewriteFilter 
     extends AbstractFilter
 {
@@ -44,24 +44,26 @@ public class RewriteFilter
     {
         List<Pattern> allPatterns = getAllPatterns();
         
+        boolean done = false;
+        
         if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             response = new RewritingResponse((HttpServletRequest) request,
                     (HttpServletResponse)response,
                     allPatterns);
-            process((HttpServletRequest) request, 
-                    (HttpServletResponse) response,
-                    allPatterns);
+            
+            done = process((HttpServletRequest) request, 
+                           (HttpServletResponse) response,
+                            allPatterns);
         }
-        
-        
-        if (!response.isCommitted()) {
+                
+       if (!done) {
             chain.doFilter(request, response);
-        }
+       }
     }
     
     
     @SuppressWarnings("unchecked")
-    public void process(HttpServletRequest request, 
+    public boolean process(HttpServletRequest request, 
                         HttpServletResponse response, List<Pattern> patterns)
         throws IOException, 
                ServletException 
@@ -76,13 +78,26 @@ public class RewriteFilter
         if (rewrite!=null) {
             String newPath = rewrite.rewrite();
             
-            log.info("rewritten incoming path is " + localPath);
+            log.info("rewritten incoming path is " + newPath);
             
             if (!fullPath.equals(request.getContextPath() + newPath)) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(newPath);
+                
+//                final String wrappedPath = newPath;
+//                HttpServletRequest wrapped = new HttpServletRequestWrapper(request) {
+//                    @Override
+//                    public String getServletPath() {
+//                        return wrappedPath;
+//
+//                    }
+//                };
+//                dispatcher.forward(wrapped, response);
                 dispatcher.forward(request, response);
+                return true;
             }
         }
+        
+        return false;
     }
 
 
