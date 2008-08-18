@@ -196,6 +196,7 @@
                 <include name="*jpdl.xml" />
                 <include name="*hibernate.cfg.xml" />
                 <include name="jbpm.cfg.xml" />
+                <include name="META-INF/orm.xml" />
             </fileset>
         </copy>
         
