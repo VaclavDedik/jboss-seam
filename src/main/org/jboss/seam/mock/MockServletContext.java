@@ -253,7 +253,8 @@ public class MockServletContext implements ServletContext
 
    public String getRealPath(String relativePath)
    {
-      return relativePath;
+       // spec says to return null if we can't figure it out
+       return null;
    }
 
    public String getServerInfo()

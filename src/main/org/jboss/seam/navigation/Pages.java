@@ -1662,9 +1662,14 @@ public class Pages
        }
 
        public void scanForPages(ServletContext context) {
-           HashSet<String> paths = new HashSet<String>();
-           paths.add(context.getRealPath("/"));
-           handle(paths);
+           if (context!=null)  {
+               String path = context.getRealPath("/");
+               if (path != null) {
+                   HashSet<String> paths = new HashSet<String>();
+                   paths.add(context.getRealPath("/"));
+                   handle(paths);
+               }
+           }
        }
    }
    
