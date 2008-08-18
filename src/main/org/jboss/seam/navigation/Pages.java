@@ -982,6 +982,38 @@ public class Pages
          loginViewId = root.attributeValue("login-view-id");
       }
       
+      if (httpPort == null)
+      {
+         try
+         {
+            String value = root.attributeValue("http-port");
+            if (!Strings.isEmpty(value))
+            {
+               httpPort = Integer.parseInt(value);
+            }
+         }
+         catch (NumberFormatException ex)
+         {
+            throw new IllegalStateException("Invalid value specified for http-port attribute in pages.xml");
+         }
+      }
+      
+      if (httpsPort == null)
+      {
+         try
+         {
+            String value = root.attributeValue("https-port");
+            if (!Strings.isEmpty(value))
+            {
+               httpsPort = Integer.parseInt(value);
+            }
+         }
+         catch (NumberFormatException ex)
+         {
+            throw new IllegalStateException("Invalid valid specified for https-port attribute in pages.xml");
+         }
+      }
+      
       List<Element> elements = root.elements("conversation");
       for (Element conversation : elements)
       {
