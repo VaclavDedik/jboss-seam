@@ -10,13 +10,16 @@
             controls, which are used to construct views that can render to PDF, and the DocumentStore component, which
             serves the rendered documents to the user. To include PDF support in your application, included
                 <literal>jboss-seam-pdf.jar</literal> in your <literal>WEB-INF/lib</literal> directory along with the
-            iText JAR file. There is no further configuration needed to use Seam's ciText supportfon. </para>
+            iText JAR file. There is no further configuration needed to use Seam's iText supportfon. </para>
         <para> The Seam iText module requires the use of Facelets as the view technology. Future versions of the library
             may also support the use of JSP. Additionally, it requires the use of the seam-ui package.</para>
 
         <para> The <literal>examples/itext</literal> project contains an example of the PDF support in action. It
             demonstrates proper deployment packaging, and it contains a number examples that demonstrate the key PDF
             generation features current supported. </para>
+      
+        
+        
 
         <section id="itext.document">
             <title>Creating a document</title>
@@ -1350,41 +1353,7 @@
 
         </section>
 
-        <section id="itext.configuration">
-            <title>Configuring iText</title>
-
-            <para>Document generation works out of the box with no additional configuration needed. However, there are a
-                few points of configuration that are needed for more serious applications. </para>
-
-            <para> The default implementation serves PDF documents from a generic URL,
-                <literal>/seam-doc.seam</literal>. Many browsers (and users) would prefer to see URLs that contain the
-                actual PDF name like <literal>/myDocument.pdf</literal>. This capability requires some configuration. To
-                serve PDF files, all *.pdf resources should be mapped to the DocumentStoreServlet:</para>
-
-            <programlisting role="XML"><![CDATA[<servlet>
-    <servlet-name>Document Store Servlet</servlet-name>
-    <servlet-class>org.jboss.seam.pdf.DocumentStoreServlet</servlet-class>
-</servlet>
-
-<servlet-mapping>
-    <servlet-name>Document Store Servlet</servlet-name>
-    <url-pattern>*.pdf</url-pattern>
-</servlet-mapping>]]></programlisting>
-
-            <para> The <literal>use-extensions</literal> option on the document store component completes the
-                functionality by instructing the document store to generate URLs with the correct filename extension for
-                the document type being generated. </para>
-
-            <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
-            xmlns:pdf="http://jboss.com/products/seam/pdf">
-    <pdf:document-store use-extensions="true" />
-</components>]]></programlisting>
-
-            <para> Generated documents are stored in conversation scope and will expire when the conversation ends. At
-                that point, references to the document will be invalid. To You can specify a default view to be shown
-                when a document does not exist using the <literal>error-page</literal> property of the documentStore. </para>
-            <programlisting role="XML"><![CDATA[<pdf:document-store use-extensions="true" error-page="/pdfMissing.seam" />]]></programlisting>
-        </section>
+       
     </section>
 
 
@@ -2385,6 +2354,42 @@
     </section>
 
 
+    <section id="itext.configuration">
+        <title>Configuring iText</title>
+        
+        <para>Document generation works out of the box with no additional configuration needed. However, there are a
+            few points of configuration that are needed for more serious applications. </para>
+        
+        <para> The default implementation serves PDF documents from a generic URL,
+            <literal>/seam-doc.seam</literal>. Many browsers (and users) would prefer to see URLs that contain the
+            actual PDF name like <literal>/myDocument.pdf</literal>. This capability requires some configuration. To
+            serve PDF files, all <literal>*.pdf</literal> resources should be mapped to the DocumentStoreServlet:</para>
+        
+        <programlisting role="XML"><![CDATA[<servlet>
+    <servlet-name>Document Store Servlet</servlet-name>
+    <servlet-class>org.jboss.seam.document.DocumentStoreServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>Document Store Servlet</servlet-name>
+    <url-pattern>*.pdf</url-pattern>
+</servlet-mapping>]]></programlisting>
+        
+        <para> The <literal>use-extensions</literal> option on the document store component completes the
+            functionality by instructing the document store to generate URLs with the correct filename extension for
+            the document type being generated. </para>
+        
+        <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/document"
+            xmlns:pdf="http://jboss.com/products/seam/document">
+    <document:document-store use-extensions="true" />
+</components>]]></programlisting>
+        
+        <para> The document store stores documents in conversation scope, and documents will expire when the conversation ends. At
+            that point, references to the document will be invalid. You can specify a default view to be shown
+            when a document does not exist using the <literal>error-page</literal> property of the <literal>documentStore</literal>. </para>
+        <programlisting role="XML"><![CDATA[<document:document-store use-extensions="true" error-page="/documentMissing.seam" />]]></programlisting>
+    </section>
+    
     <section id="itext.links">
         <title>Further documentation</title>
 
