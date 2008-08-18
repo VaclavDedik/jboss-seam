@@ -144,7 +144,7 @@ public class Captcha implements Serializable
    {
       if ( !Contexts.isSessionContextActive() )
       {
-         throw new IllegalStateException("No page context active");
+         throw new IllegalStateException("No session context active");
       }
       return (Captcha) Component.getInstance(Captcha.class, ScopeType.SESSION);
    }
