@@ -87,6 +87,7 @@
                 <copy todir="${jar.dir}/META-INF">
                         <fileset dir="${basedir}/resources/META-INF">
                                 <include name="ejb-jar.xml" />
+                                <include name="orm.xml" />
                         </fileset>
                 </copy>
                 <copy tofile="${jar.dir}/META-INF/persistence.xml" 
