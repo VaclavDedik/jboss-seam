@@ -26,7 +26,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.faces.model.DataModel;
 import javax.faces.validator.ValidatorException;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.dom4j.DocumentException;
@@ -41,7 +40,6 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Startup;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
@@ -50,8 +48,7 @@ import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.deployment.DeploymentStrategy;
-import org.jboss.seam.deployment.URLScanner;
+import org.jboss.seam.deployment.DotPageDotXmlDeploymentHandler;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.international.StatusMessage;
@@ -89,6 +86,9 @@ public class Pages
    private Map<String, List<Page>> pageStacksByViewId;   
    private Map<String, ConversationIdParameter> conversations; 
    
+   private Set<String> dotPageDotXmlFileNames;
+   private Set<String> hotDotPageDotXmlFileNames;
+   
    private String[] resources = { "/WEB-INF/pages.xml" };
  
    private SortedSet<String> wildcardViewIds = new TreeSet<String>( 
@@ -104,6 +104,17 @@ public class Pages
       );
 
    @Create
+   public void create()
+   {
+      dotPageDotXmlFileNames = new HashSet<String>();
+      hotDotPageDotXmlFileNames = new HashSet<String>();
+      if (DotPageDotXmlDeploymentHandler.instance() != null)
+      {
+         dotPageDotXmlFileNames = DotPageDotXmlDeploymentHandler.instance().getFiles();
+      }
+      initialize();
+   }
+   
    public void initialize()
    {
        pagesByViewId = Collections.synchronizedMap(new HashMap<String, Page>());   
@@ -120,20 +131,32 @@ public class Pages
            }
        }
        
-       PagesDeploymentStrategy pagesDeployer = new PagesDeploymentStrategy();
-       pagesDeployer.scan();
+       parsePages(hotDotPageDotXmlFileNames, dotPageDotXmlFileNames);
        
-       for (String fileName: pagesDeployer.scannedFiles())  {
-           String viewId = "/" + fileName.substring(0,fileName.length()-".page.xml".length()) + ".xhtml"; // needs more here
-           
-           InputStream stream = ResourceLoader.instance().getResourceAsStream(fileName);      
-           if (stream==null) {
-               log.info("no pages.xml file found: " + fileName);
-           } else {
-               log.debug("reading pages.xml file: " + fileName);
-               parse(stream,viewId);
-           } 
-       }
+   }
+   
+   private void parsePages(Set<String> ...fileNames)
+   {
+      Set<String> mergedFileNames = new HashSet<String>();
+      for (Set<String> f : fileNames)
+      {
+         mergedFileNames.addAll(f);
+      }
+      for (String fileName: mergedFileNames)  
+      {
+         String viewId = "/" + fileName.substring(0,fileName.length()-".page.xml".length()) + ".xhtml"; // needs more here
+         
+         InputStream stream = ResourceLoader.instance().getResourceAsStream(fileName);      
+         if (stream==null) 
+         {
+            log.info("no pages.xml file found: " + fileName);
+         }
+         else 
+         {
+            log.debug("reading pages.xml file: " + fileName);
+            parse(stream,viewId);
+         } 
+     }
    }
    
    /**
@@ -191,30 +214,13 @@ public class Pages
    }
    
    /**
-    * Create a new Page object for a JSF view id,
-    * by searching for a viewId.page.xml file.
+    * Create a new default Page object for a JSF view id
     */
    private Page createPage(String viewId)
    {
-      String resourceName = replaceExtension(viewId, ".page.xml");
-      InputStream stream = null;
-      
-      if (resourceName!=null) {
-          stream = ResourceLoader.instance().getResourceAsStream(resourceName.substring(1));
-
-          if (stream == null) {
-              stream = ResourceLoader.instance().getResourceAsStream(resourceName);
-          }
-      }
-   
-      if (stream==null) {
-         Page result = new Page(viewId);
-         pagesByViewId.put(viewId, result);
-         return result;
-      } else {
-         parse(stream, viewId);
-         return getCachedPage(viewId);
-      }
+      Page result = new Page(viewId);
+      pagesByViewId.put(viewId, result);
+      return result;
    }
    
    private Page getCachedPage(String viewId)
@@ -1653,66 +1659,14 @@ public class Pages
        return pagesByViewId.keySet();
    }
    
-   public class PagesScanner 
-       extends URLScanner 
+   public Set<String> getHotDotPageDotXmlFileNames()
    {
-
-       public PagesScanner(DeploymentStrategy strategy) {
-           super(strategy);
-       }
-
-       public void scanForPages(ServletContext context) {
-           if (context!=null)  {
-               String path = context.getRealPath("/");
-               if (path != null) {
-                   HashSet<String> paths = new HashSet<String>();
-                   paths.add(context.getRealPath("/"));
-                   handle(paths);
-               }
-           }
-       }
+      return hotDotPageDotXmlFileNames;
    }
    
-   public class PagesDeploymentStrategy
-       extends DeploymentStrategy
+   public void setHotDotPageDotXmlFileNames(Set<String> hotDotPageDotXmlFileNames)
    {
-       PagesScanner scanner;
-       
-       List<String> files;
-       
-       public PagesDeploymentStrategy() {
-           scanner = new PagesScanner(this);
-           files = new ArrayList<String>();
-       }
-
-       public List<String> scannedFiles() {
-           return files;
-       }
-       
-       @Override
-       public void handle(String name) {
-           if (name.endsWith(".page.xml")) {
-               files.add(name);
-           }
-       }
-
-       @Override
-       public ClassLoader getClassLoader() {
-           return null;
-       }
-
-       @Override
-       protected String getDeploymentHandlersKey() {
-           return null;
-       }
-
-
-       @Override
-       public void scan()
-       {
-           scanner.scanForPages(ServletLifecycle.getServletContext());
-       }
-
-       
+      this.hotDotPageDotXmlFileNames = hotDotPageDotXmlFileNames;
    }
+   
 }
