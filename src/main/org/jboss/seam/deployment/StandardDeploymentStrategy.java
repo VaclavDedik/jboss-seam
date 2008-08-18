@@ -1,5 +1,6 @@
 package org.jboss.seam.deployment;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,6 +56,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
       getDeploymentHandlers().put(NamespaceDeploymentHandler.NAME, namespaceDeploymentHandler);
       annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
       getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
+      getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());
    }
 
    @Override
@@ -102,6 +104,7 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
    public void scan()
    {
       getScanner().scanResources(RESOURCE_NAMES);
+      getScanner().scanDirectories(getFiles().toArray(new File[0]));
    }
    
    public static StandardDeploymentStrategy instance()

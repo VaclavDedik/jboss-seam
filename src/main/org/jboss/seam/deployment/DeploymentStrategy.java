@@ -2,6 +2,7 @@ package org.jboss.seam.deployment;
 
 import static org.jboss.seam.util.Strings.split;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -29,6 +30,8 @@ public abstract class DeploymentStrategy
    private static final LogProvider log = Logging.getLogProvider(DeploymentStrategy.class);
 
    private Scanner scanner;
+   
+   private List<File> files = new ArrayList<File>();
    
    private Map<String, DeploymentHandler> deploymentHandlers;
    
@@ -281,6 +284,16 @@ public abstract class DeploymentStrategy
          log.trace("Unable to instantiate deployment handler " + className, e);
       }
       return null;
+   }
+
+   public List<File> getFiles()
+   {
+      return files;
+   }
+   
+   public void setFiles(List<File> files)
+   {
+      this.files = files;
    }
    
 }

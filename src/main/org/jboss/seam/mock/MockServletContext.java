@@ -50,6 +50,10 @@ public class MockServletContext implements ServletContext
             // call processing of context parameters
             processContextParameters(webxml);
          }
+         else
+         {
+            webappRoot = new File(getClass().getResource("/").toURI());
+         }
       }
       catch (URISyntaxException e)
       {
@@ -253,8 +257,7 @@ public class MockServletContext implements ServletContext
 
    public String getRealPath(String relativePath)
    {
-       // spec says to return null if we can't figure it out
-       return null;
+      return webappRoot.getAbsolutePath() + relativePath;
    }
 
    public String getServerInfo()

@@ -43,10 +43,12 @@ import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.PojoCache;
+import org.jboss.seam.deployment.DotPageDotXmlDeploymentHandler;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
 import org.jboss.seam.deployment.StandardDeploymentStrategy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
+import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.util.Conversions;
 import org.jboss.seam.util.Naming;
 import org.jboss.seam.util.Reflections;
@@ -81,6 +83,9 @@ public class Initialization
    private StandardDeploymentStrategy standardDeploymentStrategy;
    private HotDeploymentStrategy hotDeploymentStrategy;
    
+   private File warRootDirectory;
+   private File hotDeployDirectory;
+   
    private Set<String> nonPropertyAttributes = new HashSet<String>();
    
    {
@@ -98,11 +103,14 @@ public class Initialization
    public Initialization(ServletContext servletContext)
    {
       this.servletContext = servletContext;
+      this.warRootDirectory = getRealFile(servletContext, "/");
+      this.hotDeployDirectory = getRealFile(servletContext, HotDeploymentStrategy.DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH);
    }
    
    public Initialization create()
    {
       standardDeploymentStrategy = new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader());
+      standardDeploymentStrategy.getFiles().add(warRootDirectory);
       standardDeploymentStrategy.scan();
       addNamespaces();
       initComponentsFromXmlDocument("/WEB-INF/components.xml");
@@ -597,7 +605,7 @@ public class Initialization
       }
       ServletLifecycle.beginInitialization();
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
-      scanForHotDeployableComponents();
+      createHotDeployment(Thread.currentThread().getContextClassLoader());
       scanForComponents();
       addComponent( new ComponentDescriptor(Init.class), Contexts.getApplicationContext());
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);    
@@ -653,7 +661,11 @@ public class Initialization
          Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
       }
       //TODO open the ability to reuse the classloader by looking at the components class classloaders
-      scanForHotDeployableComponents();
+      // Rescan
+      hotDeploymentStrategy.scan();
+      // And install
+      installHotDeployableComponents();
+      Pages.instance().setHotDotPageDotXmlFileNames(DotPageDotXmlDeploymentHandler.hotInstance().getFiles());
       init.setTimestamp( System.currentTimeMillis() );
       init.setHotDeployPaths(hotDeploymentStrategy.getHotDeploymentPaths());
       installComponents(init);
@@ -662,22 +674,16 @@ public class Initialization
       return this;
    }
 
-   private void scanForHotDeployableComponents()
+   private void installHotDeployableComponents()
    {
-      createHotDeploymentStrategy(Thread.currentThread().getContextClassLoader());
-      if (hotDeploymentStrategy != null)
+      for (Class<Object> scannedClass: hotDeploymentStrategy.getScannedComponentClasses() )
       {
-         hotDeploymentStrategy.scan();
-         for (Class<Object> scannedClass: hotDeploymentStrategy.getScannedComponentClasses() )
-         {
-            installScannedComponentAndRoles(scannedClass);
-         }
+         installScannedComponentAndRoles(scannedClass);
       }
    }
    
-   private void createHotDeploymentStrategy(ClassLoader classLoader)
+   private void createHotDeployment(ClassLoader classLoader)
    {
-      File hotDeployDirectory = getHotDeployDirectory(servletContext);
       if ( isDebugEnabled() && hotDeployDirectory != null )
       {
          if (isGroovyPresent())
@@ -690,22 +696,28 @@ public class Initialization
             log.debug("Using Java hot deploy");
             hotDeploymentStrategy = new HotDeploymentStrategy(classLoader, hotDeployDirectory);
          }
+         hotDeploymentStrategy.scan();
+         installHotDeployableComponents();
+
+         // Add the WAR root to the hot deploy path to pick up .page.xml
+         // We don't add it for the initial scan as StandardDeploymentStrategy deals with that
+         hotDeploymentStrategy.getFiles().add(warRootDirectory);
       }
    }
    
-   private static File getHotDeployDirectory(ServletContext servletContext)
+   private static File getRealFile(ServletContext servletContext, String path)
    {
-      String path = servletContext.getRealPath(HotDeploymentStrategy.DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH);
-      if (path==null) //WebLogic!
+      String realPath = servletContext.getRealPath(path);
+      if (realPath==null) //WebLogic!
       {
-         log.debug("Could not find path for " + HotDeploymentStrategy.DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH);
+         log.debug("Could not find path for " + path);
       }
       else
       {
-         File hotDeployDir = new File(path);
-         if (hotDeployDir.exists())
+         File file = new File(realPath);
+         if (file.exists())
          {
-            return hotDeployDir;
+            return file;
          }
       }
       return null;

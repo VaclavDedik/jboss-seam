@@ -48,8 +48,6 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    
    private ClassLoader hotDeployClassLoader;
    
-   private File[] hotDeploymentPaths;
-   
    private ComponentDeploymentHandler componentDeploymentHandler;
    private AnnotationDeploymentHandler annotationDeploymentHandler;
    
@@ -65,6 +63,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
       getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
       annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
       getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
+      getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());
    }
    
    private void initHotDeployClassLoader(ClassLoader classLoader, File hotDeployDirectory)
@@ -76,7 +75,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
             URL url = hotDeployDirectory.toURL();
             URL[] urls = { url };
             hotDeployClassLoader = new URLClassLoader(urls, classLoader);
-            hotDeploymentPaths = new File[] { hotDeployDirectory };
+            getFiles().add(hotDeployDirectory);
          }
 
       }
@@ -97,7 +96,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
     */
    public File[] getHotDeploymentPaths()
    {
-      return hotDeploymentPaths;
+      return getFiles().toArray(new File[0]);
    }
 
    /**
@@ -153,7 +152,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    @Override
    public void scan()
    {
-      getScanner().scanDirectories(getHotDeploymentPaths());
+      getScanner().scanDirectories(getFiles().toArray(new File[0]));
       
    }
    
