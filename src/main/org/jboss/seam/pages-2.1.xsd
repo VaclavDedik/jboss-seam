@@ -72,6 +72,7 @@
                 <xs:element ref="pages:description"/>
                 <xs:element ref="pages:param"/>
                 <xs:element ref="pages:header" />
+                <xs:element ref="pages:rewrite" />
                 <xs:element ref="pages:begin-conversation"/>
                 <xs:element ref="pages:end-conversation"/>
                 <xs:element ref="pages:start-task"/>
@@ -153,6 +154,19 @@
     <xs:attributeGroup name="attlist.header">
         <xs:attribute name="name" use="required"/>
         <xs:attribute name="value" />
+    </xs:attributeGroup>
+    
+    <xs:element name="rewrite">
+        <xs:annotation>
+            <xs:documentation>URL rewriting pattern for this view</xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="pages:attlist.rewrite"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:attributeGroup name="attlist.rewrite">
+        <xs:attribute name="pattern" use="required"/>
     </xs:attributeGroup>
     
     <xs:element name="action">
