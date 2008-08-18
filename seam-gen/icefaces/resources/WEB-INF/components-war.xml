@@ -31,16 +31,16 @@
                       persistence-unit-name="@projectName@"/>
    
    <drools:rule-base name="securityRules">
-       <drools:rule-files><value>/security.drl</value></drools:rule-files>
+      <drools:rule-files><value>/security.drl</value></drools:rule-files>
    </drools:rule-base>
 
    <security:identity authenticate-method="#{authenticator.authenticate}" remember-me="true"/>
                               
    <event type="org.jboss.seam.security.notLoggedIn">
-       <action execute="#{redirect.captureCurrentView}"/>
+      <action execute="#{redirect.captureCurrentView}"/>
    </event>
    <event type="org.jboss.seam.security.loginSuccessful">
-       <action execute="#{redirect.returnToCapturedView}"/>
+      <action execute="#{redirect.returnToCapturedView}"/>
    </event>
         
    <!-- For use with jBPM pageflow or process management -->
