@@ -66,7 +66,9 @@
                             <div class="label"><h:outputLabel for="checkoutDate">Check Out Date:</h:outputLabel></div>
                             <div class="input">
                                 <s:decorate>
+                                	<rich:calendar id="checkoutDate" value="#{booking.checkoutDate}" required="true" datePattern="MM/dd/yyyy" event="onblur" reRender="checkoutDateDecorate" />
                                     <br/>
+                                    <s:message/>
                                 </s:decorate>
                             </div>
                         </div>
