@@ -420,6 +420,10 @@ public class Image implements Serializable
       }
       Graphics2D graphics2D = image.createGraphics();
       graphics2D.setBackground(new Color(255, 255, 255));
+      if (Type.IMAGE_PNG.equals(getContentType()))
+      {
+          graphics2D.setComposite(java.awt.AlphaComposite.Src);
+      }
       graphics2D.clearRect(0, 0, image.getWidth(), image.getHeight());
       graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                RenderingHints.VALUE_INTERPOLATION_BICUBIC);
