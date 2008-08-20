@@ -17,7 +17,7 @@ public class RandomNumber
    @Create 
    public void begin()
    {
-      randomNumber = new Random().nextInt(100);
+      randomNumber = new Random().nextInt(100) + 1;
    }
    
    @Unwrap
