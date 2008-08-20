@@ -50,7 +50,7 @@ public class BookingListAction
         log.info("Cancel booking: #{bookingList.booking.id} for #{user.username}");
         bookingService.cancelBooking(booking.getId());
         getBookings();
-        FacesMessages.instance().add("Booking cancelled for confirmation number #{bookingList.booking.id}");
+        FacesMessages.instance().add("Booking cancelled for confirmation number #0", booking.getId());
     }
 
     public Booking getBooking()

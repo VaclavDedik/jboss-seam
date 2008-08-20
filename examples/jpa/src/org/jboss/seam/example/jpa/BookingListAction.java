@@ -57,7 +57,7 @@ public class BookingListAction implements Serializable
       Booking cancelled = em.find(Booking.class, booking.getId());
       if (cancelled!=null) em.remove( cancelled );
       getBookings();
-      FacesMessages.instance().add("Booking cancelled for confirmation number #{bookingList.booking.id}");
+      FacesMessages.instance().add("Booking cancelled for confirmation number #0", booking.getId());
    }
    
    public Booking getBooking()
