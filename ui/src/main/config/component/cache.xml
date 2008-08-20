@@ -7,7 +7,7 @@
 		<classname>org.jboss.seam.ui.component.html.HtmlCache</classname>
 		<superclass>org.jboss.seam.ui.component.UICache</superclass>
 		<description>
-			<![CDATA[Cache the rendered page fragment using JBoss Cache. Note that <s:cache> actually uses the instance of JBoss Cache managed by the built-in pojoCache component.]]>
+			<![CDATA[Cache the rendered page fragment using the installed cache provider.]]>
 		</description>
 		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.CacheRenderer</name>
@@ -36,8 +36,14 @@
 		<property>
 			<name>region</name>
 			<classname>java.lang.String</classname>
-			<description>a JBoss Cache node to use (different nodes can have different expiry policies).</description>
+			<description>a cache node to use (different nodes can have different expiry policies).</description>
 		</property>
+      <property elonly="true">
+         <name>cacheProvider</name>
+         <classname>org.jboss.seam.cache.CacheProvider</classname>
+         <description>The cache provider to use, only needed if you install alter the default cache provider in an application where multiple cache providers are in use</description>
+         <defaultvalue>org.jboss.seam.cache.CacheProvider.instance()</defaultvalue>
+      </property>
 		<property elonly="true">
 			<name>enabled</name>
 			<classname>boolean</classname>

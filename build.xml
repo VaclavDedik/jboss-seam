@@ -173,6 +173,9 @@
 
 	<target name="initcore" depends="init">
 		<init classesdir="${classes.core.dir}" srcdir="${src.core.dir}" modulename="core" pom="${core.pom}" />
+		<inlineDependencies id="jbosscache2" scope="compile">
+			<dependency groupId="org.jboss.cache" artifactId="jbosscache-core" version="2.2.0.CR6" />
+	   </inlineDependencies>
 	</target>
 
 	<target name="antlr" depends="initcore" description="Generate ANTLR parser">
@@ -192,7 +195,18 @@
 	</target>
 
 	<target name="compilecore" depends="initcore,select-compiler,antlr">
-		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" classpath="compile.core.path" />
+		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" classpath="compile.core.path">
+		   <exclude name="org/jboss/seam/cache/JbossCache2Provider*" />
+	   </compile>
+		<!-- Fiddle to make sure we compile the JBossCache2 stuff with JBossCache2" -->
+		<path id="compile.core-jbosscache2.path">
+         <path refid="compile.jbosscache2.path" />
+         <path refid="compile.core.path" />
+         <fileset dir="${classes.core.dir}" />
+      </path>
+		<compile classesdir="${classes.core.dir}" srcdir="${src.core.dir}" classpath="compile.core-jbosscache2.path">
+         <include name="org/jboss/seam/cache/JbossCache2Provider*" />
+      </compile>
 	</target>
 
 	<target name="jarcore" depends="compilecore" description="Build the distribution .jar file using M2 dependency management">
@@ -874,7 +888,8 @@
 					<patternset refid="meta.files" />
 				</fileset>
 			</copy>
-			<dependencies id="@{modulename}" scope="@{scope}" pom="@{pom}" />
+			<dependencies id="@{modulename}" scope="@{scope}" pom="@{pom}">
+			</dependencies>
 		</sequential>
 	</macrodef>
 
@@ -882,13 +897,10 @@
 		<attribute name="classesdir" />
 		<attribute name="srcdir" />
 		<attribute name="classpath" />
-		<element name="compile.classpath" optional="true" implicit="true" />
+		<element name="javac.nested" optional="true" implicit="true"/>
 		<sequential>
-			<javac source="1.5" target="1.5" destdir="@{classesdir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" srcdir="@{srcdir}">
-				<classpath>
-					<path refid="@{classpath}" />
-					<compile.classpath />
-				</classpath>
+			<javac source="1.5" target="1.5" destdir="@{classesdir}" debug="${javac.debug}" deprecation="${javac.deprecation}" nowarn="on" srcdir="@{srcdir}" classpathref="@{classpath}" >
+				<javac.nested />
 			</javac>
 		</sequential>
 	</macrodef>

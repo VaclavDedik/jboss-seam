@@ -30,8 +30,10 @@
 		<attribute name="id" />
 		<attribute name="scope" />
 		<attribute name="pom" />
+		<element name="nested" implicit="true" optional="true" />
 		<sequential>
 			<artifact:dependencies pathId="@{scope}.@{id}.path" filesetId="@{scope}.@{id}.fileset" versionsId="@{scope}.@{id}.versions" useScope="@{scope}" settingsFile="${maven.settings.xml}">
+				<nested />
 				<pom file="@{pom}" settingsFile="${maven.settings.xml}" />
 			</artifact:dependencies>
 		</sequential>

@@ -1,29 +1,34 @@
 package org.jboss.seam.ui.renderkit;
 
-import java.io.IOException;
-import java.io.StringWriter;
-
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.context.ResponseWriter;
-
-import org.jboss.seam.core.PojoCache;
+import org.jboss.seam.cache.CacheProvider;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.component.UICache;
 import org.jboss.seam.ui.util.cdk.RendererBase;
 
-public class CacheRendererBase extends RendererBase
-{
-   
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+public class CacheRendererBase extends RendererBase {
+
    private static final LogProvider log = Logging.getLogProvider(UICache.class);
-   
+
+   /**
+    * last time we logged the failure of the cache
+    */
+   private static Calendar lastLog = null;
+
    @Override
    protected Class getComponentClass()
    {
       return UICache.class;
    }
-   
+
    @Override
    protected void doEncodeChildren(ResponseWriter writer, FacesContext context, UIComponent component) throws IOException
    {
@@ -31,7 +36,7 @@ public class CacheRendererBase extends RendererBase
       if (cache.isEnabled())
       {
          String key = cache.getKey();
-         String cachedContent = getFromCache(key, cache.getRegion());
+         String cachedContent = (String) cache.getCacheProvider().get(key, cache.getRegion()); 
          if (cachedContent == null)
          {
             log.debug("rendering from scratch: " + key);
@@ -42,7 +47,7 @@ public class CacheRendererBase extends RendererBase
             context.setResponseWriter(writer);
             String output = stringWriter.getBuffer().toString();
             writer.write(output);
-            putInCache(key, cache.getRegion(), output);
+            cache.getCacheProvider().put(key, cache.getRegion(), output);
          }
          else
          {
@@ -53,32 +58,6 @@ public class CacheRendererBase extends RendererBase
       else
       {
          renderChildren(context, component);
-      }
-   }
-   
-
-   private static void putInCache(String key, String region, String content)
-   {
-      try
-      {
-         PojoCache.instance().put(region, key, content);
-      }
-      catch (Exception ce)
-      {
-         log.error("error accessing cache", ce);
-      }
-   }
-
-   private static String getFromCache(String key, String region)
-   {
-      try
-      {
-         return (String) PojoCache.instance().get(region, key);
-      }
-      catch (Exception ce)
-      {
-         log.error("error accessing cache", ce);
-         return null;
       }
    }
 

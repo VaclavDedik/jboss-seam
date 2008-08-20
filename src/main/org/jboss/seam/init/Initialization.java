@@ -42,7 +42,6 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
-import org.jboss.seam.core.PojoCache;
 import org.jboss.seam.deployment.DotPageDotXmlDeploymentHandler;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
 import org.jboss.seam.deployment.StandardDeploymentStrategy;
@@ -931,18 +930,7 @@ public class Initialization
    }
 
    private void addSpecialComponents(Init init)
-   {
-      try
-      {
-         Reflections.classForName("org.jboss.cache.aop.PojoCache");
-         addComponentDescriptor( new ComponentDescriptor(PojoCache.class, true) );
-      }
-      catch (ClassNotFoundException e) {}
-      catch (NoClassDefFoundError e) {
-         //temp solution due to broken JEMS installer portal profile!
-         log.warn("Did not install PojoCache due to NoClassDefFoundError: " + e.getMessage());
-      }
-   }
+   {}
 
    private void installComponents(Init init)
    {

@@ -175,11 +175,27 @@
       <optional>true</optional>
     </dependency>
 
+   <dependency>
+	  <groupId>net.sf.ehcache</groupId>
+      <artifactId>ehcache</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <!-- Order matters of jboss:jboss-cache and org.jboss.cache:jbosscache-core -->
+
     <dependency>
       <groupId>jboss</groupId>
       <artifactId>jboss-cache</artifactId>
       <optional>true</optional>
     </dependency>
+        
+    <dependency>
+      <groupId>org.jboss.cache</groupId>
+      <artifactId>jbosscache-core</artifactId>
+      <optional>true</optional>
+    </dependency>
+    
+
     
     <!-- This is actually a dep of jboss-cache, but it doesn't declare it -->
     <dependency>

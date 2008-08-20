@@ -23,6 +23,8 @@ package org.jboss.seam.ui.component;
 
 import javax.faces.component.UIComponentBase;
 
+import org.jboss.seam.cache.CacheProvider;
+
 
 /**
  * JSF component class
@@ -42,5 +44,9 @@ public abstract class UICache extends UIComponentBase
    public abstract String getRegion();
    
    public abstract void setRegion(String region);
+   
+   public abstract CacheProvider getCacheProvider();
+   
+   public abstract void setCacheProvider(CacheProvider cacheProvider);
 
 }
