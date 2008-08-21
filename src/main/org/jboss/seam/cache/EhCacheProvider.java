@@ -6,6 +6,7 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
@@ -26,6 +27,7 @@ import org.jboss.seam.log.Logging;
 @Scope(STATELESS)
 @BypassInterceptors
 @Install(value = false, precedence = BUILT_IN, classDependencies="net.sf.ehcache.Cache")
+@AutoCreate
 public class EhCacheProvider extends CacheProvider<CacheManager>
 {
 

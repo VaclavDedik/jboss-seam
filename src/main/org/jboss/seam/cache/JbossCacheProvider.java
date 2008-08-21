@@ -7,6 +7,7 @@ import org.jboss.cache.CacheException;
 import org.jboss.cache.Node;
 import org.jboss.cache.PropertyConfigurator;
 import org.jboss.cache.TreeCache;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
@@ -27,6 +28,7 @@ import org.jboss.seam.log.Logging;
 @Scope(APPLICATION)
 @BypassInterceptors
 @Install(precedence = FRAMEWORK, classDependencies="org.jboss.cache.TreeCache")
+@AutoCreate
 public class JbossCacheProvider extends AbstractJBossCacheProvider<TreeCache>
 {
 

@@ -5,6 +5,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import org.jboss.cache.CacheException;
 import org.jboss.cache.aop.PojoCache;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
@@ -25,6 +26,7 @@ import org.jboss.seam.log.Logging;
 @Scope(APPLICATION)
 @BypassInterceptors
 @Install(value = false, precedence = BUILT_IN, classDependencies="org.jboss.cache.aop.PojoCache")
+@AutoCreate
 public class JbossPojoCacheProvider extends AbstractJBossCacheProvider<PojoCache>
 {
 

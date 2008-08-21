@@ -6,6 +6,7 @@ import static org.jboss.seam.annotations.Install.BUILT_IN;
 import org.jboss.cache.Cache;
 import org.jboss.cache.CacheFactory;
 import org.jboss.cache.DefaultCacheFactory;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Install;
@@ -27,6 +28,7 @@ import org.jboss.seam.log.Logging;
 @Scope(APPLICATION)
 @BypassInterceptors
 @Install(precedence = BUILT_IN, classDependencies="org.jboss.cache.Cache")
+@AutoCreate
 public class JbossCache2Provider extends AbstractJBossCacheProvider<Cache>
 {
 
