@@ -83,9 +83,10 @@
       <listitem>
          <para>
             The application can cache transactional state using the Seam
-            <literal>pojoCache</literal> component, which integrates JBossCache
-            into the Seam environment. This state will be visible to other nodes
-            if you run JBoss cache in a clustered mode.
+            <literal>cacheProvider</literal> component, which integrates 
+            JBossCache, JBoss POJO Cache or EHCache into the Seam environment. 
+            This state will be visible to other nodes if your cache supports
+            running in a clustered mode.
          </para>
       </listitem>
       <listitem>
@@ -102,72 +103,228 @@
    <para>
       For more information about the second-level cache, you'll need to refer to
       the documentation of your ORM solution, since this is an extremely complex
-      topic. In this section we'll discuss the use of JBossCache directly, via
-      the <literal>pojoCache</literal> component, or as the page fragment cache,
+      topic. In this section we'll discuss the use of caching directly, via
+      the <literal>cacheProvider</literal> component, or as the page fragment cache,
       via the <literal>&lt;s:cache&gt;</literal> control.
    </para>
 
    <section>
-      <title>Using JBossCache in Seam</title>
+      <title>Using Caching in Seam</title>
 
       <para>
-         The built-in <literal>pojoCache</literal> component manages an instance
-         of <literal>org.jboss.cache.aop.PojoCache</literal>. You can safely put
-         any immutable Java object in the cache, and it will be replicated 
-         across the cluster (assuming that replication is enabled). If you want 
-         to keep mutable objects in the cache, you'll need to run the JBossCache
-         bytecode preprocessor to ensure that changes to the objects will be 
-         automatically detected and replicated.
+         The built-in <literal>cacheProvider</literal> component manages an instance
+         of:
+      </para>
+      
+      <variablelist>
+         <varlistentry>
+            <term>
+               JBoss Cache 1.x (suitable for use in JBoss 4.2.x and other
+               containers)
+            </term>
+            <listitem>
+               <para>
+                  <literal>org.jboss.cache.TreeCache</literal>
+               </para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>
+               JBoss Cache 2.x (suitable for use in JBoss 5.x and other
+               containers)
+            </term>
+            <listitem>
+               <para>
+                  <literal>org.jboss.cache.Cache</literal>
+               </para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>
+               JBoss POJO Cache 1.x (suitable for use in JBoss 4.2.x and other
+               containers)
+            </term>
+            <listitem>
+               <para>
+                  <literal>org.jboss.cache.aop.PojoCache</literal>
+               </para>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>
+               EHCache (suitable for use in any container)
+            </term>
+            <listitem>
+               <para>
+                  <literal>net.sf.ehcache.CacheManager</literal>
+               </para>
+            </listitem>
+         </varlistentry>
+      </variablelist>
+      
+      <para>  
+         You can safely put any immutable Java object in the cache, and it will 
+         be stored in the cache and replicated across the cluster (assuming that
+         replication is supported and enabled). If you want to keep mutable 
+         objects in the cache read the documentation of the underling caching 
+         project documentation to discover how to notify the cache of changes to 
+         the cache.
       </para>
 
       <para>
-         To use <literal>pojoCache</literal>, all you need to do is put the 
-         JBossCache jars in the classpath, and provide a resource named
+         To use <literal>cacheProvider</literal>, you need to include the jars 
+         of the cache implementation in your project:
+      </para>
+      
+      <variablelist>
+         <varlistentry>
+            <term>
+               JBoss Cache 1.x
+            </term>
+            <listitem>
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        <literal>jboss-cache.jar</literal> - JBoss Cache 1.4.1
+                     </para>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        <literal>jgroups.jar</literal> - JGroups 2.4.1
+                     </para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>
+               JBoss Cache 2.x
+            </term>
+            <listitem>
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        <literal>jboss-cache.jar</literal> - JBoss Cache 2.2.0
+                     </para>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        <literal>jgroups.jar</literal> - JGroups 2.6.2
+                     </para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>
+               JBoss POJO Cache 1.x
+            </term>
+            <listitem>
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        <literal>jboss-cache.jar</literal> - JBoss Cache 1.4.1
+                     </para>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        <literal>jgroups.jar</literal> - JGroups 2.4.1
+                     </para>
+                  </listitem>
+                  <listitem>
+                     <para>
+                        <literal>jboss-aop.jar</literal> - JBoss AOP 1.5.0
+                     </para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>
+               EHCache
+            </term>
+            <listitem>
+               <itemizedlist>
+                  <listitem>
+                     <para>
+                        <literal>ehcache.jar</literal> - EHCache 1.2.3
+                     </para>
+                  </listitem>
+               </itemizedlist>
+            </listitem>
+         </varlistentry>
+      </variablelist>
+      
+      <tip>
+         <para>
+            If you are using JBoss Cache in containers other than JBoss
+            Application Server, look at the JBoss Cache
+            <ulink url="http://wiki.jboss.org/wiki/JBossCache">wiki</ulink> page
+            for more dependencies.
+         </para>
+      </tip>
+      
+      <para>
+         For an EAR depoyment of Seam, we recommend that the cache jars and
+         configuration go directly into the EAR.
+      </para>
+      
+      <para>
+         You'll also need to provide a configuration file for JBossCache. Place
          <literal>treecache.xml</literal> with an appropriate cache 
-         configuration. JBossCache has many scary and confusing configuration 
-         settings, so we won't discuss them here. Please refer to the JBossCache
-         documentation for more information.
+         configuration into the classpath (e.g. the ejb jar or
+         <literal>WEB-INF/classes</literal>). JBossCache has many scary and 
+         confusing configuration settings, so we won't discuss them here. Please
+         refer to the JBossCache documentation for more information.
       </para>
 
       <para>
          You can find a sample <literal>treecache.xml</literal> in
          <literal>examples/blog/resources/treecache.xml</literal>.
       </para>
-
-
+      
       <para>
-         For an EAR depoyment of Seam, we recommend that the JBossCache jars and
-         configuration go directly into the EAR. Make sure you place both
-         <literal>jboss-cache.jar</literal> and <literal>jgroups.jar</literal>
-         in your EAR's lib folder.
+         EHCache will run in it's default configuration without a configuration
+         file
       </para>
+      
+      <para>
+         To alter the configuration file in use, configure your cache in
+         <literal>components.xml</literal>:
+      </para>
+      
+      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:cache="http://jboss.com/products/seam/cache">
+   <cache:jboss-cache-provider configuration="META-INF/cache/treecache.xml" />
+</components>]]></programlisting>
 
       <para>Now you can inject the cache into any Seam component:</para>
 
       <programlisting role="JAVA"><![CDATA[@Name("chatroom")
 public class Chatroom {
-   @In PojoCache pojoCache;
+   @In CacheProvider cacheProvider;
     
    public void join(String username) {
-      try {
-         Set<String> userList = (Set<String>) pojoCache.get("chatroom", "userList");
-         if (userList==null) {
-            userList = new HashSet<String>();
-            pojoCache.put("chatroom", "userList", userList);
-         }
-         userList.put(username);
-      } catch (CacheException ce) {
-         throw new RuntimeException(ce);
+      Set<String> userList = (Set<String>) pojoCache.get("chatroom", "userList");
+      if (userList==null) {
+         userList = new HashSet<String>();
+         cacheProvider.put("chatroom", "userList", userList);
       }
+      userList.put(username);
    }
 }]]></programlisting>
 
       <para>
-         If you want to have multiple JBossCache configurations in your
-         application, use <literal>components.xml</literal>:
+         If you want to have multiple cache configurations in your
+         application, use <literal>components.xml</literal> to configure
+         multiple cache providers:
       </para>
 
-      <programlisting role="JAVA"><![CDATA[<core:pojo-cache name="myCache" cfg-resource-name="myown/cache.xml"/>]]></programlisting>
+      <programlisting role="XML"><![CDATA[<components xmlns="http://jboss.com/products/seam/components"
+            xmlns:cache="http://jboss.com/products/seam/cache">
+   <cache:jboss-cache-provider name="myCache" configuration="myown/cache.xml"/>
+   <cache:jboss-cache-provider name="myOtherCache" configuration="myother/cache.xml"/>
+</components>]]></programlisting>
 
    </section>
 
@@ -175,7 +332,7 @@ public class Chatroom {
       <title>Page fragment caching</title>
 
       <para>
-         The most interesting user of JBossCache is the 
+         The most interesting use of caching in Seam is the 
          <literal>&lt;s:cache&gt;</literal> tag, Seam's solution to the problem 
          of page fragment caching in JSF. <literal>&lt;s:cache&gt;</literal>
          uses <literal>pojoCache</literal> internally, so you need to follow the
@@ -203,10 +360,10 @@ public class Chatroom {
       <para>
          The <literal>key</literal> let's you have multiple cached versions of 
          each page fragment. In this case, there is one cached version per blog.
-         The <literal>region</literal> determines the JBossCache node that all 
-         version will be stored in. Different nodes may have different expiry 
-         policies. (That's the stuff you set up using the aforementioned scary 
-         configuration options.)
+         The <literal>region</literal> determines the cache or region node that 
+         all version will be stored in. Different nodes may have different 
+         expiry policies. (That's the stuff you set up using the aforementioned 
+         scary configuration options.)
       </para>
 
       <para>
@@ -219,13 +376,13 @@ public class Chatroom {
       <programlisting role="JAVA"><![CDATA[public void post() {
     ...
     entityManager.persist(blogEntry);
-    pojoCache.remove("welcomePageFragments", "recentEntries-" + blog.getId() );
+    cacheProvider.remove("welcomePageFragments", "recentEntries-" + blog.getId() );
 }]]></programlisting>
 
       <para>
          Alternatively, if it is not critical that changes are immediately
          visible to the user, you could set a short expiry time on the
-         JbossCache node.
+         cache node.
       </para>
 
    </section>
