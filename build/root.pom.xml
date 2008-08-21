@@ -139,9 +139,9 @@
       
       
       <dependency>
-        <groupId>ant</groupId>
+        <groupId>org.apache.ant</groupId>
         <artifactId>ant</artifactId>
-        <version>1.6.5</version>
+        <version>1.7.0</version>
       </dependency>
       
       <dependency>
@@ -250,6 +250,10 @@
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
         </exclusions>
       </dependency>
     
@@ -258,6 +262,16 @@
         <groupId>org.jboss.cache</groupId>
         <artifactId>jbosscache-core</artifactId>
         <version>2.2.0.CR6</version>
+        <exclusions>
+          <exclusion>
+             <groupId>org.jboss</groupId>
+             <artifactId>jboss-common-core</artifactId>
+          </exclusion>
+          <exclusion>
+             <groupId>commons-logging</groupId>
+             <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -485,10 +499,14 @@
 			<groupId>net.sourceforge.jexcelapi</groupId>
 			<artifactId>jxl</artifactId>
 			<version>2.6.8-seam</version>
+         <exclusions>
+           <exclusion>
+             <groupId>log4j</groupId>
+             <artifactId>log4j</artifactId>
+           </exclusion>
+         </exclusions>
 		</dependency>
       
-
-      <!-- Should be 3.3.GA to be in sync with AS, but this doesn't seem to exist -->
       <dependency>
         <groupId>javassist</groupId>
         <artifactId>javassist</artifactId>
@@ -822,6 +840,24 @@
          <groupId>jboss</groupId>
          <artifactId>jboss-common-core</artifactId>
          <version>2.0.4.GA</version>
+         <exclusions>
+           <exclusion>
+             <groupId>apache-xerces</groupId>
+             <artifactId>xml-apis</artifactId>
+           </exclusion>
+           <exclusion>
+             <groupId>apache-httpclient</groupId>
+             <artifactId>commons-httpclient</artifactId>
+           </exclusion>
+           <exclusion>
+             <groupId>apache-slide</groupId>
+             <artifactId>webdavlib</artifactId>
+           </exclusion>
+           <exclusion>
+             <groupId>jboss</groupId>
+             <artifactId>jboss-common-logging-spi</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
 
       <dependency>
