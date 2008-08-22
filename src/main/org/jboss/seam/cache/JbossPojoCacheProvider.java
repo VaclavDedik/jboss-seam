@@ -25,7 +25,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.cache.cacheProvider")
 @Scope(APPLICATION)
 @BypassInterceptors
-@Install(value = false, precedence = BUILT_IN, classDependencies="org.jboss.cache.aop.PojoCache")
+@Install(value = false, precedence = BUILT_IN, classDependencies="org.jboss.cache.aop.PojoCache,org.jgroups.MembershipListener,org.jboss.aop.Dispatcher")
 @AutoCreate
 public class JbossPojoCacheProvider extends AbstractJBossCacheProvider<PojoCache>
 {
