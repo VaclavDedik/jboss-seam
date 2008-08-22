@@ -109,8 +109,8 @@ public class UIMessage extends MailComponent
    @Override
    public void encodeBegin(FacesContext context) throws IOException
    {
-      MailFacesContextImpl.start(getUrlBase()
-                  + context.getExternalContext().getRequestContextPath() == null ? "" : context.getExternalContext().getRequestContextPath());
+      MailFacesContextImpl.start(getUrlBase() == null  ? context.getExternalContext().getRequestContextPath() :
+         (getUrlBase() + context.getExternalContext().getRequestContextPath()));
       mimeMessage = null;
       try
       {
