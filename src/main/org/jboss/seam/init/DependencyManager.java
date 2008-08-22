@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+
 /**
  * Evaluates component dependencies to determine which
  * components are installed.
@@ -19,6 +22,8 @@ public class DependencyManager
     private Map<String, Set<ComponentDescriptor>> componentDescriptors;
     private Set<ComponentDescriptor> currentTestSet;
     private Set<ComponentDescriptor> installedSet;
+    
+    private final LogProvider log = Logging.getLogProvider(DependencyManager.class);    
 
     public DependencyManager(Map<String, Set<ComponentDescriptor>> componentDescriptors) 
     {
@@ -140,6 +145,12 @@ public class DependencyManager
             catch (Exception e)
             {
                 return false;                 
+            }
+            catch (NoClassDefFoundError e)
+            {
+               log.error("Error while checking dependencies for component class " + 
+                     descriptor.getComponentClass().getName(), e);
+               throw e;
             }
         }
 

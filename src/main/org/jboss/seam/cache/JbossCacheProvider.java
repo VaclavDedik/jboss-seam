@@ -27,7 +27,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.cache.cacheProvider")
 @Scope(APPLICATION)
 @BypassInterceptors
-@Install(precedence = FRAMEWORK, classDependencies="org.jboss.cache.TreeCache")
+@Install(precedence = FRAMEWORK, classDependencies="org.jboss.cache.TreeCache,org.jgroups.MembershipListener")
 @AutoCreate
 public class JbossCacheProvider extends AbstractJBossCacheProvider<TreeCache>
 {
