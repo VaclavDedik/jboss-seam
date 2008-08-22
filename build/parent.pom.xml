@@ -40,8 +40,7 @@
               </manifest>
             </archive>
           </configuration>
-      </plugin>
-        
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
