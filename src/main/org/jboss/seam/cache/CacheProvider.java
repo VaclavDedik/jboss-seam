@@ -22,7 +22,7 @@ public abstract class CacheProvider<T>
     */
    public static final String DEFAULT_REGION = "org.jboss.seam.cache.DefaultRegion";
    private String configuration;
-   protected String defaultRegion = DEFAULT_REGION;
+   private String defaultRegion = DEFAULT_REGION;
 
    /**
     * @return - the cache the cache provider delegates to

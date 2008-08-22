@@ -10,7 +10,7 @@ public abstract class AbstractJBossCacheProvider<T> extends CacheProvider<T>
       super.setConfiguration("treecache.xml");
    }
    
-   private Fqn defaultFqn = Fqn.fromString(defaultRegion);
+   private Fqn defaultFqn;
    
    protected Fqn getFqn(String region)
    {
@@ -20,6 +20,10 @@ public abstract class AbstractJBossCacheProvider<T> extends CacheProvider<T>
       }
       else
       {
+         if (defaultFqn == null)
+         {
+            defaultFqn = Fqn.fromString(getDefaultRegion());
+         }
          return defaultFqn;
       }
    }
