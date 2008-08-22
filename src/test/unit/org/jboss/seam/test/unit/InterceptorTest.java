@@ -2,6 +2,7 @@
 package org.jboss.seam.test.unit;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.CountDownLatch;
 
 import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
@@ -25,6 +26,7 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.ejb.RemoveInterceptor;
 import org.jboss.seam.faces.FacesMessages;
+import org.jboss.seam.intercept.InvocationContext;
 import org.jboss.seam.mock.MockApplication;
 import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
@@ -232,6 +234,104 @@ public class InterceptorTest
       assert Contexts.getConversationContext().get("name").equals("Gavin King");
 
       ServletLifecycle.endApplication();
+   }
+   
+   @Test
+   public void testReentrantBijection() throws Exception
+   {
+      MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
+      MockExternalContext externalContext = new MockExternalContext(servletContext);
+      Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( Seam.getComponentName(ConversationEntries.class) + ".component", 
+            new Component(ConversationEntries.class, appContext) );
+      appContext.set( Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class, appContext) );
+      appContext.set( Seam.getComponentName(Foo.class) + ".component", 
+            new Component(Foo.class, appContext) );
+      appContext.set( Seam.getComponentName(FooBar.class) + ".component", 
+            new Component(FooBar.class, appContext) );      
+
+      FacesLifecycle.beginRequest(externalContext);
+      Manager.instance().setCurrentConversationId("1");
+      FacesLifecycle.resumeConversation(externalContext);
+      FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);      
+      
+      final Foo foo = new Foo();
+      final FooBar fooBar = new FooBar();
+
+      Contexts.getSessionContext().set("foo", foo);
+      
+      final BijectionInterceptor bi = new BijectionInterceptor();
+      bi.setComponent( new Component(FooBar.class, appContext) );
+      
+      final Method m = FooBar.class.getMethod("delayedGetFoo", CountDownLatch.class);
+      
+      final CountDownLatch latchA = new CountDownLatch(1);
+      final CountDownLatch latchB = new CountDownLatch(1);
+      final CountDownLatch latchC = new CountDownLatch(1);
+      final CountDownLatch latchD = new CountDownLatch(1);
+      
+      final InvocationContext invocationA = new MockInvocationContext() {
+         @Override public Object getTarget() { return fooBar; }         
+         @Override public Method getMethod() { return m; }
+         @Override public Object[] getParameters() { return new Object[] { latchA }; }
+      };
+
+      final InvocationContext invocationB = new MockInvocationContext() {
+         @Override public Object getTarget() { return fooBar; }         
+         @Override public Method getMethod() { return m; }
+         @Override public Object[] getParameters() { return new Object[] { latchB }; }
+      };            
+            
+      new Thread(new Runnable() {
+         public void run() {
+            try
+            {
+               Foo result = (Foo) bi.aroundInvoke( invocationA );
+               assert result == foo;               
+            }
+            catch (Exception ex) 
+            { 
+               throw new RuntimeException(ex); 
+            }
+            finally
+            {
+               latchC.countDown();
+            }
+         }     
+      }).start();    
+      
+      new Thread(new Runnable() {
+         public void run() {
+            try
+            {
+               Foo result = (Foo) bi.aroundInvoke( invocationB );
+               assert result == foo;
+            }
+            catch (Exception ex) 
+            { 
+               throw new RuntimeException(ex); 
+            }
+            finally
+            {
+               latchD.countDown();
+            }
+         }     
+      }).start();       
+      
+      // Allow invocationA to complete
+      latchA.countDown();      
+      
+      // Wait for invocationA to finalise
+      latchC.await();
+      
+      // Allow invocationB to proceed
+      latchB.countDown();
+      
+      // Wait for invocationB
+      latchD.await();
    }
    
    @Test
