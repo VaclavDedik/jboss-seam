@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.core;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
@@ -22,36 +24,33 @@ public class BijectionInterceptor extends AbstractInterceptor
    
    private static final LogProvider log = Logging.getLogProvider(BijectionInterceptor.class);
    
-   private boolean reentrant; //OK, since all Seam components are single-threaded
+   private AtomicInteger reentrantCounter = new AtomicInteger();   
    
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
-      if (reentrant)
+      Component component = getComponent();
+      try
       {
-         if ( log.isTraceEnabled() )
+         if ( log.isTraceEnabled() && reentrantCounter.get() > 0 )
          {
             log.trace("reentrant call to component: " + getComponent().getName() );
          }
-         return invocation.proceed();
+         
+         reentrantCounter.incrementAndGet();            
+         boolean enforceRequired = !component.isLifecycleMethod( invocation.getMethod() );
+         component.inject( invocation.getTarget(), enforceRequired );
+         Object result = invocation.proceed();            
+         component.outject( invocation.getTarget(), enforceRequired );
+         
+         return result;
+         
       }
-      else
+      finally
       {
-         reentrant = true;
-         try
+         if (reentrantCounter.decrementAndGet() == 0)
          {
-            Component component = getComponent();
-            boolean enforceRequired = !component.isLifecycleMethod( invocation.getMethod() );
-            component.inject( invocation.getTarget(), enforceRequired );
-            Object result = invocation.proceed();            
-            component.outject( invocation.getTarget(), enforceRequired );
             component.disinject( invocation.getTarget() );
-            return result;
-            
-         }
-         finally
-         {
-            reentrant = false;
          }
       }
    }
