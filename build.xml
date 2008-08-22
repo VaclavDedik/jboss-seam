@@ -923,6 +923,11 @@
 				<manifest>
 					<attribute name="Seam-Version" value="${complete.version}" />
 					<attribute name="Implementation-Version" value="${complete.version}" />
+					<attribute name="Specification-Version" value="${complete.version}" />
+					<attribute name="Specification-Title" value="@{module}" />
+					<attribute name="Specification-Vendor" value="JBoss" />
+					<attribute name="Implementation-Title" value="@{module}" />
+					<attribute name="Implementation-Vendor" value="JBoss" />
 				</manifest>
 			</jar>
 			<jar jarfile="@{outputdir}/src/@{module}-sources.jar" basedir="@{srcdir}">
@@ -933,6 +938,11 @@
 				<manifest>
 					<attribute name="Seam-Version" value="${complete.version}" />
 					<attribute name="Implementation-Version" value="${complete.version}" />
+					<attribute name="Specification-Version" value="${complete.version}" />
+               <attribute name="Specification-Title" value="Seam @{module}" />
+               <attribute name="Specification-Vendor" value="JBoss" />
+               <attribute name="Implementation-Title" value="Seam @{module}" />
+               <attribute name="Implementation-Vendor" value="JBoss" />
 				</manifest>
 			</jar>
 			<install jar="@{outputdir}/@{module}.jar" pom="@{pom}">
