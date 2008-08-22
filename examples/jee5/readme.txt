@@ -131,11 +131,11 @@ Weblogic support requires some specific patches from Oracle/BEA so that their
 EJB3 support fuctions correctly.  Please refer to the Seam reference guide for 
 additional information.
   
-- http://docs.jboss.com/seam/2.1.0.A1/reference/en/html/weblogic.html
+- http://seamframework.org/Documentation
   
 WebSphere 6.1.0.13 with EJB3 feature pack
 ---------------------------
 The instructions for integration with Websphere are fairly verbose.  Please 
 refer to the Seam reference guide for additional information.
 
-- http://docs.jboss.com/seam/2.1.0.A1/reference/en/html/websphere.html
+- http://seamframework.org/Documentation
