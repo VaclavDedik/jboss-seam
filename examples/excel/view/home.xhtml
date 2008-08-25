@@ -25,7 +25,7 @@
 			</h:outputLink>
 			<br />
 
-			<h:outputLink value="jxl.seam">
+			<h:outputLink value="csv.seam">
 				<h:outputText>Export as comma separated file</h:outputText>
 			</h:outputLink>
 			<br />
@@ -41,11 +41,21 @@
 					<rich:dataTable value="#{excelTest.result}" var="person"
 						id="excelTable" columnClasses="left, right">
 						<rich:column>
-							<f:facet name="header">Name</f:facet>
-							<h:outputText value="#{person.name} #{person.lastName}"/>
+							<f:facet name="header">
+								<h:outputText value="First name"/>
+							</f:facet>
+							<h:outputText value="#{person.name}"/>
 						</rich:column>
 						<rich:column>
-							<f:facet name="header">Age</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Last name"/>
+							</f:facet>
+							<h:outputText value="#{person.lastName}"/>
+						</rich:column>
+						<rich:column>
+							<f:facet name="header">
+								<h:outputText value="Age"/>
+							</f:facet>
 							<h:outputText value="#{person.age}"/>
 						</rich:column>
 					</rich:dataTable>
