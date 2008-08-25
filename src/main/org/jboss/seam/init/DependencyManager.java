@@ -136,7 +136,11 @@ public class DependencyManager
             try 
             {   
                 descriptor.getComponentClass().getClassLoader().loadClass(className);
-            } 
+            }
+            catch (NoClassDefFoundError e)
+            {
+               return false;
+            }
             catch (Exception e)
             {
                 return false;                 
