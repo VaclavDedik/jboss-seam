@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="Hibernate Booking" default="jbosswar.archive" basedir=".">
+<project name="Hibernate Booking" default="tomcat.deploy" basedir=".">
 
     <!-- Naming -->
     <property name="Name"                   value="The Hibernate Example for JBoss Embedded in Tomcat"/>
