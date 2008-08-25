@@ -153,7 +153,11 @@ Release Notes - Seam - Version 2.1.0.BETA1
     * [JBSEAM-3283] - preserve transparency when transforming image
     * [JBSEAM-3288] - Booking example - wrong message is displayed when canceling hotel booking
     * [JBSEAM-3289] - 2 versions of ant used in the project distribution
+    * [JBSEAM-3291] - jboss-seam-ui.jar and  jboss-seam-ui-sources.jar do not have manifest version information
     * [JBSEAM-3295] - Major reentrancy problem with "Application Scope" components and injection/disinjection
+    * [JBSEAM-3303] - Unable to deploy war in JBoss AS due to jgroups dependency
+    * [JBSEAM-3306] - excel example csv download does not point to a csv file
+    * [JBSEAM-3307] - The excel example's "Export Table" files does not contain header rows
 
 ** Feature Request
     * [JBSEAM-273] - Specify HTTP headers in pages.xml
