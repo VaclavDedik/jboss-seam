@@ -46,11 +46,11 @@
          <programlisting role="XML">
          <![CDATA[
             <excel:excelFactory>
-                   <property name="implementations">
-                      <key>myExcelExporter</key>
-                      <value>my.excel.exporter.ExcelExport</value>
-                   </property>
-                </excel:excelFactory>
+               <property name="implementations">
+                  <key>myExcelExporter</key>
+                  <value>my.excel.exporter.ExcelExport</value>
+               </property>
+            </excel:excelFactory>
         ]]>
       </programlisting>
 	   <para>
