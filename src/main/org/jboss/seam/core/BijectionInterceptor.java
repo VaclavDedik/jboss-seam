@@ -23,22 +23,11 @@ public class BijectionInterceptor extends AbstractInterceptor
    private static final long serialVersionUID = 4686458105931528659L;
    
    private boolean injected;
-   
-   private boolean canDisinject;
-   
+     
    private int counter = 0;
    
    private ReentrantLock lock = new ReentrantLock();
-   
-   @Override
-   public void setComponent(Component component)
-   {
-      super.setComponent(component);
-            
-      canDisinject = !(component.getScope().equals(ScopeType.SESSION) 
-            || component.getScope().equals(ScopeType.APPLICATION));
-   }
-      
+         
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
@@ -79,7 +68,7 @@ public class BijectionInterceptor extends AbstractInterceptor
                finally
                {
                   // Avoid an extra lock by disinjecting here instead of the finally block
-                  if (injected && canDisinject)
+                  if (injected)
                   {
                      injected = false;
                      component.disinject( invocation.getTarget() );
@@ -96,7 +85,7 @@ public class BijectionInterceptor extends AbstractInterceptor
       }
       finally
       {            
-         if (injected && canDisinject)
+         if (injected)
          {
             lock.lock();
             try
