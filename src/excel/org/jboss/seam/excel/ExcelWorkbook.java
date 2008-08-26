@@ -6,8 +6,7 @@ import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;
 
 /**
- * General interface for interacting with an Excel Workbook abstraction NOTE:
- * Need to cleanup exceptions, since they are currently RI (JExcelAPI) typed
+ * General interface interacting with an Excel Workbook abstraction 
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
  * @author Daniel Roth (danielc.roth@gmail.com)

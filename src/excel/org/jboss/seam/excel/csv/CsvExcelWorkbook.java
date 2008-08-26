@@ -17,6 +17,8 @@ import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIImage;
 import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.Logging;
 
 /**
  * 10 minute (quite poor) implementation of csv excel workbook... Perhaps better
@@ -24,17 +26,24 @@ import org.jboss.seam.excel.ui.UIWorksheet;
  * 
  * Use at own risk.. :)
  * 
+ * @author Daniel Roth (danielc.roth@gmail.com)
  */
 public class CsvExcelWorkbook implements ExcelWorkbook
 {
-   int column = 0;
-   int row = 0;
-   int sheet = -1;
-   int maxrow = 0;
-   int maxcolumn = 0;
-   int maxsheet = 0;
+   private int column = 0;
+   private int row = 0;
+   private int sheet = -1;
+   private int maxrow = 0;
+   private int maxcolumn = 0;
+   private int maxsheet = 0;
+   
+   private final String COLUMN_DELIMITER = "\"";
+   private final String LINEBREAK = "\n";
+   
    private Map<Integer, Map<Integer, List<String>>> table = null;
    private List<String> sheets = new ArrayList<String>();
+   
+   private Log log = Logging.getLog(getClass());
 
    public void createWorkbook(UIWorkbook uiWorkbook) throws ExcelWorkbookException
    {
@@ -48,11 +57,11 @@ public class CsvExcelWorkbook implements ExcelWorkbook
 
    }
 
-   public void createOrSelectWorksheet(String worksheetName, Integer startRow, Integer startColumn)
+   private void createOrSelectWorksheet(String worksheetName, Integer startRow, Integer startColumn)
    {
       column = 0;
       row = 0;
-      if (sheets.contains(sheets))
+      if (sheets.contains(worksheetName))
       {
          sheet = sheets.indexOf(sheets);
          column = startColumn;
@@ -74,16 +83,15 @@ public class CsvExcelWorkbook implements ExcelWorkbook
          Map<Integer, List<String>> sheet = table.get(i);
          if (sheet != null)
          {
-            buffer.append(sheets.get(i)).append("\n");
-            for (int j = 0; j < maxrow; j++)
+            for (int j = 0; j <= maxrow; j++)
             {
                for (List<String> col : sheet.values())
                {
                   if (col.get(j) != null)
-                     buffer.append("\"").append(String.valueOf(col.get(j))).append("\"").append(",");
+                     buffer.append(COLUMN_DELIMITER).append(String.valueOf(col.get(j))).append(COLUMN_DELIMITER).append(",");
                }
 
-               buffer.append("\n");
+               buffer.append(LINEBREAK);
             }
 
          }
@@ -91,7 +99,7 @@ public class CsvExcelWorkbook implements ExcelWorkbook
       return buffer.toString().getBytes();
    }
 
-   public void addCell(int sheet, int column, int row, UICell uiCell) throws ExcelWorkbookException
+   private void addCell(int sheet, int column, int row, UICell uiCell) throws ExcelWorkbookException
    {
       if (table.get(sheet) == null)
          table.put(sheet, new TreeMap<Integer, List<String>>());
@@ -122,7 +130,7 @@ public class CsvExcelWorkbook implements ExcelWorkbook
 
    public void addImage(UIImage uiImage)
    {
-      // JPG2ASCII!!1!
+      log.warn("addImage() is not supported by CSV exporter", new Object[0]);
    }
 
    public void addItem(WorksheetItem item)
@@ -133,18 +141,22 @@ public class CsvExcelWorkbook implements ExcelWorkbook
 
    public void addTemplate(Template template)
    {
+      log.trace("addTemplate() is not supported by CSV exporter", new Object[0]);
    }
 
    public void applyWorksheetSettings(UIWorksheet uiWorksheet)
    {
+      log.trace("applyWorksheetSettings() is not supported by CSV exporter", new Object[0]);
    }
 
    public void applyColumnSettings(UIColumn uiColumn)
    {
+      log.trace("applyColumnSettings() is not supported by CSV exporter", new Object[0]);
    }
 
    public void executeCommand(Command command)
    {
+      log.trace("executeCommand() is not supported by CSV exporter", new Object[0]);
    }
 
 }

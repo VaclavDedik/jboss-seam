@@ -13,6 +13,11 @@ import org.jboss.seam.excel.csv.CsvExcelWorkbook;
 import org.jboss.seam.excel.jxl.JXLExcelWorkbook;
 import org.jboss.seam.util.Strings;
 
+/**
+ * Factory to get excel workbook implementation
+ * 
+ * @author Daniel Roth (danielc.roth@gmail.com)
+ */
 @Name("org.jboss.seam.excel.excelFactory")
 @Scope(ScopeType.STATELESS)
 @AutoCreate

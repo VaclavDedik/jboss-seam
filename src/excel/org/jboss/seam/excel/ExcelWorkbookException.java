@@ -2,6 +2,10 @@ package org.jboss.seam.excel;
 
 /**
  * Encapsulate errors occuring in excel workbook generation
+ * 
+ * @author Nicklas Karlsson (nickarls@gmail.com)
+ * @author Daniel Roth (danielc.roth@gmail.com)
+ * 
  */
 public class ExcelWorkbookException extends RuntimeException
 {
