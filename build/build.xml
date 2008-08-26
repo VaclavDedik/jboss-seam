@@ -50,6 +50,7 @@
 		<deployWithSources pom="${ui.pom}" jar="${lib.dir}/jboss-seam-ui.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-ui-sources.jar"/>
 		<deployWithSources pom="${jul.pom}" jar="${lib.dir}/interop/jboss-seam-jul.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/interop/src/jboss-seam-jul-sources.jar"/>
 		<deployWithSources pom="${resteasy.pom}" jar="${lib.dir}/jboss-seam-resteasy.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-resteasy-sources.jar"/>
+	    <deployWithSources pom="${wicket.pom}" jar="${lib.dir}/jboss-seam-wicket.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-wicket-sources.jar"/>
 		<deployExample name="booking" repositoryId="offline.repository.jboss.org"/>
 		<deployExampleNoDs name="numberguess" repositoryId="offline.repository.jboss.org"/>
 		<deployExample name="dvd" path="${seam.dir}/examples/dvdstore" repositoryId="offline.repository.jboss.org"/>
