@@ -1,9 +1,14 @@
 package org.jboss.seam.excel.ui;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import javax.faces.context.FacesContext;
+
+import org.jboss.seam.core.Interpolator;
+import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.WorksheetItem;
 
 public class UICell extends UICellFormat implements WorksheetItem
@@ -50,10 +55,20 @@ public class UICell extends UICellFormat implements WorksheetItem
    {
       this.row = row;
    }
-
+  
+   
    public Object getValue()
    {
-      return valueOf("value", value);
+      Object theValue = valueOf("value", value);
+      if (theValue == null) {
+         try {
+            theValue = cmp2String(FacesContext.getCurrentInstance(), this);
+         } catch (IOException e) {
+            String message = Interpolator.instance().interpolate("Could not render cell #0", getId());
+            throw new ExcelWorkbookException(message, e);
+         }
+      }
+      return theValue;
    }
 
    public void setValue(Object value)

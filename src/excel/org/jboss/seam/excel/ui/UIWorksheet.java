@@ -92,7 +92,7 @@ public class UIWorksheet extends UIWorksheetSettings
    }
 
    @Override
-   public void encodeBegin(javax.faces.context.FacesContext arg0) throws java.io.IOException
+   public void encodeBegin(javax.faces.context.FacesContext facesContext) throws java.io.IOException
    {
       /**
        * Get workbook

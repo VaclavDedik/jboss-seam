@@ -1,16 +1,23 @@
 package org.jboss.seam.excel.ui;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import javax.faces.render.RenderKit;
 
 import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.Template;
 import org.jboss.seam.excel.WorksheetItem;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.ui.util.JSF;
 
 /**
  * Common superclass for the UI components. Contains helper methods for merging
@@ -23,7 +30,37 @@ import org.jboss.seam.excel.WorksheetItem;
 public abstract class ExcelComponent extends UIComponentBase
 {
    public final static String HEADER_FACET = "header";
+   private static final String DEFAULT_CONTENT_TYPE = "text/html";
+   private static final String DEFAULT_CHARACTER_ENCODING = "utf-8";
 
+
+   /**
+    * Helper method for rendering a component (usually on a facescontext with a caching
+    * reponsewriter)
+    * 
+    * @param facesContext The faces context to render to
+    * @param component The component to render
+    * @return The textual representation of the component
+    * @throws IOException If the JSF helper class can't render the component
+    */
+   public static String cmp2String(FacesContext facesContext, UIComponent component) throws IOException
+   {
+      ResponseWriter oldResponseWriter = facesContext.getResponseWriter();
+      String contentType = oldResponseWriter != null ? oldResponseWriter.getContentType() : DEFAULT_CONTENT_TYPE;
+      String characterEncoding = oldResponseWriter != null ? oldResponseWriter.getCharacterEncoding() : DEFAULT_CHARACTER_ENCODING;
+      RenderKit renderKit = facesContext.getRenderKit();
+      StringWriter cacheingWriter = new StringWriter();
+      ResponseWriter newResponseWriter = renderKit.createResponseWriter(cacheingWriter, contentType, characterEncoding);
+      facesContext.setResponseWriter(newResponseWriter);
+      JSF.renderChild(facesContext, component);
+      if (oldResponseWriter != null) {
+         facesContext.setResponseWriter(oldResponseWriter);
+      }
+      cacheingWriter.flush();
+      cacheingWriter.close();
+      return cacheingWriter.toString();
+   }    
+   
    public ExcelComponent()
    {
       super();

@@ -41,7 +41,7 @@ public class UIExcelExport extends ExcelComponent
 
    @SuppressWarnings("unchecked")
    @Override
-   public void encodeBegin(javax.faces.context.FacesContext arg0) throws IOException
+   public void encodeBegin(javax.faces.context.FacesContext facesContext) throws IOException
    {
       UIData dataTable = (UIData) getParentByClass(getParent(), UIData.class);
       if (dataTable == null)

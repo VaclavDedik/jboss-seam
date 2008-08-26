@@ -287,7 +287,7 @@ public class UIWorkbook extends ExcelComponent
 
    @SuppressWarnings("unchecked")
    @Override
-   public void encodeBegin(javax.faces.context.FacesContext arg0) throws IOException
+   public void encodeBegin(javax.faces.context.FacesContext facesContext) throws IOException
    {
       timing = new Date().getTime();
       /**

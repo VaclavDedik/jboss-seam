@@ -1,6 +1,7 @@
 package org.jboss.seam.excel.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class UIColumn extends ExcelComponent
 
    @SuppressWarnings("unchecked")
    @Override
-   public void encodeBegin(FacesContext arg0) throws IOException
+   public void encodeBegin(FacesContext facesContext) throws IOException
    {
       /**
        * Get workbook and worksheet
@@ -120,27 +121,35 @@ public class UIColumn extends ExcelComponent
        */
       for (WorksheetItem item : getItems(getChildren()))
       {
-         if (item != null)
+         Object oldValue = null;
+         Iterator iterator = null;
+         // Store away the old value for the sheet binding var (if there is one)
+         if (sheet.getVar() != null) {
+            oldValue = FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get(sheet.getVar());
+            iterator = sheet.getDataIterator();
+         } else {
+            // No var, no iteration...
+            iterator = new ArrayList().iterator();
+         }
+         while (iterator.hasNext())
          {
-            // Store away the old value for the sheet binding var
-            Object oldValue = FacesContext.getCurrentInstance().getExternalContext().getRequestMap().get(sheet.getVar());
-            Iterator iterator = sheet.getDataIterator();
-            while (iterator.hasNext())
-            {
-               // Store the bound data in the request map and add the cell
-               FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(sheet.getVar(), iterator.next());
-               excelWorkbook.addItem(item);
-            }
+            // Store the bound data in the request map and add the cell
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(sheet.getVar(), iterator.next());
+            excelWorkbook.addItem(item);
+         }
 
-            // Restore the previously modified request map
-            if (oldValue == null)
-            {
-               FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove(sheet.getVar());
-            }
-            else
-            {
-               FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(sheet.getVar(), oldValue);
-            }
+         //  No iteration, nothing to restore
+         if (sheet.getVar() == null) {
+            continue;
+         }
+         // Restore the previously modified request map (if there was a var)
+         if (oldValue == null)
+         {
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove(sheet.getVar());
+         }
+         else
+         {
+            FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(sheet.getVar(), oldValue);
          }
       }
 
