@@ -1,6 +1,8 @@
 //$Id$
 package org.jboss.seam.core;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
@@ -12,51 +14,99 @@ import org.jboss.seam.intercept.InvocationContext;
  * invoking, outject dependencies back into their context.
  * 
  * @author Gavin King
+ * @author Shane Bryzak
  */
 @Interceptor
 public class BijectionInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = 4686458105931528659L;
    
-   private Integer counter = 0;
+   private boolean injected;
+   
+   private int counter = 0;
+   
+   private ReentrantLock lock = new ReentrantLock();
+   
+   @Override
+   public void setComponent(Component component)
+   {
+      super.setComponent(component);
+   }
       
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
+      Component component = getComponent();
+      boolean enforceRequired = !component.isLifecycleMethod( invocation.getMethod() );      
+      
       try
-      {
-         synchronized (counter)
+      {    
+         lock.lock();
+         try
          {
-            if (counter == 0)
-            {
-               Component component = getComponent();
-               boolean enforceRequired = !component.isLifecycleMethod( invocation.getMethod() );
+            if (!injected)
+            {              
                component.inject( invocation.getTarget(), enforceRequired );
+               injected = true;
             }
+            
             counter++;
          }
-         
-         Object result = invocation.proceed();
-         
-         if (counter == 1)
+         finally
          {
-            Component component = getComponent();
-            boolean enforceRequired = !component.isLifecycleMethod( invocation.getMethod() );
-            component.outject( invocation.getTarget(), enforceRequired );
+            lock.unlock();
          }
+                           
+         Object result = invocation.proceed();
+            
+         lock.lock();
+         try
+         {
+            counter--;
+            
+            if (counter == 0)
+            {
+               try
+               {                     
+                  component.outject( invocation.getTarget(), enforceRequired );
+               }
+               finally
+               {
+                  // Avoid an extra lock by disinjecting here instead of the finally block
+                  if (injected)
+                  {
+                     injected = false;
+                     component.disinject( invocation.getTarget() );
+                  }
+               }   
+            }
+         }
+         finally
+         {
+            lock.unlock();
+         }
+         
          return result;
       }
       finally
-      {
-         synchronized (counter)
+      {            
+         if (injected)
          {
-            if (counter == 1)
+            lock.lock();
+            try
             {
-               Component component = getComponent();
-               component.disinject( invocation.getTarget() );
+               counter--;
+               
+               if (counter == 0)
+               {
+                  injected = false;
+                  component.disinject( invocation.getTarget() );     
+               }
             }
-            counter--;
-            
+            finally
+            {
+               lock.unlock();
+            }
          }
       }
    }
