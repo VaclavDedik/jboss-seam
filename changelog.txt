@@ -156,8 +156,10 @@ Release Notes - Seam - Version 2.1.0.BETA1
     * [JBSEAM-3291] - jboss-seam-ui.jar and  jboss-seam-ui-sources.jar do not have manifest version information
     * [JBSEAM-3295] - Major reentrancy problem with "Application Scope" components and injection/disinjection
     * [JBSEAM-3303] - Unable to deploy war in JBoss AS due to jgroups dependency
+    * [JBSEAM-3304] - Blog example throws NullPointerException with message: "Argument Error: Parameter message is null"
     * [JBSEAM-3306] - excel example csv download does not point to a csv file
     * [JBSEAM-3307] - The excel example's "Export Table" files does not contain header rows
+    * [JBSEAM-3318] - seambay example throws NullPointerException with message: "Argument Error: Parameter message is null" when bidding
 
 ** Feature Request
     * [JBSEAM-273] - Specify HTTP headers in pages.xml
