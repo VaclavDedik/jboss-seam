@@ -42,6 +42,7 @@ public class BijectionInterceptor extends AbstractInterceptor
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
+      Component component = getComponent();    
       boolean enforceRequired = !component.isLifecycleMethod( invocation.getMethod() );      
       
       try
