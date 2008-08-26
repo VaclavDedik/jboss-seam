@@ -1,29 +1,19 @@
 package org.jboss.seam.rss.ui;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.faces.component.UIComponent;
-import javax.faces.component.ValueHolder;
-import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
-import org.jboss.seam.Component;
 import org.jboss.seam.contexts.Contexts;
-import org.jboss.seam.core.Manager;
-import org.jboss.seam.document.DocumentData;
-import org.jboss.seam.document.DocumentStore;
-import org.jboss.seam.document.DocumentData.DocumentType;
-import org.jboss.seam.log.Logging;
-import org.jboss.seam.navigation.Pages;
+import javax.faces.context.FacesContext;
 
 import yarfraw.core.datamodel.ChannelFeed;
 import yarfraw.core.datamodel.FeedFormat;
-import yarfraw.core.datamodel.Text;
 import yarfraw.core.datamodel.YarfrawException;
-import yarfraw.core.datamodel.Text.TextType;
 import yarfraw.io.FeedWriter;
 
 /*
@@ -87,38 +77,13 @@ public class UIFeed extends SyndicationComponent
       } catch (YarfrawException e) {
          throw new IOException("Could not create feed", e);
       }
-      byteStream.flush();
-      String x = byteStream.toString();
-      DocumentType documentType = new DocumentData.DocumentType(EXTENSION, MIMETYPE);
-
-      String viewId = Pages.getViewId(facesContext);
-      String baseName = baseNameForViewId(viewId);
-
-      DocumentData documentData = new DocumentData(baseName, documentType, byteStream.toByteArray());
-
-      if (sendRedirect)
-      {
-         DocumentStore store = DocumentStore.instance();
-         String id = store.newId();
-
-         String url = store.preferredUrlForContent(baseName, documentType.getExtension(), id);
-         url = Manager.instance().encodeConversationId(url, viewId);
-
-         store.saveData(id, documentData);
-
-         facesContext.getExternalContext().redirect(url);
-
-      }
-      else
-      {
-         UIComponent parent = getParent();
-
-         if (parent instanceof ValueHolder)
-         {
-            ValueHolder holder = (ValueHolder) parent;
-            holder.setValue(documentData);
-         }
-      }
+      Writer responseWriter = ((HttpServletResponse)facesContext.getExternalContext().getResponse()).getWriter();
+      HttpServletResponse response = (HttpServletResponse)facesContext.getExternalContext().getResponse();
+      response.setContentType(MIMETYPE);
+      response.setContentLength(byteStream.size());
+      responseWriter.write(byteStream.toString());
+      response.flushBuffer();
+      facesContext.responseComplete();
    }
 
    public static String baseNameForViewId(String viewId)
