@@ -43,11 +43,7 @@ public class FacesMessages extends StatusMessages
    {
       for (StatusMessage statusMessage: getMessages())
       {
-         FacesMessage message = toFacesMessage(statusMessage);
-         if (message != null)
-         {
-            FacesContext.getCurrentInstance().addMessage( null, message );
-         }
+         FacesContext.getCurrentInstance().addMessage( null, toFacesMessage(statusMessage) );
       }
       for ( Map.Entry<String, List<StatusMessage>> entry: getKeyedMessages().entrySet() )
       {

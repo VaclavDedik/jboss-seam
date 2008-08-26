@@ -14,6 +14,7 @@ import org.jboss.seam.Component;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.international.StatusMessage.Severity;
+import org.jboss.seam.util.Strings;
 
 /**
  * Abstract base class for providing status messages. View layers should provide
@@ -71,17 +72,23 @@ public abstract class StatusMessages implements Serializable
     */
    public void add(Severity severity, String key, String detailKey, String messageTemplate, String messageDetailTemplate, final Object... params)
    {
-      final StatusMessage message = new StatusMessage(severity, key, detailKey, messageTemplate, messageDetailTemplate);
-      messages.add(message);
-      getTasks().add(
-            new Runnable() 
-            {
-               public void run() 
-               {
-                   message.interpolate(params);
-               }
-            }
-      );
+      if (!Strings.isEmpty(key))
+      {
+         final StatusMessage message = new StatusMessage(severity, key, detailKey, messageTemplate, messageDetailTemplate);
+         if (!Strings.isEmpty(message.getSummary()))
+         {
+            messages.add(message);
+            getTasks().add(
+                  new Runnable() 
+                  {
+                     public void run() 
+                     {
+                         message.interpolate(params);
+                     }
+                  }
+            );
+         }
+      }
    }
    
    /**
@@ -98,29 +105,34 @@ public abstract class StatusMessages implements Serializable
     */
    public void addToControl(String id, Severity severity, String key, String messageTemplate, final Object... params)
    {
-      final StatusMessage message = new StatusMessage(severity, key, null, messageTemplate, null);
-      if (keyedMessages.containsKey(id))
-      {
-         keyedMessages.get(id).add(message);
-      }
-      else
-      {
-         List<StatusMessage> list = new ArrayList<StatusMessage>();
-         list.add(message);
-         keyedMessages.put(id, list);
-      }
-      getTasks().add(
-            new Runnable() 
+      if (!Strings.isEmpty(key))
+      {            
+         final StatusMessage message = new StatusMessage(severity, key, null, messageTemplate, null);
+         if (!Strings.isEmpty(message.getSummary()))
+         {         
+            if (keyedMessages.containsKey(id))
             {
-               
-               public void run() 
-               {
-                  message.interpolate(params);
-               }
-               
+               keyedMessages.get(id).add(message);
             }
-      );
-      
+            else
+            {
+               List<StatusMessage> list = new ArrayList<StatusMessage>();
+               list.add(message);
+               keyedMessages.put(id, list);
+            }
+            getTasks().add(
+                  new Runnable() 
+                  {
+                     
+                     public void run() 
+                     {
+                        message.interpolate(params);
+                     }
+                     
+                  }
+            );
+         }
+      }      
    }
 
    /**
