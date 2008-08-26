@@ -22,8 +22,6 @@ import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.util.Strings;
 
-import com.sun.mail.handlers.message_rfc822;
-
 /**
  * A Seam component that propagates FacesMessages across redirects
  * and interpolates EL expressions in the message string.
@@ -45,7 +43,11 @@ public class FacesMessages extends StatusMessages
    {
       for (StatusMessage statusMessage: getMessages())
       {
-         FacesContext.getCurrentInstance().addMessage( null, toFacesMessage(statusMessage) );
+         FacesMessage message = toFacesMessage(statusMessage);
+         if (message != null)
+         {
+            FacesContext.getCurrentInstance().addMessage( null, message );
+         }
       }
       for ( Map.Entry<String, List<StatusMessage>> entry: getKeyedMessages().entrySet() )
       {
