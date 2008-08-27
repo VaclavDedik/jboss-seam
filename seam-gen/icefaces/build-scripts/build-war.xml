@@ -36,11 +36,12 @@
         <fileset refid="lib" />
     </path>
 
-    <taskdef name ="groovyc"
-        classname ="org.codehaus.groovy.ant.Groovyc"
-        classpathref="build.classpath"/> <!-- really only the groovy jar is necessary -->
-
     <target name="init" description="Initialize the build">
+
+        <taskdef name ="groovyc"
+            classname ="org.codehaus.groovy.ant.Groovyc"
+            classpathref="build.classpath"/> <!-- really only the groovy jar is necessary -->
+
         <mkdir dir="${classes.model.dir}" />
         <mkdir dir="${classes.action.dir}" />
         <mkdir dir="${dist.dir}" />
