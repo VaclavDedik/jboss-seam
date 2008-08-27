@@ -37,7 +37,7 @@ public abstract class RunAsOperation
    public RunAsOperation(boolean systemOp)
    {      
       this();
-      systemOp = true;
+      this.systemOp = systemOp;
    }
    
    public abstract void execute();

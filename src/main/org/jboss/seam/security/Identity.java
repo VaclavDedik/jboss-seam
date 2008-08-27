@@ -78,7 +78,7 @@ public class Identity implements Serializable
    
    private RememberMe rememberMe;
    
-   private boolean systemOp;
+   private ThreadLocal<Boolean> systemOp = new ThreadLocal<Boolean>();
    
    private String jaasConfigName = null;
    
@@ -412,7 +412,7 @@ public class Identity implements Serializable
    public boolean hasRole(String role)
    {
       if (!securityEnabled) return true;
-      if (systemOp) return true;
+      if (systemOp.get()) return true;
       
       isLoggedIn(true);
       
@@ -524,7 +524,7 @@ public class Identity implements Serializable
     */
    public void checkPermission(String name, String action, Object...arg)
    {
-      if (systemOp) return; 
+      if (systemOp.get()) return; 
       
       isLoggedIn(true);
       
@@ -546,7 +546,7 @@ public class Identity implements Serializable
    
    public void checkPermission(Object target, String action)
    {
-      if (systemOp) return;
+      if (systemOp.get()) return;
       
       isLoggedIn(true);
       
@@ -577,7 +577,7 @@ public class Identity implements Serializable
    public boolean hasPermission(String name, String action, Object...arg)
    {      
       if (!securityEnabled) return true;
-      if (systemOp) return true;     
+      if (systemOp.get()) return true;     
       if (permissionMapper == null) return false;
          
       if (arg != null)
@@ -598,7 +598,7 @@ public class Identity implements Serializable
    public boolean hasPermission(Object target, String action)
    {
       if (!securityEnabled) return true;
-      if (systemOp) return true;      
+      if (systemOp.get()) return true;      
       if (permissionMapper == null) return false;
       if (target == null) return false;
       
@@ -706,13 +706,13 @@ public class Identity implements Serializable
          principal = operation.getPrincipal();
          subject = operation.getSubject();
          
-         systemOp = operation.isSystemOperation();
+         systemOp.set(operation.isSystemOperation());
          
          operation.execute();
       }
       finally
       {
-         systemOp = false;
+         systemOp.set(false);
          principal = savedPrincipal;
          subject = savedSubject;
       }
