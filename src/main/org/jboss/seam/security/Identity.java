@@ -341,7 +341,7 @@ public class Identity implements Serializable
     * authenticated user.  This method may be overridden by a subclass if
     * different post-authentication logic should occur.
     */
-   void postAuthenticate()
+   protected void postAuthenticate()
    {
       // Populate the working memory with the user's principals
       for ( Principal p : getSubject().getPrincipals() )
