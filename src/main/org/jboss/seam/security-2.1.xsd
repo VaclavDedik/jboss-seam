@@ -71,6 +71,7 @@
     
     <xs:attributeGroup name="attlist.ldap-identity-store">
         <xs:attribute name="server-address" type="components:string"/>
+        <xs:attribute name="server-port" type="components:string"/>
         <xs:attribute name="bind-DN" type="components:string"/>
         <xs:attribute name="bind-credentials" type="components:string"/>
         <xs:attribute name="user-DN-prefix" type="components:string"/>
