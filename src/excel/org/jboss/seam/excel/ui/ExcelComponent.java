@@ -29,7 +29,6 @@ import org.jboss.seam.ui.util.JSF;
  */
 public abstract class ExcelComponent extends UIComponentBase
 {
-   public final static String HEADER_FACET = "header";
    private static final String DEFAULT_CONTENT_TYPE = "text/html";
    private static final String DEFAULT_CHARACTER_ENCODING = "utf-8";
 

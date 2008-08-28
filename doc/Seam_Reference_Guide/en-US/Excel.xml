@@ -777,7 +777,16 @@
                      <itemizedlist>
                         <listitem>
                            <para>
-                              <literal>none</literal>
+                              <literal>header</literal>&#8212;Contents that will
+                              be placed at the top of the data block, above the 
+                              column headers (if any)
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>footer</literal>&#8212;Contents that will
+                              be placed at the bottom of the data block, below the 
+                              column footers (if any)
                            </para>
                         </listitem>
                      </itemizedlist>
@@ -900,6 +909,20 @@
                               or
                               <literal>&lt;e:hyperLink&gt;</literal>
                               that will be used as header for the column.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>footer</literal>
+                              &#8212;This facet can/will contain one
+                              <literal>&lt;e:cell&gt;</literal>
+                              ,
+                              <literal>&lt;e:formula&gt;</literal>
+                              ,
+                              <literal>&lt;e:image&gt;</literal>
+                              or
+                              <literal>&lt;e:hyperLink&gt;</literal>
+                              that will be used as footer for the column.
                            </para>
                         </listitem>
                      </itemizedlist>

@@ -79,4 +79,18 @@ public interface ExcelWorkbook
     * @param command The command to execute
     */
    public abstract void executeCommand(Command command);
+
+   /**
+    * Places an item in the worksheet header
+    * 
+    * @param item The item to add
+    */
+   public abstract void addWorksheetHeader(WorksheetItem item);
+   
+   /**
+    * Places an item in the worksheet footer
+    * 
+    * @param item The item to add
+    */
+   public abstract void addWorksheetFooter(WorksheetItem item);
 }

@@ -28,6 +28,8 @@ import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;
+import org.jboss.seam.log.Log;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
 
 /**
@@ -150,6 +152,17 @@ public class ExcelExporter
          processOutputs(headerOutputs, "global,header");
       }
 
+      try
+      {
+         String rendered = ExcelComponent.cmp2String(FacesContext.getCurrentInstance(), column);
+         Log log = Logging.getLog(getClass());
+         log.warn("Rendered as #0", rendered);
+      }
+      catch (IOException e)
+      {
+         e.printStackTrace();
+      }
+      
       // Process data
       while (iterator.hasNext())
       {

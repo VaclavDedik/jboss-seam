@@ -55,8 +55,6 @@ public class UIWorkbook extends ExcelComponent
    private Boolean useTemporaryFileDuringWrite;
    private Boolean workbookProtected;
 
-   private long timing;
-
    public CreationType getCreationType()
    {
       if (hasSettings())
@@ -289,20 +287,13 @@ public class UIWorkbook extends ExcelComponent
    @Override
    public void encodeBegin(javax.faces.context.FacesContext facesContext) throws IOException
    {
-      timing = new Date().getTime();
-      /**
-       * Get workbook implementation
-       */
+      // Get workbook implementation
       excelWorkbook = ExcelFactory.instance().getExcelWorkbook(type);
 
-      /**
-       * Create a new workbook
-       */
+      // Create a new workbook
       excelWorkbook.createWorkbook(this);
 
-      /**
-       * Find global templates and push them to workbook
-       */
+      // Find global templates and push them to workbook
       for (Template template : getTemplates(getChildren()))
       {
          excelWorkbook.addTemplate(template);
@@ -314,23 +305,14 @@ public class UIWorkbook extends ExcelComponent
    public void encodeEnd(FacesContext context) throws IOException
    {
 
-      /**
-       * Get the bytes from workbook that should be passed on to the user
-       */
-      byte[] bytes = new byte[0];
-      bytes = excelWorkbook.getBytes();
-      if (log.isDebugEnabled())
-      {
-         log.debug("Prosessed for {0}ms", new Date().getTime() - timing);
-      }
+      // Get the bytes from workbook that should be passed on to the user
+      byte[] bytes = excelWorkbook.getBytes();
 
       DocumentType type = excelWorkbook.getDocumentType();
 
       /**
-       * 
        * Code below is the same as for PDF generation. With a seam core document
        * store (or equivalent), this might need modifications
-       * 
        */
       String viewId = Pages.getViewId(context);
       String baseName = baseNameForViewId(viewId);

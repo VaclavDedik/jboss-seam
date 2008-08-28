@@ -106,6 +106,12 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * user-defined worksheets in the workbook.
     */
    private int currentWorksheetIndex = 0;
+   
+   /**
+    * The maximum row index we have seen. Used for determining where to place the 
+    * worksheet footer (if any)
+    */
+   private int maxRowIndex;
 
    // Template helper class for cell formats
    private JXLTemplates templates = new JXLTemplates();
@@ -127,7 +133,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook
          throw new ExcelWorkbookException(Interpolator.instance().interpolate("Excel only supports {0} rows", MAX_COLUMNS));
       }
    }
-
+   
    /**
     * Moves the internal column pointer to the next column, called by the tag to
     * indicate that a new column has been started. If the pointer exceeds the
@@ -146,6 +152,9 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       if (currentColumnIndex > MAX_COLUMNS)
       {
          throw new ExcelWorkbookException(Interpolator.instance().interpolate("Excel doesn't support more than {0} columns", MAX_COLUMNS));
+      }
+      if (currentRowIndex > maxRowIndex) {
+         maxRowIndex = currentRowIndex;
       }
       currentRowIndex = startRowIndex;
    }
@@ -224,6 +233,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       currentColumnIndex = startColumnIndex;
       startRowIndex = uiWorksheet.getStartRow() == null ? 0 : uiWorksheet.getStartRow();
       currentRowIndex = startRowIndex;
+      maxRowIndex = currentRowIndex;
    }
 
    /**
@@ -665,6 +675,29 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       {
          throw new ExcelWorkbookException("Couldn't merge cells", e);
       }
+   }
+
+   /**
+    * Places an item in the worksheet footer
+    * 
+    * @param item The item to add
+    */
+   public void addWorksheetFooter(WorksheetItem item)
+   {
+      currentColumnIndex = startColumnIndex;
+      currentRowIndex = maxRowIndex;
+      addItem(item);
+   }
+
+   /**
+    * Places an item in the worksheet header
+    * 
+    * @param item The item to add
+    */
+   public void addWorksheetHeader(WorksheetItem item)
+   {
+      addItem(item);
+      startRowIndex++;
    }
 
 }

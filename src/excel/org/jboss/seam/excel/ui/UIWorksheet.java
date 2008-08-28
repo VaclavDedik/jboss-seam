@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.faces.component.UIComponent;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.excel.Command;
@@ -17,6 +18,9 @@ import org.jboss.seam.framework.Query;
 public class UIWorksheet extends UIWorksheetSettings
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIWorksheet";
+
+   private static final String HEADER_FACET_NAME = "header";
+   private static final String FOOTER_FACET_NAME = "footer";
 
    private String name;
    private String var;
@@ -94,9 +98,7 @@ public class UIWorksheet extends UIWorksheetSettings
    @Override
    public void encodeBegin(javax.faces.context.FacesContext facesContext) throws java.io.IOException
    {
-      /**
-       * Get workbook
-       */
+      // Get workbook
       ExcelWorkbook excelWorkbook = getWorkbook(getParent());
 
       if (excelWorkbook == null)
@@ -104,31 +106,44 @@ public class UIWorksheet extends UIWorksheetSettings
          throw new ExcelWorkbookException("Could not find excel workbook");
       }
 
-      /**
-       * Create new worksheet (or select an existing one) and apply settings (if
-       * any)
-       */
+      // Create new worksheet (or select an existing one) and apply settings (if any)
       excelWorkbook.createOrSelectWorksheet(this);
 
-      /**
-       * Add worksheet level items
-       */
+      WorksheetItem headerItem = (WorksheetItem) getFacet(HEADER_FACET_NAME);
+      if (headerItem != null) {
+         excelWorkbook.addWorksheetHeader(headerItem);
+      }
+      
+      // Add worksheet level items
       List<WorksheetItem> items = getItems(getChildren());
       for (WorksheetItem item : items)
       {
          excelWorkbook.addItem(item);
       }
 
-      /**
-       * Execute worksheet level commands
-       */
+      // Execute worksheet level commands
       List<Command> commands = getCommands(getChildren());
       for (Command command : commands)
       {
          excelWorkbook.executeCommand(command);
       }
    }
+   
+   @Override
+   public void encodeEnd(javax.faces.context.FacesContext facesContext) throws java.io.IOException
+   {
+      ExcelWorkbook excelWorkbook = getWorkbook(getParent());
+      if (excelWorkbook == null)
+      {
+         throw new ExcelWorkbookException("Could not find excel workbook");
+      }
 
+      WorksheetItem footerItem = (WorksheetItem) getFacet(FOOTER_FACET_NAME);
+      if (footerItem != null) {
+         excelWorkbook.addWorksheetFooter(footerItem);
+      }
+   }
+   
    @SuppressWarnings("unchecked")
    public static Iterator unwrapIterator(Object value)
    {

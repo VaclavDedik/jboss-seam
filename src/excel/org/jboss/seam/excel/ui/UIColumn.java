@@ -16,6 +16,9 @@ public class UIColumn extends ExcelComponent
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIColumn";
 
+   private static final String HEADER_FACET_NAME = "header";
+   private static final String FOOTER_FACET_NAME = "footer";
+
    private Boolean autoSize;
    private Boolean hidden;
    private Integer width;
@@ -74,9 +77,7 @@ public class UIColumn extends ExcelComponent
    @Override
    public void encodeBegin(FacesContext facesContext) throws IOException
    {
-      /**
-       * Get workbook and worksheet
-       */
+      // Get workbook and worksheet
       ExcelWorkbook excelWorkbook = getWorkbook(getParent());
 
       if (excelWorkbook == null)
@@ -84,9 +85,7 @@ public class UIColumn extends ExcelComponent
          throw new ExcelWorkbookException("Could not find excel workbook");
       }
 
-      /**
-       * Column width etc.
-       */
+      // Column width etc.
       excelWorkbook.applyColumnSettings(this);
 
       UIWorksheet sheet = (UIWorksheet) getParentByClass(getParent(), UIWorksheet.class);
@@ -95,30 +94,21 @@ public class UIColumn extends ExcelComponent
          throw new ExcelWorkbookException("Could not find worksheet");
       }
 
-      /**
-       * Add header items (if any)
-       */
-      // TODO: multicells
-      UICell headerCell = (UICell) getFacet(HEADER_FACET);
-      if (headerCell != null)
+      // Add header items (if any)
+      WorksheetItem headerItem = (WorksheetItem) getFacet(HEADER_FACET_NAME);
+      if (headerItem != null)
       {
-         excelWorkbook.addItem(headerCell);
+         excelWorkbook.addItem(headerItem);
       }
 
-      /**
-       * Execute commands (if any)
-       */
+      // Execute commands (if any)
       List<Command> commands = getCommands(getChildren());
       for (Command command : commands)
       {
          excelWorkbook.executeCommand(command);
       }
 
-      /**
-       * Get UiCell template this column's data cells and iterate over sheet
-       * data
-       * 
-       */
+       // Get UiCell template this column's data cells and iterate over sheet data
       for (WorksheetItem item : getItems(getChildren()))
       {
          Object oldValue = null;
@@ -153,9 +143,15 @@ public class UIColumn extends ExcelComponent
          }
       }
 
-      /**
-       * Move column pointer to next column
-       */
+      // Add footer items (if any)
+      WorksheetItem footerItem = (WorksheetItem) getFacet(FOOTER_FACET_NAME);
+      if (footerItem != null)
+      {
+         excelWorkbook.addItem(footerItem);
+      }
+      
+      
+      // Move column pointer to next column
       excelWorkbook.nextColumn();
 
    }

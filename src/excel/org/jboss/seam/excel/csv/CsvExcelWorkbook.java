@@ -159,4 +159,16 @@ public class CsvExcelWorkbook implements ExcelWorkbook
       log.trace("executeCommand() is not supported by CSV exporter", new Object[0]);
    }
 
+   public void addWorksheetFooter(WorksheetItem item)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
+   public void addWorksheetHeader(WorksheetItem item)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
 }
