@@ -28,7 +28,7 @@ public class UIField extends FormComponent
       catch (DocumentException e)
       {
          String message = Interpolator.instance().interpolate("Could not set field #0 to #1", getName(), getValue());
-         throw new IOException(message, e);
+         throw new IOException(message);
       }
    }
 

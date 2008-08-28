@@ -55,7 +55,7 @@ public class UIForm extends FormComponent
       }
       catch (DocumentException e)
       {
-         throw new IOException("Could not create PDF stamper", e);
+         throw new IOException("Could not create PDF stamper");
       }
       fields = stamper.getAcroFields();
       Contexts.getEventContext().set(FIELDS_KEY, fields);
@@ -71,7 +71,7 @@ public class UIForm extends FormComponent
       }
       catch (DocumentException e)
       {
-         throw new IOException("Could not flush PDF", e);
+         throw new IOException("Could not flush PDF");
       }
       
       String viewId = Pages.getViewId(facesContext);
