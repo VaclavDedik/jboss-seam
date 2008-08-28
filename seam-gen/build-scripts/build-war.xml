@@ -257,7 +257,7 @@
         <delete dir="${war.dir}"/>
         <delete dir="${basedir}/test-report"/>
         <delete dir="${basedir}/test-output"/>
-        <delete failonerror="no">
+        <delete failonerror="no" includeemptydirs="true">
             <fileset dir="${test.dir}">
                 <exclude name="**/*.class" if="eclipse.running"/>
             </fileset>
