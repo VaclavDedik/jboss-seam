@@ -681,11 +681,18 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * Places an item in the worksheet footer
     * 
     * @param item The item to add
+    * @param colspan The number of columns to span
     */
-   public void addWorksheetFooter(WorksheetItem item)
+   public void addWorksheetFooter(WorksheetItem item, int colspan)
    {
       currentColumnIndex = startColumnIndex;
       currentRowIndex = maxRowIndex;
+      UIMergeCells mergeCommand = new UIMergeCells();
+      mergeCommand.setStartColumn(currentColumnIndex);
+      mergeCommand.setStartRow(currentRowIndex);
+      mergeCommand.setEndColumn(currentColumnIndex + colspan - 1);
+      mergeCommand.setEndRow(currentRowIndex);
+      executeCommand(mergeCommand);
       addItem(item);
    }
 
@@ -693,9 +700,16 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * Places an item in the worksheet header
     * 
     * @param item The item to add
+    * @param colspan The number of columns to span
     */
-   public void addWorksheetHeader(WorksheetItem item)
+   public void addWorksheetHeader(WorksheetItem item, int colspan)
    {
+      UIMergeCells mergeCommand = new UIMergeCells();
+      mergeCommand.setStartColumn(currentColumnIndex);
+      mergeCommand.setStartRow(currentRowIndex);
+      mergeCommand.setEndColumn(currentColumnIndex + colspan - 1);
+      mergeCommand.setEndRow(currentRowIndex);
+      executeCommand(mergeCommand);
       addItem(item);
       startRowIndex++;
    }

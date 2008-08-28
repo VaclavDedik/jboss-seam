@@ -84,13 +84,15 @@ public interface ExcelWorkbook
     * Places an item in the worksheet header
     * 
     * @param item The item to add
+    * @param colspan The number of columns to span
     */
-   public abstract void addWorksheetHeader(WorksheetItem item);
+   public abstract void addWorksheetHeader(WorksheetItem item, int colspan);
    
    /**
     * Places an item in the worksheet footer
     * 
     * @param item The item to add
+    * @param colspan The number of columns to span
     */
-   public abstract void addWorksheetFooter(WorksheetItem item);
+   public abstract void addWorksheetFooter(WorksheetItem item, int colspan);
 }

@@ -111,7 +111,8 @@ public class UIWorksheet extends UIWorksheetSettings
 
       WorksheetItem headerItem = (WorksheetItem) getFacet(HEADER_FACET_NAME);
       if (headerItem != null) {
-         excelWorkbook.addWorksheetHeader(headerItem);
+         int colspan = getChildrenOfType(getChildren(), UIColumn.class).size();
+         excelWorkbook.addWorksheetHeader(headerItem, colspan);
       }
       
       // Add worksheet level items
@@ -140,7 +141,8 @@ public class UIWorksheet extends UIWorksheetSettings
 
       WorksheetItem footerItem = (WorksheetItem) getFacet(FOOTER_FACET_NAME);
       if (footerItem != null) {
-         excelWorkbook.addWorksheetFooter(footerItem);
+         int colspan = getChildrenOfType(getChildren(), UIColumn.class).size();
+         excelWorkbook.addWorksheetFooter(footerItem, colspan);
       }
    }
    
