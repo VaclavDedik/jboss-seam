@@ -50,10 +50,31 @@
         </xs:complexType>
     </xs:element>
     
+    <xs:element name="permission-manager">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="security:attlist.permission-manager"/>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:element name="jpa-permission-store">
         <xs:complexType mixed="true">
             <xs:attributeGroup ref="components:attlist.component"/>
             <xs:attributeGroup ref="security:attlist.jpa-permission-store"/>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="rule-based-permission-resolver">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="security:attlist.rule-based-permission-resolver"/>        
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="persistent-permission-resolver">
+        <xs:complexType mixed="true">
+            <xs:attributeGroup ref="components:attlist.component"/>
+            <xs:attributeGroup ref="security:attlist.persistent-permission-resolver"/>
         </xs:complexType>
     </xs:element>
     
@@ -93,10 +114,22 @@
         <xs:attribute name="user-password-attribute" type="components:string"/>
     </xs:attributeGroup>
     
+    <xs:attributeGroup name="attlist.permission-manager">
+        <xs:attribute name="permission-store" type="components:expressionType"/>
+    </xs:attributeGroup>
+    
     <xs:attributeGroup name="attlist.jpa-permission-store">
         <xs:attribute name="entity-manager" type="components:string"/>
         <xs:attribute name="user-permission-class" type="components:string"/>
         <xs:attribute name="role-permission-class" type="components:string"/>
     </xs:attributeGroup>
-        
+    
+    <xs:attributeGroup name="attlist.rule-based-permission-resolver">
+        <xs:attribute name="security-rules" type="components:expressionType"/>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="attlist.persistent-permission-resolver">
+        <xs:attribute name="permission-store" type="components:expressionType"/>
+    </xs:attributeGroup>
+            
 </xs:schema>
