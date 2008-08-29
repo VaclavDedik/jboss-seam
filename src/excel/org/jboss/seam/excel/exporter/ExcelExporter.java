@@ -144,7 +144,7 @@ public class ExcelExporter
    private void processColumn(javax.faces.component.UIColumn column, Iterator iterator, String var, int col)
    {
       // Process header facet
-      UIComponent headerFacet = column.getFacet(UIColumn.HEADER_FACET);
+      UIComponent headerFacet = column.getFacet(UIColumn.HEADER_FACET_NAME);
       if (headerFacet != null && UIOutput.class.isAssignableFrom(headerFacet.getClass()))
       {
          List<UIOutput> headerOutputs = new ArrayList<UIOutput>();

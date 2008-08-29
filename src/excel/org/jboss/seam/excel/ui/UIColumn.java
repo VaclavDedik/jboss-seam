@@ -16,7 +16,7 @@ public class UIColumn extends ExcelComponent
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIColumn";
 
-   private static final String HEADER_FACET_NAME = "header";
+   public static final String HEADER_FACET_NAME = "header";
    private static final String FOOTER_FACET_NAME = "footer";
 
    private Boolean autoSize;
