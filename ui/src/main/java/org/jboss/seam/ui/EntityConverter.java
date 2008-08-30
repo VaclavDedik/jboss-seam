@@ -9,6 +9,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 
+import org.hibernate.loader.entity.EntityLoader;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
@@ -36,22 +37,19 @@ public class EntityConverter implements
 
    public AbstractEntityLoader getEntityLoader()
    {
-      return entityLoader;
+      if (entityLoader == null)
+      {
+         return AbstractEntityLoader.instance();
+      }
+      else
+      {
+         return entityLoader;
+      }
    }
    
    public void setEntityLoader(AbstractEntityLoader entityLoader)
    {
       this.entityLoader = entityLoader;
-   }
-   
-   @Create
-   public void create()
-   {
-      if (entityLoader == null)
-      {
-         entityLoader = AbstractEntityLoader.instance();
-      }
-      entityLoader.validate();
    }
    
    @SuppressWarnings("unchecked")
@@ -66,7 +64,7 @@ public class EntityConverter implements
       {
          return (String) value;
       }
-      return entityLoader.put(value);
+      return getEntityLoader().put(value);
    }
    
 
@@ -77,7 +75,7 @@ public class EntityConverter implements
       {
          return null;
       }
-      return entityLoader.get(value);
+      return getEntityLoader().get(value);
    }
    
 }
