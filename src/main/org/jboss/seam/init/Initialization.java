@@ -660,17 +660,16 @@ public class Initialization
          Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
       }
       //TODO open the ability to reuse the classloader by looking at the components class classloaders
-      // Rescan
-      hotDeploymentStrategy.scan();
-      // And install
-      installHotDeployableComponents();
+      createHotDeployment(Thread.currentThread().getContextClassLoader(), warRootDirectory);
+      Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
+      // Add the WAR root to the hot deploy path to pick up .page.xml
       Pages.instance().setHotDotPageDotXmlFileNames(DotPageDotXmlDeploymentHandler.hotInstance().getFiles());
       init.setTimestamp( System.currentTimeMillis() );
       init.setHotDeployPaths(hotDeploymentStrategy.getHotDeploymentPaths());
       installComponents(init);
       ServletLifecycle.endInitialization();
       log.info("done redeploying");
-      return this;
+      return this;   
    }
 
    private void installHotDeployableComponents()
@@ -681,7 +680,7 @@ public class Initialization
       }
    }
    
-   private void createHotDeployment(ClassLoader classLoader)
+   private void createHotDeployment(ClassLoader classLoader, File ... directories)
    {
       if ( isDebugEnabled() && hotDeployDirectory != null )
       {
@@ -695,12 +694,12 @@ public class Initialization
             log.debug("Using Java hot deploy");
             hotDeploymentStrategy = new HotDeploymentStrategy(classLoader, hotDeployDirectory);
          }
+         for (File file : directories)
+         {
+            hotDeploymentStrategy.getFiles().add(file);
+         }
          hotDeploymentStrategy.scan();
          installHotDeployableComponents();
-
-         // Add the WAR root to the hot deploy path to pick up .page.xml
-         // We don't add it for the initial scan as StandardDeploymentStrategy deals with that
-         hotDeploymentStrategy.getFiles().add(warRootDirectory);
       }
    }
    
