@@ -6,6 +6,7 @@ import javax.faces.component.UIData;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.Component;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.exporter.ExcelExporter;
@@ -15,7 +16,6 @@ public class UIExcelExport extends ExcelComponent
 
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIExcelExport";
 
-   private ExcelExporter exporter = new ExcelExporter();
    private String type;
    private String forDataTable;
 
@@ -56,7 +56,8 @@ public class UIExcelExport extends ExcelComponent
             throw new ExcelWorkbookException(Interpolator.instance().interpolate("Could not find data table with id #0", getForDataTable()));
          }
       }
-      exporter.export(dataTable.getId());
+      ExcelExporter exporter = (ExcelExporter) Component.getInstance(ExcelExporter.class);
+      exporter.export(dataTable.getId(), getType());
    }
 
    @Override

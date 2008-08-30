@@ -36,6 +36,7 @@ import org.jboss.seam.navigation.Pages;
  * Excel export class that exports a UIData component to an Excel workbook
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
+ * @author Daniel Roth (danielc.roth@gmail.com)
  * 
  */
 @Name("org.jboss.seam.excel.exporter.excelExporter")
@@ -49,16 +50,26 @@ public class ExcelExporter
    private List<Integer> columnWidths = new ArrayList<Integer>();
 
    /**
+    * Helper method to call the exporter and use the default excel workbook implementation
+    * @param dataTableId
+    */
+   public void export(String dataTableId)
+   {
+      export(dataTableId, "");
+   }
+
+   /**
     * Exports the UIData object to Excel workbook. Looks up the component, parse
     * the templates, iterates the columns and the UIOutput elements within
     * 
-    * @param dataTableId
+    * @param dataTableId id of data table to export
+    * @param type ExcelWorkbook implementation to use
     */
    @SuppressWarnings("unchecked")
-   public void export(String dataTableId)
+   public void export(String dataTableId, String type)
    {
       // TODO: support "type" ?
-      excelWorkbook = ExcelFactory.instance().getExcelWorkbook("");
+      excelWorkbook = ExcelFactory.instance().getExcelWorkbook(type);
 
       // Gets the datatable
       UIData dataTable = (UIData) FacesContext.getCurrentInstance().getViewRoot().findComponent(dataTableId);
@@ -95,7 +106,7 @@ public class ExcelExporter
          excelWorkbook.nextColumn();
       }
 
-      // Restores the datatable var
+      // Restores the data table var
       if (oldValue == null)
       {
          FacesContext.getCurrentInstance().getExternalContext().getRequestMap().remove(dataTableVar);
@@ -111,7 +122,7 @@ public class ExcelExporter
    }
 
    /**
-    * Puts document to store and redirects
+    * Puts document in store and redirects
     */
    private void redirectExport()
    {

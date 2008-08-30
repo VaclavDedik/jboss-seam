@@ -1,22 +1,43 @@
-body,div,dd,dt,dl,img,ul,ol,li,p,h1,h2,h3,h4,h5,form,hr,fieldset,span {
+/* Setup defaults since variable in browsers
+----------------------------------------------- */
+body, div, span, dd, dt, dl, img, ul, ol, li, p, h1, h2, h3, h4, h5, form, hr, fieldset {
 	margin: 0;
 	padding: 0;
-	font-face: Verdana, Arial; 
 }
-
+/* Element Defaults
+----------------------------------------------- */
 html {
 	height: 100%;
-	background-color: #FFFFFF;
+	margin: 5px;
+	
 }
- 
-span.header {
-	font-size: 22px;
+img {
+	border: 0;
+}
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: small;
+	line-height: 1.25em;
+	position: relative;
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+input {
+	border: 1px solid #C3BBB6;
+	padding: 2px;
+	margin: 3px 0;
+}
+select {
+	border: 1px solid #C3BBB6;
+	padding: 4px;
+	margin: 5px 0;
 }
 
-td.left {
-	text-align: left;
+.header {
+	font-size: 16px;
 }
 
-td.right {
-	text-align: right;
+.subheader {
+	font-size: 14px;
 }

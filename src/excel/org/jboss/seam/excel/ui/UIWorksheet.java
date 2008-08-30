@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.faces.component.UIComponent;
 import javax.faces.model.DataModel;
 
 import org.jboss.seam.excel.Command;
@@ -106,15 +105,17 @@ public class UIWorksheet extends UIWorksheetSettings
          throw new ExcelWorkbookException("Could not find excel workbook");
       }
 
-      // Create new worksheet (or select an existing one) and apply settings (if any)
+      // Create new worksheet (or select an existing one) and apply settings (if
+      // any)
       excelWorkbook.createOrSelectWorksheet(this);
 
       WorksheetItem headerItem = (WorksheetItem) getFacet(HEADER_FACET_NAME);
-      if (headerItem != null) {
+      if (headerItem != null)
+      {
          int colspan = getChildrenOfType(getChildren(), UIColumn.class).size();
          excelWorkbook.addWorksheetHeader(headerItem, colspan);
       }
-      
+
       // Add worksheet level items
       List<WorksheetItem> items = getItems(getChildren());
       for (WorksheetItem item : items)
@@ -129,7 +130,7 @@ public class UIWorksheet extends UIWorksheetSettings
          excelWorkbook.executeCommand(command);
       }
    }
-   
+
    @Override
    public void encodeEnd(javax.faces.context.FacesContext facesContext) throws java.io.IOException
    {
@@ -140,12 +141,13 @@ public class UIWorksheet extends UIWorksheetSettings
       }
 
       WorksheetItem footerItem = (WorksheetItem) getFacet(FOOTER_FACET_NAME);
-      if (footerItem != null) {
+      if (footerItem != null)
+      {
          int colspan = getChildrenOfType(getChildren(), UIColumn.class).size();
          excelWorkbook.addWorksheetFooter(footerItem, colspan);
       }
    }
-   
+
    @SuppressWarnings("unchecked")
    public static Iterator unwrapIterator(Object value)
    {

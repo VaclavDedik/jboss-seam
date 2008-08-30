@@ -7,63 +7,95 @@
 	xmlns:e="http://jboss.com/products/seam/excel"
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:rich="http://richfaces.ajax4jsf.org/rich">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-			<title>Microsoft&#174; Excel&#174; Export examples</title>
-			<link href="css/screen.css" rel="stylesheet" type="text/css" />
-	</head>
-	<body id="excelHome">
-		<f:view>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Microsoft&#174; Excel&#174; Export examples</title>
+<link href="css/screen.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="excelHome">
+<f:view>
 
-			<h:outputText value="Microsoft&#174; Excel&#174; Export examples"
-					style="header"></h:outputText>
-			<br />
-			<br />
-	
-			<h:outputLink value="jxl.seam">
-				<h:outputText>Export as Excel&#174; spreadsheet</h:outputText>
-			</h:outputLink>
-			<br />
+	<h:outputText value="Microsoft&#174; Excel&#174; Export examples"
+		styleClass="header"></h:outputText>
+	<br />
+	<br />
 
-			<h:outputLink value="csv.seam">
-				<h:outputText>Export as comma separated file</h:outputText>
-			</h:outputLink>
-			<br />
-			<br />
+	<h:outputText value="Export ajax searchable Richfaces table"
+		styleClass="subheader"></h:outputText>
+	<br />
+	<h:form id="excelExport">
+		<h:inputText value="#{excelTest.searchWord}" />
+		<a4j:commandButton value="Search" reRender="searchResults"
+			action="#{excelTest.search}" />
+		<a4j:commandButton value="Clear" reRender="searchResults"
+			action="#{excelTest.clear}" />
+		<br />
 
-			<h:form id="excelExport">
-				<a4j:commandButton value="Search" reRender="searchResults"
-					action="#{excelTest.search}" />
-				<a4j:commandButton value="Clear" reRender="searchResults"
-					action="#{excelTest.clear}" />
+		<a4j:outputPanel id="searchResults">
+			<rich:dataTable value="#{excelTest.result}" var="person"
+				rendered="#{!empty excelTest.result}" id="excelTable"
+				columnClasses="left, right" width="500px">
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Name" />
+					</f:facet>
+					<h:outputText value="#{person.name}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Company" />
+					</f:facet>
+					<h:outputText value="#{person.company}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="Working on" />
+					</f:facet>
+					<h:outputText value="#{person.task}" />
+				</rich:column>
+			</rich:dataTable>
+			<h:commandLink value="Export table as Excel spreadsheet"
+				rendered="#{!empty excelTest.result}"
+				action="#{excelExporter.export('excelExport:excelTable')}" />
+			<br />
+			<h:commandLink value="Export table as CSV"
+				rendered="#{!empty excelTest.result}"
+				action="#{excelExporter.export('excelExport:excelTable','csv')}" />
+		</a4j:outputPanel>
 
-				<a4j:outputPanel id="searchResults">
-					<rich:dataTable value="#{excelTest.result}" var="person"
-						id="excelTable" columnClasses="left, right">
-						<rich:column>
-							<f:facet name="header">
-								<h:outputText value="First name"/>
-							</f:facet>
-							<h:outputText value="#{person.name}"/>
-						</rich:column>
-						<rich:column>
-							<f:facet name="header">
-								<h:outputText value="Last name"/>
-							</f:facet>
-							<h:outputText value="#{person.lastName}"/>
-						</rich:column>
-						<rich:column>
-							<f:facet name="header">
-								<h:outputText value="Age"/>
-							</f:facet>
-							<h:outputText value="#{person.age}"/>
-						</rich:column>
-					</rich:dataTable>
-					<h:commandLink value="Export table"
-						action="#{excelExporter.export('excelExport:excelTable')}" />
-				</a4j:outputPanel>
-			</h:form>
-		</f:view>
-	</body>
+	</h:form>
+
+	<br />
+	<br />
+	<br />
+
+	<h:outputText value="Export xhtml file, use-extension enabled."
+		styleClass="subheader"></h:outputText>
+	<br />
+	<h:outputLink value="vanilla-jxl.seam">
+		<h:outputText>Export as Excel&#174; spreadsheet</h:outputText>
+	</h:outputLink>
+	<br />
+
+	<h:outputLink value="vanilla-csv.seam">
+		<h:outputText>Export as comma separated file</h:outputText>
+	</h:outputLink>
+	<br />
+	<br />
+	<br />
+
+	<h:outputText value="Repeat and inline value" styleClass="subheader"></h:outputText>
+	<br />
+
+	<h:outputLink value="repeat.seam">
+		<h:outputText>Export as Excel&#174; spreadsheet</h:outputText>
+	</h:outputLink>
+	<br />
+	<br />
+	<br />
+
+
+</f:view>
+</body>
 </html>
 

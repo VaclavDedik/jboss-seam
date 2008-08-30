@@ -1333,7 +1333,7 @@
                                  <literal>pattern</literal>
                                  &#8212;The pattern of the background. The value
                                  is a string that can be one of "solid",
-                                 "grey_25" etc (see
+                                 "gray_25" etc (see
                                  <ulink
                                     url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Pattern.html">
                                     jxl.format.Pattern
@@ -1381,14 +1381,14 @@
                   <e:worksheet>
                      <e:column value="#{personList}" var="person">            
                         <e:cell value="#{person.age">
-                           <e:background color="green" pattern="grey_25"/>
+                           <e:background color="green" pattern="gray_25"/>
                         </e:cell>
                      </e:column>
                   </e:worksheet>
                </e:workbook>   
          ]]>
          </programlisting>
-         <para>defined a green cell background with a 25% grey mask.</para>
+         <para>defined a green cell background with a 25% gray mask.</para>
       </section>
       <section id="excel.cells.borders">
          <title>Borders</title>

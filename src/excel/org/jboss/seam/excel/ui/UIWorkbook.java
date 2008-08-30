@@ -1,7 +1,6 @@
 package org.jboss.seam.excel.ui;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
@@ -10,18 +9,14 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.document.DocumentStore;
+import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.excel.ExcelFactory;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.Template;
-import org.jboss.seam.document.DocumentData.DocumentType;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
 
 public class UIWorkbook extends ExcelComponent
 {
-   private Log log = Logging.getLog(getClass());
-
    public enum CreationType
    {
       WITHOUT_SETTINGS_OR_TEMPLATE, WITHOUT_SETTINGS_WITH_TEMPLATE, WITH_SETTINGS_WITHOUT_TEMPLATE, WITH_SETTNGS_AND_TEMPLATE
@@ -288,7 +283,7 @@ public class UIWorkbook extends ExcelComponent
    public void encodeBegin(javax.faces.context.FacesContext facesContext) throws IOException
    {
       // Get workbook implementation
-      excelWorkbook = ExcelFactory.instance().getExcelWorkbook(type);
+      excelWorkbook = ExcelFactory.instance().getExcelWorkbook(getType());
 
       // Create a new workbook
       excelWorkbook.createWorkbook(this);
@@ -363,7 +358,7 @@ public class UIWorkbook extends ExcelComponent
 
    public boolean isSendRedirect()
    {
-      return sendRedirect;
+      return (Boolean) valueOf("sendRedirect", sendRedirect);
    }
 
    public void setSendRedirect(boolean sendRedirect)
@@ -379,7 +374,7 @@ public class UIWorkbook extends ExcelComponent
 
    public String getType()
    {
-      return type;
+      return (String) valueOf("type", type);
    }
 
    public void setType(String type)
@@ -412,7 +407,7 @@ public class UIWorkbook extends ExcelComponent
     */
    public boolean hasSettings()
    {
-      return arrayGrowSize != null || autoFilterDisabled != null || cellValidationDisabled != null || characterSet != null || drawingsDisabled != null || encoding != null || excelDisplayLanguage != null || excelRegionalSettings != null || formulaAdjust != null || gcDisabled != null || ignoreBlanks != null || initialFileSize != null || locale != null || mergedCellCheckingDisabled != null || namesDisabled != null || propertySets != null || rationalization != null || supressWarnings != null || temporaryFileDuringWriteDirectory != null || useTemporaryFileDuringWrite != null;
+      return getArrayGrowSize() != null || getAutoFilterDisabled() != null || getCellValidationDisabled() != null || getCharacterSet() != null || getDrawingsDisabled() != null || getEncoding() != null || getExcelDisplayLanguage() != null || getExcelRegionalSettings() != null || getFormulaAdjust() != null || getGcDisabled() != null || getIgnoreBlanks() != null || getInitialFileSize() != null || getLocale() != null || getMergedCellCheckingDisabled() != null || getNamesDisabled() != null || getPropertySets() != null || getRationalization() != null || getSupressWarnings() != null || getTemporaryFileDuringWriteDirectory() != null || getUseTemporaryFileDuringWrite() != null;
    }
 
    public Boolean getWorkbookProtected()

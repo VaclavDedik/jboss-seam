@@ -15,8 +15,6 @@ import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.Template;
 import org.jboss.seam.excel.WorksheetItem;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.ui.util.JSF;
 
 /**
