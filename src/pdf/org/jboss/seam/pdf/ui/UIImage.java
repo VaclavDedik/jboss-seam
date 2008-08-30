@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.ui.graphicImage.ImageTransform;
 
-import com.lowagie.text.BadElementException;
+import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
 
 public class UIImage
@@ -117,32 +117,26 @@ public class UIImage
     
     @SuppressWarnings("unchecked")
     @Override
-    public void createITextObject(FacesContext context) {       
+    public void createITextObject(FacesContext context) throws IOException, DocumentException {       
         value = valueBinding(context, "value", value);        
               
         // instance() doesn't work here - we need a new instance           
-        org.jboss.seam.ui.graphicImage.Image seamImage = new org.jboss.seam.ui.graphicImage.Image();  
-        try {            
-            if (value instanceof BufferedImage) {
-                seamImage.setBufferedImage((BufferedImage)value);
-            } else {
-                seamImage.setInput(value);
-            }           
+        org.jboss.seam.ui.graphicImage.Image seamImage = new org.jboss.seam.ui.graphicImage.Image();        
+        if (value instanceof BufferedImage) {
+             seamImage.setBufferedImage((BufferedImage)value);
+        } else {
+            seamImage.setInput(value);
+        }           
 
-            for (UIComponent cmp : this.getChildren()) {
-                if (cmp instanceof ImageTransform) {
-                    ImageTransform imageTransform = (ImageTransform) cmp;
-                    imageTransform.applyTransform(seamImage);
-                }
-            }  
+        for (UIComponent cmp : this.getChildren()) {
+            if (cmp instanceof ImageTransform) {
+                ImageTransform imageTransform = (ImageTransform) cmp;
+                imageTransform.applyTransform(seamImage);
+            }
+        }  
 
-            byte[] data = seamImage.getImage();
-            image = Image.getInstance(data);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (BadElementException e) {
-            throw new RuntimeException(e);
-        }
+        byte[] data = seamImage.getImage();
+        image = Image.getInstance(data);
                         
                         
         rotation = (Float) valueBinding(context, "rotation", rotation);

@@ -204,7 +204,7 @@ public class UIBarCode
     }
 
     @Override
-    public void createITextObject(FacesContext context) {
+    public void createITextObject(FacesContext context) throws IOException {
         barcode = createBarcodeType(getType());
                 
         barcode.setCode(getCode());
@@ -253,12 +253,8 @@ public class UIBarCode
             if (bars == null) {
                 bars = Color.BLACK;
             }
-            try {
-                 byte[] imageData = imageToByteArray(barcode.createAwtImage(bars, Color.WHITE));
-                 itextObject = new ImageWrapper(imageData, Type.IMAGE_JPEG);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            byte[] imageData = imageToByteArray(barcode.createAwtImage(bars, Color.WHITE));
+            itextObject = new ImageWrapper(imageData, Type.IMAGE_JPEG);
         }
     }
 

@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.contexts.Contexts;
@@ -23,7 +24,6 @@ import com.lowagie.text.pdf.PdfStamper;
 public class UIForm extends FormComponent
 {
    public static final String COMPONENT_FAMILY = "org.jboss.seam.pdf.UIForm";
-   private static final String CONTENT_TYPE = "application/pdf";
   
    private Log log = Logging.getLog(getClass());
    
@@ -55,7 +55,7 @@ public class UIForm extends FormComponent
       }
       catch (DocumentException e)
       {
-         throw new IOException("Could not create PDF stamper");
+         throw new FacesException("Could not create PDF stamper", e);
       }
       fields = stamper.getAcroFields();
       Contexts.getEventContext().set(FIELDS_KEY, fields);
@@ -71,7 +71,7 @@ public class UIForm extends FormComponent
       }
       catch (DocumentException e)
       {
-         throw new IOException("Could not flush PDF");
+         throw new FacesException("Could not flush PDF", e);
       }
       
       String viewId = Pages.getViewId(facesContext);

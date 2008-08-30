@@ -2,6 +2,7 @@ package org.jboss.seam.pdf.ui;
 
 import java.io.IOException;
 
+import javax.faces.FacesException;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.contexts.Contexts;
@@ -28,7 +29,7 @@ public class UIField extends FormComponent
       catch (DocumentException e)
       {
          String message = Interpolator.instance().interpolate("Could not set field #0 to #1", getName(), getValue());
-         throw new IOException(message);
+         throw new FacesException(message, e);
       }
    }
 

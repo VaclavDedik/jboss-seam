@@ -15,6 +15,7 @@ import org.jboss.seam.ui.util.JSF;
 
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.xml.simpleparser.EntitiesToUnicode;
 
@@ -33,8 +34,10 @@ public abstract class ITextComponent
 
     /**
      * signal that the component should create it's managed object
+    * @throws IOException 
+    * @throws DocumentException 
      */
-    abstract public void createITextObject(FacesContext context);
+    abstract public void createITextObject(FacesContext context) throws IOException, DocumentException;
 
     /**
      * remove the itext objext
@@ -178,7 +181,14 @@ public abstract class ITextComponent
     public void encodeBegin(FacesContext context) 
         throws IOException
     {
-        createITextObject(context);
+        try
+        {
+            createITextObject(context);
+        }
+        catch (DocumentException e)
+        {
+           throw new FacesException(e);
+        }
     }
 
     @Override
@@ -234,8 +244,7 @@ public abstract class ITextComponent
     @SuppressWarnings("unchecked")
 	public void encode(FacesContext context,
                        UIComponent component) 
-        throws IOException, 
-               FacesException 
+        throws IOException
     {
         if (!component.isRendered()) {
             return;
