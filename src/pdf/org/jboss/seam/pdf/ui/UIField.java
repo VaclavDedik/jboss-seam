@@ -14,10 +14,10 @@ import com.lowagie.text.pdf.AcroFields;
 public class UIField extends FormComponent
 {
    public static final String COMPONENT_FAMILY = "org.jboss.seam.pdf.UIField";
-   
+
    private String name;
    private String value;
-   
+
    @Override
    public void encodeBegin(FacesContext facesContext) throws IOException
    {

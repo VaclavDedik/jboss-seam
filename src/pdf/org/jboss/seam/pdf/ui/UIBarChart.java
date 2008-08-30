@@ -10,84 +10,74 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.Dataset;
 
-public class UIBarChart 
-    extends UICategoryChartBase
+public class UIBarChart extends UICategoryChartBase
 {
-    private CategoryDataset dataset;
+   private CategoryDataset dataset;
 
-    @Override
-    public void restoreState(FacesContext context, Object state)
-    {
-        Object[] values = (Object[]) state;
-        super.restoreState(context, values[0]);           
-    }
+   @Override
+   public void restoreState(FacesContext context, Object state)
+   {
+      Object[] values = (Object[]) state;
+      super.restoreState(context, values[0]);
+   }
 
-    @Override
-    public Object saveState(FacesContext context)
-    {
-        Object[] values = new Object[1];
-        values[0] = super.saveState(context);
+   @Override
+   public Object saveState(FacesContext context)
+   {
+      Object[] values = new Object[1];
+      values[0] = super.saveState(context);
 
-        return values;
-    }
+      return values;
+   }
 
-    @Override
-    public void createDataset() {
-        dataset = new DefaultCategoryDataset();
-    }
+   @Override
+   public void createDataset()
+   {
+      dataset = new DefaultCategoryDataset();
+   }
 
+   // @Override
+   // public void configurePlot(Plot p) {
+   // super.configurePlot(p);
+   // }
 
+   @Override
+   public void configureRenderer(CategoryItemRenderer renderer)
+   {
+      super.configureRenderer(renderer);
+      if (renderer instanceof BarRenderer)
+      {
+         configureRenderer((BarRenderer) renderer);
+      }
+   }
 
-//  @Override
-//  public void configurePlot(Plot p) {
-//  super.configurePlot(p);
-//  }
+   public void configureRenderer(BarRenderer renderer)
+   {
+   }
 
+   @Override
+   public JFreeChart createChart(FacesContext context)
+   {
+      JFreeChart chart;
 
-    @Override
-    public void configureRenderer(CategoryItemRenderer renderer){
-        super.configureRenderer(renderer);
-        if (renderer instanceof BarRenderer) { 
-            configureRenderer((BarRenderer) renderer);
-        }             
-    }
+      if (!getIs3D())
+      {
+         chart = ChartFactory.createBarChart(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), dataset, plotOrientation(getOrientation()), getLegend(), false, false);
+      }
+      else
+      {
+         chart = ChartFactory.createBarChart3D(getTitle(), getDomainAxisLabel(), getRangeAxisLabel(), dataset, plotOrientation(getOrientation()), getLegend(), false, false);
+      }
 
+      configureTitle(chart.getTitle());
+      configureLegend(chart.getLegend());
 
-    public void configureRenderer(BarRenderer renderer) {
-    }
+      return chart;
+   }
 
-    @Override
-    public JFreeChart createChart(FacesContext context) {    
-        JFreeChart chart;
-
-        if (!getIs3D()) {
-            chart = ChartFactory.createBarChart(getTitle(),
-                    getDomainAxisLabel(),
-                    getRangeAxisLabel(),
-                    dataset,
-                    plotOrientation(getOrientation()),
-                    getLegend(),
-                    false,
-                    false);
-        } else {
-            chart = ChartFactory.createBarChart3D(getTitle(),
-                    getDomainAxisLabel(),
-                    getRangeAxisLabel(),
-                    dataset,
-                    plotOrientation(getOrientation()),
-                    getLegend(),
-                    false,
-                    false);
-        } 
-
-        configureTitle(chart.getTitle());
-        configureLegend(chart.getLegend());
-
-        return chart;
-    }
-
-    @Override
-    public Dataset getDataset() {        
-        return dataset;
-    }
+   @Override
+   public Dataset getDataset()
+   {
+      return dataset;
+   }
 }

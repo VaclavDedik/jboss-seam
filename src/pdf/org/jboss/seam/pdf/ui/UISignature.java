@@ -20,123 +20,140 @@ import com.lowagie.text.pdf.PdfSignatureAppearance;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
 
-public class UISignature 
-    extends ITextComponent 
+public class UISignature extends ITextComponent
 {
-    // signature box
-    String field;
-    String size;
-    String reason;
-    String location;
-    
-    public void setField(String field) {
-        this.field = field;
-    }
-    
-    public void setSize(String size) {
-        this.size = size;
-    }
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-    public void setLocation(String location) {
-        this.location = location;
-    }
-       
-  
-    
-    @Override
-    public void createITextObject(FacesContext context) {}
+   // signature box
+   String field;
+   String size;
+   String reason;
+   String location;
 
-    @Override
-    public void removeITextObject() {}
-    
-    @Override
-    public Object getITextObject() {       
-        return null;
-    }
+   public void setField(String field)
+   {
+      this.field = field;
+   }
 
-    @Override
-    public void handleAdd(Object other) {
-        throw new RuntimeException("PDF signature does not accept children");
-    }
+   public void setSize(String size)
+   {
+      this.size = size;
+   }
 
-    @Override
-    public void encodeEnd(FacesContext context) throws IOException {              
-        PdfWriter writer = findWriter();
-        if (writer == null) {
-            throw new RuntimeException("Cannot find PdfWriter - the document may not exist or may not be a pdf type");
-        }
-        
-        PdfAcroForm form = writer.getAcroForm();   
+   public void setReason(String reason)
+   {
+      this.reason = reason;
+   }
 
-        field = (String) valueBinding(context, "field", field);
-        if (field == null) {
-            throw new RuntimeException("signature field named is required");
-        }
-        
-        size = (String) valueBinding(context, "size", size);
-        if (size == null) {
-            throw new RuntimeException("signature size is required");
-        }
-        float[] rect = ITextUtils.stringToFloatArray(size);
-        if (rect.length != 4) {
-            throw new RuntimeException("size must contain four numbers");
-        }
-        form.addSignature(field, rect[0], rect[1], rect[2], rect[3]);
-        
-        UIDocument doc = (UIDocument) findITextParent(this, UIDocument.class);
-        doc.addSignature(this);
-        
-        super.encodeEnd(context);
-    }
+   public void setLocation(String location)
+   {
+      this.location = location;
+   }
 
-    private PdfWriter findWriter() {
-        UIDocument doc = (UIDocument) findITextParent(this, UIDocument.class);
-        if (doc != null) {
-            DocWriter writer = doc.getWriter();
-           
-            if (writer instanceof PdfWriter) {
-                return (PdfWriter) writer;
-            }
-        }   
-        return null;
-    }    
+   @Override
+   public void createITextObject(FacesContext context)
+   {
+   }
 
-    public byte[] sign(byte[] originalBytes) {
-        KeyStoreConfig store = KeyStoreConfig.instance();
-        
-        try {                        
-            InputStream is = FacesResources.getResourceAsStream( store.getKeyStore(), getFacesContext().getExternalContext() );
-            
-            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType()); 
-            ks.load(is, store.getKeyStorePassword().toCharArray());
+   @Override
+   public void removeITextObject()
+   {
+   }
 
-            PrivateKey key = (PrivateKey) ks.getKey(store.getKeyAlias(),
-                        store.getKeyPassword().toCharArray());
-            Certificate[] chain =  ks.getCertificateChain(store.getKeyAlias()); 
+   @Override
+   public Object getITextObject()
+   {
+      return null;
+   }
 
-            PdfReader reader = new PdfReader(originalBytes); 
-            ByteArrayOutputStream os = new ByteArrayOutputStream();                 
+   @Override
+   public void handleAdd(Object other)
+   {
+      throw new RuntimeException("PDF signature does not accept children");
+   }
 
-            PdfStamper stamper = PdfStamper.createSignature(reader, os, '\0'); 
-            PdfSignatureAppearance appearance = stamper.getSignatureAppearance(); 
-            appearance.setCrypto(key, chain, null, 
-                                 PdfSignatureAppearance.SELF_SIGNED); 
-            
-            appearance.setReason(reason); 
-            appearance.setLocation(location); 
-            
-            appearance.setVisibleSignature(field); 
-            stamper.close();      
-            
-            return os.toByteArray();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+   @Override
+   public void encodeEnd(FacesContext context) throws IOException
+   {
+      PdfWriter writer = findWriter();
+      if (writer == null)
+      {
+         throw new RuntimeException("Cannot find PdfWriter - the document may not exist or may not be a pdf type");
+      }
 
-    }
+      PdfAcroForm form = writer.getAcroForm();
 
+      field = (String) valueBinding(context, "field", field);
+      if (field == null)
+      {
+         throw new RuntimeException("signature field named is required");
+      }
 
-    
+      size = (String) valueBinding(context, "size", size);
+      if (size == null)
+      {
+         throw new RuntimeException("signature size is required");
+      }
+      float[] rect = ITextUtils.stringToFloatArray(size);
+      if (rect.length != 4)
+      {
+         throw new RuntimeException("size must contain four numbers");
+      }
+      form.addSignature(field, rect[0], rect[1], rect[2], rect[3]);
+
+      UIDocument doc = (UIDocument) findITextParent(this, UIDocument.class);
+      doc.addSignature(this);
+
+      super.encodeEnd(context);
+   }
+
+   private PdfWriter findWriter()
+   {
+      UIDocument doc = (UIDocument) findITextParent(this, UIDocument.class);
+      if (doc != null)
+      {
+         DocWriter writer = doc.getWriter();
+
+         if (writer instanceof PdfWriter)
+         {
+            return (PdfWriter) writer;
+         }
+      }
+      return null;
+   }
+
+   public byte[] sign(byte[] originalBytes)
+   {
+      KeyStoreConfig store = KeyStoreConfig.instance();
+
+      try
+      {
+         InputStream is = FacesResources.getResourceAsStream(store.getKeyStore(), getFacesContext().getExternalContext());
+
+         KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+         ks.load(is, store.getKeyStorePassword().toCharArray());
+
+         PrivateKey key = (PrivateKey) ks.getKey(store.getKeyAlias(), store.getKeyPassword().toCharArray());
+         Certificate[] chain = ks.getCertificateChain(store.getKeyAlias());
+
+         PdfReader reader = new PdfReader(originalBytes);
+         ByteArrayOutputStream os = new ByteArrayOutputStream();
+
+         PdfStamper stamper = PdfStamper.createSignature(reader, os, '\0');
+         PdfSignatureAppearance appearance = stamper.getSignatureAppearance();
+         appearance.setCrypto(key, chain, null, PdfSignatureAppearance.SELF_SIGNED);
+
+         appearance.setReason(reason);
+         appearance.setLocation(location);
+
+         appearance.setVisibleSignature(field);
+         stamper.close();
+
+         return os.toByteArray();
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+
+   }
+
 }

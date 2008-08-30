@@ -22,323 +22,374 @@ import org.jboss.seam.ui.graphicImage.Image.Type;
 import com.lowagie.text.Image;
 import com.lowagie.text.pdf.*;
 
-
 /**
  * based on JBSEAM-1155 submission by user ivan
  */
 
-public class UIBarCode 
-    extends ITextComponent
+public class UIBarCode extends ITextComponent
 {
-    
-    private Barcode barcode;
-    private Object  itextObject;
-    
-    private String type;
-    private String code;
-    private String codeType;
-    private Float xpos;
-    private Float ypos;
-    private Float rotDegrees;
-    private String altText;
-    private Float barHeight;
-    private Float textSize;
-    private Float minBarWidth;
-    private Float barMultiplier;
 
-    String barColor;
-    String textColor;
-    
-    public String getCode() {
-        return (String) valueBinding("code", code);
-    }
+   private Barcode barcode;
+   private Object itextObject;
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+   private String type;
+   private String code;
+   private String codeType;
+   private Float xpos;
+   private Float ypos;
+   private Float rotDegrees;
+   private String altText;
+   private Float barHeight;
+   private Float textSize;
+   private Float minBarWidth;
+   private Float barMultiplier;
 
-    public String getType() {
-        return (String) valueBinding("type", type);
-    }
+   String barColor;
+   String textColor;
 
-    public void setType(String type) {
-        this.type = type;
-    }
+   public String getCode()
+   {
+      return (String) valueBinding("code", code);
+   }
 
-    public String getCodeType() {
-        return (String) valueBinding("codeType", codeType);
-    }
+   public void setCode(String code)
+   {
+      this.code = code;
+   }
 
-    public void setCodeType(String codeType) {
-        this.codeType = codeType;
-    }
-    
-    public Float getRotDegrees(){
-        return (Float) valueBinding("rotDegrees", rotDegrees);
-    }
+   public String getType()
+   {
+      return (String) valueBinding("type", type);
+   }
 
-    public void setRotDegrees(Float rotDegrees) {
-        this.rotDegrees = rotDegrees;
-    }
-    
-    public Float getXpos() {
-        return (Float) valueBinding("xpos", xpos);
-    }
+   public void setType(String type)
+   {
+      this.type = type;
+   }
 
-    public void setXpos(Float xpos) {
-        this.xpos = xpos;
-    }
+   public String getCodeType()
+   {
+      return (String) valueBinding("codeType", codeType);
+   }
 
-    public Float getYpos() {
-        return (Float) valueBinding("ypos", ypos);
-    }
+   public void setCodeType(String codeType)
+   {
+      this.codeType = codeType;
+   }
 
-    public void setYpos(Float ypos) {
-        this.ypos = ypos;
-    }
+   public Float getRotDegrees()
+   {
+      return (Float) valueBinding("rotDegrees", rotDegrees);
+   }
 
-    public String getAltText() {
-        return (String) valueBinding("altText", altText);
-    }
+   public void setRotDegrees(Float rotDegrees)
+   {
+      this.rotDegrees = rotDegrees;
+   }
 
-    public void setAltText(String altText) {
-        this.altText = altText;
-    }
+   public Float getXpos()
+   {
+      return (Float) valueBinding("xpos", xpos);
+   }
 
-    public Float getBarHeight() {
-        return (Float) valueBinding("barHeight", barHeight);
-    }
+   public void setXpos(Float xpos)
+   {
+      this.xpos = xpos;
+   }
 
-    public void setBarHeight(Float barHeight) {
-        this.barHeight = barHeight;
-    }
+   public Float getYpos()
+   {
+      return (Float) valueBinding("ypos", ypos);
+   }
 
-    public Float getBarMultiplier() {
-        return (Float) valueBinding("barMultiplier", barMultiplier);
-    }
+   public void setYpos(Float ypos)
+   {
+      this.ypos = ypos;
+   }
 
-    public void setBarMultiplier(Float barMultiplier) {
-        this.barMultiplier = barMultiplier;
-    }
+   public String getAltText()
+   {
+      return (String) valueBinding("altText", altText);
+   }
 
-    public Float getMinBarWidth() {
-        return (Float) valueBinding("minBarWidth", minBarWidth);
-    }
+   public void setAltText(String altText)
+   {
+      this.altText = altText;
+   }
 
-    public void setMinBarWidth(Float minBarWidth) {
-        this.minBarWidth = minBarWidth;
-    }
+   public Float getBarHeight()
+   {
+      return (Float) valueBinding("barHeight", barHeight);
+   }
 
-    public Float getTextSize() {
-        return (Float) valueBinding("textSize", textSize);
-    }
+   public void setBarHeight(Float barHeight)
+   {
+      this.barHeight = barHeight;
+   }
 
-    public void setTextSize(Float textSize) {
-        this.textSize = textSize;
-    }
-    
-    public String getBarColor() {
-        return (String) valueBinding("barColor", barColor);
-    }
+   public Float getBarMultiplier()
+   {
+      return (Float) valueBinding("barMultiplier", barMultiplier);
+   }
 
-    public void setBarColor(String barColor) {
-        this.barColor = barColor;
-    }
+   public void setBarMultiplier(Float barMultiplier)
+   {
+      this.barMultiplier = barMultiplier;
+   }
 
-    public String getTextColor() {
-        return (String) valueBinding("textColor", textColor);
-    }
+   public Float getMinBarWidth()
+   {
+      return (Float) valueBinding("minBarWidth", minBarWidth);
+   }
 
-    public void setTextColor(String textColor) {
-        this.textColor = textColor;
-    }
+   public void setMinBarWidth(Float minBarWidth)
+   {
+      this.minBarWidth = minBarWidth;
+   }
 
-    @Override
-    public void restoreState(FacesContext context, Object state)
-    {
-       Object[] values = (Object[]) state;
-       super.restoreState(context, values[0]);
-       
-       type          = (String) values[1];
-       code          = (String) values[2];
-       xpos          = (Float) values[5];
-       ypos          = (Float) values[6];
-       rotDegrees    = (Float) values[7];
-       altText       = (String) values[8];
-       barHeight     = (Float) values[9];
-       textSize      = (Float) values[10];
-       minBarWidth   = (Float) values[11];
-       barMultiplier = (Float) values[12];
-       codeType      = (String) values[13];
-       barColor      = (String) values[14];
-       textColor     = (String) values[15];
-    }
+   public Float getTextSize()
+   {
+      return (Float) valueBinding("textSize", textSize);
+   }
 
-    @Override
-    public Object saveState(FacesContext context)
-    {
-       Object[] values = new Object[16];
-       
-       values[0]  = super.saveState(context);
-       values[1]  = type;
-       values[2]  = code;
-       values[5]  = xpos;
-       values[6]  = ypos;
-       values[7]  = rotDegrees;
-       values[8]  = altText;
-       values[9]  = barHeight;
-       values[10] = textSize;
-       values[11] = minBarWidth;
-       values[12] = barMultiplier;
-       values[13] = codeType;
-       values[14] = barColor;
-       values[15] = textColor;
-       
-       return values;
-    }
-    
-    
-    @Override
-    public Object getITextObject() {
-        return itextObject;
-    }
+   public void setTextSize(Float textSize)
+   {
+      this.textSize = textSize;
+   }
 
-    @Override
-    public void createITextObject(FacesContext context) throws IOException {
-        barcode = createBarcodeType(getType());
-                
-        barcode.setCode(getCode());
-        
-        Integer codeVal = lookupCodeType(getCodeType());
-        if (codeVal != null) {
-            barcode.setCodeType(codeVal);
-        }
-        
-        if (getAltText() != null) {
-            barcode.setAltText(getAltText());
-        }
+   public String getBarColor()
+   {
+      return (String) valueBinding("barColor", barColor);
+   }
 
-        if (getBarHeight() != null) {
-            barcode.setBarHeight(getBarHeight());
-        }
+   public void setBarColor(String barColor)
+   {
+      this.barColor = barColor;
+   }
 
-        if (getBarMultiplier() != null) {
-            barcode.setN(getBarMultiplier());
-        }
-        
-        if (getMinBarWidth() != null) {
-            barcode.setX(getMinBarWidth());
-        }
+   public String getTextColor()
+   {
+      return (String) valueBinding("textColor", textColor);
+   }
 
-           
-        UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
-        
-        if (doc != null) {
-            PdfWriter writer = (PdfWriter) doc.getWriter();
-            PdfContentByte cb = writer.getDirectContent();
-            Image image  = barcode.createImageWithBarcode(cb, 
-                                                          ITextUtils.colorValue(getBarColor()),
-                                                          ITextUtils.colorValue(getTextColor()));
-            
-            if (getRotDegrees() != null) {
-                image.setRotationDegrees(getRotDegrees());
-            }
-            if (getXpos()!= null && getYpos()!=null) {
-                image.setAbsolutePosition(getXpos(), getYpos());
-            }
-           
-            itextObject = image;
-        } else {
-            Color bars = ITextUtils.colorValue(getBarColor());
-            if (bars == null) {
-                bars = Color.BLACK;
-            }
-            byte[] imageData = imageToByteArray(barcode.createAwtImage(bars, Color.WHITE));
-            itextObject = new ImageWrapper(imageData, Type.IMAGE_JPEG);
-        }
-    }
+   public void setTextColor(String textColor)
+   {
+      this.textColor = textColor;
+   }
 
-    private Integer lookupCodeType(String codeType) {
-        if (codeType == null || codeType.length()==0) {
-            return null;
-        }
-                
-        try {
-            Field field = Barcode.class.getDeclaredField(codeType.toUpperCase());
-            return field.getInt(Barcode.class);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+   @Override
+   public void restoreState(FacesContext context, Object state)
+   {
+      Object[] values = (Object[]) state;
+      super.restoreState(context, values[0]);
 
-    private Barcode createBarcodeType(String barcodeType) {
-        if (barcodeType == null || barcodeType.length()==0) {
-            return new Barcode128();
-        }
-            
-        if (barcodeType.equalsIgnoreCase("code128")) {
-            return new Barcode128();
-        } else if (barcodeType.equalsIgnoreCase("code39")) {
-            return new Barcode39();
-        } else if (barcodeType.equalsIgnoreCase("codabar")) {
-            return new BarcodeCodabar();
-        } else if (barcodeType.equalsIgnoreCase("ean")) {
-            return new BarcodeEAN();
-        } else if (barcodeType.equalsIgnoreCase("inter25")) {
-            return new BarcodeInter25();
-        } else if (barcodeType.equalsIgnoreCase("postnet")) {
-            return new BarcodePostnet();
-        }
-        throw new RuntimeException("Unknown barcode type " + barcodeType);
-    }
+      type = (String) values[1];
+      code = (String) values[2];
+      xpos = (Float) values[5];
+      ypos = (Float) values[6];
+      rotDegrees = (Float) values[7];
+      altText = (String) values[8];
+      barHeight = (Float) values[9];
+      textSize = (Float) values[10];
+      minBarWidth = (Float) values[11];
+      barMultiplier = (Float) values[12];
+      codeType = (String) values[13];
+      barColor = (String) values[14];
+      textColor = (String) values[15];
+   }
 
-    @Override
-    public void removeITextObject() {
-        itextObject = null;
-    }
+   @Override
+   public Object saveState(FacesContext context)
+   {
+      Object[] values = new Object[16];
 
-    @Override
-    public void handleAdd(Object other) {
-        throw new RuntimeException("can't add " + other.getClass().getName() + " to barcode");
-    }
-    
-    public static byte[] imageToByteArray(java.awt.Image image) 
-        throws IOException 
-    {       
-        BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), 
-                                                        image.getHeight(null), 
-                                                        BufferedImage.TYPE_INT_RGB);
-        Graphics gc = bufferedImage.createGraphics();
-        gc.drawImage(image, 0, 0, null);
-        
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, "jpeg", stream);
-   
-        return stream.toByteArray();
-  }
-    
-    @Override
-    public void noITextParentFound() {
-        try {
-            FacesContext context = FacesContext.getCurrentInstance();        
-            ResponseWriter response = context.getResponseWriter();
-            response.startElement("img", null);
-            GraphicImageStore store = GraphicImageStore.instance();
+      values[0] = super.saveState(context);
+      values[1] = type;
+      values[2] = code;
+      values[5] = xpos;
+      values[6] = ypos;
+      values[7] = rotDegrees;
+      values[8] = altText;
+      values[9] = barHeight;
+      values[10] = textSize;
+      values[11] = minBarWidth;
+      values[12] = barMultiplier;
+      values[13] = codeType;
+      values[14] = barColor;
+      values[15] = textColor;
 
-            String key = store.put((ImageWrapper) itextObject);
-            String url = context.getExternalContext().getRequestContextPath() +
-            GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/" + key + Type.IMAGE_JPEG.getExtension();
+      return values;
+   }
 
-            response.writeAttribute("src", url, null);
+   @Override
+   public Object getITextObject()
+   {
+      return itextObject;
+   }
 
-            response.endElement("img");
+   @Override
+   public void createITextObject(FacesContext context) throws IOException
+   {
+      barcode = createBarcodeType(getType());
 
-            Manager.instance().beforeRedirect();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+      barcode.setCode(getCode());
 
+      Integer codeVal = lookupCodeType(getCodeType());
+      if (codeVal != null)
+      {
+         barcode.setCodeType(codeVal);
+      }
 
-    
+      if (getAltText() != null)
+      {
+         barcode.setAltText(getAltText());
+      }
+
+      if (getBarHeight() != null)
+      {
+         barcode.setBarHeight(getBarHeight());
+      }
+
+      if (getBarMultiplier() != null)
+      {
+         barcode.setN(getBarMultiplier());
+      }
+
+      if (getMinBarWidth() != null)
+      {
+         barcode.setX(getMinBarWidth());
+      }
+
+      UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
+
+      if (doc != null)
+      {
+         PdfWriter writer = (PdfWriter) doc.getWriter();
+         PdfContentByte cb = writer.getDirectContent();
+         Image image = barcode.createImageWithBarcode(cb, ITextUtils.colorValue(getBarColor()), ITextUtils.colorValue(getTextColor()));
+
+         if (getRotDegrees() != null)
+         {
+            image.setRotationDegrees(getRotDegrees());
+         }
+         if (getXpos() != null && getYpos() != null)
+         {
+            image.setAbsolutePosition(getXpos(), getYpos());
+         }
+
+         itextObject = image;
+      }
+      else
+      {
+         Color bars = ITextUtils.colorValue(getBarColor());
+         if (bars == null)
+         {
+            bars = Color.BLACK;
+         }
+         byte[] imageData = imageToByteArray(barcode.createAwtImage(bars, Color.WHITE));
+         itextObject = new ImageWrapper(imageData, Type.IMAGE_JPEG);
+      }
+   }
+
+   private Integer lookupCodeType(String codeType)
+   {
+      if (codeType == null || codeType.length() == 0)
+      {
+         return null;
+      }
+
+      try
+      {
+         Field field = Barcode.class.getDeclaredField(codeType.toUpperCase());
+         return field.getInt(Barcode.class);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
+
+   private Barcode createBarcodeType(String barcodeType)
+   {
+      if (barcodeType == null || barcodeType.length() == 0)
+      {
+         return new Barcode128();
+      }
+
+      if (barcodeType.equalsIgnoreCase("code128"))
+      {
+         return new Barcode128();
+      }
+      else if (barcodeType.equalsIgnoreCase("code39"))
+      {
+         return new Barcode39();
+      }
+      else if (barcodeType.equalsIgnoreCase("codabar"))
+      {
+         return new BarcodeCodabar();
+      }
+      else if (barcodeType.equalsIgnoreCase("ean"))
+      {
+         return new BarcodeEAN();
+      }
+      else if (barcodeType.equalsIgnoreCase("inter25"))
+      {
+         return new BarcodeInter25();
+      }
+      else if (barcodeType.equalsIgnoreCase("postnet"))
+      {
+         return new BarcodePostnet();
+      }
+      throw new RuntimeException("Unknown barcode type " + barcodeType);
+   }
+
+   @Override
+   public void removeITextObject()
+   {
+      itextObject = null;
+   }
+
+   @Override
+   public void handleAdd(Object other)
+   {
+      throw new RuntimeException("can't add " + other.getClass().getName() + " to barcode");
+   }
+
+   public static byte[] imageToByteArray(java.awt.Image image) throws IOException
+   {
+      BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+      Graphics gc = bufferedImage.createGraphics();
+      gc.drawImage(image, 0, 0, null);
+
+      ByteArrayOutputStream stream = new ByteArrayOutputStream();
+      ImageIO.write(bufferedImage, "jpeg", stream);
+
+      return stream.toByteArray();
+   }
+
+   @Override
+   public void noITextParentFound()
+   {
+      try
+      {
+         FacesContext context = FacesContext.getCurrentInstance();
+         ResponseWriter response = context.getResponseWriter();
+         response.startElement("img", null);
+         GraphicImageStore store = GraphicImageStore.instance();
+
+         String key = store.put((ImageWrapper) itextObject);
+         String url = context.getExternalContext().getRequestContextPath() + GraphicImageResource.GRAPHIC_IMAGE_RESOURCE_PATH + "/" + key + Type.IMAGE_JPEG.getExtension();
+
+         response.writeAttribute("src", url, null);
+
+         response.endElement("img");
+
+         Manager.instance().beforeRedirect();
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(e);
+      }
+   }
+
 }

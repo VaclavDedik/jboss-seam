@@ -9,62 +9,73 @@ import com.lowagie.text.Image;
 import com.lowagie.text.ImgTemplate;
 import com.lowagie.text.pdf.PdfTemplate;
 
-public abstract class UIGraphics2D  
-    extends ITextComponent  
+public abstract class UIGraphics2D extends ITextComponent
 {
-    private Image image = null;
+   private Image image = null;
 
-    private int height = 300;
-    private int width  = 400;    
+   private int height = 300;
+   private int width = 400;
 
-    public void setHeight(int height) {
-        this.height = height;
-    }
-    
-    public int getHeight() {
-        return (Integer) valueBinding("height", height);
-    }
+   public void setHeight(int height)
+   {
+      this.height = height;
+   }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-    
-    public int getWidth() {
-        return (Integer) valueBinding("width", width);        
-    }
+   public int getHeight()
+   {
+      return (Integer) valueBinding("height", height);
+   }
 
-    @Override
-    public void createITextObject(FacesContext context) {
-        UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
-        if (doc != null) {            
-            PdfTemplate tp = doc.createPdfTemplate(getWidth(), getHeight()); 
-            Graphics2D g2 = tp.createGraphics(getWidth(), getHeight());
+   public void setWidth(int width)
+   {
+      this.width = width;
+   }
 
-            render(g2);
-            g2.dispose(); 
+   public int getWidth()
+   {
+      return (Integer) valueBinding("width", width);
+   }
 
-            try {
-                image = new ImgTemplate(tp);
-            } catch (BadElementException e) {
-                throw new RuntimeException(e);
-            } 
-        }
-    }
+   @Override
+   public void createITextObject(FacesContext context)
+   {
+      UIDocument doc = (UIDocument) findITextParent(getParent(), UIDocument.class);
+      if (doc != null)
+      {
+         PdfTemplate tp = doc.createPdfTemplate(getWidth(), getHeight());
+         Graphics2D g2 = tp.createGraphics(getWidth(), getHeight());
 
-    public abstract void render(Graphics2D g2);
+         render(g2);
+         g2.dispose();
 
-    @Override
-    public void handleAdd(Object arg0) {
-        throw new RuntimeException("No children allowed");
-    }
+         try
+         {
+            image = new ImgTemplate(tp);
+         }
+         catch (BadElementException e)
+         {
+            throw new RuntimeException(e);
+         }
+      }
+   }
 
-    @Override
-    public void removeITextObject() {
-        image = null;
-    }
+   public abstract void render(Graphics2D g2);
 
-    @Override
-    public Object getITextObject() {
-        return image;
-    }
+   @Override
+   public void handleAdd(Object arg0)
+   {
+      throw new RuntimeException("No children allowed");
+   }
+
+   @Override
+   public void removeITextObject()
+   {
+      image = null;
+   }
+
+   @Override
+   public Object getITextObject()
+   {
+      return image;
+   }
 }

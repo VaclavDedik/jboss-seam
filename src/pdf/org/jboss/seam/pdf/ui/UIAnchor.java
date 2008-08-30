@@ -3,50 +3,58 @@ package org.jboss.seam.pdf.ui;
 import javax.faces.context.*;
 import com.lowagie.text.*;
 
-public class UIAnchor
-    extends ITextComponent
+public class UIAnchor extends ITextComponent
 {
-    public static final String COMPONENT_TYPE   = "org.jboss.seam.pdf.ui.UIAnchor";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.pdf.ui.UIAnchor";
 
-    Anchor anchor;
+   Anchor anchor;
 
-    String name;
-    String reference;
+   String name;
+   String reference;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
+   public void setName(String name)
+   {
+      this.name = name;
+   }
 
-    @Override
-    public Object getITextObject() {
-        return anchor;
-    }
+   public void setReference(String reference)
+   {
+      this.reference = reference;
+   }
 
-    @Override
-    public void removeITextObject() {
-        anchor = null;
-    }
+   @Override
+   public Object getITextObject()
+   {
+      return anchor;
+   }
 
-    @Override
-    public void createITextObject(FacesContext context) {
-        anchor = new Anchor();
+   @Override
+   public void removeITextObject()
+   {
+      anchor = null;
+   }
 
-        name = (String) valueBinding(context, "name", name);
-        if (name != null) {
-            anchor.setName(name);
-        }
+   @Override
+   public void createITextObject(FacesContext context)
+   {
+      anchor = new Anchor();
 
-        reference = (String) valueBinding(context, "reference", reference);
-        if (reference != null) {
-            anchor.setReference(reference);
-        }
-    }
+      name = (String) valueBinding(context, "name", name);
+      if (name != null)
+      {
+         anchor.setName(name);
+      }
 
-    @Override
-    public void handleAdd(Object o) {
-        anchor.add(o);
-    }
+      reference = (String) valueBinding(context, "reference", reference);
+      if (reference != null)
+      {
+         anchor.setReference(reference);
+      }
+   }
+
+   @Override
+   public void handleAdd(Object o)
+   {
+      anchor.add(o);
+   }
 }

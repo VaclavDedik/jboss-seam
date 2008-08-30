@@ -24,16 +24,16 @@ import com.lowagie.text.pdf.PdfStamper;
 public class UIForm extends FormComponent
 {
    public static final String COMPONENT_FAMILY = "org.jboss.seam.pdf.UIForm";
-  
+
    private Log log = Logging.getLog(getClass());
-   
+
    private String URL;
-   
+
    PdfReader reader;
    PdfStamper stamper;
    AcroFields fields;
    ByteArrayOutputStream buffer;
-   
+
    public String getURL()
    {
       return (String) valueOf("URL", URL);
@@ -43,7 +43,7 @@ public class UIForm extends FormComponent
    {
       URL = url;
    }
-   
+
    @Override
    public void encodeBegin(FacesContext facesContext) throws IOException
    {
@@ -73,7 +73,7 @@ public class UIForm extends FormComponent
       {
          throw new FacesException("Could not flush PDF", e);
       }
-      
+
       String viewId = Pages.getViewId(facesContext);
       String baseName = baseNameForViewId(viewId);
       DocumentStore store = DocumentStore.instance();
@@ -86,7 +86,6 @@ public class UIForm extends FormComponent
       log.info("Redirecting to #0", url);
       facesContext.getExternalContext().redirect(url);
    }
-
 
    public static String baseNameForViewId(String viewId)
    {
@@ -103,8 +102,8 @@ public class UIForm extends FormComponent
       }
 
       return viewId;
-   }   
-   
+   }
+
    @Override
    public String getFamily()
    {
