@@ -412,7 +412,7 @@ public class Identity implements Serializable
    public boolean hasRole(String role)
    {
       if (!securityEnabled) return true;
-      if (systemOp.get()) return true;
+      if (systemOp.get() == Boolean.TRUE) return true;
       
       isLoggedIn(true);
       
@@ -524,7 +524,7 @@ public class Identity implements Serializable
     */
    public void checkPermission(String name, String action, Object...arg)
    {
-      if (systemOp.get()) return; 
+      if (systemOp.get() == Boolean.TRUE) return; 
       
       isLoggedIn(true);
       
@@ -546,7 +546,7 @@ public class Identity implements Serializable
    
    public void checkPermission(Object target, String action)
    {
-      if (systemOp.get()) return;
+      if (systemOp.get() == Boolean.TRUE) return;
       
       isLoggedIn(true);
       
@@ -577,7 +577,7 @@ public class Identity implements Serializable
    public boolean hasPermission(String name, String action, Object...arg)
    {      
       if (!securityEnabled) return true;
-      if (systemOp.get()) return true;     
+      if (systemOp.get() == Boolean.TRUE) return true;     
       if (permissionMapper == null) return false;
          
       if (arg != null)
@@ -598,7 +598,7 @@ public class Identity implements Serializable
    public boolean hasPermission(Object target, String action)
    {
       if (!securityEnabled) return true;
-      if (systemOp.get()) return true;      
+      if (systemOp.get() == Boolean.TRUE) return true;      
       if (permissionMapper == null) return false;
       if (target == null) return false;
       
