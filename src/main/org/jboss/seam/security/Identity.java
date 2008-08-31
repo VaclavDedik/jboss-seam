@@ -78,7 +78,7 @@ public class Identity implements Serializable
    
    private RememberMe rememberMe;
    
-   private ThreadLocal<Boolean> systemOp = new ThreadLocal<Boolean>();
+   private transient ThreadLocal<Boolean> systemOp = new ThreadLocal<Boolean>();
    
    private String jaasConfigName = null;
    
