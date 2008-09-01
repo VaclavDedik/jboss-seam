@@ -78,7 +78,7 @@ public class Identity implements Serializable
    
    private RememberMe rememberMe;
    
-   private transient ThreadLocal<Boolean> systemOp = new ThreadLocal<Boolean>();
+   private transient ThreadLocal<Boolean> systemOp;
    
    private String jaasConfigName = null;
    
@@ -412,7 +412,7 @@ public class Identity implements Serializable
    public boolean hasRole(String role)
    {
       if (!securityEnabled) return true;
-      if (systemOp.get() == Boolean.TRUE) return true;
+      if (systemOp != null && Boolean.TRUE.equals(systemOp.get())) return true;
       
       isLoggedIn(true);
       
@@ -524,7 +524,7 @@ public class Identity implements Serializable
     */
    public void checkPermission(String name, String action, Object...arg)
    {
-      if (systemOp.get() == Boolean.TRUE) return; 
+      if (systemOp != null && Boolean.TRUE.equals(systemOp.get())) return; 
       
       isLoggedIn(true);
       
@@ -546,7 +546,7 @@ public class Identity implements Serializable
    
    public void checkPermission(Object target, String action)
    {
-      if (systemOp.get() == Boolean.TRUE) return;
+      if (systemOp != null && Boolean.TRUE.equals(systemOp.get())) return;
       
       isLoggedIn(true);
       
@@ -577,7 +577,7 @@ public class Identity implements Serializable
    public boolean hasPermission(String name, String action, Object...arg)
    {      
       if (!securityEnabled) return true;
-      if (systemOp.get() == Boolean.TRUE) return true;     
+      if (systemOp != null && Boolean.TRUE.equals(systemOp.get())) return true;   
       if (permissionMapper == null) return false;
          
       if (arg != null)
@@ -598,7 +598,7 @@ public class Identity implements Serializable
    public boolean hasPermission(Object target, String action)
    {
       if (!securityEnabled) return true;
-      if (systemOp.get() == Boolean.TRUE) return true;      
+      if (systemOp != null && Boolean.TRUE.equals(systemOp.get())) return true;     
       if (permissionMapper == null) return false;
       if (target == null) return false;
       
@@ -705,6 +705,11 @@ public class Identity implements Serializable
       {
          principal = operation.getPrincipal();
          subject = operation.getSubject();
+         
+         if (systemOp == null)
+         {
+            systemOp = new ThreadLocal<Boolean>();
+         }
          
          systemOp.set(operation.isSystemOperation());
          
