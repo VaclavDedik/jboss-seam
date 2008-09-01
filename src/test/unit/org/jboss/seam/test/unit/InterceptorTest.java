@@ -19,6 +19,7 @@ import org.jboss.seam.core.BijectionInterceptor;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationInterceptor;
 import org.jboss.seam.core.ConversationalInterceptor;
+import org.jboss.seam.core.CyclicDependencyException;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
@@ -234,6 +235,158 @@ public class InterceptorTest
       ServletLifecycle.endApplication();
    }
    
+   @Test
+   public void testCyclicDependencyThowsException() throws Exception
+   {
+      MockServletContext servletContext = new MockServletContext();
+      ServletLifecycle.beginApplication(servletContext);
+      MockExternalContext externalContext = new MockExternalContext(servletContext);
+      Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
+      appContext.set( Seam.getComponentName(Init.class), new Init() );
+      appContext.set( 
+            Seam.getComponentName(ConversationEntries.class) + ".component", 
+            new Component(ConversationEntries.class, appContext) 
+         );
+      appContext.set( 
+            Seam.getComponentName(Manager.class) + ".component", 
+            new Component(Manager.class, appContext) 
+         );
+      appContext.set( 
+            Seam.getComponentName(CyclicFoo.class) + ".component", 
+            new Component(CyclicFoo.class, appContext) 
+         );
+      appContext.set( 
+            Seam.getComponentName(CyclicBar.class) + ".component", 
+            new Component(CyclicBar.class, appContext) 
+      );
+
+      FacesLifecycle.beginRequest(externalContext);
+      Manager.instance().setCurrentConversationId("1");
+      FacesLifecycle.resumeConversation(externalContext);
+      FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
+      
+      final CyclicFoo cyclicFoo = new CyclicFoo();
+      final CyclicBar cyclicBar = new CyclicBar();
+      
+      final BijectionInterceptor cyclicFooBijectionInterceptor = new BijectionInterceptor();
+      cyclicFooBijectionInterceptor.setComponent( new Component(CyclicFoo.class, appContext) );
+      final Method cyclicFooGetName = CyclicFoo.class.getMethod("getName");
+      final MockInvocationContext callGetName = new MockInvocationContext() {
+         @Override
+         public Object getTarget()
+         {
+            return cyclicFoo;
+         }
+
+         @Override
+         public Object proceed() throws Exception
+         {
+            return cyclicFoo.getName();
+         }
+         
+         @Override
+         public Method getMethod()
+         {
+            return cyclicFooGetName;
+         }
+      };
+      
+      final Method cyclicFooGetFooBar = CyclicFoo.class.getMethod("getFooBar");
+      final MockInvocationContext callGetCyclicFooBar = new MockInvocationContext() {
+         @Override
+         public Object getTarget()
+         {
+            return cyclicFoo;
+         }
+         
+         @Override
+         public Object proceed() throws Exception
+         {
+            return cyclicFoo.getFooBar();
+         }
+         
+         @Override
+         public Method getMethod()
+         {
+            return cyclicFooGetFooBar;
+         }
+      };
+      
+      CyclicFoo cyclicFooProxy = new CyclicFoo()
+      {
+         @Override
+         public String getName() throws Exception
+         {
+            return (String) cyclicFooBijectionInterceptor.aroundInvoke(callGetName);
+         }
+         
+         @Override
+         public String getFooBar() throws Exception
+         {
+            return (String) cyclicFooBijectionInterceptor.aroundInvoke(callGetCyclicFooBar);
+         }
+      };
+      
+      
+      final BijectionInterceptor cyclicBarBijectionInterceptor = new BijectionInterceptor();
+      cyclicBarBijectionInterceptor.setComponent( new Component(CyclicBar.class, appContext) );
+      final Method cyclicBarProvideCyclicFooBar = CyclicBar.class.getMethod("provideCyclicFooBar");
+      final MockInvocationContext callProvideCyclicFooBar = new MockInvocationContext() {
+         @Override
+         public Object getTarget()
+         {
+            return cyclicBar;
+         }
+
+         @Override
+         public Object proceed() throws Exception
+         {
+            return cyclicBar.provideCyclicFooBar();
+         }
+         
+         @Override
+         public Method getMethod()
+         {
+            return cyclicBarProvideCyclicFooBar;
+         }
+      };
+      
+      final CyclicBar cyclicBarProxy = new CyclicBarProxy(callProvideCyclicFooBar, cyclicBarBijectionInterceptor);
+      
+      
+      appContext.set("cyclicFoo", cyclicFooProxy);
+      appContext.set("cyclicBar", cyclicBarProxy);
+      
+      try
+      {
+         cyclicFooProxy.getFooBar();
+         assert false : "cyclic dependency not detected";
+      }
+      catch (CyclicDependencyException e) {}
+      
+   }
+
+   /*
+    * Needs to be non-anonymous, so that provideCyclicFooBar() can be accessed reflectively
+    */
+   public class CyclicBarProxy extends CyclicBar
+   {
+      private final MockInvocationContext callProvideCyclicFooBar;
+      private final BijectionInterceptor cyclicBarBijectionInterceptor;
+
+      private CyclicBarProxy(MockInvocationContext callProvideCyclicFooBar, BijectionInterceptor cyclicBarBijectionInterceptor)
+      {
+         this.callProvideCyclicFooBar = callProvideCyclicFooBar;
+         this.cyclicBarBijectionInterceptor = cyclicBarBijectionInterceptor;
+      }
+
+      @Override
+      public String provideCyclicFooBar() throws Exception
+      {
+         return (String) cyclicBarBijectionInterceptor.aroundInvoke(callProvideCyclicFooBar);
+      }
+   }
+
    @Test
    public void testConversationInterceptor() throws Exception
    {

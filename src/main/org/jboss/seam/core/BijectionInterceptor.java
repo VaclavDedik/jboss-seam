@@ -23,7 +23,9 @@ public class BijectionInterceptor extends AbstractInterceptor
    private static final long serialVersionUID = 4686458105931528659L;
    
    private boolean injected;
-     
+   
+   private boolean injecting;
+   
    private int counter = 0;
    
    private ReentrantLock lock = new ReentrantLock();
@@ -41,7 +43,20 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             if (!injected)
             {              
-               component.inject( invocation.getTarget(), enforceRequired );
+               if (injecting == true)
+               {
+                  throw new CyclicDependencyException();
+               }
+
+               injecting = true;
+               try
+               {
+                  component.inject(invocation.getTarget(), enforceRequired);
+               }
+               finally
+               {
+                  injecting = false;
+               }
                injected = true;
             }
             
@@ -82,6 +97,11 @@ public class BijectionInterceptor extends AbstractInterceptor
          }
          
          return result;
+      }
+      catch (CyclicDependencyException cyclicDependencyException)
+      {
+         cyclicDependencyException.addInvocation(getComponent().getName(), invocation.getMethod());
+         throw cyclicDependencyException;
       }
       finally
       {            
