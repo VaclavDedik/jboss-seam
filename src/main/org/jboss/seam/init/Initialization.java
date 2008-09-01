@@ -42,6 +42,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
+import org.jboss.seam.deployment.DeploymentStrategy;
 import org.jboss.seam.deployment.DotPageDotXmlDeploymentHandler;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
 import org.jboss.seam.deployment.StandardDeploymentStrategy;
@@ -109,7 +110,7 @@ public class Initialization
    public Initialization create()
    {
       standardDeploymentStrategy = new StandardDeploymentStrategy(Thread.currentThread().getContextClassLoader());
-      standardDeploymentStrategy.getFiles().add(warRootDirectory);
+      addWarRoot(standardDeploymentStrategy);
       standardDeploymentStrategy.scan();
       addNamespaces();
       initComponentsFromXmlDocument("/WEB-INF/components.xml");
@@ -119,6 +120,13 @@ public class Initialization
       initPropertiesFromResource();
       initJndiProperties();
       return this;
+   }
+   
+   private void addWarRoot(DeploymentStrategy deploymentStrategy)
+   {
+      deploymentStrategy.getFiles().add(warRootDirectory);
+      deploymentStrategy.addExclude("WEB-INF/classes/*");
+      deploymentStrategy.addExclude("/WEB-INF/classes/*");
    }
 
    private void initComponentsFromXmlDocuments()
@@ -604,7 +612,7 @@ public class Initialization
       }
       ServletLifecycle.beginInitialization();
       Contexts.getApplicationContext().set(Component.PROPERTIES, properties);
-      createHotDeployment(Thread.currentThread().getContextClassLoader());
+      hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader());
       scanForComponents();
       addComponent( new ComponentDescriptor(Init.class), Contexts.getApplicationContext());
       Init init = (Init) Component.getInstance(Init.class, ScopeType.APPLICATION);    
@@ -624,11 +632,16 @@ public class Initialization
       // Make the deployment strategies available in the contexts. This gives 
       // access to custom deployment handlers for processing custom annotations
       // etc.
-      
       Contexts.getEventContext().set(StandardDeploymentStrategy.NAME, standardDeploymentStrategy);
       Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
       
       installComponents(init);
+      
+      if (hotDeploymentStrategy != null)
+      {
+         hotDeploymentStrategy.scan();
+         installHotDeployableComponents();
+      }
       
       for (String globalImport: globalImports)
       {
@@ -660,7 +673,10 @@ public class Initialization
          Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
       }
       //TODO open the ability to reuse the classloader by looking at the components class classloaders
-      createHotDeployment(Thread.currentThread().getContextClassLoader(), warRootDirectory);
+      hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader());
+      addWarRoot(hotDeploymentStrategy);
+      hotDeploymentStrategy.scan();
+      installHotDeployableComponents();
       Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
       // Add the WAR root to the hot deploy path to pick up .page.xml
       Pages.instance().setHotDotPageDotXmlFileNames(DotPageDotXmlDeploymentHandler.hotInstance().getFiles());
@@ -680,26 +696,24 @@ public class Initialization
       }
    }
    
-   private void createHotDeployment(ClassLoader classLoader, File ... directories)
+   private HotDeploymentStrategy createHotDeployment(ClassLoader classLoader)
    {
       if ( isDebugEnabled() && hotDeployDirectory != null )
       {
          if (isGroovyPresent())
          {
             log.debug("Using Java + Groovy hot deploy");
-            hotDeploymentStrategy = HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory);
+            return HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory);
          }
          else 
          {
             log.debug("Using Java hot deploy");
-            hotDeploymentStrategy = new HotDeploymentStrategy(classLoader, hotDeployDirectory);
+            return new HotDeploymentStrategy(classLoader, hotDeployDirectory);
          }
-         for (File file : directories)
-         {
-            hotDeploymentStrategy.getFiles().add(file);
-         }
-         hotDeploymentStrategy.scan();
-         installHotDeployableComponents();
+      }
+      else
+      {
+         return null;
       }
    }
    
