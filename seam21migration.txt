@@ -119,3 +119,11 @@ you can enable it components.xml:
       <value>org.jboss.seam.persistence.ManagedEntityIdentityInterceptor</value>
    </core:interceptors>
 </core:init>
+
+
+Asynchronous Exception Handling
+----------------------
+
+All asynchronous  are now wrapped in exception handling. By default, any
+exceptions which propagate out of the asynchronous call are caught and logged at
+error level. The reference manual describes how to customize this behaviour. 

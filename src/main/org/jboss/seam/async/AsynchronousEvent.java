@@ -22,9 +22,18 @@ public class AsynchronousEvent extends Asynchronous
    }
 
    @Override
-   public void call()
+   public void execute(Object timer)
    {
-      Events.instance().raiseEvent(type, parameters);
+      new ContextualAsynchronousRequest(timer)
+      {
+         
+         @Override
+         protected void process()
+         {
+            Events.instance().raiseEvent(type, parameters);
+         }
+         
+      }.run();
    }
    
    @Override
@@ -36,6 +45,20 @@ public class AsynchronousEvent extends Asynchronous
    protected String getType()
    {
       return type;
+   }
+
+   @Override
+   protected void handleException(final Exception exception, Object timer)
+   {
+      new ContextualAsynchronousRequest(timer)
+      {
+         @Override
+         protected void process()
+         {
+            AsynchronousExceptionHandler.instance().handleException(exception);
+         }
+      }.run();
+      
    }
    
 }

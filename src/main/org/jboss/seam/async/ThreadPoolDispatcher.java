@@ -34,7 +34,10 @@ public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedu
     
    public Future scheduleAsynchronousEvent(String type, Object... parameters)
    {  
-      return executor.submit( new RunnableAsynchronous( new AsynchronousEvent(type, parameters) ) );
+      RunnableAsynchronous runnableAsynchronous = new RunnableAsynchronous( new AsynchronousEvent(type, parameters) ); 
+      Future future = executor.submit(runnableAsynchronous);
+      runnableAsynchronous.setFuture(future);
+      return future;
    }
     
    public Future scheduleTimedEvent(String type, TimerSchedule schedule, Object... parameters)
@@ -55,47 +58,50 @@ public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedu
       return expiration.getTime() - new Date().getTime();
    }
    
-   private Future scheduleWithExecutorService(TimerSchedule schedule, Runnable runnable)
+   private Future scheduleWithExecutorService(TimerSchedule schedule, RunnableAsynchronous runnable)
    {
+      Future future = null;
       if ( schedule.getIntervalDuration()!=null )
       {
          if ( schedule.getExpiration()!=null )
          {
-            return executor.scheduleAtFixedRate( runnable, 
+            future = executor.scheduleAtFixedRate( runnable, 
                     toDuration( schedule.getExpiration() ), 
                     schedule.getIntervalDuration(), 
                     TimeUnit.MILLISECONDS );
          }
          else if ( schedule.getDuration()!=null )
          {
-             return executor.scheduleAtFixedRate( runnable, 
+            future = executor.scheduleAtFixedRate( runnable, 
                      schedule.getDuration(), 
                      schedule.getIntervalDuration(), 
                      TimeUnit.MILLISECONDS );
          }
          else
          {
-            return executor.scheduleAtFixedRate( runnable, 0l, 
+            future = executor.scheduleAtFixedRate( runnable, 0l, 
                     schedule.getIntervalDuration(), 
                     TimeUnit.MILLISECONDS );
          }
       }
       else if ( schedule.getExpiration()!=null )
       {
-          return executor.schedule( runnable, 
+         future = executor.schedule( runnable, 
                   toDuration( schedule.getExpiration() ), 
                   TimeUnit.MILLISECONDS );
       }
       else if ( schedule.getDuration()!=null )
       {
-          return executor.schedule( runnable, 
+         future = executor.schedule( runnable, 
                   schedule.getDuration(), 
                   TimeUnit.MILLISECONDS );
       }
       else
       {
-         return executor.schedule(runnable, 0l, TimeUnit.MILLISECONDS);
+         future = executor.schedule(runnable, 0l, TimeUnit.MILLISECONDS);
       }
+      runnable.setFuture(future);
+      return future;
    }
    
    @Destroy
@@ -116,6 +122,8 @@ public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedu
    {
       private Asynchronous async;
       
+      private Future future;
+      
       RunnableAsynchronous(Asynchronous async)
       {
          this.async = async;
@@ -123,8 +131,21 @@ public class ThreadPoolDispatcher extends AbstractDispatcher<Future, TimerSchedu
       
       public void run()
       {
-         async.execute(null);
+         try
+         {
+            async.execute(future);
+         }
+         catch (Exception exception) 
+         {
+            async.handleException(exception, future); 
+         }
       }
+      
+      public void setFuture(Future future)
+      {
+         this.future = future;
+      }
+      
    }
 
    public int getThreadPoolSize()

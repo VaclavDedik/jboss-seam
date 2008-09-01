@@ -352,6 +352,62 @@ public class NthBusinessDay implements Serializable
                 business process context is propagated to the asynchronous thread.
             </para>
         </sect2>
+        
+        <sect2>
+            <title>Handling exceptions from asynchronous calls</title>
+            
+            <para>
+                Each asynchronous dispatcher behaves differently when an
+                exception propagates through it. For example, the 
+                <literal>java.util.concurrent</literal> dispatcher will suspend
+                further executions of a call which repeats, and the EJB3 timer
+                service will swallow the exception. Seam therefore catches any
+                exception which propagates out of the asynchronous call before
+                it reaches the dispatcher.
+            </para>
+            
+            <para>
+                By default, any exception which propagates out from an 
+                asynchronous execution will be caught and logged at error level.
+                You can customize this behavior globally by overriding the
+                <literal>org.jboss.seam.async.asynchronousExceptionHandler</literal>
+                component: 
+            </para>
+            
+            <programlisting role="JAVA"><![CDATA[@Scope(ScopeType.STATELESS)
+@Name("org.jboss.seam.async.asynchronousExceptionHandler")
+public class MyAsynchronousExceptionHandler extends AsynchronousExceptionHandler { 
+
+   @Logger Log log;
+   
+   @In Future timer;
+   
+   @Override
+   public void handleException(Exception exception) {
+      log.debug(exception);
+      timer.cancel(false);
+   }
+   
+}]]></programlisting>
+
+            <para>
+                Here, for example, using <literal>java.util.concurrent</literal>
+                dispatcher, we inject it's control object and cancel all future
+                invocations when an exception is encountered
+            </para>
+            
+            <para>
+                You can also alter this behavior for an individual component by
+                implementing the method 
+                <literal>public void handleAsynchronousException(Exception exception);</literal>
+                on the component. For example: 
+            </para>
+            
+            <programlisting role="JAVA"><![CDATA[   public void handleAsynchronousException(Exception exception) {
+      log.fatal(exception);
+   }]]></programlisting>
+
+        </sect2>
 
     </sect1>
     
