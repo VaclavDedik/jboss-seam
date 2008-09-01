@@ -48,7 +48,7 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             if (!injected)
             {              
-               if (injecting == true)
+               if (injecting)
                {
                   throw new CyclicDependencyException();
                }
