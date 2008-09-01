@@ -72,22 +72,19 @@ public abstract class StatusMessages implements Serializable
     */
    public void add(Severity severity, String key, String detailKey, String messageTemplate, String messageDetailTemplate, final Object... params)
    {
-      if (!Strings.isEmpty(key))
+      final StatusMessage message = new StatusMessage(severity, key, detailKey, messageTemplate, messageDetailTemplate);
+      if (!Strings.isEmpty(message.getSummary()))
       {
-         final StatusMessage message = new StatusMessage(severity, key, detailKey, messageTemplate, messageDetailTemplate);
-         if (!Strings.isEmpty(message.getSummary()))
-         {
-            messages.add(message);
-            getTasks().add(
-                  new Runnable() 
+         messages.add(message);
+         getTasks().add(
+               new Runnable() 
+               {
+                  public void run() 
                   {
-                     public void run() 
-                     {
-                         message.interpolate(params);
-                     }
+                      message.interpolate(params);
                   }
-            );
-         }
+               }
+         );
       }
    }
    
@@ -105,33 +102,30 @@ public abstract class StatusMessages implements Serializable
     */
    public void addToControl(String id, Severity severity, String key, String messageTemplate, final Object... params)
    {
-      if (!Strings.isEmpty(key))
-      {            
-         final StatusMessage message = new StatusMessage(severity, key, null, messageTemplate, null);
-         if (!Strings.isEmpty(message.getSummary()))
-         {         
-            if (keyedMessages.containsKey(id))
-            {
-               keyedMessages.get(id).add(message);
-            }
-            else
-            {
-               List<StatusMessage> list = new ArrayList<StatusMessage>();
-               list.add(message);
-               keyedMessages.put(id, list);
-            }
-            getTasks().add(
-                  new Runnable() 
-                  {
-                     
-                     public void run() 
-                     {
-                        message.interpolate(params);
-                     }
-                     
-                  }
-            );
+      final StatusMessage message = new StatusMessage(severity, key, null, messageTemplate, null);
+      if (!Strings.isEmpty(message.getSummary()))
+      {         
+         if (keyedMessages.containsKey(id))
+         {
+            keyedMessages.get(id).add(message);
          }
+         else
+         {
+            List<StatusMessage> list = new ArrayList<StatusMessage>();
+            list.add(message);
+            keyedMessages.put(id, list);
+         }
+         getTasks().add(
+               new Runnable() 
+               {
+                  
+                  public void run() 
+                  {
+                     message.interpolate(params);
+                  }
+                  
+               }
+         );
       }      
    }
 
