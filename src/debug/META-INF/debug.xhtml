@@ -223,7 +223,7 @@
         Exception during request processing:
         <ui:repeat value="#{org.jboss.seam.debug.contexts.exceptionCauses}" var="exception">
         <div>
-        Caused by #{exception.class.name} with message: "#{exception.message}"
+        Caused by #{exception.class.name} with message: "#{exception.getMessage()}"
         <pre><ui:repeat value="#{exception.stackTrace}" var="stackElement">
 #{stackElement}</ui:repeat></pre>
         </div>
