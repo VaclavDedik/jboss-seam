@@ -16,6 +16,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.ConcurrentRequestTimeoutException;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.annotations.Install;
@@ -44,6 +45,7 @@ import org.jboss.seam.web.Session;
 @BypassInterceptors
 public class Manager
 {
+   
    private static final LogProvider log = Logging.getLogProvider(Manager.class);
    
    public static final String REDIRECT_FROM_MANAGER = "org.jboss.seam.core.Manager";
@@ -502,7 +504,15 @@ public class Manager
 
    private boolean restoreAndLockConversation(ConversationEntry ce)
    {
-      if ( ce!=null && ce.lock() )
+      if (ce == null)
+      {
+         //there was no id in either place, so there is no
+         //long-running conversation to restore
+         log.debug("No stored conversation");
+         initializeTemporaryConversation();
+         return false;
+      }
+      else if ( ce.lock() )
       {
          // do this ASAP, since there is a window where conversationTimeout() might  
          // try to destroy the conversation, even if he cannot obtain the lock!
@@ -523,14 +533,11 @@ public class Manager
          
          return true;
 
-      }
+      } 
       else
       {
-         //there was no id in either place, so there is no
-         //long-running conversation to restore
-         log.debug("No stored conversation, or concurrent call to the stored conversation");
-         initializeTemporaryConversation();
-         return false;
+         log.debug("Concurrent call to conversation");
+         throw new ConcurrentRequestTimeoutException("Concurrent call to conversation");
       }
    }
 

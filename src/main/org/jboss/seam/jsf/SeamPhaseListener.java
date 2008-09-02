@@ -34,6 +34,7 @@ import org.jboss.seam.exception.Exceptions;
 import org.jboss.seam.faces.FacesManager;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.FacesPage;
+import org.jboss.seam.faces.HttpError;
 import org.jboss.seam.faces.Switcher;
 import org.jboss.seam.faces.Validation;
 import org.jboss.seam.international.StatusMessage;
@@ -389,7 +390,7 @@ public class SeamPhaseListener implements PhaseListener
       ConversationPropagation.instance().restoreConversationId(parameters);
       boolean conversationFound = Manager.instance().restoreConversation();
       FacesLifecycle.resumeConversation( facesContext.getExternalContext() );
-      postRestorePage(facesContext, parameters, conversationFound);            
+      postRestorePage(facesContext, parameters, conversationFound);
    }
 
    public void raiseEventsBeforePhase(PhaseEvent event)
