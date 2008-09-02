@@ -1,8 +1,10 @@
-package org.jboss.seam.core;
+package org.jboss.seam;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jboss.seam.core.BijectionInterceptor;
 
 /**
  * An exception that is thrown when {@link BijectionInterceptor} detects that a

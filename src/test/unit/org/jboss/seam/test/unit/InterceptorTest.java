@@ -7,6 +7,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.CyclicDependencyException;
 import org.jboss.seam.NoConversationException;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
@@ -19,7 +20,6 @@ import org.jboss.seam.core.BijectionInterceptor;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationInterceptor;
 import org.jboss.seam.core.ConversationalInterceptor;
-import org.jboss.seam.core.CyclicDependencyException;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.core.Interpolator;
