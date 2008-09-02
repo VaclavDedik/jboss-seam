@@ -54,7 +54,7 @@ public class StatusMessage implements Serializable
    
    public boolean isEmpty()
    {
-      return Strings.isEmpty(summary) || Strings.isEmpty(summaryTemplate);
+      return Strings.isEmpty(summary) && Strings.isEmpty(summaryTemplate);
    }
    
    public void interpolate(Object... params)
