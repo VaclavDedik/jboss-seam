@@ -4,6 +4,7 @@ package org.jboss.seam.core;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.jboss.seam.Component;
+import org.jboss.seam.CyclicDependencyException;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.intercept.AbstractInterceptor;
