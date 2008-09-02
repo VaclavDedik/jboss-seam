@@ -962,6 +962,26 @@ public class Pages
       return Manager.instance().getConversationTimeout();
    }
    
+   /**
+    * Search for a defined concurrent request timeout, beginning with
+    * the most specific view id, then wildcarded view ids, and 
+    * finally the global setting from Manager
+    */
+   public Integer getConcurrentRequestTimeout(String viewId)
+   {
+      List<Page> stack = getPageStack(viewId);
+      for (int i=stack.size()-1; i>=0; i--)
+      {
+         Page page = stack.get(i);
+         Integer concurrentRequestTimeout = page.getConcurrentRequestTimeout();
+         if (concurrentRequestTimeout!=null)
+         {
+            return concurrentRequestTimeout;
+         }
+      }
+      return Manager.instance().getConcurrentRequestTimeout();
+   }
+   
    public static String getSuffix()
    {
       String defaultSuffix = FacesContext.getCurrentInstance().getExternalContext()
@@ -1147,6 +1167,12 @@ public class Pages
       if (timeoutString!=null)
       {
          page.setTimeout(Integer.parseInt(timeoutString));
+      }
+      
+      String concurrentRequestTimeoutString = element.attributeValue("concurrent-request-timeout");
+      if (concurrentRequestTimeoutString!=null)
+      {
+         page.setConcurrentRequestTimeout(Integer.parseInt(concurrentRequestTimeoutString));
       }
       
       String noConversationViewIdString = element.attributeValue("no-conversation-view-id");

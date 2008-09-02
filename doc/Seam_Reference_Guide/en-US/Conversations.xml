@@ -1038,11 +1038,12 @@ public class GridEditor
       </para>
       
       <para>
-        Therefore Seam queues the action event for a period of time (the 
-        concurrent request timeout); if it can't process the event in time, it 
-        creates a temporary conversation and prints out a message to the user to
-        let them know what's going on.  It's therefore very important not to
-        flood the server with AJAX events!
+        Therefore, when you are working inside a long running conversation,
+        Seam queues the action event for a period of time (the concurrent 
+        request timeout); if it can't process the event in time, it creates a 
+        temporary conversation and prints out a message to the user to let them
+        know what's going on.  It's therefore very important not to flood the 
+        server with AJAX events!
       </para>
       
       <para>
@@ -1051,18 +1052,19 @@ public class GridEditor
       </para>
       
       <programlisting role="XML"><![CDATA[<core:manager concurrent-request-timeout="500" />]]></programlisting>
-      <!-- TODO -->
-      <!-- <para>
-        We can also fine tune the concurrent request timeout for a request:
+     
+      <para>
+        We can also fine tune the concurrent request timeout on a page-by-page
+        basis:
       </para>
        
-      <programlisting role="JAVA"><![CDATA[public void getTotal() {
-   Manager.instance().setConcurrentRequestTimeout(1000);
-   return someReallyComplicatedCalculation();
-}]]></programlisting>-->
+      <programlisting role="XML"><![CDATA[<page view-id="/book.xhtml" 
+         conversation-required="true" 
+         login-required="true"
+         concurrent-request-timeout="2000" />]]></programlisting>
 
     <para>
-      So far we've discussed "synchronous" AJAX requests - the client tells the
+      So far we've discussed serial AJAX requests - the client tells the
       server that an event has occur, and then rerenders part of the page based
       on the result.  This approach is great when the AJAX request is
       lightweight (the methods called are simple e.g. calculating the sum of a

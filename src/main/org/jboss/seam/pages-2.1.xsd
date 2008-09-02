@@ -118,6 +118,16 @@
         </xs:attribute>
         <xs:attribute name="scheme"/>
         <xs:attribute name="timeout"/>
+        <xs:attribute name="concurrent-request-timeout">
+            <xs:annotation>
+                <xs:documentation>
+                    Requests to conversations are serialized by default, and if
+                    a lock cannot be acquired in time, the request will be 
+                    dropped. You can set the timeout on a page-by-page basis 
+                    here.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute name="bundle"/>
         <xs:attribute name="conversation"/>
         <xs:attribute name="expires" /> 

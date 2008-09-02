@@ -31,6 +31,7 @@ public class Conversation implements Serializable
 {
    private static final long serialVersionUID = -6131304128727444876L;
    private Integer timeout;
+   private Integer concurrentRequestTimeout;
    String description;
    String viewId;
 
@@ -52,6 +53,16 @@ public class Conversation implements Serializable
    public void setTimeout(Integer timeout) 
    {
       this.timeout = timeout;
+   }
+   
+   public Integer getConcurrentRequestTimeout()
+   {
+      return concurrentRequestTimeout == null ? Manager.instance().getCurrentConversationConcurrentRequestTimeout() : concurrentRequestTimeout;
+   }
+   
+   public void setConcurrentRequestTimeout(Integer concurrentRequestTimeout)
+   {
+      this.concurrentRequestTimeout = concurrentRequestTimeout;
    }
    
    /**
@@ -134,6 +145,10 @@ public class Conversation implements Serializable
       if (timeout!=null)
       {
          entry.setTimeout(timeout);
+      }
+      if (concurrentRequestTimeout != null)
+      {
+         entry.setConcurrentRequestTimeout(concurrentRequestTimeout);
       }
       
       description = null;

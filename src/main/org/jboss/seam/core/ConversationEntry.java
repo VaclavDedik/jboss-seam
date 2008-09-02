@@ -25,6 +25,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    private String viewId;
    private List<String> conversationIdStack;
    private Integer timeout;
+   private Integer concurrentRequestTimeout;
    private boolean removeAfterRedirect;
    private boolean ended;
   
@@ -176,6 +177,17 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
       this.timeout = conversationTimeout;
    }
    
+   public Integer getConcurrentRequestTimeout()
+   {
+      return concurrentRequestTimeout == null ? Manager.instance().getConcurrentRequestTimeout() : concurrentRequestTimeout;
+   }
+   
+   void setConcurrentRequestTimeout(Integer concurrentRequestTimeout)
+   {
+      entries.setDirty(this.concurrentRequestTimeout, concurrentRequestTimeout);
+      this.concurrentRequestTimeout = concurrentRequestTimeout;
+   }
+   
    public boolean isRemoveAfterRedirect() 
    {
       return removeAfterRedirect;
@@ -201,7 +213,7 @@ public final class ConversationEntry implements Serializable, Comparable<Convers
    {
       try
       {
-         return lock.tryLock( Manager.instance().getConcurrentRequestTimeout(), TimeUnit.MILLISECONDS );
+         return lock.tryLock( getConcurrentRequestTimeout(), TimeUnit.MILLISECONDS );
       }
       catch (InterruptedException ie)
       {

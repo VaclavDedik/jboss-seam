@@ -196,6 +196,13 @@ public class Manager
       if ( ce==null ) return null;
       return ce.getTimeout();
    }
+   
+   public Integer getCurrentConversationConcurrentRequestTimeout()
+   {
+      ConversationEntry ce = getCurrentConversationEntry();
+      if (ce == null) return null;
+      return ce.getConcurrentRequestTimeout();
+   }
 
    public String getCurrentConversationViewId()
    {

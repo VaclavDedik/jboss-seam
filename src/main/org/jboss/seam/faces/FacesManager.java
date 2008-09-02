@@ -284,6 +284,7 @@ public class FacesManager extends Manager
                conversation.setDescription( pages.renderDescription(viewId) );  
             }
             conversation.setTimeout( pages.getTimeout(viewId) );
+            conversation.setConcurrentRequestTimeout( pages.getConcurrentRequestTimeout(viewId) );
          }
       }
       else

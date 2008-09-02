@@ -29,6 +29,7 @@ public final class Page
    private final String viewId;
    private String description;
    private Integer timeout;
+   private Integer concurrentRequestTimeout;
    private ValueExpression<String> noConversationViewId;
    private String resourceBundleName;
    private boolean switchEnabled = true;
@@ -128,6 +129,16 @@ public final class Page
    public Integer getTimeout()
    {
       return timeout;
+   }
+   
+   public void setConcurrentRequestTimeout(Integer concurrentRequestTimeout)
+   {
+      this.concurrentRequestTimeout = concurrentRequestTimeout;
+   }
+   
+   public Integer getConcurrentRequestTimeout()
+   {
+      return concurrentRequestTimeout;
    }
    
    public void setNoConversationViewId(ValueExpression<String> noConversationViewId)
