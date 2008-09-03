@@ -1056,67 +1056,67 @@ public class GridEditor
       <para>
         We can also fine tune the concurrent request timeout on a page-by-page
         basis:
-      </para>
+       </para>
        
       <programlisting role="XML"><![CDATA[<page view-id="/book.xhtml" 
          conversation-required="true" 
          login-required="true"
          concurrent-request-timeout="2000" />]]></programlisting>
 
-    <para>
-      So far we've discussed serial AJAX requests - the client tells the
-      server that an event has occur, and then rerenders part of the page based
-      on the result.  This approach is great when the AJAX request is
-      lightweight (the methods called are simple e.g. calculating the sum of a
-      column of numbers).  But what if we need to do a complex computation? 
-    </para>
-    <para>
-      For heavy computation we should use a truly asynchronous (poll based) 
-      approach &#8212; the client sends an AJAX request to the server, which
-      causes action to be executed asynchronously on the server (so the the
-      response to the client is immediate); the client then polls the server 
-      for updates.  This is useful when you have a long-running action for
-      which it is important that every action executes (you don't want some to
-      be dropped as duplicates, or to timeout).
-    </para>
+      <para>
+        So far we've discussed serial AJAX requests - the client tells the
+        server that an event has occur, and then rerenders part of the page 
+        based on the result.  This approach is great when the AJAX request is
+        lightweight (the methods called are simple e.g. calculating the sum of a
+        column of numbers).  But what if we need to do a complex computation? 
+      </para>
+      <para>
+        For heavy computation we should use a truly asynchronous (poll based) 
+        approach &#8212; the client sends an AJAX request to the server, which
+        causes action to be executed asynchronously on the server (so the the
+        response to the client is immediate); the client then polls the server 
+        for updates.  This is useful when you have a long-running action for
+        which it is important that every action executes (you don't want some to
+        be dropped as duplicates, or to timeout).
+      </para>
     
-    <para>
-      <emphasis>How should we design our conversational AJAX application?</emphasis>
-    </para>
+      <para>
+        <emphasis>How should we design our conversational AJAX application?</emphasis>
+      </para>
     
-    <para>
-      Well first, you need to decide whether you want to use the simpler 
-      "synchronous" request or whether you want to add using a poll-style
-      approach.
-    </para>
+      <para>
+        Well first, you need to decide whether you want to use the simpler 
+        "synchronous" request or whether you want to add using a poll-style
+        approach.
+      </para>
     
-    <para>
-      If you go for a "synchronous" approach, then you need to make an
-      estimate of how long your AJAX request will take to complete - is it much
-      shorter than the concurrent request timeout? If not, you probably want to
-      alter the concurrent request timeout for this method (as discussed 
-      above). Next you probably want a queue on the client side to prevent 
-      flooding the server with requests.  If the event occurs often (e.g. a 
-      keypress, onblur of input fields) and immediate update of the client is
-      not a priority you should set a request delay on the client side. When
-      working out your request delay, factor in that the event may also be
-      queued on the server side.
-    </para>
+      <para>
+        If you go for a "synchronous" approach, then you need to make an
+        estimate of how long your AJAX request will take to complete - is it 
+        much shorter than the concurrent request timeout? If not, you probably 
+        want to alter the concurrent request timeout for this method (as 
+        discussed above). Next you probably want a queue on the client side to 
+        prevent flooding the server with requests.  If the event occurs often 
+        (e.g. a keypress, onblur of input fields) and immediate update of the 
+        client is not a priority you should set a request delay on the client 
+        side. When working out your request delay, factor in that the event may 
+        also be queued on the server side.
+      </para>
     
-    <para>
-      Finally, the client library may provide an option to abort unfinished
-      duplicate requests in favor of the most recent.  You need to be careful
-      with this option as it can lead to flooding of the server with requests
-      if the server is not able to abort the unfinished request.
-    </para>
+      <para>
+        Finally, the client library may provide an option to abort unfinished
+        duplicate requests in favor of the most recent.  You need to be careful
+        with this option as it can lead to flooding of the server with requests
+        if the server is not able to abort the unfinished request.
+      </para>
     
-    <para>
-      Using a poll-style design requires less fine-tuning.  You just mark your
-      action method <literal>@Asynchronous</literal> and decide on a polling
-      interval:
-    </para>
+      <para>
+        Using a poll-style design requires less fine-tuning.  You just mark your
+        action method <literal>@Asynchronous</literal> and decide on a polling
+        interval:
+      </para>
     
-    <programlisting role="JAVA"><![CDATA[int total;
+      <programlisting role="JAVA"><![CDATA[int total;
 
 // This method is called when an event occurs on the client
 // It takes a really long time to execute
