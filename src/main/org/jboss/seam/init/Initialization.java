@@ -285,6 +285,10 @@ public class Initialization
 				   //      ignored when mis-spelled or given the wrong namespace!!
 				   className = null;
 			   }
+			   catch (Exception e) 
+			   {
+               throw new RuntimeException("Error loading element " + elemName + " with component name " + name + " and component class " + className);
+            }
 
 			   //finally, if we could not get the name from the XML name attribute,
 			   //or from an @Name annotation on the class, imply it
