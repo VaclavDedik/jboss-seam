@@ -349,10 +349,10 @@ public class SeamPhaseListener implements PhaseListener
    {
       if ( Init.instance().isTransactionManagementEnabled() ) 
       {
-         commitOrRollback(PhaseId.INVOKE_APPLICATION);
+         commitOrRollback("after invoking page actions");
          if ( !facesContext.getResponseComplete() )
          {
-            begin(PhaseId.INVOKE_APPLICATION);
+            begin("before continuing render");
          }
       }
    }
@@ -578,14 +578,19 @@ public class SeamPhaseListener implements PhaseListener
    {
       return Contexts.getConversationContext().isSet("org.jboss.seam.handledException");
    }
-      
-   void begin(PhaseId phaseId) 
+     
+   void begin(PhaseId phaseId)
+   {
+      begin("prior to phase: " + phaseId);
+   }
+   
+   void begin(String phaseString) 
    {
       try 
       {
          if ( !Transaction.instance().isActiveOrMarkedRollback() )
          {
-            log.debug("beginning transaction prior to phase: " + phaseId);
+            log.debug("beginning transaction " + phaseString);
             Transaction.instance().begin();
          }
       }
@@ -595,12 +600,17 @@ public class SeamPhaseListener implements PhaseListener
       }
    }
    
-   void commitOrRollback(PhaseId phaseId) 
+   void commitOrRollback(PhaseId phaseId)
+   {
+      commitOrRollback("after phase: " + phaseId);
+   }
+   
+   void commitOrRollback(String phaseString) 
    {  
       try {
          if (Transaction.instance().isActive()) {
              try {
-                 log.debug("committing transaction after phase: " + phaseId);            
+                 log.debug("committing transaction " + phaseString);            
                  Transaction.instance().commit();
 
              } catch (IllegalStateException e) {
@@ -608,7 +618,7 @@ public class SeamPhaseListener implements PhaseListener
                           "because the tx timed out and was rolled back in the background.", e);
              }
          } else if ( Transaction.instance().isRolledBackOrMarkedRollback()) {
-            log.debug("rolling back transaction after phase: " + phaseId);
+            log.debug("rolling back transaction " + phaseString);
             Transaction.instance().rollback();
          }
          
