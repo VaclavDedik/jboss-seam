@@ -29,7 +29,7 @@ public class ChangePasswordAction
             FacesMessages.instance().add("Password updated");
             changed = true;
         } else {
-            FacesMessages.instance().add("verify", "Re-enter new password");
+            FacesMessages.instance().addToControl("verify", "Re-enter new password");
             verify=null;
         }
         user = userService.findUser(user.getUsername());
