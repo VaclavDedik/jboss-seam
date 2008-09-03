@@ -119,19 +119,8 @@ public class Book extends WebPage
             setResponsePage(Confirm.class);
          }
       }
-      
-      @Override
-      public Component add(IBehavior behavior)
-      {
-         // TODO Auto-generated method stub
-         return super.add(behavior);
-      }
+
 	   
 	}
 	
-	@Override
-	protected void onBeforeRender()
-	{
-	   super.onBeforeRender();
-	}
 }
