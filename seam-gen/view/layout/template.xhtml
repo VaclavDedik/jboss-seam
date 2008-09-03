@@ -12,9 +12,13 @@
     <title>@projectName@</title>
     <link href="stylesheet/theme.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
-        A4J.AJAX.onError = function(req,status,message) { 
+        A4J.AJAX.onError = function(req,status,message) 
+        { 
 
-            alert(message);
+            if (status == 503) 
+            {
+               alert(message);
+            }
     
         };
     </script>
