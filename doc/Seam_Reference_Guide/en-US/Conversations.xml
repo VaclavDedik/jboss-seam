@@ -1064,59 +1064,56 @@ public class GridEditor
          concurrent-request-timeout="2000" />]]></programlisting>
 
       <para>
-        So far we've discussed serial AJAX requests - the client tells the
-        server that an event has occur, and then rerenders part of the page 
-        based on the result.  This approach is great when the AJAX request is
-        lightweight (the methods called are simple e.g. calculating the sum of a
-        column of numbers).  But what if we need to do a complex computation? 
+        So far we've discussed AJAX requests which appear serial to the user - 
+        the client tells the server that an event has occur, and then rerenders 
+        part of the page based on the result.  This approach is great when the 
+        AJAX request is lightweight (the methods called are simple e.g. 
+        calculating the sum of a column of numbers).  But what if we need to do 
+        a complex computation thats going to take a minute? 
       </para>
+      
       <para>
-        For heavy computation we should use a truly asynchronous (poll based) 
-        approach &#8212; the client sends an AJAX request to the server, which
-        causes action to be executed asynchronously on the server (so the the
-        response to the client is immediate); the client then polls the server 
-        for updates.  This is useful when you have a long-running action for
-        which it is important that every action executes (you don't want some to
-        be dropped as duplicates, or to timeout).
+        For heavy computation we should use a poll based approach &#8212; the 
+        client sends an AJAX request to the server, which causes action to be 
+        executed asynchronously on the server (the response to the client is 
+        immediate) and the client then polls the server for updates.  This is 
+        good approach when you have a long-running action for which it is 
+        important that every action executes (you don't want some to timeout).
       </para>
     
-      <para>
-        <emphasis>How should we design our conversational AJAX application?</emphasis>
-      </para>
+      <section>
+        <title>How should we design our conversational AJAX application?</title>
     
-      <para>
-        Well first, you need to decide whether you want to use the simpler 
-        "synchronous" request or whether you want to add using a poll-style
-        approach.
-      </para>
+        <para>
+          Well first, you need to decide whether you want to use the simpler 
+          "serial" request or whether you want to use a polling approach.
+        </para>
     
-      <para>
-        If you go for a "synchronous" approach, then you need to make an
-        estimate of how long your AJAX request will take to complete - is it 
-        much shorter than the concurrent request timeout? If not, you probably 
-        want to alter the concurrent request timeout for this method (as 
-        discussed above). Next you probably want a queue on the client side to 
-        prevent flooding the server with requests.  If the event occurs often 
-        (e.g. a keypress, onblur of input fields) and immediate update of the 
-        client is not a priority you should set a request delay on the client 
-        side. When working out your request delay, factor in that the event may 
-        also be queued on the server side.
-      </para>
+        <para>
+          If you go for a "serial" requests, then you need to estimate how long 
+          your request will take to complete - is it much shorter than the 
+          concurrent request timeout? If not, you probably want to alter the 
+          concurrent request timeout for this page (as discussed above). You 
+          probably want a queue on the client side to prevent flooding the 
+          server with requests.  If the event occurs often (e.g. a keypress, 
+          onblur of input fields) and immediate update of the client is not a 
+          priority you should set a request delay on the client side. When 
+          working out your request delay, factor in that the event may also be 
+          queued on the server side.
+        </para>
     
-      <para>
-        Finally, the client library may provide an option to abort unfinished
-        duplicate requests in favor of the most recent.  You need to be careful
-        with this option as it can lead to flooding of the server with requests
-        if the server is not able to abort the unfinished request.
-      </para>
+        <para>
+          Finally, the client library may provide an option to abort unfinished
+          duplicate requests in favor of the most recent.
+        </para>
     
-      <para>
-        Using a poll-style design requires less fine-tuning.  You just mark your
-        action method <literal>@Asynchronous</literal> and decide on a polling
-        interval:
-      </para>
+        <para>
+          Using a poll-style design requires less fine-tuning.  You just mark your
+          action method <literal>@Asynchronous</literal> and decide on a polling
+          interval:
+        </para>
     
-      <programlisting role="JAVA"><![CDATA[int total;
+        <programlisting role="JAVA"><![CDATA[int total;
 
 // This method is called when an event occurs on the client
 // It takes a really long time to execute
@@ -1130,61 +1127,119 @@ public void calculateTotal() {
 public int getTotal() {
    return total;
 }]]></programlisting>
-    
-    <section>
-      <title>RichFaces Ajax</title>
-    
-      <para>
-        RichFaces Ajax is the AJAX library most commonly used with Seam, and
-        provides all the controls discussed above:
-      </para>
+      </section>
       
-      <itemizedlist>
-        <listitem>
+      <section>
+        <title>Dealing with errors</title>
+        
+        <para>
+          However carefully you design your application to queue concurrent
+          requests to your conversational component, there is a risk that the
+          server will become overloaded and be unable to process all the
+          requests before the request will have to wait longer than the 
+          <literal>concurrent-request-timeout</literal>. In this case Seam will
+          throw a <literal>ConcurrentRequestTimeoutException</literal> which can
+          be handled in <literal>pages.xml</literal>. We recommend sending an
+          HTTP 503 error: 
+        </para>
+        
+        <programlisting role="XML"><![CDATA[   <exception class="org.jboss.seam.ConcurrentRequestTimeoutException" logLevel="trace">
+      <http-error error-code="503" />
+   </exception>]]></programlisting>
+        
+        <note>
+          <title>503 Service Unavailable (HTTP/1.1 RFC)</title>
+          
           <para>
-            <literal>eventsQueue</literal> &#8212; provide a queue in which 
-            events are placed.  All events are queued and requests are sent to
-            the server serially.  This is useful if the request can to the
-            server can take some time to execute (e.g. heavy computation,
-            retrieving information from a slow source) as the server isn't
-            flooded.
+            The server is currently unable to handle the request due to a 
+            temporary overloading or maintenance of the server. The implication 
+            is that this is a temporary condition which will be alleviated after 
+            some delay.
           </para>
-        </listitem>
-        <listitem>
-          <para>
-            <literal>ignoreDupResponses</literal> &#8212; ignore the response 
-            produced by the request if a more recent 'similar' request is
-            already in the queue. ignoreDupResponses="true" does <emphasis>not 
-            cancel</emphasis> the the processing of the request on the server
-            side &#8212; just prevents unnecessary updates on the client side.
-          </para>
-          <para>
-            This option should be used with care with Seam's conversations as
-            it allows multiple concurrent requests to be made.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            <literal>requestDelay</literal> &#8212; defines the time (in ms.)
-            that the request will be remain on the queue. If the request has
-            not been processed by after this time the request will be sent 
-            (regardless of whether a response has been received) or discarded
-            (if there is a more recent similar event on the queue).
-          </para>
-          <para>
-            This option should be used with care with Seam's conversations as
-            it allows multiple concurrent requests to be made.  You need to be
-            sure that the delay you set (in combination with the concurrent
-            request timeout) is longer than the action will take to execute.
-          </para>
-        </listitem>
-        <listitem>
-          <para>
-            <literal>&lt;a:poll reRender="total" interval="1000" /&gt;</literal> &#8212;
-            Polls the server, and rerenders an area as needed
-          </para>
-        </listitem>
-      </itemizedlist>
+        </note>
+        
+        <para>
+          Alternatively you could redirect to an error page:
+        </para>
+        
+        <programlisting role="XML"><![CDATA[<exception class="org.jboss.seam.ConcurrentRequestTimeoutException" logLevel="trace">
+   <end-conversation/>
+   <redirect view-id="/error.xhtml">
+      <message>The server is too busy to process your request, please try again later</message>
+   </redirect>
+</exception>]]></programlisting>
+        
+        <para>
+           ICEfaces, RichFaces Ajax and Seam Remoting can all handle HTTP error
+           codes. Seam Remoting will pop up a dialog box showing the HTTP error
+           and ICEfaces will indicate the error in it's connection status 
+           component. RichFaces Ajax provides the most complete support for
+           handling HTTP errors by providing a user definable callback. For
+           example, to show the error message to the user: 
+        </para>
+        
+        <programlisting><![CDATA[<script type="text/javascript">
+   A4J.AJAX.onError = function(req,status,message) { 
+      alert("message");    
+   };
+</script>]]></programlisting>
+        
+      </section>
+    
+      <section>
+        <title>RichFaces Ajax</title>
+    
+        <para>
+           RichFaces Ajax is the AJAX library most commonly used with Seam, and
+          provides all the controls discussed above:
+        </para>
+      
+        <itemizedlist>
+          <listitem>
+            <para>
+              <literal>eventsQueue</literal> &#8212; provide a queue in which 
+              events are placed.  All events are queued and requests are sent to
+              the server serially.  This is useful if the request can to the
+              server can take some time to execute (e.g. heavy computation,
+              retrieving information from a slow source) as the server isn't
+              flooded.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <literal>ignoreDupResponses</literal> &#8212; ignore the response 
+              produced by the request if a more recent 'similar' request is
+              already in the queue. ignoreDupResponses="true" does <emphasis>not 
+              cancel</emphasis> the the processing of the request on the server
+              side &#8212; just prevents unnecessary updates on the client side.
+            </para>
+            <para>
+              This option should be used with care with Seam's conversations as
+              it allows multiple concurrent requests to be made.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <literal>requestDelay</literal> &#8212; defines the time (in ms.)
+              that the request will be remain on the queue. If the request has
+              not been processed by after this time the request will be sent 
+              (regardless of whether a response has been received) or discarded
+              (if there is a more recent similar event on the queue).
+            </para>
+            <para>
+              This option should be used with care with Seam's conversations as
+              it allows multiple concurrent requests to be made.  You need to be
+              sure that the delay you set (in combination with the concurrent
+              request timeout) is longer than the action will take to execute.
+            </para>
+          </listitem>
+          <listitem>
+            <para>
+              <literal>&lt;a:poll reRender="total" interval="1000" /&gt;</literal> &#8212;
+              Polls the server, and rerenders an area as needed
+            </para>
+          </listitem>
+        </itemizedlist>
+      </section>
     </section>
-  </section>
 </chapter>

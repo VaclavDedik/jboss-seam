@@ -50,6 +50,10 @@
             <message>Your session has timed out, please try again</message>
         </redirect>
     </exception>
+    
+    <exception class="org.jboss.seam.ConcurrentRequestTimeoutException" logLevel="trace">
+      <http-error error-code="503" />
+    </exception>
      
     <exception>
         <redirect view-id="/error.xhtml">
