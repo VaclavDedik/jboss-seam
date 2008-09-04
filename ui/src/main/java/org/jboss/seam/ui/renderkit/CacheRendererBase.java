@@ -36,7 +36,7 @@ public class CacheRendererBase extends RendererBase {
       if (cache.isEnabled())
       {
          String key = cache.getKey();
-         String cachedContent = (String) cache.getCacheProvider().get(key, cache.getRegion()); 
+         String cachedContent = (String) cache.getCacheProvider().get(cache.getRegion(), key); 
          if (cachedContent == null)
          {
             log.debug("rendering from scratch: " + key);
@@ -47,7 +47,7 @@ public class CacheRendererBase extends RendererBase {
             context.setResponseWriter(writer);
             String output = stringWriter.getBuffer().toString();
             writer.write(output);
-            cache.getCacheProvider().put(key, cache.getRegion(), output);
+            cache.getCacheProvider().put(cache.getRegion(), key, output);
          }
          else
          {

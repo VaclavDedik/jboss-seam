@@ -71,7 +71,7 @@ public abstract class CacheProvider<T>
     * @param key - a key to identify the object.
     * @return - the object if found or null if not
     */
-   public abstract Object get(String key, String region);
+   public abstract Object get(String region, String key);
 
    /**
     * Put an object into the cache. The object is placed in the default cache
