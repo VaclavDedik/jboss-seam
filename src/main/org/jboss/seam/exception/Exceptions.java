@@ -27,7 +27,6 @@ import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
-import org.jboss.seam.util.EJB;
 import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
@@ -56,7 +55,7 @@ public class Exceptions
       
       //build a list of the nested exceptions
       List<Exception> causes = new ArrayList<Exception>();
-      for (Exception cause=e; cause!=null; cause=EJB.getCause(cause))
+      for (Exception cause=e; cause!=null; cause=org.jboss.seam.util.Exceptions.getCause(cause))
       {
          causes.add(cause);
       }

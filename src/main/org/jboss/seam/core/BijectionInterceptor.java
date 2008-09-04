@@ -9,7 +9,7 @@ import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.util.EJB;
+import org.jboss.seam.util.Exceptions;
 
 /**
  * Before invoking the component, inject all dependencies. After
@@ -108,9 +108,9 @@ public class BijectionInterceptor extends AbstractInterceptor
       catch (Exception e)
       {
          Exception root = e;
-         while (EJB.getCause(root) != null)
+         while (Exceptions.getCause(root) != null)
          {
-            root = EJB.getCause(root);
+            root = Exceptions.getCause(root);
          }
          if (root instanceof CyclicDependencyException)
          {

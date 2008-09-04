@@ -37,7 +37,6 @@ import org.jboss.seam.mock.MockExternalContext;
 import org.jboss.seam.mock.MockFacesContext;
 import org.jboss.seam.transaction.Transaction;
 import org.jboss.seam.transaction.UserTransaction;
-import org.jboss.seam.util.EJB;
 
 /**
  * Delegate uncaught exceptions to Seam exception handling.
@@ -66,7 +65,7 @@ public class ExceptionFilter extends AbstractFilter
       catch (Exception e)
       {
          log.warn( "handling uncaught exception", e );
-         log.warn( "exception root cause", EJB.getCause(e) );
+         log.warn( "exception root cause", org.jboss.seam.util.Exceptions.getCause(e) );
          endWebRequestAfterException( (HttpServletRequest) request, (HttpServletResponse) response, e);
       }
    }
