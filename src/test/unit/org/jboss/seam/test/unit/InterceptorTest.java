@@ -7,7 +7,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.event.PhaseId;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.CyclicDependencyException;
 import org.jboss.seam.NoConversationException;
 import org.jboss.seam.RequiredException;
 import org.jboss.seam.Seam;
@@ -79,6 +78,13 @@ public class InterceptorTest
             return bar;
          }
 
+         Method method = Foo.class.getMethod("foo");
+         @Override
+         public Method getMethod()
+         {
+            return method;
+         }
+         
          @Override
          public Object proceed() throws Exception
          {
@@ -236,7 +242,7 @@ public class InterceptorTest
    }
    
    @Test
-   public void testCyclicDependencyThowsException() throws Exception
+   public void testCyclicDependencyDoesNotStackOverflow() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
       ServletLifecycle.beginApplication(servletContext);
@@ -357,12 +363,7 @@ public class InterceptorTest
       appContext.set("cyclicFoo", cyclicFooProxy);
       appContext.set("cyclicBar", cyclicBarProxy);
       
-      try
-      {
-         cyclicFooProxy.getFooBar();
-         assert false : "cyclic dependency not detected";
-      }
-      catch (CyclicDependencyException e) {}
+      cyclicFooProxy.getFooBar();
       
    }
 

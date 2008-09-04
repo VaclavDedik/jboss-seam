@@ -1,15 +1,17 @@
 //$Id$
 package org.jboss.seam.core;
 
+import java.lang.reflect.Method;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.jboss.seam.Component;
-import org.jboss.seam.CyclicDependencyException;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
-import org.jboss.seam.util.EJB;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+import org.jboss.seam.util.Reflections;
 
 /**
  * Before invoking the component, inject all dependencies. After
@@ -22,6 +24,8 @@ import org.jboss.seam.util.EJB;
 public class BijectionInterceptor extends AbstractInterceptor
 {
    private static final long serialVersionUID = 4686458105931528659L;
+
+   private static final LogProvider log = Logging.getLogProvider(BijectionInterceptor.class);
    
    private boolean injected;
    
@@ -31,11 +35,14 @@ public class BijectionInterceptor extends AbstractInterceptor
    
    private ReentrantLock lock = new ReentrantLock();
          
+   private String initialMethod;
+   
    @AroundInvoke
    public Object aroundInvoke(InvocationContext invocation) throws Exception
    {
       Component component = getComponent();    
-      boolean enforceRequired = !component.isLifecycleMethod( invocation.getMethod() );      
+      Method method = invocation.getMethod();
+      boolean enforceRequired = !component.isLifecycleMethod( method );      
       
       try
       {    
@@ -44,19 +51,25 @@ public class BijectionInterceptor extends AbstractInterceptor
          {
             if (!injected)
             {              
-               if (injecting == true)
+               if (injecting)
                {
-                  throw new CyclicDependencyException();
+                  log.warn("Injecting dependencies into " + component.getName() + " for the invocation of " 
+                        + initialMethod + " caused the invocation of a reentrant method: " + Reflections.toString(method) 
+                        + ".  Some injected dependencies may not be available for the duration of this method invocation.");
                }
-
-               injecting = true;
-               try
+               else
                {
-                  component.inject(invocation.getTarget(), enforceRequired);
-               }
-               finally
-               {
-                  injecting = false;
+                  injecting = true;
+                  try
+                  {
+                     initialMethod = Reflections.toString(method);
+                     component.inject(invocation.getTarget(), enforceRequired);
+                  }
+                  finally
+                  {
+                     injecting = false;
+                     initialMethod = null;
+                  }
                }
                injected = true;
             }
@@ -98,20 +111,6 @@ public class BijectionInterceptor extends AbstractInterceptor
          }
          
          return result;
-      }
-      catch (Exception e)
-      {
-         Exception root = e;
-         while (EJB.getCause(root) != null)
-         {
-            root = EJB.getCause(root);
-         }
-         if (root instanceof CyclicDependencyException)
-         {
-            CyclicDependencyException cyclicDependencyException = (CyclicDependencyException) root;
-            cyclicDependencyException.addInvocation(getComponent().getName(), invocation.getMethod());
-         }
-         throw e;
       }
       finally
       {            

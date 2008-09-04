@@ -137,7 +137,7 @@ public class Reflections
       }
    }
    
-   private static String toString(Method method)
+   public static String toString(Method method)
    {
       return Strings.unqualify( method.getDeclaringClass().getName() ) + 
             '.' + 
