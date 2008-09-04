@@ -1,7 +1,7 @@
 package org.jboss.seam.cache;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
-import static org.jboss.seam.annotations.Install.FRAMEWORK;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import org.jboss.cache.CacheException;
 import org.jboss.cache.Node;
@@ -27,7 +27,7 @@ import org.jboss.seam.log.Logging;
 @Name("org.jboss.seam.cache.cacheProvider")
 @Scope(APPLICATION)
 @BypassInterceptors
-@Install(precedence = FRAMEWORK, classDependencies={"org.jboss.cache.TreeCache", "org.jgroups.MembershipListener"})
+@Install(precedence = BUILT_IN, classDependencies={"org.jboss.cache.TreeCache", "org.jgroups.MembershipListener"})
 @AutoCreate
 public class JbossCacheProvider extends AbstractJBossCacheProvider<TreeCache>
 {

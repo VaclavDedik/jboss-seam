@@ -1,7 +1,7 @@
 package org.jboss.seam.cache;
 
 import static org.jboss.seam.annotations.Install.BUILT_IN;
-import static org.jboss.seam.ScopeType.STATELESS;
+import static org.jboss.seam.ScopeType.APPLICATION;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
@@ -24,7 +24,7 @@ import org.jboss.seam.log.Logging;
  * @author Pete Muir
  */
 @Name("org.jboss.seam.cache.cacheProvider")
-@Scope(STATELESS)
+@Scope(APPLICATION)
 @BypassInterceptors
 @Install(value = false, precedence = BUILT_IN, classDependencies="net.sf.ehcache.Cache")
 @AutoCreate
@@ -84,7 +84,10 @@ public class EhCacheProvider extends CacheProvider<CacheManager>
       Cache result = cacheManager.getCache(regionName);
       if (result == null)
       {
-         throw new IllegalArgumentException("Cache region not found");
+          log.warn("Could not find configuration for region [" + regionName + "]; using defaults.");
+          cacheManager.addCache(regionName);
+          result = cacheManager.getCache(regionName);
+          log.debug("EHCache region created: " + regionName); 
       }
       return result;
    }
@@ -100,7 +103,6 @@ public class EhCacheProvider extends CacheProvider<CacheManager>
    public void create()
    {
       log.debug("Starting EhCacheProvider cache");
-      // TODO validate if there is any common approach to load resources in Seam
       try
       {
          if (getConfiguration() != null)
