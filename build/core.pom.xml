@@ -20,6 +20,12 @@
       <artifactId>hibernate</artifactId>
       <optional>true</optional>
     </dependency>
+    
+    <!-- Maven's "nearest" dependency resolution doesn't take into account parent dependency management! -->
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.hibernate</groupId>
