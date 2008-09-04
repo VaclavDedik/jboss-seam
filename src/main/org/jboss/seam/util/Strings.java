@@ -125,7 +125,7 @@ public class Strings
       {
          builder.append(sep).append( clazz.getName() );
       }
-      return builder.substring(2);
+      return builder.substring(sep.length());
    }
    
    public static String toString(InputStream in) throws IOException {
