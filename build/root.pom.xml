@@ -427,6 +427,12 @@
           </exclusion>
         </exclusions>
       </dependency>
+      
+      <dependency>
+         <groupId>commons-digester</groupId>
+         <artifactId>commons-digester</artifactId>
+         <version>1.7-brew</version>
+      </dependency>
 
       <dependency>
         <groupId>commons-collections</groupId>
@@ -524,6 +530,12 @@
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>1.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
