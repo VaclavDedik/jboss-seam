@@ -12,7 +12,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
-import org.jboss.seam.util.EJB;
+import org.jboss.seam.util.Exceptions;
 
 @Name("org.jboss.seam.debug.contexts")
 @Scope(ScopeType.APPLICATION)
@@ -67,7 +67,7 @@ public class Contexts
    public List<Exception> getExceptionCauses()
    {
       List<Exception> causes = new ArrayList<Exception>();
-      for (Exception cause=getException(); cause!=null; cause=EJB.getCause(cause))
+      for (Exception cause=getException(); cause!=null; cause=Exceptions.getCause(cause))
       {
          causes.add(cause);
       }
