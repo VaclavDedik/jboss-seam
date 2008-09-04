@@ -1078,7 +1078,7 @@ public class LdapIdentityStore implements IdentityStore, Serializable
          controls.setReturningAttributes(userAttr);
          controls.setTimeLimit(getSearchTimeLimit());
                   
-         StringBuilder userFilter = new StringBuilder();
+         StringBuilder userFilter = new StringBuilder("(&");
          
          Object[] filterArgs = new Object[getUserObjectClasses().length];
          for (int i = 0; i < getUserObjectClasses().length; i++)
@@ -1090,6 +1090,8 @@ public class LdapIdentityStore implements IdentityStore, Serializable
             userFilter.append("})");
             filterArgs[i] = getUserObjectClasses()[i];
          }            
+         
+         userFilter.append(")");
          
          NamingEnumeration answer = ctx.search(getUserContextDN(), userFilter.toString(), filterArgs, controls);
          while (answer.hasMore())
