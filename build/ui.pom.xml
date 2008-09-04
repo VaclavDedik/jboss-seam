@@ -104,6 +104,18 @@
       <optional>true</optional>
     </dependency>
 
+ <!-- Maven's "nearest" dependency resolution doesn't take into account parent dependency management! -->
+ <dependency>
+ <groupId>commons-collections</groupId>
+ <artifactId>commons-collections</artifactId>
+ </dependency>
+
+ <!-- Maven's "nearest" dependency resolution doesn't take into account parent dependency management! -->
+ <dependency>
+ <groupId>commons-digester</groupId>
+ <artifactId>commons-digester</artifactId>
+ </dependency>
+
     <dependency>
       <groupId>javax.faces</groupId>
       <artifactId>jsf-api</artifactId>
