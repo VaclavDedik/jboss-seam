@@ -1,7 +1,6 @@
 package org.jboss.seam.annotations.security.permission;
 
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -17,7 +16,7 @@ import org.jboss.seam.security.permission.IdentifierStrategy;
  *  
  * @author Shane Bryzak
  */
-@Target({METHOD,FIELD})
+@Target({TYPE})
 @Documented
 @Retention(RUNTIME)
 @Inherited
