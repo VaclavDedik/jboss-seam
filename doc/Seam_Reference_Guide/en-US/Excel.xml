@@ -66,7 +66,16 @@
          own exporter will be used. Default is "jxl", but support for CSV has also been 
          added, using the type "csv".
       </para>
-
+      <para>
+         See <xref linkend="itext.configuration" /> for information on how to configure
+         the document servlet for serving the documents with an .xls extension. 
+      </para>
+      <para>
+         If you are having problems accessing the generated file under IE (especially
+         with https), make sure you are not using too strict restrictions in the browser 
+         (see <ulink url="http://www.nwnetworks.com/iezones.htm/"/>), too strict security
+         constraint in web.xml or a combination of both.
+      </para>
    </section>
    <section id="excel.usage">
       <title>Creating a simple workbook</title>
