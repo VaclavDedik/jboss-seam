@@ -431,13 +431,44 @@
       <dependency>
          <groupId>commons-digester</groupId>
          <artifactId>commons-digester</artifactId>
-         <version>1.7-brew</version>
+         <version>1.7</version>
+         <exclusions>
+           <exclusion>
+             <groupId>xml-apis</groupId>
+             <artifactId>xml-apis</artifactId>
+           </exclusion>
+         </exclusions>
       </dependency>
 
       <dependency>
         <groupId>commons-collections</groupId>
         <artifactId>commons-collections</artifactId>
         <version>3.2</version>
+      </dependency>
+      
+      <!-- Should be 1.0.5.GA-jboss, to be in sync with AS but doesn't exist in Maven -->
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>logkit</groupId>
+            <artifactId>logkit</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
@@ -523,19 +554,6 @@
         <groupId>javassist</groupId>
         <artifactId>javassist</artifactId>
         <version>3.8.0.GA</version>
-      </dependency>
-
-      <!-- Should be 1.0.5.GA-jboss, to be in sync with AS but doesn't exist in Maven -->
-      <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-        <version>1.1</version>
-        <exclusions>
-          <exclusion>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-          </exclusion>
-        </exclusions>
       </dependency>
 
       <dependency>
