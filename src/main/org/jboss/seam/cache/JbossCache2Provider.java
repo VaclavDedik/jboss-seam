@@ -1,7 +1,7 @@
 package org.jboss.seam.cache;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
-import static org.jboss.seam.annotations.Install.FRAMEWORK;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.lang.reflect.Method;
 
@@ -31,7 +31,7 @@ import org.jboss.seam.util.Reflections;
 @Name("org.jboss.seam.cache.cacheProvider")
 @Scope(APPLICATION)
 @BypassInterceptors
-@Install(precedence = FRAMEWORK, classDependencies={"org.jboss.cache.Cache", "org.jgroups.MembershipListener"})
+@Install(value=false, precedence = BUILT_IN, classDependencies={"org.jboss.cache.Cache", "org.jgroups.MembershipListener"})
 @AutoCreate
 public class JbossCache2Provider extends AbstractJBossCacheProvider<Cache>
 {
