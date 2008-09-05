@@ -14,6 +14,8 @@ import org.jboss.seam.Component;
 import org.jboss.seam.Seam;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -22,21 +24,24 @@ import org.jboss.seam.util.Reflections;
  * @author Norman Richards
  *
  */
-public class ManagedEntityStateManager
+public class ManagedEntityWrapper
 {
 
-   public void entityRefsToIds(Object controllerBean, Component component) throws Exception
+   private static LogProvider log = Logging.getLogProvider(ManagedEntityWrapper.class);
+   
+   public void wrap(Object target, Component component) throws Exception
    {
       if ( touchedContextsExist() )
       {
-         Class beanClass = controllerBean.getClass();
+         Class beanClass = target.getClass();
          for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
          {
+            log.trace("Examining fields on " + beanClass);
             for ( Field field: beanClass.getDeclaredFields() )
             {
                if ( !ignore(field) )
                {
-                  Object value = getFieldValue(controllerBean, field);
+                  Object value = getFieldValue(target, field);
                   if (value!=null)
                   {
                      Object dataModel = null;
@@ -47,30 +52,42 @@ public class ManagedEntityStateManager
                      }
                      if ( isRef(value) )
                      {
-                        saveWrapper(controllerBean, component, field, dataModel, value);
+                        log.trace("Attempting to save wrapper for " + field + " (" + value + ")");
+                        saveWrapper(target, component, field, dataModel, value);
                      }
                      else
                      {
+                        log.trace("Clearing wrapper for " + field + " (" + value + ") as it isn't a entity reference");
                         clearWrapper(component, field);
                      }
                   }
                   else
                   {
+                     log.trace("Clearing wrapper for " + field + " as it is null");
                      clearWrapper(component, field);
                   }
+               }
+               else
+               {
+                  log.trace("Ignoring field " + field + " as it is static, transient or annotated with @In");
                }
             }
          }
       }
+      else
+      {
+         log.trace("No touched persistence contexts");
+      }
    }
 
-   public void entityIdsToRefs(Object controllerBean, Component component) throws Exception
+   public void deserialize(Object controllerBean, Component component) throws Exception
    {      
       if ( touchedContextsExist() )
       {
          Class beanClass = controllerBean.getClass();
          for (; beanClass!=Object.class; beanClass=beanClass.getSuperclass())
          {
+            log.trace("Examining fields on " + beanClass);
             for ( Field field: beanClass.getDeclaredFields() )
             {
                if ( !ignore(field) )
@@ -81,11 +98,20 @@ public class ManagedEntityStateManager
                   {
                      dataModel = value;
                   }
+                  log.trace("Attempting to restore wrapper for " + field + " (" + value + ")");
                   //TODO: be more selective
                   getFromWrapper(controllerBean, component, field, dataModel);
                }
+               else
+               {
+                  log.trace("Ignoring field " + field + " as it is static, transient or annotated with @In");
+               }
             }
          }
+      }
+      else
+      {
+         log.trace("No touched persistence contexts");
       }
    }
 

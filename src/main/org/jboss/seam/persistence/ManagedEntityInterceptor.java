@@ -2,12 +2,23 @@ package org.jboss.seam.persistence;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
 
+import java.io.Serializable;
+
+import org.jboss.seam.Component;
+import org.jboss.seam.ComponentType;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.Interceptor;
+import org.jboss.seam.annotations.intercept.PostActivate;
+import org.jboss.seam.annotations.intercept.PrePassivate;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.BijectionInterceptor;
+import org.jboss.seam.core.Conversation;
 import org.jboss.seam.intercept.AbstractInterceptor;
 import org.jboss.seam.intercept.InvocationContext;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.transaction.Transaction;
+import org.jboss.seam.web.Session;
 
 /**
  * Swizzles entity references around each invocation, maintaining referential
@@ -15,23 +26,19 @@ import org.jboss.seam.transaction.Transaction;
  * extended persistence context, and allowing for more efficient replication.
  * 
  * @author Gavin King
+ * @author Pete Muir
  * 
  */
 @Interceptor(around = BijectionInterceptor.class)
-public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
+public class ManagedEntityInterceptor extends AbstractInterceptor
 {
 
-   private static ManagedEntityStateManager managedEntityStateManager = new ManagedEntityStateManager();
+   private static LogProvider log = Logging.getLogProvider(ManagedEntityInterceptor.class);
+   
+   private static ManagedEntityWrapper managedEntityWrapper = new ManagedEntityWrapper();
 
    private boolean reentrant;
-
-   // TODO: cache the non-ignored fields, probably on Component
-
-   public boolean isInterceptorEnabled()
-   {
-      return getComponent().getScope() == CONVERSATION;
-   }
-
+   
    @AroundInvoke
    public Object aroundInvoke(InvocationContext ctx) throws Exception
    {
@@ -42,7 +49,9 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
       else
       {
          reentrant = true;
-         managedEntityStateManager.entityIdsToRefs(ctx.getTarget(), getComponent());
+         log.trace("Attempting to activate " + getComponent().getName() + " component");
+         managedEntityWrapper.deserialize(ctx.getTarget(), getComponent());
+         log.debug("Activated " + getComponent().getName() + " component");
          try
          {
             return ctx.proceed();
@@ -51,11 +60,20 @@ public class ManagedEntityIdentityInterceptor extends AbstractInterceptor
          {
             if (!isTransactionRolledBackOrMarkedRollback())
             {
-               managedEntityStateManager.entityRefsToIds(ctx.getTarget(), getComponent());
+               log.trace("Attempting to passivate " + getComponent().getName() + " component");
+               managedEntityWrapper.wrap(ctx.getTarget(), getComponent());
                reentrant = false;
+               log.debug("Passivated " + getComponent().getName() + " component");
             }
          }
       }
+   }
+
+
+
+   public boolean isInterceptorEnabled()
+   {
+      return getComponent().getScope() == CONVERSATION;
    }
 
    private static boolean isTransactionRolledBackOrMarkedRollback()
