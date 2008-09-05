@@ -50,20 +50,29 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    
    private ComponentDeploymentHandler componentDeploymentHandler;
    private AnnotationDeploymentHandler annotationDeploymentHandler;
+
+   private ClassLoader classLoader;
    
    /**
     * @param classLoader The parent classloader of the hot deployment classloader
     * @param hotDeployDirectory The directory in which hot deployable Seam 
     * components are placed
     */
-   public HotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory)
+   public HotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory, boolean enabled)
    {
-      initHotDeployClassLoader(classLoader, hotDeployDirectory);
-      componentDeploymentHandler = new ComponentDeploymentHandler();
-      getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
-      annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
-      getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
-      getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());
+      if (enabled)
+      {
+         this.classLoader = Thread.currentThread().getContextClassLoader();
+         initHotDeployClassLoader(classLoader, hotDeployDirectory);
+         if (hotDeployDirectory != null && hotDeployDirectory.exists())
+         {
+            componentDeploymentHandler = new ComponentDeploymentHandler();
+            getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
+            annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
+            getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
+         }
+         getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());
+      }
    }
    
    private void initHotDeployClassLoader(ClassLoader classLoader, File hotDeployDirectory)
@@ -77,16 +86,21 @@ public class HotDeploymentStrategy extends DeploymentStrategy
             hotDeployClassLoader = new URLClassLoader(urls, classLoader);
             getFiles().add(hotDeployDirectory);
          }
-         else
-         {
-            hotDeployClassLoader = classLoader;
-         }
-
       }
       catch (MalformedURLException mue)
       {
          throw new RuntimeException(mue);
       }
+   }
+   
+   public boolean isEnabled()
+   {
+      return classLoader != null;
+   }
+   
+   public boolean isHotDeployClasslLoaderEnabled()
+   {
+      return hotDeployClassLoader != null;
    }
    
    @Override
@@ -120,13 +134,13 @@ public class HotDeploymentStrategy extends DeploymentStrategy
     * @param hotDeployDirectory The directory which contains hot deployable
     * Seam components
     */
-   public static HotDeploymentStrategy createInstance(String className, ClassLoader classLoader, File hotDeployDirectory)
+   public static HotDeploymentStrategy createInstance(String className, ClassLoader classLoader, File hotDeployDirectory, boolean enabled)
    {
       try
       {
          Class initializer = Reflections.classForName(className);
-         Constructor ctr = initializer.getConstructor(ClassLoader.class, File.class);
-         return (HotDeploymentStrategy) ctr.newInstance(classLoader, hotDeployDirectory);
+         Constructor ctr = initializer.getConstructor(ClassLoader.class, File.class, boolean.class);
+         return (HotDeploymentStrategy) ctr.newInstance(classLoader, hotDeployDirectory, enabled);
       }
       catch (Exception e)
       {
@@ -137,7 +151,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    @Override
    public ClassLoader getClassLoader()
    {
-      return hotDeployClassLoader;
+      return hotDeployClassLoader != null ? hotDeployClassLoader : classLoader;
    }
    
    /**

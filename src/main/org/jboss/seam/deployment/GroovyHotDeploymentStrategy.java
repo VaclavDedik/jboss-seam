@@ -31,9 +31,9 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
     * groovy Seam components are placed
     * 
     */
-   public GroovyHotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory)
+   public GroovyHotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory, boolean enabled)
    {
-      super(classLoader, hotDeployDirectory);
+      super(classLoader, hotDeployDirectory, enabled);
       groovyDeploymentHandler = new GroovyDeploymentHandler(DEFAULT_SCRIPT_EXTENSION);
       getDeploymentHandlers().put(GroovyDeploymentHandler.NAME, groovyDeploymentHandler);
    }

@@ -637,10 +637,13 @@ public class Initialization
       
       installComponents(init);
       
-      if (hotDeploymentStrategy != null)
+      if (hotDeploymentStrategy.isEnabled())
       {
          hotDeploymentStrategy.scan();
-         installHotDeployableComponents();
+         if (hotDeploymentStrategy.isHotDeployClasslLoaderEnabled())
+         {
+            installHotDeployableComponents();
+         }
          // TODO Hack
          hotDeploymentStrategy.getFiles().add(warRootDirectory);
          init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
@@ -700,22 +703,15 @@ public class Initialization
    
    private HotDeploymentStrategy createHotDeployment(ClassLoader classLoader)
    {
-      if ( isDebugEnabled() )
+      if (isGroovyPresent())
       {
-         if (isGroovyPresent())
-         {
-            log.debug("Using Java + Groovy hot deploy");
-            return HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory);
-         }
-         else 
-         {
-            log.debug("Using Java hot deploy");
-            return new HotDeploymentStrategy(classLoader, hotDeployDirectory);
-         }
+         log.debug("Using Java + Groovy hot deploy");
+         return HotDeploymentStrategy.createInstance("org.jboss.seam.deployment.GroovyHotDeploymentStrategy", classLoader, hotDeployDirectory, isDebugEnabled());
       }
-      else
+      else 
       {
-         return null;
+         log.debug("Using Java hot deploy");
+         return new HotDeploymentStrategy(classLoader, hotDeployDirectory, isDebugEnabled());
       }
    }
    
@@ -1038,7 +1034,7 @@ public class Initialization
                descriptor.getJndiName()
             );
          context.set(componentName, component);
-         if ( hotDeploymentStrategy != null && !hotDeploymentStrategy.getClassLoader().equals(getClass().getClassLoader()) && hotDeploymentStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
+         if ( hotDeploymentStrategy.isEnabled() && hotDeploymentStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
          {
             Init.instance().addHotDeployableComponent( component.getName() );
          }
