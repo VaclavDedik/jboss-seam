@@ -9,20 +9,18 @@
             <xs:documentation>The root of a pages.xml file</xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:sequence>
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                    <xs:element ref="pages:conversation"/>
-                    <xs:element ref="pages:page"/>
-                </xs:choice>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="pages:conversation"/>
+                <xs:element ref="pages:page"/>
                 <xs:element minOccurs="0" maxOccurs="unbounded" ref="pages:exception"/>
-            </xs:sequence>
+            </xs:choice>
             <xs:attributeGroup ref="pages:attlist.pages"/>
         </xs:complexType>
     </xs:element>
     
     <xs:attributeGroup name="attlist.pages">
-        <xs:attribute name="no-conversation-view-id" />
-        <xs:attribute name="login-view-id" />
+        <xs:attribute name="no-conversation-view-id" type="pages:view-id" />
+        <xs:attribute name="login-view-id" type="pages:view-id"/>
         <xs:attribute name="http-port" />
         <xs:attribute name="https-port" />
     </xs:attributeGroup>
@@ -90,7 +88,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.page">
         <xs:attribute name="action"/>
-        <xs:attribute name="view-id"/>
+        <xs:attribute name="view-id" type="pages:view-id"/>
         <xs:attribute name="switch" default="enabled">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
@@ -99,7 +97,7 @@
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
-        <xs:attribute name="no-conversation-view-id"/>
+        <xs:attribute name="no-conversation-view-id" type="pages:view-id" />
         <xs:attribute name="conversation-required" default="false">
             <xs:simpleType>
                 <xs:restriction base="xs:token">
@@ -503,7 +501,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.render">
-        <xs:attribute name="view-id"/>
+        <xs:attribute name="view-id" type="pages:view-id" />
     </xs:attributeGroup>
     
     <xs:element name="redirect">
@@ -520,7 +518,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.redirect">
-        <xs:attribute name="view-id"/>
+        <xs:attribute name="view-id" type="pages:view-id" />
         <xs:attribute name="url"/>  
     </xs:attributeGroup>
     
@@ -536,7 +534,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.http-error">
-        <xs:attribute name="error-code"/>
+        <xs:attribute name="error-code" use="required"/>
     </xs:attributeGroup>
     
     <xs:element name="message">
@@ -564,6 +562,12 @@
             </xs:simpleType>
         </xs:attribute>
     </xs:attributeGroup>
+    
+    <xs:simpleType name="view-id">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(/.*)|\*"/>
+        </xs:restriction>
+    </xs:simpleType>
     
     <xs:element name="description" type="xs:string">
         <xs:annotation>
