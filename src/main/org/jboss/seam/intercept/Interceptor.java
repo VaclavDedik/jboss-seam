@@ -13,6 +13,8 @@ import java.lang.reflect.Method;
 import org.jboss.seam.Component;
 import org.jboss.seam.annotations.intercept.AroundInvoke;
 import org.jboss.seam.annotations.intercept.InterceptorType;
+import org.jboss.seam.annotations.intercept.PostActivate;
+import org.jboss.seam.annotations.intercept.PrePassivate;
 import org.jboss.seam.util.Reflections;
 
 /**
@@ -137,11 +139,11 @@ public final class Interceptor extends Reflections
          {
             preDestroyMethod = method;
          }
-         if ( method.isAnnotationPresent(PRE_PASSIVATE) )
+         if ( method.isAnnotationPresent(PRE_PASSIVATE) || method.isAnnotationPresent(PrePassivate.class) )
          {
             prePassivateMethod = method;
          }
-         if ( method.isAnnotationPresent(POST_ACTIVATE) )
+         if ( method.isAnnotationPresent(POST_ACTIVATE) || method.isAnnotationPresent(PostActivate.class) )
          {
             postActivateMethod = method;
          }
@@ -232,7 +234,14 @@ public final class Interceptor extends Reflections
          {
             Reflections.invokeAndWrap(annotationInjectorMethod, statelessUserInterceptorInstance, annotation);
          }
-         return ((Boolean) Reflections.invokeAndWrap(interceptorEnabledMethod, statelessUserInterceptorInstance));
+         if (isOptimized())
+         {
+            return ( (OptimizedInterceptor) statelessUserInterceptorInstance ).isInterceptorEnabled(); 
+         }
+         else
+         {
+            return ((Boolean) Reflections.invokeAndWrap(interceptorEnabledMethod, statelessUserInterceptorInstance));
+         }
       }
       else
       {
