@@ -70,12 +70,16 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    {
       try
       {
-         if (hotDeployDirectory.exists())
+         if (hotDeployDirectory != null)
          {
             URL url = hotDeployDirectory.toURL();
             URL[] urls = { url };
             hotDeployClassLoader = new URLClassLoader(urls, classLoader);
             getFiles().add(hotDeployDirectory);
+         }
+         else
+         {
+            hotDeployClassLoader = classLoader;
          }
 
       }

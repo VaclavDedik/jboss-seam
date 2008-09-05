@@ -54,7 +54,6 @@ public class HotDeployFilter extends AbstractFilter
       }
       
       //TODO: check the timestamp, for a minor optimization
-      
       // instead 
       Pages pages = (Pages) getServletContext().getAttribute(Seam.getComponentName(Pages.class));
       if (pages!= null) {

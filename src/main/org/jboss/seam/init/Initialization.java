@@ -627,10 +627,6 @@ public class Initialization
       }
       init.checkDefaultInterceptors();
       init.setTimestamp( System.currentTimeMillis() );
-      if (hotDeploymentStrategy != null)
-      {
-         init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
-      }
       addSpecialComponents(init);
       
       // Make the deployment strategies available in the contexts. This gives 
@@ -645,6 +641,9 @@ public class Initialization
       {
          hotDeploymentStrategy.scan();
          installHotDeployableComponents();
+         // TODO Hack
+         hotDeploymentStrategy.getFiles().add(warRootDirectory);
+         init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
       }
       
       for (String globalImport: globalImports)
@@ -682,7 +681,6 @@ public class Initialization
       hotDeploymentStrategy.scan();
       installHotDeployableComponents();
       Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
-      // Add the WAR root to the hot deploy path to pick up .page.xml
       Pages.instance().setHotDotPageDotXmlFileNames(DotPageDotXmlDeploymentHandler.hotInstance().getFiles());
       init.setTimestamp( System.currentTimeMillis() );
       init.setHotDeployPaths(hotDeploymentStrategy.getHotDeploymentPaths());
@@ -702,7 +700,7 @@ public class Initialization
    
    private HotDeploymentStrategy createHotDeployment(ClassLoader classLoader)
    {
-      if ( isDebugEnabled() && hotDeployDirectory != null )
+      if ( isDebugEnabled() )
       {
          if (isGroovyPresent())
          {
@@ -1040,7 +1038,7 @@ public class Initialization
                descriptor.getJndiName()
             );
          context.set(componentName, component);
-         if ( hotDeploymentStrategy != null && hotDeploymentStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
+         if ( hotDeploymentStrategy != null && !hotDeploymentStrategy.getClassLoader().equals(getClass().getClassLoader()) && hotDeploymentStrategy.isFromHotDeployClassLoader( descriptor.getComponentClass() ) )
          {
             Init.instance().addHotDeployableComponent( component.getName() );
          }
