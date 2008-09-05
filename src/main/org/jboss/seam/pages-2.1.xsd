@@ -12,7 +12,7 @@
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element ref="pages:conversation"/>
                 <xs:element ref="pages:page"/>
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="pages:exception"/>
+                <xs:element ref="pages:exception"/>
             </xs:choice>
             <xs:attributeGroup ref="pages:attlist.pages"/>
         </xs:complexType>
