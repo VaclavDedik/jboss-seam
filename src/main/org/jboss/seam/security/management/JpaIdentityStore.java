@@ -42,7 +42,7 @@ import org.jboss.seam.util.AnnotatedBeanProperty;
  * 
  * @author Shane Bryzak
  */
-@Name("org.jboss.seam.security.jpaIdentityStore")
+@Name("org.jboss.seam.security.identityStore")
 @Install(precedence = BUILT_IN, value=false) 
 @Scope(APPLICATION)
 @BypassInterceptors
