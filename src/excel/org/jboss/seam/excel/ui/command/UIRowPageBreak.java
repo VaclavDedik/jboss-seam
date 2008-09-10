@@ -1,10 +1,10 @@
-package org.jboss.seam.excel.ui;
+package org.jboss.seam.excel.ui.command;
 
-import org.jboss.seam.excel.Command;
+import org.jboss.seam.excel.ui.ExcelComponent;
 
 public class UIRowPageBreak extends ExcelComponent implements Command
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIRowPageBreak";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.command.UIRowPageBreak";
 
    private Integer row;
 

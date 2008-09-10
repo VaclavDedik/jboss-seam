@@ -2,6 +2,7 @@ package org.jboss.seam.excel.exporter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,9 @@ import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.excel.ExcelFactory;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
-import org.jboss.seam.excel.Template;
+import org.jboss.seam.excel.css.CSSNames;
+import org.jboss.seam.excel.css.Parser;
+import org.jboss.seam.excel.css.StyleMap;
 import org.jboss.seam.excel.ui.ExcelComponent;
 import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UIColumn;
@@ -44,13 +47,17 @@ import org.jboss.seam.navigation.Pages;
 @BypassInterceptors
 public class ExcelExporter
 {
+   private static Log log = Logging.getLog(ExcelExporter.class);
+   
    // The excel workbook implementation
    private ExcelWorkbook excelWorkbook = null;
-
-   private List<Integer> columnWidths = new ArrayList<Integer>();
+   private Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();
+   
 
    /**
-    * Helper method to call the exporter and use the default excel workbook implementation
+    * Helper method to call the exporter and use the default excel workbook
+    * implementation
+    * 
     * @param dataTableId
     */
    public void export(String dataTableId)
@@ -79,18 +86,13 @@ public class ExcelExporter
       }
 
       // Inits the workbook and worksheet
-      excelWorkbook.createWorkbook(new UIWorkbook());
-      excelWorkbook.createOrSelectWorksheet(new UIWorksheet());
-
-      // Adds templates
-      String styleString = StyleParser.getComponentStyle(dataTable);
-      Map<String, Map<String, String>> templateMap = StyleParser.getTemplateMap(styleString);
-      List<Template> templates = StyleParser.getTemplates(templateMap);
-      for (Template template : templates)
-      {
-         excelWorkbook.addTemplate(template);
-      }
-      columnWidths = StyleParser.parseColumnWidths(templateMap.get(StyleParser.TEMPLATE_GLOBAL));
+      UIWorkbook uiWorkbook = new UIWorkbook();
+      excelWorkbook.createWorkbook(uiWorkbook);
+      UIWorksheet uiWorksheet = new UIWorksheet();
+      uiWorkbook.getChildren().add(uiWorksheet);
+      uiWorksheet.setStyle(Parser.getStyle(dataTable));
+      uiWorksheet.setStyleClass(Parser.getStyleClass(dataTable));
+      excelWorkbook.createOrSelectWorksheet(uiWorksheet);
 
       // Saves the datatable var
       String dataTableVar = dataTable.getVar();
@@ -98,9 +100,11 @@ public class ExcelExporter
 
       // Processes the columns
       List<javax.faces.component.UIColumn> columns = ExcelComponent.getChildrenOfType(dataTable.getChildren(), javax.faces.component.UIColumn.class);
+      columnWidths = parseColumnWidths(uiWorksheet);
       int col = 0;
       for (javax.faces.component.UIColumn column : columns)
       {
+         uiWorksheet.getChildren().add(column);
          Iterator iterator = UIWorksheet.unwrapIterator(dataTable.getValue());
          processColumn(column, iterator, dataTableVar, col++);
          excelWorkbook.nextColumn();
@@ -119,6 +123,25 @@ public class ExcelExporter
       // Redirects to the generated document
       redirectExport();
 
+   }
+
+   private Map<Integer, Integer> parseColumnWidths(UIWorksheet worksheet)
+   {
+      Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();
+      Parser parser = new Parser();
+
+      StyleMap styleMap = parser.getCascadedStyleMap(worksheet);
+      for (Map.Entry<String, Object> entry : styleMap.entrySet())
+      {
+         String key = entry.getKey();
+         if (key.startsWith(CSSNames.COLUMN_WIDTHS))
+         {
+            String columnIndexString = key.substring(CSSNames.COLUMN_WIDTHS.length());
+            int columnIndex = Integer.parseInt(columnIndexString);
+            columnWidths.put(columnIndex, (Integer) entry.getValue());
+         }
+      }
+      return columnWidths;
    }
 
    /**
@@ -152,7 +175,7 @@ public class ExcelExporter
     * @param col
     */
    @SuppressWarnings("unchecked")
-   private void processColumn(javax.faces.component.UIColumn column, Iterator iterator, String var, int col)
+   private void processColumn(javax.faces.component.UIColumn column, Iterator iterator, String var, int columnIndex)
    {
       // Process header facet
       UIComponent headerFacet = column.getFacet(UIColumn.HEADER_FACET_NAME);
@@ -160,36 +183,22 @@ public class ExcelExporter
       {
          List<UIOutput> headerOutputs = new ArrayList<UIOutput>();
          headerOutputs.add((UIOutput) headerFacet);
-         processOutputs(headerOutputs, "global,header");
+         processOutputs(column, headerOutputs);
       }
 
-      try
-      {
-         String rendered = ExcelComponent.cmp2String(FacesContext.getCurrentInstance(), column);
-         Log log = Logging.getLog(getClass());
-         log.warn("Rendered as #0", rendered);
-      }
-      catch (IOException e)
-      {
-         e.printStackTrace();
-      }
-      
       // Process data
       while (iterator.hasNext())
       {
          FacesContext.getCurrentInstance().getExternalContext().getRequestMap().put(var, iterator.next());
          List<UIOutput> dataOutputs = ExcelComponent.getChildrenOfType(column.getChildren(), UIOutput.class);
-         processOutputs(dataOutputs, "global,data");
+         processOutputs(column, dataOutputs);
       }
 
-      if (columnWidths.size() > col)
-      {
-         Integer columnWidth = columnWidths.get(col);
-         if (columnWidth != null)
-         {
-            UIColumn uiColumn = new UIColumn(columnWidth);
-            excelWorkbook.applyColumnSettings(uiColumn);
-         }
+      Integer columnWidth = columnWidths.get(columnIndex);
+      if (columnWidth != null) {
+         UIColumn uiColumn = new UIColumn();
+         uiColumn.setStyle(CSSNames.COLUMN_WIDTH + ":" + columnWidth);
+         excelWorkbook.applyColumnSettings(uiColumn);
       }
 
    }
@@ -200,7 +209,7 @@ public class ExcelExporter
     * @param outputs The list of outputs to process
     * @param preTemplates The pre-pushed templates
     */
-   private void processOutputs(List<UIOutput> outputs, String preTemplates)
+   private void processOutputs(javax.faces.component.UIColumn column, List<UIOutput> outputs)
    {
       for (UIOutput output : outputs)
       {
@@ -209,23 +218,11 @@ public class ExcelExporter
             continue;
          }
          UICell cell = new UICell();
+         column.getChildren().add(cell);
          cell.setId(output.getId());
          cell.setValue(output.getValue());
-
-         String cellTemplates = preTemplates;
-         String localTemplates = null;
-         String outputStyle = StyleParser.getComponentStyle(output);
-
-         Map<String, String> globalTemplate = StyleParser.getTemplateMap(outputStyle).get(StyleParser.TEMPLATE_GLOBAL);
-         if (globalTemplate != null)
-         {
-            localTemplates = globalTemplate.get(StyleParser.LOCAL_TEMPLATE_STYLE);
-         }
-         if (localTemplates != null)
-         {
-            cellTemplates = cellTemplates + "," + localTemplates;
-         }
-         cell.setTemplates(cellTemplates);
+         cell.setStyle(Parser.getStyle(output));
+         cell.setStyleClass(Parser.getStyleClass(output));
 
          excelWorkbook.addItem(cell);
       }

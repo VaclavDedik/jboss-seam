@@ -1,10 +1,10 @@
-package org.jboss.seam.excel.ui;
+package org.jboss.seam.excel.ui.command;
 
-import org.jboss.seam.excel.Validation;
+import org.jboss.seam.excel.ui.ExcelComponent;
 
-public class UIRangeValidation extends ExcelComponent implements Validation
+public class UIMergeCells extends ExcelComponent implements Command
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIRangeValidation";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.command.UIMergeCells";
 
    private Integer startColumn;
    private Integer startRow;
@@ -57,8 +57,9 @@ public class UIRangeValidation extends ExcelComponent implements Validation
       return COMPONENT_TYPE;
    }
 
-   public ValidationType getType()
+   public CommandType getCommandType()
    {
-      return ValidationType.range;
+      return CommandType.merge_cells;
    }
+
 }

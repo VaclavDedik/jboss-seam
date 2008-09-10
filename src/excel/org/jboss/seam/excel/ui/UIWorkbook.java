@@ -1,18 +1,19 @@
 package org.jboss.seam.excel.ui;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.document.DocumentStore;
 import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.excel.ExcelFactory;
 import org.jboss.seam.excel.ExcelWorkbook;
-import org.jboss.seam.excel.Template;
 import org.jboss.seam.navigation.Pages;
 
 public class UIWorkbook extends ExcelComponent
@@ -49,6 +50,17 @@ public class UIWorkbook extends ExcelComponent
    private String temporaryFileDuringWriteDirectory;
    private Boolean useTemporaryFileDuringWrite;
    private Boolean workbookProtected;
+   private String exportKey;
+
+   public String getExportKey()
+   {
+      return (String) valueOf("exportKey", exportKey);
+   }
+
+   public void setExportKey(String exportKey)
+   {
+      this.exportKey = exportKey;
+   }
 
    public CreationType getCreationType()
    {
@@ -287,13 +299,9 @@ public class UIWorkbook extends ExcelComponent
 
       // Create a new workbook
       excelWorkbook.createWorkbook(this);
-
-      // Find global templates and push them to workbook
-      for (Template template : getTemplates(getChildren()))
-      {
-         excelWorkbook.addTemplate(template);
-      }
-
+      
+      List<UILink> stylesheets = getChildrenOfType(getChildren(), UILink.class);
+      excelWorkbook.setStylesheets(stylesheets);
    }
 
    @Override
@@ -314,6 +322,11 @@ public class UIWorkbook extends ExcelComponent
 
       DocumentData documentData = new DocumentData(baseName, type, bytes);
 
+      if (getExportKey() != null) {
+         Contexts.getEventContext().set(getExportKey(), documentData);
+         return;
+      }
+      
       if (sendRedirect)
       {
          DocumentStore store = DocumentStore.instance();

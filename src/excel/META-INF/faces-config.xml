@@ -9,28 +9,12 @@
         <component-class>org.jboss.seam.excel.ui.UIWorkbook</component-class>
     </component>
     <component>
-        <component-type>org.jboss.seam.excel.ui.UIWorksheetSettings</component-type>
-        <component-class>org.jboss.seam.excel.ui.UIWorksheetSettings</component-class>
-    </component>
-    <component>
-        <component-type>org.jboss.seam.excel.ui.UIBackground</component-type>
-        <component-class>org.jboss.seam.excel.ui.UIBackground</component-class>
-    </component>
-    <component>
-        <component-type>org.jboss.seam.excel.ui.UIBorder</component-type>
-        <component-class>org.jboss.seam.excel.ui.UIBorder</component-class>
-    </component>
-    <component>
         <component-type>org.jboss.seam.excel.ui.UICell</component-type>
         <component-class>org.jboss.seam.excel.ui.UICell</component-class>
     </component>
     <component>
         <component-type>org.jboss.seam.excel.ui.UIColumn</component-type>
         <component-class>org.jboss.seam.excel.ui.UIColumn</component-class>
-    </component>
-    <component>
-        <component-type>org.jboss.seam.excel.ui.UIFont</component-type>
-        <component-class>org.jboss.seam.excel.ui.UIFont</component-class>
     </component>
     <component>
         <component-type>org.jboss.seam.excel.ui.UIWorksheet</component-type>
@@ -73,14 +57,6 @@
 		<component-class>org.jboss.seam.excel.ui.UIFormula</component-class>
 	</component>
 	<component>
-		<component-type>org.jboss.seam.excel.ui.UICellTemplate</component-type>
-		<component-class>org.jboss.seam.excel.ui.UICellTemplate</component-class>
-	</component>
-	<component>
-		<component-type>org.jboss.seam.excel.ui.UIWorksheetTemplate</component-type>
-		<component-class>org.jboss.seam.excel.ui.UIWorksheetTemplate</component-class>
-	</component>
-	<component>
 		<component-type>org.jboss.seam.excel.ui.UIGroupColumns</component-type>
 		<component-class>org.jboss.seam.excel.ui.UIGroupColumns</component-class>
 	</component>
@@ -89,24 +65,24 @@
 		<component-class>org.jboss.seam.excel.ui.UIGroupRows</component-class>
 	</component>
 	<component>
-		<component-type>org.jboss.seam.excel.ui.UIListValidation</component-type>
-		<component-class>org.jboss.seam.excel.ui.UIListValidation</component-class>
+		<component-type>org.jboss.seam.excel.ui.validation.UIListValidation</component-type>
+		<component-class>org.jboss.seam.excel.ui.validation.UIListValidation</component-class>
 	</component>
 	<component>
-		<component-type>org.jboss.seam.excel.ui.UIListValidationItem</component-type>
-		<component-class>org.jboss.seam.excel.ui.UIListValidationItem</component-class>
+		<component-type>org.jboss.seam.excel.ui.validation.UIListValidationItem</component-type>
+		<component-class>org.jboss.seam.excel.ui.validation.UIListValidationItem</component-class>
 	</component>
 	<component>
 		<component-type>org.jboss.seam.excel.ui.UIMergeCells</component-type>
 		<component-class>org.jboss.seam.excel.ui.UIMergeCells</component-class>
 	</component>
 	<component>
-		<component-type>org.jboss.seam.excel.ui.UINumericValidation</component-type>
-		<component-class>org.jboss.seam.excel.ui.UINumericValidation</component-class>
+		<component-type>org.jboss.seam.excel.ui.validation.UINumericValidation</component-type>
+		<component-class>org.jboss.seam.excel.ui.validation.UINumericValidation</component-class>
 	</component>
 	<component>
-		<component-type>org.jboss.seam.excel.ui.UIRangeValidation</component-type>
-		<component-class>org.jboss.seam.excel.ui.UIRangeValidation</component-class>
+		<component-type>org.jboss.seam.excel.ui.validation.UIRangeValidation</component-type>
+		<component-class>org.jboss.seam.excel.ui.validation.UIRangeValidation</component-class>
 	</component>
 	<component>
 		<component-type>org.jboss.seam.excel.ui.UIRowPageBreak</component-type>
@@ -116,4 +92,8 @@
 		<component-type>org.jboss.seam.excel.ui.UIExcelExport</component-type>
 		<component-class>org.jboss.seam.excel.ui.UIExcelExport</component-class>
 	</component>
+   <component>
+      <component-type>org.jboss.seam.excel.ui.UILink</component-type>
+      <component-class>org.jboss.seam.excel.ui.UILink</component-class>
+   </component>
 </faces-config>

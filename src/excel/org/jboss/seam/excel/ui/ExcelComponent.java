@@ -11,10 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.render.RenderKit;
 
-import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
-import org.jboss.seam.excel.Template;
 import org.jboss.seam.excel.WorksheetItem;
+import org.jboss.seam.excel.ui.command.Command;
 import org.jboss.seam.ui.util.JSF;
 
 /**
@@ -30,7 +29,9 @@ public abstract class ExcelComponent extends UIComponentBase
    private static final String DEFAULT_CONTENT_TYPE = "text/html";
    private static final String DEFAULT_CHARACTER_ENCODING = "utf-8";
 
-
+   private String styleClass;
+   private String style;
+   
    /**
     * Helper method for rendering a component (usually on a facescontext with a caching
     * reponsewriter)
@@ -98,17 +99,6 @@ public abstract class ExcelComponent extends UIComponentBase
    }
 
    /**
-    * Returns all templates from a child list
-    * 
-    * @param children The list to search
-    * @return The templates
-    */
-   protected static List<Template> getTemplates(List<UIComponent> children)
-   {
-      return getChildrenOfType(children, Template.class);
-   }
-
-   /**
     * Returns all worksheet items (cells, images, hyperlinks) from a child list
     * 
     * @param children The list to search
@@ -169,6 +159,26 @@ public abstract class ExcelComponent extends UIComponentBase
          return root;
       }
       return getParentByClass(root.getParent(), searchClass);
+   }
+
+   public String getStyleClass()
+   {
+      return (String) valueOf("styleClass", styleClass);
+   }
+
+   public void setStyleClass(String styleClass)
+   {
+      this.styleClass = styleClass;
+   }
+
+   public String getStyle()
+   {
+      return (String) valueOf("style", style);
+   }
+
+   public void setStyle(String style)
+   {
+      this.style = style;
    }
 
 }

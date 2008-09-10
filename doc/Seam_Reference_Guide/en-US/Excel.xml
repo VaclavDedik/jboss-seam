@@ -126,8 +126,7 @@
    <section id="excel.workbook">
       <title>Workbooks</title>
       <para>
-         Workbooks are the top-level parents of worksheets, cell templates and
-         worksheet templates.
+         Workbooks are the top-level parents of worksheets and stylesheet links.
       </para>
       <informaltable>
          <tgroup cols="2">
@@ -340,17 +339,9 @@
                      <itemizedlist>
                         <listitem>
                            <para>
-                              <literal>&lt;e:cellTemplate/&gt;</literal>
-                              &#8212;Zero or more cell templates (see
-                              <xref linkend="excel.templates.cell" />
-                              ).
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>&lt;e:worksheetTemplate/&gt;</literal>
-                              &#8212;Zero or more worksheet templates (see
-                              <xref linkend="excel.templates.worksheetsettings" />
+                              <literal>&lt;e:link/&gt;</literal>
+                              &#8212;Zero or more stylesheet links (see
+                              <xref linkend="excel.fontsandlayout.link" />
                               ).
                            </para>
                         </listitem>
@@ -461,16 +452,6 @@
                               in other places than the upper-left corner
                               (especially useful if having multiple data sets
                               for a single worksheet). The default is 0.
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>templates</literal>
-                              &#8212;The comma-separated list of
-                              <literal>worksheetTemplates</literal>
-                              to cascade on. The value is a string (see
-                              <xref linkend="excel.templates.cell" />
-                              ).
                            </para>
                         </listitem>
                         <listitem>
@@ -825,7 +806,8 @@
       <para>
          Columns are the children of worksheets and the parents of cells,
          images, formulas and hyperlinks. They are the structure that control
-         the iteration of the worksheet data.
+         the iteration of the worksheet data. See <xref linkend="excel.fontsandlayout.columnsettings"/>
+         for formatting.
       </para>
       <informaltable>
          <tgroup cols="2">
@@ -845,23 +827,7 @@
                      <itemizedlist>
                         <listitem>
                            <para>
-                              <literal>autoSize</literal>
-                              &#8212;Should the column be autosized? The value
-                              is a boolean.
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>hidden</literal>
-                              &#8212;Should the column be hidden? The value is a
-                              boolean.
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>width</literal>
-                              &#8212;The width of the column. The valus ia
-                              number (characters multiplied by 256)
+                              <literal>none</literal>
                            </para>
                         </listitem>
                      </itemizedlist>
@@ -964,8 +930,8 @@
          (for direct placement using the <literal>column</literal> and
          <literal>row</literal> attributes) and are responsible for outputting 
          the value (usually though en EL-expression involving the
-         <literal>var</literal>-attribute of the datatable. They can contain 
-         fonts and other formattings and can also use pre-defined templates.
+         <literal>var</literal>-attribute of the datatable. See 
+         <xref linkend="excel.fontsandlayout.cells"/>
       </para>
       <informaltable>
          <tgroup cols="2">
@@ -1009,30 +975,12 @@
                         </listitem>
                         <listitem>
                            <para>
-                              <literal>templates</literal>
-                              &#8212;A comma-separated list of cascading,
-                              predefined templates to apply before the own
-                              formattings (see
-                              <xref linkend="excel.templates.cell" />
-                              ).
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
                               <literal>forceType</literal>
                               &#8212;The forced type of the cell data. The value
                               is a string that can be one of "general",
                               "number", "text", "date", "formula" or "bool". The
                               type is automatically detected so there is rarely
                               any use for this attribute.
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>alignment</literal>
-                              &#8212;The alignment of the cell data. The value
-                              is a string that can be one of "centre", "fill",
-                              "general", "justify", "left" or "right".
                            </para>
                         </listitem>
                         <listitem>
@@ -1054,62 +1002,6 @@
                               <literal>commentWidth</literal>
                               &#8212;A width of the comment. The value is a
                               number (in pixels).
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>indentation</literal>
-                              &#8212;The indentation of the cell. The value is a
-                              number (in pixels)
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>locked</literal>
-                              &#8212;Should the cell be locked? For this to have
-                              any effect, the sheet containing cells with this
-                              format must also be locked. The value is a
-                              boolean.
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>mask</literal>
-                              &#8212;A format mask (see
-                              <xref linkend="excel.cells.formatmasks" />
-                              ).
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>orientation</literal>
-                              &#8212;The orientation of the cell data. The value
-                              is a string that can be one of "horizontal",
-                              "minus_45", "minus_90", "plus_45", "plus_90",
-                              "stacked" or "vertical".
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>shrinkToFit</literal>
-                              &#8212;Should the cell data be shrunk to fit? The
-                              value is a boolean.
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>verticalAlignment</literal>
-                              &#8212;The vertical aligment of the cell data. The
-                              value is a string that can be one of "bottom",
-                              "centre", "justify" or "top").
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>wrap</literal>
-                              &#8212;Should the data be wrapped so that it fits
-                              within the cell boundaries? The value is a
-                              boolean.
                            </para>
                         </listitem>
                      </itemizedlist>
@@ -1181,323 +1073,6 @@
          ]]>
       </programlisting>
       <para>defines a column with a header and an iterated output</para>
-      <section id="excel.cells.fonts">
-         <title>Fonts</title>
-         <para>
-            Fonts are nested inside cells, formulas, hyperlinks or cell
-            templates. They determine the typeface of the cell data
-         </para>
-         <informaltable>
-            <tgroup cols="2">
-               <colspec colnum="1" colwidth="1*" />
-               <colspec colnum="2" colwidth="3*" />
-               <tbody>
-                  <row>
-                     <entry valign="top">
-                        <para>
-                           <literal>&lt;e:font&gt;</literal>
-                        </para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           <emphasis>Attributes</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>fontName</literal>
-                                 &#8212;The font name. The value is a string.
-                                 Should be used with care, since the used font
-                                 must be recognized by the
-                                 <trademark class="registered">
-                                    Microsoft
-                                 </trademark>
-                                 <trademark class="registered">Excel</trademark>
-                                 spreadsheet application
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>color</literal>
-                                 &#8212;The color of the background. The value
-                                 is a string that can be one of "blue", "red"
-                                 etc (see
-                                 <ulink
-                                    url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                                    jxl.format.Colour
-                                 </ulink>
-                                 ).
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>pointSize</literal>
-                                 &#8212;The point size of the font. The value is
-                                 a number.
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>bold</literal>
-                                 &#8212;Should the font be bold? The value is a
-                                 boolean.
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>italic</literal>
-                                 &#8212;Should the font be italic? The value is
-                                 a boolean.
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>struckOut</literal>
-                                 &#8212;Should the font be struck out? The value
-                                 is a boolean.
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>scriptStyle</literal>
-                                 &#8212;The script style of the font. The value
-                                 is a string that can be one of "normal_script",
-                                 "subscript" or "superscript".
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>underlineStyle</literal>
-                                 &#8212;The underline style of the font. The
-                                 value is a string that can be one of "double",
-                                 "double_accounting", "no_underline", "single"
-                                 or "single_accounting".
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                        <para>
-                           <emphasis>Child elemenents</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>none</literal>
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                        <para>
-                           <emphasis>Facets</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>none</literal>
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                     </entry>
-                  </row>
-               </tbody>
-            </tgroup>
-         </informaltable>
-         <programlisting role="XML">
-            <![CDATA[
-            <e:workbook>
-               <e:worksheet>
-                  <e:column value="#{personList}" var="person">               
-	                 <e:cell value="#{person.age">
-                        <e:font fontName="Times New Roman" color="red" bold="true"/>
-                     </e:cell>
-                  </e:column>
-               </e:worksheet>
-            </e:workbook>         
-         ]]>
-         </programlisting>
-         <para>defines a cell with a red, bold, Times New Roman font.</para>
-      </section>
-      <section id="excel.cells.backgrounds">
-         <title>Backgrounds</title>
-         <para>
-            Backgrounds are nested inside cells, formulas, hyperlinks or cell
-            templates. They determine the color and pattern of the cell.
-         </para>
-         <informaltable>
-            <tgroup cols="2">
-               <colspec colnum="1" colwidth="1*" />
-               <colspec colnum="2" colwidth="3*" />
-               <tbody>
-                  <row>
-                     <entry valign="top">
-                        <para>
-                           <literal>&lt;e:background&gt;</literal>
-                        </para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           <emphasis>Attributes</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>pattern</literal>
-                                 &#8212;The pattern of the background. The value
-                                 is a string that can be one of "solid",
-                                 "gray_25" etc (see
-                                 <ulink
-                                    url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Pattern.html">
-                                    jxl.format.Pattern
-                                 </ulink>
-                                 ). The default is "solid".
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>color</literal>
-                                 &#8212;The color of the background. The value
-                                 is a string that can be one of "blue", "red"
-                                 etc
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                        <para>
-                           <emphasis>Child elemenents</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>none</literal>
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                        <para>
-                           <emphasis>Facets</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>none</literal>
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                     </entry>
-                  </row>
-               </tbody>
-            </tgroup>
-         </informaltable>
-         <programlisting role="XML">
-            <![CDATA[
-               <e:workbook>
-                  <e:worksheet>
-                     <e:column value="#{personList}" var="person">            
-                        <e:cell value="#{person.age">
-                           <e:background color="green" pattern="gray_25"/>
-                        </e:cell>
-                     </e:column>
-                  </e:worksheet>
-               </e:workbook>   
-         ]]>
-         </programlisting>
-         <para>defined a green cell background with a 25% gray mask.</para>
-      </section>
-      <section id="excel.cells.borders">
-         <title>Borders</title>
-         <para>
-            Borders are nested inside cells, formulas, hyperlinks and cell
-            templates. They determine the color and line style of the cell
-            borders.
-         </para>
-         <informaltable>
-            <tgroup cols="2">
-               <colspec colnum="1" colwidth="1*" />
-               <colspec colnum="2" colwidth="3*" />
-               <tbody>
-                  <row>
-                     <entry valign="top">
-                        <para>
-                           <literal>&lt;e:border&gt;</literal>
-                        </para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           <emphasis>Attributes</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>border</literal>
-                                 &#8212;The border to apply the settings to. The
-                                 value is a string that can be one of "all",
-                                 "bottom", "left", "none", "right" or "top". The
-                                 default is "all".
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>lineStyle</literal>
-                                 &#8212;The border line style. The value is a
-                                 string that can be one of "medium", "thin" etc
-                                 (see
-                                 <ulink
-                                    url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/BorderLineStyler.html">
-                                    jxl.format.BorderLineStyle
-                                 </ulink>
-                                 ).
-                              </para>
-                           </listitem>
-                           <listitem>
-                              <para>
-                                 <literal>color</literal>
-                                 &#8212;The color of the border. The value is a
-                                 string that can be one of "blue", "red" etc
-                                 (see
-                                 <ulink
-                                    url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                                    jxl.format.Colour
-                                 </ulink>
-                                 ).
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                        <para>
-                           <emphasis>Child elemenents</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>none</literal>
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                        <para>
-                           <emphasis>Facets</emphasis>
-                        </para>
-                        <itemizedlist>
-                           <listitem>
-                              <para>
-                                 <literal>none</literal>
-                              </para>
-                           </listitem>
-                        </itemizedlist>
-                     </entry>
-                  </row>
-               </tbody>
-            </tgroup>
-         </informaltable>
-         <programlisting role="XML">
-            <![CDATA[
-               <e:workbook>
-                  <e:worksheet>
-                     <e:column value="#{personList}" var="person">                   
-                        <e:cell value="#{person.age">
-                           <e:border border="left" color="green" lineStyle="thin"/>
-                        </e:cell>
-                     </e:column>
-                  </e:worksheet>
-               </e:workbook>
-            ]]>
-         </programlisting>
-         <para>defined a thin green border on the left edge of the cell.</para>
-      </section>
       <section id="excel.cells.validation">
          <title>Validation</title>
          <para>
@@ -2816,113 +2391,6 @@
          <para>merges the cells in the range A1:J10</para>
       </section>
    </section>
-   <section id="excel.templates">
-      <title>Templates</title>
-      <para>
-         Templates are a way of grouping common formatting under a name to be
-         used later. They come in two flavors, cell level and worksheet settings
-         level and they can be cascaded so that the end result is a union of the
-         applied templates (overriden where applicable)
-      </para>
-      <section id="excel.templates.cell">
-         <title>Cell templates</title>
-         <para>
-            Cell templates are defined on workbook level using the following
-            notation
-         </para>
-         <programlisting role="XML">
-            <![CDATA[
-               <e:workbook>
-                  <e:cellTemplate name="foo">
-                     <font color="red"/>
-                  </e:cellTemplate>
-               </e:workbook>         
-             ]]>
-         </programlisting>
-         <para>
-            and are later used by referencing them in the templates attribute of
-            a cell
-         </para>
-         <programlisting role="XML">
-            <![CDATA[
-               <e:workbook>
-                  <e:worksheet>            
-                     <e:cell templates="foo" column="0" row="0" value="ping"/>
-                  </e:worksheet>
-               </e:workbook>         
-             ]]>
-         </programlisting>
-         <para>
-            Cell templates have the same attributes as cells (see
-            <xref linkend="excel.cells" />
-            ). Note that the cellTemplate can also contain tags for font, border
-            and background definitions and they are merged with the definitions
-            of the cell using the templates so a more complex definition could
-            look like
-         </para>
-         <programlisting role="XML">
-            <![CDATA[
-               <e:workbook>
-                  <e:cellTemplate name="foo" alignment="right">
-                     <e:font name="Times New Roman"/>
-                     <e:background color="blue"/>
-                  </e:cellTemplate>         
-
-                  <e:cellTemplate name="bar" wrap="true">
-                     <e:font color="red"/>
-                     <e:border color="yellow" lineStyle="thick"/>
-                  </e:cellTemplate>
-               </e:workbook>            
-         ]]>
-         </programlisting>
-         <para>so that a cell that later on applies the templates</para>
-         <programlisting role="XML">
-            <![CDATA[
-               <e:workbook>
-                  <e:worksheet>             
-                     <e:cell templates="foo,bar" column="0" row="0" value="ping">
-                        <e:border border="left" color="green" lineStyle="thin"/>
-                     </e:cell>
-                  </e:worksheet>
-               </e:workbook>      
-         ]]>
-         </programlisting>
-         <para>
-            end up with a red Times New Roman font in a right-aligned, wrapping
-            cell that has a solid blue background and thick yellow borders, with
-            exception of the left border, which is thin and green.
-         </para>
-      </section>
-      <section id="excel.templates.worksheetsettings">
-         <title>Worksheet setting templates</title>
-         <para>
-            Worksheet settings are defined and used in the same way as cell
-            templates. On workbook level, you can place a
-         </para>
-         <programlisting role="XML">
-            <![CDATA[
-               <e:workbook>
-                  <e:worksheetTemplate name="foo" horizontalFreeze="5"/>
-               </e:workbook>      
-            ]]>
-         </programlisting>
-         <para>and when you later use it like</para>
-         <programlisting role="XML">
-            <![CDATA[
-               <e:workbook>            
-                  <e:worksheet templates="foo" verticalFreeze="5"/>
-               </e:workbook>      
-            ]]>
-         </programlisting>
-         <para>
-            you end up with a worksheet that is frozen at column 5 and row 5.
-            Note that a worksheetTemplate is essentially a named worksheet (see
-            <xref linkend="excel.worksheet" />
-            ).
-         </para>
-
-      </section>
-   </section>
    <section id="excel.datatableexporter">
       <title>Datatable exporter</title>
       <para>
@@ -2962,32 +2430,30 @@
          for a dedicated export tag that can be placed inside the datatable tag
          so you won't have to refer to the datatable by ID.
       </para>
-      <section id="excel.datatableexporter.css">
-         <title>CSS</title>
+      <para>
+         See <xref linkend="excel.fontsandlayout"/> for formatting.
+      </para>
+   </section>
+   <section id="excel.fontsandlayout">
+      <title>Fonts and layout</title>
+      <para>
+         Controlling how the output look is done with a combination of CSSish
+         style attributes and tag attributes. The most common ones (fonts, borders,
+         backgrounds etc) are CSS and some more general settings are in tag attributes. 
+      </para>
+      <para>
+         The CSS attributes cascade down from parent to children and within one tag
+         cascades over the CSS classes referenced in the <literal>styleClass</literal>
+         attributes and finally over the CSS attributes defined in the 
+         <literal>style</literal>attribute. You can place them pretty much anywhere but
+         e.g. placing a column width setting in a cell nested within that column makes
+         little sense.
+      </para>
+      <section id="excel.fontsandlayout.link">
+         <title>Stylesheet links</title>
          <para>
-            In order to provide formatting for the spreadsheet, you can utilize
-            a number of xls-prefixed CSS:ish attributes that are placed in the
-            style-attribute of the datatable to be exported:
-         </para>
-         <programlisting role="XML">
-            <![CDATA[
-               <h:form id="theForm">
-                  <h:dataTable
-                     id="theDataTable"    
-                     value="#{personList.personList}" 
-                     var="person"
-                     style="xlsFontName : Times New Roman; xlsBackgroundColor : red">
-                     ...
-                  </h:dataTable>
-               </h:form>
-            ]]>
-         </programlisting>
-         <para>
-            which sets Times New Roman as the font and red as the cell
-            background. Just as in CSS, separate name and value with a
-            <literal>:</literal> and multiple attributes with a
-            <literal>;</literal>. Below is a list of the supported 
-            style-attributes:
+            External stylesheets are references with the e:link tag. They are placed as
+            children of the workbook.
          </para>
          <informaltable>
             <tgroup cols="2">
@@ -2996,23 +2462,89 @@
                <tbody>
                   <row>
                      <entry valign="top">
-                        <para>xlsFontName</para>
+                        <para>
+                           <literal>&lt;e:link&gt;</literal>
+                        </para>
                      </entry>
                      <entry valign="top">
-                        <para>The name of the font</para>
+                        <para>
+                           <emphasis>Attributes</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>URL</literal>
+                                 &#8212;The URL to the stylesheet
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Child elemenents</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                        <para>
+                           <emphasis>Facets</emphasis>
+                        </para>
+                        <itemizedlist>
+                           <listitem>
+                              <para>
+                                 <literal>none</literal>
+                              </para>
+                           </listitem>
+                        </itemizedlist>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+         <programlisting role="XML">
+            <![CDATA[
+               <e:workbook>
+                  <e:link URL="/css/excel.css"/>
+               </e:workbook>           
+            ]]>
+         </programlisting>
+         <para>References a stylesheet that can be found at /css/excel.css</para>
+      </section>
+      
+      <section id="excel.fontsandlayout.fonts">
+         <title>Fonts</title>
+         <para>
+            This group of XLS-CSS attributes define a font and its attributes
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font-family</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The name of the font. Make sure that it's one that is
+                           supported by your system. 
+                        </para>
                      </entry>
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsFontSize</para>
+                        <para>xls-font-size</para>
                      </entry>
                      <entry valign="top">
-                        <para>The font size</para>
+                        <para>The font size. Use a plain number</para>
                      </entry>
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsFontColor</para>
+                        <para>xls-font-color</para>
                      </entry>
                      <entry valign="top">
                         <para>
@@ -3027,7 +2559,7 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsFontBold</para>
+                        <para>xls-font-bold</para>
                      </entry>
                      <entry valign="top">
                         <para>
@@ -3038,7 +2570,7 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsFontItalic</para>
+                        <para>xls-font-italic</para>
                      </entry>
                      <entry valign="top">
                         <para>
@@ -3049,7 +2581,7 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsFontScriptStyle</para>
+                        <para>xls-font-script-style</para>
                      </entry>
                      <entry valign="top">
                         <para>
@@ -3064,18 +2596,7 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsFontStruckOut</para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           Should the font be struck out? Valid values are
-                           "true" and "false"
-                        </para>
-                     </entry>
-                  </row>
-                  <row>
-                     <entry valign="top">
-                        <para>xlsFontUnderlineStyle</para>
+                        <para>xls-font-underline-style</para>
                      </entry>
                      <entry valign="top">
                         <para>
@@ -3090,11 +2611,53 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsBackgroundColor</para>
+                        <para>xls-font-struck-out</para>
                      </entry>
                      <entry valign="top">
                         <para>
-                           The background color of the cell (see
+                           Should the font be struck out? Valid values are
+                           "true" and "false"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-font</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                          A shorthand notation for setting all the values. Place
+                          the font name last and use tick marks for fonts with
+                          spaces in them, e.g. 'Times New Roman'. Use "italic", "bold" 
+                          and "struckout". 
+                        </para>
+                        <para>
+                          Example style="xls-font: red bold italic 22 Verdana"
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+      </section>
+      <section id="excel.fontsandlayout.borders">
+         <title>Borders</title>
+         <para>
+            This group of XLS-CSS attributes define the borders of the cell
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-left-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border color of the left edge of the cell
+                           (see
                            <ulink
                               url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
                               jxl.format.Colour
@@ -3105,11 +2668,203 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsBackgroundPattern</para>
+                        <para>xls-border-left-line-style</para>
                      </entry>
                      <entry valign="top">
                         <para>
-                           The background pattern of the cell (see
+                           The border line style of the left edge of the cell (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-left</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting color and line style of the left edge
+                           of the cell, e.g style="xls-border-left: red thick"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-top-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border color of the top edge of the cell
+                           (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
+                              jxl.format.Colour
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-top-line-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border line style of the top edge of the cell (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-top</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting color and line style of the top edge
+                           of the cell, e.g style="xls-border-left: red thick"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-right-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border color of the right edge of the cell
+                           (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
+                              jxl.format.Colour
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-right-line-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border line style of the right edge of the cell (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-right</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting color and line style of the right edge
+                           of the cell, e.g style="xls-border-right: red thick"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-bottom-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border color of the bottom edge of the cell
+                           (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
+                              jxl.format.Colour
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-bottom-line-style</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The border line style of the bottom edge of the cell (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border-bottom</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting color and line style of the bottom edge
+                           of the cell, e.g style="xls-border-bottom: red thick"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-border</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting color and line style all edges
+                           of the cell, e.g style="xls-border: red thick"
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>         
+      </section>
+      <section id="excel.fontsandlayout.background">
+         <title>Background</title>
+         <para>
+            This group of XLS-CSS attributes define the background of the cell
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-background-color</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The color of the background (see
+                           <ulink
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/LineStyle.html">
+                              jxl.format.LineStyle
+                           </ulink>
+                           ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-background-pattern</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The pattern of the background (see
                            <ulink
                               url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Pattern.html">
                               jxl.format.Pattern
@@ -3120,7 +2875,92 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsAlignment</para>
+                        <para>xls-background</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           A shorthand for setting the background color and pattern. See above for rules.
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+      </section>
+      <section id="excel.fontsandlayout.columnsettings">
+         <title>Column settings</title>
+         <para>
+            This group of XLS-CSS attributes define the column widths etc.
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-width</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The width of the column. Use largeish values (~5000) to start with.
+                           Used by the e:column in xhtml mode.
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-widths</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The width of the column. Use largeish values (~5000) to start with.
+                           Used by the excel exporter, placed in the datatable style attribute.
+                           Use numerical values or * to bypass a column.
+                        </para>
+                        <para>
+                           Example style="xls-column-widths: 5000, 5000, *, 10000"
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-autosize</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should an attempt be made to autosize the column? Valid values
+                           are "true" and "false".
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-column-hidden</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the column be hidden? Valid values are "true" and "false".
+                        </para>
+                     </entry>
+                  </row>
+               </tbody>
+            </tgroup>
+         </informaltable>
+      </section>
+      <section id="excel.fontsandlayout.cellsettings">
+         <title>Cell settings</title>
+         <para>
+            This group of XLS-CSS attributes define the cell properties
+         </para>
+         <informaltable>
+            <tgroup cols="2">
+               <colspec colnum="1" colwidth="1*" />
+               <colspec colnum="2" colwidth="3*" />
+               <tbody>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-alignment</para>
                      </entry>
                      <entry valign="top">
                         <para>
@@ -3135,39 +2975,45 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsColumnWidths</para>
+                        <para>xls-format-mask</para>
                      </entry>
                      <entry valign="top">
                         <para>
-                           The column widths. Note that the unit is internal to
-                           &excel;, be prepared to use largeish numbers. 
-                           Separate columns with a <literal>,</literal>
-                           and use <literal>*</literal> for not setting a value.
-                        </para>
-                        <programlisting role="XML">
-                           <![CDATA[
-                              <h:dataTable style="xlsColumnWidths : *,800">
-                                 ...
-                              </h:dataTable>
-                           ]]>
-                        </programlisting>
-                        <para>
-                           leaves the width on column 1 as default, sets the
-                           width of column 2 to 800 and leaves the rest of the
-                           columns (if any) as default.
+                           The format mask of the cell, see <xref linkend="excel.cells.formatmasks" />
                         </para>
                      </entry>
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsBorderColor</para>
+                        <para>xls-indentation</para>
                      </entry>
                      <entry valign="top">
                         <para>
-                           The the border color of the entire cell (see
+                           The indentation of the cell value. The value is numeric.
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-locked</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           Should the cell be locked. Use with workbook level locked. 
+                           Valid values are "true" and "false".
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-orientation</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The orientation of the cell value (see
                            <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Orientation.html">
+                              jxl.format.Orientation
                            </ulink>
                            ).
                         </para>
@@ -3175,15 +3021,14 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsBorderColorLeft</para>
+                        <para>xls-vertical-alignment</para>
                      </entry>
                      <entry valign="top">
                         <para>
-                           The the border color of the left edge of the cell
-                           (see
+                           The vertical alignment of the cell value (see
                            <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
+                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/VerticalAlignment.html">
+                              jxl.format.VerticalAlignment
                            </ulink>
                            ).
                         </para>
@@ -3191,127 +3036,23 @@
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsBorderColorTop</para>
+                        <para>xls-shrink-to-fit</para>
                      </entry>
                      <entry valign="top">
                         <para>
-                           The the border color of the top edge of the cell (see
-                           <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
-                           </ulink>
-                           ).
+                           Should the cell values shrink to fit?
+                           Valid values are "true" and "false".
                         </para>
                      </entry>
                   </row>
                   <row>
                      <entry valign="top">
-                        <para>xlsBorderColorRight</para>
+                        <para>xls-wrap</para>
                      </entry>
                      <entry valign="top">
                         <para>
-                           The the border color of the right edge of the cell
-                           (see
-                           <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
-                           </ulink>
-                           ).
-                        </para>
-                     </entry>
-                  </row>
-                  <row>
-                     <entry valign="top">
-                        <para>xlsBorderColorBottom</para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           The the border color of the bottom edge of the cell
-                           (see
-                           <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
-                           </ulink>
-                           ).
-                        </para>
-                     </entry>
-                  </row>
-                  <row>
-                     <entry valign="top">
-                        <para>xlsBorderLineStyle</para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           The the border line style of the entire cell (see
-                           <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
-                           </ulink>
-                           ).
-                        </para>
-                     </entry>
-                  </row>
-                  <row>
-                     <entry valign="top">
-                        <para>xlsBorderLineStyleLeft</para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           The the border line style of the left edge of the
-                           cell (see
-                           <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
-                           </ulink>
-                           ).
-                        </para>
-                     </entry>
-                  </row>
-                  <row>
-                     <entry valign="top">
-                        <para>xlsBorderLineStyleTop</para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           The the border line style of the top edge of the cell
-                           (see
-                           <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
-                           </ulink>
-                           ).
-                        </para>
-                     </entry>
-                  </row>
-                  <row>
-                     <entry valign="top">
-                        <para>xlsBorderLineStyleRight</para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           The the border line style of the right edge of the
-                           cell (see
-                           <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
-                           </ulink>
-                           ). styles
-                        </para>
-                     </entry>
-                  </row>
-                  <row>
-                     <entry valign="top">
-                        <para>xlsBorderLineStyleBottom</para>
-                     </entry>
-                     <entry valign="top">
-                        <para>
-                           The the border line style of the bottom edge of the
-                           cell (see
-                           <ulink
-                              url="http://jexcelapi.sourceforge.net/resources/javadocs/current/docs/jxl/format/Colour.html">
-                              jxl.format.Colour
-                           </ulink>
-                           ). styles
+                           Should the cell wrap with newlines?
+                           Valid values are "true" and "false".
                         </para>
                      </entry>
                   </row>
@@ -3319,39 +3060,51 @@
             </tgroup>
          </informaltable>
       </section>
-      <section id="excel.datatableexporter.templates">
-         <title>Templates</title>
+      <section id="excel.fontsandlayout.datatableexporter">
+         <title>The datatable exporter</title>
          <para>
-            In order to provide different formatting for different kind of cells
-            you can use templates. Templates are defined in the datatable style
-            attribute as seen in the examples in the previous section by using a
-            dot-notation on the xls-attribute names. Attributes without template
-            names are considered global and are applied to all cells.
+            The datatable exporter uses the same xls-css attributes as the xhtml
+            document with the exception that column widths are defined with the 
+            <literal>xls-column-widths</literal> attribute on the datatable (since
+            the UIColumn doesn't support the style or styleClass attributes).
          </para>
+      </section>
+      <section id="excel.fontsandlayout.examples">
+         <title>Layout examples</title>
          <para>
-            Templates are used by referring to them in the style attribute of
-            the UIOutput using the xlsTemplates attribute. If you wish to
-            cascade several templates, separate them with a
-            <literal>,</literal>
-            .
+            TODO
          </para>
-         <programlisting role="XML">
-            <![CDATA[
-               <h:dataTable style="xlsFontName : Times New Roman; xlsFontColor.foo : blue; 
-                  xlsFontColor.bar : red; xlsFontBold.tar : true">
-                  <h:column>
-                     <h:outputText style="xlsTemplates : foo"/>
-                  </h:column>
-                  <h:column>
-                     <h:outputText style="xlsTemplates : bar,tar"/>
-                  </h:column>
-               </h:dataTable>
-            ]]>
-         </programlisting>
+      </section>
+      <section id="excel.fontsandlayout.limitations">
+         <title>Limitations</title>
          <para>
-            results in the first column being Times New Roman, blue and the
-            second column being Times New Roman red bold.
+            In the current version there are some known limitations regarding 
+            CSS support
          </para>
+         <itemizedlist>
+            <listitem>
+               <para>
+                  When using .xhtml documents, stylesheets must be referenced
+                  through the <literal>&lt;e:link&gt; tag</literal>
+               </para>
+            </listitem>
+            <listitem>
+               <para>
+                  When using external stylesheets they must be formatted in
+                  one line per entry like
+               </para>
+               <programlisting role="XML">
+                  .header { xls-font: bold 14 Verdana }
+                  .data { xls-font: 12 'Times New Roman' }
+               </programlisting>
+            </listitem>
+            <listitem>
+               <para>
+                  When using the datatable exporter, CSS must be entered through
+                  style-attributes, external stylesheets are not supported 
+               </para>
+            </listitem>
+         </itemizedlist>
       </section>
    </section>
    <section id="excel.links">

@@ -11,7 +11,7 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.WorksheetItem;
 
-public class UICell extends UICellFormat implements WorksheetItem
+public class UICell extends UICellBase implements WorksheetItem
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UICell";
 
@@ -24,17 +24,6 @@ public class UICell extends UICellFormat implements WorksheetItem
    private Object value;
    private Integer column;
    private Integer row;
-   private String templates;
-
-   public String getTemplates()
-   {
-      return (String) valueOf("templates", templates);
-   }
-
-   public void setTemplates(String templates)
-   {
-      this.templates = templates;
-   }
 
    public Integer getColumn()
    {

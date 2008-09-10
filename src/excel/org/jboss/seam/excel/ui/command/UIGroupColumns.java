@@ -1,10 +1,10 @@
-package org.jboss.seam.excel.ui;
+package org.jboss.seam.excel.ui.command;
 
-import org.jboss.seam.excel.Command;
+import org.jboss.seam.excel.ui.ExcelComponent;
 
 public class UIGroupColumns extends ExcelComponent implements Command
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIGroupColumns";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.command.UIGroupColumns";
 
    private Integer startColumn;
    private Integer endColumn;

@@ -1,9 +1,13 @@
 package org.jboss.seam.excel;
 
+import java.util.List;
+
 import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.excel.ui.UIColumn;
+import org.jboss.seam.excel.ui.UILink;
 import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;
+import org.jboss.seam.excel.ui.command.Command;
 
 /**
  * General interface interacting with an Excel Workbook abstraction 
@@ -67,13 +71,6 @@ public interface ExcelWorkbook
    public abstract void addItem(WorksheetItem item);
 
    /**
-    * Adds a template to the template stack
-    * 
-    * @param template The template to add
-    */
-   public abstract void addTemplate(Template template);
-
-   /**
     * Executes a command for a worksheet
     * 
     * @param command The command to execute
@@ -95,4 +92,6 @@ public interface ExcelWorkbook
     * @param colspan The number of columns to span
     */
    public abstract void addWorksheetFooter(WorksheetItem item, int colspan);
+
+   public abstract void setStylesheets(List<UILink> stylesheets);
 }

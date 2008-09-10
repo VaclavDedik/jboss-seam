@@ -7,16 +7,16 @@ import java.util.TreeMap;
 
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.document.DocumentData.DocumentType;
-import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
-import org.jboss.seam.excel.Template;
 import org.jboss.seam.excel.WorksheetItem;
 import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIImage;
+import org.jboss.seam.excel.ui.UILink;
 import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;
+import org.jboss.seam.excel.ui.command.Command;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
@@ -139,11 +139,6 @@ public class CsvExcelWorkbook implements ExcelWorkbook
       addCell(sheet, column, row++, cell);
    }
 
-   public void addTemplate(Template template)
-   {
-      log.trace("addTemplate() is not supported by CSV exporter", new Object[0]);
-   }
-
    public void applyWorksheetSettings(UIWorksheet uiWorksheet)
    {
       log.trace("applyWorksheetSettings() is not supported by CSV exporter", new Object[0]);
@@ -166,6 +161,12 @@ public class CsvExcelWorkbook implements ExcelWorkbook
    }
 
    public void addWorksheetHeader(WorksheetItem item, int colspan)
+   {
+      // TODO Auto-generated method stub
+      
+   }
+
+   public void setStylesheets(List<UILink> stylesheets)
    {
       // TODO Auto-generated method stub
       

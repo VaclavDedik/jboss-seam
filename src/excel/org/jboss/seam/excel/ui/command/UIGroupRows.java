@@ -1,10 +1,10 @@
-package org.jboss.seam.excel.ui;
+package org.jboss.seam.excel.ui.command;
 
-import org.jboss.seam.excel.Command;
+import org.jboss.seam.excel.ui.ExcelComponent;
 
 public class UIGroupRows extends ExcelComponent implements Command
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIGroupRows";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.command.UIGroupRows";
 
    private Integer startRow;
    private Integer endRow;

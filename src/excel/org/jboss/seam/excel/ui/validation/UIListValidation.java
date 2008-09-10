@@ -1,10 +1,10 @@
-package org.jboss.seam.excel.ui;
+package org.jboss.seam.excel.ui.validation;
 
-import org.jboss.seam.excel.Validation;
+import org.jboss.seam.excel.ui.ExcelComponent;
 
 public class UIListValidation extends ExcelComponent implements Validation
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIListValidation";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.validation.UIListValidation";
 
    @Override
    public String getFamily()

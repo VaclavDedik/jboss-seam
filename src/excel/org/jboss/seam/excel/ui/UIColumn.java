@@ -7,10 +7,10 @@ import java.util.List;
 
 import javax.faces.context.FacesContext;
 
-import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.WorksheetItem;
+import org.jboss.seam.excel.ui.command.Command;
 
 public class UIColumn extends ExcelComponent
 {
@@ -18,54 +18,6 @@ public class UIColumn extends ExcelComponent
 
    public static final String HEADER_FACET_NAME = "header";
    private static final String FOOTER_FACET_NAME = "footer";
-
-   private Boolean autoSize;
-   private Boolean hidden;
-   private Integer width;
-
-   public UIColumn()
-   {
-   }
-
-   /**
-    * Convenience constructor for settings widths through the exporter
-    * 
-    * @param width The column width to set
-    */
-   public UIColumn(Integer width)
-   {
-      this.width = width;
-   }
-
-   public Boolean getAutoSize()
-   {
-      return (Boolean) valueOf("autoSize", autoSize);
-   }
-
-   public void setAutoSize(Boolean autoSize)
-   {
-      this.autoSize = autoSize;
-   }
-
-   public Boolean getHidden()
-   {
-      return (Boolean) valueOf("hidden", hidden);
-   }
-
-   public void setHidden(Boolean hidden)
-   {
-      this.hidden = hidden;
-   }
-
-   public Integer getWidth()
-   {
-      return (Integer) valueOf("width", width);
-   }
-
-   public void setWidth(Integer width)
-   {
-      this.width = width;
-   }
 
    @Override
    public String getFamily()

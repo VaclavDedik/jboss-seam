@@ -2,7 +2,7 @@ package org.jboss.seam.excel.ui;
 
 import org.jboss.seam.excel.WorksheetItem;
 
-public class UIHyperlink extends UICellFormat implements WorksheetItem
+public class UIHyperlink extends UICellBase implements WorksheetItem
 {
    public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIHyperlink";
 

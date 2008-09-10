@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -23,22 +24,22 @@ import jxl.write.WriteException;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.document.DocumentData;
 import org.jboss.seam.document.DocumentData.DocumentType;
-import org.jboss.seam.excel.Command;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
-import org.jboss.seam.excel.Template;
 import org.jboss.seam.excel.WorksheetItem;
-import org.jboss.seam.excel.jxl.JXLTemplates.CellInfo;
+import org.jboss.seam.excel.css.ColumnStyle;
 import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UIColumn;
-import org.jboss.seam.excel.ui.UIGroupColumns;
-import org.jboss.seam.excel.ui.UIGroupRows;
 import org.jboss.seam.excel.ui.UIHyperlink;
 import org.jboss.seam.excel.ui.UIImage;
-import org.jboss.seam.excel.ui.UIMergeCells;
-import org.jboss.seam.excel.ui.UIRowPageBreak;
+import org.jboss.seam.excel.ui.UILink;
 import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;
+import org.jboss.seam.excel.ui.command.Command;
+import org.jboss.seam.excel.ui.command.UIGroupColumns;
+import org.jboss.seam.excel.ui.command.UIGroupRows;
+import org.jboss.seam.excel.ui.command.UIMergeCells;
+import org.jboss.seam.excel.ui.command.UIRowPageBreak;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
@@ -106,15 +107,14 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * user-defined worksheets in the workbook.
     */
    private int currentWorksheetIndex = 0;
-   
+
    /**
-    * The maximum row index we have seen. Used for determining where to place the 
-    * worksheet footer (if any)
+    * The maximum row index we have seen. Used for determining where to place
+    * the worksheet footer (if any)
     */
    private int maxRowIndex;
 
-   // Template helper class for cell formats
-   private JXLTemplates templates = new JXLTemplates();
+   private JXLHelper jxlHelper = new JXLHelper();
 
    /**
     * Moves the row pointer to the next row. Used internally when adding data
@@ -133,7 +133,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook
          throw new ExcelWorkbookException(Interpolator.instance().interpolate("Excel only supports {0} rows", MAX_COLUMNS));
       }
    }
-   
+
    /**
     * Moves the internal column pointer to the next column, called by the tag to
     * indicate that a new column has been started. If the pointer exceeds the
@@ -153,7 +153,8 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       {
          throw new ExcelWorkbookException(Interpolator.instance().interpolate("Excel doesn't support more than {0} columns", MAX_COLUMNS));
       }
-      if (currentRowIndex > maxRowIndex) {
+      if (currentRowIndex > maxRowIndex)
+      {
          maxRowIndex = currentRowIndex;
       }
       currentRowIndex = startRowIndex;
@@ -227,7 +228,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook
          worksheet = workbook.createSheet(name, currentWorksheetIndex);
       }
 
-      templates.applyWorksheetSettings(worksheet, uiWorksheet);
+      jxlHelper.applyWorksheetSettings(worksheet, uiWorksheet);
       currentWorksheetIndex++;
       startColumnIndex = uiWorksheet.getStartColumn() == null ? 0 : uiWorksheet.getStartColumn();
       currentColumnIndex = startColumnIndex;
@@ -272,8 +273,8 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       int useRow = uiCell.getRow() != null ? uiCell.getRow() : currentRowIndex;
       int useColumn = uiCell.getColumn() != null ? uiCell.getColumn() : currentColumnIndex;
 
-      CellInfo cellInfo = templates.getCellInfo(uiCell);
-      WritableCell cell = JXLExcelFactory.createCell(useColumn, useRow, cellInfo.getCellType(), uiCell.getValue(), cellInfo.getCellFormat());
+      CellInfo cellInfo = jxlHelper.getCellInfo(uiCell);
+      WritableCell cell = JXLHelper.createCell(useColumn, useRow, cellInfo.getCellType(), uiCell.getValue(), cellInfo.getCellFormat());
       if (cellInfo.getCellFeatures() != null)
       {
          cell.setCellFeatures(cellInfo.getCellFeatures());
@@ -364,7 +365,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       WorkbookSettings workbookSettings = null;
       if (uiWorkbook.hasSettings())
       {
-         workbookSettings = JXLExcelFactory.createWorkbookSettings(uiWorkbook);
+         workbookSettings = jxlHelper.createWorkbookSettings(uiWorkbook);
       }
       if (log.isDebugEnabled())
       {
@@ -423,7 +424,7 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       {
          throw new ExcelWorkbookException("You can't set column settings before creating a worksheet");
       }
-      JXLExcelFactory.applyColumnSettings(uiColumn, worksheet, currentColumnIndex);
+      jxlHelper.applyColumnSettings(uiColumn, worksheet, currentColumnIndex);
    }
 
    /**
@@ -525,17 +526,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       default:
          throw new ExcelWorkbookException(Interpolator.instance().interpolate("Unknown item type {0}", item.getItemType()));
       }
-   }
-
-   /**
-    * Adds a template to the template stack
-    * 
-    * @param template The template to add
-    * @since 0.2
-    */
-   public void addTemplate(Template template)
-   {
-      templates.addTemplate(template);
    }
 
    /**
@@ -712,6 +702,18 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       executeCommand(mergeCommand);
       addItem(item);
       startRowIndex++;
+   }
+
+   public void setStylesheets(List<UILink> stylesheets)
+   {
+      try
+      {
+         jxlHelper.setStylesheets(stylesheets);
+      }
+      catch (Exception e)
+      {
+         throw new ExcelWorkbookException("Could not parse stylesheet", e);
+      }
    }
 
 }

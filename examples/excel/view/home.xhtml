@@ -34,10 +34,11 @@
 		<a4j:outputPanel id="searchResults">
 			<rich:dataTable value="#{excelTest.result}" var="person"
 				rendered="#{!empty excelTest.result}" id="excelTable"
+				style="xls-font: red bold 22 Verdana; xls-column-widths: 8000 9000 10000"
 				columnClasses="left, right" width="500px">
 				<rich:column>
 					<f:facet name="header">
-						<h:outputText value="Name" />
+						<h:outputText value="Name" style="xls-font: italic"/>
 					</f:facet>
 					<h:outputText value="#{person.name}" />
 				</rich:column>

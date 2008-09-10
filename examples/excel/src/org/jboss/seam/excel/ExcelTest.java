@@ -24,8 +24,8 @@ public class ExcelTest
    @Create
    public void create()
    {
-      people.add(new Person("Gavin King", "Red Hat Inc.", "Project Lead"));
-      people.add(new Person("Pete Muir", "Red Hat Inc.", "Seam Core"));
+      people.add(new Person("Pete Muir", "Red Hat Inc.", "Project Lead"));
+      people.add(new Person("Gavin King", "Red Hat Inc.", "Project Founder"));
       people.add(new Person("Norman Richards", "Red Hat Inc.", "Seam Core"));
       people.add(new Person("Shane Bryzak", "Red Hat Inc.", "Seam Security, Seam Remoting"));
       people.add(new Person("Michael Yuan", "Individual", ""));
@@ -42,7 +42,6 @@ public class ExcelTest
       people.add(new Person("Max Rydahl Andersen", "Red Hat Inc.", "Lead developer JBoss Tools, Hibernate Tools, Seam Tools"));
       people.add(new Person("Emmanuel Bernard", "Red Hat Inc.", "Lead developer Hibernate Annotations, EntityManager, Validator, Search"));
       repeat.add(people.subList(0, 5));
-      
    }
 
    public List<List<Person>> getRepeat()

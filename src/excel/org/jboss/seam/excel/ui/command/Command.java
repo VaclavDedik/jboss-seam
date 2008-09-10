@@ -1,4 +1,4 @@
-package org.jboss.seam.excel;
+package org.jboss.seam.excel.ui.command;
 
 public interface Command
 {

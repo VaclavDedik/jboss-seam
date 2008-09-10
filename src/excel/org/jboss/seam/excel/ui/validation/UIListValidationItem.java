@@ -1,8 +1,10 @@
-package org.jboss.seam.excel.ui;
+package org.jboss.seam.excel.ui.validation;
+
+import org.jboss.seam.excel.ui.ExcelComponent;
 
 public class UIListValidationItem extends ExcelComponent
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UIListValidationItem";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.validation.UIListValidationItem";
 
    private String value;
 

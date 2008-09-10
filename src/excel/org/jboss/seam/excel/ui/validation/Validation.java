@@ -1,4 +1,4 @@
-package org.jboss.seam.excel;
+package org.jboss.seam.excel.ui.validation;
 
 public interface Validation
 {

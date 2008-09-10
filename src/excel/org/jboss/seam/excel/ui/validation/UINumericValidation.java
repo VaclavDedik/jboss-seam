@@ -1,10 +1,10 @@
-package org.jboss.seam.excel.ui;
+package org.jboss.seam.excel.ui.validation;
 
-import org.jboss.seam.excel.Validation;
+import org.jboss.seam.excel.ui.ExcelComponent;
 
 public class UINumericValidation extends ExcelComponent implements Validation
 {
-   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.UINumericValidation";
+   public static final String COMPONENT_TYPE = "org.jboss.seam.excel.ui.validation.UINumericValidation";
 
    public enum ValidationCondition
    {
