@@ -7,6 +7,11 @@ import jxl.write.WritableCellFormat;
 
 import org.jboss.seam.excel.ui.UICell.CellType;
 
+/**
+ * A cache for parsed cell info
+ * 
+ * @author karlsnic
+ */
 public class CellInfoCache
 {
    // A cache for cell types, mapped by UIComponent ID

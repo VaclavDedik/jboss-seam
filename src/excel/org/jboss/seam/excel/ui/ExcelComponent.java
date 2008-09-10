@@ -22,7 +22,6 @@ import org.jboss.seam.ui.util.JSF;
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
  * @author Daniel Roth (danielc.roth@gmail.com)
- * @version 0.2
  */
 public abstract class ExcelComponent extends UIComponentBase
 {
@@ -147,6 +146,13 @@ public abstract class ExcelComponent extends UIComponentBase
       }
    }
 
+   /**
+    * Gets a parent of a certain class
+    * 
+    * @param root The root where to start searching
+    * @param searchClass The class to search for
+    * @return The parent, if found.
+    */
    @SuppressWarnings("unchecked")
    protected UIComponent getParentByClass(UIComponent root, Class searchClass)
    {

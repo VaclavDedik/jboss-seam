@@ -4,11 +4,16 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.jxl.JXLFactory;
 
+/**
+ * Property builder implementations for parsing css style arrays.
+ * @author karlsnic
+ *
+ */
 public class PropertyBuilders
 {
+   // Wildcard symbol for column widths
    private static final String COLUMN_WIDTH_WILDCARD = "*";
    
-   // "xls-column-widths: 100 200 * 300"
    public static class ColumnWidths implements PropertyBuilder
    {
       public StyleMap parseProperty(String key, String[] values)

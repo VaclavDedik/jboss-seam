@@ -2,6 +2,11 @@ package org.jboss.seam.excel.css;
 
 import java.util.Map;
 
+/**
+ * Helper class that collects column info into one package from stylesheet data
+ * 
+ * @author Nicklas Karlsson (nickarls@gmail.com)
+ */
 public class ColumnStyle
 {
    public Boolean autoSize;

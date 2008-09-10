@@ -2,6 +2,12 @@ package org.jboss.seam.excel.css;
 
 import java.util.Map;
 
+/**
+ * Helper class that collects font, border and background info with cell info into one package 
+ * from stylesheet data
+ * 
+ * @author Nicklas Karlsson (nickarls@gmail.com)
+ */
 public class CellStyle
 {
 

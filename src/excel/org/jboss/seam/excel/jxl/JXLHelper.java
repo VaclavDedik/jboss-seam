@@ -52,14 +52,30 @@ import org.jboss.seam.excel.ui.validation.UINumericValidation.ValidationConditio
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
+/**
+ * A helper class for the JXLExcelWorkbook, caches cell info and holds CSS parser
+ * 
+ * @author Nicklas Karlsson (nickarls@gmail.com)
+ *
+ */
 public class JXLHelper
 {
 
    private static Log log = Logging.getLog(JXLHelper.class);
 
+   // The CSS parser
    private Parser parser = new Parser();
+   
+   // A cache of cell info
    private CellInfoCache cellInfoCache = new CellInfoCache();
       
+   /**
+    * Creates a cell format
+    * 
+    * @param uiCell The cell to model
+    * @return The cell format
+    * @throws WriteException if the creation failed
+    */
    public WritableCellFormat createCellFormat(UICell uiCell) throws WriteException
    {
       WritableCellFormat cellFormat = null;
@@ -216,11 +232,24 @@ public class JXLHelper
       return cellFormat;
    }
 
+   /**
+    * Sets the stylesheets for the parser
+    * 
+    * @param stylesheets The stylesheets to set
+    * @throws MalformedURLException If the URL was bad
+    * @throws IOException If the URL could not be read
+    */
    public void setStylesheets(List<UILink> stylesheets) throws MalformedURLException, IOException
    {
       parser.setStylesheets(stylesheets);
    }
 
+   /**
+    * Applied worksheet settings 
+    * 
+    * @param worksheet The worksheet to apply the settings to
+    * @param uiWorksheet The settings to set
+    */
    protected void applyWorksheetSettings(WritableSheet worksheet, UIWorksheet uiWorksheet)
    {
       SheetSettings settings = worksheet.getSettings();
@@ -555,6 +584,12 @@ public class JXLHelper
       cellFeatures.setDataValidationRange(validation.getStartColumn(), validation.getStartRow(), validation.getEndColumn(), validation.getEndRow());
    }
 
+   /**
+    * Adds numeric validation to a cell
+    * 
+    * @param cellFeatures Features to add validation to
+    * @param validation Validation to add
+    */
    private static void addNumericValidation(WritableCellFeatures cellFeatures, UINumericValidation validation)
    {
       if (validation.getValue() == null)
@@ -602,7 +637,6 @@ public class JXLHelper
     * @return The prepared cell representation
     * @see <a
     *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableCell.html">WritableCell</a>
-    * @since 0.1
     */
    public static WritableCell createCell(int column, int row, CellType type, Object data, WritableCellFormat cellFormat)
    {

@@ -27,7 +27,6 @@ import org.jboss.seam.document.DocumentData.DocumentType;
 import org.jboss.seam.excel.ExcelWorkbook;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.WorksheetItem;
-import org.jboss.seam.excel.css.ColumnStyle;
 import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIHyperlink;
@@ -49,7 +48,6 @@ import org.jboss.seam.log.Logging;
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
  * @author Daniel Roth (danielc.roth@gmail.com)
- * @version 0.2
  */
 public class JXLExcelWorkbook implements ExcelWorkbook
 {
@@ -119,7 +117,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
    /**
     * Moves the row pointer to the next row. Used internally when adding data
     * 
-    * @since 0.1
     */
    private void nextRow()
    {
@@ -140,7 +137,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * maximum allowed, throws an exception. Resets the styles and row indexes
     * etc.
     * 
-    * @since 0.1
     */
    public void nextColumn()
    {
@@ -198,7 +194,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * (row- and column indexes, current styles etc)
     * 
     * @param uiWorksheet The worksheet to create or select in the workbook
-    * @since 0.1
     */
    public void createOrSelectWorksheet(UIWorksheet uiWorksheet)
    {
@@ -244,7 +239,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * 
     * @param uiCell The cell to be created and added to the workbook
     * @param the type (header or data) of the cell
-    * @since 0.1
     */
    private void addCell(UICell uiCell)
    {
@@ -346,7 +340,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * @param uiWorkbook UIn Workbook to create
     * @throws ExcelWorkbookException if there were any errors creating the
     *            workbook
-    * @since 0.1
     */
    public void createWorkbook(UIWorkbook uiWorkbook)
    {
@@ -405,7 +398,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * Gets the document type of the data for the DocumentStore
     * 
     * @return the document type (Excel workbook)
-    * @since 0.1
     */
    public DocumentType getDocumentType()
    {
@@ -416,7 +408,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * Applies column settings for the current column
     * 
     * @param uiColumn the UI column to inspect for settings
-    * @since 0.2
     */
    public void applyColumnSettings(UIColumn uiColumn)
    {
@@ -508,7 +499,6 @@ public class JXLExcelWorkbook implements ExcelWorkbook
     * Adds an item (cell, image, hyperlink) to add to the worksheet
     * 
     * @param item The item to add
-    * @since 0.2
     */
    public void addItem(WorksheetItem item)
    {
@@ -704,6 +694,11 @@ public class JXLExcelWorkbook implements ExcelWorkbook
       startRowIndex++;
    }
 
+   /**
+    * Sets stylesheets for the workbook
+    * 
+    * @param stylesheets The stylesheet to register
+    */
    public void setStylesheets(List<UILink> stylesheets)
    {
       try

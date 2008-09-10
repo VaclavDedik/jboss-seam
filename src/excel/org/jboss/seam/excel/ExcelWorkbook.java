@@ -14,7 +14,6 @@ import org.jboss.seam.excel.ui.command.Command;
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
  * @author Daniel Roth (danielc.roth@gmail.com)
- * @version 0.2
  */
 public interface ExcelWorkbook
 {
@@ -25,8 +24,6 @@ public interface ExcelWorkbook
     * Moves the internal column pointer to the next column, called by the tag to
     * indicate that a new column has been started. If the pointer exceeds the
     * maximum allowed, throws an exception
-    * 
-    * @since 0.1
     */
    public abstract void nextColumn();
 
@@ -36,7 +33,6 @@ public interface ExcelWorkbook
     * new worksheets if there are more than 65k rows.
     * 
     * @param uiWorksheet Worksheet to create or select
-    * @since 0.1
     */
    public abstract void createOrSelectWorksheet(UIWorksheet uiWorksheet);
 
@@ -44,15 +40,13 @@ public interface ExcelWorkbook
     * Returns the binary data from the internal representation of the workbook
     * 
     * @return the bytes
-    * @since 0.1
     */
    public abstract byte[] getBytes();
 
    /**
-    * Intitializes a new workbook. Must be called first
+    * Initializes a new workbook. Must be called first
     * 
     * @param uiWorkbook the workbook UI item to create
-    * @since 0.1
     */
    public abstract void createWorkbook(UIWorkbook uiWorkbook);
 
@@ -93,5 +87,10 @@ public interface ExcelWorkbook
     */
    public abstract void addWorksheetFooter(WorksheetItem item, int colspan);
 
+   /**
+    * Sets stylesheets for the workbook
+    * 
+    * @param stylesheets The stylesheets to set
+    */
    public abstract void setStylesheets(List<UILink> stylesheets);
 }

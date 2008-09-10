@@ -20,31 +20,67 @@ import org.jboss.seam.excel.ui.UILink;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
+/**
+ * CSS parser for the XLS-CSS
+ * 
+ * @author Nicklas Karlsson (nickarls@gmail.com)
+ */
 public class Parser
 {
+   // Where to look for the style
    private static final String STYLE_ATTRIBUTE = "style";
+
+   // Where to look for the style class
    private static final String STYLE_CLASS_ATTRIBUTE = "styleClass";
+   
+   // What separates multiple XLS-CSS attributes in a style string
    private static final String STYLES_SEPARATOR = ";";
+   
+   // What separates the key and value in a XLS-CSS style
    private static final String STYLE_NAME_VALUE_SEPARATOR = ":";
+   
+   // What separates multiple style class references
    private static final String STYLE_SHORTHAND_SEPARATOR = " ";
 
+   // The style classes that have been read in from e:link referenced, mapped on style class name
    private Map<String, StyleMap> definedStyleClasses = new HashMap<String, StyleMap>();
+   
+   // The registered property builders, mapped on attribute name
    private Map<String, PropertyBuilder> propertyBuilders = new HashMap<String, PropertyBuilder>();
+   
+   // A cache of previously parsed css, mapped on component
    private Map<UIComponent, StyleMap> cellStyleCache = new HashMap<UIComponent, StyleMap>();
 
    private Log log = Logging.getLog(Parser.class);
 
+   /**
+    * Constructor, initializes the property builders
+    */
    public Parser()
    {
       initPropertyBuilders();
    }
 
+   /**
+    * Constructor with stylesheets
+    * 
+    * @param stylesheets The list of referenced stylesheets in UILink elements
+    * @throws MalformedURLException If the URL was bad
+    * @throws IOException If the URL could not be read
+    */
    public Parser(List<UILink> stylesheets) throws MalformedURLException, IOException
    {
       initPropertyBuilders();
       loadStylesheets(stylesheets);
    }
 
+   /**
+    * Loads stylesheets (merging by class name)
+    * 
+    * @param stylesheets The stylesheets to read/merge
+    * @throws MalformedURLException If the URL was bad
+    * @throws IOException If the URL could not be read
+    */
    private void loadStylesheets(List<UILink> stylesheets) throws MalformedURLException, IOException
    {
       for (UILink stylesheet : stylesheets)
@@ -53,6 +89,9 @@ public class Parser
       }
    }
 
+   /**
+    * Registers the property builders
+    */
    private void initPropertyBuilders()
    {
       propertyBuilders.put(CSSNames.FONT_FAMILY, new PropertyBuilders.FontFamily());
@@ -94,6 +133,14 @@ public class Parser
       propertyBuilders.put(CSSNames.COLUMN_WIDTHS, new PropertyBuilders.ColumnWidths());
    }
 
+   /**
+    * Parses a style sheet. Really crude. Assumes data is nicely formatted on one line per entry
+    * 
+    * @param URL The URL to read
+    * @return A map of style class names mapped to StyleMaps
+    * @throws MalformedURLException
+    * @throws IOException
+    */
    private Map<String, StyleMap> parseStylesheet(String URL) throws MalformedURLException, IOException
    {
       Map<String, StyleMap> styleClasses = new HashMap<String, StyleMap>();
@@ -122,14 +169,33 @@ public class Parser
       return styleClasses;
    }
 
+   /**
+    * Gets style from a component
+    * 
+    * @param component The component to examine
+    * @return null if not found, otherwise style string
+    */
    public static String getStyle(UIComponent component) {
       return getStyleProperty(component, STYLE_ATTRIBUTE);
    }
    
+   /**
+    * Gets style class from a component
+    * 
+    * @param component The component to examine
+    * @return null if not found, otherwise style class(es) string
+    */
    public static String getStyleClass(UIComponent component) {
       return getStyleProperty(component, STYLE_CLASS_ATTRIBUTE);
    }
    
+   /**
+    * Reads a property from a component
+    * 
+    * @param component The component to examine
+    * @param field The field to read
+    * @return The value from the field
+    */
    private static String getStyleProperty(UIComponent component, String field)
    {
       try
@@ -148,6 +214,13 @@ public class Parser
       }
    }
 
+   /**
+    * Cascades on parents, collecting them into list
+    * 
+    * @param component The component to examine
+    * @param styleMaps The list of collected style maps
+    * @return The list of style maps
+    */
    private List<StyleMap> cascadeStyleMap(UIComponent component, List<StyleMap> styleMaps) {
       styleMaps.add(getStyleMap(component));
       if (component.getParent() != null) {
@@ -156,6 +229,13 @@ public class Parser
       return styleMaps;
    }
    
+   /**
+    * Gets the cascaded style map for a component. Recurses on parents, collecting style maps.
+    * The reverses the list and merges the styles
+    * 
+    * @param component The component to examine
+    * @return The merged style map
+    */
    public StyleMap getCascadedStyleMap(UIComponent component) {
       List<StyleMap> styleMaps = cascadeStyleMap(component, new ArrayList<StyleMap>());
       Collections.reverse(styleMaps);
@@ -166,6 +246,11 @@ public class Parser
       return cascadedStyleMap;
    }
    
+   /**
+    * Gets a style map for a component (from cache if available)
+    * @param component The component to examine
+    * @return The style map of the component
+    */
    private StyleMap getStyleMap(UIComponent component)
    {
       if (cellStyleCache.containsKey(component))
@@ -200,6 +285,12 @@ public class Parser
       return styleMap;
    }
 
+   /**
+    * Parses a stringle style string
+    * 
+    * @param styleString The string to parse
+    * @return The parsed StyleMap
+    */
    private StyleMap parseStyleString(String styleString)
    {
       StyleMap styleMap = new StyleMap();
@@ -228,6 +319,12 @@ public class Parser
       return styleMap;
    }
 
+   /**
+    * Utility for trimming (lowercase & trim) an array of string values
+    * 
+    * @param array The array to trim
+    * @return The trimmed array
+    */
    private String[] trimArray(String[] array)
    {
       List<String> validValues = new ArrayList<String>();
@@ -241,6 +338,13 @@ public class Parser
       return validValues.toArray(new String[validValues.size()]);
    }
 
+   /**
+    * Setter for stylesheets. Loads them also.
+    * 
+    * @param stylesheets The stylesheets to load
+    * @throws MalformedURLException If the URL is bad
+    * @throws IOException If the URL cannot be read
+    */
    public void setStylesheets(List<UILink> stylesheets) throws MalformedURLException, IOException
    {
       loadStylesheets(stylesheets);

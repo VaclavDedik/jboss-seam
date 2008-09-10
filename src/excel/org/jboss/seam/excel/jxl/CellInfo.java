@@ -5,6 +5,11 @@ import jxl.write.WritableCellFormat;
 
 import org.jboss.seam.excel.ui.UICell.CellType;
 
+/**
+ * Cell info that collects features and formats
+ * 
+ * @author karlsnic
+ */
 public class CellInfo
 {
    // Cell format of the cell

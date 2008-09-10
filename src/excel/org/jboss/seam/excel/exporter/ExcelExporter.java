@@ -51,6 +51,8 @@ public class ExcelExporter
    
    // The excel workbook implementation
    private ExcelWorkbook excelWorkbook = null;
+   
+   // A map of known column widths
    private Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();
    
 
@@ -124,7 +126,12 @@ public class ExcelExporter
       redirectExport();
 
    }
-
+   
+   /**
+    * Parses column widths from a worksheet tag
+    * @param worksheet The worksheet to get the style from
+    * @return The map of column number -> column width
+    */
    private Map<Integer, Integer> parseColumnWidths(UIWorksheet worksheet)
    {
       Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();

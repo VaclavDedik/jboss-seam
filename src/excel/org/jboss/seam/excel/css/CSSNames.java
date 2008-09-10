@@ -1,5 +1,10 @@
 package org.jboss.seam.excel.css;
 
+/**
+ * Constant names for XLS-XSS attributes
+ * 
+ * @author Nicklas Karlsson (nickarls@gmail.com)
+ */
 public class CSSNames
 {
    public static final String FONT_FAMILY = "xls-font-family";
