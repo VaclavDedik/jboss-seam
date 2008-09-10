@@ -809,13 +809,18 @@ public class AuthenticationToken implements Serializable {
                   <para>
                     This annotation marks the field or method containing the user's password.  It allows a <literal>hash</literal>
                     algorithm to be specified for password hashing.  Possible values for <literal>hash</literal> are
-                    <literal>md5</literal> and <literal>sha</literal>.  E.g:
+                    <literal>md5</literal>, <literal>sha</literal> and <literal>none</literal>.  E.g:
+                  </para>
                     
                     <programlisting role="JAVA"><![CDATA[@UserPassword(hash = "md5")
 public String getPasswordHash() { 
   return passwordHash; 
 }]]></programlisting>
-                    
+
+                  <para>
+                    If an application requires a hash algorithm that isn't supported natively by Seam, it
+                    is possible to extend the <literal>PasswordHash</literal> component to implement other
+                    hashing algorithms.
                   </para>
                 </entry>
               </row>     
