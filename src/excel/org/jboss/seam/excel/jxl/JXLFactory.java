@@ -1,13 +1,16 @@
 package org.jboss.seam.excel.jxl;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 import jxl.HeaderFooter;
+import jxl.HeaderFooter.Contents;
 import jxl.biff.DisplayFormat;
 import jxl.biff.FontRecord;
 import jxl.format.Alignment;
@@ -27,14 +30,13 @@ import jxl.write.WriteException;
 import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.excel.ExcelWorkbookException;
 import org.jboss.seam.excel.css.CellStyle;
-import org.jboss.seam.excel.ui.UIHeaderFooter;
-import org.jboss.seam.excel.ui.UIHeaderFooterCommand;
+import org.jboss.seam.excel.ui.ExcelComponent;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
 /**
  * Factory for creating JExcelAPI objects
- *
+ * 
  * @author karlsnic
  */
 public class JXLFactory
@@ -51,10 +53,29 @@ public class JXLFactory
    private static final String PATTERN_CLASS_NAME = "jxl.format.Pattern";
    private static final String PAGE_ORIENTATION_CLASS_NAME = "jxl.format.PageOrientation";
    private static final String PAPER_SIZE_CLASS_NAME = "jxl.format.PaperSize";
-   private static final String HEADER_FOOTER_COMMAND_CLASS_NAME = "org.jboss.seam.excel.UIHeaderFooterCommand";
    private static final String SCRIPT_STYLE_CLASS_NAME = "jxl.format.ScriptStyle";
    private static final String UNDERLINE_STYLE_CLASS_NAME = "jxl.format.UnderlineStyle";
-   
+
+   private static final String HEADERFOOTER_COMMAND_MARKER = "#";
+   private static final String HEADERFOOTER_PAIR_DELIMITER = "=";
+
+   private static final String HF_CMD_FONT_SIZE = "font_size";
+   private static final String HF_CMD_FONT_NAME = "font_name";
+   private static final String HF_CMD_UNDERLINE = "underline";
+   private static final String HF_CMD_SUPERSCRIPT = "superscript";
+   private static final String HF_CMD_SUBSCRIPT = "subscript";
+   private static final String HF_CMD_STRIKETHROUGH = "strikethrough";
+   private static final String HF_CMD_SHADOW = "shadow";
+   private static final String HF_CMD_OUTLINE = "outline";
+   private static final String HF_CMD_ITALICS = "italics";
+   private static final String HF_CMD_DOUBLE_UNDERLINE = "double_underline";
+   private static final String HF_CMD_BOLD = "bold";
+   private static final String HF_CMD_WORKSHEET_NAME = "worksheet_name";
+   private static final String HF_CMD_WORKBOOK_NAME = "workbook_name";
+   private static final String HF_CMD_TOTAL_PAGES = "total_pages";
+   private static final String HF_CMD_TIME = "time";
+   private static final String HF_CMD_PAGE_NUMBER = "page_number";
+
    private static final Log log = Logging.getLog(JXLFactory.class);
 
    /**
@@ -63,27 +84,30 @@ public class JXLFactory
     * @param text The text to check
     * @return True if border line style, false otherwise
     */
-   public static boolean isBorderLineStyle(String text) {
+   public static boolean isBorderLineStyle(String text)
+   {
       return getValidContants(BORDER_LINE_STYLE_CLASS_NAME).contains(text.toLowerCase());
    }
-   
+
    /**
     * Checks if text is a pattern
     * 
     * @param text The text to check
     * @return True if pattern, false otherwise
     */
-   public static boolean isPattern(String text) {
+   public static boolean isPattern(String text)
+   {
       return getValidContants(PATTERN_CLASS_NAME).contains(text.toLowerCase());
    }
-   
+
    /**
     * Checks if text is a color
     * 
     * @param text The text to check
     * @return True if color, false otherwise
     */
-   public static boolean isColor(String text) {
+   public static boolean isColor(String text)
+   {
       return getValidContants(COLOR_CLASS_NAME).contains(text.toLowerCase());
    }
 
@@ -93,7 +117,8 @@ public class JXLFactory
     * @param text The text to check
     * @return True if alignment, false otherwise
     */
-   public static boolean isAlignment(String text) {
+   public static boolean isAlignment(String text)
+   {
       return getValidContants(ALIGNMENT_CLASS_NAME).contains(text.toLowerCase());
    }
 
@@ -103,7 +128,8 @@ public class JXLFactory
     * @param text The text to check
     * @return True if orientation, false otherwise
     */
-   public static boolean isOrientation(String text) {
+   public static boolean isOrientation(String text)
+   {
       return getValidContants(ORIENTATION_CLASS_NAME).contains(text.toLowerCase());
    }
 
@@ -113,7 +139,8 @@ public class JXLFactory
     * @param text The text to check
     * @return True if vertical alignment, false otherwise
     */
-   public static boolean isVerticalAlignment(String text) {
+   public static boolean isVerticalAlignment(String text)
+   {
       return getValidContants(VERTICAL_ALIGNMENT_CLASS_NAME).contains(text.toLowerCase());
    }
 
@@ -123,7 +150,8 @@ public class JXLFactory
     * @param text The text to check
     * @return True if underline style, false otherwise
     */
-   public static boolean isUnderlineStyle(String text) {
+   public static boolean isUnderlineStyle(String text)
+   {
       return getValidContants(UNDERLINE_STYLE_CLASS_NAME).contains(text.toLowerCase());
    }
 
@@ -133,7 +161,8 @@ public class JXLFactory
     * @param text The text to check
     * @return True if script style, false otherwise
     */
-   public static boolean isScriptStyle(String text) {
+   public static boolean isScriptStyle(String text)
+   {
       return getValidContants(SCRIPT_STYLE_CLASS_NAME).contains(text.toLowerCase());
    }
 
@@ -143,9 +172,10 @@ public class JXLFactory
     * @param className The class to examine
     * @return A list of constants
     */
-   private static List<String> getValidContants(String className) {
+   private static List<String> getValidContants(String className)
+   {
       List<String> constants = new ArrayList<String>();
-      
+
       if (log.isTraceEnabled())
       {
          log.trace("Getting valid constants from #0", className);
@@ -171,7 +201,7 @@ public class JXLFactory
       }
       return constants;
    }
-   
+
    /**
     * Gets a suggestion string of available constants from a class.
     * 
@@ -189,10 +219,11 @@ public class JXLFactory
          buffer.append(i++ == 0 ? field : ", " + field);
       }
       return Interpolator.instance().interpolate("[#0]", buffer.toString());
-   }   
-   
+   }
+
    /**
     * Gets a constant from a class
+    * 
     * @param className The class name to examine
     * @param fieldName The field to read
     * @return The constant
@@ -216,8 +247,8 @@ public class JXLFactory
       {
          throw new ExcelWorkbookException(Interpolator.instance().interpolate("Could not read field #0 from class #1", fieldName, className), e);
       }
-   }   
-   
+   }
+
    /**
     * Creates a JExcelAPI representation of an alignment
     * 
@@ -242,7 +273,7 @@ public class JXLFactory
          throw new ExcelWorkbookException(message, e);
       }
    }
-   
+
    /**
     * Creates a JExcelAPI representation of an script style
     * 
@@ -266,8 +297,8 @@ public class JXLFactory
          String message = Interpolator.instance().interpolate("Script style {0} not supported, try {1}", scriptStyle, getValidConstantsSuggestion(SCRIPT_STYLE_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
       }
-   }   
-   
+   }
+
    /**
     * Creates a JExcelAPI representation of an underline style
     * 
@@ -291,8 +322,8 @@ public class JXLFactory
          String message = Interpolator.instance().interpolate("Underline style {0} not supported, try {1}", underlineStyle, getValidConstantsSuggestion(UNDERLINE_STYLE_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
       }
-   }   
- 
+   }
+
    /**
     * Creates a JExcelAPI representation of a font
     * 
@@ -304,32 +335,40 @@ public class JXLFactory
    public static FontRecord createFont(CellStyle.Font fontspecs) throws WriteException
    {
       WritableFont font = null;
-      if (fontspecs.family != null) {
+      if (fontspecs.family != null)
+      {
          font = new WritableFont(WritableFont.createFont(fontspecs.family));
       }
       else
       {
          font = new WritableFont(WritableFont.ARIAL);
       }
-      if (fontspecs.pointSize != null) {
+      if (fontspecs.pointSize != null)
+      {
          font.setPointSize(fontspecs.pointSize);
       }
-      if (fontspecs.color != null) {
+      if (fontspecs.color != null)
+      {
          font.setColour(createColor(fontspecs.color));
       }
-      if (fontspecs.bold != null) {
+      if (fontspecs.bold != null)
+      {
          font.setBoldStyle(fontspecs.bold ? WritableFont.BOLD : WritableFont.NO_BOLD);
       }
-      if (fontspecs.italic != null) {
+      if (fontspecs.italic != null)
+      {
          font.setItalic(fontspecs.italic);
       }
-      if (fontspecs.struckOut != null) {
+      if (fontspecs.struckOut != null)
+      {
          font.setStruckout(fontspecs.struckOut);
       }
-      if (fontspecs.scriptStyle != null) {
+      if (fontspecs.scriptStyle != null)
+      {
          font.setScriptStyle(createScriptStyle(fontspecs.scriptStyle));
       }
-      if (fontspecs.underlineStyle != null) {
+      if (fontspecs.underlineStyle != null)
+      {
          font.setUnderlineStyle(createUnderlineStyle(fontspecs.underlineStyle));
       }
       return font;
@@ -361,7 +400,6 @@ public class JXLFactory
          return null;
       }
    }
-
 
    /**
     * Creates a JExcelAPI date display format
@@ -545,7 +583,7 @@ public class JXLFactory
          throw new ExcelWorkbookException(message, e);
       }
    }
-   
+
    /**
     * Creates a JExcelAPI representation of a page orientation
     * 
@@ -567,7 +605,7 @@ public class JXLFactory
          String message = Interpolator.instance().interpolate("Page orientation {0} not supported, try {1}", orientation, getValidConstantsSuggestion(PAGE_ORIENTATION_CLASS_NAME));
          throw new ExcelWorkbookException(message, e);
       }
-   }   
+   }
 
    /**
     * Creates a JExcelAPI representation of a paper size
@@ -591,7 +629,7 @@ public class JXLFactory
          throw new ExcelWorkbookException(message, e);
       }
    }
-   
+
    /**
     * Creates a JExcelAPI header or footer representation. Processes the left,
     * center and right facets using a helper method
@@ -601,24 +639,24 @@ public class JXLFactory
     *           to
     * @return The JExcelAPI header or footer representation
     */
-   public static HeaderFooter createHeaderFooter(UIHeaderFooter uiHeaderFooter, HeaderFooter headerFooter)
+   public static HeaderFooter createHeaderFooter(UIComponent uiHeaderFooter, HeaderFooter headerFooter)
    {
       if (log.isTraceEnabled())
       {
          log.trace("Processing header/footer #0", uiHeaderFooter);
       }
-      processHeaderFooterFacet(headerFooter.getLeft(), uiHeaderFooter.getFacet(UIHeaderFooter.LEFT_FACET));
-      processHeaderFooterFacet(headerFooter.getCentre(), uiHeaderFooter.getFacet(UIHeaderFooter.CENTER_FACET));
-      processHeaderFooterFacet(headerFooter.getRight(), uiHeaderFooter.getFacet(UIHeaderFooter.RIGHT_FACET));
+      processHeaderFooterFacet(headerFooter.getLeft(), uiHeaderFooter.getFacet("left"));
+      processHeaderFooterFacet(headerFooter.getCentre(), uiHeaderFooter.getFacet("middle"));
+      processHeaderFooterFacet(headerFooter.getRight(), uiHeaderFooter.getFacet("right"));
       return headerFooter;
    }
 
    /**
     * Processes a header or footer facet. A header or footer facet in JExcelAPI
     * is split into three parts, left, center and right and the UI
-    * representation has facets with the same namings. Gets the requested
-    * facet from the UI component and calls helper methods for processing the
-    * header commands in sequence
+    * representation has facets with the same namings. Gets the requested facet
+    * from the UI component and calls helper methods for processing the header
+    * commands in sequence
     * 
     * @param headerFooter The JExcelAPI header or footer facet to process
     * @param facetName The name of the facet to process (left, center, right)
@@ -635,83 +673,139 @@ public class JXLFactory
       {
          return;
       }
-      for (UIComponent child : facet.getChildren())
+      String facetContent = null;
+      try
       {
-         if (child.getClass() == UIHeaderFooterCommand.class)
+         facetContent = ExcelComponent.cmp2String(FacesContext.getCurrentInstance(), facet);
+      }
+      catch (IOException e)
+      {
+         throw new ExcelWorkbookException("Could not get content from header facet", e);
+      }
+      if (facetContent == null)
+      {
+         return;
+      }
+      facetContent = facetContent.trim();
+      int firstHash;
+      int secondHash;
+      String command;
+      String pre;
+      while (!"".equals(facetContent))
+      {
+         firstHash = -1;
+         secondHash = -1;
+         firstHash = facetContent.indexOf(HEADERFOOTER_COMMAND_MARKER);
+         if (firstHash >= 0)
          {
-            processHeaderFooterCommand(contents, (UIHeaderFooterCommand) child);
+            secondHash = facetContent.indexOf(HEADERFOOTER_COMMAND_MARKER, firstHash + 1);
+         }
+         if (firstHash >= 0 && secondHash >= 0 && firstHash != secondHash)
+         {
+            pre = facetContent.substring(0, firstHash);
+            if (!"".equals(pre))
+            {
+               contents.append(pre);
+            }
+            command = facetContent.substring(firstHash + 1, secondHash);
+            processCommand(contents, command);
+            facetContent = facetContent.substring(secondHash + 1);
+         }
+         else
+         {
+            contents.append(facetContent);
+            facetContent = "";
          }
       }
    }
 
    /**
-    * Processes a header command and applies it to the JExcelAPI header contents
+    * Processes a header or footer command, adding itself to the contents
     * 
-    * @param contents The contents to apply the command to (left, center, right)
-    * @param command The command to interpret
+    * @param contents The target contents
+    * @param command The command to execute
     */
-   private static void processHeaderFooterCommand(HeaderFooter.Contents contents, UIHeaderFooterCommand command)
+   private static void processCommand(Contents contents, String command)
    {
-      if (log.isTraceEnabled())
+      command = command.toLowerCase();
+      if (command.startsWith("date"))
       {
-         log.trace("Processing header/footer command #0", command);
-      }
-      switch (command.getCommand())
-      {
-      case append:
-         contents.append((String) command.getParameter());
-         break;
-      case date:
          contents.appendDate();
-         break;
-      case page_number:
-         contents.appendPageNumber();
-         break;
-      case time:
-         contents.appendTime();
-         break;
-      case total_pages:
-         contents.appendTotalPages();
-         break;
-      case workbook_name:
-         contents.appendWorkbookName();
-         break;
-      case worksheet_name:
-         contents.appendWorkSheetName();
-         break;
-      case font_name:
-         contents.setFontName((String) command.getParameter());
-         break;
-      case font_size:
-         contents.setFontSize((Integer) command.getParameter());
-         break;
-      case toggle_bold:
-         contents.toggleBold();
-         break;
-      case toggle_italics:
-         contents.toggleItalics();
-         break;
-      case toggle_double_underline:
-         contents.toggleDoubleUnderline();
-         break;
-      case toggle_outline:
-         contents.toggleOutline();
-         break;
-      case toggle_shadow:
-         contents.toggleShadow();
-         break;
-      case toggle_strikethrough:
-         contents.toggleStrikethrough();
-         break;
-      case toggle_subscript:
-         contents.toggleSubScript();
-         break;
-      case toggle_superscript:
-         contents.toggleSuperScript();
-         break;
-      default:
-         String message = Interpolator.instance().interpolate("Header/Footer command {0} not supported, try {1}", command.getCommand(), getValidConstantsSuggestion(HEADER_FOOTER_COMMAND_CLASS_NAME));
-         throw new ExcelWorkbookException(message);
       }
-   }      
+      else if (command.startsWith(HF_CMD_PAGE_NUMBER))
+      {
+         contents.appendPageNumber();
+      }
+      else if (command.startsWith(HF_CMD_TIME))
+      {
+         contents.appendTime();
+      }
+      else if (command.startsWith(HF_CMD_TOTAL_PAGES))
+      {
+         contents.appendTotalPages();
+      }
+      else if (command.startsWith(HF_CMD_WORKBOOK_NAME))
+      {
+         contents.appendWorkbookName();
+      }
+      else if (command.startsWith(HF_CMD_WORKSHEET_NAME))
+      {
+         contents.appendWorkSheetName();
+      }
+      else if (command.startsWith(HF_CMD_BOLD))
+      {
+         contents.toggleBold();
+      }
+      else if (command.startsWith(HF_CMD_DOUBLE_UNDERLINE))
+      {
+         contents.toggleDoubleUnderline();
+      }
+      else if (command.startsWith(HF_CMD_ITALICS))
+      {
+         contents.toggleItalics();
+      }
+      else if (command.startsWith(HF_CMD_OUTLINE))
+      {
+         contents.toggleOutline();
+      }
+      else if (command.startsWith(HF_CMD_SHADOW))
+      {
+         contents.toggleShadow();
+      }
+      else if (command.startsWith(HF_CMD_STRIKETHROUGH))
+      {
+         contents.toggleStrikethrough();
+      }
+      else if (command.startsWith(HF_CMD_SUBSCRIPT))
+      {
+         contents.toggleSubScript();
+      }
+      else if (command.startsWith(HF_CMD_SUPERSCRIPT))
+      {
+         contents.toggleSuperScript();
+      }
+      else if (command.startsWith(HF_CMD_UNDERLINE))
+      {
+         contents.toggleUnderline();
+      }
+      else if (command.startsWith(HF_CMD_FONT_NAME))
+      {
+         String[] parts = command.split(HEADERFOOTER_PAIR_DELIMITER);
+         if (parts.length != 2)
+         {
+            log.warn("Header/Footer font name error in #0", command);
+         }
+         contents.setFontName(parts[1].trim());
+      }
+      else if (command.startsWith(HF_CMD_FONT_SIZE))
+      {
+         String[] parts = command.split(HEADERFOOTER_PAIR_DELIMITER);
+         if (parts.length != 2)
+         {
+            log.warn("Header/Footer font size error in #0", command);
+         }
+         contents.setFontSize(Integer.parseInt(parts[1].trim()));
+      }
+   }
+
 }

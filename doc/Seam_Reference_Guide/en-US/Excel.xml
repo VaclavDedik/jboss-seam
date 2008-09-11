@@ -1725,9 +1725,8 @@
    <section id="excel.headersfooters">
       <title>Headers and footers</title>
       <para>
-         Headers and footers are childrens of worksheets and worksheet templates
-         and parents of header and footer commands They add headers and footers
-         to printed worksheets.
+         Headers and footers are childrens of worksheets and contain facets which
+         in turn contains a string with commands that are parsed.
       </para>
       <informaltable>
          <tgroup cols="2">
@@ -1737,7 +1736,7 @@
                <row>
                   <entry valign="top">
                      <para>
-                        <literal>&lt;e:headerFooter&gt;</literal>
+                        <literal>&lt;e:header&gt;</literal>
                      </para>
                   </entry>
                   <entry valign="top">
@@ -1747,9 +1746,70 @@
                      <itemizedlist>
                         <listitem>
                            <para>
-                              <literal>type</literal>
-                              &#8212;The type of the header or footer. The value
-                              is string that can be either "header" or "footer".
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Child elemenents</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                     <para>
+                        <emphasis>Facets</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>left</literal>
+                              &#8212;The contents of the left header/footer
+                              part.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>center</literal>
+                              &#8212;The contents of the center header/footer
+                              part.
+                           </para>
+                        </listitem>
+                        <listitem>
+                           <para>
+                              <literal>right</literal>
+                              &#8212;The contents of the right header/footer
+                              part.
+                           </para>
+                        </listitem>
+                     </itemizedlist>
+                  </entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </informaltable>
+      <informaltable>
+         <tgroup cols="2">
+            <colspec colnum="1" colwidth="1*" />
+            <colspec colnum="2" colwidth="3*" />
+            <tbody>
+               <row>
+                  <entry valign="top">
+                     <para>
+                        <literal>&lt;e:footer&gt;</literal>
+                     </para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        <emphasis>Attributes</emphasis>
+                     </para>
+                     <itemizedlist>
+                        <listitem>
+                           <para>
+                              <literal>none</literal>
                            </para>
                         </listitem>
                      </itemizedlist>
@@ -1795,9 +1855,8 @@
          </tgroup>
       </informaltable>
       <para>
-         The <literal>&lt;e:headerFooterCommands&gt;</literal>
-         is just a nesting container in order to support multiple header/footer
-         commands.
+         The content of the facets is a string that can contain various #-delimited
+         commands as follows:
       </para>
       <informaltable>
          <tgroup cols="2">
@@ -1806,166 +1865,169 @@
             <tbody>
                <row>
                   <entry valign="top">
-                     <para>
-                        <literal>&lt;e:headerFooterCommands&gt;</literal>
-                     </para>
+                     <para>#date#</para>
                   </entry>
                   <entry valign="top">
-                     <para>
-                        <emphasis>Attributes</emphasis>
-                     </para>
-                     <itemizedlist>
-                        <listitem>
-                           <para>
-                              <literal>none</literal>
-                           </para>
-                        </listitem>
-                     </itemizedlist>
-                     <para>
-                        <emphasis>Child elemenents</emphasis>
-                     </para>
-                     <itemizedlist>
-                        <listitem>
-                           <para>Zero or more header/footer commands.</para>
-                        </listitem>
-                     </itemizedlist>
-                     <para>
-                        <emphasis>Facets</emphasis>
-                     </para>
-                     <itemizedlist>
-                        <listitem>
-                           <para>
-                              <literal>none</literal>
-                           </para>
-                        </listitem>
-                     </itemizedlist>
+                     <para>Inserts the current date</para>
                   </entry>
                </row>
-            </tbody>
-         </tgroup>
-      </informaltable>
-      <para>
-         Header/footer commands adds actual commands to the header or footer in
-         the location where the containing facet points.
-      </para>
-      <informaltable>
-         <tgroup cols="2">
-            <colspec colnum="1" colwidth="1*" />
-            <colspec colnum="2" colwidth="3*" />
-            <tbody>
                <row>
                   <entry valign="top">
-                     <para>
-                        <literal>&lt;e:headerFooterCommand&gt;</literal>
-                     </para>
+                     <para>#page_number#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the current page number</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#time#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the current time</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#total_pages#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the total page count</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#worksheet_name#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the worksheet name</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#workbook_name#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>Inserts the workbook name</para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#bold#</para>
                   </entry>
                   <entry valign="top">
                      <para>
-                        <emphasis>Attributes</emphasis>
+                        Toggles bold font, use another #bold# to 
+                        turn it off
                      </para>
-                     <itemizedlist>
-                        <listitem>
-                           <para>
-                              <literal>command</literal>
-                              &#8212;The command to execute. The value is a
-                              string
-                              <itemizedlist>
-                                 <listitem>
-                                    "append" - appends the text in the
-                                    <literal>parameter</literal>
-                                 </listitem>
-                                 <listitem>
-                                    "date" - appends the current date
-                                 </listitem>
-                                 <listitem>
-                                    "page_number" - appends the page number
-                                 </listitem>
-                                 <listitem>"time" - appends the time</listitem>
-                                 <listitem>
-                                    "total_pages" - appends the total page count
-                                 </listitem>
-                                 <listitem>
-                                    "workbook_name" - appends the workbook name
-                                 </listitem>
-                                 <listitem>
-                                    "worksheet_name" - appends the worksheet
-                                    name
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_bold" - toggles bold font
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_italics" - toggles italics
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_double_underline" - toggles double
-                                    underlining
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_outline" - toggles outline
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_shadow" - toggles shadow
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_strikethrough" - toggles
-                                    strikethrough
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_subscript" - toggles subscript
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_superscript" - toggles superscript
-                                 </listitem>
-                                 <listitem>
-                                    "toggle_underline" - toggles underline
-                                 </listitem>
-                                 <listitem>
-                                    "font_name" - sets the font name given in
-                                    the
-                                    <literal>parameter</literal>
-                                 </listitem>
-                                 <listitem>
-                                    "font_size" - sets the font size given in
-                                    the
-                                    <literal>parameter</literal>
-                                 </listitem>
-                              </itemizedlist>
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>parameter</literal>
-                              &#8212;The parameter for some commands. Used by
-                              the font_name, font_size and append commands. The
-                              font_name parameter is a string that represents
-                              the requested font name, the font_size parameter
-                              is a number that represents the requested font
-                              size and the append parameter is a string of text
-                              to be appended to the header/footer.
-                           </para>
-                        </listitem>
-                     </itemizedlist>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#italics#</para>
+                  </entry>
+                  <entry valign="top">
                      <para>
-                        <emphasis>Child elemenents</emphasis>
+                        Toggles italic font, use another #italic# to 
+                        turn it off
                      </para>
-                     <itemizedlist>
-                        <listitem>
-                           <para>
-                              <literal>none</literal>
-                           </para>
-                        </listitem>
-                     </itemizedlist>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#underline#</para>
+                  </entry>
+                  <entry valign="top">
                      <para>
-                        <emphasis>Facets</emphasis>
+                        Toggles underlining, use another #underline# to 
+                        turn it off
                      </para>
-                     <itemizedlist>
-                        <listitem>
-                           <para>
-                              <literal>none</literal>
-                           </para>
-                        </listitem>
-                     </itemizedlist>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#double_underline#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles double underlining, use another #double_underline# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#outline#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles outlined font, use another #outline# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#shadow#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles shadowed font, use another #shadow# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#strikethrough#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles strikethrough font, use another #strikethrough# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#subscript#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles subscripted font, use another #subscript# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#superscript#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Toggles superscript font, use another #superscript# to 
+                        turn it off
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#font_name#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Sets font name, used like #font_name=Verdana"
+                     </para>
+                  </entry>
+               </row>
+               <row>
+                  <entry valign="top">
+                     <para>#font_size#</para>
+                  </entry>
+                  <entry valign="top">
+                     <para>
+                        Sets font size, use like #font_size=12#
+                     </para>
                   </entry>
                </row>
             </tbody>
@@ -1975,18 +2037,18 @@
          <![CDATA[
             <e:workbook>
                <e:worksheet>         
-                  <e:headerFooter type="header">
+                  <e:header>
                      <f:facet name="left">
-                        <e:headerFooterCommands>
-                           <e:headerFooterCommand command="page_number"/>
-                        </e:headerFooterCommands>
+                        This document was made on #date# and has #total_pages# pages
                      </f:facet>
-                  </e:headerFooter>
+                     <f:facet name="right">
+                        #time#
+                     </f:facet>
+                  </e:header>
                <e:worksheet>
             </e:workbook>
          ]]>
       </programlisting>
-      <para>Defines a header with the page number in the left corner.</para>
    </section>
    <section id="excel.printareatitles">
       <title>Print areas and titles</title>

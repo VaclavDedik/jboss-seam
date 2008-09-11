@@ -21,16 +21,12 @@
         <component-class>org.jboss.seam.excel.ui.UIWorksheet</component-class>
     </component>    
     <component>
-        <component-type>org.jboss.seam.excel.ui.UIHeaderFooter</component-type>
-        <component-class>org.jboss.seam.excel.ui.UIHeaderFooter</component-class>
+        <component-type>org.jboss.seam.excel.ui.UIHeader</component-type>
+        <component-class>org.jboss.seam.excel.ui.UIHeader</component-class>
     </component>    
     <component>
-        <component-type>org.jboss.seam.excel.ui.UIHeaderFooterCommands</component-type>
-        <component-class>org.jboss.seam.excel.ui.UIHeaderFooterCommands</component-class>
-    </component>    
-    <component>
-        <component-type>org.jboss.seam.excel.ui.UIHeaderFooterCommand</component-type>
-        <component-class>org.jboss.seam.excel.ui.UIHeaderFooterCommand</component-class>
+        <component-type>org.jboss.seam.excel.ui.UIFooter</component-type>
+        <component-class>org.jboss.seam.excel.ui.UIFooter</component-class>
     </component>    
     <component>
         <component-type>org.jboss.seam.excel.ui.UIPrintArea</component-type>

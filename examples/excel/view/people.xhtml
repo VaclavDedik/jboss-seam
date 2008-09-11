@@ -5,6 +5,11 @@
 
 <e:workbook type="#{exportType}">
 	<e:worksheet name="People" value="#{people}" var="person">
+		<e:header>
+			<f:facet name="left">
+				The date is #date# and the time is #time#
+			</f:facet>
+		</e:header>
 		<e:column style="xls-column-autosize: true">
 			<f:facet name="header">
 				<e:cell value="Name" style="xls-font: red bold 10 Verdana"/>

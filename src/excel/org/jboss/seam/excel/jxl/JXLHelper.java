@@ -36,7 +36,8 @@ import org.jboss.seam.excel.ui.ExcelComponent;
 import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UICellBase;
 import org.jboss.seam.excel.ui.UIColumn;
-import org.jboss.seam.excel.ui.UIHeaderFooter;
+import org.jboss.seam.excel.ui.UIFooter;
+import org.jboss.seam.excel.ui.UIHeader;
 import org.jboss.seam.excel.ui.UILink;
 import org.jboss.seam.excel.ui.UIPrintArea;
 import org.jboss.seam.excel.ui.UIPrintTitles;
@@ -415,20 +416,12 @@ public class JXLHelper
             UIPrintTitles printTitles = (UIPrintTitles) child;
             settings.setPrintTitles(printTitles.getFirstCol(), printTitles.getFirstRow(), printTitles.getLastCol(), printTitles.getLastRow());
          }
-         else if (child.getClass() == UIHeaderFooter.class)
-         {
-            UIHeaderFooter headerFooter = (UIHeaderFooter) child;
-            switch (headerFooter.getType())
-            {
-            case header:
-               settings.setHeader(JXLFactory.createHeaderFooter(headerFooter, settings.getHeader()));
-               break;
-            case footer:
-               settings.setFooter(JXLFactory.createHeaderFooter(headerFooter, settings.getFooter()));
-               break;
-            default:
-               throw new ExcelWorkbookException("Header/Footer type " + headerFooter.getType() + " not supported, try [header, footer]");
-            }
+         else if (child.getClass() == UIHeader.class) {
+            UIHeader uiHeader = (UIHeader) child;
+            settings.setHeader(JXLFactory.createHeaderFooter(uiHeader, settings.getHeader()));
+         } else if (child.getClass() == UIFooter.class) {
+            UIFooter uiFooter = (UIFooter) child;
+            settings.setFooter(JXLFactory.createHeaderFooter(uiFooter, settings.getFooter()));
          }
       }
    }

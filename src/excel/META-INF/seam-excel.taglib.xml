@@ -35,23 +35,16 @@
     </tag>
 
     <tag>
-        <tag-name>headerFooter</tag-name>
+        <tag-name>header</tag-name>
         <component>
-            <component-type>org.jboss.seam.excel.ui.UIHeaderFooter</component-type>
+            <component-type>org.jboss.seam.excel.ui.UIHeader</component-type>
         </component>
     </tag>
 
     <tag>
-        <tag-name>headerFooterCommands</tag-name>
+        <tag-name>footer</tag-name>
         <component>
-            <component-type>org.jboss.seam.excel.ui.UIHeaderFooterCommands</component-type>
-        </component>
-    </tag>
-
-    <tag>
-        <tag-name>headerFooterCommand</tag-name>
-        <component>
-            <component-type>org.jboss.seam.excel.ui.UIHeaderFooterCommand</component-type>
+            <component-type>org.jboss.seam.excel.ui.UIFooter</component-type>
         </component>
     </tag>
 
