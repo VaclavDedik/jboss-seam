@@ -4,26 +4,22 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <e:workbook type="#{exportType}">
-	<e:cellTemplate name="header">
-		<e:font fontName="Times New Roman" color="red" bold="true" />
-		<e:background color="yellow" pattern="solid" />
-	</e:cellTemplate>
 	<e:worksheet name="People" value="#{people}" var="person">
-		<e:column autoSize="true">
+		<e:column style="xls-column-autosize: true">
 			<f:facet name="header">
-				<e:cell value="Name" templates="header" />
+				<e:cell value="Name" style="xls-font: red bold 10 Verdana"/>
 			</f:facet>
 			<e:cell value="#{person.name}" forceType="text" />
 		</e:column>
-		<e:column autoSize="true">
+		<e:column style="xls-column-autosize: true">
 			<f:facet name="header">
-				<e:cell value="Company" templates="header" />
+				<e:cell value="Company" style="xls-font: red bold 10 Verdana"/>
 			</f:facet>
 			<e:cell value="#{person.company}" />
 		</e:column>
-		<e:column autoSize="true">
+		<e:column style="xls-column-autosize: true">
 			<f:facet name="header">
-				<e:cell value="Working on" templates="header" />
+				<e:cell value="Working on" style="xls-font: red bold 10 Verdana"/>
 			</f:facet>
 			<e:cell value="#{person.task}" forceType="text" />
 		</e:column>
