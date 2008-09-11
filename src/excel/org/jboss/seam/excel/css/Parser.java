@@ -32,22 +32,29 @@ public class Parser
 
    // Where to look for the style class
    private static final String STYLE_CLASS_ATTRIBUTE = "styleClass";
-   
+
    // What separates multiple XLS-CSS attributes in a style string
    private static final String STYLES_SEPARATOR = ";";
-   
+
    // What separates the key and value in a XLS-CSS style
    private static final String STYLE_NAME_VALUE_SEPARATOR = ":";
-   
+
    // What separates multiple style class references
    private static final String STYLE_SHORTHAND_SEPARATOR = " ";
 
-   // The style classes that have been read in from e:link referenced, mapped on style class name
+   // What starts a rule block in a CSS file
+   private static final String LEFT_BRACE = "{";
+
+   // What ends a rule block in a CSS file
+   private static final String RIGHT_BRACE = "}";
+
+   // The style classes that have been read in from e:link referenced, mapped on
+   // style class name
    private Map<String, StyleMap> definedStyleClasses = new HashMap<String, StyleMap>();
-   
+
    // The registered property builders, mapped on attribute name
    private Map<String, PropertyBuilder> propertyBuilders = new HashMap<String, PropertyBuilder>();
-   
+
    // A cache of previously parsed css, mapped on component
    private Map<UIComponent, StyleMap> cellStyleCache = new HashMap<UIComponent, StyleMap>();
 
@@ -134,7 +141,28 @@ public class Parser
    }
 
    /**
-    * Parses a style sheet. Really crude. Assumes data is nicely formatted on one line per entry
+    * Reads data from an URL to a String
+    * 
+    * @param url The URL to read
+    * @return The read data as a String
+    * @throws IOException If the stream could not be read
+    */
+   private static String readCSS(URL url) throws IOException
+   {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+      StringBuffer buffer = new StringBuffer();
+      String line;
+      while ((line = reader.readLine()) != null)
+      {
+         buffer.append(line);
+      }
+      reader.close();
+      return buffer.toString();
+   }
+
+   /**
+    * Parses a style sheet. Really crude. Assumes data is nicely formatted on
+    * one line per entry
     * 
     * @param URL The URL to read
     * @return A map of style class names mapped to StyleMaps
@@ -144,28 +172,29 @@ public class Parser
    private Map<String, StyleMap> parseStylesheet(String URL) throws MalformedURLException, IOException
    {
       Map<String, StyleMap> styleClasses = new HashMap<String, StyleMap>();
-      BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(URL).openStream()));
-      String line;
-      while ((line = reader.readLine()) != null)
+      String css = readCSS(new URL(URL)).toLowerCase();
+      int firstBrace = -1;
+      int secondBrace = -1;
+      while (!"".equals(css))
       {
-         String[] spaceParts = line.split(" ");
-         String name = spaceParts[0];
-         if (name.startsWith("."))
+         firstBrace = css.indexOf(LEFT_BRACE);
+         if (firstBrace >= 0)
          {
-            name = name.substring(1);
+            secondBrace = css.indexOf(RIGHT_BRACE, firstBrace + 1);
          }
-         int startbrace = line.indexOf("{");
-         int stopbrace = line.indexOf("}");
-         if (startbrace < 0 || stopbrace < 0)
+         if (firstBrace >= 0 && secondBrace >= 0 && firstBrace != secondBrace)
          {
-            String message = Interpolator.instance().interpolate("Could not find braces in #0", line);
-            throw new ExcelWorkbookException(message);
+            String styleName = css.substring(0, firstBrace).trim();
+            String styleString = css.substring(firstBrace + 1, secondBrace).trim();
+            StyleMap styleMap = parseStyleString(styleString);
+            styleClasses.put(styleName, styleMap);
+            css = css.substring(secondBrace + 1);
          }
-         String styleData = line.substring(startbrace + 1, stopbrace).trim();
-         StyleMap styleMap = parseStyleString(styleData);
-         styleClasses.put(name, styleMap);
+         else
+         {
+            css = "";
+         }
       }
-      reader.close();
       return styleClasses;
    }
 
@@ -175,20 +204,22 @@ public class Parser
     * @param component The component to examine
     * @return null if not found, otherwise style string
     */
-   public static String getStyle(UIComponent component) {
+   public static String getStyle(UIComponent component)
+   {
       return getStyleProperty(component, STYLE_ATTRIBUTE);
    }
-   
+
    /**
     * Gets style class from a component
     * 
     * @param component The component to examine
     * @return null if not found, otherwise style class(es) string
     */
-   public static String getStyleClass(UIComponent component) {
+   public static String getStyleClass(UIComponent component)
+   {
       return getStyleProperty(component, STYLE_CLASS_ATTRIBUTE);
    }
-   
+
    /**
     * Reads a property from a component
     * 
@@ -221,33 +252,38 @@ public class Parser
     * @param styleMaps The list of collected style maps
     * @return The list of style maps
     */
-   private List<StyleMap> cascadeStyleMap(UIComponent component, List<StyleMap> styleMaps) {
+   private List<StyleMap> cascadeStyleMap(UIComponent component, List<StyleMap> styleMaps)
+   {
       styleMaps.add(getStyleMap(component));
-      if (component.getParent() != null) {
+      if (component.getParent() != null)
+      {
          cascadeStyleMap(component.getParent(), styleMaps);
       }
       return styleMaps;
    }
-   
+
    /**
-    * Gets the cascaded style map for a component. Recurses on parents, collecting style maps.
-    * The reverses the list and merges the styles
+    * Gets the cascaded style map for a component. Recurses on parents,
+    * collecting style maps. The reverses the list and merges the styles
     * 
     * @param component The component to examine
     * @return The merged style map
     */
-   public StyleMap getCascadedStyleMap(UIComponent component) {
+   public StyleMap getCascadedStyleMap(UIComponent component)
+   {
       List<StyleMap> styleMaps = cascadeStyleMap(component, new ArrayList<StyleMap>());
       Collections.reverse(styleMaps);
       StyleMap cascadedStyleMap = new StyleMap();
-      for (StyleMap styleMap : styleMaps) {
+      for (StyleMap styleMap : styleMaps)
+      {
          cascadedStyleMap.putAll(styleMap);
       }
       return cascadedStyleMap;
    }
-   
+
    /**
     * Gets a style map for a component (from cache if available)
+    * 
     * @param component The component to examine
     * @return The style map of the component
     */

@@ -3152,16 +3152,6 @@
             </listitem>
             <listitem>
                <para>
-                  When using external stylesheets they must be formatted in
-                  one line per entry like
-               </para>
-               <programlisting role="XML">
-                  .header { xls-font: bold 14 Verdana }
-                  .data { xls-font: 12 'Times New Roman' }
-               </programlisting>
-            </listitem>
-            <listitem>
-               <para>
                   When using the datatable exporter, CSS must be entered through
                   style-attributes, external stylesheets are not supported 
                </para>
