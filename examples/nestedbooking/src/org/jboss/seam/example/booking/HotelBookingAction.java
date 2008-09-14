@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
@@ -93,6 +94,7 @@ public class HotelBookingAction implements HotelBooking
       booking.setCheckoutDate( calendar.getTime() );
    }
    
+   @End(root=true)
    public void confirm()
    {
       // on confirmation we set the room preference in the booking.  the room preference
@@ -103,51 +105,11 @@ public class HotelBookingAction implements HotelBooking
       facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
       log.info("New booking: #{booking.id} for #{user.username}");
       events.raiseTransactionSuccessEvent("bookingConfirmed");
-
-      endRoot();
    }
    
-   public void cancel() 
-   {
-	   endRootBeforeRedirect();
-   }
+   @End(root=true, beforeRedirect=true)
+   public void cancel() {}
    
    @Destroy @Remove
    public void destroy() {}
-   
-   /**
-    * End the root conversation in case we are currently in a nested conversation.
-    * Currently this can only be done programatically, but if you are interested
-    * in this feature being supported by Seam vote on:
-    * 
-    *	http://jira.jboss.org/jira/browse/JBSEAM-1943
-    */
-   private void endRoot() 
-   {
-      Conversation conversation = Conversation.instance();
-
-      if(conversation.isNested()) {
-         conversation.root();
-      }
-
-      conversation.end();
-   }
-	
-   /**
-    * End the root conversation prior to redirect in case we are currently in a 
-    * nested conversation.  Currently this can only be done programatically, but 
-    * if you are interested in this feature being supported by Seam vote on:
-    * 
-    *	http://jira.jboss.org/jira/browse/JBSEAM-1943
-    */
-   private void endRootBeforeRedirect() 
-   {
-      Conversation conversation = Conversation.instance();
-
-      if(conversation.isNested()) {
-         conversation.root();
-      }
-
-      conversation.endBeforeRedirect();
-   }
 }
