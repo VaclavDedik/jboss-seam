@@ -594,7 +594,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
             return PasswordHash.instance().generateSaltedHash(password, salt);
          }
       }
-      else if ("none".equals(algorithm))
+      else if ("none".equalsIgnoreCase(algorithm))
       {
          return password;
       }      
