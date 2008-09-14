@@ -69,7 +69,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       {
          if ( isEndConversationRequired(e) )
          {
-            endConversation(false);
+            endConversation(false, false);
          }
          throw e;
       }
@@ -253,6 +253,8 @@ public class ConversationInterceptor extends AbstractInterceptor
       boolean beforeRedirect = ( isEndAnnotation && method.getAnnotation(End.class).beforeRedirect() ) ||
             ( isEndTaskAnnotation && method.getAnnotation(EndTask.class).beforeRedirect() );
       
+      boolean endRoot = ( isEndAnnotation && method.getAnnotation(End.class).root() );
+
       boolean simpleEnd = 
             ( isEndAnnotation && method.getAnnotation(End.class).ifOutcome().length==0 ) || 
             ( isEndTaskAnnotation && method.getAnnotation(EndTask.class).ifOutcome().length==0 );
@@ -260,7 +262,7 @@ public class ConversationInterceptor extends AbstractInterceptor
       {
          if ( result!=null || method.getReturnType().equals(void.class) ) //null outcome interpreted as redisplay
          {
-            endConversation(beforeRedirect);
+            endConversation(beforeRedirect, endRoot);
          }
       }
       else if ( isEndAnnotation )
@@ -268,7 +270,7 @@ public class ConversationInterceptor extends AbstractInterceptor
          String[] outcomes = method.getAnnotation(End.class).ifOutcome();
          if ( Arrays.asList(outcomes).contains(result) )
          {
-            endConversation(beforeRedirect);
+            endConversation(beforeRedirect, endRoot);
          }
       }
       else if ( isEndTaskAnnotation )
@@ -277,14 +279,24 @@ public class ConversationInterceptor extends AbstractInterceptor
          String[] outcomes = method.getAnnotation(EndTask.class).ifOutcome();
          if ( Arrays.asList(outcomes).contains(result) )
          {
-            endConversation(beforeRedirect);
+            endConversation(beforeRedirect, endRoot);
          }
       }
    }
 
-   private void endConversation(boolean beforeRedirect)
+   private void endConversation(boolean beforeRedirect, boolean endRoot)
    {
-      Manager.instance().endConversation(beforeRedirect);
+      Manager manager = Manager.instance();
+      
+      if(endRoot)
+      {
+         if(manager.isNestedConversation())
+         {
+            manager.switchConversation(manager.getRootConversationId());
+         }
+      }
+
+      manager.endConversation(beforeRedirect);
    }
    
    public boolean isInterceptorEnabled()

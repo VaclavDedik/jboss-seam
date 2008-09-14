@@ -741,8 +741,96 @@ public class InterceptorTest
       
       assert !Manager.instance().isLongRunningConversation();
       assert "success".equals(result);
+      
+      ///////////////////////////////////////////////
+      // Test @End(root=true) for nested conversation
+      ///////////////////////////////////////////////
+      
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("begin");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "begun";
+         }
+      });
+      
+      assert Manager.instance().isLongRunningConversation();
+      assert "begun".equals(result);
+      
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("beginNested");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "begunNested";
+         }
+      });
+      
+      assert Manager.instance().isNestedConversation();
+      assert "begunNested".equals(result);
 
-      ServletLifecycle.endApplication();
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("endRoot");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "endedRoot";
+         }
+      });
+
+      assert !Manager.instance().isNestedConversation();
+      assert !Manager.instance().isLongRunningConversation();
+      assert "endedRoot".equals(result);
+
+      /////////////////////////////////////////////////////
+      // Test @End(root=true) for a non-nested conversation
+      /////////////////////////////////////////////////////
+      
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("begin");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "begun";
+         }
+      });
+      
+      assert Manager.instance().isLongRunningConversation();
+      assert "begun".equals(result);
+      
+      result = (String) ci.aroundInvoke( new MockInvocationContext() {
+         @Override
+         public Method getMethod()
+         {
+            return InterceptorTest.getMethod("endRoot");
+         }
+         @Override
+         public Object proceed() throws Exception
+         {
+            return "endedRoot";
+         }
+      });
+
+      assert !Manager.instance().isNestedConversation();
+      assert !Manager.instance().isLongRunningConversation();
+      assert "endedRoot".equals(result);
    }
    
    @Test

@@ -40,4 +40,15 @@ public @interface End
     * @return false by default
     */
    boolean beforeRedirect() default false;
+   
+   /**
+    * If the conversation is nested, should the root
+    * of the conversation be destroyed?  (The default
+    * behavior is to simply pop the conversation
+    * stack.)
+    * 
+    * @return false by default
+    */
+   boolean root() default false;
+
 }

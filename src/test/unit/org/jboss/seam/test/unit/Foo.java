@@ -73,6 +73,17 @@ public class Foo implements Serializable
       return null;
    }
    
+   @Begin(nested=true)
+   public String beginNested()
+   {
+      return "begunNested";
+   }
+   @End(root=true)
+   public String endRoot()
+   {
+      return "endedRoot";
+   }
+   
    @Begin
    public void beginVoid() { }
    @End
