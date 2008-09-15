@@ -92,9 +92,9 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
       
       if (securityContext == null) return false;      
       
-      List<FactHandle> handles = new ArrayList<FactHandle>();
-                        
-      PermissionCheck check = new PermissionCheck(target, action);      
+      List<FactHandle> handles = new ArrayList<FactHandle>();  
+
+      PermissionCheck check;
       
       synchronized( securityContext )
       {
@@ -105,8 +105,10 @@ public class RuleBasedPermissionResolver implements PermissionResolver, Serializ
          else if (target instanceof Class)
          {
             String componentName = Seam.getComponentName((Class) target);
-            target = componentName != null ? componentName : ((Class) target).getName(); 
-         }         
+            target = componentName != null ? componentName : ((Class) target).getName();
+         }
+         
+         check = new PermissionCheck(target, action);         
          
          try
          {
