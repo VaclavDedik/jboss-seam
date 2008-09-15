@@ -616,7 +616,11 @@
 		<copy file="seam" todir="${dist.dir}" />
 		<copy file="seam-text.g" todir="${dist.dir}" />
 		<copy file="seam.bat" todir="${dist.dir}" />
-		<copy file="seam2migration.txt" todir="${dist.dir}" />
+		<copy todir="${dist.dir}">
+			<fileset dir="${basedir}">
+		      <include name="*migration.txt"/>
+		   </fileset>
+	   </copy>
 	    <copy todir="${dist.dir}/extras">
 	       <fileset dir="${basedir}/extras">
 	          <include name="**/*" />
