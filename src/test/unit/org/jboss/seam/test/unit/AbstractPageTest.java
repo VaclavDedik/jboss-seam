@@ -29,6 +29,8 @@ import org.testng.annotations.BeforeMethod;
  */
 public abstract class AbstractPageTest
 {
+   private static final String TEST_PAGES_DOT_XML = "/META-INF/pagesForPageActionsTest.xml";
+   
    @BeforeMethod
    public void setup()
    {
@@ -68,7 +70,7 @@ public abstract class AbstractPageTest
       appContext.set(Seam.getComponentName(Init.class), init);
       Map<String, Conversions.PropertyValue> properties = new HashMap<String, Conversions.PropertyValue>();
       appContext.set(Component.PROPERTIES, properties);
-      properties.put(Seam.getComponentName(Pages.class) + ".resources", new Conversions.FlatPropertyValue("/META-INF/pagesForPageActionsTest.xml"));
+      properties.put(Seam.getComponentName(Pages.class) + ".resources", new Conversions.FlatPropertyValue(TEST_PAGES_DOT_XML));
 
       installComponent(appContext, NoRedirectFacesManager.class);
       installComponent(appContext, ResourceLoader.class);
@@ -79,7 +81,13 @@ public abstract class AbstractPageTest
       installComponent(appContext, TestActions.class);
    }
 
-   private void installComponent(Context appContext, Class clazz)
+   /**
+    * Installs a component for use in the current test context.
+    * 
+    * @param appContext
+    * @param clazz
+    */
+   protected void installComponent(Context appContext, Class clazz)
    {
       appContext.set(Seam.getComponentName(clazz) + ".component", new Component(clazz));
    }

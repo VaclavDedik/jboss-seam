@@ -1267,6 +1267,7 @@ public class Pages
       {
          control.setEndConversation(true);
          control.setEndConversationBeforeRedirect( "true".equals( endConversation.attributeValue("before-redirect") ) );
+         control.setEndRootConversation( "true".equals( endConversation.attributeValue("root") ) );
          String expression = endConversation.attributeValue("if");
          if (expression!=null)
          {

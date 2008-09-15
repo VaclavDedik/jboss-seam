@@ -108,5 +108,13 @@
 			</rule>
 		</navigation>
 	</page>
+	
+	<page view-id="/end-conversation-test.xhtml">
+		<end-conversation />
+	</page>
+	
+	<page view-id="/end-root-conversation-test.xhtml">
+		<end-conversation root="true" />
+	</page>
 
 </pages>

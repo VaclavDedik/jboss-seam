@@ -3,6 +3,7 @@ import org.jboss.seam.annotations.FlushModeType;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.core.ConversationEntries;
 import org.jboss.seam.core.ConversationEntry;
+import org.jboss.seam.core.Manager;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.pageflow.Pageflow;
 /**
@@ -16,6 +17,7 @@ public class ConversationControl
    private boolean isBeginConversation;
    private boolean isEndConversation;
    private boolean isEndConversationBeforeRedirect;
+   private boolean isEndRootConversation;
    private boolean join;
    private boolean nested;
    private FlushModeType flushMode;
@@ -44,13 +46,20 @@ public class ConversationControl
    {
       if ( endConversation() )
       {
+         Conversation conversation = Conversation.instance();
+         
+         if (isEndRootConversation && conversation.isNested())
+         {
+            conversation.root();
+         }
+
          if (isEndConversationBeforeRedirect)
          {
-            Conversation.instance().endBeforeRedirect();
+            conversation.endBeforeRedirect();
          }
          else
          {
-            Conversation.instance().end();
+            conversation.end();
          }
       }
       if ( beginConversation() )
@@ -130,6 +139,14 @@ public class ConversationControl
    public void setEndConversationBeforeRedirect(boolean isEndConversationBeforeRedirect)
    {
       this.isEndConversationBeforeRedirect = isEndConversationBeforeRedirect;
+   }
+   public boolean isEndRootConversation()
+   {
+      return isEndConversationBeforeRedirect;
+   }
+   public void setEndRootConversation(boolean isEndRootConversation)
+   {
+      this.isEndRootConversation = isEndRootConversation;
    }
    public ValueExpression<Boolean> getBeginConversationCondition()
    {
