@@ -28,12 +28,13 @@ class IdentityRequestWrapper extends HttpServletRequestWrapper {
    }
 
    @Override
-   public Principal getUserPrincipal() {
-      return Identity.isSecurityEnabled() ? identity.getPrincipal() : null;
+   public Principal getUserPrincipal() 
+   {
+      return Identity.isSecurityEnabled() && identity != null ? identity.getPrincipal() : null;
    }
 
    @Override
    public boolean isUserInRole(String role) {
-      return getUserPrincipal() != null ? identity.hasRole(role) : false;
+      return getUserPrincipal() != null && identity != null ? identity.hasRole(role) : false;
    }
 }
