@@ -1,6 +1,7 @@
 //$Id$
 package org.jboss.seam.example.booking;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Remove;
@@ -51,8 +52,9 @@ public class HotelSearchingAction implements HotelSearching
                                 .getResultList();
         
         nextPageAvailable = results.size() > pageSize;
-        if (nextPageAvailable) {
-            hotels = results.subList(0,pageSize);
+        if (nextPageAvailable) 
+        {
+            hotels = new ArrayList<Hotel>(results.subList(0,pageSize));
         } else {
             hotels = results;
         }
