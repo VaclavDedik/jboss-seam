@@ -4,6 +4,7 @@ import static org.jboss.seam.util.Strings.split;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -85,7 +86,7 @@ public abstract class DeploymentStrategy
    private void addPropertyFromResourceBundle(String key, List<String> values)
    {
       for (String resourceName : RESOURCE_BUNDLES)
-      {
+      {        
          try
          {
             // Hard to cache as we have to get it off the correct classloader
@@ -94,8 +95,19 @@ public abstract class DeploymentStrategy
             {
                URL url = urlEnum.nextElement();
                Properties properties = new Properties();
-               properties.load(url.openStream());
-               addProperty(key, properties.getProperty(key), values);
+               InputStream propertyStream = url.openStream();
+               try
+               {
+                  properties.load(propertyStream);
+                  addProperty(key, properties.getProperty(key), values);
+               }
+               finally
+               {
+                  if (propertyStream != null)
+                  {
+                     propertyStream.close();
+                  }
+               }
             }
          }
          catch (IOException e)
