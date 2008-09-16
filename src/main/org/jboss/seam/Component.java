@@ -702,6 +702,12 @@ public class Component extends Model
          //can't use Init.instance() here because of unit tests
          Init init = (Init) applicationContext.get(Seam.getComponentName(Init.class));
          String contextVariable = toName( method.getAnnotation(org.jboss.seam.annotations.Factory.class).value(), method );
+         
+         if ( contextVariable.equals(name) )
+         {
+            throw new IllegalStateException("@Factory method can not share name with its containing component: " + contextVariable);
+         }
+         
          init.addFactoryMethod(contextVariable, method, this);
          if ( method.getAnnotation(org.jboss.seam.annotations.Factory.class).autoCreate() )
          {
