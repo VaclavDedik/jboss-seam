@@ -122,8 +122,15 @@ public class Interpolator
                         } else if (nextTok.equals("}")) {
                             if (--level == 0) {
                                 try {
-                                    String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
-                                    builder.append(value);
+                                    if (params.length == 0)
+                                    {
+                                        builder.append(expr.toString());
+                                    }
+                                    else
+                                    {
+                                        String value = new MessageFormat(expr.toString(), Locale.instance()).format(params);
+                                        builder.append(value);
+                                    }
                                 } catch (Exception e) {
                                     // if it is a bad message, use the expression itself
                                     builder.append(expr);                             
