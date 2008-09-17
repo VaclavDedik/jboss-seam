@@ -247,11 +247,21 @@ public class Reflections
       for (Method method: methods)
       {
          String methodName = method.getName();
-         if ( methodName.matches("^(get|is).*") && method.getParameterTypes().length==0 )
+         if ( method.getParameterTypes().length==0 )
          {
-            if ( Introspector.decapitalize( methodName.substring(3) ).equals(name) )
+            if ( methodName.startsWith("get") )
             {
-               return method;
+               if ( Introspector.decapitalize( methodName.substring(3) ).equals(name) )
+               {
+                  return method;
+               }
+            }
+            else if ( methodName.startsWith("is") )
+            {
+               if ( Introspector.decapitalize( methodName.substring(2) ).equals(name) )
+               {
+                  return method;
+               }
             }
          }
       }
