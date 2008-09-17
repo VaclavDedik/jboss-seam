@@ -9,7 +9,7 @@
 	<import file="${seam.dir}/build/common.build.xml" />
 	
 	<target name="init">
-        <path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
+        <path id="seam-gen.path" path="${seam.dir}/lib/gen/jboss-seam-gen.jar" />
 
 	    <!-- taskdefs -->
 	    <taskdef name="normalizeProjectName" 
@@ -610,23 +610,23 @@
     	
         <copy todir="${project.home}/lib" overwrite="true">
             <fileset dir="../lib">
-                <exclude name="jsf-facelets.jar" if="icefaces.property"/>
-                <exclude name="ajax4jsf*.jar" if="icefaces.property"/>
-                <exclude name="richfaces*.jar" if="icefaces.property"/>
+               <exclude name="jsf-facelets.jar" if="icefaces.property"/>
+               <exclude name="ajax4jsf*.jar" if="icefaces.property"/>
+               <exclude name="richfaces*.jar" if="icefaces.property"/>
             	<exclude name="jboss-container.jar" />
             	<exclude name="jboss-seam-wicket.jar" />
             	<exclude name="jboss-seam-resteasy.jar" />
             	<exclude name="test/jboss-deplyers.jar" />
             	<exclude name="test/jboss-embedded-api.jar" />
-                <exclude name="interop/**/*" />
+               <exclude name="interop/**/*" />
             	<exclude name="gen/**/*" />
             </fileset>
             <fileset file="${driver.jar}"/>
         </copy>
 
         <echo message="Copying JBoss Embedded configuration to the ${project.home}/bootstrap directory..." />
-          <copy todir="${project.home}/bootstrap" overwrite="true">
-            <fileset dir="../bootstrap" />
+        <copy todir="${project.home}/bootstrap" overwrite="true">
+           <fileset dir="../bootstrap" />
         </copy>
         
     </target>
@@ -1073,21 +1073,21 @@
 	</target>
 		
 	<target name="init-generate">
-		<path id="htools.classpath">
-		    <pathelement path="../lib/ant.jar"/>
-            <pathelement path="../lib/hibernate-tools.jar"/>
-            <pathelement path="../lib/freemarker.jar"/>
-            <pathelement path="../lib/jboss-seam.jar"/>
-            <pathelement path="../lib/runtime.jar"/>
-            <pathelement path="../lib/common.jar"/>
-            <pathelement path="../lib/text.jar"/>  
+      <path id="htools.classpath">
+         <pathelement path="../lib/ant.jar"/>
+         <pathelement path="../lib/gen/hibernate-tools.jar"/>
+         <pathelement path="../lib/gen/freemarker.jar"/>
+         <pathelement path="../lib/jboss-seam.jar"/>
+         <pathelement path="../lib/gen/runtime.jar"/>
+         <pathelement path="../lib/gen/common.jar"/>
+         <pathelement path="../lib/gen/text.jar"/>  
         	<pathelement path="../lib/dom4j.jar" />
         	<pathelement path="../lib/persistence-api.jar" />
         	<pathelement path="../lib/hibernate.jar" />
         	<pathelement path="../lib/hibernate-commons-annotations.jar" />
         	<pathelement path="../lib/hibernate-annotations.jar" />
         	<pathelement path="../lib/hibernate-entitymanager.jar" />
-            <pathelement path="../lib/hibernate-validator.jar"/>
+         <pathelement path="../lib/hibernate-validator.jar"/>
         	<pathelement path="../lib/commons-collections.jar" />
         	<pathelement path="../lib/commons-logging.jar" />
         	<pathelement path="../lib/javassist.jar" />
@@ -1095,9 +1095,9 @@
         	<pathelement path="../lib/asm.jar" />
         	<pathelement path="../lib/core.jar" />
         	<pathelement path="../lib/jboss-common-core.jar" />
-		    <pathelement path="../lib/concurrent.jar"/>
-            <pathelement path="${driver.jar}"/>
-        	<pathelement path="../lib/jboss-seam-gen.jar"/>
+         <pathelement path="../lib/concurrent.jar"/>
+         <pathelement path="${driver.jar}"/>
+        	<pathelement path="../lib/gen/jboss-seam-gen.jar"/>
         </path>
 		<taskdef name="hibernate" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="htools.classpath"/>
 	</target>

@@ -349,7 +349,7 @@
 	</target>
 
 	<target name="jargen" depends="compilegen" description="Build the distribution .jar file for the gen package">
-		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" pom="${gen.pom}"  srcdir="${src.gen.dir}"/>
+		<archive classesdir="${classes.gen.dir}" module="jboss-seam-gen" pom="${gen.pom}"  srcdir="${src.gen.dir}" outputdir="${lib.dir}/gen"/>
 	</target>
 
 
@@ -1081,7 +1081,7 @@
 	</target>
 	
 	<target name="eclipseclasspath" depends="init, jargen" description="Update eclipse classpath">
-		<path id="seam-gen.path" path="${seam.dir}/lib/jboss-seam-gen.jar" />
+		<path id="seam-gen.path" path="${seam.dir}/lib/gen/jboss-seam-gen.jar" />
 
 	    <taskdef name="eclipseClasspath" 
 	        classname="org.jboss.seam.tool.EclipseClasspathTask" 
