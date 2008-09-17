@@ -117,22 +117,23 @@ public class Pages
    
    public void initialize()
    {
-       pagesByViewId = Collections.synchronizedMap(new HashMap<String, Page>());   
-       pageStacksByViewId = Collections.synchronizedMap(new HashMap<String, List<Page>>());   
-       conversations = Collections.synchronizedMap(new HashMap<String, ConversationIdParameter>());
+      pagesByViewId = Collections.synchronizedMap(new HashMap<String, Page>());   
+      pageStacksByViewId = Collections.synchronizedMap(new HashMap<String, List<Page>>());   
+      conversations = Collections.synchronizedMap(new HashMap<String, ConversationIdParameter>());
 
-       for (String resource: resources) {
-           InputStream stream = ResourceLoader.instance().getResourceAsStream(resource);      
-           if (stream==null) {
-               log.info("no pages.xml file found: " + resource);
-           } else {
-               log.debug("reading pages.xml file: " + resource);
-               parse(stream);
-           }
-       }
-       
-       parsePages(hotDotPageDotXmlFileNames, dotPageDotXmlFileNames);
-       
+      for (String resource: resources) 
+      {
+         InputStream stream = ResourceLoader.instance().getResourceAsStream(resource);      
+         if (stream==null) 
+         {
+            log.info("no pages.xml file found: " + resource);
+         } else {
+            log.debug("reading pages.xml file: " + resource);
+            parse(stream);
+         }
+      }
+
+      parsePages(hotDotPageDotXmlFileNames, dotPageDotXmlFileNames);
    }
    
    private void parsePages(Set<String> ...fileNames)
@@ -144,7 +145,11 @@ public class Pages
       }
       for (String fileName: mergedFileNames)  
       {
-         String viewId = "/" + fileName.substring(0,fileName.length()-".page.xml".length()) + ".xhtml"; // needs more here
+         if (!fileName.startsWith("/"))
+         {
+            fileName = "/" + fileName;
+         }
+         String viewId = fileName.substring(0,fileName.length()-".page.xml".length()) + ".xhtml"; // needs more here
          
          InputStream stream = ResourceLoader.instance().getResourceAsStream(fileName);      
          if (stream==null) 
