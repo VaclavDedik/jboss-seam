@@ -1,6 +1,7 @@
 package org.jboss.seam.security.management.action;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Conversation;
@@ -15,6 +17,7 @@ import org.jboss.seam.security.management.IdentityManager;
 
 @Name("org.jboss.seam.security.management.roleAction")
 @Scope(CONVERSATION)
+@Install(precedence = BUILT_IN)
 public class RoleAction implements Serializable
 {
    private String role;

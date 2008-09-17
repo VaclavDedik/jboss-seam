@@ -1,6 +1,7 @@
 package org.jboss.seam.security.permission.action;
 
 import static org.jboss.seam.ScopeType.CONVERSATION;
+import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
 import java.security.Principal;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.datamodel.DataModel;
@@ -21,6 +23,7 @@ import org.jboss.seam.security.permission.PermissionManager;
 
 @Scope(CONVERSATION)
 @Name("org.jboss.seam.security.permission.permissionSearch")
+@Install(precedence = BUILT_IN)
 public class PermissionSearch implements Serializable
 {
    private Map<Principal,List<Permission>> groupedPermissions = new HashMap<Principal,List<Permission>>();
