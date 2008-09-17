@@ -32,10 +32,7 @@
             <div class="blogText"><s:formattedText value="#{selectedBlog.text}"/></div>
             <div class="blogFooter">
               <s:span rendered="#{s:hasPermission(selectedBlog, 'create')}">              
-                [<s:link view="/comment.seam" value="Add Comment" propagation="none">
-                   <f:param name="name" value="#{selectedMember.memberName}"/>
-                   <f:param name="blogId" value="#{selectedBlog.blogId}"/>
-                 </s:link>]
+                [<s:link action="#{commentAction.createComment}" value="Add Comment"/>]
               </s:span>
               [<s:link view="/blog.seam" value="View all blog entries" propagation="none">
                  <f:param name="name" value="#{selectedMember.memberName}"/>

@@ -124,12 +124,11 @@ rule CreateBlogComment
   no-loop
   activation-group "permissions"
 when
-  check: PermissionCheck(target == "blogComment", action == "create", granted == false)
+  check: PermissionCheck(target == "blogComment", action == "insert", granted == false)
   Role(name == "user")
 then
   check.grant();
 end
-
 
 # This rule grants permission for users to create their own blog entries
 rule CreateBlog

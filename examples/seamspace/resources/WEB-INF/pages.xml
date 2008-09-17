@@ -18,10 +18,7 @@
     <page view-id="/comment.xhtml" login-required="true">
       <restrict/>
       
-      <param name="name" value="#{blog.name}"/>
-      <param name="blogId" value="#{blog.blogId}"/>
-      
-      <navigation from-action="#{blog.saveComment}">
+      <navigation from-action="#{commentAction.saveComment}">
         <redirect view-id="/blogentry.xhtml"/>
       </navigation>
     </page>
@@ -41,7 +38,7 @@
     <page view-id="/register2.xhtml">
       <navigation from-action="#{register.uploadPicture}">
         <redirect view-id="/profile.xhtml">
-          <param name="name" value="#{newMember.memberName}"/>
+          <param name="name" value="#{register.member.memberName}"/>
         </redirect>
       </navigation>
     </page>    
@@ -60,6 +57,10 @@
     <page view-id="/blogentry.xhtml">
       <param name="name" value="#{blog.name}"/>
       <param name="blogId" value="#{blog.blogId}"/>
+      
+      <navigation from-action="#{commentAction.createComment}">
+        <redirect view-id="/comment.xhtml"/>
+      </navigation>
 
     </page>
     

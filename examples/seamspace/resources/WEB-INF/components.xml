@@ -29,21 +29,20 @@
     
     <!--security:identity-manager identity-store="#{ldapIdentityStore}"/-->
     
-    <!--security:ldap-identity-store
-      server-address="60.241.32.50"
+    <security:ldap-identity-store name="ldapIdentityStore"
+      server-address="localhost"
       bind-DN="cn=Manager,dc=bryzak,dc=com"
       bind-credentials="secret"
       user-DN-prefix="uid="
       user-DN-suffix=",ou=Person,dc=bryzak,dc=com"
       role-DN-prefix="cn="
-      role-DN-suffix=",ou=Roles,dc=bryzak,dc=com"
+      role-DN-suffix=",ou=Role,dc=bryzak,dc=com"
       user-context-DN="ou=Person,dc=bryzak,dc=com"
-      role-context-DN="ou=Roles,dc=bryzak,dc=com"
+      role-context-DN="ou=Role,dc=bryzak,dc=com"
       user-role-attribute="roles"
       role-name-attribute="cn"
       user-object-classes="person,uidObject"
-      enabled-attribute="enabled"
-      /-->
+      />
       
     <security:jpa-permission-store user-permission-class="org.jboss.seam.example.seamspace.AccountPermission"/>
        
@@ -55,7 +54,7 @@
     
     <web:multipart-filter create-temp-files="true" 
                           max-request-size="1000000" 
-                          url-pattern="*.seam"/>
+                          url-pattern="*.seam"/>   
                           
     <web:context-filter url-pattern="/content/*"/>
 

@@ -10,7 +10,7 @@
 
       <div class="errors"><h:messages globalOnly="true"/></div>
 
-      <s:div rendered="#{comment == null}">
+      <s:div rendered="#{commentAction.comment == null}">
         Could not create comment.
       </s:div>
 
@@ -32,12 +32,12 @@
             <div class="blogText"><s:formattedText value="#{selectedBlog.text}"/></div>
           </div>
 
-          <s:div rendered="#{comment.comment != null}">
+          <s:div rendered="#{commentAction.comment.comment != null}">
             Preview:
 	          <table class="blogComment">
 	            <tr>
 		            <td class="blogCommentText">
-		              <p><s:formattedText value="#{comment.comment}"/></p>
+		              <p><s:formattedText value="#{commentAction.comment.comment}"/></p>
 		            </td>
 	            </tr>
 	          </table>
@@ -47,10 +47,10 @@
             <h:form>
 
               <h:outputLabel for="comment">Please type your comment</h:outputLabel><br/>
-              <h:inputTextarea id="comment" value="#{comment.comment}"/><br/>
+              <h:inputTextarea id="comment" value="#{commentAction.comment.comment}"/><br/>
 
               <div class="buttons">
-                <h:commandButton action="#{blog.saveComment}" value="Add comment" styleClass="action"/>
+                <h:commandButton action="#{commentAction.saveComment}" value="Add comment" styleClass="action"/>
                 <h:commandButton value="Preview" styleClass="action"/>
               </div>
 

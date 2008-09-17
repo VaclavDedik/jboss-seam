@@ -10,11 +10,9 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.End;
-import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Observer;
-import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.security.Identity;
@@ -26,8 +24,7 @@ import org.jboss.seam.security.management.JpaIdentityStore;
 @Name("register")
 public class RegisterAction
 {
-   @In(required = false) @Out
-   private Member newMember;
+   private Member member;
    
    @In
    private EntityManager entityManager;
@@ -55,15 +52,15 @@ public class RegisterAction
    
    private boolean verified;
 
-   @Factory("newMember") @Begin(join = true)
+   @Begin
    public void start()
    {
-      newMember = new Member();
+      member = new Member();
    }
    
    public void next()
    {
-      newMember.setGender(Member.Gender.valueOf(gender.toLowerCase()));
+      member.setGender(Member.Gender.valueOf(gender.toLowerCase()));
       
       verified = (confirm != null && confirm.equals(password));
       
@@ -79,28 +76,28 @@ public class RegisterAction
       // The user *may* have been created from the user manager screen. In that
       // case, create a dummy Member record just for the purpose of demonstrating the
       // identity management API
-      if (newMember == null)
+      if (member == null)
       {
-         newMember = new Member();
-         newMember.setMemberName(account.getUsername());
-         newMember.setGender(Member.Gender.male);
-         newMember.setFirstName("John");
-         newMember.setLastName("Doe");
-         newMember.setEmail(account.getUsername() + "@nowhere.com");
-         newMember.setDob(new Date());
-         newMember.setMemberSince(new Date());
-         entityManager.persist(newMember);
+         member = new Member();
+         member.setMemberName(account.getUsername());
+         member.setGender(Member.Gender.male);
+         member.setFirstName("John");
+         member.setLastName("Doe");
+         member.setEmail(account.getUsername() + "@nowhere.com");
+         member.setDob(new Date());
+         member.setMemberSince(new Date());
+         entityManager.persist(member);
       }
       
-      account.setMember(newMember);
+      account.setMember(member);
       this.newAccount = account;
    }
 
    @End
    public void uploadPicture() 
    {  
-      newMember.setMemberSince(new Date());      
-      entityManager.persist(newMember);      
+      member.setMemberSince(new Date());      
+      entityManager.persist(member);      
       
       new RunAsOperation() {
          public void execute() {
@@ -110,25 +107,30 @@ public class RegisterAction
       }.addRole("admin")
        .run();
             
-      newAccount.setMember(newMember);
+      newAccount.setMember(member);
       newAccount = entityManager.merge(newAccount);
 
       if (picture != null && picture.length > 0)
       {
          MemberImage img = new MemberImage();
          img.setData(picture);
-         img.setMember(newMember);
+         img.setMember(member);
          img.setContentType(pictureContentType);
          entityManager.persist(img);
-         newMember.setPicture(img);
+         member.setPicture(img);
          
-         newMember = entityManager.merge(newMember);
+         member = entityManager.merge(member);
       }
       
       // Login the user
-      identity.setUsername(username);
-      identity.setPassword(password);
+      identity.getCredentials().setUsername(username);
+      identity.getCredentials().setPassword(password);
       identity.login();
+   }
+   
+   public Member getMember()
+   {
+      return member;
    }
    
    public String getUsername()

@@ -24,25 +24,25 @@
             <s:validateAll>
               <div class="formRow">
                 <h:outputLabel for="email">Email address<em>*</em></h:outputLabel>
-                <h:inputText id="email" value="#{newMember.email}" required="true" styleClass="wide"/>
+                <h:inputText id="email" value="#{register.member.email}" required="true" styleClass="wide"/>
                 <div class="validationError"><h:message for="email"/></div>
               </div>
 
               <div class="formRow">
                 <h:outputLabel for="firstName">First name<em>*</em></h:outputLabel>
-                <h:inputText id="firstName" value="#{newMember.firstName}" required="true"/>
+                <h:inputText id="firstName" value="#{register.member.firstName}" required="true"/>
                 <div class="validationError"><h:message for="firstName"/></div>
               </div>
               
               <div class="formRow">
                 <h:outputLabel for="lastName">Last name<em>*</em></h:outputLabel>
-                <h:inputText id="lastName" value="#{newMember.lastName}" required="true"/>
+                <h:inputText id="lastName" value="#{register.member.lastName}" required="true"/>
                 <div class="validationError"><h:message for="lastName"/></div>
               </div>    
               
               <div class="formRow">
                 <h:outputLabel for="memberName">Nick name<em>*</em></h:outputLabel>
-                <h:inputText id="memberName" value="#{newMember.memberName}" required="true"/>
+                <h:inputText id="memberName" value="#{register.member.memberName}" required="true"/>
                 <div class="validationError"><h:message for="memberName"/></div>
               </div>
               
@@ -75,7 +75,7 @@
 
               <div class="formRow">
                 <h:outputLabel for="dob">Date of birth<em>*</em></h:outputLabel>
-               	<rich:calendar id="dob" value="#{newMember.dob}" required="true" datePattern="MM/dd/yyyy" buttonIcon="images/ellipsis.png" />
+               	<rich:calendar id="dob" value="#{register.member.dob}" required="true" datePattern="MM/dd/yyyy" buttonIcon="images/ellipsis.png" />
                 <div class="validationError"><h:message for="dob"/></div>
               </div>           
               

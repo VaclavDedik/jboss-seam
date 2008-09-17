@@ -15,7 +15,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.security.Insert;
 
 @Scope(CONVERSATION)
 @Name("blog")
@@ -29,9 +28,6 @@ public class BlogAction
    
    @In(required = false) @Out(required = false)
    private MemberBlog selectedBlog;
-   
-   @In(required = false) @Out(required = false, scope = CONVERSATION)
-   private BlogComment comment;   
    
    @In(required = false)
    private Member authenticatedMember;
@@ -52,30 +48,7 @@ public class BlogAction
            .getSingleResult();
       }
       catch (NoResultException ex) { }
-   }
-   
-   @Factory("comment") @Insert(BlogComment.class) @Begin(join = true)
-   public void createComment()
-   {            
-      comment = new BlogComment();
-      comment.setCommentor(authenticatedMember);
-      
-      if (selectedBlog == null && name != null && blogId != null)
-         getBlog();         
-      
-      comment.setBlog(selectedBlog);
-   }
-   
-   @End
-   public void saveComment()
-   {      
-      comment.setCommentDate(new Date());
-      entityManager.persist(comment);
-      
-      // Reload the blog entry
-      selectedBlog = (MemberBlog) entityManager.find(MemberBlog.class, 
-            comment.getBlog().getBlogId());
-   }     
+   }   
    
    @Begin
    public void createEntry()
