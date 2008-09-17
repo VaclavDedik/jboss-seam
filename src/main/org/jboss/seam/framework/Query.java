@@ -1,6 +1,7 @@
 package org.jboss.seam.framework;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -263,7 +264,7 @@ public abstract class Query<T, E>
    
    protected boolean isRestrictionParameterSet(Object parameterValue)
    {
-      return parameterValue!=null && !"".equals(parameterValue);
+      return parameterValue != null && !"".equals(parameterValue) && parameterValue instanceof Collection ? !((Collection) parameterValue).isEmpty() : true;
    }
 
    /**
