@@ -264,7 +264,7 @@ public abstract class Query<T, E>
    
    protected boolean isRestrictionParameterSet(Object parameterValue)
    {
-      return parameterValue != null && !"".equals(parameterValue) && parameterValue instanceof Collection ? !((Collection) parameterValue).isEmpty() : true;
+      return parameterValue != null && !"".equals(parameterValue) && (parameterValue instanceof Collection ? !((Collection) parameterValue).isEmpty() : true);
    }
 
    /**
