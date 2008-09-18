@@ -6,9 +6,12 @@
  */
 package org.jboss.seam.contexts;
 
+import java.util.Map;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
+import javax.servlet.ServletRequest;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.log.LogProvider;
@@ -58,6 +61,21 @@ public class FacesLifecycle
       }
       Contexts.conversationContext.set(null); //in case endRequest() was never called
       //Events.instance(); //TODO: only for now, until we have a way to do EL outside of JSF!
+      
+      saveRequestPath(externalContext);
+   }
+   
+   
+   /**
+    * with rewriting, the filter chain might not have access to the post-rewrite request information.
+    * we'll save some of the information that we may need.
+    */
+   private static void saveRequestPath(ExternalContext externalContext) {
+       Map<String, Object> map = externalContext.getRequestMap();
+           
+       map.put("org.jboss.seam.web.requestServletPath", externalContext.getRequestServletPath());
+       map.put("org.jboss.seam.web.requestContextPath", externalContext.getRequestContextPath());
+       map.put("org.jboss.seam.web.requestPathInfo",    externalContext.getRequestPathInfo());
    }
 
    public static void beginExceptionRecovery(ExternalContext externalContext)

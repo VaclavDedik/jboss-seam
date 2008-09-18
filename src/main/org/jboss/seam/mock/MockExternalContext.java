@@ -182,7 +182,8 @@ public class MockExternalContext extends ExternalContext
    @Override
    public String getRequestContextPath()
    {
-      return request.getContextPath();
+      String path = (String) request.getAttribute("org.jboss.seam.web.requestContextPath");
+      return path!=null ? path : request.getContextPath();
    }
 
    @Override
@@ -304,13 +305,15 @@ public class MockExternalContext extends ExternalContext
    @Override
    public String getRequestPathInfo()
    {
-      return request.getPathInfo();
+       String path = (String) request.getAttribute("org.jboss.seam.web.requestPathInfo");
+       return path!=null ? path : request.getPathInfo();
    }
 
    @Override
    public String getRequestServletPath()
    {
-      return request.getServletPath();
+       String path = (String) request.getAttribute("org.jboss.seam.web.requestServletPath");
+       return path!=null ? path : request.getPathInfo();
    }
 
    @Override
