@@ -31,23 +31,28 @@ public class MockViewHandler extends ViewHandler {
 	}
 
 	@Override
-	public String getActionURL(FacesContext ctx, String viewId) 
+	public String getActionURL(FacesContext ctx, String viewId)
    {
-	   String contextPath = ctx.getExternalContext().getRequestContextPath();
-	   String pathInfo    = ctx.getExternalContext().getRequestPathInfo();
-	   String servletPath = ctx.getExternalContext().getRequestServletPath();
-	   
-	   if (Strings.isEmpty(pathInfo)) {
-	      int loc = viewId.lastIndexOf('.');
-	      if (loc<0) throw new IllegalArgumentException("no file extension in view id: " + viewId);
-	      int sploc = servletPath.lastIndexOf('.');
-	      if (sploc<0) throw new IllegalArgumentException("no file extension in servlet path: " + servletPath);
-	      return contextPath + viewId.substring(0, loc) + servletPath.substring(sploc);
-	      
-	   } else {
-	      return contextPath + servletPath + viewId;
-	   }
-	}
+      String contextPath = ctx.getExternalContext().getRequestContextPath();
+      String pathInfo = ctx.getExternalContext().getRequestPathInfo();
+      String servletPath = ctx.getExternalContext().getRequestServletPath();
+
+      if (Strings.isEmpty(pathInfo))
+      {
+         int loc = viewId.lastIndexOf('.');
+         if (loc < 0)
+            throw new IllegalArgumentException("no file extension in view id: " + viewId);
+         int sploc = servletPath.lastIndexOf('.');
+         if (sploc < 0)
+            throw new IllegalArgumentException("no file extension in servlet path: " + servletPath);
+         return contextPath + viewId.substring(0, loc) + servletPath.substring(sploc);
+
+      }
+      else
+      {
+         return contextPath + servletPath + viewId;
+      }
+   }
 
 	@Override
 	public String getResourceURL(FacesContext ctx, String url) 
