@@ -375,7 +375,7 @@ C:\Projects\jboss-seam&gt;</programlisting>
             </listitem>
 
             <listitem>
-                <para>entities can never be hot-deloyed</para>
+                <para>entities can never be hot-deployed</para>
             </listitem>
 
             <listitem>
