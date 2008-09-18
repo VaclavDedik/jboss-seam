@@ -25,15 +25,15 @@ public class RegisterTest extends SeamTest
          @Override 
          protected void updateModelValues() throws Exception
          {
-            setValue("#{newMember.email}", "shane@test.com");
-            setValue("#{newMember.firstName}", "Shane");
-            setValue("#{newMember.lastName}", "Bryzak");
-            setValue("#{newMember.memberName}", "shane123");
+            setValue("#{register.member.email}", "shane@test.com");
+            setValue("#{register.member.firstName}", "Shane");
+            setValue("#{register.member.lastName}", "Bryzak");
+            setValue("#{register.member.memberName}", "shane123");
             setValue("#{register.username}", "sbryzak");
             setValue("#{register.password}", "secret");
             setValue("#{register.confirm}", "secret");
             setValue("#{register.gender}", "Male");
-            setValue("#{newMember.dob}", new Date(107100000000L));                        
+            setValue("#{register.member.dob}", new Date(107100000000L));                        
          }
          
          @Override
