@@ -1512,8 +1512,8 @@
       <para>
          Images are nested within columns (for iteration) or inside worksheets
          (for direct placement using the <literal>startColumn/startRow</literal>
-         and <literal>endColumn/endRow</literal>
-         attributes)
+         and <literal>rowSpan/columnSpan</literal> attributes). The spans are 
+         optional and if omitted, the image will be inserted without resizing.
       </para>
       <informaltable>
          <tgroup cols="2">
