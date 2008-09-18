@@ -635,8 +635,6 @@ public class Initialization
       Contexts.getEventContext().set(StandardDeploymentStrategy.NAME, standardDeploymentStrategy);
       Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
       
-      installComponents(init);
-      
       if (hotDeploymentStrategy.isEnabled())
       {
          hotDeploymentStrategy.scan();
@@ -647,8 +645,10 @@ public class Initialization
          // TODO Hack
          hotDeploymentStrategy.getFiles().add(warRootDirectory);
          init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
-      }
+      }      
       
+      installComponents(init);
+           
       for (String globalImport: globalImports)
       {
          init.importNamespace(globalImport);
