@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,9 +21,10 @@ public class Artist
    private String name;
    
    @OneToMany(mappedBy="artist", cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-   @OrderBy("release")
+   @OrderBy("_release")
    private List<Disc> discs;
    
+   @Column(length=5000)
    private String description;
    
    public Artist()

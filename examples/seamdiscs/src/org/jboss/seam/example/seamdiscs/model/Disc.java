@@ -3,6 +3,7 @@ package org.jboss.seam.example.seamdiscs.model;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,12 +20,12 @@ public class Disc
    
    private String name;
    
-   private Integer release;
+   private Integer _release;
    
    @ManyToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
    private Artist artist;
    
-   
+   @Column(length=5000)
    private String description;
    
    public Disc()
@@ -78,12 +79,12 @@ public class Disc
    
    public Integer getRelease()
    {
-      return release;
+      return _release;
    }
    
    public void setRelease(Integer release)
    {
-      this.release = release;
+      this._release = release;
    }
    
 }
