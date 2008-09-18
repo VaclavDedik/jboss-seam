@@ -158,7 +158,7 @@ public class Exceptions
             try
             {
                logLevel = exception.attributeValue("logLevel") != null ?
-                     LogLevel.valueOf(exception.attributeValue("logLevel")) : null;
+                     LogLevel.valueOf(exception.attributeValue("logLevel").toLowerCase()) : null;
             }
             catch (IllegalArgumentException ex)
             { 
