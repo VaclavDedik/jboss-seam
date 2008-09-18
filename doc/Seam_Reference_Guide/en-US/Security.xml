@@ -4918,21 +4918,17 @@ public class HitchhikersCaptcha extends Captcha
     
     <para>
       The following code example demonstrates how <literal>RunAsOperation</literal> is used, by
-      overriding its <literal>getRoles()</literal> method to specify a set of roles to masquerade
+      calling its <literal>addRole()</literal> method to provide a set of roles to masquerade
       as for the duration of the operation.  The <literal>execute()</literal> method contains the
       code that will be executed with the elevated privileges.
     </para>
     
-    <programlisting role="JAVA"><![CDATA[    new RunAsOperation() {
-       @Override
-       public String[] getRoles() {
-          return new String[] { "admin" };
-       }
-       
+    <programlisting role="JAVA"><![CDATA[    new RunAsOperation() {       
        public void execute() {
           executePrivilegedOperation();
        }         
-    }.run();]]></programlisting>
+    }.addRole("admin")
+     .run();]]></programlisting>
     
     <para>
         In a similar way, the <literal>getPrincipal()</literal> or <literal>getSubject()</literal>
