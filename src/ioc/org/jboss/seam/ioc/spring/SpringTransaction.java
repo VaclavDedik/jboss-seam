@@ -155,7 +155,7 @@ public class SpringTransaction extends AbstractUserTransaction
             {
                transaction = currentTransaction;
             }
-            // If SynchronizationManager things it has an active transaction but
+            // If SynchronizationManager thinks it has an active transaction but
             // our transaction is a new one
             // then we must be in the middle of committing
             if (transaction.isCompleted())
