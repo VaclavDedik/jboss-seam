@@ -13,6 +13,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.util.Faces;
 
 @Name("org.jboss.seam.document.documentStore")
 @Scope(ScopeType.CONVERSATION)
@@ -85,16 +86,9 @@ public class DocumentStore
             FacesContext context = FacesContext.getCurrentInstance();
             ViewHandler handler = context.getApplication().getViewHandler();
             String url = handler.getActionURL(context, 
-                    DOCSTORE_BASE_URL + getDefaultSuffix(context));
+                    DOCSTORE_BASE_URL + Faces.getDefaultSuffix(context));
             return context.getExternalContext().encodeActionURL(url);
         }
     }
-    
-    public static String getDefaultSuffix(FacesContext context) 
-        throws FacesException 
-    {
-        String viewSuffix = context.getExternalContext().getInitParameter(ViewHandler.DEFAULT_SUFFIX_PARAM_NAME);
-        return (viewSuffix != null) ? viewSuffix : ViewHandler.DEFAULT_SUFFIX;
-    }
+
 }
-   
