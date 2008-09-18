@@ -313,7 +313,7 @@ public class MockExternalContext extends ExternalContext
    public String getRequestServletPath()
    {
        String path = (String) request.getAttribute("org.jboss.seam.web.requestServletPath");
-       return path!=null ? path : request.getPathInfo();
+       return path!=null ? path : request.getServletPath();
    }
 
    @Override
