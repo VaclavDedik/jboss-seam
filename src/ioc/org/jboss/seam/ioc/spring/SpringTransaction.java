@@ -22,13 +22,12 @@ import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.transaction.AbstractUserTransaction;
+import org.jboss.seam.transaction.Synchronizations;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionSynchronization;
-import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -53,25 +52,20 @@ public class SpringTransaction extends AbstractUserTransaction
    private Boolean joinTransaction;
 
    @Override
-   public void registerSynchronization(final Synchronization sync)
+   public void registerSynchronization(Synchronization sync)
    {
-      if (TransactionSynchronizationManager.isSynchronizationActive())
-      {
-         TransactionSynchronizationManager.registerSynchronization(new JtaSpringSynchronizationAdapter(sync));
-      }
-      else
-      {
-         throw new IllegalStateException("TransactionSynchronization not available with this Spring Transaction Manager");
-      }
+      getSynchronizations().registerSynchronization(sync);
    }
 
    public void begin() throws NotSupportedException, SystemException
    {
+      log.debug("beginning Spring transaction");
       if (TransactionSynchronizationManager.isActualTransactionActive())
       {
          throw new NotSupportedException("A Spring transaction is already active.");
       }
       currentTransaction = getPlatformTransactionManagerRequired().getTransaction(definition);
+      getSynchronizations().afterTransactionBegin();
    }
 
    /**
@@ -98,7 +92,8 @@ public class SpringTransaction extends AbstractUserTransaction
       return ptm;
    }
 
-   private PlatformTransactionManager getPlatformTransactionManagerRequired() {
+   private PlatformTransactionManager getPlatformTransactionManagerRequired()
+   {
       PlatformTransactionManager ptm = getPlatformTransactionManager();
       if (ptm == null)
       {
@@ -119,14 +114,20 @@ public class SpringTransaction extends AbstractUserTransaction
 
    public void commit() throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException
    {
+      log.debug("committing Spring transaction");
       assertActive();
+      boolean success = false;
+      Synchronizations synchronizations = getSynchronizations();
+      synchronizations.beforeTransactionCommit();
       try
       {
          getPlatformTransactionManagerRequired().commit(currentTransaction);
+         success = true;
       }
       finally
       {
          currentTransaction = null;
+         synchronizations.afterTransactionCommit(success);
       }
    }
 
@@ -187,6 +188,7 @@ public class SpringTransaction extends AbstractUserTransaction
 
    public void rollback() throws IllegalStateException, SecurityException, SystemException
    {
+      log.debug("rolling back Spring transaction");
       assertActive();
       try
       {
@@ -195,6 +197,7 @@ public class SpringTransaction extends AbstractUserTransaction
       finally
       {
          currentTransaction = null;
+         getSynchronizations().afterTransactionRollback();
       }
    }
 
@@ -306,46 +309,5 @@ public class SpringTransaction extends AbstractUserTransaction
    public void setJoinTransaction(Boolean joinTransaction)
    {
       this.joinTransaction = joinTransaction;
-   }
-
-   public class JtaSpringSynchronizationAdapter extends TransactionSynchronizationAdapter
-   {
-      @Override
-      public int getOrder()
-      {
-         return SeamLifecycleUtils.SEAM_LIFECYCLE_SYNCHRONIZATION_ORDER - 1;
-      }
-
-      private final Synchronization sync;
-
-      public JtaSpringSynchronizationAdapter(Synchronization sync)
-      {
-         this.sync = sync;
-      }
-
-      @Override
-      public void afterCompletion(int status)
-      {
-         sync.afterCompletion(convertSpringStatus(status));
-      }
-
-      @Override
-      public void beforeCompletion()
-      {
-         sync.beforeCompletion();
-      }
-
-      private int convertSpringStatus(int springStatus)
-      {
-         switch (springStatus)
-         {
-         case TransactionSynchronization.STATUS_COMMITTED:
-            return Status.STATUS_COMMITTED;
-         case TransactionSynchronization.STATUS_ROLLED_BACK:
-            return Status.STATUS_ROLLEDBACK;
-         default:
-            return Status.STATUS_UNKNOWN;
-         }
-      }
    }
 }
