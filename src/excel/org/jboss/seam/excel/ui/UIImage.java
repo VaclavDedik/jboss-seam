@@ -9,8 +9,8 @@ public class UIImage extends ExcelComponent implements WorksheetItem
    private String URI;
    private Integer startColumn;
    private Integer startRow;
-   private Integer columnSpan;
-   private Integer rowSpan;
+   private Double columnSpan;
+   private Double rowSpan;
 
    public String getURI()
    {
@@ -42,22 +42,22 @@ public class UIImage extends ExcelComponent implements WorksheetItem
       this.startColumn = startColumn;
    }
 
-   public Integer getRowSpan()
+   public Double getRowSpan()
    {
-      return (Integer) valueOf("rowSpan", rowSpan);
+      return (Double) valueOf("rowSpan", rowSpan);
    }
 
-   public void setRowSpan(Integer rowSpan)
+   public void setRowSpan(Double rowSpan)
    {
       this.rowSpan = rowSpan;
    }
 
-   public Integer getColumnSpan()
+   public Double getColumnSpan()
    {
-      return (Integer) valueOf("columnSpan", columnSpan);
+      return (Double) valueOf("columnSpan", columnSpan);
    }
 
-   public void setColumnSpan(Integer columnSpan)
+   public void setColumnSpan(Double columnSpan)
    {
       this.columnSpan = columnSpan;
    }

@@ -1552,8 +1552,7 @@
                               <literal>columnSpan</literal>
                               &#8212;The column span of the image. The default
                               is one resulting in the default width of the
-                              image. The value is a number. Note that the value
-                              is 0-based.
+                              image. The value is a float.
                            </para>
                         </listitem>
                         <listitem>
@@ -1561,8 +1560,7 @@
                               <literal>rowSpan</literal>
                               &#8212;The row span of the image. The default is
                               the one resulting in the default height of the
-                              image. The value is a number. Note that the value
-                              is 0-based.
+                              image. The value is a float.
                            </para>
                         </listitem>
                         <listitem>
