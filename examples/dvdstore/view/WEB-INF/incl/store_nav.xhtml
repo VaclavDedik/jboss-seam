@@ -4,13 +4,13 @@
      xmlns:f="http://java.sun.com/jsf/core"
      xmlns:h="http://java.sun.com/jsf/html">
 
-    <ul>
-        <li id="page_home"><s:link view="/home.xhtml" value="Home" propagation="none"/></li>
-        <li id="page_shop"><s:link view="/browse.xhtml" value="Shop" propagation="none"/></li>
-        <f:subview id="my_orders_link" rendered="#{identity.loggedIn}">
-            <li id="page_orders"><s:link view="/showorders.xhtml" value="My Orders" propagation="none"/></li>
+    <ul id="Navigation">
+        <li id="page_home"><s:link id="Home" view="/home.xhtml" value="Home" propagation="none"/></li>
+        <li id="page_shop"><s:link id="Shop" view="/browse.xhtml" value="Shop" propagation="none"/></li>
+        <f:subview rendered="#{identity.loggedIn}">
+            <li id="page_orders"><s:link id="MyOrders" view="/showorders.xhtml" value="My Orders" propagation="none"/></li>
         </f:subview>
-        <li id="page_cart"><s:link view="/checkout.xhtml" value="Cart" propagation="none"/></li>
+        <li id="page_cart"><s:link id="Cart" view="/checkout.xhtml" value="Cart" propagation="none"/></li>
     </ul>
 
     <script type="text/javascript" language="JavaScript">

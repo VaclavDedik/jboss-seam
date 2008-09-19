@@ -30,14 +30,14 @@
                 
                 <dd>
                     <h:outputText value="#{messages.checkoutTotal}" />
-                    <h:outputText value="#{cart.total}">
+                    <h:outputText id="CartTotal" value="#{cart.total}">
                         <f:convertNumber type="currency" currencySymbol="$" />
                     </h:outputText>
                 </dd>
 
-                <h:form>
+                <h:form id="Cart">
                     <dd>
-                        <h:commandButton action="checkout" value="#{messages.checkoutButton}" 
+                        <h:commandButton id="Checkout" action="checkout" value="#{messages.checkoutButton}" 
                                          styleClass="formButton" style="width: 166px;" />
                     </dd>
                 </h:form>
