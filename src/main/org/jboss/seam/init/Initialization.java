@@ -645,7 +645,7 @@ public class Initialization
          // TODO Hack
          hotDeploymentStrategy.getFiles().add(warRootDirectory);
          init.setHotDeployPaths( hotDeploymentStrategy.getHotDeploymentPaths() );
-      }      
+      }
       
       installComponents(init);
            
@@ -682,7 +682,10 @@ public class Initialization
       hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader());
       addWarRoot(hotDeploymentStrategy);
       hotDeploymentStrategy.scan();
-      installHotDeployableComponents();
+      if (hotDeploymentStrategy.isHotDeployClasslLoaderEnabled())
+      {
+         installHotDeployableComponents();
+      }
       Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
       Pages.instance().setHotDotPageDotXmlFileNames(DotPageDotXmlDeploymentHandler.hotInstance().getFiles());
       init.setTimestamp( System.currentTimeMillis() );
