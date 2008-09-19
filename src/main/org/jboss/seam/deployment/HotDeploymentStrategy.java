@@ -63,9 +63,9 @@ public class HotDeploymentStrategy extends DeploymentStrategy
       if (enabled)
       {
          this.classLoader = Thread.currentThread().getContextClassLoader();
-         initHotDeployClassLoader(classLoader, hotDeployDirectory);
          if (hotDeployDirectory != null && hotDeployDirectory.exists())
          {
+            initHotDeployClassLoader(classLoader, hotDeployDirectory);
             componentDeploymentHandler = new ComponentDeploymentHandler();
             getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
             annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
@@ -79,13 +79,10 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    {
       try
       {
-         if (hotDeployDirectory != null)
-         {
-            URL url = hotDeployDirectory.toURL();
-            URL[] urls = { url };
-            hotDeployClassLoader = new URLClassLoader(urls, classLoader);
-            getFiles().add(hotDeployDirectory);
-         }
+         URL url = hotDeployDirectory.toURL();
+         URL[] urls = { url };
+         hotDeployClassLoader = new URLClassLoader(urls, classLoader);
+         getFiles().add(hotDeployDirectory);
       }
       catch (MalformedURLException mue)
       {
