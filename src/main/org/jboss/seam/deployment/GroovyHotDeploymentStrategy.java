@@ -34,13 +34,17 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
    public GroovyHotDeploymentStrategy(ClassLoader classLoader, File hotDeployDirectory, boolean enabled)
    {
       super(classLoader, hotDeployDirectory, enabled);
-      groovyDeploymentHandler = new GroovyDeploymentHandler(DEFAULT_SCRIPT_EXTENSION);
-      getDeploymentHandlers().put(GroovyDeploymentHandler.NAME, groovyDeploymentHandler);
+      if (enabled)
+      {
+         groovyDeploymentHandler = new GroovyDeploymentHandler(DEFAULT_SCRIPT_EXTENSION);
+         getDeploymentHandlers().put(GroovyDeploymentHandler.NAME, groovyDeploymentHandler);
+      }
    }
    
    @Override
    public ClassLoader getClassLoader()
    {
+      System.out.println(classLoader + "/" + super.getClassLoader());
       if (classLoader == null && super.getClassLoader() != null)
       {
          this.classLoader = new GroovyClassLoader(super.getClassLoader());
