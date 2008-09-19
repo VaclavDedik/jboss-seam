@@ -166,7 +166,7 @@
     </xs:element>
     
     <xs:attributeGroup name="attlist.rewrite">
-        <xs:attribute name="pattern" use="required" type="xs:normalizedString" />
+        <xs:attribute name="pattern" use="required" type="xs:token" />
     </xs:attributeGroup>
     
     <xs:element name="action">
@@ -178,11 +178,11 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.action">
-        <xs:attribute name="if" type="xs:normalizedString" />
-        <xs:attribute name="execute" use="required" type="xs:normalizedString" />
+        <xs:attribute name="if" type="pages:boolean-value-expression" />
+        <xs:attribute name="execute" use="required" type="pages:method-expression" />
     </xs:attributeGroup>
     
-    <xs:element name="restrict" type="xs:string">
+    <xs:element name="restrict" type="pages:value-expression">
         <xs:annotation>
             <xs:documentation>Security restrictions</xs:documentation>
         </xs:annotation>
@@ -217,8 +217,8 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.navigation">
-        <xs:attribute name="from-action" type="xs:normalizedString" />
-        <xs:attribute name="evaluate" type="xs:normalizedString" />
+        <xs:attribute name="from-action" type="pages:method-expression" />
+        <xs:attribute name="evaluate" type="pages:method-expression" />
     </xs:attributeGroup>
     
     <xs:element name="rule">
@@ -244,8 +244,8 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.rule">
-        <xs:attribute name="if-outcome" type="xs:normalizedString" />
-        <xs:attribute name="if" type="xs:normalizedString" />
+        <xs:attribute name="if-outcome" type="pages:value-expression" />
+        <xs:attribute name="if" type="pages:boolean-value-expression" />
     </xs:attributeGroup>
     
     <xs:element name="raise-event">
@@ -257,7 +257,7 @@
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.raise-event">
-        <xs:attribute name="type" use="required" type="xs:normalizedString" />
+        <xs:attribute name="type" use="required" type="xs:token" />
     </xs:attributeGroup>
     
     <xs:element name="begin-conversation">
@@ -271,9 +271,9 @@
     <xs:attributeGroup name="attlist.begin-conversation">
         <xs:attribute name="join" default="false" type="pages:tf-boolean"/>
         <xs:attribute name="nested" default="false" type="pages:tf-boolean"/>
-        <xs:attribute name="pageflow" type="xs:normalizedString" />
+        <xs:attribute name="pageflow" type="xs:token" />
         <xs:attribute name="flush-mode" type="pages:flush-modes" />
-        <xs:attribute name="if" type="xs:normalizedString" />
+        <xs:attribute name="if" type="pages:boolean-value-expression" />
         <xs:attribute name="conversation" type="xs:token" />
     </xs:attributeGroup>
     
@@ -287,7 +287,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.end-conversation">
         <xs:attribute name="before-redirect" default="false" type="pages:tf-boolean"/>
-        <xs:attribute name="if" type="xs:normalizedString" />
+        <xs:attribute name="if" type="pages:boolean-value-expression" />
     </xs:attributeGroup>
     
     <xs:element name="begin-task">
@@ -300,7 +300,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.begin-task">
         <xs:attribute name="task-id" type="xs:token" />
-        <xs:attribute name="pageflow" type="xs:normalizedString" />
+        <xs:attribute name="pageflow" type="xs:token" />
         <xs:attribute name="flush-mode" type="pages:flush-modes" />
     </xs:attributeGroup>
     
@@ -314,7 +314,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.start-task">
         <xs:attribute name="task-id" type="xs:token" />
-        <xs:attribute name="pageflow" type="xs:normalizedString" />
+        <xs:attribute name="pageflow" type="xs:token" />
         <xs:attribute name="flush-mode" type="pages:flush-modes" />
     </xs:attributeGroup>
     
@@ -366,7 +366,7 @@
     <xs:attributeGroup name="attlist.in">
         <xs:attribute name="name" use="required" type="xs:token" />
         <xs:attribute name="scope" type="pages:allowed-scopes" />
-        <xs:attribute name="value" use="required" type="xs:normalizedString" />
+        <xs:attribute name="value" use="required" type="xs:token" />
     </xs:attributeGroup>
     
     <xs:element name="out">
@@ -589,6 +589,22 @@
             <xs:enumeration value="MANUAL"/>
             <xs:enumeration value="AUTO"/>
             <xs:enumeration value="COMMIT"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="method-expression">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="#\{.*\}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="value-expression">
+      <xs:restriction base="xs:token"/>
+    </xs:simpleType>
+    
+    <xs:simpleType name="boolean-value-expression">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="true|false|#\{.*\}"/>
         </xs:restriction>
     </xs:simpleType>
 
