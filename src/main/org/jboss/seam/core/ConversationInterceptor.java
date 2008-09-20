@@ -286,17 +286,14 @@ public class ConversationInterceptor extends AbstractInterceptor
 
    private void endConversation(boolean beforeRedirect, boolean endRoot)
    {
-      Manager manager = Manager.instance();
-      
       if(endRoot)
       {
-         if(manager.isNestedConversation())
-         {
-            manager.switchConversation(manager.getRootConversationId());
-         }
+         Manager.instance().endRootConversation(beforeRedirect);
       }
-
-      manager.endConversation(beforeRedirect);
+      else
+      {
+         Manager.instance().endConversation(beforeRedirect);
+      }
    }
    
    public boolean isInterceptorEnabled()

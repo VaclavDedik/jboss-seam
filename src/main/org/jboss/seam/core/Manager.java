@@ -624,6 +624,19 @@ public class Manager
       }
    }
    
+   /**
+    * Make the root conversation in the current conversation stack temporary.
+    */
+   public void endRootConversation(boolean beforeRedirect)
+   {
+      if(isNestedConversation())
+      {
+         switchConversation(getRootConversationId());
+      }
+      
+      endConversation(beforeRedirect);
+   }
+   
    protected void storeConversationToViewRootIfNecessary() {}
 
    // two reasons for this: 

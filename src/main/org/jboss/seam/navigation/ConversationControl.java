@@ -46,20 +46,13 @@ public class ConversationControl
    {
       if ( endConversation() )
       {
-         Conversation conversation = Conversation.instance();
-         
-         if (isEndRootConversation && conversation.isNested())
+         if(isEndRootConversation)
          {
-            conversation.root();
-         }
-
-         if (isEndConversationBeforeRedirect)
-         {
-            conversation.endBeforeRedirect();
+            Manager.instance().endRootConversation(isEndConversationBeforeRedirect);
          }
          else
          {
-            conversation.end();
+            Manager.instance().endConversation(isEndConversationBeforeRedirect);
          }
       }
       if ( beginConversation() )
