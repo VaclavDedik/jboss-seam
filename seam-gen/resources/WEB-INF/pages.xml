@@ -12,42 +12,48 @@
                 <redirect view-id="/home.xhtml"/>
             </rule>
         </navigation>
-    </page> 
+    </page>
 
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
-            <message>Not found</message>
+            <message severity="warn">Record not found</message>
         </redirect>
     </exception>
     
     <exception class="javax.persistence.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
-            <message>Not found</message>
+            <message severity="warn">Record not found</message>
+        </redirect>
+    </exception>
+    
+    <exception class="javax.persistence.EntityExistsException">
+        <redirect view-id="/error.xhtml">
+            <message severity="warn">Duplicate record</message>
         </redirect>
     </exception>
     
     <exception class="javax.persistence.OptimisticLockException">
         <end-conversation/>
         <redirect view-id="/error.xhtml">
-            <message>Another user changed the same data, please try again</message>
+            <message severity="warn">Another user changed the same data, please try again</message>
         </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.AuthorizationException">
         <redirect view-id="/error.xhtml">
-            <message>You don't have permission to do this</message>
+            <message severity="error">You don't have permission to access this resource</message>
         </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <redirect view-id="/login.xhtml">
-            <message>Please log in first</message>
+            <message severity="warn">#{messages['org.jboss.seam.NotLoggedIn']}</message>
         </redirect>
     </exception>
     
     <exception class="javax.faces.application.ViewExpiredException">
         <redirect view-id="/error.xhtml">
-            <message>Your session has timed out, please try again</message>
+            <message severity="warn">Your session has timed out, please try again</message>
         </redirect>
     </exception>
     
@@ -57,7 +63,7 @@
      
     <exception>
         <redirect view-id="/error.xhtml">
-            <message>Unexpected error, please try again</message>
+            <message severity="error">Unexpected error, please try again</message>
         </redirect>
     </exception>
     
