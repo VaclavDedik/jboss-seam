@@ -12,17 +12,23 @@
                 <redirect view-id="/home.xhtml"/>
             </rule>
         </navigation>
-    </page> 
+    </page>
 
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
-            <message severity="warn">Not found</message>
+            <message severity="warn">Record not found</message>
         </redirect>
     </exception>
     
     <exception class="javax.persistence.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
-            <message severity="warn">Not found</message>
+            <message severity="warn">Record not found</message>
+        </redirect>
+    </exception>
+    
+    <exception class="javax.persistence.EntityExistsException">
+        <redirect view-id="/error.xhtml">
+            <message severity="warn">Duplicate record</message>
         </redirect>
     </exception>
     
@@ -35,13 +41,13 @@
     
     <exception class="org.jboss.seam.security.AuthorizationException">
         <redirect view-id="/error.xhtml">
-            <message severity="error">You don't have permission to do this</message>
+            <message severity="error">You don't have permission to access this resource</message>
         </redirect>
     </exception>
     
     <exception class="org.jboss.seam.security.NotLoggedInException">
         <redirect view-id="/login.xhtml">
-            <message severity="warn">Please log in first</message>
+            <message severity="warn">#{messages['org.jboss.seam.NotLoggedIn']}</message>
         </redirect>
     </exception>
     
