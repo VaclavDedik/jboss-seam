@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Arrays;
 
 @Name("${listName}")
-public class ${entityName}List extends EntityQuery
+public class ${entityName}List extends EntityQuery<${entityName}>
 {
 
     private static final String[] RESTRICTIONS = {
