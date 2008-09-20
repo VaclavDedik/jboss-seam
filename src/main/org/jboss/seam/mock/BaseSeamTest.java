@@ -960,7 +960,7 @@ public class BaseSeamTest
    protected void setupClass() throws Exception
    {
       servletContext = (MockServletContext) ServletLifecycle.getServletContext();
-      FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY, "org.jboss.seam.mock.MockApplicationFactory");
+      FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY, MockApplicationFactory.class.getName());
       application = ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).getApplication();
       phases = new SeamPhaseListener();
       conversationViewRootAttributes = new HashMap<String, Map>();
