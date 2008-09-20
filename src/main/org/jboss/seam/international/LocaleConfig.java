@@ -130,8 +130,16 @@ public class LocaleConfig
 
    private Application getApplication()
    {
-      ApplicationFactory factory = (ApplicationFactory) FactoryFinder
-         .getFactory(FactoryFinder.APPLICATION_FACTORY);
-      return factory.getApplication();
+      try
+      {
+         ApplicationFactory factory = (ApplicationFactory) FactoryFinder
+            .getFactory(FactoryFinder.APPLICATION_FACTORY);
+         return factory.getApplication();
+      }
+      catch (IllegalStateException e)
+      {
+         // just in case, for units and the like
+         return null;
+      }
    }
 }
