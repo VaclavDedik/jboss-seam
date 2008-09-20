@@ -1,5 +1,6 @@
 package org.jboss.seam.test.integration;
 
+import java.io.Serializable;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -11,7 +12,7 @@ import org.jboss.seam.core.Events;
 @Name("beanA")
 @Scope(ScopeType.CONVERSATION)
 @AutoCreate
-public class BeanA {
+public class BeanA implements Serializable {
 
     private String myValue;
 

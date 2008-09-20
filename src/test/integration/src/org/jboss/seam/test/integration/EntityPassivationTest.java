@@ -1,5 +1,6 @@
 package org.jboss.seam.test.integration;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -95,7 +96,7 @@ public class EntityPassivationTest
     @Name("entitytest.someComponent")
     @Scope(ScopeType.CONVERSATION)
     @AutoCreate
-    public static class SomeComponent {
+    public static class SomeComponent implements Serializable {
         @In EntityManager entityManager;
         
         
