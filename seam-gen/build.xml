@@ -843,9 +843,9 @@
             <filterset refid="project"/>
         </copy>
                         
-        <mkdir dir="${project.home}/src/model"/>
-    	<mkdir dir="${project.home}/src/action"/>
-    	<mkdir dir="${project.home}/src/test"/>
+        <mkdir dir="${project.home}/src/${model.dir}"/>
+    	<mkdir dir="${project.home}/src/${action.dir}"/>
+    	<mkdir dir="${project.home}/src/${test.dir}"/>
     	
     	<copy todir="${project.home}/src/test" file="${base.dir}/test/readme.txt" />
 
