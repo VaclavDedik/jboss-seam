@@ -938,7 +938,6 @@ public class BaseSeamTest
       initServletContext(servletContext.getInitParameters());
       ServletLifecycle.beginApplication(servletContext);
       FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY, MockApplicationFactory.class.getName());
-      application = ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).getApplication();
       new Initialization(servletContext).create().init();
       ((Init) servletContext.getAttribute(Seam.getComponentName(Init.class))).setDebug(false);
    }
@@ -951,8 +950,6 @@ public class BaseSeamTest
     */
    protected void stopSeam() throws Exception
    {
-      FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY, MockApplicationFactory.class.getName());
-      ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).setApplication(null);
       ServletLifecycle.endApplication();
    }
    
@@ -964,6 +961,7 @@ public class BaseSeamTest
    protected void setupClass() throws Exception
    {
       servletContext = (MockServletContext) ServletLifecycle.getServletContext();
+      application = ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).getApplication();
       phases = new SeamPhaseListener();
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();
@@ -981,6 +979,7 @@ public class BaseSeamTest
    protected void cleanupClass() throws Exception
    {
       seamFilter.destroy();
+      ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).setApplication(null);
       conversationViewRootAttributes = null;
    }
 
