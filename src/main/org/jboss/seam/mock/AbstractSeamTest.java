@@ -14,6 +14,7 @@ import javax.el.ELResolver;
 import javax.el.ValueExpression;
 import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
+import javax.faces.application.ApplicationFactory;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -914,6 +915,7 @@ public class AbstractSeamTest
       startJbossEmbeddedIfNecessary();
       this.servletContext = createServletContext();
       ServletLifecycle.beginApplication(servletContext);
+      FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY, MockApplicationFactory.class.getName());
       new Initialization(servletContext).create().init();
       ((Init) servletContext.getAttribute(Seam.getComponentName(Init.class))).setDebug(false);
    }
@@ -933,6 +935,7 @@ public class AbstractSeamTest
     */
    protected void stopSeam() throws Exception
    {
+      ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).setApplication(null);
       ServletLifecycle.endApplication();
    }
    
@@ -944,7 +947,7 @@ public class AbstractSeamTest
    protected void setupClass() throws Exception
    {
       servletContext = (MockServletContext) ServletLifecycle.getServletContext();
-      application = new SeamApplication(new MockApplication());
+      application = ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).getApplication();
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();
       FactoryFinder.setFactory(FactoryFinder.FACES_CONTEXT_FACTORY, MockFacesContextFactory.class.getName());

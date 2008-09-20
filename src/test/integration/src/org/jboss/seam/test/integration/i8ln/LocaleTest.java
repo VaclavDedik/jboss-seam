@@ -1,5 +1,8 @@
 package org.jboss.seam.test.integration.i8ln;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import javax.faces.component.UIOutput;
@@ -20,6 +23,25 @@ public class LocaleTest extends SeamTest
          @Override
          protected void invokeApplication() throws Exception
          {
+            // <i18:locale-config default-locale="fr_CA" supported-locales="fr_CA fr_FR en"/>
+            List<Locale> supportedLocales = new ArrayList<Locale>();
+            for (Iterator<Locale> iter = getFacesContext().getApplication().getSupportedLocales(); iter.hasNext();)
+            {
+               supportedLocales.add(iter.next());
+            }
+            assert supportedLocales.size() == 3;
+            assert supportedLocales.contains(Locale.CANADA_FRENCH);
+            assert supportedLocales.contains(Locale.ENGLISH);
+            assert supportedLocales.contains(Locale.FRANCE);
+            assert getFacesContext().getApplication().getDefaultLocale().equals(Locale.CANADA_FRENCH);
+            
+            // why not? I guess be default locale means different things in different contexts (server vs user)
+            //assert org.jboss.seam.international.Locale.instance().equals(Locale.CANADA_FRENCH);
+            
+            // reset the locale configuration (as it would be w/o <i18n:locale-config>)
+            getFacesContext().getApplication().setDefaultLocale(Locale.ENGLISH);
+            getFacesContext().getApplication().setSupportedLocales(null);
+            
             assert org.jboss.seam.international.Locale.instance().equals(Locale.getDefault());
             
             LocaleSelector.instance().setLocale(Locale.UK);
