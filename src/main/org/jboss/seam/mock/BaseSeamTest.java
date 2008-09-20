@@ -12,7 +12,9 @@ import java.util.Set;
 
 import javax.el.ELResolver;
 import javax.el.ValueExpression;
+import javax.faces.FactoryFinder;
 import javax.faces.application.Application;
+import javax.faces.application.ApplicationFactory;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
@@ -47,7 +49,6 @@ import org.jboss.seam.core.Validators;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.init.Initialization;
-import org.jboss.seam.jsf.SeamApplication;
 import org.jboss.seam.jsf.SeamPhaseListener;
 import org.jboss.seam.mail.MailSession;
 import org.jboss.seam.pageflow.Pageflow;
@@ -959,7 +960,8 @@ public class BaseSeamTest
    protected void setupClass() throws Exception
    {
       servletContext = (MockServletContext) ServletLifecycle.getServletContext();
-      application = new SeamApplication(new MockApplication());
+      FactoryFinder.setFactory(FactoryFinder.APPLICATION_FACTORY, "org.jboss.seam.mock.MockApplicationFactory");
+      application = ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).getApplication();
       phases = new SeamPhaseListener();
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();

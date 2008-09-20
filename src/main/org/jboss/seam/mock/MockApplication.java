@@ -54,6 +54,7 @@ public class MockApplication extends Application
    
    private javax.el.CompositeELResolver elResolver;
    private javax.el.CompositeELResolver additionalResolvers;
+   private Collection locales;
    
    public MockApplication()
    {
@@ -374,13 +375,20 @@ public class MockApplication extends Application
    @Override
    public Iterator getSupportedLocales()
    {
-      return Collections.singleton(defaultLocale).iterator();
+      if (locales == null)
+      {
+         return  Collections.singleton(defaultLocale).iterator();
+      }
+      else
+      {
+         return locales.iterator();
+      }
    }
 
    @Override
    public void setSupportedLocales(Collection locales)
    {
-      throw new UnsupportedOperationException();
+      this.locales = locales;
    }
 
    private final Map<String, Validator> validatorsById = new HashMap<String, Validator>();
