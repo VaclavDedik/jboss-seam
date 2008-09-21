@@ -7,11 +7,13 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.faces.FacesManager;
+import org.jboss.seam.mock.MockHttpServletRequest;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.test.unit.component.TestActions;
 import org.testng.annotations.Test;
 
 import javax.faces.context.FacesContext;
+import javax.faces.render.ResponseStateManager;
 import java.util.List;
 import java.util.Map;
 
@@ -66,6 +68,11 @@ public class PageActionsTest extends AbstractPageTest
       assertActionCalls(testActions, new String[] { "nonNullActionA", "nonNullActionB" });
    }
 
+   /**
+    * This test verifies that an action method with a null return can still match
+    * a navigation rule and short-circuit the remaining actions. The key is that
+    * a navigation rule is matched, not what the return value is.
+    */
    @Test(enabled = true)
    public void testShortCircuitOnNullOutcome()
    {
@@ -83,7 +90,7 @@ public class PageActionsTest extends AbstractPageTest
     * will short circuit the action calls.
     */
    @Test(enabled = true)
-   public void testShortCircuitOnFirstNonNullOutcome()
+   public void testShortCircuitOnNonNullOutcomeToSamePage()
    {
       FacesContext facesContext = FacesContext.getCurrentInstance();
       TestActions testActions = TestActions.instance();
@@ -111,6 +118,23 @@ public class PageActionsTest extends AbstractPageTest
       assert Contexts.getEventContext().get("lastRedirectViewId").equals("/pageA.xhtml") : 
          "Expecting a redirect to /pageA.xhtml but redirected to " + Contexts.getEventContext().get("lastRedirectViewId");
       assert facesContext.getResponseComplete() == true : "The response should have been marked as complete";
+   }
+
+   /**
+    * Verify that only those actions without on-postback="false" are executed when the
+    * magic postback parameter (javax.faces.ViewState) is present in the request map.
+    */
+   @Test(enabled = true)
+   public void testPostbackConditionOnPageAction()
+   {
+      FacesContext facesContext = FacesContext.getCurrentInstance();
+      simulatePostback(facesContext);
+      TestActions testActions = TestActions.instance();
+
+      facesContext.getViewRoot().setViewId("/action-test06.xhtml");
+      Pages.instance().preRender(facesContext);
+      assertViewId(facesContext, "/action-test06.xhtml");
+      assertActionCalls(testActions, new String[] { "nonNullActionA" });
    }
    
    /**
@@ -168,6 +192,13 @@ public class PageActionsTest extends AbstractPageTest
       Contexts.getEventContext().remove(Component.getComponentName(TestActions.class));
    }
 
+   private void simulatePostback(FacesContext facesContext)
+   {
+      MockHttpServletRequest request = (MockHttpServletRequest) facesContext.getExternalContext().getRequest();
+      request.getParameters().put(ResponseStateManager.VIEW_STATE_PARAM, new String[] { "true" });
+      assert facesContext.getRenderKit().getResponseStateManager().isPostback(facesContext) == true;
+   }
+   
    @Scope(ScopeType.EVENT)
    @Name("org.jboss.seam.core.manager")
    @BypassInterceptors

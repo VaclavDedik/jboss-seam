@@ -14,11 +14,12 @@ public class Action
    private MethodExpression methodExpression;
    private ValueExpression valueExpression;
    private String outcome;
+   private boolean onPostback = true;
    
-   public boolean isExecutable()
+   public boolean isExecutable(boolean postback)
    {
-      return valueExpression==null || 
-           Boolean.TRUE.equals( valueExpression.getValue() );
+      return (!postback || (postback && onPostback)) &&
+         (valueExpression == null || Boolean.TRUE.equals( valueExpression.getValue()));
    }
    
    public MethodExpression getMethodExpression()
@@ -46,5 +47,15 @@ public class Action
    public void setOutcome(String outcome)
    {
       this.outcome = outcome;
+   }
+
+   public boolean isOnPostback()
+   {
+      return onPostback;
+   }
+
+   public void setOnPostback(boolean onPostback)
+   {
+      this.onPostback = onPostback;
    }
 }

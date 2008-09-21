@@ -179,6 +179,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.action">
         <xs:attribute name="if" type="pages:boolean-value-expression" />
+        <xs:attribute name="on-postback" default="true" type="pages:tf-boolean"/>
         <xs:attribute name="execute" use="required" type="pages:method-expression" />
     </xs:attributeGroup>
     

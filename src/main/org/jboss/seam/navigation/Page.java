@@ -276,7 +276,7 @@ public final class Page
    
       for ( Action action: getActions() )
       {
-         if ( action.isExecutable() )
+         if ( action.isExecutable(facesContext.getRenderKit().getResponseStateManager().isPostback(facesContext)) )
          {
             String outcome = action.getOutcome();
             String fromAction = outcome;
