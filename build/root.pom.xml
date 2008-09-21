@@ -549,6 +549,30 @@
            </exclusion>
          </exclusions>
 		</dependency>
+		
+		<dependency>
+			<groupId>net.sourceforge.yarfraw</groupId>
+			<artifactId>yarfraw</artifactId>
+			<version>0.92</version>
+         <exclusions>
+           <exclusion>
+             <groupId>javax.xml</groupId>
+             <artifactId>jaxb-api</artifactId>
+           </exclusion>
+           <exclusion>
+             <groupId>com.sun.xml.bind</groupId>
+             <artifactId>jaxb-impl</artifactId>
+           </exclusion>
+           <exclusion>
+             <groupId>commons-logging</groupId>
+             <artifactId>commons-logging</artifactId>
+           </exclusion>		   
+           <exclusion>
+             <groupId>commons-codec</groupId>
+             <artifactId>commons-codec</artifactId>
+           </exclusion>		   
+         </exclusions>
+		 </dependency>		
       
       <dependency>
         <groupId>javassist</groupId>

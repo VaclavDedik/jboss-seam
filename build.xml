@@ -18,6 +18,7 @@
 	<property name="classes.excel.dir" value="${classes.dir}/excelclasses" />
 	<property name="classes.ioc.dir" value="${classes.dir}/iocclasses" />
 	<property name="classes.mail.dir" value="${classes.dir}/mailclasses" />
+	<property name="classes.rss.dir" value="${classes.dir}/rssclasses" />
 	<property name="classes.debug.dir" value="${classes.dir}/debugclasses" />
 	<property name="classes.wicket.dir" value="${classes.dir}/wicketclasses" />
 	<property name="classes.jul.dir" value="${classes.dir}/julclasses" />
@@ -39,6 +40,7 @@
 	<property name="src.ioc.dir" value="src/ioc" />
 	<property name="src.mail.dir" value="src/mail" />
 	<property name="src.debug.dir" value="src/debug" />
+	<property name="src.rss.dir" value="src/rss" />
 	<property name="src.wicket.dir" value="src/wicket" />
 	<property name="src.jul.dir" value="src/interop/jul" />
 	<property name="src.resteasy.dir" value="src/resteasy" />
@@ -73,6 +75,7 @@
 	<property name="dist.src.pdf.dir" value="${dist.dir}/src/pdf" />
 	<property name="dist.src.ioc.dir" value="${dist.dir}/src/ioc" />
 	<property name="dist.src.mail.dir" value="${dist.dir}/src/mail" />
+	<property name="dist.src.rss.dir" value="${dist.dir}/src/rss" />
 	<property name="dist.src.debug.dir" value="${dist.dir}/src/debug" />
 	<property name="dist.src.wicket.dir" value="${dist.dir}/src/wicket" />
 	<property name="dist.src.jul.dir" value="${dist.dir}/src/interop/jul" />
@@ -163,7 +166,7 @@
 		<delete dir="${lib.dir}" quiet="${quietclean}" />
 	</target>
 
-	<target name="build" depends="jarcore,jarexcel,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarwicket, jarjul, jarresteasy" description="Build all distribution .jar files" />
+	<target name="build" depends="jarcore,jarexcel,jarrss,jarpdf,jarioc,jarmail,jarremoting,jardebug,jargen,jarui,jarwicket, jarjul, jarresteasy" description="Build all distribution .jar files" />
 
 	<target name="select-compiler">
 		<available classname="org.eclipse.jdt.core.JDTCompilerAdapter" property="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
@@ -245,6 +248,21 @@
 
 	<target name="jarexcel" depends="compileexcel" description="Build the distribution .jar file for the Excel package">
 		<archive classesdir="${classes.excel.dir}" module="jboss-seam-excel" pom="${excel.pom}" srcdir="${src.excel.dir}" />
+	</target>
+
+
+		<!-- ########################### RSS TARGETS ###########################-->
+
+	<target name="initrss" depends="init, jarcore, jarui">
+		<init classesdir="${classes.rss.dir}" srcdir="${src.rss.dir}" modulename="rss" pom="${rss.pom}" />
+	</target>
+
+	<target name="compilerss" depends="initrss, select-compiler">
+		<compile classesdir="${classes.rss.dir}" srcdir="${src.rss.dir}" classpath="compile.rss.path" />
+	</target>
+
+	<target name="jarrss" depends="compilerss" description="Build the distribution .jar file for the RSS package">
+		<archive classesdir="${classes.rss.dir}" module="jboss-seam-rss" pom="${rss.pom}" srcdir="${src.rss.dir}" />
 	</target>
 
 
@@ -501,6 +519,7 @@
 	<target name="copysource">
 		<copysource destdir="${dist.src.core.dir}" srcdir="${src.core.dir}" />
 		<copysource destdir="${dist.src.pdf.dir}" srcdir="${src.pdf.dir}" />
+		<copysource destdir="${dist.src.rss.dir}" srcdir="${src.rss.dir}" />
 		<copysource destdir="${dist.src.excel.dir}" srcdir="${src.excel.dir}" />
 		<copysource destdir="${dist.src.ioc.dir}" srcdir="${src.ioc.dir}" />
 		<copysource destdir="${dist.src.remoting.dir}" srcdir="${src.remoting.dir}" />
@@ -1055,6 +1074,7 @@
 					<propertyref name="gen.pom" />
 					<propertyref name="pdf.pom" />
 					<propertyref name="excel.pom" />
+					<propertyref name="rss.pom" />
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
@@ -1077,6 +1097,7 @@
 		<dependenciesWithSources id="mail" scope="compile" pom="${mail.pom}" />
 		<dependenciesWithSources id="pdf" scope="compile" pom="${pdf.pom}" />
 		<dependenciesWithSources id="excel" scope="compile" pom="${excel.pom}" />
+		<dependenciesWithSources id="rss" scope="compile" pom="${rss.pom}" />
 		<dependenciesWithSources id="remoting" scope="compile" pom="${remoting.pom}" />
 		<dependenciesWithSources id="ui" scope="compile" pom="${ui.pom}" />
 	</target>
@@ -1097,6 +1118,7 @@
 		<dependencies id="mail" scope="compile" pom="${mail.pom}" />
 		<dependencies id="pdf" scope="compile" pom="${pdf.pom}" />
 		<dependencies id="excel" scope="compile" pom="${excel.pom}" />
+		<dependencies id="rss" scope="compile" pom="${rss.pom}" />
 		<dependencies id="remoting" scope="compile" pom="${remoting.pom}" />
 		<dependencies id="ui" scope="compile" pom="${ui.pom}" />
 		<eclipseClasspath tofile=".classpath" file="${build.dir}/classpath.tmpl" filterProperty="automagic.classpath.entries">
@@ -1107,6 +1129,7 @@
 			<path refid="compile.mail.path" />
 			<path refid="compile.pdf.path" />
 			<path refid="compile.excel.path" />
+			<path refid="compile.rss.path" />
 			<path refid="compile.remoting.path" />
 			<path refid="compile.ui.path" />
 			<path refid="compile.jul.path" />

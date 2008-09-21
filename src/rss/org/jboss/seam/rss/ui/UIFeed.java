@@ -75,7 +75,11 @@ public class UIFeed extends SyndicationComponent
       try {
          FeedWriter.writeChannel(DEFAULT_FEED_FORMAT, channelFeed, byteStream);
       } catch (YarfrawException e) {
-         throw new IOException("Could not create feed", e);
+         /**
+          * Was IOException, but 1.5 does not have this constructor
+          * http://java.sun.com/j2se/1.5.0/docs/api/java/io/IOException.html
+          */
+         throw new RuntimeException("Could not create feed", e);
       }
       Writer responseWriter = ((HttpServletResponse)facesContext.getExternalContext().getResponse()).getWriter();
       HttpServletResponse response = (HttpServletResponse)facesContext.getExternalContext().getResponse();

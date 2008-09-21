@@ -107,6 +107,7 @@
 		<pomfile name="mail.pom" value="${build.dir}/mail.pom.xml" />
 		<pomfile name="pdf.pom" value="${build.dir}/pdf.pom.xml" />
 		<pomfile name="excel.pom" value="${build.dir}/excel.pom.xml" />
+		<pomfile name="rss.pom" value="${build.dir}/rss.pom.xml" />
 		<pomfile name="remoting.pom" value="${build.dir}/remoting.pom.xml" />
 		<pomfile name="ui.pom" value="${build.dir}/ui.pom.xml" />
 		<pomfile name="docs.pom" value="${build.dir}/docs.pom.xml" />
@@ -132,6 +133,7 @@
 		<copyDependencies id="mail" pom="${mail.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="pdf" pom="${pdf.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="excel" pom="${excel.pom}" todir="${lib.dir}" scope="compile" />
+		<copyDependencies id="rss" pom="${rss.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="remoting" pom="${remoting.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="resteasy" pom="${resteasy.pom}" todir="${lib.dir}" scope="compile" />
 		<copyDependencies id="ui" pom="${ui.pom}" todir="${lib.dir}" scope="compile" />
@@ -150,6 +152,8 @@
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-remoting" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-resteasy" version="${complete.version}" />
 			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-ui" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-excel" version="${complete.version}" />
+			<dependency groupId="org.jboss.seam" artifactId="jboss-seam-rss" version="${complete.version}" />
 		</copyInlineDependencies>
 		<property name="copyseamdone" value="true" />
 	</target>
@@ -187,6 +191,7 @@
 			<deploy pom="${resteasy.pom}" jar="${seam.dir}/lib/jboss-seam-resteasy.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${pdf.pom}" jar="${seam.dir}/lib/jboss-seam-pdf.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${excel.pom}" jar="${seam.dir}/lib/jboss-seam-excel.jar" repositoryId="@{repositoryId}" />
+			<deploy pom="${rss.pom}" jar="${seam.dir}/lib/jboss-seam-rss.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${mail.pom}" jar="${seam.dir}/lib/jboss-seam-mail.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${ioc.pom}" jar="${seam.dir}/lib/jboss-seam-ioc.jar" repositoryId="@{repositoryId}" />
 			<deploy pom="${gen.pom}" jar="${seam.dir}/lib/jboss-seam-gen.jar" repositoryId="@{repositoryId}" />
@@ -212,7 +217,6 @@
 					<propertyref name="remoting.pom" />
                <propertyref name="resteasy.pom" />
 					<propertyref name="gen.pom" />
-					<propertyref name="pdf.pom" />
 					<propertyref name="excel.pom" />
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />

@@ -46,6 +46,7 @@
 		<deployWithSources pom="${mail.pom}" jar="${lib.dir}/jboss-seam-mail.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-mail-sources.jar"/>
 		<deployWithSources pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
 		<deployWithSources pom="${excel.pom}" jar="${lib.dir}/jboss-seam-excel.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-excel-sources.jar"/>
+		<deployWithSources pom="${rss.pom}" jar="${lib.dir}/jboss-seam-rss.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-rss-sources.jar"/>
 		<deployWithSources pom="${remoting.pom}" jar="${lib.dir}/jboss-seam-remoting.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-remoting-sources.jar"/>
 		<deployWithSources pom="${ui.pom}" jar="${lib.dir}/jboss-seam-ui.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-ui-sources.jar"/>
 		<deployWithSources pom="${jul.pom}" jar="${lib.dir}/interop/jboss-seam-jul.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/interop/src/jboss-seam-jul-sources.jar"/>
@@ -124,6 +125,7 @@
 		<offline pom="remoting.pom" repository="${offline.repository.jboss.org}" />
 		<offline pom="pdf.pom" repository="${offline.repository.jboss.org}" />
 		<offline pom="excel.pom" repository="${offline.repository.jboss.org}" />
+		<offline pom="rss.pom" repository="${offline.repository.jboss.org}" />
 		<offline pom="mail.pom" repository="${offline.repository.jboss.org}" />
 		<offline pom="ioc.pom" repository="${offline.repository.jboss.org}" />
 		<offline pom="gen.pom" repository="${offline.repository.jboss.org}" />
