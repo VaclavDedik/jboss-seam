@@ -23,6 +23,12 @@
 
       <dependency>
          <groupId>org.hibernate</groupId>
+         <artifactId>hibernate</artifactId>
+         <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.hibernate</groupId>
          <artifactId>hibernate-tools</artifactId>
          <scope>runtime</scope>
       </dependency>

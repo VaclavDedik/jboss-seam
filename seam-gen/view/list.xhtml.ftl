@@ -26,7 +26,7 @@
         <rich:simpleTogglePanel label="${entityName} search parameters" switchType="ajax">
         
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
@@ -69,7 +69,7 @@
               value="${'#'}{${listName}.resultList}" 
            rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
 <#if pojo.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
         <h:column>
@@ -89,7 +89,7 @@
         </h:column>
 </#if>
 </#if>
-<#if c2h.isManyToOne(property)>
+<#if util.isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if parentPojo.isComponent(parentPojo.identifierProperty)>
 <#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>

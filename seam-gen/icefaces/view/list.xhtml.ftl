@@ -33,7 +33,7 @@
          <ice:panelGroup id="listPanelGroup${entityName}Id" styleClass="edit">
 		
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
@@ -85,7 +85,7 @@
         columnClasses="allCols"
              rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
 <#if pojo.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
         <ice:column id="list${componentProperty.name}Id">
@@ -106,7 +106,7 @@
         </ice:column>
 </#if>
 </#if>
-<#if c2h.isManyToOne(property)>
+<#if util.isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if parentPojo.isComponent(parentPojo.identifierProperty)>
 <#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>

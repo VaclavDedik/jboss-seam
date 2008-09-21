@@ -18,7 +18,7 @@ public class ${entityName}List extends EntityQuery<${entityName}>
 
     private static final String[] RESTRICTIONS = {
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property)>
+<#if !c2h.isCollection(property) && !util.isToOne(property)>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
