@@ -1,5 +1,5 @@
 <#foreach property in pojo.allPropertiesIterator>
-<#if c2h.isManyToOne(property)>
+<#if util.isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if entities.add(parentPojo.shortName)>
 <#assign parentComponentName = util.lower(parentPojo.shortName)>

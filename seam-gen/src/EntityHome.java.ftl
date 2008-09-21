@@ -8,7 +8,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
 {
 
 <#foreach property in pojo.allPropertiesIterator>
-<#if c2h.isManyToOne(property)>
+<#if util.isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentHomeName = util.lower(parentPojo.shortName) + "Home">
     @${pojo.importType("org.jboss.seam.annotations.In")}(create=true)
@@ -69,7 +69,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     {
         getInstance();
 <#foreach property in pojo.allPropertiesIterator>
-<#if c2h.isManyToOne(property)>
+<#if util.isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if parentPojo.shortName!=pojo.shortName>
 <#assign parentHomeName = util.lower(parentPojo.shortName) + "Home">
@@ -87,7 +87,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     public boolean isWired()
     {
 <#foreach property in pojo.allPropertiesIterator>
-<#if (c2h.isManyToOne(property) && !property.optional)>
+<#if (util.isToOne(property) && !property.optional)>
 <#assign getter = pojo.getGetterSignature(property)>
         if ( getInstance().${getter}()==null ) return false;
 </#if>

@@ -21,7 +21,7 @@
     <rich:panel>
         <f:facet name="header">${entityName}</f:facet>
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !c2h.isManyToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
 <#include "viewproperty.xhtml.ftl">
 </#if>
 </#foreach>
@@ -43,7 +43,7 @@
     </div>
 <#assign hasAssociations=false>
 <#foreach property in pojo.allPropertiesIterator>
-<#if c2h.isManyToOne(property) || c2h.isOneToManyCollection(property)>
+<#if util.isToOne(property) || c2h.isOneToManyCollection(property)>
 <#assign hasAssociations=true>
 </#if>
 </#foreach>
@@ -52,7 +52,7 @@
     <rich:tabPanel switchType="ajax">
 </#if>
 <#foreach property in pojo.allPropertiesIterator>
-<#if c2h.isManyToOne(property)>
+<#if util.isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentPageName = parentPojo.shortName>
 <#assign parentName = util.lower(parentPojo.shortName)>
@@ -69,7 +69,7 @@
               rowClasses="rvgRowOne,rvgRowTwo"
                       id="${property.name}Table">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
-<#if !c2h.isCollection(parentProperty) && !c2h.isManyToOne(parentProperty) && parentProperty != parentPojo.versionProperty!>
+<#if !c2h.isCollection(parentProperty) && !util.isToOne(parentProperty) && parentProperty != parentPojo.versionProperty!>
 <#if parentPojo.isComponent(parentProperty)>
 <#foreach componentProperty in parentProperty.value.propertyIterator>
             <h:column>
@@ -84,7 +84,7 @@
             </h:column>
 </#if>
 </#if>
-<#if c2h.isManyToOne(parentProperty)>
+<#if util.isToOne(parentProperty)>
 <#assign parentParentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
 <#if parentParentPojo.isComponent(parentParentPojo.identifierProperty)>
 <#foreach componentProperty in parentParentPojo.identifierProperty.value.propertyIterator>
@@ -141,7 +141,7 @@
                 rowClasses="rvgRowOne,rvgRowTwo"
                         id="${property.name}Table">
 <#foreach childProperty in childPojo.allPropertiesIterator>
-<#if !c2h.isCollection(childProperty) && !c2h.isManyToOne(childProperty) && childProperty != childPojo.versionProperty!>
+<#if !c2h.isCollection(childProperty) && !util.isToOne(childProperty) && childProperty != childPojo.versionProperty!>
 <#if childPojo.isComponent(childProperty)>
 <#foreach componentProperty in childProperty.value.propertyIterator>
             <h:column>
