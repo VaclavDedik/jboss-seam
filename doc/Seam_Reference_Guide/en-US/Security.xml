@@ -1292,7 +1292,7 @@ end;
       changes. Just add this line to <literal>components.xml</literal>:
     </para>
 
-    <programlisting role="XML"><![CDATA[<core:servlet-session invalidate-on-scheme-change="true"/>]]></programlisting>
+    <programlisting role="XML"><![CDATA[<web:session invalidate-on-scheme-change="true"/>]]></programlisting>
 
     <para>
       This option helps make your system less vulnerable to sniffing of the session id or leakage of
