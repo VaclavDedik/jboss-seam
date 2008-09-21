@@ -237,12 +237,27 @@ public class InterceptorTest
       ServletLifecycle.endApplication();
    }
    
+   /**
+    * A hack for returning an exception from a thread
+    *
+    */
+   private class WrappedException {
+      Exception exception;
+   }
+   
+   /**
+    * This test uses two threads to concurrently invoke the same method on the same component. It uses
+    * latches to control the progress of each thread to ensure that the bijection interceptor is 
+    * correctly injecting/disinjecting the component at the right times.
+    * 
+    * @throws Exception
+    */
    @Test
    public void testReentrantBijection() throws Exception
    {
       MockServletContext servletContext = new MockServletContext();
       ServletLifecycle.beginApplication(servletContext);
-      MockExternalContext externalContext = new MockExternalContext(servletContext);
+      final MockExternalContext externalContext = new MockExternalContext(servletContext);
       Context appContext = new ApplicationContext( externalContext.getApplicationMap() );
       appContext.set( Seam.getComponentName(Init.class), new Init() );
       appContext.set( Seam.getComponentName(ConversationEntries.class) + ".component", 
@@ -252,17 +267,10 @@ public class InterceptorTest
       appContext.set( Seam.getComponentName(Foo.class) + ".component", 
             new Component(Foo.class, appContext) );
       appContext.set( Seam.getComponentName(FooBar.class) + ".component", 
-            new Component(FooBar.class, appContext) );      
-
-      FacesLifecycle.beginRequest(externalContext);
-      Manager.instance().setCurrentConversationId("1");
-      FacesLifecycle.resumeConversation(externalContext);
-      FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);      
+            new Component(FooBar.class, appContext) );           
       
       final Foo foo = new Foo();
       final FooBar fooBar = new FooBar();
-
-      Contexts.getSessionContext().set("foo", foo);
       
       final BijectionInterceptor bi = new BijectionInterceptor();
       bi.setComponent( new Component(FooBar.class, appContext) );
@@ -285,17 +293,27 @@ public class InterceptorTest
          @Override public Method getMethod() { return m; }
          @Override public Object[] getParameters() { return new Object[] { latchB }; }
       };            
-            
+      
+      final WrappedException thread1Exception = new WrappedException();
+      final WrappedException thread2Exception = new WrappedException();
+                  
       new Thread(new Runnable() {
          public void run() {
             try
             {
+               FacesLifecycle.beginRequest(externalContext);
+               Manager.instance().setCurrentConversationId("1");
+               FacesLifecycle.resumeConversation(externalContext);
+               FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
+
+               Contexts.getSessionContext().set("foo", foo);               
+               
                Foo result = (Foo) bi.aroundInvoke( invocationA );
                assert result == foo;               
             }
             catch (Exception ex) 
             { 
-               throw new RuntimeException(ex); 
+               thread1Exception.exception = ex;
             }
             finally
             {
@@ -308,12 +326,19 @@ public class InterceptorTest
          public void run() {
             try
             {
+               FacesLifecycle.beginRequest(externalContext);
+               Manager.instance().setCurrentConversationId("1");
+               FacesLifecycle.resumeConversation(externalContext);
+               FacesLifecycle.setPhaseId(PhaseId.RENDER_RESPONSE);
+               
+               Contexts.getSessionContext().set("foo", foo);               
+               
                Foo result = (Foo) bi.aroundInvoke( invocationB );
                assert result == foo;
             }
             catch (Exception ex) 
             { 
-               throw new RuntimeException(ex); 
+               thread2Exception.exception = ex;
             }
             finally
             {
@@ -333,6 +358,9 @@ public class InterceptorTest
       
       // Wait for invocationB
       latchD.await();
+      
+      if (thread1Exception.exception != null) throw thread1Exception.exception;
+      if (thread2Exception.exception != null) throw thread2Exception.exception;
    }
    
    @Test
