@@ -155,6 +155,7 @@
 		<delete dir="${bootstrap.dir}/tmp" quiet="${quietclean}" />
 		<delete dir="${bootstrap.dir}/data" quiet="${quietclean}" />
 		<delete dir="${ui.dir}/target" quiet="${quietclean}"/>
+		<delete dir="${seamgen.dir}/icefaces-staging" quiet="${quietclean}"/>
 		<cleanexample name="integration" path="${seam.dir}/src/test/integration" message="" />
 	</target>
 	
