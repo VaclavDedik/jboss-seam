@@ -77,20 +77,10 @@ public abstract class SeamWebApplication extends WebApplication
                        IFormSubmitListener.INTERFACE.getName().equals(name) || 
                        ILinkListener.INTERFACE.getName().equals(name) ||
                        IBehaviorListener.INTERFACE.getName().equals(name) || 
-                       IOnChangeListener.INTERFACE.getName().equals(name) ))
+                       IOnChangeListener.INTERFACE.getName().equals(name) ||
+                       IRedirectListener.INTERFACE.getName().equals(name) ))
                   {
                      // TODO Do this nicely
-                     StringBuilder stringBuilder = new StringBuilder(url);
-                     stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
-                     url = stringBuilder.subSequence(0, stringBuilder.length());
-                  }
-                  else if ( IRedirectListener.INTERFACE.getName().equals(name) )
-                  {
-                     if (!Manager.instance().isLongRunningConversation())
-                     {
-                        Manager.instance().beforeRedirect();                        
-                     }                             
-
                      StringBuilder stringBuilder = new StringBuilder(url);
                      stringBuilder.append("&" + Manager.instance().getConversationIdParameter() + "=" + Conversation.instance().getId());
                      url = stringBuilder.subSequence(0, stringBuilder.length());

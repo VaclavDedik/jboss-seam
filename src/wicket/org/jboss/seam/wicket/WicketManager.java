@@ -6,6 +6,7 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 
 @Scope(ScopeType.EVENT)
@@ -15,30 +16,14 @@ import org.jboss.seam.core.Manager;
 public class WicketManager extends Manager
 {
    
-   private boolean controllingRedirect;
-   
-   public String appendConversationIdFromRedirectFilter(String url, String viewId)
+   public String appendConversationIdFromRedirectFilter(String url)
    {
-      boolean appendConversationId = !controllingRedirect;
-      if (appendConversationId)
+      super.beforeRedirect();
+      if (ConversationPropagation.instance().getConversationId() != null)
       {
-         beforeRedirect(viewId);         
-         url = encodeConversationId(url, viewId);
+         url = encodeConversationIdParameter( url, getConversationIdParameter(), ConversationPropagation.instance().getConversationId() );
       }
       return url;
-   }
-   
-   /**
-    * Temporarily promote a temporary conversation to
-    * a long running conversation for the duration of
-    * a browser redirect. After the redirect, the 
-    * conversation will be demoted back to a temporary
-    * conversation. Handle any changes to the conversation
-    * id, due to propagation via natural id.
-    */
-   public void beforeRedirect(String viewId)
-   {
-      // TODO - do something here!
    }
    
    public static WicketManager instance()

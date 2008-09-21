@@ -25,6 +25,7 @@ import org.apache.wicket.PageParameters;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.navigation.paging.AjaxPagingNavigator;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
+import org.apache.wicket.feedback.ContainerFeedbackMessageFilter;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -33,6 +34,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.ComponentFeedbackPanel;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.PropertyModel;
@@ -78,7 +80,7 @@ public class Main extends WebPage
       hotelSearchForm = new HotelSearchForm("searchCriteria");
       body.add(hotelSearchForm);
       
-      messages = new ComponentFeedbackPanel("messages", body).setOutputMarkupId(true); 
+      messages = new FeedbackPanel("messages", new ContainerFeedbackMessageFilter(this)).setOutputMarkupId(true);
       body.add(messages);
       
       /*

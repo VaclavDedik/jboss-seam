@@ -2,6 +2,7 @@ package org.jboss.seam.wicket.web;
 
 import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.FRAMEWORK;
+import static org.jboss.seam.core.Manager.REDIRECT_FROM_MANAGER;
 
 import java.io.IOException;
 
@@ -9,12 +10,17 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
+import org.jboss.seam.annotations.web.Filter;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.web.AbstractFilter;
+import org.jboss.seam.wicket.WicketManager;
 
 /**
  * Disable the redirect filter when using Wicket (as JSF is an EE library, we
@@ -26,19 +32,32 @@ import org.jboss.seam.web.AbstractFilter;
 @Name("org.jboss.seam.web.redirectFilter")
 @Install(precedence = FRAMEWORK, classDependencies="org.apache.wicket.Application")
 @BypassInterceptors
+@Filter
 public class WicketRedirectFilter extends AbstractFilter 
 {
-   
-   
-   @Override
-   public boolean isDisabled()
-   {
-      return true;
-   }
 
-   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
+   public void doFilter(ServletRequest request, ServletResponse response,
+         FilterChain chain) throws IOException, ServletException 
    {
-      
-      
+      chain.doFilter( request, wrapResponse( (HttpServletResponse) response ) );
+   }
+   
+   private static ServletResponse wrapResponse(HttpServletResponse response) 
+   {
+      return new HttpServletResponseWrapper(response)
+      {
+         @Override
+         public void sendRedirect(String url) throws IOException
+         {
+            if ( Contexts.isEventContextActive() && !Contexts.getEventContext().isSet(REDIRECT_FROM_MANAGER) )
+            {
+               if ( Contexts.isConversationContextActive() )
+               {
+                  url = WicketManager.instance().appendConversationIdFromRedirectFilter(url);
+               }
+            }
+            super.sendRedirect(url);
+         }
+      };
    }
 }
