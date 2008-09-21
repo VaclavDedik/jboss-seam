@@ -130,7 +130,7 @@ public class FullTextSearchAction implements FullTextSearch, Serializable {
    @In FullTextSession session;
 
    public void search(String searchString) {
-      org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
+      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();
       org.hibernate.Query query session.createFullTextQuery(luceneQuery, Product.class);
       searchResults = query
             .setMaxResults(pageSize + 1)
@@ -156,7 +156,7 @@ public class FullTextSearchAction implements FullTextSearch, Serializable {
    @In FullTextEntityManager em;
 
    public void search(String searchString) {
-      org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
+      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();
       javax.persistence.Query query = em.createFullTextQuery(luceneQuery, Product.class);
       searchResults = query
             .setMaxResults(pageSize + 1)
@@ -188,7 +188,7 @@ public class FullTextSearchAction implements FullTextSearch, Serializable {
    @PersistenceContext EntityManager em;
 
    public void search(String searchString) {
-      org.apache.lucene.query.Query luceneQuery = getLuceneQuery();
+      org.apache.lucene.search.Query luceneQuery = getLuceneQuery();
       FullTextEntityManager ftEm = (FullTextEntityManager) em;
       javax.persistence.Query query = ftEm.createFullTextQuery(luceneQuery, Product.class);
       searchResults = query
