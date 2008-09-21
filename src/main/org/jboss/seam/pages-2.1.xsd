@@ -287,6 +287,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.end-conversation">
         <xs:attribute name="before-redirect" default="false" type="pages:tf-boolean"/>
+        <xs:attribute name="root" default="false" type="pages:tf-boolean"/>
         <xs:attribute name="if" type="pages:boolean-value-expression" />
     </xs:attributeGroup>
     
