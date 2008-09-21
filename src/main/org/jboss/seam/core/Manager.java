@@ -760,7 +760,7 @@ public class Manager
       return encodeConversationIdParameter( url, cip.getParameterName(), cip.getParameterValue(conversationId) );
    }
  
-   private String encodeConversationIdParameter(String url, String paramName, String paramValue)
+   protected String encodeConversationIdParameter(String url, String paramName, String paramValue)
    {         
       if ( Session.instance().isInvalid() || containsParameter(url, paramName) )
       {
