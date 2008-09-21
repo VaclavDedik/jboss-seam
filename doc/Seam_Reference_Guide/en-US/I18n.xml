@@ -170,7 +170,8 @@
     &lt;f:selectItem itemLabel="Deutsch" itemValue="de"/&gt;
     &lt;f:selectItem itemLabel="Francais" itemValue="fr"/&gt;
 &lt;/h:selectOneMenu&gt;
-&lt;h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/&gt;</programlisting>
+&lt;h:commandButton action="#{localeSelector.select}"
+    value="#{messages['ChangeLanguage']}"/&gt;</programlisting>
 
     <para>Or, if you want a list of all supported locales from <literal>
     faces-config.xml</literal>, just use:</para>
@@ -178,11 +179,31 @@
     <programlisting role="XHTML">&lt;h:selectOneMenu value="#{localeSelector.localeString}"&gt;
     &lt;f:selectItems value="#{localeSelector.supportedLocales}"/&gt;
 &lt;/h:selectOneMenu&gt;
-&lt;h:commandButton action="#{localeSelector.select}" value="#{messages['ChangeLanguage']}"/&gt;</programlisting>
+&lt;h:commandButton action="#{localeSelector.select}"
+    value="#{messages['ChangeLanguage']}"/&gt;</programlisting>
 
-    <para>When this use selects an item from the drop-down, and clicks the
-    button, the Seam and JSF locales will be overridden for the rest of the
+    <para>When the user selects an item from the drop-down, then clicks the
+    command button, the Seam and JSF locales will be overridden for the rest of the
     session.</para>
+
+    <para>The brings us to the question of where the supported locales are
+    defined. Typically, you provide a list of locales for which you have
+    matching resource bundles in the <literal>&lt;locale-config&gt;</literal>
+    element of the JSF configuration file (/META-INF/faces-config.xml).  However,
+    you have learned to appreciate that Seam's component configuration
+    mechanism is more powerful than what is provided in Java EE. For that
+    reason, you can configure the supported locales, and the default locale of
+    the server, using the built-in component named
+    <literal>org.jboss.seam.international.localeConfig</literal>. To use it,
+    you first declare an XML namespace for Seam's international package in the
+    Seam component descriptor. You then define the default locale and supported
+    locales as follows:</para>
+
+    <programlisting role="XML">&lt;international:locale-config default-locale="fr_CA" supported-locales="en fr_CA fr_FR"/&gt;</programlisting>
+
+    <para>Naturally, if you pronounce that you support a locale, you better
+    provide a resource bundle to match it! Up next, you'll learn how to define
+    the language-specific labels.</para>
   </section>
 
   <section>
