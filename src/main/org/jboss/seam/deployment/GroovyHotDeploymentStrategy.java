@@ -44,7 +44,6 @@ public class GroovyHotDeploymentStrategy extends HotDeploymentStrategy
    @Override
    public ClassLoader getClassLoader()
    {
-      System.out.println(classLoader + "/" + super.getClassLoader());
       if (classLoader == null && super.getClassLoader() != null)
       {
          this.classLoader = new GroovyClassLoader(super.getClassLoader());
