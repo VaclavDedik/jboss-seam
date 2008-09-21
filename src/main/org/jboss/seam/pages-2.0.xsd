@@ -119,6 +119,7 @@
     </xs:element>
     <xs:attributeGroup name="attlist.action">
         <xs:attribute name="if"/>
+        <xs:attribute name="on-postback" type="xs:boolean" default="true"/>
         <xs:attribute name="execute" use="required"/>
     </xs:attributeGroup>
     <xs:element name="restrict" type="xs:string"/>

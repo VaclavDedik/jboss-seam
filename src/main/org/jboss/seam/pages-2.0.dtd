@@ -41,6 +41,7 @@
 
 <!ELEMENT action EMPTY>
 <!ATTLIST action if CDATA #IMPLIED>
+<!ATTLIST action on-postback (true|false) "true">
 <!ATTLIST action execute CDATA #REQUIRED>
 
 <!ELEMENT restrict (#PCDATA)>

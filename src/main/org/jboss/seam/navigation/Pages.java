@@ -1074,12 +1074,12 @@ public class Pages
          page.setEventType( eventElement.attributeValue("type") );
       }
       
-      Action action = parseAction(element, "action");
+      Action action = parseAction(element, "action", false);
       if (action!=null) page.getActions().add(action);
       List<Element> childElements = element.elements("action");
       for (Element childElement: childElements)
       {
-         page.getActions().add( parseAction(childElement, "execute") );
+         page.getActions().add( parseAction(childElement, "execute", true) );
       }
             
       String bundle = element.attributeValue("bundle");
@@ -1104,7 +1104,7 @@ public class Pages
       return page;
    }
    
-   private static Action parseAction(Element element, String actionAtt)
+   private static Action parseAction(Element element, String actionAtt, boolean conditionalsAllowed)
    {
       Action action = new Action();
       String methodExpression = element.attributeValue(actionAtt);
@@ -1117,10 +1117,15 @@ public class Pages
       {
          action.setOutcome(methodExpression);
       }
-      String expression = element.attributeValue("if");
-      if (expression!=null)
+      
+      if (conditionalsAllowed)
       {
-         action.setValueExpression( Expressions.instance().createValueExpression(expression) );
+         String expression = element.attributeValue("if");
+         if (expression!=null)
+         {
+            action.setValueExpression( Expressions.instance().createValueExpression(expression) );
+         }
+         action.setOnPostback(!"false".equals(element.attributeValue("on-postback")));
       }
       return action;
    }

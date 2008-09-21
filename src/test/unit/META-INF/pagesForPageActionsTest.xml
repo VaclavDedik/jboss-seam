@@ -82,8 +82,13 @@
 			</rule>
 		</navigation>
 	</page>
+
+	<page view-id="/action-test06.xhtml">
+		<action execute="#{testActions.nonNullActionA}"/>
+		<action execute="#{testActions.nonNullActionB}" on-postback="false"/>
+	</page>
 	
-	<!-- The next two page nodes (action-test05*) demonstrate the old
+	<!-- The next two page nodes (action-test99*) demonstrate the old
 	behavior, where successive actions could trigger navigations on
 	different page nodes because the viewId changes mid-run -->
 	<page view-id="/action-test99a.xhtml">
