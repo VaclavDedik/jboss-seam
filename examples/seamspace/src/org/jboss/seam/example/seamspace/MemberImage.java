@@ -14,7 +14,7 @@ import org.jboss.seam.annotations.security.permission.Permissions;
 
 @Permissions({
    @Permission(action = "view"),
-   @Permission(action = "comment")
+   @Permission(action = "foo")
 })
 @Entity
 public class MemberImage implements Serializable
