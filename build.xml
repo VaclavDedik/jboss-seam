@@ -144,6 +144,7 @@
 		<delete dir="${ui.dir}/target" quiet="${quietclean}"/>
 		<delete dir="${doc.ref.dir}/target" quiet="${quietclean}" />
 		<delete dir="${doc.ref.dir}/tmp" quiet="${quietclean}" />
+		<delete dir="${seamgen.dir}/icefaces-staging" quiet="${quietclean}"/>
 		<cleanexample name="integration" path="${seam.dir}/src/test/integration" message="" />
 	</target>
 	
