@@ -4,6 +4,8 @@
 
 <page>
     <navigation from-action="#{imagePermission.applyPermissions}">
-          <redirect view-id="/imagepermissions.xhtml"/>
+      <rule if-outcome="success">
+        <redirect view-id="/imagepermissions.xhtml"/>
+      </rule>
     </navigation>
 </page>

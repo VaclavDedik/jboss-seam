@@ -14,6 +14,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.core.Conversation;
+import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.security.Role;
 import org.jboss.seam.security.SimplePrincipal;
 import org.jboss.seam.security.management.IdentityManager;
@@ -114,8 +115,9 @@ public class ImagePermission implements Serializable
       this.selectedActions = selectedActions;
    }
    
-   public void applyPermissions()
+   public String applyPermissions()
    {
+      // If the recipient isn't null, it means we're editing existing permissions
       if (recipient != null)
       {
          List<Permission> grantedPermissions = new ArrayList<Permission>();
@@ -140,8 +142,15 @@ public class ImagePermission implements Serializable
          if (!grantedPermissions.isEmpty()) permissionManager.grantPermissions(grantedPermissions);
          if (!revokedPermissions.isEmpty()) permissionManager.revokePermissions(revokedPermissions);
       }
+      // otherwise this is a set of new permissions
       else
       {
+         if (selectedActions.size() == 0)
+         {
+            FacesMessages.instance().add("You must select at least one action");
+            return "failure";
+         }
+         
          List<Permission> permissions = new ArrayList<Permission>();
    
          for (String role : selectedRoles)
@@ -171,6 +180,7 @@ public class ImagePermission implements Serializable
          permissionManager.grantPermissions(permissions);
       }
       Conversation.instance().endBeforeRedirect();
+      return "success";
    }
    
    public List<Member> getAvailableFriends()
