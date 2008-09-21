@@ -151,14 +151,31 @@
      <para>
          Now we need to do something about displaying feedback to the 
          user when validation fails. Currently we are displaying all
-         messages at the top of the form. What we would really like to
-         do is display the message next to the field with the error
-         (this is possible in plain JSF), highlight the field and 
-         label (this is not possible) and, for good measure, display 
-         some image next to the field (also not possible). We also
-         want to display a little colored asterisk next to the label
-         for each required form field.
+         messages at the top of the form. In order for the user to correlate the message with an input, you need to define a label using the standard <literal>label</literal> attribute on the input component.
+     </para> 
+
+     <programlisting role="XHTML"><![CDATA[<h:inputText value="#{location.zip}" required="true" label="Zip:">
+    <s:validate/>
+</h:inputText>]]></programlisting>
+
+     <para>
+         You can then inject this value into the message string using
+         the placeholder {0} (the first and only parameter passed to a
+         JSF message for a Hiberate Validator restriction). See the
+         internationalization section for more information regarding
+         where to define these messages.
+     </para>
+
+     <programlisting>validator.length={0} length must be between {min} and {max}</programlisting>
          
+     <para>
+         What we would really like to do, though, is display the message
+         next to the field with the error (this is possible in plain
+         JSF), highlight the field and label (this is not possible) and,
+         for good measure, display some image next to the field (also
+         not possible). We also want to display a little colored
+         asterisk next to the label for each required form field. Using
+         this approach, the identifying label is not necessary.
      </para>
      
      <para>
@@ -246,7 +263,7 @@
 </h:form>]]></programlisting>
 
     <para>
- 		It's better style to define explicit ids for
+        It's better style to define explicit ids for
         important controls on the page, especially if you want to do
         automated testing for the UI, using some toolkit like
         Selenium. If you don't provide explicit ids, JSF will generate
@@ -276,13 +293,13 @@
 
 </h:form>]]></programlisting>
 
-	<para>
-		And what if you want to specify a different message to be 
-		displayed when validation fails?  You can use the Seam message
-		bundle (and all it's goodies like el expressions inside the message,
-		and per-view message bundles) with the Hibernate Validator:
-	</para>
-	
+    <para>
+        And what if you want to specify a different message to be 
+        displayed when validation fails?  You can use the Seam message
+        bundle (and all it's goodies like el expressions inside the message,
+        and per-view message bundles) with the Hibernate Validator:
+    </para>
+    
 <programlisting role="JAVA"><![CDATA[public class Location {
     private String name;
     private String zip;
@@ -294,7 +311,7 @@
     @ZipCode(message="#{messages['location.zipCode.invalid']}")
     public String getZip() { return zip; }
     public void setZip(String z) { zip = z; }
-}]]></programlisting>	
+}]]></programlisting>
 
 <programlisting>
 location.zipCode.invalid = The zip code is not valid for #{location.name}

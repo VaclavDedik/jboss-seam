@@ -38,24 +38,37 @@ public class ModelValidator implements Validator
          {
             Throwable cause = ele.getCause();
             if (cause==null) cause = ele;
-            throw new ValidatorException( createMessage(cause), cause );
+            throw new ValidatorException(createMessage(cause), cause);
          }
          
          if ( invalidValues!=null && invalidValues.length>0 )
          {
-            throw new ValidatorException( createMessage(invalidValues) );
+            throw new ValidatorException(createMessage(invalidValues, resolveLabel(facesContext, component)));
          }
       }
    }
 
-   private FacesMessage createMessage(InvalidValue[] invalidValues)
+   private FacesMessage createMessage(InvalidValue[] invalidValues, Object label)
    {
-      return FacesMessages.createFacesMessage( FacesMessage.SEVERITY_ERROR, invalidValues[0].getMessage() );
+      return FacesMessages.createFacesMessage(FacesMessage.SEVERITY_ERROR, invalidValues[0].getMessage(), label);
    }
 
    private FacesMessage createMessage(Throwable cause)
    {
       return new FacesMessage(FacesMessage.SEVERITY_ERROR, "model validation failed:" + cause.getMessage(), null);
+   }
+
+   private Object resolveLabel(FacesContext facesContext, UIComponent component) {
+      Object lbl = component.getAttributes().get("label");
+      if (lbl == null || (lbl instanceof String && ((String) lbl).length() == 0))
+	  {
+          lbl = component.getValueExpression("label");
+      }
+      if (lbl == null)
+	  {
+          lbl = component.getClientId(facesContext);
+      }
+      return lbl; 
    }
 
 }
