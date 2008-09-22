@@ -205,7 +205,7 @@ public class ManagedPersistenceContext
          log.debug("destroying seam managed persistence context for persistence unit: " + persistenceUnitJndiName);
       }
       
-      if (entityManager!=null)
+      if (entityManager!=null && entityManager.isOpen())
       {
          entityManager.close();
       }

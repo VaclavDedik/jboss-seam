@@ -144,7 +144,7 @@ public class ManagedHibernateSession
       {
          throw new IllegalStateException("cannot passivate persistence context with active transaction");
       }
-      if ( session!=null && !session.isDirty() )
+      if ( session!=null && session.isOpen() && !session.isDirty() )
       {
          session.close();
          session = null;
@@ -212,7 +212,7 @@ public class ManagedHibernateSession
       {
          log.debug("destroying seam managed session for session factory: " + sessionFactoryJndiName);
       }
-      if (session!=null)
+      if (session!=null && session.isOpen())
       {
          session.close();
       }
