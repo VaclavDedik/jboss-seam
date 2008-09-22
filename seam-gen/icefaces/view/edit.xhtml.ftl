@@ -41,18 +41,18 @@
                   
        <div class="actionButtons">
         
-            <h:commandButton id="save${homeName}" 
+            <ice:commandButton id="save${homeName}" 
                           value="Save" 
                          action="${'#'}{${homeName}.persist}"
                        disabled="${'#'}{!${homeName}.wired}"
                        rendered="${'#'}{!${homeName}.managed}"/>  
                           			  
-            <h:commandButton id="update${homeName}" 
+            <ice:commandButton id="update${homeName}" 
                           value="Save" 
                          action="${'#'}{${homeName}.update}"
                        rendered="${'#'}{${homeName}.managed}"/>
                         			  
-            <h:commandButton id="delete${homeName}" 
+            <ice:commandButton id="delete${homeName}" 
                           value="Delete" 
                          action="${'#'}{${homeName}.remove}"
                       immediate="true"
