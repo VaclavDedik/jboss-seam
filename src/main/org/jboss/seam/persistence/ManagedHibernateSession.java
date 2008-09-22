@@ -247,7 +247,7 @@ public class ManagedHibernateSession
    
    public void changeFlushMode(FlushModeType flushMode)
    {
-      if (session!=null)
+      if (session!=null && session.isOpen())
       {
          setSessionFlushMode(flushMode);
       }
