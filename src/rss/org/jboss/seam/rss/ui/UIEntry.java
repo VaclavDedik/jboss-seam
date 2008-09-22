@@ -30,7 +30,7 @@ public class UIEntry extends SyndicationComponent
    private String link;
    private String author;
    private String summary;
-   private TextType summaryFormat = TextType.html;
+   private TextType textFormat = TextType.html;
    private Date published;
    private Date updated;
 
@@ -40,6 +40,12 @@ public class UIEntry extends SyndicationComponent
       return COMPONENT_TYPE;
    }
 
+   private Text makeText(String textString) {
+      Text text = new Text(textFormat);
+      text.setText(textString);
+      return text;
+   }
+   
    @SuppressWarnings("unchecked")
    @Override
    public void encodeBegin(FacesContext facesContext) throws IOException
@@ -48,7 +54,7 @@ public class UIEntry extends SyndicationComponent
 
       ItemEntry itemEntry = new ItemEntry();
       itemEntry.setUid(getUid());
-      itemEntry.setTitle(getTitle());
+      itemEntry.setTitle(makeText(getTitle()));
       itemEntry.addLink(getLink());
       String author = getAuthor();
       if (author != null)
@@ -57,9 +63,7 @@ public class UIEntry extends SyndicationComponent
          authorPerson.setName(author);
          itemEntry.addAuthorOrCreator(authorPerson);
       }
-      Text summary = new Text(summaryFormat);
-      summary.setText(getSummary());
-      itemEntry.setDescriptionOrSummary(summary);
+      itemEntry.setDescriptionOrSummary(makeText(getSummary()));
       if (getUpdated() != null) {
          itemEntry.setUpdatedDate(getUpdated(), new SimpleDateFormat(ATOM_DATE_FORMAT));
       }
@@ -140,14 +144,14 @@ public class UIEntry extends SyndicationComponent
       this.uid = uid;
    }
 
-   public TextType getSummaryFormat()
+   public TextType getTextFormat()
    {
-      return summaryFormat;
+      return textFormat;
    }
 
-   public void setSummaryFormat(TextType summaryFormat)
+   public void setTextFormat(TextType textFormat)
    {
-      this.summaryFormat = summaryFormat;
+      this.textFormat = textFormat;
    }
 
 }

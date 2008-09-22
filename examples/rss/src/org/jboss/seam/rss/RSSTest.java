@@ -28,7 +28,7 @@ public class RSSTest
          entry.setLink("Link " + i);
          entry.setPublished(new Date(0));
          entry.setSummary("Summary <b>" + i + "</b>");
-         entry.setTitle("Title " + i);
+         entry.setTitle("Title <i>" + i + "</i>");
          entry.setUid(UUID.randomUUID().toString());
          entry.setUpdated(new Date());
          entries.add(entry);

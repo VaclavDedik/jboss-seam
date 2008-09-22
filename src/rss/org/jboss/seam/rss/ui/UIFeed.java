@@ -42,16 +42,15 @@ public class UIFeed extends SyndicationComponent
    private static final String COMPONENT_TYPE = "org.jboss.seam.rss.ui.UIFeed";
    private static final String EXTENSION = "xml";
    private static final String MIMETYPE = "text/xml";
-   private static final FeedFormat DEFAULT_FEED_FORMAT = FeedFormat.ATOM10;
 
    private boolean sendRedirect = true;
 
-   private FeedFormat feedFormat = DEFAULT_FEED_FORMAT;
    private String uid;
    private String title;
    private String subtitle;
    private Date updated;
    private String link;
+   private FeedFormat feedFormat = FeedFormat.ATOM10;
 
 
    @SuppressWarnings("unchecked")
@@ -75,7 +74,7 @@ public class UIFeed extends SyndicationComponent
       ChannelFeed channelFeed = (ChannelFeed) Contexts.getEventContext().get(FEED_IMPL_KEY);
       ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
       try {
-         FeedWriter.writeChannel(DEFAULT_FEED_FORMAT, channelFeed, byteStream);
+         FeedWriter.writeChannel(feedFormat, channelFeed, byteStream);
       } catch (YarfrawException e) {
          /**
           * Was IOException, but 1.5 does not have this constructor
@@ -165,9 +164,9 @@ public class UIFeed extends SyndicationComponent
       this.link = link;
    }
 
-   public String getFeedFormat()
+   public FeedFormat getFeedFormat()
    {
-      return (String) valueOf("feedFormat", feedFormat);
+      return (FeedFormat) valueOf("feedFormat", feedFormat);
    }
 
    public void setFeedFormat(FeedFormat feedFormat)

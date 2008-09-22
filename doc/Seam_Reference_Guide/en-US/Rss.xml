@@ -115,6 +115,13 @@
                               The value is a string.
                            </para>
                         </listitem>
+                        <listitem>
+                           <para>
+                              <literal>feedFormat</literal>
+                              &#8212;The feed format. The value is a string and defaults
+                              to ATOM1. Valid values are RSS10, RSS20, ATOM03 and ATOM10.
+                           </para>
+                        </listitem>
                      </itemizedlist>
                      <para>
                         <emphasis>Child elemenents</emphasis>
@@ -196,9 +203,10 @@
                         </listitem>
                         <listitem>
                            <para>
-                              <literal>summaryFormat</literal>
-                              &#8212;The format of the body of the story. The value is a string
-                              and valid values are "text" and "html". Defaults to "html".
+                              <literal>textFormat</literal>
+                              &#8212;The format of the body and title of the story. 
+                              The value is a string and valid values are "text" and 
+                              "html". Defaults to "html".
                            </para>
                         </listitem>
                         <listitem>
