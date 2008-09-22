@@ -60,8 +60,12 @@ public class UIEntry extends SyndicationComponent
       Text summary = new Text(summaryFormat);
       summary.setText(getSummary());
       itemEntry.setDescriptionOrSummary(summary);
-      itemEntry.setUpdatedDate(getUpdated(), new SimpleDateFormat(ATOM_DATE_FORMAT));
-      itemEntry.setPubDate(getPublished(), new SimpleDateFormat(ATOM_DATE_FORMAT));
+      if (getUpdated() != null) {
+         itemEntry.setUpdatedDate(getUpdated(), new SimpleDateFormat(ATOM_DATE_FORMAT));
+      }
+      if (getPublished() != null) {
+         itemEntry.setPubDate(getPublished(), new SimpleDateFormat(ATOM_DATE_FORMAT));
+      }
 
       channelFeed.addItem(itemEntry);
    }

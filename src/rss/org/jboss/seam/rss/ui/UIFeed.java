@@ -62,7 +62,9 @@ public class UIFeed extends SyndicationComponent
       channelFeed.setUid(getUid());
       channelFeed.setTitle(getTitle());
       channelFeed.setDescriptionOrSubtitle(getSubtitle());
-      channelFeed.setPubDate(getUpdated(), new SimpleDateFormat(ATOM_DATE_FORMAT));
+      if (getUpdated() != null) {
+         channelFeed.setPubDate(getUpdated(), new SimpleDateFormat(ATOM_DATE_FORMAT));
+      }
       channelFeed.addLink(getLink());
       Contexts.getEventContext().set(FEED_IMPL_KEY, channelFeed);
    }
