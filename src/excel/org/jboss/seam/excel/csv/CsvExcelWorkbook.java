@@ -28,6 +28,7 @@ public class CsvExcelWorkbook implements ExcelWorkbook
    private int currentRow = 0;
    private int maxRow = 0;
    private int maxColumn = 0;
+   private int sheetStartRow = 0;
 
    private final String COLUMN_DELIMITER = "\"";
    private final String LINEBREAK = "\n";
@@ -52,7 +53,7 @@ public class CsvExcelWorkbook implements ExcelWorkbook
 
    private void createOrSelectWorksheet(String worksheetName, Integer startRow, Integer startColumn)
    {
-      if (sheetName != null && sheetName.equals(worksheetName))
+      if (sheetName != null && !sheetName.equals(worksheetName))
       {
          throw new RuntimeException("You cannot export multiple sheet workbooks to excel.");
       }
@@ -60,6 +61,7 @@ public class CsvExcelWorkbook implements ExcelWorkbook
       sheetName = worksheetName;
       currentColumn = (startColumn == null) ? 0 : startColumn;
       currentRow = (startRow == null) ? 0 : startRow;
+      sheetStartRow = currentRow;
    }
 
    public byte[] getBytes()
@@ -83,7 +85,7 @@ public class CsvExcelWorkbook implements ExcelWorkbook
    public void nextColumn()
    {
       currentColumn++;
-      currentRow = 0;
+      currentRow = sheetStartRow;
    }
 
    public DocumentType getDocumentType()
