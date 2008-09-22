@@ -62,6 +62,19 @@ public abstract class CacheProvider<T>
    {
       return get(null, key);
    }
+   
+   /**
+    * Fetches an object for the given key from the cache and returns it if
+    * found. Only the default cache region will be searched.
+    * 
+    * @param key - a key to identify the object.
+    * @param type - the type of the object to return
+    * @return - the object if found or null if not
+    */
+   public <E> E get(String key, E type)
+   {
+      return (E) get(null, key);
+   }
 
    /**
     * Fetches an object for the given key from the cache and returns it if
@@ -72,6 +85,21 @@ public abstract class CacheProvider<T>
     * @return - the object if found or null if not
     */
    public abstract Object get(String region, String key);
+   
+   /**
+    * Fetches an object for the given key from the cache and returns it if
+    * found. Only the specified cache region will be searched.
+    * 
+    * @param region - the name of a cache region
+    * @param key - a key to identify the object.
+    * @param type - the type of object to return
+    * 
+    * @return - the object if found or null if not
+    */
+   public <E> E get(String region, String key, E type)
+   {
+      return (E) get(region, key);
+   }
 
    /**
     * Put an object into the cache. The object is placed in the default cache
