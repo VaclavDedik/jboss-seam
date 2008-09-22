@@ -56,7 +56,6 @@ public class StandardDeploymentStrategy extends DeploymentStrategy
       getDeploymentHandlers().put(NamespaceDeploymentHandler.NAME, namespaceDeploymentHandler);
       annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
       getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
-      getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());
    }
 
    @Override

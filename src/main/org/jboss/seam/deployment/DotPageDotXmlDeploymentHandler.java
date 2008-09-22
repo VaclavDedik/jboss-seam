@@ -54,30 +54,9 @@ public class DotPageDotXmlDeploymentHandler extends AbstractDeploymentHandler
    {
       if (Contexts.isEventContextActive())
       {
-         if (Contexts.getEventContext().isSet(HotDeploymentStrategy.NAME))
+         if (Contexts.getEventContext().isSet(WarRootDeploymentStrategy.NAME))
          {
-            DeploymentStrategy deploymentStrategy = (DeploymentStrategy) Contexts.getEventContext().get(StandardDeploymentStrategy.NAME); 
-            Object deploymentHandler = deploymentStrategy.getDeploymentHandlers().get(NAME);
-            if (deploymentHandler != null)
-            {
-               return (DotPageDotXmlDeploymentHandler) deploymentHandler;
-            }
-         }
-         return null;
-      }
-      else
-      {
-         throw new IllegalStateException("Event context not active");
-      }
-   }
-   
-   public static DotPageDotXmlDeploymentHandler hotInstance()
-   {
-      if (Contexts.isEventContextActive())
-      {
-         DeploymentStrategy deploymentStrategy = (DeploymentStrategy) Contexts.getEventContext().get(HotDeploymentStrategy.NAME);
-         if (deploymentStrategy != null)
-         {
+            DeploymentStrategy deploymentStrategy = (DeploymentStrategy) Contexts.getEventContext().get(WarRootDeploymentStrategy.NAME); 
             Object deploymentHandler = deploymentStrategy.getDeploymentHandlers().get(NAME);
             if (deploymentHandler != null)
             {

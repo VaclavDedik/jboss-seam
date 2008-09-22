@@ -34,5 +34,10 @@ public abstract class AbstractScanner implements Scanner
    {
       return deploymentStrategy;
    }
+   
+   public long getTimestamp()
+   {
+      return Long.MAX_VALUE;
+   }
 
 }

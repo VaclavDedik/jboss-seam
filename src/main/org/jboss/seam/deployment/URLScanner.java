@@ -28,6 +28,8 @@ public class URLScanner extends AbstractScanner
 {
    private static final LogProvider log = Logging.getLogProvider(URLScanner.class);
    
+   private long timestamp;
+   
    public URLScanner(DeploymentStrategy deploymentStrategy)
    {
       super(deploymentStrategy);
@@ -111,6 +113,7 @@ public class URLScanner extends AbstractScanner
       try
       {
          log.debug("archive: " + file);
+         touchTimestamp(file);
          ZipFile zip = new ZipFile(file);
          Enumeration<? extends ZipEntry> entries = zip.entries();
          while ( entries.hasMoreElements() )
@@ -138,9 +141,24 @@ public class URLScanner extends AbstractScanner
          }
          else
          {
+            touchTimestamp(file);
             handleItem(newPath);
          }
       }
    }
 
+   private void touchTimestamp(File file)
+   {
+      if (file.lastModified() > timestamp)
+      {
+         timestamp = file.lastModified();
+      }
+   }
+   
+   @Override
+   public long getTimestamp()
+   {
+      return timestamp;
+   }
+   
 }

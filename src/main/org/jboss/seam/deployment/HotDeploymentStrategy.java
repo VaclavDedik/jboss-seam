@@ -50,6 +50,8 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    
    private ComponentDeploymentHandler componentDeploymentHandler;
    private AnnotationDeploymentHandler annotationDeploymentHandler;
+   
+   private long timestamp = 0L;
 
    private ClassLoader classLoader;
    
@@ -95,7 +97,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
       return classLoader != null;
    }
    
-   public boolean isHotDeployClasslLoaderEnabled()
+   public boolean isHotDeployClassLoaderEnabled()
    {
       return hotDeployClassLoader != null;
    }

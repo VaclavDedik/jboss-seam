@@ -84,10 +84,7 @@ public class Pages
    
    private Map<String, Page> pagesByViewId;  
    private Map<String, List<Page>> pageStacksByViewId;   
-   private Map<String, ConversationIdParameter> conversations; 
-   
-   private Set<String> dotPageDotXmlFileNames;
-   private Set<String> hotDotPageDotXmlFileNames;
+   private Map<String, ConversationIdParameter> conversations;    
    
    private String[] resources = { "/WEB-INF/pages.xml" };
  
@@ -106,12 +103,6 @@ public class Pages
    @Create
    public void create()
    {
-      dotPageDotXmlFileNames = new HashSet<String>();
-      hotDotPageDotXmlFileNames = new HashSet<String>();
-      if (DotPageDotXmlDeploymentHandler.instance() != null)
-      {
-         dotPageDotXmlFileNames = DotPageDotXmlDeploymentHandler.instance().getFiles();
-      }
       initialize();
    }
    
@@ -132,8 +123,11 @@ public class Pages
             parse(stream);
          }
       }
-
-      parsePages(hotDotPageDotXmlFileNames, dotPageDotXmlFileNames);
+      
+      if (DotPageDotXmlDeploymentHandler.instance() != null)
+      {
+         parsePages(DotPageDotXmlDeploymentHandler.instance().getFiles());
+      }
    }
    
    private void parsePages(Set<String> ...fileNames)
@@ -1691,19 +1685,8 @@ public class Pages
             getCurrentViewId().startsWith("/debug.");
    }
    
-   
    public Collection<String> getKnownViewIds() {
        return pagesByViewId.keySet();
-   }
-   
-   public Set<String> getHotDotPageDotXmlFileNames()
-   {
-      return hotDotPageDotXmlFileNames;
-   }
-   
-   public void setHotDotPageDotXmlFileNames(Set<String> hotDotPageDotXmlFileNames)
-   {
-      this.hotDotPageDotXmlFileNames = hotDotPageDotXmlFileNames;
    }
    
 }

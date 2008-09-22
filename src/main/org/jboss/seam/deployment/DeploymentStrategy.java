@@ -11,11 +11,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
+
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -35,9 +34,6 @@ public abstract class DeploymentStrategy
    private Scanner scanner;
    
    private List<File> files = new ArrayList<File>();
-   
-   private Set<String> excludes = new HashSet<String>();
-   private Set<String> wildCardExcludes = new HashSet<String>();
    
    private Map<String, DeploymentHandler> deploymentHandlers;
    
@@ -189,20 +185,6 @@ public abstract class DeploymentStrategy
     */
    public void handle(String name)
    {
-      for (String exclude: excludes)
-      {
-         if (name.equals(exclude)) 
-         {
-            return;
-         }
-      }
-      for (String exclude: wildCardExcludes)
-      {
-         if (name.startsWith(exclude))
-         {
-            return;
-         }
-      }
       for (String key: getDeploymentHandlers().keySet())
       {
          getDeploymentHandlers().get(key).handle(name, getClassLoader());
@@ -327,19 +309,9 @@ public abstract class DeploymentStrategy
       this.files = files;
    }
    
-   public void addExclude(String path)
+   public long getTimestamp()
    {
-      if (path == null)
-      {
-         throw new NullPointerException("Cannot exclude a null path");
-      }
-      if (path.endsWith("*"))
-      {
-         wildCardExcludes.add(path.substring(0, path.length() - 1));
-      }
-      else
-      {
-         excludes.add(path);
-      }
+      return getScanner().getTimestamp();
    }
+   
 }

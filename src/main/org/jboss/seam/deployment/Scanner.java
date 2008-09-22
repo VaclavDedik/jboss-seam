@@ -31,4 +31,6 @@ public interface Scanner
     */
    public DeploymentStrategy getDeploymentStrategy();
    
+   public long getTimestamp();
+   
 }
