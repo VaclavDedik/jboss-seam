@@ -283,7 +283,7 @@ public class ManagedPersistenceContext
    
    public void changeFlushMode(FlushModeType flushMode)
    {
-      if (entityManager!=null)
+      if (entityManager!=null && entityManager.isOpen())
       {
          setEntityManagerFlushMode(flushMode);
       }
