@@ -82,6 +82,13 @@ In Seam 2.1, rule-based permission checks are now carried out by the RuleBasedPe
 requiring that it is configured with the security rules instead of Identity:
 
   <security:rule-based-permission-resolver security-rules="#{securityRules}"/>
+  
+Identity.isLoggedIn()
+---------------------
+
+This method has been modified so that it doesn't attempt to perform an authentication if credentials
+have been set.  Instead, it will simply return true if the user is currently authenticated.  If you
+require the previous behaviour, then please use Identity.tryLogin() instead.  
 
 PDF (iText)
 --------
