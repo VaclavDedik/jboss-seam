@@ -8,18 +8,34 @@ import java.util.Locale;
 import javax.faces.component.UIOutput;
 import javax.faces.event.ValueChangeEvent;
 
+import org.jboss.seam.international.LocaleConfig;
 import org.jboss.seam.international.LocaleSelector;
+import org.jboss.seam.Seam;
+import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.mock.SeamTest;
 import org.testng.annotations.Test;
 
 public class LocaleTest extends SeamTest
 {
-   
    @Test
    public void localeTest() throws Exception
    {
+      new NonFacesRequest()
+      {
+         @Override
+         protected void renderResponse() throws Exception
+         {
+            // it's necessary to emulate the startup behavior of LocaleConfig since it alters the JSF Application
+            // and we cannot be sure that the JSF Application wasn't cleared by an earlier class
+            // NOTE: I wish this test suite had some better place of initializing the application context
+            Contexts.getApplicationContext().remove(Seam.getComponentName(LocaleConfig.class));
+            LocaleConfig.instance();
+         }
+      }.run();
+
       new FacesRequest()
       {
+
          @Override
          protected void invokeApplication() throws Exception
          {

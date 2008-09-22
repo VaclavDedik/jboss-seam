@@ -73,6 +73,7 @@ public class AbstractSeamTest
 {
 
    private Application application;
+   private ApplicationFactory applicationFactory;
    private ServletContext servletContext;
    private static SeamPhaseListener phases;
    private MockHttpSession session;
@@ -935,7 +936,6 @@ public class AbstractSeamTest
     */
    protected void stopSeam() throws Exception
    {
-      ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).setApplication(null);
       ServletLifecycle.endApplication();
    }
    
@@ -947,7 +947,8 @@ public class AbstractSeamTest
    protected void setupClass() throws Exception
    {
       servletContext = (MockServletContext) ServletLifecycle.getServletContext();
-      application = ((ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY)).getApplication();
+      applicationFactory = (ApplicationFactory) FactoryFinder.getFactory(FactoryFinder.APPLICATION_FACTORY);
+      application = applicationFactory.getApplication();
       conversationViewRootAttributes = new HashMap<String, Map>();
       seamFilter = createSeamFilter();
       FactoryFinder.setFactory(FactoryFinder.FACES_CONTEXT_FACTORY, MockFacesContextFactory.class.getName());
@@ -966,6 +967,7 @@ public class AbstractSeamTest
    {
       seamFilter.destroy();
       conversationViewRootAttributes = null;
+      applicationFactory.setApplication(null);
    }
 
    protected Filter createSeamFilter() throws ServletException
