@@ -414,6 +414,7 @@
 		<cleanexample name="spring" />
 		<cleanexample name="itext" />
 		<cleanexample name="excel" />
+		<cleanexample name="rss" />
 		<cleanexample name="messages" />
 		<cleanexample name="numberguess" />
 		<cleanexample name="registration" />
@@ -448,6 +449,7 @@
 		<undeployexample name="seamspace" />
 		<undeployexample name="itext" />
 		<undeployexample name="excel" />
+		<undeployexample name="rss" />
 		<undeployexample name="mail" />
 		<undeployexample name="ui" />
 		<!--<undeployexample name="spring"" /> />-->
@@ -488,6 +490,7 @@
 		<testexample name="seampay" />
 		<testexample name="itext" />
 		<testexample name="excel" />
+		<testexample name="rss" />
 		<testexample name="hibernate" />
 		<testexample name="jpa" />
 		<testexample name="quartz" />
@@ -582,6 +585,7 @@
 				<include name="dvdstore/**/*" />
 				<include name="itext/**/*" />
 				<include name="excel/**/*" />
+				<include name="rss/**/*" />
 				<include name="seambay/**/*" />
 				<include name="seampay/**/*" />
 				<include name="seamspace/**/*" />

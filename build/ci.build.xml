@@ -31,6 +31,7 @@
 		<deploySnapshot pom="${mail.pom}" jar="${lib.dir}/jboss-seam-mail.jar" srcjar="${lib.dir}/src/jboss-seam-mail-sources.jar"/>
 		<deploySnapshot pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
 		<deploySnapshot pom="${excel.pom}" jar="${lib.dir}/jboss-seam-excel.jar" srcjar="${lib.dir}/src/jboss-seam-excel-sources.jar"/>
+		<deploySnapshot pom="${rss.pom}" jar="${lib.dir}/jboss-seam-rss.jar" srcjar="${lib.dir}/src/jboss-seam-rss-sources.jar"/>
 		<deploySnapshot pom="${remoting.pom}" jar="${lib.dir}/jboss-seam-remoting.jar" srcjar="${lib.dir}/src/jboss-seam-remoting-sources.jar"/>
 		<deploySnapshot pom="${ui.pom}" jar="${lib.dir}/jboss-seam-ui.jar" srcjar="${lib.dir}/src/jboss-seam-ui-sources.jar"/>
 	</target>
