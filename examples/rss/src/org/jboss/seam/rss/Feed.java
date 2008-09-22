@@ -1,6 +1,5 @@
-package nik.rss;
+package org.jboss.seam.rss;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 

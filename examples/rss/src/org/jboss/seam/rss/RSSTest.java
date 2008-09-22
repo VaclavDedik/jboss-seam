@@ -1,11 +1,9 @@
-package org.jboss.seam.excel;
+package org.jboss.seam.rss;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -24,7 +22,7 @@ public class RSSTest
       entries = new ArrayList<Entry>();
       for (int i = 0; i < 5; i++) {
          Entry entry = new Entry();
-         entires.add(entry);
+         entries.add(entry);
       }
    }
    

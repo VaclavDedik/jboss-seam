@@ -1,4 +1,4 @@
-package nik.rss;
+package org.jboss.seam.rss;
 
 import java.util.Date;
 
