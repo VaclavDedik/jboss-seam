@@ -1244,7 +1244,7 @@
     </target>
     
     <target name="settings" depends="init-properties"
-            description="Print the settings">
+        description="Print the settings">
         <echo message="Java project workspace: ${workspace.home}"/>
         <echo message="JBoss home: ${jboss.home}"/>
         <echo message="IceFaces: ${icefaces}"/>
