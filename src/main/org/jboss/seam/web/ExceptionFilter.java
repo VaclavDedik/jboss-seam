@@ -27,6 +27,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.web.Filter;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.FacesLifecycle;
+import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Manager;
 import org.jboss.seam.exception.Exceptions;
@@ -73,15 +74,8 @@ public class ExceptionFilter extends AbstractFilter
    protected void endWebRequestAfterException(HttpServletRequest request, HttpServletResponse response, Exception e) 
          throws ServletException, IOException
    {
-      //TODO: Are we really sure that someone flushes the "old" 
-      //      conversation context before we get to here? I guess
-      //      the PhaseListener probably does it, but we want to
-      //      make sure of that...
       
       log.warn("running exception handlers");
-      //the FacesContext is gone - create a fake one for Redirect and HttpError to call
-      MockFacesContext facesContext = createFacesContext(request, response);
-      facesContext.setCurrent();
       
       //if the event context was cleaned up, fish the conversation id 
       //directly out of the ServletRequest attributes, else get it from
@@ -90,6 +84,13 @@ public class ExceptionFilter extends AbstractFilter
               (Manager) Contexts.getEventContext().get(Manager.class) :
               (Manager) request.getAttribute( Seam.getComponentName(Manager.class) );
       String conversationId = manager==null ? null : manager.getCurrentConversationId();
+      
+      // Ensure that the call in which the exception occurred was cleaned up - it might not be, and there is no harm in trying
+      Lifecycle.endRequest();
+      
+      //the FacesContext is gone - create a fake one for Redirect and HttpError to call
+      MockFacesContext facesContext = createFacesContext(request, response);
+      facesContext.setCurrent();
       
       //Initialize the temporary context objects
       FacesLifecycle.beginExceptionRecovery( facesContext.getExternalContext() );
