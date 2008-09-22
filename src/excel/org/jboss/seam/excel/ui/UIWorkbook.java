@@ -313,10 +313,6 @@ public class UIWorkbook extends ExcelComponent
 
       DocumentType type = excelWorkbook.getDocumentType();
 
-      /**
-       * Code below is the same as for PDF generation. With a seam core document
-       * store (or equivalent), this might need modifications
-       */
       String viewId = Pages.getViewId(context);
       String baseName = baseNameForViewId(viewId);
 
