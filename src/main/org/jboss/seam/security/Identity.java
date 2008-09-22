@@ -141,23 +141,41 @@ public class Identity implements Serializable
       return instance;
    }
    
+   /**
+    * Simple check that returns true if the user is logged in, without attempting to authenticate
+    * 
+    * @return true if the user is logged in
+    */
    public boolean isLoggedIn()
    {           
-      return isLoggedIn(true);
-   }
-   
-   public boolean isLoggedIn(boolean attemptLogin)
-   {
-      if (!authenticating && attemptLogin && getPrincipal() == null && credentials.isSet() &&
-          Contexts.isEventContextActive() &&
-          !Contexts.getEventContext().isSet(LOGIN_TRIED))
-      {
-         Contexts.getEventContext().set(LOGIN_TRIED, true);
-         quietLogin();
-      }     
-      
       // If there is a principal set, then the user is logged in.
       return getPrincipal() != null;
+   }
+   
+   /**
+    * Will attempt to authenticate quietly if the user's credentials are set and they haven't
+    * authenticated already.  A quiet authentication doesn't throw any exceptions if authentication
+    * fails.
+    * 
+    * @return true if the user is logged in, false otherwise
+    */
+   public boolean tryLogin()
+   {
+      if (!authenticating && getPrincipal() == null && credentials.isSet() &&
+            Contexts.isEventContextActive() &&
+            !Contexts.getEventContext().isSet(LOGIN_TRIED))
+        {
+           Contexts.getEventContext().set(LOGIN_TRIED, true);
+           quietLogin();
+        }     
+        
+        return isLoggedIn();      
+   }
+   
+   @Deprecated
+   public boolean isLoggedIn(boolean attemptLogin)
+   {
+      return attemptLogin ? tryLogin() : isLoggedIn();
    }
 
    public Principal getPrincipal()
@@ -217,7 +235,7 @@ public class Identity implements Serializable
    {
       try
       {            
-         if (isLoggedIn(false))
+         if (isLoggedIn())
          {
             // If authentication has already occurred during this request via a silent login,
             // and login() is explicitly called then we still want to raise the LOGIN_SUCCESSFUL event,
@@ -234,14 +252,14 @@ public class Identity implements Serializable
          
          authenticate();
          
-         if (!isLoggedIn(false))
+         if (!isLoggedIn())
          {
             throw new LoginException();
          }
          
          if ( log.isDebugEnabled() )
          {
-            log.debug("Login successful for: " + getUsername());
+            log.debug("Login successful for: " + getCredentials().getUsername());
          }
 
          if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_SUCCESSFUL);
@@ -253,7 +271,7 @@ public class Identity implements Serializable
          
          if ( log.isDebugEnabled() )
          {
-             log.debug("Login failed for: " + getUsername(), ex);
+             log.debug("Login failed for: " + getCredentials().getUsername(), ex);
          }
          if (Events.exists()) Events.instance().raiseEvent(EVENT_LOGIN_FAILED, ex);
       }
@@ -273,12 +291,12 @@ public class Identity implements Serializable
          if (Events.exists()) Events.instance().raiseEvent(EVENT_QUIET_LOGIN);         
           
          // Ensure that we haven't been authenticated as a result of the EVENT_QUIET_LOGIN event
-         if (!isLoggedIn(false))
+         if (!isLoggedIn())
          {
             if (credentials.isSet()) 
             {
                authenticate();
-               if (isLoggedIn(false) && Contexts.isEventContextActive())
+               if (isLoggedIn() && Contexts.isEventContextActive())
                {
                   Contexts.getEventContext().set(SILENT_LOGIN, true);
                }
@@ -299,7 +317,7 @@ public class Identity implements Serializable
       throws LoginException
    {
       // If we're already authenticated, then don't authenticate again
-      if (!isLoggedIn(false) && !credentials.isInvalid())
+      if (!isLoggedIn() && !credentials.isInvalid())
       {
          principal = null;
          subject = new Subject();
@@ -395,7 +413,7 @@ public class Identity implements Serializable
    
    public void logout()
    {
-      if (isLoggedIn(false))
+      if (isLoggedIn())
       {
          unAuthenticate();
          Session.instance().invalidate();
@@ -414,7 +432,7 @@ public class Identity implements Serializable
       if (!securityEnabled) return true;
       if (systemOp != null && Boolean.TRUE.equals(systemOp.get())) return true;
       
-      isLoggedIn(true);
+      tryLogin();
       
       for ( Group sg : getSubject().getPrincipals(Group.class) )      
       {
@@ -495,7 +513,7 @@ public class Identity implements Serializable
     */
    public void checkRole(String role)
    {
-      isLoggedIn(true);
+      tryLogin();
       
       if ( !hasRole(role) )
       {
@@ -526,7 +544,7 @@ public class Identity implements Serializable
    {
       if (systemOp != null && Boolean.TRUE.equals(systemOp.get())) return; 
       
-      isLoggedIn(true);
+      tryLogin();
       
       if ( !hasPermission(name, action, arg) )
       {
@@ -548,7 +566,7 @@ public class Identity implements Serializable
    {
       if (systemOp != null && Boolean.TRUE.equals(systemOp.get())) return;
       
-      isLoggedIn(true);
+      tryLogin();
       
       if ( !hasPermission(target, action) )
       {
