@@ -22,7 +22,6 @@ import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
-import org.jboss.seam.util.Reflections;
 
 /**
  *
@@ -34,9 +33,6 @@ import org.jboss.seam.util.Reflections;
 @Install(value = false, precedence=BUILT_IN)
 public class SubscriptionRegistry
 {
-  private static final String DEFAULT_CONNECTION_PROVIDER =
-    "org.jboss.seam.remoting.messaging.JBossConnectionProvider";
-
   public static final String CONTEXT_USER_TOKENS =
       "org.jboss.seam.remoting.messaging.SubscriptionRegistry.userTokens";
 
@@ -96,13 +92,8 @@ public class SubscriptionRegistry
       {
         if (topicConnection == null)
         {
-          String providerName = connectionProvider != null ?
-                                    connectionProvider : DEFAULT_CONNECTION_PROVIDER;
-          try {
-            Class providerClass = Reflections.classForName(providerName);
-            JMSConnectionProvider provider = (JMSConnectionProvider) providerClass.newInstance();
-            topicConnection = provider.createConnection();
-
+            topicConnection = org.jboss.seam.jms.TopicConnection.instance();
+            
             topicConnection.setExceptionListener(new ExceptionListener() {
               public void onException(JMSException ex)
               {
@@ -110,19 +101,6 @@ public class SubscriptionRegistry
               }
             });
             topicConnection.start();
-          }
-          catch (ClassNotFoundException ex)
-          {
-            log.error(String.format("Topic connection provider class [%s] not found",
-                                    providerName));
-            throw ex;
-          }
-          catch (InstantiationException ex)
-          {
-            log.error(String.format("Failed to create connection provider [%s]",
-                                    providerName));
-            throw ex;
-          }
         }
       }
     }
