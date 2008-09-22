@@ -23,6 +23,7 @@
     <xi:include href= "Text.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href= "Itext.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href= "Excel.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href= "Rss.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href= "Mail.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href= "Jms.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href= "Cache.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />

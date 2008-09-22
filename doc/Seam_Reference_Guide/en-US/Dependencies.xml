@@ -163,6 +163,21 @@
                 <para>Required when using Seam's <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> features</para>
               </entry>
             </row>                  
+
+            <row>
+              <entry>
+                <para><literal>jboss-seam-rss.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Required when using Seam's RSS generation features</para>
+              </entry>
+            </row>                  
             
             <row>
               <entry>
@@ -595,7 +610,7 @@
                 <para>war</para>
               </entry>
               <entry>
-                <para>JExcelAPI Library</para>
+                <para>JExcelAPI library</para>
               </entry>
             </row>
             
@@ -611,6 +626,162 @@
               </entry>
               <entry>
                 <para>Seam <trademark class="registered">Microsoft</trademark> <trademark class="registered">Excel</trademark> core library</para>
+              </entry>
+            </row>                
+            
+          </tbody>
+        </tgroup>
+      </table>
+    </section>  
+
+    <section id="dependencies.rss">
+      <title>Seam RSS support</title>    
+  
+      <table>
+        <title>Seam RSS Dependencies</title>
+     
+        <tgroup cols="4">
+          <colspec colnum="1" colwidth="4*" />
+          <colspec colnum="2" colwidth="2*" />
+          <colspec colnum="3" colwidth="3*" />
+          <colspec colnum="4" colwidth="5*" />
+    
+          <thead>
+            <row>
+              <entry align="center">
+                <para>Name</para>
+              </entry>
+              <entry align="center">
+                <para>Type</para>
+              </entry>
+              <entry align="center">
+                <para>Scope</para>
+              </entry>            
+              <entry align="center">
+                <para>Notes</para>
+              </entry>
+            </row>
+          </thead>
+    
+          <tbody>
+    
+            <row>
+              <entry>
+                <para><literal>yarfraw.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>YARFRAW RSS library</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>JAXB</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>JAXB XML parsing libraries</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>http-client.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache HTTP Client libraies</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>commons-io</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache commons IO library</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>commons-lang</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache commons lang library</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>commons-codec</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache commons codec library</para>
+              </entry>
+            </row>
+
+            <row>
+              <entry>
+                <para><literal>commons-collections</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Apache commons collections library</para>
+              </entry>
+            </row>
+            
+            <row>
+              <entry>
+                <para><literal>jboss-seam-rss.jar</literal></para>
+              </entry>
+              <entry align="center">
+                <para>runtime</para>
+              </entry>
+              <entry align="center">
+                <para>war</para>
+              </entry>
+              <entry>
+                <para>Seam RSS core library</para>
               </entry>
             </row>                
             
