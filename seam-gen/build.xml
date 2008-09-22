@@ -54,7 +54,7 @@
                 <equals arg1="${database.drop}" arg2="n"/>
             </and>
         </condition>
-        <condition property="hibernate.hbm2ddl.auto" value="validate">
+        <condition property="hibernate.hbm2ddl.auto" value="none">
             <and>
                 <equals arg1="${database.exists}" arg2="y"/>
                 <equals arg1="${database.drop}" arg2="n"/>
