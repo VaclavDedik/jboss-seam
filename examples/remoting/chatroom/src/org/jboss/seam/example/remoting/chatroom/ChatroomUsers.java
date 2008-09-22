@@ -3,8 +3,8 @@ package org.jboss.seam.example.remoting.chatroom;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jboss.seam.cache.CacheProvider;
 import org.jboss.cache.CacheException;
-import org.jboss.cache.aop.PojoCache;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -15,17 +15,18 @@ import org.jboss.seam.annotations.Unwrap;
 @Scope(ScopeType.STATELESS)
 public class ChatroomUsers
 {
-   @In
-   private PojoCache pojoCache;
+   @SuppressWarnings("unchecked")
+   @In CacheProvider cacheProvider;
    
+   @SuppressWarnings("unchecked")
    @Unwrap
    public Set<String> getUsers() throws CacheException
    {
-      Set<String> userList = (Set<String>) pojoCache.get("chatroom", "userList");
+      Set<String> userList = (Set<String>) cacheProvider.get("chatroom", "userList");
       if (userList==null) 
       {
          userList = new HashSet<String>();
-         pojoCache.put("chatroom", "userList", userList);
+         cacheProvider.put("chatroom", "userList", userList);
       }
       return userList;
    }
