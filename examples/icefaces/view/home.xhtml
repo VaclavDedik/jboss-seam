@@ -3,6 +3,7 @@
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:h="http://java.sun.com/jsf/html"
 	  xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ice="http://www.icesoft.com/icefaces/component"	  
       xmlns:s="http://jboss.com/products/seam/taglib">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -29,7 +30,7 @@
 					<h:inputSecret id="password" value="#{identity.password}" style="width: 165px;"/>
 				</div>
 				<div class="errors"><h:messages globalOnly="true"/></div>
-				<div class="buttonBox"><h:commandButton id="login" action="#{identity.login}" value="Account Login"
+				<div class="buttonBox"><ice:commandButton id="login" action="#{identity.login}" value="Account Login"
 				    styleClass="button"/></div>
 				<div class="notes"><s:link id="register" view="/register.xhtml" value="Register New User"/></div>
 			</fieldset>
