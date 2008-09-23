@@ -61,7 +61,7 @@ public class TopicConnection
 
    private TopicConnectionFactory getTopicConnectionFactory() throws NamingException
    {
-      return (TopicConnectionFactory) Naming.getInitialContext().lookup(topicConnectionFactoryJndiName);
+      return (TopicConnectionFactory) Naming.getInitialContext().lookup(getTopicConnectionFactoryJndiName());
    }
    
    @Unwrap
@@ -78,7 +78,7 @@ public class TopicConnection
    @Override
    public String toString()
    {
-      return "TopicConnection(" + topicConnectionFactoryJndiName + ")";
+      return "TopicConnection(" + getTopicConnectionFactoryJndiName() + ")";
    }
 
 }
