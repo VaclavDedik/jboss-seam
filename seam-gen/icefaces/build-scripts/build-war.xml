@@ -166,7 +166,7 @@
                 <exclude name="classes/**/*.groovy"/>
             </fileset>
             <filterset>
-                <filter token="debug"       value="${debug}" />
+                <filter token="debug" value="${debug}" />
                 <filter token="jndiPattern" value="${project.name}/#{ejbName}/local"/>
             </filterset>
         </copy>
@@ -190,11 +190,13 @@
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources"> 
                 <include name="messages*.properties"/>
+                <include name="*_theme.properties"/>
             </fileset>
         </copy>
         
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
+                <include name="META-INF/orm.xml" />
                 <include name="*jpdl.xml" />
                 <include name="hibernate.cfg.xml" />
                 <include name="jbpm.cfg.xml" />
@@ -236,6 +238,9 @@
         <delete file="${deploy.dir}/${project.name}-${profile}-ds.xml" failonerror="no"/>
         <delete dir="${war.deploy.dir}" failonerror="no"/>
     </target>
+
+    <target name="reexplode" depends="unexplode,clean,explode"
+        description="Undeploy the exploded archive, clean, then deploy the exploded archive"/>
     
     <target name="restart" depends="explode" description="Restart the exploded archive">
         <touch file="${war.deploy.dir}/WEB-INF/web.xml"/>
@@ -251,6 +256,9 @@
         <delete file="${deploy.dir}/${project.name}-dev-ds.xml" />
         <delete file="${deploy.dir}/${project.name}-prod-ds.xml" />
     </target>
+
+    <target name="redeploy" depends="undeploy,clean,deploy"
+        description="Undeploy the packaged archive, clean, then deploy the packaged archive"/>
     
     <target name="clean" description="Cleans up the build directory">
         <delete dir="${dist.dir}"/>
@@ -303,6 +311,7 @@
                 <exclude name="import*.sql"/>
                 <exclude name="${project.name}-*-ds.xml"/>
             </fileset>
+            <fileset dir="${basedir}/view"/>
         </copy>
         <copy tofile="${test.dir}/META-INF/persistence.xml" 
               file="${basedir}/resources/META-INF/persistence-test-war.xml"
