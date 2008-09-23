@@ -166,6 +166,7 @@
 		<include name="jboss-seam-rss.jar" if="seam.rss.lib" />
 		<include name="yarfraw.jar" if="seam.rss.lib" />
 		<include name="commons-lang.jar" if="seam.rss.lib" />
+		<include name="commons-collections.jar" if="seam.rss.lib" />
 	</fileset>
 
 	<!-- Seam debug, with required dependencies -->
