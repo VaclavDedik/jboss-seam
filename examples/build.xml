@@ -28,6 +28,7 @@
 	<property name="resources.dir" value="resources" />
 	<property name="validate.resources.dir" value="${resources.dir}" />
 	<property name="example.ds" value="${example.name}-ds.xml" />
+	<property name="example.service" value="${example.name}-service.xml" />
 
 	<!-- Deployment directories -->
 	<property name="deploy.dir" value="${jboss.home}/server/default/deploy" />
@@ -679,7 +680,7 @@
 	</target>
 
 	<!-- Deploy the target to JBoss AS -->
-	<target name="deploy" depends="archive, datasource, meldware" description="Deploy the example to JBoss AS">
+	<target name="deploy" depends="archive, datasource, service, meldware" description="Deploy the example to JBoss AS">
 		<fail unless="jboss.home">
 			jboss.home not set, update build.properties
 		</fail>
@@ -708,6 +709,7 @@
 	<target name="undeploy" description="Undeploy the example from JBoss">
 		<delete file="${deploy.dir}/${example.name}.ear" />
 		<delete file="${deploy.dir}/${example.ds}" />
+		<delete file="${deploy.dir}/${example.service}" />
 		<delete>
 			<fileset dir="${deploy.dir}">
 				<patternset refid="meldware.files" />
@@ -721,6 +723,16 @@
 		<copy todir="${deploy.dir}">
 			<fileset dir="${resources.dir}">
 				<include name="${example.ds}" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- Copy service file to JBoss AS -->
+	<target name="service">
+		<fail unless="jboss.home">jboss.home not set</fail>
+		<copy todir="${deploy.dir}">
+			<fileset dir="${resources.dir}">
+				<include name="${example.service}" />
 			</fileset>
 		</copy>
 	</target>
@@ -749,6 +761,7 @@
 			</fileset>
 		</delete>
 		<delete file="${deploy.dir}/${example.name}-ds.xml" failonerror="no" />
+		<delete file="${deploy.dir}/${example.name}-service.xml" failonerror="no" />		
 		<delete dir="${ear.deploy.dir}" failonerror="no" />
 		<delete failonerror="no">
 			<fileset dir="${deploy.dir}">
@@ -917,6 +930,7 @@
 	<target name="jbosswar.unexplode" description="Undeploy the example from JBoss">
 		<delete dir="${deploy.dir}/${example.name}.war" />
 		<delete file="${deploy.dir}/${example.name}-ds.xml" failonerror="no" />
+		<delete file="${deploy.dir}/${example.name}-service.xml" failonerror="no" />
 	</target>
 
 	<!-- #################### TEST TARGETS (JBOSS AS) ##################### -->
