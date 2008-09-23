@@ -29,7 +29,7 @@ public class UserPreferencesTests extends DBUnitSeamTest {
         );
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void createUserPreferences() throws Exception {
 
         loginMember();

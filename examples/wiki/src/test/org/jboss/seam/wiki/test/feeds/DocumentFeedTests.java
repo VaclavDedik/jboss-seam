@@ -27,7 +27,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
         );
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void createDocumentPushOnSiteFeed() throws Exception {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
@@ -104,7 +104,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void createDocumentPushOnParentDirectoryFeedOnly() throws Exception {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {
@@ -181,7 +181,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void createDocumentPushOnAllFeeds() throws Exception {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {

@@ -26,7 +26,7 @@ public class Commenting extends DBUnitSeamTest {
         );
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void postComment() throws Exception {
 
         new FacesRequest("/docDisplay_d.xhtml") {
@@ -80,7 +80,7 @@ public class Commenting extends DBUnitSeamTest {
         }.run();
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void replyToComment() throws Exception {
 
         new FacesRequest("/docDisplay_d.xhtml") {

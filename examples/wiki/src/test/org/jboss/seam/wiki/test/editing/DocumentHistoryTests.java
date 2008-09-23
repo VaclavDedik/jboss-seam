@@ -67,7 +67,7 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
         }.run();
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void createDocumentCheckRevision() throws Exception {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {

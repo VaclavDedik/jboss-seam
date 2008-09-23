@@ -488,18 +488,20 @@
 
     <target name="test" depends="configuretests,getemma"
             description="Run tests defined in *.tng.xml">
+    	<condition property="testng.file" value="AllTests-jdk6.tng.xml" else="AllTests.tng.xml">
+    		<equals arg1="${ant.java.version}" arg2="1.6"/>
+    	</condition>
         <taskdef resource="testngtasks" classpathref="test.classpath"/>
         <testng outputdir="${test.output.dir}">
             <classpath>
             	<path refid="test.classpath" />
             	<path refid="runtime.emma.path" />
             </classpath>
-            <xmlfileset dir="${src.test.dir}" includes="*.tng.xml" />
+            <xmlfileset dir="${src.test.dir}" includes="${testng.file}" />
             <jvmarg line="${testng.jvmargs}"/>
 			<jvmarg line="-Demma.coverage.out.file=${coverage.ec}" />
         	<!-- Needed for running Embedded JBoss under JDK 6 -->
             <jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
-        	<jvmarg line="-Djava.endorsed.dirs=${seam.dir}/classes/endorsed" />
         </testng>
         <echo message="Please read the test output in directory: ${test.output.dir}"/>
     </target>
