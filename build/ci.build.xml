@@ -26,7 +26,7 @@
 		<deploySnapshot pom="${jul.pom}" jar="${lib.dir}/interop/jboss-seam-jul.jar" srcjar="${lib.dir}/interop/src/jboss-seam-jul-sources.jar"/>
 		<deploySnapshot pom="${wicket.pom}" jar="${lib.dir}/jboss-seam-wicket.jar" srcjar="${lib.dir}/src/jboss-seam-wicket-sources.jar"/>
 		<deploySnapshot pom="${resteasy.pom}" jar="${lib.dir}/jboss-seam-resteasy.jar" srcjar="${lib.dir}/src/jboss-seam-resteasy-sources.jar"/>
-		<deploySnapshot pom="${gen.pom}" jar="${lib.dir}/jboss-seam-gen.jar" srcjar="${lib.dir}/src/jboss-seam-gen-sources.jar"/>
+		<deploySnapshot pom="${gen.pom}" jar="${lib.dir}/gen/jboss-seam-gen.jar" srcjar="${lib.dir}/gen/src/jboss-seam-gen-sources.jar"/>
 		<deploySnapshot pom="${ioc.pom}" jar="${lib.dir}/jboss-seam-ioc.jar" srcjar="${lib.dir}/src/jboss-seam-ioc-sources.jar"/>
 		<deploySnapshot pom="${mail.pom}" jar="${lib.dir}/jboss-seam-mail.jar" srcjar="${lib.dir}/src/jboss-seam-mail-sources.jar"/>
 		<deploySnapshot pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
