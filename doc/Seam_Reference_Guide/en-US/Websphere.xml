@@ -13,7 +13,7 @@
       environment that we used for these examples. After a good deal of research
       and work we were able to get EJB3 applications to function correctly. We will
       go over the details of those steps with the jee5 example. We will also deploy
-      the the JPA example application. </para>
+      the JPA example application. </para>
    
    <section>
       <title>Websphere environment and deployment information</title>
@@ -50,13 +50,13 @@
             pack you follow the instructions to create a new server
             profile with the EJB3 feature pack enabled, or augment one of your
             existing ones.  This can also be done after the installation 
-            by running the profile managment tool.</para>
+            by running the profile management tool.</para>
          <note>
          <title>A note about restarting the server</title>
          <para>There are times that restarting the server will be required after
             deploying or changes the examples in this chapter. Its does not seem
             like every change requires a restart. If you get errors or exceptions
-            after modifing a property or deploying an application try to restart
+            after modifying a property or deploying an application try to restart
             the server. </para> </note>
       </section>
       
@@ -1463,8 +1463,8 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
                </itemizedlist>
                
                <para>You should end up with something like:</para>
-               <programlisting role="XML"><![CDATA[
-<fileset dir="${basedir}">
+               <programlisting role="XML"><![CDATA[<fileset dir="${basedir}">
+               
    <include name="lib/jbpm*.jar" />
    <include name="lib/jboss-el.jar" />
    <include name="lib/drools-*.jar"/>
@@ -1489,7 +1489,6 @@ cp $SEAM/examples/jpa/resources-websphere61/WEB-INF/classes/GlassfishDerbyDialec
    <include name="lib/el-ri.jar"/>
                
    <!-- 3rd party and supporting jars -->
-   <!--<include name="lib/log4j.jar" />-->
    <include name="lib/javassist.jar"/>
    <include name="lib/dom4j.jar" />
    <include name="lib/concurrent.jar" />
