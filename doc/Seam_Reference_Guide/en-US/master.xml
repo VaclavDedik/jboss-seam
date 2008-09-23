@@ -42,6 +42,7 @@
     <xi:include href= "Oc4j.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href= "Weblogic.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href= "Websphere.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+    <xi:include href= "Glassfish.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
     <xi:include href= "Dependencies.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 
 </book>
