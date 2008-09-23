@@ -56,7 +56,9 @@
         <para>
             Another alternative is to use the open source Quartz library to manage asynchronous method. 
             You need to bundle the Quartz library JAR (found in the <literal>lib</literal> directory) 
-            in your EAR and declare it as a Java module in <literal>application.xml</literal>. In addition, 
+            in your EAR and declare it as a Java module in <literal>application.xml</literal>. The 
+            Quartz dispatcher may be configured by adding a Quartz property file to the classpath. 
+            It must be named <literal>seam.quartz.properties</literal>. In addition, 
             you need to add the following line to <literal>components.xml</literal> to install the Quartz 
             dispatcher.
         </para>
