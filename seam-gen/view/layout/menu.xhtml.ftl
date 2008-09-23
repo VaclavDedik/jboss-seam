@@ -18,7 +18,7 @@
 </#foreach>
     <!-- @newMenuItem@ -->
     <rich:toolBarGroup location="right">
-        <h:outputText value="Welcome, ${'#'}{identity.username}!" rendered="${'#'}{identity.loggedIn}"/>
+        <h:outputText value="signed in as: ${'#'}{identity.username}" rendered="${'#'}{identity.loggedIn}"/>
         <s:link view="/login.xhtml" value="Login" rendered="${'#'}{not identity.loggedIn}"/>
         <s:link view="/home.xhtml" action="${'#'}{identity.logout}" value="Logout" rendered="${'#'}{identity.loggedIn}"/>
     </rich:toolBarGroup>
