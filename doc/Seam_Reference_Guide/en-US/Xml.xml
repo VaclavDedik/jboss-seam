@@ -340,12 +340,44 @@
             </para>
 
 
-            <programlisting role="XML"><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory" rule-base="#{policyPricingRules}"/>]]></programlisting>
+            <programlisting role="XML"><![CDATA[<drools:managed-working-memory name="policyPricingWorkingMemory"
+    rule-base="#{policyPricingRules}"/>]]></programlisting>
 
             <programlisting role="XML"><![CDATA[<component name="policyPricingWorkingMemory"
-          class="org.jboss.seam.drools.ManagedWorkingMemory">
+    class="org.jboss.seam.drools.ManagedWorkingMemory">
     <property name="ruleBase">#{policyPricingRules}</property>
 </component>]]></programlisting>
+
+            <para>
+                Seam also resolves an EL expression string prior to assigning the initial value to the bean property of
+                the component. So you can inject some contextual data into your components.
+            </para>
+
+            <programlisting role="XML"><![CDATA[<component name="greeter" class="com.example.action.Greeter">
+    <property name="message">Nice to see you, #{identity.username}!</property>
+</component>]]></programlisting>
+
+            <para>
+				However, there is one important exception. If the type of the property to which the initial value is
+				being assigned is either a Seam <literal>ValueExpression</literal> or
+				<literal>MethodExpression</literal>, then the evaluation of the EL is deferred. Instead, the appropriate
+				expression wrapper is created and assigned to the property. The message templates on the Home component
+				from the Seam Application Framework serve as an example.
+            </para>
+
+            <programlisting role="XML"><![CDATA[<framework:entity-home name="myEntityHome"
+    class="com.example.action.MyEntityHome" entity-class="com.example.model.MyEntity"
+    created-message="'#{myEntityHome.instance.name}' has been successfully added."/>]]></programlisting>
+
+            <para>
+				Inside the component, you can access the expression string by calling
+				<literal>getExpressionString()</literal> on the <literal>ValueExpression</literal> or
+				<literal>MethodExpression</literal>. If the property is a <literal>ValueExpression</literal>, you can
+				resolve the value using <literal>getValue()</literal> and if the property is a
+				<literal>MethodExpression</literal>, you can invoke the method using <literal>invoke(Object
+				args...)</literal>. Obviously, to assign a value to a <literal>MethodExpression</literal> property, the
+				entire initial value must be a single EL expression.
+            </para>
 
         </sect1>
 
