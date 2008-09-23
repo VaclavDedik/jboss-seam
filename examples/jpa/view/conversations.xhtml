@@ -12,12 +12,12 @@
 </div>
 
 <div class="section">
-    <h:form id="Conversations">
-        <h:dataTable id="ConversationList" value="#{conversationList}" var="entry">
+    <h:form id="ConversationListForm">
+        <h:dataTable id="ConversationListDataTable" value="#{conversationList}" var="entry">
             <h:column id="column1">
                 <h:commandLink id="EntryDescriptionLink" action="#{entry.select}" value="#{entry.description}"/>
                 &#160;
-                <h:outputText id="EntryCurrent" value="[current]" rendered="#{entry.current}"/>
+                <h:outputText id="CurrentEntry" value="[current]" rendered="#{entry.current}"/>
             </h:column>
             <h:column id="column2">
                 <h:outputText id="EntryStartDateTime" value="#{entry.startDatetime}">

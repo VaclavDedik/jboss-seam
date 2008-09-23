@@ -49,11 +49,11 @@
 		<s:validateAll id="validateAll">
     
             <f:facet id="AroundInvalidFieldFacet" name="aroundInvalidField">
-                <s:span id="ErrorsSpan" styleClass="errors"/>
+                <s:span id="Error" styleClass="errors"/>
             </f:facet>
             <f:facet id="AfterInvalidFieldFacet" name="afterInvalidField">
-                <s:div id="ErrosDiv" styleClass="errors">
-               	    <s:message id="message"/>
+                <s:div id="Message" styleClass="errors">
+               	    <s:message/>
                	</s:div>
             </f:facet>
 		    
@@ -77,7 +77,7 @@
 			<div class="entry">
 				<div class="label"><h:outputLabel id="RoomPrefLabel" for="beds">Room Preference:</h:outputLabel></div>
 				<div class="input">
-					<s:decorate id="BookingBedsDecorate">
+					<s:decorate id="bedsDecorate">
 						<h:selectOneMenu id="beds" value="#{booking.beds}">
 							<f:selectItem id="OneKingBed" itemLabel="One king-size bed" itemValue="1"/>
 							<f:selectItem id="TwoDoubleBeds" itemLabel="Two double beds" itemValue="2"/>
@@ -90,7 +90,7 @@
 			<div class="entry">
 				<div class="label"><h:outputLabel id="SmokingPrefLabel" for="smoking">Smoking Preference:</h:outputLabel></div>
 				<div id="radio" class="input">
-					<s:decorate id="SmokingDecorate">
+					<s:decorate id="smokingDecorate">
 						<h:selectOneRadio id="smoking" value="#{booking.smoking}" layout="pageDirection">
 							<f:selectItem id="Smoking" itemLabel="Smoking" itemValue="true"/>
 							<f:selectItem id="NonSmoking" itemLabel="Non Smoking" itemValue="false"/>
