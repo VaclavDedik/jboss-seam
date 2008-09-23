@@ -2,6 +2,9 @@ package org.jboss.seam.deployment;
 
 import java.io.File;
 
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
+
 /**
  * A special deployment strategy that can be used to scan the war root. This
  * is treated as a special case. 
@@ -11,6 +14,8 @@ import java.io.File;
  */
 public class WarRootDeploymentStrategy extends DeploymentStrategy
 {
+   
+   private static LogProvider log = Logging.getLogProvider(WarRootDeploymentStrategy.class);
 
    private ClassLoader classLoader;
    
@@ -24,7 +29,15 @@ public class WarRootDeploymentStrategy extends DeploymentStrategy
    {
       this.classLoader = classLoader;
       this.warRoot = new File[1];
-      this.warRoot[0] = warRoot; 
+      if (warRoot != null)
+      {
+         this.warRoot[0] = warRoot;
+      }
+      else
+      {
+         log.warn("Unable to discover war root, .page.xml files won't be found");
+         this.warRoot = new File[0];
+      }
       getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());
    }
    

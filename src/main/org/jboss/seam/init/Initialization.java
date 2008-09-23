@@ -8,6 +8,7 @@ package org.jboss.seam.init;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -733,9 +734,19 @@ public class Initialization
       String realPath = servletContext.getRealPath(path);
       if (realPath==null) //WebLogic!
       {
-         log.debug("Could not find path for " + path);
+         try 
+         {
+            URL resourcePath = servletContext.getResource(path);
+            if (resourcePath.getProtocol().equals("file")) 
+            {
+               realPath = resourcePath.getPath();
+            }
+         }
+         catch (MalformedURLException e) {}
+
       }
-      else
+      
+      if (realPath != null)
       {
          File file = new File(realPath);
          if (file.exists())
