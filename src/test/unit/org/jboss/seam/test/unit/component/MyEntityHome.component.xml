@@ -10,9 +10,13 @@
 		 The reason this attribute is significant in this case is because the namespace references a class that does not have @Name.
 		 To allow Seam to locate the @Name annotation, the subclass must be provided. -->
 	<framework:entity-home name="myEntityHome" class="org.jboss.seam.test.unit.component.MyEntityHome">
-		<framework:created-message>You created it! Yeah!</framework:created-message>
+		<framework:id>1#{1}</framework:id>
+		<framework:new-instance>#{simpleEntity}</framework:new-instance>
+		<framework:created-message>You #{'created'} it! Yeah!</framework:created-message>
 		<framework:updated-message>You updated it! Yeah!</framework:updated-message>
 		<framework:deleted-message>You deleted it! Yeah!</framework:deleted-message>
-	</framework:entity-home> 	
+	</framework:entity-home>
+	
+	<component name="simpleEntity" class="org.jboss.seam.test.unit.entity.SimpleEntity"/>
 		
 </components>

@@ -10,6 +10,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 
 /**
@@ -30,11 +31,11 @@ public abstract class Home<T, E> extends MutableController<T>
    private Object id;
    protected E instance;
    private Class<E> entityClass;
-   protected ValueExpression newInstance;
+   protected ValueExpression<T> newInstance;
 
-   private String deletedMessage = "Successfully deleted";
-   private String createdMessage = "Successfully created";
-   private String updatedMessage = "Successfully updated";
+   private ValueExpression deletedMessage;
+   private ValueExpression createdMessage;
+   private ValueExpression updatedMessage;
    
    /**
     * Add a {@link javax.faces.application.FacesMessage} and log a message when 
@@ -51,7 +52,7 @@ public abstract class Home<T, E> extends MutableController<T>
    protected void updatedMessage()
    {
       debug("updated entity #0 #1", getEntityClass().getName(), getId());
-      getStatusMessages().addFromResourceBundleOrDefault( INFO, getUpdatedMessageKey(), getUpdatedMessage() );
+      getStatusMessages().addFromResourceBundleOrDefault( INFO, getUpdatedMessageKey(), getUpdatedMessage().getExpressionString() );
    }
 
    /**
@@ -69,7 +70,7 @@ public abstract class Home<T, E> extends MutableController<T>
    protected void deletedMessage()
    {
       debug("deleted entity #0 #1", getEntityClass().getName(), getId());
-      getStatusMessages().addFromResourceBundleOrDefault( INFO, getDeletedMessageKey(), getDeletedMessage() );
+      getStatusMessages().addFromResourceBundleOrDefault( INFO, getDeletedMessageKey(), getDeletedMessage().getExpressionString() );
    }
    
    /**
@@ -87,7 +88,7 @@ public abstract class Home<T, E> extends MutableController<T>
    protected void createdMessage()
    {
       debug("created entity #0 #1", getEntityClass().getName(), getId());
-      getStatusMessages().addFromResourceBundleOrDefault( INFO, getCreatedMessageKey(), getCreatedMessage() );
+      getStatusMessages().addFromResourceBundleOrDefault( INFO, getCreatedMessageKey(), getCreatedMessage().getExpressionString() );
    }
 
    /**
@@ -102,6 +103,21 @@ public abstract class Home<T, E> extends MutableController<T>
       if ( getEntityClass()==null )
       {
          throw new IllegalStateException("entityClass is null");
+      }
+      initDefaultMessages();
+   }
+   
+   protected void initDefaultMessages()
+   {
+      Expressions expressions = new Expressions();
+      if (createdMessage == null) {
+         createdMessage = expressions.createValueExpression("Successfully created");
+      }
+      if (updatedMessage == null) {
+         updatedMessage = expressions.createValueExpression("Successfully updated");
+      }
+      if (deletedMessage == null) {
+         deletedMessage = expressions.createValueExpression("Successfully deleted");
       }
    }
 
@@ -340,7 +356,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is created.
     */
-   public String getCreatedMessage()
+   public ValueExpression getCreatedMessage()
    {
       return createdMessage;
    }
@@ -348,7 +364,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is created.
     */
-   public void setCreatedMessage(String createdMessage)
+   public void setCreatedMessage(ValueExpression createdMessage)
    {
       this.createdMessage = createdMessage;
    }
@@ -356,7 +372,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is deleted.
     */
-   public String getDeletedMessage()
+   public ValueExpression getDeletedMessage()
    {
       return deletedMessage;
    }
@@ -364,7 +380,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is deleted.
     */
-   public void setDeletedMessage(String deletedMessage)
+   public void setDeletedMessage(ValueExpression deletedMessage)
    {
       this.deletedMessage = deletedMessage;
    }
@@ -372,7 +388,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is updated.
     */
-   public String getUpdatedMessage()
+   public ValueExpression getUpdatedMessage()
    {
       return updatedMessage;
    }
@@ -380,7 +396,7 @@ public abstract class Home<T, E> extends MutableController<T>
    /**
     * Message displayed to user when the managed entity is updated.
     */
-   public void setUpdatedMessage(String updatedMessage)
+   public void setUpdatedMessage(ValueExpression updatedMessage)
    {
       this.updatedMessage = updatedMessage;
    }

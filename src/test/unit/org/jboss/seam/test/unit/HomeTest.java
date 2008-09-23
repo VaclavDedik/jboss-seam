@@ -1,13 +1,18 @@
 package org.jboss.seam.test.unit;
 
+import java.lang.reflect.Field;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.framework.HibernateEntityHome;
 import org.jboss.seam.framework.Home;
+import org.jboss.seam.international.StatusMessage;
 import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.test.unit.entity.SimpleEntity;
+import org.jboss.seam.util.Reflections;
 import org.testng.annotations.Test;
 
 public class HomeTest
@@ -93,6 +98,8 @@ public class HomeTest
       // emulate @Create method
       home.create();
       home.triggerCreatedMessage();
+      List<StatusMessage> registeredMessages = home.getRegisteredMessages();
+      assert registeredMessages.size() == 1;
    }
    
    /**
@@ -140,6 +147,16 @@ public class HomeTest
       {
          return statusMessages;
       }
+      
+      protected List<StatusMessage> getRegisteredMessages()
+      {
+         Field field = Reflections.getField(statusMessages.getClass(), "messages");
+         if (!field.isAccessible())
+         {
+            field.setAccessible(true);
+         }
+         return (List<StatusMessage>) Reflections.getAndWrap(field, statusMessages);
+      }
 
       @Override
       public Class<SimpleEntity> getEntityClass()
@@ -160,5 +177,4 @@ public class HomeTest
       }
       
    }
-
 }

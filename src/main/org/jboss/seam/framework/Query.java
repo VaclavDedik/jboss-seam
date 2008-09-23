@@ -39,7 +39,7 @@ public abstract class Query<T, E>
    private String ejbql;
    private Integer firstResult;
    private Integer maxResults;
-   private List<String> restrictions = new ArrayList<String>(0);
+   private List<ValueExpression> restrictions = new ArrayList<ValueExpression>(0);
    private String order;
    private String orderColumn;
    private String orderDirection;
@@ -213,12 +213,12 @@ public abstract class Query<T, E>
          queryParameters = qp.getParameterValueBindings();
          parsedEjbql = qp.getEjbql();
          
-         List<String> restrictionFragments = getRestrictions();
+         List<ValueExpression> restrictionFragments = getRestrictions();
          parsedRestrictions = new ArrayList<String>( restrictionFragments.size() );
          restrictionParameters = new ArrayList<ValueExpression>( restrictionFragments.size() );         
-         for ( String restriction: restrictionFragments )
+         for ( ValueExpression restriction: restrictionFragments )
          {
-            QueryParser rqp = new QueryParser( restriction, queryParameters.size() + restrictionParameters.size() );            
+            QueryParser rqp = new QueryParser( restriction.getExpressionString(), queryParameters.size() + restrictionParameters.size() );            
             if ( rqp.getParameterValueBindings().size()!=1 ) 
             {
                throw new IllegalArgumentException("there should be exactly one value binding in a restriction: " + restriction);
@@ -286,7 +286,8 @@ public abstract class Query<T, E>
       Matcher orderMatcher = ORDER_PATTERN.matcher(ejbql);
       int orderLoc = orderMatcher.find() ? orderMatcher.start(1) : ejbql.length();
 
-      return "select count(*) " + ejbql.substring(fromLoc, orderLoc);
+      String fromClause = ejbql.substring(fromLoc, orderLoc);
+      return "select count(" + fromClause.substring(5, fromClause.indexOf(" ", 5)) + ") " + fromClause;
    }
    
    public String getEjbql()
@@ -355,7 +356,7 @@ public abstract class Query<T, E>
     * For a query such as 'from Foo f' a restriction could be 
     * 'f.bar = #{foo.bar}'
     */
-   public List<String> getRestrictions()
+   public List<ValueExpression> getRestrictions()
    {
       return restrictions;
    }
@@ -364,7 +365,7 @@ public abstract class Query<T, E>
     * Calling setRestrictions causes the restrictions to be reparsed and the 
     * query refreshed
     */
-   public void setRestrictions(List<String> restrictions)
+   public void setRestrictions(List<ValueExpression> restrictions)
    {
       this.restrictions = restrictions;
       parsedRestrictions = null;

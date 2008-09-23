@@ -14,6 +14,8 @@ import java.util.Set;
 @SuppressWarnings("serial")
 public class Conversions
 {
+   private static final String EXPRESSION_MARKER = "#{";
+   private static final char EXPRESSION_ESCAPE_CHAR = '\\';
    
    private static Map<Class, Converter> converters = new HashMap<Class, Converter>() {{
       put(String.class, new StringConverter());
@@ -300,7 +302,23 @@ public class Conversions
       
       public boolean isExpression()
       {
-         return string.startsWith("#{");
+         boolean containsExpr = false;
+         int idx = string.indexOf(EXPRESSION_MARKER);
+         if (idx == 0) {
+             containsExpr = true;
+         }
+         else {
+             while (idx != -1) {
+                 if (string.charAt(idx - 1) == EXPRESSION_ESCAPE_CHAR) {
+                     idx = string.indexOf(EXPRESSION_MARKER, idx + 2);
+                 }
+                 else {
+                     containsExpr = true;
+                     break;
+                 }
+             }
+         }
+         return containsExpr;
       }
       
       public boolean isMultiValued()

@@ -496,7 +496,9 @@ public class Component extends Model
 
    private static InitialValue getInitialValue(Conversions.PropertyValue propertyValue, Class parameterClass, Type parameterType)
    {
-      if ( propertyValue.isExpression() )
+      if ( parameterClass.equals(ValueExpression.class) ||
+           parameterClass.equals(MethodExpression.class) ||
+            propertyValue.isExpression() )
       {
          return new ELInitialValue(propertyValue, parameterClass, parameterType);
       }
