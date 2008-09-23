@@ -676,6 +676,7 @@
         </copy>
         <copy todir="${project.home}/resources">
             <fileset dir="${base.dir}/resources/">
+            	<include name="META-INF/orm.xml"/>
             	<include name="META-INF/persistence*-war.xml"/>
             	<include name="WEB-INF/jboss-web.xml"/>
             </fileset>
@@ -709,6 +710,7 @@
             	<include name="META-INF/application.xml"/>
             	<include name="META-INF/jboss-app.xml"/>
             	<include name="META-INF/ejb-jar.xml"/>
+            	<include name="META-INF/orm.xml"/>
             	<include name="META-INF/persistence*.xml"/>
             	<exclude name="META-INF/persistence*-war.xml"/>
             </fileset>
@@ -1260,7 +1262,7 @@
     </target>
     
     <target name="settings" depends="init-properties"
-            description="Print the settings">
+        description="Print the settings">
         <echo message="Java project workspace: ${workspace.home}"/>
         <echo message="JBoss home: ${jboss.home}"/>
         <echo message="IceFaces: ${icefaces}"/>

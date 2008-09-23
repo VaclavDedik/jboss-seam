@@ -189,6 +189,8 @@
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources"> 
                 <include name="messages*.properties"/>
+                <include name="*.skin.properties"/>
+                <include name="*_theme.properties"/>
             </fileset>
         </copy>
         
@@ -236,6 +238,9 @@
         <delete file="${deploy.dir}/${project.name}-${profile}-ds.xml" failonerror="no"/>
         <delete dir="${war.deploy.dir}" failonerror="no"/>
     </target>
+
+    <target name="reexplode" depends="unexplode,clean,explode"
+        description="Undeploy the exploded archive, clean, then deploy the exploded archive"/>
     
     <target name="restart" depends="explode" description="Restart the exploded archive">
         <touch file="${war.deploy.dir}/WEB-INF/web.xml"/>
@@ -251,6 +256,9 @@
         <delete file="${deploy.dir}/${project.name}-dev-ds.xml" />
         <delete file="${deploy.dir}/${project.name}-prod-ds.xml" />
     </target>
+
+    <target name="redeploy" depends="undeploy,clean,deploy"
+        description="Undeploy the packaged archive, clean, then deploy the packaged archive"/>
     
     <target name="clean" description="Cleans up the build directory">
         <delete dir="${dist.dir}"/>
@@ -304,6 +312,7 @@
                 <exclude name="${project.name}-*-ds.xml"/>
                 <exclude name="components-*.properties"/>
             </fileset>
+            <fileset dir="${basedir}/view"/>
         </copy>
         <copy tofile="${test.dir}/META-INF/persistence.xml" 
               file="${basedir}/resources/META-INF/persistence-test-war.xml"
