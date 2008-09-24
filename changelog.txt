@@ -1,6 +1,133 @@
 JBoss Seam Changelog
 ====================
 
+Release Notes - Seam - Version 2.1.0.CR1
+
+** Bug
+    * [JBSEAM-808] - StatckOverflowError if factory specifies it's component
+    * [JBSEAM-1277] - ServerConversationContext does not process removals / additions when an exception propagates up
+    * [JBSEAM-1747] - SeamPhaseListener transaction debug log statements are misleading/confusing
+    * [JBSEAM-1832] - Improvments to handling of Ajax Requests in Seam
+    * [JBSEAM-2133] - inline EL in component property value not properly detected
+    * [JBSEAM-2197] - interpolate swallows FormatType and FormatStyle of MessageFormat
+    * [JBSEAM-2348] - seam generate-ui fails for @OneToOne @PrimaryKeyJoinColumn annotated fields
+    * [JBSEAM-2465] - Asynchronous method call from page action
+    * [JBSEAM-2479] - META Tags added to HTML HEAD in Seam HTML mail get removed
+    * [JBSEAM-2480] - Important META tags missing from HTML generated email
+    * [JBSEAM-2499] - Seam Messages strips any MessageFormat formatting parameters
+    * [JBSEAM-2546] - Interpolator should support escaping of #{ character combination
+    * [JBSEAM-2607] - ThreadPoolDispatcher: exceptions from AsynchronousInvocation.call() are not logged
+    * [JBSEAM-2666] - ManagedPersistenceContext closed in a clustered environment
+    * [JBSEAM-2889] - Exception thrown by @Asynchronous method called by ThreadPoolDispatcher causes timer to suspend
+    * [JBSEAM-2907] - seam-gen should make their List classes type safe
+    * [JBSEAM-2921] - "no file extension in servlet path" exception when building redirect URI
+    * [JBSEAM-2947] - seam-gen crud app throws exception if duplicate entry added
+    * [JBSEAM-2955] - seambay example throws an exception when viewing "Whistler's Mother" item
+    * [JBSEAM-2958] - Spring example - no hotel checkout date is shown when booking a hotel
+    * [JBSEAM-2959] - Spring example can't change password
+    * [JBSEAM-2960] - ui example <s:graphicImage> example shows no image
+    * [JBSEAM-2992] - Wicket-Seam integration doesn't propagate the temporary conversation across a redirect
+    * [JBSEAM-2996] - Imported seam-gen project does not show content assist on project specific components
+    * [JBSEAM-3045] - urlrewritefilter breaks basic authentication
+    * [JBSEAM-3151] - SpringTransaction : error when using events.raiseTransactionSuccessEvent
+    * [JBSEAM-3176] - HotelSearchingAction not serializable
+    * [JBSEAM-3224] - RememberMe autologin mode is broken
+    * [JBSEAM-3231] - Support CSS for layout
+    * [JBSEAM-3236] - Simplify header handling
+    * [JBSEAM-3238] - More Excel examples
+    * [JBSEAM-3273] - @Startup + @Create on session-scoped bean broken in Seam 2.1
+    * [JBSEAM-3290] - hibernate tools dependencies should not be in the Seam lib directory
+    * [JBSEAM-3292] - junit.jar in not needed, but packaged with Seam distributions
+    * [JBSEAM-3313] - seamspace example blog comments throw security exceptions
+    * [JBSEAM-3314] - seamspace example allows "comment" permission on images, but there does not seem to be a way to add a comment
+    * [JBSEAM-3315] - seamspace example does not validate permission settings 
+    * [JBSEAM-3316] - seamspace example fileupload throws a PropertyNotFoundException
+    * [JBSEAM-3319] - Excel example - row missing in csv file
+    * [JBSEAM-3320] - dvdstore is showing some jbpm warning
+    * [JBSEAM-3321] - Wicket example - gets blocked after entering invalid check-in/out dates
+    * [JBSEAM-3322] - Wicket example - conversations.xhtml file present
+    * [JBSEAM-3323] - JPA example on Tomcat 6.X and glassfish throws a IllegalStateException: Cannot load WEB-INF/classes/org/jboss/seam/example/jpa/Hotel.class
+    * [JBSEAM-3325] - jpa/hibernate examples build-jboss-embedded.xml files point to an invalid ant target
+    * [JBSEAM-3326] - seam-gen icefaces application throws a 404 when creating a new Person following release process
+    * [JBSEAM-3327] - seam-gen icefaces "new-form" submit does nothing
+    * [JBSEAM-3328] - Imported seam-gen project into jbtools 2.1.1 has missing jstl.jar
+    * [JBSEAM-3329] - security validation error in jbtools generated project for rule-based-permission-resolver element
+    * [JBSEAM-3334] - Icefaces example login does not work on JDK5
+    * [JBSEAM-3335] - port fix to trunk for glassfish jee5 example throws IllegalStateException: EJB is already associated with an incomplete transaction
+    * [JBSEAM-3336] - seam gen new-form and new-action do not show faces message on JDK6
+    * [JBSEAM-3338] - Documentation has some strange xml code in 19.1
+    * [JBSEAM-3340] - StatusMessages: addition of ConfigRedirectHandler messages is broken
+    * [JBSEAM-3343] - Bijection problem when page is deserialized from PageStore
+    * [JBSEAM-3344] - LDAPIdentityStore is missing server-port on xsd
+    * [JBSEAM-3349] - LDAPIdentityStore generates invalid filter on listUsers method
+    * [JBSEAM-3350] - BEA 10 Deployment fails
+    * [JBSEAM-3351] - Security XSD missing elements
+    * [JBSEAM-3354] - ELException catched in lifecycle phase RENDER_RESPONSE about: the raised exception does not have a readable property
+    * [JBSEAM-3357] - NPE on hot deploy
+    * [JBSEAM-3360] - EntityManager becoming detached in EntityConverter
+    * [JBSEAM-3366] - org.jboss.seam.util.Resources#getResourceAsStream() fails with newer versions of Tomcat, page.xml files aren't found
+    * [JBSEAM-3374] - NPE if Identity not set in IdentityRequestWrapper
+    * [JBSEAM-3379] - Identifier annotation can't be set on a class
+    * [JBSEAM-3382] - New caching providers functionality is seriously broken (PATCH)
+    * [JBSEAM-3392] - Reflections.getGetterMethod fails for boolean properties
+    * [JBSEAM-3399] - java.lang.NullPointerException at org.jboss.seam.deployment.HotDeploymentStrategy.getScannedComponentClasses(HotDeploymentStrategy.java:162)
+    * [JBSEAM-3403] - EntityQuerys fail when using an Empty Collection in a restriction
+    * [JBSEAM-3404] - Extended Identity component is not being loaded during Initialization process
+    * [JBSEAM-3407] - Unclosed stream in org.jboss.seam.deployment.DeploymentStrategy
+    * [JBSEAM-3409] - Examples broken after CSS migration
+    * [JBSEAM-3413] - HotDeployementStrategy rev 8925 causes Exceptions with ICEfaces server-push for Seam trunk only
+    * [JBSEAM-3426] - Make Exception Handling, Redirection URI a page request rather than Ajax request for ICEfaces integration
+    * [JBSEAM-3427] - Seam Components missing  @Install(precedence = BUILT_IN) annotation
+    * [JBSEAM-3429] - Build for chatroom example needs to deploy chatroom-service.xml on AS5
+    * [JBSEAM-3430] - s:selectitems noSelectionLabel broken for java.util.Map 
+    * [JBSEAM-3435] - Hot Deployment of minor changes terminates the session and triggers full app redeployment
+    * [JBSEAM-3436] - testReentrantBijection() is failing
+    * [JBSEAM-3440] - Don't attempt to change flush mode if persistence manager is closed
+    * [JBSEAM-3442] - JMS functionality broken in JBossAS 5
+    * [JBSEAM-3448] - MultipartFilter does not begin parsing until after transaction is started
+    * [JBSEAM-3453] - Deployed jar list files needed to be modified for remoting to work correctly in a newly generated project.
+
+
+** Feature Request
+    * [JBSEAM-905] - Using the debug page without exceptions
+    * [JBSEAM-1485] - Configure Default Interceptors
+    * [JBSEAM-1943] - Support for destroying the entire ConversationStack
+    * [JBSEAM-2033] - style h:messages (perhaps using rich:messages)
+    * [JBSEAM-2339] - add javadoc target to seam-gen project
+    * [JBSEAM-2469] - add postback flag to page actions
+    * [JBSEAM-2597] - Exception handling - JSF swallows exceptions in certain phases
+    * [JBSEAM-2610] - Better feedback than "The conversation ended, timed out or was processing another request"
+    * [JBSEAM-3088] - Allow supported locales to be configured in the component descriptor
+    * [JBSEAM-3212] - Improve Excel module reference documentation
+    * [JBSEAM-3233] - Support inline value for cells
+    * [JBSEAM-3284] - Document the support for .xls/.csv extension for DocumentStore URL like pdf has
+    * [JBSEAM-3309] - Drop worksheet name CSV export
+    * [JBSEAM-3332] - Support iterators from richfaces extended data model in excel exporter
+    * [JBSEAM-3341] - add support for facet name="footer" in <e:column>
+    * [JBSEAM-3362] - Detect cyclic dependencies and throw exception
+    * [JBSEAM-3376] - Add exportKey attribute to Workbook tag
+    * [JBSEAM-3410] - Improve CSS parser
+    * [JBSEAM-3414] - More restrictive/descriptive data structure of the pages.xsd
+    * [JBSEAM-3418] - Ignore case on none for @UserPassword hash parameter
+    * [JBSEAM-3422] - Add basic method on Identity that checks for authenticated user
+    * [JBSEAM-3423] - Modularize rss support
+    * [JBSEAM-3438] - Honor input's label attribute in ModelValidator message
+
+** Task
+    * [JBSEAM-1954] - JDK 1.6 tests failing
+    * [JBSEAM-2594] - Container issue - improved exception handling in Seam
+    * [JBSEAM-2732] - Remove deprecated s:selectDate
+    * [JBSEAM-3002] - Upgrade to GA of JBoss.org docbook plugins
+    * [JBSEAM-3191] - Upgrade to jBPM 3.2.3
+    * [JBSEAM-3199] - seam-gen test readme.txt jar listing needs to be updated
+    * [JBSEAM-3258] - Update sfwk.org instructions for JDK6 support
+    * [JBSEAM-3301] - Review reentrant call handling in light of problems with BijectionInterceptor
+    * [JBSEAM-3311] - Maven overrides dependencyManagement with transitive dependencies
+    * [JBSEAM-3356] - Seam PDF integration should throw runtime exceptions, not IOExceptions
+    * [JBSEAM-3389] - seam-gen generated Authenticator component is not up to date
+    * [JBSEAM-3456] - Verify Seam JEE example on WLS 10.0MP1
+
+
 Release Notes - Seam - Version 2.1.0.BETA1
 
 ** Bug
