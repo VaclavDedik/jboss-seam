@@ -286,8 +286,7 @@ public abstract class Query<T, E>
       Matcher orderMatcher = ORDER_PATTERN.matcher(ejbql);
       int orderLoc = orderMatcher.find() ? orderMatcher.start(1) : ejbql.length();
 
-      String fromClause = ejbql.substring(fromLoc, orderLoc);
-      return "select count(" + fromClause.substring(5, fromClause.indexOf(" ", 5)) + ") " + fromClause;
+      return "select count(*) " + ejbql.substring(fromLoc, orderLoc);
    }
    
    public String getEjbql()
