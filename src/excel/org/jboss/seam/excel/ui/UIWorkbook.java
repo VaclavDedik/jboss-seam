@@ -51,6 +51,17 @@ public class UIWorkbook extends ExcelComponent
    private Boolean useTemporaryFileDuringWrite;
    private Boolean workbookProtected;
    private String exportKey;
+   private String filename;
+
+   public String getFilename()
+   {
+      return (String) valueOf("filename", filename);
+   }
+
+   public void setFilename(String filename)
+   {
+      this.filename = filename;
+   }
 
    public String getExportKey()
    {
@@ -317,6 +328,7 @@ public class UIWorkbook extends ExcelComponent
       String baseName = baseNameForViewId(viewId);
 
       DocumentData documentData = new DocumentData(baseName, type, bytes);
+      documentData.setFilename(getFilename());
 
       if (getExportKey() != null) {
          Contexts.getEventContext().set(getExportKey(), documentData);

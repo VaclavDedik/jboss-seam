@@ -332,6 +332,14 @@
                               is a boolean.
                            </para>
                         </listitem>
+                        <listitem>
+                           <para>
+                              <literal>filename</literal>
+                              &#8212;The filename to use for the download. The value
+                              is a string. Please not that if you map the DocumentServlet
+                              to some pattern, this file extension must also match.
+                           </para>
+                        </listitem>
                      </itemizedlist>
                      <para>
                         <emphasis>Child elemenents</emphasis>
