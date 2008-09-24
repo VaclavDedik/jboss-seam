@@ -317,6 +317,21 @@
 			<xmlfileset dir="${test.dir}" includes="*Test.xml" />
 		</testng>
         </target>
+
+    <target name="javadoc" depends="compilemodel,compileactions,copyclasses">
+        <mkdir dir="${dist.dir}/apidoc" />
+        <javadoc classpathref="build.classpath" destdir="${dist.dir}/apidoc" use="true" protected="true" version="true" windowtitle="${project.name} API Documentation" doctitle="${project.name} API Documentation" link="http://java.sun.com/j2se/5.0/docs/api">
+
+            <packageset dir="${src.action.dir}" defaultexcludes="yes">
+                <include name="*/**" />
+            </packageset>
+
+            <packageset dir="${src.model.dir}" defaultexcludes="yes">
+                <include name="*/**" />
+            </packageset>
+
+        </javadoc>
+    </target>
 	
 	<target name="validateConfiguration" depends="war,ear,jar" description="Validate the xml configuration files">
 		<mkdir dir="${schema.dir}"/>
