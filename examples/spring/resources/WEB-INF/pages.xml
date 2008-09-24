@@ -98,5 +98,18 @@
         </navigation>
         
     </page>
+    
+    <exception class="org.jboss.seam.security.NotLoggedInException">
+        <redirect view-id="/home.xhtml">
+            <message severity="warn">You must be logged in to use this feature</message>
+        </redirect>
+    </exception>
+    
+    <exception class="javax.faces.application.ViewExpiredException">
+        <redirect view-id="/home.xhtml">
+            <message severity="warn">Session expired, please log in again</message>
+        </redirect>
+    </exception>
+
 
 </pages>
