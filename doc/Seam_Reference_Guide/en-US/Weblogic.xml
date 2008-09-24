@@ -745,7 +745,7 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
                      </itemizedlist>
                   </listitem>
                </varlistentry>
-               <varlistentry>
+    <!--            <varlistentry>
                   <term>
                      <literal>resources/WEB-INF/web.xml</literal>
                   </term>
@@ -768,7 +768,7 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
                         </listitem>
                      </itemizedlist>
                   </listitem>
-               </varlistentry>
+               </varlistentry> -->
             </variablelist>
          </section>
          <section>
@@ -795,11 +795,15 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
                               to deploy. For some reason Weblogic needs
                               it in the
                               <literal>WAR</literal>
-                              when it scans the application.
+	when it scans the application. There is some weird issue with
+	configuration of JSF. As workaround add also jsf-impl.jar from seam
+	distribution into WEB-INF/lib directory.
+                              
                            </para>
                            <programlisting role="XML"><![CDATA[
 <fileset id="war.lib.extras" dir="${seam.dir}"> 
    <include name="lib/richfaces-api.jar" />
+    <include name="lib/jsf-impl.jar" />
 </fileset>]]></programlisting>
                         </listitem>
                         <listitem>
