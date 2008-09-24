@@ -9,12 +9,13 @@ import ${pojo.packageName}.*;
 </#if>
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
-import java.util.List;
 import java.util.Arrays;
 
 @Name("${listName}")
 public class ${entityName}List extends EntityQuery<${entityName}>
 {
+
+    private static final String EJBQL = "select ${componentName} from ${entityName} ${componentName}";
 
     private static final String[] RESTRICTIONS = {
 <#foreach property in pojo.allPropertiesIterator>
@@ -36,37 +37,23 @@ public class ${entityName}List extends EntityQuery<${entityName}>
 
 <#if pojo.isComponent(pojo.identifierProperty)>
     private ${entityName} ${componentName};
-
-    public ${entityName}List()
-    {
-        ${componentName} = new ${entityName}();
-        ${componentName}.setId( new ${entityName}Id() );
-    }
 <#else>
     private ${entityName} ${componentName} = new ${entityName}();
 </#if>
 
-    @Override
-    public String getEjbql()
+    public ${entityName}List()
     {
-        return "select ${componentName} from ${entityName} ${componentName}";
-    }
-
-    @Override
-    public Integer getMaxResults()
-    {
-      return 25;
+<#if pojo.isComponent(pojo.identifierProperty)>
+        ${componentName} = new ${entityName}();
+        ${componentName}.setId( new ${entityName}Id() );
+</#if>
+        setEjbql(EJBQL);
+        setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
+        setMaxResults(25);
     }
 
     public ${entityName} get${entityName}()
     {
         return ${componentName};
     }
-
-    @Override
-    public List<String> getRestrictions()
-    {
-        return Arrays.asList(RESTRICTIONS);
-    }
-
 }

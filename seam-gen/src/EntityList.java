@@ -7,9 +7,8 @@ import @modelPackage@.@entityName@;
 @Name("@listName@")
 public class @entityName@List extends EntityQuery<@entityName@>
 {
-    @Override
-    public String getEjbql()
+    public @entityName@List()
     {
-        return "select @componentName@ from @entityName@ @componentName@";
+        setEjbql("select @componentName@ from @entityName@ @componentName@");
     }
 }
