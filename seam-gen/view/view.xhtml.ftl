@@ -16,8 +16,6 @@
 
 <ui:define name="body">
 
-    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
-
     <rich:panel>
         <f:facet name="header">${entityName}</f:facet>
 <#foreach property in pojo.allPropertiesIterator>

@@ -17,8 +17,6 @@
 
 <ui:define name="body">
 
-    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
-
     <h:form id="${componentName}" styleClass="edit">
 
         <rich:panel>

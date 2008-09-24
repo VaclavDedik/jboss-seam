@@ -5,23 +5,19 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:a="http://richfaces.org/a4j"
         xmlns:s="http://jboss.com/products/seam/taglib">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>@projectName@</title>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <a:loadStyle src="resource:///org/jboss/seam/ui/richfaces/styles.xcss"/>
+    <a:loadStyle src="/stylesheet/theme.css"/>
+    <ui:remove><!-- Disable the a:loadStyle tags and enable the link tag to use plain setup -->
     <link href="stylesheet/theme.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript">
-        A4J.AJAX.onError = function(req,status,message) 
-        { 
-
-            if (status == 503) 
-            {
-               alert(message);
-            }
-    
-        };
-    </script>
+    </ui:remove>
+    <ui:insert name="head"/>
 </head>
 
 <body>
@@ -31,6 +27,9 @@
     </ui:include>
 
   <div class="body">
+    <h:messages id="messages" globalOnly="true" styleClass="message"
+        errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
+        rendered="#{showGlobalMessages != 'false'}"/>
     <ui:insert name="body"/>
   </div>
 

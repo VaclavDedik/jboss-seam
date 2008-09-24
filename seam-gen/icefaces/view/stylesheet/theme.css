@@ -33,10 +33,14 @@ input[type='submit'], input[type='button'] {
 
 
 .error {
-  color: red;
-  border: solid red;
-  padding: .4em;
-  margin: 10px
+    padding: 5px;
+}
+.errors {
+    color: red;
+    vertical-align: middle;
+}
+img.errors {
+	padding-right: 5px;
 }
 
 .formBorderHighlight{
@@ -48,14 +52,14 @@ input[type='submit'], input[type='button'] {
 .menuButtons {
    font-size: 12px;
    font-weight: bold;
-   border-colour: #bed6f8;
+   border-color: #bed6f8;
  /*  background-color: #BED6F8; */
    background-position: top left;
   
 }
 .menuButtons a {
     font-size: 11px;
-    colour: #000000;
+    color: #000000;
     font-weight: bold;
     font-family: Arial, Verdana, sans-serif;
     text-decoration: none;
@@ -245,11 +249,36 @@ td {
 }
 
 .message {
-	border: 1px solid #FFCC00;
 	padding: 5px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	background-color: #F0F0F0;
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #000000;
+	margin: 5px 0 8px 0;
+	font-size: 12px;
+}
+
+.message li {
+	margin-left: 3px;
+}
+
+.message li span {
+	background: no-repeat left center;
+	padding-top: 1px;
+	padding-left: 20px;
+}
+
+.message li span.infomsg {
+	background-image: url(../img/msginfo.png);
+}
+
+.message li span.errormsg {
+	background-image: url(../img/msgerror.png);
+}
+
+.message li span.warnmsg {
+	background-image: url(../img/msgwarn.png);
 }
 
 .prop {
@@ -277,7 +306,7 @@ td {
 }*/
 
 .errors input, .errors textarea {
-	border: 1px solid red;
+	border: 1px solid red !important;
 }
 
 .contentLayoutGridStyleLogin {

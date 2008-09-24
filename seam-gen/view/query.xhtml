@@ -12,8 +12,6 @@
     <h1>@beanName@ results</h1>
     <p>Generated query page</p>
 
-    <h:messages globalOnly="true" styleClass="message"/>
-
     <h:outputText value="No results from search"
             rendered="#{empty @componentName@.resultList}"/>
     <f:subview id="results" rendered="#{not empty @componentName@.resultList}">

@@ -16,8 +16,6 @@
                        
 <ui:define name="body">
     
-    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
- 
       <ice:panelGroup  id="view${homeName}PanelGroupId" styleClass="formBorderHighlight">
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>

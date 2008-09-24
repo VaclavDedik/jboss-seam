@@ -19,14 +19,12 @@
                        
 <ui:define name="body">
     
-    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
-    
     <ice:form id="list${componentName}FormId" styleClass="edit">
       <ice:panelGroup  id="searchGroup" styleClass="formBorderHighlight">
           <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                   <td class="iceDatTblColHdr2">
-                    <ice:outputText id="list${entityName}Id" value="${entityName} search"/>
+                    <ice:outputText id="list${entityName}Id" value="${entityName} search filter"/>
                  </td>
               </tr>
          </table>	

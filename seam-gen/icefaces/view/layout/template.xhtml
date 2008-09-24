@@ -12,10 +12,10 @@
         doctypeSystem="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>  
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>@projectName@</title>
+    <link rel="shortcut icon" href="favicon.ico"/>
     <link rel='stylesheet' type='text/css' href='./xmlhttp/css/rime/rime.css'/>
     <link href="stylesheet/theme.css" rel="stylesheet" type="text/css" />
-    
-    
+    <ui:insert name="head"/> 
 </head>
   <body>
 
@@ -25,6 +25,8 @@
     <ice:outputConnectionStatus activeLabel="requesting..." styleClass="connectionStatus"/>
 
 	<div class="body">
+        <h:messages id="messages" globalOnly="true" styleClass="message" rendered="#{showGlobalMessages != 'false'}"
+            errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
 		<ui:insert name="body"/>
 	</div>
 

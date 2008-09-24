@@ -127,6 +127,11 @@
                 </copy>
                 <copy todir="${war.dir}/WEB-INF/classes">
                         <fileset dir="${basedir}/resources"> 
+                                <include name="**/*.xcss"/>
+                        </fileset>
+                </copy>
+                <copy todir="${war.dir}/WEB-INF/classes">
+                        <fileset dir="${basedir}/resources"> 
                                 <include name="messages*.properties"/>
                                 <include name="*.skin.properties"/>
                                 <include name="*_theme.properties"/>

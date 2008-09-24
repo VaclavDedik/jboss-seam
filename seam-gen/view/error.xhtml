@@ -8,11 +8,12 @@
                 template="layout/template.xhtml">
 
 <ui:define name="body">
+    <ui:param name="showGlobalMessages" value="false"/>
 
     <h1>Error</h1>
     <p>Something bad happened :-(</p>
 
-    <h:messages styleClass="message"/>
+    <h:messages id="errorMessage" styleClass="message"/>
 
 </ui:define>
 </ui:composition>

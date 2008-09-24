@@ -19,11 +19,9 @@
 
 <ui:define name="body">
 
-    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
-
     <h:form id="${componentName}Search" styleClass="edit">
 
-        <rich:simpleTogglePanel label="${entityName} search parameters" switchType="ajax">
+        <rich:simpleTogglePanel label="${entityName} search filter" switchType="ajax">
 
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>

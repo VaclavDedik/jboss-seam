@@ -810,6 +810,7 @@
         
         <copy todir="${project.home}/view">
             <fileset id="view" dir="${base.dir}/view">
+                <include name="favicon.ico"/>
                 <include name="home.xhtml"/>
                 <include name="error.xhtml"/>
                 <include name="login.xhtml"/>

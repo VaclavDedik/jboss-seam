@@ -185,6 +185,12 @@
                 <include name="groovy-*.jar" if="groovy.present"/>
             </fileset>
         </copy>
+
+        <copy todir="${war.dir}/WEB-INF/classes">
+            <fileset dir="${basedir}/resources"> 
+                <include name="**/*.xcss"/>
+            </fileset>
+        </copy>
         
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources"> 
