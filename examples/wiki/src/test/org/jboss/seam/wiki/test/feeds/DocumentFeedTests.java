@@ -65,7 +65,7 @@ public class DocumentFeedTests extends DBUnitSeamTest {
 
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void updateDocumentPushOnSiteFeed() throws Exception {
 
         final String conversationId = new NonFacesRequest("/docEdit_d.xhtml") {

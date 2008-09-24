@@ -103,7 +103,7 @@ public class DocumentHistoryTests extends DBUnitSeamTest {
         }.run();
     }
 
-    @Test
+    @Test(groups="jdk6-expected-failures")
     public void updateDocumentCheckRevisions() throws Exception {
 
         loginAdmin();
