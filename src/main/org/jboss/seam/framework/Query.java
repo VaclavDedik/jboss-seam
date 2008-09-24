@@ -10,6 +10,7 @@ import javax.faces.model.DataModel;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.faces.DataModels;
 import org.jboss.seam.persistence.QueryParser;
@@ -371,7 +372,31 @@ public abstract class Query<T, E>
       refresh();
    }
 
+   /**
+    * A convenience method for registering the restrictions from Strings. This
+    * method is primarily intended to be used from Java, not to expose a bean
+    * property for component configuration. Use setRestrictions() for the later.
+    */
+   public void setRestrictionExpressionStrings(List<String> expressionStrings)
+   {
+      Expressions expressions = new Expressions();
+      List<ValueExpression> restrictionVEs = new ArrayList<ValueExpression>(expressionStrings.size());
+      for (String expressionString : expressionStrings)
+      {
+         restrictionVEs.add(expressions.createValueExpression(expressionString));
+      }
+      setRestrictions(restrictionVEs);
+   }
    
+   public List<String> getRestrictionExpressionStrings()
+   {
+      List<String> expressionStrings = new ArrayList<String>();
+      for (ValueExpression restriction : getRestrictions())
+      {
+         expressionStrings.add(restriction.getExpressionString());
+      }
+      return expressionStrings;
+   }
    
     public String getGroupBy() {
         return groupBy;
