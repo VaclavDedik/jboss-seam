@@ -6,16 +6,16 @@
                 xmlns:s="http://jboss.com/products/seam/taglib">
                  
     <div class="entry">
-        <s:label styleClass="label #{invalid?'errors':''}">
+        <s:label id="Label" styleClass="label #{invalid?'errors':''}">
             <ui:insert name="label"/>
-            <s:span styleClass="required" rendered="#{required}">*</s:span>
+            <s:span id="RequiredStyle" styleClass="required" rendered="#{required}">*</s:span>
         </s:label>
         <span class="input #{invalid?'errors':''}">
-            <s:validateAll>
+            <s:validateAll id="ValidateAll">
                 <ui:insert/>
             </s:validateAll>
         </span>
-        <s:message styleClass="error errors"/>
+        <s:message id="message" styleClass="error errors"/>
     </div>
     
 </ui:composition>

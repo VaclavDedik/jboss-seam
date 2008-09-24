@@ -40,18 +40,18 @@
                         </h:inputText>
 					</s:decorate>		
 						
-					<s:decorate template="edit.xhtml">
+					<s:decorate id="passwordDecorate" template="edit.xhtml">
 		    			<ui:define name="label">Password:</ui:define>
 						<h:inputSecret id="password" value="#{user.password}" required="true"/>
 					</s:decorate>
 						
-					<s:decorate template="edit.xhtml">
+					<s:decorate id="verifyDecorate" template="edit.xhtml">
 		    			<ui:define name="label">Verify Password:</ui:define>
 						<h:inputSecret id="verify" value="#{register.verify}" required="true"/>
 					</s:decorate>
 					
 					<div class="entry errors">
-						<h:messages globalOnly="true"/>
+						<h:messages id="messages" globalOnly="true"/>
 					</div>
 					
 					<div class="entry">
