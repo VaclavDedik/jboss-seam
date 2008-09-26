@@ -318,7 +318,7 @@
 		</testng>
         </target>
 
-    <target name="javadoc" depends="compilemodel,compileactions,copyclasses">
+    <target name="javadoc" depends="compile">
         <mkdir dir="${dist.dir}/apidoc" />
         <javadoc classpathref="build.classpath" destdir="${dist.dir}/apidoc" use="true" protected="true" version="true" windowtitle="${project.name} API Documentation" doctitle="${project.name} API Documentation" link="http://java.sun.com/j2se/5.0/docs/api">
 
