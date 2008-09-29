@@ -8,6 +8,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
+import org.jboss.seam.contexts.Context;
 import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.ui.component.UIDecorate;
 import org.jboss.seam.ui.util.Decoration;
@@ -31,14 +32,15 @@ public class DecorateRendererBase extends RendererBase
     * Store away the attribute from the event context (if it is set)
     * 
     * @param names The list of context keys to store away
+    * @param context The context to target
     */
-   private void storeOriginalValues(String[] names)
+   private void storeOriginalValues(String[] names, Context context)
    {
       for (String name : names)
       {
-         if (Contexts.getEventContext().isSet(name))
+         if (context.isSet(name))
          {
-            originalValues.put(name, Contexts.getEventContext().get(name));
+            originalValues.put(name, context.get(name));
          }
       }
    }
@@ -49,13 +51,14 @@ public class DecorateRendererBase extends RendererBase
     * up what we have placed there during this run.
     * 
     * @param names The list of context keys to restore
+    * @param context The context to target
     */
-   private void restoreOriginalValues(String[] names) {
+   private void restoreOriginalValues(String[] names, Context context) {
       for (String name : names) {
          if (originalValues.containsKey(name)) {
-            Contexts.getEventContext().set(name, originalValues.get(name));
+            context.set(name, originalValues.get(name));
          } else {
-            Contexts.getEventContext().remove(name);
+            context.remove(name);
          }
       }
    }
@@ -65,7 +68,7 @@ public class DecorateRendererBase extends RendererBase
    {
       UIDecorate decorate = (UIDecorate) component;
 
-      storeOriginalValues(storeOriginals);
+      storeOriginalValues(storeOriginals, Contexts.getEventContext());
 
       Contexts.getEventContext().set("invalid", Decoration.hasMessage(decorate, context));
       Contexts.getEventContext().set("required", Decoration.hasRequired(component, context));
@@ -117,7 +120,7 @@ public class DecorateRendererBase extends RendererBase
       }
       context.getResponseWriter().endElement("div");
 
-      restoreOriginalValues(storeOriginals);
+      restoreOriginalValues(storeOriginals, Contexts.getEventContext());
    }
 
    @Override
