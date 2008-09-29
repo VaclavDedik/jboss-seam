@@ -152,6 +152,13 @@
             <component-type>org.jboss.seam.excel.ui.UIExcelExport</component-type>
         </component>
     </tag>
+
+    <tag>
+        <tag-name>debug</tag-name>
+        <component>
+            <component-type>org.jboss.seam.excel.ui.UIDebug</component-type>
+        </component>
+    </tag>
     
 </facelet-taglib>
 
