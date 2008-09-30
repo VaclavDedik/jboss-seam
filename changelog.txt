@@ -86,7 +86,7 @@ Release Notes - Seam - Version 2.1.0.CR1
     * [JBSEAM-3442] - JMS functionality broken in JBossAS 5
     * [JBSEAM-3448] - MultipartFilter does not begin parsing until after transaction is started
     * [JBSEAM-3453] - Deployed jar list files needed to be modified for remoting to work correctly in a newly generated project.
-
+    * [JBSEAM-3479] - seam-gen - target "compilemodel" does not exist
 
 ** Feature Request
     * [JBSEAM-905] - Using the debug page without exceptions
