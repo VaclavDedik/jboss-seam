@@ -43,6 +43,7 @@ import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Init;
 import org.jboss.seam.deployment.HotDeploymentStrategy;
+import org.jboss.seam.deployment.SeamDeploymentProperties;
 import org.jboss.seam.deployment.StandardDeploymentStrategy;
 import org.jboss.seam.deployment.WarRootDeploymentStrategy;
 import org.jboss.seam.exception.Exceptions;
@@ -67,6 +68,8 @@ public class Initialization
 {
    public static final String COMPONENT_NAMESPACE = "http://jboss.com/products/seam/components";
    public static final String COMPONENT_SUFFIX = ".component";
+   public static final String DUPLICATE_JARS_PATTERNS = "org.jboss.seam.init.duplicateJarsPatterns";
+   
    private static final LogProvider log = Logging.getLogProvider(Initialization.class);
 
    private ServletContext servletContext;
@@ -135,17 +138,30 @@ public class Initialization
       }
 
       Properties replacements = getReplacements();
+      List<String> duplicateJarPatterns = new SeamDeploymentProperties(Thread.currentThread().getContextClassLoader()).getPropertyValues(DUPLICATE_JARS_PATTERNS);
       while (resources.hasMoreElements())
       {
          URL url = resources.nextElement();
-         try
+         boolean skip = false;
+         for (String regex : duplicateJarPatterns)
          {
-            log.info("reading " + url);
-            installComponentsFromXmlElements( XML.getRootElement( url.openStream() ), replacements );
+            String path = url.getPath(); 
+            if (path.matches(regex))
+            {
+               skip = true;
+            }
          }
-         catch (Exception e)
+         if (!skip)
          {
-            throw new RuntimeException("error while reading " + url, e);
+            try
+            {
+               log.info("reading " + url);
+               installComponentsFromXmlElements( XML.getRootElement( url.openStream() ), replacements );
+            }
+            catch (Exception e)
+            {
+               throw new RuntimeException("error while reading " + url, e);
+            }
          }
       }
 
