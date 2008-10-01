@@ -356,6 +356,7 @@ Dependencies for Seam ${complete.version}
 		<outputDependencyReport module="mail" />
 		<outputDependencyReport module="pdf" />
 		<outputDependencyReport module="excel" />
+		<outputDependencyReport module="rss" />
 		<outputDependencyReport module="ioc" />
 		<outputDependencyReport module="wicket" />
 		<outputDependencyReport module="resteasy" />
