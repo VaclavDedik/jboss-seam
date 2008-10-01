@@ -41,7 +41,7 @@
 		<deploy pom="${parent.pom}" repositoryId="offline.repository.jboss.org" />
 		<deployWithSources pom="${core.pom}" jar="${lib.dir}/jboss-seam.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-sources.jar" />
 		<deployWithSources pom="${debug.pom}" jar="${lib.dir}/jboss-seam-debug.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-debug-sources.jar"/>
-		<deployWithSources pom="${gen.pom}" jar="${lib.dir}/jboss-seam-gen.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-gen-sources.jar"/>
+		<deployWithSources pom="${gen.pom}" jar="${lib.dir}/gen/jboss-seam-gen.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/gen/src/jboss-seam-gen-sources.jar"/>
 		<deployWithSources pom="${ioc.pom}" jar="${lib.dir}/jboss-seam-ioc.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-ioc-sources.jar"/>
 		<deployWithSources pom="${mail.pom}" jar="${lib.dir}/jboss-seam-mail.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-mail-sources.jar"/>
 		<deployWithSources pom="${pdf.pom}" jar="${lib.dir}/jboss-seam-pdf.jar" repositoryId="offline.repository.jboss.org" srcjar="${lib.dir}/src/jboss-seam-pdf-sources.jar"/>
@@ -55,6 +55,7 @@
 		<deployExample name="booking" repositoryId="offline.repository.jboss.org"/>
 		<deployExampleNoDs name="numberguess" repositoryId="offline.repository.jboss.org"/>
 		<deployExample name="dvd" path="${seam.dir}/examples/dvdstore" repositoryId="offline.repository.jboss.org"/>
+
 	</target>
 	
 	<target name="deployLocalPom">

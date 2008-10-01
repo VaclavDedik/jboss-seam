@@ -215,15 +215,17 @@
 					<propertyref name="parent.pom" />
 					<propertyref name="ui.pom" />
 					<propertyref name="remoting.pom" />
-               <propertyref name="resteasy.pom" />
+                                        <propertyref name="resteasy.pom" />
+                                        <propertyref name="pdf.pom" />
+                                        <propertyref name="rss.pom" />
 					<propertyref name="gen.pom" />
 					<propertyref name="excel.pom" />
 					<propertyref name="ioc.pom" />
 					<propertyref name="mail.pom" />
 					<propertyref name="debug.pom" />
-           		<propertyref name="wicket.pom" />
+                                        <propertyref name="wicket.pom" />
 					<propertyref name="testng.jvmargs"/>
-           		<propertyref name="maven.settings.xml" />
+                                        <propertyref name="maven.settings.xml" />
 				</propertyset>
            	</ant>
        		<pomfile name="example.pom" value="@{path}/pom.xml" />
@@ -285,16 +287,17 @@
 						<propertyref name="parent.pom" />
 						<propertyref name="ui.pom" />
 						<propertyref name="remoting.pom" />
-	           	   <propertyref name="resteasy.pom" />
+                                                <propertyref name="resteasy.pom" />
 						<propertyref name="gen.pom" />
 						<propertyref name="pdf.pom" />
+						<propertyref name="rss.pom" />
 						<propertyref name="excel.pom" />
 						<propertyref name="ioc.pom" />
 						<propertyref name="mail.pom" />
 						<propertyref name="debug.pom" />
-	           		<propertyref name="wicket.pom" />
+                                                <propertyref name="wicket.pom" />
 						<propertyref name="testng.jvmargs"/>
-	           	   <propertyref name="maven.settings.xml" />
+                                                <propertyref name="maven.settings.xml" />
 					</propertyset>
 	           	</ant>
 	       		<pomfile name="example.pom" value="@{path}/pom.xml" />
