@@ -112,11 +112,7 @@
     </dependency>
 
     <!-- Maven's "nearest" dependency resolution doesn't take into account parent dependency management! -->
-    <dependency>
-      <groupId>commons-digester</groupId>
-      <artifactId>commons-digester</artifactId>
-      <optional>true</optional>
-    </dependency>
+    
 
     <dependency>
       <groupId>javax.faces</groupId>
