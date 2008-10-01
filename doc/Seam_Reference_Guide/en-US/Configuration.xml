@@ -49,6 +49,24 @@
     <param-value>client</param-value>
 </context-param>]]></programlisting>
 
+			<para>
+				There is a minor gray area in the JSF specification regarding the mutability of view state values. Since
+				Seam uses the JSF view state to back its PAGE scope this can become an issue in some cases. If you're
+				using server side state saving with the JSF-RI and you want a PAGE scoped bean to keep its exact value
+				for a given view of a page you will need to specify the following context-param. Otherwise if a user
+				uses the "back" button a PAGE scoped component will have the latest value if it has changed not the
+				value of the "back" page. (see
+				<ulink url="https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=295">
+					Spec Issue
+				</ulink>
+				). This setting is not enabled by default because of the performance hit of serializing the JSF view
+				with every request.
+			</para>
+
+			<programlisting role="XML"><![CDATA[<context-param>
+	<param-name>com.sun.faces.serializeServerState</param-name>
+	<param-value>true</param-value>
+</context-param>]]></programlisting>
         </sect2>
 
         <sect2>
