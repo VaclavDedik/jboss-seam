@@ -146,6 +146,11 @@
 		<include name="jboss-seam-ui.jar" if="seam.ui.lib" />
 		<include name="commons-beanutils.jar" if="seam.ui.lib" unless="richfaces.lib" />
 	</fileset>
+	
+	<!-- tomcat needs in messages example jstl.jar -->
+	<fileset dir="${lib.dir}" id="tomcat-standard-tag.jar">
+	    <include name="jstl.jar" if="tomcat.standard.tag"/>
+	</fileset>
 
 	<!-- Seam  pdf, with required dependencies -->
 	<fileset id="seam.pdf.jar" dir="${lib.dir}">
@@ -546,7 +551,7 @@
 		<copyInlineDependencies id="elri" scope="runtime" todir="${lib.dir}">
 			<dependency groupId="javax.el" artifactId="el-ri" version="1.2" />
 		</copyInlineDependencies>
-	</target>
+	</target>	
      
 	<!-- Use the Eclipse compiler, if it is available -->
 	<target name="select-compiler">
@@ -595,6 +600,7 @@
 			<fileset refid="trinidad-impl.jar" />
 			<fileset refid="jboss-common-core.jar" />
 			<fileset refid="war.lib.extras" />
+			<fileset refid="tomcat-standard-tag.jar" />
 			<mapper type="flatten" />
 		</copy>
 		<!-- Put properties into the classpath -->
