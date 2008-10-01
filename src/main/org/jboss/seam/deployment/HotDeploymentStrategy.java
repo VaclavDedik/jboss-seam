@@ -50,8 +50,6 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    
    private ComponentDeploymentHandler componentDeploymentHandler;
    private AnnotationDeploymentHandler annotationDeploymentHandler;
-   
-   private long timestamp = 0L;
 
    private ClassLoader classLoader;
    
@@ -70,7 +68,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
             initHotDeployClassLoader(classLoader, hotDeployDirectory);
             componentDeploymentHandler = new ComponentDeploymentHandler();
             getDeploymentHandlers().put(ComponentDeploymentHandler.NAME, componentDeploymentHandler);
-            annotationDeploymentHandler = new AnnotationDeploymentHandler(getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
+            annotationDeploymentHandler = new AnnotationDeploymentHandler(new SeamDeploymentProperties(classLoader).getPropertyValues(AnnotationDeploymentHandler.ANNOTATIONS_KEY), classLoader);
             getDeploymentHandlers().put(AnnotationDeploymentHandler.NAME, annotationDeploymentHandler);
          }
          getDeploymentHandlers().put(DotPageDotXmlDeploymentHandler.NAME, new DotPageDotXmlDeploymentHandler());

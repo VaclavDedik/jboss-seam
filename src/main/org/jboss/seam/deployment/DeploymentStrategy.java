@@ -1,20 +1,12 @@
 package org.jboss.seam.deployment;
 
-import static org.jboss.seam.util.Strings.split;
-
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
 
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
@@ -49,85 +41,7 @@ public abstract class DeploymentStrategy
    
    
    
-   /**
-    * The resource bundle used to control Seam deployment
-    */
-   public static final String RESOURCE_BUNDLE = "META-INF/seam-deployment.properties";
    
-   // All resource bundles to use, including legacy names
-   private static final String[] RESOURCE_BUNDLES = { RESOURCE_BUNDLE, "META-INF/seam-scanner.properties" };
-   
-   /**
-    * Get a list of possible values for a given key.
-    * 
-    * First, System properties are tried, followed by the specified resource
-    * bundle (first in classpath only).
-    * 
-    * Colon (:) deliminated lists are split out.
-    * 
-    */
-   protected List<String> getPropertyValues(String key)
-   {
-      List<String>values = new ArrayList<String>();
-      addPropertyFromSystem(key, values);
-      addPropertyFromResourceBundle(key, values);
-      return values;
-   }
-   
-   private void addPropertyFromSystem(String key, List<String> values)
-   {
-      addProperty(key, System.getProperty(key), values);
-   }
-   
-   private void addPropertyFromResourceBundle(String key, List<String> values)
-   {
-      for (String resourceName : RESOURCE_BUNDLES)
-      {        
-         try
-         {
-            // Hard to cache as we have to get it off the correct classloader
-            Enumeration<URL> urlEnum = getClassLoader().getResources(resourceName);
-            while ( urlEnum.hasMoreElements() )
-            {
-               URL url = urlEnum.nextElement();
-               Properties properties = new Properties();
-               InputStream propertyStream = url.openStream();
-               try
-               {
-                  properties.load(propertyStream);
-                  addProperty(key, properties.getProperty(key), values);
-               }
-               finally
-               {
-                  if (propertyStream != null)
-                  {
-                     propertyStream.close();
-                  }
-               }
-            }
-         }
-         catch (IOException e)
-         {
-            // No-op, optional file
-         }
-      }
-   }
-   
-   /*
-    * Add the property to the set of properties only if it hasn't already been added
-    */
-   private void addProperty(String key, String value, List<String> values)
-   {
-      if (value != null)
-      {
-         String[] properties = split(value, ":");
-         for (String property : properties)
-         {
-            values.add(property);
-         }
-         
-      }
-   }
    
    /**
     * Do the scan for resources
@@ -173,7 +87,8 @@ public abstract class DeploymentStrategy
    private void initDeploymentHandlers()
    {
       this.deploymentHandlers = new HashMap<String, DeploymentHandler>();
-      addHandlers(getPropertyValues(getDeploymentHandlersKey()));
+      List<String> deploymentHandlersClassNames = new SeamDeploymentProperties(getClassLoader()).getPropertyValues(getDeploymentHandlersKey());
+      addHandlers(deploymentHandlersClassNames);
    }
 
    protected abstract String getDeploymentHandlersKey();
@@ -193,7 +108,7 @@ public abstract class DeploymentStrategy
       
    private void initScanner()
    {
-      List<String> scanners = getPropertyValues(SCANNERS_KEY);
+      List<String> scanners = new SeamDeploymentProperties(getClassLoader()).getPropertyValues(SCANNERS_KEY);
       for ( String className : scanners )
       {
          Scanner scanner = instantiateScanner(className);
