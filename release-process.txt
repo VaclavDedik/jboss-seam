@@ -98,6 +98,7 @@ Building and Checking Dist
     build.properties
     build.xml
     changelog.txt
+    dependency-report.txt
     doc
     examples
     extras
@@ -109,6 +110,7 @@ Building and Checking Dist
     seam-text.g
     seam.bat
     seam2migration.txt
+    seam21migration.txt
     src
     ui
 
@@ -123,6 +125,7 @@ Building and Checking Dist
     pdf
     remoting
     resteasy
+    rss
     test
     wicket
 
