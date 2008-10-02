@@ -107,6 +107,10 @@ options
      *
      * 7. Not implemented filtering of CSS url() - it's an invalid value always.
      *
+     * 8. Removed all <form>, <input> and other form tags. Attackers might use them compromise "outer" forms when entering
+     *    markup in a textarea.
+     *
+     *
      */
     public static class DefaultSanitizer implements SeamTextParser.Sanitizer {
 
@@ -128,12 +132,12 @@ options
 
         protected java.util.Set<String> acceptableElements = new java.util.HashSet(java.util.Arrays.asList(
             "a", "abbr", "acronym", "address", "area", "b", "bdo", "big", "blockquote",
-            "br", "button", "caption", "center", "cite", "code", "col", "colgroup", "dd",
-            "del", "dfn", "dir", "div", "dl", "dt", "em", "fieldset", "font", "form",
-            "h1", "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "input", "ins", "kbd",
-            "label", "legend", "li", "map", "menu", "ol", "optgroup", "option", "p",
-            "pre", "q", "s", "samp", "select", "small", "span", "strike", "strong",
-            "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead",
+            "br", "caption", "center", "cite", "code", "col", "colgroup", "dd",
+            "del", "dfn", "dir", "div", "dl", "dt", "em", "font",
+            "h1", "h2", "h3", "h4", "h5", "h6", "hr", "i", "img", "ins", "kbd",
+            "label", "legend", "li", "map", "menu", "ol", "p",
+            "pre", "q", "s", "samp", "small", "span", "strike", "strong",
+            "sub", "sup", "table", "tbody", "td", "tfoot", "th", "thead",
             "tr", "tt", "u", "ul", "var", "wbr"
         ));
 
