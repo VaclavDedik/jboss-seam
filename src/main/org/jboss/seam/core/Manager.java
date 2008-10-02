@@ -97,6 +97,12 @@ public class Manager
     */
    public void updateCurrentConversationId(String id)
    {
+      if (id != null && id.equals(currentConversationId))
+      {
+         // the conversation id hasn't changed, do nothing       
+         return;
+      }
+      
       if ( ConversationEntries.instance().getConversationIds().contains(id) )
       {
          throw new IllegalStateException("Conversation id is already in use: " + id);
@@ -128,8 +134,7 @@ public class Manager
           if (pos != -1) 
           {
               currentConversationIdStack.set(pos, id);
-          }
-          
+          }          
       }
       
       for (int i=0; i<names.length; i++)

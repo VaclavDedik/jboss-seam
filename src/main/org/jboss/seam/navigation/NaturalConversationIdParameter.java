@@ -5,7 +5,6 @@ import java.util.Map;
 import org.jboss.seam.core.ConversationPropagation;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.seam.util.Id;
 
 /**
  * A conversation parameter strategy for "natural" conversation ids.

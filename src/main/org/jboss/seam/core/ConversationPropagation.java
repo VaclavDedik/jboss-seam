@@ -52,7 +52,6 @@ public class ConversationPropagation
     */
    public void restoreConversationId(Map parameters)
    {
-      getConversationNameFromRequestParameters(parameters);
       restoreNaturalConversationId(parameters);
       restoreSyntheticConversationId(parameters);
       restorePageContextConversationId();
@@ -93,14 +92,19 @@ public class ConversationPropagation
          log.debug("Found conversation id in request parameter: " + conversationId);
       }
    }
-   
-   private void getConversationNameFromRequestParameters(Map parameters)
-   {
-      conversationName = getRequestParameterValue(parameters, CONVERSATION_NAME_PARAMETER);
-   }
 
    private void restoreNaturalConversationId(Map parameters)
    {
+      conversationName = getRequestParameterValue(parameters, CONVERSATION_NAME_PARAMETER);
+      
+      if (conversationName != null && conversationName.contains(":"))
+      {
+         int idx = conversationName.indexOf(':');
+         conversationId = conversationName;
+         conversationName = conversationName.substring(0, idx);         
+         return;
+      }
+      
       //First, try to get the conversation id from the request parameter defined for the page
       String viewId = Pages.getCurrentViewId();
       if ( viewId!=null )
