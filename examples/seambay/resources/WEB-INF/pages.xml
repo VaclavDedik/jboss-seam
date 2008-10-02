@@ -28,7 +28,6 @@
         <param name="id" value="#{auctionDetail.selectedAuctionId}"/>
         
         <navigation from-action="#{bidAction.placeBid}">
-          <begin-conversation join="true" conversation="PlaceBid"/>
           <redirect view-id="/bid.xhtml"/>
         </navigation>
     </page>

@@ -32,6 +32,7 @@ public class BidAction
    
    private String outcome;
    
+   @Begin(join = true)
    public void placeBid()
    {
       if (auction.getStatus() != Auction.STATUS_LIVE ||
