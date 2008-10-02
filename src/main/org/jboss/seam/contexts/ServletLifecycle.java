@@ -73,20 +73,37 @@ public class ServletLifecycle
       }
    }
 
-   public static void beginInitialization()
-   {
-      log.debug(">>> Begin initialization");
-      Contexts.applicationContext.set( new ApplicationContext( Lifecycle.getApplication() ) );
-      Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
-      Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
-   }
-
    public static void beginReinitialization(HttpServletRequest request)
    {
       log.debug(">>> Begin re-initialization");
       Contexts.applicationContext.set( new ApplicationContext( Lifecycle.getApplication() ) );
       Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.sessionContext.set( new SessionContext( new ServletRequestSessionMap(request) ) );
+      Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
+   }
+   
+   public static void endReinitialization()
+   {
+      Contexts.startup(ScopeType.APPLICATION);
+      
+      Events.instance().raiseEvent("org.jboss.seam.postReInitialization");
+      
+      // Clean up contexts used during reinitialization
+      Contexts.destroy( Contexts.getConversationContext() );
+      Contexts.conversationContext.set(null);
+      Contexts.destroy( Contexts.getEventContext() );
+      Contexts.eventContext.set(null);
+      Contexts.sessionContext.set(null);
+      Contexts.applicationContext.set(null);
+      
+      log.debug("<<< End re-initialization");
+   }
+   
+   public static void beginInitialization()
+   {
+      log.debug(">>> Begin initialization");
+      Contexts.applicationContext.set( new ApplicationContext( Lifecycle.getApplication() ) );
+      Contexts.eventContext.set( new BasicContext(ScopeType.EVENT) );
       Contexts.conversationContext.set( new BasicContext(ScopeType.CONVERSATION) );
    }
 

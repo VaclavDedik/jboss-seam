@@ -719,7 +719,7 @@ public class Initialization
       
          Contexts.getApplicationContext().remove(Seam.getComponentName(Exceptions.class));
       }
-      ServletLifecycle.endInitialization();
+      ServletLifecycle.endReinitialization();
       return this;   
    }
 
