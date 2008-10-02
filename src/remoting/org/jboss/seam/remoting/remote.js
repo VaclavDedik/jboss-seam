@@ -590,7 +590,9 @@ Seam.Remoting.cancelCall = function(callId)
   {
     if (Seam.Remoting.pendingCalls.isEmpty())
       Seam.Remoting.hideLoadingMessage();
-    call.asyncReq.onreadystatechange = function() {};
+    window.setTimeout(function() {
+      call.asyncReq.onreadystatechange = function() {};
+    }, 0);
     call.asyncReq.abort();
   }
 }
@@ -634,9 +636,11 @@ Seam.Remoting.sendAjaxRequest = function(envelope, path, callback, silent)
 
   var rcb = Seam.Remoting.requestCallback;
   
-  asyncReq.onreadystatechange = function() {
+  window.setTimeout(function() {
+    asyncReq.onreadystatechange = function() {
     if (rcb) rcb(asyncReq, callback);     
-  }
+    }
+  }, 0);
 
   if (Seam.Remoting.encodedSessionId)
   {
@@ -660,7 +664,10 @@ Seam.Remoting.requestCallback = function(req, callback)
     var inScope = typeof(Seam) == "undefined" ? false : true;
     
     if (inScope) Seam.Remoting.hideLoadingMessage();
-    req.onreadystatechange = function() {};
+    
+    window.setTimeout(function() {
+      req.onreadystatechange = function() {};
+    }, 0);
 
     if (req.status == 200)
     {
