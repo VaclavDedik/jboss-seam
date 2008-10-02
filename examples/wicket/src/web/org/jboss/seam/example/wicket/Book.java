@@ -3,9 +3,7 @@ package org.jboss.seam.example.wicket;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.behavior.IBehavior;
 import org.apache.wicket.extensions.yui.calendar.DateField;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -26,9 +24,10 @@ import org.jboss.seam.example.wicket.action.HotelBooking;
 public class Book extends WebPage 
 {
    
-   private static final List<String> bedOptions = Arrays.asList("One king-sized bed", "Two double beds", "Three beds");
+   private static final List<String> bedOptionsDisplayValues = Arrays.asList("One king-sized bed", "Two double beds", "Three beds");
+   private static final List<Integer> bedOptions = Arrays.asList(1, 2, 3);
    private static final List<String> monthOptions = Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-   private static final List<String> yearOptions = Arrays.asList("2008", "2009");
+   private static final List<Integer> yearOptions = Arrays.asList(2008, 2009);
    
    @In
    private Booking booking;
@@ -55,15 +54,21 @@ public class Book extends WebPage
          add(new ComponentFeedbackPanel("messages", this));
          add(new FormInputBorder("checkinDateBorder", "Check in date", new DateField("checkinDate").setRequired(true), new PropertyModel(booking, "checkinDate"), false));
          add(new FormInputBorder("checkoutDateBorder", "Check out date", new DateField("checkoutDate").setRequired(true), new PropertyModel(booking, "checkoutDate"), false));
-         add(new FormInputBorder("bedsBorder", "Room Preference", new DropDownChoice("beds", bedOptions)
+         add(new FormInputBorder("bedsBorder", "Room Preference", new DropDownChoice("beds", bedOptions, new IChoiceRenderer()
          {
-            @Override
-            protected Object convertChoiceIdToChoice(String id)
+
+            public Object getDisplayValue(Object object)
             {
-               return bedOptions.indexOf(id);
+               return bedOptionsDisplayValues.get(((Integer) object - 1));
+            }
+
+            public String getIdValue(Object object, int index)
+            {
+               return object.toString();
             }
             
-         }.setRequired(true), new PropertyModel(booking, "beds")));
+         }
+         ).setRequired(true), new PropertyModel(booking, "beds")));
          add(new FormInputBorder("smokingBorder", "Smoking Preference", new RadioChoice("smoking", Arrays.asList(new Boolean[] {true, false}), new IChoiceRenderer()
          {
 
