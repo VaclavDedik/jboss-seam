@@ -21,6 +21,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -56,6 +58,8 @@ import org.jboss.seam.util.Reflections;
 import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
+
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 /**
  * Builds configuration metadata when Seam first initialized.
@@ -137,31 +141,65 @@ public class Initialization
          throw new RuntimeException("error scanning META-INF/components.xml files", ioe);
       }
 
+      List<String> seenDocuments = new ArrayList<String>();
+      
       Properties replacements = getReplacements();
-      List<String> duplicateJarPatterns = new SeamDeploymentProperties(Thread.currentThread().getContextClassLoader()).getPropertyValues(DUPLICATE_JARS_PATTERNS);
+      Set<Pattern> duplicateJarPatterns = new HashSet<Pattern>();
+      for (String duplicateJarRegex : new HashSet<String>(new SeamDeploymentProperties(Thread.currentThread().getContextClassLoader()).getPropertyValues(DUPLICATE_JARS_PATTERNS)))
+      {
+         duplicateJarPatterns.add(Pattern.compile(duplicateJarRegex));
+      }
       while (resources.hasMoreElements())
       {
          URL url = resources.nextElement();
          boolean skip = false;
-         for (String regex : duplicateJarPatterns)
+         String path = url.getPath();
+         String prefixPattern = "^(\\S*/)([\\S^/]*.jar)(\\S*)$";
+         Pattern pattern = Pattern.compile(prefixPattern);
+         Matcher matcher = pattern.matcher(path);
+         String jarName;
+         String fileName;
+         if (matcher.matches())
          {
-            String path = url.getPath(); 
-            if (path.matches(regex))
+            jarName = matcher.group(2);
+            fileName = matcher.group(3);
+            Set<String> documentNames = new HashSet<String>();
+            for (Pattern duplicateJarPattern : duplicateJarPatterns)
             {
-               skip = true;
+               Matcher duplicateMatcher = duplicateJarPattern.matcher(jarName);
+               
+               if (duplicateMatcher.matches())
+               {
+                  jarName = duplicateMatcher.group(1);
+               }
+               
+               documentNames.add(jarName + fileName);
             }
+            for (String documentName : documentNames)
+            {
+               if (seenDocuments.contains(documentName))
+               {
+                  skip = true;
+               }
+            }
+            seenDocuments.addAll(documentNames);
          }
+         
          if (!skip)
          {
             try
             {
-               log.info("reading " + url);
+               log.debug("reading " + url);
                installComponentsFromXmlElements( XML.getRootElement( url.openStream() ), replacements );
             }
             catch (Exception e)
             {
                throw new RuntimeException("error while reading " + url, e);
             }
+         }
+         else
+         {
+            log.trace("skipping read of duplicate components.xml " + url);
          }
       }
 
