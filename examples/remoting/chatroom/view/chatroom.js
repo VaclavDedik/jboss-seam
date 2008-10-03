@@ -11,6 +11,7 @@ function getObject(objectId) {
 }
 
 var username = null;
+var connectedFlag = false;
 var chatroom = Seam.Component.getInstance("chatroomAction");
 
 function connect() {
@@ -18,6 +19,7 @@ function connect() {
   username = nameCtl.value;
 
   var connectCallback = function(connected, context) {
+    connectedFlag = true;
     setInterfaceState(connected);
     getObject("username").value = username;
     Seam.Remoting.getContext().setConversationId(context.getConversationId());
@@ -36,6 +38,7 @@ function connect() {
 }
 
 function disconnect() {
+  connectedFlag = false;
   Seam.Remoting.unsubscribe("chatroomTopic");
   setInterfaceState(false);
   chatroom.disconnect();
@@ -95,6 +98,11 @@ function setInterfaceState(connected) {
 }
 
 function sendMessage() {
+  if (!connectedFlag) {
+    alert("Not connected");
+    return;
+  }
+
   var ctl = getObject("messageText");
   chatroom.sendMessage(ctl.value);
   ctl.value = "";
