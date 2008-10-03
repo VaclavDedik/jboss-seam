@@ -449,8 +449,10 @@ public class JXLExcelWorkbook implements ExcelWorkbook
 
       int useStartColumn = uiImage.getStartColumn() == null ? currentColumnIndex : uiImage.getStartRow();
       int useStartRow = uiImage.getStartRow() == null ? currentRowIndex : uiImage.getStartRow();
-      double useColumnSpan = uiImage.getColumnSpan() == null ? ((double)(image.getWidth() / CELL_DEFAULT_WIDTH)) : uiImage.getColumnSpan();
-      double useRowSpan = uiImage.getRowSpan() == null ? ((double)(image.getWidth() / CELL_DEFAULT_HEIGHT)) : uiImage.getRowSpan();
+      double estimatedRowSpan = (double)image.getHeight() / (double)CELL_DEFAULT_HEIGHT;
+      double estimatedColSpan = (double)image.getWidth() / (double)CELL_DEFAULT_WIDTH;
+      double useColumnSpan = uiImage.getColumnSpan() == null ? estimatedRowSpan : uiImage.getColumnSpan();
+      double useRowSpan = uiImage.getRowSpan() == null ? estimatedColSpan : uiImage.getRowSpan();
 
       worksheet.addImage(new WritableImage(useStartColumn, useStartRow, useColumnSpan, useRowSpan, pngStream.toByteArray()));
    }
