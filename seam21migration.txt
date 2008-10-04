@@ -141,3 +141,25 @@ Redeploy
 
 The org.jboss.seam.postInitialization event is no longer called on redeploy,
 instead org.jboss.seam.postReInitialization is called.
+
+
+Cache Support
+-------------
+
+Cache support has be rewritten to support JBoss Cache, JBoss POJO Cache, JBoss
+Cache 2 and EHCache. If you are running on JBoss AS 4.2.x JBoss Cache 1.x will 
+be used or on JBoss 5.x JBoss Cache 2 will be installed. You can find more about
+how to configure the cache provider in the reference manual.
+
+The use <s:cache /> is unchanged, but you can no longer inject the pojoCache
+component. Instead you should configure JBoss POJO cache as your cache provider 
+in components.xml:
+
+<cache:jboss-pojo-cache-provider />
+
+and inject it using
+
+@In CacheProvider<PojoCache> cacheProvider;
+
+The CacheProvider provides a Map like interface, and the getDelegate() method
+can be used to retrieve the underling cache. 
