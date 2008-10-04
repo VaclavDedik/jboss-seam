@@ -333,6 +333,24 @@
 </component>]]></programlisting>
 
             <para> 
+                When configuring multi-valued properties, by default, Seam will preserve the order in which you place the attributes
+                in <literal>components.xml</literal> (unless you use a <literal>SortedSet</literal>/<literal>SortedMap</literal>
+                then Seam will use <literal>TreeMap</literal>/<literal>TreeSet</literal>). If the property has a concrete type (for 
+                example <literal>LinkedList</literal> Seam will use that type.
+            </para>
+            <para> 
+                You can also override the type by specifying a fully qualified class name:
+            </para>
+
+            <programlisting role="XML"><![CDATA[<component name="issueEditor">
+   <property name="issueStatusOptions" type="java.util.LinkedHashMap">
+      <key>open</key> <value>open issue</value>
+      <key>resolved</key> <value>issue resolved by developer</value>
+      <key>closed</key> <value>resolution accepted by user</value>
+   </property>
+</component>]]></programlisting>
+
+            <para> 
                 Finally, you may wire together components using a value-binding expression. Note that this is quite
                 different to injection using <literal>@In</literal>, since it happens at component instantiation time
                 instead of invocation time. It is therefore much more similar to the dependency injection facilities

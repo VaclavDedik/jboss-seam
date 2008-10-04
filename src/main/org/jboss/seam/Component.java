@@ -41,9 +41,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import javassist.util.proxy.MethodFilter;
 import javassist.util.proxy.MethodHandler;
@@ -2450,7 +2456,7 @@ public class Component extends Model
          }
          else if (converter!=null && value instanceof String[])
          {
-            return converter.toObject( new Conversions.MultiPropertyValue( (String[]) value ), parameterType );
+            return converter.toObject( new Conversions.MultiPropertyValue( (String[]) value, null), parameterType );
          }
          else
          {
@@ -2480,12 +2486,21 @@ public class Component extends Model
    {
       private InitialValue[] initialValues;
       private Class elementType;
-
+      private Class collectionClass;
+      
       public SetInitialValue(PropertyValue propertyValue, Class collectionClass, Type collectionType)
       {
          String[] expressions = propertyValue.getMultiValues();
          initialValues = new InitialValue[expressions.length];
          elementType = Reflections.getCollectionElementType(collectionType);
+         if (propertyValue.getType() != null)
+         {
+            this.collectionClass = propertyValue.getType();
+         }
+         else
+         {
+            this.collectionClass = collectionClass;
+         }
          for ( int i=0; i<expressions.length; i++ )
          {
             PropertyValue elementValue = new Conversions.FlatPropertyValue( expressions[i] );
@@ -2495,9 +2510,42 @@ public class Component extends Model
 
       public Object getValue(Class type)
       {
-          Set set = new HashSet(initialValues.length);
-          for (InitialValue iv: initialValues) {
-              set.add( iv.getValue(elementType) );
+          Set set;
+          //if no configuration has been specified then we first see if
+          //the property is an abstract type, if so we create it using newInstance
+          if (Modifier.isAbstract(collectionClass.getModifiers()) || Modifier.isInterface(collectionClass.getModifiers()))
+          {
+             if(collectionClass == SortedSet.class)
+             {
+                set = new TreeSet();
+             }
+             else
+             {
+                set = new LinkedHashSet(initialValues.length);
+             }
+          }
+          else
+          {
+             try
+             {
+                set = (Set) collectionClass.newInstance();
+             }
+             catch (IllegalAccessException e)
+             {
+                throw new IllegalArgumentException("Cannot instantiate a set of type " + collectionClass + "; try specifying type type in components.xml");
+             }
+             catch (ClassCastException e)
+             {
+                throw new IllegalArgumentException("Cannot cast " + collectionClass + " to java.util.Set");
+             }
+             catch (java.lang.InstantiationException e)
+             {
+                throw new IllegalArgumentException("Cannot instantiate a set of type " + collectionClass + "; try specifying type type in components.xml");
+             }
+          }
+          for (InitialValue iv: initialValues) 
+          {
+             set.add( iv.getValue(elementType) );
           }
           return set;
       }
@@ -2514,6 +2562,7 @@ public class Component extends Model
       private InitialValue[] initialValues;
       private Class elementType;
       private boolean isArray;
+      private Class collectionClass;
 
       public ListInitialValue(PropertyValue propertyValue, Class collectionClass, Type collectionType)
       {
@@ -2523,6 +2572,14 @@ public class Component extends Model
          elementType = isArray ? 
                   collectionClass.getComponentType() : 
                   Reflections.getCollectionElementType(collectionType);
+         if (propertyValue.getType() != null)
+         {
+            this.collectionClass = propertyValue.getType();
+         }
+         else
+         {
+            this.collectionClass = collectionClass;
+         }
          for ( int i=0; i<expressions.length; i++ )
          {
             PropertyValue elementValue = new Conversions.FlatPropertyValue( expressions[i] );
@@ -2543,7 +2600,32 @@ public class Component extends Model
          }
          else
          {
-            List list = new ArrayList(initialValues.length);
+            List list;
+            //if no configuration has been specified then we first see if
+            //the property is an abstract type, if so we create it using newInstance
+            if (Modifier.isAbstract(collectionClass.getModifiers()) || Modifier.isInterface(collectionClass.getModifiers()))
+            {
+               list = new ArrayList(initialValues.length);
+            }
+            else
+            {
+               try
+               {
+                  list = (List) collectionClass.newInstance();
+               }
+               catch (IllegalAccessException e)
+               {
+                  throw new IllegalArgumentException("Cannot instantiate a list of type " + collectionClass + "; try specifying type type in components.xml");
+               }
+               catch (ClassCastException e)
+               {
+                  throw new IllegalArgumentException("Cannot cast " + collectionClass + " to java.util.List");
+               }
+               catch (java.lang.InstantiationException e)
+               {
+                  throw new IllegalArgumentException("Cannot instantiate a list of type " + collectionClass + "; try specifying type type in components.xml");
+               }
+            }
             for (InitialValue iv: initialValues)
             {
                list.add( iv.getValue(elementType) );
@@ -2565,13 +2647,22 @@ public class Component extends Model
       private Map<InitialValue, InitialValue> initialValues;
       private Class elementType;
       private Class keyType;
-
+      private Class collectionClass;
+      
       public MapInitialValue(PropertyValue propertyValue, Class collectionClass, Type collectionType)
       {
          Map<String, String> expressions = propertyValue.getKeyedValues();
-         initialValues = new HashMap<InitialValue, InitialValue>(expressions.size());
+         initialValues = new LinkedHashMap<InitialValue, InitialValue>(expressions.size());      
          elementType = Reflections.getCollectionElementType(collectionType);
          keyType = Reflections.getMapKeyType(collectionType);
+         if (propertyValue.getType() != null )
+         {
+            this.collectionClass = propertyValue.getType();
+         }
+         else
+         {
+            this.collectionClass = collectionClass;
+         }
          for ( Map.Entry<String, String> me: expressions.entrySet() )
          {
             PropertyValue keyValue = new Conversions.FlatPropertyValue( me.getKey() );
@@ -2582,7 +2673,38 @@ public class Component extends Model
 
       public Object getValue(Class type)
       {
-         Map result = new HashMap(initialValues.size());
+         Map result;
+         if (Modifier.isAbstract(collectionClass.getModifiers()) || Modifier.isInterface(collectionClass.getModifiers()))
+         {
+            if (collectionClass == SortedMap.class)
+            {
+               result = new TreeMap();
+            }
+            else
+            {
+               result = new LinkedHashMap(initialValues.size());
+            }
+         }
+         else
+         {
+            try
+            {
+               result = (Map) collectionClass.newInstance();
+            }
+            catch (IllegalAccessException e)
+            {
+               throw new IllegalArgumentException("Cannot instantiate a map of type " + collectionClass + "; try specifying type type in components.xml");
+            }
+            catch (ClassCastException e)
+            {
+               throw new IllegalArgumentException("Cannot cast " + collectionClass + " to java.util.Map");
+            }
+            catch (java.lang.InstantiationException e)
+            {
+               throw new IllegalArgumentException("Cannot instantiate a map of type " + collectionClass + "; try specifying type type in components.xml");
+            }
+         }
+        
          for ( Map.Entry<InitialValue, InitialValue> me : initialValues.entrySet() )
          {
             result.put( me.getKey().getValue(keyType), me.getValue().getValue(elementType) );

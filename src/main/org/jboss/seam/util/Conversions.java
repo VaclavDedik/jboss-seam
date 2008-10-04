@@ -277,6 +277,7 @@ public class Conversions
       boolean isExpression();
       boolean isMultiValued();
       boolean isAssociativeValued();
+      Class getType();
    }
    
    public static class FlatPropertyValue implements PropertyValue
@@ -342,16 +343,24 @@ public class Conversions
          return string;
       }
       
+      public Class getType()
+      {
+         return null;
+      }
+      
    }
    
    public static class MultiPropertyValue implements PropertyValue
    {     
       private String[] strings;
       
-      public MultiPropertyValue(String[] strings)
+      private Class type;
+      
+      public MultiPropertyValue(String[] strings, Class type)
       {
          if (strings==null) throw new IllegalArgumentException();
          this.strings = strings;
+         this.type = type;
       }
       
       public String[] getMultiValues()
@@ -390,16 +399,23 @@ public class Conversions
          return Strings.toString( ", ", (Object[]) strings );
       }
       
+      public Class getType()
+      {
+         return type;
+      }
    }
    
    public static class AssociativePropertyValue implements PropertyValue
    {      
       private Map<String, String> keyedValues;
       
-      public AssociativePropertyValue(Map<String, String> keyedValues)
+      private Class type;
+      
+      public AssociativePropertyValue(Map<String, String> keyedValues, Class type)
       {
          if (keyedValues==null) throw new IllegalArgumentException();
          this.keyedValues = keyedValues;
+         this.type = type;
       }
       
       public String[] getMultiValues()
@@ -436,6 +452,12 @@ public class Conversions
       public String toString()
       {
          return keyedValues.toString();
+      }
+      
+      
+      public Class getType()
+      {
+         return type;
       }
       
    }

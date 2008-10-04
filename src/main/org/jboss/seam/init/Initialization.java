@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -594,6 +595,21 @@ public class Initialization
    private Conversions.PropertyValue getPropertyValue(Element prop, String propName,
             Properties replacements)
    {
+      String typeName = prop.attributeValue("type");
+      Class type = null;
+      try
+      {
+         if(typeName != null )
+         {
+            type = Class.forName(typeName);
+         }
+      }
+      catch(ClassNotFoundException e)
+      {
+         throw new RuntimeException("Cannot find class " + typeName + " when setting up property " + propName);
+      }
+      
+      
       List<Element> keyElements = prop.elements("key");
       List<Element> valueElements = prop.elements("value");
 
@@ -611,7 +627,7 @@ public class Initialization
          {
             values[i] = trimmedText(valueElements.get(i), propName, replacements);
          }
-         return new Conversions.MultiPropertyValue(values);
+         return new Conversions.MultiPropertyValue(values, type);
       }
       else
       {
@@ -621,14 +637,14 @@ public class Initialization
             throw new IllegalArgumentException("value elements must match key elements: "
                      + propName);
          }
-         Map<String, String> keyedValues = new HashMap<String, String>();
+         Map<String, String> keyedValues = new LinkedHashMap<String, String>();
          for (int i = 0; i < keyElements.size(); i++)
          {
             String key = trimmedText(keyElements.get(i), propName, replacements);
             String value = trimmedText(valueElements.get(i), propName, replacements);
             keyedValues.put(key, value);
          }
-         return new Conversions.AssociativePropertyValue(keyedValues);
+         return new Conversions.AssociativePropertyValue(keyedValues, type);
       }
    }
 
