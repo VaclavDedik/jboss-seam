@@ -10,11 +10,19 @@ public class Decoration
 
    public static boolean hasMessage(UIComponent component, FacesContext context)
    {
+      
+      // If the component isn't to be rendered, then ignore
       if ( !component.isRendered() ) return false;
+      
       
       if ( component instanceof EditableValueHolder )
       {
+         
+         // If the component has failed validation, then it's invalid      
          if ( ! ( (EditableValueHolder) component ).isValid() ) return true;
+         
+         // If the component has a faces message attached, return true.
+         // TODO enhance this to only consider ERROR and WARN messages probably
          if ( context.getMessages( component.getClientId(context) ).hasNext() ) return true; //TODO: put this outside the if???
       }
 
