@@ -227,7 +227,7 @@ public class Initialization
       try
       {
          Properties replacements = new Properties();
-         InputStream replaceStream = Resources.getResourceAsStream("components.properties", servletContext);
+         InputStream replaceStream = Resources.getResourceAsStream("/components.properties", servletContext);
          if (replaceStream != null) replacements.load(replaceStream);
          return replacements;
       }

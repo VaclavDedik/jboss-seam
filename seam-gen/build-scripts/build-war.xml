@@ -146,7 +146,7 @@
             </fileset>
         </copy>
 
-        <copy tofile="${war.dir}/components.properties" 
+        <copy tofile="${war.dir}/WEB-INF/classes/components.properties" 
               file="${basedir}/resources/components-${profile}.properties"
               overwrite="true"/>
 

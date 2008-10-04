@@ -103,7 +103,7 @@
                 <copy todir="${war.dir}">
                         <fileset dir="${basedir}/view" />
                 </copy>
-                <copy tofile="${war.dir}/components.properties" 
+                <copy tofile="${war.dir}/WEB-INF/classes/components.properties" 
                       file="${basedir}/resources/components-${profile}.properties"
                       overwrite="true"/>
                 <copy todir="${war.dir}/WEB-INF">
