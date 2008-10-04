@@ -526,10 +526,7 @@ public interface Register
                 <programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <components xmlns="http://jboss.com/products/seam/components"
             xmlns:core="http://jboss.com/products/seam/core"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:schemaLocation=
-                "http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.1.xsd 
-                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.1.xsd">
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             
      <core:init jndi-pattern="@jndiPattern@"/>
      
@@ -1187,8 +1184,8 @@ public interface MessageManager
                 task is complete, the business process ends. </para>
 
             <para> The first JavaBean handles the login screen <literal>login.jsp</literal>. Its job is just to
-                initialize the jBPM actor id using the <literal>actor</literal> component. (In a real application, it
-                would also need to authenticate the user.) </para>
+                initialize the jBPM actor id using the <literal>actor</literal> component. In a real application, it
+                would also need to authenticate the user.</para>
             <example>
                <title>Login.java</title>
                <programlisting role="JAVA"><![CDATA[@Name("login")
@@ -1299,7 +1296,7 @@ public class TodoList {
                 appear on the same method, because there is usually work to be done using the application in order to
                 complete the task. </para>
 
-            <para> Finally, the meat of the application is in <literal>todo.jsp</literal>: </para>
+            <para> Finally, the core of the application is in <literal>todo.jsp</literal>: </para>
             <example>
                 <title>todo.jsp</title>
                 <programlisting role="XHTML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
@@ -1445,14 +1442,53 @@ public class TodoList {
     </div>
 </h:form>]]></programlisting>
 
-            <para> There are several other files needed for the example, but they are just standard jBPM and Seam
-                configuration and not very interesting. </para>
+
         </section>
 
         
         <section>
             <title>How it works</title>
-            <para>TODO</para>
+            <para>After logging in, todo.jsp uses the <literal>taskInstanceList</literal> component to display a table
+            of outstanding todo items for a the current user.  Initially there are none.  It
+            also presents a form to enter a new entry.  When the user types the todo item and
+            hits the "Create New Item" button, <literal>#{todoList.createTodo}</literal> is called.  This starts
+            the todo process, as defined in <literal>todo.jpdl.xml</literal>.  </para>
+            
+            <para>The process instance is created, starting in the start state and immediately transition to
+                the <literal>todo</literal> state, where a new task is created.  The task description is set 
+                based on the user's
+                input, which was saved to <literal>#{todoList.description}</literal>.  Then, the task is 
+                assigned to
+                the current user, which was stored in the seam actor component.  Note that in
+                this example, the process has no extra process state.  All the state in this example
+                is stored in the task definition.  The process and task information is stored in the database
+                at the end of the request.
+            </para>
+            
+            <para>
+                When <literal>todo.jsp</literal> is redisplayed, <literal>taskInstanceList</literal> now finds 
+                the task that was just created.
+                The task is shown in an <literal>h:dataTable</literal>.  The internal state of the task is 
+                displayed in 
+                each column: <literal>#{task.description}</literal>, <literal>#{task.priority}</literal>, 
+                <literal>#{task.dueDate}</literal>, etc...  These fields 
+                can all be edited and saved back to the database.
+            </para>
+            
+            <para>Each todo item also has "Done" button, which calls <literal>#{todoList.done}</literal>.  The 
+                <literal>todoList</literal> component
+            knows which task the button is for because each s:button specificies 
+                <literal>taskInstance="#{task}"</literal>, referring
+            to the task for that particular line of of the table.  The <literal>@StartTast</literal> and 
+                <literal>@EndTask</literal> annotations
+            cause seam to make the task active and immediately complete the task.  The original process then
+            transitions into the <literal>done</literal> state, according to the process definition, where it ends.
+            The state of the task and process are both updated in the database.
+            </para>
+            
+            <para>When <literal>todo.jsp</literal> is displayed again, the now-completed task is no longer 
+                displayed in the
+            <literal>taskInstanceList</literal>, since that component only display active tasks for the user.</para>
         </section>
 
     </section>
@@ -1849,7 +1885,55 @@ public class NumberGuess implements Serializable {
 
         <section>
             <title>How it works</title>
-            <para>TODO</para>
+            <para>We'll step through basic flow of the application.  The game starts with the 
+                <literal>numberGuess.jspx</literal> view.  When the page is first displayed, the 
+                <literal>pages.xml</literal> configuration causes conversation to begin and associates
+                the <literal>numberGuess</literal> pageflow 
+                with that conversation.  The pageflow starts with a <literal>start-page</literal> tag, 
+                which is a wait state, so the <literal>numberGuess.xhtml</literal> is rendered.  
+            </para>
+            
+            <para>The view references the <literal>numberGuess</literal> component, causing a new
+                instance to be created and stored in the conversation.  The <literal>@Create</literal> method 
+                is called, initializing the state of the game.  The view displays an <literal>h:form</literal>
+                that allows the user to edit <literal>#{numberGuess.currentGuess}</literal>.  
+            </para>
+            
+            <para>The "Guess" button triggers the <literal>guess</literal> action. Seam defers to the pageflow
+            to handle the action, which says that the pageflow should transition to the <literal>evaluateGuess</literal>
+            state, first invoking <literal>#{numberGuess.guess}</literal>, which updates the guess count
+                and highest/lowest suggestions in the <literal>numberGuess</literal> component.
+            </para>
+            
+            <para> The <literal>evaluateGuess</literal> state checks the value of <literal>#{numberGuess.correctGuess}</literal>
+            and transitions either to the <literal>win</literal> or <literal>evaluatingRemainingGuesses</literal>
+            state.  We'll assume the number was incorrect, in which case the pageflow transitions to 
+            <literal>evaluatingRemainingGuesses</literal>.  That is also a decision state, which
+                tests the <literal>#{numberGuess.lastGuess}</literal> state to determine whether or not the user has 
+                more guesses.  If there are more guesses (<literal>lastGuess</literal> is <literal>false</literal>),
+                we transition back to the original <literal>displayGuess</literal> state.  Finally we've
+                reached a page state, so the associated page <literal>/numberGuess.jspx</literal> is displayed.  
+                Since the page has a redirect element, Seam sends a redirect to the the user's browser, 
+                starting the process over.
+            </para>
+            
+            <para>
+                We won't follow the state any more except to note that if on a future request either the 
+                <literal>win</literal> or the <literal>lose</literal> transition were taken, the user would 
+                be taken to either the <literal>/win.jspx</literal> or <literal>/lose.jspx</literal>. 
+                Both states specify that Seam should end the conversation, tossing away all the game state and 
+                pageflow state, before redirecting the user to the
+                final page.  
+                
+            </para>
+            
+            <para>The numberguess example also contains Giveup and Cheat buttons.  You should be able to 
+                trace the pageflow state for both actions relatively easily.  Pay particular attention
+                to the <literal>cheat</literal> transtition, which loads a sub-process to handle that flow.  
+                Although it's 
+                overkill for this application, it does demonstrate how complex pageflows can be broken down into
+                smaller parts to make them easier to understand. 
+                </para>
         </section>
 
     </section>
@@ -1930,10 +2014,12 @@ public class NumberGuess implements Serializable {
                 </ulink>
             </para>
 
-            <para> Just nine classes (plus six session beans local interfaces) where used to implement this application.
-                Six session bean action listeners contain all the business logic for the listed features. </para>
+            <para>The application uses six session beans for to implement the business logic for the listed features. </para>
 
             <itemizedlist>
+                <listitem>
+                    <para><literal>AuthenticatorAction</literal> provides the login authentication logic.</para>
+                    </listitem>
                 <listitem>
                     <para><literal>BookingListAction</literal> retrieves existing bookings for the currently logged in user. </para>
                 </listitem>
@@ -1941,9 +2027,13 @@ public class NumberGuess implements Serializable {
                     <para><literal>ChangePasswordAction</literal> updates the password of the currently logged in user.</para>
                 </listitem>
                 <listitem>
-                    <para><literal>HotelBookingAction</literal> implements the core functionality of the application: hotel
-                    room searching, selection, booking and booking confirmation. This functionality is implemented as a
-                        <emphasis>conversation</emphasis>, so this is the most interesting class in the application. </para></listitem>
+                    <para><literal>HotelBookingAction</literal> implements booking and confirmation
+                        functionality.  This functionality is implemented as a
+                        <emphasis>conversation</emphasis>, so this is one of the most interesting classes in the 
+                        application.</para></listitem>
+                <listitem>
+                    <para><literal>HotelSearchingAction</literal> implements the hotel search functionality. 
+                    </para></listitem>
                 <listitem>
                     <para><literal>RegisterAction</literal> registers a new system user.</para>
                 </listitem>
@@ -1972,9 +2062,10 @@ public class NumberGuess implements Serializable {
                 conversation. The user can select multiple hotels from the same search results page, in different
                 browser tabs. </para>
             <para> Most web application architectures have no first class construct to represent a conversation. This
-                causes enormous problems managing state associated with the conversation. Usually, Java web applications
-                use a combination of two techniques: first, some state is thrown into the
-                <literal>HttpSession</literal>; second, persistable state is flushed to the database after every
+                causes enormous problems managing conversational state. Usually, Java web applications
+                use a combination of several techniques.  Some state can be transfered in the URL.
+                What can't is either thrown into the
+                <literal>HttpSession</literal>  or flushed to the database after every
                 request, and reconstructed from the database at the beginning of each new request. </para>
             <para> Since the database is the least scalable tier, this often results in an utterly unacceptable lack of
                 scalability. Added latency is also a problem, due to the extra traffic to and from the database on every
@@ -1984,35 +2075,41 @@ public class NumberGuess implements Serializable {
                 with the data. Furthermore, because the cache is shared between many concurrent transactions, we've
                 introduced a whole raft of problem's associated with keeping the cached state consistent with the
                 database. </para>
-            <para> Now consider the state held in the <literal>HttpSession</literal>. By very careful programming, we
-                might be able to control the size of the session data. This is a lot more difficult than it sounds,
-                since web browsers permit ad hoc non-linear navigation. But suppose we suddenly discover a system
-                requirement that says that a user is allowed to have <emphasis>mutiple concurrent
-                conversations</emphasis>, halfway through the development of the system (this has happened to me).
-                Developing mechanisms to isolate session state associated with different concurrent conversations, and
-                incorporating failsafes to ensure that conversation state is destroyed when the user aborts one of the
-                conversations by closing a browser window or tab is not for the faint hearted (I've implemented this
-                stuff twice so far, once for a client application, once for Seam, but I'm famously psychotic). </para>
-            <para> Now there is a better way. </para>
+            <para> Now consider the state held in the <literal>HttpSession</literal>.  The HttpSession is great
+                place for true session data, data that is common to all requests that the user has with the application.
+                However, it's a bad place to store data related to individual series of requests.  Using the session of 
+                conversational quickly breaks down when dealing with the back button and multiple windows.  
+                On top of that, without careful
+                programming, data in the HTTP Session can grow quite large, making the HTTP session difficult 
+                to cluster.  Developing mechanisms to isolate session state associated with different concurrent
+                conversations, and incorporating failsafes to ensure that conversation state is destroyed when 
+                the user aborts one of the
+                conversations by closing a browser window or tab is not for the faint hearted. Fortunately, with Seam,
+                you don't have to worry about that.
+            </para>
+
             <para> Seam introduces the <emphasis>conversation context</emphasis> as a first class construct. You can
                 safely keep conversational state in this context, and be assured that it will have a well-defined
                 lifecycle. Even better, you won't need to be continually pushing data back and forth between the
                 application server and the database, since the conversation context is a natural cache of data that the
                 user is currently working with. </para>
-            <para> Usually, the components we keep in the conversation context are stateful session beans. (We can also
-                keep entity beans and JavaBeans in the conversation context.) There is an ancient canard in the Java
-                community that stateful session beans are a scalability killer. This may have been true in 1998 when
-                WebFoobar 1.0 was released. It is no longer true today. Application servers like JBoss AS have extremely
-                sophisticated mechanisms for stateful session bean state replication. (For example, the JBoss EJB3
-                container performs fine-grained replication, replicating only those bean attribute values which actually
-                changed.) Note that all the traditional technical arguments for why stateful beans are inefficient apply
+            <para> In this application, we'll use the conversation context to store stateful session beans.                
+                There is an ancient canard in the Java
+                community that stateful session beans are a scalability killer. This may have been true in the
+                early days of enterprise Java, but it is no longer true today. Modern application servers have 
+                extremely
+                sophisticated mechanisms for stateful session bean state replication. JBoss AS, for example, performs 
+                fine-grained replication, replicating only those bean attribute values which actually
+                changed. Note that all the traditional technical arguments for why stateful beans are inefficient apply
                 equally to the <literal>HttpSession</literal>, so the practice of shifting state from business tier
                 stateful session bean components to the web session to try and improve performance is unbelievably
                 misguided. It is certainly possible to write unscalable applications using stateful session beans, by
                 using stateful beans incorrectly, or by using them for the wrong thing. But that doesn't mean you should
-                    <emphasis>never</emphasis> use them. Anyway, Seam guides you toward a safe usage model. Welcome to
-                2005. </para>
-            <para> OK, I'll stop ranting now, and get back to the tutorial. </para>
+                <emphasis>never</emphasis> use them. 
+                If you remain unconvinced, Seam allows the use of POJOs instead of stateful session beans.
+                With Seam, the choice is yours. 
+            </para>
+
 
             <para> The booking example application shows how stateful components with different scopes can collaborate
                 together to achieve complex behaviors. The main page of the booking application allows the user to
@@ -2024,10 +2121,10 @@ public class NumberGuess implements Serializable {
                 the use of handwritten JavaScript. </para>
 
             <para> The search functionality is implemented using a session-scope stateful session bean, similar to the
-                one we saw in the message list example above. </para>
+                one we saw in the message list example. </para>
                 
             <example>
-                <title></title>
+                <title>HotelSearchingAction.java</title>
              <!-- Can't use code hightlighting with callouts -->
              <programlistingco>
                  <areaspec>
@@ -2144,7 +2241,7 @@ public class HotelSearchingAction implements HotelSearching
             <para> The main page of the application is a Facelets page. Let's look at the fragment which relates to
                 searching for hotels: </para>
             <example>
-               <title></title>
+               <title>main.xhtml</title>
              <!-- Can't use code hightlighting with callouts -->
              <programlistingco>
                  <areaspec>
@@ -2230,8 +2327,8 @@ public class HotelSearchingAction implements HotelSearching
                                 perform a partial page update when the asynchronous response is received. </para>
                         </callout>
                         <callout arearefs="booking-status-element">
-                            <para> The RichFaces Ajax <literal>&lt;a:status&gt;</literal> tag lets us display a cheesy
-                                annimated image while we wait for asynchronous requests to return. </para>
+                            <para> The RichFaces Ajax <literal>&lt;a:status&gt;</literal> tag lets us display an
+                                animated image while we wait for asynchronous requests to return. </para>
                         </callout>
                         <callout arearefs="booking-outputpanel-element">
                             <para> The RichFaces Ajax <literal>&lt;a:outputPanel&gt;</literal> tag defines a region of
@@ -2264,7 +2361,7 @@ public class HotelSearchingAction implements HotelSearching
                 pretty long. But if you think of it as a list of scripted actions that implement the various steps of
                 the conversation, it's understandable. Read the class from top to bottom, as if it were a story. </para>
             <example>
-               <title></title>
+               <title>HotelBookingAction.java</title>
              <!-- Can't use code hightlighting with callouts -->
              <programlistingco>
                  <areaspec>
@@ -2413,28 +2510,6 @@ public class HotelBookingAction implements HotelBooking
                 a conversation, you backbutton to a page of that conversation and try to perform an action, Seam will
                 detect that the conversation was already ended, and redirect you to the search page. </para>
 
-        </section>
-
-        <section>
-            <title>The Seam UI control library</title>
-            <para> If you check inside the WAR file for the booking application, you'll find
-                <literal>seam-ui.jar</literal> in the <literal>WEB-INF/lib</literal> directory. This package contains a
-                number of JSF custom controls that integrate with Seam. The booking application uses the
-                    <literal>&lt;s:link&gt;</literal> control for navigation from the search screen to the hotel
-                page: </para>
-
-            <programlisting role="JAVA"><![CDATA[<s:link value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>]]></programlisting>
-
-            <para> The use of <literal>&lt;s:link&gt;</literal> here allows us to attach an action listener to a
-                HTML link without breaking the browser's "open in new window" feature. The standard JSF
-                    <literal>&lt;h:commandLink&gt;</literal> does not work with "open in new window". We'll see
-                later that <literal>&lt;s:link&gt;</literal> also offers a number of other useful features,
-                including conversation propagation rules. </para>
-
-            <para> The booking application uses some other Seam and RichFaces Ajax controls, especially on the
-                    <literal>/book.xhtml</literal> page. We won't get into the details of those controls here, but if
-                you want to understand this code, please refer to the chapter covering Seam's functionality for JSF form
-                validation. </para>
         </section>
 
         <section>
