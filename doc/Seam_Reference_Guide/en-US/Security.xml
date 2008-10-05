@@ -133,9 +133,10 @@
         to authenticate users.  This method takes no parameters, and is expected to return a boolean, which indicates
         whether authentication is successful or not.  The user's username and password can be obtained from
         <literal>Credentials.getUsername()</literal> and <literal>Credentials.getPassword()</literal>,
-        respectively.  Any roles that the user is a member of should be assigned using
-        <literal>Identity.addRole()</literal>. Here's a complete example of an authentication method
-        inside a POJO component:
+        respectively (you can get a reference to the <literal>credentials</literal> component via
+        <literal>Identity.instance().getCredentials()</literal>).  Any roles that the user is a member of 
+        should be assigned using <literal>Identity.addRole()</literal>. Here's a complete example of an 
+        authentication method inside a POJO component:
       </para>
 
       <programlisting role="JAVA"><![CDATA[@Name("authenticator")
@@ -2824,10 +2825,9 @@ public class Customer {
 
       <para>
         If no expression is specified in the <literal>@Restrict</literal> annotation, the default security check
-        that is performed is a permission check of <literal>entityName:action</literal>,
-        where <literal>entityName</literal> is the Seam component name of the entity (or the fully-qualified class name if no @Name is
-        specified), and the <literal>action</literal> is either <literal>read</literal>,
-        <literal>insert</literal>, <literal>update</literal> or <literal>delete</literal>.
+        that is performed is a permission check of <literal>entity:action</literal>, where the permission target 
+        is the entity instance, and the <literal>action</literal> is either <literal>read</literal>, <literal>insert</literal>, 
+        <literal>update</literal> or <literal>delete</literal>.
       </para>
 
       <para>
