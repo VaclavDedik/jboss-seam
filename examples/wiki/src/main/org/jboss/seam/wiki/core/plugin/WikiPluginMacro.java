@@ -19,6 +19,8 @@ import org.jboss.seam.wiki.util.Hash;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.UUID;
+import java.util.Date;
 
 /**
  * An instance of a macro in wiki text that has an XHTML include/template.
@@ -71,6 +73,7 @@ public class WikiPluginMacro extends WikiTextMacro implements Serializable {
         }
     }
 
+    private String uniqueId = Long.toString(new Date().getTime());
     private String clientId;
     private MacroPluginModule metadata;
     private Map attributes = new HashMap();
@@ -106,8 +109,11 @@ public class WikiPluginMacro extends WikiTextMacro implements Serializable {
 
     // Some convenience methods that generate Strings used all over the place
 
+    // This needs to be unique _across_ different wiki texts. So the numeric position and the name is not enough,
+    // the hashCode() is overriden in the superclass to be the name/position combination... so we need the uniqueId.
+    // TODO: We can now actually remove the position and name, but they help us with debugging.
     public String getPageVariableName() {
-        return PAGE_VARIABLE_PREFIX + getPosition() + PAGE_VARIABLE_SEPARATOR + getName();
+        return PAGE_VARIABLE_PREFIX + getPosition() + PAGE_VARIABLE_SEPARATOR + this.uniqueId + PAGE_VARIABLE_SEPARATOR + getName();
     }
 
     public String getCallbackEventName(CallbackEvent event) {
@@ -187,8 +193,25 @@ public class WikiPluginMacro extends WikiTextMacro implements Serializable {
         return hash.hash(builder.toString());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        WikiPluginMacro that = (WikiPluginMacro) o;
+        return uniqueId.equals(that.uniqueId);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + uniqueId.hashCode();
+        return result;
+    }
+
     public String toString() {
-        return "WikiPluginMacro ClientId '" + getClientId() + "' (" + getPosition() + "): "
+        return "WikiPluginMacro UniqueId '" + this.uniqueId + "' (" + getPosition() + "): "
                 + getName() + " Params: " + getParams().size();
     }
 
