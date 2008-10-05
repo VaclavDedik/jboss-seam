@@ -16,7 +16,6 @@
 				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-		&ui_component_attributes;
 		<property>
 			<name>radius</name>
 			<classname>java.lang.String</classname>

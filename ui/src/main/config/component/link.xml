@@ -21,7 +21,6 @@
 				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-		&ui_component_attributes;
 		&ui_output_attributes;
 		&html_anchor_attributes;
 		&html_universal_attributes;

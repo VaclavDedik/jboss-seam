@@ -47,7 +47,6 @@ Here's an example:
 				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-		&ui_component_attributes;
 		&ui_input_attributes;
 		&html_style_attributes;
 		&html_input_attributes;

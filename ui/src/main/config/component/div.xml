@@ -12,7 +12,6 @@
 		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.DivRenderer</name>
 			<classname>org.jboss.seam.ui.renderkit.DivRendererBase</classname>
-			<!--<template>org/jboss/seam/ui/htmlDiv.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>div</name>

@@ -12,7 +12,6 @@
 		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.FragmentRenderer</name>
 			<classname>org.jboss.seam.ui.renderkit.FragmentRendererBase</classname>
-<!--<template>org/jboss/seam/ui/htmlFragment.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>fragment</name>

@@ -28,7 +28,7 @@
 		</taghandler>
 		
 		&ui_component_attributes;
-        &html_style_attributes;
+      &html_style_attributes;
 		<property el="false">
 			<name>for</name>
 			<classname>java.lang.String</classname>

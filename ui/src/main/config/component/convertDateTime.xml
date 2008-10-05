@@ -46,5 +46,4 @@
 			<defaultvalue>"date"</defaultvalue>
 		</property>
 	</converter>
-	
 </components>

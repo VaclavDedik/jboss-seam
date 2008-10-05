@@ -16,7 +16,7 @@
 				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-		&ui_component_attributes;
+		&ui_parameter_attributes;
 		<property hidden="true" el="false" transient="true">
 			<name>viewId</name>
 			<classname>java.lang.String</classname>

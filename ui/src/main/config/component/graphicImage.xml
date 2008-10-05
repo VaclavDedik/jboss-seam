@@ -21,11 +21,9 @@
 				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-		&ui_component_attributes;
 		&html_style_attributes;
 		&ui_graphic_attributes;
 		&ui_output_attributes;
-		
 		<property>
 			<name>fileName</name>
 			<classname>java.lang.String</classname>

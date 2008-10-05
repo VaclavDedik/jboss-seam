@@ -12,7 +12,6 @@
 		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.RemoteRenderer</name>
 			<classname>org.jboss.seam.ui.renderkit.RemoteRendererBase</classname>
-			<!--<template>org/jboss/seam/ui/htmlSelectDate.jspx</template>-->
 		</renderer>
 		<tag>
 			<name>remote</name>

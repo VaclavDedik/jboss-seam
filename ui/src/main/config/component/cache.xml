@@ -12,8 +12,6 @@
 		<renderer generate="false" override="false">
 			<name>org.jboss.seam.ui.CacheRenderer</name>
 			<classname>org.jboss.seam.ui.renderkit.CacheRendererBase</classname>
-			<!--<template>org/jboss/seam/ui/htmlCache.jspx</template>-->
-			
 		</renderer>
 		<tag>
 			<name>cache</name>
@@ -22,11 +20,6 @@
 				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-		<!--
-		<taghandler>
-			<classname>org.ajax4jsf.tag.TestHandler</classname>
-		</taghandler>
-		-->
 		&ui_component_attributes;
 		<property>
 			<name>key</name>

@@ -6,7 +6,6 @@
 		<family>org.jboss.seam.ui.ConversationPropagation</family>
 		<classname>org.jboss.seam.ui.component.html.HtmlConversationPropagation</classname>
 		<superclass>org.jboss.seam.ui.component.UIConversationPropagation</superclass>
-        
 		<description>
 			<![CDATA[Customize the conversation propagation for a command link or button (or similar JSF control).]]>
 		</description>
@@ -21,10 +20,9 @@
 				org.jboss.seam.ui.util.cdk.UIComponentTagBase
 			</superclass>
 		</tag>
-        <taghandler>
-            <classname>org.jboss.seam.ui.handler.CommandButtonParameterComponentHandler</classname>
-        </taghandler>
-		&ui_component_attributes;
+      <taghandler>
+         <classname>org.jboss.seam.ui.handler.CommandButtonParameterComponentHandler</classname>
+      </taghandler>
 		&ui_parameter_attributes;
 		<!-- should be el="false" -->
 		<property>
