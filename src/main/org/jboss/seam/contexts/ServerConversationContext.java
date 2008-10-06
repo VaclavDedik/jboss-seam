@@ -25,6 +25,7 @@ import org.jboss.seam.core.Manager;
  * may be passivated or replicated.
  * 
  * @author Gavin King
+ * @author Shane Bryzak
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
 public class ServerConversationContext implements Context 
@@ -291,13 +292,24 @@ public class ServerConversationContext implements Context
           removals.clear();
 
           //add new objects
-          for (Map.Entry<String, Object> entry: additions.entrySet())  {
-              Object attribute = entry.getValue();
-              
-              passivate(attribute); 
-              session.put(getKey(entry.getKey()), attribute);
+          while (!additions.isEmpty())
+          {
+             // Copy the additions entries to a temporary variable, then 
+             // clear additions - during passivation, further attributes may
+             // be set in the conversation context so we need to re-iterate 
+             // through this process until all additions are passivated
+             Set<Map.Entry<String,Object>> entries = new HashSet<Map.Entry<String,Object>>(additions.entrySet());
+             additions.clear();
+             
+             for (Map.Entry<String, Object> entry: entries)  
+             {
+                Object attribute = entry.getValue();
+                
+                passivate(attribute); 
+                session.put(getKey(entry.getKey()), attribute);
+             }                          
           }
-          additions.clear();
+          
       }
       else
       {
