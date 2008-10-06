@@ -60,8 +60,6 @@ import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
-
 /**
  * Builds configuration metadata when Seam first initialized.
  * 
