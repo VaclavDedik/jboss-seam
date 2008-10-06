@@ -579,7 +579,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }
    }
    
-   private String generatePasswordHash(String password, String salt)
+   protected String generatePasswordHash(String password, String salt)
    {
       String algorithm = userPasswordProperty.getAnnotation().hash();
       
