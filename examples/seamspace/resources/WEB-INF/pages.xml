@@ -14,6 +14,10 @@
           <redirect view-id="/register.xhtml"/>
         </navigation>
     </page>
+    
+    <page view-id="/security.xhtml" login-required="true">
+    	
+    </page>
        
     <page view-id="/comment.xhtml" login-required="true">
       <restrict/>
