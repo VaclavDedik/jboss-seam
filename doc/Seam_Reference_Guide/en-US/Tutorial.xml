@@ -123,18 +123,8 @@
             <title>Understanding the code</title>
 
             <para> The example is implemented with two Facelets templates, one entity bean and one 
-                stateless session bean. </para>
-
-            <mediaobject>
-                <imageobject role="fo">
-                    <imagedata fileref="images/register.png" align="center" />
-                </imageobject>
-                <imageobject role="html">
-                    <imagedata fileref="images/register.png" align="center"/>
-                </imageobject>
-            </mediaobject>
-
-            <para> Let's take a look at the code, starting from the "bottom". </para>
+                stateless session bean.   Let's take a look at the code, starting from the "bottom".
+            </para>
 
             <section>
                 <title>The entity bean: <literal>User.java</literal></title>
