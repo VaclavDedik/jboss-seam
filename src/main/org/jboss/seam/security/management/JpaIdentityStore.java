@@ -113,33 +113,33 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    private void initProperties()
    {
-      userPrincipalProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserPrincipal.class);
-      userPasswordProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserPassword.class);
-      userRolesProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserRoles.class);
-      userEnabledProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserEnabled.class);
-      userFirstNameProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserFirstName.class);
-      userLastNameProperty = AnnotatedBeanProperty.scanForProperty(userClass, UserLastName.class);
+      userPrincipalProperty = new AnnotatedBeanProperty(userClass, UserPrincipal.class);
+      userPasswordProperty = new AnnotatedBeanProperty(userClass, UserPassword.class);
+      userRolesProperty = new AnnotatedBeanProperty(userClass, UserRoles.class);
+      userEnabledProperty = new AnnotatedBeanProperty(userClass, UserEnabled.class);
+      userFirstNameProperty = new AnnotatedBeanProperty(userClass, UserFirstName.class);
+      userLastNameProperty = new AnnotatedBeanProperty(userClass, UserLastName.class);
        
       if (roleClass != null)
       {
-         roleNameProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleName.class);
-         roleGroupsProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleGroups.class);
-         roleConditionalProperty = AnnotatedBeanProperty.scanForProperty(roleClass, RoleConditional.class);
+         roleNameProperty = new AnnotatedBeanProperty(roleClass, RoleName.class);
+         roleGroupsProperty = new AnnotatedBeanProperty(roleClass, RoleGroups.class);
+         roleConditionalProperty = new AnnotatedBeanProperty(roleClass, RoleConditional.class);
       }
       
-      if (userPrincipalProperty == null) 
+      if (!userPrincipalProperty.isSet()) 
       {
          throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
                " - required annotation @UserPrincipal not found on any Field or Method.");
       }
       
-      if (userRolesProperty == null)
+      if (!userRolesProperty.isSet())
       {
          throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
          " - required annotation @UserRoles not found on any Field or Method.");         
       }
       
-      if (roleClass != null && roleNameProperty == null)
+      if (roleClass != null && !roleNameProperty.isSet())
       {
          throw new IdentityManagementException("Invalid roleClass " + roleClass.getName() + 
          " - required annotation @RoleName not found on any Field or Method.");         
@@ -164,17 +164,17 @@ public class JpaIdentityStore implements IdentityStore, Serializable
 
          userPrincipalProperty.setValue(user, username);
 
-         if (userFirstNameProperty != null) userFirstNameProperty.setValue(user, firstname);         
-         if (userLastNameProperty != null) userLastNameProperty.setValue(user, lastname);
+         if (userFirstNameProperty.isSet()) userFirstNameProperty.setValue(user, firstname);         
+         if (userLastNameProperty.isSet()) userLastNameProperty.setValue(user, lastname);
          
          if (password == null)
          {
-            if (userEnabledProperty != null) userEnabledProperty.setValue(user, false);
+            if (userEnabledProperty.isSet()) userEnabledProperty.setValue(user, false);
          }
          else
          {            
             userPasswordProperty.setValue(user, generatePasswordHash(password, getUserAccountSalt(user)));
-            if (userEnabledProperty != null) userEnabledProperty.setValue(user, true);
+            if (userEnabledProperty.isSet()) userEnabledProperty.setValue(user, true);
          }
          
          if (Events.exists()) Events.instance().raiseEvent(EVENT_PRE_PERSIST_USER, user);
@@ -228,7 +228,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       Object user = lookupUser(username);
       if (user == null)
       {
-         if (userPasswordProperty != null)
+         if (userPasswordProperty.isSet())
          {
             // If no userPasswordProperty is set, it means that authentication is being performed
             // by another identity store and this one is just managing roles
@@ -303,7 +303,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public boolean addRoleToGroup(String role, String group)
    {
-      if (roleGroupsProperty == null) return false;      
+      if (!roleGroupsProperty.isSet()) return false;      
       
       Object targetRole = lookupRole(role);
       if (targetRole == null)
@@ -346,7 +346,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
 
    public boolean removeRoleFromGroup(String role, String group)
    {
-      if (roleGroupsProperty == null) return false;
+      if (!roleGroupsProperty.isSet()) return false;
       
       Object roleToRemove = lookupRole(role);
       if (role == null)
@@ -413,7 +413,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public boolean enableUser(String name)
    {
-      if (userEnabledProperty == null)
+      if (!userEnabledProperty.isSet())
       {
          log.debug("Can not enable user, no @UserEnabled property configured in userClass " + userClass.getName());
          return false;
@@ -438,7 +438,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public boolean disableUser(String name)
    {
-      if (userEnabledProperty == null)
+      if (!userEnabledProperty.isSet())
       {
          log.debug("Can not disable user, no @UserEnabled property configured in userClass " + userClass.getName());
          return false;
@@ -488,7 +488,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    public boolean isUserEnabled(String name)
    {
       Object user = lookupUser(name);
-      return user != null && (userEnabledProperty == null || (((Boolean) userEnabledProperty.getValue(user))) == true);
+      return user != null && (!userEnabledProperty.isSet() || (((Boolean) userEnabledProperty.getValue(user))) == true);
    }
    
    public List<String> getGrantedRoles(String name)
@@ -564,7 +564,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       {      
          Object instance = lookupRole(role);
          
-         if (roleGroupsProperty != null)
+         if (roleGroupsProperty.isSet())
          {
             Collection groups = (Collection) roleGroupsProperty.getValue(instance);
             
@@ -614,7 +614,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    public boolean authenticate(String username, String password)
    {
       Object user = lookupUser(username);          
-      if (user == null || (userEnabledProperty != null && ((Boolean) userEnabledProperty.getValue(user) == false)))
+      if (user == null || (userEnabledProperty.isSet() && ((Boolean) userEnabledProperty.getValue(user) == false)))
       {
          return false;
       }
@@ -675,8 +675,8 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    public boolean isRoleConditional(String role)
    {      
-      return roleConditionalProperty == null ? false : (Boolean) roleConditionalProperty.getValue(
-            lookupRole(role));
+      return roleConditionalProperty.isSet() ? (Boolean) roleConditionalProperty.getValue(
+            lookupRole(role)) : false;
    }
    
    public Object lookupRole(String role)       
@@ -730,7 +730,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       roleQuery.append(roleClass.getName());
       roleQuery.append(" r");
       
-      if (roleConditionalProperty != null)
+      if (roleConditionalProperty.isSet())
       {
          roleQuery.append(" where r.");
          roleQuery.append(roleConditionalProperty.getName());

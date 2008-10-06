@@ -47,16 +47,16 @@ public class JpaTokenStore implements TokenStore, Serializable
          entityManager = Expressions.instance().createValueExpression("#{entityManager}", EntityManager.class);
       }       
       
-      tokenUsernameProperty = AnnotatedBeanProperty.scanForProperty(tokenClass, TokenUsername.class);
-      tokenValueProperty = AnnotatedBeanProperty.scanForProperty(tokenClass, TokenValue.class);
+      tokenUsernameProperty = new AnnotatedBeanProperty<TokenUsername>(tokenClass, TokenUsername.class);
+      tokenValueProperty = new AnnotatedBeanProperty<TokenValue>(tokenClass, TokenValue.class);
       
-      if (tokenUsernameProperty == null) 
+      if (!tokenUsernameProperty.isSet()) 
       {
          throw new IllegalStateException("Invalid tokenClass " + tokenClass.getName() + 
                " - required annotation @TokenUsername not found on any Field or Method.");
       }
       
-      if (tokenValueProperty == null) 
+      if (!tokenValueProperty.isSet()) 
       {
          throw new IllegalStateException("Invalid tokenClass " + tokenClass.getName() + 
                " - required annotation @TokenValue not found on any Field or Method.");

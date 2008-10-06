@@ -68,7 +68,7 @@ public class UserAction implements Serializable
    
    private String saveNewUser()
    {      
-      if (!password.equals(confirm))
+      if (password == null || !password.equals(confirm))
       {
          StatusMessages.instance().addToControl("password", "Passwords do not match");
          return "failure";

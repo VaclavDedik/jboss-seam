@@ -1,5 +1,6 @@
 package org.jboss.seam.util;
 
+import java.beans.Introspector;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,90 +16,90 @@ public class AnnotatedBeanProperty<T extends Annotation>
    private Field propertyField;
    private Method propertyGetter;
    private Method propertySetter;
-   private T annotation;
    private String name;
    private Class propertyClass;
+   private T annotation;
    
    private boolean isFieldProperty;
+   private boolean set = false;
    
-   private AnnotatedBeanProperty(Field propertyField, T annotation)
+   public AnnotatedBeanProperty(Class<?> cls, Class<T> annotationClass)
+   {      
+      // First check declared fields
+      for (Field f : cls.getDeclaredFields())
+      {
+         if (f.isAnnotationPresent(annotationClass)) 
+         {
+            setupFieldProperty(f);
+            this.annotation = f.getAnnotation(annotationClass);            
+            set = true;
+            return;
+         }
+      }      
+      
+      // Then check public fields, in case it's inherited
+      for (Field f : cls.getFields())
+      {
+         if (f.isAnnotationPresent(annotationClass)) 
+         {
+            this.annotation = f.getAnnotation(annotationClass);
+            setupFieldProperty(f);
+            set = true;
+            return;
+         }
+      }
+      
+      // Then check public methods (we ignore private methods)
+      for (Method m : cls.getMethods())
+      {
+         if (m.isAnnotationPresent(annotationClass))
+         {
+            this.annotation = m.getAnnotation(annotationClass);
+            String methodName = m.getName();
+            
+            if ( m.getName().startsWith("get") )
+            {
+               this.name = Introspector.decapitalize( m.getName().substring(3) );
+            }
+            else if ( methodName.startsWith("is") )
+            {
+               this.name = Introspector.decapitalize( m.getName().substring(2) );
+            }            
+            
+            if (this.name != null)
+            {
+               this.propertyGetter = Reflections.getGetterMethod(cls, this.name);
+               this.propertySetter = Reflections.getSetterMethod(cls, this.name);
+               this.propertyClass = this.propertyGetter.getReturnType();
+               isFieldProperty = false;               
+               set = true;
+            }
+            else
+            {
+               throw new IllegalStateException("Invalid accessor method, must start with 'get' or 'is'.  " +
+                     "Method: " + m + " in class: " + cls);
+            }
+         }
+      }      
+   }
+
+   private void setupFieldProperty(Field propertyField)
    {
       this.propertyField = propertyField;
       isFieldProperty = true;
-      this.annotation = annotation;
       this.name = propertyField.getName();
       this.propertyClass = propertyField.getDeclaringClass();
    }
-   
-   private AnnotatedBeanProperty(Method propertyMethod, T annotation)
-   {
-      if (!(propertyMethod.getName().startsWith("get") || (propertyMethod.getName().startsWith("is"))))
-      {
-         throw new IllegalArgumentException("Bean property method name " + propertyMethod.getClass().getName() +
-               "." + propertyMethod.getName() + "() must start with \"get\" or \"is\".");
-      }
-      
-      if (propertyMethod.getReturnType().equals(void.class) || propertyMethod.getParameterTypes().length > 0)
-      {
-         throw new IllegalArgumentException("Bean property method " + propertyMethod.getClass().getName() +
-               "." + propertyMethod.getName() + "() must return a value and take no parameters");
-      }
-      
-      this.propertyGetter = propertyMethod;
-      this.propertyClass = propertyMethod.getReturnType();
-      
-      String methodName = propertyMethod.getName();
-      
-      this.name = methodName.startsWith("get") ?
-            (methodName.substring(3,4).toLowerCase() + methodName.substring(4)) :
-            (methodName.substring(2,3).toLowerCase() + methodName.substring(3));
-      
-      String setterName = propertyMethod.getName().startsWith("get") ?
-            ("set" + methodName.substring(3)) : ("set" + methodName.substring(2));
-            
-      try
-      {
-         propertySetter = propertyMethod.getDeclaringClass().getMethod(setterName, new Class[] {propertyMethod.getReturnType()});
-      }
-      catch (NoSuchMethodException ex)
-      {
-         throw new IllegalArgumentException("Bean property method " + propertyMethod.getClass().getName() +
-               "." + propertyMethod.getName() + "() must have a corresponding setter method.");                  
-      }
-      
-      isFieldProperty = false;
-      this.annotation = annotation;
-   }
-   
+
    public void setValue(Object bean, Object value)
    {
       if (isFieldProperty)
       {
-         boolean accessible = propertyField.isAccessible();
-         try
-         {
-            propertyField.setAccessible(true);
-            propertyField.set(bean, value);   
-         }
-         catch (IllegalAccessException ex)
-         {
-            throw new RuntimeException("Exception setting bean property", ex);
-         }
-         finally
-         {
-            propertyField.setAccessible(accessible);
-         }            
+         Reflections.setAndWrap(propertyField, bean, value);         
       }
       else
       {
-         try
-         {
-            propertySetter.invoke(bean, value);
-         }
-         catch (Exception ex)
-         {
-            throw new RuntimeException("Exception setting bean property", ex);
-         }
+         Reflections.invokeAndWrap(propertySetter, bean, value);
       }
    }
    
@@ -106,37 +107,12 @@ public class AnnotatedBeanProperty<T extends Annotation>
    {
       if (isFieldProperty)
       {
-         boolean accessible = propertyField.isAccessible();
-         try
-         {
-            propertyField.setAccessible(true);
-            return propertyField.get(bean);
-         }
-         catch (IllegalAccessException ex)
-         {
-            throw new RuntimeException("Exception getting bean property", ex);
-         }
-         finally
-         {
-            propertyField.setAccessible(accessible);
-         }
+         return Reflections.getAndWrap(propertyField, bean);  
       }
       else
       {
-         try
-         {
-            return propertyGetter.invoke(bean);
-         }
-         catch (Exception ex)
-         {
-            throw new RuntimeException("Exception getting bean property", ex);
-         }
+         return Reflections.invokeAndWrap(propertyGetter, bean);
       }
-   }
-   
-   public T getAnnotation()
-   {
-      return annotation;
    }
    
    public String getName()
@@ -144,30 +120,18 @@ public class AnnotatedBeanProperty<T extends Annotation>
       return name;
    }
    
+   public T getAnnotation()
+   {
+      return annotation;
+   }
+   
    public Class getPropertyClass()
    {
       return propertyClass;
    }
    
-   
-   public static AnnotatedBeanProperty scanForProperty(Class cls, Class<? extends Annotation> annotation)
+   public boolean isSet()
    {
-      for (Field f : cls.getFields())
-      {
-         if (f.isAnnotationPresent(annotation)) 
-         {
-            return new AnnotatedBeanProperty(f, f.getAnnotation(annotation));
-         }
-      }
-      
-      for (Method m : cls.getMethods())
-      {
-         if (m.isAnnotationPresent(annotation))
-         {
-            return new AnnotatedBeanProperty(m, m.getAnnotation(annotation));
-         }
-      }
-      
-      return null;
-   }   
+      return set;
+   }
 }
