@@ -17,7 +17,7 @@
 		
 			
 			<fieldset> 
-			   <input wicket:id="searchString" style="width: 165px;" />
+			   <input id="searchString" wicket:id="searchString" style="width: 165px;" />
 		       &#160;
 			   <input type="submit" wicket:id="submit" value="Find Hotels" />
 		       &#160;
@@ -35,7 +35,7 @@
 	</wicket:enclosure>
 	<div wicket:id="hotels">
 	<wicket:enclosure child="hotel">
-	<table>
+	<table id="hotels">
 		<thead>
 			<tr>
 				<th>
