@@ -19,8 +19,10 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.HotelBooking;
+import org.jboss.seam.wicket.annotations.NoConversationPage;
 
 @Restrict
+@NoConversationPage(Main.class)
 public class Book extends WebPage 
 {
    
@@ -42,7 +44,6 @@ public class Book extends WebPage
 	   add(body);
 	   body.add(new HotelViewPanel("hotelView", booking.getHotel()));
 	   body.add(new HotelBookingForm("booking"));
-	   
 	}
 	
 	public class HotelBookingForm extends Form

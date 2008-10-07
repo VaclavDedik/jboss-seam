@@ -122,9 +122,6 @@ public class Main extends WebPage {
                Seam will automatically apply the restriction to any nested
                classes.
             </para>
-            <para>
-               TODO - Implement this (See JBSEAM-3192) 
-            </para>
          </tip>
          
          <para>
@@ -154,6 +151,16 @@ public class Main extends WebPage {
       setResponsePage(org.jboss.seam.example.wicket.Hotel.class);
    }
 };]]></programlisting>
+
+         <para>
+            You may have pages in your application which can only be accessed 
+            when the user has a long-running conversation active. To enforce 
+            this you can use the <code>@NoConversationPage</code> annotation: 
+         </para>
+         
+         <programlisting><![CDATA[@Restrict
+@NoConversationPage(Main.class)
+public class Hotel extends WebPage {]]></programlisting>
 
          <para>
             If you want to further decouple your application classes, you can 

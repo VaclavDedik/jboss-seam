@@ -15,8 +15,10 @@ import org.jboss.seam.annotations.security.Restrict;
 import org.jboss.seam.core.Conversation;
 import org.jboss.seam.example.wicket.action.Booking;
 import org.jboss.seam.example.wicket.action.HotelBooking;
+import org.jboss.seam.wicket.annotations.NoConversationPage;
 
 @Restrict
+@NoConversationPage(Main.class)
 public class Confirm extends WebPage 
 {
    
@@ -66,12 +68,5 @@ public class Confirm extends WebPage
 	   
 	   add(body);
 	}
-	
-	@Override
-   protected void onBeforeRender()
-   {
-	   super.onBeforeRender();
-      System.out.println("cid " + Conversation.instance().getId());
-   }
 	
 }

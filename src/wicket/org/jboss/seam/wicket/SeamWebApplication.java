@@ -111,6 +111,7 @@ public abstract class SeamWebApplication extends WebApplication
       super.init();
       inititializeSeamSecurity();
       initializeSeamStatusMessages();
+      addComponentInstantiationListener(new SeamComponentInstantiationListener());
    }
 
    /**

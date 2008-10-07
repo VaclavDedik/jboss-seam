@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.util.string.Strings;
 import org.jboss.seam.Component;
 import org.jboss.seam.Namespace;
@@ -37,6 +38,7 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.wicket.annotations.NoConversationPage;
 import org.jboss.seam.wicket.ioc.BijectedAttribute;
 import org.jboss.seam.wicket.ioc.BijectedField;
 import org.jboss.seam.wicket.ioc.BijectedMethod;
@@ -98,6 +100,8 @@ public class WicketComponent<T>
    
    boolean anyMethodHasRaiseEvent = false;
    
+   private Class<? extends Page> noConversationPage;
+   
    public Class<?> getType()
    {
       return type;
@@ -150,18 +154,9 @@ public class WicketComponent<T>
    {
       this.type = type;
       this.enclosingType = type.getEnclosingClass();
-      if (enclosingType != null)
+      if (this.enclosingType != null)
       {
-         Class<?> c = enclosingType.getEnclosingClass();
-         int i = 0;
-         while (c != null)
-         {
-            c = c.getEnclosingClass();
-            i++;
-         }
-         this.enclosingInstanceVariableName = "this$" + i;
          log.info("Class: " + type + ", enclosed by " + enclosingType);
-         log.trace("[" + type + "] enclosing instance variable: " + enclosingInstanceVariableName);
       }
       else
       {
@@ -169,8 +164,6 @@ public class WicketComponent<T>
       }
       
       scan();
-      
-      scanRestrictions();
       
       initInterceptors();
       
@@ -180,6 +173,7 @@ public class WicketComponent<T>
    private void scan()
    {
       Class clazz = type;
+      scanClassEnclosureHierachy();
       for (Method method : clazz.getDeclaredMethods())
       {
          add(method);
@@ -194,10 +188,10 @@ public class WicketComponent<T>
       }
    }
    
-   private void scanRestrictions()
+   private void scanClassEnclosureHierachy()
    {     
       Class cls = type;
-      
+      int i = 0;
       while (cls != null)
       {
          for (Annotation annotation : cls.getAnnotations())
@@ -214,10 +208,22 @@ public class WicketComponent<T>
                if (restrictions == null) restrictions = new HashSet<String>();
                restrictions.add("#{identity.hasRole('" + 
                      annotation.annotationType().getSimpleName().toLowerCase() + "')}");
-            }            
+            }
+            
+            if (annotation instanceof NoConversationPage)
+            {
+               NoConversationPage noConversationPage = (NoConversationPage) annotation;
+               this.noConversationPage = noConversationPage.value();
+            }
          }
          
          cls = cls.getEnclosingClass();
+         i++;
+      }
+      
+      if (i > 1)
+      {
+         this.enclosingInstanceVariableName = "this$" + (i - 2);
       }
    }
    
@@ -502,6 +508,11 @@ public class WicketComponent<T>
    {
       return member!=null && 
             conversationManagementMembers.contains(member);
+   }
+   
+   public Class<? extends Page> getNoConversationPage()
+   {
+      return noConversationPage;
    }
    
 }
