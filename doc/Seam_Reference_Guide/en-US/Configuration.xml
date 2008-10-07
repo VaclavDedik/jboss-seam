@@ -844,17 +844,44 @@ public class MultipartFilter extends AbstractFilter {]]></programlisting>
 
 
                 <listitem>
-                    <para> Add the Embedded JBoss listener to <literal>conf/server.xml</literal>. It should appear after
-                        all other listeners in the file.</para>
+                    <para> Add the Embedded JBoss listener <literal>EmbeddedJBossBootstrapListener</literal> to 
+                        <literal>conf/server.xml</literal>. It must appear after all other listeners in the file:</para>
 
-                    <programlisting role="XML"><![CDATA[<Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener"/>]]></programlisting>
+                    <programlisting role="XML"><![CDATA[<Server port="8005" shutdown="SHUTDOWN">
+
+  <!-- Comment these entries out to disable JMX MBeans support used for the 
+       administration web application -->
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.storeconfig.StoreConfigLifecycleListener"/>]]></programlisting>
+                    <programlisting role="XML"><![CDATA[<!-- Add this listener -->
+  <Listener className="org.jboss.embedded.tomcat.EmbeddedJBossBootstrapListener"/>]]></programlisting>
                 </listitem>
 
                 <listitem>
-                    <para>WAR file scanning should be enabled by adding a listener to
-                            <literal>conf/context.xml</literal>. </para>
+                    <para>WAR file scanning should be enabled by adding the <literal>WebinfScanner</literal> listener to
+                            <literal>conf/context.xml</literal>: </para>
 
-                    <programlisting role="XML"><![CDATA[<Listener className="org.jboss.embedded.tomcat.WebinfScanner"/>]]></programlisting>
+                    <programlisting role="XML"><![CDATA[<Context>
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+	
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->]]></programlisting>
+                    <programlisting role="XML"><![CDATA[<!-- Add this listener -->
+  <Listener className="org.jboss.embedded.tomcat.WebinfScanner"/>]]></programlisting>
+                    <programlisting role="XML"><![CDATA[</Context>]]></programlisting>
+                </listitem>
+                
+                <listitem>
+                    <para>If you are using JDK 6, you must set the Java option <literal>sun.lang.ClassLoader.allowArraySyntax</literal> to
+                        <literal>true</literal> in Tomcat's startup script (either catalina.bat or catalina.sh):
+                    </para>
+                      
+                    <programlisting><![CDATA[set JAVA_OPTS=%JAVA_OPTS% -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djava.util.logging.config.file="%CATALINA_BASE%\conf\logging.properties" -Dsun.lang.ClassLoader.allowArraySyntax=true]]></programlisting>
                 </listitem>
             </itemizedlist>
 
