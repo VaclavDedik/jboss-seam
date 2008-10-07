@@ -22,7 +22,6 @@ import org.jboss.seam.annotations.Install;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
-import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.contexts.Lifecycle;
 import org.jboss.seam.core.Mutable;
 import org.jboss.seam.core.Expressions.ValueExpression;
