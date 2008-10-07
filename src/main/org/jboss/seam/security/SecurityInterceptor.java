@@ -1,5 +1,6 @@
 package org.jboss.seam.security;
 
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -25,11 +26,11 @@ import org.jboss.seam.util.Strings;
  */
 @Interceptor(type=InterceptorType.CLIENT, 
          around=AsynchronousInterceptor.class)
-public class SecurityInterceptor extends AbstractInterceptor
+public class SecurityInterceptor extends AbstractInterceptor implements Serializable
 {
    private static final long serialVersionUID = -6567750187000766925L;
    
-   private Map<Method,Restriction> restrictions = new HashMap<Method,Restriction>();
+   private transient Map<Method,Restriction> restrictions = new HashMap<Method,Restriction>();
    
    private class Restriction
    {
