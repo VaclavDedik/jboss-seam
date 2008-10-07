@@ -18,6 +18,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.Seam;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.core.Manager;
+import org.jboss.seam.persistence.PersistenceContexts;
 
 /**
  * A conversation context is a logical context that lasts longer than 
@@ -25,7 +26,6 @@ import org.jboss.seam.core.Manager;
  * may be passivated or replicated.
  * 
  * @author Gavin King
- * @author Shane Bryzak
  * @author <a href="mailto:theute@jboss.org">Thomas Heute</a>
  */
 public class ServerConversationContext implements Context 
@@ -291,25 +291,18 @@ public class ServerConversationContext implements Context
           }
           removals.clear();
 
-          //add new objects
-          while (!additions.isEmpty())
-          {
-             // Copy the additions entries to a temporary variable, then 
-             // clear additions - during passivation, further attributes may
-             // be set in the conversation context so we need to re-iterate 
-             // through this process until all additions are passivated
-             Set<Map.Entry<String,Object>> entries = new HashSet<Map.Entry<String,Object>>(additions.entrySet());
-             additions.clear();
-             
-             for (Map.Entry<String, Object> entry: entries)  
-             {
-                Object attribute = entry.getValue();
-                
-                passivate(attribute); 
-                session.put(getKey(entry.getKey()), attribute);
-             }                          
-          }
+          // TODO this is a hack! We should find a more elegant way of handling
+          // new objects being added to additions during the following for-loop
+          PersistenceContexts.instance();
           
+          //add new objects
+          for (Map.Entry<String, Object> entry: additions.entrySet())  {
+              Object attribute = entry.getValue();
+              
+              passivate(attribute); 
+              session.put(getKey(entry.getKey()), attribute);
+          }
+          additions.clear();
       }
       else
       {
