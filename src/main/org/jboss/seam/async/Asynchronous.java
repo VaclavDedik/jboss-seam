@@ -22,7 +22,7 @@ public abstract class Asynchronous implements Serializable
    
    static final long serialVersionUID = -551286304424595765L;
    
-   private static final LogProvider log = Logging.getLogProvider(Asynchronous.class);
+   private static transient final LogProvider log = Logging.getLogProvider(Asynchronous.class);
    
    private Long processId;
    private Long taskId;
