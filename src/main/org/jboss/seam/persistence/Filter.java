@@ -1,5 +1,6 @@
 package org.jboss.seam.persistence;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import org.jboss.seam.core.Expressions.ValueExpression;
  */
 @BypassInterceptors
 @Scope(ScopeType.APPLICATION)
-public class Filter
+public class Filter implements Serializable
 {
    private String name;
    // default to no parameters
