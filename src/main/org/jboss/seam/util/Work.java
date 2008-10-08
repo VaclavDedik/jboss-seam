@@ -30,7 +30,7 @@ public abstract class Work<T>
    }
    
    public final T workInTransaction() throws Exception
-   {
+   {      
       boolean transactionActive = Transaction.instance().isActiveOrMarkedRollback()
               || Transaction.instance().isRolledBack(); //TODO: temp workaround, what should we really do in this case??
       boolean newTransactionRequired = isNewTransactionRequired(transactionActive);
