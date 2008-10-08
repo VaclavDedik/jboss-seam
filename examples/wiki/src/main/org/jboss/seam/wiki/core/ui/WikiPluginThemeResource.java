@@ -37,13 +37,13 @@ import java.util.regex.Pattern;
  * <p>
  * This means that any web request can get any file out of that package. So don't put
  * anything into a plugins theme directory that you don't want people to GET.
- * <p>
+ * </p>
  * <p>
  * It is primarily used for serving up plugin CSS and image files. It can also interpolate
  * EL expressions in certain resources, configured with <tt>interpolatedResourcesExtensions</tt>.
  * The default is to parse resources with <tt>css</tt> extension. A temporary
- * <tt>WikiPluginMacro</tt> instance is available in these expressions, you can utilize this
- * to access the metadata (e.g. paths) of the plugin.
+ * <tt>WikiPluginMacro</tt> instance is available in these expressions as <tt>currentMacro</tt>,
+ * you can utilize this to access the metadata (e.g. paths) of the plugin.
  * </p>
  *
  * @author Christian Bauer

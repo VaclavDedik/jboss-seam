@@ -12,12 +12,12 @@ RUNNING THE UNIT TESTS
 INSTALLATION WITH MYSQL (development profile)
 ==========================================================================================
 
-- Install JBoss Application Server 4.2.2 GA
+- Install JBoss Application Server 4.2.3 GA
 
 - Edit build.properties
 
 - Upgrade/downgrade the Hibernate libraries to the ones bundled with this application:
-  'ant upgradehibernate' will replace the libraries in server/default/lib of JBoss AS 4.2.2
+  'ant upgradehibernate' will replace the libraries in server/default/lib of JBoss AS 4.2.3
   and also copy the required ehcache.jar.
   (Sorry, but no other version works currently and the 4.2.2 bundled libraries are too old.)
 
@@ -37,7 +37,7 @@ INSTALLATION WITH MYSQL (development profile)
 INSTALLATION WITH MYSQL (production profile)
 ==========================================================================================
 
-- Install JBoss Application Server 4.2.2 GA
+- Install JBoss Application Server 4.2.3 GA
 
 - Upgrade/downgrade the Hibernate libraries bundled with JBoss AS to the libraries bundled
   with this application. Follow the steps outlined above (edit build.properties, call
@@ -97,15 +97,19 @@ If you keep the default latin1 encoding, exceptions will be thrown by the applic
 soon as you try to store any non-latin character.
 
 Note that due to URL rewriting rules, stored wiki items (documents, uploaded files) MUST have
-at least 3 latin-1 characters in their name! The application will prompt you with a validation
-error message when you forget that limitation and enter only non-latin-1 characters in a form.
+at least three latin1 characters in their name! The application will prompt you with a validation
+error message when you forget that limitation and enter only non-latin1 characters in a form.
 
 The wiki search engine passes search terms as request parameters in the URI. If you require
 unicode support for search terms, you need to set an option in Tomcat to enable the correct
 decoding of URL-encoded request parameter values to UTF-8. To do that, edit
+
   ${JBOSS_HOME}/server/(default)/deploy/jboss-web.deployer/server.xml
+
 and add
+
   URIEncoding="UTF-8"
+
 to the <connector> declaration.
 
 

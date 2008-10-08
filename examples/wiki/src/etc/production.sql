@@ -71,6 +71,8 @@ INSERT INTO PREFERENCE VALUES(201,'FeedAggregator','truncateDescription',100,NUL
 INSERT INTO PREFERENCE VALUES(210,'ForumTopPosters','title',NULL,NULL,NULL,NULL,'Top Forum Posters',0,NULL);
 INSERT INTO PREFERENCE VALUES(211,'ForumTopPosters','numberOfPosters',10,NULL,NULL,NULL,NULL,0,NULL);
 
+INSERT INTO PREFERENCE VALUES(220,'FlashVideo','allowedDomains',NULL,NULL,NULL,NULL,'video.google.com,www.youtube.com',0,NULL);
+
 INSERT INTO PREFERENCE VALUES(300,'JiraConnector','connectionTimeoutSeconds',15,NULL,NULL,NULL,NULL,0,NULL);
 INSERT INTO PREFERENCE VALUES(301,'JiraConnector','replyTimeoutSeconds',10,NULL,NULL,NULL,NULL,0,NULL);
 INSERT INTO PREFERENCE VALUES(302,'JiraConnector','issueListCacheUpdateTimeoutSeconds',600,NULL,NULL,NULL,NULL,0,NULL);

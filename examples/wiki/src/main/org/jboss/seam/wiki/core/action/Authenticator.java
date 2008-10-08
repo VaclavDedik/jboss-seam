@@ -13,6 +13,7 @@ import org.jboss.seam.contexts.Contexts;
 import org.jboss.seam.core.Events;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.Credentials;
 import org.jboss.seam.util.Base64;
 import org.jboss.seam.wiki.core.action.prefs.UserManagementPreferences;
 import org.jboss.seam.wiki.core.dao.UserDAO;
@@ -24,6 +25,7 @@ import org.jboss.seam.wiki.core.model.Role;
 import org.jboss.seam.wiki.util.Hash;
 import org.jboss.seam.wiki.util.WikiUtil;
 import org.jboss.seam.wiki.WikiInit;
+import org.jboss.seam.wiki.preferences.Preferences;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -41,9 +43,6 @@ public class Authenticator {
 
     @In
     private Hash hashUtil;
-
-    @In("#{preferences.get('UserManagement')}")
-    UserManagementPreferences prefs;
 
     private String activationCode;
     public String getActivationCode() { return activationCode; }
@@ -73,8 +72,9 @@ public class Authenticator {
     }
 
     public boolean authenticate() {
-
-        User user = getUserForCredentials(Identity.instance().getUsername(), Identity.instance().getPassword());
+        Credentials credentials = Identity.instance().getCredentials();
+        log.debug("attempting authentication of user: " + credentials.getUsername());
+        User user = getUserForCredentials(credentials.getUsername(),  credentials.getPassword());
         if (user == null) return false;
 
         setRolesAndAccessLevels(user);
@@ -88,7 +88,10 @@ public class Authenticator {
     }
 
     private User getUserForCredentials(String username, String password) {
-        if (User.GUEST_USERNAME.equals(username)) return null;
+        if (User.GUEST_USERNAME.equals(username)) {
+            log.warn("denying attempted 'guest' login");
+            return null;
+        }
         User user = userDAO.findUser(username, true, true);
         if (user == null || password == null || !user.getPasswordHash().equalsIgnoreCase(hashUtil.hash(password))) {
             log.debug("Invalid authentication credentials for username '" + username + "'");
@@ -120,7 +123,7 @@ public class Authenticator {
             Contexts.getEventContext().set("activatedUser", user);
 
             // Optionally, create home directory
-            if ( prefs.getCreateHomeAfterUserActivation() ) {
+            if ( Preferences.instance().get(UserManagementPreferences.class).getCreateHomeAfterUserActivation() ) {
                 createHomeDirectory(user);
             }
 
@@ -163,7 +166,7 @@ public class Authenticator {
         homePage.setWikiname(WikiUtil.convertToWikiName(homePage.getName()));
         homePage.setCreatedBy(user);
         homePage.setAreaNumber(homeDirectory.getAreaNumber());
-        homePage.setContent(prefs.getHomepageDefaultContent());
+        homePage.setContent(Preferences.instance().get(UserManagementPreferences.class).getHomepageDefaultContent());
         homePage.setWriteAccessLevel(Role.ADMINROLE_ACCESSLEVEL);
         homePage.setReadAccessLevel(Role.GUESTROLE_ACCESSLEVEL);
 

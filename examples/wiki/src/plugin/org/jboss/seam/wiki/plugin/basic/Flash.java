@@ -18,6 +18,8 @@ public class Flash implements Serializable {
     @Logger
     Log log;
 
+    // TODO: Some duplication here
+
     public boolean isValidURL(FlashPreferences prefs) {
 
         String allowedDomains = prefs.getAllowedDomains();
@@ -38,4 +40,26 @@ public class Flash implements Serializable {
         Arrays.sort(allowedDomainNames);
         return Arrays.binarySearch(allowedDomainNames, desiredDomainName) >= 0;
     }
+
+    public boolean isValidURL(FlashVideoPreferences prefs) {
+
+        String allowedDomains = prefs.getAllowedDomains();
+        if (allowedDomains == null || allowedDomains.length() == 0) return false;
+
+        String desiredDomainName;
+        try {
+            URI uri = new URI(prefs.getUrl());
+            desiredDomainName = uri.getHost();
+        } catch (Exception ex) {
+            log.debug("Exception parsing flash movie URL into URI: " + ex.getMessage());
+            return false;
+        }
+        allowedDomains = allowedDomains.replaceAll("\\s", ""); // Remove spaces
+        String[] allowedDomainNames = allowedDomains.split(",");
+        if (desiredDomainName == null || desiredDomainName.length() == 0) return true;
+
+        Arrays.sort(allowedDomainNames);
+        return Arrays.binarySearch(allowedDomainNames, desiredDomainName) >= 0;
+    }
+
 }

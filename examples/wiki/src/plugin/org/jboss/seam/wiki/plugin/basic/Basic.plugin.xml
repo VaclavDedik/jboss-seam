@@ -137,6 +137,14 @@
         </skins>
     </macro>
 
+    <!-- See http://flv-player.net/ -->
+    <macro key="flashVideo" name="flashVideo">
+        <applicable-to content="true"/>
+        <skins>
+            <skin name="d"/>
+        </skins>
+    </macro>
+
     <macro key="tags" name="tags">
         <applicable-to content="true"/>
         <skins>

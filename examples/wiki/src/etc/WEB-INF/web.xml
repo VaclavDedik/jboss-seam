@@ -5,22 +5,10 @@
          version="2.5">
 
     <!-- LaceWiki administration -->
+
     <listener>
         <listener-class>org.jboss.seam.wiki.admin.WikiServletListener</listener-class>
     </listener>
-
-    <!--
-        (This resolves the not-thrown ViewExpiredException on session timeout and JSF POSTback.)
-        I have got a lot of times to understand JSF 1.2 implementation code. As I guess from code,
-        JSF 1.2 detect ViewHandler/StateManager version from faces-config.xml DTD/XML schema name.
-        We can't switch RichFaces 3.1.x configuration files to a JSF 1.2 format, as far as it will
-        completely break JSF 1.1 compatibility. Fortunately, there is workaround for a SUN RI framework.
-        Just put into application web.xml. It will switch framework to a JSF 1.2 behavior.
-    -->
-    <context-param>
-        <param-name>com.sun.faces.disableVersionTracking</param-name>
-        <param-value>true</param-value>
-    </context-param>
 
     <!-- Seam -->
 
@@ -109,6 +97,8 @@
         </auth-constraint>
     </security-constraint>
 
+    <!-- TODO: Rewrite these servlets as Seam resources -->
+
     <!-- Wiki: File Download Servlet -->
 
     <servlet>
@@ -134,11 +124,10 @@
     <!-- Misc Settings -->
 
     <error-page>
-        <error-code>500</error-code>
-        <exception-type>java.lang.IllegalStateException</exception-type>
-        <location>/errors/toomanysessions.html</location>
         <!-- Don't use a Faces or JSP page here, too many sessions means nothing works anymore!
              Unfortunately, Tomcat can't be bothered to throw anything better than an IllegalStateException... -->
+        <exception-type>java.lang.IllegalStateException</exception-type>
+        <location>/errors/toomanysessions.html</location>
     </error-page>
 
     <error-page>
@@ -146,7 +135,7 @@
         <location>/errors/generic.jsp</location>
     </error-page>
 
-    <!-- Session timeout,can be extended for authenticated users in components.xml! -->
+    <!-- Session timeout for anonymous,can be extended for authenticated users in wiki/*components.xml! -->
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
