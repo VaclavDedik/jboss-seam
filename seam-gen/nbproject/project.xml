@@ -8,14 +8,14 @@
             <properties/>
             <folders>
                 <source-folder>
-                    <label>model</label>
+                    <label>main</label>
                     <type>java</type>
-                    <location>src/model</location>
+                    <location>src/main</location>
                 </source-folder>
                 <source-folder>
-                    <label>action</label>
+                    <label>hot</label>
                     <type>java</type>
-                    <location>src/action</location>
+                    <location>src/hot</location>
                 </source-folder>
                 <source-folder>
                     <label>test</label>
@@ -58,12 +58,12 @@
             <view>
                 <items>
                     <source-folder style="packages">
-                        <label>model</label>
-                        <location>src/model</location>
+                        <label>main</label>
+                        <location>src/main</location>
                     </source-folder>
                     <source-folder style="packages">
-                        <label>action</label>
-                        <location>src/action</location>
+                        <label>hot</label>
+                        <location>src/hot</location>
                     </source-folder>
                     <source-folder style="packages">
                         <label>test</label>
@@ -95,12 +95,12 @@
         </general-data>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/2">
             <compilation-unit>
-                <package-root>src/model</package-root>
+                <package-root>src/main</package-root>
                 <classpath mode="compile">lib/hibernate-validator.jar:lib/hibernate.jar:lib/hibernate-annotations.jar:lib/hibernate-commons-annotations.jar:lib/hibernate-entitymanager.jar:lib/jboss-seam.jar:lib/jboss-seam-debug.jar:lib/jboss-cache.jar:lib/jbpm-jpdl.jar:lib/antlr.jar:lib/jgroups.jar:lib/jsf-facelets.jar:lib/jstl.jar:lib/jsf-api.jar:lib/servlet-api.jar:lib/jboss-el.jar:lib/el-api.jar:lib/mvel14.jar:lib/drools-core.jar:lib/drools-compiler.jar:lib/janino.jar:lib/antlr-runtime.jar:lib/mail.jar:lib/persistence-api.jar:lib/ejb-api.jar:lib/jsr250-api.jar:lib/jta.jar:lib/core.jar:lib/jboss-embedded-api.jar:lib/hibernate-search.jar:lib/richfaces-api.jar:lib/richfaces-ui.jar:lib/@driverJar@:lib/lucene-core.jar</classpath>
                 <source-level>1.5</source-level>
             </compilation-unit>
             <compilation-unit>
-                <package-root>src/action</package-root>
+                <package-root>src/hot</package-root>
                 <classpath mode="compile">lib/hibernate-validator.jar:lib/hibernate.jar:lib/hibernate-annotations.jar:lib/hibernate-commons-annotations.jar:lib/hibernate-entitymanager.jar:lib/jboss-seam.jar:lib/jboss-seam-debug.jar:lib/jboss-cache.jar:lib/jbpm-jpdl.jar:lib/antlr.jar:lib/jgroups.jar:lib/jsf-facelets.jar:lib/jstl.jar:lib/jsf-api.jar:lib/servlet-api.jar:lib/jboss-el.jar:lib/el-api.jar:lib/mvel14.jar:lib/drools-core.jar:lib/drools-compiler.jar:lib/janino.jar:lib/antlr-runtime.jar:lib/mail.jar:lib/persistence-api.jar:lib/ejb-api.jar:lib/jsr250-api.jar:lib/jta.jar:lib/core.jar:lib/jboss-embedded-api.jar:lib/hibernate-search.jar:lib/richfaces-api.jar:lib/richfaces-ui.jar:lib/@driverJar@:lib/lucene-core.jar</classpath>
                 <source-level>1.5</source-level>
             </compilation-unit>

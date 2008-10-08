@@ -1,9 +1,9 @@
 #Wed Aug 06 19:35:32 BST 2008
 action.package=@actionPackage@
-action.sources=/@projectName@/src/action
+action.sources=/@projectName@/src/hot
 eclipse.preferences.version=1
 model.package=@modelPackage@
-model.sources=/@projectName@/src/model
+model.sources=/@projectName@/src/main
 seam.ejb.project=@projectName@
 seam.project.connection.profile=
 seam.project.deployment.type=@deploymentType@
