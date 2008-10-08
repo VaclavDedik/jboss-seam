@@ -218,10 +218,10 @@ setup-filters:
 
 new-action:
      [echo] Creating a new stateless session bean component with an action method
-     [copy] Copying 1 file to C:\Projects\helloworld\src\action\org\jboss\helloworld
-     [copy] Copying 1 file to C:\Projects\helloworld\src\action\org\jboss\helloworld
-     [copy] Copying 1 file to C:\Projects\helloworld\src\action\org\jboss\helloworld\test
-     [copy] Copying 1 file to C:\Projects\helloworld\src\action\org\jboss\helloworld\test
+     [copy] Copying 1 file to C:\Projects\helloworld\src\hot\org\jboss\helloworld
+     [copy] Copying 1 file to C:\Projects\helloworld\src\hot\org\jboss\helloworld
+     [copy] Copying 1 file to C:\Projects\helloworld\src\hot\org\jboss\helloworld\test
+     [copy] Copying 1 file to C:\Projects\helloworld\src\hot\org\jboss\helloworld\test
      [copy] Copying 1 file to C:\Projects\helloworld\view
      [echo] Type 'seam restart' and go to http://localhost:8080/helloworld/ping.seam
 
@@ -274,11 +274,11 @@ setup-filters:
 
 new-form:
      [echo] Creating a new stateful session bean component with an action method
-     [copy] Copying 1 file to C:\Projects\hello\src\com\hello
-     [copy] Copying 1 file to C:\Projects\hello\src\com\hello
-     [copy] Copying 1 file to C:\Projects\hello\src\com\hello\test
+     [copy] Copying 1 file to C:\Projects\hello\src\hot\com\hello
+     [copy] Copying 1 file to C:\Projects\hello\src\hot\com\hello
+     [copy] Copying 1 file to C:\Projects\hello\src\hot\com\hello\test
      [copy] Copying 1 file to C:\Projects\hello\view
-     [copy] Copying 1 file to C:\Projects\hello\src\com\hello\test
+     [copy] Copying 1 file to C:\Projects\hello\src\hot\com\hello\test
      [echo] Type 'seam restart' and go to http://localhost:8080/hello/hello.seam
 
 BUILD SUCCESSFUL
@@ -307,7 +307,7 @@ C:\Projects\jboss-seam&gt;</programlisting>
     <section>
         <title>Generating an application from existing JPA/EJB3 entities</title>
 
-        <para>Place your existing, valid entity classes inside the <literal>src/model</literal>. Now type</para>
+        <para>Place your existing, valid entity classes inside the <literal>src/main</literal>. Now type</para>
 
         <programlisting>seam generate-ui</programlisting>
 
@@ -403,7 +403,7 @@ C:\Projects\jboss-seam&gt;</programlisting>
         </itemizedlist>
 
         <para>If you create a WAR project using seam-gen, incremental hot deployment is available out of the box for
-            classes in the <literal>src/action</literal> source directory. However, seam-gen does not support
+            classes in the <literal>src/hot</literal> source directory. However, seam-gen does not support
             incremental hot deployment for EAR projects.</para>
     </section>
 

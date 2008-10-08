@@ -141,9 +141,9 @@ class BookingListAction implements Serializable
 
             <para>Seam gen has a transparent integration with Groovy. You can write Groovy code in seam-gen backed
                 projects without any additional infrastructure requirement. When writing a Groovy entity, simply place
-                your <filename>.groovy</filename> files in <filename>src/model</filename>. Unsurprisingly, when writing
+                your <filename>.groovy</filename> files in <filename>src/main</filename>. Unsurprisingly, when writing
                 an action, simply place your <filename>.groovy</filename> files in
-            <filename>src/action</filename>.</para>
+            <filename>src/hot</filename>.</para>
         </section>
     </section>
 
@@ -208,7 +208,7 @@ class BookingListAction implements Serializable
 
             <para>Seam-gen transparently supports Groovy files deployment and compilation. This includes the native
                     <filename>.groovy</filename> file deployment in development mode (compilation-less). If you create a
-                seam-gen project of type WAR, Java and Groovy classes in <filename>src/action</filename> will
+                seam-gen project of type WAR, Java and Groovy classes in <filename>src/hot</filename> will
                 automatically be candidate for the incremental hot deployment. If you are in production mode, the Groovy
                 files will simply be compiled before deployment.</para>
 
