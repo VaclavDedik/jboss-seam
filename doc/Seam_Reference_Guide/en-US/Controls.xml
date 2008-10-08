@@ -476,7 +476,7 @@
          
 		 
          <section>
-            <title><literal>&lt;s:equalityValidator&gt;</literal></title>
+            <title><literal>&lt;s:validateEquality&gt;</literal></title>
             
             <para><emphasis>Description</emphasis></para>
             <para>
