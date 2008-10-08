@@ -810,7 +810,11 @@ public class Initialization
                realPath = resourcePath.getPath();
             }
          }
-         catch (MalformedURLException e) {}
+         catch (MalformedURLException e) 
+         {
+            log.warn("Unable to determine real path from servlet context for : " + path);
+            log.debug("Caused by MalformedURLException", e);
+         }
 
       }
       

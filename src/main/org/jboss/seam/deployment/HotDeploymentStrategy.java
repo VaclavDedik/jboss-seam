@@ -22,7 +22,7 @@ public class HotDeploymentStrategy extends DeploymentStrategy
    /**
     * The default path at which hot deployable Seam components are placed
     */
-   public static final String DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH = "WEB-INF/dev";
+   public static final String DEFAULT_HOT_DEPLOYMENT_DIRECTORY_PATH = "/WEB-INF/dev";
    
    /**
     * The contextual variable name this deployment strategy is made available at
