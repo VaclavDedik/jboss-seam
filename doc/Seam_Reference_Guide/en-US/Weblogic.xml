@@ -1,52 +1,50 @@
 <chapter id="weblogic">
    <title>Seam on BEA's Weblogic</title>
    
-   <para> Weblogic 10.X is BEA's JEE5 server offering, currently 10.0.MP1 is
-      their stable release, and 10.3.TP is their latest tech preview release.
-      Seam applications can be deployed and developed on Weblogic servers, and
+   <para> Weblogic 10.3 is BEA's latest stable JEE5 server offering.  Seam 
+      applications can be deployed and developed on Weblogic servers, and
       this chapter will show you how. There are some known issues with the 
       Weblogic servers that will need to be worked around, and configuration 
-      changes that are needed. </para>
+      changes that are needed specific to Weblogic. </para>
    
-   <para> First step is to get Weblogic downloaded, installed and running (no
-      small feat). Then we'll talk about Seam's JEE5 example and the hurdles to
+   <para> First step is to get Weblogic downloaded, installed and running. Then 
+      we'll talk about Seam's JEE5 example and the hurdles to
       getting it running. After that, the JPA example will
-      be modified and deployed to the server. Then finally we will create a
+      be deployed to the server. Then finally we will create a
       <literal>seam-gen</literal> application and get it up and running to
       provide a jump start to your own application. </para>
    
    <section>
       <title>Installation and operation of Weblogic</title>
-      <para> First things first we need to get the server installed - and there 
-         is a choice to be made. Weblogic 10.0.MP1 is the most recent stable 
-         release, while 10.3.TP is a technical preview version that fixes some 
-         things and breaks others. </para>
+      <para> First things first we need to get the server installed.  There are 
+         some outstanding issues that were not addressed in 10.3, but it does 
+         solve some of the issues discussed below without the need for BEA 
+         patches.  The previous release 10.0.MP1 is also available, but 
+         requires some BEA patches to function correctly. </para>
       <itemizedlist>
          <listitem>
             <para><literal>Weblogic 10.0.MP1</literal>
                &#8212; <ulink
-url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10&amp;minor=1">
+url="http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html">
                Download page </ulink></para>
-            <para> 10.0.MP1 has a known issue with EJBs that use
+            <para> 10.0.MP1 has some known issues with EJBs that use
                <literal>varargs</literal> in their methods (it confuses them
-               as <literal>transient</literal> ). This causes exceptions
-               when Weblogic attempts to compile the Seam EJBs.  There is a BEA 
-               support patch available to fix this issue, but BEA is currently 
-               working on a second issue related to the EJBs.  See the 
-               <literal>jee5/booking</literal> example for more details. </para>
+               as <literal>transient</literal> ), as well as some others.
+               See <xref linkend="weblogic-ejb-issues" /> for full details on 
+               the issues and the work around.</para>
          </listitem>
          <listitem>
-            <para><literal>Weblogic 10.3.TP</literal>
+            <para><literal>Weblogic 10.3</literal>
                &#8212; <ulink
-url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10.3Tech&amp;minor=-1&amp;DL=www_WLS_10-3TechPreview_icon&amp;WT.ac=DL_www_WLS_10.3_TechPreviewicon">
+url="http://www.oracle.com/technology/software/products/ias/htdocs/wls_main.html">
                Download page </ulink></para>
-            <para> This version still has not fixed the
-               <literal>varargs</literal> bug, and there is a new issue with
-               EJBs that do not use <literal>kodo</literal> (BEA's
-               implementation of JPA). BEA has said that the <literal>varargs
-               </literal> issue will be resolved in the final version of 10.3, 
-               but the <literal>kodo</literal> issue is a blocker for getting
-               the <literal>jee5/booking</literal> working.
+            <para> This is the latest stable release of the Weblogic server, 
+              and the one that will be used with the examples below.  This 
+              version has addressed some of the issues with EJBs that were in 
+              10.0.MP1.  However one of the changes did not make it into this 
+              release.  See <xref linkend="weblogic-ejb-issues" /> for the 
+              details, but because of this we still need to use the special 
+              Weblogic seam jar discussed below.  
                </para>
          </listitem>
       </itemizedlist>
@@ -58,20 +56,20 @@ url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10.3Tech&amp;m
          been created that does not contain the <literal>TimerServiceDispatcher
          </literal>.  This is the EJB that uses <literal>varargs</literal> and 
          exposes the second EJB issue.  We will be using this jar for the 
-         <literal>jee5/booking</literal> example, as it avoids both known BEA 
+         <literal>jee5/booking</literal> example, as it avoids the known BEA 
          issues.
          </para>
       </note>
       
       <section>
-         <title>Installing 10.0.MP1</title>
+         <title>Installing 10.3</title>
          
          <para>
-            Here are the quick steps to installing Weblogic 10.1.MP1.
+            Here are the quick steps to installing Weblogic 10.3.
             For more details or if you are having any issues please
             check with the BEA docs at the
-            <ulink url="http://e-docs.bea.com/wls/docs100/index.html">
-               Weblogic 10.0 Doc Center
+            <ulink url="http://edocs.bea.com/wls/docs103/">
+               Weblogic 10.3 Doc Center
             </ulink>
             . Here we install the RHEL 5 version using the graphical
             installer:
@@ -79,19 +77,19 @@ url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10.3Tech&amp;m
 
          <orderedlist>
             <listitem>
-               <para> Follow the link given above for 10.0.MP1 and download the
+               <para> Follow the link given above for 10.3 and download the
                   correct version for your environment. You will need to sign up
-                  for an account with BEA in order to do this. </para>
+                  for an account with Oracle in order to do this. </para>
             </listitem>
             <listitem>
                <para> You may need to change the the
-                  <literal>server1001_XX.bin</literal> file to be
+                  <literal>server103_XX.bin</literal> file to be
                   executable: </para>
-               <programlisting>chmod a+x server1001_XX.bin</programlisting>
+               <programlisting>chmod a+x server103_XX.bin</programlisting>
             </listitem>
             <listitem>
                <para> Execute the install: </para>
-               <programlisting>./server1001_XX.bin</programlisting>
+               <programlisting>./server103_XX.bin</programlisting>
             </listitem>
             <listitem>
                <para> When the graphical install loads, you need to set the BEA
@@ -108,9 +106,8 @@ url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10.3Tech&amp;m
                   it will not hurt. </para>
             </listitem>
             <listitem>
-               <para> Then you need to tell it where to install the server
-                  components: </para>
-               <programlisting>$BEA_HOME/wlserver_10.0</programlisting>
+               <para> You can leave the defaults for the component installation 
+                  locations on the next page.</para>
             </listitem>
          </orderedlist>
       </section>
@@ -124,7 +121,7 @@ url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10.3Tech&amp;m
          <orderedlist>
             <listitem>
                <para> Start up the Weblogic configuration wizard:</para>
-               <programlisting>$BEA_HOME/wlserver_10.0/common/bin/config.sh
+               <programlisting>$BEA_HOME/wlserver_10.3/common/bin/config.sh
                </programlisting>
             </listitem>
             <listitem>
@@ -204,10 +201,6 @@ url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10.3Tech&amp;m
                                  or <literal>Force shutdown now</literal>
                                  as appropriate. </para>
                            </listitem>
-                           <listitem>
-                              <para> Then finally confirm that you want to
-                                 shut this server down. </para>
-                           </listitem>
                         </orderedlist> </para>
                   </listitem>
                   <listitem>
@@ -223,17 +216,77 @@ url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10.3Tech&amp;m
                <para><note>
                   <title>A note on Weblogic classloading</title>
                   <para>When using the
-                     <literal>@DOMAIN/autodeploy</literal> directory as
+                     <literal>/autodeploy</literal> directory as
                      described in this chapter you may see
-                     <literal>NoClassDefFound</literal> exceptions. If
-                     you see this try restarting the Weblogic server. If you
-                     still see it remove the auto-deployed EAR/WAR files,
-                     restart the server, and redeploy. We could not find a
-                     specific reason for this, but others seem to be having this
-                     issue as well. </para> </note></para>
+                     <literal>NoClassDefFound</literal> exceptions during 
+                     redeployment's. If you see this try restarting the Weblogic
+                     server. If you still see it remove the auto-deployed 
+                     EAR/WAR files, restart the server, and redeploy. We could 
+                     not find a specific reason for this, but others seem to be 
+                     having this issue as well. </para> </note></para>
             </listitem>
          </itemizedlist>
-      </section>
+         </section>
+         <section id="weblogic-jsf-deploy">
+            <title>Setting up Weblogic's JSF Support</title>
+            <para>These are the instructions to deploy and configure Weblogic's 
+            JSF 1.2 libraries.  Out of the box Weblogic does not come with its 
+            own JSF libraries active.  For complete details see 
+            <ulink url="http://edocs.bea.com/wls/docs103/webapp/configurejsfandjtsl.html">
+               Weblogic 10.3 Configuring JSF and JSTL Libraries
+            </ulink></para>
+            
+            <orderedlist>
+                  <listitem>
+                     <para>In the administration console navigate to the 
+                     <literal>Deployments</literal> page using the left hand
+                     menu.</para>
+                  </listitem>
+                  <listitem>
+                     <para>Then select the <literal>Install</literal>
+                        button at the top of the deployments table</para>
+                  </listitem>
+                  <listitem>
+                     <para>Using the directory browser navigate to the 
+             <literal>$BEA_HOME/wlserver_10.3/common/deployable-libraries
+             </literal>
+                     directory.  Then select the <literal>jsf-1.2.war</literal>
+                     archive, and click the <literal>Next</literal> button.</para>
+                  </listitem>
+                  <listitem>
+                     <para>Make sure that the <literal>Install this deployment 
+                     as a library</literal> is selected.  Click the <literal>
+                     Next </literal> button on the <literal>Install Application 
+                     Assistant</literal> page.</para>
+                  </listitem>                  
+                  <listitem>
+                    <para>Click the <literal>Next</literal> button on the 
+                    <literal> Optional Settings</literal> page.</para>
+                  </listitem>
+                  <listitem>
+                     <para>Make sure that the <literal>Yes, take me to the 
+                     deployment's configuration screen.</literal> is selected.  
+                     Click the <literal>Finish</literal> button on the <literal>
+                     Review your choices and click Finish</literal> page.</para>
+                  </listitem>
+                  <listitem>
+                     <para>On the <literal>Settings for jsf(1.2,1.2.3.1)</literal>
+                     page set the <literal>Deployment Order</literal> to 
+                     <literal>99</literal> so that it is deployed prior to 
+                     auto deployed applications.  Then click the <literal>
+                     Save</literal> button.</para>
+                  </listitem>   
+              </orderedlist>
+              
+              <para>There is another step that is needed for this to work.  For 
+              some reason, even with the steps above classes in the <literal>
+              jsf-api.jar</literal> are not found during application deployment.
+              The only way for this to work is to put the <literal>
+              javax.jsf_1.2.0.0.jar</literal> (the jsf-api.jar) from 
+              <literal>jsf-1.2.war</literal> in the domains shared library.  
+              This requires a restart of the server.
+              </para>
+         </section>
    </section>
    
    <section>
@@ -241,32 +294,36 @@ url="http://commerce.bea.com/showproduct.jsp?family=WLS&amp;major=10.3Tech&amp;m
       
       <para>
          Do you want to run Seam using EJB's on Weblogic? If so there
-         are some obstacles that you will have to avoid. This section
-         describes those obstacles and what changes are needed to the
-         <literal>jee5/booking</literal>
+         are some obstacles that you will have to avoid, or some patches that 
+         are needed from BEA. This section describes those obstacles and what 
+         changes are needed to the <literal>jee5/booking</literal>
          example to get it deployed and functioning.
       </para>
 
       <section id="weblogic-ejb-issues">
          <title>EJB3 Issues with Weblogic</title>
+         
          <para>
             For several releases of Weblogic there has been an issue
-            with how Weblogic compiles EJB's that use variable arguments
-            in their methods. This is confirmed in the Weblogic 9.X and
-            10.X versions. Seam uses variable arguments in one of its
-            internal EJB's (
-            <literal>TimerServiceDispatcher</literal>
-            ). So Seam will not function correctly without
-            modifications.
+            with how Weblogic generates stubs and compiles EJB's that use 
+            variable arguments in their methods. This is confirmed in the 
+            Weblogic 9.X and 10.0.MP1 versions.  Unfortunately the 10.3 version 
+            only partially addresses the issue as detailed below.
          </para>
-
-         <para>
+         
+         <section>
+           <title>The <literal>varargs</literal> Issue</title>
+           <para>
             The basic explanation of the issue is that the Weblogic EJB
-            compiler believes that methods that use
-            <literal>varargs</literal>
-            are
-            <literal>transient</literal>
-            and the deployment will fail with exceptions like below:
+            compiler mistakes methods that use <literal>varargs</literal>
+            as having the <literal>transient</literal> modifier.  When
+            BEA generates its own stub class from those classes during 
+            deployment it fails and the deployment does not succeed.  Seam uses 
+            variable arguments in one of its internal EJB's (
+            <literal>TimerServiceDispatcher</literal>).  If you see exceptions 
+            like below during deployment you are running an unpatched version 
+            of 10.0.MP1.  
+         </para>   
 
             <programlisting><![CDATA[java.io.IOException: Compiler failed executable.exec: 
 /jboss/apps/bea/wlserver_10.0/user_projects/domains/seam_examples/servers/AdminServer
@@ -283,24 +340,53 @@ not allowed here
   public transient javax.ejb.Timer scheduleTimedEvent(java.lang.String arg0, 
   org.jboss.seam.async.TimerSchedule arg1, java.lang.Object[] arg2)]]></programlisting>
             <para>
-               BEA has created a patch (
+               This issue has been fixed in Weblogic 10.3, and BEA has created 
+               a patch for Weblogic 10.0.MP1 (
                <literal>CR327275</literal>
                ) for this issue that can be requested from their
-               support. It is rumored that it will be included in the
-               final release of Weblogic 10.3, although not confirmed.
+               support.
             </para>
             <para>
                Unfortunately a second issue has been reported and
-               verified by BEA (
-               <literal>CR363182</literal>
-               ). This issue has to do with certain EJB methods
-               incorrectly left out of Weblogic's generated internal
-               stub classes. At the time of this writing the status of
-               this issue is not known. When this issue has been
-               patched, and tested with Seam this reference guide
-               chapter will be updated.
+               verified by BEA.
             </para>
+            </section>
+            <section>
+              <title>Missing EJB Methods Issue</title>   
+              
+              <para>
+               This issue was only found once the <literal>CR327275</literal> 
+               patch had been applied to 10.0.MP1.  This new issue has been 
+               confirmed by BEA and they created a patch for 10.0.MP1 that 
+               addresses this issue.  This patch has been referred to as both
+               <literal>CR370259</literal> and <literal>CR363182</literal>. As
+               with the other patch this can be requested through the BEA support.               
+              </para>
+              <para>
+               This issue causes certain EJB methods to be
+               incorrectly left out of Weblogic's generated internal stub 
+               classes.  This results in the following error messages during 
+               deployment.
+            </para>
+            
+            <programlisting><![CDATA[<<Error> <EJB> <BEA-012036> <Compiling generated EJB classes produced the following Java compiler error message:
+<Compilation Error> TimerServiceDispatcher_qzt5w2_Impl.java: The type TimerServiceDispatcher_qzt5w2_Impl must implement the inherited abstract method TimerServiceDispatcher_qzt5w2_Intf.scheduleTimedEvent(String, Schedule, Object[])
+<Compilation Error> TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java: Type mismatch: cannot convert from Object to Timer
+<Compilation Error> TimerServiceDispatcher_qzt5w2_LocalTimerServiceDispatcherImpl.java: Type mismatch: cannot convert from Object to Timer> 
+<Error> <Deployer> <BEA-149265> <Failure occurred in the execution of deployment request with ID '1223409267344' for task '0'. Error is: 'weblogic.application.ModuleException: Exception preparing module: EJBModule(jboss-seam.jar)]]></programlisting>
 
+            <para>
+              It appears that when Weblogic 10.3 was released the neglected to 
+              include this fix!!  This means that Weblogic 10.0.MP1 with patches
+              will function correctly, but 10.3 will still require the special 
+              Seam jar described below.  Not all users have seen this and there 
+              may be certain combinations of OS/JRE that do not see this, 
+              however is has been seen many times.  Hopefully Oracle/BEA will 
+              release an updated patch for this issue on 10.3.  When they do we 
+              will update this reference guide as needed.
+            </para>
+            
+          </section>
             <para>
                So that Seam's users can deploy an EJB application to
                Weblogic a special Weblogic specific jar has been
@@ -321,9 +407,10 @@ not allowed here
                <literal>EAR</literal>
                file. The
                <literal>jee5/booking</literal>
-               example demonstrates this.
+               example demonstrates this.  Obviously with this jar you will not
+               be able to use the <literal>TimerServiceDispatcher</literal> 
+               functionality.
             </para>
-         </para>
       </section>
 
       <section>
@@ -341,8 +428,8 @@ not allowed here
                   <listitem>
                      <para>Copy <literal>hsqldb.jar</literal> to the Weblogic
                         domain's shared library directory: <literal> cp
-                        ../../../lib/hsqldb.jar
-                        /jboss/apps/bea/user_projects/domains/seam_examples/lib
+                        $SEAM_HOME/lib/hsqldb.jar
+                        $BEA_HOME/user_projects/domains/seam_examples/lib
                         </literal>
                         </para>
                   </listitem>
@@ -355,10 +442,6 @@ not allowed here
                      <para>On the left side tree navigate
                         <literal>seam_examples - Services- JDBC - Data
                         Sources</literal>.</para>
-                  </listitem>
-                  <listitem>
-                     <para>You must lock the domain configuration using the
-                        button in the upper left box.</para>
                   </listitem>
                   <listitem>
                      <para>Then select the <literal>New</literal>
@@ -413,6 +496,9 @@ not allowed here
                                  empty password fields.</para>
                            </listitem>
                            <listitem>
+                              <para>Password: leave empty.</para>
+                           </listitem>
+                           <listitem>
                               <para>Select <literal>Next</literal>
                                  button</para>
                            </listitem>
@@ -433,8 +519,10 @@ not allowed here
                                  </para>
                            </listitem>
                            <listitem>
-                              <para>Username: <literal>sa</literal> will
-                                 empty password fields.</para>
+                              <para>Username: <literal>sa</literal></para>
+                           </listitem>
+                           <listitem>
+                              <para>Password: leave empty.</para>
                            </listitem>
                            <listitem>
                               <para>Leave the rest of the fields
@@ -451,105 +539,9 @@ not allowed here
                         case the only one <literal>AdminServer</literal>.
                         Click <literal>Next</literal>.</para>
                   </listitem>
-                  <listitem>
-                     <para>Finally - apply the changes by selecting the
-                        <literal>Apply Changes</literal> button in the
-                        upper left corner.</para>
-                  </listitem>
                </orderedlist> </para>
          </section>
-         <section id="weblogic-jsf-deploy">
-            <title>Setting up Weblogics JSF Support</title>
-            <para>These are the instructions to deploy and configure Weblogic's 
-            JSF 1.2 libraries.  Out of the box Weblogic does not come with its 
-            own JSF libraries active, and unfortunately when deploying an 
-            <literal>EAR</literal> based application Weblogic requires its
-            own JSF libraries to function.  This appears to be caused by 
-            classloader issues.  The assumption being that JSF libraries
-            in the application are not visible to Weblogic during deployment of
-            the <literal>EAR</literal> application.  Why this does not effect
-            <literal>WAR</literal> based applications is not known.</para>
-            
-            <orderedlist>
-                  <listitem>
-                     <para>In the administration console navigate to the 
-                     <literal>Deployments</literal> page using the left hand
-                     menu.</para>
-                  </listitem>
-                  <listitem>
-                     <para>You must lock the domain configuration using the
-                        button in the upper left box.</para>
-                  </listitem>
-                  <listitem>
-                     <para>Then select the <literal>Install</literal>
-                        button at the top of the deployments table</para>
-                  </listitem>
-                  <listitem>
-                     <para>Using the directory browser navigate to the 
-             <literal>/jboss/apps/bea/wlserver_10.0/common/deployable-libraries
-             </literal>
-                     directory.  Then select the <literal>jsj-1.2.war</literal>
-                     archive, and click the <literal>Next</literal> button.</para>
-                  </listitem>
-                  <listitem>
-                     <para>Make sure that the <literal>Install this deployment 
-                     as a library</literal> is selected.  Click the <literal>Next
-                     </literal> button on the <literal>Install Application 
-                     Assistant</literal> page.</para>
-                  </listitem>                  
-                  <listitem>
-                    <para>Click the <literal>Next</literal> button on the 
-                    <literal> Optional Settings</literal> page.</para>
-                  </listitem>
-                  <listitem>
-                     <para>Make sure that the <literal>Yes, take me to the 
-                     deployment's configuration screen.</literal> is selected.  
-                     Click the <literal>Finish</literal> button on the <literal>
-                     Review your choices and click Finish</literal> page.</para>
-                  </listitem>
-                  <listitem>
-                     <para>On the <literal>Settings for jsf(1.2,1.2.3.1)</literal>
-                     page set the <literal>Deployment Order</literal> to 
-                     <literal>99</literal> so that it is deployed prior to 
-                     autodeployed applications.  Then click the <literal>
-                     Save</literal> button.</para>
-                  </listitem>                  
-                  <listitem>
-                    <para>Then activate the changes by clicking the green
-                    button in the upper left.</para>
-                  </listitem>
-              </orderedlist>
-              
-              <para>There is another step that is needed for this to work.  For 
-              some reason, even with the steps above classes in the <literal>
-              jsf-api.jar</literal> are not found during application deployment.
-              The only way I found for this to work is to put the <literal>
-              jsf-api.jar</literal> from <literal>$SEAM/lib</literal> directory
-              in the domains shared library 
-       <literal>/jboss/apps/bea/user_projects/domains/seam_domain/lib</literal>
-              </para>
-              
-              <orderedlist>
-                  <listitem>
-                     <para>Shutdown the server  following <xref
-                           linkend="bea_start_stop_access"/></para>
-                  </listitem>
-                  <listitem>
-                     <para>Then execute 
-                     <literal> 
-cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/lib
-                     </literal>.  Verify the jar was copied correctly.</para>
-                  </listitem>       
-                  <listitem>
-                    <para>Start up the server and navigate to the
-                        administration console following <xref
-                           linkend="bea_start_stop_access"/></para>
-                  </listitem>
-                  <listitem>
-                    <para>Then verify a clean start up of the server.</para>
-                  </listitem>
-              </orderedlist>  
-         </section>
+         
          <section>
             <title>Configuration and Build changes</title>
             <para>
@@ -745,30 +737,6 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
                      </itemizedlist>
                   </listitem>
                </varlistentry>
-               <varlistentry>
-                  <term>
-                     <literal>resources/WEB-INF/web.xml</literal>
-                  </term>
-                  <listitem>
-                     <itemizedlist>
-                        <listitem>
-                           <para>
-                              Because the
-                              <literal>jsf-impl.jar</literal>
-                              is not going to be in the
-                              <literal>$WAR/WEB_INF/lib</literal>
-                              directory we need to add a configuration
-                              listener to this file.
-                           </para>
-                           <programlisting role="XML"><![CDATA[
-  <listener>
-    <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
-  </listener>
-]]></programlisting>
-                        </listitem>
-                     </itemizedlist>
-                  </listitem>
-               </varlistentry>
             </variablelist>
          </section>
          <section>
@@ -784,27 +752,10 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
                      <literal>build.xml</literal>
                   </term>
                   <listitem>
-                     <itemizedlist>
+                     <itemizedlist>                        
                         <listitem>
                            <para>
-                              Add the following to the
-                              <literal>build.xml</literal>
-                              . Note that
-                              <literal>richfaces-api.jar</literal>
-                              is only needed if using the admin console
-                              to deploy. For some reason Weblogic needs
-                              it in the
-                              <literal>WAR</literal>
-                              when it scans the application.
-                           </para>
-                           <programlisting role="XML"><![CDATA[
-<fileset id="war.lib.extras" dir="${seam.dir}"> 
-   <include name="lib/richfaces-api.jar" />
-</fileset>]]></programlisting>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              Next we need to add the follow so that the
+                              We need to add the follow so that the
                               <literal>
                                  weblogic-application.xml
                               </literal>
@@ -890,7 +841,7 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
 
                <programlisting>
                   cp ./dist/jboss-seam-jee5.ear
-                  /jboss/apps/bea/user_projects/domains/seam_examples/autodeploy
+                  $BEA_HOME/user_projects/domains/seam_examples/autodeploy
                </programlisting>
             </para>
 
@@ -905,7 +856,7 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
    
    <section>
       <title> The <literal>jpa</literal> booking example </title>
-      <para>This is the Hotel Booking example implemented in Seam POJO and
+      <para>This is the Hotel Booking example implemented with Seam POJOs and
          Hibernate JPA and does not require EJB3 support to run. The example
          already has a breakout of configurations and build scripts for many of
          the common containers including Weblogic 10.X </para>
@@ -971,9 +922,7 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
                Building it only requires running the correct ant
                command:
 
-               <programlisting>
-                  ant weblogic10.xml
-               </programlisting>
+               <programlisting>ant weblogic10.xml</programlisting>
                This will create a container specific distribution and
                exploded archive directories.
             </para>
@@ -989,10 +938,8 @@ cp ../../../lib/jsf-api.jar /jboss/apps/bea/user_projects/domains/seam_examples/
                it into the autodeploy directory.
             </para>
 
-            <programlisting>
-               cp ./dist-weblogic10/jboss-seam-jpa.war
-               /jboss/apps/bea/user_projects/domains/seam_examples/autodeploy
-            </programlisting>
+            <programlisting>cp ./dist-weblogic10/jboss-seam-jpa.war
+$BEA_HOME/user_projects/domains/seam_examples/autodeploy</programlisting>
 
             <para>
                Check out the application at the following
@@ -1435,7 +1382,7 @@ BUILD SUCCESSFUL]]></programlisting>
                   <varlistentry>
                      <term>
                         <literal>
-                           resources/WEB-INF/jboss-app.xml
+                           resources/WEB-INF/jboss-web.xml
                         </literal>
                      </term>
                      <listitem>
@@ -1496,14 +1443,12 @@ BUILD SUCCESSFUL]]></programlisting>
       </copy>]]></programlisting>
                </listitem>
             </itemizedlist>
-            
          </section>
-         
          <section>
             <title><literal>seam-gen</literal> development profile
                issue</title>
             <para>There is currently an issue with the behavior of the
-               <literal>seam-gen WAR</literal> application when built using
+               <literal>seam-gen</literal> application when built using
                the development profile (the default) and deployed to Weblogic.
                The symptom is that the login page of the application will always
                show a <literal>login failed</literal> message.</para>
@@ -1512,21 +1457,18 @@ BUILD SUCCESSFUL]]></programlisting>
                the <literal>action</literal> class files are placed in the
                <literal>WEB-INF/dev</literal> directory. Normally these
                class files are hot deployable and managed by Seam. This does not
-               happen on Weblogic (see <ulink
-                  url="http://jira.jboss.com/jira/browse/JBSEAM-2455">
-               jira JBSEAM-2455</ulink> for details and status).</para>
+               happen on Weblogic.  This is fixed in 2.1.0.GA and above</para>
             
             <para>To workaround this you need to modify the
                <literal>build-dev.properties</literal> file. Simply
                remove the property
                <literal>action.dir=WEB-INF/dev</literal>.</para>
          </section>
-         
       </section>
       
       <section>
          <title>Building and Deploying your application</title>
-         <para>Finally all that's left is deploying the application. This
+         <para>All that's left is deploying the application. This
             involves setting up a data source, building the app, and deploying
             it.</para>
          
@@ -1568,5 +1510,4 @@ BUILD SUCCESSFUL]]></programlisting>
          </section>
       </section>
    </section>
-   
 </chapter>

@@ -125,18 +125,18 @@ Workarounds for OC4J 11g
   http://hibernate.org/250.html#A23).  You can also work around this by putting the hibernate 
   jars in $ORACLE_HOME/j2ee/home/applib/
   
-WebLogic 10.MP1
+WebLogic 10.3
 ---------------------------
 Weblogic support requires some specific patches from Oracle/BEA so that their
 EJB3 support fuctions correctly.  Please refer to the Seam reference guide for 
 additional information.
   
-- http://docs.jboss.com/seam/2.0.3.CR1/reference/en-US/html/weblogic.html
+- http://seamframework.org/Documentation
   
 WebSphere 6.1.0.13 with EJB3 feature pack
 ---------------------------
 The instructions for integration with Websphere are fairly verbose.  Please 
 refer to the Seam reference guide for additional information.
 
-- http://docs.jboss.com/seam/2.0.3.CR1/reference/en-US/html/websphere.html
+- http://seamframework.org/Documentation
   
