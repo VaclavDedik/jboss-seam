@@ -141,16 +141,16 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }      
       
       if (roleClass != null)
-      {
+      {         
+         roleNameProperty = new AnnotatedBeanProperty(roleClass, RoleName.class);
+         roleGroupsProperty = new AnnotatedBeanProperty(roleClass, RoleGroups.class);
+         roleConditionalProperty = new AnnotatedBeanProperty(roleClass, RoleConditional.class);
+         
          if (!roleNameProperty.isSet())
          {
             throw new IdentityManagementException("Invalid roleClass " + roleClass.getName() + 
             " - required annotation @RoleName not found on any Field or Method.");         
-         }
-         
-         roleNameProperty = new AnnotatedBeanProperty(roleClass, RoleName.class);
-         roleGroupsProperty = new AnnotatedBeanProperty(roleClass, RoleGroups.class);
-         roleConditionalProperty = new AnnotatedBeanProperty(roleClass, RoleConditional.class);
+         }         
                  
          Type type = userRolesProperty.getPropertyType();
          if (type instanceof ParameterizedType && 
@@ -300,12 +300,29 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       Collection userRoles = (Collection) userRolesProperty.getValue(user); 
       if (userRoles == null)
       {
+         Type propType = userRolesProperty.getPropertyType();
+         Class collectionType;
+         
+         if (propType instanceof Class && Collection.class.isAssignableFrom((Class) propType))
+         {
+            collectionType = (Class) propType;
+         }
+         else if (propType instanceof ParameterizedType &&
+                  Collection.class.isAssignableFrom((Class) ((ParameterizedType) propType).getRawType()))
+         {
+            collectionType = (Class) ((ParameterizedType) propType).getRawType();
+         }
+         else
+         {
+            throw new IllegalStateException("Could not determine collection type for user roles.");
+         }
+         
          // This should either be a Set, or a List...
-         if (Set.class.isAssignableFrom((Class) userRolesProperty.getPropertyType()))
+         if (Set.class.isAssignableFrom(collectionType))
          {
             userRoles = new HashSet();
          }
-         else if (List.class.isAssignableFrom((Class) userRolesProperty.getPropertyType()))
+         else if (List.class.isAssignableFrom(collectionType))
          {
             userRoles = new ArrayList();
          }
@@ -583,12 +600,22 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       }
 
       List<String> roles = new ArrayList<String>();
+      
       Collection userRoles = (Collection) userRolesProperty.getValue(user);
       if (userRoles != null)
       {
          for (Object role : userRoles)
          {
-            roles.add((String) roleNameProperty.getValue(role));
+            if (xrefClass == null)
+            {
+               roles.add((String) roleNameProperty.getValue(role));
+            }
+            else
+            {
+               Object xref = roleNameProperty.getValue(role);
+               Object userRole = xrefRoleProperty.getValue(xref);
+               roles.add((String) roleNameProperty.getValue(userRole));
+            }
          }
       }
       
