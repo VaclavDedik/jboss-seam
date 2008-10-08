@@ -132,14 +132,14 @@
             request parameter:
         </para>
         
-        <programlisting role="XHTML"><![CDATA[<a href="main.jsf?conversationId=#{conversation.id}">Continue</a>]]></programlisting>
+        <programlisting role="XHTML"><![CDATA[<a href="main.jsf?#{manager.conversationIdParameter}=#{conversation.id}">Continue</a>]]></programlisting>
         
         <para>
             Or, the more JSF-ish:
         </para>
         
         <programlisting role="XHTML"><![CDATA[<h:outputLink value="main.jsf">
-    <f:param name="conversationId" value="#{conversation.id}"/>
+    <f:param name="#{manager.conversationIdParameter}" value="#{conversation.id}"/>
     <h:outputText value="Continue"/>
 </h:outputLink>]]></programlisting>
 
