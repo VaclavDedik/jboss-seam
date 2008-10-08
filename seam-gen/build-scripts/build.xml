@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <project name="@projectName@" default="deploy" basedir=".">
 
         <!-- Give user a chance to override without editing this file or typing -D -->
@@ -11,8 +10,8 @@
         <!-- set global properties for this build -->
         <property name="project.name" value="@projectName@"/>
         <property name="dist.dir" value="dist" />
-        <property name="src.model.dir" value="src/model" />
-        <property name="src.action.dir" value="src/action" />
+        <property name="src.model.dir" value="src/main" />
+        <property name="src.action.dir" value="src/hot" />
         <property name="src.test.dir" value="src/test" />
         <property name="lib.dir" value="lib" />
         <property name="ear.dir" value="exploded-archives/${project.name}.ear" />
@@ -44,13 +43,60 @@
         </path>
 
         <target name="init" description="Initialize the build">
+                <taskdef name ="groovyc"
+                        classname ="org.codehaus.groovy.ant.Groovyc"
+                        classpathref="build.classpath"/> <!-- really only the groovy jar is necessary -->
                 <mkdir dir="${jar.dir}" />
                 <mkdir dir="${ear.dir}" />
                 <mkdir dir="${war.dir}" />
                 <mkdir dir="${dist.dir}" />
+                <!-- if a .groovy file is in model or action, set groovy.present -->
+                <available property="groovy.present" value="true" file="" searchparents="true">
+                    <filepath>
+                        <fileset dir="${src.action.dir}">
+                            <include name="**/*.groovy"/>
+                        </fileset>
+                    </filepath>
+                </available>
+				<!-- NOTE: Seam does not properly detect uncompiled groovy classes in an EAR -->
+                <condition property="groovy.dynamic" value="true">
+                    <and>
+                        <isset property="groovy.present"/>
+                        <istrue value="${debug}"/>
+                    </and>
+                </condition>
+                <condition property="groovy.static" value="true">
+                    <and>
+                        <isset property="groovy.present"/>
+                        <isfalse value="${debug}"/>
+                    </and>
+                </condition>
         </target>
 
-        <target name="compile" depends="init" 
+        <target name="groovy.compile" if="groovy.static">
+            <groovyc classpathref="build.classpath"
+                   destdir="${jar.dir}"
+                   srcdir="${src.model.dir}" >
+            </groovyc>
+            <path id="groovy.action.classpath">
+                <path refid="build.classpath"/>
+                <dirset dir="${jar.dir}"/>
+            </path>
+            <groovyc classpathref="groovy.action.classpath"
+                   destdir="${jar.dir}"
+                   srcdir="${src.action.dir}" >
+            </groovyc>
+        </target>
+
+        <target name="groovy.copy" if="groovy.dynamic">
+            <copy todir="${jar.dir}">
+                <fileset dir="${src.action.dir}">
+                    <include name="**/*.groovy"/>
+                </fileset>
+            </copy>
+        </target>
+
+        <target name="compile" depends="init,groovy.compile,groovy.copy" 
                         description="Compile the Java source code"
                     unless="eclipse.running">
                 <javac classpathref="build.classpath" 
@@ -67,17 +113,17 @@
                         description="Copy the classes that were compiled by eclipse"
                     if="eclipse.running">
                 <copy todir="${jar.dir}">
-                        <fileset dir="classes/model">
+                        <fileset dir="classes/main">
                                 <include name="**/*.class"/>
                         </fileset>
-                        <fileset dir="classes/action">
+                        <fileset dir="classes/hot">
                                 <include name="**/*.class"/>
                         </fileset>
                 </copy>
         </target>
 
         <target name="jar" depends="compile,copyclasses" 
-                        description="Build the distribution .jar file">
+                        description="Build the JAR structure in a staging directory">
                 <copy todir="${jar.dir}">
                         <fileset dir="${basedir}/resources">
                                 <include name="seam.properties" />
@@ -99,7 +145,7 @@
         </target>
 
         <target name="war" depends="compile" 
-                        description="Build the distribution .war file">
+                        description="Build the WAR structure in a staging directory">
                 <copy todir="${war.dir}">
                         <fileset dir="${basedir}/view" />
                 </copy>
@@ -139,7 +185,7 @@
                 </copy>
         </target>
 
-        <target name="ear" description="Build the EAR">
+        <target name="ear" description="Build the EAR structure in a staging directory">
                 <copy todir="${ear.dir}">
                         <fileset dir="${basedir}/resources">
                                 <include name="*jpdl.xml" />
@@ -215,17 +261,30 @@
 
         <target name="reexplode" depends="unexplode,clean,explode"
             description="Undeploy the exploded archive, clean, then deploy the exploded archive"/>
+
+        <target name="check-deployed" description="Check to see if packaged archive is currently deployed">
+                <fail unless="jboss.home">jboss.home not set</fail>
+                <condition property="archive.deployed" value="true">
+                        <available file="${ear.deploy.dir}" type="file"/>
+                </condition>
+        </target>
         
-        <target name="restart" depends="explode" description="Restart the exploded archive">
+        <target name="restart-exploded" unless="archive.deployed" description="Deploy exploded archive if not deployed as packaged archive">
                 <touch file="${ear.deploy.dir}/META-INF/application.xml"/>
         </target>
 
-        <target name="deploy" depends="archive,datasource" description="Deploy to JBoss AS">
+        <target name="restart-deployed" if="archive.deployed" description="Deploy packaged archive if deployed as packaged archive">
+                <antcall target="deploy"/>
+        </target>
+        
+        <target name="restart" depends="check-deployed,restart-exploded,restart-deployed" description="Restart the exploded archive"/>
+
+        <target name="deploy" depends="archive,datasource" description="Deploy the packaged archive">
                 <fail unless="jboss.home">jboss.home not set</fail>
                 <copy todir="${deploy.dir}" file="${dist.dir}/${project.name}.ear" />
         </target>
 
-        <target name="undeploy" description="Undeploy the example from JBoss">
+        <target name="undeploy" description="Undeploy the packaged archive">
                 <delete file="${deploy.dir}/${project.name}.ear" />
                 <delete file="${deploy.dir}/${project.name}-dev-ds.xml" />
                 <delete file="${deploy.dir}/${project.name}-prod-ds.xml" />
@@ -234,7 +293,7 @@
         <target name="redeploy" depends="undeploy,clean,deploy"
             description="Undeploy the packaged archive, clean, then deploy the packaged archive"/>
 
-        <target name="clean" description="Cleans up the build directory">
+        <target name="clean" description="Cleans up the staging directory">
                 <delete dir="${dist.dir}"/>
                 <delete dir="${ear.dir}"/>
                 <delete dir="${war.dir}"/>
@@ -265,12 +324,12 @@
         <target name="copytestclasses" if="eclipse.running" description="Copy classes compiled by eclipse to the test dir">
         <mkdir dir="${test.dir}"/>
                 <copy todir="${test.dir}">
-                        <fileset dir="classes/model">
+                        <fileset dir="classes/main">
                                 <include name="**/*.class"/>
                         </fileset>
                 </copy>
                 <copy todir="${test.dir}">
-                        <fileset dir="classes/action">
+                        <fileset dir="classes/hot">
                                 <include name="**/*.class"/>
                         </fileset>
                 </copy>

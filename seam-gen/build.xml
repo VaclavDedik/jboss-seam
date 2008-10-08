@@ -43,8 +43,8 @@
     
     <target name="init-properties" depends="init">
         
-        <packageDirectory property="action.dir" package="action/${action.package}"/>
-        <packageDirectory property="model.dir" package="model/${model.package}"/>
+        <packageDirectory property="action.dir" package="hot/${action.package}"/>
+        <packageDirectory property="model.dir" package="main/${model.package}"/>
         <packageDirectory property="test.dir" package="test/${test.package}"/>
         <pathFilename property="driver.file" path="${driver.jar}"/>
         
@@ -633,13 +633,13 @@
 	
 	<target name="copy-icefaces-maven" if="icefaces.property" unless="icefaces.lib.property">
 		<artifact:dependencies filesetId="icefaces.fileset" versionsId="icefaces.versions">
-			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.7.0">
+			<dependency groupId="org.icefaces" artifactId="icefaces" version="1.7.1">
 				<exclusion groupId="javax.el" artifactId="el-api" />
 			</dependency>
-			<dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.7.0">
+			<dependency groupId="org.icefaces" artifactId="icefaces-comps" version="1.7.1">
 				<exclusion groupId="javax.el" artifactId="el-api" />
 			</dependency>
-			<dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.7.0">
+			<dependency groupId="org.icefaces" artifactId="icefaces-facelets" version="1.7.1">
 				<exclusion groupId="javax.el" artifactId="el-api" />
 			</dependency>
 			<remoteRepository refId="repository.jboss.org" />
@@ -683,8 +683,8 @@
             <filterset refid="project"/>
             <filterset refid="jdbc"/>
         </copy>
-		<copy todir="${project.home}/src/action" file="${base.dir}/resources/seam.properties"/>
-		<copy todir="${project.home}/src/model" file="${base.dir}/resources/seam.properties"/>
+		<copy todir="${project.home}/src/hot" file="${base.dir}/resources/seam.properties"/>
+		<copy todir="${project.home}/src/main" file="${base.dir}/resources/seam.properties"/>
 	</target>
     
 	<target name="file-copy-ear" unless="project.war">
@@ -1118,14 +1118,14 @@
         	<property key="hibernatetool.util.toolclass" 
         		    value="org.jboss.seam.tool.Util"/>
         	
-            <hbm2java jdk5="true" ejb3="true" destdir="${project.home}/src/model"/>
+            <hbm2java jdk5="true" ejb3="true" destdir="${project.home}/src/main"/>
 		</hibernate>
 
 		<taskdef name="javaformatter" 
 			 classname="org.hibernate.tool.ant.JavaFormatterTask" classpathref="htools.classpath"/>
 
 		<javaformatter> 
-		  <fileset dir="${project.home}/src/model">
+		  <fileset dir="${project.home}/src/main">
 		   	   <include name="**/*.java"/>
 		  </fileset>
 		</javaformatter>
@@ -1200,7 +1200,7 @@
 			 classname="org.hibernate.tool.ant.JavaFormatterTask" classpathref="htools.classpath"/>
 
 		<javaformatter> 
-		  <fileset dir="${project.home}/src/action">
+		  <fileset dir="${project.home}/src/hot">
 		   	   <include name="**/*.java"/>
 		  </fileset>
 		</javaformatter>

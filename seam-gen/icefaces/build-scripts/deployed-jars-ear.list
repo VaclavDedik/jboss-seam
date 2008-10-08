@@ -5,6 +5,7 @@ commons-fileupload.jar
 core.jar
 drools-compiler.jar
 drools-core.jar
+groovy-all.jar
 icefaces.jar
 icefaces-comps.jar
 icefaces-facelets.jar

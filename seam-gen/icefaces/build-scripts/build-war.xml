@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <project name="@projectName@" default="deploy" basedir=".">
 
     <!-- Give user a chance to override without editing this file or typing -D -->
@@ -11,8 +10,8 @@
     <!-- set global properties for this build -->
     <property name="project.name" value="@projectName@"/>
     <property name="dist.dir" value="dist" />
-    <property name="src.model.dir" value="src/model" />
-    <property name="src.action.dir" value="src/action" />
+    <property name="src.model.dir" value="src/main" />
+    <property name="src.action.dir" value="src/hot" />
     <property name="src.test.dir" value="src/test" />
     <property name="lib.dir" value="lib" />
     <property name="war.dir" value="exploded-archives/${project.name}.war" />
@@ -135,9 +134,12 @@
             </fileset>
         </copy>
     </target>
+
+    <target name="compile" depends="compilemodel,compileactions,copyclasses"
+            description="Compile the various source paths"/>
     
-    <target name="war" depends="compilemodel,compileactions,copyclasses" 
-            description="Build the distribution .war file">
+    <target name="war" depends="compile" 
+            description="Build the WAR structure in a staging directory">
         
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
@@ -145,8 +147,8 @@
                 <include name="*.drl" />
             </fileset>
         </copy>
-        
-        <copy tofile="${war.dir}/components.properties" 
+
+        <copy tofile="${war.dir}/WEB-INF/classes/components.properties" 
               file="${basedir}/resources/components-${profile}.properties"
               overwrite="true"/>
 
@@ -178,10 +180,10 @@
             </fileset>
         </copy>
         
-		<copy todir="${war.dir}/WEB-INF/lib">
-			<fileset dir="${lib.dir}">
+        <copy todir="${war.dir}/WEB-INF/lib">
+            <fileset dir="${lib.dir}">
                 <includesfile name="deployed-jars.list"/>
-                <exclude name="jboss-seam-gen.jar" />
+                <exclude name="jboss-seam-gen.jar"/>
                 <exclude name="icefaces-ahs.jar"/>
                 <include name="groovy-*.jar" if="groovy.present"/>
             </fileset>
@@ -206,7 +208,7 @@
     </target>
     
     <target name="archive" depends="war" 
-            description="Package the archives">
+            description="Package the WAR archive">
         <jar jarfile="${dist.dir}/${project.name}.war" basedir="${war.dir}"/>
     </target>
     
@@ -242,16 +244,29 @@
     <target name="reexplode" depends="unexplode,clean,explode"
         description="Undeploy the exploded archive, clean, then deploy the exploded archive"/>
     
-    <target name="restart" depends="explode" description="Restart the exploded archive">
+    <target name="check-deployed" description="Check to see if packaged archive is currently deployed">
+        <fail unless="jboss.home">jboss.home not set</fail>
+        <condition property="archive.deployed" value="true">
+            <available file="${war.deploy.dir}" type="file"/>
+        </condition>
+    </target>
+
+    <target name="restart-exploded" unless="archive.deployed" description="Deploy exploded archive if not deployed as packaged archive">
         <touch file="${war.deploy.dir}/WEB-INF/web.xml"/>
     </target>
+
+    <target name="restart-deployed" if="archive.deployed" description="Deploy packaged archive if deployed as packaged archive">
+        <antcall target="deploy"/>
+    </target>
     
-    <target name="deploy" depends="archive,datasource" description="Deploy to JBoss AS">
+    <target name="restart" depends="check-deployed,restart-exploded,restart-deployed" description="Restart the exploded archive"/>
+    
+    <target name="deploy" depends="archive,datasource" description="Deploy the packaged archive">
         <fail unless="jboss.home">jboss.home not set</fail>
         <copy todir="${deploy.dir}" file="${dist.dir}/${project.name}.war" />
     </target>
     
-    <target name="undeploy" description="Undeploy the example from JBoss">
+    <target name="undeploy" description="Undeploy the packaged archive">
         <delete file="${deploy.dir}/${project.name}.war" />
         <delete file="${deploy.dir}/${project.name}-dev-ds.xml" />
         <delete file="${deploy.dir}/${project.name}-prod-ds.xml" />
@@ -260,7 +275,7 @@
     <target name="redeploy" depends="undeploy,clean,deploy"
         description="Undeploy the packaged archive, clean, then deploy the packaged archive"/>
     
-    <target name="clean" description="Cleans up the build directory">
+    <target name="clean" description="Clean out the staging directory">
         <delete dir="${dist.dir}"/>
         <delete dir="${war.dir}"/>
         <delete dir="${basedir}/test-report"/>
@@ -332,21 +347,21 @@
     
     <target name="test" depends="buildtest" description="Run the tests">            
         <taskdef resource="testngtasks" classpath="${testng.jar}" />
-		<path id="test.path">
-			<path path="${test.dir}" />
-			<fileset dir="${lib.dir}/test">
-				<include name="*.jar" />
-			</fileset>
-			<path path="${bootstrap.dir}" />
-			<path refid="build.classpath" />
-		</path>
-		<testng outputdir="${basedir}/test-report">
-			<classpath refid="test.path" />
-			<xmlfileset dir="${test.dir}" includes="*Test.xml" />
-		</testng>
+        <path id="test.path">
+            <path path="${test.dir}" />
+            <fileset dir="${lib.dir}/test">
+                <include name="*.jar" />
+            </fileset>
+            <path path="${bootstrap.dir}" />
+            <path refid="build.classpath" />
+        </path>
+        <testng outputdir="${basedir}/test-report">
+            <classpath refid="test.path" />
+            <xmlfileset dir="${test.dir}" includes="*Test.xml" />
+        </testng>
     </target>
 
-    <target name="javadoc" depends="compilemodel,compileactions,copyclasses">
+    <target name="javadoc" depends="compile">
         <mkdir dir="${dist.dir}/apidoc" />
         <javadoc classpathref="build.classpath" destdir="${dist.dir}/apidoc" use="true" protected="true" version="true" windowtitle="${project.name} API Documentation" doctitle="${project.name} API Documentation" link="http://java.sun.com/j2se/5.0/docs/api">
 
@@ -361,24 +376,24 @@
         </javadoc>
     </target>
     
-	<target name="freshen" description="grab fresh icefaces jars">
-	<copy todir="${lib.dir}">
-	    <fileset dir="${icefaces.home}/lib">
-		    <include name="icefaces*.jar" />
-            <include name="backport-util-concurrent.jar" />	
-            <include name="commons-fileupload.jar"/> 	
-            <include name="commons-digester.jar"/>
-            <exclude name="icefaces-ahs.jar"/>
-  	    </fileset>
-	</copy>
-	</target>
+    <target name="freshen" description="grab fresh icefaces jars">
+        <copy todir="${lib.dir}">
+            <fileset dir="${icefaces.home}/lib">
+                <include name="icefaces*.jar" />
+                <include name="backport-util-concurrent.jar" />    
+                <include name="commons-fileupload.jar"/>     
+                <include name="commons-digester.jar"/>
+                <exclude name="icefaces-ahs.jar"/>
+              </fileset>
+        </copy>
+    </target>
 
-	<target name="purge" depends="undeploy" description="clean out jboss deployments of crashing applications"> 
-	  <delete dir="${jboss.home}/server/default/tmp/deploy" />
-	  <mkdir dir="${jboss.home}/server/default/tmp/deploy/" />
-	  <delete dir="${jboss.home}/server/default/tmp/sessions" />
-	  <mkdir dir="${jboss.home}/server/default/tmp/sessions" />
-  	  <delete dir="${jboss.home}/server/default/work/jboss.web/localhost/${project.name}" />
-	</target>
-	
+    <target name="purge" depends="undeploy" description="clean out jboss deployments of crashing applications"> 
+      <delete dir="${jboss.home}/server/default/tmp/deploy" />
+      <mkdir dir="${jboss.home}/server/default/tmp/deploy/" />
+      <delete dir="${jboss.home}/server/default/tmp/sessions" />
+      <mkdir dir="${jboss.home}/server/default/tmp/sessions" />
+        <delete dir="${jboss.home}/server/default/work/jboss.web/localhost/${project.name}" />
+    </target>
+    
 </project>

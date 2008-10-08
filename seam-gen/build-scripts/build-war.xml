@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-
 <project name="@projectName@" default="deploy" basedir=".">
 
     <!-- Give user a chance to override without editing this file or typing -D -->
@@ -11,8 +10,8 @@
     <!-- set global properties for this build -->
     <property name="project.name" value="@projectName@"/>
     <property name="dist.dir" value="dist" />
-    <property name="src.model.dir" value="src/model" />
-    <property name="src.action.dir" value="src/action" />
+    <property name="src.model.dir" value="src/main" />
+    <property name="src.action.dir" value="src/hot" />
     <property name="src.test.dir" value="src/test" />
     <property name="lib.dir" value="lib" />
     <property name="war.dir" value="exploded-archives/${project.name}.war" />
@@ -125,19 +124,22 @@
             if="eclipse.running">
         <!-- TODO check how the groovy eclipse plugin works, does it compile? -->
         <copy todir="${classes.model.dir}">
-            <fileset dir="classes/model">
+            <fileset dir="classes/main">
                 <include name="**/*.class"/>
             </fileset>
         </copy>
         <copy todir="${classes.action.dir}">
-            <fileset dir="classes/action">
+            <fileset dir="classes/hot">
                 <include name="**/*.class"/>
             </fileset>
         </copy>
     </target>
+
+    <target name="compile" depends="compilemodel,compileactions,copyclasses"
+            description="Compile the various source paths"/>
     
-    <target name="war" depends="compilemodel,compileactions,copyclasses" 
-            description="Build the distribution .war file">
+    <target name="war" depends="compile" 
+            description="Build the WAR structure in a staging directory">
         
         <copy todir="${war.dir}/WEB-INF/classes">
             <fileset dir="${basedir}/resources">
@@ -212,7 +214,7 @@
     </target>
     
     <target name="archive" depends="war" 
-            description="Package the archives">
+            description="Package the WAR archive">
         <jar jarfile="${dist.dir}/${project.name}.war" basedir="${war.dir}"/>
     </target>
     
@@ -248,16 +250,29 @@
     <target name="reexplode" depends="unexplode,clean,explode"
         description="Undeploy the exploded archive, clean, then deploy the exploded archive"/>
     
-    <target name="restart" depends="explode" description="Restart the exploded archive">
+    <target name="check-deployed" description="Check to see if packaged archive is currently deployed">
+        <fail unless="jboss.home">jboss.home not set</fail>
+        <condition property="archive.deployed" value="true">
+            <available file="${war.deploy.dir}" type="file"/>
+        </condition>
+    </target>
+
+    <target name="restart-exploded" unless="archive.deployed" description="Deploy exploded archive if not deployed as packaged archive">
         <touch file="${war.deploy.dir}/WEB-INF/web.xml"/>
     </target>
+
+    <target name="restart-deployed" if="archive.deployed" description="Deploy packaged archive if deployed as packaged archive">
+        <antcall target="deploy"/>
+    </target>
     
-    <target name="deploy" depends="archive,datasource" description="Deploy to JBoss AS">
+    <target name="restart" depends="check-deployed,restart-exploded,restart-deployed" description="Restart the exploded archive"/>
+    
+    <target name="deploy" depends="archive,datasource" description="Deploy the packaged archive">
         <fail unless="jboss.home">jboss.home not set</fail>
         <copy todir="${deploy.dir}" file="${dist.dir}/${project.name}.war" />
     </target>
     
-    <target name="undeploy" description="Undeploy the example from JBoss">
+    <target name="undeploy" description="Undeploy the packaged archive">
         <delete file="${deploy.dir}/${project.name}.war" />
         <delete file="${deploy.dir}/${project.name}-dev-ds.xml" />
         <delete file="${deploy.dir}/${project.name}-prod-ds.xml" />
@@ -266,7 +281,7 @@
     <target name="redeploy" depends="undeploy,clean,deploy"
         description="Undeploy the packaged archive, clean, then deploy the packaged archive"/>
     
-    <target name="clean" description="Cleans up the build directory">
+    <target name="clean" description="Clean out the staging directory">
         <delete dir="${dist.dir}"/>
         <delete dir="${war.dir}"/>
         <delete dir="${basedir}/test-report"/>
@@ -294,12 +309,12 @@
     <target name="copytestclasses" if="eclipse.running" description="Copy classes compiled by eclipse to the test dir">
         <mkdir dir="${test.dir}"/>
         <copy todir="${test.dir}">
-            <fileset dir="classes/model">
+            <fileset dir="classes/main">
                 <include name="**/*.class"/>
             </fileset>
         </copy>
         <copy todir="${test.dir}">
-            <fileset dir="classes/action">
+            <fileset dir="classes/hot">
                 <include name="**/*.class"/>
             </fileset>
         </copy>
@@ -346,13 +361,13 @@
 			<path path="${bootstrap.dir}" />
 			<path refid="build.classpath" />
 		</path>
-    	<testng outputdir="${basedir}/test-report">
+        <testng outputdir="${basedir}/test-report">
             <classpath refid="test.path" />
             <xmlfileset dir="${test.dir}" includes="*Test.xml" />
         </testng>
     </target>
 
-    <target name="javadoc" depends="compilemodel,compileactions,copyclasses">
+    <target name="javadoc" depends="compile">
         <mkdir dir="${dist.dir}/apidoc" />
         <javadoc classpathref="build.classpath" destdir="${dist.dir}/apidoc" use="true" protected="true" version="true" windowtitle="${project.name} API Documentation" doctitle="${project.name} API Documentation" link="http://java.sun.com/j2se/5.0/docs/api">
 
