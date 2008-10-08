@@ -474,6 +474,46 @@
 </h:outputText>]]></programlisting>
          </section>
          
+		 
+         <section>
+            <title><literal>&lt;s:equalityValidator&gt;</literal></title>
+            
+            <para><emphasis>Description</emphasis></para>
+            <para>
+				Tag to nest inside an input control to validate that its parent's
+				value is the same as the referenced control's id.
+            </para>
+            
+            <para><emphasis>Attributes</emphasis></para>
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>for</literal> &#8212; The id of a control to validate against.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>message</literal> &#8212; Message to show on failure.
+                  </para>
+               </listitem>
+               <listitem>
+                  <para>
+                     <literal>messageId</literal> &#8212; Message id to show on failure.
+                  </para>
+               </listitem>
+            </itemizedlist>
+            
+            <para><emphasis>Usage</emphasis></para>
+            <programlisting><![CDATA[<h:inputText id="name" value="#{bean.name}"/>
+<h:inputText id="nameVerification" >
+   <s:validateEquality for="name" />
+</h:inputText>]]></programlisting>
+         </section>		 
+		 
+		 
+
+		 
+		 
          <section>
             <title><literal>&lt;s:validate&gt;</literal></title>
           
@@ -933,6 +973,7 @@
           
          </section>
 
+		 
          <section>
             <title><literal>&lt;s:fileUpload&gt;</literal></title>
 
