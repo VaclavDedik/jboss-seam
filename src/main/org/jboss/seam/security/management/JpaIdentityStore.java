@@ -4,6 +4,8 @@ import static org.jboss.seam.ScopeType.APPLICATION;
 import static org.jboss.seam.annotations.Install.BUILT_IN;
 
 import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -36,6 +38,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.util.AnnotatedBeanProperty;
+import org.jboss.seam.util.TypedBeanProperty;
 
 /**
  * The default identity store implementation, uses JPA as its persistence mechanism.
@@ -54,6 +57,8 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    public static final String EVENT_PRE_PERSIST_USER = "org.jboss.seam.security.management.prePersistUser";
    public static final String EVENT_USER_AUTHENTICATED = "org.jboss.seam.security.management.userAuthenticated";
    
+   public static final String EVENT_PRE_PERSIST_USER_ROLE = "org.jboss.seam.security.management.prePersistUserRole";
+   
    private static final LogProvider log = Logging.getLogProvider(JpaIdentityStore.class);    
    
    protected FeatureSet featureSet;
@@ -62,6 +67,9 @@ public class JpaIdentityStore implements IdentityStore, Serializable
    
    private Class userClass;
    private Class roleClass;   
+   private Class xrefClass;
+   private TypedBeanProperty xrefUserProperty;
+   private TypedBeanProperty xrefRoleProperty;
    
    private AnnotatedBeanProperty<UserPrincipal> userPrincipalProperty;
    private AnnotatedBeanProperty<UserPassword> userPasswordProperty;
@@ -119,14 +127,7 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       userEnabledProperty = new AnnotatedBeanProperty(userClass, UserEnabled.class);
       userFirstNameProperty = new AnnotatedBeanProperty(userClass, UserFirstName.class);
       userLastNameProperty = new AnnotatedBeanProperty(userClass, UserLastName.class);
-       
-      if (roleClass != null)
-      {
-         roleNameProperty = new AnnotatedBeanProperty(roleClass, RoleName.class);
-         roleGroupsProperty = new AnnotatedBeanProperty(roleClass, RoleGroups.class);
-         roleConditionalProperty = new AnnotatedBeanProperty(roleClass, RoleConditional.class);
-      }
-      
+             
       if (!userPrincipalProperty.isSet()) 
       {
          throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
@@ -137,12 +138,53 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       {
          throw new IdentityManagementException("Invalid userClass " + userClass.getName() + 
          " - required annotation @UserRoles not found on any Field or Method.");         
-      }
+      }      
       
-      if (roleClass != null && !roleNameProperty.isSet())
+      if (roleClass != null)
       {
-         throw new IdentityManagementException("Invalid roleClass " + roleClass.getName() + 
-         " - required annotation @RoleName not found on any Field or Method.");         
+         if (!roleNameProperty.isSet())
+         {
+            throw new IdentityManagementException("Invalid roleClass " + roleClass.getName() + 
+            " - required annotation @RoleName not found on any Field or Method.");         
+         }
+         
+         roleNameProperty = new AnnotatedBeanProperty(roleClass, RoleName.class);
+         roleGroupsProperty = new AnnotatedBeanProperty(roleClass, RoleGroups.class);
+         roleConditionalProperty = new AnnotatedBeanProperty(roleClass, RoleConditional.class);
+                 
+         Type type = userRolesProperty.getPropertyType();
+         if (type instanceof ParameterizedType && 
+               Collection.class.isAssignableFrom((Class) ((ParameterizedType) type).getRawType()))
+         {
+            Type genType = Object.class;
+
+            for (Type t : ((ParameterizedType) type).getActualTypeArguments())
+            {
+               genType = t;
+               break;
+            }                 
+         
+            // If the @UserRoles property isn't a collection of <roleClass>, then assume the relationship
+            // is going through a cross-reference table            
+            if (!genType.equals(roleClass))
+            {
+               xrefClass = (Class) genType;
+               xrefUserProperty = new TypedBeanProperty(xrefClass, userClass);
+               xrefRoleProperty = new TypedBeanProperty(xrefClass, roleClass);
+               
+               if (!xrefUserProperty.isSet())
+               {
+                  throw new IdentityManagementException("Error configuring JpaIdentityStore - it looks like " +
+                        "you're using a cross-reference table, however the user property cannot be determined.");
+               }
+               
+               if (!xrefRoleProperty.isSet())
+               {
+                  throw new IdentityManagementException("Error configuring JpaIdentityStore - it looks like " +
+                  "you're using a cross-reference table, however the role property cannot be determined.");                  
+               }
+            }
+         }
       }
    }
    
@@ -259,11 +301,11 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       if (userRoles == null)
       {
          // This should either be a Set, or a List...
-         if (Set.class.isAssignableFrom(userRolesProperty.getPropertyClass()))
+         if (Set.class.isAssignableFrom((Class) userRolesProperty.getPropertyType()))
          {
             userRoles = new HashSet();
          }
-         else if (List.class.isAssignableFrom(userRolesProperty.getPropertyClass()))
+         else if (List.class.isAssignableFrom((Class) userRolesProperty.getPropertyType()))
          {
             userRoles = new ArrayList();
          }
@@ -275,7 +317,30 @@ public class JpaIdentityStore implements IdentityStore, Serializable
          return false;
       }
 
-      ((Collection) userRolesProperty.getValue(user)).add(roleToGrant);
+      if (xrefClass == null)
+      {
+         // If this is a Many-To-Many relationship, simply add the role 
+         ((Collection) userRolesProperty.getValue(user)).add(roleToGrant);
+      }
+      else
+      {
+         // Otherwise we need to insert a cross-reference entity instance
+         try
+         {
+            Object xref = xrefClass.newInstance();            
+            xrefUserProperty.setValue(xref, user);
+            xrefRoleProperty.setValue(xref, roleToGrant);
+            
+            Events.instance().raiseEvent(EVENT_PRE_PERSIST_USER_ROLE, xref);
+            
+            ((Collection) userRolesProperty.getValue(user)).add(mergeEntity(xref));
+         }
+         catch (Exception ex)
+         {
+            throw new IdentityManagementException("Error creating cross-reference role record.", ex);
+         }
+      }
+      
       mergeEntity(user);
       
       return true;
@@ -294,8 +359,26 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       {
          throw new NoSuchRoleException("Could not revoke role, role '" + role + "' does not exist");
       }      
-       
-      boolean success = ((Collection) userRolesProperty.getValue(user)).remove(roleToRevoke);
+             
+      boolean success = false;
+      
+      if (xrefClass == null)
+      {
+         success = ((Collection) userRolesProperty.getValue(user)).remove(roleToRevoke);
+      }
+      else
+      {
+         Collection roles = ((Collection) userRolesProperty.getValue(user));
+
+         for (Object xref : roles)
+         {
+            if (xrefRoleProperty.getValue(xref).equals(roleToRevoke))
+            {
+               success = roles.remove(xref);
+               break;
+            }
+         }
+      }
       
       if (success) mergeEntity(user);
       return success;
@@ -322,11 +405,11 @@ public class JpaIdentityStore implements IdentityStore, Serializable
       if (roleGroups == null)
       {
          // This should either be a Set, or a List...
-         if (Set.class.isAssignableFrom(roleGroupsProperty.getPropertyClass()))
+         if (Set.class.isAssignableFrom((Class) roleGroupsProperty.getPropertyType()))
          {
             roleGroups = new HashSet();
          }
-         else if (List.class.isAssignableFrom(roleGroupsProperty.getPropertyClass()))
+         else if (List.class.isAssignableFrom((Class) roleGroupsProperty.getPropertyType()))
          {
             roleGroups = new ArrayList();
          }
