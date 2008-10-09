@@ -481,7 +481,7 @@
             <para><emphasis>Description</emphasis></para>
             <para>
 				Tag to nest inside an input control to validate that its parent's
-				value is the same as the referenced control's id.
+				value is the same as the referenced control's value.
             </para>
             
             <para><emphasis>Attributes</emphasis></para>
@@ -666,11 +666,17 @@
           
             <para><emphasis>Attributes</emphasis></para>
             <para>
-               None.
+            <itemizedlist>
+               <listitem>
+                  <para>
+                     <literal>title</literal> &#8212; Title for a span.
+                </para>
+              </listitem>
+            </itemizedlist>
             </para>
           
             <para><emphasis>Usage</emphasis></para>
-            <programlisting role="XHTML"><![CDATA[<s:span styleClass="required" rendered="#{required}">*</s:span>]]></programlisting>
+            <programlisting role="XHTML"><![CDATA[<s:span styleClass="required" rendered="#{required}" title="Small tooltip">*</s:span>]]></programlisting>
          
          </section>
          
