@@ -916,11 +916,12 @@ public class ApplicationException extends Exception { ... }]]></programlisting>
 @ApplicationException(rollback=true)
 public class UnrecoverableApplicationException extends RuntimeException { ... }]]></programlisting>
 
-        <para>
-            Note that <literal>@Redirect</literal> does not work for exceptions
-            which occur during the render phase of the JSF lifecycle.
-        </para>
-        
+        <note>
+          It is important to note that Seam cannot handle exceptions that occur during JSF's
+          RENDER_RESPONSE phase, as it is not possible to perform a redirect once the response
+          has started being written to.  
+        </note>
+                
         <para>
             You can also use EL to specify the <literal>viewId</literal> to redirect to.
         </para>
