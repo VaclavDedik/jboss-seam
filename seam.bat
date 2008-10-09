@@ -2,31 +2,40 @@
 @if not "%ECHO%" == ""  echo %ECHO%
 @if "%OS%" == "Windows_NT"  setlocal
 
-set DIRNAME=.\
+set WORKING_DIR=%CD%
+set SEAM_DIR=%~dp0
+if "%SEAM_DIR:~-1%" == "\" set SEAM_DIR=%SEAM_DIR:~0,-1%
+set SEAM_GEN_DIR=%SEAM_DIR%\seam-gen
+set COMMAND=%1%
+set ARGS=%*
 
-if "%OS%" == "Windows_NT" set DIRNAME=%~dp0%
-set PROGNAME=seam.bat
-if "%OS%" == "Windows_NT" set PROGNAME=%~nx0%
+if [%COMMAND%] == [] (goto usage)
 
-set SEAMGENDIR="%DIRNAME%\seam-gen"
+if %COMMAND% == help (goto help)
 
-set SEAMTASK=%1%
-set ARGS=%ARGS% %*
+if ["%JAVA_HOME%"] == [] (goto nojava)
 
-if [%1] == [] (goto usage)
+if not exist "%JAVA_HOME%\bin\javac.exe" (goto nojdk)
 
-if %SEAMTASK% == help (goto help)
+java -cp "%JAVA_HOME%\lib\tools.jar;%SEAM_DIR%\build\lib\ant-launcher.jar;%SEAM_DIR%\build\lib\ant-nodeps.jar;%SEAM_DIR%\build\lib\ant.jar" -Dant.home="%SEAM_DIR%\lib" org.apache.tools.ant.launch.Launcher -buildfile "%SEAM_GEN_DIR%\build.xml" -Dworking.dir=%WORKING_DIR% %ARGS%
 
-java -cp "%JAVA_HOME%\lib\tools.jar;%DIRNAME%\build\lib\ant-launcher.jar;%DIRNAME%\build\lib\ant-nodeps.jar;%DIRNAME%\build\lib\ant.jar" -Dant.home="%DIRNAME%\lib" org.apache.tools.ant.launch.Launcher -buildfile "%SEAMGENDIR%\build.xml" %ARGS%
+goto END_NO_PAUSE
 
+:nojava
+echo The JAVA_HOME environment variable is not set
+echo Please point it to a valid JDK installation
+goto END_NO_PAUSE
+
+:nojdk
+echo The JAVA_HOME environment variable should point to a JDK, not a JRE
 goto END_NO_PAUSE
 
 :usage
-more %SEAMGENDIR%\USAGE
+more %SEAM_GEN_DIR%\USAGE
 goto END_NO_PAUSE
 
 :help
-more %SEAMGENDIR%\README
+more %SEAM_GEN_DIR%\README
 goto END_NO_PAUSE
 
 :END_NO_PAUSE
