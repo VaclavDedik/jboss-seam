@@ -265,6 +265,7 @@
         </target>
         
         <target name="restart-exploded" unless="archive.deployed" description="Deploy exploded archive if not deployed as packaged archive">
+            <antcall target="explode"/>
             <touch file="${ear.deploy.dir}/META-INF/application.xml"/>
         </target>
 

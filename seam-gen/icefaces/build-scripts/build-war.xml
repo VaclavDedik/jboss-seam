@@ -252,6 +252,7 @@
     </target>
 
     <target name="restart-exploded" unless="archive.deployed" description="Deploy exploded archive if not deployed as packaged archive">
+        <antcall target="explode"/>
         <touch file="${war.deploy.dir}/WEB-INF/web.xml"/>
     </target>
 
