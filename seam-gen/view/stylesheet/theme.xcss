@@ -159,15 +159,15 @@ input[type=text], input[type=password], textarea {
 }
 
 .message li.infomsg {
-	background-image: url(../img/msginfo.png);
+	background-image: url(../../../../../img/msginfo.png);
 }
 
 .message li.errormsg {
-	background-image: url(../img/msgerror.png);
+	background-image: url(../../../../../img/msgerror.png);
 }
 
 .message li.warnmsg {
-	background-image: url(../img/msgwarn.png);
+	background-image: url(../../../../../img/msgwarn.png);
 }
 
 .name {
