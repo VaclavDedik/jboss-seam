@@ -805,9 +805,13 @@ public class Initialization
          try 
          {
             URL resourcePath = servletContext.getResource(path);
-            if (resourcePath.getProtocol().equals("file")) 
+            if ((resourcePath != null) && (resourcePath.getProtocol().equals("file"))) 
             {
                realPath = resourcePath.getPath();
+            }
+            else
+            {
+               log.warn("Unable to determine real path from servlet context for \"" + path + "\" path does not exist.");
             }
          }
          catch (MalformedURLException e) 
