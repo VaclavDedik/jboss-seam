@@ -176,7 +176,7 @@ public class QuartzDispatcher extends AbstractDispatcher<QuartzTriggerHandle, Sc
              }
              else
              {
-                SimpleTrigger trigger = new SimpleTrigger(triggerName, null, null, 
+                SimpleTrigger trigger = new SimpleTrigger(triggerName, null, new Date(), 
                         timerSchedule.getFinalExpiration(), 
                         SimpleTrigger.REPEAT_INDEFINITELY, 
                         timerSchedule.getIntervalDuration());
