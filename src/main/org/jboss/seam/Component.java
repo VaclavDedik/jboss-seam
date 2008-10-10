@@ -474,7 +474,7 @@ public class Component extends Model
                if ( !setterMethod.isAccessible() ) setterMethod.setAccessible(true);
                Class parameterClass = setterMethod.getParameterTypes()[0];
                Type parameterType = setterMethod.getGenericParameterTypes()[0];
-               initializerSetters.put( setterMethod, getTopInitialValue(propertyValue, parameterClass, parameterType) );
+               initializerSetters.put( setterMethod, getInitialValueHonoringExceptions(propertyName, propertyValue, parameterClass, parameterType) );
             }
             else
             {
@@ -487,10 +487,11 @@ public class Component extends Model
       }
    }
 
-   private InitialValue getTopInitialValue(Conversions.PropertyValue propertyValue, Class parameterClass, Type parameterType)
+   private InitialValue getInitialValueHonoringExceptions(String propertyName, Conversions.PropertyValue propertyValue, Class parameterClass, Type parameterType)
    {
-      //note that org.jboss.seam.core.init.jndiPattern looks like an EL expression but is not one!
-      if ( propertyValue.isExpression() && getBeanClass().equals(Init.class) )
+      // the org.jboss.seam.core.init component cannot accomodate EL expressions because of startup order
+      // note that org.jboss.seam.core.init.jndiPattern looks like an EL expression but is not one!
+      if ("org.jboss.seam.core.init".equals(getName()))
       {
          return new ConstantInitialValue(propertyValue, parameterClass, parameterType);
       }
