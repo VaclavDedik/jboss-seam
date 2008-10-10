@@ -440,7 +440,7 @@ Final Build + Upload
 --------------
 * When ready for the release
     - checkout a clean version of the tag in a new/clean directory.
-    - run "ant cleanall dist > ../releaselogs/x.x.x.XX.finaldistbuild.txt"
+    - run "ant cleanall dist -Dbuild.translations=true > ../releaselogs/x.x.x.XX.finaldistbuild.txt"
     - diff this to the one used for testing
 
 * Follow instructions for sourceforge upload
