@@ -1901,8 +1901,13 @@ public class Component extends Model
 
    public static Object getInstance(String name, boolean create)
    {
+      return getInstance(name, create, true);
+   }
+   
+   public static Object getInstance(String name, boolean create, boolean allowAutocreation)
+   {
       Object result = Contexts.lookupInStatefulContexts(name);
-      result = getInstance(name, create, result);
+      result = getInstance(name, create, allowAutocreation, result);
       return result;
    }
 
@@ -1913,15 +1918,20 @@ public class Component extends Model
 
    public static Object getInstance(String name, ScopeType scope, boolean create)
    {
+      return getInstance(name, scope, create, true);
+   }
+   
+   public static Object getInstance(String name, ScopeType scope, boolean create, boolean allowAutocreation)
+   {
       Object result = scope==STATELESS ? null : scope.getContext().get(name);
-      result = getInstance(name, create, result);
+      result = getInstance(name, create, allowAutocreation, result);
       return result;
    }
 
-   private static Object getInstance(String name, boolean create, Object result) {
+   private static Object getInstance(String name, boolean create, boolean allowAutoCreation, Object result) {
       Component component = Component.forName(name);
 
-      create = create || Init.instance().isAutocreateVariable(name);
+      create = create || (Init.instance().isAutocreateVariable(name) && allowAutoCreation);
 
       if (result==null && create)
       {

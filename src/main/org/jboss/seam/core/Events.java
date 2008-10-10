@@ -74,7 +74,7 @@ public class Events
          for (ObserverMethod observer: observers)
          {
             String name = observer.getComponent().getName();
-            Object listener = Component.getInstance( name, observer.isCreate() );
+            Object listener = Component.getInstance( name, observer.isCreate(), false );
             if ( observer.getComponent().hasUnwrapMethod() )
             {
                listener = observer.getComponent().getScope().getContext().get(name);
