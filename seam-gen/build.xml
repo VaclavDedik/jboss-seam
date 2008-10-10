@@ -606,6 +606,19 @@
             <fileset file="${driver.jar}"/>
         </copy>
 
+        <!-- we must use an endorsed jars directory for running SeamTest under Java 6 -->
+        <artifact:dependencies filesetId="endorsed.fileset" versionsId="endorsed.versions">
+            <dependency groupId="javax.xml.bind" artifactId="jaxb-api" version="2.1">
+                <exclusion groupId="javax.xml.stream" artifactId="stax-api"/>
+                <exclusion groupId="javax.activation" artifactId="activation"/>
+            </dependency>
+            <remoteRepository refId="repository.jboss.org"/>
+        </artifact:dependencies>
+        <copy todir="${project.home}/lib/endorsed" overwrite="true">
+            <fileset refid="endorsed.fileset"/>
+            <mapper classpathref="maven-ant-tasks.classpath" classname="org.apache.maven.artifact.ant.VersionMapper" from="${endorsed.versions}" to="flatten"/>
+        </copy>
+
         <echo message="Copying JBoss Embedded configuration to the ${project.home}/bootstrap directory..."/>
         <copy todir="${project.home}/bootstrap" overwrite="true">
             <fileset dir="${seam.dir}/bootstrap"/>
@@ -984,6 +997,17 @@
             <filterset refid="filters"/>
         </copy>
         <echo message="Type '${seam.cmd} restart' and go to http://localhost:8080/${project.name}/${page.name}.seam"/>
+    </target>
+
+    <!-- FIXME: we ask the user for information that isn't needed for this target -->
+    <target name="new-test" depends="validate-project,action-input,setup-filters" description="Create a new test">
+        <echo message="Creating a new SeamTest subclass for the specified Seam component"/>
+        <copy file="${templates.dir}/test/ActionTest.java" tofile="${test.file}">
+            <filterset refid="filters"/>
+        </copy>
+        <copy file="${templates.dir}/test/testng.xml" tofile="${testng.file}">
+            <filterset refid="filters"/>
+        </copy>
     </target>
 
     <target name="new-query" depends="validate-project,query-input,setup-filters">

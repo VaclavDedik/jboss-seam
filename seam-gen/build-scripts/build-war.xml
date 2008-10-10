@@ -14,6 +14,7 @@
     <property name="src.action.dir" value="src/hot" />
     <property name="src.test.dir" value="src/test" />
     <property name="lib.dir" value="lib" />
+    <property name="endorsed.dir" value="${lib.dir}/endorsed" />
     <property name="war.dir" value="exploded-archives/${project.name}.war" />
     <property name="classes.model.dir" value="${war.dir}/WEB-INF/classes" />
     <property name="action.dir" value="WEB-INF/classes" />
@@ -363,6 +364,8 @@
 			<path refid="build.classpath" />
 		</path>
         <testng outputdir="${basedir}/test-report">
+            <jvmarg line="-Djava.endorsed.dirs=${endorsed.dir}"/>
+            <jvmarg line="-Dsun.lang.ClassLoader.allowArraySyntax=true"/>
             <classpath refid="test.path" />
             <xmlfileset dir="${test.dir}" includes="*Test.xml" />
         </testng>
