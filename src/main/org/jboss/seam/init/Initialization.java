@@ -22,6 +22,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -723,56 +725,66 @@ public class Initialization
       return this;
    }
 
-   public Initialization redeploy(HttpServletRequest request)
+   public void redeploy(HttpServletRequest request) throws InterruptedException
    {
-      ServletLifecycle.beginReinitialization(request);
-      hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader());
-      if (hotDeploymentStrategy.isEnabled())
+      ReentrantLock lock = new ReentrantLock();
+      if (lock.tryLock(500, TimeUnit.MILLISECONDS))
       {
-         hotDeploymentStrategy.scan();
-         Init init = Init.instance();
-         
-         if (init.getTimestamp() < hotDeploymentStrategy.getTimestamp())
+         try
          {
-            log.info("redeploying");
-            Seam.clearComponentNameCache();
-            for ( String name: init.getHotDeployableComponents() )
+            ServletLifecycle.beginReinitialization(request);
+            hotDeploymentStrategy = createHotDeployment(Thread.currentThread().getContextClassLoader());
+            if (hotDeploymentStrategy.isEnabled())
             {
-               Component component = Component.forName(name);
-               if (component!=null)
+               hotDeploymentStrategy.scan();
+               Init init = Init.instance();
+               
+               if (init.getTimestamp() < hotDeploymentStrategy.getTimestamp())
                {
-                  ScopeType scope = component.getScope();
-                  if ( scope!=ScopeType.STATELESS && scope.isContextActive() )
+                  log.info("redeploying");
+                  Seam.clearComponentNameCache();
+                  for ( String name: init.getHotDeployableComponents() )
                   {
-                     scope.getContext().remove(name);
+                     Component component = Component.forName(name);
+                     if (component!=null)
+                     {
+                        ScopeType scope = component.getScope();
+                        if ( scope!=ScopeType.STATELESS && scope.isContextActive() )
+                        {
+                           scope.getContext().remove(name);
+                        }
+                        init.removeObserverMethods(component);
+                     }
+                     Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
                   }
-                  init.removeObserverMethods(component);
+               
+                  if (hotDeploymentStrategy.isHotDeployClassLoaderEnabled())
+                  {
+                     installHotDeployableComponents();
+                  }
+                  Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
+                  init.setTimestamp( System.currentTimeMillis() );
+                  installComponents(init);
+                  log.info("done redeploying");
                }
-               Contexts.getApplicationContext().remove(name + COMPONENT_SUFFIX);
+               
+               WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot);
+               warRootDeploymentStrategy.scan();
+               Contexts.getEventContext().set(WarRootDeploymentStrategy.NAME, warRootDeploymentStrategy);
+               Pages pages = Pages.instance();
+               if (pages!= null) {
+                   pages.initialize();
+               }
+            
+               Contexts.getApplicationContext().remove(Seam.getComponentName(Exceptions.class));
             }
-         
-            if (hotDeploymentStrategy.isHotDeployClassLoaderEnabled())
-            {
-               installHotDeployableComponents();
-            }
-            Contexts.getEventContext().set(HotDeploymentStrategy.NAME, hotDeploymentStrategy);
-            init.setTimestamp( System.currentTimeMillis() );
-            installComponents(init);
-            log.info("done redeploying");
+            ServletLifecycle.endReinitialization();
          }
-         
-         WarRootDeploymentStrategy warRootDeploymentStrategy = new WarRootDeploymentStrategy(Thread.currentThread().getContextClassLoader(), warRoot);
-         warRootDeploymentStrategy.scan();
-         Contexts.getEventContext().set(WarRootDeploymentStrategy.NAME, warRootDeploymentStrategy);
-         Pages pages = Pages.instance();
-         if (pages!= null) {
-             pages.initialize();
+         finally
+         {
+            lock.unlock();
          }
-      
-         Contexts.getApplicationContext().remove(Seam.getComponentName(Exceptions.class));
       }
-      ServletLifecycle.endReinitialization();
-      return this;   
    }
 
    private void installHotDeployableComponents()

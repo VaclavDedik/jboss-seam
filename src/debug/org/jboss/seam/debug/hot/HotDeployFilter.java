@@ -39,7 +39,14 @@ public class HotDeployFilter extends AbstractFilter
       Init init = (Init) getServletContext().getAttribute( Seam.getComponentName(Init.class) );
       if ( init!=null)
       {
-         new Initialization( getServletContext() ).redeploy( (HttpServletRequest) request );
+         try
+         {
+            new Initialization( getServletContext() ).redeploy( (HttpServletRequest) request );
+         }
+         catch (InterruptedException e)
+         {
+            log.warn("Unable to redeploy, please try again");
+         }
       }
       chain.doFilter(request, response);
    }
