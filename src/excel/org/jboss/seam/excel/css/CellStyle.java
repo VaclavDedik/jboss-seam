@@ -77,8 +77,8 @@ public class CellStyle
       font.struckOut = (Boolean) styleMap.get(CSSNames.FONT_STRUCK_OUT);
       font.underlineStyle = (String) styleMap.get(CSSNames.FONT_UNDERLINE_STYLE);
       font.bold = (Boolean) styleMap.get(CSSNames.FONT_BOLD);
-      background.color = (String) styleMap.get(CSSNames.BACKGROUND_PATTERN);
-      background.pattern = (String) styleMap.get(CSSNames.BACKGROUND_COLOR);
+      background.color = (String) styleMap.get(CSSNames.BACKGROUND_COLOR);
+      background.pattern = (String) styleMap.get(CSSNames.BACKGROUND_PATTERN);
       leftBorder.color = (String) styleMap.get(CSSNames.BORDER_LEFT_COLOR);
       leftBorder.lineStyle = (String) styleMap.get(CSSNames.BORDER_LEFT_LINE_STYLE);
       topBorder.color = (String) styleMap.get(CSSNames.BORDER_TOP_COLOR);
