@@ -110,13 +110,10 @@ public abstract class UISeamCommandBase extends UIOutput implements ActionSource
          url.addParameter(uiTaskId);
       }
 
-      if (!usedParameters.contains("dataModelSelection"))
+      UISelection uiSelection = getSelection();
+      if (uiSelection != null)
       {
-          UISelection uiSelection = getSelection();
-          if (uiSelection != null)
-          {
-             url.addParameter(uiSelection);
-          }
+         url.addParameter(uiSelection);
       }
       encodedUrl = url.getEncodedUrl();
 
