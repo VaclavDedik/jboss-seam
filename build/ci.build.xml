@@ -45,7 +45,11 @@
 
 	<target name="snapshot">
 		<build target="cleanall" />
-		<build target="dist" />
+		<build target="dist">
+		   <properties>
+		   	<property name="build.translations" value="true" />
+			</properties>
+		</build>
 		
 		<ant target="deploySeamSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
 			<property name="qualifier" value="-SNAPSHOT" />
@@ -77,14 +81,14 @@
 
 	<macrodef name="build">
 		<attribute name="target" />
-        <attribute name="testngjvmargs" default="" />
+      <attribute name="testngjvmargs" default="" />
 		<element name="properties" optional="true" />
 		<sequential>
 			<ant antfile="${seam.dir}/build.xml" target="@{target}" inheritall="false" inheritrefs="false" dir="../">
 				<property name="dist.location" value="${dist.location}" />
 				<property name="qualifier" value="-SNAPSHOT" />
 				<property name="quietclean" value="true" />
-                <property name="testng.jvmargs" value="@{testngjvmargs}" />
+            <property name="testng.jvmargs" value="@{testngjvmargs}" />
 				<property name="maven.settings.xml" value="${maven.settings.xml}" />
 				<properties />
 			</ant>

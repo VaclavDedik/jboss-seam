@@ -65,7 +65,7 @@
                <sourceDocumentName>master.xml</sourceDocumentName>
                <masterTranslation>en-US</masterTranslation>
                <translations>
-                  
+                  <translation>fr-FR</translation>
                </translations>
                <imageResource>
                   <directory>${pom.basedir}/en-US</directory>
