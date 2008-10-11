@@ -31,8 +31,6 @@ import org.jboss.seam.excel.ui.UICell;
 import org.jboss.seam.excel.ui.UIColumn;
 import org.jboss.seam.excel.ui.UIWorkbook;
 import org.jboss.seam.excel.ui.UIWorksheet;
-import org.jboss.seam.log.Log;
-import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
 
 /**
@@ -47,14 +45,11 @@ import org.jboss.seam.navigation.Pages;
 @BypassInterceptors
 public class ExcelExporter
 {
-   private static Log log = Logging.getLog(ExcelExporter.class);
-   
    // The excel workbook implementation
    private ExcelWorkbook excelWorkbook = null;
-   
+
    // A map of known column widths
    private Map<Integer, Integer> columnWidths = new HashMap<Integer, Integer>();
-   
 
    /**
     * Helper method to call the exporter and use the default excel workbook
@@ -77,7 +72,6 @@ public class ExcelExporter
    @SuppressWarnings("unchecked")
    public void export(String dataTableId, String type)
    {
-      // TODO: support "type" ?
       excelWorkbook = ExcelFactory.instance().getExcelWorkbook(type);
 
       // Gets the datatable
@@ -126,9 +120,10 @@ public class ExcelExporter
       redirectExport();
 
    }
-   
+
    /**
     * Parses column widths from a worksheet tag
+    * 
     * @param worksheet The worksheet to get the style from
     * @return The map of column number -> column width
     */
@@ -202,7 +197,8 @@ public class ExcelExporter
       }
 
       Integer columnWidth = columnWidths.get(columnIndex);
-      if (columnWidth != null) {
+      if (columnWidth != null)
+      {
          UIColumn uiColumn = new UIColumn();
          uiColumn.setStyle(CSSNames.COLUMN_WIDTH + ":" + columnWidth);
          excelWorkbook.applyColumnSettings(uiColumn);

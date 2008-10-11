@@ -404,7 +404,7 @@ public class JXLFactory
    /**
     * Creates a JExcelAPI date display format
     * 
-    * @param The format mask
+    * @param mask The format mask
     * @return The display format
     * @see <a
     *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/DateFormat.html">DateFormat</a>
@@ -487,7 +487,7 @@ public class JXLFactory
    /**
     * Creates a JExcelAPI representation of a vertical alignment
     * 
-    * @param color The requested alignment
+    * @param verticalAlignment The requested alignment
     * @return The alignment representation
     * @see <a
     *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/format/VerticalAlignment.html">VerticalAlignment</a>
