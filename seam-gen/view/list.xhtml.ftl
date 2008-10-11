@@ -71,18 +71,25 @@
 <#if pojo.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
         <h:column>
-            <f:facet name="header">${componentProperty.name}</f:facet>
+            <f:facet name="header">
+<#assign propertyPath = property.name + '.' + componentProperty.name>
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="${'#'}{${listName}}"/>
+                    <ui:param name="propertyLabel" value="${componentProperty.name}"/>
+                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                </ui:include>
+            </f:facet>
             ${'#'}{${componentName}.${property.name}.${componentProperty.name}}
         </h:column>
 </#foreach>
 <#else>
         <h:column>
             <f:facet name="header">
-                <s:link styleClass="columnHeader"
-                             value="${property.name} ${'#'}{${listName}.orderColumn=='${property.name}' ? (${listName}.orderDirection=='desc' ? messages.down : messages.up)  : ''}">
-                    <f:param name="sort" value="${property.name}" />
-                    <f:param name="dir" value="${'#'}{${listName}.orderDirection=='asc' ? 'desc' : 'asc'}"/>
-                </s:link>
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="${'#'}{${listName}}"/>
+                    <ui:param name="propertyLabel" value="${property.name}"/>
+                    <ui:param name="propertyPath" value="${property.name}"/>
+                </ui:include>
             </f:facet>
             ${'#'}{${componentName}.${property.name}}
         </h:column>
@@ -95,10 +102,11 @@
         <h:column>
             <f:facet name="header">
 <#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name + '.' + componentProperty.name>
-                <s:link styleClass="columnHeader"
-                             value="${property.name} ${componentProperty.name} ${'#'}{${listName}.order=='${propertyPath} asc' ? messages.down : ( ${listName}.order=='${propertyPath} desc' ? messages.up : '' )}">
-                    <f:param name="order" value="${'#'}{${listName}.order=='${propertyPath} asc' ? '${propertyPath} desc' : '${propertyPath} asc'}"/>
-                </s:link>
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="${'#'}{${listName}}"/>
+                    <ui:param name="propertyLabel" value="${property.name} ${componentProperty.name}"/>
+                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                </ui:include>
             </f:facet>
             ${'#'}{${componentName}.${propertyPath}}
         </h:column>
@@ -107,10 +115,11 @@
         <h:column>
             <f:facet name="header">
 <#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name>
-                <s:link styleClass="columnHeader"
-                             value="${property.name} ${parentPojo.identifierProperty.name} ${'#'}{${listName}.order=='${propertyPath} asc' ? messages.down : ( ${listName}.order=='${propertyPath} desc' ? messages.up : '' )}">
-                    <f:param name="order" value="${'#'}{${listName}.order=='${propertyPath} asc' ? '${propertyPath} desc' : '${propertyPath} asc'}"/>
-                </s:link>
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="${'#'}{${listName}}"/>
+                    <ui:param name="propertyLabel" value="${property.name} ${parentPojo.identifierProperty.name}"/>
+                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                </ui:include>
             </f:facet>
             ${'#'}{${componentName}.${propertyPath}}
         </h:column>

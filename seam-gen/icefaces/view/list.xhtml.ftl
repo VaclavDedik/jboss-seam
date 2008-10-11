@@ -87,19 +87,25 @@
 <#if pojo.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
         <ice:column id="list${componentProperty.name}Id">
-            <f:facet name="header">${componentProperty.name}</f:facet>
+            <f:facet name="header">
+<#assign propertyPath = property.name + '.' + componentProperty.name>
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="${'#'}{${listName}}"/>
+                    <ui:param name="propertyLabel" value="${componentProperty.name}"/>
+                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                </ui:include>
+            </f:facet>
             ${'#'}{${componentName}.${property.name}.${componentProperty.name}}
         </ice:column>
 </#foreach>
 <#else>
         <ice:column id="list${property.name}Id">
             <f:facet name="header">
-                <s:link styleClass="columnHeader"
-		             id="list${property.name}LinkId"
-		             value="${property.name} ${'#'}{${listName}.orderColumn=='${property.name}' ? (${listName}.orderDirection=='desc' ? messages.down : messages.up)  : ''}">                   
-                    <f:param name="sort" value="${property.name}" />
-                    <f:param name="dir" value="${'#'}{${listName}.orderDirection=='asc' ? 'desc' : 'asc'}"/>
-                </s:link>
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="${'#'}{${listName}}"/>
+                    <ui:param name="propertyLabel" value="${property.name}"/>
+                    <ui:param name="propertyPath" value="${property.name}"/>
+                </ui:include>
             </f:facet>
             ${'#'}{${componentName}.${property.name}}&amp;nbsp;
         </ice:column>
@@ -112,11 +118,11 @@
         <ice:column id="listColumn${componentProperty}${listName}Id">
             <f:facet name="header">
 <#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name + '.' + componentProperty.name>
-                <s:link styleClass="columnHeader"
-		                id="listColumnHeader${componentProperty.name}Id"
-                             value="${property.name} ${componentProperty.name} ${'#'}{${listName}.order=='${propertyPath} asc' ? messages.down : ( ${listName}.order=='${propertyPath} desc' ? messages.up : '' )}">
-                    <f:param name="order" value="${'#'}{${listName}.order=='${propertyPath} asc' ? '${propertyPath} desc' : '${propertyPath} asc'}"/>
-                </s:link>
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="${'#'}{${listName}}"/>
+                    <ui:param name="propertyLabel" value="${property.name} ${componentProperty.name}"/>
+                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                </ui:include>
             </f:facet>
             ${'#'}{${componentName}.${propertyPath}}&amp;nbsp;
         </ice:column>
@@ -125,11 +131,11 @@
         <ice:column id="listColumn${property.name}Id">
             <f:facet name="header">
 <#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name>
-                <s:link styleClass="columnHeader"
-		                id="listcolumnHeader${property.name}Id"
-                             value="${property.name} ${parentPojo.identifierProperty.name} ${'#'}{${listName}.order=='${propertyPath} asc' ? messages.down : ( ${listName}.order=='${propertyPath} desc' ? messages.up : '' )}">
-                    <f:param name="order" value="${'#'}{${listName}.order=='${propertyPath} asc' ? '${propertyPath} desc' : '${propertyPath} asc'}"/>
-                </s:link>
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="${'#'}{${listName}}"/>
+                    <ui:param name="propertyLabel" value="${property.name} ${parentPojo.identifierProperty.name}"/>
+                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                </ui:include>
             </f:facet>
             ${'#'}{${componentName}.${propertyPath}}
         </ice:column>
