@@ -12,7 +12,7 @@
 	      <ice:panelGrid id="menuPanelGrid" columns="2" columnClasses="leftMenu,rightMenu">
                  <ice:panelGroup id="leftMenuId" >
                         <ice:outputText id="menuProjectNameId" value="${'#'}{projectName}:"/>
-                            <s:link id="menuHomeId" view="/home.xhtml" value="Home"/>
+                            <s:link id="menuHomeId" view="/home.xhtml" value="Home" propagation="none"/>
 <#foreach entity in c2j.getPOJOIterator(cfg.classMappings)>
 				    <s:link view="/${entity.shortName}List.xhtml" 
 	       				value="${entity.shortName} List" 
@@ -25,8 +25,8 @@
  		     </ice:panelGroup>
                  <ice:panelGroup id="rightMenuId">
                                 <h:outputText id="menuWelcomeId" value="signed in as: ${'#'}{identity.username}" rendered="${'#'}{identity.loggedIn}"/>
-                                <s:link view="/login.xhtml" id="menuLoginId" value="Login" rendered="${'#'}{not identity.loggedIn}" />
-                                <s:link view="/home.xhtml" id="menulogoutId" action="${'#'}{identity.logout}" value="Logout" rendered="${'#'}{identity.loggedIn}"/>
+                                <s:link view="/login.xhtml" id="menuLoginId" value="Login" rendered="${'#'}{not identity.loggedIn}" propagation="none"/>
+                                <s:link view="/home.xhtml" id="menulogoutId" action="${'#'}{identity.logout}" value="Logout" rendered="${'#'}{identity.loggedIn}" propagation="none"/>
                 </ice:panelGroup>
             </ice:panelGrid>
          </td>
