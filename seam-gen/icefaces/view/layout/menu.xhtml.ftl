@@ -17,7 +17,9 @@
 				    <s:link view="/${entity.shortName}List.xhtml" 
 	       				value="${entity.shortName} List" 
 						id="${entity.shortName}Id"
-	 					propagation="none"/>
+	 					propagation="none">
+                        <f:param name="from"/>
+                    </s:link>
 </#foreach>         
                     <!-- @newMenuItem@ -->
  		     </ice:panelGroup>

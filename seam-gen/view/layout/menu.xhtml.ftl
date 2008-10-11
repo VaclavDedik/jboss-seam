@@ -13,7 +13,7 @@
     <s:link view="/${entity.shortName}List.xhtml"
            value="${entity.shortName} List"
      propagation="none">
-       <f:param name="from" value="" />
+       <f:param name="from"/>
     </s:link>
 </#foreach>
     <!-- @newMenuItem@ -->
