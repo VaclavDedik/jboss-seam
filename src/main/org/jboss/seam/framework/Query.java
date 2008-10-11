@@ -32,7 +32,7 @@ public abstract class Query<T, E>
    private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s",         Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
 
-   private static final Pattern ORDER_COLUMN_PATTERN = Pattern.compile("^\\w*$");
+   private static final Pattern ORDER_COLUMN_PATTERN = Pattern.compile("^\\w+(\\.\\w+)*$");
 
    private static final String DIR_ASC = "asc";
    private static final String DIR_DESC = "desc";
@@ -411,12 +411,10 @@ public abstract class Query<T, E>
     */
    
    public String getOrder() {
-       String column    = getOrderColumn();
+       String column = getOrderColumn();
 
        if (column == null) {
            return order;
-   
-       
        }
        
        String direction = getOrderDirection();
