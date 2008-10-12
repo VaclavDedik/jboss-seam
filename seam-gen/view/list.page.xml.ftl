@@ -5,7 +5,7 @@
 
 <#include "../util/TypeInfo.ftl">
 <#assign entityName = pojo.shortName>
-<#assign componentName = util.lower(entityName)>
+<#assign componentName = entityName?uncap_first>
 <#assign listName = componentName + "List">
    <param name="firstResult" value="${'#'}{${listName}.firstResult}"/>
    <param name="sort" value="${'#'}{${listName}.orderColumn}"/>
@@ -13,7 +13,7 @@
 
    <param name="from"/>
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !isToOne(property) && property != pojo.versionProperty!>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>

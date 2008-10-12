@@ -1,14 +1,15 @@
+<#include "../util/TypeInfo.ftl">
 <#foreach property in pojo.allPropertiesIterator>
-<#if util.isToOne(property)>
+<#if isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if entities.add(parentPojo.shortName)>
-<#assign parentComponentName = util.lower(parentPojo.shortName)>
+<#assign parentComponentName = parentPojo.shortName?uncap_first>
 <#assign parentHomeName = parentComponentName + "Home">
    <param name="${parentComponentName}From"/>
-<#assign parentIdName = parentComponentName + util.upper(parentPojo.identifierProperty.name)>
+<#assign parentIdName = parentComponentName + parentPojo.identifierProperty.name?cap_first>
 <#if c2j.isComponent(parentPojo.identifierProperty)>
 <#foreach parentComponentProperty in parentPojo.identifierProperty.value.propertyIterator>
-<#assign parentCidName = parentComponentName + util.upper(parentComponentProperty.name)>
+<#assign parentCidName = parentComponentName + parentComponentProperty.name?cap_first>
    <param name="${parentCidName}" value="${'#'}{${parentHomeName}.${parentIdName}.${parentComponentProperty.name}}"/>
 </#foreach>
 <#else>

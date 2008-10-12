@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <#assign entityName = pojo.shortName>
-<#assign componentName = util.lower(entityName)>
+<#assign componentName = entityName?uncap_first>
 <#assign homeName = componentName + "Home">
 <#assign masterPageName = entityName + "List">
 <#assign pageName = entityName>
@@ -15,10 +15,10 @@
    <action execute="${'#'}{${homeName}.wire}"/>
 
    <param name="${componentName}From"/>
-<#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
+<#assign idName = componentName + pojo.identifierProperty.name?cap_first>
 <#if c2j.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
-<#assign cidName = componentName + util.upper(componentProperty.name)>
+<#assign cidName = componentName + componentProperty.name?cap_first>
    <param name="${cidName}" value="${'#'}{${homeName}.${idName}.${componentProperty.name}}"/>
 </#foreach>
 <#else>

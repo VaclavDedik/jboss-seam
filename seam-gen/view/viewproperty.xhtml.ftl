@@ -5,7 +5,7 @@
 <#foreach componentProperty in property.value.propertyIterator>
 
         <s:decorate id="${componentProperty.name}" template="layout/display.xhtml">
-            <ui:define name="label">${componentProperty.name}</ui:define>
+            <ui:define name="label">${label(componentProperty.name)}</ui:define>
 <#if isDate(componentProperty)>
             <h:outputText value="${'#'}{${homeName}.instance.${property.name}.${componentProperty.name}}">
                 <s:convertDateTime type="date" dateStyle="short"/>
@@ -34,7 +34,7 @@
 <#else>
 
         <s:decorate id="${property.name}" template="layout/display.xhtml">
-            <ui:define name="label">${property.name}</ui:define>
+            <ui:define name="label">${label(property.name)}</ui:define>
 <#if isDate(property)>
             <h:outputText value="${'#'}{${homeName}.instance.${property.name}}">
                 <s:convertDateTime type="date" dateStyle="short"/>

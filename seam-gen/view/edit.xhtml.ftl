@@ -1,7 +1,7 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <#assign entityName = pojo.shortName>
-<#assign componentName = util.lower(entityName)>
+<#assign componentName = entityName?uncap_first>
 <#assign homeName = componentName + "Home">
 <#assign masterPageName = entityName + "List">
 <#assign pageName = entityName>
@@ -67,7 +67,7 @@
     </h:form>
 <#assign hasAssociations=false>
 <#foreach property in pojo.allPropertiesIterator>
-<#if util.isToOne(property) || c2h.isOneToManyCollection(property)>
+<#if isToOne(property) || c2h.isOneToManyCollection(property)>
 <#assign hasAssociations=true>
 </#if>
 </#foreach>
@@ -76,15 +76,15 @@
 <rich:tabPanel switchType="ajax">
 </#if>
 <#foreach property in pojo.allPropertiesIterator>
-<#if util.isToOne(property)>
+<#if isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#assign parentPageName = parentPojo.shortName>
-<#assign parentName = util.lower(parentPojo.shortName)>
+<#assign parentName = parentPojo.shortName?uncap_first>
 
 <#if property.optional>
-    <rich:tab label="${property.name}">
+    <rich:tab label="${label(property.name)}">
 <#else>
-    <rich:tab label="${property.name} *" labelClass="required">
+    <rich:tab label="${label(property.name)} *" labelClass="required">
 </#if>
     <div class="association" id="${property.name}Parent">
 
@@ -97,51 +97,51 @@
               rowClasses="rvgRowOne,rvgRowTwo"
                       id="${property.name}Table">
 <#foreach parentProperty in parentPojo.allPropertiesIterator>
-<#if !c2h.isCollection(parentProperty) && !util.isToOne(parentProperty) && parentProperty != parentPojo.versionProperty!>
+<#if !c2h.isCollection(parentProperty) && !isToOne(parentProperty) && parentProperty != parentPojo.versionProperty!>
 <#if parentPojo.isComponent(parentProperty)>
 <#foreach componentProperty in parentProperty.value.propertyIterator>
             <h:column>
-                <f:facet name="header">${componentProperty.name}</f:facet>
+                <f:facet name="header">${label(componentProperty.name)}</f:facet>
                 ${'#'}{${parentName}.${parentProperty.name}.${componentProperty.name}}
             </h:column>
 </#foreach>
 <#else>
             <h:column>
-                <f:facet name="header">${parentProperty.name}</f:facet>
+                <f:facet name="header">${label(parentProperty.name)}</f:facet>
                 ${'#'}{${parentName}.${parentProperty.name}}
             </h:column>
 </#if>
 </#if>
-<#if util.isToOne(parentProperty)>
+<#if isToOne(parentProperty)>
 <#assign parentParentPojo = c2j.getPOJOClass(cfg.getClassMapping(parentProperty.value.referencedEntityName))>
 <#if parentParentPojo.isComponent(parentParentPojo.identifierProperty)>
 <#foreach componentProperty in parentParentPojo.identifierProperty.value.propertyIterator>
             <h:column>
-            <f:facet name="header">${parentProperty.name} ${componentProperty.name}</f:facet>
+            <f:facet name="header">${label(parentProperty.name)} ${label(componentProperty.name)?uncap_first}</f:facet>
           ${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}.${componentProperty.name}}
             </h:column>
 </#foreach>
 <#else>
             <h:column>
-            <f:facet name="header">${parentProperty.name} ${parentParentPojo.identifierProperty.name}</f:facet>
+            <f:facet name="header">${label(parentProperty.name)} ${label(parentParentPojo.identifierProperty.name)?uncap_first}</f:facet>
           ${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}
             </h:column>
 </#if>
 </#if>
 </#foreach>
             <h:column>
-                <f:facet name="header">action</f:facet>
+                <f:facet name="header">Action</f:facet>
                 <s:link view="/${parentPageName}.xhtml"
                          id="view${parentName}"
                       value="View"
                 propagation="none">
 <#if parentPojo.isComponent(parentPojo.identifierProperty)>
 <#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>
-                    <f:param name="${parentName}${util.upper(componentProperty.name)}"
+                    <f:param name="${parentName}${componentProperty.name?cap_first}"
                             value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}.${componentProperty.name}}"/>
 </#foreach>
 <#else>
-                    <f:param name="${parentName}${util.upper(parentPojo.identifierProperty.name)}"
+                    <f:param name="${parentName}${parentPojo.identifierProperty.name?cap_first}"
                            value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
 </#if>
                 </s:link>
@@ -162,13 +162,13 @@
 </#if>
 <#if c2h.isOneToManyCollection(property)>
 
-    <rich:tab label="${property.name}">
+    <rich:tab label="${label(property.name)}">
         <div class="association" id="${property.name}Children">
 
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
 <#assign childPageName = childPojo.shortName>
 <#assign childEditPageName = childPojo.shortName + "Edit">
-<#assign childName = util.lower(childPojo.shortName)>
+<#assign childName = childPojo.shortName?uncap_first>
             <h:outputText value="There are no ${property.name} associated with this ${componentName}."
                        rendered="${'#'}{empty ${homeName}.${property.name}}"/>
 
@@ -178,35 +178,35 @@
                     rowClasses="rvgRowOne,rvgRowTwo"
                             id="${property.name}Table">
 <#foreach childProperty in childPojo.allPropertiesIterator>
-<#if !c2h.isCollection(childProperty) && !util.isToOne(childProperty) && childProperty != childPojo.versionProperty!>
+<#if !c2h.isCollection(childProperty) && !isToOne(childProperty) && childProperty != childPojo.versionProperty!>
 <#if childPojo.isComponent(childProperty)>
 <#foreach componentProperty in childProperty.value.propertyIterator>
                 <h:column>
-                    <f:facet name="header">${componentProperty.name}</f:facet>
+                    <f:facet name="header">${label(componentProperty.name)}</f:facet>
                     ${'#'}{${childName}.${childProperty.name}.${componentProperty.name}}
                 </h:column>
 </#foreach>
 <#else>
                 <h:column>
-                    <f:facet name="header">${childProperty.name}</f:facet>
+                    <f:facet name="header">${label(childProperty.name)}</f:facet>
                     <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
                 </h:column>
 </#if>
 </#if>
 </#foreach>
                 <h:column>
-                    <f:facet name="header">action</f:facet>
+                    <f:facet name="header">Action</f:facet>
                     <s:link view="/${childPageName}.xhtml"
                               id="select${childName}"
                            value="View"
                      propagation="none">
 <#if childPojo.isComponent(childPojo.identifierProperty)>
 <#foreach componentProperty in childPojo.identifierProperty.value.propertyIterator>
-                        <f:param name="${childName}${util.upper(componentProperty.name)}"
+                        <f:param name="${childName}${componentProperty.name?cap_first}"
                                 value="${'#'}{${childName}.${childPojo.identifierProperty.name}.${componentProperty.name}}"/>
 </#foreach>
 <#else>
-                        <f:param name="${childName}${util.upper(childPojo.identifierProperty.name)}"
+                        <f:param name="${childName}${childPojo.identifierProperty.name?cap_first}"
                                 value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
 </#if>
                         <f:param name="${childName}From" value="${entityName}"/>
@@ -222,7 +222,7 @@
                    value="Add ${childName}"
                     view="/${childEditPageName}.xhtml"
              propagation="none">
-                 <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}"
+                 <f:param name="${componentName}${pojo.identifierProperty.name?cap_first}"
                          value="${'#'}{${homeName}.instance.${pojo.identifierProperty.name}}"/>
                  <f:param name="${childName}From" value="${entityName}"/>
             </s:button>

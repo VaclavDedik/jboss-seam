@@ -3,7 +3,7 @@
 <#include "../util/TypeInfo.ftl">
 
 <#assign entityName = pojo.shortName>
-<#assign componentName = util.lower(entityName)>
+<#assign componentName = entityName?uncap_first>
 <#assign listName = componentName + "List">
 <#assign pageName = entityName>
 <#assign editPageName = entityName + "Edit">
@@ -31,12 +31,12 @@
          <ice:panelGroup id="listPanelGroup${entityName}Id" styleClass="edit">
 		
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !isToOne(property) && property != pojo.versionProperty!>
 <#if c2j.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
 <#if isString(componentProperty)>
             <s:decorate id="${componentProperty.name}decId" template="layout/display.xhtml">
-                <ui:define name="label">${componentProperty.name}</ui:define>
+                <ui:define name="label">${label(componentProperty.name)}</ui:define>
                   <ice:inputText id="${componentProperty.name}TextId" 
                           value="${'#'}{${listName}.${componentName}.${property.name}.${componentProperty.name}}"
 				  partialSubmit="true"/>
@@ -47,7 +47,7 @@
 <#else>
 <#if isString(property)>
             <s:decorate id="${property.name}decId" template="layout/display.xhtml">
-                <ui:define name="label">${property.name}</ui:define>
+                <ui:define name="label">${label(property.name)}</ui:define>
                 <ice:inputText id="list${property.name}TextId" 
                           value="${'#'}{${listName}.${componentName}.${property.name}}"
 				  partialSubmit="true"/>
@@ -83,7 +83,7 @@
 	columnClasses="allCols"
              rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
-<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !isToOne(property) && property != pojo.versionProperty!>
 <#if pojo.isComponent(property)>
 <#foreach componentProperty in property.value.propertyIterator>
         <ice:column id="list${componentProperty.name}Id">
@@ -91,7 +91,7 @@
 <#assign propertyPath = property.name + '.' + componentProperty.name>
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="${'#'}{${listName}}"/>
-                    <ui:param name="propertyLabel" value="${componentProperty.name}"/>
+                    <ui:param name="propertyLabel" value="${label(componentProperty.name)}"/>
                     <ui:param name="propertyPath" value="${propertyPath}"/>
                 </ui:include>
             </f:facet>
@@ -103,7 +103,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="${'#'}{${listName}}"/>
-                    <ui:param name="propertyLabel" value="${property.name}"/>
+                    <ui:param name="propertyLabel" value="${label(property.name)}"/>
                     <ui:param name="propertyPath" value="${property.name}"/>
                 </ui:include>
             </f:facet>
@@ -111,7 +111,7 @@
         </ice:column>
 </#if>
 </#if>
-<#if util.isToOne(property)>
+<#if isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if parentPojo.isComponent(parentPojo.identifierProperty)>
 <#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>
@@ -120,7 +120,7 @@
 <#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name + '.' + componentProperty.name>
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="${'#'}{${listName}}"/>
-                    <ui:param name="propertyLabel" value="${property.name} ${componentProperty.name}"/>
+                    <ui:param name="propertyLabel" value="${label(property.name)} ${label(componentProperty.name)?uncap_first}"/>
                     <ui:param name="propertyPath" value="${propertyPath}"/>
                 </ui:include>
             </f:facet>
@@ -133,7 +133,7 @@
 <#assign propertyPath = property.name + '.' + parentPojo.identifierProperty.name>
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="${'#'}{${listName}}"/>
-                    <ui:param name="propertyLabel" value="${property.name} ${parentPojo.identifierProperty.name}"/>
+                    <ui:param name="propertyLabel" value="${label(property.name)} ${label(parentPojo.identifierProperty.name)?uncap_first}"/>
                     <ui:param name="propertyPath" value="${propertyPath}"/>
                 </ui:include>
             </f:facet>
@@ -143,17 +143,17 @@
 </#if>
 </#foreach>
         <ice:column id="listColumn${pageName}Id">
-            <f:facet name="header">action</f:facet>
+            <f:facet name="header">Action</f:facet>
             <s:link view="/${'#'}{empty from ? '${pageName}' : from}.xhtml" 
                    value="Select" 
                       id="list${componentName}LinkId">
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
-                <f:param name="${componentName}${util.upper(componentProperty.name)}" 
+                <f:param name="${componentName}${componentProperty.name?cap_first}" 
                         value="${'#'}{${componentName}.${pojo.identifierProperty.name}.${componentProperty.name}}"/>
 </#foreach>
 <#else>
-                <f:param name="${componentName}${util.upper(pojo.identifierProperty.name)}" 
+                <f:param name="${componentName}${pojo.identifierProperty.name?cap_first}" 
                         value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
 </#if>
             </s:link>
@@ -202,10 +202,10 @@
         <s:button view="/${editPageName}.xhtml"
                     id="listCreate${componentName}Id" 
                  value="Create ${componentName}">
-<#assign idName = componentName + util.upper(pojo.identifierProperty.name)>
+<#assign idName = componentName + pojo.identifierProperty.name?cap_first>
 <#if c2j.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
-<#assign cidName = componentName + util.upper(componentProperty.name)>
+<#assign cidName = componentName + componentProperty.name?cap_first>
             <f:param name="${cidName}"/>
 </#foreach>
 <#else>

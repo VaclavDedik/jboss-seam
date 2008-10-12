@@ -1,6 +1,6 @@
 <#include "../util/TypeInfo.ftl">
 
-<#if !c2h.isCollection(property) && !util.isToOne(property) && property != pojo.versionProperty!>
+<#if !c2h.isCollection(property) && !isToOne(property) && property != pojo.versionProperty!>
 <#assign propertyIsId = property.equals(pojo.identifierProperty)>
 <#if !propertyIsId || property.value.identifierGeneratorStrategy == "assigned">
 <#if pojo.isComponent(property)>
@@ -8,7 +8,7 @@
 <#assign column = componentProperty.columnIterator.next()>
 
             <s:decorate id="${componentProperty.name}Field" template="layout/edit.xhtml">
-                <ui:define name="label">${componentProperty.name}</ui:define>
+                <ui:define name="label">${label(componentProperty.name)}</ui:define>
 <#if isDate(componentProperty)>
                 <rich:calendar id="${componentProperty.name}"
 <#if propertyIsId>
@@ -119,7 +119,7 @@
 <#assign property = property.value.typeName>
 
             <s:decorate id="${property.name}Field" template="layout/edit.xhtml">
-                <ui:define name="label">${property.name}</ui:define>
+                <ui:define name="label">${label(property.name)}</ui:define>
 <#if isDate(property)>
                 <rich:calendar id="${property.name}"
 <#if propertyIsId>

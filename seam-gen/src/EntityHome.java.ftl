@@ -1,22 +1,23 @@
+<#include "../util/TypeInfo.ftl">
 package ${actionPackage};
 <#assign classbody>
 <#assign entityName = pojo.shortName>
-<#assign componentName = util.lower(entityName)>
+<#assign componentName = entityName?uncap_first>
 <#assign homeName = componentName + "Home">
 @${pojo.importType("org.jboss.seam.annotations.Name")}("${homeName}")
 public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framework.EntityHome")}<${entityName}>
 {
 
 <#foreach property in pojo.allPropertiesIterator>
-<#if util.isToOne(property)>
+<#if isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
-<#assign parentHomeName = util.lower(parentPojo.shortName) + "Home">
+<#assign parentHomeName = parentPojo.shortName?uncap_first + "Home">
     @${pojo.importType("org.jboss.seam.annotations.In")}(create=true)
     ${parentPojo.shortName}Home ${parentHomeName};
 </#if>
 </#foreach>
 
-<#assign idName = entityName + util.upper(pojo.identifierProperty.name)>
+<#assign idName = entityName + pojo.identifierProperty.name?cap_first>
 <#if c2j.isComponent(pojo.identifierProperty)>
 <#assign idType = entityName + "Id">
 <#else>
@@ -69,10 +70,10 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     {
         getInstance();
 <#foreach property in pojo.allPropertiesIterator>
-<#if util.isToOne(property)>
+<#if isToOne(property)>
 <#assign parentPojo = c2j.getPOJOClass(cfg.getClassMapping(property.value.referencedEntityName))>
 <#if parentPojo.shortName!=pojo.shortName>
-<#assign parentHomeName = util.lower(parentPojo.shortName) + "Home">
+<#assign parentHomeName = parentPojo.shortName?uncap_first + "Home">
 <#assign setter = "set" + pojo.getPropertyName(property)>
         ${parentPojo.shortName} ${property.name}=${parentHomeName}.getDefinedInstance();
         if ( ${property.name}!=null )
@@ -87,7 +88,7 @@ public class ${entityName}Home extends ${pojo.importType("org.jboss.seam.framewo
     public boolean isWired()
     {
 <#foreach property in pojo.allPropertiesIterator>
-<#if (util.isToOne(property) && !property.optional)>
+<#if (isToOne(property) && !property.optional)>
 <#assign getter = pojo.getGetterSignature(property)>
         if ( getInstance().${getter}()==null ) return false;
 </#if>
