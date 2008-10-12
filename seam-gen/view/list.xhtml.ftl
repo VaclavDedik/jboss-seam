@@ -1,6 +1,5 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <#include "../util/TypeInfo.ftl">
 <#assign entityName = pojo.shortName>
 <#assign componentName = entityName?uncap_first>
@@ -8,14 +7,13 @@
 <#assign pageName = entityName>
 <#assign editPageName = entityName + "Edit">
 <#assign listPageName = entityName + "List">
-
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:s="http://jboss.com/products/seam/taglib"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:rich="http://richfaces.org/rich"
-                template="layout/template.xhtml">
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
 
 <ui:define name="body">
 
@@ -63,7 +61,7 @@
                rendered="${'#'}{empty ${listName}.resultList}"/>
 
     <rich:dataTable id="${listName}"
-                var="${componentName}"
+                var="_${componentName}"
               value="${'#'}{${listName}.resultList}"
            rendered="${'#'}{not empty ${listName}.resultList}">
 <#foreach property in pojo.allPropertiesIterator>
@@ -79,7 +77,7 @@
                     <ui:param name="propertyPath" value="${propertyPath}"/>
                 </ui:include>
             </f:facet>
-            ${'#'}{${componentName}.${property.name}.${componentProperty.name}}
+            <@outputValue property=componentProperty expression="${'#'}{_${componentName}.${property.name}.${componentProperty.name}}" indent=12/>
         </h:column>
 </#foreach>
 <#else>
@@ -91,7 +89,7 @@
                     <ui:param name="propertyPath" value="${property.name}"/>
                 </ui:include>
             </f:facet>
-            ${'#'}{${componentName}.${property.name}}
+            <@outputValue property=property expression="${'#'}{_${componentName}.${property.name}}" indent=12/>
         </h:column>
 </#if>
 </#if>
@@ -108,7 +106,7 @@
                     <ui:param name="propertyPath" value="${propertyPath}"/>
                 </ui:include>
             </f:facet>
-            ${'#'}{${componentName}.${propertyPath}}
+            <@outputValue property=componentProperty expression="${'#'}{_${componentName}.${propertyPath}}" indent=12/>
         </h:column>
 </#foreach>
 <#else>
@@ -121,7 +119,7 @@
                     <ui:param name="propertyPath" value="${propertyPath}"/>
                 </ui:include>
             </f:facet>
-            ${'#'}{${componentName}.${propertyPath}}
+            <@outputValue property=parentPojo.identifierProperty expression="${'#'}{_${componentName}.${propertyPath}}" indent=12/>
         </h:column>
 </#if>
 </#if>
@@ -134,11 +132,11 @@
 <#if pojo.isComponent(pojo.identifierProperty)>
 <#foreach componentProperty in pojo.identifierProperty.value.propertyIterator>
                 <f:param name="${componentName}${componentProperty.name?cap_first}"
-                        value="${'#'}{${componentName}.${pojo.identifierProperty.name}.${componentProperty.name}}"/>
+                        value="${'#'}{_${componentName}.${pojo.identifierProperty.name}.${componentProperty.name}}"/>
 </#foreach>
 <#else>
                 <f:param name="${componentName}${pojo.identifierProperty.name?cap_first}"
-                        value="${'#'}{${componentName}.${pojo.identifierProperty.name}}"/>
+                        value="${'#'}{_${componentName}.${pojo.identifierProperty.name}}"/>
 </#if>
             </s:link>
         </h:column>
@@ -201,4 +199,3 @@
 </ui:define>
 
 </ui:composition>
-

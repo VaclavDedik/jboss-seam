@@ -1,19 +1,18 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <#assign entityName = pojo.shortName>
 <#assign componentName = entityName?uncap_first>
 <#assign homeName = componentName + "Home">
 <#assign masterPageName = entityName + "List">
 <#assign pageName = entityName>
-
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:s="http://jboss.com/products/seam/taglib"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:a="http://richfaces.org/a4j"
-                xmlns:rich="http://richfaces.org/rich"
-                template="layout/template.xhtml">
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
 
 <ui:define name="body">
 
@@ -91,7 +90,7 @@
         <h:outputText value="There is no ${property.name} associated with this ${componentName}."
                    rendered="${'#'}{${homeName}.instance.${property.name} == null}"/>
 
-        <rich:dataTable var="${parentName}"
+        <rich:dataTable var="_${parentName}"
                    value="${'#'}{${homeName}.instance.${property.name}}"
                 rendered="${'#'}{${homeName}.instance.${property.name} != null}"
               rowClasses="rvgRowOne,rvgRowTwo"
@@ -102,13 +101,13 @@
 <#foreach componentProperty in parentProperty.value.propertyIterator>
             <h:column>
                 <f:facet name="header">${label(componentProperty.name)}</f:facet>
-                ${'#'}{${parentName}.${parentProperty.name}.${componentProperty.name}}
+                <@outputValue property=componentProperty expression="${'#'}{_${parentName}.${parentProperty.name}.${componentProperty.name}}" indent=16/>
             </h:column>
 </#foreach>
 <#else>
             <h:column>
                 <f:facet name="header">${label(parentProperty.name)}</f:facet>
-                ${'#'}{${parentName}.${parentProperty.name}}
+                <@outputValue property=parentProperty expression="${'#'}{_${parentName}.${parentProperty.name}}" indent=16/>
             </h:column>
 </#if>
 </#if>
@@ -117,14 +116,14 @@
 <#if parentParentPojo.isComponent(parentParentPojo.identifierProperty)>
 <#foreach componentProperty in parentParentPojo.identifierProperty.value.propertyIterator>
             <h:column>
-            <f:facet name="header">${label(parentProperty.name)} ${label(componentProperty.name)?uncap_first}</f:facet>
-          ${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}.${componentProperty.name}}
+                <f:facet name="header">${label(parentProperty.name)} ${label(componentProperty.name)?uncap_first}</f:facet>
+                <@outputValue property=componentProperty expression="${'#'}{_${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}.${componentProperty.name}}" indent=16/>
             </h:column>
 </#foreach>
 <#else>
             <h:column>
-            <f:facet name="header">${label(parentProperty.name)} ${label(parentParentPojo.identifierProperty.name)?uncap_first}</f:facet>
-          ${'#'}{${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}
+                <f:facet name="header">${label(parentProperty.name)} ${label(parentParentPojo.identifierProperty.name)?uncap_first}</f:facet>
+                <@outputValue property=parentParentPojo.indentifierProperty expression="${'#'}{_${parentName}.${parentProperty.name}.${parentParentPojo.identifierProperty.name}}" indent=16/>
             </h:column>
 </#if>
 </#if>
@@ -138,11 +137,11 @@
 <#if parentPojo.isComponent(parentPojo.identifierProperty)>
 <#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>
                     <f:param name="${parentName}${componentProperty.name?cap_first}"
-                            value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}.${componentProperty.name}}"/>
+                            value="${'#'}{_${parentName}.${parentPojo.identifierProperty.name}.${componentProperty.name}}"/>
 </#foreach>
 <#else>
                     <f:param name="${parentName}${parentPojo.identifierProperty.name?cap_first}"
-                           value="${'#'}{${parentName}.${parentPojo.identifierProperty.name}}"/>
+                           value="${'#'}{_${parentName}.${parentPojo.identifierProperty.name}}"/>
 </#if>
                 </s:link>
             </h:column>
@@ -163,7 +162,7 @@
 <#if c2h.isOneToManyCollection(property)>
 
     <rich:tab label="${label(property.name)}">
-        <div class="association" id="${property.name}Children">
+        <h:form styleClass="association" id="${property.name}Children">
 
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>
 <#assign childPageName = childPojo.shortName>
@@ -173,7 +172,7 @@
                        rendered="${'#'}{empty ${homeName}.${property.name}}"/>
 
             <rich:dataTable value="${'#'}{${homeName}.${property.name}}"
-                           var="${childName}"
+                           var="_${childName}"
                       rendered="${'#'}{not empty ${homeName}.${property.name}}"
                     rowClasses="rvgRowOne,rvgRowTwo"
                             id="${property.name}Table">
@@ -181,16 +180,16 @@
 <#if !c2h.isCollection(childProperty) && !isToOne(childProperty) && childProperty != childPojo.versionProperty!>
 <#if childPojo.isComponent(childProperty)>
 <#foreach componentProperty in childProperty.value.propertyIterator>
-                <h:column>
+                <rich:column sortBy="${'#'}{_${childName}.${childProperty.name}.${componentProperty.name}}">
                     <f:facet name="header">${label(componentProperty.name)}</f:facet>
-                    ${'#'}{${childName}.${childProperty.name}.${componentProperty.name}}
-                </h:column>
+                    <@outputValue property=componentProperty expression="${'#'}{_${childName}.${childProperty.name}.${componentProperty.name}}" indent=20/>
+                </rich:column>
 </#foreach>
 <#else>
-                <h:column>
+                <rich:column sortBy="${'#'}{_${childName}.${childProperty.name}}">
                     <f:facet name="header">${label(childProperty.name)}</f:facet>
-                    <h:outputText value="${'#'}{${childName}.${childProperty.name}}"/>
-                </h:column>
+                    <@outputValue property=childProperty expression="${'#'}{_${childName}.${childProperty.name}}" indent=20/>
+                </rich:column>
 </#if>
 </#if>
 </#foreach>
@@ -203,18 +202,18 @@
 <#if childPojo.isComponent(childPojo.identifierProperty)>
 <#foreach componentProperty in childPojo.identifierProperty.value.propertyIterator>
                         <f:param name="${childName}${componentProperty.name?cap_first}"
-                                value="${'#'}{${childName}.${childPojo.identifierProperty.name}.${componentProperty.name}}"/>
+                                value="${'#'}{_${childName}.${childPojo.identifierProperty.name}.${componentProperty.name}}"/>
 </#foreach>
 <#else>
                         <f:param name="${childName}${childPojo.identifierProperty.name?cap_first}"
-                                value="${'#'}{${childName}.${childPojo.identifierProperty.name}}"/>
+                                value="${'#'}{_${childName}.${childPojo.identifierProperty.name}}"/>
 </#if>
                         <f:param name="${childName}From" value="${entityName}"/>
                     </s:link>
                 </h:column>
             </rich:dataTable>
 
-        </div>
+        </h:form>
 
         <f:subview rendered="${'#'}{${homeName}.managed}" id="${property.name}">
         <div class="actionButtons">
