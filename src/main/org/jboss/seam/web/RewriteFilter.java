@@ -72,8 +72,8 @@ public class RewriteFilter
                ServletException 
     {
         String fullPath = request.getRequestURI();
-        log.info("incoming URL is " + fullPath);
-        log.info("known patterns are " + patterns);
+        //log.debug("incoming URL is " + fullPath);
+        //log.debug("known patterns are " + patterns);
 
         String localPath = strip(fullPath, request.getContextPath());
        
@@ -81,7 +81,7 @@ public class RewriteFilter
         if (rewrite!=null) {
             String newPath = rewrite.rewrite();
             
-            log.info("rewritten incoming path is " + newPath);
+            //log.debug("rewritten incoming path is " + newPath);
             
             if (!fullPath.equals(request.getContextPath() + newPath)) {
                 RequestDispatcher dispatcher = request.getRequestDispatcher(newPath);
@@ -138,7 +138,7 @@ public class RewriteFilter
             log.warn("Pages is null for incoming request!");
         }
         
-        ServletMapping mapping = new ServletMapping(viewMapping);
+        ServletMapping mapping = new ServletMapping(getViewMapping());
         for (Pattern pattern: allPatterns) {
             pattern.setViewMapping(mapping);
         }
