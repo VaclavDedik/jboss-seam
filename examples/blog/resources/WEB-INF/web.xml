@@ -5,19 +5,19 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	
-	<display-name>Seam Blog Example</display-name>
-
-	<error-page>
-		<error-code>404</error-code>
-		<location>/seam/404.xhtml</location>
-	</error-page>
-   
-   <!-- Seam -->
+    <display-name>Seam Blog Example</display-name>
+    
+    <error-page>
+        <error-code>404</error-code>
+        <location>/seam/404.xhtml</location>
+    </error-page>
+    
+    <!-- Seam -->
    
     <listener>
         <listener-class>org.jboss.seam.servlet.SeamListener</listener-class>
     </listener>
-
+    
     <filter>
         <filter-name>Seam Filter</filter-name>
         <filter-class>org.jboss.seam.servlet.SeamFilter</filter-class>

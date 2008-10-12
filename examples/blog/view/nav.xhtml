@@ -1,17 +1,14 @@
 <span xmlns="http://www.w3.org/1999/xhtml"
-     xmlns:ui="http://java.sun.com/jsf/facelets"
-     xmlns:h="http://java.sun.com/jsf/html"
-     xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
 
-     <h:outputLink value="search.xhtml">
-        [All posts]
-        <f:param name="searchPattern" value=""/>
-     </h:outputLink>
+     <s:link view="/search.xhtml" value="[All posts]" propagation="none">
+         <f:param name="searchPattern" value=""/>
+     </s:link>     
+     <s:link view="/index.xhtml" value="[Recent posts]"   propagation="none" />
+     <s:link view="/post.xhtml"  value="[Write new post]" propagation="none" />
+     <s:link view="/index.xml"   value="[Atom feed]"      propagation="none" />
      
-     <h:outputLink value="index.xhtml">[Recent posts]</h:outputLink>
-     
-     <h:outputLink value="post.xhtml">[Write new post]</h:outputLink>
-     
-     <h:outputLink value="index.xml">[Atom feed]</h:outputLink>
-
 </span>

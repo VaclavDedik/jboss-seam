@@ -1,12 +1,11 @@
 <?xml version="1.0"?>        
-<feed xmlns="http://www.w3.org/2005/Atom" 
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:s="http://jboss.com/products/seam/taglib">
-      
-<f:view contentType="application/xhtml+xml">
 
+<f:view contentType="application/atom+xml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:s="http://jboss.com/products/seam/taglib">
+<feed xmlns="http://www.w3.org/2005/Atom"> 
   <title>#{blog.name}</title>
   <subtitle>#{blog.description}</subtitle>
   <link href="http://localhost:8080/seam-blog"/>
@@ -26,7 +25,7 @@
     </summary>
   </entry>
   </ui:repeat>
-
+</feed>
 </f:view>
 
-</feed>
+

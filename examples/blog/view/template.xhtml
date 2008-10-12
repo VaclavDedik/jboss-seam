@@ -12,7 +12,12 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>#{blog.name}</title>
-      <link href="#{theme.css}" rel="stylesheet" type="text/css" />
+      <link href="#{theme.css}" rel="stylesheet" type="text/css" /> 
+      <link rel="alternate" 
+            type="application/atom+xml" 
+            title="atom" 
+            href="#{request.contextPath}/seam/index.xml" />
+
    </head>
 
    <body>

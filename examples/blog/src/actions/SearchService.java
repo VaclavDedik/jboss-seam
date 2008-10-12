@@ -32,11 +32,7 @@ public class SearchService
    @Factory("searchResults")
    public List<BlogEntry> getSearchResults()
    {
-      if (searchPattern==null)
-      {
-         return null;
-      }
-      else if ("".equals(searchPattern) ) {
+      if (searchPattern==null || "".equals(searchPattern) ) {
          searchPattern = null;
          return entityManager.createQuery("select be from BlogEntry be order by date desc").getResultList();
       }
