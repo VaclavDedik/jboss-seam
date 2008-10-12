@@ -55,6 +55,11 @@ public class PropertyBuilders
    {
    }
 
+   
+   public static class ForceType extends StringPropertyBuilder
+   {
+   }
+   
    public static class BorderBottomShorthand implements PropertyBuilder
    {
       public StyleMap parseProperty(String key, String[] values)
