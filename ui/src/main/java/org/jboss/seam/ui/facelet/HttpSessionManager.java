@@ -20,7 +20,7 @@ import org.jboss.seam.mock.MockHttpSession;
 @BypassInterceptors
 @Install(dependencies="org.jboss.seam.faces.renderer")
 @AutoCreate
-public class MockHttpSessionManager
+public class HttpSessionManager
 {
    
    private HttpSession session;
@@ -28,7 +28,7 @@ public class MockHttpSessionManager
    @Create
    public void create()
    {
-      this.session = new MockHttpSession(MockServletContextManager.instance());
+      this.session = new MockHttpSession(ServletContextManager.instance());
    }
    
    @Unwrap
@@ -43,7 +43,7 @@ public class MockHttpSessionManager
       {
          throw new IllegalStateException("Session context is not active");
       }
-      return (HttpSession) Component.getInstance(MockHttpSessionManager.class, SESSION);
+      return (HttpSession) Component.getInstance(HttpSessionManager.class, SESSION);
    }
 
 }

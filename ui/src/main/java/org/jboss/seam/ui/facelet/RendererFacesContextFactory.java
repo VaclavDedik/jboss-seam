@@ -53,7 +53,7 @@ public class RendererFacesContextFactory
 
    public FacesContext getFacesContext(ServletRequest request, ServletResponse response)
    {
-      return facesContextFactory.getFacesContext(MockServletContextManager.instance(), request, response, lifecycle);
+      return facesContextFactory.getFacesContext(ServletContextManager.instance(), request, response, lifecycle);
    }
    
    @Destroy

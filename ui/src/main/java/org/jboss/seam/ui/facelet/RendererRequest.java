@@ -26,8 +26,6 @@ public class RendererRequest
    private MockHttpServletRequest request;
    private MockHttpServletResponse response;
    
-   private ClassLoader originalClassLoader;
-   
    private StringWriter writer;
    
    private String viewId;
@@ -39,13 +37,8 @@ public class RendererRequest
    
    private void init()
    {
-      request = new MockHttpServletRequest(MockHttpSessionManager.instance());
+      request = new MockHttpServletRequest(HttpSessionManager.instance());
       response = new MockHttpServletResponse();
-      
-      // Make sure we are using the correct ClassLoader
-      // TODO Is this still necessary
-      originalClassLoader = Thread.currentThread().getContextClassLoader();
-      Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
       
       // Generate the FacesContext from the JSF FacesContextFactory
       originalFacesContext = FacesContext.getCurrentInstance();
@@ -67,13 +60,11 @@ public class RendererRequest
       facesContext.release();
       DelegatingFacesContext.setCurrentInstance(originalFacesContext);
       
-      Thread.currentThread().setContextClassLoader(originalClassLoader);
       
       originalFacesContext = null;
       facesContext = null;
       request = null;
       response = null;
-      originalClassLoader = null;
    }
    
    public void run() throws IOException

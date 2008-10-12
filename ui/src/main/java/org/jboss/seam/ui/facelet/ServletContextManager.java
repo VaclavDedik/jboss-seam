@@ -13,6 +13,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.contexts.Contexts;
+import org.jboss.seam.contexts.ServletLifecycle;
 import org.jboss.seam.mock.MockServletContext;
 
 @Name("org.jboss.seam.ui.facelet.mockServletContext")
@@ -20,7 +21,7 @@ import org.jboss.seam.mock.MockServletContext;
 @BypassInterceptors
 @Install(dependencies="org.jboss.seam.faces.renderer")
 @AutoCreate
-public class MockServletContextManager
+public class ServletContextManager
 {
    
    private ServletContext servletContext;
@@ -28,7 +29,15 @@ public class MockServletContextManager
    @Create
    public void create()
    {
-      this.servletContext = new MockServletContext();
+      // TODO A bit of a hack, we should store the servlet context properly
+      if (ServletLifecycle.getServletContext() != null)
+      {
+         servletContext = ServletLifecycle.getServletContext();
+      }
+      else
+      {
+         this.servletContext = new MockServletContext();
+      }
    }
    
    @Unwrap
@@ -43,7 +52,7 @@ public class MockServletContextManager
       {
          throw new IllegalStateException("Application context is not active");
       }
-      return (ServletContext) Component.getInstance(MockServletContextManager.class, APPLICATION);
+      return (ServletContext) Component.getInstance(ServletContextManager.class, APPLICATION);
    }
 
 }
