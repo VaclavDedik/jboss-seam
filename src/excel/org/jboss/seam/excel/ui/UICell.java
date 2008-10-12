@@ -20,7 +20,6 @@ public class UICell extends UICellBase implements WorksheetItem
       general, number, text, date, formula, bool
    }
 
-   private CellType forceType;
    private Object value;
    private Integer column;
    private Integer row;
@@ -65,16 +64,6 @@ public class UICell extends UICellBase implements WorksheetItem
       this.value = value;
    }
 
-   public CellType getForceType()
-   {
-      return (CellType) valueOf("forceType", forceType);
-   }
-
-   public void setForceType(CellType forceType)
-   {
-      this.forceType = forceType;
-   }
-
    @Override
    public String getFamily()
    {
@@ -94,10 +83,6 @@ public class UICell extends UICellBase implements WorksheetItem
       if (this instanceof UIFormula)
       {
          return CellType.formula;
-      }
-      if (forceType != null)
-      {
-         return forceType;
       }
       Object value = getValue();
       if (value instanceof Integer || value instanceof Long || value instanceof Double || value instanceof Short || value instanceof BigDecimal || value instanceof BigInteger || value instanceof Byte || value instanceof Float)

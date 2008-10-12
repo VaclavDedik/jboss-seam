@@ -66,6 +66,7 @@ public class CellStyle
    public Boolean wrap;
    public String verticalAlignment;
    public String formatMask;
+   public String forceType;
 
    public CellStyle(Map<String, Object> styleMap)
    {
@@ -95,6 +96,7 @@ public class CellStyle
       wrap = (Boolean) styleMap.get(CSSNames.WRAP);
       verticalAlignment = (String) styleMap.get(CSSNames.VERICAL_ALIGNMENT);
       formatMask = (String) styleMap.get(CSSNames.FORMAT_MASK);
+      forceType = (String) styleMap.get(CSSNames.FORCE_TYPE);
    }
 
 }

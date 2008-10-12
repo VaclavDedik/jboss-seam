@@ -47,12 +47,11 @@ public class CSSNames
    public static final String SHRINK_TO_FIT = "xls-shrink-to-fit";
    public static final String VERICAL_ALIGNMENT = "xls-vertical-alignment";
    public static final String WRAP = "xls-wrap";
+   public static final String FORCE_TYPE = "xls-force-type";
    
    public static final String COLUMN_WIDTH = "xls-column-width";
    public static final String COLUMN_WIDTHS = "xls-column-widths";
    public static final String COLUMN_AUTO_SIZE = "xls-column-autosize";
    public static final String COLUMN_HIDDEN = "xls-column-hidden";
-
-   public static final String FORCE_TYPE = "xls-force-type";
 
 }

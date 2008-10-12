@@ -340,6 +340,14 @@
                               to some pattern, this file extension must also match.
                            </para>
                         </listitem>
+                        <listitem>
+                           <para>
+                              <literal>exportKey</literal>
+                              &#8212;A key under which to store the resulting data
+                              in a DocumentData object under the event scope. If used,
+                              there is no redirection.
+                           </para>
+                        </listitem>
                      </itemizedlist>
                      <para>
                         <emphasis>Child elemenents</emphasis>
@@ -979,16 +987,6 @@
                               &#8212;The value to display. Usually an
                               EL-expression referencing the var-attribute of the
                               containing datatable. The value is a string.
-                           </para>
-                        </listitem>
-                        <listitem>
-                           <para>
-                              <literal>forceType</literal>
-                              &#8212;The forced type of the cell data. The value
-                              is a string that can be one of "general",
-                              "number", "text", "date", "formula" or "bool". The
-                              type is automatically detected so there is rarely
-                              any use for this attribute.
                            </para>
                         </listitem>
                         <listitem>
@@ -3038,6 +3036,18 @@
                               jxl.format.Alignment
                            </ulink>
                            ).
+                        </para>
+                     </entry>
+                  </row>
+                  <row>
+                     <entry valign="top">
+                        <para>xls-force-type</para>
+                     </entry>
+                     <entry valign="top">
+                        <para>
+                           The forced type of the cell data. The value is a string that can be one 
+                           of "general", "number", "text", "date", "formula" or "bool". The type 
+                           is automatically detected so there is rarely any use for this attribute.
                         </para>
                      </entry>
                   </row>

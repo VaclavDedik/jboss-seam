@@ -28,7 +28,10 @@ public abstract class ExcelComponent extends UIComponentBase
    private static final String DEFAULT_CONTENT_TYPE = "text/html";
    private static final String DEFAULT_CHARACTER_ENCODING = "utf-8";
 
+   // The CSS style class
    private String styleClass;
+   
+   // The CSS style
    private String style;
    
    /**

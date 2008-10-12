@@ -11,9 +11,12 @@ import org.jboss.seam.excel.jxl.JXLFactory;
  */
 public class PropertyBuilders
 {
+
    // Wildcard symbol for column widths
    private static final String COLUMN_WIDTH_WILDCARD = "*";
-   
+
+   public static class ForceType extends StringPropertyBuilder {}
+
    public static class ColumnWidths implements PropertyBuilder
    {
       public StyleMap parseProperty(String key, String[] values)
@@ -52,11 +55,6 @@ public class PropertyBuilders
    }
 
    public static class BorderBottomColor extends StringPropertyBuilder
-   {
-   }
-
-   
-   public static class ForceType extends StringPropertyBuilder
    {
    }
    

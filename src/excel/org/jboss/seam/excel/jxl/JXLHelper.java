@@ -54,10 +54,11 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 
 /**
- * A helper class for the JXLExcelWorkbook, caches cell info and holds CSS parser
+ * A helper class for the JXLExcelWorkbook, caches cell info and holds CSS
+ * parser
  * 
  * @author Nicklas Karlsson (nickarls@gmail.com)
- *
+ * 
  */
 public class JXLHelper
 {
@@ -66,10 +67,10 @@ public class JXLHelper
 
    // The CSS parser
    private Parser parser = new Parser();
-   
+
    // A cache of cell info
    private CellInfoCache cellInfoCache = new CellInfoCache();
-      
+
    /**
     * Creates a cell format
     * 
@@ -82,7 +83,8 @@ public class JXLHelper
       WritableCellFormat cellFormat = null;
       CellStyle cellStyle = new CellStyle(parser.getCascadedStyleMap(uiCell));
 
-      switch (uiCell.getDataType())
+      CellType cellType = cellStyle.forceType != null ? CellType.valueOf(cellStyle.forceType) : uiCell.getDataType();
+      switch (cellType)
       {
       case text:
          // Creates a basic text format
@@ -203,32 +205,23 @@ public class JXLHelper
 
       if (cellStyle.leftBorder.isUsed())
       {
-         cellFormat.setBorder(JXLFactory.createBorder("left"), 
-               JXLFactory.createLineStyle(cellStyle.leftBorder.lineStyle), 
-               JXLFactory.createColor(cellStyle.leftBorder.color));
+         cellFormat.setBorder(JXLFactory.createBorder("left"), JXLFactory.createLineStyle(cellStyle.leftBorder.lineStyle), JXLFactory.createColor(cellStyle.leftBorder.color));
       }
       if (cellStyle.topBorder.isUsed())
       {
-         cellFormat.setBorder(JXLFactory.createBorder("top"), 
-               JXLFactory.createLineStyle(cellStyle.topBorder.lineStyle), 
-               JXLFactory.createColor(cellStyle.topBorder.color));
+         cellFormat.setBorder(JXLFactory.createBorder("top"), JXLFactory.createLineStyle(cellStyle.topBorder.lineStyle), JXLFactory.createColor(cellStyle.topBorder.color));
       }
       if (cellStyle.rightBorder.isUsed())
       {
-         cellFormat.setBorder(JXLFactory.createBorder("right"), 
-               JXLFactory.createLineStyle(cellStyle.rightBorder.lineStyle), 
-               JXLFactory.createColor(cellStyle.rightBorder.color));
+         cellFormat.setBorder(JXLFactory.createBorder("right"), JXLFactory.createLineStyle(cellStyle.rightBorder.lineStyle), JXLFactory.createColor(cellStyle.rightBorder.color));
       }
       if (cellStyle.bottomBorder.isUsed())
       {
-         cellFormat.setBorder(JXLFactory.createBorder("bottom"), 
-               JXLFactory.createLineStyle(cellStyle.bottomBorder.lineStyle), 
-               JXLFactory.createColor(cellStyle.bottomBorder.color));
+         cellFormat.setBorder(JXLFactory.createBorder("bottom"), JXLFactory.createLineStyle(cellStyle.bottomBorder.lineStyle), JXLFactory.createColor(cellStyle.bottomBorder.color));
       }
       if (cellStyle.background.isUsed())
       {
-         cellFormat.setBackground(JXLFactory.createColor(cellStyle.background.color), 
-               JXLFactory.createPattern(cellStyle.background.pattern));
+         cellFormat.setBackground(JXLFactory.createColor(cellStyle.background.color), JXLFactory.createPattern(cellStyle.background.pattern));
       }
       return cellFormat;
    }
@@ -246,7 +239,7 @@ public class JXLHelper
    }
 
    /**
-    * Applied worksheet settings 
+    * Applied worksheet settings
     * 
     * @param worksheet The worksheet to apply the settings to
     * @param uiWorksheet The settings to set
@@ -416,10 +409,13 @@ public class JXLHelper
             UIPrintTitles printTitles = (UIPrintTitles) child;
             settings.setPrintTitles(printTitles.getFirstCol(), printTitles.getFirstRow(), printTitles.getLastCol(), printTitles.getLastRow());
          }
-         else if (child.getClass() == UIHeader.class) {
+         else if (child.getClass() == UIHeader.class)
+         {
             UIHeader uiHeader = (UIHeader) child;
             settings.setHeader(JXLFactory.createHeaderFooter(uiHeader, settings.getHeader()));
-         } else if (child.getClass() == UIFooter.class) {
+         }
+         else if (child.getClass() == UIFooter.class)
+         {
             UIFooter uiFooter = (UIFooter) child;
             settings.setFooter(JXLFactory.createHeaderFooter(uiFooter, settings.getFooter()));
          }
@@ -628,8 +624,8 @@ public class JXLHelper
     * @param data The contents of the cell
     * @param cellFormat The cell format settings of the cell
     * @return The prepared cell representation
-    * @see <a
-    *      href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableCell.html">WritableCell</a>
+    * @see <a * href="http://jexcelapi.sourceforge.net/resources/javadocs/2_6/docs/jxl/write/WritableCell.html"
+    *      >WritableCell< /a>
     */
    public static WritableCell createCell(int column, int row, CellType type, Object data, WritableCellFormat cellFormat)
    {
@@ -758,7 +754,7 @@ public class JXLHelper
    public void applyColumnSettings(UIColumn uiColumn, WritableSheet worksheet, int columnIndex)
    {
       ColumnStyle columnStyle = new ColumnStyle(parser.getCascadedStyleMap(uiColumn));
-      
+
       if (log.isTraceEnabled())
       {
          log.trace("Applying column settings #0 on column #1", columnStyle, columnIndex);
