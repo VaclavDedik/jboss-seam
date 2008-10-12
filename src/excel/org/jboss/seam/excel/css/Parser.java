@@ -2,6 +2,7 @@ package org.jboss.seam.excel.css;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -138,6 +139,7 @@ public class Parser
       propertyBuilders.put(CSSNames.COLUMN_AUTO_SIZE, new PropertyBuilders.ColumnAutoSize());
       propertyBuilders.put(CSSNames.COLUMN_HIDDEN, new PropertyBuilders.ColumnHidden());
       propertyBuilders.put(CSSNames.COLUMN_WIDTHS, new PropertyBuilders.ColumnWidths());
+      propertyBuilders.put(CSSNames.FORCE_TYPE, new PropertyBuilders.ForceType());
    }
 
    /**
@@ -147,9 +149,9 @@ public class Parser
     * @return The read data as a String
     * @throws IOException If the stream could not be read
     */
-   private static String readCSS(URL url) throws IOException
+   private static String readCSS(InputStream in) throws IOException
    {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(in));
       StringBuffer buffer = new StringBuffer();
       String line;
       while ((line = reader.readLine()) != null)
@@ -164,15 +166,21 @@ public class Parser
     * Parses a style sheet. Really crude. Assumes data is nicely formatted on
     * one line per entry
     * 
-    * @param URL The URL to read
+    * @param urlString The URL to read
     * @return A map of style class names mapped to StyleMaps
     * @throws MalformedURLException
     * @throws IOException
     */
-   private Map<String, StyleMap> parseStylesheet(String URL) throws MalformedURLException, IOException
+   private Map<String, StyleMap> parseStylesheet(String urlString) throws MalformedURLException, IOException
    {
       Map<String, StyleMap> styleClasses = new HashMap<String, StyleMap>();
-      String css = readCSS(new URL(URL)).toLowerCase();
+      InputStream cssStream = null;
+      if (urlString.indexOf("://") < 0) {
+         cssStream = getClass().getResourceAsStream(urlString);
+      } else {
+         cssStream = new URL(urlString).openStream();
+      }
+      String css = readCSS(cssStream).toLowerCase();
       int firstBrace = -1;
       int secondBrace = -1;
       while (!"".equals(css))
