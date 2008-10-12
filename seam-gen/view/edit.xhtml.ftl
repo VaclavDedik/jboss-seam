@@ -1,5 +1,6 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<#include "../util/TypeInfo.ftl">
 <#assign entityName = pojo.shortName>
 <#assign componentName = entityName?uncap_first>
 <#assign homeName = componentName + "Home">
@@ -19,7 +20,7 @@
     <h:form id="${componentName}" styleClass="edit">
 
         <rich:panel>
-            <f:facet name="header">${'#'}{${homeName}.managed ? 'Edit' : 'Add'} ${entityName}</f:facet>
+            <f:facet name="header">${'#'}{${homeName}.managed ? 'Edit' : 'Add'} ${label(entityName)}</f:facet>
 <#foreach property in pojo.allPropertiesIterator>
 <#include "editproperty.xhtml.ftl">
 </#foreach>
@@ -128,28 +129,11 @@
 </#if>
 </#if>
 </#foreach>
-            <h:column>
-                <f:facet name="header">Action</f:facet>
-                <s:link view="/${parentPageName}.xhtml"
-                         id="view${parentName}"
-                      value="View"
-                propagation="none">
-<#if parentPojo.isComponent(parentPojo.identifierProperty)>
-<#foreach componentProperty in parentPojo.identifierProperty.value.propertyIterator>
-                    <f:param name="${parentName}${componentProperty.name?cap_first}"
-                            value="${'#'}{_${parentName}.${parentPojo.identifierProperty.name}.${componentProperty.name}}"/>
-</#foreach>
-<#else>
-                    <f:param name="${parentName}${parentPojo.identifierProperty.name?cap_first}"
-                           value="${'#'}{_${parentName}.${parentPojo.identifierProperty.name}}"/>
-</#if>
-                </s:link>
-            </h:column>
         </rich:dataTable>
 
 <#if parentPojo.shortName!=pojo.shortName>
         <div class="actionButtons">
-            <s:button value="Select ${property.name}"
+            <s:button value="${'#'}{${homeName}.instance.${property.name} != null ? 'Change' : 'Select'} ${property.name}"
                        view="/${parentPageName}List.xhtml">
                 <f:param name="from" value="${pageName}Edit"/>
             </s:button>
@@ -193,24 +177,6 @@
 </#if>
 </#if>
 </#foreach>
-                <h:column>
-                    <f:facet name="header">Action</f:facet>
-                    <s:link view="/${childPageName}.xhtml"
-                              id="select${childName}"
-                           value="View"
-                     propagation="none">
-<#if childPojo.isComponent(childPojo.identifierProperty)>
-<#foreach componentProperty in childPojo.identifierProperty.value.propertyIterator>
-                        <f:param name="${childName}${componentProperty.name?cap_first}"
-                                value="${'#'}{_${childName}.${childPojo.identifierProperty.name}.${componentProperty.name}}"/>
-</#foreach>
-<#else>
-                        <f:param name="${childName}${childPojo.identifierProperty.name?cap_first}"
-                                value="${'#'}{_${childName}.${childPojo.identifierProperty.name}}"/>
-</#if>
-                        <f:param name="${childName}From" value="${entityName}"/>
-                    </s:link>
-                </h:column>
             </rich:dataTable>
 
         </h:form>

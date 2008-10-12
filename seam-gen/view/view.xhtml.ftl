@@ -17,7 +17,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">${entityName}</f:facet>
+        <f:facet name="header">${label(entityName)} Details</f:facet>
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !isToOne(property) && property != pojo.versionProperty!>
 <#include "viewproperty.xhtml.ftl">
@@ -55,7 +55,10 @@
 <#assign parentPageName = parentPojo.shortName>
 <#assign parentName = parentPojo.shortName?uncap_first>
 
-    <rich:tab label="${label(property.name)}">
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>${label(property.name)}</h:panelGroup>
+        </f:facet>
     <div class="association" id="${property.name}Parent">
 
         <h:outputText value="There is no ${property.name} associated with this ${componentName}."
@@ -122,7 +125,10 @@
 </#if>
 <#if c2h.isOneToManyCollection(property)>
 
-    <rich:tab label="${label(property.name)}">
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>${label(property.name)}</h:panelGroup>
+        </f:facet>
     <h:form styleClass="association" id="${property.name}Children">
 
 <#assign childPojo = c2j.getPOJOClass(property.value.element.associatedClass)>

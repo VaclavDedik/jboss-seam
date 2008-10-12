@@ -19,7 +19,7 @@
 
     <h:form id="${componentName}Search" styleClass="edit">
 
-        <rich:simpleTogglePanel label="${entityName} search filter" switchType="ajax">
+        <rich:simpleTogglePanel label="${entityName} Search Filter" switchType="ajax">
 
 <#foreach property in pojo.allPropertiesIterator>
 <#if !c2h.isCollection(property) && !isToOne(property) && property != pojo.versionProperty!>
@@ -54,7 +54,7 @@
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">${entityName} search results</f:facet>
+        <f:facet name="header">${entityName} Search Results</f:facet>
     <div class="results" id="${componentName}List">
 
     <h:outputText value="The ${componentName} search returned no results."

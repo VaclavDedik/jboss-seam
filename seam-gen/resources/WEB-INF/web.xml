@@ -23,16 +23,16 @@
       <param-value>disable</param-value>
    </context-param>
 
-   <!-- Change the load strategies to ALL to create bundles -->
+   <!-- Change load strategy to DEFAULT to disable sending scripts/styles as packs -->
 
    <context-param>
       <param-name>org.richfaces.LoadStyleStrategy</param-name>
-      <param-value>DEFAULT</param-value>
+      <param-value>ALL</param-value>
    </context-param>
 
    <context-param>
       <param-name>org.richfaces.LoadScriptStrategy</param-name>
-      <param-value>DEFAULT</param-value>
+      <param-value>ALL</param-value>
    </context-param>
  
    <!-- Seam -->
