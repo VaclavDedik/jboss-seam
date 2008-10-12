@@ -4,6 +4,7 @@ import org.testng.annotations.Test;
 
 import org.jboss.seam.web.Pattern;
 import org.jboss.seam.web.Rewrite;
+import org.jboss.seam.web.ServletMapping;
 
 import static org.testng.Assert.*;
 
@@ -14,14 +15,15 @@ public class RewriteTest
         throws Exception
     {
         Pattern pattern = new Pattern("/foo.seam", "/foo");
+        pattern.setViewMapping(new ServletMapping("*.seam"));
                  
         testNoMatchIn(pattern, "/bar");
         testNoMatchIn(pattern, "/fool");
         testNoMatchIn(pattern, "/foo.seam");
+        testNoMatchIn(pattern, "/foo/");
         testNoMatchIn(pattern, "/foo/bar");
 
         testMatchIn(pattern, "/foo",     "/foo.seam");
-        testMatchIn(pattern, "/foo/",    "/foo.seam");
         testMatchIn(pattern, "/foo?x=y", "/foo.seam?x=y");   
     }
     
@@ -30,15 +32,16 @@ public class RewriteTest
         throws Exception
     {
         Pattern pattern = new Pattern("/foo.seam", "/foo/{id}");
+        pattern.setViewMapping(new ServletMapping("*.seam"));
                         
         testNoMatchIn(pattern, "/foo");
-        testNoMatchIn(pattern, "/foo/");
         testNoMatchIn(pattern, "/foo/bar/baz");
         testNoMatchIn(pattern, "/foo/bar/baz?x=y");
-        
+        testNoMatchIn(pattern, "/foo/bar/?x=y");
+
+        testMatchIn(pattern, "/foo/",         "/foo.seam?id=");
         testMatchIn(pattern, "/foo/bar",      "/foo.seam?id=bar");
         testMatchIn(pattern, "/foo/bar?x=y",  "/foo.seam?x=y&id=bar");
-        testMatchIn(pattern, "/foo/bar/?x=y", "/foo.seam?x=y&id=bar");
     }
 
     @Test
@@ -46,6 +49,7 @@ public class RewriteTest
         throws Exception
     {
         Pattern pattern = new Pattern("/foo.seam", "/foo/{id}/{action}");
+        pattern.setViewMapping(new ServletMapping("*.seam"));
                               
         testNoMatchIn(pattern, "/foo");
         testNoMatchIn(pattern, "/foo/bar");
@@ -61,6 +65,7 @@ public class RewriteTest
         throws Exception
     {
         Pattern pattern = new Pattern("/foo.seam", "/foo");
+        pattern.setViewMapping(new ServletMapping("*.seam"));
                  
         testNoMatchOut(pattern, "/bar.seam");
         testNoMatchOut(pattern, "/fool.seam");
@@ -76,11 +81,13 @@ public class RewriteTest
         throws Exception
     {
         Pattern pattern = new Pattern("/foo.seam", "/foo/{id}");
+        pattern.setViewMapping(new ServletMapping("*.seam"));
                         
         testNoMatchOut(pattern, "/foo.seam");
         testNoMatchOut(pattern, "/foo.seam?x=y");
         testNoMatchOut(pattern, "/foo.seam/bar");       
-        testNoMatchOut(pattern, "/foo.seam/bar?id=test");       
+        //should this match?  
+        //testNoMatchOut(pattern, "/foo.seam/bar?id=test");       
         
         testMatchOut(pattern, "/foo.seam?id=bar",      "/foo/bar");
         testMatchOut(pattern, "/foo.seam?x=y&id=bar",  "/foo/bar?x=y");
@@ -93,6 +100,7 @@ public class RewriteTest
         throws Exception
     {
         Pattern pattern = new Pattern("/foo.seam", "/foo/{id}/{action}");
+        pattern.setViewMapping(new ServletMapping("*.seam"));
                               
         testNoMatchOut(pattern, "/foo.seam");
         testNoMatchOut(pattern, "/foo.seam?id=bar");

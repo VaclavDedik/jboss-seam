@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
+
 public class IncomingPattern {
     String view;
     String pattern;
-    
+    ServletMapping viewMapping;
+
     java.util.regex.Pattern regexp;
     List<String> regexpArgs = new ArrayList<String>();
     
-    public IncomingPattern(String view, String pattern) {
+    public IncomingPattern(ServletMapping viewMapping, String view, String pattern) {
         this.view = view;
         this.pattern = pattern;
+        this.viewMapping = viewMapping;
         
         parsePattern(pattern);
     }
@@ -49,7 +52,7 @@ public class IncomingPattern {
     }
 
     private String regexpArg(String substring) {
-        return "([^/]+)";
+        return "([^/]*)";
     }
 
     private String regexpLiteral(String value) {
@@ -65,7 +68,6 @@ public class IncomingPattern {
         }
         return res.toString();
     }
-    
     
     public class IncomingRewrite
         implements Rewrite
@@ -87,15 +89,16 @@ public class IncomingPattern {
                 this.queryArgs = incoming.substring(queryPos+1);
             }
 
-            this.incoming = stripTrailingSlash(this.incoming);
+            // don't match trailing slash - it might indicate an empty arg
+            // this.incoming = stripTrailingSlash(this.incoming);
         }
 
-        private String stripTrailingSlash(String text) {
-            if (text.endsWith("/")) {
-                return stripTrailingSlash(text.substring(0,text.length()-1));
-            }
-            return text;
-        }
+//        private String stripTrailingSlash(String text) {
+//            if (text.endsWith("/")) {
+//                return stripTrailingSlash(text.substring(0,text.length()-1));
+//            }
+//            return text;
+//        }
 
         public boolean isMatch() {
             if (isMatch == null) {
@@ -121,7 +124,8 @@ public class IncomingPattern {
 
         public String rewrite() {
             StringBuffer result = new StringBuffer();
-            result.append(view);
+            
+            result.append(mappedURL(view));
 
             boolean first = true;
 
@@ -133,7 +137,7 @@ public class IncomingPattern {
             for (int i=0; i<regexpArgs.size(); i++) {
                 String key   = regexpArgs.get(i);
                 String value = matchedArgs.get(i);
-
+                
                 if (first) {
                     result.append('?');
                     first = false;
@@ -145,5 +149,9 @@ public class IncomingPattern {
 
             return result.toString();
         }
+    }
+    
+    private String mappedURL(String viewId) {
+        return viewMapping.mapViewIdToURL(viewId);
     }
 }

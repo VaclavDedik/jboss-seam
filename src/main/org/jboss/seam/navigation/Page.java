@@ -16,6 +16,7 @@ import org.jboss.seam.core.Interpolator;
 import org.jboss.seam.core.ResourceLoader;
 import org.jboss.seam.core.Expressions.ValueExpression;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.util.Faces;
 import org.jboss.seam.web.Pattern;
 
 /**
@@ -402,27 +403,11 @@ public final class Page
 
     //public void setRewritePatterns(List<String> rewritePatterns) {
     //    this.rewritePatterns = rewritePatterns;
-    //}
+    //} 
 
     public void addRewritePattern(String value) {
-        Pattern pattern = new Pattern(externalUrl(), value);
+        Pattern pattern = new Pattern(viewId, value);
         rewritePatterns.add(pattern);
-    }
-    
-    // XXX - not the right implementation - assumes .seam
-    private String externalUrl() {
-        String id = viewId;
-        
-        if (id.contains("*")) {
-            throw new IllegalArgumentException("rewrite patterns not allowed on wildcard page defs");
-        }
-        
-        int pos = id.lastIndexOf(".xhtml");
-        if (pos!=-1) {
-            id = id.substring(0, pos) + ".seam";
-        }
-        
-        return id;
     }
 
     public List<Header> getHeaders() {

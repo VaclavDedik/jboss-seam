@@ -36,6 +36,9 @@ public class RewriteFilter
 {
     private static LogProvider log = Logging.getLogProvider(RewriteFilter.class);
 
+    private String viewMapping;
+    
+    
     public void doFilter(ServletRequest request, 
                          ServletResponse response, 
                          FilterChain chain) 
@@ -135,7 +138,24 @@ public class RewriteFilter
             log.warn("Pages is null for incoming request!");
         }
         
+        ServletMapping mapping = new ServletMapping(viewMapping);
+        for (Pattern pattern: allPatterns) {
+            pattern.setViewMapping(mapping);
+        }
+        
         return allPatterns;
     }
+
+
+   public String getViewMapping()
+   {
+      return viewMapping == null ? "*.seam" : viewMapping;
+   }
+
+
+   public void setViewMapping(String viewMapping)
+   {
+      this.viewMapping = viewMapping;
+   }
 }
 
