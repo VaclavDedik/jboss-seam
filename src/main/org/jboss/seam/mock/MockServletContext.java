@@ -21,12 +21,16 @@ import javax.servlet.ServletException;
 
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.jboss.seam.log.LogProvider;
+import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.IteratorEnumeration;
 import org.jboss.seam.util.XML;
 
 public class MockServletContext implements ServletContext
 {
 
+   private transient LogProvider log = Logging.getLogProvider(MockServletContext.class);
+   
    private Map<String, String> initParameters = new HashMap<String, String>();
    private Map<String, Object> attributes = new HashMap<String, Object>();
    
@@ -57,7 +61,7 @@ public class MockServletContext implements ServletContext
       }
       catch (URISyntaxException e)
       {
-         throw new IllegalStateException(e);
+         log.warn("Unable to find web.xml", e);
       }
    }
    
@@ -257,7 +261,14 @@ public class MockServletContext implements ServletContext
 
    public String getRealPath(String relativePath)
    {
-      return webappRoot.getAbsolutePath() + relativePath;
+      if (webappRoot != null)
+      {
+         return webappRoot.getAbsolutePath() + relativePath;
+      }
+      else
+      {
+         return relativePath;
+      }
    }
 
    public String getServerInfo()
