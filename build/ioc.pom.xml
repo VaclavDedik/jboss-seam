@@ -50,6 +50,7 @@
     <dependency>
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>
+      <scope>provided</scope>
     </dependency>
 
    <!-- Microcontainer stuff isn't done -->

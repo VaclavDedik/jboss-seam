@@ -56,11 +56,13 @@
     <dependency>
       <groupId>javassist</groupId>
       <artifactId>javassist</artifactId>
+      <scope>provided</scope>
     </dependency>
     
     <dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>
