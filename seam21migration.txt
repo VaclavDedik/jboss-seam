@@ -90,6 +90,18 @@ This method has been modified so that it doesn't attempt to perform an authentic
 have been set.  Instead, it will simply return true if the user is currently authenticated.  If you
 require the previous behaviour, then please use Identity.tryLogin() instead.  
 
+If you are using the token-based "Remember Me" feature of Seam Security, you will need to add the following 
+section to components.xml to ensure that the user is automatically logged in when first accessing the
+application:
+
+  <event type="org.jboss.seam.security.notLoggedIn">
+    <action execute="#{redirect.captureCurrentView}"/>
+    <action execute="#{identity.tryLogin()}"/>
+  </event>
+  <event type="org.jboss.seam.security.loginSuccessful">
+    <action execute="#{redirect.returnToCapturedView}"/>
+  </event> 
+
 PDF (iText)
 --------
 
