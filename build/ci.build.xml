@@ -45,11 +45,7 @@
 
 	<target name="snapshot">
 		<build target="cleanall" />
-		<build target="dist">
-		   <properties>
-		   	<property name="build.translations" value="true" />
-			</properties>
-		</build>
+		<build target="dist" />
 		
 		<ant target="deploySeamSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
 			<property name="qualifier" value="-SNAPSHOT" />
@@ -57,12 +53,20 @@
 		<ant target="deployExamplesSnapshot" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
 			<property name="qualifier" value="-SNAPSHOT" />
 		</ant>
-		<ant target="deployDocumentation" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
-			<property name="qualifier" value="-SNAPSHOT" />
-		</ant>
 		<ant target="tests" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
 			<property name="qualifier" value="-SNAPSHOT" />
 		</ant>
+	</target>
+	
+	<target name="snapshotDocumentation">
+	   <build target="refdoc">
+         <properties>
+            <property name="build.translations" value="true" />
+         </properties>
+      </build>
+		<ant target="deployDocumentation" antfile="${ant.file}" inheritall="false" inheritrefs="false" dir=".">
+         <property name="qualifier" value="-SNAPSHOT" />
+      </ant>
 	</target>
 	
 	<target name="deployExamplesSnapshot" depends="initdav">
