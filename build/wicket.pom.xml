@@ -28,7 +28,7 @@
       
       <dependency>
          <groupId>javassist</groupId>
-         <artifactId>javassit</artifactId>
+         <artifactId>javassist</artifactId>
          <scope>provided</scope>
       </dependency>
       
