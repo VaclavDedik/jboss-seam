@@ -445,6 +445,19 @@ public class AuthenticationToken implements Serializable {
           That is all that is required - automatic authentication will now occur for users revisiting your site (as long as they
           check the "remember me" checkbox).
         </para>
+        
+        <para>
+          To ensure that users are automatically authenticated when returning to the site, the following section
+          should be placed in components.xml:
+        </para>
+
+        <programlisting role="XML"><![CDATA[  <event type="org.jboss.seam.security.notLoggedIn">
+    <action execute="#{redirect.captureCurrentView}"/>
+    <action execute="#{identity.tryLogin()}"/>
+  </event>
+  <event type="org.jboss.seam.security.loginSuccessful">
+    <action execute="#{redirect.returnToCapturedView}"/>
+  </event>]]></programlisting>
       
       </sect3>
       
