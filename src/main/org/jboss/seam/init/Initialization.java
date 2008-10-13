@@ -186,20 +186,20 @@ public class Initialization
             seenDocuments.addAll(documentNames);
          }
          
-         if (!skip)
-         {
-            try
-            {
+         if (!skip) {
+            try{
+               InputStream stream = url.openStream();
+
                log.debug("reading " + url);
-               installComponentsFromXmlElements( XML.getRootElement( url.openStream() ), replacements );
-            }
-            catch (Exception e)
-            {
+               try {
+                   installComponentsFromXmlElements(XML.getRootElement(stream), replacements);
+               } finally {
+                   Resources.closeStream(stream);
+               }
+            } catch (Exception e) {
                throw new RuntimeException("error while reading " + url, e);
             }
-         }
-         else
-         {
+         } else {
             log.trace("skipping read of duplicate components.xml " + url);
          }
       }
@@ -219,22 +219,26 @@ public class Initialization
          catch (Exception e)
          {
             throw new RuntimeException("error while reading /WEB-INF/components.xml", e);
+         } finally {
+             Resources.closeStream(stream);
          }
       }
    }
 
    private Properties getReplacements()
    {
-      try
-      {
+      InputStream replaceStream = null;
+      try {
          Properties replacements = new Properties();
-         InputStream replaceStream = Resources.getResourceAsStream("/components.properties", servletContext);
-         if (replaceStream != null) replacements.load(replaceStream);
+         replaceStream = Resources.getResourceAsStream("/components.properties", servletContext);
+         if (replaceStream != null) {
+             replacements.load(replaceStream);
+         }
          return replacements;
-      }
-      catch (IOException ioe)
-      {
+      } catch (IOException ioe) {
          throw new RuntimeException("error reading components.properties", ioe);
+      } finally {
+          Resources.closeStream(replaceStream);
       }
    }
 
@@ -908,10 +912,10 @@ public class Initialization
                         classFilenameFromDescriptor(fileName),
                         replacements);
             }
-         } 
-         catch (Exception e) 
-         {
+         } catch (Exception e) {
             throw new RuntimeException("error while reading " + fileName, e);
+         } finally {
+             Resources.closeStream(stream);
          }
       }
    }
@@ -1021,13 +1025,9 @@ public class Initialization
                log.error("could not read " + resource, ioe);
             }
          }
-         finally
+         finally 
          {
-            try
-            {
-               stream.close();
-            }
-            catch (IOException ex) { } // swallow
+            Resources.closeStream(stream);
          }
       }
       else

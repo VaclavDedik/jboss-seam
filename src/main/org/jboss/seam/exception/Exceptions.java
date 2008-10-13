@@ -28,6 +28,7 @@ import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.navigation.Pages;
 import org.jboss.seam.util.Reflections;
+import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 
@@ -147,8 +148,15 @@ public class Exceptions
       InputStream stream = ResourceLoader.instance().getResourceAsStream(fileName);
       if (stream!=null)
       {
-         log.debug("reading exception mappings from " + fileName);
-         List<Element> elements = XML.getRootElement(stream).elements("exception");
+          log.debug("reading exception mappings from " + fileName);
+
+          List<Element> elements = null;
+          try {
+              elements = XML.getRootElement(stream).elements("exception");
+          } finally {
+              Resources.closeStream(stream);
+          }
+      
          for (final Element exception: elements)
          {
             String className = exception.attributeValue("class");

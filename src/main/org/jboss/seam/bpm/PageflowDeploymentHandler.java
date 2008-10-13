@@ -35,21 +35,20 @@ public class PageflowDeploymentHandler extends AbstractDeploymentHandler
 
    public void handle(String name, ClassLoader classLoader)
    {
-      if (name.endsWith(".jpdl.xml"))
-      {
+      if (name.endsWith(".jpdl.xml")) {
          InputStream inputStream = Resources.getResourceAsStream(name, null);
-         try
-         {
+         try {
             Element root = XML.getRootElementSafely(inputStream);
             if ("pageflow-definition".equals(root.getName()))
             {
                pageflowDefinitions.add(name);
             }
-         }
-         catch (DocumentException e)
-         {
+         }  catch (DocumentException e) {
             log.debug("Unable to parse " + name, e);
+         } finally {
+             Resources.closeStream(inputStream);
          }
+         
       }
    }
    

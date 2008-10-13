@@ -35,6 +35,7 @@ import org.jboss.seam.deployment.StandardDeploymentStrategy;
 import org.jboss.seam.log.LogProvider;
 import org.jboss.seam.log.Logging;
 import org.jboss.seam.util.Naming;
+import org.jboss.seam.util.Resources;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -165,6 +166,8 @@ public class Jbpm
       catch (JpdlException e)
       {
          throw new JpdlException("Unable to parse process definition " + resourceName, e);
+      } finally {
+          Resources.closeStream(resource);
       }
    }
    
@@ -175,7 +178,12 @@ public class Jbpm
       {
          throw new IllegalArgumentException("process definition resource not found: " + resourceName);
       }
-      return ProcessDefinition.parseXmlInputStream(resource);
+      
+      try {
+          return ProcessDefinition.parseXmlInputStream(resource);
+      } finally {
+          Resources.closeStream(resource);
+      }
    }
 
    public String[] getPageflowDefinitions() 
@@ -216,7 +224,13 @@ public class Jbpm
     */
    public ProcessDefinition getPageflowDefinitionFromXml(String pageflowDefinition)
    {
-      return Jbpm.parseInputSource( new InputSource( new ReaderInputStream( new StringReader(pageflowDefinition) ) ) );
+      InputStream stream = null;
+      try {
+          stream = new ReaderInputStream(new StringReader(pageflowDefinition));
+          return Jbpm.parseInputSource(new InputSource(stream));
+      } finally {
+          Resources.closeStream(stream);
+      }       
    }
    
    /**
@@ -226,7 +240,13 @@ public class Jbpm
     */
    public ProcessDefinition getProcessDefinitionFromXml(String processDefinition)
    {
-      return ProcessDefinition.parseXmlInputStream( new ReaderInputStream( new StringReader(processDefinition) ) );
+       InputStream stream = null;
+       try {
+           stream = new ReaderInputStream(new StringReader(processDefinition));
+           return ProcessDefinition.parseXmlInputStream(stream);
+       } finally {
+           Resources.closeStream(stream);
+       }
    }
    
    /**

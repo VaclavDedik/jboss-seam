@@ -57,6 +57,7 @@ import org.jboss.seam.log.Logging;
 import org.jboss.seam.pageflow.Pageflow;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.NotLoggedInException;
+import org.jboss.seam.util.Resources;
 import org.jboss.seam.util.Strings;
 import org.jboss.seam.util.XML;
 import org.jboss.seam.web.Parameters;
@@ -120,7 +121,11 @@ public class Pages
             log.info("no pages.xml file found: " + resource);
          } else {
             log.debug("reading pages.xml file: " + resource);
-            parse(stream);
+            try {
+                parse(stream);
+            } finally {
+                Resources.closeStream(stream);
+            }
          }
       }
       
@@ -153,7 +158,11 @@ public class Pages
          else 
          {
             log.debug("reading pages.xml file: " + fileName);
-            parse(stream,viewId);
+            try {
+                parse(stream,viewId);
+            } finally {
+                Resources.closeStream(stream);
+            }
          } 
      }
    }

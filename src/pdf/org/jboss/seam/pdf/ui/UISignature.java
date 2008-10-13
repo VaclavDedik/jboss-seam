@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import org.jboss.seam.pdf.ITextUtils;
 import org.jboss.seam.pdf.KeyStoreConfig;
 import org.jboss.seam.util.FacesResources;
+import org.jboss.seam.util.Resources;
 
 import com.lowagie.text.DocWriter;
 import com.lowagie.text.pdf.PdfAcroForm;
@@ -123,10 +124,9 @@ public class UISignature extends ITextComponent
    public byte[] sign(byte[] originalBytes)
    {
       KeyStoreConfig store = KeyStoreConfig.instance();
-
-      try
-      {
-         InputStream is = FacesResources.getResourceAsStream(store.getKeyStore(), getFacesContext().getExternalContext());
+      InputStream is = null;
+      try {
+         is = FacesResources.getResourceAsStream(store.getKeyStore(), getFacesContext().getExternalContext());
 
          KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
          ks.load(is, store.getKeyStorePassword().toCharArray());
@@ -148,10 +148,10 @@ public class UISignature extends ITextComponent
          stamper.close();
 
          return os.toByteArray();
-      }
-      catch (Exception e)
-      {
+      } catch (Exception e) {
          throw new RuntimeException(e);
+      } finally {
+          Resources.closeStream(is);
       }
 
    }
