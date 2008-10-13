@@ -7,18 +7,19 @@
 	template="template.xhtml">
 	<ui:param name="tagName" value="s:validateEquality" />
 	<ui:define name="body">
-		<p>Validates that two inputs are equal</p>
+		<p>Validates that two java.lang.String inputs are equal</p>
 		<h:form>
 			<h:panelGrid columns="3">
 				<s:label for="name">Name</s:label>
 				<h:inputText id="name" value="#{equalityValidatorBean.name}" />
 				<h:message for="name" />
 				<s:label for="nameVerification">Name Verification</s:label>
-				<h:inputText id="nameVerification" value=" ">
-					<s:validateEquality for="name" />
+				<h:inputText id="nameVerification">
+					<s:validateEquality for="name" message="Strings do not match!" />
 				</h:inputText>
 				<h:message for="nameVerification" />
-				<h:commandButton action="#{equalityValidatorBean.check}" value="Check name" />
+				<h:commandButton action="#{equalityValidatorBean.check}"
+					value="Check name" />
 			</h:panelGrid>
 		</h:form>
 	</ui:define>

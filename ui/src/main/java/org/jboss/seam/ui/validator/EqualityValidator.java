@@ -22,34 +22,34 @@ import org.jboss.seam.log.Logging;
  * Validate two fields are equal
  * 
  * @author pmuir
- *
+ * @author Daniel Roth
+ * 
  */
 public class EqualityValidator implements Validator, StateHolder
 {
-   
+
    private static LogProvider log = Logging.getLogProvider(EqualityValidator.class);
-   
+
    public static final String MESSAGE_ID = "org.jboss.seam.ui.validator.NOT_EQUAL";
-   
+
    public static final String VALIDATOR_ID = "org.jboss.seam.ui.validator.Equality";
 
    private String forId;
-   
    private String message;
    private String messageId;
-   
-   public EqualityValidator() 
+
+   public EqualityValidator()
    {
-      this.message = "Value does not equal that in #0";
+      this.message = "Value does not equal that in '#0'";
       this.messageId = MESSAGE_ID;
    }
-   
+
    public EqualityValidator(String forId)
    {
       this();
       setFor(forId);
    }
-   
+
    public EqualityValidator(String forId, String message, String messageId)
    {
       this(forId);
@@ -62,13 +62,9 @@ public class EqualityValidator implements Validator, StateHolder
          setMessageId(messageId);
       }
    }
-   
+
    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException
    {
-      if (!(component instanceof EditableValueHolder))
-      {
-         throw new FacesException("Must attach an equality validator to an input component");
-      }
       String forId = getFor();
       if (forId == null)
       {
@@ -89,32 +85,32 @@ public class EqualityValidator implements Validator, StateHolder
          }
       }
    }
-   
+
    public String getFor()
    {
       return forId;
-   } 
-   
+   }
+
    public void setFor(String forId)
    {
       this.forId = forId;
    }
-   
+
    public String getMessage()
    {
       return message;
    }
-   
+
    public void setMessage(String message)
    {
       this.message = message;
    }
-   
+
    public String getMessageId()
    {
       return messageId;
    }
-   
+
    public void setMessageId(String messageId)
    {
       this.messageId = messageId;
@@ -127,7 +123,7 @@ public class EqualityValidator implements Validator, StateHolder
 
    public void restoreState(FacesContext context, Object state)
    {
-      Object[] fields = (Object []) state;
+      Object[] fields = (Object[]) state;
       forId = (String) fields[0];
       message = (String) fields[1];
       messageId = (String) fields[2];
@@ -147,22 +143,22 @@ public class EqualityValidator implements Validator, StateHolder
       // No-op
    }
 
-   
    /**
-    * Simple data strcuture to hold info on the "other" component
+    * Simple data structure to hold info on the "other" component
+    * 
     * @author pmuir
-    *
+    * 
     */
-   private class OtherComponent 
+   private class OtherComponent
    {
-      
+
       private FacesContext context;
       private UIComponent component;
       private EditableValueHolder editableValueHolder;
-      
+
       private Renderer renderer;
       private Converter converter;
-      
+
       public OtherComponent(FacesContext facesContext, UIComponent component)
       {
          this.component = component;
@@ -175,23 +171,23 @@ public class EqualityValidator implements Validator, StateHolder
          initRenderer();
          initConverter();
       }
-      
-      private void initRenderer() 
+
+      private void initRenderer()
       {
          if (renderer == null)
          {
             String rendererType = component.getRendererType();
-            if (rendererType != null) 
+            if (rendererType != null)
             {
                renderer = context.getRenderKit().getRenderer(component.getFamily(), rendererType);
-               if (null == renderer) 
+               if (null == renderer)
                {
                   log.trace("Can't get Renderer for type " + rendererType);
                }
-            } 
+            }
             else
             {
-               if (log.isTraceEnabled()) 
+               if (log.isTraceEnabled())
                {
                   String id = component.getId();
                   id = (null != id) ? id : component.getClass().getName();
@@ -200,89 +196,106 @@ public class EqualityValidator implements Validator, StateHolder
             }
          }
       }
-      
-      private void initConverter() {
+
+      private void initConverter()
+      {
          converter = editableValueHolder.getConverter();
-         if (converter != null) {
-             return;
+         if (converter != null)
+         {
+            return;
          }
 
          ValueExpression valueExpression = component.getValueExpression("value");
-         if (valueExpression == null) {
-             return;
+         if (valueExpression == null)
+         {
+            return;
          }
 
          Class converterType;
-         try {
-             converterType = valueExpression.getType(context.getELContext());
+         try
+         {
+            converterType = valueExpression.getType(context.getELContext());
          }
-         catch (ELException e) {
-             throw new FacesException(e);
+         catch (ELException e)
+         {
+            throw new FacesException(e);
          }
 
          // if converterType is null, String, or Object, assume
          // no conversion is needed
-         if (converterType == null || converterType == String.class || converterType == Object.class) 
+         if (converterType == null || converterType == String.class || converterType == Object.class)
          {
-             return;
+            return;
          }
 
          // if getType returns a type for which we support a default
          // conversion, acquire an appropriate converter instance.
-         try 
+         try
          {
-             Application application = context.getApplication();
-             converter = application.createConverter(converterType);
+            Application application = context.getApplication();
+            converter = application.createConverter(converterType);
          }
-         catch (Exception e) 
+         catch (Exception e)
          {
             throw new FacesException(e);
          }
       }
-      
-      private Object getConvertedValue(Object newSubmittedValue) throws ConverterException 
+
+      private Object getConvertedValue(Object newSubmittedValue) throws ConverterException
       {
-         
+
          Object newValue;
 
-         if (renderer != null) 
+         if (renderer != null)
          {
             newValue = renderer.getConvertedValue(context, component, newSubmittedValue);
-         } 
-         else if (newSubmittedValue instanceof String) 
+         }
+         else if (newSubmittedValue instanceof String)
          {
-            // If there's no Renderer, and we've got a String, run it through the Converter (if any)
-            if (converter != null) {
-               newValue = converter.getAsObject(context, component,
-                     (String) newSubmittedValue);
-            } 
+            // If there's no Renderer, and we've got a String, run it through
+            // the Converter (if any)
+            if (converter != null)
+            {
+               newValue = converter.getAsObject(context, component, (String) newSubmittedValue);
+            }
             else
             {
                newValue = newSubmittedValue;
             }
-         } 
-         else 
+         }
+         else
          {
             newValue = newSubmittedValue;
          }
          return newValue;
       }
-      
+
       public Object getValue()
       {
+         /**
+          * If conversion already is done, return value
+          */
+         if (editableValueHolder.isLocalValueSet())
+         {
+            return editableValueHolder.getValue();
+         }
+
+         /**
+          * Convert submittet value
+          */
          Object submittedValue = editableValueHolder.getLocalValue();
-         if (submittedValue == null) 
+         if (submittedValue == null)
          {
             return null;
          }
 
          Object newValue = null;
 
-         try 
+         try
          {
             newValue = getConvertedValue(submittedValue);
          }
-         catch (ConverterException ce) 
+         catch (ConverterException ce)
          {
             // Any errors will be attached by JSF
             return null;
@@ -290,6 +303,6 @@ public class EqualityValidator implements Validator, StateHolder
 
          return newValue;
       }
-      
+
    }
 }

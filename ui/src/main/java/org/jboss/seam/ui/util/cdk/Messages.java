@@ -13,7 +13,7 @@ public class Messages {
 	
 	private static synchronized ResourceBundle getBundle() {
 		ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-		ResourceBundle bundle = (ResourceBundle) bundles.get(contextClassLoader);
+		ResourceBundle bundle = bundles.get(contextClassLoader);
 		if (bundle == null) {
 			bundle = ResourceBundle.getBundle(BUNDLE_NAME, Locale.getDefault(), contextClassLoader);
 			bundles.put(contextClassLoader, bundle);

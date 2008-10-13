@@ -1,5 +1,7 @@
 package org.jboss.seam.example.ui;
 
+import java.util.Date;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -13,11 +15,45 @@ import org.jboss.seam.util.Strings;
 public class EqualityValidatorBean
 {
 
-   private String name;
-
    @In
    private StatusMessages statusMessages;
 
+   private String name;
+
+   private Date date;
+
+   public void check()
+   {
+      if (Strings.isEmpty(name))
+      {
+         statusMessages.addToControl("name", Severity.WARN, "Enter a name!");
+      }
+      else {
+         statusMessages.addToControl("name", Severity.INFO, "OK!");
+      }
+   }
+   
+   public void checkDate()
+   {
+      if (date==null)
+      {
+         statusMessages.addToControl("date", Severity.WARN, "Enter a date!");
+      }
+      else {
+         statusMessages.addToControl("date", Severity.INFO, "OK!");
+      }
+   }   
+   
+   public Date getDate()
+   {
+      return date;
+   }
+   
+   public void setDate(Date date)
+   {
+      this.date = date;
+   }
+   
    public String getName()
    {
       return name;
@@ -26,14 +62,6 @@ public class EqualityValidatorBean
    public void setName(String name)
    {
       this.name = name;
-   }
-
-   public void check()
-   {
-      if (Strings.isEmpty(name))
-      {
-         statusMessages.addToControl("name", Severity.WARN, "Enter a name!");
-      }
    }
 
 }

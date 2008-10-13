@@ -1,16 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE components PUBLIC "-//AJAX4JSF//CDK Generator config/EN"  "http://jboss.org/jbossrichfaces/component-config.dtd" >
 <components>
-	<validator generate="false">
-		<id>org.jboss.seam.ui.EqualityValidator</id>
-		<classname>org.jboss.seam.ui.validator.EqualityValidator</classname>
+
+	<component>
+		<name>org.jboss.seam.ui.EqualityValidator</name>
+		<family>org.jboss.seam.ui.EqualityValidator</family>
+		<classname>org.jboss.seam.ui.component.html.HtmlEqualityValidator</classname>
+		<superclass>org.jboss.seam.ui.component.UIEqualityValidator</superclass>
 		<description>
-			<![CDATA[Validate that the value of two components are equal]]>
+			<![CDATA[Validate all child JSF input fields against the bound propertys using Hibernate Validator.]]>
 		</description>
+		<renderer generate="false" override="false">
+			<name>org.jboss.seam.ui.EqualityValidatorRenderer</name>
+			<classname>org.jboss.seam.ui.renderkit.EqualityValidatorRendererBase</classname>
+		</renderer>
 		<tag>
 			<name>validateEquality</name>
-			<classname>org.jboss.seam.ui.taglib.ModelValidatorTag</classname>
-			<superclass>javax.faces.webapp.ValidatorELTag</superclass>
+			<classname>org.jboss.seam.ui.taglib.EqualityValidatorTag</classname>
+			<superclass>
+				org.jboss.seam.ui.util.cdk.UIComponentTagBase
+			</superclass>
 		</tag>
-	</validator>
+		<property>
+			<name>for</name>
+			<classname>java.lang.String</classname>
+			<description>Id of component to validate against</description>
+		</property>
+		<property>
+			<name>message</name>
+			<classname>java.lang.String</classname>
+			<description>Error message to show</description>
+		</property>
+		<property>
+			<name>messageId</name>
+			<classname>java.lang.String</classname>
+			<description>Message id to use on failure</description>
+		</property>
+
+	</component>
+
 </components>
+
