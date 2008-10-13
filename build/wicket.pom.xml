@@ -27,6 +27,12 @@
       </dependency>
       
       <dependency>
+         <groupId>javassist</groupId>
+         <artifactId>javassit</artifactId>
+         <scope>provided</scope>
+      </dependency>
+      
+      <dependency>
          <groupId>org.apache.wicket</groupId>
          <artifactId>wicket-ioc</artifactId>
       </dependency>
