@@ -59,6 +59,7 @@
 	</target>
 	
 	<target name="snapshotDocumentation">
+		<build target="cleanall" />
 	   <build target="refdoc">
          <properties>
             <property name="build.translations" value="true" />
