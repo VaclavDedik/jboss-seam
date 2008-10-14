@@ -43,24 +43,17 @@
          API's has been made very easy. Implement the <literal>ExcelWorkbook
          </literal> interface, and register in components.xml.
 	   </para>
-         <programlisting role="XML">
-         <![CDATA[
-            <excel:excelFactory>
-               <property name="implementations">
-                  <key>myExcelExporter</key>
-                  <value>my.excel.exporter.ExcelExport</value>
-               </property>
-            </excel:excelFactory>
-        ]]>
+      <programlisting role="XML"><![CDATA[<excel:excelFactory>
+   <property name="implementations">
+      <key>myExcelExporter</key>
+      <value>my.excel.exporter.ExcelExport</value>
+   </property>
+</excel:excelFactory>]]>
       </programlisting>
 	   <para>
          and register the excel namespace in the components tag with
 	   </para>
-         <programlisting role="XML">
-         <![CDATA[
-            xmlns:excel="http://jboss.com/products/seam/excel"
-        ]]>
-      </programlisting>
+      <programlisting role="XML"><![CDATA[xmlns:excel="http://jboss.com/products/seam/excel"]]></programlisting>
 	   <para>
          Then set the UIWorkbook type to <literal>myExcelExporter</literal> and your 
          own exporter will be used. Default is "jxl", but support for CSV has also been 
@@ -1123,39 +1116,55 @@
                                  string.
                                  <itemizedlist>
                                     <listitem>
-                                       "equal" - requires the cell value to
-                                       match the one defined in the
-                                       value-attribute
+                                       <para>
+                                          "equal" - requires the cell value to
+                                          match the one defined in the
+                                          value-attribute
+                                       </para>
                                     </listitem>
                                     <listitem>
-                                       "greater_equal" - requires the cell value
-                                       to be greater than or equal to the value
-                                       defined in the value-attribute
+                                       <para>
+                                          "greater_equal" - requires the cell 
+                                          value to be greater than or equal to 
+                                          the value defined in the 
+                                          value-attribute
+                                       </para>
                                     </listitem>
                                     <listitem>
-                                       "less_equal" - requires the cell value to
-                                       be less than or equal to the value
-                                       defined in the value-attribute
+                                       <para>
+                                          "less_equal" - requires the cell value
+                                          to be less than or equal to the value 
+                                          defined in the value-attribute
+                                       </para>
                                     </listitem>
                                     <listitem>
-                                       "less_than" - requires the cell value to
-                                       be less than the value defined in the
-                                       value-attribute
+                                       <para>
+                                          "less_than" - requires the cell value
+                                          to be less than the value defined in
+                                          the value-attribute
+                                       </para>
                                     </listitem>
                                     <listitem>
-                                       "not_equal" - requires the cell value to
-                                       not match the one defined in the
-                                       value-attribute
+                                       <para>
+                                          "not_equal" - requires the cell value
+                                          to not match the one defined in the
+                                          value-attribute
+                                       </para>
                                     </listitem>
                                     <listitem>
-                                       "between" - requires the cell value to be
-                                       between the values defined in the value-
-                                       and value2 attributes
+                                       <para>
+                                          "between" - requires the cell value to
+                                          be between the values defined in the
+                                          value- and value2 attributes
+                                       </para>
                                     </listitem>
                                     <listitem>
-                                       "not_between" - requires the cell value
-                                       not to be between the values defined in
-                                       the value- and value2 attributes
+                                       <para>
+                                          "not_between" - requires the cell
+                                          value not to be between the values
+                                          defined in the value- and value2
+                                          attributes
+                                       </para>
                                     </listitem>
                                  </itemizedlist>
                               </para>
