@@ -200,7 +200,13 @@ public class WicketComponent<T>
             {
                Restrict restrict = (Restrict) annotation;
                if (restrictions == null) restrictions = new HashSet<String>();
-               restrictions.add(Strings.isEmpty(restrict.value()) ? "#{identity.loggedIn}" : restrict.value());
+               
+               if ( Strings.isEmpty(restrict.value()) )
+               {
+                  throw new IllegalStateException("@Restrict on a Wicket component must specify an expression");
+               }
+               
+               restrictions.add(restrict.value());
             }
             
             if (annotation.annotationType().isAnnotationPresent(RoleCheck.class))
