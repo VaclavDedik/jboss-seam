@@ -2505,7 +2505,7 @@ public class HotelBookingAction implements HotelBooking
         <section>
             <title>The Seam Debug Page</title>
 
-            <para> The WAR also includes <literal>seam-debug.jar</literal>.  The Seam debug page will be availabled 
+            <para> The WAR also includes <literal>seam-debug.jar</literal>.  The Seam debug page will be available
                 if this jar is deployed in
                     <literal>WEB-INF/lib</literal>, along with the Facelets, and if you set the debug property
                 of the <literal>init</literal> component:</para>
@@ -2531,6 +2531,390 @@ public class HotelBookingAction implements HotelBooking
 
     </section>
 
+	<section id="nestedbooking">
+		<title>Nested conversations:  extending the Hotel Booking example</title>
+		
+		<section>
+			<title>Introduction</title>
+			
+			<para>Long-running conversations make it simple to maintain consistency of state in an application
+even in the face of multi-window operation and back-buttoning. Unfortunately, simply beginning and ending a 
+long-running conversation is not always enough. Depending on the requirements of the application, inconsistencies 
+between what the user's expectations and the reality of the application’s state can still result.</para>
+
+			<para>The nested booking application extends the features of the hotel booking application to incorporate 
+the selection of rooms.  Each hotel has available rooms with descriptions for a user to select from.  This requires
+the addition of a room selection page in the hotel reservation flow.</para>
+		
+			<mediaobject>
+	            <imageobject role="fo">
+	                <imagedata fileref="images/nested-booking.png" align="center" scalefit="1"/>
+	            </imageobject>
+	            <imageobject role="html">
+	                <imagedata fileref="images/nested-booking.png" align="center"/>
+	            </imageobject>
+	        </mediaobject>
+        
+        	<para>The user now has the option to select any available room to be included in the booking.  As with the
+hotel booking application we saw previously, this can lead to issues with state consistency.  As with storing state
+in the <varname>HTTPSession</varname>, if a conversation variable changes it affects all windows operating within
+the same conversation context.</para>
+
+			<para>To demonstrate this, let’s suppose the user clones the room selection screen in a new window.  The 
+user then selects the <emphasis>Wonderful Room</emphasis> and proceeds to the confirmation screen. To see just how much
+it would cost to live the high-life, the user returns to the original window, selects the <emphasis>Fantastic 
+Suite</emphasis> for booking, and again proceeds to confirmation. After reviewing the total cost, the user decides
+that practicality wins out and returns to the window showing <emphasis>Wonderful Room</emphasis> to confirm.</para>
+
+			<para>In this scenario, if we simply store all state in the conversation, we are not protected from 
+multi-window operation within the same conversation.  Nested conversations allow us to achieve correct behavior even 
+when context can vary within the same conversation.</para>
+		</section>
+		
+		<section>
+			<title>Understanding Nested Conversations</title>
+		
+			<para>Now let's see how the nested booking example extends the behavior of the hotel booking application through
+use of nested conversations.  Again, we can read the class from top to bottom, as if it were a story.</para>
+
+			<example>
+	          <title>RoomPreferenceAction.java</title>
+	          <!-- Can't use code hightlighting with callouts -->
+	          <programlistingco>
+	            <areaspec>
+	                <area id="nested-booking-load-rooms" coords="25"/>
+	                <area id="nested-booking-nested-conversation" coords="38"/>
+	                <area id="nested-booking-select-preference" coords="43"/>
+	                <area id="nested-booking-end-annotation" coords="58"/>
+	            </areaspec>
+            	<programlisting><![CDATA[@Stateful
+@Name("roomPreference")
+@Restrict("#{identity.loggedIn}")
+public class RoomPreferenceAction implements RoomPreference 
+{
+
+   @Logger 
+   private Log log;
+
+   @In private Hotel hotel;
+   
+   @In private Booking booking;
+
+   @DataModel(value="availableRooms")
+   private List<Room> availableRooms;
+
+   @DataModelSelection(value="availableRooms")
+   private Room roomSelection;
+    
+   @In(required=false, value="roomSelection")
+   @Out(required=false, value="roomSelection")
+   private Room room;
+
+   @Factory("availableRooms")
+   public void loadAvailableRooms()
+   {
+      availableRooms = hotel.getAvailableRooms(booking.getCheckinDate(), booking.getCheckoutDate());
+      log.info("Retrieved #0 available rooms", availableRooms.size());
+   }
+
+   public BigDecimal getExpectedPrice()
+   {
+      log.info("Retrieving price for room #0", roomSelection.getName());
+      
+      return booking.getTotal(roomSelection);
+   }
+
+   @Begin(nested=true)
+   public String selectPreference()
+   {
+      log.info("Room selected");
+      
+      this.room = this.roomSelection;
+      
+      return "payment";
+   }
+
+   public String requestConfirmation()
+   {
+      // all validations are performed through the s:validateAll, so checks are already
+      // performed
+      log.info("Request confirmation from user");
+      
+      return "confirm";
+   }
+
+   @End(beforeRedirect=true)
+   public String cancel()
+   {
+      log.info("ending conversation");
+
+      return "cancel";
+   }
+
+   @Destroy @Remove                                                                      
+   public void destroy() {}	
+}
+]]></programlisting>
+	                    <calloutlist>
+	                        <callout arearefs="nested-booking-load-rooms">
+	                            <para> The <varname>hotel</varname> instance is injected from the conversation context.  The hotel 
+	                            	is loaded through an <emphasis>extended persistence context</emphasis> so that the entity 
+	                            	remains managed throughout the conversation.  This allows us to lazily load the 
+	                            	<varname>availableRooms</varname> through an <varname>@Factory</varname> method by
+	                            	simply walking the assocation.
+	                            </para>
+	                        </callout>
+	                        <callout arearefs="nested-booking-nested-conversation">
+	                            <para> When <link linkend="begin-annotation">
+	                                    <literal>@Begin(nested=true)</literal>
+	                                </link> is encountered, a nested conversation is pushed onto the conversation stack.  When 
+	                                executing within a nested conversation, components still have access to all outer conversation 
+	                                state, but setting any values in the nested conversation’s state container does not affect 
+	                                the outer conversation. In addition, nested conversations can exist concurrently stacked on the 
+	                                same outer conversation, allowing independent state for each.</para>
+	                        </callout>
+	                        <callout arearefs="nested-booking-select-preference">
+	                            <para>The <varname>roomSelection</varname> is outjected to the conversation based on the 
+	                            	<varname>@DataModelSelection</varname>.  Note that because the nested conversation has an
+	                            	independent context, the <varname>roomSelection</varname> is only set into the new nested
+	                            	conversation.  Should the user select a different preference in another window or tab a new 
+	                            	nested conversation would be started.</para>
+	                        </callout>
+	                        <callout arearefs="nested-booking-end-annotation">
+	                            <para> The <link linkend="end-annotation">
+	                                    <literal>@End</literal>
+	                                </link> annotation pops the conversation stack and resumes the outer conversation.  The
+	                                <varname>roomSelection</varname> is destroyed along with the conversation context.</para>
+	                        </callout>
+	                    </calloutlist>
+	                </programlistingco>
+	            </example>
+            
+            	<para>When we being a nested conversation it is pushed onto the conversation stack. In the <varname>nestedbooking</varname> 
+example, the conversation stack consists of the outer long-running conversation (the booking) and each of the nested conversations (room 
+selections).</para>
+
+				<example>
+		          <title>rooms.xhtml</title>
+		          <!-- Can't use code hightlighting with callouts -->
+		          <programlistingco>
+		            <areaspec>
+		                <area id="nested-booking-available-rooms" coords="19"/>
+		                <area id="nested-booking-selection-action" coords="36"/>
+		                <area id="nested-booking-cancel-action" coords="45"/>
+		            </areaspec>
+		            <programlisting><![CDATA[<div class="section">
+	<h1>Room Preference</h1>
+</div>
+
+<div class="section">
+	<h:form id="room_selections_form">
+		<div class="section">
+			<h:outputText styleClass="output" 
+				value="No rooms available for the dates selected: " 
+				rendered="#{availableRooms != null and availableRooms.rowCount == 0}"/>
+			<h:outputText styleClass="output" 
+				value="Rooms available for the dates selected: " 
+				rendered="#{availableRooms != null and availableRooms.rowCount > 0}"/>
+				
+			<h:outputText styleClass="output" value="#{booking.checkinDate}"/> -
+			<h:outputText styleClass="output" value="#{booking.checkoutDate}"/>
+			
+			<br/><br/>
+			
+			<h:dataTable value="#{availableRooms}" var="room" 
+					rendered="#{availableRooms.rowCount > 0}">
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+					#{room.name}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Description</f:facet>
+					#{room.description}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Per Night</f:facet>
+					<h:outputText value="#{room.price}">
+						<f:convertNumber type="currency" currencySymbol="$"/>
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Action</f:facet>
+					<h:commandLink id="selectRoomPreference" 
+						action="#{roomPreference.selectPreference}">Select</h:commandLink>
+				</h:column>
+			</h:dataTable>
+		</div>
+		<div class="entry">
+			<div class="label">&#160;</div>
+			<div class="input">
+				<s:button id="cancel" value="Revise Dates" view="/book.xhtml"/>
+			</div>
+		</div>	
+	</h:form>
+</div>
+]]></programlisting>
+	                    <calloutlist>
+	                        <callout arearefs="nested-booking-available-rooms">
+	                            <para>When requested from EL, the <varname>#{availableRooms}</varname> are loaded by the <varname>@Factory</varname>
+method defined in <varname>RoomPreferenceAction</varname>.  The <varname>@Factory</varname> method will only be executed once to load the values
+into the current context as a <link linkend="datamodel-annotation">
+  <varname>@DataModel</varname>
+</link> instance.</para>
+	                        </callout>
+	                        <callout arearefs="nested-booking-selection-action">
+	                            <para>Invoking the <varname>#{roomPreference.selectPreference}</varname> action results in the row being selected
+and set into the <varname>@DataModelSelection</varname>.  This value is then outjected to the nested conversation context.</para>
+	                        </callout>
+	                        <callout arearefs="nested-booking-cancel-action">
+	                            <para>Revising the dates simply returns to the <varname>/book.xhtml</varname>.  Note that we have not yet nested 
+a conversation (no room preference has been selected), so the current conversation can simply be resumed.  The <varname>&lt;s:button></varname>
+component simply propagates the current conversation when displaying the <varname>/book.xhtml</varname> view.</para>
+	                        </callout>
+	                    </calloutlist>
+	                </programlistingco>
+	            </example>
+
+				<para>Now that we have seen how to nest a conversation, let's see how we can confirm the booking once a room has been selected.  This 
+can be achieved by simply extending the behavior of the <varname>HotelBookingAction</varname>.</para>
+				
+				<example>
+		          <title>HotelBookingAction.java</title>
+		          <!-- Can't use code hightlighting with callouts -->
+		          <programlistingco>
+		            <areaspec>
+		                <area id="nested-booking-end-root" coords="77"/>
+		                <area id="nested-booking-confirm" coords="82"/>
+		                <area id="nested-booking-cancel" coords="89" />
+		            </areaspec>
+		            <programlisting><![CDATA[@Stateful
+@Name("hotelBooking")
+@Restrict("#{identity.loggedIn}")
+public class HotelBookingAction implements HotelBooking
+{
+   
+   @PersistenceContext(type=EXTENDED)
+   private EntityManager em;
+   
+   @In 
+   private User user;
+   
+   @In(required=false) @Out
+   private Hotel hotel;
+   
+   @In(required=false) 
+   @Out(required=false)
+   private Booking booking;
+   
+   @In(required=false)
+   private Room roomSelection;
+   
+   @In
+   private FacesMessages facesMessages;
+      
+   @In
+   private Events events;
+   
+   @Logger 
+   private Log log;
+   
+   @Begin
+   public void selectHotel(Hotel selectedHotel)
+   {
+      log.info("Selected hotel #0", selectedHotel.getName());
+      hotel = em.merge(selectedHotel);
+   }
+   
+   public String setBookingDates()
+   {
+      // the result will indicate whether or not to begin the nested conversation
+      // as well as the navigation.  if a null result is returned, the nested
+      // conversation will not begin, and the user will be returned to the current
+      // page to fix validation issues
+      String result = null;
+
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_MONTH, -1);
+
+      // validate what we have received from the user so far
+      if ( booking.getCheckinDate().before( calendar.getTime() ) )
+      {
+         facesMessages.addToControl("checkinDate", "Check in date must be a future date");
+      }
+      else if ( !booking.getCheckinDate().before( booking.getCheckoutDate() ) )
+      {
+         facesMessages.addToControl("checkoutDate", "Check out date must be later than check in date");
+      }
+      else
+      {
+         result = "rooms";
+      }
+
+      return result;
+   }
+   
+   public void bookHotel()
+   {      
+      booking = new Booking(hotel, user);
+      Calendar calendar = Calendar.getInstance();
+      booking.setCheckinDate( calendar.getTime() );
+      calendar.add(Calendar.DAY_OF_MONTH, 1);
+      booking.setCheckoutDate( calendar.getTime() );
+   }
+   
+   @End(root=true)
+   public void confirm()
+   {
+      // on confirmation we set the room preference in the booking.  the room preference
+      // will be injected based on the nested conversation we are in.
+      booking.setRoomPreference(roomSelection);
+
+      em.persist(booking);
+      facesMessages.add("Thank you, #{user.name}, your confimation number for #{hotel.name} is #{booking.id}");
+      log.info("New booking: #{booking.id} for #{user.username}");
+      events.raiseTransactionSuccessEvent("bookingConfirmed");
+   }
+   
+   @End(root=true, beforeRedirect=true)
+   public void cancel() {}
+   
+   @Destroy @Remove
+   public void destroy() {}
+}
+]]></programlisting>
+                    <calloutlist>
+                        <callout arearefs="nested-booking-end-root">
+                            <para>Annotating an action with  <link linkend="end-annotation">
+                            	<varname>@End(root=true)</varname> 
+                            </link> ends the root conversation which effectively destroys the entire conversation stack.  
+                            When any conversation is ended, it's nested conversations are ended as well.  As the root is 
+                            the conversation that started it all, this is a simple way to destroy and release all state 
+                            associated with a workspace once the booking is confirmed.</para>
+                        </callout>
+                        <callout arearefs="nested-booking-confirm">
+                            <para>The <varname>roomSelection</varname> is only associated with the <varname>booking</varname>
+                            on user confirmation.  While outjecting values to the nested conversation context will not
+                            impact the outer conversation, any objects injected from the outer conversation are injected
+                            by reference.  This means that any changing to these objects will be reflected in the parent 
+                            conversation as well as other concurrent nested conversations.</para>
+                        </callout>
+                        <callout arearefs="nested-booking-cancel">
+                            <para>By simply annotating the cancellation action with  <link linkend="end-annotation">
+                            	<varname>@End(root=true, beforeRedirect=true)</varname> 
+                            </link>
+                            we can easily destroy and release all state associated with the 
+                            workspace prior to redirecting the user back to the hotel selection view.</para>
+                        </callout>
+                    </calloutlist>
+                </programlistingco>
+            </example>
+            
+            <para>Feel free to deploy the application, open many windows or tabs and attempt combinations of various hotels with
+various room preferences.  Confirming a booking always results in the correct hotel and room preference thanks to the nested 
+conversation model.</para>
+		</section>
+	</section>
+	
     <section id="dvdstore">
         <title>A complete application featuring Seam and jBPM: the DVD Store example</title>
 
