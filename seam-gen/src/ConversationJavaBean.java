@@ -13,38 +13,38 @@ import org.jboss.seam.log.Log;
 @Name("@componentName@")
 public class @interfaceName@ {
 
-   @Logger private Log log;
+    @Logger private Log log;
 
-   private int value;
+    private int value;
 
-  @Begin
-  public String begin()
-  {
-    //implement your begin conversation business logic
-    log.info("beginning conversation");
-    return "success";
-  }
-
-  public String increment()
-  {
-    log.info("incrementing");
-    value++;
-    return "success";
-  }
-
-  //add additional action methods that participate in this conversation
-
-  @End
-  public String end()
-  {
-        //implement your end conversation business logic
+    @Begin
+    public String begin()
+    {
+        // implement your begin conversation business logic
+        log.info("beginning conversation");
+        return "success";
+    }
+  
+    public String increment()
+    {
+        log.info("incrementing");
+        value++;
+        return "success";
+    }
+  
+    // add additional action methods that participate in this conversation
+  
+    @End
+    public String end()
+    {
+        // implement your end conversation business logic
         log.info("ending conversation");
-    return "home";
-  }
-
-  public int getValue()
-  {
-    return value;
-  }
+        return "home";
+    }
+  
+    public int getValue()
+    {
+        return value;
+    }
 
 }

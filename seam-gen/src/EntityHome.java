@@ -10,14 +10,13 @@ import @modelPackage@.@entityName@;
 @Name("@homeName@")
 public class @entityName@Home extends EntityHome<@entityName@>
 {
-
     @RequestParameter
     Long @componentName@Id;
 
     @Override
     public Object getId()
     {
-        if (@componentName@Id==null)
+        if (@componentName@Id == null)
         {
             return super.getId();
         }

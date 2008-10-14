@@ -7,7 +7,6 @@ import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 
-
 @Name("authenticator")
 public class Authenticator
 {
@@ -29,4 +28,5 @@ public class Authenticator
         }
         return false;
     }
+
 }

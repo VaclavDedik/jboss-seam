@@ -15,11 +15,11 @@ public class @interfaceName@ {
 
     public void @methodName@()
     {
-        //implement your business logic here
+        // implement your business logic here
         log.info("@componentName@.@methodName@() action called");
         facesMessages.add("@methodName@");
     }
 
-   //add additional action methods
+    // add additional action methods
 
 }

@@ -23,5 +23,5 @@ public class @beanName@ extends EntityQuery
     public Integer getMaxResults() {
         return 25;
     }
-}
 
+}

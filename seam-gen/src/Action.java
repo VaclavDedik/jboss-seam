@@ -5,8 +5,9 @@ import javax.ejb.Local;
 @Local
 public interface @interfaceName@ {
 
-  //seam-gen method
-  public void @methodName@();
+    // seam-gen method
+    public void @methodName@();
 
-    //add additional interface methods here
+    // add additional interface methods here
+
 }
