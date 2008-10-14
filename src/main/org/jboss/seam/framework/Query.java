@@ -28,6 +28,7 @@ import org.jboss.seam.persistence.QueryParser;
 public abstract class Query<T, E> 
       extends PersistenceController<T> //TODO: extend MutableController!
 {
+   private static final Pattern SUBJECT_PATTERN = Pattern.compile("^select (\\w+(\\.\\w+)*)\\s+from", Pattern.CASE_INSENSITIVE);
    private static final Pattern FROM_PATTERN = Pattern.compile("(^|\\s)(from)\\s",       Pattern.CASE_INSENSITIVE);
    private static final Pattern WHERE_PATTERN = Pattern.compile("\\s(where)\\s",         Pattern.CASE_INSENSITIVE);
    private static final Pattern ORDER_PATTERN = Pattern.compile("\\s(order)(\\s)+by\\s", Pattern.CASE_INSENSITIVE);
@@ -283,11 +284,25 @@ public abstract class Query<T, E>
          throw new IllegalArgumentException("no from clause found in query");
       }
       int fromLoc = fromMatcher.start(2);
-      
+
       Matcher orderMatcher = ORDER_PATTERN.matcher(ejbql);
       int orderLoc = orderMatcher.find() ? orderMatcher.start(1) : ejbql.length();
 
-      return "select count(*) " + ejbql.substring(fromLoc, orderLoc);
+      Matcher whereMatcher = WHERE_PATTERN.matcher(ejbql);
+      int whereLoc = whereMatcher.find() ? whereMatcher.start(1) : orderLoc;
+
+      String subject = "*";
+      // TODO to be JPA-compliant, we need to make this query like "select count(u) from User u"
+      // however, Hibernate produces queries some databases cannot run when the primary key is composite
+//      Matcher subjectMatcher = SUBJECT_PATTERN.matcher(ejbql);
+//      if ( subjectMatcher.find() )
+//      {
+//         subject = subjectMatcher.group(1);
+//      }
+      
+      return new StringBuilder(ejbql.length() + 15).append("select count(").append(subject).append(") ").
+         append(ejbql.substring(fromLoc, whereLoc).replace("join fetch", "join")).
+         append(ejbql.substring(whereLoc, orderLoc)).toString().trim();
    }
    
    public String getEjbql()
