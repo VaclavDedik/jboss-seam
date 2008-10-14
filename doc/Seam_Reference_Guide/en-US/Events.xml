@@ -270,6 +270,75 @@
         
       </section>
             
+    <section>
+        <title>URL rewriting with page parameters</title>
+        <para>
+            Rewriting occurs based on rewrite patterns found for views in <literal>pages.xml</literal>. 
+            Seam URL rewriting does both incoming and outgoing URL rewriting based on the same pattern.
+            Here's a simple pattern:
+        </para>
+        
+        
+        <programlisting role="XML"><![CDATA[
+<page view-id="/home.xhtml">
+    <rewrite pattern="/home" />
+</page>
+]]></programlisting>
+        
+        <para>
+            In this case, any incoming request for <literal>/home</literal> will be sent to 
+            <literal>/home.xhtml</literal>.  More interestingly,
+            any link generated that would normally point to <literal>/home.seam</literal> will 
+            instead be rewritten as <literal>/home</literal>.  Rewrite patterns only match the portion of the URL 
+            before the query parameters.  So, <literal>/home.seam?conversationId=13</literal> and 
+            <literal>/home.seam?color=red</literal>
+            will both be matched by this rewrite rule.
+        </para>
+        
+        <para>
+            Rewrite rules can take these query paramters into consideration, as shown with the following rules.                  
+        </para>
+        <programlisting role="XML"><![CDATA[
+<page view-id="/home.xhtml">
+    <rewrite pattern="/home/{color}" />
+    <rewrite pattern="/home" />
+</page>
+]]></programlisting>
+        
+        <para>
+            In this case, an incoming request for <literal>/home/red</literal> will be served as 
+            if it were a request
+            for <literal>/home.seam?color=red</literal>.  Similarly, if color is a page parameter an outgoing 
+            URL that would normally show as <literal>/home.seam?color=blue</literal> would instead 
+            be output as
+            <literal>/home/blue</literal>.  Rules are processed in order, so it is important to list
+            more specific rules before more general rules.
+        </para>
+        
+        <para>Default Seam query parameters can also be mapped using URL rewriting, allowing for another
+            option for hiding Seam's fingerprints.
+            In the following example, <literal>/search.seam?conversationId=13</literal> would 
+            be written as <literal>/search-13</literal>. 
+        </para>
+        <programlisting role="XML"><![CDATA[
+<page view-id="/search.xhtml">
+    <rewrite pattern="/search-{conversationId}" />
+    <rewrite pattern="/search" />
+</page>
+]]></programlisting>
+        
+        <para>
+            Seam URL rewriting provides simple, bidirectional rewriting on a per-view basis.  For more
+            complex rewriting rules that cover non-seam components, Seam applications can continue to
+            use the <literal>org.tuckey URLRewriteFilter </literal>or apply rewriting rules at the web server.
+        </para>
+        
+        <para>
+            URL rewriting requires the Seam rewrite filter to be enable.  Rewrite filter 
+            configuration is discussed in <xref linkend="configuration.filters.rewrite"/>.
+        </para>
+        
+    </section>
             
       <section>
          <title>Conversion and Validation</title>
