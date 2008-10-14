@@ -158,6 +158,7 @@
 		<delete dir="${bootstrap.dir}/tmp" quiet="${quietclean}" />
 		<delete dir="${bootstrap.dir}/data" quiet="${quietclean}" />
 		<delete dir="${ui.dir}/target" quiet="${quietclean}"/>
+		<delete dir="${doc.ref.dir}/target" quiet="${quietclean}"/>
 		<delete dir="${seamgen.dir}/icefaces-staging" quiet="${quietclean}"/>
 		<cleanexample name="integration" path="${seam.dir}/src/test/integration" message="" />
 	</target>
@@ -708,6 +709,7 @@
 		<copy file="${docs.pom}" tofile="${doc.ref.dir}/pom.xml" overwrite="true"/>
 		<maven target="compile" basedir="${doc.ref.dir}">
 			<jvmarg line="-Xms128m -Xmx512m" />
+			<arg line="-X" />
 			<arg line="${maven.build.translations}" />
 		</maven>
 		<copy todir="${dist.ref.dir}">
