@@ -36,6 +36,9 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
    {
       private String expression;
       
+      private String permissionTarget;
+      private String permissionAction;
+      
       private Map<String, Object> methodRestrictions;
       private Map<Integer,Set<String>> paramRestrictions;
       private Set<String> roleRestrictions;
@@ -43,6 +46,16 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
       public void setExpression(String expression)
       {
          this.expression = expression;
+      }
+      
+      public void setPermissionTarget(String target)
+      {
+         this.permissionTarget = target;
+      }
+      
+      public void setPermissionAction(String action)
+      {
+         this.permissionAction = action;
       }
       
       public void addMethodRestriction(Object target, String action)
@@ -123,6 +136,11 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
                   Identity.instance().checkRole(role);
                }
             }
+            
+            if (permissionTarget != null && permissionAction != null)
+            {
+               Identity.instance().checkPermission(permissionTarget, permissionAction);
+            }
          }
       }
    }
@@ -169,8 +187,16 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
                if (restrict != null)
                {
                   if (restriction == null) restriction = new Restriction();
-                  restriction.setExpression(!Strings.isEmpty( restrict.value() ) ? 
-                        restrict.value() : createDefaultExpr(method));
+                  
+                  if ( Strings.isEmpty(restrict.value()) )
+                  {
+                     restriction.setPermissionTarget(getComponent().getName());
+                     restriction.setPermissionAction(method.getName());
+                  }
+                  else
+                  {
+                     restriction.setExpression(restrict.value());
+                  }
                }
                
                for (Annotation annotation : method.getDeclaringClass().getAnnotations())
@@ -249,19 +275,6 @@ public class SecurityInterceptor extends AbstractInterceptor implements Serializ
       {
          return annotation.annotationType().getSimpleName().toLowerCase();
       }
-   }
-   
-   /**
-    * Creates a default security expression for a specified method.  The method must
-    * be a method of a Seam component.
-    * 
-    * @param method The method for which to create a default permission expression 
-    * @return The generated security expression.
-    */
-   private String createDefaultExpr(Method method)
-   {
-      return String.format( "#{s:hasPermission('%s','%s')}", 
-            getComponent().getName(), method.getName() );
    }
    
    public boolean isInterceptorEnabled()
