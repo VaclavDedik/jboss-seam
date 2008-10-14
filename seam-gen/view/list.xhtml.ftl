@@ -74,7 +74,7 @@
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="${'#'}{${listName}}"/>
                     <ui:param name="propertyLabel" value="${label(componentProperty.name)}"/>
-                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                    <ui:param name="propertyPath" value="${componentName}.${propertyPath}"/>
                 </ui:include>
             </f:facet>
             <@outputValue property=componentProperty expression="${'#'}{_${componentName}.${property.name}.${componentProperty.name}}" indent=12/>
@@ -86,7 +86,7 @@
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="${'#'}{${listName}}"/>
                     <ui:param name="propertyLabel" value="${label(property.name)}"/>
-                    <ui:param name="propertyPath" value="${property.name}"/>
+                    <ui:param name="propertyPath" value="${componentName}.${property.name}"/>
                 </ui:include>
             </f:facet>
             <@outputValue property=property expression="${'#'}{_${componentName}.${property.name}}" indent=12/>
@@ -103,7 +103,7 @@
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="${'#'}{${listName}}"/>
                     <ui:param name="propertyLabel" value="${label(property.name)} ${label(componentProperty.name)?uncap_first}"/>
-                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                    <ui:param name="propertyPath" value="${componentName}.${propertyPath}"/>
                 </ui:include>
             </f:facet>
             <@outputValue property=componentProperty expression="${'#'}{_${componentName}.${propertyPath}}" indent=12/>
@@ -116,7 +116,7 @@
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="${'#'}{${listName}}"/>
                     <ui:param name="propertyLabel" value="${label(property.name)} ${label(parentPojo.identifierProperty.name)?uncap_first}"/>
-                    <ui:param name="propertyPath" value="${propertyPath}"/>
+                    <ui:param name="propertyPath" value="${componentName}.${propertyPath}"/>
                 </ui:include>
             </f:facet>
             <@outputValue property=parentPojo.identifierProperty expression="${'#'}{_${componentName}.${propertyPath}}" indent=12/>
